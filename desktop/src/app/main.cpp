@@ -941,8 +941,11 @@ int main(int argc, char** argv) {
 
             SDL_Event event;
             while (SDL_PollEvent(&event)) {
-                if (event.type == SDL_EVENT_QUIT ||
-                    (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE)) {
+                if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE && (ui.show_map || ui.show_inventory)) {
+                    ui.show_map = false;  // Esc closes the open panel first
+                    ui.show_inventory = false;
+                } else if (event.type == SDL_EVENT_QUIT ||
+                           (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE)) {
                     running = false;
                 } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_F3) {
                     debug = !debug;
