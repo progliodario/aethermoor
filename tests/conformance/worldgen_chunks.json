@@ -40,6 +40,21 @@
             "desert_dry": 33000,
             "forest_wet": 38000
           },
+          "river": {
+            "salt": 4,
+            "scale": 110,
+            "octaves": 3,
+            "half_width": 400,
+            "ford_salt": 5,
+            "ford_scale": 20,
+            "ford_min": 36000
+          },
+          "road": {
+            "salt": 6,
+            "scale": 150,
+            "octaves": 2,
+            "half_width": 350
+          },
           "tiles": {
             "water": 4,
             "beach": 6,
@@ -50,7 +65,11 @@
             "plains": [
               1,
               2
-            ]
+            ],
+            "river": 4,
+            "ford": 10,
+            "road": 11,
+            "bridge": 12
           },
           "props": {
             "plains": [
@@ -446,7 +465,7 @@
               [
                 1,
                 21,
-                6
+                10
               ],
               [
                 8,
@@ -469,16 +488,18 @@
                 6
               ]
             ],
-            "tile_digest": "0xb7f5b7cbf6d825a0",
-            "prop_count": 28,
-            "prop_digest": "0x9829c8d899fd1926",
+            "tile_digest": "0x9a274adcae5c1f52",
+            "prop_count": 27,
+            "prop_digest": "0x34d01caf12f39530",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "gid_histogram": {
               "1": 155,
               "2": 163,
-              "6": 515,
-              "8": 191
+              "4": 7,
+              "6": 474,
+              "8": 191,
+              "10": 34
             }
           },
           {
@@ -752,6 +773,21 @@
             "desert_dry": 33000,
             "forest_wet": 38000
           },
+          "river": {
+            "salt": 4,
+            "scale": 110,
+            "octaves": 3,
+            "half_width": 400,
+            "ford_salt": 5,
+            "ford_scale": 20,
+            "ford_min": 36000
+          },
+          "road": {
+            "salt": 6,
+            "scale": 150,
+            "octaves": 2,
+            "half_width": 350
+          },
           "tiles": {
             "water": 4,
             "beach": 6,
@@ -762,7 +798,11 @@
             "plains": [
               1,
               2
-            ]
+            ],
+            "river": 4,
+            "ford": 10,
+            "road": 11,
+            "bridge": 12
           },
           "props": {
             "plains": [
@@ -943,14 +983,15 @@
                 8
               ]
             ],
-            "tile_digest": "0x8b79f89eb2a6ee96",
-            "prop_count": 24,
-            "prop_digest": "0x878f1baa083a49ba",
+            "tile_digest": "0xd4cb4521a4a6f163",
+            "prop_count": 23,
+            "prop_digest": "0xba11b36e1e636db5",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "gid_histogram": {
-              "1": 187,
-              "2": 203,
+              "1": 176,
+              "2": 188,
+              "4": 26,
               "8": 634
             }
           },
@@ -973,7 +1014,7 @@
               [
                 8,
                 31,
-                6
+                11
               ],
               [
                 19,
@@ -1018,21 +1059,22 @@
               [
                 9,
                 30,
-                6
+                11
               ]
             ],
-            "tile_digest": "0x65392d8d38325620",
-            "prop_count": 28,
-            "prop_digest": "0x702defd2341dc66f",
+            "tile_digest": "0x7db8e2674c8e0d1e",
+            "prop_count": 24,
+            "prop_digest": "0x2194e4fcb20bd68f",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "gid_histogram": {
-              "1": 21,
-              "2": 33,
+              "1": 20,
+              "2": 32,
               "4": 404,
-              "6": 242,
-              "7": 323,
-              "9": 1
+              "6": 207,
+              "7": 289,
+              "9": 1,
+              "11": 71
             }
           },
           {
@@ -1182,16 +1224,17 @@
                 6
               ]
             ],
-            "tile_digest": "0xc1920bdfaadf20b1",
-            "prop_count": 23,
-            "prop_digest": "0x64856fe327770cc5",
+            "tile_digest": "0xe68a091b682ffc07",
+            "prop_count": 20,
+            "prop_digest": "0x8768a2b4091c2cc4",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "gid_histogram": {
-              "1": 50,
-              "2": 55,
-              "6": 728,
-              "8": 191
+              "1": 31,
+              "2": 37,
+              "6": 664,
+              "8": 191,
+              "11": 101
             }
           }
         ]

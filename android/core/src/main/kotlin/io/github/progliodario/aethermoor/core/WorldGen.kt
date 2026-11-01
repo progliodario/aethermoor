@@ -1,5 +1,6 @@
 package io.github.progliodario.aethermoor.core
 
+import kotlin.math.abs
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.int
@@ -25,6 +26,14 @@ class WorldParams(
     val elevation: NoiseSpec,
     val moisture: NoiseSpec,
     val temperature: NoiseSpec,
+    /** Rivers and roads: places where a field is near its middle value (spec 09). */
+    val river: NoiseSpec,
+    val riverHalfWidth: Int,
+    val fordSalt: Int,
+    val fordScale: Int,
+    val fordMin: Int,
+    val road: NoiseSpec,
+    val roadHalfWidth: Int,
     val water: Int,
     val beach: Int,
     val mountain: Int,
@@ -38,6 +47,10 @@ class WorldParams(
     val tileSnow: Int,
     val tileMountain: Int,
     val tileForest: Int,
+    val tileRiver: Int,
+    val tileFord: Int,
+    val tileRoad: Int,
+    val tileBridge: Int,
     val tilesPlains: List<Int>,
     val props: Map<String, List<PropOption>>,
     val spawnerEnemy: String,
@@ -94,7 +107,34 @@ private fun biomeAt(seed: ULong, p: WorldParams, x: Int, y: Int): Biome {
     return Biome.PLAINS
 }
 
-private fun gidFor(seed: ULong, p: WorldParams, biome: Biome, x: Int, y: Int): Int =
+private enum class Overlay { NONE, RIVER, FORD, ROAD, BRIDGE }
+
+private const val MID = 32768L
+
+/** Spec 09, "Rivers and roads": only on land tiles outside the spawn clearing. */
+private fun overlayAt(seed: ULong, p: WorldParams, biome: Biome, x: Int, y: Int): Overlay {
+    if (biome == Biome.WATER || biome == Biome.MOUNTAIN || inClearing(p, x, y)) return Overlay.NONE
+    val isRiver = abs(field(seed, p.river, x, y) - MID) < p.riverHalfWidth
+    val isRoad = abs(field(seed, p.road, x, y) - MID) < p.roadHalfWidth
+    if (isRiver) {
+        if (isRoad) return Overlay.BRIDGE
+        val scale = p.fordScale.toLong()
+        val ford = noise2(hash64(seed, p.fordSalt.toLong()), (x.toLong() shl 16) / scale, (y.toLong() shl 16) / scale) >= p.fordMin
+        return if (ford) Overlay.FORD else Overlay.RIVER
+    }
+    return if (isRoad) Overlay.ROAD else Overlay.NONE
+}
+
+private fun gidFor(seed: ULong, p: WorldParams, biome: Biome, x: Int, y: Int, overlay: Overlay): Int =
+    when (overlay) {
+        Overlay.RIVER -> p.tileRiver
+        Overlay.FORD -> p.tileFord
+        Overlay.ROAD -> p.tileRoad
+        Overlay.BRIDGE -> p.tileBridge
+        Overlay.NONE -> baseGid(seed, p, biome, x, y)
+    }
+
+private fun baseGid(seed: ULong, p: WorldParams, biome: Biome, x: Int, y: Int): Int =
     when (biome) {
         Biome.WATER -> p.tileWater
         Biome.BEACH -> p.tileBeach
@@ -140,8 +180,9 @@ fun generateWorld(seed: ULong, p: WorldParams): GeneratedWorld {
     for (y in 0 until p.height) {
         for (x in 0 until p.width) {
             val biome = biomeAt(seed, p, x, y)
-            tiles[index++] = gidFor(seed, p, biome, x, y)
-            if (!inClearing(p, x, y)) {
+            val overlay = overlayAt(seed, p, biome, x, y)
+            tiles[index++] = gidFor(seed, p, biome, x, y, overlay)
+            if (overlay == Overlay.NONE && !inClearing(p, x, y)) {
                 propAt(seed, p, biome, x, y)?.let { props.add(it) }
                 if (spawnerAt(seed, p, biome, x, y)) spawners.add(Pair(x, y))
             }
@@ -176,8 +217,9 @@ fun generateChunk(seed: ULong, p: WorldParams, chunkX: Int, chunkY: Int): Genera
     for (y in chunkY * CHUNK_SIZE until (chunkY + 1) * CHUNK_SIZE) {
         for (x in chunkX * CHUNK_SIZE until (chunkX + 1) * CHUNK_SIZE) {
             val biome = biomeAt(seed, p, x, y)
-            tiles[index++] = gidFor(seed, p, biome, x, y)
-            if (!inClearing(p, x, y)) {
+            val overlay = overlayAt(seed, p, biome, x, y)
+            tiles[index++] = gidFor(seed, p, biome, x, y, overlay)
+            if (overlay == Overlay.NONE && !inClearing(p, x, y)) {
                 propAt(seed, p, biome, x, y)?.let { props.add(it) }
                 if (spawnerAt(seed, p, biome, x, y)) spawners.add(Pair(x, y))
             }
@@ -237,11 +279,19 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
             elevation = noiseSpec(j.getValue("elevation").jsonObject),
             moisture = noiseSpec(j.getValue("moisture").jsonObject),
             temperature = noiseSpec(j.getValue("temperature").jsonObject),
+            river = noiseSpec(j.getValue("river").jsonObject),
+            riverHalfWidth = j.getValue("river").jsonObject.getValue("half_width").jsonPrimitive.int,
+            fordSalt = j.getValue("river").jsonObject.getValue("ford_salt").jsonPrimitive.int,
+            fordScale = j.getValue("river").jsonObject.getValue("ford_scale").jsonPrimitive.int,
+            fordMin = j.getValue("river").jsonObject.getValue("ford_min").jsonPrimitive.int,
+            road = noiseSpec(j.getValue("road").jsonObject),
+            roadHalfWidth = j.getValue("road").jsonObject.getValue("half_width").jsonPrimitive.int,
             water = threshold("water"), beach = threshold("beach"), mountain = threshold("mountain"),
             snow = threshold("snow"), desertHeat = threshold("desert_heat"), desertDry = threshold("desert_dry"),
             forestWet = threshold("forest_wet"),
             tileWater = tile("water"), tileBeach = tile("beach"), tileDesert = tile("desert"), tileSnow = tile("snow"),
             tileMountain = tile("mountain"), tileForest = tile("forest"),
+            tileRiver = tile("river"), tileFord = tile("ford"), tileRoad = tile("road"), tileBridge = tile("bridge"),
             tilesPlains = tiles.getValue("plains").jsonArray.map { it.jsonPrimitive.int },
             props = j.getValue("props").jsonObject.mapValues { (_, options) ->
                 options.jsonArray.map {
@@ -263,6 +313,6 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
                 )
             },
         )
-        require(params.tilesPlains.isNotEmpty() && params.width >= 1 && params.height >= 1) { "invalid world parameters" }
+        require(params.tilesPlains.isNotEmpty() && params.width >= 1 && params.height >= 1 && params.fordScale >= 1) { "invalid world parameters" }
         params
     }
