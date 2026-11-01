@@ -60,6 +60,10 @@
             }
           ],
           "inventory": {},
+          "equipped": {
+            "weapon": "",
+            "armor": ""
+          },
           "story": {
             "flags": {},
             "gold": 0,
@@ -559,6 +563,10 @@
             ],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -603,6 +611,10 @@
             ],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -645,6 +657,10 @@
             "inventory": {
               "base:item/slime_gel": 3
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -686,6 +702,10 @@
             "kills": 2,
             "inventory": {
               "base:item/slime_gel": 3
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
             },
             "story": {
               "flags": {},
@@ -732,6 +752,10 @@
             "kills": 2,
             "inventory": {
               "base:item/slime_gel": 3
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
             },
             "story": {
               "flags": {},
@@ -809,6 +833,10 @@
             }
           ],
           "inventory": {},
+          "equipped": {
+            "weapon": "",
+            "armor": ""
+          },
           "story": {
             "flags": {},
             "gold": 0,
@@ -1315,6 +1343,10 @@
             "inventory": {
               "base:item/slime_gel": 3
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -1356,6 +1388,10 @@
             "kills": 2,
             "inventory": {
               "base:item/slime_gel": 3
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
             },
             "story": {
               "flags": {},
@@ -1402,6 +1438,10 @@
             "kills": 2,
             "inventory": {
               "base:item/slime_gel": 3
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
             },
             "story": {
               "flags": {},
@@ -1471,6 +1511,10 @@
             }
           ],
           "inventory": {},
+          "equipped": {
+            "weapon": "",
+            "armor": ""
+          },
           "story": null
         },
         "grid": [
@@ -1610,6 +1654,10 @@
             "kills": 1,
             "inventory": {
               "base:item/slime_gel": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
             }
           }
         ],
@@ -1665,6 +1713,10 @@
             }
           ],
           "inventory": {},
+          "equipped": {
+            "weapon": "",
+            "armor": ""
+          },
           "story": null
         },
         "grid": [
@@ -1810,7 +1862,11 @@
               }
             ],
             "kills": 0,
-            "inventory": {}
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            }
           },
           {
             "player": {
@@ -1830,7 +1886,11 @@
               }
             ],
             "kills": 0,
-            "inventory": {}
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            }
           }
         ],
         "tol": 0.02
@@ -1885,6 +1945,10 @@
             }
           ],
           "inventory": {},
+          "equipped": {
+            "weapon": "",
+            "armor": ""
+          },
           "story": null
         },
         "grid": [
@@ -2030,7 +2094,11 @@
               }
             ],
             "kills": 0,
-            "inventory": {}
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            }
           }
         ],
         "tol": 0.02
@@ -2075,6 +2143,10 @@
           },
           "enemies": [],
           "inventory": {},
+          "equipped": {
+            "weapon": "",
+            "armor": ""
+          },
           "story": {
             "flags": {},
             "gold": 0,
@@ -2522,6 +2594,10 @@
             "inventory": {
               "base:item/slime_gel": 2
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -2547,6 +2623,10 @@
             "inventory": {
               "base:item/slime_gel": 2
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {
                 "visited": true
@@ -2569,6 +2649,10 @@
             "kills": 0,
             "inventory": {
               "base:item/slime_gel": 2
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
             },
             "story": {
               "flags": {
@@ -2596,6 +2680,10 @@
             "kills": 0,
             "inventory": {
               "base:item/slime_gel": 2
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
             },
             "story": {
               "flags": {
@@ -2626,6 +2714,10 @@
             "inventory": {
               "base:item/slime_gel": 2
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {
                 "seen": true,
@@ -2662,6 +2754,10 @@
             "inventory": {
               "base:item/slime_gel": 2
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {
                 "seen": true,
@@ -2693,6 +2789,10 @@
             "kills": 0,
             "inventory": {
               "base:item/slime_gel": 2
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
             },
             "story": {
               "flags": {
@@ -2756,6 +2856,10 @@
           "enemies": [],
           "inventory": {
             "base:item/slime_gel": 2
+          },
+          "equipped": {
+            "weapon": "",
+            "armor": ""
           },
           "story": {
             "flags": {
@@ -3206,6 +3310,10 @@
             "inventory": {
               "base:item/slime_gel": 2
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {
                 "visited": true
@@ -3234,6 +3342,10 @@
             "kills": 0,
             "inventory": {
               "base:item/slime_gel": 2
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
             },
             "story": {
               "flags": {
@@ -3271,6 +3383,10 @@
             "inventory": {
               "base:item/slime_gel": 2
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {
                 "seen": true,
@@ -3302,6 +3418,10 @@
             "kills": 0,
             "inventory": {
               "base:item/slime_gel": 2
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
             },
             "story": {
               "flags": {

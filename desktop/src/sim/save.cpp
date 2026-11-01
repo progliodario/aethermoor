@@ -105,6 +105,7 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
         enemies.push_back(std::move(enemy));
     }
     j["enemies"] = enemies;
+    j["equipped"] = {{"weapon", s.equipped_weapon}, {"armor", s.equipped_armor}};
     j["world_ticks"] = s.world_ticks;
     if (meta.map == "world") {
         Json explored = Json::array();
@@ -203,6 +204,12 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
             for (const Json& c : j.at("explored")) {
                 s.explored.emplace_back(c.at(0).get<int>(), c.at(1).get<int>());
             }
+        }
+        if (j.contains("equipped")) {
+            s.equipped_weapon = j.at("equipped").value("weapon", "");
+            s.equipped_armor = j.at("equipped").value("armor", "");
+        } else {
+            s.equipped_weapon = "<start>";  // an old save: the starting weapon, no armor
         }
         s.world_ticks = j.value("world_ticks", static_cast<std::int64_t>(-1));
         if (j.contains("cleared_spawners")) {

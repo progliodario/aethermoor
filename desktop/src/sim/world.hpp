@@ -103,6 +103,8 @@ struct SaveState {
     std::vector<std::pair<int, int>> explored;  // streamed worlds: explored world map cells
     std::int64_t world_ticks = -1;  // -1: not in the save (a new game starts at the world's start tick)
     std::map<std::string, std::int64_t> inventory;
+    std::string equipped_weapon;  // spec 06
+    std::string equipped_armor;
     StoryState story;
 };
 
@@ -149,6 +151,20 @@ public:
     Story& story() { return m_story_; }
     // Puts the player at (x, y) in tiles, loading the chunks around (developer option --start, later the Threshold Stones).
     void teleport(float x, float y);
+    // Equipment and shops (spec 06): each returns false, changing nothing, when refused.
+    bool equip(const std::string& item_id);
+    bool buy(const std::string& item_id);
+    bool sell(const std::string& item_id);
+    void close_shop() { m_shop_.reset(); }
+    // The `open_shop` dialogue effect, callable on its own (scenarios).
+    void open_shop_for_test() { open_shop(); }
+    // The shop that is open now, or nullptr.
+    const ShopDef* shop() const { return m_shop_ ? &*m_shop_ : nullptr; }
+    const std::string& equipped_weapon() const { return m_equipped_weapon_; }
+    const std::string& equipped_armor() const { return m_equipped_armor_; }
+    // Price of buying / selling an item in the open shop.
+    std::int64_t buy_price(const std::string& item_id) const;
+    std::int64_t sell_price(const std::string& item_id) const;
     // Uses one item of the inventory (spec 06). Returns false, changing nothing, when it is refused.
     bool use_item(const std::string& item_id);
     const Story& story() const { return m_story_; }
@@ -183,6 +199,7 @@ private:
     std::int64_t level() const override { return m_player_.level; }
     float player_x() const override { return m_player_.position.x; }
     float player_y() const override { return m_player_.position.y; }
+    void open_shop() override;
 
     TileMap m_map_;
     Tileset m_tileset_;
@@ -205,6 +222,9 @@ private:
     int m_window_y_ = 0;
     std::map<std::pair<int, int>, std::int64_t> m_cleared_;  // spawner tile -> world tick of the death
     std::int64_t m_world_ticks_ = 0;
+    std::string m_equipped_weapon_;
+    std::string m_equipped_armor_;
+    std::optional<ShopDef> m_shop_;
     std::vector<NpcDef> m_npcs_;            // settlement people of the active window (spec 09)
     std::vector<Circle> m_npc_circles_;     // their collision circles
     std::set<std::pair<int, int>> m_explored_;

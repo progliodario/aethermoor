@@ -55,6 +55,8 @@ class Story:
             self.host.grant_xp(effect["amount"])
         elif kind == "add_gold":
             self.gold += effect["amount"]
+        elif kind == "open_shop":
+            self.host.open_shop()
         elif kind == "add_item":
             self.host.inventory[effect["item"]] = self.host.inventory.get(effect["item"], 0) + effect["qty"]
             self._refresh_all()

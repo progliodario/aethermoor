@@ -27,5 +27,15 @@
   "region.frostveil.name": "Velo di Gelo",
   "region.tidehaven.name": "Porto della Marea",
   "region.ashen_wastes.name": "Terre di Cenere",
-  "region.lumeria.name": "Lumeria"
+  "region.lumeria.name": "Lumeria",
+  "item.potion_small.name": "{count, plural, one {Pozione piccola} other {Pozioni piccole}}",
+  "item.potion_small.desc": "Ripristina una buona dose di salute.",
+  "item.iron_sword.name": "Spada di ferro",
+  "item.iron_sword.desc": "Una lama solida, più tagliente di una spada da allenamento.",
+  "item.steel_sword.name": "Spada d'acciaio",
+  "item.steel_sword.desc": "Ben bilanciata e affilata. Una vera spada da avventuriero.",
+  "item.leather_vest.name": "Giubbotto di cuoio",
+  "item.leather_vest.desc": "Una protezione leggera per i viaggiatori.",
+  "item.chain_mail.name": "Cotta di maglia",
+  "item.chain_mail.desc": "Pesanti anelli che deviano le lame."
 }

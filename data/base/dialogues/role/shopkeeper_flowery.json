@@ -13,6 +13,10 @@
       "type": "choice",
       "choices": [
         {
+          "text": "$i18n:dlg.role.wares",
+          "next": "shop"
+        },
+        {
           "text": "$i18n:dlg.role.rumor",
           "next": "rumor"
         },
@@ -21,6 +25,15 @@
           "next": "end"
         }
       ]
+    },
+    "shop": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "open_shop"
+        }
+      ],
+      "next": "end"
     },
     "rumor": {
       "type": "say",

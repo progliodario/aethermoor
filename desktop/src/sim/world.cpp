@@ -78,6 +78,8 @@ WorldSim::WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, Combat
     }
     if (m_setup_.enabled) {
         m_player_.level = m_setup_.start_level;
+        m_equipped_weapon_ = m_setup_.start_weapon;
+        m_equipped_armor_ = m_setup_.start_armor;
         recompute_derived();
         m_player_.hp = m_derived_.max_hp;
         for (const EnemySpawn& spawn : m_setup_.spawns) {
@@ -231,6 +233,16 @@ void WorldSim::recompute_derived() {
     Equipment equipment;
     equipment.weapon_atk = m_setup_.player.weapon_atk;
     equipment.weapon_matk = m_setup_.player.weapon_matk;
+    const auto weapon = m_setup_.items.find(m_equipped_weapon_);
+    if (weapon != m_setup_.items.end() && weapon->second.is_weapon) {
+        equipment.weapon_atk = weapon->second.weapon_atk;
+        equipment.weapon_matk = weapon->second.weapon_matk;
+    }
+    const auto armor = m_setup_.items.find(m_equipped_armor_);
+    if (armor != m_setup_.items.end() && armor->second.is_armor) {
+        equipment.armor_def = armor->second.armor_def;
+        equipment.armor_mdef = armor->second.armor_mdef;
+    }
     m_derived_ = derived_stats(m_player_.level, primary_at_level(m_setup_.player, m_player_.level), equipment);
 }
 
@@ -242,6 +254,96 @@ void WorldSim::teleport(float x, float y) {
     m_collision_.resolve(m_player_.position.x, m_player_.position.y);
     sync_window();
     mark_explored();
+}
+
+void WorldSim::open_shop() {
+    if (m_store_) {
+        const Region& region = m_store_->params().regions[static_cast<std::size_t>(region_at(
+            m_store_->params(), static_cast<int>(std::floor(m_player_.position.x)), static_cast<int>(std::floor(m_player_.position.y))))];
+        m_shop_ = ShopDef{region.shop_price_pm, region.shop_stock};
+    } else if (m_setup_.shop) {
+        m_shop_ = m_setup_.shop;
+    }
+}
+
+namespace {
+
+int stack_limit(const ItemDef& item) {
+    if (item.stack_max > 0) {
+        return item.stack_max;
+    }
+    return item.kind == "weapon" || item.kind == "armor" || item.kind == "accessory" ? 1 : 99;
+}
+
+}  // namespace
+
+bool WorldSim::equip(const std::string& item_id) {
+    const auto item = m_setup_.items.find(item_id);
+    const auto owned = m_inventory_.find(item_id);
+    if (item == m_setup_.items.end() || owned == m_inventory_.end() || owned->second < 1) {
+        return false;
+    }
+    if (item->second.is_weapon && item->second.kind == "weapon" && m_equipped_weapon_ != item_id) {
+        m_equipped_weapon_ = item_id;
+    } else if (item->second.is_armor && item->second.kind == "armor" && m_equipped_armor_ != item_id) {
+        m_equipped_armor_ = item_id;
+    } else {
+        return false;
+    }
+    recompute_derived();
+    m_player_.hp = std::min(m_player_.hp, m_derived_.max_hp);
+    return true;
+}
+
+std::int64_t WorldSim::buy_price(const std::string& item_id) const {
+    const auto item = m_setup_.items.find(item_id);
+    if (!m_shop_ || item == m_setup_.items.end() || item->second.price <= 0) {
+        return 0;
+    }
+    return std::max<std::int64_t>(1, item->second.price * m_shop_->price_pm / 1000);
+}
+
+std::int64_t WorldSim::sell_price(const std::string& item_id) const {
+    const auto item = m_setup_.items.find(item_id);
+    if (item == m_setup_.items.end() || item->second.price <= 0) {
+        return 0;
+    }
+    return std::max<std::int64_t>(1, item->second.price / 2);
+}
+
+bool WorldSim::buy(const std::string& item_id) {
+    if (!m_shop_ || std::find(m_shop_->stock.begin(), m_shop_->stock.end(), item_id) == m_shop_->stock.end()) {
+        return false;
+    }
+    const auto item = m_setup_.items.find(item_id);
+    const std::int64_t price = buy_price(item_id);
+    if (item == m_setup_.items.end() || price <= 0 || m_story_.gold() < price) {
+        return false;
+    }
+    const auto owned = m_inventory_.find(item_id);
+    const std::int64_t have = owned == m_inventory_.end() ? 0 : owned->second;
+    if (have >= stack_limit(item->second)) {
+        return false;
+    }
+    m_story_.set_gold(m_story_.gold() - price);
+    m_inventory_[item_id] = have + 1;
+    return true;
+}
+
+bool WorldSim::sell(const std::string& item_id) {
+    const auto item = m_setup_.items.find(item_id);
+    const auto owned = m_inventory_.find(item_id);
+    if (!m_shop_ || item == m_setup_.items.end() || owned == m_inventory_.end() || owned->second < 1 || sell_price(item_id) <= 0) {
+        return false;
+    }
+    if (owned->second == 1 && (item_id == m_equipped_weapon_ || item_id == m_equipped_armor_)) {
+        return false;
+    }
+    m_story_.set_gold(m_story_.gold() + sell_price(item_id));
+    if (--owned->second == 0) {
+        m_inventory_.erase(owned);
+    }
+    return true;
 }
 
 bool WorldSim::use_item(const std::string& item_id) {
@@ -557,6 +659,8 @@ SaveState WorldSim::capture() const {
     });
     s.world_ticks = m_world_ticks_;
     s.inventory = m_inventory_;
+    s.equipped_weapon = m_equipped_weapon_;
+    s.equipped_armor = m_equipped_armor_;
     s.story = m_story_.capture();
     return s;
 }
@@ -660,6 +764,11 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
         m_enemies_[i].hit_flash = 0;
     }
     m_inventory_ = s.inventory;
+    m_equipped_weapon_ = s.equipped_weapon == "<start>" ? m_setup_.start_weapon : s.equipped_weapon;
+    m_equipped_armor_ = s.equipped_armor;
+    m_shop_.reset();
+    recompute_derived();
+    m_player_.hp = std::min(s.hp, m_derived_.max_hp);
     m_explored_ = std::set<std::pair<int, int>>(s.explored.begin(), s.explored.end());
     mark_explored();
     m_world_ticks_ = s.world_ticks >= 0 ? s.world_ticks : (m_store_ ? m_store_->params().time.start_tick : 0);

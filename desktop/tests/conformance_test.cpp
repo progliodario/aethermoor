@@ -386,6 +386,7 @@ struct Scenario {
     aether::TileMap map;
     aether::Tileset tileset;
     aether::CombatSetup setup;
+    std::int64_t start_gold = 0;
 };
 
 Scenario scenario_from_json(const Json& in) {
@@ -434,12 +435,40 @@ Scenario scenario_from_json(const Json& in) {
     if (in.contains("items")) {
         for (const auto& [item, def] : in.at("items").items()) {
             aether::ItemDef parsed;
-            for (const Json& effect : def.at("effects")) {
-                parsed.effects.push_back({effect.at("effect").get<std::string>(), integer(effect, "amount")});
+            parsed.kind = def.value("kind", "");
+            parsed.price = def.value("price", static_cast<std::int64_t>(0));
+            parsed.stack_max = def.value("stack_max", 0);
+            if (def.contains("effects")) {
+                for (const Json& effect : def.at("effects")) {
+                    parsed.effects.push_back({effect.at("effect").get<std::string>(), integer(effect, "amount")});
+                }
+            }
+            if (def.contains("weapon")) {
+                parsed.is_weapon = true;
+                parsed.weapon_atk = integer(def.at("weapon"), "atk");
+                parsed.weapon_matk = integer(def.at("weapon"), "matk");
+            }
+            if (def.contains("armor")) {
+                parsed.is_armor = true;
+                parsed.armor_def = integer(def.at("armor"), "def");
+                parsed.armor_mdef = integer(def.at("armor"), "mdef");
             }
             setup.items.emplace(item, std::move(parsed));
         }
     }
+    if (in.contains("equipped")) {
+        setup.start_weapon = in.at("equipped").value("weapon", "");
+        setup.start_armor = in.at("equipped").value("armor", "");
+    }
+    if (in.contains("shop")) {
+        aether::ShopDef shop;
+        shop.price_pm = in.at("shop").at("price_pm").get<int>();
+        for (const Json& item : in.at("shop").at("stock")) {
+            shop.stock.push_back(item.get<std::string>());
+        }
+        setup.shop = std::move(shop);
+    }
+    sc.start_gold = in.value("start_gold", static_cast<std::int64_t>(0));
     if (in.contains("story")) {
         std::string story_error;
         auto story = aether::parse_story_setup(in.at("story").dump(), story_error);
@@ -459,6 +488,16 @@ void run_segment(aether::WorldSim& sim, const Json& segment) {
             const std::string cmd = command.at("cmd").get<std::string>();
             if (cmd == "use") {
                 sim.use_item(command.at("item").get<std::string>());
+            } else if (cmd == "equip") {
+                sim.equip(command.at("item").get<std::string>());
+            } else if (cmd == "buy") {
+                sim.buy(command.at("item").get<std::string>());
+            } else if (cmd == "sell") {
+                sim.sell(command.at("item").get<std::string>());
+            } else if (cmd == "open_shop") {
+                sim.open_shop_for_test();
+            } else if (cmd == "close_shop") {
+                sim.close_shop();
             } else if (cmd == "interact") {
                 sim.story().interact();
             } else if (cmd == "advance") {
@@ -490,6 +529,10 @@ void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) 
         REQUIRE(std::string(aether::to_string(sim.enemies()[i].state)) == we.at("state").get<std::string>());
         REQUIRE(sim.enemies()[i].position.x == Catch::Approx(we.at("x").get<float>()).margin(tol));
         REQUIRE(sim.enemies()[i].position.y == Catch::Approx(we.at("y").get<float>()).margin(tol));
+    }
+    if (want.contains("equipped")) {
+        REQUIRE(sim.equipped_weapon() == want.at("equipped").at("weapon").get<std::string>());
+        REQUIRE(sim.equipped_armor() == want.at("equipped").at("armor").get<std::string>());
     }
     const Json& inventory = want.at("inventory");
     REQUIRE(sim.inventory().size() == inventory.size());
@@ -542,6 +585,7 @@ void run_combat_suite(const std::string& suite) {
         const Json& in = c.at("input");
         Scenario sc = scenario_from_json(in);
         aether::WorldSim sim(sc.map, sc.tileset, 0.0F, sc.setup);
+        sim.story().set_gold(sc.start_gold);
         const float tol = c.at("expect").at("tol").get<float>();
         std::size_t index = 0;
         for (const Json& segment : in.at("script")) {
@@ -565,6 +609,7 @@ void run_save_suite() {
         Scenario sc = scenario_from_json(in);
 
         aether::WorldSim first(sc.map, sc.tileset, 0.0F, sc.setup);
+        first.story().set_gold(sc.start_gold);
         for (std::size_t i = 0; i < split; ++i) {
             run_segment(first, in.at("script")[i]);
         }

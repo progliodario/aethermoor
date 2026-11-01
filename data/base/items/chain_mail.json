@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/chain_mail",
+  "name": "$i18n:item.chain_mail.name",
+  "description": "$i18n:item.chain_mail.desc",
+  "kind": "armor",
+  "rarity": "uncommon",
+  "price": 300,
+  "armor": {
+    "def": 5,
+    "mdef": 2
+  }
+}

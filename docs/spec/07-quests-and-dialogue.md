@@ -30,6 +30,7 @@ An effect is an object with `effect` plus parameters, applied in list order:
 | `add_item` | `item`, `qty` | inventory `item += qty` |
 | `set_flag` | `flag`, `value` | sets the flag to the boolean |
 | `start_quest` | `quest` | starts the quest (ignored when it already exists) |
+| `open_shop` | none | opens the shop of the place (spec 06); nothing changes when the world has no shop there |
 
 ## Quests
 

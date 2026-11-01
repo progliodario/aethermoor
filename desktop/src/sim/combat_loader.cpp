@@ -100,6 +100,7 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
             if (item->at("kind").get<std::string>() == "weapon") {
                 setup.player.weapon_atk = item->at("weapon").at("atk").get<std::int64_t>();
                 setup.player.weapon_matk = item->at("weapon").at("matk").get<std::int64_t>();
+                setup.start_weapon = item_id;
                 break;
             }
         }
@@ -180,13 +181,25 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
         if (!item) {
             return std::nullopt;
         }
-        if (!item->contains("use")) {
-            continue;
-        }
         try {
             ItemDef def;
-            for (const Json& effect : item->at("use").at("effects")) {
-                def.effects.push_back({effect.at("effect").get<std::string>(), effect.value("amount", static_cast<std::int64_t>(0))});
+            def.kind = item->at("kind").get<std::string>();
+            def.price = item->at("price").get<std::int64_t>();
+            def.stack_max = item->value("stack_max", 0);
+            if (item->contains("use")) {
+                for (const Json& effect : item->at("use").at("effects")) {
+                    def.effects.push_back({effect.at("effect").get<std::string>(), effect.value("amount", static_cast<std::int64_t>(0))});
+                }
+            }
+            if (item->contains("weapon")) {
+                def.is_weapon = true;
+                def.weapon_atk = item->at("weapon").at("atk").get<std::int64_t>();
+                def.weapon_matk = item->at("weapon").at("matk").get<std::int64_t>();
+            }
+            if (item->contains("armor")) {
+                def.is_armor = true;
+                def.armor_def = item->at("armor").at("def").get<std::int64_t>();
+                def.armor_mdef = item->at("armor").at("mdef").get<std::int64_t>();
             }
             setup.items.emplace(id, std::move(def));
         } catch (const Json::exception& e) {

@@ -76,6 +76,8 @@ Effect parse_effect(const Json& j) {
     } else if (kind == "start_quest") {
         e.kind = Effect::Kind::StartQuest;
         e.a = j.at("quest").get<std::string>();
+    } else if (kind == "open_shop") {
+        e.kind = Effect::Kind::OpenShop;
     } else {
         throw std::runtime_error("unknown effect " + kind);
     }
@@ -283,6 +285,9 @@ void Story::apply(const Effect& effect) {
             break;
         case Effect::Kind::StartQuest:
             start_quest(effect.a);
+            break;
+        case Effect::Kind::OpenShop:
+            m_host_.open_shop();
             break;
     }
 }

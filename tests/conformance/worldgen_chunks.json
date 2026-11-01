@@ -47,7 +47,16 @@
               "x_pm": 500,
               "y_pm": 500,
               "danger": 1,
-              "tone": "warm"
+              "tone": "warm",
+              "shop": {
+                "price_pm": 1000,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/leather_vest"
+                ]
+              }
             },
             {
               "id": "whisperwood",
@@ -55,7 +64,15 @@
               "x_pm": 230,
               "y_pm": 340,
               "danger": 3,
-              "tone": "mystic"
+              "tone": "mystic",
+              "shop": {
+                "price_pm": 1100,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/leather_vest"
+                ]
+              }
             },
             {
               "id": "ironspine",
@@ -63,7 +80,16 @@
               "x_pm": 780,
               "y_pm": 220,
               "danger": 4,
-              "tone": "gruff"
+              "tone": "gruff",
+              "shop": {
+                "price_pm": 900,
+                "stock": [
+                  "base:item/iron_sword",
+                  "base:item/steel_sword",
+                  "base:item/chain_mail",
+                  "base:item/leather_vest"
+                ]
+              }
             },
             {
               "id": "sunscar",
@@ -71,7 +97,16 @@
               "x_pm": 810,
               "y_pm": 730,
               "danger": 4,
-              "tone": "flowery"
+              "tone": "flowery",
+              "shop": {
+                "price_pm": 1300,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/leather_vest"
+                ]
+              }
             },
             {
               "id": "frostveil",
@@ -79,7 +114,15 @@
               "x_pm": 450,
               "y_pm": 90,
               "danger": 5,
-              "tone": "stoic"
+              "tone": "stoic",
+              "shop": {
+                "price_pm": 1200,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/chain_mail"
+                ]
+              }
             },
             {
               "id": "tidehaven",
@@ -87,7 +130,16 @@
               "x_pm": 140,
               "y_pm": 770,
               "danger": 3,
-              "tone": "salty"
+              "tone": "salty",
+              "shop": {
+                "price_pm": 1000,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/steel_sword"
+                ]
+              }
             },
             {
               "id": "ashen_wastes",
@@ -95,7 +147,15 @@
               "x_pm": 920,
               "y_pm": 480,
               "danger": 7,
-              "tone": "grim"
+              "tone": "grim",
+              "shop": {
+                "price_pm": 1500,
+                "stock": [
+                  "base:item/potion_small",
+                  "base:item/steel_sword",
+                  "base:item/chain_mail"
+                ]
+              }
             },
             {
               "id": "lumeria",
@@ -103,7 +163,15 @@
               "x_pm": 480,
               "y_pm": 900,
               "danger": 5,
-              "tone": "scholarly"
+              "tone": "scholarly",
+              "shop": {
+                "price_pm": 1100,
+                "stock": [
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/chain_mail"
+                ]
+              }
             }
           ],
           "home": {
@@ -1221,7 +1289,16 @@
               "x_pm": 500,
               "y_pm": 500,
               "danger": 1,
-              "tone": "warm"
+              "tone": "warm",
+              "shop": {
+                "price_pm": 1000,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/leather_vest"
+                ]
+              }
             },
             {
               "id": "whisperwood",
@@ -1229,7 +1306,15 @@
               "x_pm": 230,
               "y_pm": 340,
               "danger": 3,
-              "tone": "mystic"
+              "tone": "mystic",
+              "shop": {
+                "price_pm": 1100,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/leather_vest"
+                ]
+              }
             },
             {
               "id": "ironspine",
@@ -1237,7 +1322,16 @@
               "x_pm": 780,
               "y_pm": 220,
               "danger": 4,
-              "tone": "gruff"
+              "tone": "gruff",
+              "shop": {
+                "price_pm": 900,
+                "stock": [
+                  "base:item/iron_sword",
+                  "base:item/steel_sword",
+                  "base:item/chain_mail",
+                  "base:item/leather_vest"
+                ]
+              }
             },
             {
               "id": "sunscar",
@@ -1245,7 +1339,16 @@
               "x_pm": 810,
               "y_pm": 730,
               "danger": 4,
-              "tone": "flowery"
+              "tone": "flowery",
+              "shop": {
+                "price_pm": 1300,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/leather_vest"
+                ]
+              }
             },
             {
               "id": "frostveil",
@@ -1253,7 +1356,15 @@
               "x_pm": 450,
               "y_pm": 90,
               "danger": 5,
-              "tone": "stoic"
+              "tone": "stoic",
+              "shop": {
+                "price_pm": 1200,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/chain_mail"
+                ]
+              }
             },
             {
               "id": "tidehaven",
@@ -1261,7 +1372,16 @@
               "x_pm": 140,
               "y_pm": 770,
               "danger": 3,
-              "tone": "salty"
+              "tone": "salty",
+              "shop": {
+                "price_pm": 1000,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/steel_sword"
+                ]
+              }
             },
             {
               "id": "ashen_wastes",
@@ -1269,7 +1389,15 @@
               "x_pm": 920,
               "y_pm": 480,
               "danger": 7,
-              "tone": "grim"
+              "tone": "grim",
+              "shop": {
+                "price_pm": 1500,
+                "stock": [
+                  "base:item/potion_small",
+                  "base:item/steel_sword",
+                  "base:item/chain_mail"
+                ]
+              }
             },
             {
               "id": "lumeria",
@@ -1277,7 +1405,15 @@
               "x_pm": 480,
               "y_pm": 900,
               "danger": 5,
-              "tone": "scholarly"
+              "tone": "scholarly",
+              "shop": {
+                "price_pm": 1100,
+                "stock": [
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/chain_mail"
+                ]
+              }
             }
           ],
           "home": {
@@ -2162,7 +2298,16 @@
               "x_pm": 500,
               "y_pm": 500,
               "danger": 1,
-              "tone": "warm"
+              "tone": "warm",
+              "shop": {
+                "price_pm": 1000,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/leather_vest"
+                ]
+              }
             },
             {
               "id": "whisperwood",
@@ -2170,7 +2315,15 @@
               "x_pm": 230,
               "y_pm": 340,
               "danger": 3,
-              "tone": "mystic"
+              "tone": "mystic",
+              "shop": {
+                "price_pm": 1100,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/leather_vest"
+                ]
+              }
             },
             {
               "id": "ironspine",
@@ -2178,7 +2331,16 @@
               "x_pm": 780,
               "y_pm": 220,
               "danger": 4,
-              "tone": "gruff"
+              "tone": "gruff",
+              "shop": {
+                "price_pm": 900,
+                "stock": [
+                  "base:item/iron_sword",
+                  "base:item/steel_sword",
+                  "base:item/chain_mail",
+                  "base:item/leather_vest"
+                ]
+              }
             },
             {
               "id": "sunscar",
@@ -2186,7 +2348,16 @@
               "x_pm": 810,
               "y_pm": 730,
               "danger": 4,
-              "tone": "flowery"
+              "tone": "flowery",
+              "shop": {
+                "price_pm": 1300,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/leather_vest"
+                ]
+              }
             },
             {
               "id": "frostveil",
@@ -2194,7 +2365,15 @@
               "x_pm": 450,
               "y_pm": 90,
               "danger": 5,
-              "tone": "stoic"
+              "tone": "stoic",
+              "shop": {
+                "price_pm": 1200,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/chain_mail"
+                ]
+              }
             },
             {
               "id": "tidehaven",
@@ -2202,7 +2381,16 @@
               "x_pm": 140,
               "y_pm": 770,
               "danger": 3,
-              "tone": "salty"
+              "tone": "salty",
+              "shop": {
+                "price_pm": 1000,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/steel_sword"
+                ]
+              }
             },
             {
               "id": "ashen_wastes",
@@ -2210,7 +2398,15 @@
               "x_pm": 920,
               "y_pm": 480,
               "danger": 7,
-              "tone": "grim"
+              "tone": "grim",
+              "shop": {
+                "price_pm": 1500,
+                "stock": [
+                  "base:item/potion_small",
+                  "base:item/steel_sword",
+                  "base:item/chain_mail"
+                ]
+              }
             },
             {
               "id": "lumeria",
@@ -2218,7 +2414,15 @@
               "x_pm": 480,
               "y_pm": 900,
               "danger": 5,
-              "tone": "scholarly"
+              "tone": "scholarly",
+              "shop": {
+                "price_pm": 1100,
+                "stock": [
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/chain_mail"
+                ]
+              }
             }
           ],
           "home": {
@@ -3580,7 +3784,16 @@
               "x_pm": 500,
               "y_pm": 500,
               "danger": 1,
-              "tone": "warm"
+              "tone": "warm",
+              "shop": {
+                "price_pm": 1000,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/leather_vest"
+                ]
+              }
             },
             {
               "id": "whisperwood",
@@ -3588,7 +3801,15 @@
               "x_pm": 230,
               "y_pm": 340,
               "danger": 3,
-              "tone": "mystic"
+              "tone": "mystic",
+              "shop": {
+                "price_pm": 1100,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/leather_vest"
+                ]
+              }
             },
             {
               "id": "ironspine",
@@ -3596,7 +3817,16 @@
               "x_pm": 780,
               "y_pm": 220,
               "danger": 4,
-              "tone": "gruff"
+              "tone": "gruff",
+              "shop": {
+                "price_pm": 900,
+                "stock": [
+                  "base:item/iron_sword",
+                  "base:item/steel_sword",
+                  "base:item/chain_mail",
+                  "base:item/leather_vest"
+                ]
+              }
             },
             {
               "id": "sunscar",
@@ -3604,7 +3834,16 @@
               "x_pm": 810,
               "y_pm": 730,
               "danger": 4,
-              "tone": "flowery"
+              "tone": "flowery",
+              "shop": {
+                "price_pm": 1300,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/leather_vest"
+                ]
+              }
             },
             {
               "id": "frostveil",
@@ -3612,7 +3851,15 @@
               "x_pm": 450,
               "y_pm": 90,
               "danger": 5,
-              "tone": "stoic"
+              "tone": "stoic",
+              "shop": {
+                "price_pm": 1200,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/chain_mail"
+                ]
+              }
             },
             {
               "id": "tidehaven",
@@ -3620,7 +3867,16 @@
               "x_pm": 140,
               "y_pm": 770,
               "danger": 3,
-              "tone": "salty"
+              "tone": "salty",
+              "shop": {
+                "price_pm": 1000,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/steel_sword"
+                ]
+              }
             },
             {
               "id": "ashen_wastes",
@@ -3628,7 +3884,15 @@
               "x_pm": 920,
               "y_pm": 480,
               "danger": 7,
-              "tone": "grim"
+              "tone": "grim",
+              "shop": {
+                "price_pm": 1500,
+                "stock": [
+                  "base:item/potion_small",
+                  "base:item/steel_sword",
+                  "base:item/chain_mail"
+                ]
+              }
             },
             {
               "id": "lumeria",
@@ -3636,7 +3900,15 @@
               "x_pm": 480,
               "y_pm": 900,
               "danger": 5,
-              "tone": "scholarly"
+              "tone": "scholarly",
+              "shop": {
+                "price_pm": 1100,
+                "stock": [
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/chain_mail"
+                ]
+              }
             }
           ],
           "home": {
