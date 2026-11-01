@@ -89,6 +89,7 @@ WorldSim::WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, Combat
         m_hit_set_.assign(m_enemies_.size(), false);
         m_inventory_ = m_setup_.start_inventory;
         sync_window();
+        mark_explored();
     }
 }
 
@@ -143,6 +144,13 @@ void WorldSim::add_chunk_enemies(int cx, int cy) {
 }
 
 // Spec 09, "Streaming": keeps the enemies in step with the 5 x 5 window around the player's chunk.
+void WorldSim::mark_explored() {
+    if (m_store_) {
+        explore(m_explored_, m_store_->params(), static_cast<int>(std::floor(m_player_.position.x)),
+                static_cast<int>(std::floor(m_player_.position.y)));
+    }
+}
+
 void WorldSim::sync_window() {
     if (!m_store_) {
         return;
@@ -197,6 +205,7 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack) {
     const bool combat = m_setup_.enabled;
     ++m_world_ticks_;
     sync_window();
+    mark_explored();
     if (m_story_.dialogue_active()) {
         raw_x = 0.0F;
         raw_y = 0.0F;
@@ -471,6 +480,10 @@ SaveState WorldSim::capture() const {
     for (const auto& [spawner, died] : m_cleared_) {
         s.cleared.push_back({spawner.first, spawner.second, died});
     }
+    s.explored.assign(m_explored_.begin(), m_explored_.end());
+    std::sort(s.explored.begin(), s.explored.end(), [](const auto& a, const auto& b) {  // rows first (spec 12)
+        return a.second != b.second ? a.second < b.second : a.first < b.first;
+    });
     s.world_ticks = m_world_ticks_;
     s.inventory = m_inventory_;
     s.story = m_story_.capture();
@@ -567,6 +580,8 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
         m_enemies_[i].hit_flash = 0;
     }
     m_inventory_ = s.inventory;
+    m_explored_ = std::set<std::pair<int, int>>(s.explored.begin(), s.explored.end());
+    mark_explored();
     m_world_ticks_ = s.world_ticks >= 0 ? s.world_ticks : (m_store_ ? m_store_->params().time.start_tick : 0);
     m_events_.clear();
     return true;

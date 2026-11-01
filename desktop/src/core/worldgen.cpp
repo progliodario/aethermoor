@@ -219,6 +219,36 @@ GeneratedChunk generate_chunk(std::uint64_t seed, const WorldParams& p, int chun
     return chunk;
 }
 
+int biome_code(std::uint64_t seed, const WorldParams& p, int cell_x, int cell_y) {
+    return static_cast<int>(biome_at(seed, p, cell_x * kMapCell + kMapCell / 2, cell_y * kMapCell + kMapCell / 2));
+}
+
+void explore(std::set<std::pair<int, int>>& cells, const WorldParams& p, int tile_x, int tile_y) {
+    const int columns = (p.width + kMapCell - 1) / kMapCell;
+    const int rows = (p.height + kMapCell - 1) / kMapCell;
+    const int cx = tile_x / kMapCell;
+    const int cy = tile_y / kMapCell;
+    for (int y = cy - 1; y <= cy + 1; ++y) {
+        for (int x = cx - 1; x <= cx + 1; ++x) {
+            if (x >= 0 && x < columns && y >= 0 && y < rows) {
+                cells.insert({x, y});
+            }
+        }
+    }
+}
+
+std::uint64_t digest_cells(const std::set<std::pair<int, int>>& cells) {
+    std::vector<std::pair<int, int>> ordered(cells.begin(), cells.end());
+    std::sort(ordered.begin(), ordered.end(), [](const auto& a, const auto& b) {
+        return a.second != b.second ? a.second < b.second : a.first < b.first;
+    });
+    std::uint64_t h = 0;
+    for (const auto& [x, y] : ordered) {
+        h = hash64(h, x, y);
+    }
+    return h;
+}
+
 std::uint64_t digest_tiles(const std::vector<int>& tiles) {
     std::uint64_t h = 0;
     for (const int gid : tiles) {

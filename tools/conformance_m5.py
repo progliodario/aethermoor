@@ -93,6 +93,31 @@ def suite_chunk_window() -> list[dict]:
     return cases
 
 
+def suite_worldmap() -> list[dict]:
+    """The biome of world map cells and the cells explored along a walk (spec 09, "Exploration and the world map")."""
+    params = {**PARAMS, "width": 16384, "height": 16384}
+    cases = []
+    walks = {
+        "from_the_spawn": (7, [[8192, 8192], [8200, 8192], [8350, 8192], [8350, 8400], [8100, 8100], [8100, 7800], [8192, 8192]]),
+        "corners_and_edges": (0xBEEF, [[0, 0], [16383, 0], [16383, 16383], [0, 16383], [64, 8192], [8192, 16000], [127, 128]]),
+    }
+    for name, (seed, positions) in walks.items():
+        cells: set = set()
+        for x, y in positions:
+            worldgen.explore(cells, params, x, y)
+        samples = []
+        for i in range(40):
+            cx = nm.hash64(seed, i, 31) % 128
+            cy = nm.hash64(seed, i, 32) % 128
+            samples.append([cx, cy, worldgen.biome_code(seed, params, cx, cy)])
+        cases.append({
+            "name": f"worldmap_{name}",
+            "input": {"op": "worldmap", "seed": h64(seed), "cell": worldgen.MAP_CELL, "positions": positions, "params": params},
+            "expect": {"explored_count": len(cells), "explored_digest": h64(worldgen.digest_cells(cells)), "biomes": samples},
+        })
+    return cases
+
+
 def suite_worldtime() -> list[dict]:
     """Day, light and weather at a list of world ticks (spec 08)."""
     t = PARAMS["time"]

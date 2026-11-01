@@ -61,6 +61,8 @@ class SaveState(
     val cleared: List<ClearedSpawner> = emptyList(),
     /** -1: not in the save (a new game starts at the world's start tick). */
     val worldTicks: Long = -1,
+    /** Streamed worlds only: explored world map cells. */
+    val explored: List<Pair<Int, Int>> = emptyList(),
     val inventory: Map<String, Long>,
     val story: StoryState,
 )
@@ -152,6 +154,9 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
             )
         }
         put("world_ticks", s.worldTicks)
+        if (meta.map == "world") {
+            put("explored", JsonArray(s.explored.map { JsonArray(listOf(JsonPrimitive(it.first), JsonPrimitive(it.second))) }))
+        }
         put("inventory", buildJsonObject { for ((item, quantity) in s.inventory) put(item, quantity) })
         put(
             "story",
@@ -251,6 +256,8 @@ fun saveFromJson(text: String): Result<SaveState> =
                 ClearedSpawner(a[0].jsonPrimitive.int, a[1].jsonPrimitive.int, if (a.size > 2) a[2].jsonPrimitive.long else 0L)
             } ?: emptyList(),
             worldTicks = j["world_ticks"]?.jsonPrimitive?.long ?: -1L,
+            explored = (j["explored"] as? JsonArray)?.map { c -> Pair(c.jsonArray[0].jsonPrimitive.int, c.jsonArray[1].jsonPrimitive.int) }
+                ?: emptyList(),
             inventory = j.getValue("inventory").jsonObject.mapValues { it.value.jsonPrimitive.long },
             story = story,
         )

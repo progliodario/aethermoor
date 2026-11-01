@@ -1,0 +1,837 @@
+{
+  "suite": "worldmap",
+  "spec_version": 1,
+  "generated_by": "tools/gen_conformance.py",
+  "cases": [
+    {
+      "name": "worldmap_from_the_spawn",
+      "input": {
+        "op": "worldmap",
+        "seed": "0x0000000000000007",
+        "cell": 128,
+        "positions": [
+          [
+            8192,
+            8192
+          ],
+          [
+            8200,
+            8192
+          ],
+          [
+            8350,
+            8192
+          ],
+          [
+            8350,
+            8400
+          ],
+          [
+            8100,
+            8100
+          ],
+          [
+            8100,
+            7800
+          ],
+          [
+            8192,
+            8192
+          ]
+        ],
+        "params": {
+          "$schema": "../../../schemas/world.schema.json",
+          "id": "base:world/overworld",
+          "width": 16384,
+          "height": 16384,
+          "border": 4,
+          "spawn_clear_radius": 7,
+          "elevation": {
+            "salt": 1,
+            "scale": 56,
+            "octaves": 5
+          },
+          "moisture": {
+            "salt": 2,
+            "scale": 80,
+            "octaves": 4
+          },
+          "temperature": {
+            "salt": 3,
+            "scale": 120,
+            "octaves": 3
+          },
+          "thresholds": {
+            "water": 25000,
+            "beach": 27500,
+            "mountain": 44000,
+            "snow": 20000,
+            "desert_heat": 36000,
+            "desert_dry": 33000,
+            "forest_wet": 38000
+          },
+          "river": {
+            "salt": 4,
+            "scale": 110,
+            "octaves": 3,
+            "half_width": 400,
+            "ford_salt": 5,
+            "ford_scale": 20,
+            "ford_min": 36000
+          },
+          "road": {
+            "salt": 6,
+            "scale": 150,
+            "octaves": 2,
+            "half_width": 350
+          },
+          "tiles": {
+            "water": 4,
+            "beach": 6,
+            "desert": 6,
+            "snow": 7,
+            "mountain": 8,
+            "forest": 9,
+            "plains": [
+              1,
+              2
+            ],
+            "river": 4,
+            "ford": 10,
+            "road": 11,
+            "bridge": 12
+          },
+          "props": {
+            "plains": [
+              {
+                "art": "base:art/prop/tree_oak",
+                "radius_x100": 30,
+                "per_mille": 30
+              },
+              {
+                "art": "base:art/prop/rock",
+                "radius_x100": 35,
+                "per_mille": 12
+              }
+            ],
+            "forest": [
+              {
+                "art": "base:art/prop/tree_oak",
+                "radius_x100": 30,
+                "per_mille": 220
+              }
+            ],
+            "snow": [
+              {
+                "art": "base:art/prop/pine",
+                "radius_x100": 30,
+                "per_mille": 90
+              }
+            ],
+            "desert": [
+              {
+                "art": "base:art/prop/cactus",
+                "radius_x100": 28,
+                "per_mille": 25
+              }
+            ]
+          },
+          "spawners": {
+            "enemy": "base:enemy/slime_green",
+            "biomes": [
+              "plains",
+              "forest"
+            ],
+            "min_distance": 14,
+            "per_10000": 8,
+            "respawn_ticks": 36000
+          },
+          "time": {
+            "day_ticks": 72000,
+            "start_tick": 24000,
+            "light": [
+              [
+                0,
+                180
+              ],
+              [
+                200,
+                180
+              ],
+              [
+                300,
+                1000
+              ],
+              [
+                700,
+                1000
+              ],
+              [
+                800,
+                180
+              ],
+              [
+                1000,
+                180
+              ]
+            ],
+            "weather": {
+              "period_ticks": 18000,
+              "fade_ticks": 600,
+              "kinds": [
+                {
+                  "id": "clear",
+                  "weight": 600,
+                  "rain_pm": 0,
+                  "dim_pm": 0
+                },
+                {
+                  "id": "cloudy",
+                  "weight": 250,
+                  "rain_pm": 0,
+                  "dim_pm": 250
+                },
+                {
+                  "id": "rain",
+                  "weight": 150,
+                  "rain_pm": 1000,
+                  "dim_pm": 400
+                }
+              ]
+            }
+          },
+          "npcs": [
+            {
+              "key": "guild_clerk_mira",
+              "dialogue": "base:dialogue/npc/mira",
+              "variant": "red",
+              "dx": 1,
+              "dy": -1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "explored_count": 29,
+        "explored_digest": "0x07c7473ed00e946e",
+        "biomes": [
+          [
+            50,
+            47,
+            4
+          ],
+          [
+            14,
+            62,
+            5
+          ],
+          [
+            17,
+            96,
+            6
+          ],
+          [
+            86,
+            88,
+            5
+          ],
+          [
+            76,
+            29,
+            4
+          ],
+          [
+            34,
+            84,
+            0
+          ],
+          [
+            98,
+            122,
+            0
+          ],
+          [
+            32,
+            64,
+            6
+          ],
+          [
+            29,
+            74,
+            0
+          ],
+          [
+            83,
+            80,
+            5
+          ],
+          [
+            118,
+            117,
+            6
+          ],
+          [
+            67,
+            93,
+            6
+          ],
+          [
+            66,
+            127,
+            4
+          ],
+          [
+            42,
+            42,
+            0
+          ],
+          [
+            28,
+            61,
+            0
+          ],
+          [
+            83,
+            123,
+            5
+          ],
+          [
+            66,
+            114,
+            4
+          ],
+          [
+            117,
+            30,
+            6
+          ],
+          [
+            88,
+            42,
+            6
+          ],
+          [
+            55,
+            1,
+            2
+          ],
+          [
+            98,
+            77,
+            0
+          ],
+          [
+            82,
+            8,
+            3
+          ],
+          [
+            2,
+            38,
+            5
+          ],
+          [
+            59,
+            120,
+            1
+          ],
+          [
+            44,
+            1,
+            5
+          ],
+          [
+            111,
+            119,
+            0
+          ],
+          [
+            52,
+            127,
+            6
+          ],
+          [
+            103,
+            79,
+            5
+          ],
+          [
+            80,
+            22,
+            4
+          ],
+          [
+            15,
+            15,
+            1
+          ],
+          [
+            69,
+            26,
+            0
+          ],
+          [
+            29,
+            105,
+            1
+          ],
+          [
+            15,
+            59,
+            6
+          ],
+          [
+            26,
+            52,
+            1
+          ],
+          [
+            50,
+            91,
+            0
+          ],
+          [
+            96,
+            1,
+            2
+          ],
+          [
+            5,
+            113,
+            6
+          ],
+          [
+            67,
+            4,
+            6
+          ],
+          [
+            11,
+            85,
+            1
+          ],
+          [
+            116,
+            108,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "worldmap_corners_and_edges",
+      "input": {
+        "op": "worldmap",
+        "seed": "0x000000000000beef",
+        "cell": 128,
+        "positions": [
+          [
+            0,
+            0
+          ],
+          [
+            16383,
+            0
+          ],
+          [
+            16383,
+            16383
+          ],
+          [
+            0,
+            16383
+          ],
+          [
+            64,
+            8192
+          ],
+          [
+            8192,
+            16000
+          ],
+          [
+            127,
+            128
+          ]
+        ],
+        "params": {
+          "$schema": "../../../schemas/world.schema.json",
+          "id": "base:world/overworld",
+          "width": 16384,
+          "height": 16384,
+          "border": 4,
+          "spawn_clear_radius": 7,
+          "elevation": {
+            "salt": 1,
+            "scale": 56,
+            "octaves": 5
+          },
+          "moisture": {
+            "salt": 2,
+            "scale": 80,
+            "octaves": 4
+          },
+          "temperature": {
+            "salt": 3,
+            "scale": 120,
+            "octaves": 3
+          },
+          "thresholds": {
+            "water": 25000,
+            "beach": 27500,
+            "mountain": 44000,
+            "snow": 20000,
+            "desert_heat": 36000,
+            "desert_dry": 33000,
+            "forest_wet": 38000
+          },
+          "river": {
+            "salt": 4,
+            "scale": 110,
+            "octaves": 3,
+            "half_width": 400,
+            "ford_salt": 5,
+            "ford_scale": 20,
+            "ford_min": 36000
+          },
+          "road": {
+            "salt": 6,
+            "scale": 150,
+            "octaves": 2,
+            "half_width": 350
+          },
+          "tiles": {
+            "water": 4,
+            "beach": 6,
+            "desert": 6,
+            "snow": 7,
+            "mountain": 8,
+            "forest": 9,
+            "plains": [
+              1,
+              2
+            ],
+            "river": 4,
+            "ford": 10,
+            "road": 11,
+            "bridge": 12
+          },
+          "props": {
+            "plains": [
+              {
+                "art": "base:art/prop/tree_oak",
+                "radius_x100": 30,
+                "per_mille": 30
+              },
+              {
+                "art": "base:art/prop/rock",
+                "radius_x100": 35,
+                "per_mille": 12
+              }
+            ],
+            "forest": [
+              {
+                "art": "base:art/prop/tree_oak",
+                "radius_x100": 30,
+                "per_mille": 220
+              }
+            ],
+            "snow": [
+              {
+                "art": "base:art/prop/pine",
+                "radius_x100": 30,
+                "per_mille": 90
+              }
+            ],
+            "desert": [
+              {
+                "art": "base:art/prop/cactus",
+                "radius_x100": 28,
+                "per_mille": 25
+              }
+            ]
+          },
+          "spawners": {
+            "enemy": "base:enemy/slime_green",
+            "biomes": [
+              "plains",
+              "forest"
+            ],
+            "min_distance": 14,
+            "per_10000": 8,
+            "respawn_ticks": 36000
+          },
+          "time": {
+            "day_ticks": 72000,
+            "start_tick": 24000,
+            "light": [
+              [
+                0,
+                180
+              ],
+              [
+                200,
+                180
+              ],
+              [
+                300,
+                1000
+              ],
+              [
+                700,
+                1000
+              ],
+              [
+                800,
+                180
+              ],
+              [
+                1000,
+                180
+              ]
+            ],
+            "weather": {
+              "period_ticks": 18000,
+              "fade_ticks": 600,
+              "kinds": [
+                {
+                  "id": "clear",
+                  "weight": 600,
+                  "rain_pm": 0,
+                  "dim_pm": 0
+                },
+                {
+                  "id": "cloudy",
+                  "weight": 250,
+                  "rain_pm": 0,
+                  "dim_pm": 250
+                },
+                {
+                  "id": "rain",
+                  "weight": 150,
+                  "rain_pm": 1000,
+                  "dim_pm": 400
+                }
+              ]
+            }
+          },
+          "npcs": [
+            {
+              "key": "guild_clerk_mira",
+              "dialogue": "base:dialogue/npc/mira",
+              "variant": "red",
+              "dx": 1,
+              "dy": -1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "explored_count": 33,
+        "explored_digest": "0x422ff62eab09d9c3",
+        "biomes": [
+          [
+            45,
+            107,
+            6
+          ],
+          [
+            64,
+            72,
+            0
+          ],
+          [
+            2,
+            86,
+            1
+          ],
+          [
+            119,
+            34,
+            0
+          ],
+          [
+            119,
+            105,
+            5
+          ],
+          [
+            35,
+            94,
+            6
+          ],
+          [
+            67,
+            52,
+            6
+          ],
+          [
+            59,
+            1,
+            0
+          ],
+          [
+            70,
+            88,
+            5
+          ],
+          [
+            45,
+            6,
+            1
+          ],
+          [
+            121,
+            80,
+            5
+          ],
+          [
+            35,
+            23,
+            6
+          ],
+          [
+            34,
+            124,
+            4
+          ],
+          [
+            126,
+            0,
+            5
+          ],
+          [
+            14,
+            106,
+            6
+          ],
+          [
+            103,
+            24,
+            2
+          ],
+          [
+            0,
+            22,
+            0
+          ],
+          [
+            3,
+            119,
+            2
+          ],
+          [
+            17,
+            120,
+            6
+          ],
+          [
+            85,
+            62,
+            1
+          ],
+          [
+            92,
+            124,
+            4
+          ],
+          [
+            4,
+            117,
+            6
+          ],
+          [
+            61,
+            89,
+            6
+          ],
+          [
+            60,
+            34,
+            5
+          ],
+          [
+            43,
+            96,
+            4
+          ],
+          [
+            62,
+            87,
+            5
+          ],
+          [
+            66,
+            103,
+            0
+          ],
+          [
+            87,
+            31,
+            2
+          ],
+          [
+            53,
+            44,
+            5
+          ],
+          [
+            45,
+            61,
+            0
+          ],
+          [
+            4,
+            19,
+            6
+          ],
+          [
+            5,
+            88,
+            6
+          ],
+          [
+            55,
+            117,
+            0
+          ],
+          [
+            113,
+            46,
+            6
+          ],
+          [
+            83,
+            47,
+            0
+          ],
+          [
+            17,
+            41,
+            0
+          ],
+          [
+            89,
+            28,
+            0
+          ],
+          [
+            35,
+            49,
+            0
+          ],
+          [
+            95,
+            105,
+            5
+          ],
+          [
+            47,
+            33,
+            4
+          ]
+        ]
+      }
+    }
+  ]
+}

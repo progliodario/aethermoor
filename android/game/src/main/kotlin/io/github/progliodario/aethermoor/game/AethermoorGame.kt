@@ -11,8 +11,10 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import io.github.progliodario.aethermoor.core.GameInfo
+import io.github.progliodario.aethermoor.core.MAP_CELL
 import io.github.progliodario.aethermoor.core.Pack
 import io.github.progliodario.aethermoor.core.WorldParams
+import io.github.progliodario.aethermoor.core.biomeCode
 import io.github.progliodario.aethermoor.core.loadPack
 import io.github.progliodario.aethermoor.core.parseWorldParams
 import io.github.progliodario.aethermoor.core.sim.AttackPhase
@@ -88,6 +90,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var lastText = ""
     private var showInventory = false
     private var bagRect: FloatArray? = null
+    private var showMap = false
+    private var mapRect: FloatArray? = null
+    private val mapCodes = HashMap<Pair<Int, Int>, Int>()
     private var message = ""
     private var messageFrames = 0
     private var sinceAutosave = 0f
@@ -212,8 +217,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
         handleStoryInput(world)
         val frame = input.read()
-        if (showInventory) {
-            accumulator = 0f // the bag pauses the game
+        if (showInventory || showMap) {
+            accumulator = 0f // the bag and the map pause the game
         } else {
             accumulator += min(Gdx.graphics.deltaTime, MAX_FRAME_SECONDS)
             var ticks = 0
@@ -473,8 +478,16 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val story = world.story
         val input = Gdx.input
         val view = story.dialogueView()
+        if (showMap) {
+            if (input.isKeyJustPressed(Input.Keys.M) || input.isKeyJustPressed(Input.Keys.ESCAPE) || input.justTouched()) showMap = false
+            return
+        }
         if (showInventory) {
             if (input.isKeyJustPressed(Input.Keys.I) || input.isKeyJustPressed(Input.Keys.ESCAPE) || input.justTouched()) showInventory = false
+            return
+        }
+        if (input.isKeyJustPressed(Input.Keys.M) && world.chunks != null) {
+            showMap = true
             return
         }
         if (input.isKeyJustPressed(Input.Keys.I)) {
@@ -518,6 +531,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 }
                 choiceIndex = 0
             } else {
+                val map = mapRect
+                if (map != null && world.chunks != null && x >= map[0] && x <= map[0] + map[2] && y >= map[1] && y <= map[1] + map[3]) {
+                    showMap = true
+                    return
+                }
                 val bag = bagRect
                 if (bag != null && x >= bag[0] && x <= bag[0] + bag[2] && y >= bag[1] && y <= bag[1] + bag[3]) {
                     showInventory = true
@@ -667,6 +685,53 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         font.color = Color.WHITE
         batch.end()
         drawBagAndNotice(world, data)
+        drawWorldMap(world, data)
+    }
+
+    /** The map button and, when open, the world map: explored cells by biome and the player (spec 09). */
+    private fun drawWorldMap(world: WorldSim, data: Assets) {
+        val store = world.chunks ?: return
+        val density = Gdx.graphics.density
+        val width = Gdx.graphics.width.toFloat()
+        val height = Gdx.graphics.height.toFloat()
+        val button = floatArrayOf(12f * density + 104f * density, 74f * density, 96f * density, 34f * density)
+        mapRect = button
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        shapes.color = Color(0.04f, 0.12f, 0.23f, 0.8f)
+        shapes.rect(button[0], button[1], button[2], button[3])
+        var left = 0f
+        var top = 0f
+        var cell = 0f
+        if (showMap) {
+            val columns = (store.params.width + MAP_CELL - 1) / MAP_CELL
+            val rows = (store.params.height + MAP_CELL - 1) / MAP_CELL
+            cell = min(width, height) * 0.8f / max(columns, rows)
+            left = (width - cell * columns) / 2f
+            top = (height - cell * rows) / 2f + 10f * density
+            shapes.color = Color(0.016f, 0.04f, 0.094f, 0.88f)
+            shapes.rect(0f, 0f, width, height)
+            shapes.color = Color(0.08f, 0.14f, 0.26f, 1f)
+            shapes.rect(left - 2f, top - 2f, cell * columns + 4f, cell * rows + 4f)
+            for ((x, y) in world.explored) {
+                val code = mapCodes.getOrPut(Pair(x, y)) { biomeCode(store.seed, store.params, x, y) }
+                shapes.color = MAP_COLORS[code]
+                shapes.rect(left + cell * x, top + cell * y, ceil(cell), ceil(cell))
+            }
+            shapes.color = Color(1f, 0.24f, 0.24f, 1f)
+            val px = left + world.player.position.x / MAP_CELL * cell
+            val py = top + world.player.position.y / MAP_CELL * cell
+            shapes.rect(px - 3f * density, py - 3f * density, 6f * density, 6f * density)
+        }
+        shapes.end()
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        font.color = Color.WHITE
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.map_hint"), button[0] + 8f * density, button[1] + (button[3] - font.lineHeight) / 2f)
+        if (showMap) font.draw(batch, data.pack.text(language, "\$i18n:ui.map"), left, top - 26f * density)
+        batch.end()
     }
 
     /** The bag button, the inventory panel and short notices. */
@@ -754,6 +819,13 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         private const val PROTAGONIST_ID = "base:protagonist/ren"
         private const val MAP_WORLD = "world"
         private const val BASE_TILE_PX = 48f
+
+        /** Colors of the world map by biome code: water, beach, mountain, snow, desert, forest, plains. */
+        private val MAP_COLORS = arrayOf(
+            Color(0.235f, 0.431f, 0.745f, 1f), Color(0.871f, 0.808f, 0.588f, 1f), Color(0.51f, 0.51f, 0.549f, 1f),
+            Color(0.922f, 0.941f, 0.961f, 1f), Color(0.871f, 0.808f, 0.588f, 1f), Color(0.235f, 0.51f, 0.275f, 1f),
+            Color(0.431f, 0.706f, 0.353f, 1f),
+        )
         private const val MAX_TICKS_PER_FRAME = 5
         private const val MAX_FRAME_SECONDS = 0.25f
         private const val FLOATING_TEXT_FRAMES = 50

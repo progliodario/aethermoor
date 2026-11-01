@@ -1,6 +1,6 @@
 # 09. World generation
 
-Status: **v1.3 (M5a, M5b: chunks and streaming, M5d: rivers and roads)**. Reference: `tools/reference/worldgen.py`. Conformance suite: `worldgen`.
+Status: **v1.3 (M5a, M5b: chunks and streaming, M5d: rivers and roads, M5e: exploration and the world map)**. Reference: `tools/reference/worldgen.py`. Conformance suite: `worldgen`.
 Parameters: `data/base/worlds/overworld.json` (`schemas/world.schema.json`). All math is integer, see `01-numerics.md`.
 
 The world is a **pure function** of `(seed, parameters)`: the content of a tile depends only on its own coordinates, never on the
@@ -117,6 +117,19 @@ player, `(floor(x / 32), floor(y / 32))` with `(x, y)` in tiles. The window is r
 
 Conformance suite `chunk_window`: scripted walks (`move` to a chunk, `kill` an enemy by index, `wait` some world ticks) through a 16384 x 16384 world; after each step the
 number of enemies and their digest (`fold hash64(h, x, y, dead)` over the spawner tiles) are compared.
+
+## Exploration and the world map
+
+The world map divides the world in **cells** of `MAP_CELL = 128` x 128 tiles (`columns = ceil(width / 128)`, same for rows). At every tick, after the window of
+chunks is updated, the cell of the player `(floor(x) / 128, floor(y) / 128)` and its eight neighbours that lie inside the world become **explored**; explored
+cells are never forgotten and are stored in the save (spec 12, `explored`).
+
+The map shows each explored cell with the biome of the tile at the center of the cell (`cell * 128 + 64`): code 0 water, 1 beach, 2 mountain, 3 snow, 4 desert,
+5 forest, 6 plains. Rivers and roads are not shown. Unexplored cells are drawn dark. Clients open the map with the `M` key (and a button on touch screens);
+the game is paused while it is open. The player is drawn as a dot at its position.
+
+Conformance suite `worldmap`: scripted positions through a 16384 x 16384 world (also at the corners and edges): the number of explored cells and their digest
+(`fold hash64(h, x, y)` ordered by row, then column), and the biome codes of 40 cells.
 
 ## Scale and what comes next
 
