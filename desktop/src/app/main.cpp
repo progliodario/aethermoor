@@ -67,6 +67,7 @@ struct Ui {
     bool show_inventory = false;
     int bag_cursor = 0;  // index of the selected item in the bag
     bool show_map = false;
+    mutable std::map<std::pair<int, int>, std::optional<aether::Settlement>> map_markers;  // settlement shown on a cell
     mutable std::map<std::pair<int, int>, int> map_codes;  // biome code of the explored cells, filled when the map is drawn
 };
 
@@ -381,6 +382,37 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
         fill_rect(renderer, left + cell * static_cast<float>(x), top + cell * static_cast<float>(y), std::ceil(cell), std::ceil(cell), color[0],
                   color[1], color[2], 255);
     }
+    // Settlements of the explored cells, and the names of the regions whose center is explored.
+    SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+    for (const auto& [x, y] : sim.explored()) {
+        auto marker = ui.map_markers.find({x, y});
+        if (marker == ui.map_markers.end()) {
+            marker = ui.map_markers.emplace(std::make_pair(x, y), aether::settlement_marker(store->seed(), params, x, y)).first;
+        }
+        if (!marker->second) {
+            continue;
+        }
+        const float mx = left + cell * (static_cast<float>(x) + 0.5F);
+        const float my = top + cell * (static_cast<float>(y) + 0.5F);
+        const float size = marker->second->kind == "town" ? 7.0F : (marker->second->kind == "village" ? 5.0F : 3.0F);
+        fill_rect(renderer, mx - size * density / 2.0F - 1.0F, my - size * density / 2.0F - 1.0F, size * density + 2.0F, size * density + 2.0F, 20, 20, 30, 255);
+        fill_rect(renderer, mx - size * density / 2.0F, my - size * density / 2.0F, size * density, size * density, 255, 235, 150, 255);
+        if (marker->second->kind != "hamlet") {
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+            SDL_RenderDebugText(renderer, mx + (size * density) / 2.0F + 3.0F, my - 4.0F, marker->second->name.c_str());
+        }
+    }
+    for (const aether::Region& region : params.regions) {
+        const int rx = static_cast<int>(static_cast<std::int64_t>(region.x_pm) * params.width / 1000) / aether::kMapCell;
+        const int ry = static_cast<int>(static_cast<std::int64_t>(region.y_pm) * params.height / 1000) / aether::kMapCell;
+        if (sim.explored().count({rx, ry}) == 0) {
+            continue;
+        }
+        const std::string name = assets.pack.text(ui.lang, region.name);
+        SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
+        SDL_RenderDebugText(renderer, left + cell * static_cast<float>(rx) - static_cast<float>(name.size()) * 4.0F,
+                            top + cell * static_cast<float>(ry) + 14.0F * density, name.c_str());
+    }
     const float px = left + sim.player().position.x / static_cast<float>(aether::kMapCell) * cell;
     const float py = top + sim.player().position.y / static_cast<float>(aether::kMapCell) * cell;
     fill_rect(renderer, px - 3.0F * density, py - 3.0F * density, 6.0F * density, 6.0F * density, 255, 60, 60, 255);
@@ -423,6 +455,15 @@ void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether:
     SDL_SetRenderScale(renderer, 2.0F, 2.0F);
     SDL_RenderDebugText(renderer, (static_cast<float>(out_w) - 12.0F * density) / 2.0F - static_cast<float>(line.size()) * 8.0F,
                         12.0F * density / 2.0F, line.c_str());
+    if (const aether::ChunkStore* store = sim.chunks()) {
+        const aether::WorldParams& params = store->params();
+        const aether::Region& region = params.regions[static_cast<std::size_t>(
+            aether::region_at(params, static_cast<int>(std::floor(sim.player().position.x)), static_cast<int>(std::floor(sim.player().position.y))))];
+        const std::string name = assets.pack.text(ui.lang, region.name);
+        SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
+        SDL_RenderDebugText(renderer, (static_cast<float>(out_w) - 12.0F * density) / 2.0F - static_cast<float>(name.size()) * 8.0F,
+                            12.0F * density / 2.0F + 12.0F, name.c_str());
+    }
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
@@ -914,9 +955,8 @@ int main(int argc, char** argv) {
     }
     std::optional<aether::StreamConfig> stream;
     if (g_map_name == "world") {
-        const auto text = assets.pack.read_document(kWorldId);
         std::string world_error;
-        const auto params = text ? aether::parse_world_params(*text, world_error) : std::nullopt;
+        const auto params = aether::load_world_params(assets.pack, kWorldId, world_error);
         if (!params) {
             SDL_Log("cannot read the world parameters: %s", world_error.c_str());
             SDL_Quit();

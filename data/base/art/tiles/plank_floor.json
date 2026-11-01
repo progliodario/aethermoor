@@ -1,0 +1,135 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/tile/plank_floor",
+  "canvas": {
+    "w": 32,
+    "h": 32,
+    "origin": [
+      0,
+      0
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          32
+        ]
+      },
+      "fill": {
+        "color": "$p.base"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          1
+        ]
+      },
+      "fill": {
+        "color": "$p.gap"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          8,
+          32,
+          1
+        ]
+      },
+      "fill": {
+        "color": "$p.gap"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          16,
+          32,
+          1
+        ]
+      },
+      "fill": {
+        "color": "$p.gap"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          24,
+          32,
+          1
+        ]
+      },
+      "fill": {
+        "color": "$p.gap"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          10,
+          0,
+          1,
+          8
+        ]
+      },
+      "fill": {
+        "color": "$p.gap"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          22,
+          8,
+          1,
+          8
+        ]
+      },
+      "fill": {
+        "color": "$p.gap"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          6,
+          16,
+          1,
+          8
+        ]
+      },
+      "fill": {
+        "color": "$p.gap"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          18,
+          24,
+          1,
+          8
+        ]
+      },
+      "fill": {
+        "color": "$p.gap"
+      }
+    }
+  ],
+  "palette": {
+    "base": "#B98B58",
+    "gap": "#8C6438"
+  }
+}

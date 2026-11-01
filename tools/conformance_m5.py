@@ -1,14 +1,13 @@
 """Conformance suite added in M5: world generation (spec 09). Generated worlds are compared through digests."""
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 from reference import numerics as nm
 from reference import worldgen, worldtime
 
 ROOT = Path(__file__).resolve().parent.parent
-PARAMS = json.loads((ROOT / "data" / "base" / "worlds" / "overworld.json").read_text(encoding="utf-8"))
+PARAMS = worldgen.load_params()
 
 
 def h64(value: int) -> str:
@@ -22,6 +21,19 @@ def digest_pairs(pairs: list[list[int]]) -> int:
     return h
 
 
+def settlement_chunks(params: dict, seed: int) -> list[list[int]]:
+    """Chunks over the center of a hamlet, a village and a town of the world (and one next to a footprint edge)."""
+    chunks: list[list[int]] = []
+    seen: set[str] = set()
+    for site in worldgen.settlements_in(seed, params, 0, 0, 63, 63):
+        if site["kind"] in seen:
+            continue
+        seen.add(site["kind"])
+        chunks.append([site["px"] // worldgen.CHUNK_SIZE, site["py"] // worldgen.CHUNK_SIZE])
+        chunks.append([(site["x"] + site["w"] - 1) // worldgen.CHUNK_SIZE, (site["y"] + site["h"] - 1) // worldgen.CHUNK_SIZE])
+    return chunks
+
+
 def suite_worldgen_chunks() -> list[dict]:
     """Chunks of a huge world (16384 x 16384 tiles), far from the origin and across the world edge."""
     params = {**PARAMS, "width": 16384, "height": 16384}
@@ -29,6 +41,8 @@ def suite_worldgen_chunks() -> list[dict]:
     for name, seed, chunks in (
         ("seed_7", 7, [[0, 0], [255, 255], [256, 256], [100, 400], [511, 511], [512, 3], [-1, 5]]),
         ("seed_max_u64", nm.M64, [[1, 1], [256, 255], [333, 17], [3, 500]]),
+        ("settlements_seed_7", 7, settlement_chunks(params, 7)),
+        ("settlements_seed_c0ffee", 0xC0FFEE, settlement_chunks(params, 0xC0FFEE)),
     ):
         results = []
         for cx, cy in chunks:
@@ -89,6 +103,34 @@ def suite_chunk_window() -> list[dict]:
             "name": f"chunk_window_{name}",
             "input": {"op": "chunk_window", "seed": h64(seed), "start": list(start), "steps": steps, "params": params},
             "expect": {"after": results},
+        })
+    return cases
+
+
+def suite_settlements() -> list[dict]:
+    """Regions of tiles and the settlements of blocks of site cells (spec 09, "Regions" and "Settlements")."""
+    params = {**PARAMS, "width": 16384, "height": 16384}
+    cases = []
+    for name, seed, block in (("seed_7", 7, [0, 0, 63, 63]), ("seed_c0ffee", 0xC0FFEE, [8, 8, 31, 31]),
+                              ("seed_max_u64", nm.M64, [20, 20, 43, 43])):
+        found = worldgen.settlements_in(seed, params, *block)
+        regions = []
+        for i in range(40):
+            x = nm.hash64(seed, i, 51) % params["width"]
+            y = nm.hash64(seed, i, 52) % params["height"]
+            regions.append([x, y, worldgen.region_at(params, x, y)])
+        markers = []
+        for site in found[:30]:
+            markers.append([site["px"] // worldgen.MAP_CELL, site["py"] // worldgen.MAP_CELL, site["name"]])
+        cases.append({
+            "name": f"settlements_{name}",
+            "input": {"op": "settlements", "seed": h64(seed), "block": block, "params": params},
+            "expect": {
+                "count": len(found),
+                "settlements": [[s["x"], s["y"], s["px"], s["py"], s["kind"], s["stamp"], s["name"], s["region"]] for s in found],
+                "regions": regions,
+                "markers": markers,
+            },
         })
     return cases
 

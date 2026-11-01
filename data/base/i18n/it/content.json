@@ -19,5 +19,13 @@
   "dlg.ren.prologue.n1": "Benvenuto, Ospite. Il tuo vecchio mondo ti ha lasciato andare.",
   "dlg.ren.prologue.c1": "Va bene, ci sto.",
   "dlg.ren.prologue.c2": "Aspetta... è colpa del camion?",
-  "dlg.ren.prologue.n4": "Diciamo che il camion ha avuto un ruolo."
+  "dlg.ren.prologue.n4": "Diciamo che il camion ha avuto un ruolo.",
+  "region.verdalis.name": "Verdalis",
+  "region.whisperwood.name": "Bosco dei Sussurri",
+  "region.ironspine.name": "Dorsale di Ferro",
+  "region.sunscar.name": "Cicatrice del Sole",
+  "region.frostveil.name": "Velo di Gelo",
+  "region.tidehaven.name": "Porto della Marea",
+  "region.ashen_wastes.name": "Terre di Cenere",
+  "region.lumeria.name": "Lumeria"
 }

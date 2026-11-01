@@ -19,5 +19,13 @@
   "dlg.ren.prologue.n1": "Welcome, Guest. Your old world has let you go.",
   "dlg.ren.prologue.c1": "Okay, I'm in.",
   "dlg.ren.prologue.c2": "Wait... was it the truck?",
-  "dlg.ren.prologue.n4": "Let's say the truck played a part."
+  "dlg.ren.prologue.n4": "Let's say the truck played a part.",
+  "region.verdalis.name": "Verdalis",
+  "region.whisperwood.name": "Whisperwood",
+  "region.ironspine.name": "Ironspine",
+  "region.sunscar.name": "Sunscar",
+  "region.frostveil.name": "Frostveil",
+  "region.tidehaven.name": "Tidehaven",
+  "region.ashen_wastes.name": "Ashen Wastes",
+  "region.lumeria.name": "Lumeria"
 }

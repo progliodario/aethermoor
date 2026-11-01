@@ -164,27 +164,185 @@ bool spawner_at(std::uint64_t seed, const WorldParams& p, Biome biome, int x, in
     return (hash64(seed, x, y, 11) >> 20) % 10000 < static_cast<std::uint64_t>(p.spawner_per_10000);
 }
 
+// The settlement of each site cell, computed on demand (spec 09, "Settlements").
+class Sites {
+public:
+    Sites(std::uint64_t seed, const WorldParams& p) : m_seed_(seed), m_params_(p) {}
+
+    const std::optional<Settlement>& site(int sx, int sy) {
+        const auto key = std::make_pair(sx, sy);
+        auto found = m_cells_.find(key);
+        if (found == m_cells_.end()) {
+            found = m_cells_.emplace(key, compute(sx, sy)).first;
+        }
+        return found->second;
+    }
+
+    // True when the tile lies in a footprint; `entry` is then the legend entry of its character, or null.
+    bool at(int x, int y, const StampEntry*& entry) {
+        entry = nullptr;
+        const auto& s = site(x >> 8, y >> 8);
+        if (!s) {
+            return false;
+        }
+        const int lx = x - s->x;
+        const int ly = y - s->y;
+        if (lx < 0 || ly < 0 || lx >= s->w || ly >= s->h) {
+            return false;
+        }
+        const Stamp& stamp = m_params_.stamps.at(s->stamp);
+        const auto legend = stamp.legend.find(stamp.rows[static_cast<std::size_t>(ly)][static_cast<std::size_t>(lx)]);
+        if (legend != stamp.legend.end()) {
+            entry = &legend->second;
+        }
+        return true;
+    }
+
+private:
+    std::optional<Settlement> compute(int sx, int sy) const {
+        const WorldParams& p = m_params_;
+        const std::uint64_t h = hash64(m_seed_, sx, sy, 41);
+        if ((h >> 40) % 1000 >= static_cast<std::uint64_t>(p.settlement_per_mille)) {
+            return std::nullopt;
+        }
+        const int px = sx * kSiteCell + 40 + static_cast<int>((h >> 8) % 176);
+        const int py = sy * kSiteCell + 40 + static_cast<int>((h >> 24) % 176);
+        const std::uint64_t k = hash64(m_seed_, sx, sy, 42);
+        std::uint64_t total = 0;
+        for (const SettlementKind& kind : p.settlement_kinds) {
+            total += static_cast<std::uint64_t>(kind.weight);
+        }
+        const std::uint64_t roll = (k >> 20) % total;
+        std::uint64_t acc = 0;
+        const SettlementKind* chosen = &p.settlement_kinds.back();
+        for (const SettlementKind& kind : p.settlement_kinds) {
+            acc += static_cast<std::uint64_t>(kind.weight);
+            if (roll < acc) {
+                chosen = &kind;
+                break;
+            }
+        }
+        const std::string& stamp_id = chosen->stamps[(k >> 40) % chosen->stamps.size()];
+        const Stamp& stamp = p.stamps.at(stamp_id);
+        const int ox = px - stamp.anchor_x;
+        const int oy = py - stamp.anchor_y;
+        const std::int64_t keep_out = p.spawn_clear_radius + 48;
+        const std::int64_t dx = px - p.width / 2;
+        const std::int64_t dy = py - p.height / 2;
+        if (dx * dx + dy * dy < keep_out * keep_out) {
+            return std::nullopt;
+        }
+        const int points[5][2] = {{px, py},
+                                  {ox, oy},
+                                  {ox + stamp.w - 1, oy},
+                                  {ox, oy + stamp.h - 1},
+                                  {ox + stamp.w - 1, oy + stamp.h - 1}};
+        for (const auto& point : points) {
+            const Biome biome = biome_at(m_seed_, p, point[0], point[1]);
+            if (biome != Biome::Plains && biome != Biome::Forest) {
+                return std::nullopt;
+            }
+        }
+        const std::uint64_t n = hash64(m_seed_, sx, sy, 43);
+        Settlement s;
+        s.x = ox;
+        s.y = oy;
+        s.px = px;
+        s.py = py;
+        s.w = stamp.w;
+        s.h = stamp.h;
+        s.stamp = stamp_id;
+        s.kind = chosen->id;
+        s.name = p.names_start[n % p.names_start.size()] + p.names_mid[(n >> 16) % p.names_mid.size()] +
+                 p.names_end[(n >> 32) % p.names_end.size()];
+        s.region = region_at(p, px, py);
+        return s;
+    }
+
+    std::uint64_t m_seed_;
+    const WorldParams& m_params_;
+    std::map<std::pair<int, int>, std::optional<Settlement>> m_cells_;
+};
+
+// Appends tile (x, y): its gid, and its prop or spawner. Settlements replace everything under their footprint.
+void emit_tile(std::uint64_t seed, const WorldParams& p, Sites& sites, int x, int y, std::vector<int>& tiles,
+               std::vector<GenProp>& props, std::vector<std::pair<int, int>>& spawners) {
+    const Biome biome = biome_at(seed, p, x, y);
+    const StampEntry* entry = nullptr;
+    if (sites.at(x, y, entry)) {
+        tiles.push_back(entry != nullptr && entry->tile != 0 ? entry->tile : gid_for(seed, p, biome, x, y, Overlay::None));
+        if (entry != nullptr && !entry->prop.empty()) {
+            props.push_back({entry->prop, entry->radius_x100, x * 256 + 128, y * 256 + 192});
+        }
+        return;
+    }
+    const Overlay overlay = overlay_at(seed, p, biome, x, y);
+    tiles.push_back(gid_for(seed, p, biome, x, y, overlay));
+    if (overlay == Overlay::None && !in_clearing(p, x, y)) {
+        GenProp prop;
+        if (prop_at(seed, p, biome, x, y, prop)) {
+            props.push_back(std::move(prop));
+        }
+        if (spawner_at(seed, p, biome, x, y)) {
+            spawners.emplace_back(x, y);
+        }
+    }
+}
+
 }  // namespace
+
+int region_at(const WorldParams& p, int x, int y) {
+    int best = 0;
+    std::int64_t best_distance = -1;
+    for (std::size_t i = 0; i < p.regions.size(); ++i) {
+        const std::int64_t dx = x - static_cast<std::int64_t>(p.regions[i].x_pm) * p.width / 1000;
+        const std::int64_t dy = y - static_cast<std::int64_t>(p.regions[i].y_pm) * p.height / 1000;
+        const std::int64_t d = dx * dx + dy * dy;
+        if (best_distance < 0 || d < best_distance) {
+            best = static_cast<int>(i);
+            best_distance = d;
+        }
+    }
+    return best;
+}
+
+std::optional<Settlement> settlement_site(std::uint64_t seed, const WorldParams& p, int site_x, int site_y) {
+    Sites sites(seed, p);
+    return sites.site(site_x, site_y);
+}
+
+std::vector<Settlement> settlements_in(std::uint64_t seed, const WorldParams& p, int sx0, int sy0, int sx1, int sy1) {
+    Sites sites(seed, p);
+    std::vector<Settlement> found;
+    for (int sy = sy0; sy <= sy1; ++sy) {
+        for (int sx = sx0; sx <= sx1; ++sx) {
+            if (const auto& s = sites.site(sx, sy)) {
+                found.push_back(*s);
+            }
+        }
+    }
+    return found;
+}
+
+std::optional<Settlement> settlement_marker(std::uint64_t seed, const WorldParams& p, int cell_x, int cell_y) {
+    constexpr int kPerSite = kSiteCell / kMapCell;
+    Sites sites(seed, p);
+    const auto& s = sites.site(cell_x / kPerSite, cell_y / kPerSite);
+    if (s && s->px / kMapCell == cell_x && s->py / kMapCell == cell_y) {
+        return s;
+    }
+    return std::nullopt;
+}
 
 GeneratedWorld generate_world(std::uint64_t seed, const WorldParams& p) {
     GeneratedWorld world;
     world.width = p.width;
     world.height = p.height;
     world.tiles.reserve(static_cast<std::size_t>(p.width) * static_cast<std::size_t>(p.height));
+    Sites sites(seed, p);
     for (int y = 0; y < p.height; ++y) {
         for (int x = 0; x < p.width; ++x) {
-            const Biome biome = biome_at(seed, p, x, y);
-            const Overlay overlay = overlay_at(seed, p, biome, x, y);
-            world.tiles.push_back(gid_for(seed, p, biome, x, y, overlay));
-            if (overlay == Overlay::None && !in_clearing(p, x, y)) {
-                GenProp prop;
-                if (prop_at(seed, p, biome, x, y, prop)) {
-                    world.props.push_back(std::move(prop));
-                }
-                if (spawner_at(seed, p, biome, x, y)) {
-                    world.spawners.emplace_back(x, y);
-                }
-            }
+            emit_tile(seed, p, sites, x, y, world.tiles, world.props, world.spawners);
         }
     }
     const int cx = p.width / 2;
@@ -200,20 +358,10 @@ GeneratedWorld generate_world(std::uint64_t seed, const WorldParams& p) {
 GeneratedChunk generate_chunk(std::uint64_t seed, const WorldParams& p, int chunk_x, int chunk_y) {
     GeneratedChunk chunk;
     chunk.tiles.reserve(static_cast<std::size_t>(kChunkSize) * static_cast<std::size_t>(kChunkSize));
+    Sites sites(seed, p);
     for (int y = chunk_y * kChunkSize; y < (chunk_y + 1) * kChunkSize; ++y) {
         for (int x = chunk_x * kChunkSize; x < (chunk_x + 1) * kChunkSize; ++x) {
-            const Biome biome = biome_at(seed, p, x, y);
-            const Overlay overlay = overlay_at(seed, p, biome, x, y);
-            chunk.tiles.push_back(gid_for(seed, p, biome, x, y, overlay));
-            if (overlay == Overlay::None && !in_clearing(p, x, y)) {
-                GenProp prop;
-                if (prop_at(seed, p, biome, x, y, prop)) {
-                    chunk.props.push_back(std::move(prop));
-                }
-                if (spawner_at(seed, p, biome, x, y)) {
-                    chunk.spawners.emplace_back(x, y);
-                }
-            }
+            emit_tile(seed, p, sites, x, y, chunk.tiles, chunk.props, chunk.spawners);
         }
     }
     return chunk;

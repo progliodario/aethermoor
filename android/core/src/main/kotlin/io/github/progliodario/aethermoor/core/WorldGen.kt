@@ -2,6 +2,7 @@ package io.github.progliodario.aethermoor.core
 
 import kotlin.math.abs
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonArray
@@ -16,6 +17,29 @@ data class NoiseSpec(val salt: Int, val scale: Int, val octaves: Int)
 data class PropOption(val art: String, val radiusX100: Int, val perMille: Int)
 
 data class WorldNpc(val key: String, val dialogue: String, val variant: String, val dx: Int, val dy: Int)
+
+class Region(val id: String, /** An $i18n: key. */ val name: String, val xPm: Int, val yPm: Int, val danger: Int)
+
+class SettlementKind(val id: String, val weight: Int, val stamps: List<String>)
+
+/** What a character of a stamp means (spec 09, "Settlements"); [tile] 0 keeps the terrain. */
+class StampEntry(val tile: Int, val prop: String, val radiusX100: Int, val npc: String)
+
+class Stamp(val w: Int, val h: Int, val anchorX: Int, val anchorY: Int, val rows: List<String>, val legend: Map<Char, StampEntry>)
+
+/** A settlement: [x], [y] is the top-left tile of its footprint, [px], [py] the site point (the anchor of the stamp). */
+class Settlement(
+    val x: Int,
+    val y: Int,
+    val px: Int,
+    val py: Int,
+    val w: Int,
+    val h: Int,
+    val stamp: String,
+    val kind: String,
+    val name: String,
+    val region: Int,
+)
 
 class WorldParams(
     val id: String,
@@ -60,6 +84,14 @@ class WorldParams(
     val spawnerRespawnTicks: Int,
     val time: TimeParams,
     val npcs: List<WorldNpc>,
+    val regions: List<Region>,
+    val settlementPerMille: Int,
+    val settlementKinds: List<SettlementKind>,
+    val namesStart: List<String>,
+    val namesMid: List<String>,
+    val namesEnd: List<String>,
+    /** By id, resolved by the loader. */
+    val stamps: Map<String, Stamp>,
 )
 
 /** A prop standing on the world; [x256], [y256] are the feet position in 1/256 tile. */
@@ -105,6 +137,132 @@ private fun biomeAt(seed: ULong, p: WorldParams, x: Int, y: Int): Biome {
     if (temperature >= p.desertHeat && moisture < p.desertDry) return Biome.DESERT
     if (moisture >= p.forestWet) return Biome.FOREST
     return Biome.PLAINS
+}
+
+/** Site cell side in tiles (spec 09, "Settlements"). */
+const val SITE_CELL = 256
+
+/** Index of the region of the tile: the nearest center. */
+fun regionAt(p: WorldParams, x: Int, y: Int): Int {
+    var best = 0
+    var bestDistance = -1L
+    for ((i, region) in p.regions.withIndex()) {
+        val dx = x - region.xPm.toLong() * p.width / 1000
+        val dy = y - region.yPm.toLong() * p.height / 1000
+        val d = dx * dx + dy * dy
+        if (bestDistance < 0 || d < bestDistance) {
+            best = i
+            bestDistance = d
+        }
+    }
+    return best
+}
+
+/** The settlement of each site cell, computed on demand. */
+private class Sites(private val seed: ULong, private val p: WorldParams) {
+    private val cells = HashMap<Long, Settlement?>()
+
+    fun site(sx: Int, sy: Int): Settlement? {
+        val key = (sx.toLong() shl 32) or (sy.toLong() and 0xFFFFFFFFL)
+        if (!cells.containsKey(key)) cells[key] = compute(sx, sy)
+        return cells[key]
+    }
+
+    /** Null outside every footprint; else the legend entry of the tile's character (itself null when it has none). */
+    class Hit(val entry: StampEntry?)
+
+    fun at(x: Int, y: Int): Hit? {
+        val s = site(x shr 8, y shr 8) ?: return null
+        val lx = x - s.x
+        val ly = y - s.y
+        if (lx < 0 || ly < 0 || lx >= s.w || ly >= s.h) return null
+        val stamp = p.stamps.getValue(s.stamp)
+        return Hit(stamp.legend[stamp.rows[ly][lx]])
+    }
+
+    private fun compute(sx: Int, sy: Int): Settlement? {
+        val h = hash64(seed, sx.toLong(), sy.toLong(), 41)
+        if ((h shr 40) % 1000uL >= p.settlementPerMille.toULong()) return null
+        val px = sx * SITE_CELL + 40 + ((h shr 8) % 176uL).toInt()
+        val py = sy * SITE_CELL + 40 + ((h shr 24) % 176uL).toInt()
+        val k = hash64(seed, sx.toLong(), sy.toLong(), 42)
+        val total = p.settlementKinds.sumOf { it.weight }.toULong()
+        val roll = (k shr 20) % total
+        var acc = 0uL
+        var chosen = p.settlementKinds.last()
+        for (kind in p.settlementKinds) {
+            acc += kind.weight.toULong()
+            if (roll < acc) {
+                chosen = kind
+                break
+            }
+        }
+        val stampId = chosen.stamps[((k shr 40) % chosen.stamps.size.toULong()).toInt()]
+        val stamp = p.stamps.getValue(stampId)
+        val ox = px - stamp.anchorX
+        val oy = py - stamp.anchorY
+        val keepOut = (p.spawnClearRadius + 48).toLong()
+        val dx = (px - p.width / 2).toLong()
+        val dy = (py - p.height / 2).toLong()
+        if (dx * dx + dy * dy < keepOut * keepOut) return null
+        val points = listOf(
+            Pair(px, py), Pair(ox, oy), Pair(ox + stamp.w - 1, oy), Pair(ox, oy + stamp.h - 1), Pair(ox + stamp.w - 1, oy + stamp.h - 1),
+        )
+        for ((x, y) in points) {
+            val biome = biomeAt(seed, p, x, y)
+            if (biome != Biome.PLAINS && biome != Biome.FOREST) return null
+        }
+        val n = hash64(seed, sx.toLong(), sy.toLong(), 43)
+        val name = p.namesStart[(n % p.namesStart.size.toULong()).toInt()] +
+            p.namesMid[((n shr 16) % p.namesMid.size.toULong()).toInt()] +
+            p.namesEnd[((n shr 32) % p.namesEnd.size.toULong()).toInt()]
+        return Settlement(ox, oy, px, py, stamp.w, stamp.h, stampId, chosen.id, name, regionAt(p, px, py))
+    }
+}
+
+fun settlementSite(seed: ULong, p: WorldParams, siteX: Int, siteY: Int): Settlement? = Sites(seed, p).site(siteX, siteY)
+
+/** The settlements of the site cells sx0..sx1, sy0..sy1 (inclusive), row-major. */
+fun settlementsIn(seed: ULong, p: WorldParams, sx0: Int, sy0: Int, sx1: Int, sy1: Int): List<Settlement> {
+    val sites = Sites(seed, p)
+    val found = ArrayList<Settlement>()
+    for (sy in sy0..sy1) for (sx in sx0..sx1) sites.site(sx, sy)?.let { found.add(it) }
+    return found
+}
+
+/** The settlement shown on the world map cell: the one whose site point lies in the cell. */
+fun settlementMarker(seed: ULong, p: WorldParams, cellX: Int, cellY: Int): Settlement? {
+    val perSite = SITE_CELL / MAP_CELL
+    val s = Sites(seed, p).site(cellX / perSite, cellY / perSite) ?: return null
+    return if (s.px / MAP_CELL == cellX && s.py / MAP_CELL == cellY) s else null
+}
+
+/** Appends tile (x, y) and its prop or spawner. Settlements replace everything under their footprint. */
+private fun emitTile(
+    seed: ULong,
+    p: WorldParams,
+    sites: Sites,
+    x: Int,
+    y: Int,
+    tiles: IntArray,
+    index: Int,
+    props: MutableList<GenProp>,
+    spawners: MutableList<Pair<Int, Int>>,
+) {
+    val biome = biomeAt(seed, p, x, y)
+    val hit = sites.at(x, y)
+    if (hit != null) {
+        val entry = hit.entry
+        tiles[index] = if (entry != null && entry.tile != 0) entry.tile else gidFor(seed, p, biome, x, y, Overlay.NONE)
+        if (entry != null && entry.prop.isNotEmpty()) props.add(GenProp(entry.prop, entry.radiusX100, x * 256 + 128, y * 256 + 192))
+        return
+    }
+    val overlay = overlayAt(seed, p, biome, x, y)
+    tiles[index] = gidFor(seed, p, biome, x, y, overlay)
+    if (overlay == Overlay.NONE && !inClearing(p, x, y)) {
+        propAt(seed, p, biome, x, y)?.let { props.add(it) }
+        if (spawnerAt(seed, p, biome, x, y)) spawners.add(Pair(x, y))
+    }
 }
 
 private enum class Overlay { NONE, RIVER, FORD, ROAD, BRIDGE }
@@ -177,16 +335,9 @@ fun generateWorld(seed: ULong, p: WorldParams): GeneratedWorld {
     val props = ArrayList<GenProp>()
     val spawners = ArrayList<Pair<Int, Int>>()
     var index = 0
+    val sites = Sites(seed, p)
     for (y in 0 until p.height) {
-        for (x in 0 until p.width) {
-            val biome = biomeAt(seed, p, x, y)
-            val overlay = overlayAt(seed, p, biome, x, y)
-            tiles[index++] = gidFor(seed, p, biome, x, y, overlay)
-            if (overlay == Overlay.NONE && !inClearing(p, x, y)) {
-                propAt(seed, p, biome, x, y)?.let { props.add(it) }
-                if (spawnerAt(seed, p, biome, x, y)) spawners.add(Pair(x, y))
-            }
-        }
+        for (x in 0 until p.width) emitTile(seed, p, sites, x, y, tiles, index++, props, spawners)
     }
     val cx = p.width / 2
     val cy = p.height / 2
@@ -214,16 +365,9 @@ fun generateChunk(seed: ULong, p: WorldParams, chunkX: Int, chunkY: Int): Genera
     val props = ArrayList<GenProp>()
     val spawners = ArrayList<Pair<Int, Int>>()
     var index = 0
+    val sites = Sites(seed, p)
     for (y in chunkY * CHUNK_SIZE until (chunkY + 1) * CHUNK_SIZE) {
-        for (x in chunkX * CHUNK_SIZE until (chunkX + 1) * CHUNK_SIZE) {
-            val biome = biomeAt(seed, p, x, y)
-            val overlay = overlayAt(seed, p, biome, x, y)
-            tiles[index++] = gidFor(seed, p, biome, x, y, overlay)
-            if (overlay == Overlay.NONE && !inClearing(p, x, y)) {
-                propAt(seed, p, biome, x, y)?.let { props.add(it) }
-                if (spawnerAt(seed, p, biome, x, y)) spawners.add(Pair(x, y))
-            }
-        }
+        for (x in chunkX * CHUNK_SIZE until (chunkX + 1) * CHUNK_SIZE) emitTile(seed, p, sites, x, y, tiles, index++, props, spawners)
     }
     return GeneratedChunk(tiles, props, spawners)
 }
@@ -288,6 +432,39 @@ fun digestSpawners(spawners: List<Pair<Int, Int>>): ULong {
 private fun noiseSpec(o: JsonObject) =
     NoiseSpec(o.getValue("salt").jsonPrimitive.int, o.getValue("scale").jsonPrimitive.int, o.getValue("octaves").jsonPrimitive.int)
 
+private fun names(key: String, j: JsonObject): List<String> =
+    j.getValue("settlements").jsonObject.getValue("names").jsonObject.getValue(key).jsonArray.map { it.jsonPrimitive.content }
+
+private fun parseStamp(d: JsonObject): Stamp {
+    val w = d.getValue("w").jsonPrimitive.int
+    val h = d.getValue("h").jsonPrimitive.int
+    val rows = d.getValue("rows").jsonArray.map { it.jsonPrimitive.content }
+    require(rows.size == h && rows.all { it.length == w }) { "stamp rows do not match w and h" }
+    val anchor = d.getValue("anchor").jsonArray
+    val legend = d.getValue("legend").jsonObject.entries.associate { (key, value) ->
+        val e = value.jsonObject
+        key[0] to StampEntry(
+            e["tile"]?.jsonPrimitive?.int ?: 0, e["prop"]?.jsonPrimitive?.content ?: "",
+            e["radius_x100"]?.jsonPrimitive?.int ?: 0, e["npc"]?.jsonPrimitive?.content ?: "",
+        )
+    }
+    return Stamp(w, h, anchor[0].jsonPrimitive.int, anchor[1].jsonPrimitive.int, rows, legend)
+}
+
+/** Reads the world document [worldId] of the pack and resolves the stamps of its settlements from the pack too. */
+fun loadWorldParams(pack: Pack, worldId: String): Result<WorldParams> =
+    runCatching {
+        val j = Json.parseToJsonElement(requireNotNull(pack.readDocument(worldId)) { "missing world $worldId" }).jsonObject
+        val defs = HashMap<String, JsonElement>()
+        for (kind in j.getValue("settlements").jsonObject.getValue("kinds").jsonArray) {
+            for (stamp in kind.jsonObject.getValue("stamps").jsonArray) {
+                val id = stamp.jsonPrimitive.content
+                defs[id] = Json.parseToJsonElement(requireNotNull(pack.readDocument(id)) { "missing stamp $id" })
+            }
+        }
+        parseWorldParams(JsonObject(j + ("stamp_defs" to JsonObject(defs))).toString()).getOrThrow()
+    }
+
 fun parseWorldParams(jsonText: String): Result<WorldParams> =
     runCatching {
         val j = Json.parseToJsonElement(jsonText).jsonObject
@@ -331,6 +508,25 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
             spawnerPer10000 = s.getValue("per_10000").jsonPrimitive.int,
             spawnerRespawnTicks = s.getValue("respawn_ticks").jsonPrimitive.int,
             time = parseTimeParams(j.getValue("time").jsonObject),
+            regions = j.getValue("regions").jsonArray.map {
+                val r = it.jsonObject
+                Region(
+                    r.getValue("id").jsonPrimitive.content, r.getValue("name").jsonPrimitive.content,
+                    r.getValue("x_pm").jsonPrimitive.int, r.getValue("y_pm").jsonPrimitive.int, r.getValue("danger").jsonPrimitive.int,
+                )
+            },
+            settlementPerMille = j.getValue("settlements").jsonObject.getValue("per_mille").jsonPrimitive.int,
+            settlementKinds = j.getValue("settlements").jsonObject.getValue("kinds").jsonArray.map {
+                val k = it.jsonObject
+                SettlementKind(
+                    k.getValue("id").jsonPrimitive.content, k.getValue("weight").jsonPrimitive.int,
+                    k.getValue("stamps").jsonArray.map { stamp -> stamp.jsonPrimitive.content },
+                )
+            },
+            namesStart = names("start", j),
+            namesMid = names("mid", j),
+            namesEnd = names("end", j),
+            stamps = (j["stamp_defs"]?.jsonObject ?: JsonObject(emptyMap())).mapValues { (_, def) -> parseStamp(def.jsonObject) },
             npcs = j.getValue("npcs").jsonArray.map {
                 val n = it.jsonObject
                 WorldNpc(
