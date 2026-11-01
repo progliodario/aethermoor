@@ -1,0 +1,24 @@
+name: Feature request
+description: Suggest a game or engine feature
+labels: ["type:feature", "needs-design"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: The idea
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it fits the game
+      description: Which pillar does it support? (one world many heroes, the gift as a mechanic, lived-in isekai, reincarnation, comfortable everywhere)
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Needs
+      options:
+        - label: New rule (spec change)
+        - label: New data format
+        - label: Desktop
+        - label: Android

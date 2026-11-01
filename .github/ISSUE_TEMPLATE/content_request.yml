@@ -1,0 +1,22 @@
+name: Content request
+description: New enemy, item, quest, protagonist, region, translation...
+labels: ["type:content"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind of content
+      options: [Enemy, Boss, Item, Skill, Quest, Dialogue, Protagonist, Companion, Region, Translation, Art, Audio, Other]
+    validations:
+      required: true
+  - type: textarea
+    id: desc
+    attributes:
+      label: Description
+    validations:
+      required: true
+  - type: textarea
+    id: tone
+    attributes:
+      label: Tone and rating notes
+      description: The target rating is PEGI 12 / Teen, all characters adult.

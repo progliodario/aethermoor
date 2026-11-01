@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aethermoor.invalid/schemas/pack.schema.json",
+  "title": "Content pack manifest",
+  "type": "object",
+  "required": ["id", "name", "version", "data_format_version", "languages"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "name": { "$ref": "#/$defs/i18n_ref" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+(-[0-9A-Za-z.-]+)?$" },
+    "data_format_version": { "type": "integer", "minimum": 1 },
+    "authors": { "type": "array", "items": { "type": "string" } },
+    "license": { "type": "string" },
+    "depends": { "type": "array", "items": { "type": "string" } },
+    "requires_features": { "type": "array", "items": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" } },
+    "load_order": { "type": "integer" },
+    "languages": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z]{2,3}$" }
+    }
+  },
+  "$defs": {
+    "i18n_ref": { "type": "string", "pattern": "^\\$i18n:[a-z0-9_.]+$" }
+  }
+}

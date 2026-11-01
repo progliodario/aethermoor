@@ -1,0 +1,27 @@
+name: Parity debt
+description: A feature exists on one client but not the other
+labels: ["parity-debt"]
+body:
+  - type: input
+    id: feature
+    attributes:
+      label: Feature id (as in supported_features)
+    validations:
+      required: true
+  - type: dropdown
+    id: missing
+    attributes:
+      label: Missing on
+      options: [Desktop, Android]
+    validations:
+      required: true
+  - type: input
+    id: milestone
+    attributes:
+      label: Milestone by which parity must be reached
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes

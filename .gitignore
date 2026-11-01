@@ -1,0 +1,44 @@
+# Build outputs
+build/
+out/
+cmake-build-*/
+vcpkg_installed/
+.gradle/
+*.apk
+*.aab
+*.class
+*.log
+
+# Android
+android/**/build/
+android/local.properties
+android/.idea/
+android/app/src/main/jniLibs/
+*.keystore
+*.jks
+keystore.properties
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# IDE / OS
+.idea/
+.vs/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+.DS_Store
+Thumbs.db
+CMakeUserPresets.json
+
+# Local
+.env
+*.local
+.claude/settings.local.json
+
+# Android: the wrapper jar is allowed
+!android/gradle/wrapper/gradle-wrapper.jar

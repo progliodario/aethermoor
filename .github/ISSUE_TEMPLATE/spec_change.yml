@@ -1,0 +1,22 @@
+name: Spec change
+description: Change a gameplay rule or data format
+labels: ["needs-spec"]
+body:
+  - type: input
+    id: doc
+    attributes:
+      label: Spec document
+      placeholder: docs/spec/04-stats-and-combat.md
+    validations:
+      required: true
+  - type: textarea
+    id: change
+    attributes:
+      label: Proposed change
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: Data files, schemas, save format (needs migration?), conformance vectors, both clients.

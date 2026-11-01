@@ -1,0 +1,55 @@
+name: ci-desktop
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    paths:
+      - "desktop/**"
+      - "data/**"
+      - "project.json"
+      - ".github/workflows/ci-desktop.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: windows-msvc
+            os: windows-2022
+            preset: windows-release
+          - name: linux-gcc
+            os: ubuntu-24.04
+            preset: linux-release
+    env:
+      VCPKG_ROOT: ${{ matrix.os == 'windows-2022' && 'C:\vcpkg' || '/usr/local/share/vcpkg' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Linux system packages (SDL3 build prerequisites)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            ninja-build pkg-config libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxfixes-dev \
+            libxi-dev libxss-dev libxkbcommon-dev libwayland-dev wayland-protocols libdecor-0-dev \
+            libasound2-dev libpulse-dev libpipewire-0.3-dev libudev-dev libdbus-1-dev libibus-1.0-dev \
+            libgl-dev libegl1-mesa-dev libgles-dev libdrm-dev libgbm-dev libsndio-dev
+
+      - name: Configure
+        working-directory: desktop
+        run: cmake --preset ${{ matrix.preset }}
+
+      - name: Build
+        working-directory: desktop
+        run: cmake --build --preset ${{ matrix.preset }}
+
+      - name: Test
+        working-directory: desktop
+        run: ctest --preset ${{ matrix.preset }}

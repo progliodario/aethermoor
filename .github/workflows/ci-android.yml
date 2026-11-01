@@ -1,0 +1,38 @@
+name: ci-android
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    paths:
+      - "android/**"
+      - "data/**"
+      - "project.json"
+      - ".github/workflows/ci-android.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.10.2"
+      - name: Unit tests (pure JVM core)
+        working-directory: android
+        run: gradle --no-daemon :core:test
+      - name: Assemble debug APK
+        working-directory: android
+        run: gradle --no-daemon :app:assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aethermoor-debug-apk
+          path: android/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error

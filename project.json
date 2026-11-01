@@ -1,0 +1,10 @@
+{
+  "name": "Aethermoor",
+  "name_is_provisional": true,
+  "version": "0.0.1",
+  "application_id": "io.github.progliodario.aethermoor.game",
+  "data_format_version": 1,
+  "save_version": 1,
+  "spec_version": 1,
+  "supported_features": []
+}

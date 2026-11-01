@@ -1,0 +1,10 @@
+{
+  "name": "aethermoor",
+  "version-string": "0.0.1",
+  "description": "Aethermoor desktop client (Windows and Linux)",
+  "license": "GPL-3.0-or-later",
+  "dependencies": [
+    "sdl3",
+    "catch2"
+  ]
+}

@@ -1,0 +1,24 @@
+"area:desktop":
+  - changed-files:
+      - any-glob-to-any-file: "desktop/**"
+"area:android":
+  - changed-files:
+      - any-glob-to-any-file: "android/**"
+"area:data":
+  - changed-files:
+      - any-glob-to-any-file: ["data/**", "schemas/**"]
+"area:spec":
+  - changed-files:
+      - any-glob-to-any-file: "docs/spec/**"
+"area:docs":
+  - changed-files:
+      - any-glob-to-any-file: ["docs/**", "*.md"]
+"area:tools":
+  - changed-files:
+      - any-glob-to-any-file: "tools/**"
+"area:ci":
+  - changed-files:
+      - any-glob-to-any-file: ".github/**"
+"area:i18n":
+  - changed-files:
+      - any-glob-to-any-file: "data/**/i18n/**"

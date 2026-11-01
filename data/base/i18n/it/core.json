@@ -1,0 +1,8 @@
+{
+  "$schema": "../../../../schemas/i18n.schema.json",
+  "game.title": "Aethermoor",
+  "game.subtitle": "Cronache dell'Altro Mondo",
+  "pack.base.name": "Contenuti base di Aethermoor",
+  "ui.version": "Versione {version}",
+  "ui.m0_notice": "Fondazioni del progetto: il gioco non è ancora giocabile."
+}
