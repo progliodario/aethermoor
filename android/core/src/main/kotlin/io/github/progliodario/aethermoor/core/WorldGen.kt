@@ -153,7 +153,44 @@ fun generateWorld(seed: ULong, p: WorldParams): GeneratedWorld {
     )
 }
 
+/** Side of a chunk in tiles: chunk (cx, cy) starts at tile (cx * CHUNK_SIZE, cy * CHUNK_SIZE). */
+const val CHUNK_SIZE = 32
+
+class GeneratedChunk(
+    /** CHUNK_SIZE * CHUNK_SIZE gids, row-major. */
+    val tiles: IntArray,
+    /** In scan order inside the chunk. */
+    val props: List<GenProp>,
+    /** Absolute tile coordinates, in scan order. */
+    val spawners: List<Pair<Int, Int>>,
+)
+
+/** Exactly the restriction of [generateWorld] to the window. Any chunk coordinates are valid: tiles outside the world are water. */
+fun generateChunk(seed: ULong, p: WorldParams, chunkX: Int, chunkY: Int): GeneratedChunk {
+    val tiles = IntArray(CHUNK_SIZE * CHUNK_SIZE)
+    val props = ArrayList<GenProp>()
+    val spawners = ArrayList<Pair<Int, Int>>()
+    var index = 0
+    for (y in chunkY * CHUNK_SIZE until (chunkY + 1) * CHUNK_SIZE) {
+        for (x in chunkX * CHUNK_SIZE until (chunkX + 1) * CHUNK_SIZE) {
+            val biome = biomeAt(seed, p, x, y)
+            tiles[index++] = gidFor(seed, p, biome, x, y)
+            if (!inClearing(p, x, y)) {
+                propAt(seed, p, biome, x, y)?.let { props.add(it) }
+                if (spawnerAt(seed, p, biome, x, y)) spawners.add(Pair(x, y))
+            }
+        }
+    }
+    return GeneratedChunk(tiles, props, spawners)
+}
+
 // Digests used by the conformance vectors.
+
+fun digestTiles(tiles: IntArray): ULong {
+    var h = 0uL
+    for (gid in tiles) h = hash64(h, gid.toLong())
+    return h
+}
 
 fun digestTileRow(tiles: IntArray, width: Int, row: Int): ULong {
     var h = 0uL

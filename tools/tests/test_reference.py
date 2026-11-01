@@ -119,3 +119,27 @@ def test_saves_in_the_vectors_match_the_schema():
     for case in doc["cases"]:
         errors = list(validator.iter_errors({"save_version": 1, **case["input"]["save"]}))
         assert not errors, (case["name"], errors[:1])
+
+
+def test_world_chunks_are_the_restriction_of_the_world():
+    import json
+
+    from reference import worldgen
+
+    params = json.loads((TOOLS.parent / "data" / "base" / "worlds" / "overworld.json").read_text(encoding="utf-8"))
+    params = {**params, "width": 80, "height": 72, "border": 2}
+    world = worldgen.generate(5, params)
+    size = worldgen.CHUNK_SIZE
+    props, spawners = [], []
+    for cy in range(-1, 4):
+        for cx in range(-1, 4):
+            chunk = worldgen.generate_chunk(5, params, cx, cy)
+            for i, gid in enumerate(chunk["tiles"]):
+                x, y = cx * size + i % size, cy * size + i // size
+                inside = 0 <= x < params["width"] and 0 <= y < params["height"]
+                assert gid == (world["tiles"][y * params["width"] + x] if inside else params["tiles"]["water"])
+            props += chunk["props"]
+            spawners += chunk["spawners"]
+    key = lambda p: (p["y256"], p["x256"])  # noqa: E731
+    assert sorted(props, key=key) == sorted(world["props"], key=key)
+    assert sorted(spawners) == sorted(world["spawners"])

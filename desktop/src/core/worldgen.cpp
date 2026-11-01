@@ -161,6 +161,35 @@ GeneratedWorld generate_world(std::uint64_t seed, const WorldParams& p) {
     return world;
 }
 
+GeneratedChunk generate_chunk(std::uint64_t seed, const WorldParams& p, int chunk_x, int chunk_y) {
+    GeneratedChunk chunk;
+    chunk.tiles.reserve(static_cast<std::size_t>(kChunkSize) * static_cast<std::size_t>(kChunkSize));
+    for (int y = chunk_y * kChunkSize; y < (chunk_y + 1) * kChunkSize; ++y) {
+        for (int x = chunk_x * kChunkSize; x < (chunk_x + 1) * kChunkSize; ++x) {
+            const Biome biome = biome_at(seed, p, x, y);
+            chunk.tiles.push_back(gid_for(seed, p, biome, x, y));
+            if (!in_clearing(p, x, y)) {
+                GenProp prop;
+                if (prop_at(seed, p, biome, x, y, prop)) {
+                    chunk.props.push_back(std::move(prop));
+                }
+                if (spawner_at(seed, p, biome, x, y)) {
+                    chunk.spawners.emplace_back(x, y);
+                }
+            }
+        }
+    }
+    return chunk;
+}
+
+std::uint64_t digest_tiles(const std::vector<int>& tiles) {
+    std::uint64_t h = 0;
+    for (const int gid : tiles) {
+        h = hash64(h, gid);
+    }
+    return h;
+}
+
 std::uint64_t digest_tile_row(const std::vector<int>& tiles, int width, int row) {
     std::uint64_t h = 0;
     for (int x = 0; x < width; ++x) {

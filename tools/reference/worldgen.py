@@ -7,6 +7,7 @@ from __future__ import annotations
 from .numerics import M64, fbm2, fnv1a64, hash64
 
 GID_BORDER = "water"
+CHUNK_SIZE = 32
 
 
 def _coord(x: int, scale: int) -> int:
@@ -107,7 +108,40 @@ def generate(seed: int, params: dict) -> dict:
                      for npc in params["npcs"]]}
 
 
+def generate_chunk(seed: int, params: dict, cx: int, cy: int) -> dict:
+    """The CHUNK_SIZE x CHUNK_SIZE window of tiles starting at tile (cx * CHUNK_SIZE, cy * CHUNK_SIZE).
+
+    Chunk coordinates may be any integers: tiles outside the world are water. Tiles are row-major; props and
+    spawners are in scan order inside the chunk. The result is exactly the restriction of `generate` to the window.
+    """
+    w, h = params["width"], params["height"]
+    clear = params["spawn_clear_radius"] ** 2
+    mid_x, mid_y = w // 2, h // 2
+    tiles: list[int] = []
+    props: list[dict] = []
+    spawners: list[list[int]] = []
+    for y in range(cy * CHUNK_SIZE, (cy + 1) * CHUNK_SIZE):
+        for x in range(cx * CHUNK_SIZE, (cx + 1) * CHUNK_SIZE):
+            biome = biome_at(seed, params, x, y)
+            tiles.append(gid_for(seed, params, biome, x, y))
+            if (x - mid_x) ** 2 + (y - mid_y) ** 2 >= clear:
+                prop = prop_at(seed, params, biome, x, y)
+                if prop is not None:
+                    props.append(prop)
+                if spawner_at(seed, params, biome, x, y):
+                    spawners.append([x, y])
+    return {"tiles": tiles, "props": props, "spawners": spawners}
+
+
 # ---------------------------------------------------------------------------- digests (vectors)
+
+def digest_all(tiles: list[int]) -> int:
+    """Hash of a whole tile array: fold hash64 over the gids."""
+    h = 0
+    for gid in tiles:
+        h = hash64(h, gid)
+    return h
+
 
 def digest_tiles(tiles: list[int], width: int, row: int) -> int:
     """Hash of one row of tiles: fold hash64 over the gids."""

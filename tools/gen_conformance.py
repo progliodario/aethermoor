@@ -223,6 +223,7 @@ SUITES = {
     "story": conformance_m4.suite_story,
     "save": conformance_m4.suite_save,
     "worldgen": conformance_m5.suite_worldgen,
+    "worldgen_chunks": conformance_m5.suite_worldgen_chunks,
 }
 
 

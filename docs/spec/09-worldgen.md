@@ -1,6 +1,6 @@
 # 09. World generation
 
-Status: **v1 (M5a)**. Reference: `tools/reference/worldgen.py`. Conformance suite: `worldgen`.
+Status: **v1.1 (M5a, M5b-1: chunks)**. Reference: `tools/reference/worldgen.py`. Conformance suite: `worldgen`.
 Parameters: `data/base/worlds/overworld.json` (`schemas/world.schema.json`). All math is integer, see `01-numerics.md`.
 
 The world is a **pure function** of `(seed, parameters)`: the content of a tile depends only on its own coordinates, never on the
@@ -60,7 +60,22 @@ The conformance vectors compare: 120 probes (`x, y, gid`), a row digest every 8 
 spawners, a props digest (`fold hash64(h, x256, y256, radius_x100 * 2^32 + (fnv1a64(art) >> 32))`), a spawners digest (`fold hash64(h, x, y)`),
 the spawn, the NPC positions and the histogram of gids.
 
+## Chunks
+
+The world is also generated in **chunks** of `CHUNK_SIZE = 32` x 32 tiles, so that a world far larger than memory can be played:
+chunk `(cx, cy)` is the window of tiles `[cx * 32, (cx + 1) * 32)` x `[cy * 32, (cy + 1) * 32)`. Any integers are valid chunk coordinates;
+tiles outside the world are water (the border rule), with no props and no spawners.
+
+`generate_chunk(seed, params, cx, cy)` returns the 1024 gids (row-major), the props and the spawners of the window (scan order inside the
+chunk, spawners with absolute tile coordinates). It is **exactly the restriction** of the whole-world generation to the window (same tiles,
+same props, same spawners, only ordered by chunk); a chunk never needs its neighbours. Parameters may describe worlds up to 65536 x 65536 tiles.
+
+Conformance suite `worldgen_chunks`: chunks of a 16384 x 16384 world (far from the origin, over the spawn clearing and beyond the edge),
+compared by probes, a tile digest (`fold hash64(h, gid)` over the 1024 gids), the prop and spawner digests and the gid histogram.
+Both clients also test that the union of chunks equals the whole-world generation.
+
 ## Scale and what comes next
 
-M5a generates the whole world at load time (512 x 512 tiles by default; about 0.1 s in C++). Chunk streaming, per-chunk deltas,
+M5a generates the whole world at load time (512 x 512 tiles by default; about 0.1 s in C++). The shipped world must be far larger, so
+the next step (M5b-2) streams chunks around the player in the simulation and the renderer; after it come per-chunk deltas in saves,
 rivers, roads, hand-made stamps, regions, day/night and weather are the next steps of the world milestone.
