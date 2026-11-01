@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <fstream>
+#include <iterator>
 
 #include <nlohmann/json.hpp>
 
@@ -80,6 +81,22 @@ std::string Pack::text(std::string_view lang, std::string_view reference,
     return format_message(message(lang, key), lang, args);
 }
 
+std::optional<std::string> Pack::read_file(std::string_view relative_path) const {
+    std::ifstream stream(root / std::string(relative_path), std::ios::binary);
+    if (!stream) {
+        return std::nullopt;
+    }
+    return std::string(std::istreambuf_iterator<char>(stream), std::istreambuf_iterator<char>());
+}
+
+std::optional<std::string> Pack::read_document(std::string_view id) const {
+    const auto found = document_paths.find(id);
+    if (found == document_paths.end()) {
+        return std::nullopt;
+    }
+    return read_file(found->second);
+}
+
 std::int64_t Pack::xp_to_next(std::int64_t level) const {
     const auto table = int_tables.find("base:table/xp");
     if (table == int_tables.end()) {
@@ -100,6 +117,7 @@ std::optional<Pack> load_pack(const fs::path& dir, std::vector<std::string>& err
     }
 
     Pack pack;
+    pack.root = dir;
     const Json& m = *manifest_json;
     pack.manifest.id = m.value("id", "");
     pack.manifest.name_key = m.value("name", "");
@@ -156,6 +174,21 @@ std::optional<Pack> load_pack(const fs::path& dir, std::vector<std::string>& err
             }
         }
         pack.int_tables[json->value("id", "")] = std::move(table);
+    }
+
+    for (const fs::path& file : json_files(dir)) {
+        const std::string relative = fs::relative(file, dir).generic_string();
+        if (relative == "pack.json" || relative.rfind("i18n/", 0) == 0) {
+            continue;
+        }
+        const auto json = read_json(file, errors);
+        if (!json || !json->is_object() || !json->contains("id") || !(*json)["id"].is_string()) {
+            continue;
+        }
+        const std::string id = (*json)["id"].get<std::string>();
+        if (!pack.document_paths.emplace(id, relative).second) {
+            errors.push_back(relative + ": duplicate id '" + id + "'");
+        }
     }
 
     return pack;

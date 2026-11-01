@@ -1,0 +1,131 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/tile/wall_stone",
+  "canvas": {
+    "w": 32,
+    "h": 32,
+    "origin": [
+      0,
+      0
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          32
+        ]
+      },
+      "fill": {
+        "color": "$p.base"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          5
+        ]
+      },
+      "fill": {
+        "color": "$p.top"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            0,
+            15
+          ],
+          [
+            32,
+            15
+          ]
+        ]
+      },
+      "stroke": {
+        "color": "$p.mortar",
+        "width": 1.5
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            16,
+            5
+          ],
+          [
+            16,
+            15
+          ]
+        ]
+      },
+      "stroke": {
+        "color": "$p.mortar",
+        "width": 1.5
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            8,
+            15
+          ],
+          [
+            8,
+            32
+          ]
+        ]
+      },
+      "stroke": {
+        "color": "$p.mortar",
+        "width": 1.5
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            24,
+            15
+          ],
+          [
+            24,
+            32
+          ]
+        ]
+      },
+      "stroke": {
+        "color": "$p.mortar",
+        "width": 1.5
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          27,
+          32,
+          5
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.18
+    }
+  ],
+  "palette": {
+    "base": "#7E8794",
+    "top": "#A4ACB8",
+    "mortar": "#5E6672"
+  }
+}

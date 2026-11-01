@@ -58,7 +58,16 @@ class Pack(
     val manifest: PackManifest,
     val strings: Map<String, Map<String, String>>,
     val intTables: Map<String, IntTable>,
+    /** Every JSON document outside i18n/ that has an "id", mapped to its path inside the pack. */
+    val documentPaths: Map<String, String>,
+    private val source: PackSource,
 ) {
+    /** Raw text of the file at [relativePath] inside the pack, or null. */
+    fun readFile(relativePath: String): String? = source.readText(relativePath)
+
+    /** Raw text of the document with this id, or null. */
+    fun readDocument(id: String): String? = documentPaths[id]?.let { source.readText(it) }
+
     /** Raw message for [key] in [lang], falling back to "en", then to the key itself. */
     fun message(lang: String, key: String): String =
         strings[lang]?.get(key) ?: strings["en"]?.get(key) ?: key
@@ -154,5 +163,13 @@ fun loadPack(source: PackSource, errors: MutableList<String>): Pack? {
         intTables[json.string("id")] = IntTable(start, values)
     }
 
-    return Pack(manifest, strings, intTables)
+    val documents = HashMap<String, String>()
+    for (file in source.listJson("")) {
+        if (file == "pack.json" || file.startsWith("i18n/")) continue
+        val json = parseJson(file, source, errors) as? JsonObject ?: continue
+        val id = (json["id"] as? JsonPrimitive)?.takeIf { it.isString }?.content ?: continue
+        if (documents.putIfAbsent(id, file) != null) errors.add("$file: duplicate id '$id'")
+    }
+
+    return Pack(manifest, strings, intTables, documents, source)
 }

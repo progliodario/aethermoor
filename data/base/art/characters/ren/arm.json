@@ -1,0 +1,58 @@
+{
+  "$schema": "../../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/char/ren/arm",
+  "canvas": {
+    "w": 8,
+    "h": 16,
+    "origin": [
+      4,
+      2
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "path": "M 1 1 Q 4 0 7 1 L 7 11 Q 4 13 1 11 Z"
+      },
+      "fill": {
+        "color": "$p.shirt"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.4
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          4,
+          13,
+          3,
+          3
+        ]
+      },
+      "fill": {
+        "color": "$p.skin"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.4
+      }
+    }
+  ],
+  "palette": {
+    "skin": "#F1C9A0",
+    "hair": "#2E2A3A",
+    "shirt": "#3F6FD1",
+    "shirt_dark": "#2E54A5",
+    "pants": "#4A4F62",
+    "boots": "#3A2E2A",
+    "outline": "#1E1B28"
+  },
+  "variants": {
+    "red": {
+      "shirt": "#D14B3F",
+      "shirt_dark": "#A5362E"
+    }
+  }
+}

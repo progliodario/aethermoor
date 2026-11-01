@@ -1,0 +1,108 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/tile/grass_a",
+  "canvas": {
+    "w": 32,
+    "h": 32,
+    "origin": [
+      0,
+      0
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          32
+        ]
+      },
+      "fill": {
+        "color": "$p.base"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            5,
+            9
+          ],
+          [
+            7,
+            3
+          ],
+          [
+            9,
+            9
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.tuft"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            20,
+            24
+          ],
+          [
+            22,
+            17
+          ],
+          [
+            24,
+            24
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.tuft"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            26,
+            8
+          ],
+          [
+            27,
+            4
+          ],
+          [
+            29,
+            8
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.tuft"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          12,
+          26,
+          1.5,
+          1
+        ]
+      },
+      "fill": {
+        "color": "$p.flower"
+      }
+    }
+  ],
+  "palette": {
+    "base": "#5DA95A",
+    "tuft": "#4C9450",
+    "flower": "#F2E27A"
+  }
+}

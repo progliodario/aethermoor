@@ -13,7 +13,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+get_filename_component(AETHER_REPO_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/.." ABSOLUTE)
+
 find_package(SDL3 CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
 
 # Strict warnings and deterministic floating point (see ADR 0005): no fast-math, no FMA contraction.
 function(aether_target_options target)
@@ -23,8 +26,6 @@ function(aether_target_options target)
     target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
   endif()
 endfunction()
-
-find_package(nlohmann_json CONFIG REQUIRED)
 
 # Headless core: must not depend on SDL, graphics, audio, input or UI.
 add_library(aether_core STATIC
@@ -40,12 +41,23 @@ target_compile_definitions(aether_core PUBLIC
 aether_target_options(aether_core)
 
 # Content packs: JSON loading. Still headless.
-add_library(aether_data STATIC src/data/pack.cpp)
+add_library(aether_data STATIC src/data/pack.cpp src/data/protagonist.cpp)
 target_link_libraries(aether_data PUBLIC aether_core PRIVATE nlohmann_json::nlohmann_json)
 aether_target_options(aether_data)
 
-add_executable(aethermoor src/app/main.cpp)
-target_link_libraries(aethermoor PRIVATE aether_core aether_data SDL3::SDL3)
+# Vector art: recipes, software rasterizer, rigs and clips. Headless (produces RGBA8 bitmaps).
+add_library(aether_vector STATIC src/vector/recipe.cpp src/vector/raster.cpp src/vector/rig.cpp)
+target_link_libraries(aether_vector PUBLIC aether_core PRIVATE nlohmann_json::nlohmann_json)
+aether_target_options(aether_vector)
+
+# Simulation: tile maps, movement, collisions, the M2 world. Headless.
+add_library(aether_sim STATIC src/sim/tilemap.cpp src/sim/movement.cpp src/sim/world.cpp)
+target_link_libraries(aether_sim PUBLIC aether_core PRIVATE nlohmann_json::nlohmann_json)
+aether_target_options(aether_sim)
+
+add_executable(aethermoor src/app/main.cpp src/app/texture_cache.cpp)
+target_link_libraries(aethermoor PRIVATE aether_core aether_data aether_vector aether_sim SDL3::SDL3)
+target_compile_definitions(aethermoor PRIVATE AETHER_REPO_ROOT="${AETHER_REPO_ROOT}")
 aether_target_options(aethermoor)
 
 # Ship the shared data next to the executable.
@@ -56,19 +68,19 @@ add_custom_command(TARGET aethermoor POST_BUILD
 enable_testing()
 
 find_package(Catch2 3 CONFIG REQUIRED)
-get_filename_component(AETHER_REPO_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/.." ABSOLUTE)
 
 add_executable(aether_tests
   tests/version_test.cpp
   tests/conformance_test.cpp
-  tests/pack_test.cpp)
-target_link_libraries(aether_tests PRIVATE aether_core aether_data nlohmann_json::nlohmann_json
-                                           Catch2::Catch2WithMain)
+  tests/pack_test.cpp
+  tests/sim_test.cpp)
+target_link_libraries(aether_tests PRIVATE aether_core aether_data aether_vector aether_sim
+                                           nlohmann_json::nlohmann_json Catch2::Catch2WithMain)
 target_compile_definitions(aether_tests PRIVATE AETHER_REPO_ROOT="${AETHER_REPO_ROOT}")
 add_test(NAME unit COMMAND aether_tests)
 
-# Smoke test: opens a window with the dummy video driver and renders a few frames.
+# Smoke test: opens a window with the dummy video driver, bakes the art and walks the player.
 add_test(NAME smoke COMMAND aethermoor --smoke-test)
 set_tests_properties(smoke PROPERTIES
   ENVIRONMENT "SDL_VIDEODRIVER=dummy;SDL_RENDER_DRIVER=software"
-  TIMEOUT 30)
+  TIMEOUT 60)
