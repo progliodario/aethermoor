@@ -133,6 +133,37 @@ def generate_chunk(seed: int, params: dict, cx: int, cy: int) -> dict:
     return {"tiles": tiles, "props": props, "spawners": spawners}
 
 
+# ---------------------------------------------------------------------------- exploration and the world map
+
+MAP_CELL = 128  # tiles per side of a world map cell
+BIOME_CODES = ("water", "beach", "mountain", "snow", "desert", "forest", "plains")
+
+
+def biome_code(seed: int, params: dict, cell_x: int, cell_y: int) -> int:
+    """Biome shown on the world map for a cell: the biome of the tile at the center of the cell."""
+    biome = biome_at(seed, params, cell_x * MAP_CELL + MAP_CELL // 2, cell_y * MAP_CELL + MAP_CELL // 2)
+    return BIOME_CODES.index(biome)
+
+
+def explore(cells: set, params: dict, tile_x: int, tile_y: int) -> None:
+    """Marks the cell of the tile and its eight neighbours that lie inside the world as explored."""
+    columns = (params["width"] + MAP_CELL - 1) // MAP_CELL
+    rows = (params["height"] + MAP_CELL - 1) // MAP_CELL
+    cx, cy = tile_x // MAP_CELL, tile_y // MAP_CELL
+    for y in range(cy - 1, cy + 2):
+        for x in range(cx - 1, cx + 2):
+            if 0 <= x < columns and 0 <= y < rows:
+                cells.add((x, y))
+
+
+def digest_cells(cells: set) -> int:
+    """Fold hash64(h, x, y) over the explored cells ordered by row then column."""
+    h = 0
+    for x, y in sorted(cells, key=lambda c: (c[1], c[0])):
+        h = hash64(h, x, y)
+    return h
+
+
 # ---------------------------------------------------------------------------- streaming window
 
 def chunk_spawners(seed: int, params: dict, cx: int, cy: int) -> list[list[int]]:

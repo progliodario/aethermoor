@@ -26,5 +26,7 @@
   "ui.load_failed": "Cannot load the save",
   "ui.new_game": "New game",
   "ui.clock": "Day {day}  {time}",
+  "ui.map": "World map",
+  "ui.map_hint": "[M] Map",
   "ui.bag_hint": "[I] Bag"
 }

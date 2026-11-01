@@ -37,6 +37,18 @@
         "world"
       ]
     },
+    "explored": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "minItems": 2,
+        "maxItems": 2,
+        "items": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
     "world_ticks": {
       "type": "integer",
       "minimum": -1

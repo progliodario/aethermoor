@@ -6,6 +6,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- M5e: exploration and the world map (spec 09). The cells of 128 x 128 tiles around the player become explored and are kept in saves; press `M` (or the map button on Android) to see the explored world by biome with your position; conformance suite `worldmap`.
 - M5c: world time (spec 08). A 20 minute day with a night that darkens the screen, weather (clear, cloudy, rain) that is a function of the seed and the time, a clock on the HUD, and enemies that respawn 10 minutes after their death when the player comes back to their chunk. `world_ticks` and the time of each death are kept in saves; conformance suite `worldtime` and respawn steps in `chunk_window`.
 - M5b-2: the world is streamed. The overworld is now 16384 x 16384 tiles and only the 5 x 5 chunks around the player exist: collision, drawing and enemies come from the loaded chunks, killed enemies stay dead, saves keep the cleared spawners and the enemies of the window (spec 09 "Streaming", spec 12); conformance suite `chunk_window` and a streamed-world test on both clients.
 - M5b-1: world generation by chunks (spec 09, 32 x 32 tiles) for worlds up to 65536 x 65536 tiles; `generate_chunk` in the reference, C++ and Kotlin, conformance suite `worldgen_chunks`, and a test that chunks equal the whole-world generation. The game does not stream chunks yet.

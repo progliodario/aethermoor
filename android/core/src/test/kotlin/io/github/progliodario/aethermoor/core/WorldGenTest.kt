@@ -200,6 +200,32 @@ class WorldGenTest {
     }
 
     @Test
+    fun worldmapSuite() {
+        val doc = Json.parseToJsonElement(File(repoRoot, "tests/conformance/worldmap.json").readText()).jsonObject
+        for (case in doc.getValue("cases").jsonArray) {
+            val c = case.jsonObject
+            val label = c.getValue("name").jsonPrimitive.content
+            val input = c.getValue("input").jsonObject
+            val want = c.getValue("expect").jsonObject
+            assertEquals(MAP_CELL, input.getValue("cell").jsonPrimitive.int, "$label cell")
+            val params = parseWorldParams(input.getValue("params").toString()).getOrThrow()
+            val seed = hex(input.getValue("seed").jsonPrimitive.content)
+            val cells = HashSet<Pair<Int, Int>>()
+            for (position in input.getValue("positions").jsonArray) {
+                explore(cells, params, position.jsonArray[0].jsonPrimitive.int, position.jsonArray[1].jsonPrimitive.int)
+            }
+            assertEquals(want.getValue("explored_count").jsonPrimitive.int, cells.size, "$label explored")
+            assertEquals(hex(want.getValue("explored_digest").jsonPrimitive.content), digestCells(cells), "$label digest")
+            for (sample in want.getValue("biomes").jsonArray) {
+                val s = sample.jsonArray
+                val cx = s[0].jsonPrimitive.int
+                val cy = s[1].jsonPrimitive.int
+                assertEquals(s[2].jsonPrimitive.int, biomeCode(seed, params, cx, cy), "$label cell $cx,$cy")
+            }
+        }
+    }
+
+    @Test
     fun worldtimeSuite() {
         val doc = Json.parseToJsonElement(File(repoRoot, "tests/conformance/worldtime.json").readText()).jsonObject
         for (case in doc.getValue("cases").jsonArray) {
@@ -246,6 +272,7 @@ class WorldGenTest {
         assertTrue(sim.story.npcInRange() != null)
         assertEquals(params.time.startTick + 120, sim.worldTicks) // the world clock runs with the ticks
         assertEquals((sim.worldTicks * 1000 / params.time.dayTicks).toInt(), sim.time()?.todPm)
+        assertEquals(9, sim.explored.size) // the cell of the spawn and its neighbours
 
         // The enemies are exactly those of the spawners in the 5 x 5 chunks around the player, whichever chunk that is.
         fun checkWindow() {
@@ -277,5 +304,6 @@ class WorldGenTest {
         assertEquals(sim.enemies.size, fresh.enemies.size)
         assertEquals(sim.player.position.x, fresh.player.position.x)
         assertEquals(sim.worldTicks, fresh.worldTicks)
+        assertEquals(sim.explored.toList(), fresh.explored.toList())
     }
 }

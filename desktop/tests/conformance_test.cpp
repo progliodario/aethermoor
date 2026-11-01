@@ -582,6 +582,31 @@ TEST_CASE("conformance: story", "[conformance]") { run_combat_suite("story"); }
 
 TEST_CASE("conformance: save and resume", "[conformance]") { run_save_suite(); }
 
+TEST_CASE("conformance: worldmap", "[conformance]") {
+    const Json doc = load_suite("worldmap");
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        const Json& in = c.at("input");
+        const Json& want = c.at("expect");
+        std::string error;
+        const auto params = aether::parse_world_params(in.at("params").dump(), error);
+        INFO(error);
+        REQUIRE(params.has_value());
+        REQUIRE(in.at("cell").get<int>() == aether::kMapCell);
+        std::set<std::pair<int, int>> cells;
+        for (const Json& position : in.at("positions")) {
+            aether::explore(cells, *params, position.at(0).get<int>(), position.at(1).get<int>());
+        }
+        REQUIRE(cells.size() == want.at("explored_count").get<std::size_t>());
+        REQUIRE(aether::digest_cells(cells) == hex(want.at("explored_digest")));
+        const std::uint64_t seed = hex(in.at("seed"));
+        for (const Json& sample : want.at("biomes")) {
+            INFO("cell " << sample.at(0).get<int>() << "," << sample.at(1).get<int>());
+            REQUIRE(aether::biome_code(seed, *params, sample.at(0).get<int>(), sample.at(1).get<int>()) == sample.at(2).get<int>());
+        }
+    }
+}
+
 TEST_CASE("conformance: worldtime", "[conformance]") {
     const Json doc = load_suite("worldtime");
     for (const Json& c : doc.at("cases")) {

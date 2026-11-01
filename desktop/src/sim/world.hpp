@@ -100,6 +100,7 @@ struct SaveState {
     std::uint64_t loot_inc = 0;
     std::vector<SaveEnemy> enemies;
     std::vector<ClearedSpawner> cleared;  // streamed worlds: spawners whose enemy was killed
+    std::vector<std::pair<int, int>> explored;  // streamed worlds: explored world map cells
     std::int64_t world_ticks = -1;  // -1: not in the save (a new game starts at the world's start tick)
     std::map<std::string, std::int64_t> inventory;
     StoryState story;
@@ -135,6 +136,8 @@ public:
     const DerivedStats& derived() const { return m_derived_; }
     bool streamed() const { return m_store_ != nullptr; }
     std::int64_t world_ticks() const { return m_world_ticks_; }
+    // Explored world map cells (spec 09); empty on a fixed map.
+    const std::set<std::pair<int, int>>& explored() const { return m_explored_; }
     // Day, light and weather of the streamed world now (spec 08); nullopt on a fixed map.
     std::optional<TimeSample> time() const;
     const ChunkStore* chunks() const { return m_store_.get(); }
@@ -165,6 +168,7 @@ private:
     void hurt_player(const Enemy& enemy);
     void recompute_derived();
     void sync_window();
+    void mark_explored();
     void add_chunk_enemies(int cx, int cy);
 
     // StoryHost
@@ -195,6 +199,7 @@ private:
     int m_window_y_ = 0;
     std::map<std::pair<int, int>, std::int64_t> m_cleared_;  // spawner tile -> world tick of the death
     std::int64_t m_world_ticks_ = 0;
+    std::set<std::pair<int, int>> m_explored_;
 };
 
 }  // namespace aether

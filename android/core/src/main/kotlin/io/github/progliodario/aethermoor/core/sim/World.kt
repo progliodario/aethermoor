@@ -7,6 +7,7 @@ import io.github.progliodario.aethermoor.core.TimeSample
 import io.github.progliodario.aethermoor.core.damage
 import io.github.progliodario.aethermoor.core.deriveStream
 import io.github.progliodario.aethermoor.core.derivedStats
+import io.github.progliodario.aethermoor.core.explore
 import io.github.progliodario.aethermoor.core.sampleTime
 import io.github.progliodario.aethermoor.core.xpGain
 import kotlin.math.PI
@@ -117,6 +118,9 @@ class WorldSim(
     /** Spawner tile -> world tick of the death. */
     private val cleared = java.util.TreeMap<Pair<Int, Int>, Long>(compareBy({ it.first }, { it.second }))
 
+    /** Explored world map cells (spec 09); empty on a fixed map. */
+    val explored: MutableSet<Pair<Int, Int>> = java.util.TreeSet<Pair<Int, Int>>(compareBy({ it.second }, { it.first }))
+
     /** Simulation ticks since the world was created (spec 08). */
     var worldTicks: Long = chunks?.params?.time?.startTick ?: 0L
         private set
@@ -140,7 +144,13 @@ class WorldSim(
             for (s in combat.spawns) enemies.add(Enemy(s.def, Vec2(s.x, s.y)))
             inventory.putAll(combat.startInventory)
             syncWindow()
+            markExplored()
         }
+    }
+
+    private fun markExplored() {
+        val store = chunks ?: return
+        explore(explored, store.params, floor(player.position.x).toInt(), floor(player.position.y).toInt())
     }
 
     /** Day, light and weather of the streamed world now (spec 08); null on a fixed map. */
@@ -230,6 +240,7 @@ class WorldSim(
     fun tick(rawXIn: Float, rawYIn: Float, attackIn: Boolean = false) {
         worldTicks++
         syncWindow()
+        markExplored()
         val frozen = story.dialogueActive
         val rawX = if (frozen) 0f else rawXIn
         val rawY = if (frozen) 0f else rawYIn
@@ -458,6 +469,7 @@ class WorldSim(
             },
             cleared = cleared.map { (spawner, died) -> ClearedSpawner(spawner.first, spawner.second, died) },
             worldTicks = worldTicks,
+            explored = explored.toList(),
             inventory = HashMap(inventory), story = story.capture(),
         )
     }
@@ -538,6 +550,9 @@ class WorldSim(
         }
         inventory.clear()
         inventory.putAll(s.inventory)
+        explored.clear()
+        explored.addAll(s.explored)
+        markExplored()
         worldTicks = if (s.worldTicks >= 0) s.worldTicks else chunks?.params?.time?.startTick ?: 0L
         events.clear()
         return Result.success(Unit)

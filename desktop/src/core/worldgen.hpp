@@ -5,6 +5,7 @@
 
 #include <cstdint>
 #include <map>
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -111,6 +112,14 @@ struct GeneratedChunk {
 
 // Exactly the restriction of generate_world to the window. Any chunk coordinates are valid: tiles outside the world are water.
 GeneratedChunk generate_chunk(std::uint64_t seed, const WorldParams& params, int chunk_x, int chunk_y);
+
+// The world map (spec 09, "Exploration and the world map"): cells of kMapCell x kMapCell tiles.
+constexpr int kMapCell = 128;
+// Biome code of a cell: 0 water, 1 beach, 2 mountain, 3 snow, 4 desert, 5 forest, 6 plains.
+int biome_code(std::uint64_t seed, const WorldParams& params, int cell_x, int cell_y);
+// Marks the cell of the tile and its eight neighbours inside the world as explored.
+void explore(std::set<std::pair<int, int>>& cells, const WorldParams& params, int tile_x, int tile_y);
+std::uint64_t digest_cells(const std::set<std::pair<int, int>>& cells);
 
 // Digests used by the conformance vectors.
 std::uint64_t digest_tiles(const std::vector<int>& tiles);

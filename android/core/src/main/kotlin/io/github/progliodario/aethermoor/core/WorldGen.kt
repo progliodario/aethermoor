@@ -186,6 +186,32 @@ fun generateChunk(seed: ULong, p: WorldParams, chunkX: Int, chunkY: Int): Genera
     return GeneratedChunk(tiles, props, spawners)
 }
 
+/** Side of a world map cell in tiles (spec 09, "Exploration and the world map"). */
+const val MAP_CELL = 128
+
+/** Biome code of a cell: 0 water, 1 beach, 2 mountain, 3 snow, 4 desert, 5 forest, 6 plains. */
+fun biomeCode(seed: ULong, p: WorldParams, cellX: Int, cellY: Int): Int =
+    biomeAt(seed, p, cellX * MAP_CELL + MAP_CELL / 2, cellY * MAP_CELL + MAP_CELL / 2).ordinal
+
+/** Marks the cell of the tile and its eight neighbours inside the world as explored. */
+fun explore(cells: MutableSet<Pair<Int, Int>>, p: WorldParams, tileX: Int, tileY: Int) {
+    val columns = (p.width + MAP_CELL - 1) / MAP_CELL
+    val rows = (p.height + MAP_CELL - 1) / MAP_CELL
+    val cx = tileX / MAP_CELL
+    val cy = tileY / MAP_CELL
+    for (y in cy - 1..cy + 1) {
+        for (x in cx - 1..cx + 1) {
+            if (x in 0 until columns && y in 0 until rows) cells.add(Pair(x, y))
+        }
+    }
+}
+
+fun digestCells(cells: Set<Pair<Int, Int>>): ULong {
+    var h = 0uL
+    for ((x, y) in cells.sortedWith(compareBy({ it.second }, { it.first }))) h = hash64(h, x.toLong(), y.toLong())
+    return h
+}
+
 // Digests used by the conformance vectors.
 
 fun digestTiles(tiles: IntArray): ULong {

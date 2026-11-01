@@ -13,6 +13,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iterator>
+#include <map>
 #include <optional>
 #include <string>
 #include <vector>
@@ -64,6 +65,8 @@ struct Ui {
     std::string message;  // short notice ("Game saved"), shown for a moment
     int message_frames = 0;
     bool show_inventory = false;
+    bool show_map = false;
+    mutable std::map<std::pair<int, int>, int> map_codes;  // biome code of the explored cells, filled when the map is drawn
 };
 
 std::string detect_language() {
@@ -342,6 +345,47 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
     SDL_RenderDebugText(renderer, x / 2.0F, (y + bar_h + 16.0F * density) / 2.0F, level.c_str());
     SDL_RenderDebugText(renderer, (x + 110.0F * density) / 2.0F, (y + bar_h + 16.0F * density) / 2.0F,
                         assets.pack.text(ui.lang, "$i18n:ui.bag_hint").c_str());
+    if (sim.streamed()) {
+        SDL_RenderDebugText(renderer, (x + 190.0F * density) / 2.0F, (y + bar_h + 16.0F * density) / 2.0F,
+                            assets.pack.text(ui.lang, "$i18n:ui.map_hint").c_str());
+    }
+    SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+}
+
+// The world map: explored cells by biome and the player (spec 09).
+void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w, int out_h,
+                    float density) {
+    const aether::ChunkStore* store = sim.chunks();
+    if (!ui.show_map || store == nullptr) {
+        return;
+    }
+    const aether::WorldParams& params = store->params();
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    fill_rect(renderer, 0.0F, 0.0F, static_cast<float>(out_w), static_cast<float>(out_h), 4, 10, 24, 225);
+    const int columns = (params.width + aether::kMapCell - 1) / aether::kMapCell;
+    const int rows = (params.height + aether::kMapCell - 1) / aether::kMapCell;
+    const float side = std::min(static_cast<float>(out_w), static_cast<float>(out_h)) * 0.8F;
+    const float cell = side / static_cast<float>(std::max(columns, rows));
+    const float left = (static_cast<float>(out_w) - cell * static_cast<float>(columns)) / 2.0F;
+    const float top = (static_cast<float>(out_h) - cell * static_cast<float>(rows)) / 2.0F + 10.0F * density;
+    fill_rect(renderer, left - 2.0F, top - 2.0F, cell * static_cast<float>(columns) + 4.0F, cell * static_cast<float>(rows) + 4.0F, 20, 36, 66, 255);
+    static const Uint8 kColors[7][3] = {{60, 110, 190}, {222, 206, 150}, {130, 130, 140}, {235, 240, 245},
+                                        {222, 206, 150}, {60, 130, 70},  {110, 180, 90}};
+    for (const auto& [x, y] : sim.explored()) {
+        auto code = ui.map_codes.find({x, y});
+        if (code == ui.map_codes.end()) {
+            code = ui.map_codes.emplace(std::make_pair(x, y), aether::biome_code(store->seed(), params, x, y)).first;
+        }
+        const Uint8* color = kColors[code->second];
+        fill_rect(renderer, left + cell * static_cast<float>(x), top + cell * static_cast<float>(y), std::ceil(cell), std::ceil(cell), color[0],
+                  color[1], color[2], 255);
+    }
+    const float px = left + sim.player().position.x / static_cast<float>(aether::kMapCell) * cell;
+    const float py = top + sim.player().position.y / static_cast<float>(aether::kMapCell) * cell;
+    fill_rect(renderer, px - 3.0F * density, py - 3.0F * density, 6.0F * density, 6.0F * density, 255, 60, 60, 255);
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_SetRenderScale(renderer, 2.0F, 2.0F);
+    SDL_RenderDebugText(renderer, left / 2.0F, (top - 26.0F * density) / 2.0F, assets.pack.text(ui.lang, "$i18n:ui.map").c_str());
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
@@ -745,6 +789,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     }
     draw_dialogue(renderer, assets, sim, ui, out_w, out_h, density);
     draw_inventory_and_notice(renderer, assets, sim, ui, out_w, out_h, density);
+    draw_world_map(renderer, assets, sim, ui, out_w, out_h, density);
 
     if (debug) {
         char line[160];
@@ -903,9 +948,13 @@ int main(int argc, char** argv) {
                     debug = !debug;
                 } else if (event.type == SDL_EVENT_KEY_DOWN && !smoke_test &&
                            (event.key.key == SDLK_F5 || event.key.key == SDLK_F9 || event.key.key == SDLK_F7 ||
-                            event.key.key == SDLK_I)) {
+                            event.key.key == SDLK_I || event.key.key == SDLK_M)) {
                     if (event.key.key == SDLK_I) {
                         ui.show_inventory = !ui.show_inventory;
+                        ui.show_map = false;
+                    } else if (event.key.key == SDLK_M) {
+                        ui.show_map = !ui.show_map && sim.streamed();
+                        ui.show_inventory = false;
                     } else if (event.key.key == SDLK_F5) {
                         notify(ui, save_game(sim, save_dir() / "quick.json") ? assets.pack.text(ui.lang, "$i18n:ui.saved")
                                                                               : "save failed");
@@ -966,11 +1015,15 @@ int main(int argc, char** argv) {
                     }
                 }
                 if (frames == 80) {
-                    ui.show_inventory = true;  // the last frames show the bag
+                    ui.show_inventory = true;  // frames 80 to 83 show the bag
+                }
+                if (frames == 84) {
+                    ui.show_inventory = false;
+                    ui.show_map = sim.streamed();  // the last frames show the world map
                 }
                 sim.tick(input.x, input.y, input.attack);
-            } else if (ui.show_inventory) {
-                accumulator = 0.0;  // the bag pauses the game
+            } else if (ui.show_inventory || ui.show_map) {
+                accumulator = 0.0;  // the bag and the map pause the game
             } else {
                 accumulator += frame_seconds;
                 int ticks = 0;
@@ -1028,8 +1081,10 @@ int main(int argc, char** argv) {
                     captured_choice = true;
                 } else if (frames == 20) {
                     capture = (screenshot_dir / "walking.png").string();
-                } else if (frames == kSmokeTestFrames - 1) {
+                } else if (frames == 82) {
                     capture = (screenshot_dir / "bag.png").string();
+                } else if (frames == kSmokeTestFrames - 1 && ui.show_map) {
+                    capture = (screenshot_dir / "map.png").string();
                 }
             }
             render(renderer, cache, assets, sim, ui, floating, tile_px, density, debug, fps, capture);

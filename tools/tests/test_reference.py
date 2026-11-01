@@ -163,3 +163,23 @@ def test_world_time_light_and_weather():
     # The weather only depends on the seed and the period: same period, same kind.
     period = t["weather"]["period_ticks"]
     assert worldtime.weather_at(9, t, 7 * period + 5000)["kind"] == worldtime.weather_at(9, t, 7 * period + 17000)["kind"]
+
+
+def test_world_map_exploration():
+    import json
+
+    from reference import worldgen
+
+    params = json.loads((TOOLS.parent / "data" / "base" / "worlds" / "overworld.json").read_text(encoding="utf-8"))
+    cells: set = set()
+    worldgen.explore(cells, params, 8192, 8192)
+    assert len(cells) == 9 and (64, 64) in cells and (63, 63) in cells and (65, 65) in cells
+    worldgen.explore(cells, params, 8193, 8200)  # same cell: nothing new
+    assert len(cells) == 9
+    corner: set = set()
+    worldgen.explore(corner, params, 0, 0)
+    assert corner == {(0, 0), (1, 0), (0, 1), (1, 1)}
+    far: set = set()
+    worldgen.explore(far, params, 16383, 16383)
+    assert far == {(126, 126), (127, 126), (126, 127), (127, 127)}
+    assert 0 <= worldgen.biome_code(1, params, 64, 64) < 7

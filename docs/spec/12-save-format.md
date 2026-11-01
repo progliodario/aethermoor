@@ -39,6 +39,7 @@ described in the plan arrive with the procedural world and reincarnation.
   `"spawner": [x, y]` (its spawner tile, which also gives its home); `cleared_spawners` lists the spawners whose enemy was killed as `[x, y, died_tick]` (spec 08, the world tick of the death). On load the
   window is rebuilt around the saved player position; every enemy must belong to a spawner of the window (the enemy of a cleared spawner is dead), and every
   uncleared spawner of the window must have its enemy, otherwise the save is invalid for this build. `cleared_spawners` and `spawner` are absent on fixed maps.
+- `explored` (streamed world) is the list of explored world map cells `[x, y]`, ordered by row then column (spec 09); absent in old saves.
 - `world_ticks` is the world clock (spec 08); a save without it starts at the world's `time.start_tick`.
 - `story` is null when the world has no story. `dialogue` is null when no dialogue is open.
 - 64-bit values are hex strings. Positions are floats (a client reads them as 32-bit floats).

@@ -107,6 +107,13 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
     j["enemies"] = enemies;
     j["world_ticks"] = s.world_ticks;
     if (meta.map == "world") {
+        Json explored = Json::array();
+        for (const auto& [x, y] : s.explored) {
+            explored.push_back({x, y});
+        }
+        j["explored"] = explored;
+    }
+    if (meta.map == "world") {
         Json cleared = Json::array();
         for (const ClearedSpawner& c : s.cleared) {
             cleared.push_back({c.x, c.y, c.died});
@@ -187,6 +194,11 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
                 enemy.spawner_y = e.at("spawner").at(1).get<int>();
             }
             s.enemies.push_back(enemy);
+        }
+        if (j.contains("explored")) {
+            for (const Json& c : j.at("explored")) {
+                s.explored.emplace_back(c.at(0).get<int>(), c.at(1).get<int>());
+            }
         }
         s.world_ticks = j.value("world_ticks", static_cast<std::int64_t>(-1));
         if (j.contains("cleared_spawners")) {
