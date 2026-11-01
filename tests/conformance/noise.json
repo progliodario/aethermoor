@@ -1,0 +1,325 @@
+{
+  "suite": "noise",
+  "spec_version": 1,
+  "generated_by": "tools/gen_conformance.py",
+  "cases": [
+    {
+      "name": "noise2_0",
+      "input": {
+        "op": "noise2",
+        "seed": "0x65f050a71d023975",
+        "x": 0,
+        "y": 0
+      },
+      "expect": {
+        "value": 41627
+      }
+    },
+    {
+      "name": "noise2_1",
+      "input": {
+        "op": "noise2",
+        "seed": "0x0a4d85715d55b696",
+        "x": 65536,
+        "y": 65536
+      },
+      "expect": {
+        "value": 59955
+      }
+    },
+    {
+      "name": "noise2_2",
+      "input": {
+        "op": "noise2",
+        "seed": "0x7c27e2dc15c33ad4",
+        "x": 32768,
+        "y": 32768
+      },
+      "expect": {
+        "value": 22529
+      }
+    },
+    {
+      "name": "noise2_3",
+      "input": {
+        "op": "noise2",
+        "seed": "0xd5d212ca211d7f5a",
+        "x": -1,
+        "y": -1
+      },
+      "expect": {
+        "value": 30773
+      }
+    },
+    {
+      "name": "noise2_4",
+      "input": {
+        "op": "noise2",
+        "seed": "0x321cdf2dc8b697c9",
+        "x": -327803,
+        "y": 594391
+      },
+      "expect": {
+        "value": 7235
+      }
+    },
+    {
+      "name": "noise2_5",
+      "input": {
+        "op": "noise2",
+        "seed": "0x4887ef8a967c1b07",
+        "x": 1099511627793,
+        "y": -1099511627677
+      },
+      "expect": {
+        "value": 19444
+      }
+    },
+    {
+      "name": "noise2_6",
+      "input": {
+        "op": "noise2",
+        "seed": "0x4329e3e8fc1085b6",
+        "x": -172400054,
+        "y": -114254396
+      },
+      "expect": {
+        "value": 39525
+      }
+    },
+    {
+      "name": "noise2_7",
+      "input": {
+        "op": "noise2",
+        "seed": "0x93cd61db0bdf21e6",
+        "x": -94354738,
+        "y": -93350072
+      },
+      "expect": {
+        "value": 28950
+      }
+    },
+    {
+      "name": "noise2_8",
+      "input": {
+        "op": "noise2",
+        "seed": "0x56d2d4801bd4ae12",
+        "x": -59947836,
+        "y": -124988212
+      },
+      "expect": {
+        "value": 49091
+      }
+    },
+    {
+      "name": "noise2_9",
+      "input": {
+        "op": "noise2",
+        "seed": "0x6f6215a835e1af12",
+        "x": -209715958,
+        "y": 4213478
+      },
+      "expect": {
+        "value": 32616
+      }
+    },
+    {
+      "name": "noise2_10",
+      "input": {
+        "op": "noise2",
+        "seed": "0xdce4ccd4c18231e2",
+        "x": -145556517,
+        "y": -76969279
+      },
+      "expect": {
+        "value": 59072
+      }
+    },
+    {
+      "name": "noise2_11",
+      "input": {
+        "op": "noise2",
+        "seed": "0xc064cdc43b248e8f",
+        "x": 217750574,
+        "y": -65199141
+      },
+      "expect": {
+        "value": 17968
+      }
+    },
+    {
+      "name": "noise2_12",
+      "input": {
+        "op": "noise2",
+        "seed": "0x047f7a4a7a853f14",
+        "x": 80488599,
+        "y": -76034432
+      },
+      "expect": {
+        "value": 40951
+      }
+    },
+    {
+      "name": "noise2_13",
+      "input": {
+        "op": "noise2",
+        "seed": "0xa5e69bd0f9daa0a4",
+        "x": 67168249,
+        "y": 76102656
+      },
+      "expect": {
+        "value": 12135
+      }
+    },
+    {
+      "name": "noise2_14",
+      "input": {
+        "op": "noise2",
+        "seed": "0xcde7ab22ef5a22ec",
+        "x": 219983141,
+        "y": 96462809
+      },
+      "expect": {
+        "value": 28818
+      }
+    },
+    {
+      "name": "noise2_15",
+      "input": {
+        "op": "noise2",
+        "seed": "0x97a9d725ee84fc71",
+        "x": 218503846,
+        "y": -48267598
+      },
+      "expect": {
+        "value": 47357
+      }
+    },
+    {
+      "name": "noise2_16",
+      "input": {
+        "op": "noise2",
+        "seed": "0x7e8d89dbcff3c578",
+        "x": -7852716,
+        "y": -142424849
+      },
+      "expect": {
+        "value": 38647
+      }
+    },
+    {
+      "name": "noise2_17",
+      "input": {
+        "op": "noise2",
+        "seed": "0xbb912ac52a7c31ca",
+        "x": -236501588,
+        "y": -189072924
+      },
+      "expect": {
+        "value": 31546
+      }
+    },
+    {
+      "name": "noise2_18",
+      "input": {
+        "op": "noise2",
+        "seed": "0x0a275becccb93244",
+        "x": 66049276,
+        "y": -34433563
+      },
+      "expect": {
+        "value": 29465
+      }
+    },
+    {
+      "name": "noise2_19",
+      "input": {
+        "op": "noise2",
+        "seed": "0xd1fdc286d625c45c",
+        "x": 249837842,
+        "y": -24992464
+      },
+      "expect": {
+        "value": 41266
+      }
+    },
+    {
+      "name": "fbm2_0",
+      "input": {
+        "op": "fbm2",
+        "seed": "0xdec2be6d2264e758",
+        "x": -38147344,
+        "y": 41433242,
+        "octaves": 1
+      },
+      "expect": {
+        "value": 27770
+      }
+    },
+    {
+      "name": "fbm2_1",
+      "input": {
+        "op": "fbm2",
+        "seed": "0xb073b2361bec84c2",
+        "x": -39213963,
+        "y": 26887521,
+        "octaves": 2
+      },
+      "expect": {
+        "value": 37852
+      }
+    },
+    {
+      "name": "fbm2_2",
+      "input": {
+        "op": "fbm2",
+        "seed": "0xa5b69138ef1890eb",
+        "x": -33404706,
+        "y": -19690035,
+        "octaves": 3
+      },
+      "expect": {
+        "value": 34490
+      }
+    },
+    {
+      "name": "fbm2_3",
+      "input": {
+        "op": "fbm2",
+        "seed": "0x54724692a75005f4",
+        "x": -51645761,
+        "y": -51836075,
+        "octaves": 4
+      },
+      "expect": {
+        "value": 41602
+      }
+    },
+    {
+      "name": "fbm2_4",
+      "input": {
+        "op": "fbm2",
+        "seed": "0x2d3d6e433739625e",
+        "x": 47396258,
+        "y": -52977413,
+        "octaves": 5
+      },
+      "expect": {
+        "value": 17892
+      }
+    },
+    {
+      "name": "fbm2_5",
+      "input": {
+        "op": "fbm2",
+        "seed": "0x5af066a2f8e2fb32",
+        "x": 62124,
+        "y": -6906768,
+        "octaves": 6
+      },
+      "expect": {
+        "value": 28067
+      }
+    }
+  ]
+}

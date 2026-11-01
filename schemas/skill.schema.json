@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aethermoor.invalid/schemas/skill.schema.json",
+  "title": "Skill",
+  "type": "object",
+  "required": ["id", "name", "description", "type", "cost", "cooldown_ticks", "timing"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": { "$ref": "#/$defs/id" },
+    "name": { "$ref": "#/$defs/i18n_ref" },
+    "description": { "$ref": "#/$defs/i18n_ref" },
+    "type": { "enum": ["active", "passive", "movement", "reaction", "ultimate"] },
+    "cost": {
+      "type": "object",
+      "required": ["mp"],
+      "additionalProperties": false,
+      "properties": { "mp": { "type": "integer", "minimum": 0 } }
+    },
+    "cooldown_ticks": { "type": "integer", "minimum": 0 },
+    "timing": {
+      "type": "object",
+      "required": ["startup", "active", "recovery"],
+      "additionalProperties": false,
+      "properties": {
+        "startup": { "type": "integer", "minimum": 0 },
+        "active": { "type": "integer", "minimum": 0 },
+        "recovery": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "damage": {
+      "type": "object",
+      "required": ["kind", "element", "power_pct"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "enum": ["physical", "magical"] },
+        "element": { "enum": ["none", "fire", "water", "wind", "earth", "light", "dark"] },
+        "power_pct": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "effects": {
+      "type": "array",
+      "items": { "type": "object", "required": ["effect"], "properties": { "effect": { "type": "string" } } }
+    },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "requires_features": { "type": "array", "items": { "type": "string" } }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$" },
+    "i18n_ref": { "type": "string", "pattern": "^\\$i18n:[a-z0-9_]+(\\.[a-z0-9_]+)*$" }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../../schemas/i18n.schema.json",
+  "protagonist.ren.name": "Ren Takahashi",
+  "protagonist.ren.tagline": "A 27-year-old office worker, hit by a truck. It happens.",
+  "skill.common.slash.name": "Slash",
+  "skill.common.slash.desc": "A sword strike in an arc in front of you.",
+  "skill.ren.analyze.name": "Analyze",
+  "skill.ren.analyze.desc": "Observe a target to reveal its stats and weaknesses.",
+  "item.practice_sword.name": "Practice sword",
+  "item.practice_sword.desc": "Light, and not very sharp.",
+  "item.bread.name": "{count, plural, one {Bread} other {Breads}}",
+  "item.bread.desc": "Restores a little health.",
+  "item.slime_gel.name": "Slime gel",
+  "item.slime_gel.desc": "Sticky, but useful for crafting.",
+  "enemy.slime_green.name": "Green slime",
+  "quest.slime_extermination.name": "Slime extermination",
+  "quest.slime_extermination.kill": "Defeat 5 green slimes on the plains.",
+  "quest.slime_extermination.report": "Report to Mira at the guild.",
+  "dlg.ren.prologue.n1": "Welcome, Guest. Your old world has let you go.",
+  "dlg.ren.prologue.c1": "Okay, I'm in.",
+  "dlg.ren.prologue.c2": "Wait... was it the truck?",
+  "dlg.ren.prologue.n4": "Let's say the truck played a part."
+}

@@ -21,6 +21,10 @@ from pathlib import Path
 from jsonschema import Draft202012Validator
 from jsonschema.exceptions import SchemaError
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from reference.ids import valid_id  # noqa: E402
+
 ROOT = Path(__file__).resolve().parent.parent
 PLACEHOLDER_NAME = re.compile(r"[a-zA-Z_][a-zA-Z0-9_]*")
 I18N_REF = re.compile(r"^\$i18n:([a-z0-9_]+(?:\.[a-z0-9_]+)*)$")
@@ -75,6 +79,43 @@ def collect_i18n_refs(node, out: set[str]) -> None:
                 collect_i18n_refs(value, out)
 
 
+def collect_id_refs(node, out: set[str], top_level_id: str | None = None) -> None:
+    """Strings that look like content IDs (namespace:category/name). The file's own id is skipped."""
+    if isinstance(node, str):
+        if node != top_level_id and valid_id(node):
+            out.add(node)
+    elif isinstance(node, list):
+        for item in node:
+            collect_id_refs(item, out)
+    elif isinstance(node, dict):
+        for key, value in node.items():
+            if key != "$schema":
+                collect_id_refs(value, out)
+
+
+def check_graphs(path: Path, data: dict, errors: list[str]) -> None:
+    """Dialogue and quest graphs: every `next` must point to an existing node/stage or 'end'."""
+    rel = path.relative_to(ROOT)
+    nodes = data.get("nodes")
+    if isinstance(nodes, dict) and "start" in data:
+        if data["start"] not in nodes:
+            errors.append(f"{rel}: start node '{data['start']}' does not exist")
+        for name, node in nodes.items():
+            targets = [node.get("next")] if "next" in node else []
+            targets += [c.get("next") for c in node.get("choices", [])]
+            for target in targets:
+                if target != "end" and target not in nodes:
+                    errors.append(f"{rel}: node '{name}' points to missing node '{target}'")
+    stages = data.get("stages")
+    if isinstance(stages, list):
+        names = {s.get("id") for s in stages}
+        if len(names) != len(stages):
+            errors.append(f"{rel}: duplicate stage ids")
+        for stage in stages:
+            if stage.get("next") != "end" and stage.get("next") not in names:
+                errors.append(f"{rel}: stage '{stage.get('id')}' points to missing stage '{stage.get('next')}'")
+
+
 def check_schemas(errors: list[str]) -> None:
     for path in sorted((ROOT / "schemas").glob("*.json")):
         data = load_json(path, errors)
@@ -106,11 +147,31 @@ def check_pack(pack_dir: Path, errors: list[str]) -> None:
     validate_against(manifest, ROOT / "schemas" / "pack.schema.json", f"{rel}/pack.json", errors)
 
     refs: set[str] = set()
+    defined: dict[str, Path] = {}
+    id_refs: dict[str, Path] = {}
+    pack_id = manifest.get("id", "")
     for path in sorted(pack_dir.rglob("*.json")):
         data = load_json(path, errors)
         if data is None:
             continue
         in_i18n = "i18n" in path.relative_to(pack_dir).parts
+        if not in_i18n and path != manifest_path and isinstance(data, dict):
+            own_id = data.get("id")
+            if own_id is not None:
+                if not isinstance(own_id, str) or not valid_id(own_id):
+                    errors.append(f"{path.relative_to(ROOT)}: invalid id {own_id!r}")
+                else:
+                    if own_id.split(":")[0] != pack_id:
+                        errors.append(f"{path.relative_to(ROOT)}: id '{own_id}' is not in namespace '{pack_id}'")
+                    if own_id in defined:
+                        errors.append(f"{path.relative_to(ROOT)}: duplicate id '{own_id}' "
+                                      f"(also in {defined[own_id].relative_to(ROOT)})")
+                    defined[own_id] = path
+            found: set[str] = set()
+            collect_id_refs(data, found, own_id if isinstance(own_id, str) else None)
+            for ref in found:
+                id_refs.setdefault(ref, path)
+            check_graphs(path, data, errors)
         declared = data.get("$schema") if isinstance(data, dict) else None
         if declared:
             schema_path = (path.parent / declared).resolve()
@@ -120,6 +181,10 @@ def check_pack(pack_dir: Path, errors: list[str]) -> None:
                 validate_against(data, schema_path, str(path.relative_to(ROOT)), errors)
         if not in_i18n:
             collect_i18n_refs(data, refs)
+
+    for ref, source in sorted(id_refs.items()):
+        if ref not in defined:
+            errors.append(f"{source.relative_to(ROOT)}: reference to undefined id '{ref}'")
 
     languages = manifest.get("languages", [])
     tables: dict[str, dict[str, str]] = {}

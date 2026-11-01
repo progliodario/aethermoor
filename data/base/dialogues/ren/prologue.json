@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/ren/prologue",
+  "start": "n1",
+  "nodes": {
+    "n1": { "type": "say", "speaker": "goddess_lyra", "expression": "gentle",
+            "text": "$i18n:dlg.ren.prologue.n1", "next": "n2" },
+    "n2": { "type": "choice", "choices": [
+      { "text": "$i18n:dlg.ren.prologue.c1", "next": "n3" },
+      { "text": "$i18n:dlg.ren.prologue.c2", "next": "n4" }
+    ] },
+    "n3": { "type": "set_flag", "flag": "ren.accepted_quickly", "value": true, "next": "end" },
+    "n4": { "type": "say", "speaker": "goddess_lyra", "text": "$i18n:dlg.ren.prologue.n4", "next": "end" }
+  }
+}

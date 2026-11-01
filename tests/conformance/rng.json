@@ -1,0 +1,637 @@
+{
+  "suite": "rng",
+  "spec_version": 1,
+  "generated_by": "tools/gen_conformance.py",
+  "cases": [
+    {
+      "name": "splitmix64_0x0000000000000000",
+      "input": {
+        "op": "splitmix64",
+        "seed": "0x0000000000000000",
+        "count": 5
+      },
+      "expect": {
+        "values": [
+          "0xe220a8397b1dcdaf",
+          "0x6e789e6aa1b965f4",
+          "0x06c45d188009454f",
+          "0xf88bb8a8724c81ec",
+          "0x1b39896a51a8749b"
+        ]
+      }
+    },
+    {
+      "name": "splitmix64_0x0000000000000001",
+      "input": {
+        "op": "splitmix64",
+        "seed": "0x0000000000000001",
+        "count": 5
+      },
+      "expect": {
+        "values": [
+          "0x910a2dec89025cc1",
+          "0xbeeb8da1658eec67",
+          "0xf893a2eefb32555e",
+          "0x71c18690ee42c90b",
+          "0x71bb54d8d101b5b9"
+        ]
+      }
+    },
+    {
+      "name": "splitmix64_0x00000000deadbeef",
+      "input": {
+        "op": "splitmix64",
+        "seed": "0x00000000deadbeef",
+        "count": 5
+      },
+      "expect": {
+        "values": [
+          "0x4adfb90f68c9eb9b",
+          "0xde586a3141a10922",
+          "0x021fbc2f8e1cfc1d",
+          "0x7466ce737be16790",
+          "0x3bfa8764f685bd1c"
+        ]
+      }
+    },
+    {
+      "name": "splitmix64_0xffffffffffffffff",
+      "input": {
+        "op": "splitmix64",
+        "seed": "0xffffffffffffffff",
+        "count": 5
+      },
+      "expect": {
+        "values": [
+          "0xe4d971771b652c20",
+          "0xe99ff867dbf682c9",
+          "0x382ff84cb27281e9",
+          "0x6d1db36ccba982d2",
+          "0xb4a0472e578069ae"
+        ]
+      }
+    },
+    {
+      "name": "pcg32_42_54",
+      "input": {
+        "op": "pcg32",
+        "init_state": "0x000000000000002a",
+        "init_seq": "0x0000000000000036",
+        "count": 8
+      },
+      "expect": {
+        "values": [
+          2707161783,
+          2068313097,
+          3122475824,
+          2211639955,
+          3215226955,
+          3421331566,
+          3217466285,
+          2167406445
+        ]
+      }
+    },
+    {
+      "name": "pcg32_0_0",
+      "input": {
+        "op": "pcg32",
+        "init_state": "0x0000000000000000",
+        "init_seq": "0x0000000000000000",
+        "count": 8
+      },
+      "expect": {
+        "values": [
+          3837872008,
+          932996374,
+          1548399547,
+          1612522464,
+          473443212,
+          3522865942,
+          1734871597,
+          2449558126
+        ]
+      }
+    },
+    {
+      "name": "pcg32_123456789_987654321",
+      "input": {
+        "op": "pcg32",
+        "init_state": "0x00000000075bcd15",
+        "init_seq": "0x000000003ade68b1",
+        "count": 8
+      },
+      "expect": {
+        "values": [
+          1890204489,
+          803489227,
+          3320481718,
+          115184899,
+          4096048793,
+          1999336987,
+          3660929680,
+          3094009531
+        ]
+      }
+    },
+    {
+      "name": "pcg32_18446744073709551615_18446744073709551615",
+      "input": {
+        "op": "pcg32",
+        "init_state": "0xffffffffffffffff",
+        "init_seq": "0xffffffffffffffff",
+        "count": 8
+      },
+      "expect": {
+        "values": [
+          645251143,
+          2004461623,
+          2705697299,
+          1600907046,
+          1379681477,
+          1973683926,
+          3865328403,
+          2386383264
+        ]
+      }
+    },
+    {
+      "name": "pcg32_bounded_1",
+      "input": {
+        "op": "pcg32_bounded",
+        "init_state": "0x0000000000000309",
+        "init_seq": "0x000000000000001f",
+        "bound": 1,
+        "count": 16
+      },
+      "expect": {
+        "values": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "name": "pcg32_bounded_2",
+      "input": {
+        "op": "pcg32_bounded",
+        "init_state": "0x0000000000000309",
+        "init_seq": "0x000000000000001f",
+        "bound": 2,
+        "count": 16
+      },
+      "expect": {
+        "values": [
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "name": "pcg32_bounded_6",
+      "input": {
+        "op": "pcg32_bounded",
+        "init_state": "0x0000000000000309",
+        "init_seq": "0x000000000000001f",
+        "bound": 6,
+        "count": 16
+      },
+      "expect": {
+        "values": [
+          4,
+          5,
+          0,
+          2,
+          1,
+          0,
+          4,
+          3,
+          2,
+          2,
+          0,
+          4,
+          3,
+          1,
+          4,
+          3
+        ]
+      }
+    },
+    {
+      "name": "pcg32_bounded_100",
+      "input": {
+        "op": "pcg32_bounded",
+        "init_state": "0x0000000000000309",
+        "init_seq": "0x000000000000001f",
+        "bound": 100,
+        "count": 16
+      },
+      "expect": {
+        "values": [
+          2,
+          79,
+          88,
+          48,
+          67,
+          54,
+          64,
+          19,
+          96,
+          72,
+          0,
+          44,
+          65,
+          69,
+          76,
+          69
+        ]
+      }
+    },
+    {
+      "name": "pcg32_bounded_1000",
+      "input": {
+        "op": "pcg32_bounded",
+        "init_state": "0x0000000000000309",
+        "init_seq": "0x000000000000001f",
+        "bound": 1000,
+        "count": 16
+      },
+      "expect": {
+        "values": [
+          902,
+          479,
+          188,
+          48,
+          967,
+          554,
+          564,
+          319,
+          596,
+          672,
+          0,
+          544,
+          765,
+          569,
+          976,
+          569
+        ]
+      }
+    },
+    {
+      "name": "pcg32_bounded_4000000000",
+      "input": {
+        "op": "pcg32_bounded",
+        "init_state": "0x0000000000000309",
+        "init_seq": "0x000000000000001f",
+        "bound": 4000000000,
+        "count": 16
+      },
+      "expect": {
+        "values": [
+          2423885902,
+          2196501479,
+          2384548188,
+          2112305048,
+          104687967,
+          3029716554,
+          775465564,
+          611147319,
+          1476513596,
+          158365672,
+          3457938000,
+          1717773544,
+          3084734569,
+          2417838976,
+          873100569,
+          1692954119
+        ]
+      }
+    },
+    {
+      "name": "stream_0x0000000000001234_world",
+      "input": {
+        "op": "derive_stream",
+        "master_seed": "0x0000000000001234",
+        "name": "world",
+        "count": 4
+      },
+      "expect": {
+        "values": [
+          1106767097,
+          2162173978,
+          3823647353,
+          602951176
+        ]
+      }
+    },
+    {
+      "name": "stream_0x0000000000001234_combat",
+      "input": {
+        "op": "derive_stream",
+        "master_seed": "0x0000000000001234",
+        "name": "combat",
+        "count": 4
+      },
+      "expect": {
+        "values": [
+          2715138731,
+          3706051357,
+          3747913155,
+          3806329955
+        ]
+      }
+    },
+    {
+      "name": "stream_0x0000000000001234_loot",
+      "input": {
+        "op": "derive_stream",
+        "master_seed": "0x0000000000001234",
+        "name": "loot",
+        "count": 4
+      },
+      "expect": {
+        "values": [
+          3036465894,
+          1739282871,
+          478359355,
+          395429759
+        ]
+      }
+    },
+    {
+      "name": "stream_0x0000000000001234_quest",
+      "input": {
+        "op": "derive_stream",
+        "master_seed": "0x0000000000001234",
+        "name": "quest",
+        "count": 4
+      },
+      "expect": {
+        "values": [
+          3823697533,
+          1326045570,
+          2036866077,
+          2991709130
+        ]
+      }
+    },
+    {
+      "name": "stream_0x0000000000001234_weather",
+      "input": {
+        "op": "derive_stream",
+        "master_seed": "0x0000000000001234",
+        "name": "weather",
+        "count": 4
+      },
+      "expect": {
+        "values": [
+          1078057990,
+          2400687647,
+          2742095888,
+          1841065890
+        ]
+      }
+    },
+    {
+      "name": "stream_0x0000000000001234_cosmetic",
+      "input": {
+        "op": "derive_stream",
+        "master_seed": "0x0000000000001234",
+        "name": "cosmetic",
+        "count": 4
+      },
+      "expect": {
+        "values": [
+          1137322775,
+          4151271477,
+          1519318927,
+          847615100
+        ]
+      }
+    },
+    {
+      "name": "stream_0x0000000000001234_ai",
+      "input": {
+        "op": "derive_stream",
+        "master_seed": "0x0000000000001234",
+        "name": "ai",
+        "count": 4
+      },
+      "expect": {
+        "values": [
+          589255432,
+          4276638469,
+          2546924723,
+          2084242418
+        ]
+      }
+    },
+    {
+      "name": "stream_0xffffffffffffffff_world",
+      "input": {
+        "op": "derive_stream",
+        "master_seed": "0xffffffffffffffff",
+        "name": "world",
+        "count": 4
+      },
+      "expect": {
+        "values": [
+          2300607423,
+          1423150433,
+          2062269931,
+          851996271
+        ]
+      }
+    },
+    {
+      "name": "stream_0xffffffffffffffff_combat",
+      "input": {
+        "op": "derive_stream",
+        "master_seed": "0xffffffffffffffff",
+        "name": "combat",
+        "count": 4
+      },
+      "expect": {
+        "values": [
+          3335377564,
+          2776503290,
+          3764407385,
+          3514054699
+        ]
+      }
+    },
+    {
+      "name": "stream_0xffffffffffffffff_loot",
+      "input": {
+        "op": "derive_stream",
+        "master_seed": "0xffffffffffffffff",
+        "name": "loot",
+        "count": 4
+      },
+      "expect": {
+        "values": [
+          3529939102,
+          4069507759,
+          4041166890,
+          3854373761
+        ]
+      }
+    },
+    {
+      "name": "stream_0xffffffffffffffff_quest",
+      "input": {
+        "op": "derive_stream",
+        "master_seed": "0xffffffffffffffff",
+        "name": "quest",
+        "count": 4
+      },
+      "expect": {
+        "values": [
+          3706259609,
+          1548484212,
+          1281886747,
+          2850850022
+        ]
+      }
+    },
+    {
+      "name": "stream_0xffffffffffffffff_weather",
+      "input": {
+        "op": "derive_stream",
+        "master_seed": "0xffffffffffffffff",
+        "name": "weather",
+        "count": 4
+      },
+      "expect": {
+        "values": [
+          1906342329,
+          642249443,
+          1698749687,
+          413404586
+        ]
+      }
+    },
+    {
+      "name": "stream_0xffffffffffffffff_cosmetic",
+      "input": {
+        "op": "derive_stream",
+        "master_seed": "0xffffffffffffffff",
+        "name": "cosmetic",
+        "count": 4
+      },
+      "expect": {
+        "values": [
+          132181131,
+          863474314,
+          2078478397,
+          2407606125
+        ]
+      }
+    },
+    {
+      "name": "stream_0xffffffffffffffff_ai",
+      "input": {
+        "op": "derive_stream",
+        "master_seed": "0xffffffffffffffff",
+        "name": "ai",
+        "count": 4
+      },
+      "expect": {
+        "values": [
+          2525890375,
+          1415066485,
+          4132343400,
+          3387530362
+        ]
+      }
+    },
+    {
+      "name": "fnv1a64_0",
+      "input": {
+        "op": "fnv1a64",
+        "text": ""
+      },
+      "expect": {
+        "value": "0xcbf29ce484222325"
+      }
+    },
+    {
+      "name": "fnv1a64_1",
+      "input": {
+        "op": "fnv1a64",
+        "text": "a"
+      },
+      "expect": {
+        "value": "0xaf63dc4c8601ec8c"
+      }
+    },
+    {
+      "name": "fnv1a64_2",
+      "input": {
+        "op": "fnv1a64",
+        "text": "foobar"
+      },
+      "expect": {
+        "value": "0x85944171f73967e8"
+      }
+    },
+    {
+      "name": "fnv1a64_3",
+      "input": {
+        "op": "fnv1a64",
+        "text": "world"
+      },
+      "expect": {
+        "value": "0x4f59ff5e730c8af3"
+      }
+    },
+    {
+      "name": "fnv1a64_4",
+      "input": {
+        "op": "fnv1a64",
+        "text": "base:enemy/slime_green"
+      },
+      "expect": {
+        "value": "0x42b9b879b7dd8f21"
+      }
+    },
+    {
+      "name": "fnv1a64_5",
+      "input": {
+        "op": "fnv1a64",
+        "text": "perché"
+      },
+      "expect": {
+        "value": "0xb3fb72f7615ba02f"
+      }
+    }
+  ]
+}

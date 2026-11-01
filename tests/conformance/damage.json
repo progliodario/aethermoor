@@ -1,0 +1,1267 @@
+{
+  "suite": "damage",
+  "spec_version": 1,
+  "generated_by": "tools/gen_conformance.py",
+  "cases": [
+    {
+      "name": "damage_0",
+      "input": {
+        "op": "damage",
+        "atk": 20,
+        "power_pct": 100,
+        "def_target": 0,
+        "elem_mult_pm": 1000,
+        "pen_pm": 0,
+        "lvl_attacker": 1,
+        "lvl_target": 1,
+        "variance_pm": 1000,
+        "crit": false,
+        "crit_mult_pm": 1500,
+        "buff_mod_pm": 1000
+      },
+      "expect": {
+        "damage": 20
+      }
+    },
+    {
+      "name": "damage_1",
+      "input": {
+        "op": "damage",
+        "atk": 1,
+        "power_pct": 1,
+        "def_target": 1000,
+        "elem_mult_pm": 500,
+        "pen_pm": 900,
+        "lvl_attacker": 1,
+        "lvl_target": 99,
+        "variance_pm": 950,
+        "crit": false,
+        "crit_mult_pm": 1500,
+        "buff_mod_pm": 100
+      },
+      "expect": {
+        "damage": 1
+      }
+    },
+    {
+      "name": "damage_2",
+      "input": {
+        "op": "damage",
+        "atk": 500,
+        "power_pct": 300,
+        "def_target": 20,
+        "elem_mult_pm": 1500,
+        "pen_pm": 0,
+        "lvl_attacker": 50,
+        "lvl_target": 1,
+        "variance_pm": 1050,
+        "crit": true,
+        "crit_mult_pm": 2500,
+        "buff_mod_pm": 3000
+      },
+      "expect": {
+        "damage": 19185
+      }
+    },
+    {
+      "name": "damage_3",
+      "input": {
+        "op": "damage",
+        "atk": 132,
+        "power_pct": 400,
+        "def_target": 154,
+        "elem_mult_pm": 1500,
+        "pen_pm": 0,
+        "lvl_attacker": 53,
+        "lvl_target": 79,
+        "variance_pm": 1031,
+        "crit": true,
+        "crit_mult_pm": 2388,
+        "buff_mod_pm": 800
+      },
+      "expect": {
+        "damage": 425
+      }
+    },
+    {
+      "name": "damage_4",
+      "input": {
+        "op": "damage",
+        "atk": 175,
+        "power_pct": 250,
+        "def_target": 467,
+        "elem_mult_pm": 1500,
+        "pen_pm": 250,
+        "lvl_attacker": 24,
+        "lvl_target": 22,
+        "variance_pm": 953,
+        "crit": false,
+        "crit_mult_pm": 2419,
+        "buff_mod_pm": 800
+      },
+      "expect": {
+        "damage": 116
+      }
+    },
+    {
+      "name": "damage_5",
+      "input": {
+        "op": "damage",
+        "atk": 50,
+        "power_pct": 120,
+        "def_target": 69,
+        "elem_mult_pm": 1000,
+        "pen_pm": 0,
+        "lvl_attacker": 62,
+        "lvl_target": 21,
+        "variance_pm": 1021,
+        "crit": false,
+        "crit_mult_pm": 2009,
+        "buff_mod_pm": 800
+      },
+      "expect": {
+        "damage": 36
+      }
+    },
+    {
+      "name": "damage_6",
+      "input": {
+        "op": "damage",
+        "atk": 560,
+        "power_pct": 400,
+        "def_target": 441,
+        "elem_mult_pm": 500,
+        "pen_pm": 500,
+        "lvl_attacker": 85,
+        "lvl_target": 7,
+        "variance_pm": 1010,
+        "crit": false,
+        "crit_mult_pm": 2138,
+        "buff_mod_pm": 800
+      },
+      "expect": {
+        "damage": 367
+      }
+    },
+    {
+      "name": "damage_7",
+      "input": {
+        "op": "damage",
+        "atk": 612,
+        "power_pct": 80,
+        "def_target": 235,
+        "elem_mult_pm": 500,
+        "pen_pm": 0,
+        "lvl_attacker": 4,
+        "lvl_target": 91,
+        "variance_pm": 1028,
+        "crit": false,
+        "crit_mult_pm": 2332,
+        "buff_mod_pm": 1000
+      },
+      "expect": {
+        "damage": 51
+      }
+    },
+    {
+      "name": "damage_8",
+      "input": {
+        "op": "damage",
+        "atk": 737,
+        "power_pct": 250,
+        "def_target": 207,
+        "elem_mult_pm": 1500,
+        "pen_pm": 0,
+        "lvl_attacker": 52,
+        "lvl_target": 38,
+        "variance_pm": 1046,
+        "crit": false,
+        "crit_mult_pm": 1659,
+        "buff_mod_pm": 1250
+      },
+      "expect": {
+        "damage": 1528
+      }
+    },
+    {
+      "name": "damage_9",
+      "input": {
+        "op": "damage",
+        "atk": 548,
+        "power_pct": 250,
+        "def_target": 257,
+        "elem_mult_pm": 1500,
+        "pen_pm": 250,
+        "lvl_attacker": 42,
+        "lvl_target": 80,
+        "variance_pm": 1037,
+        "crit": false,
+        "crit_mult_pm": 1761,
+        "buff_mod_pm": 1250
+      },
+      "expect": {
+        "damage": 637
+      }
+    },
+    {
+      "name": "damage_10",
+      "input": {
+        "op": "damage",
+        "atk": 275,
+        "power_pct": 250,
+        "def_target": 87,
+        "elem_mult_pm": 1500,
+        "pen_pm": 0,
+        "lvl_attacker": 10,
+        "lvl_target": 12,
+        "variance_pm": 1005,
+        "crit": true,
+        "crit_mult_pm": 1746,
+        "buff_mod_pm": 1000
+      },
+      "expect": {
+        "damage": 906
+      }
+    },
+    {
+      "name": "damage_11",
+      "input": {
+        "op": "damage",
+        "atk": 72,
+        "power_pct": 150,
+        "def_target": 261,
+        "elem_mult_pm": 1000,
+        "pen_pm": 250,
+        "lvl_attacker": 17,
+        "lvl_target": 56,
+        "variance_pm": 987,
+        "crit": true,
+        "crit_mult_pm": 2422,
+        "buff_mod_pm": 1000
+      },
+      "expect": {
+        "damage": 58
+      }
+    },
+    {
+      "name": "damage_12",
+      "input": {
+        "op": "damage",
+        "atk": 145,
+        "power_pct": 250,
+        "def_target": 350,
+        "elem_mult_pm": 500,
+        "pen_pm": 0,
+        "lvl_attacker": 51,
+        "lvl_target": 3,
+        "variance_pm": 997,
+        "crit": false,
+        "crit_mult_pm": 2237,
+        "buff_mod_pm": 1500
+      },
+      "expect": {
+        "damage": 76
+      }
+    },
+    {
+      "name": "damage_13",
+      "input": {
+        "op": "damage",
+        "atk": 377,
+        "power_pct": 50,
+        "def_target": 251,
+        "elem_mult_pm": 1000,
+        "pen_pm": 500,
+        "lvl_attacker": 77,
+        "lvl_target": 10,
+        "variance_pm": 951,
+        "crit": false,
+        "crit_mult_pm": 2089,
+        "buff_mod_pm": 1500
+      },
+      "expect": {
+        "damage": 151
+      }
+    },
+    {
+      "name": "damage_14",
+      "input": {
+        "op": "damage",
+        "atk": 271,
+        "power_pct": 400,
+        "def_target": 160,
+        "elem_mult_pm": 1500,
+        "pen_pm": 500,
+        "lvl_attacker": 40,
+        "lvl_target": 70,
+        "variance_pm": 1040,
+        "crit": true,
+        "crit_mult_pm": 1769,
+        "buff_mod_pm": 800
+      },
+      "expect": {
+        "damage": 929
+      }
+    },
+    {
+      "name": "damage_15",
+      "input": {
+        "op": "damage",
+        "atk": 701,
+        "power_pct": 120,
+        "def_target": 421,
+        "elem_mult_pm": 1000,
+        "pen_pm": 0,
+        "lvl_attacker": 42,
+        "lvl_target": 94,
+        "variance_pm": 997,
+        "crit": true,
+        "crit_mult_pm": 1534,
+        "buff_mod_pm": 1500
+      },
+      "expect": {
+        "damage": 255
+      }
+    },
+    {
+      "name": "damage_16",
+      "input": {
+        "op": "damage",
+        "atk": 146,
+        "power_pct": 120,
+        "def_target": 530,
+        "elem_mult_pm": 1500,
+        "pen_pm": 250,
+        "lvl_attacker": 80,
+        "lvl_target": 81,
+        "variance_pm": 1007,
+        "crit": false,
+        "crit_mult_pm": 2479,
+        "buff_mod_pm": 1500
+      },
+      "expect": {
+        "damage": 75
+      }
+    },
+    {
+      "name": "damage_17",
+      "input": {
+        "op": "damage",
+        "atk": 466,
+        "power_pct": 400,
+        "def_target": 340,
+        "elem_mult_pm": 500,
+        "pen_pm": 0,
+        "lvl_attacker": 68,
+        "lvl_target": 80,
+        "variance_pm": 996,
+        "crit": false,
+        "crit_mult_pm": 2042,
+        "buff_mod_pm": 800
+      },
+      "expect": {
+        "damage": 116
+      }
+    },
+    {
+      "name": "damage_18",
+      "input": {
+        "op": "damage",
+        "atk": 790,
+        "power_pct": 100,
+        "def_target": 140,
+        "elem_mult_pm": 500,
+        "pen_pm": 250,
+        "lvl_attacker": 79,
+        "lvl_target": 32,
+        "variance_pm": 1035,
+        "crit": false,
+        "crit_mult_pm": 2401,
+        "buff_mod_pm": 1000
+      },
+      "expect": {
+        "damage": 257
+      }
+    },
+    {
+      "name": "damage_19",
+      "input": {
+        "op": "damage",
+        "atk": 655,
+        "power_pct": 400,
+        "def_target": 2,
+        "elem_mult_pm": 500,
+        "pen_pm": 500,
+        "lvl_attacker": 26,
+        "lvl_target": 24,
+        "variance_pm": 992,
+        "crit": true,
+        "crit_mult_pm": 1545,
+        "buff_mod_pm": 1500
+      },
+      "expect": {
+        "damage": 3157
+      }
+    },
+    {
+      "name": "damage_20",
+      "input": {
+        "op": "damage",
+        "atk": 473,
+        "power_pct": 80,
+        "def_target": 185,
+        "elem_mult_pm": 1000,
+        "pen_pm": 250,
+        "lvl_attacker": 47,
+        "lvl_target": 36,
+        "variance_pm": 992,
+        "crit": false,
+        "crit_mult_pm": 2429,
+        "buff_mod_pm": 800
+      },
+      "expect": {
+        "damage": 162
+      }
+    },
+    {
+      "name": "damage_21",
+      "input": {
+        "op": "damage",
+        "atk": 447,
+        "power_pct": 400,
+        "def_target": 449,
+        "elem_mult_pm": 500,
+        "pen_pm": 250,
+        "lvl_attacker": 18,
+        "lvl_target": 40,
+        "variance_pm": 1024,
+        "crit": false,
+        "crit_mult_pm": 1803,
+        "buff_mod_pm": 1500
+      },
+      "expect": {
+        "damage": 219
+      }
+    },
+    {
+      "name": "damage_22",
+      "input": {
+        "op": "damage",
+        "atk": 461,
+        "power_pct": 80,
+        "def_target": 414,
+        "elem_mult_pm": 1500,
+        "pen_pm": 0,
+        "lvl_attacker": 79,
+        "lvl_target": 53,
+        "variance_pm": 1031,
+        "crit": false,
+        "crit_mult_pm": 1673,
+        "buff_mod_pm": 800
+      },
+      "expect": {
+        "damage": 114
+      }
+    },
+    {
+      "name": "damage_23",
+      "input": {
+        "op": "damage",
+        "atk": 156,
+        "power_pct": 400,
+        "def_target": 265,
+        "elem_mult_pm": 1000,
+        "pen_pm": 500,
+        "lvl_attacker": 90,
+        "lvl_target": 60,
+        "variance_pm": 982,
+        "crit": false,
+        "crit_mult_pm": 1628,
+        "buff_mod_pm": 800
+      },
+      "expect": {
+        "damage": 272
+      }
+    },
+    {
+      "name": "damage_24",
+      "input": {
+        "op": "damage",
+        "atk": 613,
+        "power_pct": 250,
+        "def_target": 270,
+        "elem_mult_pm": 1000,
+        "pen_pm": 0,
+        "lvl_attacker": 40,
+        "lvl_target": 22,
+        "variance_pm": 1031,
+        "crit": false,
+        "crit_mult_pm": 1728,
+        "buff_mod_pm": 1000
+      },
+      "expect": {
+        "damage": 554
+      }
+    },
+    {
+      "name": "damage_25",
+      "input": {
+        "op": "damage",
+        "atk": 152,
+        "power_pct": 400,
+        "def_target": 598,
+        "elem_mult_pm": 1500,
+        "pen_pm": 0,
+        "lvl_attacker": 66,
+        "lvl_target": 52,
+        "variance_pm": 1050,
+        "crit": true,
+        "crit_mult_pm": 2258,
+        "buff_mod_pm": 800
+      },
+      "expect": {
+        "damage": 319
+      }
+    },
+    {
+      "name": "damage_26",
+      "input": {
+        "op": "damage",
+        "atk": 123,
+        "power_pct": 80,
+        "def_target": 332,
+        "elem_mult_pm": 1500,
+        "pen_pm": 0,
+        "lvl_attacker": 60,
+        "lvl_target": 45,
+        "variance_pm": 963,
+        "crit": false,
+        "crit_mult_pm": 1526,
+        "buff_mod_pm": 1000
+      },
+      "expect": {
+        "damage": 42
+      }
+    },
+    {
+      "name": "damage_27",
+      "input": {
+        "op": "damage",
+        "atk": 177,
+        "power_pct": 50,
+        "def_target": 39,
+        "elem_mult_pm": 500,
+        "pen_pm": 250,
+        "lvl_attacker": 11,
+        "lvl_target": 61,
+        "variance_pm": 953,
+        "crit": false,
+        "crit_mult_pm": 1949,
+        "buff_mod_pm": 800
+      },
+      "expect": {
+        "damage": 16
+      }
+    },
+    {
+      "name": "damage_28",
+      "input": {
+        "op": "damage",
+        "atk": 609,
+        "power_pct": 250,
+        "def_target": 153,
+        "elem_mult_pm": 1500,
+        "pen_pm": 0,
+        "lvl_attacker": 99,
+        "lvl_target": 80,
+        "variance_pm": 966,
+        "crit": false,
+        "crit_mult_pm": 2110,
+        "buff_mod_pm": 1250
+      },
+      "expect": {
+        "damage": 1415
+      }
+    },
+    {
+      "name": "damage_29",
+      "input": {
+        "op": "damage",
+        "atk": 692,
+        "power_pct": 100,
+        "def_target": 363,
+        "elem_mult_pm": 1000,
+        "pen_pm": 0,
+        "lvl_attacker": 84,
+        "lvl_target": 57,
+        "variance_pm": 1005,
+        "crit": true,
+        "crit_mult_pm": 1547,
+        "buff_mod_pm": 800
+      },
+      "expect": {
+        "damage": 238
+      }
+    },
+    {
+      "name": "damage_30",
+      "input": {
+        "op": "damage",
+        "atk": 158,
+        "power_pct": 400,
+        "def_target": 514,
+        "elem_mult_pm": 500,
+        "pen_pm": 500,
+        "lvl_attacker": 51,
+        "lvl_target": 71,
+        "variance_pm": 973,
+        "crit": false,
+        "crit_mult_pm": 1739,
+        "buff_mod_pm": 1000
+      },
+      "expect": {
+        "damage": 59
+      }
+    },
+    {
+      "name": "damage_31",
+      "input": {
+        "op": "damage",
+        "atk": 515,
+        "power_pct": 250,
+        "def_target": 465,
+        "elem_mult_pm": 1000,
+        "pen_pm": 0,
+        "lvl_attacker": 79,
+        "lvl_target": 92,
+        "variance_pm": 1040,
+        "crit": false,
+        "crit_mult_pm": 1763,
+        "buff_mod_pm": 800
+      },
+      "expect": {
+        "damage": 131
+      }
+    },
+    {
+      "name": "damage_32",
+      "input": {
+        "op": "damage",
+        "atk": 326,
+        "power_pct": 150,
+        "def_target": 22,
+        "elem_mult_pm": 500,
+        "pen_pm": 0,
+        "lvl_attacker": 32,
+        "lvl_target": 85,
+        "variance_pm": 1016,
+        "crit": false,
+        "crit_mult_pm": 1592,
+        "buff_mod_pm": 1000
+      },
+      "expect": {
+        "damage": 142
+      }
+    },
+    {
+      "name": "damage_33",
+      "input": {
+        "op": "damage",
+        "atk": 272,
+        "power_pct": 400,
+        "def_target": 505,
+        "elem_mult_pm": 500,
+        "pen_pm": 500,
+        "lvl_attacker": 4,
+        "lvl_target": 71,
+        "variance_pm": 978,
+        "crit": false,
+        "crit_mult_pm": 1886,
+        "buff_mod_pm": 800
+      },
+      "expect": {
+        "damage": 83
+      }
+    },
+    {
+      "name": "damage_34",
+      "input": {
+        "op": "damage",
+        "atk": 682,
+        "power_pct": 80,
+        "def_target": 572,
+        "elem_mult_pm": 500,
+        "pen_pm": 500,
+        "lvl_attacker": 29,
+        "lvl_target": 6,
+        "variance_pm": 992,
+        "crit": false,
+        "crit_mult_pm": 1535,
+        "buff_mod_pm": 1250
+      },
+      "expect": {
+        "damage": 112
+      }
+    },
+    {
+      "name": "damage_35",
+      "input": {
+        "op": "damage",
+        "atk": 233,
+        "power_pct": 100,
+        "def_target": 17,
+        "elem_mult_pm": 1500,
+        "pen_pm": 0,
+        "lvl_attacker": 25,
+        "lvl_target": 52,
+        "variance_pm": 977,
+        "crit": false,
+        "crit_mult_pm": 1767,
+        "buff_mod_pm": 1250
+      },
+      "expect": {
+        "damage": 253
+      }
+    },
+    {
+      "name": "damage_36",
+      "input": {
+        "op": "damage",
+        "atk": 519,
+        "power_pct": 150,
+        "def_target": 150,
+        "elem_mult_pm": 1000,
+        "pen_pm": 500,
+        "lvl_attacker": 19,
+        "lvl_target": 65,
+        "variance_pm": 959,
+        "crit": false,
+        "crit_mult_pm": 2127,
+        "buff_mod_pm": 1000
+      },
+      "expect": {
+        "damage": 297
+      }
+    },
+    {
+      "name": "damage_37",
+      "input": {
+        "op": "damage",
+        "atk": 619,
+        "power_pct": 400,
+        "def_target": 382,
+        "elem_mult_pm": 500,
+        "pen_pm": 500,
+        "lvl_attacker": 88,
+        "lvl_target": 18,
+        "variance_pm": 960,
+        "crit": true,
+        "crit_mult_pm": 1984,
+        "buff_mod_pm": 1500
+      },
+      "expect": {
+        "damage": 1573
+      }
+    },
+    {
+      "name": "damage_38",
+      "input": {
+        "op": "damage",
+        "atk": 248,
+        "power_pct": 150,
+        "def_target": 539,
+        "elem_mult_pm": 500,
+        "pen_pm": 0,
+        "lvl_attacker": 6,
+        "lvl_target": 59,
+        "variance_pm": 993,
+        "crit": false,
+        "crit_mult_pm": 2423,
+        "buff_mod_pm": 1000
+      },
+      "expect": {
+        "damage": 19
+      }
+    },
+    {
+      "name": "damage_39",
+      "input": {
+        "op": "damage",
+        "atk": 27,
+        "power_pct": 80,
+        "def_target": 139,
+        "elem_mult_pm": 1000,
+        "pen_pm": 0,
+        "lvl_attacker": 22,
+        "lvl_target": 6,
+        "variance_pm": 998,
+        "crit": false,
+        "crit_mult_pm": 1656,
+        "buff_mod_pm": 1000
+      },
+      "expect": {
+        "damage": 9
+      }
+    },
+    {
+      "name": "damage_40",
+      "input": {
+        "op": "damage",
+        "atk": 416,
+        "power_pct": 80,
+        "def_target": 495,
+        "elem_mult_pm": 500,
+        "pen_pm": 0,
+        "lvl_attacker": 14,
+        "lvl_target": 97,
+        "variance_pm": 953,
+        "crit": true,
+        "crit_mult_pm": 2069,
+        "buff_mod_pm": 1250
+      },
+      "expect": {
+        "damage": 43
+      }
+    },
+    {
+      "name": "damage_41",
+      "input": {
+        "op": "damage",
+        "atk": 657,
+        "power_pct": 400,
+        "def_target": 190,
+        "elem_mult_pm": 1500,
+        "pen_pm": 0,
+        "lvl_attacker": 94,
+        "lvl_target": 12,
+        "variance_pm": 968,
+        "crit": true,
+        "crit_mult_pm": 2260,
+        "buff_mod_pm": 800
+      },
+      "expect": {
+        "damage": 3089
+      }
+    },
+    {
+      "name": "damage_42",
+      "input": {
+        "op": "damage",
+        "atk": 227,
+        "power_pct": 50,
+        "def_target": 498,
+        "elem_mult_pm": 1000,
+        "pen_pm": 500,
+        "lvl_attacker": 89,
+        "lvl_target": 88,
+        "variance_pm": 1004,
+        "crit": true,
+        "crit_mult_pm": 2097,
+        "buff_mod_pm": 1000
+      },
+      "expect": {
+        "damage": 67
+      }
+    },
+    {
+      "name": "damage_43",
+      "input": {
+        "op": "damage",
+        "atk": 566,
+        "power_pct": 250,
+        "def_target": 378,
+        "elem_mult_pm": 1500,
+        "pen_pm": 500,
+        "lvl_attacker": 8,
+        "lvl_target": 27,
+        "variance_pm": 1042,
+        "crit": false,
+        "crit_mult_pm": 2309,
+        "buff_mod_pm": 1500
+      },
+      "expect": {
+        "damage": 801
+      }
+    },
+    {
+      "name": "damage_44",
+      "input": {
+        "op": "damage",
+        "atk": 684,
+        "power_pct": 50,
+        "def_target": 366,
+        "elem_mult_pm": 1500,
+        "pen_pm": 500,
+        "lvl_attacker": 61,
+        "lvl_target": 2,
+        "variance_pm": 955,
+        "crit": false,
+        "crit_mult_pm": 1908,
+        "buff_mod_pm": 1000
+      },
+      "expect": {
+        "damage": 224
+      }
+    },
+    {
+      "name": "damage_45",
+      "input": {
+        "op": "damage",
+        "atk": 130,
+        "power_pct": 120,
+        "def_target": 254,
+        "elem_mult_pm": 1500,
+        "pen_pm": 0,
+        "lvl_attacker": 8,
+        "lvl_target": 57,
+        "variance_pm": 1035,
+        "crit": false,
+        "crit_mult_pm": 2405,
+        "buff_mod_pm": 1500
+      },
+      "expect": {
+        "damage": 70
+      }
+    },
+    {
+      "name": "damage_46",
+      "input": {
+        "op": "damage",
+        "atk": 613,
+        "power_pct": 400,
+        "def_target": 79,
+        "elem_mult_pm": 500,
+        "pen_pm": 250,
+        "lvl_attacker": 62,
+        "lvl_target": 63,
+        "variance_pm": 1034,
+        "crit": false,
+        "crit_mult_pm": 2474,
+        "buff_mod_pm": 1250
+      },
+      "expect": {
+        "damage": 965
+      }
+    },
+    {
+      "name": "damage_47",
+      "input": {
+        "op": "damage",
+        "atk": 477,
+        "power_pct": 100,
+        "def_target": 226,
+        "elem_mult_pm": 500,
+        "pen_pm": 500,
+        "lvl_attacker": 3,
+        "lvl_target": 39,
+        "variance_pm": 1031,
+        "crit": true,
+        "crit_mult_pm": 2304,
+        "buff_mod_pm": 1000
+      },
+      "expect": {
+        "damage": 182
+      }
+    },
+    {
+      "name": "damage_48",
+      "input": {
+        "op": "damage",
+        "atk": 608,
+        "power_pct": 400,
+        "def_target": 156,
+        "elem_mult_pm": 1000,
+        "pen_pm": 0,
+        "lvl_attacker": 81,
+        "lvl_target": 32,
+        "variance_pm": 970,
+        "crit": false,
+        "crit_mult_pm": 1724,
+        "buff_mod_pm": 800
+      },
+      "expect": {
+        "damage": 957
+      }
+    },
+    {
+      "name": "damage_49",
+      "input": {
+        "op": "damage",
+        "atk": 427,
+        "power_pct": 120,
+        "def_target": 541,
+        "elem_mult_pm": 1500,
+        "pen_pm": 500,
+        "lvl_attacker": 35,
+        "lvl_target": 45,
+        "variance_pm": 971,
+        "crit": false,
+        "crit_mult_pm": 2196,
+        "buff_mod_pm": 1000
+      },
+      "expect": {
+        "damage": 139
+      }
+    },
+    {
+      "name": "damage_50",
+      "input": {
+        "op": "damage",
+        "atk": 788,
+        "power_pct": 250,
+        "def_target": 523,
+        "elem_mult_pm": 500,
+        "pen_pm": 500,
+        "lvl_attacker": 48,
+        "lvl_target": 80,
+        "variance_pm": 950,
+        "crit": true,
+        "crit_mult_pm": 1550,
+        "buff_mod_pm": 1250
+      },
+      "expect": {
+        "damage": 348
+      }
+    },
+    {
+      "name": "damage_51",
+      "input": {
+        "op": "damage",
+        "atk": 347,
+        "power_pct": 120,
+        "def_target": 219,
+        "elem_mult_pm": 1500,
+        "pen_pm": 250,
+        "lvl_attacker": 59,
+        "lvl_target": 45,
+        "variance_pm": 957,
+        "crit": false,
+        "crit_mult_pm": 1545,
+        "buff_mod_pm": 800
+      },
+      "expect": {
+        "damage": 233
+      }
+    },
+    {
+      "name": "damage_52",
+      "input": {
+        "op": "damage",
+        "atk": 327,
+        "power_pct": 150,
+        "def_target": 7,
+        "elem_mult_pm": 500,
+        "pen_pm": 500,
+        "lvl_attacker": 16,
+        "lvl_target": 14,
+        "variance_pm": 1011,
+        "crit": false,
+        "crit_mult_pm": 2413,
+        "buff_mod_pm": 1500
+      },
+      "expect": {
+        "damage": 379
+      }
+    },
+    {
+      "name": "damage_53",
+      "input": {
+        "op": "damage",
+        "atk": 287,
+        "power_pct": 250,
+        "def_target": 457,
+        "elem_mult_pm": 500,
+        "pen_pm": 0,
+        "lvl_attacker": 60,
+        "lvl_target": 11,
+        "variance_pm": 1007,
+        "crit": false,
+        "crit_mult_pm": 1891,
+        "buff_mod_pm": 1500
+      },
+      "expect": {
+        "damage": 124
+      }
+    },
+    {
+      "name": "damage_54",
+      "input": {
+        "op": "damage",
+        "atk": 234,
+        "power_pct": 80,
+        "def_target": 583,
+        "elem_mult_pm": 500,
+        "pen_pm": 0,
+        "lvl_attacker": 2,
+        "lvl_target": 21,
+        "variance_pm": 1005,
+        "crit": false,
+        "crit_mult_pm": 1726,
+        "buff_mod_pm": 1250
+      },
+      "expect": {
+        "damage": 11
+      }
+    },
+    {
+      "name": "damage_55",
+      "input": {
+        "op": "damage",
+        "atk": 669,
+        "power_pct": 250,
+        "def_target": 29,
+        "elem_mult_pm": 1000,
+        "pen_pm": 0,
+        "lvl_attacker": 73,
+        "lvl_target": 41,
+        "variance_pm": 1024,
+        "crit": false,
+        "crit_mult_pm": 2040,
+        "buff_mod_pm": 1000
+      },
+      "expect": {
+        "damage": 1724
+      }
+    },
+    {
+      "name": "damage_56",
+      "input": {
+        "op": "damage",
+        "atk": 10,
+        "power_pct": 150,
+        "def_target": 236,
+        "elem_mult_pm": 1000,
+        "pen_pm": 250,
+        "lvl_attacker": 92,
+        "lvl_target": 52,
+        "variance_pm": 999,
+        "crit": false,
+        "crit_mult_pm": 1780,
+        "buff_mod_pm": 800
+      },
+      "expect": {
+        "damage": 4
+      }
+    },
+    {
+      "name": "damage_57",
+      "input": {
+        "op": "damage",
+        "atk": 122,
+        "power_pct": 50,
+        "def_target": 205,
+        "elem_mult_pm": 500,
+        "pen_pm": 250,
+        "lvl_attacker": 52,
+        "lvl_target": 34,
+        "variance_pm": 996,
+        "crit": false,
+        "crit_mult_pm": 2016,
+        "buff_mod_pm": 1500
+      },
+      "expect": {
+        "damage": 19
+      }
+    },
+    {
+      "name": "damage_58",
+      "input": {
+        "op": "damage",
+        "atk": 143,
+        "power_pct": 150,
+        "def_target": 432,
+        "elem_mult_pm": 500,
+        "pen_pm": 250,
+        "lvl_attacker": 64,
+        "lvl_target": 59,
+        "variance_pm": 1029,
+        "crit": true,
+        "crit_mult_pm": 1759,
+        "buff_mod_pm": 1250
+      },
+      "expect": {
+        "damage": 61
+      }
+    },
+    {
+      "name": "damage_59",
+      "input": {
+        "op": "damage",
+        "atk": 573,
+        "power_pct": 120,
+        "def_target": 415,
+        "elem_mult_pm": 500,
+        "pen_pm": 0,
+        "lvl_attacker": 9,
+        "lvl_target": 72,
+        "variance_pm": 993,
+        "crit": false,
+        "crit_mult_pm": 2065,
+        "buff_mod_pm": 1250
+      },
+      "expect": {
+        "damage": 56
+      }
+    },
+    {
+      "name": "damage_60",
+      "input": {
+        "op": "damage",
+        "atk": 188,
+        "power_pct": 80,
+        "def_target": 387,
+        "elem_mult_pm": 500,
+        "pen_pm": 0,
+        "lvl_attacker": 24,
+        "lvl_target": 73,
+        "variance_pm": 973,
+        "crit": true,
+        "crit_mult_pm": 1606,
+        "buff_mod_pm": 1250
+      },
+      "expect": {
+        "damage": 17
+      }
+    },
+    {
+      "name": "damage_61",
+      "input": {
+        "op": "damage",
+        "atk": 598,
+        "power_pct": 100,
+        "def_target": 476,
+        "elem_mult_pm": 1000,
+        "pen_pm": 500,
+        "lvl_attacker": 88,
+        "lvl_target": 19,
+        "variance_pm": 954,
+        "crit": true,
+        "crit_mult_pm": 2283,
+        "buff_mod_pm": 1500
+      },
+      "expect": {
+        "damage": 742
+      }
+    },
+    {
+      "name": "damage_62",
+      "input": {
+        "op": "damage",
+        "atk": 799,
+        "power_pct": 400,
+        "def_target": 505,
+        "elem_mult_pm": 1000,
+        "pen_pm": 250,
+        "lvl_attacker": 35,
+        "lvl_target": 1,
+        "variance_pm": 1037,
+        "crit": false,
+        "crit_mult_pm": 1723,
+        "buff_mod_pm": 1500
+      },
+      "expect": {
+        "damage": 1350
+      }
+    }
+  ]
+}

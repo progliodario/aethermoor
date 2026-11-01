@@ -1,0 +1,180 @@
+{
+  "suite": "xp",
+  "spec_version": 1,
+  "generated_by": "tools/gen_conformance.py",
+  "cases": [
+    {
+      "name": "xp_table_1",
+      "input": {
+        "op": "xp_table",
+        "table": "base:table/xp",
+        "level": 1
+      },
+      "expect": {
+        "value": 50
+      }
+    },
+    {
+      "name": "xp_table_2",
+      "input": {
+        "op": "xp_table",
+        "table": "base:table/xp",
+        "level": 2
+      },
+      "expect": {
+        "value": 130
+      }
+    },
+    {
+      "name": "xp_table_10",
+      "input": {
+        "op": "xp_table",
+        "table": "base:table/xp",
+        "level": 10
+      },
+      "expect": {
+        "value": 1394
+      }
+    },
+    {
+      "name": "xp_table_25",
+      "input": {
+        "op": "xp_table",
+        "table": "base:table/xp",
+        "level": 25
+      },
+      "expect": {
+        "value": 5673
+      }
+    },
+    {
+      "name": "xp_table_50",
+      "input": {
+        "op": "xp_table",
+        "table": "base:table/xp",
+        "level": 50
+      },
+      "expect": {
+        "value": 16684
+      }
+    },
+    {
+      "name": "xp_table_75",
+      "input": {
+        "op": "xp_table",
+        "table": "base:table/xp",
+        "level": 75
+      },
+      "expect": {
+        "value": 31506
+      }
+    },
+    {
+      "name": "xp_table_98",
+      "input": {
+        "op": "xp_table",
+        "table": "base:table/xp",
+        "level": 98
+      },
+      "expect": {
+        "value": 47994
+      }
+    },
+    {
+      "name": "xp_gain_0",
+      "input": {
+        "op": "xp_gain",
+        "enemy_xp": 6,
+        "lvl_enemy": 1,
+        "lvl_player": 1
+      },
+      "expect": {
+        "value": 6
+      }
+    },
+    {
+      "name": "xp_gain_1",
+      "input": {
+        "op": "xp_gain",
+        "enemy_xp": 6,
+        "lvl_enemy": 5,
+        "lvl_player": 1
+      },
+      "expect": {
+        "value": 8
+      }
+    },
+    {
+      "name": "xp_gain_2",
+      "input": {
+        "op": "xp_gain",
+        "enemy_xp": 6,
+        "lvl_enemy": 1,
+        "lvl_player": 20
+      },
+      "expect": {
+        "value": 0
+      }
+    },
+    {
+      "name": "xp_gain_3",
+      "input": {
+        "op": "xp_gain",
+        "enemy_xp": 100,
+        "lvl_enemy": 30,
+        "lvl_player": 30
+      },
+      "expect": {
+        "value": 100
+      }
+    },
+    {
+      "name": "xp_gain_4",
+      "input": {
+        "op": "xp_gain",
+        "enemy_xp": 100,
+        "lvl_enemy": 99,
+        "lvl_player": 1
+      },
+      "expect": {
+        "value": 150
+      }
+    },
+    {
+      "name": "xp_gain_5",
+      "input": {
+        "op": "xp_gain",
+        "enemy_xp": 1000,
+        "lvl_enemy": 10,
+        "lvl_player": 99
+      },
+      "expect": {
+        "value": 100
+      }
+    },
+    {
+      "name": "xp_gain_6",
+      "input": {
+        "op": "xp_gain",
+        "enemy_xp": 7,
+        "lvl_enemy": 3,
+        "lvl_player": 2
+      },
+      "expect": {
+        "value": 7
+      }
+    },
+    {
+      "name": "xp_gain_7",
+      "input": {
+        "op": "xp_gain",
+        "enemy_xp": 1,
+        "lvl_enemy": 1,
+        "lvl_player": 99
+      },
+      "expect": {
+        "value": 0
+      }
+    }
+  ]
+}

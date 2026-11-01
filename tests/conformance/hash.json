@@ -1,0 +1,311 @@
+{
+  "suite": "hash",
+  "spec_version": 1,
+  "generated_by": "tools/gen_conformance.py",
+  "cases": [
+    {
+      "name": "hash64_0",
+      "input": {
+        "op": "hash64",
+        "seed": "0x0000000000000000",
+        "a": 0,
+        "b": 0,
+        "c": 0
+      },
+      "expect": {
+        "value": "0x238275bc38fcbe91"
+      }
+    },
+    {
+      "name": "hash64_1",
+      "input": {
+        "op": "hash64",
+        "seed": "0x0000000000000001",
+        "a": 1,
+        "b": 2,
+        "c": 3
+      },
+      "expect": {
+        "value": "0x3e0f482afb07b829"
+      }
+    },
+    {
+      "name": "hash64_2",
+      "input": {
+        "op": "hash64",
+        "seed": "0xffffffffffffffff",
+        "a": -1,
+        "b": -1,
+        "c": -1
+      },
+      "expect": {
+        "value": "0x5295df3075a72c7d"
+      }
+    },
+    {
+      "name": "hash64_3",
+      "input": {
+        "op": "hash64",
+        "seed": "0x000000000000002a",
+        "a": 1099511627776,
+        "b": -1099511627776,
+        "c": 7
+      },
+      "expect": {
+        "value": "0xf497e263dccda82c"
+      }
+    },
+    {
+      "name": "hash64_4",
+      "input": {
+        "op": "hash64",
+        "seed": "0x10fb8b8d91076163",
+        "a": -208995,
+        "b": 321605,
+        "c": 64
+      },
+      "expect": {
+        "value": "0x04df11f4dcc034e6"
+      }
+    },
+    {
+      "name": "hash64_5",
+      "input": {
+        "op": "hash64",
+        "seed": "0x1f22e0b028cf2b76",
+        "a": -130442,
+        "b": -906264,
+        "c": 95
+      },
+      "expect": {
+        "value": "0x8cc90259fbe8aab2"
+      }
+    },
+    {
+      "name": "hash64_6",
+      "input": {
+        "op": "hash64",
+        "seed": "0xa6545b32d6c2640d",
+        "a": -574371,
+        "b": 614683,
+        "c": 3
+      },
+      "expect": {
+        "value": "0x787580fcb322d967"
+      }
+    },
+    {
+      "name": "hash64_7",
+      "input": {
+        "op": "hash64",
+        "seed": "0x8413b8c0fed5bf41",
+        "a": 293746,
+        "b": -20887,
+        "c": -51
+      },
+      "expect": {
+        "value": "0xef6465d20b742f9c"
+      }
+    },
+    {
+      "name": "hash64_8",
+      "input": {
+        "op": "hash64",
+        "seed": "0xf4042f33cbb3220a",
+        "a": 885488,
+        "b": 255017,
+        "c": -53
+      },
+      "expect": {
+        "value": "0x1a7d90676da30781"
+      }
+    },
+    {
+      "name": "hash64_9",
+      "input": {
+        "op": "hash64",
+        "seed": "0x8f2ac5c5b41c302a",
+        "a": -145478,
+        "b": 184939,
+        "c": 13
+      },
+      "expect": {
+        "value": "0xe3096edd52b7a6f1"
+      }
+    },
+    {
+      "name": "hash64_10",
+      "input": {
+        "op": "hash64",
+        "seed": "0x52ee71b397a97a7a",
+        "a": 681523,
+        "b": -582123,
+        "c": 39
+      },
+      "expect": {
+        "value": "0x396fe79756d61e7b"
+      }
+    },
+    {
+      "name": "hash64_11",
+      "input": {
+        "op": "hash64",
+        "seed": "0xff3d6163abe49f8d",
+        "a": 50835,
+        "b": -884268,
+        "c": 62
+      },
+      "expect": {
+        "value": "0x95f886278143ae54"
+      }
+    },
+    {
+      "name": "hash64_12",
+      "input": {
+        "op": "hash64",
+        "seed": "0x1a6cd083161904fa",
+        "a": 835782,
+        "b": 342871,
+        "c": -82
+      },
+      "expect": {
+        "value": "0x33efbacb2c3fc698"
+      }
+    },
+    {
+      "name": "hash64_13",
+      "input": {
+        "op": "hash64",
+        "seed": "0xc5d2447286bd7b88",
+        "a": 437265,
+        "b": 137747,
+        "c": -100
+      },
+      "expect": {
+        "value": "0x9a30e53d45403e0b"
+      }
+    },
+    {
+      "name": "hash64_14",
+      "input": {
+        "op": "hash64",
+        "seed": "0x74c0f638051d4ed7",
+        "a": -246410,
+        "b": 958832,
+        "c": 45
+      },
+      "expect": {
+        "value": "0x2432d106bbcedcd7"
+      }
+    },
+    {
+      "name": "hash64_15",
+      "input": {
+        "op": "hash64",
+        "seed": "0x11dd7c618b829198",
+        "a": -98845,
+        "b": 774863,
+        "c": 61
+      },
+      "expect": {
+        "value": "0xe156b4a2cd14a2a5"
+      }
+    },
+    {
+      "name": "lattice_0",
+      "input": {
+        "op": "lattice",
+        "seed": "0xc3277237b894fe70",
+        "x": 4836,
+        "y": -3044
+      },
+      "expect": {
+        "value": 61633
+      }
+    },
+    {
+      "name": "lattice_1",
+      "input": {
+        "op": "lattice",
+        "seed": "0x3930b256a9c62e3d",
+        "x": 3230,
+        "y": 4770
+      },
+      "expect": {
+        "value": 1082
+      }
+    },
+    {
+      "name": "lattice_2",
+      "input": {
+        "op": "lattice",
+        "seed": "0x4b3b2156195b8e47",
+        "x": 4231,
+        "y": 3547
+      },
+      "expect": {
+        "value": 6436
+      }
+    },
+    {
+      "name": "lattice_3",
+      "input": {
+        "op": "lattice",
+        "seed": "0x6fb2d8b7885f1272",
+        "x": -2963,
+        "y": -308
+      },
+      "expect": {
+        "value": 34742
+      }
+    },
+    {
+      "name": "lattice_4",
+      "input": {
+        "op": "lattice",
+        "seed": "0xa2b96c4ba505a49b",
+        "x": 4323,
+        "y": -2408
+      },
+      "expect": {
+        "value": 23277
+      }
+    },
+    {
+      "name": "lattice_5",
+      "input": {
+        "op": "lattice",
+        "seed": "0xb8e6d66dee605a11",
+        "x": -554,
+        "y": 279
+      },
+      "expect": {
+        "value": 47654
+      }
+    },
+    {
+      "name": "lattice_6",
+      "input": {
+        "op": "lattice",
+        "seed": "0x1e8dbdf0d51b9123",
+        "x": 2843,
+        "y": -4623
+      },
+      "expect": {
+        "value": 48920
+      }
+    },
+    {
+      "name": "lattice_7",
+      "input": {
+        "op": "lattice",
+        "seed": "0x7dfa7e3bef72a110",
+        "x": -2334,
+        "y": 704
+      },
+      "expect": {
+        "value": 8493
+      }
+    }
+  ]
+}

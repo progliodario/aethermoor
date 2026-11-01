@@ -1,0 +1,12 @@
+{
+  "$schema": "../../../../schemas/skill.schema.json",
+  "id": "base:skill/common/slash",
+  "name": "$i18n:skill.common.slash.name",
+  "description": "$i18n:skill.common.slash.desc",
+  "type": "active",
+  "cost": { "mp": 0 },
+  "cooldown_ticks": 24,
+  "timing": { "startup": 6, "active": 4, "recovery": 10 },
+  "damage": { "kind": "physical", "element": "none", "power_pct": 100 },
+  "tags": ["melee", "basic"]
+}

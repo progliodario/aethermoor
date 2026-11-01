@@ -1,0 +1,228 @@
+{
+  "suite": "i18n_format",
+  "spec_version": 1,
+  "generated_by": "tools/gen_conformance.py",
+  "cases": [
+    {
+      "name": "plain",
+      "input": {
+        "op": "format",
+        "lang": "it",
+        "message": "Nessun segnaposto",
+        "args": {}
+      },
+      "expect": {
+        "text": "Nessun segnaposto"
+      }
+    },
+    {
+      "name": "placeholder_string",
+      "input": {
+        "op": "format",
+        "lang": "it",
+        "message": "Versione {version}",
+        "args": {
+          "version": "0.1.0"
+        }
+      },
+      "expect": {
+        "text": "Versione 0.1.0"
+      }
+    },
+    {
+      "name": "placeholder_int",
+      "input": {
+        "op": "format",
+        "lang": "en",
+        "message": "You have {gold} gold",
+        "args": {
+          "gold": 1250
+        }
+      },
+      "expect": {
+        "text": "You have 1250 gold"
+      }
+    },
+    {
+      "name": "placeholder_missing",
+      "input": {
+        "op": "format",
+        "lang": "en",
+        "message": "Hello {who}!",
+        "args": {}
+      },
+      "expect": {
+        "text": "Hello {who}!"
+      }
+    },
+    {
+      "name": "escaped_braces",
+      "input": {
+        "op": "format",
+        "lang": "en",
+        "message": "Use {{name}} as a template",
+        "args": {}
+      },
+      "expect": {
+        "text": "Use {name} as a template"
+      }
+    },
+    {
+      "name": "plural_one_it",
+      "input": {
+        "op": "format",
+        "lang": "it",
+        "message": "{n, plural, one {# pane} other {# pani}}",
+        "args": {
+          "n": 1
+        }
+      },
+      "expect": {
+        "text": "1 pane"
+      }
+    },
+    {
+      "name": "plural_other_it",
+      "input": {
+        "op": "format",
+        "lang": "it",
+        "message": "{n, plural, one {# pane} other {# pani}}",
+        "args": {
+          "n": 3
+        }
+      },
+      "expect": {
+        "text": "3 pani"
+      }
+    },
+    {
+      "name": "plural_zero_exact",
+      "input": {
+        "op": "format",
+        "lang": "it",
+        "message": "{n, plural, =0 {Nessun pane} one {# pane} other {# pani}}",
+        "args": {
+          "n": 0
+        }
+      },
+      "expect": {
+        "text": "Nessun pane"
+      }
+    },
+    {
+      "name": "plural_one_en",
+      "input": {
+        "op": "format",
+        "lang": "en",
+        "message": "{count, plural, one {# apple} other {# apples}} for {who}",
+        "args": {
+          "count": 1,
+          "who": "Ren"
+        }
+      },
+      "expect": {
+        "text": "1 apple for Ren"
+      }
+    },
+    {
+      "name": "plural_nested_arg",
+      "input": {
+        "op": "format",
+        "lang": "en",
+        "message": "{n, plural, one {{who} has # coin} other {{who} has # coins}}",
+        "args": {
+          "n": 2,
+          "who": "Lena"
+        }
+      },
+      "expect": {
+        "text": "Lena has 2 coins"
+      }
+    },
+    {
+      "name": "plural_negative",
+      "input": {
+        "op": "format",
+        "lang": "en",
+        "message": "{n, plural, one {# thing} other {# things}}",
+        "args": {
+          "n": -1
+        }
+      },
+      "expect": {
+        "text": "-1 things"
+      }
+    },
+    {
+      "name": "select_match",
+      "input": {
+        "op": "format",
+        "lang": "en",
+        "message": "{kind, select, sword {A blade} bow {A bow} other {Something}}",
+        "args": {
+          "kind": "bow"
+        }
+      },
+      "expect": {
+        "text": "A bow"
+      }
+    },
+    {
+      "name": "select_other",
+      "input": {
+        "op": "format",
+        "lang": "en",
+        "message": "{kind, select, sword {A blade} other {Something}}",
+        "args": {
+          "kind": "axe"
+        }
+      },
+      "expect": {
+        "text": "Something"
+      }
+    },
+    {
+      "name": "unicode",
+      "input": {
+        "op": "format",
+        "lang": "it",
+        "message": "Perché {name}? Più {n, plural, one {# volta} other {# volte}}",
+        "args": {
+          "name": "è",
+          "n": 2
+        }
+      },
+      "expect": {
+        "text": "Perché è? Più 2 volte"
+      }
+    },
+    {
+      "name": "pound_outside_plural",
+      "input": {
+        "op": "format",
+        "lang": "en",
+        "message": "Item #1 costs {gold}",
+        "args": {
+          "gold": 5
+        }
+      },
+      "expect": {
+        "text": "Item #1 costs 5"
+      }
+    },
+    {
+      "name": "unclosed_brace",
+      "input": {
+        "op": "format",
+        "lang": "en",
+        "message": "Broken {name",
+        "args": {
+          "name": "x"
+        }
+      },
+      "expect": {
+        "text": "Broken {name"
+      }
+    }
+  ]
+}
