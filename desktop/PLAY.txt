@@ -28,7 +28,7 @@ Avvia aethermoor (aethermoor.exe su Windows). Tieni la cartella "data" accanto.
 Il gioco sceglie italiano o inglese dalla lingua del sistema.
 
   Muoversi ........ WASD o frecce, o stick sinistro del gamepad
-  Attaccare ....... J o Spazio (gamepad: A / grilletto destro)
+  Attaccare ....... J o Spazio (gamepad: A)
   Parlare/confermare  E o Invio (gamepad: X), scelte con W/S o 1-9
   Zaino ........... I        Mappa del mondo  M        Chiudere un pannello  Esc
   Salvataggio rapido  F5     Carica ...... F9          Nuova partita ........ F7
