@@ -179,7 +179,14 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
                     },
                 )
                 if (s.story.dialogueActive) {
-                    put("dialogue", buildJsonObject { put("id", s.story.dialogueId); put("node", s.story.node) })
+                    put(
+                        "dialogue",
+                        buildJsonObject {
+                            put("id", s.story.dialogueId)
+                            put("node", s.story.node)
+                            if (s.story.dialogueArgs.isNotEmpty()) put("args", buildJsonObject { for ((k, v) in s.story.dialogueArgs) put(k, v) })
+                        },
+                    )
                 } else {
                     put("dialogue", JsonNull)
                 }
@@ -219,6 +226,7 @@ fun saveFromJson(text: String): Result<SaveState> =
                     dialogueActive = dialogue !is JsonNull,
                     dialogueId = if (dialogue is JsonNull) "" else dialogue.jsonObject.getValue("id").jsonPrimitive.content,
                     node = if (dialogue is JsonNull) "" else dialogue.jsonObject.getValue("node").jsonPrimitive.content,
+                    dialogueArgs = if (dialogue is JsonNull) emptyMap() else (dialogue.jsonObject["args"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.content } ?: emptyMap(),
                 )
             }
         SaveState(

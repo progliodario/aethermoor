@@ -90,6 +90,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var talkRect: FloatArray? = null
     private var lastSpeaker = ""
     private var lastText = ""
+    private var lastArgs: Map<String, String> = emptyMap()
     private var showInventory = false
     private var bagCursor = 0
     private var bagRowRects: List<FloatArray> = emptyList()
@@ -296,7 +297,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val items = ArrayList<Item>()
         world.forEachProp(cam.x - 2f, cam.y - 1f, cam.x + viewW + 2f, cam.y + viewH + 4f) { prop -> items.add(Item(prop.y, prop, null)) }
         for (enemy in world.enemies) if (enemy.state != EnemyState.DEAD) items.add(Item(enemy.position.y, null, enemy))
-        for (npc in world.story.setup.npcs) items.add(Item(npc.y, null, null, npc))
+        for (npc in world.story.setup.npcs + world.story.dynamicNpcs) items.add(Item(npc.y, null, null, npc))
         items.add(Item(world.player.position.y, null, null))
         for (item in items.sortedBy { it.feetY }) {
             when {
@@ -348,8 +349,26 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         )
     }
 
+    /** A dialogue text with its arguments (spec 07): values that start with "$i18n:" are text keys resolved with the plain ones. */
+    private fun dialogueText(pack: Pack, reference: String, args: Map<String, String>): String {
+        val plain = args.filterValues { !it.startsWith("\$i18n:") }
+        val all = HashMap<String, Any>(plain)
+        for ((key, value) in args) if (value.startsWith("\$i18n:")) all[key] = pack.text(language, value, plain)
+        return pack.text(language, reference, all)
+    }
+
+    /** The name shown for a speaker: "npc" is the NPC being talked to, any other one has a text. */
+    private fun speakerName(pack: Pack, speaker: String, args: Map<String, String>): String =
+        if (speaker == "npc") args["npc"] ?: "" else pack.text(language, "\$i18n:speaker.$speaker")
+
     private fun drawNpc(world: WorldSim, data: Assets, npc: NpcDef, camX: Float, camY: Float, tilePx: Int, k: Float) {
         val tile = tilePx.toFloat()
+        if (npc.name.isNotEmpty() && npc === world.story.npcInRange()) {
+            layout.setText(font, npc.name)
+            font.color = Color(1f, 0.84f, 0.47f, 1f)
+            font.draw(batch, npc.name, (npc.x - camX) * tile - layout.width / 2f, (npc.y - camY) * tile - 2.4f * tile)
+            font.color = Color.WHITE
+        }
         drawCharacter(
             data, false, world.player.position.x < npc.x, (System.currentTimeMillis() / 16).toInt(), false,
             npc.variant.ifEmpty { null }, (npc.x - camX) * tile, (npc.y - camY) * tile, tilePx, k,
@@ -612,6 +631,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (view.active && !view.isChoice) {
             lastSpeaker = view.speaker
             lastText = view.text
+            lastArgs = view.args
         } else if (!view.active) {
             lastText = ""
         }
@@ -626,14 +646,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             if (view.isChoice) {
                 boxH = view.choices.size * (font.lineHeight * 1.5f) + 24f * density
                 if (lastText.isNotEmpty()) {
-                    heading = data.pack.text(language, "\$i18n:speaker.$lastSpeaker")
-                    layout.setText(font, data.pack.text(language, lastText), Color.WHITE, boxW - 24f * density, 0, true)
+                    heading = speakerName(data.pack, lastSpeaker, lastArgs)
+                    layout.setText(font, dialogueText(data.pack, lastText, lastArgs), Color.WHITE, boxW - 24f * density, 0, true)
                     questionHeight = layout.height + font.lineHeight * 1.5f + 8f * density
                     boxH += questionHeight
                 }
             } else {
-                heading = data.pack.text(language, "\$i18n:speaker.${view.speaker}")
-                layout.setText(font, data.pack.text(language, view.text), Color.WHITE, boxW - 24f * density, 0, true)
+                heading = speakerName(data.pack, view.speaker, view.args)
+                layout.setText(font, dialogueText(data.pack, view.text, view.args), Color.WHITE, boxW - 24f * density, 0, true)
                 boxH = layout.height + font.lineHeight * 1.5f + 24f * density
             }
         }
@@ -710,14 +730,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                     font.color = Color(1f, 0.84f, 0.47f, 1f)
                     font.draw(batch, heading, margin + 12f * density, ty)
                     font.color = Color(0.92f, 0.96f, 1f, 1f)
-                    layout.setText(font, data.pack.text(language, lastText), font.color, boxW - 24f * density, 0, true)
+                    layout.setText(font, dialogueText(data.pack, lastText, lastArgs), font.color, boxW - 24f * density, 0, true)
                     font.draw(batch, layout, margin + 12f * density, ty + font.lineHeight * 1.5f)
                     ty += questionHeight
                 }
                 for ((i, choice) in view.choices.withIndex()) {
                     font.color = if (i == choiceIndex) Color(0.435f, 0.89f, 1f, 1f) else Color.WHITE
                     font.draw(
-                        batch, "${i + 1}. ${data.pack.text(language, choice)}",
+                        batch, "${i + 1}. ${dialogueText(data.pack, choice, view.args)}",
                         margin + 12f * density, ty + (font.lineHeight * 1.5f - font.lineHeight) / 2f,
                     )
                     ty += font.lineHeight * 1.5f
@@ -727,7 +747,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 font.draw(batch, heading, margin + 12f * density, ty)
                 ty += font.lineHeight * 1.5f
                 font.color = Color(0.92f, 0.96f, 1f, 1f)
-                layout.setText(font, data.pack.text(language, view.text), font.color, boxW - 24f * density, 0, true)
+                layout.setText(font, dialogueText(data.pack, view.text, view.args), font.color, boxW - 24f * density, 0, true)
                 font.draw(batch, layout, margin + 12f * density, ty)
             }
         }

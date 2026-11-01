@@ -369,11 +369,13 @@ GenPerson person_at(std::uint64_t seed, const WorldParams& p, const Settlement& 
     person.variant = p.variants[(h >> 32) % p.variants.size()];
     person.tone = region.tone;
     person.dialogue = p.settlement_dialogue;
-    for (const auto& [token, value] : {std::pair<std::string, std::string>{"{role}", role}, {"{tone}", region.tone}}) {
+    const auto replace_all = [&person](const std::string& token, const std::string& value) {
         for (std::size_t at = person.dialogue.find(token); at != std::string::npos; at = person.dialogue.find(token, at + value.size())) {
             person.dialogue.replace(at, token.size(), value);
         }
-    }
+    };
+    replace_all("{role}", role);
+    replace_all("{tone}", region.tone);
     person.place = s.name;
     person.region = region.name;
     person.quirk = p.quirks[hash64(seed, s.sx, s.sy, 44) % p.quirks.size()];
