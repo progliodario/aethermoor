@@ -198,6 +198,16 @@ void WorldSim::recompute_derived() {
     m_derived_ = derived_stats(m_player_.level, primary_at_level(m_setup_.player, m_player_.level), equipment);
 }
 
+void WorldSim::teleport(float x, float y) {
+    m_player_.position = {x, y};
+    if (m_store_) {
+        m_store_->keep_around(chunk_of(static_cast<int>(std::floor(x))), chunk_of(static_cast<int>(std::floor(y))));
+    }
+    m_collision_.resolve(m_player_.position.x, m_player_.position.y);
+    sync_window();
+    mark_explored();
+}
+
 bool WorldSim::use_item(const std::string& item_id) {
     if (m_story_.dialogue_active()) {
         return false;

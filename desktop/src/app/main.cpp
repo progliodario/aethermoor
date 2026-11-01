@@ -907,6 +907,7 @@ int main(int argc, char** argv) {
     bool smoke_test = false;
     std::string map_choice;  // "demo" or "world"; the default depends on the mode
     std::optional<std::uint64_t> forced_seed;
+    std::optional<std::pair<float, float>> start_at;  // developer option: --start=X,Y in tiles
     fs::path screenshot_dir;
     for (int i = 1; i < argc; ++i) {
         if (std::strcmp(argv[i], "--version") == 0) {
@@ -921,6 +922,13 @@ int main(int argc, char** argv) {
         }
         if (std::strncmp(argv[i], "--map=", 6) == 0) {
             map_choice = argv[i] + 6;
+        }
+        if (std::strncmp(argv[i], "--start=", 8) == 0) {
+            char* end = nullptr;
+            const float sx = std::strtof(argv[i] + 8, &end);
+            if (end != nullptr && *end == ',') {
+                start_at = std::make_pair(sx, std::strtof(end + 1, nullptr));
+            }
         }
         if (std::strncmp(argv[i], "--seed=", 7) == 0) {
             forced_seed = std::strtoull(argv[i] + 7, nullptr, 0);
@@ -994,6 +1002,9 @@ int main(int argc, char** argv) {
     {
         aether::TextureCache cache(renderer, assets.pack);
         aether::WorldSim sim(assets.map, assets.tileset, 0.0F, std::move(*combat), stream);
+        if (start_at && g_map_name == "world") {
+            sim.teleport(start_at->first, start_at->second);
+        }
         const float spawn_x = sim.player().position.x;
         const aether::SaveState initial_state = sim.capture();
         double since_autosave = 0.0;
