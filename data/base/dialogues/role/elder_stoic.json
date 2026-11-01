@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/role/elder_stoic",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.elder.stoic.hello",
+      "next": "menu"
+    },
+    "menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.rumor",
+          "next": "rumor"
+        },
+        {
+          "text": "$i18n:dlg.role.bye",
+          "next": "end"
+        }
+      ]
+    },
+    "rumor": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.stoic.rumor",
+      "next": "end"
+    }
+  }
+}

@@ -517,7 +517,8 @@
           "name",
           "x_pm",
           "y_pm",
-          "danger"
+          "danger",
+          "tone"
         ],
         "additionalProperties": false,
         "properties": {
@@ -541,6 +542,10 @@
           "danger": {
             "type": "integer",
             "minimum": 1
+          },
+          "tone": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
           }
         }
       }
@@ -550,7 +555,11 @@
       "required": [
         "per_mille",
         "kinds",
-        "names"
+        "names",
+        "dialogue",
+        "variants",
+        "quirks",
+        "people"
       ],
       "additionalProperties": false,
       "properties": {
@@ -608,6 +617,50 @@
               }
             },
             "mid": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "end": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "dialogue": {
+          "type": "string",
+          "description": "Dialogue id of a settlement NPC, with {role} and {tone}."
+        },
+        "variants": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "quirks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "people": {
+          "type": "object",
+          "required": [
+            "start",
+            "end"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "start": {
               "type": "array",
               "minItems": 1,
               "items": {

@@ -235,3 +235,35 @@ def test_regions_follow_the_nearest_center():
     assert params["regions"][worldgen.region_at(params, 8192, 8192)]["id"] == "verdalis"
     assert params["regions"][worldgen.region_at(params, 0, 16383)]["id"] == "tidehaven"
     assert params["regions"][worldgen.region_at(params, 16383, 8000)]["id"] == "ashen_wastes"
+
+
+def test_settlement_people_have_dialogues_and_texts():
+    import json
+
+    from reference import worldgen
+
+    params = worldgen.load_params()
+    data = TOOLS.parent / "data" / "base"
+    roles = {entry["npc"] for stamp in params["stamp_defs"].values() for entry in stamp["legend"].values() if "npc" in entry}
+    assert {"elder", "shopkeeper", "innkeeper", "guild_clerk", "villager"} <= roles
+    texts = {lang: json.loads((data / "i18n" / lang / "roles.json").read_text(encoding="utf-8")) for lang in ("en", "it")}
+    for region in params["regions"]:
+        for role in roles:
+            dialogue = params["settlements"]["dialogue"].replace("{role}", role).replace("{tone}", region["tone"])
+            path = data / "dialogues" / "role" / f"{dialogue.rsplit('/', 1)[-1]}.json"
+            assert path.exists(), dialogue
+            for node in json.loads(path.read_text(encoding="utf-8"))["nodes"].values():
+                if node["type"] == "say":
+                    for lang in texts:
+                        assert node["text"].removeprefix("$i18n:") in texts[lang]
+    for quirk in params["settlements"]["quirks"]:
+        assert all(quirk in table for table in texts.values())
+    # People are deterministic and sit on floor tiles of their settlement.
+    found = worldgen.settlements_in(3, params, 0, 0, 40, 40)
+    town = next(s for s in found if s["kind"] == "town")
+    keys = []
+    for (x, y), (index, role) in town["slots"].items():
+        person = worldgen.person_at(3, params, town, x, y)
+        assert person["role"] == role and person["place"] == town["name"] and person["key"].endswith(f":{index}")
+        keys.append(person["key"])
+    assert len(set(keys)) == len(keys) >= 7

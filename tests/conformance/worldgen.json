@@ -45,60 +45,142 @@
               "name": "$i18n:region.verdalis.name",
               "x_pm": 500,
               "y_pm": 500,
-              "danger": 1
+              "danger": 1,
+              "tone": "warm"
             },
             {
               "id": "whisperwood",
               "name": "$i18n:region.whisperwood.name",
               "x_pm": 230,
               "y_pm": 340,
-              "danger": 3
+              "danger": 3,
+              "tone": "mystic"
             },
             {
               "id": "ironspine",
               "name": "$i18n:region.ironspine.name",
               "x_pm": 780,
               "y_pm": 220,
-              "danger": 4
+              "danger": 4,
+              "tone": "gruff"
             },
             {
               "id": "sunscar",
               "name": "$i18n:region.sunscar.name",
               "x_pm": 810,
               "y_pm": 730,
-              "danger": 4
+              "danger": 4,
+              "tone": "flowery"
             },
             {
               "id": "frostveil",
               "name": "$i18n:region.frostveil.name",
               "x_pm": 450,
               "y_pm": 90,
-              "danger": 5
+              "danger": 5,
+              "tone": "stoic"
             },
             {
               "id": "tidehaven",
               "name": "$i18n:region.tidehaven.name",
               "x_pm": 140,
               "y_pm": 770,
-              "danger": 3
+              "danger": 3,
+              "tone": "salty"
             },
             {
               "id": "ashen_wastes",
               "name": "$i18n:region.ashen_wastes.name",
               "x_pm": 920,
               "y_pm": 480,
-              "danger": 7
+              "danger": 7,
+              "tone": "grim"
             },
             {
               "id": "lumeria",
               "name": "$i18n:region.lumeria.name",
               "x_pm": 480,
               "y_pm": 900,
-              "danger": 5
+              "danger": 5,
+              "tone": "scholarly"
             }
           ],
           "settlements": {
             "per_mille": 130,
+            "dialogue": "base:dialogue/role/{role}_{tone}",
+            "variants": [
+              "",
+              "red",
+              "green",
+              "ochre",
+              "purple",
+              "teal",
+              "cream",
+              "brown"
+            ],
+            "quirks": [
+              "quirk.cheese",
+              "quirk.bells",
+              "quirk.bad_luck",
+              "quirk.bakers",
+              "quirk.singing",
+              "quirk.lanterns",
+              "quirk.mushrooms",
+              "quirk.kites",
+              "quirk.honey",
+              "quirk.riddles",
+              "quirk.cats",
+              "quirk.bridges"
+            ],
+            "people": {
+              "start": [
+                "An",
+                "Bri",
+                "Cor",
+                "Dar",
+                "El",
+                "Fia",
+                "Gor",
+                "Hel",
+                "Ing",
+                "Jor",
+                "Kai",
+                "Lis",
+                "Mar",
+                "Nia",
+                "Ori",
+                "Pip",
+                "Quin",
+                "Rod",
+                "Sal",
+                "Tam",
+                "Ulf",
+                "Vera",
+                "Wil",
+                "Yan",
+                "Zed"
+              ],
+              "end": [
+                "a",
+                "bert",
+                "dric",
+                "ela",
+                "gar",
+                "ina",
+                "ik",
+                "la",
+                "mund",
+                "na",
+                "o",
+                "rin",
+                "sa",
+                "thor",
+                "us",
+                "wen",
+                "ya",
+                "zo"
+              ]
+            },
             "kinds": [
               {
                 "id": "hamlet",
@@ -1243,60 +1325,142 @@
               "name": "$i18n:region.verdalis.name",
               "x_pm": 500,
               "y_pm": 500,
-              "danger": 1
+              "danger": 1,
+              "tone": "warm"
             },
             {
               "id": "whisperwood",
               "name": "$i18n:region.whisperwood.name",
               "x_pm": 230,
               "y_pm": 340,
-              "danger": 3
+              "danger": 3,
+              "tone": "mystic"
             },
             {
               "id": "ironspine",
               "name": "$i18n:region.ironspine.name",
               "x_pm": 780,
               "y_pm": 220,
-              "danger": 4
+              "danger": 4,
+              "tone": "gruff"
             },
             {
               "id": "sunscar",
               "name": "$i18n:region.sunscar.name",
               "x_pm": 810,
               "y_pm": 730,
-              "danger": 4
+              "danger": 4,
+              "tone": "flowery"
             },
             {
               "id": "frostveil",
               "name": "$i18n:region.frostveil.name",
               "x_pm": 450,
               "y_pm": 90,
-              "danger": 5
+              "danger": 5,
+              "tone": "stoic"
             },
             {
               "id": "tidehaven",
               "name": "$i18n:region.tidehaven.name",
               "x_pm": 140,
               "y_pm": 770,
-              "danger": 3
+              "danger": 3,
+              "tone": "salty"
             },
             {
               "id": "ashen_wastes",
               "name": "$i18n:region.ashen_wastes.name",
               "x_pm": 920,
               "y_pm": 480,
-              "danger": 7
+              "danger": 7,
+              "tone": "grim"
             },
             {
               "id": "lumeria",
               "name": "$i18n:region.lumeria.name",
               "x_pm": 480,
               "y_pm": 900,
-              "danger": 5
+              "danger": 5,
+              "tone": "scholarly"
             }
           ],
           "settlements": {
             "per_mille": 130,
+            "dialogue": "base:dialogue/role/{role}_{tone}",
+            "variants": [
+              "",
+              "red",
+              "green",
+              "ochre",
+              "purple",
+              "teal",
+              "cream",
+              "brown"
+            ],
+            "quirks": [
+              "quirk.cheese",
+              "quirk.bells",
+              "quirk.bad_luck",
+              "quirk.bakers",
+              "quirk.singing",
+              "quirk.lanterns",
+              "quirk.mushrooms",
+              "quirk.kites",
+              "quirk.honey",
+              "quirk.riddles",
+              "quirk.cats",
+              "quirk.bridges"
+            ],
+            "people": {
+              "start": [
+                "An",
+                "Bri",
+                "Cor",
+                "Dar",
+                "El",
+                "Fia",
+                "Gor",
+                "Hel",
+                "Ing",
+                "Jor",
+                "Kai",
+                "Lis",
+                "Mar",
+                "Nia",
+                "Ori",
+                "Pip",
+                "Quin",
+                "Rod",
+                "Sal",
+                "Tam",
+                "Ulf",
+                "Vera",
+                "Wil",
+                "Yan",
+                "Zed"
+              ],
+              "end": [
+                "a",
+                "bert",
+                "dric",
+                "ela",
+                "gar",
+                "ina",
+                "ik",
+                "la",
+                "mund",
+                "na",
+                "o",
+                "rin",
+                "sa",
+                "thor",
+                "us",
+                "wen",
+                "ya",
+                "zo"
+              ]
+            },
             "kinds": [
               {
                 "id": "hamlet",
@@ -2437,60 +2601,142 @@
               "name": "$i18n:region.verdalis.name",
               "x_pm": 500,
               "y_pm": 500,
-              "danger": 1
+              "danger": 1,
+              "tone": "warm"
             },
             {
               "id": "whisperwood",
               "name": "$i18n:region.whisperwood.name",
               "x_pm": 230,
               "y_pm": 340,
-              "danger": 3
+              "danger": 3,
+              "tone": "mystic"
             },
             {
               "id": "ironspine",
               "name": "$i18n:region.ironspine.name",
               "x_pm": 780,
               "y_pm": 220,
-              "danger": 4
+              "danger": 4,
+              "tone": "gruff"
             },
             {
               "id": "sunscar",
               "name": "$i18n:region.sunscar.name",
               "x_pm": 810,
               "y_pm": 730,
-              "danger": 4
+              "danger": 4,
+              "tone": "flowery"
             },
             {
               "id": "frostveil",
               "name": "$i18n:region.frostveil.name",
               "x_pm": 450,
               "y_pm": 90,
-              "danger": 5
+              "danger": 5,
+              "tone": "stoic"
             },
             {
               "id": "tidehaven",
               "name": "$i18n:region.tidehaven.name",
               "x_pm": 140,
               "y_pm": 770,
-              "danger": 3
+              "danger": 3,
+              "tone": "salty"
             },
             {
               "id": "ashen_wastes",
               "name": "$i18n:region.ashen_wastes.name",
               "x_pm": 920,
               "y_pm": 480,
-              "danger": 7
+              "danger": 7,
+              "tone": "grim"
             },
             {
               "id": "lumeria",
               "name": "$i18n:region.lumeria.name",
               "x_pm": 480,
               "y_pm": 900,
-              "danger": 5
+              "danger": 5,
+              "tone": "scholarly"
             }
           ],
           "settlements": {
             "per_mille": 130,
+            "dialogue": "base:dialogue/role/{role}_{tone}",
+            "variants": [
+              "",
+              "red",
+              "green",
+              "ochre",
+              "purple",
+              "teal",
+              "cream",
+              "brown"
+            ],
+            "quirks": [
+              "quirk.cheese",
+              "quirk.bells",
+              "quirk.bad_luck",
+              "quirk.bakers",
+              "quirk.singing",
+              "quirk.lanterns",
+              "quirk.mushrooms",
+              "quirk.kites",
+              "quirk.honey",
+              "quirk.riddles",
+              "quirk.cats",
+              "quirk.bridges"
+            ],
+            "people": {
+              "start": [
+                "An",
+                "Bri",
+                "Cor",
+                "Dar",
+                "El",
+                "Fia",
+                "Gor",
+                "Hel",
+                "Ing",
+                "Jor",
+                "Kai",
+                "Lis",
+                "Mar",
+                "Nia",
+                "Ori",
+                "Pip",
+                "Quin",
+                "Rod",
+                "Sal",
+                "Tam",
+                "Ulf",
+                "Vera",
+                "Wil",
+                "Yan",
+                "Zed"
+              ],
+              "end": [
+                "a",
+                "bert",
+                "dric",
+                "ela",
+                "gar",
+                "ina",
+                "ik",
+                "la",
+                "mund",
+                "na",
+                "o",
+                "rin",
+                "sa",
+                "thor",
+                "us",
+                "wen",
+                "ya",
+                "zo"
+              ]
+            },
             "kinds": [
               {
                 "id": "hamlet",

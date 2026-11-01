@@ -72,6 +72,31 @@ cell that contains the tile `(width / 2 + dx, height / 2 + dy)` has a settlement
 entry of `settlements.kinds` that lists that stamp, without the random roll and the biome conditions (the footprint must lie inside its site cell); its name is made like the others.
 A world with no `home` has neither the meadow nor the village.
 
+## Settlement people
+
+The stamp characters whose legend entry has an `npc` role are **NPC slots**. Slots are numbered `0, 1, ...` in scan order of the stamp (rows from the top, columns left to right).
+The NPC of slot `i` of the settlement of site cell `(sx, sy)`, standing on tile `(x, y)`:
+
+| Field | Value |
+|---|---|
+| `key` | `settle:<sx>:<sy>:<i>` |
+| `role` | the `npc` role of the slot (`elder`, `shopkeeper`, `innkeeper`, `guild_clerk`, `villager`, ...) |
+| position | `x256 = x * 256 + 128`, `y256 = y * 256 + 160` (feet, in 1/256 tile) |
+| `h` | `hash64(seed, sx, sy, 100 + i)` |
+| `name` | `people.start[h % n] + people.end[(h >> 16) % m]` with `settlements.people` |
+| `variant` | `settlements.variants[(h >> 32) % count]` (a palette of the character art, `""` is the default one) |
+| `tone` | the `tone` of the region of the settlement (`regions[].tone`) |
+| `dialogue` | `settlements.dialogue` with `{role}` and `{tone}` replaced |
+| `place` | the name of the settlement |
+| `region` | the `name` text key of the region of the settlement |
+| `quirk` | `settlements.quirks[hash64(seed, sx, sy, 44) % count]`, a text key: what the place is known for, the same for the whole settlement |
+
+The region gives the **tone** of the voice of its people (warm, mystic, gruff, flowery, stoic, salty, grim, scholarly); the quirk and the name make each place different.
+The dialogue texts use `{npc}`, `{place}`, `{region}` and `{quirk}` (spec 07, "Dialogue arguments").
+
+An NPC exists while the chunk of its tile is in the active window; entering chunks add theirs (chunks row-major, slots in scan order) and leaving chunks remove theirs.
+`generate_chunk` also returns the people of the chunk, in scan order of their tiles; the conformance vectors of `worldgen_chunks` list them.
+
 ## Rivers and roads
 
 On top of the biome, a **land** tile (plains, forest, desert, snow or beach) outside the spawn clearing may carry an overlay. Rivers and roads are
