@@ -12,6 +12,8 @@
     "elevation",
     "moisture",
     "temperature",
+    "river",
+    "road",
     "thresholds",
     "tiles",
     "props",
@@ -178,7 +180,11 @@
         "snow",
         "mountain",
         "forest",
-        "plains"
+        "plains",
+        "river",
+        "ford",
+        "road",
+        "bridge"
       ],
       "properties": {
         "water": {
@@ -212,6 +218,22 @@
             "type": "integer",
             "minimum": 1
           }
+        },
+        "river": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "ford": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "road": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "bridge": {
+          "type": "integer",
+          "minimum": 1
         }
       }
     },
@@ -406,6 +428,80 @@
           "dy": {
             "type": "integer"
           }
+        }
+      }
+    },
+    "river": {
+      "type": "object",
+      "required": [
+        "salt",
+        "scale",
+        "octaves",
+        "half_width",
+        "ford_salt",
+        "ford_scale",
+        "ford_min"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "salt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "scale": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "octaves": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "half_width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "ford_salt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "ford_scale": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "ford_min": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        }
+      }
+    },
+    "road": {
+      "type": "object",
+      "required": [
+        "salt",
+        "scale",
+        "octaves",
+        "half_width"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "salt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "scale": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "octaves": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "half_width": {
+          "type": "integer",
+          "minimum": 1
         }
       }
     }

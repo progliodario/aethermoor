@@ -592,8 +592,10 @@ TEST_CASE("conformance: worldtime", "[conformance]") {
         Json world = Json::parse(R"({"id":"x:world/x","width":64,"height":64,"border":1,"spawn_clear_radius":2,
             "elevation":{"salt":1,"scale":8,"octaves":1},"moisture":{"salt":2,"scale":8,"octaves":1},
             "temperature":{"salt":3,"scale":8,"octaves":1},
+            "river":{"salt":4,"scale":8,"octaves":1,"half_width":1,"ford_salt":5,"ford_scale":8,"ford_min":1},
+            "road":{"salt":6,"scale":8,"octaves":1,"half_width":1},
             "thresholds":{"water":1,"beach":2,"mountain":3,"snow":4,"desert_heat":5,"desert_dry":6,"forest_wet":7},
-            "tiles":{"water":4,"beach":6,"desert":6,"snow":7,"mountain":8,"forest":9,"plains":[1]},
+            "tiles":{"water":4,"beach":6,"desert":6,"snow":7,"mountain":8,"forest":9,"plains":[1],"river":4,"ford":10,"road":11,"bridge":12},
             "props":{},"spawners":{"enemy":"x:enemy/x","biomes":[],"min_distance":1,"per_10000":1,"respawn_ticks":1},
             "npcs":[]})");
         world["time"] = in.at("time");

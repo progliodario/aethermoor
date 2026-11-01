@@ -1,6 +1,6 @@
 # 09. World generation
 
-Status: **v1.2 (M5a, M5b: chunks and streaming)**. Reference: `tools/reference/worldgen.py`. Conformance suite: `worldgen`.
+Status: **v1.3 (M5a, M5b: chunks and streaming, M5d: rivers and roads)**. Reference: `tools/reference/worldgen.py`. Conformance suite: `worldgen`.
 Parameters: `data/base/worlds/overworld.json` (`schemas/world.schema.json`). All math is integer, see `01-numerics.md`.
 
 The world is a **pure function** of `(seed, parameters)`: the content of a tile depends only on its own coordinates, never on the
@@ -30,9 +30,32 @@ In this order (first match wins), with `w`, `h`, `border`, `spawn_clear_radius =
 
 Fields are only evaluated when needed (the result does not depend on that).
 
+## Rivers and roads
+
+On top of the biome, a **land** tile (plains, forest, desert, snow or beach) outside the spawn clearing may carry an overlay. Rivers and roads are
+the places where a noise field is close to its middle value, which gives long winding lines whose width follows the field:
+
+```
+is_river = |field(seed, river, x, y) - 32768| < river.half_width
+is_road  = |field(seed, road,  x, y) - 32768| < road.half_width
+```
+
+`river` and `road` are noise specs like `elevation` (`salt`, `scale`, `octaves`) with a `half_width`; `river` also has `ford_salt`, `ford_scale`
+and `ford_min`. The overlay is (first match wins):
+
+1. river and road: **bridge**;
+2. river with `noise2(hash64(seed, ford_salt), (x << 16) / ford_scale, (y << 16) / ford_scale) >= ford_min`: **ford** (shallows, walkable), so a
+   river can be crossed every few tens of tiles;
+3. river: **river** (deep water, solid);
+4. road: **road**;
+5. otherwise none.
+
+The overlay replaces the tile gid (`tiles.river`, `tiles.ford`, `tiles.road`, `tiles.bridge`). A tile with an overlay has **no prop and no
+spawner**. Water, mountains and the border are never overlaid.
+
 ## Tiles
 
-Each biome maps to a tile gid (`tiles` in the parameters); `plains` has several gids and picks
+Each biome maps to a tile gid (`tiles` in the parameters; the overlay gids are in the previous section); `plains` has several gids and picks
 `plains[(hash64(seed, x, y, 5) >> 40) % count]`. `beach` and `desert` may share a gid. Water and mountain are solid
 (`data/base/tilesets/overworld.json`).
 

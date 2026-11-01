@@ -1,0 +1,97 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/tile/shallows",
+  "canvas": {
+    "w": 32,
+    "h": 32,
+    "origin": [
+      0,
+      0
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          32
+        ]
+      },
+      "fill": {
+        "color": "$p.base"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          8,
+          10,
+          5,
+          2.2
+        ]
+      },
+      "fill": {
+        "color": "$p.sand"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          20,
+          6,
+          2.4
+        ]
+      },
+      "fill": {
+        "color": "$p.sand"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          14,
+          26,
+          3,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "$p.sand"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          25,
+          7,
+          3,
+          1
+        ]
+      },
+      "fill": {
+        "color": "$p.ripple"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          6,
+          22,
+          3,
+          1
+        ]
+      },
+      "fill": {
+        "color": "$p.ripple"
+      }
+    }
+  ],
+  "palette": {
+    "base": "#7FC4E8",
+    "sand": "#D9CB98",
+    "ripple": "#BFE3F5"
+  }
+}

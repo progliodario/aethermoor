@@ -116,6 +116,21 @@
             "desert_dry": 33000,
             "forest_wet": 38000
           },
+          "river": {
+            "salt": 4,
+            "scale": 110,
+            "octaves": 3,
+            "half_width": 400,
+            "ford_salt": 5,
+            "ford_scale": 20,
+            "ford_min": 36000
+          },
+          "road": {
+            "salt": 6,
+            "scale": 150,
+            "octaves": 2,
+            "half_width": 350
+          },
           "tiles": {
             "water": 4,
             "beach": 6,
@@ -126,7 +141,11 @@
             "plains": [
               1,
               2
-            ]
+            ],
+            "river": 4,
+            "ford": 10,
+            "road": 11,
+            "bridge": 12
           },
           "props": {
             "plains": [
@@ -242,13 +261,13 @@
         "after": [
           {
             "op": "start",
-            "count": 14,
-            "digest": "0x5afbffa2034a7765"
+            "count": 13,
+            "digest": "0x9e77d3a41a1d4cd4"
           },
           {
             "op": "move",
-            "count": 15,
-            "digest": "0x1af5143862d76d98"
+            "count": 14,
+            "digest": "0x3a8fab447a471099"
           },
           {
             "op": "move",
@@ -267,8 +286,8 @@
           },
           {
             "op": "move",
-            "count": 14,
-            "digest": "0x873768b51e3c9240"
+            "count": 13,
+            "digest": "0x547fc9b7102a5c94"
           },
           {
             "op": "move",
@@ -287,13 +306,13 @@
           },
           {
             "op": "move",
-            "count": 12,
-            "digest": "0x5f0e5e6d27c8a1a7"
+            "count": 11,
+            "digest": "0x474c69cd011b6357"
           },
           {
             "op": "wait",
-            "count": 12,
-            "digest": "0x5f0e5e6d27c8a1a7"
+            "count": 11,
+            "digest": "0x474c69cd011b6357"
           },
           {
             "op": "move",
@@ -413,6 +432,21 @@
             "desert_dry": 33000,
             "forest_wet": 38000
           },
+          "river": {
+            "salt": 4,
+            "scale": 110,
+            "octaves": 3,
+            "half_width": 400,
+            "ford_salt": 5,
+            "ford_scale": 20,
+            "ford_min": 36000
+          },
+          "road": {
+            "salt": 6,
+            "scale": 150,
+            "octaves": 2,
+            "half_width": 350
+          },
           "tiles": {
             "water": 4,
             "beach": 6,
@@ -423,7 +457,11 @@
             "plains": [
               1,
               2
-            ]
+            ],
+            "river": 4,
+            "ford": 10,
+            "road": 11,
+            "bridge": 12
           },
           "props": {
             "plains": [

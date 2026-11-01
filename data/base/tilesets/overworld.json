@@ -46,6 +46,21 @@
       "gid": 9,
       "art": "base:art/tile/forest_floor",
       "solid": false
+    },
+    {
+      "gid": 10,
+      "art": "base:art/tile/shallows",
+      "solid": false
+    },
+    {
+      "gid": 11,
+      "art": "base:art/tile/road",
+      "solid": false
+    },
+    {
+      "gid": 12,
+      "art": "base:art/tile/bridge",
+      "solid": false
     }
   ]
 }
