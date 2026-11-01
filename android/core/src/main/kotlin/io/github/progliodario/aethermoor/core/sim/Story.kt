@@ -239,8 +239,8 @@ private const val MAX_SETTLE_STEPS = 64
 
 class Story(val setup: StorySetup, private val host: StoryHost) {
     val flags = java.util.TreeMap<String, Boolean>()
+    /** The gold of the player; shops and tests change it directly (spec 06). */
     var gold = 0L
-        private set
     val quests = java.util.TreeMap<String, QuestProgress>()
     var dialogueActive = false
         private set

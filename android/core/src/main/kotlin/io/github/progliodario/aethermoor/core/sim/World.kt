@@ -8,6 +8,7 @@ import io.github.progliodario.aethermoor.core.damage
 import io.github.progliodario.aethermoor.core.deriveStream
 import io.github.progliodario.aethermoor.core.derivedStats
 import io.github.progliodario.aethermoor.core.explore
+import io.github.progliodario.aethermoor.core.regionAt
 import io.github.progliodario.aethermoor.core.sampleTime
 import io.github.progliodario.aethermoor.core.xpGain
 import kotlin.math.PI
