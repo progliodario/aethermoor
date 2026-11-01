@@ -260,8 +260,40 @@ Rimangono fissi: i quattro vincoli (spec-first, data-driven, due client, parità
 
 Dopo l'approvazione, ogni voce diventerà un issue con descrizione, criteri di accettazione e label.
 
-## 8. Prossimi passi immediati
+## 8. Stato e prossimi passi (aggiornato a M6a)
 
-1. **Tu:** rivedi `README.md` (decisioni D1-D15 e domande aperte), correggi, approva.
-2. **Io:** eseguo M0 sulla cartella che sceglierai (propongo una cartella tipo `C:\Projects\aethermoor`).
-3. **Insieme:** definiamo nome e proprietario GitHub, poi creiamo il repo.
+### 8.1 Dove siamo
+
+| Milestone | Stato | Note |
+|---|---|---|
+| M0 Fondazioni | fatto | Repo, CI, ADR, schemi, scheletri dei due client |
+| M1 Spec core e conformità | fatto | Numerica intera, RNG, hash, rumore, formule, i18n, loader dei pack |
+| M2 Motore base e arte vettoriale | fatto | Rasterizzatore proprio (ADR 0012), rig/clip, mappa, collisioni, camera |
+| M3 Combattimento | in parte | Fendente, slime, XP, livelli, bottino. Mancano schivata/parata, mana e skill, altri nemici, boss, suoni |
+| M4 Dialoghi, quest, inventario, salvataggi | in parte | Dialoghi, quest, PNG, salvataggi v1, zaino con uso oggetti. **Mancano:** villaggi, negozi, equipaggiamento, diario, impostazioni/slot, export, profilo, 8 quest e 40 dialoghi, Alpha 0.1 |
+| M5 Mondo aperto | in parte | Mondo 16384² in streaming, biomi, fiumi, strade, giorno/notte, meteo, respawn, mappa del mondo. **Mancano:** regioni, insediamenti/stamp/POI, risorse, routine dei PNG, stagioni, Pietre della Soglia (viaggio rapido), Verdalis con 2 dungeon |
+| M6-M12 | da fare | Vita lenta, compagni, progressione profonda, contenuti per 8 protagonisti, rifinitura, 1.0 |
+
+Verificato finora: la CI (Windows, Linux, Android) e un primo test a mano della build desktop. Non è stata provata su dispositivi Android.
+
+### 8.2 Direzione scelta: un mondo da isekai con molte storie
+
+Il primo test in gioco ha confermato che le basi funzionano, e che il gioco deve diventare **molto più complesso**: un mondo con tanti insediamenti, una gilda viva, fazioni, e molte storie possibili, non una sola quest. Per arrivarci senza riscrivere codice a ogni storia, si applica un principio a tutto ciò che resta da costruire:
+
+> **Ampiezza dai dati e dai modelli.** Insediamenti, PNG, missioni, dialoghi e storie sono descritti da dati (stamp, ruoli, modelli di quest, tabelle di nomi) e generati in modo deterministico dal seme; il codice conosce solo i meccanismi. Il materiale scritto a mano (città chiave, trama dei protagonisti, boss) si innesta nello stesso sistema.
+
+Conseguenze sull'ordine del lavoro (tutte le tappe sono spec-first, in entrambi i client, con vettori di conformità):
+
+1. **Regioni e insediamenti (M5f).** Il mondo si divide in regioni con nome, tema e livello di pericolo (dati); villaggi e città sono posti dal seme su una griglia di siti e disegnati da **stamp** (case, strade, piazza, mura) con **ruoli** di PNG (gilda, bottega, locanda, abitanti). Sulla mappa del mondo compaiono come punti di interesse.
+2. **PNG di insediamento e dialoghi a ruoli (M5g).** I PNG compaiono e scompaiono con la finestra di chunk; hanno nome e aspetto generati; i dialoghi sono modelli con parametri (nome, insediamento, regione).
+3. **Gilda, bacheca e quest a modelli (M4c).** Ranghi F-S, punti gilda, bacheca con missioni generate (sconfiggi, raccogli, consegna, scorta), catene di quest scritte a mano che usano gli stessi meccanismi, reputazione con le fazioni.
+4. **Negozi, equipaggiamento, diario (M4d).** Monete e prezzi, comprare e vendere, slot di equipaggiamento (più armi e armature), diario delle quest, impostazioni e slot di salvataggio.
+5. **Alpha 0.1** con un villaggio scritto a mano (Fenwick) e la gilda di Aldermere dentro il sistema generale. Poi M5 (Pietre della Soglia, routine dei PNG, stagioni, Verdalis con dungeon) e M6-M9 come da roadmap.
+
+Da decidere insieme prima di scrivere contenuti: tono dei villaggi, nomi, fazioni e prime catene di storie (regola di progetto: il design lo decide il proprietario).
+
+### 8.3 Come si lavora
+
+1. Una tappa alla volta, con PR piccole e CI verde prima del merge.
+2. A ogni tappa si prepara una build da provare (artefatto della CI) e si raccolgono le impressioni.
+3. Aggiornare questa sezione a ogni milestone chiusa.
