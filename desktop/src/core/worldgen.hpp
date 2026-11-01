@@ -44,6 +44,14 @@ struct WorldParams {
     NoiseSpec moisture;
     NoiseSpec temperature;
 
+    NoiseSpec river;  // rivers and roads: places where a field is near its middle value (spec 09)
+    int river_half_width = 0;
+    int ford_salt = 0;
+    int ford_scale = 1;
+    int ford_min = 0;
+    NoiseSpec road;
+    int road_half_width = 0;
+
     int water = 0;
     int beach = 0;
     int mountain = 0;
@@ -58,6 +66,10 @@ struct WorldParams {
     int tile_snow = 0;
     int tile_mountain = 0;
     int tile_forest = 0;
+    int tile_river = 0;
+    int tile_ford = 0;
+    int tile_road = 0;
+    int tile_bridge = 0;
     std::vector<int> tiles_plains;
 
     std::map<std::string, std::vector<PropOption>> props;  // by biome name

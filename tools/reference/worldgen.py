@@ -1,10 +1,10 @@
-"""World generation v1 (docs/spec/09-worldgen.md). Integer arithmetic only (spec 01), no floating point.
+"""World generation (docs/spec/09-worldgen.md). Integer arithmetic only (spec 01), no floating point.
 
 The world is a pure function of (seed, parameters): every tile and prop depends only on its own coordinates.
 """
 from __future__ import annotations
 
-from .numerics import M64, fbm2, fnv1a64, hash64
+from .numerics import M64, fbm2, fnv1a64, hash64, noise2
 
 GID_BORDER = "water"
 CHUNK_SIZE = 32
@@ -50,8 +50,39 @@ def biome_at(seed: int, params: dict, x: int, y: int) -> str:
     return "plains"
 
 
-def gid_for(seed: int, params: dict, biome: str, x: int, y: int) -> int:
+LAND = ("plains", "forest", "desert", "snow", "beach")
+MID = 32768
+
+
+def overlay_at(seed: int, params: dict, biome: str, x: int, y: int) -> str | None:
+    """River, ford, road or bridge on a land tile, or None (spec 09, "Rivers and roads").
+
+    Rivers and roads are the places where a noise field crosses its middle value; a ford is a part of a river
+    that can be crossed; a road over a river is a bridge. Never in the spawn clearing.
+    """
+    if biome not in LAND:
+        return None
+    w, h = params["width"], params["height"]
+    mid_x, mid_y = w // 2, h // 2
+    r = params["spawn_clear_radius"]
+    if (x - mid_x) ** 2 + (y - mid_y) ** 2 < r * r:
+        return None
+    river, road = params["river"], params["road"]
+    is_river = abs(field(seed, river, x, y) - MID) < river["half_width"]
+    is_road = abs(field(seed, road, x, y) - MID) < road["half_width"]
+    if is_river:
+        if is_road:
+            return "bridge"
+        scale = river["ford_scale"]
+        ford = noise2(hash64(seed, river["ford_salt"]), (x << 16) // scale, (y << 16) // scale) >= river["ford_min"]
+        return "ford" if ford else "river"
+    return "road" if is_road else None
+
+
+def gid_for(seed: int, params: dict, biome: str, x: int, y: int, overlay: str | None = None) -> int:
     tiles = params["tiles"]
+    if overlay is not None:
+        return tiles[overlay]
     if biome == "plains":
         variants = tiles["plains"]
         return variants[(hash64(seed, x, y, 5) >> 40) % len(variants)]
@@ -93,9 +124,10 @@ def generate(seed: int, params: dict) -> dict:
     for y in range(h):
         for x in range(w):
             biome = biome_at(seed, params, x, y)
-            tiles.append(gid_for(seed, params, biome, x, y))
+            overlay = overlay_at(seed, params, biome, x, y)
+            tiles.append(gid_for(seed, params, biome, x, y, overlay))
             cx, cy = w // 2, h // 2
-            if (x - cx) ** 2 + (y - cy) ** 2 >= params["spawn_clear_radius"] ** 2:
+            if overlay is None and (x - cx) ** 2 + (y - cy) ** 2 >= params["spawn_clear_radius"] ** 2:
                 prop = prop_at(seed, params, biome, x, y)
                 if prop is not None:
                     props.append(prop)
@@ -123,8 +155,9 @@ def generate_chunk(seed: int, params: dict, cx: int, cy: int) -> dict:
     for y in range(cy * CHUNK_SIZE, (cy + 1) * CHUNK_SIZE):
         for x in range(cx * CHUNK_SIZE, (cx + 1) * CHUNK_SIZE):
             biome = biome_at(seed, params, x, y)
-            tiles.append(gid_for(seed, params, biome, x, y))
-            if (x - mid_x) ** 2 + (y - mid_y) ** 2 >= clear:
+            overlay = overlay_at(seed, params, biome, x, y)
+            tiles.append(gid_for(seed, params, biome, x, y, overlay))
+            if overlay is None and (x - mid_x) ** 2 + (y - mid_y) ** 2 >= clear:
                 prop = prop_at(seed, params, biome, x, y)
                 if prop is not None:
                     props.append(prop)
@@ -180,7 +213,8 @@ def chunk_spawners(seed: int, params: dict, cx: int, cy: int) -> list[list[int]]
             d2 = (x - mid_x) ** 2 + (y - mid_y) ** 2
             if d2 < clear or d2 < s["min_distance"] ** 2:
                 continue
-            if biome_at(seed, params, x, y) in s["biomes"]:
+            biome = biome_at(seed, params, x, y)
+            if biome in s["biomes"] and overlay_at(seed, params, biome, x, y) is None:
                 result.append([x, y])
     return result
 

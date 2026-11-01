@@ -26,6 +26,13 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
         p.elevation = noise_spec(j.at("elevation"));
         p.moisture = noise_spec(j.at("moisture"));
         p.temperature = noise_spec(j.at("temperature"));
+        p.river = noise_spec(j.at("river"));
+        p.river_half_width = j.at("river").at("half_width").get<int>();
+        p.ford_salt = j.at("river").at("ford_salt").get<int>();
+        p.ford_scale = j.at("river").at("ford_scale").get<int>();
+        p.ford_min = j.at("river").at("ford_min").get<int>();
+        p.road = noise_spec(j.at("road"));
+        p.road_half_width = j.at("road").at("half_width").get<int>();
 
         const Json& t = j.at("thresholds");
         p.water = t.at("water").get<int>();
@@ -43,10 +50,14 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
         p.tile_snow = tiles.at("snow").get<int>();
         p.tile_mountain = tiles.at("mountain").get<int>();
         p.tile_forest = tiles.at("forest").get<int>();
+        p.tile_river = tiles.at("river").get<int>();
+        p.tile_ford = tiles.at("ford").get<int>();
+        p.tile_road = tiles.at("road").get<int>();
+        p.tile_bridge = tiles.at("bridge").get<int>();
         for (const Json& gid : tiles.at("plains")) {
             p.tiles_plains.push_back(gid.get<int>());
         }
-        if (p.tiles_plains.empty() || p.width < 1 || p.height < 1) {
+        if (p.tiles_plains.empty() || p.width < 1 || p.height < 1 || p.ford_scale < 1) {
             error = "invalid world parameters";
             return std::nullopt;
         }

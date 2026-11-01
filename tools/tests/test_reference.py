@@ -165,6 +165,30 @@ def test_world_time_light_and_weather():
     assert worldtime.weather_at(9, t, 7 * period + 5000)["kind"] == worldtime.weather_at(9, t, 7 * period + 17000)["kind"]
 
 
+def test_rivers_and_roads_are_overlays_on_land():
+    import json
+
+    from reference import worldgen
+
+    params = json.loads((TOOLS.parent / "data" / "base" / "worlds" / "overworld.json").read_text(encoding="utf-8"))
+    seen = set()
+    for y in range(8100, 8300, 3):
+        for x in range(8100, 8300, 3):
+            biome = worldgen.biome_at(3, params, x, y)
+            overlay = worldgen.overlay_at(3, params, biome, x, y)
+            if overlay is not None:
+                assert biome in worldgen.LAND
+                assert worldgen.gid_for(3, params, biome, x, y, overlay) == params["tiles"][overlay]
+                seen.add(overlay)
+    assert {"river", "road"} <= seen
+    # Nothing inside the spawn clearing.
+    cx = cy = 8192
+    for dy in range(-6, 7):
+        for dx in range(-6, 7):
+            if dx * dx + dy * dy < params["spawn_clear_radius"] ** 2:
+                assert worldgen.overlay_at(3, params, "plains", cx + dx, cy + dy) is None
+
+
 def test_world_map_exploration():
     import json
 

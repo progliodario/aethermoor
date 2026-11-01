@@ -75,7 +75,42 @@ Biome biome_at(std::uint64_t seed, const WorldParams& p, int x, int y) {
     return Biome::Plains;
 }
 
-int gid_for(std::uint64_t seed, const WorldParams& p, Biome biome, int x, int y) {
+enum class Overlay { None, River, Ford, Road, Bridge };
+
+// Spec 09, "Rivers and roads": only on land tiles outside the spawn clearing.
+Overlay overlay_at(std::uint64_t seed, const WorldParams& p, Biome biome, int x, int y) {
+    if (biome == Biome::Water || biome == Biome::Mountain || in_clearing(p, x, y)) {
+        return Overlay::None;
+    }
+    constexpr std::int64_t kMid = 32768;
+    const auto distance = [](std::int64_t value) { return value < kMid ? kMid - value : value - kMid; };
+    const bool is_river = distance(field(seed, p.river, x, y)) < p.river_half_width;
+    const bool is_road = distance(field(seed, p.road, x, y)) < p.road_half_width;
+    if (is_river) {
+        if (is_road) {
+            return Overlay::Bridge;
+        }
+        const std::int64_t scale = p.ford_scale;
+        const bool ford = noise2(hash64(seed, p.ford_salt), (static_cast<std::int64_t>(x) << 16) / scale,
+                                 (static_cast<std::int64_t>(y) << 16) / scale) >= p.ford_min;
+        return ford ? Overlay::Ford : Overlay::River;
+    }
+    return is_road ? Overlay::Road : Overlay::None;
+}
+
+int gid_for(std::uint64_t seed, const WorldParams& p, Biome biome, int x, int y, Overlay overlay) {
+    switch (overlay) {
+        case Overlay::River:
+            return p.tile_river;
+        case Overlay::Ford:
+            return p.tile_ford;
+        case Overlay::Road:
+            return p.tile_road;
+        case Overlay::Bridge:
+            return p.tile_bridge;
+        case Overlay::None:
+            break;
+    }
     switch (biome) {
         case Biome::Water:
             return p.tile_water;
@@ -139,8 +174,9 @@ GeneratedWorld generate_world(std::uint64_t seed, const WorldParams& p) {
     for (int y = 0; y < p.height; ++y) {
         for (int x = 0; x < p.width; ++x) {
             const Biome biome = biome_at(seed, p, x, y);
-            world.tiles.push_back(gid_for(seed, p, biome, x, y));
-            if (!in_clearing(p, x, y)) {
+            const Overlay overlay = overlay_at(seed, p, biome, x, y);
+            world.tiles.push_back(gid_for(seed, p, biome, x, y, overlay));
+            if (overlay == Overlay::None && !in_clearing(p, x, y)) {
                 GenProp prop;
                 if (prop_at(seed, p, biome, x, y, prop)) {
                     world.props.push_back(std::move(prop));
@@ -167,8 +203,9 @@ GeneratedChunk generate_chunk(std::uint64_t seed, const WorldParams& p, int chun
     for (int y = chunk_y * kChunkSize; y < (chunk_y + 1) * kChunkSize; ++y) {
         for (int x = chunk_x * kChunkSize; x < (chunk_x + 1) * kChunkSize; ++x) {
             const Biome biome = biome_at(seed, p, x, y);
-            chunk.tiles.push_back(gid_for(seed, p, biome, x, y));
-            if (!in_clearing(p, x, y)) {
+            const Overlay overlay = overlay_at(seed, p, biome, x, y);
+            chunk.tiles.push_back(gid_for(seed, p, biome, x, y, overlay));
+            if (overlay == Overlay::None && !in_clearing(p, x, y)) {
                 GenProp prop;
                 if (prop_at(seed, p, biome, x, y, prop)) {
                     chunk.props.push_back(std::move(prop));
