@@ -67,6 +67,7 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
     j["data_format_version"] = meta.data_format_version;
     j["protagonist"] = meta.protagonist;
     j["seed"] = hex64(meta.seed);
+    j["map"] = meta.map;
 
     Json player;
     player["x"] = s.position.x;
@@ -197,6 +198,18 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
         return s;
     } catch (const std::exception& e) {
         error = e.what();
+        return std::nullopt;
+    }
+}
+
+std::optional<SavePeek> save_peek(std::string_view json_text) {
+    try {
+        const Json j = Json::parse(json_text);
+        SavePeek peek;
+        peek.seed = parse_hex64(j.at("seed"));
+        peek.map = j.value("map", "");
+        return peek;
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }

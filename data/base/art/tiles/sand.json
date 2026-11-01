@@ -1,0 +1,84 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/tile/sand",
+  "canvas": {
+    "w": 32,
+    "h": 32,
+    "origin": [
+      0,
+      0
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          32
+        ]
+      },
+      "fill": {
+        "color": "$p.base"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          7,
+          9,
+          2.2,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "$p.speck"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          21,
+          14,
+          3,
+          1.3
+        ]
+      },
+      "fill": {
+        "color": "$p.speck"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          12,
+          25,
+          2,
+          1
+        ]
+      },
+      "fill": {
+        "color": "$p.speck"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          26,
+          27,
+          1.6,
+          0.9
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      }
+    }
+  ],
+  "palette": {
+    "base": "#E6D49A",
+    "speck": "#CDB878",
+    "light": "#F4E8BE"
+  }
+}

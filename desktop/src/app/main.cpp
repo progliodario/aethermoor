@@ -6,7 +6,9 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <filesystem>
 #include <fstream>
@@ -21,7 +23,9 @@
 #include "data/pack.hpp"
 #include "data/protagonist.hpp"
 #include "sim/combat_loader.hpp"
+#include "data/world_data.hpp"
 #include "sim/save.hpp"
+#include "sim/world_map.hpp"
 #include "sim/world.hpp"
 #include "vector/rig.hpp"
 
@@ -39,6 +43,7 @@ constexpr const char* kProtagonistId = "base:protagonist/ren";
 constexpr const char* kMapPath = "maps/demo.tmj";
 constexpr int kFloatingTextFrames = 50;
 constexpr double kAutosaveSeconds = 30.0;
+constexpr const char* kWorldId = "base:world/overworld";
 
 struct Assets {
     aether::Pack pack;
@@ -338,6 +343,9 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
+// "world" or "demo": which map this run plays on (stored in the saves).
+std::string g_map_name = "world";
+
 fs::path save_dir() {
     fs::path dir;
     if (char* pref = SDL_GetPrefPath("progliodario", "Aethermoor")) {
@@ -376,6 +384,7 @@ std::optional<std::string> read_text_file(const fs::path& file) {
 
 aether::SaveMeta save_meta(const aether::WorldSim& sim) {
     aether::SaveMeta meta;
+    meta.map = g_map_name;
     meta.game_version = std::string(aether::game_version());
     meta.protagonist = kProtagonistId;
     meta.seed = sim.combat().seed;
@@ -725,6 +734,8 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
 
 int main(int argc, char** argv) {
     bool smoke_test = false;
+    std::string map_choice;  // "demo" or "world"; the default depends on the mode
+    std::optional<std::uint64_t> forced_seed;
     fs::path screenshot_dir;
     for (int i = 1; i < argc; ++i) {
         if (std::strcmp(argv[i], "--version") == 0) {
@@ -736,6 +747,12 @@ int main(int argc, char** argv) {
         }
         if (std::strncmp(argv[i], "--screenshot-dir=", 17) == 0) {
             screenshot_dir = argv[i] + 17;
+        }
+        if (std::strncmp(argv[i], "--map=", 6) == 0) {
+            map_choice = argv[i] + 6;
+        }
+        if (std::strncmp(argv[i], "--seed=", 7) == 0) {
+            forced_seed = std::strtoull(argv[i] + 7, nullptr, 0);
         }
     }
 
@@ -749,8 +766,34 @@ int main(int argc, char** argv) {
         SDL_Quit();
         return 1;
     }
+    if (map_choice.empty()) {
+        map_choice = smoke_test ? "demo" : "world";
+    }
+    g_map_name = map_choice;
+
+    // The seed: forced, else the one of the last session on this map (so the same world comes back), else a new one.
+    std::uint64_t seed = smoke_test ? 1234U : SDL_GetTicksNS();
+    if (forced_seed) {
+        seed = *forced_seed;
+    } else if (!smoke_test) {
+        if (const auto text = read_text_file(save_dir() / "auto.json")) {
+            if (const auto peek = aether::save_peek(*text); peek && peek->map == g_map_name) {
+                seed = peek->seed;
+            }
+        }
+    }
+    if (g_map_name == "world") {
+        const auto text = assets.pack.read_document(kWorldId);
+        std::string world_error;
+        const auto params = text ? aether::parse_world_params(*text, world_error) : std::nullopt;
+        if (!params) {
+            SDL_Log("cannot read the world parameters: %s", world_error.c_str());
+            SDL_Quit();
+            return 1;
+        }
+        assets.map = aether::make_tilemap(aether::generate_world(seed, *params), *params);
+    }
     std::string combat_error;
-    const std::uint64_t seed = smoke_test ? 1234U : SDL_GetTicksNS();
     auto combat = aether::load_combat_setup(assets.pack, assets.map, kProtagonistId, seed, combat_error);
     if (!combat) {
         SDL_Log("cannot build the combat setup: %s", combat_error.c_str());
@@ -784,7 +827,9 @@ int main(int argc, char** argv) {
 
         if (!smoke_test) {  // continue the last session, if there is one
             std::string ignored;
-            if (load_game(sim, save_dir() / "auto.json", ignored)) {
+            const auto previous = read_text_file(save_dir() / "auto.json");
+            const auto peek = previous ? aether::save_peek(*previous) : std::nullopt;
+            if (peek && peek->map == g_map_name && peek->seed == seed && load_game(sim, save_dir() / "auto.json", ignored)) {
                 notify(ui, assets.pack.text(ui.lang, "$i18n:ui.loaded"));
             }
         }
@@ -851,18 +896,18 @@ int main(int argc, char** argv) {
             if (smoke_test) {
                 input = {1.0F, 0.0F, frames % 2 == 0};  // scripted: walk right, swinging now and then
                 // Talk to the guild clerk and accept her quest while passing by (real dialogue data).
-                if (talk_step == 0) {
+                if (talk_step == 0 && g_map_name == "demo") {
                     if (sim.story().npc_in_range() != nullptr) {
                         sim.story().interact();
                         talk_step = 1;
                     }
-                } else if (talk_step == 1) {
+                } else if (talk_step == 1 && g_map_name == "demo") {
                     sim.story().advance();
                     talk_step = 2;
-                } else if (talk_step == 2) {
+                } else if (talk_step == 2 && g_map_name == "demo") {
                     sim.story().choose(0);
                     talk_step = 3;
-                } else if (talk_step == 3) {
+                } else if (talk_step == 3 && g_map_name == "demo") {
                     sim.story().advance();
                     talk_step = 4;
                 }
@@ -948,11 +993,13 @@ int main(int argc, char** argv) {
 
             if (smoke_test && ++frames >= kSmokeTestFrames) {
                 running = false;
-                const bool moved = sim.player().position.x > spawn_x + 1.0F;
+                const bool moved = g_map_name == "world" || sim.player().position.x > spawn_x + 1.0F;
                 const bool baked = cache.size() > 10;
-                const bool enemies = sim.enemies().size() == 12 && sim.story().quests().size() == 1 &&
-                                     !sim.story().dialogue_active() && smoke_save_ok &&
-                                     sim.inventory().count("base:item/bread") == 1;
+                const bool enemies = g_map_name == "world"
+                                         ? (sim.enemies().size() > 20 && assets.map.props.size() > 1000 && smoke_save_ok)
+                                         : (sim.enemies().size() == 12 && sim.story().quests().size() == 1 &&
+                                            !sim.story().dialogue_active() && smoke_save_ok &&
+                                            sim.inventory().count("base:item/bread") == 1);
                 std::printf("smoke: x %.2f -> %.2f, textures %zu, enemies %zu, %s\n", static_cast<double>(spawn_x),
                             static_cast<double>(sim.player().position.x), cache.size(), sim.enemies().size(),
                             (moved && baked && enemies) ? "ok" : "FAILED");

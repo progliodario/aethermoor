@@ -33,7 +33,8 @@ add_library(aether_core STATIC
   src/core/numerics.cpp
   src/core/rules.cpp
   src/core/id.cpp
-  src/core/message_format.cpp)
+  src/core/message_format.cpp
+  src/core/worldgen.cpp)
 target_include_directories(aether_core PUBLIC src)
 target_compile_definitions(aether_core PUBLIC
   AETHER_GAME_NAME="${AETHER_NAME}"
@@ -41,7 +42,7 @@ target_compile_definitions(aether_core PUBLIC
 aether_target_options(aether_core)
 
 # Content packs: JSON loading. Still headless.
-add_library(aether_data STATIC src/data/pack.cpp src/data/protagonist.cpp)
+add_library(aether_data STATIC src/data/pack.cpp src/data/protagonist.cpp src/data/world_data.cpp)
 target_link_libraries(aether_data PUBLIC aether_core PRIVATE nlohmann_json::nlohmann_json)
 aether_target_options(aether_data)
 
@@ -52,7 +53,7 @@ aether_target_options(aether_vector)
 
 # Simulation: tile maps, movement, collisions, the M2 world. Headless.
 add_library(aether_sim STATIC
-  src/sim/tilemap.cpp src/sim/movement.cpp src/sim/combat.cpp src/sim/story.cpp src/sim/save.cpp src/sim/combat_loader.cpp src/sim/world.cpp)
+  src/sim/tilemap.cpp src/sim/movement.cpp src/sim/combat.cpp src/sim/story.cpp src/sim/save.cpp src/sim/combat_loader.cpp src/sim/world.cpp src/sim/world_map.cpp)
 target_link_libraries(aether_sim PUBLIC aether_core aether_data PRIVATE nlohmann_json::nlohmann_json)
 aether_target_options(aether_sim)
 
@@ -82,7 +83,8 @@ target_compile_definitions(aether_tests PRIVATE AETHER_REPO_ROOT="${AETHER_REPO_
 add_test(NAME unit COMMAND aether_tests)
 
 # Smoke test: opens a window with the dummy video driver, bakes the art and walks the player.
-add_test(NAME smoke COMMAND aethermoor --smoke-test --screenshot-dir=${CMAKE_BINARY_DIR}/screenshots)
-set_tests_properties(smoke PROPERTIES
+add_test(NAME smoke COMMAND aethermoor --smoke-test --map=demo --screenshot-dir=${CMAKE_BINARY_DIR}/screenshots)
+add_test(NAME smoke_world COMMAND aethermoor --smoke-test --map=world --screenshot-dir=${CMAKE_BINARY_DIR}/screenshots_world)
+set_tests_properties(smoke smoke_world PROPERTIES
   ENVIRONMENT "SDL_VIDEODRIVER=dummy;SDL_RENDER_DRIVER=software"
   TIMEOUT 60)

@@ -1,0 +1,179 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/pine",
+  "canvas": {
+    "w": 64,
+    "h": 96,
+    "origin": [
+      32,
+      88
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          32,
+          88,
+          16,
+          5
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            29,
+            88
+          ],
+          [
+            30,
+            70
+          ],
+          [
+            34,
+            70
+          ],
+          [
+            35,
+            88
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.trunk"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            32,
+            36
+          ],
+          [
+            12,
+            72
+          ],
+          [
+            52,
+            72
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.dark"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.5
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            32,
+            22
+          ],
+          [
+            16,
+            54
+          ],
+          [
+            48,
+            54
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.mid"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.5
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            32,
+            8
+          ],
+          [
+            20,
+            36
+          ],
+          [
+            44,
+            36
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.5
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            32,
+            8
+          ],
+          [
+            27,
+            19
+          ],
+          [
+            37,
+            19
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.snow"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            32,
+            22
+          ],
+          [
+            24,
+            35
+          ],
+          [
+            40,
+            35
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.snow"
+      },
+      "alpha": 0.7
+    }
+  ],
+  "palette": {
+    "trunk": "#6B4A32",
+    "dark": "#2F6B4C",
+    "mid": "#3A8059",
+    "light": "#4A9A6A",
+    "outline": "#1D4533",
+    "snow": "#F2F6FA"
+  }
+}

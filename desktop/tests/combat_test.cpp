@@ -9,7 +9,9 @@
 
 #include "data/pack.hpp"
 #include "sim/combat_loader.hpp"
+#include "data/world_data.hpp"
 #include "sim/save.hpp"
+#include "sim/world_map.hpp"
 #include "sim/world.hpp"
 
 namespace {
@@ -166,4 +168,42 @@ TEST_CASE("a save for a different world or a newer game is refused", "[combat][s
     std::string parse_error;
     REQUIRE_FALSE(aether::save_from_json("{\"save_version\": 99}", parse_error).has_value());
     REQUIRE_FALSE(aether::save_from_json("not json", parse_error).has_value());
+}
+
+TEST_CASE("the overworld is generated from the content pack and is playable", "[world]") {
+    const Demo demo = load_demo();
+    const auto text = demo.pack.read_document("base:world/overworld");
+    REQUIRE(text.has_value());
+    std::string error;
+    const auto params = aether::parse_world_params(*text, error);
+    INFO(error);
+    REQUIRE(params.has_value());
+    REQUIRE(params->width == 512);
+
+    const aether::GeneratedWorld world = aether::generate_world(42, *params);
+    const aether::TileMap map = aether::make_tilemap(world, *params);
+    REQUIRE(map.ground.size() == 512U * 512U);
+    REQUIRE(map.props.size() > 1000);
+    REQUIRE(map.spawners.size() > 20);
+    REQUIRE(map.npcs.size() == 1);
+    REQUIRE(map.npcs[0].key == "guild_clerk_mira");
+    // The spawn clearing is walkable plains.
+    const int cx = map.width / 2;
+    const int cy = map.height / 2;
+    REQUIRE((map.gid_at(cx, cy) == 1 || map.gid_at(cx, cy) == 2));
+
+    // Same seed, same world; another seed, another world.
+    REQUIRE(aether::generate_world(42, *params).tiles == world.tiles);
+    REQUIRE(aether::generate_world(43, *params).tiles != world.tiles);
+
+    // The world can be played: combat setup, a few ticks and a save.
+    auto setup = aether::load_combat_setup(demo.pack, map, "base:protagonist/ren", 42, error);
+    INFO(error);
+    REQUIRE(setup.has_value());
+    REQUIRE(setup->spawns.size() == map.spawners.size());
+    aether::WorldSim sim(map, demo.tileset, 0.0F, *setup);
+    for (int i = 0; i < 120; ++i) {
+        sim.tick(0.0F, 0.0F, false);
+    }
+    REQUIRE(sim.story().npc_in_range() != nullptr);  // Mira stands next to the spawn
 }

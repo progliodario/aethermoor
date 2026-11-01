@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schemas/world.schema.json",
+  "id": "base:world/overworld",
+  "width": 512,
+  "height": 512,
+  "border": 4,
+  "spawn_clear_radius": 7,
+  "elevation": { "salt": 1, "scale": 56, "octaves": 5 },
+  "moisture": { "salt": 2, "scale": 80, "octaves": 4 },
+  "temperature": { "salt": 3, "scale": 120, "octaves": 3 },
+  "thresholds": {
+    "water": 25000,
+    "beach": 27500,
+    "mountain": 44000,
+    "snow": 20000,
+    "desert_heat": 36000,
+    "desert_dry": 33000,
+    "forest_wet": 38000
+  },
+  "tiles": { "water": 4, "beach": 6, "desert": 6, "snow": 7, "mountain": 8, "forest": 9, "plains": [1, 2] },
+  "props": {
+    "plains": [
+      { "art": "base:art/prop/tree_oak", "radius_x100": 30, "per_mille": 30 },
+      { "art": "base:art/prop/rock", "radius_x100": 35, "per_mille": 12 }
+    ],
+    "forest": [{ "art": "base:art/prop/tree_oak", "radius_x100": 30, "per_mille": 220 }],
+    "snow": [{ "art": "base:art/prop/pine", "radius_x100": 30, "per_mille": 90 }],
+    "desert": [{ "art": "base:art/prop/cactus", "radius_x100": 28, "per_mille": 25 }]
+  },
+  "spawners": { "enemy": "base:enemy/slime_green", "biomes": ["plains", "forest"], "min_distance": 14, "per_10000": 8 },
+  "npcs": [
+    { "key": "guild_clerk_mira", "dialogue": "base:dialogue/npc/mira", "variant": "red", "dx": 1, "dy": -1 }
+  ]
+}

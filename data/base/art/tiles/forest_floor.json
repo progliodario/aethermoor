@@ -1,0 +1,100 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/tile/forest_floor",
+  "canvas": {
+    "w": 32,
+    "h": 32,
+    "origin": [
+      0,
+      0
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          32
+        ]
+      },
+      "fill": {
+        "color": "$p.base"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          8,
+          10,
+          5,
+          3
+        ]
+      },
+      "fill": {
+        "color": "$p.dark"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          24,
+          22,
+          6,
+          3
+        ]
+      },
+      "fill": {
+        "color": "$p.dark"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            15,
+            26
+          ],
+          [
+            17,
+            20
+          ],
+          [
+            19,
+            26
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.tuft"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            4,
+            28
+          ],
+          [
+            5,
+            23
+          ],
+          [
+            7,
+            28
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.tuft"
+      }
+    }
+  ],
+  "palette": {
+    "base": "#4B9A52",
+    "dark": "#3B8445",
+    "tuft": "#5FB062"
+  }
+}

@@ -26,6 +26,26 @@
       "gid": 5,
       "art": "base:art/tile/wall_stone",
       "solid": true
+    },
+    {
+      "gid": 6,
+      "art": "base:art/tile/sand",
+      "solid": false
+    },
+    {
+      "gid": 7,
+      "art": "base:art/tile/snow",
+      "solid": false
+    },
+    {
+      "gid": 8,
+      "art": "base:art/tile/mountain",
+      "solid": true
+    },
+    {
+      "gid": 9,
+      "art": "base:art/tile/forest_floor",
+      "solid": false
     }
   ]
 }

@@ -1,0 +1,105 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/cactus",
+  "canvas": {
+    "w": 32,
+    "h": 48,
+    "origin": [
+      16,
+      44
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          16,
+          44,
+          9,
+          3
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "path": "M 11 44 L 11 12 Q 16 4 21 12 L 21 44 Z"
+      },
+      "fill": {
+        "color": "$p.body"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 11 30 L 5 30 Q 3 30 3 28 L 3 20 Q 5 18 7 20 L 7 26 L 11 26 Z"
+      },
+      "fill": {
+        "color": "$p.body"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.2
+      }
+    },
+    {
+      "shape": {
+        "path": "M 21 24 L 26 24 Q 29 24 29 22 L 29 15 Q 27 13 25 15 L 25 20 L 21 20 Z"
+      },
+      "fill": {
+        "color": "$p.body"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.2
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            14,
+            14
+          ],
+          [
+            14,
+            40
+          ]
+        ]
+      },
+      "stroke": {
+        "color": "$p.rib",
+        "width": 1
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            18,
+            14
+          ],
+          [
+            18,
+            40
+          ]
+        ]
+      },
+      "stroke": {
+        "color": "$p.rib",
+        "width": 1
+      }
+    }
+  ],
+  "palette": {
+    "body": "#5FA865",
+    "rib": "#3F8A4A",
+    "outline": "#26502E"
+  }
+}
