@@ -19,6 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import conformance_m2  # noqa: E402
 import conformance_m3  # noqa: E402
+import conformance_m4  # noqa: E402
 from reference import numerics as nm  # noqa: E402
 from reference import rules  # noqa: E402
 from reference.i18n import format_message  # noqa: E402
@@ -218,6 +219,7 @@ SUITES = {
     "movement": conformance_m2.suite_movement,
     "raster": conformance_m2.suite_raster,
     "combat": conformance_m3.suite_combat,
+    "story": conformance_m4.suite_story,
 }
 
 

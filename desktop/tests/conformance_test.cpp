@@ -19,6 +19,7 @@
 #include "core/rules.hpp"
 #include "data/pack.hpp"
 #include "sim/movement.hpp"
+#include "sim/story.hpp"
 #include "sim/world.hpp"
 #include "vector/raster.hpp"
 #include "vector/recipe.hpp"
@@ -346,6 +347,7 @@ namespace {
 
 aether::EnemyDef enemy_def_from_json(const Json& d) {
     aether::EnemyDef def;
+    def.id = d.value("id", "");
     def.hp = d.at("hp").get<std::int64_t>();
     def.atk = d.at("atk").get<std::int64_t>();
     def.def = d.at("def").get<std::int64_t>();
@@ -374,8 +376,8 @@ aether::Primary primary_from_json(const Json& s) {
 
 }  // namespace
 
-TEST_CASE("conformance: combat", "[conformance]") {
-    const Json doc = load_suite("combat");
+void run_combat_suite(const std::string& suite) {
+    const Json doc = load_suite(suite);
     for (const Json& c : doc.at("cases")) {
         INFO("case " << c.at("name").get<std::string>());
         const Json& in = c.at("input");
@@ -419,6 +421,14 @@ TEST_CASE("conformance: combat", "[conformance]") {
                                     e.at("pos").at(1).get<float>()});
         }
 
+        if (in.contains("story")) {
+            std::string story_error;
+            auto story = aether::parse_story_setup(in.at("story").dump(), story_error);
+            INFO(story_error);
+            REQUIRE(story.has_value());
+            setup.story = std::move(*story);
+        }
+
         aether::WorldSim sim(map, tileset, 0.0F, setup);
         const float tol = c.at("expect").at("tol").get<float>();
         std::size_t index = 0;
@@ -426,6 +436,18 @@ TEST_CASE("conformance: combat", "[conformance]") {
             const float mx = segment.at("move").at(0).get<float>();
             const float my = segment.at("move").at(1).get<float>();
             const bool attack = segment.at("attack").get<bool>();
+            if (segment.contains("do")) {
+                for (const Json& command : segment.at("do")) {
+                    const std::string cmd = command.at("cmd").get<std::string>();
+                    if (cmd == "interact") {
+                        sim.story().interact();
+                    } else if (cmd == "advance") {
+                        sim.story().advance();
+                    } else if (cmd == "choose") {
+                        sim.story().choose(command.at("index").get<int>());
+                    }
+                }
+            }
             for (int tick = 0; tick < segment.at("ticks").get<int>(); ++tick) {
                 sim.tick(mx, my, attack);
             }
@@ -453,7 +475,48 @@ TEST_CASE("conformance: combat", "[conformance]") {
             for (const auto& [item, quantity] : inventory.items()) {
                 REQUIRE(sim.inventory().at(item) == quantity.get<std::int64_t>());
             }
+            if (want.contains("story")) {
+                const Json& ws = want.at("story");
+                const aether::Story& story = sim.story();
+                REQUIRE(story.gold() == integer(ws, "gold"));
+                REQUIRE(story.flags().size() == ws.at("flags").size());
+                for (const auto& [flag, value] : ws.at("flags").items()) {
+                    REQUIRE(story.flags().at(flag) == value.get<bool>());
+                }
+                REQUIRE(story.quests().size() == ws.at("quests").size());
+                for (const auto& [quest_id, wq] : ws.at("quests").items()) {
+                    const aether::QuestProgress& q = story.quests().at(quest_id);
+                    INFO("quest " << quest_id);
+                    REQUIRE(q.stage == wq.at("stage").get<std::string>());
+                    REQUIRE(q.done == wq.at("done").get<bool>());
+                    REQUIRE(q.progress.size() == wq.at("progress").size());
+                    for (std::size_t i = 0; i < q.progress.size(); ++i) {
+                        REQUIRE(q.progress[i] == wq.at("progress")[i].get<std::int64_t>());
+                    }
+                }
+                const aether::DialogueView view = story.dialogue_view();
+                if (ws.at("dialogue").is_null()) {
+                    REQUIRE_FALSE(view.active);
+                } else {
+                    const Json& wd = ws.at("dialogue");
+                    REQUIRE(view.active);
+                    REQUIRE(view.is_choice == (wd.at("type").get<std::string>() == "choice"));
+                    if (view.is_choice) {
+                        REQUIRE(view.choices.size() == wd.at("choices").size());
+                        for (std::size_t i = 0; i < view.choices.size(); ++i) {
+                            REQUIRE(view.choices[i] == wd.at("choices")[i].get<std::string>());
+                        }
+                    } else {
+                        REQUIRE(view.speaker == wd.at("speaker").get<std::string>());
+                        REQUIRE(view.text == wd.at("text").get<std::string>());
+                    }
+                }
+            }
             ++index;
         }
     }
 }
+
+TEST_CASE("conformance: combat", "[conformance]") { run_combat_suite("combat"); }
+
+TEST_CASE("conformance: story", "[conformance]") { run_combat_suite("story"); }

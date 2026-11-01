@@ -1,0 +1,66 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/npc/mira",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/slime_extermination"
+      },
+      "then": "thanks",
+      "else": "active_check"
+    },
+    "active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/slime_extermination"
+      },
+      "then": "busy",
+      "else": "offer"
+    },
+    "offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.offer",
+      "next": "offer_choice"
+    },
+    "offer_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.mira.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/slime_extermination"
+            }
+          ],
+          "next": "accepted"
+        },
+        {
+          "text": "$i18n:dlg.mira.decline",
+          "next": "end"
+        }
+      ]
+    },
+    "accepted": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.accepted",
+      "next": "end"
+    },
+    "busy": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.busy",
+      "next": "end"
+    },
+    "thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.thanks",
+      "next": "end"
+    }
+  }
+}

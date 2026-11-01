@@ -92,3 +92,31 @@ TEST_CASE("an enemy that reaches the player hurts it, and respawn restores healt
     REQUIRE(sim.player().hp > 0);
     REQUIRE(sim.player().position.x == Catch::Approx(demo.map.spawn_x).margin(0.01F));
 }
+
+TEST_CASE("talking to the guild clerk with the real data starts her quest", "[combat][story]") {
+    Demo demo = load_demo();
+    demo.map.spawn_x = 8.5F;
+    demo.map.spawn_y = 15.4F;
+    aether::WorldSim sim(demo.map, demo.tileset, 0.0F, demo.setup);
+    REQUIRE(sim.story().npc_in_range() != nullptr);
+    sim.story().interact();
+    REQUIRE(sim.story().dialogue_view().active);
+    REQUIRE(sim.story().dialogue_view().text == "$i18n:dlg.mira.offer");
+    sim.story().advance();
+    REQUIRE(sim.story().dialogue_view().is_choice);
+    REQUIRE(sim.story().dialogue_view().choices.size() == 2);
+    sim.story().choose(0);
+    sim.story().advance();
+    REQUIRE_FALSE(sim.story().dialogue_active());
+    REQUIRE(sim.story().quests().count("base:quest/guild/slime_extermination") == 1);
+
+    // Talking again shows the "busy" line, and while the dialogue is open the player does not move.
+    sim.story().interact();
+    REQUIRE(sim.story().dialogue_view().text == "$i18n:dlg.mira.busy");
+    const aether::Vec2 before = sim.player().position;
+    for (int i = 0; i < 30; ++i) {
+        sim.tick(1.0F, 0.0F, true);
+    }
+    REQUIRE(sim.player().position.x == before.x);
+    REQUIRE(sim.player().position.y == before.y);
+}

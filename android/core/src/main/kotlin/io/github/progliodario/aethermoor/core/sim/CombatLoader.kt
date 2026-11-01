@@ -94,6 +94,19 @@ fun loadCombatSetup(pack: Pack, map: TileMap, protagonistId: String, seed: ULong
             EnemySpawn(enemies.getOrPut(spawn.enemy) { loadEnemy(pack, spawn.enemy) }, spawn.x, spawn.y)
         }
 
+        // Story: every quest and dialogue document of the pack, and the NPCs of the map.
+        val quests = HashMap<String, QuestDef>()
+        val dialogues = HashMap<String, DialogueDef>()
+        for ((id, path) in pack.documentPaths) {
+            val text = requireNotNull(pack.readFile(path)) { "cannot read $id" }
+            if (path.startsWith("quests/")) {
+                quests[id] = parseQuest(text).getOrThrow()
+            } else if (path.startsWith("dialogues/")) {
+                dialogues[id] = parseDialogue(text).getOrThrow()
+            }
+        }
+        val npcs = map.npcs.map { NpcDef(it.key, it.dialogue, it.variant, it.x, it.y) }
+
         CombatSetup(
             enabled = true,
             player = PlayerSetup(protagonist.baseStats, protagonist.growthPm, weaponAtk, weaponMatk),
@@ -101,5 +114,6 @@ fun loadCombatSetup(pack: Pack, map: TileMap, protagonistId: String, seed: ULong
             spawns = spawns,
             xpTable = pack.intTables["base:table/xp"]?.values ?: emptyList(),
             seed = seed,
+            story = StorySetup(quests, dialogues, npcs),
         )
     }

@@ -33,6 +33,14 @@ struct SpawnPoint {
     float y = 0.0F;
 };
 
+struct NpcPoint {
+    std::string key;
+    std::string dialogue;  // dialogue ID
+    std::string variant;
+    float x = 0.0F;
+    float y = 0.0F;
+};
+
 struct TileMap {
     int width = 0;
     int height = 0;
@@ -42,6 +50,7 @@ struct TileMap {
     float spawn_y = 0.0F;
     std::vector<Prop> props;
     std::vector<SpawnPoint> spawners;
+    std::vector<NpcPoint> npcs;
 
     // gid at the cell, 0 when out of range.
     int gid_at(int x, int y) const;

@@ -20,6 +20,7 @@ private const val ATTACK_MOVE_MULT = 0.5f
 private const val MAX_LEVEL = 99L
 private const val RETURN_ARRIVAL = 0.1f
 private const val HIT_FLASH_TICKS = 6
+private const val NPC_RADIUS = 0.3f
 
 class Player(var position: Vec2) {
     var moving = false
@@ -85,7 +86,7 @@ class WorldSim(
     val tileset: Tileset,
     private val speedTilesPerS: Float,
     val combat: CombatSetup = CombatSetup(),
-) {
+) : StoryHost {
     val collision: CollisionWorld = buildCollision(map, tileset)
     private val combatRng = deriveStream(combat.seed, "combat")
     private val lootRng = deriveStream(combat.seed, "loot")
@@ -95,11 +96,18 @@ class WorldSim(
     var derived: DerivedStats = derivedStats(1, combat.player.base, Equipment())
         private set
     val enemies = ArrayList<Enemy>()
-    val inventory = java.util.TreeMap<String, Long>()
+    override val inventory = java.util.TreeMap<String, Long>()
     private val hitSet = BooleanArray(combat.spawns.size)
     private val events = ArrayList<DamageEvent>()
 
+    val story = Story(combat.story, this)
+
+    override val level: Long get() = player.level
+    override val playerX: Float get() = player.position.x
+    override val playerY: Float get() = player.position.y
+
     init {
+        for (npc in combat.story.npcs) collision.addProp(Circle(npc.x, npc.y, NPC_RADIUS))
         if (combat.enabled) {
             player.level = combat.startLevel.toLong()
             recomputeDerived()
@@ -124,7 +132,11 @@ class WorldSim(
     }
 
     /** One fixed tick (1/60 s) with the raw movement input and the attack input of this tick. */
-    fun tick(rawX: Float, rawY: Float, attack: Boolean = false) {
+    fun tick(rawXIn: Float, rawYIn: Float, attackIn: Boolean = false) {
+        val frozen = story.dialogueActive
+        val rawX = if (frozen) 0f else rawXIn
+        val rawY = if (frozen) 0f else rawYIn
+        val attack = attackIn && !frozen
         val p = player
         val enabled = combat.enabled
         if (p.iframes > 0) p.iframes--
@@ -232,7 +244,13 @@ class WorldSim(
                 inventory[drop.item] = (inventory[drop.item] ?: 0L) + quantity
             }
         }
-        p.xp += xpGain(enemy.def.xp, enemy.def.level, p.level)
+        grantXp(xpGain(enemy.def.xp, enemy.def.level, p.level))
+        story.onKill(enemy.def.id)
+    }
+
+    override fun grantXp(amount: Long) {
+        val p = player
+        p.xp += amount
         while (p.level < MAX_LEVEL && p.level - 1 < combat.xpTable.size && p.xp >= combat.xpTable[(p.level - 1).toInt()]) {
             p.xp -= combat.xpTable[(p.level - 1).toInt()]
             p.level++

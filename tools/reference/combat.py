@@ -10,6 +10,7 @@ import math
 from . import movement as mv
 from . import numerics as nm
 from . import rules
+from .story import NPC_RADIUS, Story
 
 NONE, STARTUP, ACTIVE, RECOVERY = "none", "startup", "active", "recovery"
 IDLE, CHASE, ATTACK, RETURN, DEAD = "idle", "chase", "attack", "return", "dead"
@@ -42,6 +43,9 @@ class CombatSim:
     def __init__(self, scenario: dict) -> None:
         self.grid = mv.Grid(scenario["grid"])
         self.props = [tuple(p) for p in scenario["props"]]
+        story_setup = scenario.get("story")
+        if story_setup:
+            self.props += [(n["pos"][0], n["pos"][1], NPC_RADIUS) for n in story_setup["npcs"]]
         seed = int(scenario["seed"], 16)
         self.combat = nm.derive_stream(seed, "combat")
         self.loot = nm.derive_stream(seed, "loot")
@@ -66,6 +70,7 @@ class CombatSim:
         self.deaths = 0
         self.inventory: dict[str, int] = {}
         self.enemies = [_Enemy(e) for e in scenario["enemies"]]
+        self.story = Story(self, story_setup) if story_setup else None
 
     # ------------------------------------------------------------------------------- helpers
 
@@ -81,6 +86,8 @@ class CombatSim:
     # --------------------------------------------------------------------------------- tick
 
     def tick(self, raw_x: float, raw_y: float, attack: bool) -> None:
+        if self.story is not None and self.story.dialogue_active:
+            raw_x, raw_y, attack = 0.0, 0.0, False
         if self.iframes > 0:
             self.iframes -= 1
         if self.cooldown > 0:
@@ -150,7 +157,12 @@ class CombatSim:
                 if drop["qty_max"] > drop["qty_min"]:
                     qty += self.loot.next_bounded(drop["qty_max"] - drop["qty_min"] + 1)
                 self.inventory[drop["item"]] = self.inventory.get(drop["item"], 0) + qty
-        self.xp += rules.xp_gain(enemy.d["xp"], enemy.d["level"], self.level)
+        self.grant_xp(rules.xp_gain(enemy.d["xp"], enemy.d["level"], self.level))
+        if self.story is not None:
+            self.story.on_kill(enemy.d.get("id", ""))
+
+    def grant_xp(self, amount: int) -> None:
+        self.xp += amount
         while self.level < MAX_LEVEL and self.level - 1 < len(self.xp_table) and self.xp >= self.xp_table[self.level - 1]:
             self.xp -= self.xp_table[self.level - 1]
             self.level += 1
@@ -220,6 +232,7 @@ class CombatSim:
             "enemies": [{"hp": e.hp, "state": e.state, "x": e.x, "y": e.y} for e in self.enemies],
             "kills": self.kills,
             "inventory": dict(sorted(self.inventory.items())),
+            **({"story": self.story.snapshot()} if self.story is not None else {}),
         }
 
 
@@ -228,6 +241,15 @@ def run_scenario(scenario: dict) -> list[dict]:
     out = []
     for segment in scenario["script"]:
         move = segment["move"]
+        for command in segment.get("do", []):
+            if sim.story is None:
+                continue
+            if command["cmd"] == "interact":
+                sim.story.interact()
+            elif command["cmd"] == "advance":
+                sim.story.advance()
+            elif command["cmd"] == "choose":
+                sim.story.choose(command["index"])
         for _ in range(segment["ticks"]):
             sim.tick(move[0], move[1], segment["attack"])
         out.append(sim.snapshot())

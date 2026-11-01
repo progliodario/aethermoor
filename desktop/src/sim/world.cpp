@@ -14,6 +14,7 @@ constexpr float kAttackMoveMult = 0.5F;
 constexpr std::int64_t kMaxLevel = 99;
 constexpr float kReturnArrival = 0.1F;
 constexpr int kHitFlashTicks = 6;
+constexpr float kNpcRadius = 0.3F;
 constexpr double kPi = 3.14159265358979323846;
 
 CollisionWorld build_collision(const TileMap& map, const Tileset& tileset) {
@@ -57,10 +58,14 @@ WorldSim::WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, Combat
       m_speed_(speed_tiles_per_s),
       m_setup_(std::move(combat)),
       m_combat_rng_(derive_stream(m_setup_.seed, "combat")),
-      m_loot_rng_(derive_stream(m_setup_.seed, "loot")) {
+      m_loot_rng_(derive_stream(m_setup_.seed, "loot")),
+      m_story_(m_setup_.story, *this) {
     m_player_.position = {m_map_.spawn_x, m_map_.spawn_y};
     m_collision_.resolve(m_player_.position.x, m_player_.position.y);
     m_spawn_ = m_player_.position;
+    for (const NpcDef& npc : m_setup_.story.npcs) {
+        m_collision_.add_prop({npc.x, npc.y, kNpcRadius});
+    }
     if (m_setup_.enabled) {
         m_player_.level = m_setup_.start_level;
         recompute_derived();
@@ -89,6 +94,11 @@ std::vector<DamageEvent> WorldSim::take_events() { return std::exchange(m_events
 void WorldSim::tick(float raw_x, float raw_y, bool attack) {
     Player& p = m_player_;
     const bool combat = m_setup_.enabled;
+    if (m_story_.dialogue_active()) {
+        raw_x = 0.0F;
+        raw_y = 0.0F;
+        attack = false;
+    }
     if (p.iframes > 0) {
         --p.iframes;
     }
@@ -222,7 +232,13 @@ void WorldSim::on_kill(Enemy& enemy) {
             m_inventory_[drop.item] += quantity;
         }
     }
-    p.xp += xp_gain(enemy.def.xp, enemy.def.level, p.level);
+    grant_xp(xp_gain(enemy.def.xp, enemy.def.level, p.level));
+    m_story_.on_kill(enemy.def.id);
+}
+
+void WorldSim::grant_xp(std::int64_t amount) {
+    Player& p = m_player_;
+    p.xp += amount;
     while (p.level < kMaxLevel && p.level - 1 < static_cast<std::int64_t>(m_setup_.xp_table.size()) &&
            p.xp >= m_setup_.xp_table[static_cast<std::size_t>(p.level - 1)]) {
         p.xp -= m_setup_.xp_table[static_cast<std::size_t>(p.level - 1)];

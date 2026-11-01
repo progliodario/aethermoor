@@ -3,46 +3,223 @@
   "$id": "https://aethermoor.invalid/schemas/quest.schema.json",
   "title": "Quest",
   "type": "object",
-  "required": ["id", "name", "kind", "stages"],
+  "required": [
+    "id",
+    "name",
+    "kind",
+    "stages"
+  ],
   "additionalProperties": false,
   "properties": {
-    "$schema": { "type": "string" },
-    "id": { "$ref": "#/$defs/id" },
-    "name": { "$ref": "#/$defs/i18n_ref" },
-    "kind": { "enum": ["main", "side", "guild", "companion", "daily"] },
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "$ref": "#/$defs/id"
+    },
+    "name": {
+      "$ref": "#/$defs/i18n_ref"
+    },
+    "kind": {
+      "enum": [
+        "main",
+        "side",
+        "guild",
+        "companion",
+        "daily"
+      ]
+    },
     "stages": {
       "type": "array",
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": ["id", "journal", "objectives", "next"],
+        "required": [
+          "id",
+          "journal",
+          "objectives",
+          "next"
+        ],
         "additionalProperties": false,
         "properties": {
-          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
-          "journal": { "$ref": "#/$defs/i18n_ref" },
-          "objectives": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/objective" } },
-          "next": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" }
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "journal": {
+            "$ref": "#/$defs/i18n_ref"
+          },
+          "objectives": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/$defs/objective"
+            }
+          },
+          "next": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          }
         }
       }
     },
     "rewards": {
       "type": "array",
-      "items": { "type": "object", "required": ["effect"], "properties": { "effect": { "type": "string" } } }
+      "items": {
+        "$ref": "#/$defs/effect"
+      }
     }
   },
   "$defs": {
-    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$" },
-    "i18n_ref": { "type": "string", "pattern": "^\\$i18n:[a-z0-9_]+(\\.[a-z0-9_]+)*$" },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+    },
+    "i18n_ref": {
+      "type": "string",
+      "pattern": "^\\$i18n:[a-z0-9_]+(\\.[a-z0-9_]+)*$"
+    },
     "objective": {
       "oneOf": [
-        { "type": "object", "required": ["type", "enemy", "count"], "additionalProperties": false,
-          "properties": { "type": { "const": "kill" }, "enemy": { "$ref": "#/$defs/id" },
-                          "count": { "type": "integer", "minimum": 1 } } },
-        { "type": "object", "required": ["type", "item", "count"], "additionalProperties": false,
-          "properties": { "type": { "const": "collect" }, "item": { "$ref": "#/$defs/id" },
-                          "count": { "type": "integer", "minimum": 1 } } },
-        { "type": "object", "required": ["type", "npc_key"], "additionalProperties": false,
-          "properties": { "type": { "const": "talk" }, "npc_key": { "type": "string" } } }
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "enemy",
+            "count"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "kill"
+            },
+            "enemy": {
+              "$ref": "#/$defs/id"
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "item",
+            "count"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "collect"
+            },
+            "item": {
+              "$ref": "#/$defs/id"
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "npc_key"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "talk"
+            },
+            "npc_key": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "effect": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "effect",
+            "amount"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "enum": [
+                "add_xp",
+                "add_gold"
+              ]
+            },
+            "amount": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect",
+            "item",
+            "qty"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "const": "add_item"
+            },
+            "item": {
+              "$ref": "#/$defs/id"
+            },
+            "qty": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect",
+            "flag",
+            "value"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "const": "set_flag"
+            },
+            "flag": {
+              "type": "string"
+            },
+            "value": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect",
+            "quest"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "const": "start_quest"
+            },
+            "quest": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        }
       ]
     }
   }

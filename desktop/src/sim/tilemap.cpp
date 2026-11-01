@@ -93,6 +93,20 @@ std::optional<TileMap> parse_tilemap(std::string_view tmj_text, std::string& err
                             spawn.enemy = enemy->get<std::string>();
                         }
                         map.spawners.push_back(std::move(spawn));
+                    } else if (kind == "npc") {
+                        NpcPoint npc;
+                        npc.x = x;
+                        npc.y = y;
+                        if (const Json* key = find_property(object, "key")) {
+                            npc.key = key->get<std::string>();
+                        }
+                        if (const Json* dialogue = find_property(object, "dialogue")) {
+                            npc.dialogue = dialogue->get<std::string>();
+                        }
+                        if (const Json* variant = find_property(object, "variant")) {
+                            npc.variant = variant->get<std::string>();
+                        }
+                        map.npcs.push_back(std::move(npc));
                     }
                 }
             }

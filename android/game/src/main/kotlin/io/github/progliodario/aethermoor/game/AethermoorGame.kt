@@ -2,10 +2,12 @@ package io.github.progliodario.aethermoor.game
 
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.BitmapFont
+import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import io.github.progliodario.aethermoor.core.GameInfo
@@ -14,10 +16,13 @@ import io.github.progliodario.aethermoor.core.loadPack
 import io.github.progliodario.aethermoor.core.sim.AttackPhase
 import io.github.progliodario.aethermoor.core.sim.Enemy
 import io.github.progliodario.aethermoor.core.sim.EnemyState
+import io.github.progliodario.aethermoor.core.sim.NpcDef
 import io.github.progliodario.aethermoor.core.sim.Prop
+import io.github.progliodario.aethermoor.core.sim.QuestStage
 import io.github.progliodario.aethermoor.core.sim.TICK_DT
 import io.github.progliodario.aethermoor.core.sim.TileMap
 import io.github.progliodario.aethermoor.core.sim.Tileset
+import io.github.progliodario.aethermoor.core.sim.ObjectiveKind
 import io.github.progliodario.aethermoor.core.sim.WorldSim
 import io.github.progliodario.aethermoor.core.sim.loadCombatSetup
 import io.github.progliodario.aethermoor.core.sim.parseTileMap
@@ -67,11 +72,16 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var language = "en"
     private var accumulator = 0f
     private val floating = ArrayList<FloatingText>()
+    private val layout = GlyphLayout()
+    private var choiceIndex = 0
+    private var choiceRects: List<FloatArray> = emptyList()
+    private var talkRect: FloatArray? = null
 
     override fun create() {
         batch = SpriteBatch()
         shapes = ShapeRenderer()
         font = BitmapFont(true) // flipped: the projection has y pointing down
+        font.data.setScale(max(1f, Gdx.graphics.density * 0.9f))
         camera = OrthographicCamera()
         language = if (Locale.getDefault().language == "it") "it" else "en"
 
@@ -131,6 +141,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             return
         }
 
+        handleStoryInput(world)
         val frame = input.read()
         accumulator += min(Gdx.graphics.deltaTime, MAX_FRAME_SECONDS)
         var ticks = 0
@@ -177,7 +188,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
 
         // Props, enemies and the player, sorted by feet y (smaller first; ties keep list order, the player last).
-        class Item(val feetY: Float, val prop: Prop?, val enemy: Enemy?)
+        class Item(val feetY: Float, val prop: Prop?, val enemy: Enemy?, val npc: NpcDef? = null)
         val items = ArrayList<Item>()
         for (prop in map.props) {
             if (prop.x >= cam.x - 2f && prop.x <= cam.x + viewW + 2f && prop.y >= cam.y - 1f && prop.y <= cam.y + viewH + 4f) {
@@ -185,11 +196,13 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             }
         }
         for (enemy in world.enemies) if (enemy.state != EnemyState.DEAD) items.add(Item(enemy.position.y, null, enemy))
+        for (npc in world.story.setup.npcs) items.add(Item(npc.y, null, null, npc))
         items.add(Item(world.player.position.y, null, null))
         for (item in items.sortedBy { it.feetY }) {
             when {
                 item.prop != null -> drawProp(item.prop, cam.x, cam.y, tilePx, tile, k)
                 item.enemy != null -> drawEnemy(item.enemy, cam.x, cam.y, tilePx, tile, k)
+                item.npc != null -> drawNpc(world, data, item.npc, cam.x, cam.y, tilePx, k)
                 else -> drawPlayer(world, data, cam.x, cam.y, tilePx, k)
             }
         }
@@ -197,6 +210,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
         drawOverlays(world, cam.x, cam.y, tile, k)
         drawTexts(world, data, cam.x, cam.y, tile)
+        drawStory(world, data)
         drawStick()
     }
 
@@ -226,15 +240,31 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private fun drawPlayer(world: WorldSim, data: Assets, camX: Float, camY: Float, tilePx: Int, k: Float) {
         val tile = tilePx.toFloat()
         val player = world.player
-        val feetX = (player.position.x - camX) * tile
-        val feetY = (player.position.y - camY) * tile
-        val clip = if (player.moving) data.walk else data.idle
-        val pose = evaluatePose(data.rig, clip, player.clipTick.toFloat(), player.facingLeft).sortedBy { it.z }
         val blink = player.iframes > 0 && (player.iframes / 4) % 2 == 0
+        drawCharacter(
+            data, player.moving, player.facingLeft, player.clipTick, blink, null,
+            (player.position.x - camX) * tile, (player.position.y - camY) * tile, tilePx, k,
+        )
+    }
+
+    private fun drawNpc(world: WorldSim, data: Assets, npc: NpcDef, camX: Float, camY: Float, tilePx: Int, k: Float) {
+        val tile = tilePx.toFloat()
+        drawCharacter(
+            data, false, world.player.position.x < npc.x, (System.currentTimeMillis() / 16).toInt(), false,
+            npc.variant.ifEmpty { null }, (npc.x - camX) * tile, (npc.y - camY) * tile, tilePx, k,
+        )
+    }
+
+    private fun drawCharacter(
+        data: Assets, moving: Boolean, facingLeft: Boolean, clipTick: Int, blink: Boolean, variant: String?,
+        feetX: Float, feetY: Float, tilePx: Int, k: Float,
+    ) {
+        val clip = if (moving) data.walk else data.idle
+        val pose = evaluatePose(data.rig, clip, clipTick.toFloat(), facingLeft).sortedBy { it.z }
         batch.setColor(1f, 1f, 1f, if (blink) 0.47f else 1f)
         for (posed in pose) {
             val part = data.rig.parts[posed.partIndex]
-            val sprite = cache.get(part.art, tilePx) ?: continue
+            val sprite = cache.get(part.art, tilePx, variant) ?: continue
             val px = feetX + posed.x * k
             val py = feetY + posed.y * k
             val pivotX = sprite.originX * k
@@ -245,7 +275,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 px - pivotX, py - pivotY,
                 pivotX, pivotY,
                 sprite.width * k, sprite.height * k,
-                if (player.facingLeft) -1f else 1f, 1f,
+                if (facingLeft) -1f else 1f, 1f,
                 posed.rotationDeg,
             )
         }
@@ -319,6 +349,173 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
         font.color = Color(0.435f, 0.89f, 1f, 1f)
         font.draw(batch, "${info.versionLine()}  ${Gdx.graphics.framesPerSecond} fps", 8f, Gdx.graphics.height - font.lineHeight - 4f)
+        batch.end()
+    }
+
+    // ------------------------------------------------------------------------------------ story
+
+    private fun handleStoryInput(world: WorldSim) {
+        val story = world.story
+        val input = Gdx.input
+        val view = story.dialogueView()
+        val confirm = input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.ENTER) ||
+            (view.active && input.isKeyJustPressed(Input.Keys.SPACE))
+        if (view.active && view.isChoice) {
+            val count = view.choices.size
+            if (count > 0) {
+                if (input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W)) {
+                    choiceIndex = (choiceIndex + count - 1) % count
+                }
+                if (input.isKeyJustPressed(Input.Keys.DOWN) || input.isKeyJustPressed(Input.Keys.S)) {
+                    choiceIndex = (choiceIndex + 1) % count
+                }
+                for (n in 0 until min(count, 9)) {
+                    if (input.isKeyJustPressed(Input.Keys.NUM_1 + n)) {
+                        story.choose(n)
+                        choiceIndex = 0
+                        return
+                    }
+                }
+            }
+        }
+        if (confirm) {
+            if (view.active && view.isChoice) story.choose(choiceIndex) else story.interact()
+            choiceIndex = 0
+            return
+        }
+        if (input.justTouched()) {
+            val x = input.x.toFloat()
+            val y = input.y.toFloat()
+            if (view.active) {
+                if (view.isChoice) {
+                    val row = choiceRects.indexOfFirst { x >= it[0] && x <= it[0] + it[2] && y >= it[1] && y <= it[1] + it[3] }
+                    if (row >= 0) story.choose(row)
+                } else {
+                    story.advance()
+                }
+                choiceIndex = 0
+            } else {
+                val rect = talkRect
+                if (rect != null && story.npcInRange() != null &&
+                    x >= rect[0] && x <= rect[0] + rect[2] && y >= rect[1] && y <= rect[1] + rect[3]
+                ) {
+                    story.interact()
+                    choiceIndex = 0
+                }
+            }
+        }
+        this.input.attackExcludedRect = talkRect.takeIf { !story.dialogueView().active && story.npcInRange() != null }
+    }
+
+    /** Quest tracker, gold, the talk button and the dialogue box. */
+    private fun drawStory(world: WorldSim, data: Assets) {
+        val story = world.story
+        val density = Gdx.graphics.density
+        val width = Gdx.graphics.width.toFloat()
+        val height = Gdx.graphics.height.toFloat()
+        val view = story.dialogueView()
+
+        // Layout of the dialogue box (computed first so the shapes pass can draw it).
+        val margin = 16f * density
+        val boxW = width - 2f * margin
+        var boxH = 0f
+        var heading = ""
+        if (view.active) {
+            if (view.isChoice) {
+                boxH = view.choices.size * (font.lineHeight * 1.5f) + 24f * density
+            } else {
+                heading = data.pack.text(language, "\$i18n:speaker.${view.speaker}")
+                layout.setText(font, data.pack.text(language, view.text), Color.WHITE, boxW - 24f * density, 0, true)
+                boxH = layout.height + font.lineHeight * 1.5f + 24f * density
+            }
+        }
+        val boxY = height - boxH - margin
+
+        // Talk button for touch screens.
+        val canTalk = !view.active && story.npcInRange() != null
+        val button = floatArrayOf(width - 150f * density, height / 2f - 40f * density, 130f * density, 60f * density)
+        talkRect = button
+
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        if (canTalk) {
+            shapes.color = Color(0.04f, 0.12f, 0.23f, 0.85f)
+            shapes.rect(button[0], button[1], button[2], button[3])
+        }
+        if (view.active) {
+            shapes.color = Color(0.04f, 0.12f, 0.23f, 0.92f)
+            shapes.rect(margin, boxY, boxW, boxH)
+            shapes.color = Color(0.435f, 0.89f, 1f, 1f)
+            shapes.rect(margin, boxY, boxW, 3f * density)
+            if (view.isChoice) {
+                val rowH = font.lineHeight * 1.5f
+                choiceRects = view.choices.indices.map { i -> floatArrayOf(margin, boxY + 12f * density + i * rowH, boxW, rowH) }
+                if (choiceIndex in view.choices.indices) {
+                    shapes.color = Color(0.435f, 0.89f, 1f, 0.25f)
+                    val r = choiceRects[choiceIndex]
+                    shapes.rect(r[0], r[1], r[2], r[3])
+                }
+            }
+        }
+        shapes.end()
+
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        // Gold and the quest tracker, top right.
+        var y = 12f * density
+        val x = width - 300f * density
+        font.color = Color(1f, 0.84f, 0.47f, 1f)
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.gold", mapOf("gold" to story.gold)), x, y)
+        y += font.lineHeight * 1.3f
+        for ((questId, progress) in story.quests) {
+            if (progress.done) continue
+            val def = story.setup.quests.getValue(questId)
+            val stage: QuestStage = def.stages.firstOrNull { it.id == progress.stage } ?: continue
+            font.color = Color(0.435f, 0.89f, 1f, 1f)
+            font.draw(batch, data.pack.text(language, def.name), x, y)
+            y += font.lineHeight * 1.2f
+            font.color = Color(0.92f, 0.96f, 1f, 1f)
+            layout.setText(font, data.pack.text(language, stage.journal), font.color, 280f * density, 0, true)
+            font.draw(batch, layout, x, y)
+            y += layout.height + 4f * density
+            for ((i, objective) in stage.objectives.withIndex()) {
+                if (objective.kind == ObjectiveKind.TALK) continue
+                font.draw(batch, "  ${progress.progress[i]}/${objective.count}", x, y)
+                y += font.lineHeight * 1.2f
+            }
+            y += 6f * density
+        }
+
+        if (canTalk) {
+            font.color = Color.WHITE
+            font.draw(
+                batch, data.pack.text(language, "\$i18n:ui.interact"),
+                button[0] + 12f * density, button[1] + button[3] / 2f - font.lineHeight / 2f,
+            )
+        }
+
+        if (view.active) {
+            var ty = boxY + 12f * density
+            if (view.isChoice) {
+                for ((i, choice) in view.choices.withIndex()) {
+                    font.color = if (i == choiceIndex) Color(0.435f, 0.89f, 1f, 1f) else Color.WHITE
+                    font.draw(
+                        batch, "${i + 1}. ${data.pack.text(language, choice)}",
+                        margin + 12f * density, ty + (font.lineHeight * 1.5f - font.lineHeight) / 2f,
+                    )
+                    ty += font.lineHeight * 1.5f
+                }
+            } else {
+                font.color = Color(1f, 0.84f, 0.47f, 1f)
+                font.draw(batch, heading, margin + 12f * density, ty)
+                ty += font.lineHeight * 1.5f
+                font.color = Color(0.92f, 0.96f, 1f, 1f)
+                layout.setText(font, data.pack.text(language, view.text), font.color, boxW - 24f * density, 0, true)
+                font.draw(batch, layout, margin + 12f * density, ty)
+            }
+        }
+        font.color = Color.WHITE
         batch.end()
     }
 

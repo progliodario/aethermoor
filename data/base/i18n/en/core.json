@@ -6,5 +6,17 @@
   "ui.version": "Version {version}",
   "ui.m0_notice": "Project foundations: the game is not playable yet.",
   "ui.level": "Lv {level}",
-  "ui.hp": "HP"
+  "ui.hp": "HP",
+  "speaker.guild_clerk_mira": "Mira, of the guild",
+  "speaker.goddess_lyra": "Lyra",
+  "dlg.mira.offer": "Welcome, adventurer! Slimes are overrunning the plains. Could you lend a hand?",
+  "dlg.mira.accept": "I will take the job.",
+  "dlg.mira.decline": "Maybe later.",
+  "dlg.mira.accepted": "Great! Defeat five of them and come back to me.",
+  "dlg.mira.busy": "The slimes are still out there. Come back once you have beaten five.",
+  "dlg.mira.thanks": "Excellent work! Here is your reward.",
+  "ui.interact": "[E] Talk",
+  "ui.quest": "Quest",
+  "ui.gold": "Gold: {gold}",
+  "ui.quest_done": "Quest complete"
 }

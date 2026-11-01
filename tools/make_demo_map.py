@@ -91,6 +91,10 @@ def build_objects(grid: list[list[int]]) -> list[dict]:
             add({"type": "prop", "point": True, "x": (x + 0.5) * TILE, "y": (y + 0.9) * TILE,
                  "properties": [{"name": "art", "type": "string", "value": kind},
                                 {"name": "radius", "type": "float", "value": radius}]})
+    add({"type": "npc", "point": True, "x": 8.5 * TILE, "y": 14.4 * TILE,
+         "properties": [{"name": "key", "type": "string", "value": "guild_clerk_mira"},
+                        {"name": "dialogue", "type": "string", "value": "base:dialogue/npc/mira"},
+                        {"name": "variant", "type": "string", "value": "red"}]})
     placed = 0
     for y in range(3, HEIGHT - 3):
         for x in range(3, WIDTH - 3):

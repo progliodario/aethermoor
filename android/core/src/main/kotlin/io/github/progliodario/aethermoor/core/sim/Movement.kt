@@ -25,7 +25,13 @@ fun normalizeInput(x: Float, y: Float): Vec2 {
 
 private fun clampf(v: Float, lo: Float, hi: Float) = if (v < lo) lo else if (v > hi) hi else v
 
-class CollisionWorld(val width: Int, val height: Int, private val solid: BooleanArray, private val props: List<Circle>) {
+class CollisionWorld(val width: Int, val height: Int, private val solid: BooleanArray, props: List<Circle>) {
+    private val props = props.toMutableList()
+
+    fun addProp(prop: Circle) {
+        props.add(prop)
+    }
+
     /** Cells outside the map are solid. */
     fun isSolid(tx: Int, ty: Int): Boolean {
         if (tx < 0 || ty < 0 || tx >= width || ty >= height) return true

@@ -57,6 +57,7 @@ class CombatSetup(
     val xpTable: List<Long> = emptyList(),
     val seed: ULong = 0uL,
     val startLevel: Int = 1,
+    val story: StorySetup = StorySetup(),
 )
 
 enum class AttackPhase { NONE, STARTUP, ACTIVE, RECOVERY }
