@@ -48,6 +48,8 @@ struct Assets {
 struct Ui {
     std::string lang = "en";
     int choice_index = 0;
+    std::string last_speaker;  // last line spoken in the open dialogue, kept while choices are shown
+    std::string last_text;
 };
 
 std::string detect_language() {
@@ -319,10 +321,12 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
     std::snprintf(line, sizeof(line), "%s %lld/%lld", assets.pack.text(ui.lang, "$i18n:ui.hp").c_str(),
                   static_cast<long long>(p.hp), static_cast<long long>(sim.derived().max_hp));
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderDebugText(renderer, x + 4.0F, y + 4.0F, line);
+    SDL_SetRenderScale(renderer, 2.0F, 2.0F);
+    SDL_RenderDebugText(renderer, (x + 6.0F) / 2.0F, (y + 3.0F * density) / 2.0F, line);
     const std::string level =
         assets.pack.text(ui.lang, "$i18n:ui.level", {{"level", static_cast<std::int64_t>(p.level)}});
-    SDL_RenderDebugText(renderer, x, y + bar_h + 20.0F * density, level.c_str());
+    SDL_RenderDebugText(renderer, x / 2.0F, (y + bar_h + 16.0F * density) / 2.0F, level.c_str());
+    SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
 // Confirms the current dialogue line or choice.
@@ -391,9 +395,16 @@ void draw_dialogue(SDL_Renderer* renderer, const Assets& assets, const aether::W
     std::vector<std::string> lines;
     std::string heading;
     if (view.is_choice) {
+        if (!ui.last_text.empty()) {
+            heading = assets.pack.text(ui.lang, "$i18n:speaker." + ui.last_speaker);
+            lines = wrap_text(assets.pack.text(ui.lang, ui.last_text), columns);
+            lines.emplace_back();
+        }
         for (std::size_t i = 0; i < view.choices.size(); ++i) {
             const std::string text = assets.pack.text(ui.lang, view.choices[i]);
-            lines.push_back((static_cast<int>(i) == ui.choice_index ? "> " : "  ") + std::to_string(i + 1) + ". " + text);
+            const std::vector<std::string> wrapped = wrap_text(text, columns > 6 ? columns - 6 : columns);
+            lines.push_back((static_cast<int>(i) == ui.choice_index ? "> " : "  ") + std::to_string(i + 1) + ". " +
+                            (wrapped.empty() ? std::string() : wrapped.front()));
         }
     } else {
         heading = assets.pack.text(ui.lang, "$i18n:speaker." + view.speaker);
@@ -422,8 +433,10 @@ void draw_dialogue(SDL_Renderer* renderer, const Assets& assets, const aether::W
 void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui,
                         int out_w, float density) {
     const aether::Story& story = sim.story();
-    const float x = static_cast<float>(out_w) - 330.0F * density;
-    float y = 12.0F * density;
+    constexpr float kScale = 2.0F;
+    const float x = (static_cast<float>(out_w) - 410.0F * density) / kScale;
+    float y = 12.0F * density / kScale;
+    SDL_SetRenderScale(renderer, kScale, kScale);
     char line[96];
     std::snprintf(line, sizeof(line), "%s", assets.pack.text(ui.lang, "$i18n:ui.gold", {{"gold", story.gold()}}).c_str());
     SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
@@ -447,7 +460,7 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
         SDL_RenderDebugText(renderer, x, y, assets.pack.text(ui.lang, def.name).c_str());
         y += 14.0F;
         SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
-        for (const std::string& wrapped : wrap_text(assets.pack.text(ui.lang, stage->journal), 38)) {
+        for (const std::string& wrapped : wrap_text(assets.pack.text(ui.lang, stage->journal), 24)) {
             SDL_RenderDebugText(renderer, x, y, wrapped.c_str());
             y += 12.0F;
         }
@@ -462,6 +475,7 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
         }
         y += 6.0F;
     }
+    SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
 void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& assets, const aether::WorldSim& sim,
@@ -722,6 +736,15 @@ int main(int argc, char** argv) {
                 }
             }
 
+            {
+                const aether::DialogueView spoken = sim.story().dialogue_view();
+                if (spoken.active && !spoken.is_choice) {
+                    ui.last_speaker = spoken.speaker;
+                    ui.last_text = spoken.text;
+                } else if (!spoken.active) {
+                    ui.last_text.clear();
+                }
+            }
             for (const aether::DamageEvent& e : sim.take_events()) {
                 floating.push_back({e.position.x, e.position.y, 0, std::to_string(e.amount), e.on_player, e.crit});
             }

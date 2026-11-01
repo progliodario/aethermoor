@@ -76,6 +76,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var choiceIndex = 0
     private var choiceRects: List<FloatArray> = emptyList()
     private var talkRect: FloatArray? = null
+    private var lastSpeaker = ""
+    private var lastText = ""
 
     override fun create() {
         batch = SpriteBatch()
@@ -414,15 +416,28 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val width = Gdx.graphics.width.toFloat()
         val height = Gdx.graphics.height.toFloat()
         val view = story.dialogueView()
+        if (view.active && !view.isChoice) {
+            lastSpeaker = view.speaker
+            lastText = view.text
+        } else if (!view.active) {
+            lastText = ""
+        }
 
         // Layout of the dialogue box (computed first so the shapes pass can draw it).
         val margin = 16f * density
         val boxW = width - 2f * margin
         var boxH = 0f
         var heading = ""
+        var questionHeight = 0f
         if (view.active) {
             if (view.isChoice) {
                 boxH = view.choices.size * (font.lineHeight * 1.5f) + 24f * density
+                if (lastText.isNotEmpty()) {
+                    heading = data.pack.text(language, "\$i18n:speaker.$lastSpeaker")
+                    layout.setText(font, data.pack.text(language, lastText), Color.WHITE, boxW - 24f * density, 0, true)
+                    questionHeight = layout.height + font.lineHeight * 1.5f + 8f * density
+                    boxH += questionHeight
+                }
             } else {
                 heading = data.pack.text(language, "\$i18n:speaker.${view.speaker}")
                 layout.setText(font, data.pack.text(language, view.text), Color.WHITE, boxW - 24f * density, 0, true)
@@ -450,7 +465,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             shapes.rect(margin, boxY, boxW, 3f * density)
             if (view.isChoice) {
                 val rowH = font.lineHeight * 1.5f
-                choiceRects = view.choices.indices.map { i -> floatArrayOf(margin, boxY + 12f * density + i * rowH, boxW, rowH) }
+                choiceRects = view.choices.indices.map { i -> floatArrayOf(margin, boxY + 12f * density + questionHeight + i * rowH, boxW, rowH) }
                 if (choiceIndex in view.choices.indices) {
                     shapes.color = Color(0.435f, 0.89f, 1f, 0.25f)
                     val r = choiceRects[choiceIndex]
@@ -498,6 +513,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (view.active) {
             var ty = boxY + 12f * density
             if (view.isChoice) {
+                if (lastText.isNotEmpty()) {
+                    font.color = Color(1f, 0.84f, 0.47f, 1f)
+                    font.draw(batch, heading, margin + 12f * density, ty)
+                    font.color = Color(0.92f, 0.96f, 1f, 1f)
+                    layout.setText(font, data.pack.text(language, lastText), font.color, boxW - 24f * density, 0, true)
+                    font.draw(batch, layout, margin + 12f * density, ty + font.lineHeight * 1.5f)
+                    ty += questionHeight
+                }
                 for ((i, choice) in view.choices.withIndex()) {
                     font.color = if (i == choiceIndex) Color(0.435f, 0.89f, 1f, 1f) else Color.WHITE
                     font.draw(
