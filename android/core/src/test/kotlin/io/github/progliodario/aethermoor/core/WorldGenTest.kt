@@ -200,6 +200,44 @@ class WorldGenTest {
     }
 
     @Test
+    fun settlementsSuite() {
+        val doc = Json.parseToJsonElement(File(repoRoot, "tests/conformance/settlements.json").readText()).jsonObject
+        for (case in doc.getValue("cases").jsonArray) {
+            val c = case.jsonObject
+            val label = c.getValue("name").jsonPrimitive.content
+            val input = c.getValue("input").jsonObject
+            val want = c.getValue("expect").jsonObject
+            val params = parseWorldParams(input.getValue("params").toString()).getOrThrow()
+            val seed = hex(input.getValue("seed").jsonPrimitive.content)
+            val block = input.getValue("block").jsonArray.map { it.jsonPrimitive.int }
+            val found = settlementsIn(seed, params, block[0], block[1], block[2], block[3])
+            assertEquals(want.getValue("count").jsonPrimitive.int, found.size, "$label count")
+            for ((i, s) in want.getValue("settlements").jsonArray.withIndex()) {
+                val e = s.jsonArray
+                val got = found[i]
+                val name = "$label settlement $i"
+                assertEquals(e[0].jsonPrimitive.int, got.x, "$name x")
+                assertEquals(e[1].jsonPrimitive.int, got.y, "$name y")
+                assertEquals(e[2].jsonPrimitive.int, got.px, "$name px")
+                assertEquals(e[3].jsonPrimitive.int, got.py, "$name py")
+                assertEquals(e[4].jsonPrimitive.content, got.kind, "$name kind")
+                assertEquals(e[5].jsonPrimitive.content, got.stamp, "$name stamp")
+                assertEquals(e[6].jsonPrimitive.content, got.name, "$name name")
+                assertEquals(e[7].jsonPrimitive.int, got.region, "$name region")
+            }
+            for (sample in want.getValue("regions").jsonArray) {
+                val s = sample.jsonArray
+                assertEquals(s[2].jsonPrimitive.int, regionAt(params, s[0].jsonPrimitive.int, s[1].jsonPrimitive.int), "$label region")
+            }
+            for (marker in want.getValue("markers").jsonArray) {
+                val m = marker.jsonArray
+                val s = settlementMarker(seed, params, m[0].jsonPrimitive.int, m[1].jsonPrimitive.int)
+                assertEquals(m[2].jsonPrimitive.content, s?.name, "$label marker ${m[0]},${m[1]}")
+            }
+        }
+    }
+
+    @Test
     fun worldmapSuite() {
         val doc = Json.parseToJsonElement(File(repoRoot, "tests/conformance/worldmap.json").readText()).jsonObject
         for (case in doc.getValue("cases").jsonArray) {
@@ -253,7 +291,9 @@ class WorldGenTest {
     @Test
     fun theOverworldIsStreamedFromTheContentPackAndIsPlayable() {
         val pack = loadBasePack(repoRoot)
-        val params = parseWorldParams(requireNotNull(pack.readDocument("base:world/overworld"))).getOrThrow()
+        val params = loadWorldParams(pack, "base:world/overworld").getOrThrow()
+        assertEquals(8, params.regions.size)
+        assertEquals(3, params.stamps.size)
         assertEquals(16384, params.width)
         val map = makeStreamMap(params)
         assertEquals(0, map.ground.size)

@@ -1,0 +1,158 @@
+#!/usr/bin/env python3
+"""Builds the settlement stamps of the base pack (data/base/stamps/*.json) from small building templates.
+
+A stamp is a picture of a hamlet, village or town made of characters; see docs/spec/09-worldgen.md ("Settlements").
+Run it after changing a template, then run tools/gen_conformance.py (the vectors depend on the stamps).
+"""
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+OUT = ROOT / "data" / "base" / "stamps"
+
+LEGEND = {
+    "#": {"tile": 5},  # stone wall (solid)
+    "_": {"tile": 13},  # plank floor
+    "=": {"tile": 11},  # dirt road
+    "c": {"tile": 14},  # cobblestones
+    "w": {"tile": 14, "prop": "base:art/prop/well", "radius_x100": 40},
+    "l": {"tile": 14, "prop": "base:art/prop/lamp", "radius_x100": 15},
+    "b": {"tile": 13, "prop": "base:art/prop/barrel", "radius_x100": 25},
+    "t": {"prop": "base:art/prop/tree_oak", "radius_x100": 30},
+    "V": {"tile": 13, "npc": "villager"},
+    "G": {"tile": 13, "npc": "guild_clerk"},
+    "S": {"tile": 13, "npc": "shopkeeper"},
+    "I": {"tile": 13, "npc": "innkeeper"},
+    "E": {"tile": 14, "npc": "elder"},
+}
+
+
+class Canvas:
+    def __init__(self, w: int, h: int) -> None:
+        self.w, self.h = w, h
+        self.cells = [["."] * w for _ in range(h)]
+
+    def put(self, x: int, y: int, ch: str) -> None:
+        assert 0 <= x < self.w and 0 <= y < self.h, (x, y, ch)
+        self.cells[y][x] = ch
+
+    def rect(self, x: int, y: int, w: int, h: int, ch: str) -> None:
+        for j in range(y, y + h):
+            for i in range(x, x + w):
+                self.put(i, j, ch)
+
+    def house(self, x: int, y: int, w: int, h: int, inside: dict[tuple[int, int], str], door: int | None = None) -> None:
+        """A walled room with plank floor; the door is a floor tile in the bottom wall (column `door`, default the middle)."""
+        self.rect(x, y, w, h, "#")
+        self.rect(x + 1, y + 1, w - 2, h - 2, "_")
+        self.put(x + (w // 2 if door is None else door), y + h - 1, "_")
+        for (dx, dy), ch in inside.items():
+            self.put(x + dx, y + dy, ch)
+
+    def hline(self, x0: int, x1: int, y: int, ch: str) -> None:
+        for i in range(x0, x1 + 1):
+            self.put(i, y, ch)
+
+    def vline(self, x: int, y0: int, y1: int, ch: str) -> None:
+        for j in range(y0, y1 + 1):
+            self.put(x, j, ch)
+
+    def plaza(self, cx: int, cy: int, radius: int) -> None:
+        for j in range(cy - radius, cy + radius + 1):
+            for i in range(cx - radius, cx + radius + 1):
+                self.put(i, j, "c")
+        self.put(cx, cy, "w")
+
+    def rows(self) -> list[str]:
+        return ["".join(row) for row in self.cells]
+
+
+def stamp(stamp_id: str, canvas: Canvas, anchor: tuple[int, int]) -> dict:
+    used = {ch for row in canvas.rows() for ch in row if ch != "."}
+    return {
+        "$schema": "../../../schemas/stamp.schema.json",
+        "id": stamp_id,
+        "w": canvas.w,
+        "h": canvas.h,
+        "anchor": list(anchor),
+        "rows": canvas.rows(),
+        "legend": {ch: LEGEND[ch] for ch in sorted(used)},
+    }
+
+
+def hamlet() -> dict:
+    c = Canvas(11, 9)
+    c.house(3, 1, 5, 4, {(1, 1): "b", (2, 1): "V"})
+    c.vline(5, 5, 8, "=")
+    c.hline(3, 7, 6, "c")
+    c.put(5, 6, "w")
+    for x, y in ((1, 1), (9, 2), (1, 7), (9, 7)):
+        c.put(x, y, "t")
+    return stamp("base:stamp/hamlet", c, (5, 4))
+
+
+def village() -> dict:
+    c = Canvas(21, 15)
+    c.plaza(10, 7, 2)
+    c.put(8, 5, "l")
+    c.put(12, 5, "l")
+    c.put(8, 9, "l")
+    c.put(12, 9, "l")
+    c.put(10, 8, "E")
+    c.hline(0, 20, 7, "=")
+    c.vline(10, 0, 14, "=")
+    for x, y in ((8, 7), (9, 7), (11, 7), (12, 7)):
+        c.put(x, y, "c")
+    for y in (5, 6, 8, 9):
+        c.put(10, y, "c")
+    c.put(10, 7, "w")
+    c.put(10, 8, "E")
+    c.house(1, 1, 6, 4, {(1, 1): "b", (3, 1): "V"})
+    c.house(13, 1, 7, 5, {(1, 1): "b", (2, 1): "b", (5, 2): "S"}, door=3)
+    c.house(1, 9, 6, 4, {(2, 1): "V"})
+    c.house(14, 10, 6, 4, {(1, 1): "b", (3, 2): "V"})
+    for x, y in ((8, 1), (0, 13), (9, 13), (20, 8)):
+        c.put(x, y, "t")
+    return stamp("base:stamp/village", c, (10, 7))
+
+
+def town() -> dict:
+    c = Canvas(31, 25)
+    # Walls with four gates, crossing roads and a plaza in the middle.
+    c.rect(2, 2, 27, 21, "#")
+    c.rect(3, 3, 25, 19, ".")
+    for gate in ((15, 2), (15, 22), (2, 12), (28, 12)):
+        c.put(gate[0], gate[1], "=")
+    c.vline(15, 0, 24, "=")
+    c.hline(0, 30, 12, "=")
+    c.plaza(15, 12, 3)
+    for x, y in ((12, 9), (18, 9), (12, 15), (18, 15)):
+        c.put(x, y, "l")
+    c.put(15, 13, "E")
+    # Guild hall (north-west), shop (north-east), inn (south-west) and houses.
+    c.house(4, 4, 9, 5, {(1, 1): "b", (2, 1): "b", (6, 2): "G", (7, 1): "b"}, door=4)
+    c.house(18, 4, 8, 5, {(1, 1): "b", (2, 1): "b", (5, 2): "S"}, door=4)
+    c.house(4, 16, 9, 5, {(1, 1): "b", (6, 2): "I"}, door=4)
+    c.house(19, 16, 6, 4, {(2, 1): "V"}, door=3)
+    c.house(4, 10, 5, 4, {(2, 1): "V"}, door=2)
+    c.house(22, 10, 5, 4, {(2, 1): "V"}, door=2)
+    for x, y in ((0, 0), (30, 0), (0, 24), (30, 24), (6, 0), (24, 24)):
+        c.put(x, y, "t")
+    return stamp("base:stamp/town", c, (15, 12))
+
+
+def main() -> None:
+    OUT.mkdir(parents=True, exist_ok=True)
+    for build in (hamlet, village, town):
+        data = build()
+        name = data["id"].split("/")[-1]
+        (OUT / f"{name}.json").write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        print(f"wrote {name}: {data['w']}x{data['h']}")
+        for row in data["rows"]:
+            print("  " + row)
+
+
+if __name__ == "__main__":
+    main()

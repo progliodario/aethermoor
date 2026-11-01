@@ -5,6 +5,7 @@
 
 #include <cstdint>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -32,6 +33,37 @@ struct WorldNpc {
     std::string variant;
     int dx = 0;
     int dy = 0;
+};
+
+struct Region {
+    std::string id;
+    std::string name;  // an $i18n: key
+    int x_pm = 0;
+    int y_pm = 0;
+    int danger = 1;
+};
+
+struct SettlementKind {
+    std::string id;
+    int weight = 1;
+    std::vector<std::string> stamps;  // stamp ids
+};
+
+// What a character of a stamp means (spec 09, "Settlements").
+struct StampEntry {
+    int tile = 0;  // 0: keep the terrain
+    std::string prop;
+    int radius_x100 = 0;
+    std::string npc;
+};
+
+struct Stamp {
+    int w = 0;
+    int h = 0;
+    int anchor_x = 0;
+    int anchor_y = 0;
+    std::vector<std::string> rows;
+    std::map<char, StampEntry> legend;
 };
 
 struct WorldParams {
@@ -82,6 +114,14 @@ struct WorldParams {
 
     TimeParams time;
 
+    std::vector<Region> regions;
+    int settlement_per_mille = 0;
+    std::vector<SettlementKind> settlement_kinds;
+    std::vector<std::string> names_start;
+    std::vector<std::string> names_mid;
+    std::vector<std::string> names_end;
+    std::map<std::string, Stamp> stamps;  // by id, resolved by the loader
+
     std::vector<WorldNpc> npcs;
 };
 
@@ -124,6 +164,30 @@ struct GeneratedChunk {
 
 // Exactly the restriction of generate_world to the window. Any chunk coordinates are valid: tiles outside the world are water.
 GeneratedChunk generate_chunk(std::uint64_t seed, const WorldParams& params, int chunk_x, int chunk_y);
+
+// Regions and settlements (spec 09). Site cells are kSiteCell x kSiteCell tiles.
+constexpr int kSiteCell = 256;
+
+struct Settlement {
+    int x = 0;  // top-left tile of the footprint
+    int y = 0;
+    int px = 0;  // site point (the anchor of the stamp)
+    int py = 0;
+    int w = 0;
+    int h = 0;
+    std::string stamp;
+    std::string kind;
+    std::string name;
+    int region = 0;
+};
+
+// Index of the region of the tile: the nearest center.
+int region_at(const WorldParams& params, int x, int y);
+std::optional<Settlement> settlement_site(std::uint64_t seed, const WorldParams& params, int site_x, int site_y);
+// The settlements of the site cells sx0..sx1, sy0..sy1 (inclusive), row-major.
+std::vector<Settlement> settlements_in(std::uint64_t seed, const WorldParams& params, int sx0, int sy0, int sx1, int sy1);
+// The settlement shown on the world map cell: the one whose site point lies in the cell.
+std::optional<Settlement> settlement_marker(std::uint64_t seed, const WorldParams& params, int cell_x, int cell_y);
 
 // The world map (spec 09, "Exploration and the world map"): cells of kMapCell x kMapCell tiles.
 constexpr int kMapCell = 128;

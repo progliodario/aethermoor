@@ -1,5 +1,7 @@
 #include "data/world_data.hpp"
 
+#include "data/pack.hpp"
+
 #include <nlohmann/json.hpp>
 
 namespace aether {
@@ -97,6 +99,72 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
             return std::nullopt;
         }
 
+        for (const Json& r : j.at("regions")) {
+            p.regions.push_back({r.at("id").get<std::string>(), r.at("name").get<std::string>(), r.at("x_pm").get<int>(),
+                                 r.at("y_pm").get<int>(), r.at("danger").get<int>()});
+        }
+        const Json& settlements = j.at("settlements");
+        p.settlement_per_mille = settlements.at("per_mille").get<int>();
+        for (const Json& kind : settlements.at("kinds")) {
+            SettlementKind parsed{kind.at("id").get<std::string>(), kind.at("weight").get<int>(), {}};
+            for (const Json& stamp : kind.at("stamps")) {
+                parsed.stamps.push_back(stamp.get<std::string>());
+            }
+            p.settlement_kinds.push_back(std::move(parsed));
+        }
+        for (const Json& syllable : settlements.at("names").at("start")) {
+            p.names_start.push_back(syllable.get<std::string>());
+        }
+        for (const Json& syllable : settlements.at("names").at("mid")) {
+            p.names_mid.push_back(syllable.get<std::string>());
+        }
+        for (const Json& syllable : settlements.at("names").at("end")) {
+            p.names_end.push_back(syllable.get<std::string>());
+        }
+        if (j.contains("stamp_defs")) {
+            for (const auto& [id, def] : j.at("stamp_defs").items()) {
+                Stamp stamp;
+                stamp.w = def.at("w").get<int>();
+                stamp.h = def.at("h").get<int>();
+                stamp.anchor_x = def.at("anchor").at(0).get<int>();
+                stamp.anchor_y = def.at("anchor").at(1).get<int>();
+                for (const Json& row : def.at("rows")) {
+                    stamp.rows.push_back(row.get<std::string>());
+                }
+                if (static_cast<int>(stamp.rows.size()) != stamp.h) {
+                    error = id + ": the number of rows does not match h";
+                    return std::nullopt;
+                }
+                for (const std::string& row : stamp.rows) {
+                    if (static_cast<int>(row.size()) != stamp.w) {
+                        error = id + ": a row does not have w characters";
+                        return std::nullopt;
+                    }
+                }
+                for (const auto& [key, entry] : def.at("legend").items()) {
+                    StampEntry parsed;
+                    parsed.tile = entry.value("tile", 0);
+                    parsed.prop = entry.value("prop", "");
+                    parsed.radius_x100 = entry.value("radius_x100", 0);
+                    parsed.npc = entry.value("npc", "");
+                    stamp.legend[key.at(0)] = parsed;
+                }
+                p.stamps[id] = std::move(stamp);
+            }
+        }
+        for (const SettlementKind& kind : p.settlement_kinds) {
+            for (const std::string& stamp : kind.stamps) {
+                if (p.stamps.find(stamp) == p.stamps.end() && p.settlement_per_mille > 0) {
+                    error = "unknown stamp " + stamp;
+                    return std::nullopt;
+                }
+            }
+        }
+        if (p.regions.empty() || p.names_start.empty() || p.names_mid.empty() || p.names_end.empty() || p.settlement_kinds.empty()) {
+            error = "invalid regions or settlements";
+            return std::nullopt;
+        }
+
         for (const Json& n : j.at("npcs")) {
             p.npcs.push_back({n.at("key").get<std::string>(), n.at("dialogue").get<std::string>(),
                               n.at("variant").get<std::string>(), n.at("dx").get<int>(), n.at("dy").get<int>()});
@@ -106,6 +174,37 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
         error = e.what();
         return std::nullopt;
     }
+}
+
+std::optional<WorldParams> load_world_params(const Pack& pack, std::string_view world_id, std::string& error) {
+    const auto text = pack.read_document(world_id);
+    if (!text) {
+        error = "missing world " + std::string(world_id);
+        return std::nullopt;
+    }
+    Json j = Json::parse(*text, nullptr, /*allow_exceptions=*/false);
+    if (j.is_discarded()) {
+        error = "invalid JSON in " + std::string(world_id);
+        return std::nullopt;
+    }
+    try {
+        Json defs = Json::object();
+        for (const Json& kind : j.at("settlements").at("kinds")) {
+            for (const Json& stamp : kind.at("stamps")) {
+                const auto stamp_text = pack.read_document(stamp.get<std::string>());
+                if (!stamp_text) {
+                    error = "missing stamp " + stamp.get<std::string>();
+                    return std::nullopt;
+                }
+                defs[stamp.get<std::string>()] = Json::parse(*stamp_text);
+            }
+        }
+        j["stamp_defs"] = defs;
+    } catch (const std::exception& e) {
+        error = e.what();
+        return std::nullopt;
+    }
+    return parse_world_params(j.dump(), error);
 }
 
 }  // namespace aether

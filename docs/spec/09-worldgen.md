@@ -1,6 +1,6 @@
 # 09. World generation
 
-Status: **v1.3 (M5a, M5b: chunks and streaming, M5d: rivers and roads, M5e: exploration and the world map)**. Reference: `tools/reference/worldgen.py`. Conformance suite: `worldgen`.
+Status: **v1.4 (M5a, M5b: chunks and streaming, M5d: rivers and roads, M5e: the world map, M5f: regions and settlements)**. Reference: `tools/reference/worldgen.py`. Conformance suite: `worldgen`.
 Parameters: `data/base/worlds/overworld.json` (`schemas/world.schema.json`). All math is integer, see `01-numerics.md`.
 
 The world is a **pure function** of `(seed, parameters)`: the content of a tile depends only on its own coordinates, never on the
@@ -29,6 +29,40 @@ In this order (first match wins), with `w`, `h`, `border`, `spawn_clear_radius =
 7. otherwise **plains**.
 
 Fields are only evaluated when needed (the result does not depend on that).
+
+## Regions
+
+`regions` lists the named regions of a world: `{id, name (an $i18n: key), x_pm, y_pm, danger}`. The center of a region is `(x_pm * width / 1000, y_pm * height / 1000)`
+(integer division). The region of a tile is the one with the nearest center (squared distance); on a tie the lower index wins. Regions are hand-placed key
+points (the same in every seed); they do not change the terrain yet. `danger` is the base danger level of the region for the enemies and quests that use it later.
+
+## Settlements
+
+Villages and towns are drawn by **stamps** (documents `base:stamp/...`, `schemas/stamp.schema.json`) at **sites** placed from the seed. The world is divided in
+**site cells** of 256 x 256 tiles; each cell has at most one settlement.
+
+For the site cell `(sx, sy)` (tile `(x, y)` belongs to cell `(x / 256, y / 256)`):
+
+1. `h = hash64(seed, sx, sy, 41)`. There is a settlement only if `(h >> 40) % 1000 < settlements.per_mille`.
+2. The site point is `px = sx * 256 + 40 + (h >> 8) % 176`, `py = sy * 256 + 40 + (h >> 24) % 176` (at least 40 tiles from the border of the cell, so a stamp
+   never leaves its cell; stamps are at most 48 tiles wide).
+3. `k = hash64(seed, sx, sy, 42)`. The kind is picked from `settlements.kinds` (`id`, `weight`, `stamps`) with `roll = (k >> 20) % total_weight` over the cumulative
+   weights in list order; the stamp is `stamps[(k >> 40) % count]`.
+4. The stamp is placed so that its `anchor` is on the site point: its top-left tile is `(px - anchor_x, py - anchor_y)` and it covers `w x h` tiles (the **footprint**).
+5. The settlement exists only if the site point and the four corners of the footprint are on plains or forest, and the site point is at least
+   `spawn_clear_radius + 48` tiles from the center of the world.
+6. The name is made of three syllables of `settlements.names`: `n = hash64(seed, sx, sy, 43)`, `start[n % count] + mid[(n >> 16) % count] + end[(n >> 32) % count]`.
+   Names are proper nouns from data tables and are not translated.
+
+**Stamp tiles.** A stamp has `rows` of `w` characters (`h` rows) and a `legend` that maps characters to `{tile, prop, radius_x100, npc}`. A tile of the footprint takes the gid of its
+character's `tile` (a character with no `tile`, or one that is not in the legend, such as `.`, keeps the terrain's gid without river or road). A `prop` stands at the
+center of the tile, `x256 = x * 256 + 128`, `y256 = y * 256 + 192`. No random prop, enemy spawner, river, road or ford appears inside a footprint. `npc` marks a slot for a settlement NPC
+with that role (used by the next step; v1 ignores it).
+
+**Order.** Props of stamps join the others in scan order (rows from the top, columns left to right), like all props.
+
+Conformance suite `settlements`: the settlements (top-left tile, site point, kind, stamp, name, region) of blocks of site cells, regions of 40 random tiles and the
+names for the world map markers; the chunks that contain settlements are also in the `worldgen_chunks` suite.
 
 ## Rivers and roads
 
@@ -125,7 +159,7 @@ chunks is updated, the cell of the player `(floor(x) / 128, floor(y) / 128)` and
 cells are never forgotten and are stored in the save (spec 12, `explored`).
 
 The map shows each explored cell with the biome of the tile at the center of the cell (`cell * 128 + 64`): code 0 water, 1 beach, 2 mountain, 3 snow, 4 desert,
-5 forest, 6 plains. Rivers and roads are not shown. Unexplored cells are drawn dark. Clients open the map with the `M` key (and a button on touch screens);
+5 forest, 6 plains. Rivers and roads are not shown. A settlement is shown on the map cell that contains its site point as a marker, with its name, once the cell is explored. Unexplored cells are drawn dark. Clients open the map with the `M` key (and a button on touch screens);
 the game is paused while it is open. The player is drawn as a dot at its position.
 
 Conformance suite `worldmap`: scripted positions through a 16384 x 16384 world (also at the corners and edges): the number of explored cells and their digest

@@ -40,6 +40,138 @@
             "desert_dry": 33000,
             "forest_wet": 38000
           },
+          "regions": [
+            {
+              "id": "verdalis",
+              "name": "$i18n:region.verdalis.name",
+              "x_pm": 500,
+              "y_pm": 500,
+              "danger": 1
+            },
+            {
+              "id": "whisperwood",
+              "name": "$i18n:region.whisperwood.name",
+              "x_pm": 230,
+              "y_pm": 340,
+              "danger": 3
+            },
+            {
+              "id": "ironspine",
+              "name": "$i18n:region.ironspine.name",
+              "x_pm": 780,
+              "y_pm": 220,
+              "danger": 4
+            },
+            {
+              "id": "sunscar",
+              "name": "$i18n:region.sunscar.name",
+              "x_pm": 810,
+              "y_pm": 730,
+              "danger": 4
+            },
+            {
+              "id": "frostveil",
+              "name": "$i18n:region.frostveil.name",
+              "x_pm": 450,
+              "y_pm": 90,
+              "danger": 5
+            },
+            {
+              "id": "tidehaven",
+              "name": "$i18n:region.tidehaven.name",
+              "x_pm": 140,
+              "y_pm": 770,
+              "danger": 3
+            },
+            {
+              "id": "ashen_wastes",
+              "name": "$i18n:region.ashen_wastes.name",
+              "x_pm": 920,
+              "y_pm": 480,
+              "danger": 7
+            },
+            {
+              "id": "lumeria",
+              "name": "$i18n:region.lumeria.name",
+              "x_pm": 480,
+              "y_pm": 900,
+              "danger": 5
+            }
+          ],
+          "settlements": {
+            "per_mille": 130,
+            "kinds": [
+              {
+                "id": "hamlet",
+                "weight": 5,
+                "stamps": [
+                  "base:stamp/hamlet"
+                ]
+              },
+              {
+                "id": "village",
+                "weight": 4,
+                "stamps": [
+                  "base:stamp/village"
+                ]
+              },
+              {
+                "id": "town",
+                "weight": 1,
+                "stamps": [
+                  "base:stamp/town"
+                ]
+              }
+            ],
+            "names": {
+              "start": [
+                "Al",
+                "Ber",
+                "Cal",
+                "Dun",
+                "El",
+                "Fen",
+                "Gal",
+                "Hol",
+                "Ir",
+                "Kel",
+                "Lor",
+                "Mar",
+                "Nor",
+                "Ost",
+                "Pel",
+                "Rav",
+                "Sil",
+                "Tor",
+                "Vel",
+                "Wyn"
+              ],
+              "mid": [
+                "a",
+                "e",
+                "i",
+                "o",
+                "ar",
+                "en",
+                "or",
+                "an",
+                "el",
+                "in"
+              ],
+              "end": [
+                "wick",
+                "mere",
+                "ford",
+                "dale",
+                "haven",
+                "stead",
+                "brook",
+                "ton",
+                "holm",
+                "vale"
+              ]
+            }
+          },
           "river": {
             "salt": 4,
             "scale": 110,
@@ -178,7 +310,224 @@
               "dx": 1,
               "dy": -1
             }
-          ]
+          ],
+          "stamp_defs": {
+            "base:stamp/hamlet": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hamlet",
+              "w": 11,
+              "h": 9,
+              "anchor": [
+                5,
+                4
+              ],
+              "rows": [
+                "...........",
+                ".t.#####...",
+                "...#bV_#.t.",
+                "...#___#...",
+                "...##_##...",
+                ".....=.....",
+                "...ccwcc...",
+                ".t...=...t.",
+                ".....=....."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            },
+            "base:stamp/village": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/village",
+              "w": 21,
+              "h": 15,
+              "anchor": [
+                10,
+                7
+              ],
+              "rows": [
+                "..........=..........",
+                ".######.t.=..#######.",
+                ".#b_V_#...=..#bb___#.",
+                ".#____#...=..#____S#.",
+                ".###_##...=..#_____#.",
+                "........lcccl###_###.",
+                "........ccccc........",
+                "========ccwcc========",
+                "........ccEcc.......t",
+                ".######.lcccl........",
+                ".#_V__#...=...######.",
+                ".#____#...=...#b___#.",
+                ".###_##...=...#__V_#.",
+                "t........t=...###_##.",
+                "..........=.........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            },
+            "base:stamp/town": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/town",
+              "w": 31,
+              "h": 25,
+              "anchor": [
+                15,
+                12
+              ],
+              "rows": [
+                "t.....t........=..............t",
+                "...............=...............",
+                "..#############=#############..",
+                "..#............=............#..",
+                "..#.#########..=..########..#..",
+                "..#.#bb____b#..=..#bb____#..#..",
+                "..#.#_____G_#..=..#____S_#..#..",
+                "..#.#_______#..=..#______#..#..",
+                "..#.####_####..=..####_###..#..",
+                "..#.........lcccccl.........#..",
+                "..#.#####...ccccccc...#####.#..",
+                "..#.#_V_#...ccccccc...#_V_#.#..",
+                "====#___#===cccwccc===#___#====",
+                "..#.##_##...cccEccc...##_##.#..",
+                "..#.........ccccccc.........#..",
+                "..#.........lcccccl.........#..",
+                "..#.#########..=...######...#..",
+                "..#.#b______#..=...#_V__#...#..",
+                "..#.#_____I_#..=...#____#...#..",
+                "..#.#_______#..=...###_##...#..",
+                "..#.####_####..=............#..",
+                "..#............=............#..",
+                "..#############=#############..",
+                "...............=...............",
+                "t..............=........t.....t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "G": {
+                  "tile": 13,
+                  "npc": "guild_clerk"
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            }
+          }
         }
       },
       "expect": {
@@ -773,6 +1122,138 @@
             "desert_dry": 33000,
             "forest_wet": 38000
           },
+          "regions": [
+            {
+              "id": "verdalis",
+              "name": "$i18n:region.verdalis.name",
+              "x_pm": 500,
+              "y_pm": 500,
+              "danger": 1
+            },
+            {
+              "id": "whisperwood",
+              "name": "$i18n:region.whisperwood.name",
+              "x_pm": 230,
+              "y_pm": 340,
+              "danger": 3
+            },
+            {
+              "id": "ironspine",
+              "name": "$i18n:region.ironspine.name",
+              "x_pm": 780,
+              "y_pm": 220,
+              "danger": 4
+            },
+            {
+              "id": "sunscar",
+              "name": "$i18n:region.sunscar.name",
+              "x_pm": 810,
+              "y_pm": 730,
+              "danger": 4
+            },
+            {
+              "id": "frostveil",
+              "name": "$i18n:region.frostveil.name",
+              "x_pm": 450,
+              "y_pm": 90,
+              "danger": 5
+            },
+            {
+              "id": "tidehaven",
+              "name": "$i18n:region.tidehaven.name",
+              "x_pm": 140,
+              "y_pm": 770,
+              "danger": 3
+            },
+            {
+              "id": "ashen_wastes",
+              "name": "$i18n:region.ashen_wastes.name",
+              "x_pm": 920,
+              "y_pm": 480,
+              "danger": 7
+            },
+            {
+              "id": "lumeria",
+              "name": "$i18n:region.lumeria.name",
+              "x_pm": 480,
+              "y_pm": 900,
+              "danger": 5
+            }
+          ],
+          "settlements": {
+            "per_mille": 130,
+            "kinds": [
+              {
+                "id": "hamlet",
+                "weight": 5,
+                "stamps": [
+                  "base:stamp/hamlet"
+                ]
+              },
+              {
+                "id": "village",
+                "weight": 4,
+                "stamps": [
+                  "base:stamp/village"
+                ]
+              },
+              {
+                "id": "town",
+                "weight": 1,
+                "stamps": [
+                  "base:stamp/town"
+                ]
+              }
+            ],
+            "names": {
+              "start": [
+                "Al",
+                "Ber",
+                "Cal",
+                "Dun",
+                "El",
+                "Fen",
+                "Gal",
+                "Hol",
+                "Ir",
+                "Kel",
+                "Lor",
+                "Mar",
+                "Nor",
+                "Ost",
+                "Pel",
+                "Rav",
+                "Sil",
+                "Tor",
+                "Vel",
+                "Wyn"
+              ],
+              "mid": [
+                "a",
+                "e",
+                "i",
+                "o",
+                "ar",
+                "en",
+                "or",
+                "an",
+                "el",
+                "in"
+              ],
+              "end": [
+                "wick",
+                "mere",
+                "ford",
+                "dale",
+                "haven",
+                "stead",
+                "brook",
+                "ton",
+                "holm",
+                "vale"
+              ]
+            }
+          },
           "river": {
             "salt": 4,
             "scale": 110,
@@ -911,7 +1392,224 @@
               "dx": 1,
               "dy": -1
             }
-          ]
+          ],
+          "stamp_defs": {
+            "base:stamp/hamlet": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hamlet",
+              "w": 11,
+              "h": 9,
+              "anchor": [
+                5,
+                4
+              ],
+              "rows": [
+                "...........",
+                ".t.#####...",
+                "...#bV_#.t.",
+                "...#___#...",
+                "...##_##...",
+                ".....=.....",
+                "...ccwcc...",
+                ".t...=...t.",
+                ".....=....."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            },
+            "base:stamp/village": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/village",
+              "w": 21,
+              "h": 15,
+              "anchor": [
+                10,
+                7
+              ],
+              "rows": [
+                "..........=..........",
+                ".######.t.=..#######.",
+                ".#b_V_#...=..#bb___#.",
+                ".#____#...=..#____S#.",
+                ".###_##...=..#_____#.",
+                "........lcccl###_###.",
+                "........ccccc........",
+                "========ccwcc========",
+                "........ccEcc.......t",
+                ".######.lcccl........",
+                ".#_V__#...=...######.",
+                ".#____#...=...#b___#.",
+                ".###_##...=...#__V_#.",
+                "t........t=...###_##.",
+                "..........=.........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            },
+            "base:stamp/town": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/town",
+              "w": 31,
+              "h": 25,
+              "anchor": [
+                15,
+                12
+              ],
+              "rows": [
+                "t.....t........=..............t",
+                "...............=...............",
+                "..#############=#############..",
+                "..#............=............#..",
+                "..#.#########..=..########..#..",
+                "..#.#bb____b#..=..#bb____#..#..",
+                "..#.#_____G_#..=..#____S_#..#..",
+                "..#.#_______#..=..#______#..#..",
+                "..#.####_####..=..####_###..#..",
+                "..#.........lcccccl.........#..",
+                "..#.#####...ccccccc...#####.#..",
+                "..#.#_V_#...ccccccc...#_V_#.#..",
+                "====#___#===cccwccc===#___#====",
+                "..#.##_##...cccEccc...##_##.#..",
+                "..#.........ccccccc.........#..",
+                "..#.........lcccccl.........#..",
+                "..#.#########..=...######...#..",
+                "..#.#b______#..=...#_V__#...#..",
+                "..#.#_____I_#..=...#____#...#..",
+                "..#.#_______#..=...###_##...#..",
+                "..#.####_####..=............#..",
+                "..#............=............#..",
+                "..#############=#############..",
+                "...............=...............",
+                "t..............=........t.....t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "G": {
+                  "tile": 13,
+                  "npc": "guild_clerk"
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            }
+          }
         }
       },
       "expect": {
@@ -1235,6 +1933,2070 @@
               "6": 664,
               "8": 191,
               "11": 101
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "worldgen_chunks_settlements_seed_7",
+      "input": {
+        "op": "worldgen_chunks",
+        "seed": "0x0000000000000007",
+        "chunk_size": 32,
+        "params": {
+          "$schema": "../../../schemas/world.schema.json",
+          "id": "base:world/overworld",
+          "width": 16384,
+          "height": 16384,
+          "border": 4,
+          "spawn_clear_radius": 7,
+          "elevation": {
+            "salt": 1,
+            "scale": 56,
+            "octaves": 5
+          },
+          "moisture": {
+            "salt": 2,
+            "scale": 80,
+            "octaves": 4
+          },
+          "temperature": {
+            "salt": 3,
+            "scale": 120,
+            "octaves": 3
+          },
+          "thresholds": {
+            "water": 25000,
+            "beach": 27500,
+            "mountain": 44000,
+            "snow": 20000,
+            "desert_heat": 36000,
+            "desert_dry": 33000,
+            "forest_wet": 38000
+          },
+          "regions": [
+            {
+              "id": "verdalis",
+              "name": "$i18n:region.verdalis.name",
+              "x_pm": 500,
+              "y_pm": 500,
+              "danger": 1
+            },
+            {
+              "id": "whisperwood",
+              "name": "$i18n:region.whisperwood.name",
+              "x_pm": 230,
+              "y_pm": 340,
+              "danger": 3
+            },
+            {
+              "id": "ironspine",
+              "name": "$i18n:region.ironspine.name",
+              "x_pm": 780,
+              "y_pm": 220,
+              "danger": 4
+            },
+            {
+              "id": "sunscar",
+              "name": "$i18n:region.sunscar.name",
+              "x_pm": 810,
+              "y_pm": 730,
+              "danger": 4
+            },
+            {
+              "id": "frostveil",
+              "name": "$i18n:region.frostveil.name",
+              "x_pm": 450,
+              "y_pm": 90,
+              "danger": 5
+            },
+            {
+              "id": "tidehaven",
+              "name": "$i18n:region.tidehaven.name",
+              "x_pm": 140,
+              "y_pm": 770,
+              "danger": 3
+            },
+            {
+              "id": "ashen_wastes",
+              "name": "$i18n:region.ashen_wastes.name",
+              "x_pm": 920,
+              "y_pm": 480,
+              "danger": 7
+            },
+            {
+              "id": "lumeria",
+              "name": "$i18n:region.lumeria.name",
+              "x_pm": 480,
+              "y_pm": 900,
+              "danger": 5
+            }
+          ],
+          "settlements": {
+            "per_mille": 130,
+            "kinds": [
+              {
+                "id": "hamlet",
+                "weight": 5,
+                "stamps": [
+                  "base:stamp/hamlet"
+                ]
+              },
+              {
+                "id": "village",
+                "weight": 4,
+                "stamps": [
+                  "base:stamp/village"
+                ]
+              },
+              {
+                "id": "town",
+                "weight": 1,
+                "stamps": [
+                  "base:stamp/town"
+                ]
+              }
+            ],
+            "names": {
+              "start": [
+                "Al",
+                "Ber",
+                "Cal",
+                "Dun",
+                "El",
+                "Fen",
+                "Gal",
+                "Hol",
+                "Ir",
+                "Kel",
+                "Lor",
+                "Mar",
+                "Nor",
+                "Ost",
+                "Pel",
+                "Rav",
+                "Sil",
+                "Tor",
+                "Vel",
+                "Wyn"
+              ],
+              "mid": [
+                "a",
+                "e",
+                "i",
+                "o",
+                "ar",
+                "en",
+                "or",
+                "an",
+                "el",
+                "in"
+              ],
+              "end": [
+                "wick",
+                "mere",
+                "ford",
+                "dale",
+                "haven",
+                "stead",
+                "brook",
+                "ton",
+                "holm",
+                "vale"
+              ]
+            }
+          },
+          "river": {
+            "salt": 4,
+            "scale": 110,
+            "octaves": 3,
+            "half_width": 400,
+            "ford_salt": 5,
+            "ford_scale": 20,
+            "ford_min": 36000
+          },
+          "road": {
+            "salt": 6,
+            "scale": 150,
+            "octaves": 2,
+            "half_width": 350
+          },
+          "tiles": {
+            "water": 4,
+            "beach": 6,
+            "desert": 6,
+            "snow": 7,
+            "mountain": 8,
+            "forest": 9,
+            "plains": [
+              1,
+              2
+            ],
+            "river": 4,
+            "ford": 10,
+            "road": 11,
+            "bridge": 12
+          },
+          "props": {
+            "plains": [
+              {
+                "art": "base:art/prop/tree_oak",
+                "radius_x100": 30,
+                "per_mille": 30
+              },
+              {
+                "art": "base:art/prop/rock",
+                "radius_x100": 35,
+                "per_mille": 12
+              }
+            ],
+            "forest": [
+              {
+                "art": "base:art/prop/tree_oak",
+                "radius_x100": 30,
+                "per_mille": 220
+              }
+            ],
+            "snow": [
+              {
+                "art": "base:art/prop/pine",
+                "radius_x100": 30,
+                "per_mille": 90
+              }
+            ],
+            "desert": [
+              {
+                "art": "base:art/prop/cactus",
+                "radius_x100": 28,
+                "per_mille": 25
+              }
+            ]
+          },
+          "spawners": {
+            "enemy": "base:enemy/slime_green",
+            "biomes": [
+              "plains",
+              "forest"
+            ],
+            "min_distance": 14,
+            "per_10000": 8,
+            "respawn_ticks": 36000
+          },
+          "time": {
+            "day_ticks": 72000,
+            "start_tick": 24000,
+            "light": [
+              [
+                0,
+                180
+              ],
+              [
+                200,
+                180
+              ],
+              [
+                300,
+                1000
+              ],
+              [
+                700,
+                1000
+              ],
+              [
+                800,
+                180
+              ],
+              [
+                1000,
+                180
+              ]
+            ],
+            "weather": {
+              "period_ticks": 18000,
+              "fade_ticks": 600,
+              "kinds": [
+                {
+                  "id": "clear",
+                  "weight": 600,
+                  "rain_pm": 0,
+                  "dim_pm": 0
+                },
+                {
+                  "id": "cloudy",
+                  "weight": 250,
+                  "rain_pm": 0,
+                  "dim_pm": 250
+                },
+                {
+                  "id": "rain",
+                  "weight": 150,
+                  "rain_pm": 1000,
+                  "dim_pm": 400
+                }
+              ]
+            }
+          },
+          "npcs": [
+            {
+              "key": "guild_clerk_mira",
+              "dialogue": "base:dialogue/npc/mira",
+              "variant": "red",
+              "dx": 1,
+              "dy": -1
+            }
+          ],
+          "stamp_defs": {
+            "base:stamp/hamlet": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hamlet",
+              "w": 11,
+              "h": 9,
+              "anchor": [
+                5,
+                4
+              ],
+              "rows": [
+                "...........",
+                ".t.#####...",
+                "...#bV_#.t.",
+                "...#___#...",
+                "...##_##...",
+                ".....=.....",
+                "...ccwcc...",
+                ".t...=...t.",
+                ".....=....."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            },
+            "base:stamp/village": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/village",
+              "w": 21,
+              "h": 15,
+              "anchor": [
+                10,
+                7
+              ],
+              "rows": [
+                "..........=..........",
+                ".######.t.=..#######.",
+                ".#b_V_#...=..#bb___#.",
+                ".#____#...=..#____S#.",
+                ".###_##...=..#_____#.",
+                "........lcccl###_###.",
+                "........ccccc........",
+                "========ccwcc========",
+                "........ccEcc.......t",
+                ".######.lcccl........",
+                ".#_V__#...=...######.",
+                ".#____#...=...#b___#.",
+                ".###_##...=...#__V_#.",
+                "t........t=...###_##.",
+                "..........=.........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            },
+            "base:stamp/town": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/town",
+              "w": 31,
+              "h": 25,
+              "anchor": [
+                15,
+                12
+              ],
+              "rows": [
+                "t.....t........=..............t",
+                "...............=...............",
+                "..#############=#############..",
+                "..#............=............#..",
+                "..#.#########..=..########..#..",
+                "..#.#bb____b#..=..#bb____#..#..",
+                "..#.#_____G_#..=..#____S_#..#..",
+                "..#.#_______#..=..#______#..#..",
+                "..#.####_####..=..####_###..#..",
+                "..#.........lcccccl.........#..",
+                "..#.#####...ccccccc...#####.#..",
+                "..#.#_V_#...ccccccc...#_V_#.#..",
+                "====#___#===cccwccc===#___#====",
+                "..#.##_##...cccEccc...##_##.#..",
+                "..#.........ccccccc.........#..",
+                "..#.........lcccccl.........#..",
+                "..#.#########..=...######...#..",
+                "..#.#b______#..=...#_V__#...#..",
+                "..#.#_____I_#..=...#____#...#..",
+                "..#.#_______#..=...###_##...#..",
+                "..#.####_####..=............#..",
+                "..#............=............#..",
+                "..#############=#############..",
+                "...............=...............",
+                "t..............=........t.....t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "G": {
+                  "tile": 13,
+                  "npc": "guild_clerk"
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            }
+          }
+        }
+      },
+      "expect": {
+        "chunks": [
+          {
+            "chunk": [
+              410,
+              4
+            ],
+            "probes": [
+              [
+                26,
+                21,
+                8
+              ],
+              [
+                22,
+                17,
+                1
+              ],
+              [
+                4,
+                7,
+                1
+              ],
+              [
+                27,
+                4,
+                8
+              ],
+              [
+                23,
+                5,
+                11
+              ],
+              [
+                24,
+                29,
+                2
+              ],
+              [
+                29,
+                23,
+                8
+              ],
+              [
+                28,
+                11,
+                8
+              ],
+              [
+                25,
+                26,
+                11
+              ],
+              [
+                29,
+                24,
+                11
+              ],
+              [
+                4,
+                29,
+                2
+              ],
+              [
+                0,
+                11,
+                6
+              ]
+            ],
+            "tile_digest": "0x1db679147718d1b6",
+            "prop_count": 33,
+            "prop_digest": "0x3d4273f5d3e8f71f",
+            "spawner_count": 1,
+            "spawner_digest": "0x4627751a26a22705",
+            "gid_histogram": {
+              "1": 408,
+              "2": 350,
+              "5": 13,
+              "6": 8,
+              "8": 178,
+              "11": 55,
+              "13": 7,
+              "14": 5
+            }
+          },
+          {
+            "chunk": [
+              410,
+              4
+            ],
+            "probes": [
+              [
+                26,
+                21,
+                8
+              ],
+              [
+                22,
+                17,
+                1
+              ],
+              [
+                4,
+                7,
+                1
+              ],
+              [
+                27,
+                4,
+                8
+              ],
+              [
+                23,
+                5,
+                11
+              ],
+              [
+                24,
+                29,
+                2
+              ],
+              [
+                29,
+                23,
+                8
+              ],
+              [
+                28,
+                11,
+                8
+              ],
+              [
+                25,
+                26,
+                11
+              ],
+              [
+                29,
+                24,
+                11
+              ],
+              [
+                4,
+                29,
+                2
+              ],
+              [
+                0,
+                11,
+                6
+              ]
+            ],
+            "tile_digest": "0x1db679147718d1b6",
+            "prop_count": 33,
+            "prop_digest": "0x3d4273f5d3e8f71f",
+            "spawner_count": 1,
+            "spawner_digest": "0x4627751a26a22705",
+            "gid_histogram": {
+              "1": 408,
+              "2": 350,
+              "5": 13,
+              "6": 8,
+              "8": 178,
+              "11": 55,
+              "13": 7,
+              "14": 5
+            }
+          },
+          {
+            "chunk": [
+              438,
+              4
+            ],
+            "probes": [
+              [
+                29,
+                21,
+                9
+              ],
+              [
+                3,
+                17,
+                9
+              ],
+              [
+                6,
+                7,
+                9
+              ],
+              [
+                16,
+                4,
+                7
+              ],
+              [
+                4,
+                5,
+                9
+              ],
+              [
+                9,
+                29,
+                5
+              ],
+              [
+                9,
+                23,
+                9
+              ],
+              [
+                30,
+                11,
+                9
+              ],
+              [
+                23,
+                26,
+                9
+              ],
+              [
+                31,
+                24,
+                9
+              ],
+              [
+                19,
+                29,
+                13
+              ],
+              [
+                31,
+                11,
+                9
+              ]
+            ],
+            "tile_digest": "0x5fb51e8242f15391",
+            "prop_count": 144,
+            "prop_digest": "0x44ef570803e792bb",
+            "spawner_count": 1,
+            "spawner_digest": "0x0d1db27e225fd306",
+            "gid_histogram": {
+              "5": 64,
+              "6": 1,
+              "7": 162,
+              "8": 18,
+              "9": 685,
+              "11": 26,
+              "13": 43,
+              "14": 25
+            }
+          },
+          {
+            "chunk": [
+              438,
+              4
+            ],
+            "probes": [
+              [
+                29,
+                21,
+                9
+              ],
+              [
+                3,
+                17,
+                9
+              ],
+              [
+                6,
+                7,
+                9
+              ],
+              [
+                16,
+                4,
+                7
+              ],
+              [
+                4,
+                5,
+                9
+              ],
+              [
+                9,
+                29,
+                5
+              ],
+              [
+                9,
+                23,
+                9
+              ],
+              [
+                30,
+                11,
+                9
+              ],
+              [
+                23,
+                26,
+                9
+              ],
+              [
+                31,
+                24,
+                9
+              ],
+              [
+                19,
+                29,
+                13
+              ],
+              [
+                31,
+                11,
+                9
+              ]
+            ],
+            "tile_digest": "0x5fb51e8242f15391",
+            "prop_count": 144,
+            "prop_digest": "0x44ef570803e792bb",
+            "spawner_count": 1,
+            "spawner_digest": "0x0d1db27e225fd306",
+            "gid_histogram": {
+              "5": 64,
+              "6": 1,
+              "7": 162,
+              "8": 18,
+              "9": 685,
+              "11": 26,
+              "13": 43,
+              "14": 25
+            }
+          },
+          {
+            "chunk": [
+              146,
+              100
+            ],
+            "probes": [
+              [
+                8,
+                0,
+                14
+              ],
+              [
+                27,
+                29,
+                9
+              ],
+              [
+                27,
+                30,
+                9
+              ],
+              [
+                24,
+                11,
+                9
+              ],
+              [
+                11,
+                17,
+                9
+              ],
+              [
+                25,
+                14,
+                9
+              ],
+              [
+                9,
+                20,
+                1
+              ],
+              [
+                31,
+                25,
+                9
+              ],
+              [
+                2,
+                29,
+                1
+              ],
+              [
+                9,
+                17,
+                2
+              ],
+              [
+                4,
+                5,
+                6
+              ],
+              [
+                2,
+                22,
+                1
+              ]
+            ],
+            "tile_digest": "0x9c4b9679fc01273f",
+            "prop_count": 102,
+            "prop_digest": "0xca1c228f6563ae15",
+            "spawner_count": 0,
+            "spawner_digest": "0x0000000000000000",
+            "gid_histogram": {
+              "1": 170,
+              "2": 166,
+              "5": 89,
+              "6": 8,
+              "8": 1,
+              "9": 484,
+              "11": 19,
+              "13": 45,
+              "14": 42
+            }
+          },
+          {
+            "chunk": [
+              146,
+              100
+            ],
+            "probes": [
+              [
+                8,
+                0,
+                14
+              ],
+              [
+                27,
+                29,
+                9
+              ],
+              [
+                27,
+                30,
+                9
+              ],
+              [
+                24,
+                11,
+                9
+              ],
+              [
+                11,
+                17,
+                9
+              ],
+              [
+                25,
+                14,
+                9
+              ],
+              [
+                9,
+                20,
+                1
+              ],
+              [
+                31,
+                25,
+                9
+              ],
+              [
+                2,
+                29,
+                1
+              ],
+              [
+                9,
+                17,
+                2
+              ],
+              [
+                4,
+                5,
+                6
+              ],
+              [
+                2,
+                22,
+                1
+              ]
+            ],
+            "tile_digest": "0x9c4b9679fc01273f",
+            "prop_count": 102,
+            "prop_digest": "0xca1c228f6563ae15",
+            "spawner_count": 0,
+            "spawner_digest": "0x0000000000000000",
+            "gid_histogram": {
+              "1": 170,
+              "2": 166,
+              "5": 89,
+              "6": 8,
+              "8": 1,
+              "9": 484,
+              "11": 19,
+              "13": 45,
+              "14": 42
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "worldgen_chunks_settlements_seed_c0ffee",
+      "input": {
+        "op": "worldgen_chunks",
+        "seed": "0x0000000000c0ffee",
+        "chunk_size": 32,
+        "params": {
+          "$schema": "../../../schemas/world.schema.json",
+          "id": "base:world/overworld",
+          "width": 16384,
+          "height": 16384,
+          "border": 4,
+          "spawn_clear_radius": 7,
+          "elevation": {
+            "salt": 1,
+            "scale": 56,
+            "octaves": 5
+          },
+          "moisture": {
+            "salt": 2,
+            "scale": 80,
+            "octaves": 4
+          },
+          "temperature": {
+            "salt": 3,
+            "scale": 120,
+            "octaves": 3
+          },
+          "thresholds": {
+            "water": 25000,
+            "beach": 27500,
+            "mountain": 44000,
+            "snow": 20000,
+            "desert_heat": 36000,
+            "desert_dry": 33000,
+            "forest_wet": 38000
+          },
+          "regions": [
+            {
+              "id": "verdalis",
+              "name": "$i18n:region.verdalis.name",
+              "x_pm": 500,
+              "y_pm": 500,
+              "danger": 1
+            },
+            {
+              "id": "whisperwood",
+              "name": "$i18n:region.whisperwood.name",
+              "x_pm": 230,
+              "y_pm": 340,
+              "danger": 3
+            },
+            {
+              "id": "ironspine",
+              "name": "$i18n:region.ironspine.name",
+              "x_pm": 780,
+              "y_pm": 220,
+              "danger": 4
+            },
+            {
+              "id": "sunscar",
+              "name": "$i18n:region.sunscar.name",
+              "x_pm": 810,
+              "y_pm": 730,
+              "danger": 4
+            },
+            {
+              "id": "frostveil",
+              "name": "$i18n:region.frostveil.name",
+              "x_pm": 450,
+              "y_pm": 90,
+              "danger": 5
+            },
+            {
+              "id": "tidehaven",
+              "name": "$i18n:region.tidehaven.name",
+              "x_pm": 140,
+              "y_pm": 770,
+              "danger": 3
+            },
+            {
+              "id": "ashen_wastes",
+              "name": "$i18n:region.ashen_wastes.name",
+              "x_pm": 920,
+              "y_pm": 480,
+              "danger": 7
+            },
+            {
+              "id": "lumeria",
+              "name": "$i18n:region.lumeria.name",
+              "x_pm": 480,
+              "y_pm": 900,
+              "danger": 5
+            }
+          ],
+          "settlements": {
+            "per_mille": 130,
+            "kinds": [
+              {
+                "id": "hamlet",
+                "weight": 5,
+                "stamps": [
+                  "base:stamp/hamlet"
+                ]
+              },
+              {
+                "id": "village",
+                "weight": 4,
+                "stamps": [
+                  "base:stamp/village"
+                ]
+              },
+              {
+                "id": "town",
+                "weight": 1,
+                "stamps": [
+                  "base:stamp/town"
+                ]
+              }
+            ],
+            "names": {
+              "start": [
+                "Al",
+                "Ber",
+                "Cal",
+                "Dun",
+                "El",
+                "Fen",
+                "Gal",
+                "Hol",
+                "Ir",
+                "Kel",
+                "Lor",
+                "Mar",
+                "Nor",
+                "Ost",
+                "Pel",
+                "Rav",
+                "Sil",
+                "Tor",
+                "Vel",
+                "Wyn"
+              ],
+              "mid": [
+                "a",
+                "e",
+                "i",
+                "o",
+                "ar",
+                "en",
+                "or",
+                "an",
+                "el",
+                "in"
+              ],
+              "end": [
+                "wick",
+                "mere",
+                "ford",
+                "dale",
+                "haven",
+                "stead",
+                "brook",
+                "ton",
+                "holm",
+                "vale"
+              ]
+            }
+          },
+          "river": {
+            "salt": 4,
+            "scale": 110,
+            "octaves": 3,
+            "half_width": 400,
+            "ford_salt": 5,
+            "ford_scale": 20,
+            "ford_min": 36000
+          },
+          "road": {
+            "salt": 6,
+            "scale": 150,
+            "octaves": 2,
+            "half_width": 350
+          },
+          "tiles": {
+            "water": 4,
+            "beach": 6,
+            "desert": 6,
+            "snow": 7,
+            "mountain": 8,
+            "forest": 9,
+            "plains": [
+              1,
+              2
+            ],
+            "river": 4,
+            "ford": 10,
+            "road": 11,
+            "bridge": 12
+          },
+          "props": {
+            "plains": [
+              {
+                "art": "base:art/prop/tree_oak",
+                "radius_x100": 30,
+                "per_mille": 30
+              },
+              {
+                "art": "base:art/prop/rock",
+                "radius_x100": 35,
+                "per_mille": 12
+              }
+            ],
+            "forest": [
+              {
+                "art": "base:art/prop/tree_oak",
+                "radius_x100": 30,
+                "per_mille": 220
+              }
+            ],
+            "snow": [
+              {
+                "art": "base:art/prop/pine",
+                "radius_x100": 30,
+                "per_mille": 90
+              }
+            ],
+            "desert": [
+              {
+                "art": "base:art/prop/cactus",
+                "radius_x100": 28,
+                "per_mille": 25
+              }
+            ]
+          },
+          "spawners": {
+            "enemy": "base:enemy/slime_green",
+            "biomes": [
+              "plains",
+              "forest"
+            ],
+            "min_distance": 14,
+            "per_10000": 8,
+            "respawn_ticks": 36000
+          },
+          "time": {
+            "day_ticks": 72000,
+            "start_tick": 24000,
+            "light": [
+              [
+                0,
+                180
+              ],
+              [
+                200,
+                180
+              ],
+              [
+                300,
+                1000
+              ],
+              [
+                700,
+                1000
+              ],
+              [
+                800,
+                180
+              ],
+              [
+                1000,
+                180
+              ]
+            ],
+            "weather": {
+              "period_ticks": 18000,
+              "fade_ticks": 600,
+              "kinds": [
+                {
+                  "id": "clear",
+                  "weight": 600,
+                  "rain_pm": 0,
+                  "dim_pm": 0
+                },
+                {
+                  "id": "cloudy",
+                  "weight": 250,
+                  "rain_pm": 0,
+                  "dim_pm": 250
+                },
+                {
+                  "id": "rain",
+                  "weight": 150,
+                  "rain_pm": 1000,
+                  "dim_pm": 400
+                }
+              ]
+            }
+          },
+          "npcs": [
+            {
+              "key": "guild_clerk_mira",
+              "dialogue": "base:dialogue/npc/mira",
+              "variant": "red",
+              "dx": 1,
+              "dy": -1
+            }
+          ],
+          "stamp_defs": {
+            "base:stamp/hamlet": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hamlet",
+              "w": 11,
+              "h": 9,
+              "anchor": [
+                5,
+                4
+              ],
+              "rows": [
+                "...........",
+                ".t.#####...",
+                "...#bV_#.t.",
+                "...#___#...",
+                "...##_##...",
+                ".....=.....",
+                "...ccwcc...",
+                ".t...=...t.",
+                ".....=....."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            },
+            "base:stamp/village": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/village",
+              "w": 21,
+              "h": 15,
+              "anchor": [
+                10,
+                7
+              ],
+              "rows": [
+                "..........=..........",
+                ".######.t.=..#######.",
+                ".#b_V_#...=..#bb___#.",
+                ".#____#...=..#____S#.",
+                ".###_##...=..#_____#.",
+                "........lcccl###_###.",
+                "........ccccc........",
+                "========ccwcc========",
+                "........ccEcc.......t",
+                ".######.lcccl........",
+                ".#_V__#...=...######.",
+                ".#____#...=...#b___#.",
+                ".###_##...=...#__V_#.",
+                "t........t=...###_##.",
+                "..........=.........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            },
+            "base:stamp/town": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/town",
+              "w": 31,
+              "h": 25,
+              "anchor": [
+                15,
+                12
+              ],
+              "rows": [
+                "t.....t........=..............t",
+                "...............=...............",
+                "..#############=#############..",
+                "..#............=............#..",
+                "..#.#########..=..########..#..",
+                "..#.#bb____b#..=..#bb____#..#..",
+                "..#.#_____G_#..=..#____S_#..#..",
+                "..#.#_______#..=..#______#..#..",
+                "..#.####_####..=..####_###..#..",
+                "..#.........lcccccl.........#..",
+                "..#.#####...ccccccc...#####.#..",
+                "..#.#_V_#...ccccccc...#_V_#.#..",
+                "====#___#===cccwccc===#___#====",
+                "..#.##_##...cccEccc...##_##.#..",
+                "..#.........ccccccc.........#..",
+                "..#.........lcccccl.........#..",
+                "..#.#########..=...######...#..",
+                "..#.#b______#..=...#_V__#...#..",
+                "..#.#_____I_#..=...#____#...#..",
+                "..#.#_______#..=...###_##...#..",
+                "..#.####_####..=............#..",
+                "..#............=............#..",
+                "..#############=#############..",
+                "...............=...............",
+                "t..............=........t.....t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "G": {
+                  "tile": 13,
+                  "npc": "guild_clerk"
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            }
+          }
+        }
+      },
+      "expect": {
+        "chunks": [
+          {
+            "chunk": [
+              108,
+              4
+            ],
+            "probes": [
+              [
+                21,
+                7,
+                9
+              ],
+              [
+                25,
+                15,
+                4
+              ],
+              [
+                11,
+                3,
+                6
+              ],
+              [
+                6,
+                23,
+                1
+              ],
+              [
+                5,
+                19,
+                1
+              ],
+              [
+                4,
+                25,
+                6
+              ],
+              [
+                4,
+                29,
+                6
+              ],
+              [
+                2,
+                17,
+                1
+              ],
+              [
+                28,
+                31,
+                2
+              ],
+              [
+                20,
+                17,
+                1
+              ],
+              [
+                29,
+                0,
+                6
+              ],
+              [
+                11,
+                30,
+                1
+              ]
+            ],
+            "tile_digest": "0xb04518b407c9259d",
+            "prop_count": 45,
+            "prop_digest": "0x2c5a91406f68f3c5",
+            "spawner_count": 1,
+            "spawner_digest": "0x20d89009d95dd454",
+            "gid_histogram": {
+              "1": 245,
+              "2": 208,
+              "4": 105,
+              "5": 48,
+              "6": 177,
+              "9": 102,
+              "10": 60,
+              "11": 22,
+              "13": 32,
+              "14": 25
+            }
+          },
+          {
+            "chunk": [
+              109,
+              4
+            ],
+            "probes": [
+              [
+                10,
+                7,
+                9
+              ],
+              [
+                16,
+                15,
+                2
+              ],
+              [
+                2,
+                3,
+                9
+              ],
+              [
+                21,
+                23,
+                9
+              ],
+              [
+                18,
+                19,
+                9
+              ],
+              [
+                28,
+                25,
+                9
+              ],
+              [
+                10,
+                29,
+                9
+              ],
+              [
+                19,
+                17,
+                1
+              ],
+              [
+                5,
+                31,
+                9
+              ],
+              [
+                10,
+                17,
+                1
+              ],
+              [
+                18,
+                0,
+                9
+              ],
+              [
+                4,
+                30,
+                9
+              ]
+            ],
+            "tile_digest": "0x57a2ea4645295d7b",
+            "prop_count": 178,
+            "prop_digest": "0xcec3cb560c278148",
+            "spawner_count": 4,
+            "spawner_digest": "0x9048d0da623333f0",
+            "gid_histogram": {
+              "1": 87,
+              "2": 83,
+              "5": 16,
+              "6": 26,
+              "8": 29,
+              "9": 768,
+              "11": 4,
+              "13": 11
+            }
+          },
+          {
+            "chunk": [
+              267,
+              2
+            ],
+            "probes": [
+              [
+                20,
+                0,
+                4
+              ],
+              [
+                10,
+                23,
+                2
+              ],
+              [
+                22,
+                30,
+                1
+              ],
+              [
+                14,
+                5,
+                4
+              ],
+              [
+                11,
+                29,
+                1
+              ],
+              [
+                13,
+                29,
+                1
+              ],
+              [
+                9,
+                5,
+                4
+              ],
+              [
+                17,
+                1,
+                4
+              ],
+              [
+                8,
+                3,
+                4
+              ],
+              [
+                20,
+                14,
+                2
+              ],
+              [
+                15,
+                2,
+                4
+              ],
+              [
+                23,
+                13,
+                1
+              ]
+            ],
+            "tile_digest": "0xa5722e1f32bdce09",
+            "prop_count": 27,
+            "prop_digest": "0xc34f0c51842be5ba",
+            "spawner_count": 0,
+            "spawner_digest": "0x0000000000000000",
+            "gid_histogram": {
+              "1": 282,
+              "2": 230,
+              "4": 253,
+              "5": 13,
+              "6": 231,
+              "11": 3,
+              "13": 7,
+              "14": 5
+            }
+          },
+          {
+            "chunk": [
+              267,
+              2
+            ],
+            "probes": [
+              [
+                20,
+                0,
+                4
+              ],
+              [
+                10,
+                23,
+                2
+              ],
+              [
+                22,
+                30,
+                1
+              ],
+              [
+                14,
+                5,
+                4
+              ],
+              [
+                11,
+                29,
+                1
+              ],
+              [
+                13,
+                29,
+                1
+              ],
+              [
+                9,
+                5,
+                4
+              ],
+              [
+                17,
+                1,
+                4
+              ],
+              [
+                8,
+                3,
+                4
+              ],
+              [
+                20,
+                14,
+                2
+              ],
+              [
+                15,
+                2,
+                4
+              ],
+              [
+                23,
+                13,
+                1
+              ]
+            ],
+            "tile_digest": "0xa5722e1f32bdce09",
+            "prop_count": 27,
+            "prop_digest": "0xc34f0c51842be5ba",
+            "spawner_count": 0,
+            "spawner_digest": "0x0000000000000000",
+            "gid_histogram": {
+              "1": 282,
+              "2": 230,
+              "4": 253,
+              "5": 13,
+              "6": 231,
+              "11": 3,
+              "13": 7,
+              "14": 5
+            }
+          },
+          {
+            "chunk": [
+              260,
+              173
+            ],
+            "probes": [
+              [
+                1,
+                8,
+                6
+              ],
+              [
+                17,
+                20,
+                9
+              ],
+              [
+                6,
+                1,
+                9
+              ],
+              [
+                11,
+                19,
+                9
+              ],
+              [
+                24,
+                29,
+                1
+              ],
+              [
+                1,
+                2,
+                9
+              ],
+              [
+                11,
+                16,
+                9
+              ],
+              [
+                24,
+                0,
+                14
+              ],
+              [
+                0,
+                15,
+                6
+              ],
+              [
+                9,
+                23,
+                9
+              ],
+              [
+                20,
+                21,
+                9
+              ],
+              [
+                5,
+                15,
+                9
+              ]
+            ],
+            "tile_digest": "0x54ebd6f15337880f",
+            "prop_count": 110,
+            "prop_digest": "0x665edd32ea9222f1",
+            "spawner_count": 0,
+            "spawner_digest": "0x0000000000000000",
+            "gid_histogram": {
+              "1": 98,
+              "2": 112,
+              "5": 65,
+              "6": 60,
+              "9": 605,
+              "11": 18,
+              "13": 31,
+              "14": 35
+            }
+          },
+          {
+            "chunk": [
+              261,
+              173
+            ],
+            "probes": [
+              [
+                13,
+                8,
+                6
+              ],
+              [
+                29,
+                20,
+                4
+              ],
+              [
+                12,
+                1,
+                6
+              ],
+              [
+                13,
+                19,
+                4
+              ],
+              [
+                25,
+                29,
+                4
+              ],
+              [
+                21,
+                2,
+                4
+              ],
+              [
+                15,
+                16,
+                4
+              ],
+              [
+                11,
+                0,
+                6
+              ],
+              [
+                28,
+                15,
+                4
+              ],
+              [
+                23,
+                23,
+                4
+              ],
+              [
+                23,
+                21,
+                4
+              ],
+              [
+                11,
+                15,
+                6
+              ]
+            ],
+            "tile_digest": "0xa330f74e26cf19a5",
+            "prop_count": 38,
+            "prop_digest": "0x2997d940608cd60c",
+            "spawner_count": 0,
+            "spawner_digest": "0x0000000000000000",
+            "gid_histogram": {
+              "1": 23,
+              "2": 30,
+              "4": 573,
+              "5": 35,
+              "6": 112,
+              "9": 232,
+              "11": 5,
+              "13": 14
             }
           }
         ]

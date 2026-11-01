@@ -598,6 +598,44 @@ TEST_CASE("conformance: story", "[conformance]") { run_combat_suite("story"); }
 
 TEST_CASE("conformance: save and resume", "[conformance]") { run_save_suite(); }
 
+TEST_CASE("conformance: settlements", "[conformance]") {
+    const Json doc = load_suite("settlements");
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        const Json& in = c.at("input");
+        const Json& want = c.at("expect");
+        std::string error;
+        const auto params = aether::parse_world_params(in.at("params").dump(), error);
+        INFO(error);
+        REQUIRE(params.has_value());
+        const std::uint64_t seed = hex(in.at("seed"));
+        const Json& block = in.at("block");
+        const auto found = aether::settlements_in(seed, *params, block.at(0).get<int>(), block.at(1).get<int>(), block.at(2).get<int>(),
+                                                  block.at(3).get<int>());
+        REQUIRE(found.size() == want.at("count").get<std::size_t>());
+        for (std::size_t i = 0; i < found.size(); ++i) {
+            const Json& s = want.at("settlements").at(i);
+            INFO("settlement " << i);
+            REQUIRE(found[i].x == s.at(0).get<int>());
+            REQUIRE(found[i].y == s.at(1).get<int>());
+            REQUIRE(found[i].px == s.at(2).get<int>());
+            REQUIRE(found[i].py == s.at(3).get<int>());
+            REQUIRE(found[i].kind == s.at(4).get<std::string>());
+            REQUIRE(found[i].stamp == s.at(5).get<std::string>());
+            REQUIRE(found[i].name == s.at(6).get<std::string>());
+            REQUIRE(found[i].region == s.at(7).get<int>());
+        }
+        for (const Json& sample : want.at("regions")) {
+            REQUIRE(aether::region_at(*params, sample.at(0).get<int>(), sample.at(1).get<int>()) == sample.at(2).get<int>());
+        }
+        for (const Json& marker : want.at("markers")) {
+            const auto s = aether::settlement_marker(seed, *params, marker.at(0).get<int>(), marker.at(1).get<int>());
+            REQUIRE(s.has_value());
+            REQUIRE(s->name == marker.at(2).get<std::string>());
+        }
+    }
+}
+
 TEST_CASE("conformance: worldmap", "[conformance]") {
     const Json doc = load_suite("worldmap");
     for (const Json& c : doc.at("cases")) {
@@ -638,6 +676,8 @@ TEST_CASE("conformance: worldtime", "[conformance]") {
             "thresholds":{"water":1,"beach":2,"mountain":3,"snow":4,"desert_heat":5,"desert_dry":6,"forest_wet":7},
             "tiles":{"water":4,"beach":6,"desert":6,"snow":7,"mountain":8,"forest":9,"plains":[1],"river":4,"ford":10,"road":11,"bridge":12},
             "props":{},"spawners":{"enemy":"x:enemy/x","biomes":[],"min_distance":1,"per_10000":1,"respawn_ticks":1},
+            "regions":[{"id":"x","name":"x","x_pm":0,"y_pm":0,"danger":1}],
+            "settlements":{"per_mille":0,"kinds":[{"id":"h","weight":1,"stamps":[]}],"names":{"start":["a"],"mid":["b"],"end":["c"]}},
             "npcs":[]})");
         world["time"] = in.at("time");
         const auto params = aether::parse_world_params(world.dump(), error);

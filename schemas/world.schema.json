@@ -12,6 +12,8 @@
     "elevation",
     "moisture",
     "temperature",
+    "regions",
+    "settlements",
     "river",
     "road",
     "thresholds",
@@ -503,6 +505,133 @@
           "type": "integer",
           "minimum": 1
         }
+      }
+    },
+    "regions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "x_pm",
+          "y_pm",
+          "danger"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "x_pm": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000
+          },
+          "y_pm": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000
+          },
+          "danger": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    },
+    "settlements": {
+      "type": "object",
+      "required": [
+        "per_mille",
+        "kinds",
+        "names"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "per_mille": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "kinds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "weight",
+              "stamps"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$"
+              },
+              "weight": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "stamps": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+                }
+              }
+            }
+          }
+        },
+        "names": {
+          "type": "object",
+          "required": [
+            "start",
+            "mid",
+            "end"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "start": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "mid": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "end": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "stamp_defs": {
+      "type": "object",
+      "description": "The stamps named by settlements.kinds, resolved by the loader (not written by hand).",
+      "additionalProperties": {
+        "type": "object"
       }
     }
   }

@@ -70,6 +70,138 @@
             "desert_dry": 33000,
             "forest_wet": 38000
           },
+          "regions": [
+            {
+              "id": "verdalis",
+              "name": "$i18n:region.verdalis.name",
+              "x_pm": 500,
+              "y_pm": 500,
+              "danger": 1
+            },
+            {
+              "id": "whisperwood",
+              "name": "$i18n:region.whisperwood.name",
+              "x_pm": 230,
+              "y_pm": 340,
+              "danger": 3
+            },
+            {
+              "id": "ironspine",
+              "name": "$i18n:region.ironspine.name",
+              "x_pm": 780,
+              "y_pm": 220,
+              "danger": 4
+            },
+            {
+              "id": "sunscar",
+              "name": "$i18n:region.sunscar.name",
+              "x_pm": 810,
+              "y_pm": 730,
+              "danger": 4
+            },
+            {
+              "id": "frostveil",
+              "name": "$i18n:region.frostveil.name",
+              "x_pm": 450,
+              "y_pm": 90,
+              "danger": 5
+            },
+            {
+              "id": "tidehaven",
+              "name": "$i18n:region.tidehaven.name",
+              "x_pm": 140,
+              "y_pm": 770,
+              "danger": 3
+            },
+            {
+              "id": "ashen_wastes",
+              "name": "$i18n:region.ashen_wastes.name",
+              "x_pm": 920,
+              "y_pm": 480,
+              "danger": 7
+            },
+            {
+              "id": "lumeria",
+              "name": "$i18n:region.lumeria.name",
+              "x_pm": 480,
+              "y_pm": 900,
+              "danger": 5
+            }
+          ],
+          "settlements": {
+            "per_mille": 130,
+            "kinds": [
+              {
+                "id": "hamlet",
+                "weight": 5,
+                "stamps": [
+                  "base:stamp/hamlet"
+                ]
+              },
+              {
+                "id": "village",
+                "weight": 4,
+                "stamps": [
+                  "base:stamp/village"
+                ]
+              },
+              {
+                "id": "town",
+                "weight": 1,
+                "stamps": [
+                  "base:stamp/town"
+                ]
+              }
+            ],
+            "names": {
+              "start": [
+                "Al",
+                "Ber",
+                "Cal",
+                "Dun",
+                "El",
+                "Fen",
+                "Gal",
+                "Hol",
+                "Ir",
+                "Kel",
+                "Lor",
+                "Mar",
+                "Nor",
+                "Ost",
+                "Pel",
+                "Rav",
+                "Sil",
+                "Tor",
+                "Vel",
+                "Wyn"
+              ],
+              "mid": [
+                "a",
+                "e",
+                "i",
+                "o",
+                "ar",
+                "en",
+                "or",
+                "an",
+                "el",
+                "in"
+              ],
+              "end": [
+                "wick",
+                "mere",
+                "ford",
+                "dale",
+                "haven",
+                "stead",
+                "brook",
+                "ton",
+                "holm",
+                "vale"
+              ]
+            }
+          },
           "river": {
             "salt": 4,
             "scale": 110,
@@ -208,7 +340,224 @@
               "dx": 1,
               "dy": -1
             }
-          ]
+          ],
+          "stamp_defs": {
+            "base:stamp/hamlet": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hamlet",
+              "w": 11,
+              "h": 9,
+              "anchor": [
+                5,
+                4
+              ],
+              "rows": [
+                "...........",
+                ".t.#####...",
+                "...#bV_#.t.",
+                "...#___#...",
+                "...##_##...",
+                ".....=.....",
+                "...ccwcc...",
+                ".t...=...t.",
+                ".....=....."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            },
+            "base:stamp/village": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/village",
+              "w": 21,
+              "h": 15,
+              "anchor": [
+                10,
+                7
+              ],
+              "rows": [
+                "..........=..........",
+                ".######.t.=..#######.",
+                ".#b_V_#...=..#bb___#.",
+                ".#____#...=..#____S#.",
+                ".###_##...=..#_____#.",
+                "........lcccl###_###.",
+                "........ccccc........",
+                "========ccwcc========",
+                "........ccEcc.......t",
+                ".######.lcccl........",
+                ".#_V__#...=...######.",
+                ".#____#...=...#b___#.",
+                ".###_##...=...#__V_#.",
+                "t........t=...###_##.",
+                "..........=.........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            },
+            "base:stamp/town": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/town",
+              "w": 31,
+              "h": 25,
+              "anchor": [
+                15,
+                12
+              ],
+              "rows": [
+                "t.....t........=..............t",
+                "...............=...............",
+                "..#############=#############..",
+                "..#............=............#..",
+                "..#.#########..=..########..#..",
+                "..#.#bb____b#..=..#bb____#..#..",
+                "..#.#_____G_#..=..#____S_#..#..",
+                "..#.#_______#..=..#______#..#..",
+                "..#.####_####..=..####_###..#..",
+                "..#.........lcccccl.........#..",
+                "..#.#####...ccccccc...#####.#..",
+                "..#.#_V_#...ccccccc...#_V_#.#..",
+                "====#___#===cccwccc===#___#====",
+                "..#.##_##...cccEccc...##_##.#..",
+                "..#.........ccccccc.........#..",
+                "..#.........lcccccl.........#..",
+                "..#.#########..=...######...#..",
+                "..#.#b______#..=...#_V__#...#..",
+                "..#.#_____I_#..=...#____#...#..",
+                "..#.#_______#..=...###_##...#..",
+                "..#.####_####..=............#..",
+                "..#............=............#..",
+                "..#############=#############..",
+                "...............=...............",
+                "t..............=........t.....t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "G": {
+                  "tile": 13,
+                  "npc": "guild_clerk"
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            }
+          }
         }
       },
       "expect": {
@@ -485,6 +834,138 @@
             "desert_dry": 33000,
             "forest_wet": 38000
           },
+          "regions": [
+            {
+              "id": "verdalis",
+              "name": "$i18n:region.verdalis.name",
+              "x_pm": 500,
+              "y_pm": 500,
+              "danger": 1
+            },
+            {
+              "id": "whisperwood",
+              "name": "$i18n:region.whisperwood.name",
+              "x_pm": 230,
+              "y_pm": 340,
+              "danger": 3
+            },
+            {
+              "id": "ironspine",
+              "name": "$i18n:region.ironspine.name",
+              "x_pm": 780,
+              "y_pm": 220,
+              "danger": 4
+            },
+            {
+              "id": "sunscar",
+              "name": "$i18n:region.sunscar.name",
+              "x_pm": 810,
+              "y_pm": 730,
+              "danger": 4
+            },
+            {
+              "id": "frostveil",
+              "name": "$i18n:region.frostveil.name",
+              "x_pm": 450,
+              "y_pm": 90,
+              "danger": 5
+            },
+            {
+              "id": "tidehaven",
+              "name": "$i18n:region.tidehaven.name",
+              "x_pm": 140,
+              "y_pm": 770,
+              "danger": 3
+            },
+            {
+              "id": "ashen_wastes",
+              "name": "$i18n:region.ashen_wastes.name",
+              "x_pm": 920,
+              "y_pm": 480,
+              "danger": 7
+            },
+            {
+              "id": "lumeria",
+              "name": "$i18n:region.lumeria.name",
+              "x_pm": 480,
+              "y_pm": 900,
+              "danger": 5
+            }
+          ],
+          "settlements": {
+            "per_mille": 130,
+            "kinds": [
+              {
+                "id": "hamlet",
+                "weight": 5,
+                "stamps": [
+                  "base:stamp/hamlet"
+                ]
+              },
+              {
+                "id": "village",
+                "weight": 4,
+                "stamps": [
+                  "base:stamp/village"
+                ]
+              },
+              {
+                "id": "town",
+                "weight": 1,
+                "stamps": [
+                  "base:stamp/town"
+                ]
+              }
+            ],
+            "names": {
+              "start": [
+                "Al",
+                "Ber",
+                "Cal",
+                "Dun",
+                "El",
+                "Fen",
+                "Gal",
+                "Hol",
+                "Ir",
+                "Kel",
+                "Lor",
+                "Mar",
+                "Nor",
+                "Ost",
+                "Pel",
+                "Rav",
+                "Sil",
+                "Tor",
+                "Vel",
+                "Wyn"
+              ],
+              "mid": [
+                "a",
+                "e",
+                "i",
+                "o",
+                "ar",
+                "en",
+                "or",
+                "an",
+                "el",
+                "in"
+              ],
+              "end": [
+                "wick",
+                "mere",
+                "ford",
+                "dale",
+                "haven",
+                "stead",
+                "brook",
+                "ton",
+                "holm",
+                "vale"
+              ]
+            }
+          },
           "river": {
             "salt": 4,
             "scale": 110,
@@ -623,7 +1104,224 @@
               "dx": 1,
               "dy": -1
             }
-          ]
+          ],
+          "stamp_defs": {
+            "base:stamp/hamlet": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hamlet",
+              "w": 11,
+              "h": 9,
+              "anchor": [
+                5,
+                4
+              ],
+              "rows": [
+                "...........",
+                ".t.#####...",
+                "...#bV_#.t.",
+                "...#___#...",
+                "...##_##...",
+                ".....=.....",
+                "...ccwcc...",
+                ".t...=...t.",
+                ".....=....."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            },
+            "base:stamp/village": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/village",
+              "w": 21,
+              "h": 15,
+              "anchor": [
+                10,
+                7
+              ],
+              "rows": [
+                "..........=..........",
+                ".######.t.=..#######.",
+                ".#b_V_#...=..#bb___#.",
+                ".#____#...=..#____S#.",
+                ".###_##...=..#_____#.",
+                "........lcccl###_###.",
+                "........ccccc........",
+                "========ccwcc========",
+                "........ccEcc.......t",
+                ".######.lcccl........",
+                ".#_V__#...=...######.",
+                ".#____#...=...#b___#.",
+                ".###_##...=...#__V_#.",
+                "t........t=...###_##.",
+                "..........=.........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            },
+            "base:stamp/town": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/town",
+              "w": 31,
+              "h": 25,
+              "anchor": [
+                15,
+                12
+              ],
+              "rows": [
+                "t.....t........=..............t",
+                "...............=...............",
+                "..#############=#############..",
+                "..#............=............#..",
+                "..#.#########..=..########..#..",
+                "..#.#bb____b#..=..#bb____#..#..",
+                "..#.#_____G_#..=..#____S_#..#..",
+                "..#.#_______#..=..#______#..#..",
+                "..#.####_####..=..####_###..#..",
+                "..#.........lcccccl.........#..",
+                "..#.#####...ccccccc...#####.#..",
+                "..#.#_V_#...ccccccc...#_V_#.#..",
+                "====#___#===cccwccc===#___#====",
+                "..#.##_##...cccEccc...##_##.#..",
+                "..#.........ccccccc.........#..",
+                "..#.........lcccccl.........#..",
+                "..#.#########..=...######...#..",
+                "..#.#b______#..=...#_V__#...#..",
+                "..#.#_____I_#..=...#____#...#..",
+                "..#.#_______#..=...###_##...#..",
+                "..#.####_####..=............#..",
+                "..#............=............#..",
+                "..#############=#############..",
+                "...............=...............",
+                "t..............=........t.....t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "G": {
+                  "tile": 13,
+                  "npc": "guild_clerk"
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            }
+          }
         }
       },
       "expect": {

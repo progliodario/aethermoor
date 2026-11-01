@@ -122,11 +122,10 @@ def test_saves_in_the_vectors_match_the_schema():
 
 
 def test_world_chunks_are_the_restriction_of_the_world():
-    import json
 
     from reference import worldgen
 
-    params = json.loads((TOOLS.parent / "data" / "base" / "worlds" / "overworld.json").read_text(encoding="utf-8"))
+    params = worldgen.load_params()
     params = {**params, "width": 80, "height": 72, "border": 2}
     world = worldgen.generate(5, params)
     size = worldgen.CHUNK_SIZE
@@ -149,11 +148,10 @@ def test_world_chunks_are_the_restriction_of_the_world():
 
 
 def test_world_time_light_and_weather():
-    import json
 
-    from reference import worldtime
+    from reference import worldgen, worldtime
 
-    t = json.loads((TOOLS.parent / "data" / "base" / "worlds" / "overworld.json").read_text(encoding="utf-8"))["time"]
+    t = worldgen.load_params()["time"]
     assert worldtime.tod_pm(t, t["day_ticks"] * 3 + t["day_ticks"] // 2) == 500
     assert worldtime.day_of(t, t["day_ticks"] * 3) == 4
     assert [worldtime.light_pm(t, tod) for tod in (0, 200, 250, 300, 500, 700, 750, 800, 1000)] == [180, 180, 590, 1000, 1000, 1000, 590, 180, 180]
@@ -166,11 +164,10 @@ def test_world_time_light_and_weather():
 
 
 def test_rivers_and_roads_are_overlays_on_land():
-    import json
 
     from reference import worldgen
 
-    params = json.loads((TOOLS.parent / "data" / "base" / "worlds" / "overworld.json").read_text(encoding="utf-8"))
+    params = worldgen.load_params()
     seen = set()
     for y in range(8100, 8300, 3):
         for x in range(8100, 8300, 3):
@@ -190,11 +187,10 @@ def test_rivers_and_roads_are_overlays_on_land():
 
 
 def test_world_map_exploration():
-    import json
 
     from reference import worldgen
 
-    params = json.loads((TOOLS.parent / "data" / "base" / "worlds" / "overworld.json").read_text(encoding="utf-8"))
+    params = worldgen.load_params()
     cells: set = set()
     worldgen.explore(cells, params, 8192, 8192)
     assert len(cells) == 9 and (64, 64) in cells and (63, 63) in cells and (65, 65) in cells
@@ -207,3 +203,35 @@ def test_world_map_exploration():
     worldgen.explore(far, params, 16383, 16383)
     assert far == {(126, 126), (127, 126), (126, 127), (127, 127)}
     assert 0 <= worldgen.biome_code(1, params, 64, 64) < 7
+
+
+def test_settlements_are_inside_their_cells_and_deterministic():
+    from reference import worldgen
+
+    params = worldgen.load_params()
+    found = worldgen.settlements_in(7, params, 0, 0, 31, 31)
+    assert found and worldgen.settlements_in(7, params, 0, 0, 31, 31) == found
+    assert worldgen.settlements_in(8, params, 0, 0, 31, 31) != found
+    for site in found:
+        cell_x, cell_y = site["px"] // worldgen.SITE_CELL, site["py"] // worldgen.SITE_CELL
+        # The footprint lies completely inside the site cell of its site point.
+        assert site["x"] // worldgen.SITE_CELL == cell_x and (site["x"] + site["w"] - 1) // worldgen.SITE_CELL == cell_x
+        assert site["y"] // worldgen.SITE_CELL == cell_y and (site["y"] + site["h"] - 1) // worldgen.SITE_CELL == cell_y
+        assert site["name"] and 0 <= site["region"] < len(params["regions"])
+    # The stamp is drawn: the road gid of a village crosses its footprint, and nothing random grows inside it.
+    site = next(s for s in found if s["kind"] == "village")
+    sites = worldgen.Sites(7, params)
+    inside = [sites.at(site["x"] + dx, site["y"] + dy) for dy in range(site["h"]) for dx in range(site["w"])]
+    assert all(entry is not None and entry[0]["name"] == site["name"] for entry in inside)
+    chunk = worldgen.generate_chunk(7, params, site["px"] // 32, site["py"] // 32)
+    assert 13 in chunk["tiles"] and 14 in chunk["tiles"]
+    assert all(not (site["x"] <= s[0] < site["x"] + site["w"] and site["y"] <= s[1] < site["y"] + site["h"]) for s in chunk["spawners"])
+
+
+def test_regions_follow_the_nearest_center():
+    from reference import worldgen
+
+    params = worldgen.load_params()
+    assert params["regions"][worldgen.region_at(params, 8192, 8192)]["id"] == "verdalis"
+    assert params["regions"][worldgen.region_at(params, 0, 16383)]["id"] == "tidehaven"
+    assert params["regions"][worldgen.region_at(params, 16383, 8000)]["id"] == "ashen_wastes"

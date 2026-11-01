@@ -15,8 +15,10 @@ import io.github.progliodario.aethermoor.core.MAP_CELL
 import io.github.progliodario.aethermoor.core.Pack
 import io.github.progliodario.aethermoor.core.WorldParams
 import io.github.progliodario.aethermoor.core.biomeCode
+import io.github.progliodario.aethermoor.core.regionAt
+import io.github.progliodario.aethermoor.core.settlementMarker
 import io.github.progliodario.aethermoor.core.loadPack
-import io.github.progliodario.aethermoor.core.parseWorldParams
+import io.github.progliodario.aethermoor.core.loadWorldParams
 import io.github.progliodario.aethermoor.core.sim.AttackPhase
 import io.github.progliodario.aethermoor.core.sim.Enemy
 import io.github.progliodario.aethermoor.core.sim.EnemyState
@@ -95,6 +97,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var showMap = false
     private var mapRect: FloatArray? = null
     private val mapCodes = HashMap<Pair<Int, Int>, Int>()
+    private val mapMarkers = HashMap<Pair<Int, Int>, io.github.progliodario.aethermoor.core.Settlement?>()
     private var message = ""
     private var messageFrames = 0
     private var sinceAutosave = 0f
@@ -143,7 +146,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         return try {
             fun doc(id: String) = requireNotNull(pack.readDocument(id)) { "missing document $id" }
             seed = chooseSeed()
-            val worldParams = parseWorldParams(doc("base:world/overworld")).getOrThrow()
+            val worldParams = loadWorldParams(pack, "base:world/overworld").getOrThrow()
             Assets(
                 pack = pack,
                 rig = parseRig(doc("base:art/rig/humanoid")).getOrThrow(),
@@ -475,6 +478,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             )
             layout.setText(font, clock)
             font.draw(batch, clock, Gdx.graphics.width - layout.width - 12f * density, 12f * density + 2f)
+            world.chunks?.let { store ->
+                val region = store.params.regions[regionAt(store.params, floor(p.position.x).toInt(), floor(p.position.y).toInt())]
+                val name = data.pack.text(language, region.name)
+                font.color = Color(1f, 0.84f, 0.47f, 1f)
+                layout.setText(font, name)
+                font.draw(batch, name, Gdx.graphics.width - layout.width - 12f * density, 12f * density + 2f + font.lineHeight * 1.2f)
+                font.color = Color.WHITE
+            }
         }
         for (f in floating) {
             font.color = when {
@@ -726,6 +737,13 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         drawWorldMap(world, data)
     }
 
+    /** The settlement shown on a world map cell, computed once per cell. */
+    private fun markerAt(store: io.github.progliodario.aethermoor.core.sim.ChunkStore, x: Int, y: Int): io.github.progliodario.aethermoor.core.Settlement? {
+        val key = Pair(x, y)
+        if (!mapMarkers.containsKey(key)) mapMarkers[key] = settlementMarker(store.seed, store.params, x, y)
+        return mapMarkers[key]
+    }
+
     /** The map button and, when open, the world map: explored cells by biome and the player (spec 09). */
     private fun drawWorldMap(world: WorldSim, data: Assets) {
         val store = world.chunks ?: return
@@ -758,6 +776,16 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 shapes.color = MAP_COLORS[code]
                 shapes.rect(left + cell * x, top + cell * y, ceil(cell), ceil(cell))
             }
+            for ((x, y) in world.explored) {
+                val marker = markerAt(store, x, y) ?: continue
+                val size = (if (marker.kind == "town") 7f else if (marker.kind == "village") 5f else 3f) * density
+                val mx = left + cell * (x + 0.5f)
+                val my = top + cell * (y + 0.5f)
+                shapes.color = Color(0.08f, 0.08f, 0.12f, 1f)
+                shapes.rect(mx - size / 2f - 1f, my - size / 2f - 1f, size + 2f, size + 2f)
+                shapes.color = Color(1f, 0.92f, 0.59f, 1f)
+                shapes.rect(mx - size / 2f, my - size / 2f, size, size)
+            }
             shapes.color = Color(1f, 0.24f, 0.24f, 1f)
             val px = left + world.player.position.x / MAP_CELL * cell
             val py = top + world.player.position.y / MAP_CELL * cell
@@ -768,7 +796,23 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         batch.begin()
         font.color = Color.WHITE
         font.draw(batch, data.pack.text(language, "\$i18n:ui.map_hint"), button[0] + 8f * density, button[1] + (button[3] - font.lineHeight) / 2f)
-        if (showMap) font.draw(batch, data.pack.text(language, "\$i18n:ui.map"), left, top - 26f * density)
+        if (showMap) {
+            font.draw(batch, data.pack.text(language, "\$i18n:ui.map"), left, top - 26f * density)
+            for ((x, y) in world.explored) {
+                val marker = markerAt(store, x, y) ?: continue
+                if (marker.kind != "hamlet") font.draw(batch, marker.name, left + cell * (x + 0.5f) + 8f * density, top + cell * (y + 0.5f) - font.lineHeight / 2f)
+            }
+            font.color = Color(1f, 0.84f, 0.47f, 1f)
+            for (region in store.params.regions) {
+                val rx = (region.xPm.toLong() * store.params.width / 1000).toInt() / MAP_CELL
+                val ry = (region.yPm.toLong() * store.params.height / 1000).toInt() / MAP_CELL
+                if (Pair(rx, ry) !in world.explored) continue
+                val name = data.pack.text(language, region.name)
+                layout.setText(font, name)
+                font.draw(batch, name, left + cell * rx - layout.width / 2f, top + cell * ry + 14f * density)
+            }
+            font.color = Color.WHITE
+        }
         batch.end()
     }
 

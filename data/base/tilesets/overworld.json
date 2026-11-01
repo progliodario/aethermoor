@@ -61,6 +61,16 @@
       "gid": 12,
       "art": "base:art/tile/bridge",
       "solid": false
+    },
+    {
+      "gid": 13,
+      "art": "base:art/tile/plank_floor",
+      "solid": false
+    },
+    {
+      "gid": 14,
+      "art": "base:art/tile/cobble",
+      "solid": false
     }
   ]
 }

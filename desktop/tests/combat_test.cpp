@@ -178,10 +178,12 @@ TEST_CASE("the overworld is streamed from the content pack and is playable", "[w
     const auto text = demo.pack.read_document("base:world/overworld");
     REQUIRE(text.has_value());
     std::string error;
-    const auto params = aether::parse_world_params(*text, error);
+    const auto params = aether::load_world_params(demo.pack, "base:world/overworld", error);
     INFO(error);
     REQUIRE(params.has_value());
     REQUIRE(params->width == 16384);
+    REQUIRE(params->regions.size() == 8);
+    REQUIRE(params->stamps.size() == 3);
 
     const aether::TileMap map = aether::make_stream_map(*params);
     REQUIRE(map.ground.empty());
