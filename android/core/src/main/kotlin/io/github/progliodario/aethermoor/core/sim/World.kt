@@ -118,6 +118,16 @@ class WorldSim(
     /** Spawner tile -> world tick of the death. */
     private val cleared = java.util.TreeMap<Pair<Int, Int>, Long>(compareBy({ it.first }, { it.second }))
 
+    /** The item ids worn (spec 06). */
+    var equippedWeapon: String = combat.startWeapon
+        private set
+    var equippedArmor: String = combat.startArmor
+        private set
+
+    /** The shop that is open now (spec 06), or null. */
+    var shop: ShopDef? = null
+        private set
+
     /** Settlement people of the active window (spec 09) and their collision circles. */
     private val npcList = ArrayList<NpcDef>()
     private val npcCircles = ArrayList<Circle>()
@@ -253,7 +263,12 @@ class WorldSim(
         derived = derivedStats(
             player.level,
             primaryAtLevel(combat.player, player.level),
-            Equipment(weaponAtk = combat.player.weaponAtk, weaponMatk = combat.player.weaponMatk),
+            Equipment(
+                weaponAtk = combat.items[equippedWeapon]?.weapon?.atk ?: combat.player.weaponAtk,
+                weaponMatk = combat.items[equippedWeapon]?.weapon?.matk ?: combat.player.weaponMatk,
+                armorDef = combat.items[equippedArmor]?.armor?.def ?: 0L,
+                armorMdef = combat.items[equippedArmor]?.armor?.mdef ?: 0L,
+            ),
         )
     }
 
@@ -264,6 +279,75 @@ class WorldSim(
         player.position = collision.resolve(player.position)
         syncWindow()
         markExplored()
+    }
+
+    override fun openShop() {
+        val store = chunks
+        shop = if (store != null) {
+            val region = store.params.regions[regionAt(store.params, floor(player.position.x).toInt(), floor(player.position.y).toInt())]
+            ShopDef(region.shopPricePm, region.shopStock)
+        } else {
+            combat.shop
+        }
+    }
+
+    fun closeShop() {
+        shop = null
+    }
+
+    private fun stackLimit(item: ItemDef): Int =
+        if (item.stackMax > 0) item.stackMax else if (item.kind == "weapon" || item.kind == "armor" || item.kind == "accessory") 1 else 99
+
+    /** Price of buying an item in the open shop, 0 when it cannot be bought (spec 06). */
+    fun buyPrice(itemId: String): Long {
+        val item = combat.items[itemId] ?: return 0L
+        val open = shop ?: return 0L
+        return if (item.price <= 0) 0L else maxOf(1L, item.price * open.pricePm / 1000)
+    }
+
+    /** What the shop pays for an item, 0 when it cannot be sold. */
+    fun sellPrice(itemId: String): Long {
+        val item = combat.items[itemId] ?: return 0L
+        return if (item.price <= 0) 0L else maxOf(1L, item.price / 2)
+    }
+
+    /** Equips a weapon or an armor of the inventory (spec 06). Returns false, changing nothing, when refused. */
+    fun equip(itemId: String): Boolean {
+        val item = combat.items[itemId] ?: return false
+        if ((inventory[itemId] ?: 0L) < 1L) return false
+        if (item.weapon != null && item.kind == "weapon" && equippedWeapon != itemId) {
+            equippedWeapon = itemId
+        } else if (item.armor != null && item.kind == "armor" && equippedArmor != itemId) {
+            equippedArmor = itemId
+        } else {
+            return false
+        }
+        recomputeDerived()
+        player.hp = minOf(player.hp, derived.maxHp)
+        return true
+    }
+
+    /** Buys one item from the open shop (spec 06). Returns false, changing nothing, when refused. */
+    fun buy(itemId: String): Boolean {
+        val open = shop ?: return false
+        if (itemId !in open.stock) return false
+        val item = combat.items[itemId] ?: return false
+        val price = buyPrice(itemId)
+        if (price <= 0L || story.gold < price || (inventory[itemId] ?: 0L) >= stackLimit(item)) return false
+        story.gold -= price
+        inventory[itemId] = (inventory[itemId] ?: 0L) + 1L
+        return true
+    }
+
+    /** Sells one item of the inventory to the open shop (spec 06). Returns false, changing nothing, when refused. */
+    fun sell(itemId: String): Boolean {
+        if (shop == null) return false
+        val owned = inventory[itemId] ?: 0L
+        if (owned < 1L || sellPrice(itemId) <= 0L) return false
+        if (owned == 1L && (itemId == equippedWeapon || itemId == equippedArmor)) return false
+        story.gold += sellPrice(itemId)
+        if (owned == 1L) inventory.remove(itemId) else inventory[itemId] = owned - 1L
+        return true
     }
 
     /** Uses one item of the inventory (spec 06). Returns false, changing nothing, when it is refused. */
@@ -520,6 +604,8 @@ class WorldSim(
             cleared = cleared.map { (spawner, died) -> ClearedSpawner(spawner.first, spawner.second, died) },
             worldTicks = worldTicks,
             explored = explored.toList(),
+            equippedWeapon = equippedWeapon,
+            equippedArmor = equippedArmor,
             inventory = HashMap(inventory), story = story.capture(),
         )
     }
@@ -605,6 +691,11 @@ class WorldSim(
         }
         inventory.clear()
         inventory.putAll(s.inventory)
+        equippedWeapon = s.equippedWeapon ?: combat.startWeapon
+        equippedArmor = s.equippedArmor
+        shop = null
+        recomputeDerived()
+        player.hp = minOf(s.hp, derived.maxHp)
         explored.clear()
         explored.addAll(s.explored)
         markExplored()

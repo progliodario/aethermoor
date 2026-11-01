@@ -1,5 +1,6 @@
 package io.github.progliodario.aethermoor.core
 
+import io.github.progliodario.aethermoor.core.sim.ArmorStats
 import io.github.progliodario.aethermoor.core.sim.BehaviorDef
 import io.github.progliodario.aethermoor.core.sim.CombatSetup
 import io.github.progliodario.aethermoor.core.sim.DropDef
@@ -8,11 +9,13 @@ import io.github.progliodario.aethermoor.core.sim.EnemySpawn
 import io.github.progliodario.aethermoor.core.sim.ItemDef
 import io.github.progliodario.aethermoor.core.sim.ItemEffect
 import io.github.progliodario.aethermoor.core.sim.PlayerSetup
+import io.github.progliodario.aethermoor.core.sim.ShopDef
 import io.github.progliodario.aethermoor.core.sim.SkillDef
 import io.github.progliodario.aethermoor.core.sim.StorySetup
 import io.github.progliodario.aethermoor.core.sim.TileDef
 import io.github.progliodario.aethermoor.core.sim.TileMap
 import io.github.progliodario.aethermoor.core.sim.Tileset
+import io.github.progliodario.aethermoor.core.sim.WeaponStats
 import io.github.progliodario.aethermoor.core.sim.WorldSim
 import io.github.progliodario.aethermoor.core.sim.parseStorySetup
 import kotlin.math.abs
@@ -34,7 +37,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 
 // Shared helpers of the scenario-based conformance tests (suites combat, story and save).
 
-internal class ScenarioWorld(val map: TileMap, val tileset: Tileset, val combat: CombatSetup)
+internal class ScenarioWorld(val map: TileMap, val tileset: Tileset, val combat: CombatSetup, val startGold: Long = 0L)
 
 internal fun JsonElement.num(): Float = jsonPrimitive.double.toFloat()
 
@@ -92,17 +95,29 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         story = input["story"]?.let { parseStorySetup(it) } ?: StorySetup(),
         startInventory = input["inventory"]?.jsonObject?.mapValues { it.value.jsonPrimitive.long } ?: emptyMap(),
         items = input["items"]?.jsonObject?.mapValues { (_, def) ->
+            val d = def.jsonObject
             ItemDef(
-                def.jsonObject.getValue("effects").jsonArray.map {
+                effects = d["effects"]?.jsonArray?.map {
                     ItemEffect(it.jsonObject.getValue("effect").jsonPrimitive.content, it.jsonObject.getValue("amount").jsonPrimitive.long)
-                },
+                } ?: emptyList(),
+                kind = d["kind"]?.jsonPrimitive?.content ?: "",
+                price = d["price"]?.jsonPrimitive?.long ?: 0L,
+                stackMax = d["stack_max"]?.jsonPrimitive?.int ?: 0,
+                weapon = d["weapon"]?.jsonObject?.let { WeaponStats(it.long("atk"), it.long("matk")) },
+                armor = d["armor"]?.jsonObject?.let { ArmorStats(it.long("def"), it.long("mdef")) },
             )
         } ?: emptyMap(),
+        startWeapon = input["equipped"]?.jsonObject?.get("weapon")?.jsonPrimitive?.content ?: "",
+        startArmor = input["equipped"]?.jsonObject?.get("armor")?.jsonPrimitive?.content ?: "",
+        shop = input["shop"]?.jsonObject?.let { shop ->
+            ShopDef(shop.getValue("price_pm").jsonPrimitive.int, shop.getValue("stock").jsonArray.map { it.jsonPrimitive.content })
+        },
     )
-    return ScenarioWorld(map, tileset, combat)
+    return ScenarioWorld(map, tileset, combat, input["start_gold"]?.jsonPrimitive?.long ?: 0L)
 }
 
-internal fun newSim(world: ScenarioWorld) = WorldSim(world.map, world.tileset, 0f, world.combat)
+internal fun newSim(world: ScenarioWorld) =
+    WorldSim(world.map, world.tileset, 0f, world.combat).also { it.story.gold = world.startGold }
 
 /** Runs the story commands of a script segment, then its ticks. */
 internal fun runSegment(sim: WorldSim, segment: JsonObject) {
@@ -112,6 +127,11 @@ internal fun runSegment(sim: WorldSim, segment: JsonObject) {
         val cmd = command.jsonObject
         when (cmd.getValue("cmd").jsonPrimitive.content) {
             "use" -> sim.useItem(cmd.getValue("item").jsonPrimitive.content)
+            "equip" -> sim.equip(cmd.getValue("item").jsonPrimitive.content)
+            "buy" -> sim.buy(cmd.getValue("item").jsonPrimitive.content)
+            "sell" -> sim.sell(cmd.getValue("item").jsonPrimitive.content)
+            "open_shop" -> sim.openShop()
+            "close_shop" -> sim.closeShop()
             "interact" -> sim.story.interact()
             "advance" -> sim.story.advance()
             "choose" -> sim.story.choose(cmd.getValue("index").jsonPrimitive.int)
@@ -141,6 +161,10 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
         assertEquals(we.getValue("state").jsonPrimitive.content, enemy.state.id, "$at enemy $i state")
         assertNear(we.getValue("x").num(), enemy.position.x, tol, "$at enemy $i x")
         assertNear(we.getValue("y").num(), enemy.position.y, tol, "$at enemy $i y")
+    }
+    want["equipped"]?.jsonObject?.let {
+        assertEquals(it.getValue("weapon").jsonPrimitive.content, sim.equippedWeapon, "$at equipped weapon")
+        assertEquals(it.getValue("armor").jsonPrimitive.content, sim.equippedArmor, "$at equipped armor")
     }
     val wantInventory = want.getValue("inventory").jsonObject
     assertEquals(wantInventory.size, sim.inventory.size, "$at inventory size")

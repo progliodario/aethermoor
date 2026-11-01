@@ -18,7 +18,11 @@ data class PropOption(val art: String, val radiusX100: Int, val perMille: Int)
 
 data class WorldNpc(val key: String, val dialogue: String, val variant: String, val dx: Int, val dy: Int)
 
-class Region(val id: String, /** An $i18n: key. */ val name: String, val xPm: Int, val yPm: Int, val danger: Int, /** The voice of the people of the region. */ val tone: String)
+class Region(val id: String, /** An $i18n: key. */ val name: String, val xPm: Int, val yPm: Int, val danger: Int, /** The voice of the people of the region. */ val tone: String,
+    /** What the shops of the region sell (spec 06): prices in permille and the stock. */
+    val shopPricePm: Int,
+    val shopStock: List<String>,
+)
 
 class SettlementKind(val id: String, val weight: Int, val stamps: List<String>)
 
@@ -615,6 +619,8 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
                     r.getValue("id").jsonPrimitive.content, r.getValue("name").jsonPrimitive.content,
                     r.getValue("x_pm").jsonPrimitive.int, r.getValue("y_pm").jsonPrimitive.int, r.getValue("danger").jsonPrimitive.int,
                     r.getValue("tone").jsonPrimitive.content,
+                    r.getValue("shop").jsonObject.getValue("price_pm").jsonPrimitive.int,
+                    r.getValue("shop").jsonObject.getValue("stock").jsonArray.map { it.jsonPrimitive.content },
                 )
             },
             settlementPerMille = j.getValue("settlements").jsonObject.getValue("per_mille").jsonPrimitive.int,

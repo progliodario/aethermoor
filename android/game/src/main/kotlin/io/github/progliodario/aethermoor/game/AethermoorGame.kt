@@ -92,6 +92,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var lastText = ""
     private var lastArgs: Map<String, String> = emptyMap()
     private var showInventory = false
+    private var shopCursor = 0
+    private var shopSell = false
+    private var shopRowRects: List<FloatArray> = emptyList()
+    private var shopBuyTab: FloatArray? = null
+    private var shopSellTab: FloatArray? = null
     private var bagCursor = 0
     private var bagRowRects: List<FloatArray> = emptyList()
     private var bagRect: FloatArray? = null
@@ -204,7 +209,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (items.isEmpty()) return
         val itemId = items[bagCursor.coerceIn(0, items.size - 1)]
         val name = pack.text(language, "\$i18n:${itemId.substringAfter(':').replace('/', '.')}.name", mapOf("count" to 1L))
-        if (world.useItem(itemId)) {
+        val kind = world.combat.items[itemId]?.kind
+        if ((kind == "weapon" || kind == "armor") && world.equip(itemId)) {
+            showNotice(pack.text(language, "\$i18n:ui.item_equipped", mapOf("item" to name)))
+        } else if (kind != "weapon" && kind != "armor" && world.useItem(itemId)) {
             showNotice(pack.text(language, "\$i18n:ui.item_used", mapOf("item" to name)))
             bagCursor = bagCursor.coerceIn(0, max(world.inventory.size - 1, 0))
         } else {
@@ -238,8 +246,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
         handleStoryInput(world)
         val frame = input.read()
-        if (showInventory || showMap) {
-            accumulator = 0f // the bag and the map pause the game
+        if (showInventory || showMap || world.shop != null) {
+            accumulator = 0f // the bag, the map and the shop pause the game
         } else {
             accumulator += min(Gdx.graphics.deltaTime, MAX_FRAME_SECONDS)
             var ticks = 0
@@ -521,10 +529,75 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     // ------------------------------------------------------------------------------------ story
 
+    /** What the open shop lists: (item id, price), what it sells or what the player can sell (spec 06). */
+    private fun shopEntries(world: WorldSim): List<Pair<String, Long>> {
+        val shop = world.shop ?: return emptyList()
+        return if (!shopSell) {
+            shop.stock.map { Pair(it, world.buyPrice(it)) }
+        } else {
+            world.inventory.keys.filter { world.sellPrice(it) > 0L }.map { Pair(it, world.sellPrice(it)) }
+        }
+    }
+
+    private fun shopConfirm(world: WorldSim) {
+        val pack = assets?.pack ?: return
+        val entries = shopEntries(world)
+        if (entries.isEmpty()) return
+        val itemId = entries[shopCursor.coerceIn(0, entries.size - 1)].first
+        val name = pack.text(language, "\$i18n:${itemId.substringAfter(':').replace('/', '.')}.name", mapOf("count" to 1L))
+        val done = if (shopSell) world.sell(itemId) else world.buy(itemId)
+        if (done) {
+            showNotice(pack.text(language, if (shopSell) "\$i18n:ui.sold" else "\$i18n:ui.bought", mapOf("item" to name)))
+            shopCursor = shopCursor.coerceIn(0, max(shopEntries(world).size - 1, 0))
+        } else {
+            showNotice(pack.text(language, "\$i18n:ui.cannot_do"))
+        }
+    }
+
+    private fun handleShopInput(world: WorldSim) {
+        val input = Gdx.input
+        val count = shopEntries(world).size
+        if (input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            world.closeShop()
+        } else if (input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W)) {
+            if (count > 0) shopCursor = (shopCursor.coerceIn(0, count - 1) + count - 1) % count
+        } else if (input.isKeyJustPressed(Input.Keys.DOWN) || input.isKeyJustPressed(Input.Keys.S)) {
+            if (count > 0) shopCursor = (shopCursor.coerceIn(0, count - 1) + 1) % count
+        } else if (input.isKeyJustPressed(Input.Keys.TAB)) {
+            shopSell = !shopSell
+            shopCursor = 0
+        } else if (input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.ENTER) || input.isKeyJustPressed(Input.Keys.SPACE)) {
+            shopConfirm(world)
+        } else if (input.justTouched()) {
+            // The tabs switch between buying and selling; a row is selected by a tap and confirmed by a second one; elsewhere closes.
+            val x = input.x.toFloat()
+            val y = input.y.toFloat()
+            fun hit(r: FloatArray?) = r != null && x >= r[0] && x <= r[0] + r[2] && y >= r[1] && y <= r[1] + r[3]
+            val row = shopRowRects.indexOfFirst { hit(it) }
+            if (hit(shopBuyTab)) {
+                shopSell = false
+                shopCursor = 0
+            } else if (hit(shopSellTab)) {
+                shopSell = true
+                shopCursor = 0
+            } else if (row < 0) {
+                world.closeShop()
+            } else if (row == shopCursor) {
+                shopConfirm(world)
+            } else {
+                shopCursor = row
+            }
+        }
+    }
+
     private fun handleStoryInput(world: WorldSim) {
         val story = world.story
         val input = Gdx.input
         val view = story.dialogueView()
+        if (world.shop != null) {
+            handleShopInput(world)
+            return
+        }
         if (showMap) {
             if (input.isKeyJustPressed(Input.Keys.M) || input.isKeyJustPressed(Input.Keys.ESCAPE) || input.justTouched()) showMap = false
             return
@@ -755,6 +828,75 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         batch.end()
         drawBagAndNotice(world, data)
         drawWorldMap(world, data)
+        drawShop(world, data)
+    }
+
+    /** The shop (spec 06): buy / sell tabs, the entries with their price and the gold. */
+    private fun drawShop(world: WorldSim, data: Assets) {
+        if (world.shop == null) {
+            shopRowRects = emptyList()
+            return
+        }
+        val density = Gdx.graphics.density
+        val width = Gdx.graphics.width.toFloat()
+        val height = Gdx.graphics.height.toFloat()
+        val entries = shopEntries(world)
+        val rowH = font.lineHeight * 1.5f
+        val panelW = min(width - 40f, 460f * density)
+        val panelH = 96f * density + rowH * max(entries.size, 1)
+        val panelX = (width - panelW) / 2f
+        val panelY = (height - panelH) / 2f
+        val tabY = panelY + 10f * density
+        val tabW = 110f * density
+        val tabH = 30f * density
+        shopBuyTab = floatArrayOf(panelX + 12f * density, tabY, tabW, tabH)
+        shopSellTab = floatArrayOf(panelX + 24f * density + tabW, tabY, tabW, tabH)
+        val firstRowY = tabY + tabH + 12f * density
+        shopRowRects = entries.indices.map { floatArrayOf(panelX, firstRowY + it * rowH, panelW, rowH) }
+        val cursor = shopCursor.coerceIn(0, max(entries.size - 1, 0))
+
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        shapes.color = Color(0.04f, 0.12f, 0.23f, 0.96f)
+        shapes.rect(panelX, panelY, panelW, panelH)
+        shapes.color = Color(1f, 0.84f, 0.47f, 1f)
+        shapes.rect(panelX, panelY, panelW, 3f * density)
+        for ((i, tab) in listOf(shopBuyTab, shopSellTab).withIndex()) {
+            val active = (i == 1) == shopSell
+            shapes.color = if (active) Color(0.16f, 0.35f, 0.55f, 1f) else Color(0.08f, 0.16f, 0.28f, 1f)
+            shapes.rect(tab!![0], tab[1], tab[2], tab[3])
+        }
+        if (entries.isNotEmpty()) {
+            shapes.color = Color(0.16f, 0.35f, 0.55f, 1f)
+            shapes.rect(panelX + 6f * density, firstRowY + cursor * rowH - 2f * density, panelW - 12f * density, rowH)
+        }
+        shapes.end()
+
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        font.color = Color.WHITE
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.shop_buy"), shopBuyTab!![0] + 10f * density, tabY + (tabH - font.lineHeight) / 2f)
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.shop_sell"), shopSellTab!![0] + 10f * density, tabY + (tabH - font.lineHeight) / 2f)
+        font.color = Color(1f, 0.84f, 0.47f, 1f)
+        val gold = data.pack.text(language, "\$i18n:ui.gold", mapOf("gold" to world.story.gold))
+        layout.setText(font, gold)
+        font.draw(batch, gold, panelX + panelW - layout.width - 14f * density, tabY + (tabH - font.lineHeight) / 2f)
+        if (entries.isEmpty()) {
+            font.color = Color(0.92f, 0.96f, 1f, 1f)
+            font.draw(batch, data.pack.text(language, "\$i18n:ui.shop_empty"), panelX + 16f * density, firstRowY)
+        }
+        for ((i, entry) in entries.withIndex()) {
+            val key = entry.first.substringAfter(':').replace('/', '.')
+            val name = data.pack.text(language, "\$i18n:$key.name", mapOf("count" to 1L))
+            font.color = if (i == cursor) Color.WHITE else Color(0.92f, 0.96f, 1f, 1f)
+            font.draw(batch, (if (i == cursor) "> " else "  ") + name, panelX + 14f * density, firstRowY + i * rowH)
+            font.color = Color(1f, 0.84f, 0.47f, 1f)
+            val price = entry.second.toString()
+            layout.setText(font, price)
+            font.draw(batch, price, panelX + panelW - layout.width - 14f * density, firstRowY + i * rowH)
+        }
+        batch.end()
     }
 
     /** The settlement shown on a world map cell, computed once per cell. */
@@ -882,13 +1024,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 // "base:item/slime_gel" -> text key "item.slime_gel.name"
                 val key = itemId.substringAfter(':').replace('/', '.')
                 val name = data.pack.text(language, "\$i18n:$key.name", mapOf("count" to quantity))
+                val worn = if (itemId == world.equippedWeapon || itemId == world.equippedArmor) "  " + data.pack.text(language, "\$i18n:ui.worn") else ""
                 if (index == cursor) {
                     selectedKey = key
                     font.color = Color.WHITE
-                    font.draw(batch, ">  $name  x$quantity", panelX + 16f * density, ty)
+                    font.draw(batch, ">  $name  x$quantity$worn", panelX + 16f * density, ty)
                     font.color = Color(0.92f, 0.96f, 1f, 1f)
                 } else {
-                    font.draw(batch, "    $name  x$quantity", panelX + 16f * density, ty)
+                    font.draw(batch, "    $name  x$quantity$worn", panelX + 16f * density, ty)
                 }
                 ty += rowH
             }
