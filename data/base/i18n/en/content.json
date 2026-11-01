@@ -27,5 +27,15 @@
   "region.frostveil.name": "Frostveil",
   "region.tidehaven.name": "Tidehaven",
   "region.ashen_wastes.name": "Ashen Wastes",
-  "region.lumeria.name": "Lumeria"
+  "region.lumeria.name": "Lumeria",
+  "item.potion_small.name": "{count, plural, one {Small potion} other {Small potions}}",
+  "item.potion_small.desc": "Restores a good deal of health.",
+  "item.iron_sword.name": "Iron sword",
+  "item.iron_sword.desc": "A solid blade, sharper than a practice sword.",
+  "item.steel_sword.name": "Steel sword",
+  "item.steel_sword.desc": "Well balanced and keen. A real adventurer's sword.",
+  "item.leather_vest.name": "Leather vest",
+  "item.leather_vest.desc": "Light protection for travellers.",
+  "item.chain_mail.name": "Chain mail",
+  "item.chain_mail.desc": "Heavy rings that turn a blade aside."
 }

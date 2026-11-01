@@ -64,6 +64,9 @@ class SaveState(
     val worldTicks: Long = -1,
     /** Streamed worlds only: explored world map cells. */
     val explored: List<Pair<Int, Int>> = emptyList(),
+    /** The item ids worn (spec 06); null: not in the save (the starting weapon, no armor). */
+    val equippedWeapon: String? = null,
+    val equippedArmor: String = "",
     val inventory: Map<String, Long>,
     val story: StoryState,
 )
@@ -155,6 +158,7 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
             )
         }
         put("world_ticks", s.worldTicks)
+        put("equipped", buildJsonObject { put("weapon", s.equippedWeapon ?: ""); put("armor", s.equippedArmor) })
         if (meta.map == "world") {
             put("explored", JsonArray(s.explored.map { JsonArray(listOf(JsonPrimitive(it.first), JsonPrimitive(it.second))) }))
         }
@@ -265,6 +269,8 @@ fun saveFromJson(text: String): Result<SaveState> =
                 ClearedSpawner(a[0].jsonPrimitive.int, a[1].jsonPrimitive.int, if (a.size > 2) a[2].jsonPrimitive.long else 0L)
             } ?: emptyList(),
             worldTicks = j["world_ticks"]?.jsonPrimitive?.long ?: -1L,
+            equippedWeapon = (j["equipped"] as? JsonObject)?.let { (it["weapon"] as? JsonPrimitive)?.content ?: "" },
+            equippedArmor = (j["equipped"] as? JsonObject)?.let { (it["armor"] as? JsonPrimitive)?.content } ?: "",
             explored = (j["explored"] as? JsonArray)?.map { c -> Pair(c.jsonArray[0].jsonPrimitive.int, c.jsonArray[1].jsonPrimitive.int) }
                 ?: emptyList(),
             inventory = j.getValue("inventory").jsonObject.mapValues { it.value.jsonPrimitive.long },

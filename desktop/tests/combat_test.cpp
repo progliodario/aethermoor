@@ -264,6 +264,32 @@ TEST_CASE("the overworld is streamed from the content pack and is playable", "[w
     sim.tick(0.0F, 0.0F, false);
     check_window();
 
+    // The shopkeeper of the home village sells the wares of Verdalis (spec 06): open the shop from the dialogue, buy, equip.
+    sim.teleport(8236.5F, 8229.5F);
+    sim.tick(0.0F, 0.0F, false);
+    REQUIRE(sim.story().npc_in_range() != nullptr);
+    sim.story().interact();
+    REQUIRE(sim.story().dialogue_active());
+    sim.story().advance();
+    sim.story().choose(0);  // "show me your wares"
+    REQUIRE(!sim.story().dialogue_active());
+    REQUIRE(sim.shop() != nullptr);
+    REQUIRE(!sim.buy("base:item/iron_sword"));  // no gold yet
+    sim.story().set_gold(1000);
+    const std::int64_t attack_before = sim.derived().atk;
+    REQUIRE(sim.buy("base:item/iron_sword"));
+    REQUIRE(sim.story().gold() == 1000 - sim.buy_price("base:item/iron_sword"));
+    REQUIRE(!sim.buy("base:item/iron_sword"));  // one is the limit for a weapon
+    REQUIRE(!sim.buy("base:item/steel_sword"));  // not sold in Verdalis
+    REQUIRE(sim.equip("base:item/iron_sword"));
+    REQUIRE(sim.derived().atk > attack_before);
+    REQUIRE(!sim.sell("base:item/iron_sword"));  // the last copy of a worn item stays
+    sim.close_shop();
+    REQUIRE(sim.shop() == nullptr);
+    sim.teleport(static_cast<float>(map.width / 2) + 0.5F, static_cast<float>(map.height / 2) + 0.5F);
+    sim.tick(0.0F, 0.0F, false);
+    check_window();
+
     // Saving and loading into a fresh world of the same seed gives the same enemies.
     const aether::SaveState state = sim.capture();
     REQUIRE(state.enemies.size() == sim.enemies().size());
@@ -280,6 +306,8 @@ TEST_CASE("the overworld is streamed from the content pack and is playable", "[w
     REQUIRE(fresh.enemies().size() == sim.enemies().size());
     REQUIRE(fresh.player().position.x == sim.player().position.x);
     REQUIRE(fresh.world_ticks() == sim.world_ticks());
+    REQUIRE(fresh.equipped_weapon() == "base:item/iron_sword");
+    REQUIRE(fresh.derived().atk == sim.derived().atk);
     REQUIRE(fresh.explored() == sim.explored());
 
     // A save with an enemy that does not exist in this world is refused and changes nothing.

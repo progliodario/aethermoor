@@ -191,6 +191,18 @@
               "$ref": "#/$defs/id"
             }
           }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "const": "open_shop"
+            }
+          }
         }
       ]
     },

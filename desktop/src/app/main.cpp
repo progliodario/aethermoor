@@ -67,6 +67,8 @@ struct Ui {
     int message_frames = 0;
     bool show_inventory = false;
     int bag_cursor = 0;  // index of the selected item in the bag
+    int shop_cursor = 0;
+    bool shop_sell = false;  // the shop shows what the player sells instead of what it sells
     bool show_map = false;
     mutable std::map<std::pair<int, int>, std::optional<aether::Settlement>> map_markers;  // settlement shown on a cell
     mutable std::map<std::pair<int, int>, int> map_codes;  // biome code of the explored cells, filled when the map is drawn
@@ -583,11 +585,69 @@ void bag_use(aether::WorldSim& sim, const Assets& assets, Ui& ui) {
     std::advance(it, std::clamp(ui.bag_cursor, 0, static_cast<int>(items.size()) - 1));
     const std::string item_id = it->first;
     const std::string name = assets.pack.text(ui.lang, "$i18n:" + item_key(item_id) + ".name", {{"count", std::int64_t{1}}});
-    if (sim.use_item(item_id)) {
+    const auto def = sim.combat().items.find(item_id);
+    const bool wearable = def != sim.combat().items.end() && (def->second.kind == "weapon" || def->second.kind == "armor");
+    if (wearable && sim.equip(item_id)) {
+        notify(ui, assets.pack.text(ui.lang, "$i18n:ui.item_equipped", {{"item", name}}));
+    } else if (!wearable && sim.use_item(item_id)) {
         notify(ui, assets.pack.text(ui.lang, "$i18n:ui.item_used", {{"item", name}}));
         bag_move(sim, ui, 0);
     } else {
         notify(ui, assets.pack.text(ui.lang, "$i18n:ui.item_unchanged"));
+    }
+}
+
+// The shop (spec 06): what is listed now, with the price of each entry.
+std::vector<std::pair<std::string, std::int64_t>> shop_entries(const aether::WorldSim& sim, const Ui& ui) {
+    std::vector<std::pair<std::string, std::int64_t>> entries;
+    if (sim.shop() == nullptr) {
+        return entries;
+    }
+    if (!ui.shop_sell) {
+        for (const std::string& id : sim.shop()->stock) {
+            entries.emplace_back(id, sim.buy_price(id));
+        }
+    } else {
+        for (const auto& [id, quantity] : sim.inventory()) {
+            if (quantity > 0 && sim.sell_price(id) > 0) {
+                entries.emplace_back(id, sim.sell_price(id));
+            }
+        }
+    }
+    return entries;
+}
+
+void shop_move(const aether::WorldSim& sim, Ui& ui, int delta) {
+    const int count = static_cast<int>(shop_entries(sim, ui).size());
+    ui.shop_cursor = count > 0 ? (std::clamp(ui.shop_cursor, 0, count - 1) + delta + count) % count : 0;
+}
+
+void shop_confirm(aether::WorldSim& sim, const Assets& assets, Ui& ui) {
+    const auto entries = shop_entries(sim, ui);
+    if (entries.empty()) {
+        return;
+    }
+    const std::string id = entries[static_cast<std::size_t>(std::clamp(ui.shop_cursor, 0, static_cast<int>(entries.size()) - 1))].first;
+    const std::string name = assets.pack.text(ui.lang, "$i18n:" + item_key(id) + ".name", {{"count", std::int64_t{1}}});
+    const bool done = ui.shop_sell ? sim.sell(id) : sim.buy(id);
+    if (done) {
+        notify(ui, assets.pack.text(ui.lang, ui.shop_sell ? "$i18n:ui.sold" : "$i18n:ui.bought", {{"item", name}}));
+        shop_move(sim, ui, 0);
+    } else {
+        notify(ui, assets.pack.text(ui.lang, "$i18n:ui.cannot_do"));
+    }
+}
+
+void handle_shop_key(aether::WorldSim& sim, const Assets& assets, Ui& ui, SDL_Keycode key) {
+    if (key == SDLK_UP || key == SDLK_W) {
+        shop_move(sim, ui, -1);
+    } else if (key == SDLK_DOWN || key == SDLK_S) {
+        shop_move(sim, ui, 1);
+    } else if (key == SDLK_TAB) {
+        ui.shop_sell = !ui.shop_sell;
+        ui.shop_cursor = 0;
+    } else if (key == SDLK_E || key == SDLK_RETURN || key == SDLK_SPACE) {
+        shop_confirm(sim, assets, ui);
     }
 }
 
@@ -744,6 +804,52 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
+void draw_shop(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w, int out_h,
+               float density) {
+    if (sim.shop() == nullptr) {
+        return;
+    }
+    constexpr float kScale = 2.0F;
+    const auto entries = shop_entries(sim, ui);
+    const float row = 8.0F * kScale + 8.0F;
+    const float w = std::min(static_cast<float>(out_w) - 40.0F, 560.0F * density);
+    const float h = 100.0F + row * static_cast<float>(std::max<std::size_t>(entries.size(), 1));
+    const float x = (static_cast<float>(out_w) - w) / 2.0F;
+    const float y = (static_cast<float>(out_h) - h) / 2.0F;
+    fill_rect(renderer, x, y, w, h, 11, 31, 58, 245);
+    fill_rect(renderer, x, y, w, 3.0F, 255, 215, 120, 255);
+    SDL_SetRenderScale(renderer, kScale, kScale);
+    SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
+    const std::string title = assets.pack.text(ui.lang, "$i18n:ui.shop") + " - " +
+                              assets.pack.text(ui.lang, ui.shop_sell ? "$i18n:ui.shop_sell" : "$i18n:ui.shop_buy");
+    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + 12.0F) / kScale, title.c_str());
+    const std::string gold = assets.pack.text(ui.lang, "$i18n:ui.gold", {{"gold", static_cast<std::int64_t>(sim.story().gold())}});
+    SDL_RenderDebugText(renderer, (x + w - 16.0F) / kScale - static_cast<float>(gold.size()) * 8.0F, (y + 12.0F) / kScale, gold.c_str());
+    float ty = y + 12.0F + row + 8.0F;
+    const int cursor = std::clamp(ui.shop_cursor, 0, std::max(static_cast<int>(entries.size()) - 1, 0));
+    if (entries.empty()) {
+        SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
+        SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, ty / kScale, assets.pack.text(ui.lang, "$i18n:ui.shop_empty").c_str());
+    }
+    for (std::size_t i = 0; i < entries.size(); ++i) {
+        const std::string name = assets.pack.text(ui.lang, "$i18n:" + item_key(entries[i].first) + ".name", {{"count", std::int64_t{1}}});
+        const std::string price = std::to_string(entries[i].second);
+        if (static_cast<int>(i) == cursor) {
+            SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+            fill_rect(renderer, x + 8.0F, ty - 3.0F, w - 16.0F, row, 40, 90, 140, 255);
+            SDL_SetRenderScale(renderer, kScale, kScale);
+        }
+        SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
+        SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, ty / kScale, ((static_cast<int>(i) == cursor ? ">" : " ") + name).c_str());
+        SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
+        SDL_RenderDebugText(renderer, (x + w - 16.0F) / kScale - static_cast<float>(price.size()) * 8.0F, ty / kScale, price.c_str());
+        ty += row;
+    }
+    SDL_SetRenderDrawColor(renderer, 170, 200, 230, 255);
+    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + h - 28.0F) / kScale, assets.pack.text(ui.lang, "$i18n:ui.shop_hint").c_str());
+    SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+}
+
 void draw_inventory_and_notice(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui,
                                int out_w, int out_h, float density) {
     constexpr float kScale = 2.0F;
@@ -773,7 +879,10 @@ void draw_inventory_and_notice(SDL_Renderer* renderer, const Assets& assets, con
             const std::string key = item_key(item_id);
             const std::string name =
                 assets.pack.text(ui.lang, "$i18n:" + key + ".name", {{"count", static_cast<std::int64_t>(quantity)}});
-            const std::string line = name + "  x" + std::to_string(quantity);
+            std::string line = name + "  x" + std::to_string(quantity);
+            if (item_id == sim.equipped_weapon() || item_id == sim.equipped_armor()) {
+                line += "  " + assets.pack.text(ui.lang, "$i18n:ui.worn");
+            }
             if (index == cursor) {
                 selected = key;
                 SDL_SetRenderScale(renderer, 1.0F, 1.0F);
@@ -920,6 +1029,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     draw_dialogue(renderer, assets, sim, ui, out_w, out_h, density);
     draw_inventory_and_notice(renderer, assets, sim, ui, out_w, out_h, density);
     draw_world_map(renderer, assets, sim, ui, out_w, out_h, density);
+    draw_shop(renderer, assets, sim, ui, out_w, out_h, density);
 
     if (debug) {
         char line[160];
@@ -1081,9 +1191,11 @@ int main(int argc, char** argv) {
 
             SDL_Event event;
             while (SDL_PollEvent(&event)) {
-                if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE && (ui.show_map || ui.show_inventory)) {
+                if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE &&
+                    (ui.show_map || ui.show_inventory || sim.shop() != nullptr)) {
                     ui.show_map = false;  // Esc closes the open panel first
                     ui.show_inventory = false;
+                    sim.close_shop();
                 } else if (event.type == SDL_EVENT_QUIT ||
                            (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE)) {
                     running = false;
@@ -1112,7 +1224,9 @@ int main(int argc, char** argv) {
                         notify(ui, assets.pack.text(ui.lang, "$i18n:ui.new_game"));
                     }
                 } else if (event.type == SDL_EVENT_KEY_DOWN && !smoke_test) {
-                    if (ui.show_inventory) {
+                    if (sim.shop() != nullptr) {
+                        handle_shop_key(sim, assets, ui, event.key.key);
+                    } else if (ui.show_inventory) {
                         if (event.key.key == SDLK_UP || event.key.key == SDLK_W) {
                             bag_move(sim, ui, -1);
                         } else if (event.key.key == SDLK_DOWN || event.key.key == SDLK_S) {
@@ -1126,7 +1240,20 @@ int main(int argc, char** argv) {
                 } else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN && !smoke_test && sim.story().dialogue_active()) {
                     activate_dialogue(sim, ui);
                 } else if (event.type == SDL_EVENT_GAMEPAD_BUTTON_DOWN && !smoke_test) {
-                    if (ui.show_inventory) {
+                    if (sim.shop() != nullptr) {
+                        if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_UP) {
+                            shop_move(sim, ui, -1);
+                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_DOWN) {
+                            shop_move(sim, ui, 1);
+                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_NORTH) {
+                            ui.shop_sell = !ui.shop_sell;
+                            ui.shop_cursor = 0;
+                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_WEST || event.gbutton.button == SDL_GAMEPAD_BUTTON_SOUTH) {
+                            shop_confirm(sim, assets, ui);
+                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_EAST) {
+                            sim.close_shop();
+                        }
+                    } else if (ui.show_inventory) {
                         if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_UP) {
                             bag_move(sim, ui, -1);
                         } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_DOWN) {
@@ -1187,8 +1314,8 @@ int main(int argc, char** argv) {
                     ui.show_map = sim.streamed();  // the last frames show the world map
                 }
                 sim.tick(input.x, input.y, input.attack);
-            } else if (ui.show_inventory || ui.show_map) {
-                accumulator = 0.0;  // the bag and the map pause the game
+            } else if (ui.show_inventory || ui.show_map || sim.shop() != nullptr) {
+                accumulator = 0.0;  // the bag, the map and the shop pause the game
             } else {
                 accumulator += frame_seconds;
                 int ticks = 0;

@@ -71,12 +71,14 @@ fun loadCombatSetup(
 
         var weaponAtk = 0L
         var weaponMatk = 0L
+        var startWeapon = ""
         for (itemId in protagonist.startingItems) {
             val item = document(pack, itemId)
             if (item.getValue("kind").jsonPrimitive.content == "weapon") {
                 val weapon = item.getValue("weapon").jsonObject
                 weaponAtk = weapon.getValue("atk").jsonPrimitive.long
                 weaponMatk = weapon.getValue("matk").jsonPrimitive.long
+                startWeapon = itemId
                 break
             }
         }
@@ -121,12 +123,17 @@ fun loadCombatSetup(
         val items = HashMap<String, ItemDef>()
         for ((id, path) in pack.documentPaths) {
             if (!path.startsWith("items/")) continue
-            val use = document(pack, id)["use"]?.jsonObject ?: continue
+            val doc = document(pack, id)
             items[id] = ItemDef(
-                use.getValue("effects").jsonArray.map {
+                effects = doc["use"]?.jsonObject?.getValue("effects")?.jsonArray?.map {
                     val o = it.jsonObject
                     ItemEffect(o.getValue("effect").jsonPrimitive.content, o["amount"]?.jsonPrimitive?.long ?: 0L)
-                },
+                } ?: emptyList(),
+                kind = doc.getValue("kind").jsonPrimitive.content,
+                price = doc.getValue("price").jsonPrimitive.long,
+                stackMax = doc["stack_max"]?.jsonPrimitive?.int ?: 0,
+                weapon = doc["weapon"]?.jsonObject?.let { WeaponStats(it.getValue("atk").jsonPrimitive.long, it.getValue("matk").jsonPrimitive.long) },
+                armor = doc["armor"]?.jsonObject?.let { ArmorStats(it.getValue("def").jsonPrimitive.long, it.getValue("mdef").jsonPrimitive.long) },
             )
         }
 
@@ -141,5 +148,6 @@ fun loadCombatSetup(
             startInventory = protagonist.startingInventory,
             streamEnemy = streamEnemyId?.let { loadEnemy(pack, it) },
             items = items,
+            startWeapon = startWeapon,
         )
     }

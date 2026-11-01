@@ -496,6 +496,10 @@
             ],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -528,6 +532,10 @@
             ],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -564,6 +572,10 @@
             ],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -602,6 +614,10 @@
             ],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -646,6 +662,10 @@
             ],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -688,6 +708,10 @@
             "inventory": {
               "base:item/slime_gel": 3
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -729,6 +753,10 @@
             "kills": 2,
             "inventory": {
               "base:item/slime_gel": 3
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
             },
             "story": {
               "flags": {},
@@ -775,6 +803,10 @@
             "kills": 2,
             "inventory": {
               "base:item/slime_gel": 3
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
             },
             "story": {
               "flags": {},
@@ -1242,6 +1274,10 @@
             "enemies": [],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -1261,6 +1297,10 @@
             "enemies": [],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -1284,6 +1324,10 @@
             "enemies": [],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -1309,6 +1353,10 @@
             "enemies": [],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -1328,6 +1376,10 @@
             "enemies": [],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -1351,6 +1403,10 @@
             "enemies": [],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -1376,6 +1432,10 @@
             "enemies": [],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -1407,6 +1467,10 @@
             "enemies": [],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -1434,6 +1498,10 @@
             "enemies": [],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -1465,6 +1533,10 @@
             "enemies": [],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -1886,6 +1958,10 @@
             ],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -1912,6 +1988,10 @@
             ],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -1942,6 +2022,10 @@
             ],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -1972,6 +2056,10 @@
             ],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -2428,6 +2516,10 @@
             "enemies": [],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -2451,6 +2543,10 @@
             "enemies": [],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -2478,6 +2574,10 @@
             "inventory": {
               "base:item/slime_gel": 2
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
@@ -2503,6 +2603,10 @@
             "inventory": {
               "base:item/slime_gel": 2
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {
                 "visited": true
@@ -2525,6 +2629,10 @@
             "kills": 0,
             "inventory": {
               "base:item/slime_gel": 2
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
             },
             "story": {
               "flags": {
@@ -2553,6 +2661,10 @@
             "inventory": {
               "base:item/slime_gel": 2
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {
                 "visited": true
@@ -2581,6 +2693,10 @@
             "kills": 0,
             "inventory": {
               "base:item/slime_gel": 2
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
             },
             "story": {
               "flags": {
@@ -2618,6 +2734,10 @@
             "inventory": {
               "base:item/slime_gel": 2
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {
                 "seen": true,
@@ -2649,6 +2769,10 @@
             "kills": 0,
             "inventory": {
               "base:item/slime_gel": 2
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
             },
             "story": {
               "flags": {

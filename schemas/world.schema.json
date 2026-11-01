@@ -518,7 +518,8 @@
           "x_pm",
           "y_pm",
           "danger",
-          "tone"
+          "tone",
+          "shop"
         ],
         "additionalProperties": false,
         "properties": {
@@ -546,6 +547,27 @@
           "tone": {
             "type": "string",
             "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "shop": {
+            "type": "object",
+            "required": [
+              "price_pm",
+              "stock"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "price_pm": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "stock": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+                }
+              }
+            }
           }
         }
       }

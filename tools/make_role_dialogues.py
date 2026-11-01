@@ -21,7 +21,7 @@ QUEST = "base:quest/guild/slime_extermination"
 EN = {
     "warm": {
         "elder": "Welcome to {place}, traveller! I'm {npc}. Sit, eat, stay a while. The soup is hot and the slimes mostly stay in the fields. {quirk}",
-        "shopkeeper": "{npc}'s Goods, at your service! The shelves are being restocked, but my smile is free and always in stock.",
+        "shopkeeper": "{npc}'s Goods, at your service! Look around, buy something, sell something. My smile is free, the rest has a price.",
         "innkeeper": "Ah, a guest! I'm {npc}. The beds are soft and the porridge is only slightly lumpy. Rooms will be ready soon, I promise!",
         "villager": "Oh, hello! I'm {npc}. Lovely day in {place}, isn't it? Even the rain feels friendly around here.",
         "clerk_hello": "Welcome to the guild desk of {place}! I'm {npc}. Looking for honest work?",
@@ -33,7 +33,7 @@ EN = {
     },
     "mystic": {
         "elder": "The trees spoke of your coming to {place}, wanderer. I am {npc}. Listen: in {region} the forest remembers. {quirk}",
-        "shopkeeper": "I am {npc}. What you seek may be on my shelves, or on a shelf not yet built. Return when the moon is thin.",
+        "shopkeeper": "I am {npc}. What you seek may be on my shelves, or may find you if you pay. The trees do not mind coin.",
         "innkeeper": "{npc} keeps the hearth here. Sleep gently, guest: the branches outside whisper, and they do not always lie.",
         "villager": "Shh... do you hear it? I'm {npc}. The leaves of {place} are telling secrets again.",
         "clerk_hello": "The guild keeps a small light in {place}. I am {npc}. Do you walk the path of work?",
@@ -45,7 +45,7 @@ EN = {
     },
     "gruff": {
         "elder": "{npc}. I run {place}. We dig, we forge, we don't chatter. {quirk} State your business.",
-        "shopkeeper": "{npc}. Shelves are bare, the forge is hot. Come back when it isn't.",
+        "shopkeeper": "{npc}. Gear's on the shelves. Prices are on the tags. Don't haggle, it's pointless.",
         "innkeeper": "{npc}. Bed's a bed. Walls are stone, they don't fall down. Don't break anything.",
         "villager": "Hm. {npc}. If you're lost, {place} is the one with the mountain on top.",
         "clerk_hello": "Guild desk, {place}. {npc}. Work or leave.",
@@ -57,7 +57,7 @@ EN = {
     },
     "flowery": {
         "elder": "Honored guest, jewel of the desert road! I am {npc}, humble keeper of {place}. Water for you, shade for you, and the best prices anywhere! {quirk}",
-        "shopkeeper": "Ah, the discerning eye! {npc} sells only treasures. Alas, today the treasures are in the caravan. Tomorrow! Tomorrow, my friend!",
+        "shopkeeper": "Ah, the discerning eye! {npc} sells only treasures, and today the treasures are in stock! Look, touch, admire, and buy!",
         "innkeeper": "A traveller! I am {npc}. My rooms are cool, my tea is sweet, and my prices are a gift. Almost a gift.",
         "villager": "Peace and plenty, stranger! I am {npc}. {place} is the pearl of the sands, and I mean it with all my heart.",
         "clerk_hello": "Welcome, welcome to the guild house of {place}! {npc} at your service. Work for a man of your talent?",
@@ -69,7 +69,7 @@ EN = {
     },
     "stoic": {
         "elder": "I am {npc}. This is {place}. We endure the cold, and the cold endures us. {quirk}",
-        "shopkeeper": "{npc}. The stock is low. Winter takes what it takes.",
+        "shopkeeper": "{npc}. Goods. Prices fixed. Winter does not haggle.",
         "innkeeper": "{npc}. A fire, a bed, a bowl. Close the door behind you.",
         "villager": "{npc}. {place} is quiet. We like it that way.",
         "clerk_hello": "{npc}, guild desk of {place}. Work exists. Speak.",
@@ -81,7 +81,7 @@ EN = {
     },
     "salty": {
         "elder": "Ahoy, landlubber! {npc}, harbour-warden o' {place}. Mind the gulls, they bite. {quirk}",
-        "shopkeeper": "{npc}'s Chandlery! Rope, hooks, a fine bit o' tar. The crates be still in the hold, matey, come back at low tide.",
+        "shopkeeper": "{npc}'s Chandlery! Rope, hooks, blades an' bandages, all shipshape. Buy it or sell it, matey!",
         "innkeeper": "{npc}, at the sign o' the Drowned Boot! Beds don't rock, ale does. Rooms be ready soon enough, har har.",
         "villager": "Fair winds, friend! {npc}. {place} smells of fish and freedom, and mostly fish.",
         "clerk_hello": "Guild post o' {place}, {npc} at the wheel. Lookin' for a bit o' honest work, sailor?",
@@ -93,7 +93,7 @@ EN = {
     },
     "grim": {
         "elder": "I am {npc}. This is {place}. Still standing, which is more than most. {quirk}",
-        "shopkeeper": "{npc}. Nothing in stock. Everything burns eventually.",
+        "shopkeeper": "{npc}. Stock is what survived. Prices are what survival costs.",
         "innkeeper": "{npc}. A bed, a roof. Both may collapse. Tonight, probably not.",
         "villager": "Ah. A visitor. I am {npc}. {place} thanks you for noticing it. Briefly.",
         "clerk_hello": "{npc}, guild desk of {place}. Work is plentiful. Survivors are not.",
@@ -105,7 +105,7 @@ EN = {
     },
     "scholarly": {
         "elder": "Ah, a visitor! {npc}, curator of {place}. Welcome, although 'welcome' is, technically, a hypothesis. {quirk}",
-        "shopkeeper": "{npc}, purveyor of instruments and curiosities. My catalogue is incomplete; so, I confess, is my inventory.",
+        "shopkeeper": "{npc}, purveyor of instruments and equipment. Prices are listed, annotated and, regrettably, non-negotiable.",
         "innkeeper": "{npc}. Accommodation, with footnotes. Do mind the third stair; it has a theory about gravity.",
         "villager": "Fascinating! A new face. I am {npc}. I study {place}. {place} has not yet agreed to be studied.",
         "clerk_hello": "{npc}, guild registrar of {place}. Employment, in the classical sense. Do you have a moment?",
@@ -121,7 +121,7 @@ EN = {
 IT = {
     "warm": {
         "elder": "Benvenuto a {place}, viandante! Sono {npc}. Siediti, mangia, fermati un po'. La zuppa è calda e gli slime stanno quasi sempre nei campi. {quirk}",
-        "shopkeeper": "Merci di {npc}, al tuo servizio! Gli scaffali si stanno riempiendo, ma il mio sorriso è gratis e non finisce mai.",
+        "shopkeeper": "Merci di {npc}, al tuo servizio! Guarda, compra, vendi. Il mio sorriso è gratis, il resto ha un prezzo.",
         "innkeeper": "Ah, un ospite! Sono {npc}. I letti sono morbidi e la polenta è solo un po' grumosa. Le stanze saranno pronte presto, promesso!",
         "villager": "Oh, ciao! Io sono {npc}. Bella giornata a {place}, vero? Qui anche la pioggia è gentile.",
         "clerk_hello": "Benvenuto allo sportello della gilda di {place}! Sono {npc}. Cerchi un lavoretto onesto?",
@@ -133,7 +133,7 @@ IT = {
     },
     "mystic": {
         "elder": "Gli alberi hanno parlato del tuo arrivo a {place}, viandante. Sono {npc}. Ascolta: a {region} la foresta ricorda. {quirk}",
-        "shopkeeper": "Sono {npc}. Ciò che cerchi forse è sui miei scaffali, o su uno scaffale non ancora costruito. Torna a luna sottile.",
+        "shopkeeper": "Sono {npc}. Ciò che cerchi può essere sui miei scaffali, o trovarti se paghi. Agli alberi le monete non dispiacciono.",
         "innkeeper": "{npc} custodisce il focolare. Dormi piano, ospite: i rami là fuori sussurrano, e non sempre mentono.",
         "villager": "Zitto... lo senti? Io sono {npc}. Le foglie di {place} raccontano di nuovo i loro segreti.",
         "clerk_hello": "La gilda tiene una piccola luce a {place}. Sono {npc}. Cammini sul sentiero del lavoro?",
@@ -145,7 +145,7 @@ IT = {
     },
     "gruff": {
         "elder": "{npc}. Comando {place}. Scaviamo, forgiamo, non chiacchieriamo. {quirk} Dì cosa vuoi.",
-        "shopkeeper": "{npc}. Scaffali vuoti, forgia accesa. Torna quando è spenta.",
+        "shopkeeper": "{npc}. L'attrezzatura è sugli scaffali. I prezzi sono sui cartellini. Non contrattare, è inutile.",
         "innkeeper": "{npc}. Un letto è un letto. Muri di pietra, non crollano. Non rompere niente.",
         "villager": "Hm. {npc}. Se sei perso, {place} è quello con la montagna sopra.",
         "clerk_hello": "Sportello della gilda, {place}. {npc}. Lavoro o fuori.",
@@ -157,7 +157,7 @@ IT = {
     },
     "flowery": {
         "elder": "Ospite onorato, gioiello della via del deserto! Sono {npc}, umile custode di {place}. Acqua per te, ombra per te, e i prezzi migliori che ci siano! {quirk}",
-        "shopkeeper": "Ah, che occhio raffinato! {npc} vende solo tesori. Ahimè, oggi i tesori sono in carovana. Domani! Domani, amico mio!",
+        "shopkeeper": "Ah, che occhio raffinato! {npc} vende solo tesori, e oggi i tesori ci sono! Guarda, tocca, ammira e compra!",
         "innkeeper": "Un viaggiatore! Sono {npc}. Stanze fresche, tè dolce e prezzi che sono un regalo. Quasi un regalo.",
         "villager": "Pace e abbondanza, straniero! Sono {npc}. {place} è la perla delle sabbie, e lo dico con tutto il cuore.",
         "clerk_hello": "Benvenuto, benvenuto alla casa della gilda di {place}! {npc} al tuo servizio. Lavoro per un uomo del tuo talento?",
@@ -169,7 +169,7 @@ IT = {
     },
     "stoic": {
         "elder": "Sono {npc}. Questa è {place}. Noi sopportiamo il freddo, e il freddo sopporta noi. {quirk}",
-        "shopkeeper": "{npc}. Le scorte sono poche. L'inverno prende ciò che prende.",
+        "shopkeeper": "{npc}. Merce. Prezzi fissi. L'inverno non tratta.",
         "innkeeper": "{npc}. Un fuoco, un letto, una scodella. Chiudi la porta.",
         "villager": "{npc}. {place} è tranquilla. Ci piace così.",
         "clerk_hello": "{npc}, sportello della gilda di {place}. Il lavoro c'è. Parla.",
@@ -181,7 +181,7 @@ IT = {
     },
     "salty": {
         "elder": "Ohé, terraiolo! {npc}, capitano del porto di {place}. Attento ai gabbiani, mordono. {quirk}",
-        "shopkeeper": "Fornitura di {npc}! Corde, ami, una bella mano di catrame. Le casse sono ancora nella stiva, mozzo, torna con la bassa marea.",
+        "shopkeeper": "Fornitura di {npc}! Corde, ami, lame e bende, tutto a posto. Compra o vendi, mozzo!",
         "innkeeper": "{npc}, all'insegna dello Stivale Annegato! I letti non ondeggiano, la birra sì. Le stanze saranno pronte presto, har har.",
         "villager": "Buon vento, amico! {npc}. {place} sa di pesce e di libertà, ma soprattutto di pesce.",
         "clerk_hello": "Posto della gilda di {place}, {npc} al timone. Cerchi un lavoretto onesto, marinaio?",
@@ -193,7 +193,7 @@ IT = {
     },
     "grim": {
         "elder": "Sono {npc}. Questa è {place}. Ancora in piedi, che è più di molte. {quirk}",
-        "shopkeeper": "{npc}. Niente in magazzino. Tutto prima o poi brucia.",
+        "shopkeeper": "{npc}. La merce è ciò che è sopravvissuto. I prezzi sono ciò che costa sopravvivere.",
         "innkeeper": "{npc}. Un letto, un tetto. Possono crollare entrambi. Stanotte, forse no.",
         "villager": "Ah. Una visita. Sono {npc}. {place} ti ringrazia di averla notata. Per poco.",
         "clerk_hello": "{npc}, sportello della gilda di {place}. Il lavoro abbonda. I sopravvissuti no.",
@@ -205,7 +205,7 @@ IT = {
     },
     "scholarly": {
         "elder": "Ah, un visitatore! {npc}, curatore di {place}. Benvenuto, anche se 'benvenuto' è, tecnicamente, un'ipotesi. {quirk}",
-        "shopkeeper": "{npc}, fornitore di strumenti e curiosità. Il mio catalogo è incompleto; lo è, confesso, anche il mio magazzino.",
+        "shopkeeper": "{npc}, fornitore di strumenti e attrezzature. I prezzi sono elencati, annotati e, purtroppo, non negoziabili.",
         "innkeeper": "{npc}. Alloggio, con note a piè di pagina. Attenzione al terzo gradino: ha una teoria sulla gravità.",
         "villager": "Affascinante! Una faccia nuova. Sono {npc}. Studio {place}. {place} non ha ancora accettato di essere studiata.",
         "clerk_hello": "{npc}, cancelliere della gilda di {place}. Impiego, in senso classico. Hai un momento?",
@@ -218,8 +218,8 @@ IT = {
 }
 
 CHOICES = {
-    "en": {"rumor": "Any news?", "bye": "Goodbye.", "work": "I'm looking for work.", "accept": "I'll take it.", "decline": "Not now."},
-    "it": {"rumor": "Novità?", "bye": "Arrivederci.", "work": "Cerco lavoro.", "accept": "Ci sto.", "decline": "Non adesso."},
+    "en": {"wares": "Show me your wares.", "rumor": "Any news?", "bye": "Goodbye.", "work": "I'm looking for work.", "accept": "I'll take it.", "decline": "Not now."},
+    "it": {"wares": "Fammi vedere la merce.", "rumor": "Novità?", "bye": "Arrivederci.", "work": "Cerco lavoro.", "accept": "Ci sto.", "decline": "Non adesso."},
 }
 
 QUIRKS = {
@@ -268,7 +268,11 @@ def dialogue(role: str, tone: str) -> dict:
     nodes: dict[str, dict] = {}
     rumor_choice = {"text": "$i18n:dlg.role.rumor", "next": "rumor"}
     bye_choice = {"text": "$i18n:dlg.role.bye", "next": "end"}
-    if role != "guild_clerk":
+    if role == "shopkeeper":
+        nodes["start"] = node_say(f"{base}.hello", "menu")
+        nodes["menu"] = {"type": "choice", "choices": [{"text": "$i18n:dlg.role.wares", "next": "shop"}, rumor_choice, bye_choice]}
+        nodes["shop"] = {"type": "effects", "effects": [{"effect": "open_shop"}], "next": "end"}
+    elif role != "guild_clerk":
         nodes["start"] = node_say(f"{base}.hello", "menu")
         nodes["menu"] = {"type": "choice", "choices": [rumor_choice, bye_choice]}
     else:

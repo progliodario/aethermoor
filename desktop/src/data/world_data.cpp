@@ -107,7 +107,11 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
         }
         for (const Json& r : j.at("regions")) {
             p.regions.push_back({r.at("id").get<std::string>(), r.at("name").get<std::string>(), r.at("x_pm").get<int>(),
-                                 r.at("y_pm").get<int>(), r.at("danger").get<int>(), r.at("tone").get<std::string>()});
+                                 r.at("y_pm").get<int>(), r.at("danger").get<int>(), r.at("tone").get<std::string>(),
+                                 r.at("shop").at("price_pm").get<int>(), {}});
+            for (const Json& item : r.at("shop").at("stock")) {
+                p.regions.back().shop_stock.push_back(item.get<std::string>());
+            }
         }
         const Json& settlements = j.at("settlements");
         p.settlement_per_mille = settlements.at("per_mille").get<int>();

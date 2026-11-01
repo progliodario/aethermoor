@@ -47,6 +47,9 @@ sealed interface Effect {
     data class SetFlag(val flag: String, val value: Boolean) : Effect
 
     data class StartQuest(val quest: String) : Effect
+
+    /** Opens the shop of the place (spec 06). */
+    data object OpenShop : Effect
 }
 
 enum class ObjectiveKind { KILL, COLLECT, TALK }
@@ -124,6 +127,8 @@ interface StoryHost {
     val level: Long
     val playerX: Float
     val playerY: Float
+
+    fun openShop()
 }
 
 // ------------------------------------------------------------------------------------ parsing
@@ -158,6 +163,7 @@ private fun parseEffect(element: JsonElement): Effect {
         "add_item" -> Effect.AddItem(o.str("item"), o.getValue("qty").jsonPrimitive.long)
         "set_flag" -> Effect.SetFlag(o.str("flag"), o.getValue("value").jsonPrimitive.boolean)
         "start_quest" -> Effect.StartQuest(o.str("quest"))
+        "open_shop" -> Effect.OpenShop
         else -> throw IllegalArgumentException("unknown effect $kind")
     }
 }
@@ -233,8 +239,8 @@ private const val MAX_SETTLE_STEPS = 64
 
 class Story(val setup: StorySetup, private val host: StoryHost) {
     val flags = java.util.TreeMap<String, Boolean>()
+    /** The gold of the player; shops and tests change it directly (spec 06). */
     var gold = 0L
-        private set
     val quests = java.util.TreeMap<String, QuestProgress>()
     var dialogueActive = false
         private set
@@ -264,6 +270,7 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
             }
             is Effect.SetFlag -> flags[effect.flag] = effect.value
             is Effect.StartQuest -> startQuest(effect.quest)
+            is Effect.OpenShop -> host.openShop()
         }
     }
 

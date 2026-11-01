@@ -328,6 +328,18 @@
           }
         }
       }
+    },
+    "equipped": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "weapon": {
+          "type": "string"
+        },
+        "armor": {
+          "type": "string"
+        }
+      }
     }
   }
 }

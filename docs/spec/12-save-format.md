@@ -40,6 +40,7 @@ described in the plan arrive with the procedural world and reincarnation.
   window is rebuilt around the saved player position; every enemy must belong to a spawner of the window (the enemy of a cleared spawner is dead), and every
   uncleared spawner of the window must have its enemy, otherwise the save is invalid for this build. `cleared_spawners` and `spawner` are absent on fixed maps.
 - `explored` (streamed world) is the list of explored world map cells `[x, y]`, ordered by row then column (spec 09); absent in old saves.
+- `equipped` is `{weapon, armor}`: the item ids worn (spec 06); absent in old saves (the starting weapon, no armor).
 - `world_ticks` is the world clock (spec 08); a save without it starts at the world's `time.start_tick`.
 - `story` is null when the world has no story. `dialogue` is null when no dialogue is open; otherwise it has `id`, `node` and, when the NPC had arguments (spec 07), `args` (a map of strings).
 - 64-bit values are hex strings. Positions are floats (a client reads them as 32-bit floats).

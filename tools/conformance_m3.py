@@ -34,13 +34,22 @@ def enemy(x: float, y: float, **overrides) -> dict:
     return {"pos": [x, y], "def": definition}
 
 
-BREAD = {"base:item/bread": {"effects": [{"effect": "heal", "amount": 30}]},
-         "base:item/slime_gel": {"effects": []}}
+ITEMS = {
+    "base:item/bread": {"kind": "food", "price": 5, "effects": [{"effect": "heal", "amount": 30}]},
+    "base:item/slime_gel": {"kind": "material", "price": 3, "effects": []},
+    "base:item/practice_sword": {"kind": "weapon", "price": 20, "weapon": {"atk": 3, "matk": 0}},
+    "base:item/iron_sword": {"kind": "weapon", "price": 150, "weapon": {"atk": 7, "matk": 0}},
+    "base:item/leather_vest": {"kind": "armor", "price": 80, "armor": {"def": 2, "mdef": 1}},
+    "base:item/chain_mail": {"kind": "armor", "price": 300, "armor": {"def": 5, "mdef": 2}},
+}
+BREAD = ITEMS
+EMPTY_STORY = {"quests": {}, "dialogues": {}, "npcs": []}
 
 
 def scenario(name: str, enemies: list[dict], script: list[dict], player: dict | None = None,
-             seed: str = "0x0000000000C0FFEE", inventory: dict | None = None) -> dict:
+             seed: str = "0x0000000000C0FFEE", inventory: dict | None = None, **extra) -> dict:
     return {
+        **extra,
         "name": name,
         "grid": arena(), "props": [], "seed": seed,
         "player": {**PLAYER, **(player or {})},
@@ -48,7 +57,7 @@ def scenario(name: str, enemies: list[dict], script: list[dict], player: dict | 
         "xp_table": rules.generate_xp_table()[:12],
         "enemies": enemies,
         "script": script,
-        **({"inventory": inventory, "items": BREAD} if inventory is not None else {}),
+        **({"inventory": inventory, "items": ITEMS} if inventory is not None else {}),
     }
 
 
@@ -82,6 +91,31 @@ def build_scenarios() -> list[dict]:
         scenario("use_refused_at_full_health", [enemy(12.0, 7.5, **passive)],
                  [segment(10, do=[{"cmd": "use", "item": "base:item/bread"}])],
                  inventory={"base:item/bread": 1}),
+        # Equipment (spec 06): the iron sword hits harder, armor makes the slime's hits weaker; refused: not owned, not equipment, already worn.
+        scenario("equip_changes_stats", [enemy(8.1, 4.5, atk=40)],
+                 [segment(200), segment(1, do=[{"cmd": "equip", "item": "base:item/iron_sword"},
+                                               {"cmd": "equip", "item": "base:item/iron_sword"},
+                                               {"cmd": "equip", "item": "base:item/steel_sword"},
+                                               {"cmd": "equip", "item": "base:item/bread"},
+                                               {"cmd": "equip", "item": "base:item/chain_mail"}]),
+                  segment(120, attack=True), segment(120), segment(1, do=[{"cmd": "equip", "item": "base:item/practice_sword"}])],
+                 inventory={"base:item/bread": 1, "base:item/practice_sword": 1, "base:item/iron_sword": 1,
+                            "base:item/chain_mail": 1, "base:item/leather_vest": 1},
+                 equipped={"weapon": "base:item/practice_sword"}),
+        # Shops (spec 06): buying and selling need the shop to be open, the item in its stock and enough gold; prices follow the region.
+        scenario("shop_buy_and_sell", [enemy(12.0, 7.5, **passive)],
+                 [segment(1, do=[{"cmd": "buy", "item": "base:item/bread"}]),
+                  segment(1, do=[{"cmd": "open_shop"}, {"cmd": "buy", "item": "base:item/bread"}, {"cmd": "buy", "item": "base:item/bread"},
+                                 {"cmd": "buy", "item": "base:item/chain_mail"}, {"cmd": "buy", "item": "base:item/iron_sword"},
+                                 {"cmd": "buy", "item": "base:item/iron_sword"}]),
+                  segment(1, do=[{"cmd": "sell", "item": "base:item/practice_sword"}, {"cmd": "equip", "item": "base:item/iron_sword"},
+                                 {"cmd": "sell", "item": "base:item/practice_sword"}, {"cmd": "sell", "item": "base:item/slime_gel"},
+                                 {"cmd": "sell", "item": "base:item/slime_gel"}, {"cmd": "sell", "item": "base:item/slime_gel"},
+                                 {"cmd": "sell", "item": "base:item/leather_vest"}]),
+                  segment(1, do=[{"cmd": "close_shop"}, {"cmd": "sell", "item": "base:item/bread"}])],
+                 inventory={"base:item/practice_sword": 1, "base:item/slime_gel": 2, "base:item/leather_vest": 1},
+                 equipped={"weapon": "base:item/practice_sword"}, story=EMPTY_STORY, start_gold=200,
+                 shop={"price_pm": 1200, "stock": ["base:item/bread", "base:item/iron_sword", "base:item/leather_vest"]}),
         scenario("leash_and_return", [enemy(4.0, 4.5, behavior_overrides={"leash_x100": 300})],
                  [segment(20, attack=True), segment(150, move=(1, 0)), segment(250)]),
     ]

@@ -3,37 +3,126 @@
   "$id": "https://aethermoor.invalid/schemas/item.schema.json",
   "title": "Item",
   "type": "object",
-  "required": ["id", "name", "description", "kind", "rarity", "price"],
+  "required": [
+    "id",
+    "name",
+    "description",
+    "kind",
+    "rarity",
+    "price"
+  ],
   "additionalProperties": false,
   "properties": {
-    "$schema": { "type": "string" },
-    "id": { "$ref": "#/$defs/id" },
-    "name": { "$ref": "#/$defs/i18n_ref" },
-    "description": { "$ref": "#/$defs/i18n_ref" },
-    "kind": { "enum": ["weapon", "armor", "accessory", "consumable", "material", "key", "food", "seed"] },
-    "rarity": { "enum": ["common", "uncommon", "rare", "epic", "legendary", "mythic"] },
-    "price": { "type": "integer", "minimum": 0 },
-    "stack_max": { "type": "integer", "minimum": 1 },
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "$ref": "#/$defs/id"
+    },
+    "name": {
+      "$ref": "#/$defs/i18n_ref"
+    },
+    "description": {
+      "$ref": "#/$defs/i18n_ref"
+    },
+    "kind": {
+      "enum": [
+        "weapon",
+        "armor",
+        "accessory",
+        "consumable",
+        "material",
+        "key",
+        "food",
+        "seed"
+      ]
+    },
+    "rarity": {
+      "enum": [
+        "common",
+        "uncommon",
+        "rare",
+        "epic",
+        "legendary",
+        "mythic"
+      ]
+    },
+    "price": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "stack_max": {
+      "type": "integer",
+      "minimum": 1
+    },
     "weapon": {
       "type": "object",
-      "required": ["atk", "matk"],
+      "required": [
+        "atk",
+        "matk"
+      ],
       "additionalProperties": false,
-      "properties": { "atk": { "type": "integer", "minimum": 0 }, "matk": { "type": "integer", "minimum": 0 } }
+      "properties": {
+        "atk": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "matk": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
     },
     "use": {
       "type": "object",
-      "required": ["effects"],
+      "required": [
+        "effects"
+      ],
       "additionalProperties": false,
       "properties": {
         "effects": {
           "type": "array",
-          "items": { "type": "object", "required": ["effect"], "properties": { "effect": { "type": "string" } } }
+          "items": {
+            "type": "object",
+            "required": [
+              "effect"
+            ],
+            "properties": {
+              "effect": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "armor": {
+      "type": "object",
+      "required": [
+        "def",
+        "mdef"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "def": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "mdef": {
+          "type": "integer",
+          "minimum": 0
         }
       }
     }
   },
   "$defs": {
-    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$" },
-    "i18n_ref": { "type": "string", "pattern": "^\\$i18n:[a-z0-9_]+(\\.[a-z0-9_]+)*$" }
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+    },
+    "i18n_ref": {
+      "type": "string",
+      "pattern": "^\\$i18n:[a-z0-9_]+(\\.[a-z0-9_]+)*$"
+    }
   }
 }

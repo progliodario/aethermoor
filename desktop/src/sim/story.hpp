@@ -22,7 +22,7 @@ struct Condition {
 };
 
 struct Effect {
-    enum class Kind { AddXp, AddGold, AddItem, SetFlag, StartQuest };
+    enum class Kind { AddXp, AddGold, AddItem, SetFlag, StartQuest, OpenShop };
     Kind kind = Kind::AddXp;
     std::string a;  // item / flag / quest
     std::int64_t n = 0;  // amount / quantity
@@ -137,6 +137,7 @@ public:
     virtual std::int64_t level() const = 0;
     virtual float player_x() const = 0;
     virtual float player_y() const = 0;
+    virtual void open_shop() = 0;
 };
 
 class Story {
@@ -169,6 +170,7 @@ public:
     const StorySetup& setup() const { return m_setup_; }
     const std::map<std::string, bool>& flags() const { return m_flags_; }
     std::int64_t gold() const { return m_gold_; }
+    void set_gold(std::int64_t gold) { m_gold_ = gold; }
     const std::map<std::string, QuestProgress>& quests() const { return m_quests_; }
 
 private:

@@ -9,7 +9,8 @@ The game picks Italian or English from your system language.
   Move ............ WASD or arrow keys, or the left stick of a gamepad
   Attack .......... J or Space (gamepad: A)
   Talk / confirm .. E or Enter (gamepad: X), choices with W/S or 1-9
-  Bag ............. I (W/S to choose, E to use)
+  Bag ............. I (W/S to choose, E to use or wear)
+  Shop ............ talk to a shopkeeper and pick the wares; Tab buy/sell, E confirm
   World map ....... M        Close a panel ... Esc
   Quick save ...... F5       Quick load .. F9       New game ......... F7
   Debug info ...... F3       Quit ........ Esc (with no panel open)
@@ -32,7 +33,8 @@ Il gioco sceglie italiano o inglese dalla lingua del sistema.
   Muoversi ........ WASD o frecce, o stick sinistro del gamepad
   Attaccare ....... J o Spazio (gamepad: A)
   Parlare/confermare  E o Invio (gamepad: X), scelte con W/S o 1-9
-  Zaino ........... I (W/S per scegliere, E per usare)
+  Zaino ........... I (W/S per scegliere, E per usare o indossare)
+  Negozio ......... parla con il bottegaio e scegli la merce; Tab compra/vendi, E conferma
   Mappa del mondo . M        Chiudere un pannello  Esc
   Salvataggio rapido  F5     Carica ...... F9          Nuova partita ........ F7
   Info di debug ... F3       Esci ........ Esc (senza pannelli aperti)

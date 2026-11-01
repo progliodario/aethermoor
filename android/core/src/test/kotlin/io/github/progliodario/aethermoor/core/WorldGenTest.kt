@@ -373,6 +373,32 @@ class WorldGenTest {
         sim.tick(0f, 0f, false)
         checkWindow()
 
+        // The shopkeeper of the home village sells the wares of Verdalis (spec 06): open the shop from the dialogue, buy, equip.
+        sim.teleport(8236.5f, 8229.5f)
+        sim.tick(0f, 0f, false)
+        assertTrue(sim.story.npcInRange() != null)
+        sim.story.interact()
+        assertTrue(sim.story.dialogueActive)
+        sim.story.advance()
+        sim.story.choose(0) // "show me your wares"
+        assertFalse(sim.story.dialogueActive)
+        assertTrue(sim.shop != null)
+        assertFalse(sim.buy("base:item/iron_sword")) // no gold yet
+        sim.story.gold = 1000
+        val attackBefore = sim.derived.atk
+        assertTrue(sim.buy("base:item/iron_sword"))
+        assertEquals(1000 - sim.buyPrice("base:item/iron_sword"), sim.story.gold)
+        assertFalse(sim.buy("base:item/iron_sword")) // one is the limit for a weapon
+        assertFalse(sim.buy("base:item/steel_sword")) // not sold in Verdalis
+        assertTrue(sim.equip("base:item/iron_sword"))
+        assertTrue(sim.derived.atk > attackBefore)
+        assertFalse(sim.sell("base:item/iron_sword")) // the last copy of a worn item stays
+        sim.closeShop()
+        assertTrue(sim.shop == null)
+        sim.teleport(map.width / 2 + 0.5f, map.height / 2 + 0.5f)
+        sim.tick(0f, 0f, false)
+        checkWindow()
+
         // Saving and loading into a fresh world of the same seed gives the same enemies.
         val state = sim.capture()
         assertEquals(sim.enemies.size, state.enemies.size)
@@ -383,6 +409,8 @@ class WorldGenTest {
         assertEquals(sim.enemies.size, fresh.enemies.size)
         assertEquals(sim.player.position.x, fresh.player.position.x)
         assertEquals(sim.worldTicks, fresh.worldTicks)
+        assertEquals("base:item/iron_sword", fresh.equippedWeapon)
+        assertEquals(sim.derived.atk, fresh.derived.atk)
         assertEquals(sim.explored.toList(), fresh.explored.toList())
     }
 }

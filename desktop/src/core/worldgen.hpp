@@ -42,6 +42,8 @@ struct Region {
     int y_pm = 0;
     int danger = 1;
     std::string tone;  // the voice of the people of the region
+    int shop_price_pm = 1000;  // what the shops of the region sell (spec 06)
+    std::vector<std::string> shop_stock;
 };
 
 struct SettlementKind {
