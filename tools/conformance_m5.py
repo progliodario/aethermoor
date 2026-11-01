@@ -22,6 +22,41 @@ def digest_pairs(pairs: list[list[int]]) -> int:
     return h
 
 
+def suite_worldgen_chunks() -> list[dict]:
+    """Chunks of a huge world (16384 x 16384 tiles), far from the origin and across the world edge."""
+    params = {**PARAMS, "width": 16384, "height": 16384}
+    cases = []
+    for name, seed, chunks in (
+        ("seed_7", 7, [[0, 0], [255, 255], [256, 256], [100, 400], [511, 511], [512, 3], [-1, 5]]),
+        ("seed_max_u64", nm.M64, [[1, 1], [256, 255], [333, 17], [3, 500]]),
+    ):
+        results = []
+        for cx, cy in chunks:
+            chunk = worldgen.generate_chunk(seed, params, cx, cy)
+            size = worldgen.CHUNK_SIZE
+            probes = []
+            for i in range(12):
+                lx = nm.hash64(seed, cx * 1000 + i, 1) % size
+                ly = nm.hash64(seed, cy * 1000 + i, 2) % size
+                probes.append([lx, ly, chunk["tiles"][ly * size + lx]])
+            results.append({
+                "chunk": [cx, cy],
+                "probes": probes,
+                "tile_digest": h64(worldgen.digest_all(chunk["tiles"])),
+                "prop_count": len(chunk["props"]),
+                "prop_digest": h64(worldgen.digest_props(chunk["props"])),
+                "spawner_count": len(chunk["spawners"]),
+                "spawner_digest": h64(digest_pairs(chunk["spawners"])),
+                "gid_histogram": {str(g): chunk["tiles"].count(g) for g in sorted(set(chunk["tiles"]))},
+            })
+        cases.append({
+            "name": f"worldgen_chunks_{name}",
+            "input": {"op": "worldgen_chunks", "seed": h64(seed), "chunk_size": worldgen.CHUNK_SIZE, "params": params},
+            "expect": {"chunks": results},
+        })
+    return cases
+
+
 def suite_worldgen() -> list[dict]:
     cases = []
     for name, seed, overrides in (

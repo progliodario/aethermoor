@@ -6,6 +6,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- M5b-1: world generation by chunks (spec 09, 32 x 32 tiles) for worlds up to 65536 x 65536 tiles; `generate_chunk` in the reference, C++ and Kotlin, conformance suite `worldgen_chunks`, and a test that chunks equal the whole-world generation. The game does not stream chunks yet.
 - M5a: procedural open world (spec 09). A 512 x 512 overworld generated from a seed with integer-only noise: sea, beaches, plains, forests, deserts, snow and mountains, with props, enemy spawners and the guild clerk at the spawn clearing; parameters in `data/base/worlds/overworld.json`; the seed is kept in the save so the same world comes back; conformance suite `worldgen` run by both clients; new tiles and props (sand, snow, mountain, forest floor, pine, cactus); `--map=demo|world` and `--seed=` on desktop.
 - M4b: save files (spec 12 v1) readable by both clients and by the Python reference, with the resume suite `save`; autosave every 30 s and at exit, quick save/load (F5/F9) and new game (F7) on desktop, autosave on pause on Android; starting inventory and a bag screen (I); notices.
 - M4a: quests, dialogue, conditions and effects (spec 07). The guild clerk Mira offers the slime quest; NPCs, interaction (E, gamepad X, touch button), dialogue box with choices, quest tracker and gold on both clients; shared `story` scenarios.

@@ -64,6 +64,69 @@ class WorldGenTest {
     }
 
     @Test
+    fun worldgenChunksSuite() {
+        val doc = Json.parseToJsonElement(File(repoRoot, "tests/conformance/worldgen_chunks.json").readText()).jsonObject
+        for (case in doc.getValue("cases").jsonArray) {
+            val c = case.jsonObject
+            val label = c.getValue("name").jsonPrimitive.content
+            val input = c.getValue("input").jsonObject
+            assertEquals(CHUNK_SIZE, input.getValue("chunk_size").jsonPrimitive.content.toInt(), "$label chunk size")
+            val params = parseWorldParams(input.getValue("params").toString()).getOrThrow()
+            val seed = hex(input.getValue("seed").jsonPrimitive.content)
+            for (entry in c.getValue("expect").jsonObject.getValue("chunks").jsonArray) {
+                val want = entry.jsonObject
+                val at = want.getValue("chunk").jsonArray
+                val cx = at[0].jsonPrimitive.content.toInt()
+                val cy = at[1].jsonPrimitive.content.toInt()
+                val name = "$label chunk $cx,$cy"
+                val chunk = generateChunk(seed, params, cx, cy)
+                assertEquals(CHUNK_SIZE * CHUNK_SIZE, chunk.tiles.size, name)
+                for (probe in want.getValue("probes").jsonArray) {
+                    val p = probe.jsonArray
+                    val x = p[0].jsonPrimitive.content.toInt()
+                    val y = p[1].jsonPrimitive.content.toInt()
+                    assertEquals(p[2].jsonPrimitive.content.toInt(), chunk.tiles[y * CHUNK_SIZE + x], "$name probe $x,$y")
+                }
+                assertEquals(hex(want.getValue("tile_digest").jsonPrimitive.content), digestTiles(chunk.tiles), "$name tiles")
+                assertEquals(want.getValue("prop_count").jsonPrimitive.long, chunk.props.size.toLong(), "$name props")
+                assertEquals(hex(want.getValue("prop_digest").jsonPrimitive.content), digestProps(chunk.props), "$name prop digest")
+                assertEquals(want.getValue("spawner_count").jsonPrimitive.long, chunk.spawners.size.toLong(), "$name spawners")
+                assertEquals(hex(want.getValue("spawner_digest").jsonPrimitive.content), digestSpawners(chunk.spawners), "$name spawner digest")
+                val histogram = chunk.tiles.groupBy { it }.mapValues { it.value.size.toLong() }
+                val wantHistogram = want.getValue("gid_histogram").jsonObject
+                assertEquals(wantHistogram.size, histogram.size, "$name histogram size")
+                for ((gid, count) in wantHistogram) assertEquals(count.jsonPrimitive.long, histogram[gid.toInt()], "$name gid $gid")
+            }
+        }
+    }
+
+    @Test
+    fun chunksAreTheRestrictionOfTheWorld() {
+        val doc = Json.parseToJsonElement(File(repoRoot, "tests/conformance/worldgen.json").readText()).jsonObject
+        val input = doc.getValue("cases").jsonArray[1].jsonObject.getValue("input").jsonObject // 80 x 72 tiles, border 2
+        val params = parseWorldParams(input.getValue("params").toString()).getOrThrow()
+        val seed = hex(input.getValue("seed").jsonPrimitive.content)
+        val world = generateWorld(seed, params)
+        var props = 0
+        var spawners = 0
+        for (cy in -1..3) {
+            for (cx in -1..3) {
+                val chunk = generateChunk(seed, params, cx, cy)
+                for (i in chunk.tiles.indices) {
+                    val x = cx * CHUNK_SIZE + i % CHUNK_SIZE
+                    val y = cy * CHUNK_SIZE + i / CHUNK_SIZE
+                    val inside = x in 0 until params.width && y in 0 until params.height
+                    assertEquals(if (inside) world.tiles[y * params.width + x] else params.tileWater, chunk.tiles[i], "tile $x,$y")
+                }
+                props += chunk.props.size
+                spawners += chunk.spawners.size
+            }
+        }
+        assertEquals(world.props.size, props)
+        assertEquals(world.spawners.size, spawners)
+    }
+
+    @Test
     fun theOverworldIsGeneratedFromTheContentPackAndIsDeterministic() {
         val pack = loadBasePack(repoRoot)
         val params = parseWorldParams(requireNotNull(pack.readDocument("base:world/overworld"))).getOrThrow()

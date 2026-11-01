@@ -95,7 +95,20 @@ struct GeneratedWorld {
 
 GeneratedWorld generate_world(std::uint64_t seed, const WorldParams& params);
 
+// A chunk is a kChunkSize x kChunkSize window of the world; chunk (cx, cy) starts at tile (cx * kChunkSize, cy * kChunkSize).
+constexpr int kChunkSize = 32;
+
+struct GeneratedChunk {
+    std::vector<int> tiles;  // kChunkSize * kChunkSize gids, row-major
+    std::vector<GenProp> props;  // scan order inside the chunk
+    std::vector<std::pair<int, int>> spawners;  // absolute tile coordinates, scan order
+};
+
+// Exactly the restriction of generate_world to the window. Any chunk coordinates are valid: tiles outside the world are water.
+GeneratedChunk generate_chunk(std::uint64_t seed, const WorldParams& params, int chunk_x, int chunk_y);
+
 // Digests used by the conformance vectors.
+std::uint64_t digest_tiles(const std::vector<int>& tiles);
 std::uint64_t digest_tile_row(const std::vector<int>& tiles, int width, int row);
 std::uint64_t digest_props(const std::vector<GenProp>& props);
 std::uint64_t digest_spawners(const std::vector<std::pair<int, int>>& spawners);

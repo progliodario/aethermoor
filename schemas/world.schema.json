@@ -30,12 +30,12 @@
     "width": {
       "type": "integer",
       "minimum": 32,
-      "maximum": 4096
+      "maximum": 65536
     },
     "height": {
       "type": "integer",
       "minimum": 32,
-      "maximum": 4096
+      "maximum": 65536
     },
     "border": {
       "type": "integer",

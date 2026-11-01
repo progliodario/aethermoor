@@ -578,6 +578,72 @@ TEST_CASE("conformance: story", "[conformance]") { run_combat_suite("story"); }
 
 TEST_CASE("conformance: save and resume", "[conformance]") { run_save_suite(); }
 
+TEST_CASE("conformance: worldgen chunks", "[conformance]") {
+    const Json doc = load_suite("worldgen_chunks");
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        const Json& in = c.at("input");
+        REQUIRE(in.at("chunk_size").get<int>() == aether::kChunkSize);
+        std::string error;
+        const auto params = aether::parse_world_params(in.at("params").dump(), error);
+        INFO(error);
+        REQUIRE(params.has_value());
+        for (const Json& want : c.at("expect").at("chunks")) {
+            const int cx = want.at("chunk").at(0).get<int>();
+            const int cy = want.at("chunk").at(1).get<int>();
+            INFO("chunk " << cx << "," << cy);
+            const aether::GeneratedChunk chunk = aether::generate_chunk(hex(in.at("seed")), *params, cx, cy);
+            REQUIRE(chunk.tiles.size() == static_cast<std::size_t>(aether::kChunkSize * aether::kChunkSize));
+            for (const Json& probe : want.at("probes")) {
+                const int x = probe.at(0).get<int>();
+                const int y = probe.at(1).get<int>();
+                REQUIRE(chunk.tiles[static_cast<std::size_t>(y * aether::kChunkSize + x)] == probe.at(2).get<int>());
+            }
+            REQUIRE(aether::digest_tiles(chunk.tiles) == hex(want.at("tile_digest")));
+            REQUIRE(chunk.props.size() == want.at("prop_count").get<std::size_t>());
+            REQUIRE(aether::digest_props(chunk.props) == hex(want.at("prop_digest")));
+            REQUIRE(chunk.spawners.size() == want.at("spawner_count").get<std::size_t>());
+            REQUIRE(aether::digest_spawners(chunk.spawners) == hex(want.at("spawner_digest")));
+            std::map<int, std::int64_t> histogram;
+            for (const int gid : chunk.tiles) {
+                ++histogram[gid];
+            }
+            REQUIRE(histogram.size() == want.at("gid_histogram").size());
+            for (const auto& [gid, count] : want.at("gid_histogram").items()) {
+                REQUIRE(histogram.at(std::stoi(gid)) == count.get<std::int64_t>());
+            }
+        }
+    }
+}
+
+TEST_CASE("worldgen: chunks are the restriction of the world", "[worldgen]") {
+    const Json doc = load_suite("worldgen");
+    const Json& c = doc.at("cases").at(1);  // 80 x 72 tiles with a 2 tile border
+    std::string error;
+    const auto params = aether::parse_world_params(c.at("input").at("params").dump(), error);
+    REQUIRE(params.has_value());
+    const std::uint64_t seed = hex(c.at("input").at("seed"));
+    const aether::GeneratedWorld world = aether::generate_world(seed, *params);
+    std::size_t props = 0;
+    std::size_t spawners = 0;
+    for (int cy = -1; cy < 4; ++cy) {
+        for (int cx = -1; cx < 4; ++cx) {
+            const aether::GeneratedChunk chunk = aether::generate_chunk(seed, *params, cx, cy);
+            for (int i = 0; i < aether::kChunkSize * aether::kChunkSize; ++i) {
+                const int x = cx * aether::kChunkSize + i % aether::kChunkSize;
+                const int y = cy * aether::kChunkSize + i / aether::kChunkSize;
+                const bool inside = x >= 0 && y >= 0 && x < params->width && y < params->height;
+                const int expected = inside ? world.tiles[static_cast<std::size_t>(y * params->width + x)] : params->tile_water;
+                REQUIRE(chunk.tiles[static_cast<std::size_t>(i)] == expected);
+            }
+            props += chunk.props.size();
+            spawners += chunk.spawners.size();
+        }
+    }
+    REQUIRE(props == world.props.size());
+    REQUIRE(spawners == world.spawners.size());
+}
+
 TEST_CASE("conformance: worldgen", "[conformance]") {
     const Json doc = load_suite("worldgen");
     for (const Json& c : doc.at("cases")) {
