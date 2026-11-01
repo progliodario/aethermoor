@@ -1,0 +1,402 @@
+{
+  "suite": "chunk_window",
+  "spec_version": 1,
+  "generated_by": "tools/gen_conformance.py",
+  "cases": [
+    {
+      "name": "chunk_window_walk_and_kill",
+      "input": {
+        "op": "chunk_window",
+        "seed": "0x0000000000000007",
+        "start": [
+          256,
+          256
+        ],
+        "steps": [
+          [
+            "move",
+            257,
+            256
+          ],
+          [
+            "move",
+            258,
+            258
+          ],
+          [
+            "kill",
+            0
+          ],
+          [
+            "kill",
+            1
+          ],
+          [
+            "move",
+            256,
+            256
+          ],
+          [
+            "move",
+            300,
+            300
+          ],
+          [
+            "move",
+            300,
+            299
+          ],
+          [
+            "move",
+            258,
+            258
+          ],
+          [
+            "move",
+            256,
+            256
+          ]
+        ],
+        "params": {
+          "$schema": "../../../schemas/world.schema.json",
+          "id": "base:world/overworld",
+          "width": 16384,
+          "height": 16384,
+          "border": 4,
+          "spawn_clear_radius": 7,
+          "elevation": {
+            "salt": 1,
+            "scale": 56,
+            "octaves": 5
+          },
+          "moisture": {
+            "salt": 2,
+            "scale": 80,
+            "octaves": 4
+          },
+          "temperature": {
+            "salt": 3,
+            "scale": 120,
+            "octaves": 3
+          },
+          "thresholds": {
+            "water": 25000,
+            "beach": 27500,
+            "mountain": 44000,
+            "snow": 20000,
+            "desert_heat": 36000,
+            "desert_dry": 33000,
+            "forest_wet": 38000
+          },
+          "tiles": {
+            "water": 4,
+            "beach": 6,
+            "desert": 6,
+            "snow": 7,
+            "mountain": 8,
+            "forest": 9,
+            "plains": [
+              1,
+              2
+            ]
+          },
+          "props": {
+            "plains": [
+              {
+                "art": "base:art/prop/tree_oak",
+                "radius_x100": 30,
+                "per_mille": 30
+              },
+              {
+                "art": "base:art/prop/rock",
+                "radius_x100": 35,
+                "per_mille": 12
+              }
+            ],
+            "forest": [
+              {
+                "art": "base:art/prop/tree_oak",
+                "radius_x100": 30,
+                "per_mille": 220
+              }
+            ],
+            "snow": [
+              {
+                "art": "base:art/prop/pine",
+                "radius_x100": 30,
+                "per_mille": 90
+              }
+            ],
+            "desert": [
+              {
+                "art": "base:art/prop/cactus",
+                "radius_x100": 28,
+                "per_mille": 25
+              }
+            ]
+          },
+          "spawners": {
+            "enemy": "base:enemy/slime_green",
+            "biomes": [
+              "plains",
+              "forest"
+            ],
+            "min_distance": 14,
+            "per_10000": 8
+          },
+          "npcs": [
+            {
+              "key": "guild_clerk_mira",
+              "dialogue": "base:dialogue/npc/mira",
+              "variant": "red",
+              "dx": 1,
+              "dy": -1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "after": [
+          {
+            "op": "start",
+            "count": 14,
+            "digest": "0x5afbffa2034a7765"
+          },
+          {
+            "op": "move",
+            "count": 15,
+            "digest": "0x1af5143862d76d98"
+          },
+          {
+            "op": "move",
+            "count": 24,
+            "digest": "0x8580a67d7cc0356a"
+          },
+          {
+            "op": "kill",
+            "count": 24,
+            "digest": "0x68a7019d4dd84394"
+          },
+          {
+            "op": "kill",
+            "count": 24,
+            "digest": "0x134f8dccc6760eef"
+          },
+          {
+            "op": "move",
+            "count": 14,
+            "digest": "0x873768b51e3c9240"
+          },
+          {
+            "op": "move",
+            "count": 7,
+            "digest": "0x835dee0fdc9a3490"
+          },
+          {
+            "op": "move",
+            "count": 8,
+            "digest": "0x33eb1450d98a1c9f"
+          },
+          {
+            "op": "move",
+            "count": 22,
+            "digest": "0x1c64547f41ed4991"
+          },
+          {
+            "op": "move",
+            "count": 12,
+            "digest": "0x5f0e5e6d27c8a1a7"
+          }
+        ]
+      }
+    },
+    {
+      "name": "chunk_window_long_jumps",
+      "input": {
+        "op": "chunk_window",
+        "seed": "0x000000000000beef",
+        "start": [
+          100,
+          400
+        ],
+        "steps": [
+          [
+            "move",
+            101,
+            400
+          ],
+          [
+            "move",
+            101,
+            401
+          ],
+          [
+            "kill",
+            0
+          ],
+          [
+            "move",
+            0,
+            0
+          ],
+          [
+            "move",
+            511,
+            511
+          ],
+          [
+            "move",
+            100,
+            400
+          ],
+          [
+            "move",
+            101,
+            401
+          ]
+        ],
+        "params": {
+          "$schema": "../../../schemas/world.schema.json",
+          "id": "base:world/overworld",
+          "width": 16384,
+          "height": 16384,
+          "border": 4,
+          "spawn_clear_radius": 7,
+          "elevation": {
+            "salt": 1,
+            "scale": 56,
+            "octaves": 5
+          },
+          "moisture": {
+            "salt": 2,
+            "scale": 80,
+            "octaves": 4
+          },
+          "temperature": {
+            "salt": 3,
+            "scale": 120,
+            "octaves": 3
+          },
+          "thresholds": {
+            "water": 25000,
+            "beach": 27500,
+            "mountain": 44000,
+            "snow": 20000,
+            "desert_heat": 36000,
+            "desert_dry": 33000,
+            "forest_wet": 38000
+          },
+          "tiles": {
+            "water": 4,
+            "beach": 6,
+            "desert": 6,
+            "snow": 7,
+            "mountain": 8,
+            "forest": 9,
+            "plains": [
+              1,
+              2
+            ]
+          },
+          "props": {
+            "plains": [
+              {
+                "art": "base:art/prop/tree_oak",
+                "radius_x100": 30,
+                "per_mille": 30
+              },
+              {
+                "art": "base:art/prop/rock",
+                "radius_x100": 35,
+                "per_mille": 12
+              }
+            ],
+            "forest": [
+              {
+                "art": "base:art/prop/tree_oak",
+                "radius_x100": 30,
+                "per_mille": 220
+              }
+            ],
+            "snow": [
+              {
+                "art": "base:art/prop/pine",
+                "radius_x100": 30,
+                "per_mille": 90
+              }
+            ],
+            "desert": [
+              {
+                "art": "base:art/prop/cactus",
+                "radius_x100": 28,
+                "per_mille": 25
+              }
+            ]
+          },
+          "spawners": {
+            "enemy": "base:enemy/slime_green",
+            "biomes": [
+              "plains",
+              "forest"
+            ],
+            "min_distance": 14,
+            "per_10000": 8
+          },
+          "npcs": [
+            {
+              "key": "guild_clerk_mira",
+              "dialogue": "base:dialogue/npc/mira",
+              "variant": "red",
+              "dx": 1,
+              "dy": -1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "after": [
+          {
+            "op": "start",
+            "count": 7,
+            "digest": "0xf4582244743f3946"
+          },
+          {
+            "op": "move",
+            "count": 5,
+            "digest": "0x1cf4e390f84a63d4"
+          },
+          {
+            "op": "move",
+            "count": 4,
+            "digest": "0xe35e24d47b8c2a89"
+          },
+          {
+            "op": "kill",
+            "count": 4,
+            "digest": "0x31cecb5d525436a8"
+          },
+          {
+            "op": "move",
+            "count": 0,
+            "digest": "0x0000000000000000"
+          },
+          {
+            "op": "move",
+            "count": 3,
+            "digest": "0x385080817743cec5"
+          },
+          {
+            "op": "move",
+            "count": 6,
+            "digest": "0xc65d5b5bdbef846c"
+          },
+          {
+            "op": "move",
+            "count": 3,
+            "digest": "0x985bf2eab9c10c2f"
+          }
+        ]
+      }
+    }
+  ]
+}

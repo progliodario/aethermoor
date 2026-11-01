@@ -3,8 +3,11 @@
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
 
+#include <cmath>
 #include <filesystem>
+#include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "data/pack.hpp"
@@ -170,7 +173,7 @@ TEST_CASE("a save for a different world or a newer game is refused", "[combat][s
     REQUIRE_FALSE(aether::save_from_json("not json", parse_error).has_value());
 }
 
-TEST_CASE("the overworld is generated from the content pack and is playable", "[world]") {
+TEST_CASE("the overworld is streamed from the content pack and is playable", "[world]") {
     const Demo demo = load_demo();
     const auto text = demo.pack.read_document("base:world/overworld");
     REQUIRE(text.has_value());
@@ -178,32 +181,80 @@ TEST_CASE("the overworld is generated from the content pack and is playable", "[
     const auto params = aether::parse_world_params(*text, error);
     INFO(error);
     REQUIRE(params.has_value());
-    REQUIRE(params->width == 512);
+    REQUIRE(params->width == 16384);
 
-    const aether::GeneratedWorld world = aether::generate_world(42, *params);
-    const aether::TileMap map = aether::make_tilemap(world, *params);
-    REQUIRE(map.ground.size() == 512U * 512U);
-    REQUIRE(map.props.size() > 1000);
-    REQUIRE(map.spawners.size() > 20);
+    const aether::TileMap map = aether::make_stream_map(*params);
+    REQUIRE(map.ground.empty());
     REQUIRE(map.npcs.size() == 1);
     REQUIRE(map.npcs[0].key == "guild_clerk_mira");
-    // The spawn clearing is walkable plains.
-    const int cx = map.width / 2;
-    const int cy = map.height / 2;
-    REQUIRE((map.gid_at(cx, cy) == 1 || map.gid_at(cx, cy) == 2));
 
-    // Same seed, same world; another seed, another world.
-    REQUIRE(aether::generate_world(42, *params).tiles == world.tiles);
-    REQUIRE(aether::generate_world(43, *params).tiles != world.tiles);
-
-    // The world can be played: combat setup, a few ticks and a save.
     auto setup = aether::load_combat_setup(demo.pack, map, "base:protagonist/ren", 42, error);
     INFO(error);
     REQUIRE(setup.has_value());
-    REQUIRE(setup->spawns.size() == map.spawners.size());
-    aether::WorldSim sim(map, demo.tileset, 0.0F, *setup);
+    setup->stream_enemy = aether::load_enemy_def(demo.pack, params->spawner_enemy, error);
+    REQUIRE(setup->stream_enemy.has_value());
+    aether::WorldSim sim(map, demo.tileset, 0.0F, *setup, aether::StreamConfig{*params, 42});
+    REQUIRE(sim.streamed());
+    REQUIRE(sim.chunks()->loaded() >= 25);
+
+    // The spawn clearing is walkable plains, and Mira stands next to it.
+    const int cx = map.width / 2;
+    const int cy = map.height / 2;
+    REQUIRE((sim.gid_at(cx, cy) == 1 || sim.gid_at(cx, cy) == 2));
     for (int i = 0; i < 120; ++i) {
         sim.tick(0.0F, 0.0F, false);
     }
-    REQUIRE(sim.story().npc_in_range() != nullptr);  // Mira stands next to the spawn
+    REQUIRE(sim.story().npc_in_range() != nullptr);
+
+    // The enemies are exactly those of the spawners in the 5 x 5 chunks around the player, whichever chunk that is.
+    const auto check_window = [&]() {
+        const int pcx = aether::chunk_of(static_cast<int>(std::floor(sim.player().position.x)));
+        const int pcy = aether::chunk_of(static_cast<int>(std::floor(sim.player().position.y)));
+        std::set<std::pair<int, int>> expected;
+        for (int j = pcy - 2; j <= pcy + 2; ++j) {
+            for (int i = pcx - 2; i <= pcx + 2; ++i) {
+                for (const auto& s : aether::generate_chunk(42, *params, i, j).spawners) {
+                    expected.insert(s);
+                }
+            }
+        }
+        std::set<std::pair<int, int>> found;
+        for (const aether::Enemy& e : sim.enemies()) {
+            REQUIRE(found.insert({e.spawner_x, e.spawner_y}).second);
+        }
+        REQUIRE(found == expected);
+        REQUIRE(sim.chunks()->loaded() <= 49);
+    };
+    check_window();
+    const std::size_t at_spawn = sim.enemies().size();
+
+    // The spawn is at the left edge of its chunk: a few steps to the left enter the next chunk and the window moves.
+    for (int i = 0; i < 90; ++i) {
+        sim.tick(-1.0F, 0.0F, false);
+    }
+    REQUIRE(aether::chunk_of(static_cast<int>(std::floor(sim.player().position.x))) == cx / 32 - 1);
+    check_window();
+    INFO("enemies at the spawn " << at_spawn);
+
+    // Saving and loading into a fresh world of the same seed gives the same enemies.
+    const aether::SaveState state = sim.capture();
+    REQUIRE(state.enemies.size() == sim.enemies().size());
+    REQUIRE((state.enemies.empty() || state.enemies[0].has_spawner));
+    std::string json_error;
+    aether::SaveMeta meta;
+    meta.seed = 42;
+    meta.map = "world";
+    const auto reread = aether::save_from_json(aether::save_to_json(state, meta), json_error);
+    INFO(json_error);
+    REQUIRE(reread.has_value());
+    aether::WorldSim fresh(map, demo.tileset, 0.0F, *setup, aether::StreamConfig{*params, 42});
+    REQUIRE(fresh.restore(*reread, error));
+    REQUIRE(fresh.enemies().size() == sim.enemies().size());
+    REQUIRE(fresh.player().position.x == sim.player().position.x);
+
+    // A save with an enemy that does not exist in this world is refused and changes nothing.
+    aether::SaveState bad = *reread;
+    bad.enemies.push_back({{0.0F, 0.0F}, 1, aether::EnemyState::Idle, 0, true, 1, 1});
+    bad.hit_set.push_back(false);
+    REQUIRE_FALSE(fresh.restore(bad, error));
 }

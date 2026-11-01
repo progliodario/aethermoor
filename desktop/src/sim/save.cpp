@@ -97,10 +97,21 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
 
     Json enemies = Json::array();
     for (const SaveEnemy& e : s.enemies) {
-        enemies.push_back({{"x", e.position.x}, {"y", e.position.y}, {"hp", e.hp}, {"state", to_string(e.state)},
-                           {"state_tick", e.state_tick}});
+        Json enemy = {{"x", e.position.x}, {"y", e.position.y}, {"hp", e.hp}, {"state", to_string(e.state)},
+                      {"state_tick", e.state_tick}};
+        if (e.has_spawner) {
+            enemy["spawner"] = {e.spawner_x, e.spawner_y};
+        }
+        enemies.push_back(std::move(enemy));
     }
     j["enemies"] = enemies;
+    if (meta.map == "world") {
+        Json cleared = Json::array();
+        for (const auto& [x, y] : s.cleared) {
+            cleared.push_back({x, y});
+        }
+        j["cleared_spawners"] = cleared;
+    }
 
     Json inventory = Json::object();
     for (const auto& [item, quantity] : s.inventory) {
@@ -167,8 +178,19 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
         s.loot_inc = parse_hex64(rng.at("loot").at("inc"));
 
         for (const Json& e : j.at("enemies")) {
-            s.enemies.push_back({{e.at("x").get<float>(), e.at("y").get<float>()}, e.at("hp").get<std::int64_t>(),
-                                 parse_enemy_state(e.at("state").get<std::string>()), e.at("state_tick").get<int>()});
+            SaveEnemy enemy{{e.at("x").get<float>(), e.at("y").get<float>()}, e.at("hp").get<std::int64_t>(),
+                            parse_enemy_state(e.at("state").get<std::string>()), e.at("state_tick").get<int>()};
+            if (e.contains("spawner")) {
+                enemy.has_spawner = true;
+                enemy.spawner_x = e.at("spawner").at(0).get<int>();
+                enemy.spawner_y = e.at("spawner").at(1).get<int>();
+            }
+            s.enemies.push_back(enemy);
+        }
+        if (j.contains("cleared_spawners")) {
+            for (const Json& c : j.at("cleared_spawners")) {
+                s.cleared.emplace_back(c.at(0).get<int>(), c.at(1).get<int>());
+            }
         }
         for (const auto& [item, quantity] : j.at("inventory").items()) {
             s.inventory[item] = quantity.get<std::int64_t>();

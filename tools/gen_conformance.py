@@ -224,6 +224,7 @@ SUITES = {
     "save": conformance_m4.suite_save,
     "worldgen": conformance_m5.suite_worldgen,
     "worldgen_chunks": conformance_m5.suite_worldgen_chunks,
+    "chunk_window": conformance_m5.suite_chunk_window,
 }
 
 

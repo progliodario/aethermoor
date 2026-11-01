@@ -20,7 +20,15 @@ import kotlinx.serialization.json.put
 
 const val SAVE_VERSION = 1
 
-class SaveEnemy(val x: Float, val y: Float, val hp: Long, val state: EnemyState, val stateTick: Int)
+class SaveEnemy(
+    val x: Float,
+    val y: Float,
+    val hp: Long,
+    val state: EnemyState,
+    val stateTick: Int,
+    /** Streamed worlds only: the spawner tile of the enemy. */
+    val spawner: Pair<Int, Int>? = null,
+)
 
 /** Everything that changes while playing. */
 class SaveState(
@@ -46,6 +54,8 @@ class SaveState(
     val lootState: ULong,
     val lootInc: ULong,
     val enemies: List<SaveEnemy>,
+    /** Streamed worlds only: the spawners whose enemy was killed. */
+    val cleared: List<Pair<Int, Int>> = emptyList(),
     val inventory: Map<String, Long>,
     val story: StoryState,
 )
@@ -125,10 +135,14 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
                         put("hp", it.hp)
                         put("state", it.state.id)
                         put("state_tick", it.stateTick)
+                        it.spawner?.let { spawner -> put("spawner", JsonArray(listOf(JsonPrimitive(spawner.first), JsonPrimitive(spawner.second)))) }
                     }
                 },
             ),
         )
+        if (meta.map == "world") {
+            put("cleared_spawners", JsonArray(s.cleared.map { JsonArray(listOf(JsonPrimitive(it.first), JsonPrimitive(it.second))) }))
+        }
         put("inventory", buildJsonObject { for ((item, quantity) in s.inventory) put(item, quantity) })
         put(
             "story",
@@ -220,8 +234,11 @@ fun saveFromJson(text: String): Result<SaveState> =
                 SaveEnemy(
                     e.getValue("x").f(), e.getValue("y").f(), e.getValue("hp").jsonPrimitive.long,
                     parseEnemyState(e.getValue("state").jsonPrimitive.content), e.getValue("state_tick").jsonPrimitive.int,
+                    e["spawner"]?.jsonArray?.let { sp -> Pair(sp[0].jsonPrimitive.int, sp[1].jsonPrimitive.int) },
                 )
             },
+            cleared = (j["cleared_spawners"] as? JsonArray)?.map { c -> Pair(c.jsonArray[0].jsonPrimitive.int, c.jsonArray[1].jsonPrimitive.int) }
+                ?: emptyList(),
             inventory = j.getValue("inventory").jsonObject.mapValues { it.value.jsonPrimitive.long },
             story = story,
         )

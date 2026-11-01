@@ -26,7 +26,7 @@ std::optional<Json> document(const Pack& pack, std::string_view id, std::string&
     return parsed;
 }
 
-std::optional<EnemyDef> load_enemy(const Pack& pack, const std::string& id, std::string& error) {
+std::optional<EnemyDef> load_enemy_impl(const Pack& pack, const std::string& id, std::string& error) {
     const auto enemy = document(pack, id, error);
     if (!enemy) {
         return std::nullopt;
@@ -67,6 +67,10 @@ std::optional<EnemyDef> load_enemy(const Pack& pack, const std::string& id, std:
 }
 
 }  // namespace
+
+std::optional<EnemyDef> load_enemy_def(const Pack& pack, const std::string& id, std::string& error) {
+    return load_enemy_impl(pack, id, error);
+}
 
 std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& map, std::string_view protagonist_id,
                                              std::uint64_t seed, std::string& error) {
@@ -165,7 +169,7 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
     for (const SpawnPoint& spawn : map.spawners) {
         auto found = cache.find(spawn.enemy);
         if (found == cache.end()) {
-            auto def = load_enemy(pack, spawn.enemy, error);
+            auto def = load_enemy_impl(pack, spawn.enemy, error);
             if (!def) {
                 return std::nullopt;
             }

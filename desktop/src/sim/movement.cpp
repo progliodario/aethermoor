@@ -5,6 +5,8 @@
 #include <cstddef>
 #include <utility>
 
+#include "sim/chunk_store.hpp"
+
 namespace aether {
 
 namespace {
@@ -27,7 +29,12 @@ Vec2 normalize_input(float x, float y) {
 CollisionWorld::CollisionWorld(int width, int height, std::vector<bool> solid, std::vector<Circle> props)
     : m_width_(width), m_height_(height), m_solid_(std::move(solid)), m_props_(std::move(props)) {}
 
+CollisionWorld::CollisionWorld(const ChunkStore* chunks) : m_chunks_(chunks) {}
+
 bool CollisionWorld::solid(int tx, int ty) const {
+    if (m_chunks_ != nullptr) {
+        return m_chunks_->solid(tx, ty);
+    }
     if (tx < 0 || ty < 0 || tx >= m_width_ || ty >= m_height_) {
         return true;
     }
@@ -79,7 +86,7 @@ void CollisionWorld::resolve(float& x, float& y, float radius) const {
                 }
             }
         }
-        for (const Circle& prop : m_props_) {
+        const auto push_out = [&](const Circle& prop) {
             const float dx = x - prop.x;
             const float dy = y - prop.y;
             const float d2 = dx * dx + dy * dy;
@@ -95,6 +102,12 @@ void CollisionWorld::resolve(float& x, float& y, float radius) const {
                 }
                 moved = true;
             }
+        };
+        for (const Circle& prop : m_props_) {
+            push_out(prop);
+        }
+        if (m_chunks_ != nullptr) {
+            m_chunks_->for_each_prop_near(x, y, [&](const Prop& prop) { push_out({prop.x, prop.y, prop.radius}); });
         }
         if (!moved) {
             break;

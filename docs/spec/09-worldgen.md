@@ -1,6 +1,6 @@
 # 09. World generation
 
-Status: **v1.1 (M5a, M5b-1: chunks)**. Reference: `tools/reference/worldgen.py`. Conformance suite: `worldgen`.
+Status: **v1.2 (M5a, M5b: chunks and streaming)**. Reference: `tools/reference/worldgen.py`. Conformance suite: `worldgen`.
 Parameters: `data/base/worlds/overworld.json` (`schemas/world.schema.json`). All math is integer, see `01-numerics.md`.
 
 The world is a **pure function** of `(seed, parameters)`: the content of a tile depends only on its own coordinates, never on the
@@ -74,8 +74,29 @@ Conformance suite `worldgen_chunks`: chunks of a 16384 x 16384 world (far from t
 compared by probes, a tile digest (`fold hash64(h, gid)` over the 1024 gids), the prop and spawner digests and the gid histogram.
 Both clients also test that the union of chunks equals the whole-world generation.
 
+## Streaming
+
+A streamed world is played through a **window** of `5 x 5` active chunks (`ACTIVE_RADIUS = 2`, Chebyshev distance) centered on the chunk of the
+player, `(floor(x / 32), floor(y / 32))` with `(x, y)` in tiles. The window is re-evaluated at the start of every tick, after the player moved.
+
+- **Terrain and props.** Only chunks that are loaded exist for collision and drawing. A client loads the active chunks and may keep others
+  cached (it should keep those within distance 3 to avoid regenerating at a border; this is not observable). Tiles of a chunk that is not
+  loaded are solid, so an unloaded area can never be entered. Props are solid circles; only the props of the chunk of the entity and its
+  eight neighbours matter for collision (a prop lies inside its own tile and its radius is below one tile).
+- **Enemies.** An enemy exists iff its spawner lies in an active chunk and the spawner is not *cleared*. It starts at the center of the spawner
+  tile with full hit points, and its home is that point. Chunks that **enter** the window add their enemies at the end of the enemy list
+  (chunks in row-major order, spawners in scan order); chunks that **leave** remove theirs; the order of the other enemies never changes.
+  A killed enemy stays in the list (dead, not drawn) until its chunk leaves, and its spawner becomes cleared. A cleared spawner stays cleared
+  for the whole game (respawn over time comes with world time, later).
+- **NPCs** are placed from the world parameters (see above) and always exist.
+- **Saves** keep the seed, the cleared spawners and the enemies of the window with their state (spec 12); on load the window is rebuilt around the
+  saved player position and the saved enemy list defines the order.
+
+Conformance suite `chunk_window`: scripted walks (`move` to a chunk, `kill` an enemy by index) through a 16384 x 16384 world; after each step the
+number of enemies and their digest (`fold hash64(h, x, y, dead)` over the spawner tiles) are compared.
+
 ## Scale and what comes next
 
 M5a generates the whole world at load time (512 x 512 tiles by default; about 0.1 s in C++). The shipped world must be far larger, so
-the next step (M5b-2) streams chunks around the player in the simulation and the renderer; after it come per-chunk deltas in saves,
+M5b streams chunks around the player in the simulation and the renderer; after it come changes of the world kept in saves,
 rivers, roads, hand-made stamps, regions, day/night and weather are the next steps of the world milestone.

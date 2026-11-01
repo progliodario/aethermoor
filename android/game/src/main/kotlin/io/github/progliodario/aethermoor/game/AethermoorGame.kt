@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import io.github.progliodario.aethermoor.core.GameInfo
 import io.github.progliodario.aethermoor.core.Pack
-import io.github.progliodario.aethermoor.core.generateWorld
+import io.github.progliodario.aethermoor.core.WorldParams
 import io.github.progliodario.aethermoor.core.loadPack
 import io.github.progliodario.aethermoor.core.parseWorldParams
 import io.github.progliodario.aethermoor.core.sim.AttackPhase
@@ -22,6 +22,7 @@ import io.github.progliodario.aethermoor.core.sim.NpcDef
 import io.github.progliodario.aethermoor.core.sim.Prop
 import io.github.progliodario.aethermoor.core.sim.QuestStage
 import io.github.progliodario.aethermoor.core.sim.SaveMeta
+import io.github.progliodario.aethermoor.core.sim.StreamConfig
 import io.github.progliodario.aethermoor.core.sim.saveFromJson
 import io.github.progliodario.aethermoor.core.sim.saveToJson
 import io.github.progliodario.aethermoor.core.sim.TICK_DT
@@ -30,7 +31,7 @@ import io.github.progliodario.aethermoor.core.sim.Tileset
 import io.github.progliodario.aethermoor.core.sim.ObjectiveKind
 import io.github.progliodario.aethermoor.core.sim.WorldSim
 import io.github.progliodario.aethermoor.core.sim.loadCombatSetup
-import io.github.progliodario.aethermoor.core.sim.makeTileMap
+import io.github.progliodario.aethermoor.core.sim.makeStreamMap
 import io.github.progliodario.aethermoor.core.sim.parseTileset
 import io.github.progliodario.aethermoor.core.sim.savePeek
 import io.github.progliodario.aethermoor.core.vector.Clip
@@ -59,6 +60,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val walk: Clip,
         val map: TileMap,
         val tileset: Tileset,
+        val worldParams: WorldParams,
     )
 
     private class FloatingText(val x: Float, val y: Float, val text: String, val onPlayer: Boolean, val crit: Boolean) {
@@ -102,13 +104,13 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val loaded = loadAssets() ?: return
         assets = loaded
         cache = TextureCache(loaded.pack)
-        val combat = loadCombatSetup(loaded.pack, loaded.map, PROTAGONIST_ID, seed)
+        val combat = loadCombatSetup(loaded.pack, loaded.map, PROTAGONIST_ID, seed, loaded.worldParams.spawnerEnemy)
             .getOrElse {
                 error = it.message
                 Gdx.app.error(TAG, "Cannot build the combat setup: ${it.message}")
                 return
             }
-        val world = WorldSim(loaded.map, loaded.tileset, 0f, combat)
+        val world = WorldSim(loaded.map, loaded.tileset, 0f, combat, StreamConfig(loaded.worldParams, seed))
         sim = world
         loadAutosave(world, loaded.pack)
     }
@@ -140,8 +142,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 rig = parseRig(doc("base:art/rig/humanoid")).getOrThrow(),
                 idle = parseClip(doc("base:art/clip/humanoid_idle")).getOrThrow(),
                 walk = parseClip(doc("base:art/clip/humanoid_walk")).getOrThrow(),
-                map = makeTileMap(generateWorld(seed, worldParams), worldParams),
+                map = makeStreamMap(worldParams),
                 tileset = parseTileset(doc("base:tileset/overworld")).getOrThrow(),
+                worldParams = worldParams,
             )
         } catch (e: IllegalArgumentException) {
             error = e.message
@@ -253,7 +256,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val y1 = min(map.height, ceil(cam.y + viewH).toInt())
         for (ty in y0 until y1) {
             for (tx in x0 until x1) {
-                val def = data.tileset.tiles[map.gidAt(tx, ty)] ?: continue
+                val def = data.tileset.tiles[world.gidAt(tx, ty)] ?: continue
                 val sprite = cache.get(def.art, tilePx) ?: continue
                 val sx0 = ((tx - cam.x) * tile).roundToInt().toFloat()
                 val sy0 = ((ty - cam.y) * tile).roundToInt().toFloat()
@@ -266,11 +269,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         // Props, enemies and the player, sorted by feet y (smaller first; ties keep list order, the player last).
         class Item(val feetY: Float, val prop: Prop?, val enemy: Enemy?, val npc: NpcDef? = null)
         val items = ArrayList<Item>()
-        for (prop in map.props) {
-            if (prop.x >= cam.x - 2f && prop.x <= cam.x + viewW + 2f && prop.y >= cam.y - 1f && prop.y <= cam.y + viewH + 4f) {
-                items.add(Item(prop.y, prop, null))
-            }
-        }
+        world.forEachProp(cam.x - 2f, cam.y - 1f, cam.x + viewW + 2f, cam.y + viewH + 4f) { prop -> items.add(Item(prop.y, prop, null)) }
         for (enemy in world.enemies) if (enemy.state != EnemyState.DEAD) items.add(Item(enemy.position.y, null, enemy))
         for (npc in world.story.setup.npcs) items.add(Item(npc.y, null, null, npc))
         items.add(Item(world.player.position.y, null, null))

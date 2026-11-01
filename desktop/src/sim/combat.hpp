@@ -4,6 +4,7 @@
 
 #include <cstdint>
 #include <map>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -75,6 +76,7 @@ struct CombatSetup {
     int start_level = 1;
     StorySetup story;
     std::map<std::string, std::int64_t> start_inventory;  // items owned in a new game
+    std::optional<EnemyDef> stream_enemy;  // the enemy of the spawners of a streamed world
 };
 
 enum class AttackPhase { None, Startup, Active, Recovery };

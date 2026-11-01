@@ -2,12 +2,19 @@
 
 // The world: map, player, enemies, combat and camera. Spec: docs/spec/02, 03 and 05.
 
+#include <functional>
 #include <map>
+#include <memory>
+#include <optional>
+#include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "core/numerics.hpp"
 #include "core/rules.hpp"
+#include "core/worldgen.hpp"
+#include "sim/chunk_store.hpp"
 #include "sim/combat.hpp"
 #include "sim/movement.hpp"
 #include "sim/tilemap.hpp"
@@ -41,6 +48,8 @@ struct Enemy {
     EnemyState state = EnemyState::Idle;
     int state_tick = 0;
     int hit_flash = 0;  // presentation only
+    int spawner_x = 0;  // streamed worlds: the spawner tile this enemy belongs to
+    int spawner_y = 0;
     float radius() const { return static_cast<float>(def.radius_x100) / 100.0F; }
 };
 
@@ -58,6 +67,9 @@ struct SaveEnemy {
     std::int64_t hp = 0;
     EnemyState state = EnemyState::Idle;
     int state_tick = 0;
+    bool has_spawner = false;  // streamed worlds only
+    int spawner_x = 0;
+    int spawner_y = 0;
 };
 
 struct SaveState {
@@ -81,8 +93,15 @@ struct SaveState {
     std::uint64_t loot_state = 0;
     std::uint64_t loot_inc = 0;
     std::vector<SaveEnemy> enemies;
+    std::vector<std::pair<int, int>> cleared;  // streamed worlds: spawners whose enemy was killed
     std::map<std::string, std::int64_t> inventory;
     StoryState story;
+};
+
+// A streamed world: its parameters and seed (spec 09, "Streaming").
+struct StreamConfig {
+    WorldParams params;
+    std::uint64_t seed = 0;
 };
 
 struct Camera {
@@ -93,7 +112,9 @@ struct Camera {
 class WorldSim : private StoryHost {
 public:
     // `speed_tiles_per_s` is used while combat is disabled; with combat the speed comes from the derived stats.
-    WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, CombatSetup combat = {});
+    // With `stream` the map only gives the size, the spawn and the NPCs; tiles, props and enemies come from the chunks.
+    WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, CombatSetup combat = {},
+             std::optional<StreamConfig> stream = std::nullopt);
 
     // One fixed tick (1/60 s) with the raw movement input and the attack input of this tick.
     void tick(float raw_x, float raw_y, bool attack = false);
@@ -105,6 +126,12 @@ public:
     const std::vector<Enemy>& enemies() const { return m_enemies_; }
     const std::map<std::string, std::int64_t>& inventory() const { return m_inventory_; }
     const DerivedStats& derived() const { return m_derived_; }
+    bool streamed() const { return m_store_ != nullptr; }
+    const ChunkStore* chunks() const { return m_store_.get(); }
+    // The gid at the tile on whichever map is played, 0 when unknown.
+    int gid_at(int x, int y) const;
+    // Calls `fn` for every prop inside the rectangle (in tiles).
+    void for_each_prop(float x0, float y0, float x1, float y1, const std::function<void(const Prop&)>& fn) const;
     const CombatSetup& combat() const { return m_setup_; }
     Story& story() { return m_story_; }
     const Story& story() const { return m_story_; }
@@ -127,6 +154,8 @@ private:
     void move_enemy(Enemy& enemy, float target_x, float target_y);
     void hurt_player(const Enemy& enemy);
     void recompute_derived();
+    void sync_window();
+    void add_chunk_enemies(int cx, int cy);
 
     // StoryHost
     void grant_xp(std::int64_t amount) override;
@@ -137,6 +166,7 @@ private:
 
     TileMap m_map_;
     Tileset m_tileset_;
+    std::unique_ptr<ChunkStore> m_store_;
     CollisionWorld m_collision_;
     float m_speed_;
     CombatSetup m_setup_;
@@ -150,6 +180,10 @@ private:
     std::map<std::string, std::int64_t> m_inventory_;
     std::vector<DamageEvent> m_events_;
     Story m_story_;
+    bool m_window_valid_ = false;
+    int m_window_x_ = 0;  // chunk of the player the enemies were synchronized for
+    int m_window_y_ = 0;
+    std::set<std::pair<int, int>> m_cleared_;
 };
 
 }  // namespace aether

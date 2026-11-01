@@ -13,6 +13,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iterator>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -23,6 +24,7 @@
 #include "data/pack.hpp"
 #include "data/protagonist.hpp"
 #include "sim/combat_loader.hpp"
+#include "sim/chunk_store.hpp"
 #include "data/world_data.hpp"
 #include "sim/save.hpp"
 #include "sim/world_map.hpp"
@@ -625,7 +627,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     const int y1 = std::min(map.height, static_cast<int>(std::ceil(cam.y + view_h)));
     for (int ty = y0; ty < y1; ++ty) {
         for (int tx = x0; tx < x1; ++tx) {
-            const auto def = assets.tileset.tiles.find(map.gid_at(tx, ty));
+            const auto def = assets.tileset.tiles.find(sim.gid_at(tx, ty));
             if (def == assets.tileset.tiles.end()) {
                 continue;
             }
@@ -643,12 +645,8 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     }
 
     std::vector<DrawItem> items;
-    for (const aether::Prop& prop : map.props) {
-        if (prop.x >= cam.x - 2.0F && prop.x <= cam.x + view_w + 2.0F && prop.y >= cam.y - 1.0F &&
-            prop.y <= cam.y + view_h + 4.0F) {
-            items.push_back({prop.y, 0, &prop, nullptr, nullptr});
-        }
-    }
+    sim.for_each_prop(cam.x - 2.0F, cam.y - 1.0F, cam.x + view_w + 2.0F, cam.y + view_h + 4.0F,
+                      [&items](const aether::Prop& prop) { items.push_back({prop.y, 0, &prop, nullptr, nullptr}); });
     for (const aether::Enemy& enemy : sim.enemies()) {
         if (enemy.state != aether::EnemyState::Dead) {
             items.push_back({enemy.position.y, 1, nullptr, &enemy, nullptr});
@@ -782,6 +780,7 @@ int main(int argc, char** argv) {
             }
         }
     }
+    std::optional<aether::StreamConfig> stream;
     if (g_map_name == "world") {
         const auto text = assets.pack.read_document(kWorldId);
         std::string world_error;
@@ -791,10 +790,17 @@ int main(int argc, char** argv) {
             SDL_Quit();
             return 1;
         }
-        assets.map = aether::make_tilemap(aether::generate_world(seed, *params), *params);
+        assets.map = aether::make_stream_map(*params);
+        stream = aether::StreamConfig{*params, seed};
     }
     std::string combat_error;
     auto combat = aether::load_combat_setup(assets.pack, assets.map, kProtagonistId, seed, combat_error);
+    if (combat && stream) {
+        combat->stream_enemy = aether::load_enemy_def(assets.pack, stream->params.spawner_enemy, combat_error);
+        if (!combat->stream_enemy) {
+            combat.reset();
+        }
+    }
     if (!combat) {
         SDL_Log("cannot build the combat setup: %s", combat_error.c_str());
         SDL_Quit();
@@ -815,7 +821,7 @@ int main(int argc, char** argv) {
     int exit_code = 0;
     {
         aether::TextureCache cache(renderer, assets.pack);
-        aether::WorldSim sim(assets.map, assets.tileset, 0.0F, std::move(*combat));
+        aether::WorldSim sim(assets.map, assets.tileset, 0.0F, std::move(*combat), stream);
         const float spawn_x = sim.player().position.x;
         const aether::SaveState initial_state = sim.capture();
         double since_autosave = 0.0;
@@ -996,7 +1002,7 @@ int main(int argc, char** argv) {
                 const bool moved = g_map_name == "world" || sim.player().position.x > spawn_x + 1.0F;
                 const bool baked = cache.size() > 10;
                 const bool enemies = g_map_name == "world"
-                                         ? (sim.enemies().size() > 20 && assets.map.props.size() > 1000 && smoke_save_ok)
+                                         ? (sim.chunks() != nullptr && sim.chunks()->loaded() >= 25 && smoke_save_ok)
                                          : (sim.enemies().size() == 12 && sim.story().quests().size() == 1 &&
                                             !sim.story().dialogue_active() && smoke_save_ok &&
                                             sim.inventory().count("base:item/bread") == 1);

@@ -1,6 +1,6 @@
 # 12. Save format
 
-Status: **v1 (M4b)**. Reference: `CombatSim.save_state` / `load_state` in `tools/reference/combat.py`.
+Status: **v1 (M4b; M5b additions)**. Reference: `CombatSim.save_state` / `load_state` in `tools/reference/combat.py`.
 Schema: `schemas/save.schema.json`. Conformance suite: `save` (resume scenarios).
 
 ## Files
@@ -19,6 +19,7 @@ described in the plan arrive with the procedural world and reincarnation.
   "data_format_version": 1,
   "protagonist": "base:protagonist/ren",
   "seed": "0x00000000DEADBEEF",
+  "map": "demo",
   "player": { "x": 5.5, "y": 15.5, "facing": [1.0, 0.0], "facing_left": false, "moving": false, "clip_tick": 0,
               "hp": 142, "level": 1, "xp": 0, "deaths": 0, "kills": 0, "iframes": 0, "cooldown": 0,
               "phase": "none", "phase_tick": 0, "hit_set": [false, false] },
@@ -31,7 +32,13 @@ described in the plan arrive with the procedural world and reincarnation.
 }
 ```
 
+- `map` is `demo` (the hand-made map), `world` (the streamed world generated from `seed`, spec 09) or empty (old saves). A client
+  rebuilds the same map from it before loading; a save of another map is not restored.
 - `enemies` is in the order of the map spawners; only changed state is stored (definitions and home positions come from data).
+- **Streamed world** (`map` is `world`): `enemies` lists only the enemies of the active window, in the order of the live game, and each one has
+  `"spawner": [x, y]` (its spawner tile, which also gives its home); `cleared_spawners` lists the spawners whose enemy was killed. On load the
+  window is rebuilt around the saved player position; every enemy must belong to a spawner of the window (the enemy of a cleared spawner is dead), and every
+  uncleared spawner of the window must have its enemy, otherwise the save is invalid for this build. `cleared_spawners` and `spawner` are absent on fixed maps.
 - `story` is null when the world has no story. `dialogue` is null when no dialogue is open.
 - 64-bit values are hex strings. Positions are floats (a client reads them as 32-bit floats).
 - Random stream states are the PCG32 `state` and `inc` after the last draw: resuming a save continues the same random sequence.
@@ -46,8 +53,9 @@ described in the plan arrive with the procedural world and reincarnation.
 - **Writing is atomic**: write `<slot>.json.tmp`, then rename over `<slot>.json`.
 - **Resume equivalence** (tested): running part of a scenario, saving, loading into a fresh world and finishing gives the same
   checkpoints as running it without interruption, on both clients, also when loading a save written by the Python reference.
-- Every format change bumps `save_version` and adds a migration `migrate_N_to_N+1` with a fixture in `tests/conformance`.
+- Every incompatible format change bumps `save_version` and adds a migration `migrate_N_to_N+1` with a fixture in `tests/conformance`. Optional
+  fields that older readers can ignore (`map`, `cleared_spawners`, `spawner`) do not.
 
 ## Not yet in v1
 
-CRC of the file, `profile.json` (meta-progression), per-chunk deltas (arrive with the procedural world), thumbnails, `.aethersave` export.
+CRC of the file, `profile.json` (meta-progression), other changes of the streamed world (arrive with the world systems), thumbnails, `.aethersave` export.

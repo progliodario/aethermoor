@@ -133,6 +133,80 @@ def generate_chunk(seed: int, params: dict, cx: int, cy: int) -> dict:
     return {"tiles": tiles, "props": props, "spawners": spawners}
 
 
+# ---------------------------------------------------------------------------- streaming window
+
+def chunk_spawners(seed: int, params: dict, cx: int, cy: int) -> list[list[int]]:
+    """Same result as generate_chunk(...)["spawners"], faster: the (rare) hash test runs before the biome is computed."""
+    s = params["spawners"]
+    w, h = params["width"], params["height"]
+    mid_x, mid_y = w // 2, h // 2
+    clear = params["spawn_clear_radius"] ** 2
+    result: list[list[int]] = []
+    for y in range(cy * CHUNK_SIZE, (cy + 1) * CHUNK_SIZE):
+        for x in range(cx * CHUNK_SIZE, (cx + 1) * CHUNK_SIZE):
+            if (hash64(seed, x, y, 11) >> 20) % 10000 >= s["per_10000"]:
+                continue
+            d2 = (x - mid_x) ** 2 + (y - mid_y) ** 2
+            if d2 < clear or d2 < s["min_distance"] ** 2:
+                continue
+            if biome_at(seed, params, x, y) in s["biomes"]:
+                result.append([x, y])
+    return result
+
+
+ACTIVE_RADIUS = 2  # chunks around the player's chunk (Chebyshev distance) that are active: a 5 x 5 window
+
+
+def window_chunks(cx: int, cy: int) -> list[tuple[int, int]]:
+    """The active chunks around chunk (cx, cy), row-major (rows from the top, columns left to right)."""
+    return [(i, j) for j in range(cy - ACTIVE_RADIUS, cy + ACTIVE_RADIUS + 1)
+            for i in range(cx - ACTIVE_RADIUS, cx + ACTIVE_RADIUS + 1)]
+
+
+class ChunkWindow:
+    """Which enemies exist while the player moves through a streamed world (spec 09, "Streaming").
+
+    An enemy exists iff its spawner lies in an active chunk and the spawner is not cleared. Chunks entering the window add
+    their enemies at the end of the list (chunks row-major, spawners in scan order); chunks leaving remove theirs; the order of
+    the others never changes. A killed enemy stays in the list (dead) until its chunk leaves, and its spawner is cleared.
+    """
+
+    def __init__(self, seed: int, params: dict, cx: int, cy: int):
+        self.seed, self.params = seed, params
+        self.cleared: set[tuple[int, int]] = set()
+        self.enemies: list[dict] = []  # {"x", "y", "dead"} by spawner tile
+        self.cx, self.cy = cx, cy
+        for chunk in window_chunks(cx, cy):
+            self._enter(chunk)
+
+    def _enter(self, chunk: tuple[int, int]) -> None:
+        for x, y in chunk_spawners(self.seed, self.params, chunk[0], chunk[1]):
+            if (x, y) not in self.cleared:
+                self.enemies.append({"x": x, "y": y, "dead": False})
+
+    def move_to(self, cx: int, cy: int) -> None:
+        old = set(window_chunks(self.cx, self.cy))
+        new = window_chunks(cx, cy)
+        new_set = set(new)
+        leaving = old - new_set
+        self.enemies = [e for e in self.enemies if (e["x"] // CHUNK_SIZE, e["y"] // CHUNK_SIZE) not in leaving]
+        for chunk in new:
+            if chunk not in old:
+                self._enter(chunk)
+        self.cx, self.cy = cx, cy
+
+    def kill(self, index: int) -> None:
+        enemy = self.enemies[index]
+        enemy["dead"] = True
+        self.cleared.add((enemy["x"], enemy["y"]))
+
+    def digest(self) -> int:
+        h = 0
+        for e in self.enemies:
+            h = hash64(h, e["x"], e["y"], 1 if e["dead"] else 0)
+        return h
+
+
 # ---------------------------------------------------------------------------- digests (vectors)
 
 def digest_all(tiles: list[int]) -> int:
