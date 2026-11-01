@@ -25,7 +25,14 @@ fun normalizeInput(x: Float, y: Float): Vec2 {
 
 private fun clampf(v: Float, lo: Float, hi: Float) = if (v < lo) lo else if (v > hi) hi else v
 
-class CollisionWorld(val width: Int, val height: Int, private val solid: BooleanArray, props: List<Circle>) {
+class CollisionWorld(
+    val width: Int,
+    val height: Int,
+    private val solid: BooleanArray,
+    props: List<Circle>,
+    /** A streamed world: tiles and props come from the loaded chunks (an unloaded tile is solid). */
+    private val chunks: ChunkStore? = null,
+) {
     private val props = props.toMutableList()
 
     fun addProp(prop: Circle) {
@@ -34,6 +41,7 @@ class CollisionWorld(val width: Int, val height: Int, private val solid: Boolean
 
     /** Cells outside the map are solid. */
     fun isSolid(tx: Int, ty: Int): Boolean {
+        if (chunks != null) return chunks.isSolid(tx, ty)
         if (tx < 0 || ty < 0 || tx >= width || ty >= height) return true
         return solid[ty * width + tx]
     }
@@ -83,11 +91,11 @@ class CollisionWorld(val width: Int, val height: Int, private val solid: Boolean
                     }
                 }
             }
-            for (prop in props) {
-                val dx = x - prop.x
-                val dy = y - prop.y
+            fun pushOut(cx: Float, cy: Float, radius: Float) {
+                val dx = x - cx
+                val dy = y - cy
                 val d2 = dx * dx + dy * dy
-                val md = r + prop.radius
+                val md = r + radius
                 if (d2 < md * md) {
                     if (d2 > 0f) {
                         val d = sqrt(d2)
@@ -95,11 +103,13 @@ class CollisionWorld(val width: Int, val height: Int, private val solid: Boolean
                         x += dx * k
                         y += dy * k
                     } else {
-                        x = prop.x + md
+                        x = cx + md
                     }
                     moved = true
                 }
             }
+            for (prop in props) pushOut(prop.x, prop.y, prop.radius)
+            chunks?.forEachPropNear(x, y) { pushOut(it.x, it.y, it.radius) }
             if (!moved) break
         }
         return Vec2(x, y)

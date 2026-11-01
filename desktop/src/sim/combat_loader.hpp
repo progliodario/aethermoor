@@ -18,4 +18,7 @@ namespace aether {
 std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& map, std::string_view protagonist_id,
                                              std::uint64_t seed, std::string& error);
 
+// One enemy document with its behavior (used by streamed worlds, which have no spawner list).
+std::optional<EnemyDef> load_enemy_def(const Pack& pack, const std::string& id, std::string& error);
+
 }  // namespace aether

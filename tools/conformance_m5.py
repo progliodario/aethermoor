@@ -57,6 +57,38 @@ def suite_worldgen_chunks() -> list[dict]:
     return cases
 
 
+def suite_chunk_window() -> list[dict]:
+    """Scripted walks through a huge world: the enemies that exist after each step (spec 09, "Streaming")."""
+    params = {**PARAMS, "width": 16384, "height": 16384}
+    scripts = {
+        "walk_and_kill": (7, (256, 256), [
+            ["move", 257, 256], ["move", 258, 258], ["kill", 0], ["kill", 1], ["move", 256, 256],
+            ["move", 300, 300], ["move", 300, 299], ["move", 258, 258], ["move", 256, 256],
+        ]),
+        "long_jumps": (0xBEEF, (100, 400), [
+            ["move", 101, 400], ["move", 101, 401], ["kill", 0], ["move", 0, 0], ["move", 511, 511], ["move", 100, 400],
+            ["move", 101, 401],
+        ]),
+    }
+    cases = []
+    for name, (seed, start, steps) in scripts.items():
+        window = worldgen.ChunkWindow(seed, params, start[0], start[1])
+        results = [{"op": "start", "count": len(window.enemies), "digest": h64(window.digest())}]
+        for step in steps:
+            if step[0] == "move":
+                window.move_to(step[1], step[2])
+            else:
+                assert len(window.enemies) > step[1], f"{name}: no enemy {step[1]} to kill"
+                window.kill(step[1])
+            results.append({"op": step[0], "count": len(window.enemies), "digest": h64(window.digest())})
+        cases.append({
+            "name": f"chunk_window_{name}",
+            "input": {"op": "chunk_window", "seed": h64(seed), "start": list(start), "steps": steps, "params": params},
+            "expect": {"after": results},
+        })
+    return cases
+
+
 def suite_worldgen() -> list[dict]:
     cases = []
     for name, seed, overrides in (

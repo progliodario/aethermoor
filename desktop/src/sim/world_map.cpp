@@ -24,4 +24,20 @@ TileMap make_tilemap(const GeneratedWorld& world, const WorldParams& params) {
     return map;
 }
 
+TileMap make_stream_map(const WorldParams& params) {
+    TileMap map;
+    map.width = params.width;
+    map.height = params.height;
+    map.tileset_id = "base:tileset/overworld";
+    const int cx = params.width / 2;
+    const int cy = params.height / 2;
+    map.spawn_x = static_cast<float>(cx * 256 + 128) / 256.0F;
+    map.spawn_y = static_cast<float>(cy * 256 + 128) / 256.0F;
+    for (const WorldNpc& n : params.npcs) {
+        map.npcs.push_back({n.key, n.dialogue, n.variant, static_cast<float>((cx + n.dx) * 256 + 128) / 256.0F,
+                            static_cast<float>((cy + n.dy) * 256 + 128) / 256.0F});
+    }
+    return map;
+}
+
 }  // namespace aether

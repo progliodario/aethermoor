@@ -7,6 +7,8 @@
 
 namespace aether {
 
+class ChunkStore;
+
 inline constexpr float kTickDt = 1.0F / 60.0F;
 inline constexpr float kInputDeadzone = 0.15F;
 inline constexpr float kPlayerRadius = 0.3F;
@@ -28,6 +30,8 @@ Vec2 normalize_input(float x, float y);
 class CollisionWorld {
 public:
     CollisionWorld(int width, int height, std::vector<bool> solid, std::vector<Circle> props);
+    // A streamed world: tiles and props come from the loaded chunks (an unloaded tile is solid).
+    explicit CollisionWorld(const ChunkStore* chunks);
 
     bool solid(int tx, int ty) const;  // cells outside the map are solid
     void add_prop(Circle prop) { m_props_.push_back(prop); }
@@ -41,8 +45,9 @@ public:
     void step(Vec2& position, Vec2 direction, float speed_tiles_per_s, float radius = kPlayerRadius) const;
 
 private:
-    int m_width_;
-    int m_height_;
+    const ChunkStore* m_chunks_ = nullptr;
+    int m_width_ = 0;
+    int m_height_ = 0;
     std::vector<bool> m_solid_;
     std::vector<Circle> m_props_;
 };

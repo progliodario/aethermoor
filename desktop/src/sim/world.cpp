@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
 #include <utility>
 
 namespace aether {
@@ -51,16 +52,22 @@ float distance(float ax, float ay, float bx, float by) {
 
 }  // namespace
 
-WorldSim::WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, CombatSetup combat)
+WorldSim::WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, CombatSetup combat,
+                   std::optional<StreamConfig> stream)
     : m_map_(std::move(map)),
       m_tileset_(std::move(tileset)),
-      m_collision_(build_collision(m_map_, m_tileset_)),
+      m_store_(stream ? std::make_unique<ChunkStore>(std::move(stream->params), stream->seed, m_tileset_) : nullptr),
+      m_collision_(m_store_ ? CollisionWorld(m_store_.get()) : build_collision(m_map_, m_tileset_)),
       m_speed_(speed_tiles_per_s),
       m_setup_(std::move(combat)),
       m_combat_rng_(derive_stream(m_setup_.seed, "combat")),
       m_loot_rng_(derive_stream(m_setup_.seed, "loot")),
       m_story_(m_setup_.story, *this) {
     m_player_.position = {m_map_.spawn_x, m_map_.spawn_y};
+    if (m_store_) {
+        m_store_->keep_around(chunk_of(static_cast<int>(std::floor(m_player_.position.x))),
+                              chunk_of(static_cast<int>(std::floor(m_player_.position.y))));
+    }
     m_collision_.resolve(m_player_.position.x, m_player_.position.y);
     m_spawn_ = m_player_.position;
     for (const NpcDef& npc : m_setup_.story.npcs) {
@@ -80,7 +87,87 @@ WorldSim::WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, Combat
         }
         m_hit_set_.assign(m_enemies_.size(), false);
         m_inventory_ = m_setup_.start_inventory;
+        sync_window();
     }
+}
+
+int WorldSim::gid_at(int x, int y) const { return m_store_ ? m_store_->gid_at(x, y) : m_map_.gid_at(x, y); }
+
+void WorldSim::for_each_prop(float x0, float y0, float x1, float y1, const std::function<void(const Prop&)>& fn) const {
+    if (m_store_) {
+        m_store_->for_each_prop_in(x0, y0, x1, y1, fn);
+        return;
+    }
+    for (const Prop& prop : m_map_.props) {
+        if (prop.x >= x0 && prop.x <= x1 && prop.y >= y0 && prop.y <= y1) {
+            fn(prop);
+        }
+    }
+}
+
+void WorldSim::add_chunk_enemies(int cx, int cy) {
+    if (!m_setup_.stream_enemy) {
+        return;
+    }
+    const Chunk* chunk = m_store_->find(cx, cy);
+    if (chunk == nullptr) {
+        return;
+    }
+    for (const auto& [sx, sy] : chunk->spawners) {
+        if (m_cleared_.count({sx, sy}) != 0) {
+            continue;
+        }
+        Enemy enemy;
+        enemy.def = *m_setup_.stream_enemy;
+        enemy.position = {static_cast<float>(sx) + 0.5F, static_cast<float>(sy) + 0.5F};
+        enemy.home = enemy.position;
+        enemy.hp = enemy.def.hp;
+        enemy.spawner_x = sx;
+        enemy.spawner_y = sy;
+        m_enemies_.push_back(std::move(enemy));
+        m_hit_set_.push_back(false);
+    }
+}
+
+// Spec 09, "Streaming": keeps the enemies in step with the 5 x 5 window around the player's chunk.
+void WorldSim::sync_window() {
+    if (!m_store_) {
+        return;
+    }
+    const int cx = chunk_of(static_cast<int>(std::floor(m_player_.position.x)));
+    const int cy = chunk_of(static_cast<int>(std::floor(m_player_.position.y)));
+    if (m_window_valid_ && cx == m_window_x_ && cy == m_window_y_) {
+        return;
+    }
+    m_store_->keep_around(cx, cy);
+    const auto inside = [](int i, int j, int wx, int wy) {
+        return std::max(std::abs(i - wx), std::abs(j - wy)) <= kActiveRadius;
+    };
+    if (m_window_valid_) {
+        std::size_t kept = 0;
+        for (std::size_t i = 0; i < m_enemies_.size(); ++i) {
+            if (!inside(chunk_of(m_enemies_[i].spawner_x), chunk_of(m_enemies_[i].spawner_y), cx, cy)) {
+                continue;
+            }
+            if (kept != i) {
+                m_enemies_[kept] = std::move(m_enemies_[i]);
+                m_hit_set_[kept] = m_hit_set_[i];
+            }
+            ++kept;
+        }
+        m_enemies_.resize(kept);
+        m_hit_set_.resize(kept);
+    }
+    for (int j = cy - kActiveRadius; j <= cy + kActiveRadius; ++j) {
+        for (int i = cx - kActiveRadius; i <= cx + kActiveRadius; ++i) {
+            if (!m_window_valid_ || !inside(i, j, m_window_x_, m_window_y_)) {
+                add_chunk_enemies(i, j);
+            }
+        }
+    }
+    m_window_valid_ = true;
+    m_window_x_ = cx;
+    m_window_y_ = cy;
 }
 
 void WorldSim::recompute_derived() {
@@ -95,6 +182,7 @@ std::vector<DamageEvent> WorldSim::take_events() { return std::exchange(m_events
 void WorldSim::tick(float raw_x, float raw_y, bool attack) {
     Player& p = m_player_;
     const bool combat = m_setup_.enabled;
+    sync_window();
     if (m_story_.dialogue_active()) {
         raw_x = 0.0F;
         raw_y = 0.0F;
@@ -223,6 +311,9 @@ void WorldSim::do_hits() {
 void WorldSim::on_kill(Enemy& enemy) {
     Player& p = m_player_;
     ++p.kills;
+    if (m_store_) {
+        m_cleared_.insert({enemy.spawner_x, enemy.spawner_y});
+    }
     for (const DropDef& drop : enemy.def.drops) {
         if (static_cast<std::int64_t>(m_loot_rng_.next_bounded(1000)) < drop.weight_pm) {
             std::int64_t quantity = drop.qty_min;
@@ -360,15 +451,46 @@ SaveState WorldSim::capture() const {
     s.loot_state = m_loot_rng_.state();
     s.loot_inc = m_loot_rng_.inc();
     for (const Enemy& enemy : m_enemies_) {
-        s.enemies.push_back({enemy.position, enemy.hp, enemy.state, enemy.state_tick});
+        s.enemies.push_back({enemy.position, enemy.hp, enemy.state, enemy.state_tick, m_store_ != nullptr, enemy.spawner_x,
+                             enemy.spawner_y});
     }
+    s.cleared.assign(m_cleared_.begin(), m_cleared_.end());
     s.inventory = m_inventory_;
     s.story = m_story_.capture();
     return s;
 }
 
 bool WorldSim::restore(const SaveState& s, std::string& error) {
-    if (s.enemies.size() != m_enemies_.size() || s.hit_set.size() != m_hit_set_.size()) {
+    if (m_store_) {
+        // The saved enemies must be exactly those of the window around the saved position (spec 12).
+        const int cx = chunk_of(static_cast<int>(std::floor(s.position.x)));
+        const int cy = chunk_of(static_cast<int>(std::floor(s.position.y)));
+        m_store_->keep_around(cx, cy);
+        const std::set<std::pair<int, int>> cleared(s.cleared.begin(), s.cleared.end());
+        std::set<std::pair<int, int>> in_window;
+        for (int j = cy - kActiveRadius; j <= cy + kActiveRadius; ++j) {
+            for (int i = cx - kActiveRadius; i <= cx + kActiveRadius; ++i) {
+                for (const auto& spawner : m_store_->find(i, j)->spawners) {
+                    in_window.insert(spawner);
+                }
+            }
+        }
+        std::set<std::pair<int, int>> found;
+        bool valid = s.hit_set.size() == s.enemies.size();
+        for (const SaveEnemy& e : s.enemies) {
+            const std::pair<int, int> spawner{e.spawner_x, e.spawner_y};
+            // Every enemy belongs to a spawner of the window; the enemy of a cleared spawner is dead.
+            valid = valid && e.has_spawner && in_window.count(spawner) != 0 && found.insert(spawner).second &&
+                    (cleared.count(spawner) == 0 || e.state == EnemyState::Dead);
+        }
+        for (const auto& spawner : in_window) {
+            valid = valid && (cleared.count(spawner) != 0 || found.count(spawner) != 0);
+        }
+        if (!valid) {
+            error = "the save has different enemies than the generated world";
+            return false;
+        }
+    } else if (s.enemies.size() != m_enemies_.size() || s.hit_set.size() != m_hit_set_.size()) {
         error = "the save has a different number of enemies than the loaded map";
         return false;
     }
@@ -399,6 +521,21 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
     m_hit_set_ = s.hit_set;
     m_combat_rng_.set_state(s.combat_state, s.combat_inc);
     m_loot_rng_.set_state(s.loot_state, s.loot_inc);
+    if (m_store_) {
+        m_enemies_.clear();
+        for (const SaveEnemy& e : s.enemies) {
+            Enemy enemy;
+            enemy.def = *m_setup_.stream_enemy;
+            enemy.home = {static_cast<float>(e.spawner_x) + 0.5F, static_cast<float>(e.spawner_y) + 0.5F};
+            enemy.spawner_x = e.spawner_x;
+            enemy.spawner_y = e.spawner_y;
+            m_enemies_.push_back(std::move(enemy));
+        }
+        m_cleared_ = std::set<std::pair<int, int>>(s.cleared.begin(), s.cleared.end());
+        m_window_valid_ = true;
+        m_window_x_ = chunk_of(static_cast<int>(std::floor(s.position.x)));
+        m_window_y_ = chunk_of(static_cast<int>(std::floor(s.position.y)));
+    }
     for (std::size_t i = 0; i < m_enemies_.size(); ++i) {
         m_enemies_[i].position = s.enemies[i].position;
         m_enemies_[i].hp = s.enemies[i].hp;

@@ -1,8 +1,21 @@
 package io.github.progliodario.aethermoor.core
 
-import io.github.progliodario.aethermoor.core.sim.makeTileMap
+import io.github.progliodario.aethermoor.core.sim.ACTIVE_RADIUS
+import io.github.progliodario.aethermoor.core.sim.SaveMeta
+import io.github.progliodario.aethermoor.core.sim.StreamConfig
+import io.github.progliodario.aethermoor.core.sim.WorldSim
+import io.github.progliodario.aethermoor.core.sim.chunkOf
+import io.github.progliodario.aethermoor.core.sim.loadCombatSetup
+import io.github.progliodario.aethermoor.core.sim.makeStreamMap
+import io.github.progliodario.aethermoor.core.sim.parseTileset
+import io.github.progliodario.aethermoor.core.sim.saveFromJson
+import io.github.progliodario.aethermoor.core.sim.saveToJson
 import java.io.File
+import kotlin.math.abs
+import kotlin.math.floor
+import kotlin.math.max
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
@@ -127,20 +140,104 @@ class WorldGenTest {
     }
 
     @Test
-    fun theOverworldIsGeneratedFromTheContentPackAndIsDeterministic() {
+    fun chunkWindowSuite() {
+        val doc = Json.parseToJsonElement(File(repoRoot, "tests/conformance/chunk_window.json").readText()).jsonObject
+        for (case in doc.getValue("cases").jsonArray) {
+            val c = case.jsonObject
+            val label = c.getValue("name").jsonPrimitive.content
+            val input = c.getValue("input").jsonObject
+            val params = parseWorldParams(input.getValue("params").toString()).getOrThrow()
+            val seed = hex(input.getValue("seed").jsonPrimitive.content)
+            val after = c.getValue("expect").jsonObject.getValue("after").jsonArray
+
+            // The enemy list of spec 09 ("Streaming"): spawner tiles with a dead flag.
+            class Entry(val x: Int, val y: Int, var dead: Boolean)
+            var enemies = ArrayList<Entry>()
+            val cleared = HashSet<Pair<Int, Int>>()
+            var curX = input.getValue("start").jsonArray[0].jsonPrimitive.int
+            var curY = input.getValue("start").jsonArray[1].jsonPrimitive.int
+            fun enter(cx: Int, cy: Int) {
+                for ((x, y) in generateChunk(seed, params, cx, cy).spawners) if (Pair(x, y) !in cleared) enemies.add(Entry(x, y, false))
+            }
+            fun inside(i: Int, j: Int, wx: Int, wy: Int) = max(abs(i - wx), abs(j - wy)) <= 2
+            fun digest(): ULong {
+                var h = 0uL
+                for (e in enemies) h = hash64(h, e.x.toLong(), e.y.toLong(), if (e.dead) 1L else 0L)
+                return h
+            }
+            for (j in curY - 2..curY + 2) for (i in curX - 2..curX + 2) enter(i, j)
+            assertEquals(after[0].jsonObject.getValue("count").jsonPrimitive.int, enemies.size, "$label start")
+            assertEquals(hex(after[0].jsonObject.getValue("digest").jsonPrimitive.content), digest(), "$label start digest")
+            for ((index, step) in input.getValue("steps").jsonArray.withIndex()) {
+                val s = step.jsonArray
+                if (s[0].jsonPrimitive.content == "move") {
+                    val nx = s[1].jsonPrimitive.int
+                    val ny = s[2].jsonPrimitive.int
+                    enemies = ArrayList(enemies.filter { inside(it.x shr 5, it.y shr 5, nx, ny) })
+                    for (j in ny - 2..ny + 2) for (i in nx - 2..nx + 2) if (!inside(i, j, curX, curY)) enter(i, j)
+                    curX = nx
+                    curY = ny
+                } else {
+                    val e = enemies[s[1].jsonPrimitive.int]
+                    e.dead = true
+                    cleared.add(Pair(e.x, e.y))
+                }
+                val want = after[index + 1].jsonObject
+                assertEquals(want.getValue("count").jsonPrimitive.int, enemies.size, "$label step ${index + 1}")
+                assertEquals(hex(want.getValue("digest").jsonPrimitive.content), digest(), "$label step ${index + 1} digest")
+            }
+        }
+    }
+
+    @Test
+    fun theOverworldIsStreamedFromTheContentPackAndIsPlayable() {
         val pack = loadBasePack(repoRoot)
         val params = parseWorldParams(requireNotNull(pack.readDocument("base:world/overworld"))).getOrThrow()
-        assertEquals(512, params.width)
-        val world = generateWorld(42uL, params)
-        val map = makeTileMap(world, params)
-        assertEquals(512 * 512, map.ground.size)
-        assertTrue(map.props.size > 1000)
-        assertTrue(map.spawners.size > 20)
+        assertEquals(16384, params.width)
+        val map = makeStreamMap(params)
+        assertEquals(0, map.ground.size)
         assertEquals(1, map.npcs.size)
         assertEquals("guild_clerk_mira", map.npcs[0].key)
-        val gid = map.gidAt(map.width / 2, map.height / 2)
+        val setup = loadCombatSetup(pack, map, "base:protagonist/ren", 42uL, params.spawnerEnemy).getOrThrow()
+        val tileset = parseTileset(requireNotNull(pack.readDocument("base:tileset/overworld"))).getOrThrow()
+        val sim = WorldSim(map, tileset, 0f, setup, StreamConfig(params, 42uL))
+        val store = requireNotNull(sim.chunks)
+        assertTrue(store.loaded >= 25)
+
+        // The spawn clearing is walkable plains, and Mira stands next to it.
+        val gid = sim.gidAt(map.width / 2, map.height / 2)
         assertTrue(gid == 1 || gid == 2)
-        assertTrue(generateWorld(42uL, params).tiles.contentEquals(world.tiles))
-        assertFalse(generateWorld(43uL, params).tiles.contentEquals(world.tiles))
+        repeat(120) { sim.tick(0f, 0f, false) }
+        assertTrue(sim.story.npcInRange() != null)
+
+        // The enemies are exactly those of the spawners in the 5 x 5 chunks around the player, whichever chunk that is.
+        fun checkWindow() {
+            val pcx = chunkOf(floor(sim.player.position.x).toInt())
+            val pcy = chunkOf(floor(sim.player.position.y).toInt())
+            val expected = HashSet<Pair<Int, Int>>()
+            for (j in pcy - ACTIVE_RADIUS..pcy + ACTIVE_RADIUS) {
+                for (i in pcx - ACTIVE_RADIUS..pcx + ACTIVE_RADIUS) expected.addAll(generateChunk(42uL, params, i, j).spawners)
+            }
+            val found = HashSet<Pair<Int, Int>>()
+            for (e in sim.enemies) assertTrue(found.add(Pair(e.spawnerX, e.spawnerY)))
+            assertEquals(expected, found)
+            assertTrue(store.loaded <= 49)
+        }
+        checkWindow()
+
+        // The spawn is at the left edge of its chunk: a few steps to the left enter the next chunk and the window moves.
+        repeat(90) { sim.tick(-1f, 0f, false) }
+        assertEquals(map.width / 2 / 32 - 1, chunkOf(floor(sim.player.position.x).toInt()))
+        checkWindow()
+
+        // Saving and loading into a fresh world of the same seed gives the same enemies.
+        val state = sim.capture()
+        assertEquals(sim.enemies.size, state.enemies.size)
+        val json = saveToJson(state, SaveMeta("test", 1, "base:protagonist/ren", 42uL, "world"))
+        val reread = saveFromJson(json).getOrThrow()
+        val fresh = WorldSim(map, tileset, 0f, setup, StreamConfig(params, 42uL))
+        fresh.restore(reread).getOrThrow()
+        assertEquals(sim.enemies.size, fresh.enemies.size)
+        assertEquals(sim.player.position.x, fresh.player.position.x)
     }
 }

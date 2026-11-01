@@ -17,6 +17,9 @@ private fun document(pack: Pack, id: String): JsonObject {
     return Json.parseToJsonElement(text).jsonObject
 }
 
+/** One enemy document with its behavior (used by streamed worlds, which have no spawner list). */
+fun loadEnemyDef(pack: Pack, id: String): Result<EnemyDef> = runCatching { loadEnemy(pack, id) }
+
 private fun loadEnemy(pack: Pack, id: String): EnemyDef {
     val enemy = document(pack, id)
     val stats = enemy.getValue("stats").jsonObject
@@ -55,7 +58,14 @@ private fun loadEnemy(pack: Pack, id: String): EnemyDef {
  * Reads the protagonist, its first weapon and first skill with a hitbox, the enemies named by the map spawners
  * (with their behaviors) and the XP table.
  */
-fun loadCombatSetup(pack: Pack, map: TileMap, protagonistId: String, seed: ULong): Result<CombatSetup> =
+fun loadCombatSetup(
+    pack: Pack,
+    map: TileMap,
+    protagonistId: String,
+    seed: ULong,
+    /** The enemy of the spawners of a streamed world, if the map is one. */
+    streamEnemyId: String? = null,
+): Result<CombatSetup> =
     runCatching {
         val protagonist = parseProtagonist(requireNotNull(pack.readDocument(protagonistId)) { "missing $protagonistId" }).getOrThrow()
 
@@ -116,5 +126,6 @@ fun loadCombatSetup(pack: Pack, map: TileMap, protagonistId: String, seed: ULong
             seed = seed,
             story = StorySetup(quests, dialogues, npcs),
             startInventory = protagonist.startingInventory,
+            streamEnemy = streamEnemyId?.let { loadEnemy(pack, it) },
         )
     }

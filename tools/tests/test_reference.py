@@ -140,6 +140,9 @@ def test_world_chunks_are_the_restriction_of_the_world():
                 assert gid == (world["tiles"][y * params["width"] + x] if inside else params["tiles"]["water"])
             props += chunk["props"]
             spawners += chunk["spawners"]
+    for cy in range(0, 3):
+        for cx in range(0, 3):
+            assert worldgen.chunk_spawners(5, params, cx, cy) == worldgen.generate_chunk(5, params, cx, cy)["spawners"]
     key = lambda p: (p["y256"], p["x256"])  # noqa: E731
     assert sorted(props, key=key) == sorted(world["props"], key=key)
     assert sorted(spawners) == sorted(world["spawners"])

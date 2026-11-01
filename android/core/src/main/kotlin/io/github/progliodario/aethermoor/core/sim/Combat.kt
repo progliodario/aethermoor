@@ -60,6 +60,8 @@ class CombatSetup(
     val story: StorySetup = StorySetup(),
     /** Items owned in a new game. */
     val startInventory: Map<String, Long> = emptyMap(),
+    /** The enemy of the spawners of a streamed world. */
+    val streamEnemy: EnemyDef? = null,
 )
 
 enum class AttackPhase { NONE, STARTUP, ACTIVE, RECOVERY }

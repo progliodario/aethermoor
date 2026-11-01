@@ -8,7 +8,10 @@ import io.github.progliodario.aethermoor.core.deriveStream
 import io.github.progliodario.aethermoor.core.derivedStats
 import io.github.progliodario.aethermoor.core.xpGain
 import kotlin.math.PI
+import kotlin.math.abs
 import kotlin.math.cos
+import kotlin.math.floor
+import kotlin.math.max
 import kotlin.math.sqrt
 
 // The world: map, player, enemies, combat and camera. Spec: docs/spec/02, 03 and 05.
@@ -48,6 +51,10 @@ class Enemy(val def: EnemyDef, var position: Vec2) {
     var state = EnemyState.IDLE
     var stateTick = 0
 
+    /** Streamed worlds: the spawner tile this enemy belongs to. */
+    var spawnerX = 0
+    var spawnerY = 0
+
     /** Presentation only. */
     var hitFlash = 0
     val radius: Float get() = def.radiusX100 / 100f
@@ -86,18 +93,29 @@ class WorldSim(
     val tileset: Tileset,
     private val speedTilesPerS: Float,
     val combat: CombatSetup = CombatSetup(),
+    /** With a stream the map only gives the size, the spawn and the NPCs; tiles, props and enemies come from the chunks. */
+    stream: StreamConfig? = null,
 ) : StoryHost {
-    val collision: CollisionWorld = buildCollision(map, tileset)
+    val chunks: ChunkStore? = stream?.let { ChunkStore(it.params, it.seed, tileset) }
+    val collision: CollisionWorld =
+        if (chunks != null) CollisionWorld(map.width, map.height, BooleanArray(0), emptyList(), chunks) else buildCollision(map, tileset)
     private val combatRng = deriveStream(combat.seed, "combat")
     private val lootRng = deriveStream(combat.seed, "loot")
-    private val spawn: Vec2 = collision.resolve(Vec2(map.spawnX, map.spawnY))
+    private val spawn: Vec2 = run {
+        chunks?.keepAround(chunkOf(floor(map.spawnX).toInt()), chunkOf(floor(map.spawnY).toInt()))
+        collision.resolve(Vec2(map.spawnX, map.spawnY))
+    }
 
     val player = Player(spawn)
     var derived: DerivedStats = derivedStats(1, combat.player.base, Equipment())
         private set
     val enemies = ArrayList<Enemy>()
     override val inventory = java.util.TreeMap<String, Long>()
-    private val hitSet = BooleanArray(combat.spawns.size)
+    private val hitSet = ArrayList<Boolean>(List(combat.spawns.size) { false })
+    private val cleared = java.util.TreeSet<Pair<Int, Int>>(compareBy({ it.first }, { it.second }))
+    private var windowValid = false
+    private var windowX = 0
+    private var windowY = 0
     private val events = ArrayList<DamageEvent>()
 
     val story = Story(combat.story, this)
@@ -114,7 +132,67 @@ class WorldSim(
             player.hp = derived.maxHp
             for (s in combat.spawns) enemies.add(Enemy(s.def, Vec2(s.x, s.y)))
             inventory.putAll(combat.startInventory)
+            syncWindow()
         }
+    }
+
+    /** The gid at the tile on whichever map is played, 0 when unknown. */
+    fun gidAt(x: Int, y: Int): Int = chunks?.gidAt(x, y) ?: map.gidAt(x, y)
+
+    /** Calls [fn] for every prop inside the rectangle (in tiles). */
+    fun forEachProp(x0: Float, y0: Float, x1: Float, y1: Float, fn: (Prop) -> Unit) {
+        if (chunks != null) {
+            chunks.forEachPropIn(x0, y0, x1, y1, fn)
+            return
+        }
+        for (prop in map.props) if (prop.x >= x0 && prop.x <= x1 && prop.y >= y0 && prop.y <= y1) fn(prop)
+    }
+
+    private fun addChunkEnemies(cx: Int, cy: Int) {
+        val def = combat.streamEnemy ?: return
+        val chunk = chunks?.find(cx, cy) ?: return
+        for ((sx, sy) in chunk.spawners) {
+            if (cleared.contains(Pair(sx, sy))) continue
+            val enemy = Enemy(def, Vec2(sx + 0.5f, sy + 0.5f))
+            enemy.spawnerX = sx
+            enemy.spawnerY = sy
+            enemies.add(enemy)
+            hitSet.add(false)
+        }
+    }
+
+    private fun insideWindow(i: Int, j: Int, wx: Int, wy: Int) = max(abs(i - wx), abs(j - wy)) <= ACTIVE_RADIUS
+
+    /** Spec 09, "Streaming": keeps the enemies in step with the 5 x 5 window around the player's chunk. */
+    private fun syncWindow() {
+        val store = chunks ?: return
+        val cx = chunkOf(floor(player.position.x).toInt())
+        val cy = chunkOf(floor(player.position.y).toInt())
+        if (windowValid && cx == windowX && cy == windowY) return
+        store.keepAround(cx, cy)
+        if (windowValid) {
+            val keptEnemies = ArrayList<Enemy>()
+            val keptHits = ArrayList<Boolean>()
+            for (i in enemies.indices) {
+                val e = enemies[i]
+                if (insideWindow(chunkOf(e.spawnerX), chunkOf(e.spawnerY), cx, cy)) {
+                    keptEnemies.add(e)
+                    keptHits.add(hitSet[i])
+                }
+            }
+            enemies.clear()
+            enemies.addAll(keptEnemies)
+            hitSet.clear()
+            hitSet.addAll(keptHits)
+        }
+        for (j in cy - ACTIVE_RADIUS..cy + ACTIVE_RADIUS) {
+            for (i in cx - ACTIVE_RADIUS..cx + ACTIVE_RADIUS) {
+                if (!windowValid || !insideWindow(i, j, windowX, windowY)) addChunkEnemies(i, j)
+            }
+        }
+        windowValid = true
+        windowX = cx
+        windowY = cy
     }
 
     private fun recomputeDerived() {
@@ -134,6 +212,7 @@ class WorldSim(
 
     /** One fixed tick (1/60 s) with the raw movement input and the attack input of this tick. */
     fun tick(rawXIn: Float, rawYIn: Float, attackIn: Boolean = false) {
+        syncWindow()
         val frozen = story.dialogueActive
         val rawX = if (frozen) 0f else rawXIn
         val rawY = if (frozen) 0f else rawYIn
@@ -166,7 +245,7 @@ class WorldSim(
             p.phase = AttackPhase.STARTUP
             p.phaseTick = 0
             p.cooldown = combat.skill.cooldown
-            hitSet.fill(false)
+            hitSet.replaceAll { false }
         }
         advanceAttack()
         for (enemy in enemies) {
@@ -236,6 +315,7 @@ class WorldSim(
     }
 
     private fun onKill(enemy: Enemy) {
+        if (chunks != null) cleared.add(Pair(enemy.spawnerX, enemy.spawnerY))
         val p = player
         p.kills++
         for (drop in enemy.def.drops) {
@@ -356,14 +436,37 @@ class WorldSim(
             kills = p.kills, iframes = p.iframes, cooldown = p.cooldown, phase = p.phase, phaseTick = p.phaseTick,
             hitSet = hitSet.toList(), combatState = combatRng.state, combatInc = combatRng.inc,
             lootState = lootRng.state, lootInc = lootRng.inc,
-            enemies = enemies.map { SaveEnemy(it.position.x, it.position.y, it.hp, it.state, it.stateTick) },
+            enemies = enemies.map {
+                SaveEnemy(it.position.x, it.position.y, it.hp, it.state, it.stateTick, if (chunks != null) Pair(it.spawnerX, it.spawnerY) else null)
+            },
+            cleared = cleared.toList(),
             inventory = HashMap(inventory), story = story.capture(),
         )
     }
 
     /** Overwrites the mutable state. On a mismatch with the loaded data it fails and changes nothing. */
     fun restore(s: SaveState): Result<Unit> {
-        if (s.enemies.size != enemies.size || s.hitSet.size != hitSet.size) {
+        if (chunks != null) {
+            // The saved enemies must be exactly those of the window around the saved position (spec 12).
+            val cx = chunkOf(floor(s.x).toInt())
+            val cy = chunkOf(floor(s.y).toInt())
+            chunks.keepAround(cx, cy)
+            val clearedSet = s.cleared.toSet()
+            val inWindow = HashSet<Pair<Int, Int>>()
+            for (j in cy - ACTIVE_RADIUS..cy + ACTIVE_RADIUS) {
+                for (i in cx - ACTIVE_RADIUS..cx + ACTIVE_RADIUS) inWindow.addAll(chunks.find(i, j)!!.spawners)
+            }
+            val found = HashSet<Pair<Int, Int>>()
+            var valid = s.hitSet.size == s.enemies.size
+            for (e in s.enemies) {
+                val spawner = e.spawner
+                // Every enemy belongs to a spawner of the window; the enemy of a cleared spawner is dead.
+                valid = valid && spawner != null && spawner in inWindow && found.add(spawner) &&
+                    (spawner !in clearedSet || e.state == EnemyState.DEAD)
+            }
+            for (spawner in inWindow) valid = valid && (spawner in clearedSet || spawner in found)
+            if (!valid) return Result.failure(IllegalArgumentException("the save has different enemies than the generated world"))
+        } else if (s.enemies.size != enemies.size || s.hitSet.size != hitSet.size) {
             return Result.failure(IllegalArgumentException("the save has a different number of enemies than the loaded map"))
         }
         if (s.level < 1 || s.level > MAX_LEVEL) return Result.failure(IllegalArgumentException("invalid level in the save"))
@@ -386,7 +489,26 @@ class WorldSim(
         p.cooldown = s.cooldown
         p.phase = s.phase
         p.phaseTick = s.phaseTick
-        s.hitSet.forEachIndexed { i, hit -> hitSet[i] = hit }
+        if (chunks != null) {
+            val def = requireNotNull(combat.streamEnemy) { "streamed world without an enemy" }
+            enemies.clear()
+            for (e in s.enemies) {
+                val spawner = requireNotNull(e.spawner)
+                val enemy = Enemy(def, Vec2(spawner.first + 0.5f, spawner.second + 0.5f))
+                enemy.spawnerX = spawner.first
+                enemy.spawnerY = spawner.second
+                enemies.add(enemy)
+            }
+            hitSet.clear()
+            hitSet.addAll(s.hitSet)
+            cleared.clear()
+            cleared.addAll(s.cleared)
+            windowValid = true
+            windowX = chunkOf(floor(s.x).toInt())
+            windowY = chunkOf(floor(s.y).toInt())
+        } else {
+            s.hitSet.forEachIndexed { i, hit -> hitSet[i] = hit }
+        }
         combatRng.setState(s.combatState, s.combatInc)
         lootRng.setState(s.lootState, s.lootInc)
         for ((i, e) in enemies.withIndex()) {

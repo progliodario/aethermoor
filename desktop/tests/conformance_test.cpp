@@ -3,12 +3,15 @@
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
 
+#include <algorithm>
 #include <cmath>
 #include <cstdint>
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
+#include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <nlohmann/json.hpp>
@@ -577,6 +580,85 @@ TEST_CASE("conformance: combat", "[conformance]") { run_combat_suite("combat"); 
 TEST_CASE("conformance: story", "[conformance]") { run_combat_suite("story"); }
 
 TEST_CASE("conformance: save and resume", "[conformance]") { run_save_suite(); }
+
+TEST_CASE("conformance: chunk window", "[conformance]") {
+    const Json doc = load_suite("chunk_window");
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        const Json& in = c.at("input");
+        std::string error;
+        const auto params = aether::parse_world_params(in.at("params").dump(), error);
+        INFO(error);
+        REQUIRE(params.has_value());
+        const std::uint64_t seed = hex(in.at("seed"));
+        // The enemy list of spec 09 ("Streaming"): spawner tiles with a dead flag.
+        struct Entry {
+            int x;
+            int y;
+            bool dead;
+        };
+        std::vector<Entry> enemies;
+        std::set<std::pair<int, int>> cleared;
+        int cur_x = in.at("start").at(0).get<int>();
+        int cur_y = in.at("start").at(1).get<int>();
+        const auto enter = [&](int cx, int cy) {
+            for (const auto& s : aether::generate_chunk(seed, *params, cx, cy).spawners) {
+                if (cleared.count(s) == 0) {
+                    enemies.push_back({s.first, s.second, false});
+                }
+            }
+        };
+        const auto inside = [](int i, int j, int wx, int wy) {
+            return std::max(std::abs(i - wx), std::abs(j - wy)) <= 2;
+        };
+        for (int j = cur_y - 2; j <= cur_y + 2; ++j) {
+            for (int i = cur_x - 2; i <= cur_x + 2; ++i) {
+                enter(i, j);
+            }
+        }
+        const auto digest = [&]() {
+            std::uint64_t h = 0;
+            for (const Entry& e : enemies) {
+                h = aether::hash64(h, e.x, e.y, e.dead ? 1 : 0);
+            }
+            return h;
+        };
+        const Json& after = c.at("expect").at("after");
+        REQUIRE(enemies.size() == after.at(0).at("count").get<std::size_t>());
+        REQUIRE(digest() == hex(after.at(0).at("digest")));
+        std::size_t index = 1;
+        for (const Json& step : in.at("steps")) {
+            INFO("step " << index);
+            if (step.at(0).get<std::string>() == "move") {
+                const int nx = step.at(1).get<int>();
+                const int ny = step.at(2).get<int>();
+                std::vector<Entry> kept;
+                for (const Entry& e : enemies) {
+                    if (inside(e.x >> 5, e.y >> 5, nx, ny)) {
+                        kept.push_back(e);
+                    }
+                }
+                enemies = std::move(kept);
+                for (int j = ny - 2; j <= ny + 2; ++j) {
+                    for (int i = nx - 2; i <= nx + 2; ++i) {
+                        if (!inside(i, j, cur_x, cur_y)) {
+                            enter(i, j);
+                        }
+                    }
+                }
+                cur_x = nx;
+                cur_y = ny;
+            } else {
+                Entry& e = enemies.at(step.at(1).get<std::size_t>());
+                e.dead = true;
+                cleared.insert({e.x, e.y});
+            }
+            REQUIRE(enemies.size() == after.at(index).at("count").get<std::size_t>());
+            REQUIRE(digest() == hex(after.at(index).at("digest")));
+            ++index;
+        }
+    }
+}
 
 TEST_CASE("conformance: worldgen chunks", "[conformance]") {
     const Json doc = load_suite("worldgen_chunks");
