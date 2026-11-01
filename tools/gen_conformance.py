@@ -220,6 +220,7 @@ SUITES = {
     "raster": conformance_m2.suite_raster,
     "combat": conformance_m3.suite_combat,
     "story": conformance_m4.suite_story,
+    "save": conformance_m4.suite_save,
 }
 
 

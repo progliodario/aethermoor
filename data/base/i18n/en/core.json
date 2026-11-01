@@ -18,5 +18,12 @@
   "ui.interact": "[E] Talk",
   "ui.quest": "Quest",
   "ui.gold": "Gold: {gold}",
-  "ui.quest_done": "Quest complete"
+  "ui.quest_done": "Quest complete",
+  "ui.inventory": "Bag",
+  "ui.empty_bag": "The bag is empty",
+  "ui.saved": "Game saved",
+  "ui.loaded": "Game loaded",
+  "ui.load_failed": "Cannot load the save",
+  "ui.new_game": "New game",
+  "ui.bag_hint": "[I] Bag"
 }

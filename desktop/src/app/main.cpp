@@ -9,6 +9,8 @@
 #include <cstdio>
 #include <cstring>
 #include <filesystem>
+#include <fstream>
+#include <iterator>
 #include <string>
 #include <vector>
 
@@ -19,6 +21,7 @@
 #include "data/pack.hpp"
 #include "data/protagonist.hpp"
 #include "sim/combat_loader.hpp"
+#include "sim/save.hpp"
 #include "sim/world.hpp"
 #include "vector/rig.hpp"
 
@@ -35,6 +38,7 @@ constexpr float kBaseTilePx = 48.0F;
 constexpr const char* kProtagonistId = "base:protagonist/ren";
 constexpr const char* kMapPath = "maps/demo.tmj";
 constexpr int kFloatingTextFrames = 50;
+constexpr double kAutosaveSeconds = 30.0;
 
 struct Assets {
     aether::Pack pack;
@@ -50,6 +54,9 @@ struct Ui {
     int choice_index = 0;
     std::string last_speaker;  // last line spoken in the open dialogue, kept while choices are shown
     std::string last_text;
+    std::string message;  // short notice ("Game saved"), shown for a moment
+    int message_frames = 0;
+    bool show_inventory = false;
 };
 
 std::string detect_language() {
@@ -326,7 +333,72 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
     const std::string level =
         assets.pack.text(ui.lang, "$i18n:ui.level", {{"level", static_cast<std::int64_t>(p.level)}});
     SDL_RenderDebugText(renderer, x / 2.0F, (y + bar_h + 16.0F * density) / 2.0F, level.c_str());
+    SDL_RenderDebugText(renderer, (x + 110.0F * density) / 2.0F, (y + bar_h + 16.0F * density) / 2.0F,
+                        assets.pack.text(ui.lang, "$i18n:ui.bag_hint").c_str());
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+}
+
+fs::path save_dir() {
+    fs::path dir;
+    if (char* pref = SDL_GetPrefPath("progliodario", "Aethermoor")) {
+        dir = fs::path(pref) / "saves";
+        SDL_free(pref);
+    } else {
+        dir = fs::temp_directory_path() / "aethermoor_saves";
+    }
+    std::error_code ec;
+    fs::create_directories(dir, ec);
+    return dir;
+}
+
+// Writes `<slot>.json` atomically: a temporary file first, then a rename over the old save.
+bool write_text_atomic(const fs::path& file, const std::string& text) {
+    const fs::path temp = fs::path(file).concat(".tmp");
+    {
+        std::ofstream out(temp, std::ios::binary | std::ios::trunc);
+        out << text;
+        if (!out) {
+            return false;
+        }
+    }
+    std::error_code ec;
+    fs::rename(temp, file, ec);
+    return !ec;
+}
+
+std::optional<std::string> read_text_file(const fs::path& file) {
+    std::ifstream in(file, std::ios::binary);
+    if (!in) {
+        return std::nullopt;
+    }
+    return std::string(std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>());
+}
+
+aether::SaveMeta save_meta(const aether::WorldSim& sim) {
+    aether::SaveMeta meta;
+    meta.game_version = std::string(aether::game_version());
+    meta.protagonist = kProtagonistId;
+    meta.seed = sim.combat().seed;
+    return meta;
+}
+
+bool save_game(const aether::WorldSim& sim, const fs::path& file) {
+    return write_text_atomic(file, aether::save_to_json(sim.capture(), save_meta(sim)));
+}
+
+bool load_game(aether::WorldSim& sim, const fs::path& file, std::string& error) {
+    const auto text = read_text_file(file);
+    if (!text) {
+        error = "no save file";
+        return false;
+    }
+    const auto state = aether::save_from_json(*text, error);
+    return state.has_value() && sim.restore(*state, error);
+}
+
+void notify(Ui& ui, const std::string& text) {
+    ui.message = text;
+    ui.message_frames = 150;
 }
 
 // Confirms the current dialogue line or choice.
@@ -478,6 +550,49 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
+void draw_inventory_and_notice(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui,
+                               int out_w, int out_h, float density) {
+    constexpr float kScale = 2.0F;
+    if (ui.show_inventory) {
+        const float w = std::min(static_cast<float>(out_w) - 40.0F, 520.0F * density);
+        const float x = (static_cast<float>(out_w) - w) / 2.0F;
+        const float row = 8.0F * kScale + 8.0F;
+        const auto& items = sim.inventory();
+        const float h = 56.0F + row * static_cast<float>(std::max<std::size_t>(items.size(), 1));
+        const float y = (static_cast<float>(out_h) - h) / 2.0F;
+        fill_rect(renderer, x, y, w, h, 11, 31, 58, 240);
+        fill_rect(renderer, x, y, w, 3.0F, 111, 227, 255, 255);
+        SDL_SetRenderScale(renderer, kScale, kScale);
+        SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
+        SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + 14.0F) / kScale,
+                            assets.pack.text(ui.lang, "$i18n:ui.inventory").c_str());
+        float ty = y + 14.0F + row + 6.0F;
+        SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
+        if (items.empty()) {
+            SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, ty / kScale,
+                                assets.pack.text(ui.lang, "$i18n:ui.empty_bag").c_str());
+        }
+        for (const auto& [item_id, quantity] : items) {
+            // "base:item/slime_gel" -> text key "item.slime_gel.name"
+            std::string key = item_id.substr(item_id.find(':') + 1);
+            std::replace(key.begin(), key.end(), '/', '.');
+            const std::string name =
+                assets.pack.text(ui.lang, "$i18n:" + key + ".name", {{"count", static_cast<std::int64_t>(quantity)}});
+            const std::string line = name + "  x" + std::to_string(quantity);
+            SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, ty / kScale, line.c_str());
+            ty += row;
+        }
+        SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+    }
+    if (ui.message_frames > 0 && !ui.message.empty()) {
+        SDL_SetRenderScale(renderer, kScale, kScale);
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_RenderDebugText(renderer, 12.0F * density / kScale, (static_cast<float>(out_h) - 40.0F * density) / kScale,
+                            ui.message.c_str());
+        SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+    }
+}
+
 void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& assets, const aether::WorldSim& sim,
             const Ui& ui, std::vector<FloatingText>& floating, int tile_px, float density, bool debug, double fps,
             const std::string& capture_path = {}) {
@@ -585,6 +700,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
         }
     }
     draw_dialogue(renderer, assets, sim, ui, out_w, out_h, density);
+    draw_inventory_and_notice(renderer, assets, sim, ui, out_w, out_h, density);
 
     if (debug) {
         char line[160];
@@ -658,16 +774,26 @@ int main(int argc, char** argv) {
         aether::TextureCache cache(renderer, assets.pack);
         aether::WorldSim sim(assets.map, assets.tileset, 0.0F, std::move(*combat));
         const float spawn_x = sim.player().position.x;
+        const aether::SaveState initial_state = sim.capture();
+        double since_autosave = 0.0;
         InputDevices devices;
         devices.open_first_gamepad();
         std::vector<FloatingText> floating;
         Ui ui;
         ui.lang = detect_language();
 
+        if (!smoke_test) {  // continue the last session, if there is one
+            std::string ignored;
+            if (load_game(sim, save_dir() / "auto.json", ignored)) {
+                notify(ui, assets.pack.text(ui.lang, "$i18n:ui.loaded"));
+            }
+        }
+
         bool running = true;
         bool debug = false;
         int frames = 0;
         bool captured_choice = false;
+        bool smoke_save_ok = false;
         int talk_step = 0;  // smoke test: scripted conversation with the guild clerk
         double accumulator = 0.0;
         double fps = 0.0;
@@ -687,6 +813,24 @@ int main(int argc, char** argv) {
                     running = false;
                 } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_F3) {
                     debug = !debug;
+                } else if (event.type == SDL_EVENT_KEY_DOWN && !smoke_test &&
+                           (event.key.key == SDLK_F5 || event.key.key == SDLK_F9 || event.key.key == SDLK_F7 ||
+                            event.key.key == SDLK_I)) {
+                    if (event.key.key == SDLK_I) {
+                        ui.show_inventory = !ui.show_inventory;
+                    } else if (event.key.key == SDLK_F5) {
+                        notify(ui, save_game(sim, save_dir() / "quick.json") ? assets.pack.text(ui.lang, "$i18n:ui.saved")
+                                                                              : "save failed");
+                    } else if (event.key.key == SDLK_F9) {
+                        std::string load_error;
+                        notify(ui, load_game(sim, save_dir() / "quick.json", load_error)
+                                       ? assets.pack.text(ui.lang, "$i18n:ui.loaded")
+                                       : assets.pack.text(ui.lang, "$i18n:ui.load_failed"));
+                    } else {
+                        std::string ignored;
+                        sim.restore(initial_state, ignored);
+                        notify(ui, assets.pack.text(ui.lang, "$i18n:ui.new_game"));
+                    }
                 } else if (event.type == SDL_EVENT_KEY_DOWN && !smoke_test) {
                     handle_dialogue_key(sim, ui, event.key.key);
                 } else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN && !smoke_test && sim.story().dialogue_active()) {
@@ -722,7 +866,23 @@ int main(int argc, char** argv) {
                     sim.story().advance();
                     talk_step = 4;
                 }
+                // At frame 60 write a save file, load it back into the running world and keep playing.
+                if (frames == 60) {
+                    const fs::path file = fs::temp_directory_path() / "aethermoor_smoke_save.json";
+                    std::string load_error;
+                    smoke_save_ok = save_game(sim, file) && load_game(sim, file, load_error);
+                    std::error_code ec;
+                    fs::remove(file, ec);
+                    if (!smoke_save_ok) {
+                        SDL_Log("smoke: save/load failed: %s", load_error.c_str());
+                    }
+                }
+                if (frames == 80) {
+                    ui.show_inventory = true;  // the last frames show the bag
+                }
                 sim.tick(input.x, input.y, input.attack);
+            } else if (ui.show_inventory) {
+                accumulator = 0.0;  // the bag pauses the game
             } else {
                 accumulator += frame_seconds;
                 int ticks = 0;
@@ -755,6 +915,15 @@ int main(int argc, char** argv) {
                                           [](const FloatingText& f) { return f.age > kFloatingTextFrames; }),
                            floating.end());
 
+            if (ui.message_frames > 0) {
+                --ui.message_frames;
+            }
+            since_autosave += frame_seconds;
+            if (!smoke_test && since_autosave >= kAutosaveSeconds) {
+                since_autosave = 0.0;
+                save_game(sim, save_dir() / "auto.json");
+            }
+
             float density = SDL_GetWindowPixelDensity(window);
             if (density <= 0.0F) {
                 density = 1.0F;
@@ -772,7 +941,7 @@ int main(int argc, char** argv) {
                 } else if (frames == 20) {
                     capture = (screenshot_dir / "walking.png").string();
                 } else if (frames == kSmokeTestFrames - 1) {
-                    capture = (screenshot_dir / "final.png").string();
+                    capture = (screenshot_dir / "bag.png").string();
                 }
             }
             render(renderer, cache, assets, sim, ui, floating, tile_px, density, debug, fps, capture);
@@ -782,7 +951,8 @@ int main(int argc, char** argv) {
                 const bool moved = sim.player().position.x > spawn_x + 1.0F;
                 const bool baked = cache.size() > 10;
                 const bool enemies = sim.enemies().size() == 12 && sim.story().quests().size() == 1 &&
-                                     !sim.story().dialogue_active();
+                                     !sim.story().dialogue_active() && smoke_save_ok &&
+                                     sim.inventory().count("base:item/bread") == 1;
                 std::printf("smoke: x %.2f -> %.2f, textures %zu, enemies %zu, %s\n", static_cast<double>(spawn_x),
                             static_cast<double>(sim.player().position.x), cache.size(), sim.enemies().size(),
                             (moved && baked && enemies) ? "ok" : "FAILED");
@@ -790,6 +960,9 @@ int main(int argc, char** argv) {
                     exit_code = 2;
                 }
             }
+        }
+        if (!smoke_test) {
+            save_game(sim, save_dir() / "auto.json");
         }
         if (devices.gamepad != nullptr) {
             SDL_CloseGamepad(devices.gamepad);

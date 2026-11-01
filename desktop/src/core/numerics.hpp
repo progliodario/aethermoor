@@ -48,6 +48,14 @@ public:
     // Uniform value in [0, bound) by rejection sampling; bound must be in 1..2^32-1.
     std::uint32_t next_bounded(std::uint32_t bound);
 
+    // For saves: the generator continues exactly where it stopped.
+    std::uint64_t state() const { return m_state_; }
+    std::uint64_t inc() const { return m_inc_; }
+    void set_state(std::uint64_t state, std::uint64_t inc) {
+        m_state_ = state;
+        m_inc_ = inc;
+    }
+
 private:
     std::uint64_t m_state_ = 0;
     std::uint64_t m_inc_ = 0;

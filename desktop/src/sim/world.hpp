@@ -52,6 +52,39 @@ struct DamageEvent {
     bool on_player = false;
 };
 
+// Everything that changes while playing; see docs/spec/12-save-format.md.
+struct SaveEnemy {
+    Vec2 position;
+    std::int64_t hp = 0;
+    EnemyState state = EnemyState::Idle;
+    int state_tick = 0;
+};
+
+struct SaveState {
+    Vec2 position;
+    Vec2 facing{1.0F, 0.0F};
+    bool facing_left = false;
+    bool moving = false;
+    int clip_tick = 0;
+    std::int64_t hp = 1;
+    std::int64_t level = 1;
+    std::int64_t xp = 0;
+    int deaths = 0;
+    int kills = 0;
+    int iframes = 0;
+    int cooldown = 0;
+    AttackPhase phase = AttackPhase::None;
+    int phase_tick = 0;
+    std::vector<bool> hit_set;
+    std::uint64_t combat_state = 0;
+    std::uint64_t combat_inc = 0;
+    std::uint64_t loot_state = 0;
+    std::uint64_t loot_inc = 0;
+    std::vector<SaveEnemy> enemies;
+    std::map<std::string, std::int64_t> inventory;
+    StoryState story;
+};
+
 struct Camera {
     float x = 0.0F;  // top-left of the view, in tiles
     float y = 0.0F;
@@ -75,6 +108,10 @@ public:
     const CombatSetup& combat() const { return m_setup_; }
     Story& story() { return m_story_; }
     const Story& story() const { return m_story_; }
+
+    SaveState capture() const;
+    // Overwrites the mutable state. On a mismatch with the loaded data returns false, sets `error` and changes nothing.
+    bool restore(const SaveState& state, std::string& error);
 
     // Events produced since the last call (damage numbers).
     std::vector<DamageEvent> take_events();

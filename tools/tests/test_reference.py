@@ -104,3 +104,18 @@ def test_generated_files_are_current():
         result = subprocess.run([sys.executable, str(TOOLS / script), "--check"],
                                 capture_output=True, text=True, check=False)
         assert result.returncode == 0, result.stdout + result.stderr
+
+
+def test_saves_in_the_vectors_match_the_schema():
+    import json
+
+    from jsonschema import Draft202012Validator
+
+    root = TOOLS.parent
+    schema = json.loads((root / "schemas" / "save.schema.json").read_text(encoding="utf-8"))
+    validator = Draft202012Validator(schema)
+    doc = json.loads((root / "tests" / "conformance" / "save.json").read_text(encoding="utf-8"))
+    assert doc["cases"]
+    for case in doc["cases"]:
+        errors = list(validator.iter_errors({"save_version": 1, **case["input"]["save"]}))
+        assert not errors, (case["name"], errors[:1])

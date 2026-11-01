@@ -19,6 +19,9 @@ import io.github.progliodario.aethermoor.core.sim.EnemyState
 import io.github.progliodario.aethermoor.core.sim.NpcDef
 import io.github.progliodario.aethermoor.core.sim.Prop
 import io.github.progliodario.aethermoor.core.sim.QuestStage
+import io.github.progliodario.aethermoor.core.sim.SaveMeta
+import io.github.progliodario.aethermoor.core.sim.saveFromJson
+import io.github.progliodario.aethermoor.core.sim.saveToJson
 import io.github.progliodario.aethermoor.core.sim.TICK_DT
 import io.github.progliodario.aethermoor.core.sim.TileMap
 import io.github.progliodario.aethermoor.core.sim.Tileset
@@ -78,6 +81,12 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var talkRect: FloatArray? = null
     private var lastSpeaker = ""
     private var lastText = ""
+    private var showInventory = false
+    private var bagRect: FloatArray? = null
+    private var message = ""
+    private var messageFrames = 0
+    private var sinceAutosave = 0f
+    private var seed = 0uL
 
     override fun create() {
         batch = SpriteBatch()
@@ -90,13 +99,16 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val loaded = loadAssets() ?: return
         assets = loaded
         cache = TextureCache(loaded.pack)
-        val combat = loadCombatSetup(loaded.pack, loaded.map, PROTAGONIST_ID, System.nanoTime().toULong())
+        seed = System.nanoTime().toULong()
+        val combat = loadCombatSetup(loaded.pack, loaded.map, PROTAGONIST_ID, seed)
             .getOrElse {
                 error = it.message
                 Gdx.app.error(TAG, "Cannot build the combat setup: ${it.message}")
                 return
             }
-        sim = WorldSim(loaded.map, loaded.tileset, 0f, combat)
+        val world = WorldSim(loaded.map, loaded.tileset, 0f, combat)
+        sim = world
+        loadAutosave(world, loaded.pack)
     }
 
     private fun loadAssets(): Assets? {
@@ -128,6 +140,41 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
     }
 
+    // ------------------------------------------------------------------------------------ saves
+
+    private fun saveFile() = Gdx.files.local("saves/auto.json")
+
+    /** Writes the autosave (a temporary file first, then a move over the old save). */
+    private fun saveGame(world: WorldSim) {
+        try {
+            val temp = Gdx.files.local("saves/auto.json.tmp")
+            temp.writeString(saveToJson(world.capture(), SaveMeta(info.version, 1, PROTAGONIST_ID, seed)), false, "UTF-8")
+            temp.moveTo(saveFile())
+        } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
+            Gdx.app.error(TAG, "Cannot write the save: ${e.message}")
+        }
+    }
+
+    private fun loadAutosave(world: WorldSim, pack: Pack) {
+        val file = saveFile()
+        if (!file.exists()) return
+        val result = saveFromJson(file.readString("UTF-8")).mapCatching { world.restore(it).getOrThrow() }
+        if (result.isSuccess) {
+            showNotice(pack.text(language, "\$i18n:ui.loaded"))
+        } else {
+            Gdx.app.error(TAG, "Cannot load the save: ${result.exceptionOrNull()?.message}")
+        }
+    }
+
+    private fun showNotice(text: String) {
+        message = text
+        messageFrames = 150
+    }
+
+    override fun pause() {
+        sim?.let { saveGame(it) }
+    }
+
     override fun resize(width: Int, height: Int) {
         camera.setToOrtho(true, width.toFloat(), height.toFloat())
         camera.update()
@@ -145,14 +192,24 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
         handleStoryInput(world)
         val frame = input.read()
-        accumulator += min(Gdx.graphics.deltaTime, MAX_FRAME_SECONDS)
-        var ticks = 0
-        while (accumulator >= TICK_DT && ticks < MAX_TICKS_PER_FRAME) {
-            world.tick(frame.x, frame.y, frame.attack)
-            accumulator -= TICK_DT
-            ticks++
+        if (showInventory) {
+            accumulator = 0f // the bag pauses the game
+        } else {
+            accumulator += min(Gdx.graphics.deltaTime, MAX_FRAME_SECONDS)
+            var ticks = 0
+            while (accumulator >= TICK_DT && ticks < MAX_TICKS_PER_FRAME) {
+                world.tick(frame.x, frame.y, frame.attack)
+                accumulator -= TICK_DT
+                ticks++
+            }
+            if (ticks == MAX_TICKS_PER_FRAME) accumulator = 0f
         }
-        if (ticks == MAX_TICKS_PER_FRAME) accumulator = 0f
+        if (messageFrames > 0) messageFrames--
+        sinceAutosave += Gdx.graphics.deltaTime
+        if (sinceAutosave >= AUTOSAVE_SECONDS) {
+            sinceAutosave = 0f
+            saveGame(world)
+        }
 
         for (e in world.takeEvents()) floating.add(FloatingText(e.position.x, e.position.y, e.amount.toString(), e.onPlayer, e.crit))
         floating.forEach { it.age++ }
@@ -360,6 +417,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val story = world.story
         val input = Gdx.input
         val view = story.dialogueView()
+        if (showInventory) {
+            if (input.isKeyJustPressed(Input.Keys.I) || input.isKeyJustPressed(Input.Keys.ESCAPE) || input.justTouched()) showInventory = false
+            return
+        }
+        if (input.isKeyJustPressed(Input.Keys.I)) {
+            showInventory = true
+            return
+        }
         val confirm = input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.ENTER) ||
             (view.active && input.isKeyJustPressed(Input.Keys.SPACE))
         if (view.active && view.isChoice) {
@@ -397,6 +462,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 }
                 choiceIndex = 0
             } else {
+                val bag = bagRect
+                if (bag != null && x >= bag[0] && x <= bag[0] + bag[2] && y >= bag[1] && y <= bag[1] + bag[3]) {
+                    showInventory = true
+                    return
+                }
                 val rect = talkRect
                 if (rect != null && story.npcInRange() != null &&
                     x >= rect[0] && x <= rect[0] + rect[2] && y >= rect[1] && y <= rect[1] + rect[3]
@@ -540,6 +610,60 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
         font.color = Color.WHITE
         batch.end()
+        drawBagAndNotice(world, data)
+    }
+
+    /** The bag button, the inventory panel and short notices. */
+    private fun drawBagAndNotice(world: WorldSim, data: Assets) {
+        val density = Gdx.graphics.density
+        val width = Gdx.graphics.width.toFloat()
+        val height = Gdx.graphics.height.toFloat()
+        val button = floatArrayOf(12f * density, 74f * density, 96f * density, 34f * density)
+        bagRect = button
+        val items = world.inventory.entries.toList()
+        val rowH = font.lineHeight * 1.5f
+        val panelW = min(width - 40f, 420f * density)
+        val panelH = 56f * density + rowH * max(items.size, 1)
+        val panelX = (width - panelW) / 2f
+        val panelY = (height - panelH) / 2f
+
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        shapes.color = Color(0.04f, 0.12f, 0.23f, 0.8f)
+        shapes.rect(button[0], button[1], button[2], button[3])
+        if (showInventory) {
+            shapes.color = Color(0.04f, 0.12f, 0.23f, 0.95f)
+            shapes.rect(panelX, panelY, panelW, panelH)
+            shapes.color = Color(0.435f, 0.89f, 1f, 1f)
+            shapes.rect(panelX, panelY, panelW, 3f * density)
+        }
+        shapes.end()
+
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        font.color = Color.WHITE
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.bag_hint"), button[0] + 8f * density, button[1] + (button[3] - font.lineHeight) / 2f)
+        if (showInventory) {
+            font.color = Color(1f, 0.84f, 0.47f, 1f)
+            font.draw(batch, data.pack.text(language, "\$i18n:ui.inventory"), panelX + 16f * density, panelY + 14f * density)
+            var ty = panelY + 14f * density + rowH + 6f * density
+            font.color = Color(0.92f, 0.96f, 1f, 1f)
+            if (items.isEmpty()) font.draw(batch, data.pack.text(language, "\$i18n:ui.empty_bag"), panelX + 16f * density, ty)
+            for ((itemId, quantity) in items) {
+                // "base:item/slime_gel" -> text key "item.slime_gel.name"
+                val key = itemId.substringAfter(':').replace('/', '.')
+                val name = data.pack.text(language, "\$i18n:$key.name", mapOf("count" to quantity))
+                font.draw(batch, "$name  x$quantity", panelX + 16f * density, ty)
+                ty += rowH
+            }
+        }
+        if (messageFrames > 0 && message.isNotEmpty()) {
+            font.color = Color.WHITE
+            font.draw(batch, message, 12f * density, height - 40f * density)
+        }
+        font.color = Color.WHITE
+        batch.end()
     }
 
     private fun drawStick() {
@@ -576,5 +700,6 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         private const val MAX_TICKS_PER_FRAME = 5
         private const val MAX_FRAME_SECONDS = 0.25f
         private const val FLOATING_TEXT_FRAMES = 50
+        private const val AUTOSAVE_SECONDS = 30f
     }
 }

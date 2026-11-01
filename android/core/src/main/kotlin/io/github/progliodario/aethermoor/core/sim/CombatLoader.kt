@@ -115,5 +115,6 @@ fun loadCombatSetup(pack: Pack, map: TileMap, protagonistId: String, seed: ULong
             xpTable = pack.intTables["base:table/xp"]?.values ?: emptyList(),
             seed = seed,
             story = StorySetup(quests, dialogues, npcs),
+            startInventory = protagonist.startingInventory,
         )
     }

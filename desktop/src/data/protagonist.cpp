@@ -24,6 +24,7 @@ std::optional<ProtagonistDef> parse_protagonist(std::string_view json_text, std:
         if (j.contains("starting_items")) {
             for (const Json& item : j.at("starting_items")) {
                 def.starting_items.push_back(item.at("item").get<std::string>());
+                def.starting_inventory[item.at("item").get<std::string>()] += item.at("qty").get<std::int64_t>();
             }
         }
         for (const Json& skill : j.at("starting_skills")) {
