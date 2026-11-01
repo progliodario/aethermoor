@@ -54,6 +54,37 @@ jobs:
         working-directory: desktop
         run: ctest --preset ${{ matrix.preset }}
 
+      - name: Package the playable build
+        shell: bash
+        run: |
+          set -e
+          mkdir -p package
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            build=desktop/build/windows-release/Release
+            ls "$build"
+            cp "$build/aethermoor.exe" package/
+            cp "$build"/*.dll package/
+            cp -r "$build/data" package/
+            cp desktop/PLAY.txt package/
+            (cd package && 7z a -tzip "$GITHUB_WORKSPACE/aethermoor-windows-x64.zip" . > /dev/null)
+          else
+            build=desktop/build/linux-release
+            cp "$build/aethermoor" package/
+            cp -r "$build/data" package/
+            cp desktop/PLAY.txt package/
+            tar -czf aethermoor-linux-x64.tar.gz -C package .
+          fi
+
+      - name: Upload the playable build
+        uses: actions/upload-artifact@v7
+        with:
+          name: aethermoor-${{ matrix.name }}
+          path: |
+            aethermoor-windows-x64.zip
+            aethermoor-linux-x64.tar.gz
+          retention-days: 30
+          if-no-files-found: error
+
       - name: Upload smoke-test screenshots
         if: always()
         uses: actions/upload-artifact@v7
