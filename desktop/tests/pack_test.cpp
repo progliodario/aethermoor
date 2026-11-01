@@ -34,7 +34,7 @@ TEST_CASE("pack localization", "[data]") {
     REQUIRE(pack.text("it", "$i18n:ui.version", {{"version", std::string("0.1.0")}}) == "Versione 0.1.0");
     REQUIRE(pack.text("it", "$i18n:item.bread.name", {{"count", std::int64_t{1}}}) == "Pane");
     REQUIRE(pack.text("it", "$i18n:item.bread.name", {{"count", std::int64_t{3}}}) == "Pani");
-    REQUIRE(pack.text("en", "$i18n:item.bread.name", {{"count", std::int64_t{3}}}) == "Breads");
+    REQUIRE(pack.text("en", "$i18n:item.bread.name", {{"count", std::int64_t{3}}}) == "Bread");
 }
 
 TEST_CASE("pack localization falls back to the key", "[data]") {

@@ -25,7 +25,7 @@ class PackTest {
         assertEquals("Versione 0.1.0", pack.text("it", "\$i18n:ui.version", mapOf("version" to "0.1.0")))
         assertEquals("Pane", pack.text("it", "\$i18n:item.bread.name", mapOf("count" to 1L)))
         assertEquals("Pani", pack.text("it", "\$i18n:item.bread.name", mapOf("count" to 3L)))
-        assertEquals("Breads", pack.text("en", "\$i18n:item.bread.name", mapOf("count" to 3L)))
+        assertEquals("Bread", pack.text("en", "\$i18n:item.bread.name", mapOf("count" to 3L)))
     }
 
     @Test
