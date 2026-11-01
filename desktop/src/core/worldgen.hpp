@@ -114,6 +114,11 @@ struct WorldParams {
 
     TimeParams time;
 
+    int home_radius = 0;  // the home meadow and village (spec 09); 0: none
+    std::string home_stamp;
+    int home_dx = 0;
+    int home_dy = 0;
+
     std::vector<Region> regions;
     int settlement_per_mille = 0;
     std::vector<SettlementKind> settlement_kinds;

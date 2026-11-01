@@ -633,6 +633,32 @@
       "additionalProperties": {
         "type": "object"
       }
+    },
+    "home": {
+      "type": "object",
+      "required": [
+        "radius",
+        "stamp",
+        "dx",
+        "dy"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "radius": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "stamp": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+        },
+        "dx": {
+          "type": "integer"
+        },
+        "dy": {
+          "type": "integer"
+        }
+      }
     }
   }
 }

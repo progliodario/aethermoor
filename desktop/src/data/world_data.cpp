@@ -99,6 +99,12 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
             return std::nullopt;
         }
 
+        if (j.contains("home")) {
+            p.home_radius = j.at("home").at("radius").get<int>();
+            p.home_stamp = j.at("home").at("stamp").get<std::string>();
+            p.home_dx = j.at("home").at("dx").get<int>();
+            p.home_dy = j.at("home").at("dy").get<int>();
+        }
         for (const Json& r : j.at("regions")) {
             p.regions.push_back({r.at("id").get<std::string>(), r.at("name").get<std::string>(), r.at("x_pm").get<int>(),
                                  r.at("y_pm").get<int>(), r.at("danger").get<int>()});
@@ -152,6 +158,10 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
                 p.stamps[id] = std::move(stamp);
             }
         }
+        if (p.home_radius > 0 && p.stamps.find(p.home_stamp) == p.stamps.end()) {
+            error = "unknown home stamp " + p.home_stamp;
+            return std::nullopt;
+        }
         for (const SettlementKind& kind : p.settlement_kinds) {
             for (const std::string& stamp : kind.stamps) {
                 if (p.stamps.find(stamp) == p.stamps.end() && p.settlement_per_mille > 0) {
@@ -189,6 +199,15 @@ std::optional<WorldParams> load_world_params(const Pack& pack, std::string_view 
     }
     try {
         Json defs = Json::object();
+        if (j.contains("home")) {
+            const std::string home_id = j.at("home").at("stamp").get<std::string>();
+            const auto home_text = pack.read_document(home_id);
+            if (!home_text) {
+                error = "missing stamp " + home_id;
+                return std::nullopt;
+            }
+            defs[home_id] = Json::parse(*home_text);
+        }
         for (const Json& kind : j.at("settlements").at("kinds")) {
             for (const Json& stamp : kind.at("stamps")) {
                 const auto stamp_text = pack.read_document(stamp.get<std::string>());

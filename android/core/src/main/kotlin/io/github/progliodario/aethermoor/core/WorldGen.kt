@@ -84,6 +84,11 @@ class WorldParams(
     val spawnerRespawnTicks: Int,
     val time: TimeParams,
     val npcs: List<WorldNpc>,
+    /** The home meadow and village (spec 09); [homeRadius] 0: none. */
+    val homeRadius: Int,
+    val homeStamp: String,
+    val homeDx: Int,
+    val homeDy: Int,
     val regions: List<Region>,
     val settlementPerMille: Int,
     val settlementKinds: List<SettlementKind>,
@@ -127,6 +132,11 @@ private fun inClearing(p: WorldParams, x: Int, y: Int): Boolean {
 private fun biomeAt(seed: ULong, p: WorldParams, x: Int, y: Int): Biome {
     if (x < p.border || y < p.border || x >= p.width - p.border || y >= p.height - p.border) return Biome.WATER
     if (inClearing(p, x, y)) return Biome.PLAINS
+    if (p.homeRadius > 0) {
+        val dx = (x - p.width / 2).toLong()
+        val dy = (y - p.height / 2).toLong()
+        if (dx * dx + dy * dy < p.homeRadius.toLong() * p.homeRadius) return Biome.PLAINS // the home meadow
+    }
     val e = field(seed, p.elevation, x, y)
     if (e < p.water) return Biome.WATER
     if (e < p.beach) return Biome.BEACH
@@ -180,7 +190,23 @@ private class Sites(private val seed: ULong, private val p: WorldParams) {
         return Hit(stamp.legend[stamp.rows[ly][lx]])
     }
 
+    /** The home village: fixed position, stamp and kind near the spawn (spec 09, "The home village"). */
+    private fun home(sx: Int, sy: Int, px: Int, py: Int): Settlement {
+        val stamp = p.stamps.getValue(p.homeStamp)
+        val n = hash64(seed, sx.toLong(), sy.toLong(), 43)
+        val name = p.namesStart[(n % p.namesStart.size.toULong()).toInt()] +
+            p.namesMid[((n shr 16) % p.namesMid.size.toULong()).toInt()] +
+            p.namesEnd[((n shr 32) % p.namesEnd.size.toULong()).toInt()]
+        val kind = p.settlementKinds.firstOrNull { p.homeStamp in it.stamps }?.id ?: "village"
+        return Settlement(px - stamp.anchorX, py - stamp.anchorY, px, py, stamp.w, stamp.h, p.homeStamp, kind, name, regionAt(p, px, py))
+    }
+
     private fun compute(sx: Int, sy: Int): Settlement? {
+        if (p.homeRadius > 0) {
+            val hx = p.width / 2 + p.homeDx
+            val hy = p.height / 2 + p.homeDy
+            if ((hx shr 8) == sx && (hy shr 8) == sy) return home(sx, sy, hx, hy)
+        }
         val h = hash64(seed, sx.toLong(), sy.toLong(), 41)
         if ((h shr 40) % 1000uL >= p.settlementPerMille.toULong()) return null
         val px = sx * SITE_CELL + 40 + ((h shr 8) % 176uL).toInt()
@@ -456,6 +482,9 @@ fun loadWorldParams(pack: Pack, worldId: String): Result<WorldParams> =
     runCatching {
         val j = Json.parseToJsonElement(requireNotNull(pack.readDocument(worldId)) { "missing world $worldId" }).jsonObject
         val defs = HashMap<String, JsonElement>()
+        j["home"]?.jsonObject?.getValue("stamp")?.jsonPrimitive?.content?.let { id ->
+            defs[id] = Json.parseToJsonElement(requireNotNull(pack.readDocument(id)) { "missing stamp $id" })
+        }
         for (kind in j.getValue("settlements").jsonObject.getValue("kinds").jsonArray) {
             for (stamp in kind.jsonObject.getValue("stamps").jsonArray) {
                 val id = stamp.jsonPrimitive.content
@@ -508,6 +537,10 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
             spawnerPer10000 = s.getValue("per_10000").jsonPrimitive.int,
             spawnerRespawnTicks = s.getValue("respawn_ticks").jsonPrimitive.int,
             time = parseTimeParams(j.getValue("time").jsonObject),
+            homeRadius = j["home"]?.jsonObject?.getValue("radius")?.jsonPrimitive?.int ?: 0,
+            homeStamp = j["home"]?.jsonObject?.getValue("stamp")?.jsonPrimitive?.content ?: "",
+            homeDx = j["home"]?.jsonObject?.getValue("dx")?.jsonPrimitive?.int ?: 0,
+            homeDy = j["home"]?.jsonObject?.getValue("dy")?.jsonPrimitive?.int ?: 0,
             regions = j.getValue("regions").jsonArray.map {
                 val r = it.jsonObject
                 Region(

@@ -27,6 +27,7 @@
     { "id": "ashen_wastes", "name": "$i18n:region.ashen_wastes.name", "x_pm": 920, "y_pm": 480, "danger": 7 },
     { "id": "lumeria", "name": "$i18n:region.lumeria.name", "x_pm": 480, "y_pm": 900, "danger": 5 }
   ],
+  "home": { "radius": 72, "stamp": "base:stamp/village", "dx": 36, "dy": 40 },
   "settlements": {
     "per_mille": 130,
     "kinds": [

@@ -181,7 +181,7 @@ def suite_worldgen() -> list[dict]:
         ("seed_c0ffee_small_border", 0xC0FFEE, {"width": 80, "height": 72, "border": 2}),
         ("seed_max_u64", nm.M64, {"width": 88, "height": 96}),
     ):
-        params = {**PARAMS, "width": 96, "height": 80, **overrides}
+        params = {k: v for k, v in {**PARAMS, "width": 96, "height": 80, **overrides}.items() if k != "home"}
         world = worldgen.generate(seed, params)
         w, h = params["width"], params["height"]
         probes = []

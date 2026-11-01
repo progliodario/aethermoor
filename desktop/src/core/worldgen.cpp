@@ -51,6 +51,13 @@ Biome biome_at(std::uint64_t seed, const WorldParams& p, int x, int y) {
     if (in_clearing(p, x, y)) {
         return Biome::Plains;
     }
+    if (p.home_radius > 0) {
+        const std::int64_t dx = x - p.width / 2;
+        const std::int64_t dy = y - p.height / 2;
+        if (dx * dx + dy * dy < static_cast<std::int64_t>(p.home_radius) * p.home_radius) {
+            return Biome::Plains;  // the home meadow
+        }
+    }
     const std::int64_t e = field(seed, p.elevation, x, y);
     if (e < p.water) {
         return Biome::Water;
@@ -201,6 +208,13 @@ public:
 private:
     std::optional<Settlement> compute(int sx, int sy) const {
         const WorldParams& p = m_params_;
+        if (p.home_radius > 0) {
+            const int hx = p.width / 2 + p.home_dx;
+            const int hy = p.height / 2 + p.home_dy;
+            if ((hx >> 8) == sx && (hy >> 8) == sy) {
+                return home(sx, sy, hx, hy);
+            }
+        }
         const std::uint64_t h = hash64(m_seed_, sx, sy, 41);
         if ((h >> 40) % 1000 >= static_cast<std::uint64_t>(p.settlement_per_mille)) {
             return std::nullopt;
@@ -253,6 +267,32 @@ private:
         s.h = stamp.h;
         s.stamp = stamp_id;
         s.kind = chosen->id;
+        s.name = p.names_start[n % p.names_start.size()] + p.names_mid[(n >> 16) % p.names_mid.size()] +
+                 p.names_end[(n >> 32) % p.names_end.size()];
+        s.region = region_at(p, px, py);
+        return s;
+    }
+
+    // The home village: fixed position, stamp and kind near the spawn (spec 09, "The home village").
+    Settlement home(int sx, int sy, int px, int py) const {
+        const WorldParams& p = m_params_;
+        const Stamp& stamp = p.stamps.at(p.home_stamp);
+        const std::uint64_t n = hash64(m_seed_, sx, sy, 43);
+        Settlement s;
+        s.x = px - stamp.anchor_x;
+        s.y = py - stamp.anchor_y;
+        s.px = px;
+        s.py = py;
+        s.w = stamp.w;
+        s.h = stamp.h;
+        s.stamp = p.home_stamp;
+        s.kind = "village";
+        for (const SettlementKind& kind : p.settlement_kinds) {
+            if (std::find(kind.stamps.begin(), kind.stamps.end(), p.home_stamp) != kind.stamps.end()) {
+                s.kind = kind.id;
+                break;
+            }
+        }
         s.name = p.names_start[n % p.names_start.size()] + p.names_mid[(n >> 16) % p.names_mid.size()] +
                  p.names_end[(n >> 32) % p.names_end.size()];
         s.region = region_at(p, px, py);
