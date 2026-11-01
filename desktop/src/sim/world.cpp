@@ -198,6 +198,31 @@ void WorldSim::recompute_derived() {
     m_derived_ = derived_stats(m_player_.level, primary_at_level(m_setup_.player, m_player_.level), equipment);
 }
 
+bool WorldSim::use_item(const std::string& item_id) {
+    if (m_story_.dialogue_active()) {
+        return false;
+    }
+    const auto item = m_setup_.items.find(item_id);
+    const auto owned = m_inventory_.find(item_id);
+    if (item == m_setup_.items.end() || owned == m_inventory_.end() || owned->second < 1) {
+        return false;
+    }
+    std::int64_t heal = 0;
+    for (const ItemEffect& effect : item->second.effects) {
+        if (effect.effect == "heal") {
+            heal += effect.amount;
+        }
+    }
+    if (heal <= 0 || m_player_.hp >= m_derived_.max_hp) {
+        return false;
+    }
+    m_player_.hp = std::min(m_derived_.max_hp, m_player_.hp + heal);
+    if (--owned->second == 0) {
+        m_inventory_.erase(owned);
+    }
+    return true;
+}
+
 std::vector<DamageEvent> WorldSim::take_events() { return std::exchange(m_events_, {}); }
 
 void WorldSim::tick(float raw_x, float raw_y, bool attack) {

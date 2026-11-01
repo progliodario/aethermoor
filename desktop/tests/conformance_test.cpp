@@ -426,6 +426,20 @@ Scenario scenario_from_json(const Json& in) {
         setup.spawns.push_back({enemy_def_from_json(e.at("def")), e.at("pos").at(0).get<float>(),
                                 e.at("pos").at(1).get<float>()});
     }
+    if (in.contains("inventory")) {
+        for (const auto& [item, quantity] : in.at("inventory").items()) {
+            setup.start_inventory[item] = quantity.get<std::int64_t>();
+        }
+    }
+    if (in.contains("items")) {
+        for (const auto& [item, def] : in.at("items").items()) {
+            aether::ItemDef parsed;
+            for (const Json& effect : def.at("effects")) {
+                parsed.effects.push_back({effect.at("effect").get<std::string>(), integer(effect, "amount")});
+            }
+            setup.items.emplace(item, std::move(parsed));
+        }
+    }
     if (in.contains("story")) {
         std::string story_error;
         auto story = aether::parse_story_setup(in.at("story").dump(), story_error);
@@ -443,7 +457,9 @@ void run_segment(aether::WorldSim& sim, const Json& segment) {
     if (segment.contains("do")) {
         for (const Json& command : segment.at("do")) {
             const std::string cmd = command.at("cmd").get<std::string>();
-            if (cmd == "interact") {
+            if (cmd == "use") {
+                sim.use_item(command.at("item").get<std::string>());
+            } else if (cmd == "interact") {
                 sim.story().interact();
             } else if (cmd == "advance") {
                 sim.story().advance();

@@ -5,6 +5,8 @@ import io.github.progliodario.aethermoor.core.sim.CombatSetup
 import io.github.progliodario.aethermoor.core.sim.DropDef
 import io.github.progliodario.aethermoor.core.sim.EnemyDef
 import io.github.progliodario.aethermoor.core.sim.EnemySpawn
+import io.github.progliodario.aethermoor.core.sim.ItemDef
+import io.github.progliodario.aethermoor.core.sim.ItemEffect
 import io.github.progliodario.aethermoor.core.sim.PlayerSetup
 import io.github.progliodario.aethermoor.core.sim.SkillDef
 import io.github.progliodario.aethermoor.core.sim.StorySetup
@@ -88,6 +90,14 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         seed = input.getValue("seed").jsonPrimitive.content.removePrefix("0x").toULong(16),
         startLevel = player.getValue("level").jsonPrimitive.int,
         story = input["story"]?.let { parseStorySetup(it) } ?: StorySetup(),
+        startInventory = input["inventory"]?.jsonObject?.mapValues { it.value.jsonPrimitive.long } ?: emptyMap(),
+        items = input["items"]?.jsonObject?.mapValues { (_, def) ->
+            ItemDef(
+                def.jsonObject.getValue("effects").jsonArray.map {
+                    ItemEffect(it.jsonObject.getValue("effect").jsonPrimitive.content, it.jsonObject.getValue("amount").jsonPrimitive.long)
+                },
+            )
+        } ?: emptyMap(),
     )
     return ScenarioWorld(map, tileset, combat)
 }
@@ -101,6 +111,7 @@ internal fun runSegment(sim: WorldSim, segment: JsonObject) {
     for (command in segment["do"]?.jsonArray ?: JsonArray(emptyList())) {
         val cmd = command.jsonObject
         when (cmd.getValue("cmd").jsonPrimitive.content) {
+            "use" -> sim.useItem(cmd.getValue("item").jsonPrimitive.content)
             "interact" -> sim.story.interact()
             "advance" -> sim.story.advance()
             "choose" -> sim.story.choose(cmd.getValue("index").jsonPrimitive.int)

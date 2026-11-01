@@ -65,6 +65,7 @@ struct Ui {
     std::string message;  // short notice ("Game saved"), shown for a moment
     int message_frames = 0;
     bool show_inventory = false;
+    int bag_cursor = 0;  // index of the selected item in the bag
     bool show_map = false;
     mutable std::map<std::pair<int, int>, int> map_codes;  // biome code of the explored cells, filled when the map is drawn
 };
@@ -516,6 +517,36 @@ void move_choice(aether::WorldSim& sim, Ui& ui, int delta) {
     }
 }
 
+// "base:item/slime_gel" -> text key "item.slime_gel"
+std::string item_key(const std::string& item_id) {
+    std::string key = item_id.substr(item_id.find(':') + 1);
+    std::replace(key.begin(), key.end(), '/', '.');
+    return key;
+}
+
+// The bag: move the cursor and use the selected item (spec 06).
+void bag_move(const aether::WorldSim& sim, Ui& ui, int delta) {
+    const int count = static_cast<int>(sim.inventory().size());
+    ui.bag_cursor = count > 0 ? (std::clamp(ui.bag_cursor, 0, count - 1) + delta + count) % count : 0;
+}
+
+void bag_use(aether::WorldSim& sim, const Assets& assets, Ui& ui) {
+    const auto& items = sim.inventory();
+    if (items.empty()) {
+        return;
+    }
+    auto it = items.begin();
+    std::advance(it, std::clamp(ui.bag_cursor, 0, static_cast<int>(items.size()) - 1));
+    const std::string item_id = it->first;
+    const std::string name = assets.pack.text(ui.lang, "$i18n:" + item_key(item_id) + ".name", {{"count", std::int64_t{1}}});
+    if (sim.use_item(item_id)) {
+        notify(ui, assets.pack.text(ui.lang, "$i18n:ui.item_used", {{"item", name}}));
+        bag_move(sim, ui, 0);
+    } else {
+        notify(ui, assets.pack.text(ui.lang, "$i18n:ui.item_unchanged"));
+    }
+}
+
 void handle_dialogue_key(aether::WorldSim& sim, Ui& ui, SDL_Keycode key) {
     const bool active = sim.story().dialogue_active();
     if (key == SDLK_E || key == SDLK_RETURN || (active && key == SDLK_SPACE)) {
@@ -649,7 +680,7 @@ void draw_inventory_and_notice(SDL_Renderer* renderer, const Assets& assets, con
         const float x = (static_cast<float>(out_w) - w) / 2.0F;
         const float row = 8.0F * kScale + 8.0F;
         const auto& items = sim.inventory();
-        const float h = 56.0F + row * static_cast<float>(std::max<std::size_t>(items.size(), 1));
+        const float h = 56.0F + row * static_cast<float>(std::max<std::size_t>(items.size(), 1)) + row * 2.0F;
         const float y = (static_cast<float>(out_h) - h) / 2.0F;
         fill_rect(renderer, x, y, w, h, 11, 31, 58, 240);
         fill_rect(renderer, x, y, w, 3.0F, 111, 227, 255, 255);
@@ -663,15 +694,34 @@ void draw_inventory_and_notice(SDL_Renderer* renderer, const Assets& assets, con
             SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, ty / kScale,
                                 assets.pack.text(ui.lang, "$i18n:ui.empty_bag").c_str());
         }
+        const int cursor = std::clamp(ui.bag_cursor, 0, std::max(static_cast<int>(items.size()) - 1, 0));
+        int index = 0;
+        std::string selected;
         for (const auto& [item_id, quantity] : items) {
-            // "base:item/slime_gel" -> text key "item.slime_gel.name"
-            std::string key = item_id.substr(item_id.find(':') + 1);
-            std::replace(key.begin(), key.end(), '/', '.');
+            const std::string key = item_key(item_id);
             const std::string name =
                 assets.pack.text(ui.lang, "$i18n:" + key + ".name", {{"count", static_cast<std::int64_t>(quantity)}});
             const std::string line = name + "  x" + std::to_string(quantity);
-            SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, ty / kScale, line.c_str());
+            if (index == cursor) {
+                selected = key;
+                SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+                fill_rect(renderer, x + 8.0F, ty - 3.0F, w - 16.0F, row, 40, 90, 140, 255);
+                SDL_SetRenderScale(renderer, kScale, kScale);
+                SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+                SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, ty / kScale, (">" + line).c_str());
+                SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
+            } else {
+                SDL_RenderDebugText(renderer, (x + 16.0F + 8.0F * kScale) / kScale, ty / kScale, line.c_str());
+            }
             ty += row;
+            ++index;
+        }
+        if (!selected.empty()) {
+            SDL_SetRenderDrawColor(renderer, 170, 200, 230, 255);
+            SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (ty + 6.0F) / kScale,
+                                assets.pack.text(ui.lang, "$i18n:" + selected + ".desc").c_str());
+            SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (ty + 6.0F + row) / kScale,
+                                assets.pack.text(ui.lang, "$i18n:ui.bag_use_hint").c_str());
         }
         SDL_SetRenderScale(renderer, 1.0F, 1.0F);
     }
@@ -972,11 +1022,33 @@ int main(int argc, char** argv) {
                         notify(ui, assets.pack.text(ui.lang, "$i18n:ui.new_game"));
                     }
                 } else if (event.type == SDL_EVENT_KEY_DOWN && !smoke_test) {
-                    handle_dialogue_key(sim, ui, event.key.key);
+                    if (ui.show_inventory) {
+                        if (event.key.key == SDLK_UP || event.key.key == SDLK_W) {
+                            bag_move(sim, ui, -1);
+                        } else if (event.key.key == SDLK_DOWN || event.key.key == SDLK_S) {
+                            bag_move(sim, ui, 1);
+                        } else if (event.key.key == SDLK_E || event.key.key == SDLK_RETURN || event.key.key == SDLK_SPACE) {
+                            bag_use(sim, assets, ui);
+                        }
+                    } else {
+                        handle_dialogue_key(sim, ui, event.key.key);
+                    }
                 } else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN && !smoke_test && sim.story().dialogue_active()) {
                     activate_dialogue(sim, ui);
                 } else if (event.type == SDL_EVENT_GAMEPAD_BUTTON_DOWN && !smoke_test) {
-                    handle_dialogue_button(sim, ui, event.gbutton.button);
+                    if (ui.show_inventory) {
+                        if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_UP) {
+                            bag_move(sim, ui, -1);
+                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_DOWN) {
+                            bag_move(sim, ui, 1);
+                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_WEST || event.gbutton.button == SDL_GAMEPAD_BUTTON_SOUTH) {
+                            bag_use(sim, assets, ui);
+                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_EAST) {
+                            ui.show_inventory = false;
+                        }
+                    } else {
+                        handle_dialogue_button(sim, ui, event.gbutton.button);
+                    }
                 } else if (event.type == SDL_EVENT_GAMEPAD_ADDED) {
                     devices.open_first_gamepad();
                 } else if (event.type == SDL_EVENT_GAMEPAD_REMOVED && devices.gamepad != nullptr &&

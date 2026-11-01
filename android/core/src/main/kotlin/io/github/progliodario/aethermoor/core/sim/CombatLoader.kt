@@ -117,6 +117,19 @@ fun loadCombatSetup(
         }
         val npcs = map.npcs.map { NpcDef(it.key, it.dialogue, it.variant, it.x, it.y) }
 
+        // Items that can be used (spec 06).
+        val items = HashMap<String, ItemDef>()
+        for ((id, path) in pack.documentPaths) {
+            if (!path.startsWith("items/")) continue
+            val use = document(pack, id)["use"]?.jsonObject ?: continue
+            items[id] = ItemDef(
+                use.getValue("effects").jsonArray.map {
+                    val o = it.jsonObject
+                    ItemEffect(o.getValue("effect").jsonPrimitive.content, o["amount"]?.jsonPrimitive?.long ?: 0L)
+                },
+            )
+        }
+
         CombatSetup(
             enabled = true,
             player = PlayerSetup(protagonist.baseStats, protagonist.growthPm, weaponAtk, weaponMatk),
@@ -127,5 +140,6 @@ fun loadCombatSetup(
             story = StorySetup(quests, dialogues, npcs),
             startInventory = protagonist.startingInventory,
             streamEnemy = streamEnemyId?.let { loadEnemy(pack, it) },
+            items = items,
         )
     }

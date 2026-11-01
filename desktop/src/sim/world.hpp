@@ -147,6 +147,8 @@ public:
     void for_each_prop(float x0, float y0, float x1, float y1, const std::function<void(const Prop&)>& fn) const;
     const CombatSetup& combat() const { return m_setup_; }
     Story& story() { return m_story_; }
+    // Uses one item of the inventory (spec 06). Returns false, changing nothing, when it is refused.
+    bool use_item(const std::string& item_id);
     const Story& story() const { return m_story_; }
 
     SaveState capture() const;

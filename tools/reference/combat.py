@@ -71,7 +71,8 @@ class CombatSim:
         self.hit_set: set[int] = set()
         self.kills = 0
         self.deaths = 0
-        self.inventory: dict[str, int] = {}
+        self.inventory: dict[str, int] = dict(scenario.get("inventory", {}))
+        self.items: dict[str, dict] = scenario.get("items", {})  # item id -> {"effects": [...]}
         self.enemies = [_Enemy(e) for e in scenario["enemies"]]
         self.story = Story(self, story_setup) if story_setup else None
 
@@ -235,6 +236,22 @@ class CombatSim:
 
     # ---------------------------------------------------------------------------------- saves
 
+    def use_item(self, item_id: str) -> bool:
+        """Uses one item of the inventory (docs/spec/06-items.md). Returns False, changing nothing, when it is refused."""
+        if self.story is not None and self.story.dialogue_active:
+            return False
+        item = self.items.get(item_id)
+        if item is None or self.inventory.get(item_id, 0) < 1:
+            return False
+        heal = sum(e["amount"] for e in item["effects"] if e["effect"] == "heal")
+        if heal <= 0 or self.hp >= self.derived["max_hp"]:
+            return False
+        self.hp = min(self.derived["max_hp"], self.hp + heal)
+        self.inventory[item_id] -= 1
+        if self.inventory[item_id] == 0:
+            del self.inventory[item_id]
+        return True
+
     def save_state(self) -> dict:
         """The save document of docs/spec/12-save-format.md (without the file-level metadata)."""
         return {
@@ -291,6 +308,9 @@ def run_segment(sim: CombatSim, segment: dict) -> None:
     """Runs the story commands of a script segment, then its ticks."""
     move = segment["move"]
     for command in segment.get("do", []):
+        if command["cmd"] == "use":
+            sim.use_item(command["item"])
+            continue
         if sim.story is None:
             continue
         if command["cmd"] == "interact":
