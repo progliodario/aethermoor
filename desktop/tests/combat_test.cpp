@@ -239,7 +239,7 @@ TEST_CASE("the overworld is streamed from the content pack and is playable", "[w
     // Saving and loading into a fresh world of the same seed gives the same enemies.
     const aether::SaveState state = sim.capture();
     REQUIRE(state.enemies.size() == sim.enemies().size());
-    REQUIRE(state.enemies.empty() || state.enemies[0].has_spawner);
+    REQUIRE((state.enemies.empty() || state.enemies[0].has_spawner));
     std::string json_error;
     aether::SaveMeta meta;
     meta.seed = 42;
