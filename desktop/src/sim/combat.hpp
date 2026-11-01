@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "core/rules.hpp"
+#include "sim/story.hpp"
 
 namespace aether {
 
@@ -71,6 +72,7 @@ struct CombatSetup {
     std::vector<std::int64_t> xp_table;  // table[level - 1] = XP to go from `level` to `level + 1`
     std::uint64_t seed = 0;
     int start_level = 1;
+    StorySetup story;
 };
 
 enum class AttackPhase { None, Startup, Active, Recovery };

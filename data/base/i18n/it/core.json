@@ -6,5 +6,17 @@
   "ui.version": "Versione {version}",
   "ui.m0_notice": "Fondazioni del progetto: il gioco non è ancora giocabile.",
   "ui.level": "Liv. {level}",
-  "ui.hp": "PV"
+  "ui.hp": "PV",
+  "speaker.guild_clerk_mira": "Mira, della gilda",
+  "speaker.goddess_lyra": "Lyra",
+  "dlg.mira.offer": "Benvenuto, avventuriero! Gli slime infestano le pianure. Ci daresti una mano?",
+  "dlg.mira.accept": "Accetto la missione.",
+  "dlg.mira.decline": "Magari più tardi.",
+  "dlg.mira.accepted": "Perfetto! Sconfiggine cinque e torna da me.",
+  "dlg.mira.busy": "Gli slime sono ancora là fuori. Torna quando ne avrai sconfitti cinque.",
+  "dlg.mira.thanks": "Ottimo lavoro! Ecco la tua ricompensa.",
+  "ui.interact": "[E] Parla",
+  "ui.quest": "Missione",
+  "ui.gold": "Oro: {gold}",
+  "ui.quest_done": "Missione completata"
 }

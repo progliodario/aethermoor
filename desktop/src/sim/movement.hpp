@@ -30,6 +30,7 @@ public:
     CollisionWorld(int width, int height, std::vector<bool> solid, std::vector<Circle> props);
 
     bool solid(int tx, int ty) const;  // cells outside the map are solid
+    void add_prop(Circle prop) { m_props_.push_back(prop); }
     int width() const { return m_width_; }
     int height() const { return m_height_; }
 

@@ -14,6 +14,9 @@ data class FrameInput(val x: Float, val y: Float, val attack: Boolean)
  */
 class InputController {
     private var stickPointer = -1
+
+    /** Screen rectangle (x, y, w, h in pixels, y down) whose touches never count as the attack button. */
+    var attackExcludedRect: FloatArray? = null
     private var originX = 0f
     private var originY = 0f
 
@@ -39,8 +42,15 @@ class InputController {
             y = touch.second
         }
         val attack = input.isKeyPressed(Input.Keys.SPACE) || input.isKeyPressed(Input.Keys.J) ||
-            (0 until MAX_POINTERS).any { input.isTouched(it) && input.getX(it) >= Gdx.graphics.width / 2 }
+            (0 until MAX_POINTERS).any {
+                input.isTouched(it) && input.getX(it) >= Gdx.graphics.width / 2 && !inExcludedRect(input.getX(it), input.getY(it))
+            }
         return FrameInput(x, y, attack)
+    }
+
+    private fun inExcludedRect(x: Int, y: Int): Boolean {
+        val r = attackExcludedRect ?: return false
+        return x >= r[0] && x <= r[0] + r[2] && y >= r[1] && y <= r[1] + r[3]
     }
 
     private fun readStick(): Pair<Float, Float> {

@@ -52,7 +52,7 @@ aether_target_options(aether_vector)
 
 # Simulation: tile maps, movement, collisions, the M2 world. Headless.
 add_library(aether_sim STATIC
-  src/sim/tilemap.cpp src/sim/movement.cpp src/sim/combat.cpp src/sim/combat_loader.cpp src/sim/world.cpp)
+  src/sim/tilemap.cpp src/sim/movement.cpp src/sim/combat.cpp src/sim/story.cpp src/sim/combat_loader.cpp src/sim/world.cpp)
 target_link_libraries(aether_sim PUBLIC aether_core aether_data PRIVATE nlohmann_json::nlohmann_json)
 aether_target_options(aether_sim)
 
@@ -82,7 +82,7 @@ target_compile_definitions(aether_tests PRIVATE AETHER_REPO_ROOT="${AETHER_REPO_
 add_test(NAME unit COMMAND aether_tests)
 
 # Smoke test: opens a window with the dummy video driver, bakes the art and walks the player.
-add_test(NAME smoke COMMAND aethermoor --smoke-test)
+add_test(NAME smoke COMMAND aethermoor --smoke-test --screenshot-dir=${CMAKE_BINARY_DIR}/screenshots)
 set_tests_properties(smoke PROPERTIES
   ENVIRONMENT "SDL_VIDEODRIVER=dummy;SDL_RENDER_DRIVER=software"
   TIMEOUT 60)

@@ -24,6 +24,9 @@ data class Prop(val art: String, val x: Float, val y: Float, val radius: Float)
 /** An enemy spawner: [enemy] is the enemy ID, [x], [y] the feet position in tiles. */
 data class SpawnPoint(val enemy: String, val x: Float, val y: Float)
 
+/** An NPC placed on the map: [x], [y] is the feet position in tiles. */
+data class NpcPoint(val key: String, val dialogue: String, val variant: String, val x: Float, val y: Float)
+
 class TileMap(
     val width: Int,
     val height: Int,
@@ -34,6 +37,7 @@ class TileMap(
     val spawnY: Float,
     val props: List<Prop>,
     val spawners: List<SpawnPoint> = emptyList(),
+    val npcs: List<NpcPoint> = emptyList(),
 ) {
     /** The gid at the cell, 0 when out of range. */
     fun gidAt(x: Int, y: Int): Int = if (x < 0 || y < 0 || x >= width || y >= height) 0 else ground[y * width + x]
@@ -68,6 +72,7 @@ fun parseTileMap(tmjText: String): Result<TileMap> =
         var hasSpawn = false
         val props = ArrayList<Prop>()
         val spawners = ArrayList<SpawnPoint>()
+        val npcs = ArrayList<NpcPoint>()
         for (layerElement in j.getValue("layers").jsonArray) {
             val layer = layerElement.jsonObject
             val type = (layer["type"] as? JsonPrimitive)?.contentOrNull ?: ""
@@ -96,6 +101,16 @@ fun parseTileMap(tmjText: String): Result<TileMap> =
                         )
                     } else if (kind == "enemy_spawner") {
                         spawners.add(SpawnPoint(property(obj, "enemy")?.jsonPrimitive?.content ?: "", x, y))
+                    } else if (kind == "npc") {
+                        npcs.add(
+                            NpcPoint(
+                                key = property(obj, "key")?.jsonPrimitive?.content ?: "",
+                                dialogue = property(obj, "dialogue")?.jsonPrimitive?.content ?: "",
+                                variant = property(obj, "variant")?.jsonPrimitive?.content ?: "",
+                                x = x,
+                                y = y,
+                            ),
+                        )
                     }
                 }
             }
@@ -104,5 +119,5 @@ fun parseTileMap(tmjText: String): Result<TileMap> =
             "ground layer missing or its size does not match width * height"
         }
         require(hasSpawn) { "map has no spawn_player object" }
-        TileMap(width, height, tilesetId, ground, spawnX, spawnY, props, spawners)
+        TileMap(width, height, tilesetId, ground, spawnX, spawnY, props, spawners, npcs)
     }

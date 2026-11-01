@@ -10,7 +10,7 @@
  "tilewidth": 32,
  "tileheight": 32,
  "nextlayerid": 3,
- "nextobjectid": 53,
+ "nextobjectid": 54,
  "properties": [
   {
    "name": "tileset",
@@ -2110,15 +2110,25 @@
      "name": "",
      "width": 0,
      "height": 0,
-     "type": "enemy_spawner",
+     "type": "npc",
      "point": true,
-     "x": 880.0,
-     "y": 112.0,
+     "x": 272.0,
+     "y": 460.8,
      "properties": [
       {
-       "name": "enemy",
+       "name": "key",
        "type": "string",
-       "value": "base:enemy/slime_green"
+       "value": "guild_clerk_mira"
+      },
+      {
+       "name": "dialogue",
+       "type": "string",
+       "value": "base:dialogue/npc/mira"
+      },
+      {
+       "name": "variant",
+       "type": "string",
+       "value": "red"
       }
      ]
     },
@@ -2129,7 +2139,7 @@
      "height": 0,
      "type": "enemy_spawner",
      "point": true,
-     "x": 1008.0,
+     "x": 880.0,
      "y": 112.0,
      "properties": [
       {
@@ -2146,6 +2156,23 @@
      "height": 0,
      "type": "enemy_spawner",
      "point": true,
+     "x": 1008.0,
+     "y": 112.0,
+     "properties": [
+      {
+       "name": "enemy",
+       "type": "string",
+       "value": "base:enemy/slime_green"
+      }
+     ]
+    },
+    {
+     "id": 44,
+     "name": "",
+     "width": 0,
+     "height": 0,
+     "type": "enemy_spawner",
+     "point": true,
      "x": 528.0,
      "y": 144.0,
      "properties": [
@@ -2157,7 +2184,7 @@
      ]
     },
     {
-     "id": 44,
+     "id": 45,
      "name": "",
      "width": 0,
      "height": 0,
@@ -2174,7 +2201,7 @@
      ]
     },
     {
-     "id": 45,
+     "id": 46,
      "name": "",
      "width": 0,
      "height": 0,
@@ -2191,7 +2218,7 @@
      ]
     },
     {
-     "id": 46,
+     "id": 47,
      "name": "",
      "width": 0,
      "height": 0,
@@ -2208,7 +2235,7 @@
      ]
     },
     {
-     "id": 47,
+     "id": 48,
      "name": "",
      "width": 0,
      "height": 0,
@@ -2225,7 +2252,7 @@
      ]
     },
     {
-     "id": 48,
+     "id": 49,
      "name": "",
      "width": 0,
      "height": 0,
@@ -2242,7 +2269,7 @@
      ]
     },
     {
-     "id": 49,
+     "id": 50,
      "name": "",
      "width": 0,
      "height": 0,
@@ -2259,7 +2286,7 @@
      ]
     },
     {
-     "id": 50,
+     "id": 51,
      "name": "",
      "width": 0,
      "height": 0,
@@ -2276,7 +2303,7 @@
      ]
     },
     {
-     "id": 51,
+     "id": 52,
      "name": "",
      "width": 0,
      "height": 0,
@@ -2293,7 +2320,7 @@
      ]
     },
     {
-     "id": 52,
+     "id": 53,
      "name": "",
      "width": 0,
      "height": 0,

@@ -45,6 +45,48 @@ struct Assets {
     aether::Tileset tileset;
 };
 
+struct Ui {
+    std::string lang = "en";
+    int choice_index = 0;
+    std::string last_speaker;  // last line spoken in the open dialogue, kept while choices are shown
+    std::string last_text;
+};
+
+std::string detect_language() {
+    int count = 0;
+    SDL_Locale** locales = SDL_GetPreferredLocales(&count);
+    std::string lang = "en";
+    if (locales != nullptr && count > 0 && locales[0] != nullptr && locales[0]->language != nullptr &&
+        std::strcmp(locales[0]->language, "it") == 0) {
+        lang = "it";
+    }
+    SDL_free(locales);
+    return lang;
+}
+
+std::vector<std::string> wrap_text(const std::string& text, std::size_t width) {
+    std::vector<std::string> lines;
+    std::string line;
+    std::size_t pos = 0;
+    while (pos < text.size()) {
+        std::size_t end = text.find(' ', pos);
+        if (end == std::string::npos) {
+            end = text.size();
+        }
+        const std::string word = text.substr(pos, end - pos);
+        if (!line.empty() && line.size() + 1 + word.size() > width) {
+            lines.push_back(line);
+            line.clear();
+        }
+        line += (line.empty() ? "" : " ") + word;
+        pos = end + 1;
+    }
+    if (!line.empty()) {
+        lines.push_back(line);
+    }
+    return lines;
+}
+
 struct FloatingText {
     float x = 0.0F;  // world position in tiles
     float y = 0.0F;
@@ -155,9 +197,10 @@ struct InputDevices {
 
 struct DrawItem {
     float feet_y = 0.0F;
-    int kind = 0;  // 0 prop, 1 enemy, 2 player
+    int kind = 0;  // 0 prop, 1 enemy, 2 player, 3 npc
     const aether::Prop* prop = nullptr;
     const aether::Enemy* enemy = nullptr;
+    const aether::NpcDef* npc = nullptr;
 };
 
 void fill_rect(SDL_Renderer* renderer, float x, float y, float w, float h, Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
@@ -175,17 +218,17 @@ void draw_sprite(SDL_Renderer* renderer, const aether::Sprite& sprite, float fee
     SDL_RenderTexture(renderer, sprite.texture, nullptr, &dst);
 }
 
-void draw_player(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& assets,
-                 const aether::Player& player, float feet_x, float feet_y, float k, int tile_px) {
-    const aether::Clip& clip = player.moving ? assets.walk : assets.idle;
+void draw_character(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& assets, bool moving,
+                    bool facing_left, int clip_tick, bool blink, std::string_view variant, float feet_x, float feet_y,
+                    float k, int tile_px) {
+    const aether::Clip& clip = moving ? assets.walk : assets.idle;
     std::vector<aether::PosedPart> pose =
-        aether::evaluate_pose(assets.rig, clip, static_cast<float>(player.clip_tick), player.facing_left);
+        aether::evaluate_pose(assets.rig, clip, static_cast<float>(clip_tick), facing_left);
     std::stable_sort(pose.begin(), pose.end(),
                      [](const aether::PosedPart& a, const aether::PosedPart& b) { return a.z < b.z; });
-    const bool blink = player.iframes > 0 && (player.iframes / 4) % 2 == 0;
     for (const aether::PosedPart& posed : pose) {
         const aether::RigPart& part = assets.rig.parts[posed.part_index];
-        const aether::Sprite* sprite = cache.get(part.art, tile_px);
+        const aether::Sprite* sprite = cache.get(part.art, tile_px, variant);
         if (sprite == nullptr) {
             continue;
         }
@@ -193,13 +236,13 @@ void draw_player(SDL_Renderer* renderer, aether::TextureCache& cache, const Asse
         const float py = feet_y + posed.y * k;
         const float w = sprite->width * k;
         const float h = sprite->height * k;
-        const float pivot_x = player.facing_left ? (sprite->width - sprite->origin_x) * k : sprite->origin_x * k;
+        const float pivot_x = facing_left ? (sprite->width - sprite->origin_x) * k : sprite->origin_x * k;
         const float pivot_y = sprite->origin_y * k;
         const SDL_FRect dst{px - pivot_x, py - pivot_y, w, h};
         const SDL_FPoint center{pivot_x, pivot_y};
         SDL_SetTextureAlphaMod(sprite->texture, blink ? 120 : 255);
         SDL_RenderTextureRotated(renderer, sprite->texture, nullptr, &dst, static_cast<double>(posed.rotation_deg),
-                                 &center, player.facing_left ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
+                                 &center, facing_left ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
         SDL_SetTextureAlphaMod(sprite->texture, 255);
     }
 }
@@ -258,7 +301,7 @@ void draw_swing(SDL_Renderer* renderer, const aether::WorldSim& sim, float feet_
                        static_cast<int>(indices.size()));
 }
 
-void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, float density) {
+void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, float density) {
     const aether::Player& p = sim.player();
     const float bar_w = 220.0F * density;
     const float bar_h = 16.0F * density;
@@ -275,17 +318,169 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
     fill_rect(renderer, x, y + bar_h + 6.0F, bar_w * xp_ratio, 6.0F * density, 90, 200, 120, 255);
 
     char line[96];
-    std::snprintf(line, sizeof(line), "%s %lld/%lld", assets.pack.text("en", "$i18n:ui.hp").c_str(),
+    std::snprintf(line, sizeof(line), "%s %lld/%lld", assets.pack.text(ui.lang, "$i18n:ui.hp").c_str(),
                   static_cast<long long>(p.hp), static_cast<long long>(sim.derived().max_hp));
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderDebugText(renderer, x + 4.0F, y + 4.0F, line);
+    SDL_SetRenderScale(renderer, 2.0F, 2.0F);
+    SDL_RenderDebugText(renderer, (x + 6.0F) / 2.0F, (y + 3.0F * density) / 2.0F, line);
     const std::string level =
-        assets.pack.text("en", "$i18n:ui.level", {{"level", static_cast<std::int64_t>(p.level)}});
-    SDL_RenderDebugText(renderer, x, y + bar_h + 20.0F * density, level.c_str());
+        assets.pack.text(ui.lang, "$i18n:ui.level", {{"level", static_cast<std::int64_t>(p.level)}});
+    SDL_RenderDebugText(renderer, x / 2.0F, (y + bar_h + 16.0F * density) / 2.0F, level.c_str());
+    SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+}
+
+// Confirms the current dialogue line or choice.
+void activate_dialogue(aether::WorldSim& sim, Ui& ui) {
+    aether::Story& story = sim.story();
+    const aether::DialogueView view = story.dialogue_view();
+    if (!view.active) {
+        story.interact();
+        ui.choice_index = 0;
+    } else if (view.is_choice) {
+        story.choose(ui.choice_index);
+        ui.choice_index = 0;
+    } else {
+        story.advance();
+        ui.choice_index = 0;
+    }
+}
+
+void move_choice(aether::WorldSim& sim, Ui& ui, int delta) {
+    const aether::DialogueView view = sim.story().dialogue_view();
+    if (view.active && view.is_choice && !view.choices.empty()) {
+        const int count = static_cast<int>(view.choices.size());
+        ui.choice_index = (ui.choice_index + delta + count) % count;
+    }
+}
+
+void handle_dialogue_key(aether::WorldSim& sim, Ui& ui, SDL_Keycode key) {
+    const bool active = sim.story().dialogue_active();
+    if (key == SDLK_E || key == SDLK_RETURN || (active && key == SDLK_SPACE)) {
+        activate_dialogue(sim, ui);
+    } else if (active && (key == SDLK_UP || key == SDLK_W)) {
+        move_choice(sim, ui, -1);
+    } else if (active && (key == SDLK_DOWN || key == SDLK_S)) {
+        move_choice(sim, ui, 1);
+    } else if (active && key >= SDLK_1 && key <= SDLK_9) {
+        const aether::DialogueView view = sim.story().dialogue_view();
+        const int index = static_cast<int>(key - SDLK_1);
+        if (view.is_choice && index < static_cast<int>(view.choices.size())) {
+            ui.choice_index = index;
+            activate_dialogue(sim, ui);
+        }
+    }
+}
+
+void handle_dialogue_button(aether::WorldSim& sim, Ui& ui, Uint8 button) {
+    const bool active = sim.story().dialogue_active();
+    if (button == SDL_GAMEPAD_BUTTON_WEST || (active && button == SDL_GAMEPAD_BUTTON_SOUTH)) {
+        activate_dialogue(sim, ui);
+    } else if (active && button == SDL_GAMEPAD_BUTTON_DPAD_UP) {
+        move_choice(sim, ui, -1);
+    } else if (active && button == SDL_GAMEPAD_BUTTON_DPAD_DOWN) {
+        move_choice(sim, ui, 1);
+    }
+}
+
+void draw_dialogue(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui,
+                   int out_w, int out_h, float density) {
+    const aether::DialogueView view = sim.story().dialogue_view();
+    if (!view.active) {
+        return;
+    }
+    constexpr float kScale = 2.0F;
+    const float char_w = 8.0F * kScale;
+    const float margin = 24.0F * density;
+    const auto columns = static_cast<std::size_t>(std::max(20.0F, (static_cast<float>(out_w) - 2.0F * margin - 16.0F) / char_w));
+    std::vector<std::string> lines;
+    std::string heading;
+    if (view.is_choice) {
+        if (!ui.last_text.empty()) {
+            heading = assets.pack.text(ui.lang, "$i18n:speaker." + ui.last_speaker);
+            lines = wrap_text(assets.pack.text(ui.lang, ui.last_text), columns);
+            lines.emplace_back();
+        }
+        for (std::size_t i = 0; i < view.choices.size(); ++i) {
+            const std::string text = assets.pack.text(ui.lang, view.choices[i]);
+            const std::vector<std::string> wrapped = wrap_text(text, columns > 6 ? columns - 6 : columns);
+            lines.push_back((static_cast<int>(i) == ui.choice_index ? "> " : "  ") + std::to_string(i + 1) + ". " +
+                            (wrapped.empty() ? std::string() : wrapped.front()));
+        }
+    } else {
+        heading = assets.pack.text(ui.lang, "$i18n:speaker." + view.speaker);
+        lines = wrap_text(assets.pack.text(ui.lang, view.text), columns);
+    }
+    const float line_h = 8.0F * kScale + 6.0F;
+    const float box_h = (static_cast<float>(lines.size()) + (heading.empty() ? 0.0F : 1.0F)) * line_h + 24.0F;
+    const float box_y = static_cast<float>(out_h) - box_h - margin;
+    fill_rect(renderer, margin, box_y, static_cast<float>(out_w) - 2.0F * margin, box_h, 11, 31, 58, 235);
+    fill_rect(renderer, margin, box_y, static_cast<float>(out_w) - 2.0F * margin, 3.0F, 111, 227, 255, 255);
+    SDL_SetRenderScale(renderer, kScale, kScale);
+    float y = (box_y + 12.0F) / kScale;
+    if (!heading.empty()) {
+        SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
+        SDL_RenderDebugText(renderer, (margin + 12.0F) / kScale, y, heading.c_str());
+        y += line_h / kScale;
+    }
+    SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
+    for (const std::string& line : lines) {
+        SDL_RenderDebugText(renderer, (margin + 12.0F) / kScale, y, line.c_str());
+        y += line_h / kScale;
+    }
+    SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+}
+
+void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui,
+                        int out_w, float density) {
+    const aether::Story& story = sim.story();
+    constexpr float kScale = 2.0F;
+    const float x = (static_cast<float>(out_w) - 410.0F * density) / kScale;
+    float y = 12.0F * density / kScale;
+    SDL_SetRenderScale(renderer, kScale, kScale);
+    char line[96];
+    std::snprintf(line, sizeof(line), "%s", assets.pack.text(ui.lang, "$i18n:ui.gold", {{"gold", story.gold()}}).c_str());
+    SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
+    SDL_RenderDebugText(renderer, x, y, line);
+    y += 16.0F;
+    for (const auto& [quest_id, progress] : story.quests()) {
+        if (progress.done) {
+            continue;
+        }
+        const aether::QuestDef& def = story.setup().quests.at(quest_id);
+        const aether::QuestStage* stage = nullptr;
+        for (const aether::QuestStage& s : def.stages) {
+            if (s.id == progress.stage) {
+                stage = &s;
+            }
+        }
+        if (stage == nullptr) {
+            continue;
+        }
+        SDL_SetRenderDrawColor(renderer, 111, 227, 255, 255);
+        SDL_RenderDebugText(renderer, x, y, assets.pack.text(ui.lang, def.name).c_str());
+        y += 14.0F;
+        SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
+        for (const std::string& wrapped : wrap_text(assets.pack.text(ui.lang, stage->journal), 24)) {
+            SDL_RenderDebugText(renderer, x, y, wrapped.c_str());
+            y += 12.0F;
+        }
+        for (std::size_t i = 0; i < stage->objectives.size(); ++i) {
+            if (stage->objectives[i].kind == aether::Objective::Kind::Talk) {
+                continue;
+            }
+            std::snprintf(line, sizeof(line), "  %lld/%lld", static_cast<long long>(progress.progress[i]),
+                          static_cast<long long>(stage->objectives[i].count));
+            SDL_RenderDebugText(renderer, x, y, line);
+            y += 12.0F;
+        }
+        y += 6.0F;
+    }
+    SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
 void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& assets, const aether::WorldSim& sim,
-            std::vector<FloatingText>& floating, int tile_px, float density, bool debug, double fps) {
+            const Ui& ui, std::vector<FloatingText>& floating, int tile_px, float density, bool debug, double fps,
+            const std::string& capture_path = {}) {
     int out_w = 0;
     int out_h = 0;
     SDL_GetCurrentRenderOutputSize(renderer, &out_w, &out_h);
@@ -327,23 +522,34 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     for (const aether::Prop& prop : map.props) {
         if (prop.x >= cam.x - 2.0F && prop.x <= cam.x + view_w + 2.0F && prop.y >= cam.y - 1.0F &&
             prop.y <= cam.y + view_h + 4.0F) {
-            items.push_back({prop.y, 0, &prop, nullptr});
+            items.push_back({prop.y, 0, &prop, nullptr, nullptr});
         }
     }
     for (const aether::Enemy& enemy : sim.enemies()) {
         if (enemy.state != aether::EnemyState::Dead) {
-            items.push_back({enemy.position.y, 1, nullptr, &enemy});
+            items.push_back({enemy.position.y, 1, nullptr, &enemy, nullptr});
         }
     }
-    items.push_back({sim.player().position.y, 2, nullptr, nullptr});
+    for (const aether::NpcDef& npc : sim.story().setup().npcs) {
+        items.push_back({npc.y, 3, nullptr, nullptr, &npc});
+    }
+    items.push_back({sim.player().position.y, 2, nullptr, nullptr, nullptr});
     std::stable_sort(items.begin(), items.end(),
                      [](const DrawItem& a, const DrawItem& b) { return a.feet_y < b.feet_y; });
     for (const DrawItem& item : items) {
         if (item.kind == 2) {
             const float fx = (sim.player().position.x - cam.x) * tile;
             const float fy = (sim.player().position.y - cam.y) * tile;
-            draw_player(renderer, cache, assets, sim.player(), fx, fy, k, tile_px);
+            const aether::Player& player = sim.player();
+            const bool blink = player.iframes > 0 && (player.iframes / 4) % 2 == 0;
+            draw_character(renderer, cache, assets, player.moving, player.facing_left, player.clip_tick, blink, {}, fx,
+                           fy, k, tile_px);
             draw_swing(renderer, sim, fx, fy, tile);
+        } else if (item.kind == 3) {
+            const float fx = (item.npc->x - cam.x) * tile;
+            const float fy = (item.npc->y - cam.y) * tile;
+            draw_character(renderer, cache, assets, false, sim.player().position.x < item.npc->x,
+                           static_cast<int>(now_ms / 16), false, item.npc->variant, fx, fy, k, tile_px);
         } else if (item.kind == 1) {
             draw_enemy(renderer, cache, *item.enemy, (item.enemy->position.x - cam.x) * tile,
                        (item.enemy->position.y - cam.y) * tile, k, tile_px, now_ms);
@@ -366,7 +572,19 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
         SDL_RenderDebugText(renderer, sx, sy, f.text.c_str());
     }
 
-    draw_hud(renderer, assets, sim, density);
+    draw_hud(renderer, assets, sim, ui, density);
+    draw_quest_tracker(renderer, assets, sim, ui, out_w, density);
+
+    if (!sim.story().dialogue_active()) {
+        if (const aether::NpcDef* npc = sim.story().npc_in_range()) {
+            const std::string hint = assets.pack.text(ui.lang, "$i18n:ui.interact");
+            const float hx = (npc->x - cam.x) * tile - static_cast<float>(hint.size()) * 4.0F;
+            const float hy = (npc->y - cam.y) * tile - 2.2F * tile;
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+            SDL_RenderDebugText(renderer, hx, hy, hint.c_str());
+        }
+    }
+    draw_dialogue(renderer, assets, sim, ui, out_w, out_h, density);
 
     if (debug) {
         char line[160];
@@ -376,6 +594,14 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         SDL_RenderDebugText(renderer, 8.0F, static_cast<float>(out_h) - 16.0F, line);
     }
+    if (!capture_path.empty()) {
+        if (SDL_Surface* surface = SDL_RenderReadPixels(renderer, nullptr)) {
+            if (!SDL_SavePNG(surface, capture_path.c_str())) {
+                SDL_Log("cannot save %s: %s", capture_path.c_str(), SDL_GetError());
+            }
+            SDL_DestroySurface(surface);
+        }
+    }
     SDL_RenderPresent(renderer);
 }
 
@@ -383,6 +609,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
 
 int main(int argc, char** argv) {
     bool smoke_test = false;
+    fs::path screenshot_dir;
     for (int i = 1; i < argc; ++i) {
         if (std::strcmp(argv[i], "--version") == 0) {
             std::printf("%s\n", aether::version_line().c_str());
@@ -390,6 +617,9 @@ int main(int argc, char** argv) {
         }
         if (std::strcmp(argv[i], "--smoke-test") == 0) {
             smoke_test = true;
+        }
+        if (std::strncmp(argv[i], "--screenshot-dir=", 17) == 0) {
+            screenshot_dir = argv[i] + 17;
         }
     }
 
@@ -431,10 +661,14 @@ int main(int argc, char** argv) {
         InputDevices devices;
         devices.open_first_gamepad();
         std::vector<FloatingText> floating;
+        Ui ui;
+        ui.lang = detect_language();
 
         bool running = true;
         bool debug = false;
         int frames = 0;
+        bool captured_choice = false;
+        int talk_step = 0;  // smoke test: scripted conversation with the guild clerk
         double accumulator = 0.0;
         double fps = 0.0;
         Uint64 last = SDL_GetTicksNS();
@@ -453,6 +687,12 @@ int main(int argc, char** argv) {
                     running = false;
                 } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_F3) {
                     debug = !debug;
+                } else if (event.type == SDL_EVENT_KEY_DOWN && !smoke_test) {
+                    handle_dialogue_key(sim, ui, event.key.key);
+                } else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN && !smoke_test && sim.story().dialogue_active()) {
+                    activate_dialogue(sim, ui);
+                } else if (event.type == SDL_EVENT_GAMEPAD_BUTTON_DOWN && !smoke_test) {
+                    handle_dialogue_button(sim, ui, event.gbutton.button);
                 } else if (event.type == SDL_EVENT_GAMEPAD_ADDED) {
                     devices.open_first_gamepad();
                 } else if (event.type == SDL_EVENT_GAMEPAD_REMOVED && devices.gamepad != nullptr &&
@@ -466,6 +706,22 @@ int main(int argc, char** argv) {
             InputState input = devices.read();
             if (smoke_test) {
                 input = {1.0F, 0.0F, frames % 2 == 0};  // scripted: walk right, swinging now and then
+                // Talk to the guild clerk and accept her quest while passing by (real dialogue data).
+                if (talk_step == 0) {
+                    if (sim.story().npc_in_range() != nullptr) {
+                        sim.story().interact();
+                        talk_step = 1;
+                    }
+                } else if (talk_step == 1) {
+                    sim.story().advance();
+                    talk_step = 2;
+                } else if (talk_step == 2) {
+                    sim.story().choose(0);
+                    talk_step = 3;
+                } else if (talk_step == 3) {
+                    sim.story().advance();
+                    talk_step = 4;
+                }
                 sim.tick(input.x, input.y, input.attack);
             } else {
                 accumulator += frame_seconds;
@@ -480,6 +736,15 @@ int main(int argc, char** argv) {
                 }
             }
 
+            {
+                const aether::DialogueView spoken = sim.story().dialogue_view();
+                if (spoken.active && !spoken.is_choice) {
+                    ui.last_speaker = spoken.speaker;
+                    ui.last_text = spoken.text;
+                } else if (!spoken.active) {
+                    ui.last_text.clear();
+                }
+            }
             for (const aether::DamageEvent& e : sim.take_events()) {
                 floating.push_back({e.position.x, e.position.y, 0, std::to_string(e.amount), e.on_player, e.crit});
             }
@@ -496,13 +761,28 @@ int main(int argc, char** argv) {
             }
             const int tile_px = std::max(16, static_cast<int>(std::lround(kBaseTilePx * density)));
             cache.release_other_buckets(tile_px);
-            render(renderer, cache, assets, sim, floating, tile_px, density, debug, fps);
+            std::string capture;
+            if (!screenshot_dir.empty() && smoke_test) {
+                std::error_code ec;
+                fs::create_directories(screenshot_dir, ec);
+                const aether::DialogueView view = sim.story().dialogue_view();
+                if (view.active && view.is_choice && !captured_choice) {
+                    capture = (screenshot_dir / "dialogue_choice.png").string();
+                    captured_choice = true;
+                } else if (frames == 20) {
+                    capture = (screenshot_dir / "walking.png").string();
+                } else if (frames == kSmokeTestFrames - 1) {
+                    capture = (screenshot_dir / "final.png").string();
+                }
+            }
+            render(renderer, cache, assets, sim, ui, floating, tile_px, density, debug, fps, capture);
 
             if (smoke_test && ++frames >= kSmokeTestFrames) {
                 running = false;
                 const bool moved = sim.player().position.x > spawn_x + 1.0F;
                 const bool baked = cache.size() > 10;
-                const bool enemies = sim.enemies().size() == 12;
+                const bool enemies = sim.enemies().size() == 12 && sim.story().quests().size() == 1 &&
+                                     !sim.story().dialogue_active();
                 std::printf("smoke: x %.2f -> %.2f, textures %zu, enemies %zu, %s\n", static_cast<double>(spawn_x),
                             static_cast<double>(sim.player().position.x), cache.size(), sim.enemies().size(),
                             (moved && baked && enemies) ? "ok" : "FAILED");

@@ -57,7 +57,7 @@ struct Camera {
     float y = 0.0F;
 };
 
-class WorldSim {
+class WorldSim : private StoryHost {
 public:
     // `speed_tiles_per_s` is used while combat is disabled; with combat the speed comes from the derived stats.
     WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, CombatSetup combat = {});
@@ -73,6 +73,8 @@ public:
     const std::map<std::string, std::int64_t>& inventory() const { return m_inventory_; }
     const DerivedStats& derived() const { return m_derived_; }
     const CombatSetup& combat() const { return m_setup_; }
+    Story& story() { return m_story_; }
+    const Story& story() const { return m_story_; }
 
     // Events produced since the last call (damage numbers).
     std::vector<DamageEvent> take_events();
@@ -89,6 +91,13 @@ private:
     void hurt_player(const Enemy& enemy);
     void recompute_derived();
 
+    // StoryHost
+    void grant_xp(std::int64_t amount) override;
+    std::map<std::string, std::int64_t>& host_inventory() override { return m_inventory_; }
+    std::int64_t level() const override { return m_player_.level; }
+    float player_x() const override { return m_player_.position.x; }
+    float player_y() const override { return m_player_.position.y; }
+
     TileMap m_map_;
     Tileset m_tileset_;
     CollisionWorld m_collision_;
@@ -103,6 +112,7 @@ private:
     std::vector<bool> m_hit_set_;
     std::map<std::string, std::int64_t> m_inventory_;
     std::vector<DamageEvent> m_events_;
+    Story m_story_;
 };
 
 }  // namespace aether

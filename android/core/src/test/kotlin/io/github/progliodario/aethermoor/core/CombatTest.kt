@@ -1,6 +1,8 @@
 package io.github.progliodario.aethermoor.core
 
 import io.github.progliodario.aethermoor.core.sim.CombatSetup
+import io.github.progliodario.aethermoor.core.sim.StorySetup
+import io.github.progliodario.aethermoor.core.sim.parseStorySetup
 import io.github.progliodario.aethermoor.core.sim.EnemyDef
 import io.github.progliodario.aethermoor.core.sim.BehaviorDef
 import io.github.progliodario.aethermoor.core.sim.DropDef
@@ -19,7 +21,9 @@ import kotlin.math.abs
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.double
 import kotlinx.serialization.json.int
@@ -85,6 +89,29 @@ class CombatTest {
         assertTrue(abs(sim.player.position.x - map.spawnX) < 0.01f)
     }
 
+    @Test
+    fun talkingToTheGuildClerkWithTheRealDataStartsHerQuest() {
+        val nearMira = TileMap(map.width, map.height, map.tilesetId, map.ground, 8.5f, 15.4f, map.props, map.spawners, map.npcs)
+        val sim = WorldSim(nearMira, tileset, 0f, setup)
+        assertTrue(sim.story.npcInRange() != null)
+        sim.story.interact()
+        assertEquals("\$i18n:dlg.mira.offer", sim.story.dialogueView().text)
+        sim.story.advance()
+        assertTrue(sim.story.dialogueView().isChoice)
+        assertEquals(2, sim.story.dialogueView().choices.size)
+        sim.story.choose(0)
+        sim.story.advance()
+        assertFalse(sim.story.dialogueActive)
+        assertTrue("base:quest/guild/slime_extermination" in sim.story.quests)
+
+        // Talking again shows the "busy" line, and while the dialogue is open the player does not move.
+        sim.story.interact()
+        assertEquals("\$i18n:dlg.mira.busy", sim.story.dialogueView().text)
+        val before = sim.player.position
+        repeat(30) { sim.tick(1f, 0f, true) }
+        assertEquals(before, sim.player.position)
+    }
+
     // ---------------------------------------------------------------------------- conformance
 
     private fun JsonElement.num(): Float = jsonPrimitive.double.toFloat()
@@ -97,6 +124,7 @@ class CombatTest {
     private fun enemyDef(d: JsonObject): EnemyDef {
         val b = d.getValue("behavior").jsonObject
         return EnemyDef(
+            id = (d["id"] as? JsonPrimitive)?.content ?: "",
             hp = d.long("hp"), atk = d.long("atk"), def = d.long("def"), level = d.long("level"), xp = d.long("xp"),
             radiusX100 = d.getValue("radius_x100").jsonPrimitive.int, speedX100 = d.getValue("speed_x100").jsonPrimitive.int,
             drops = d.getValue("drops").jsonArray.map {
@@ -111,9 +139,46 @@ class CombatTest {
         )
     }
 
+    private fun assertStory(ws: JsonObject, sim: WorldSim, at: String) {
+        val story = sim.story
+        assertEquals(ws.long("gold"), story.gold, "$at gold")
+        val wantFlags = ws.getValue("flags").jsonObject
+        assertEquals(wantFlags.size, story.flags.size, "$at flags size")
+        for ((flag, value) in wantFlags) assertEquals(value.jsonPrimitive.boolean, story.flags[flag], "$at flag $flag")
+        val wantQuests = ws.getValue("quests").jsonObject
+        assertEquals(wantQuests.size, story.quests.size, "$at quests size")
+        for ((questId, wq) in wantQuests) {
+            val q = story.quests.getValue(questId)
+            val w = wq.jsonObject
+            assertEquals(w.getValue("stage").jsonPrimitive.content, q.stage, "$at $questId stage")
+            assertEquals(w.getValue("done").jsonPrimitive.boolean, q.done, "$at $questId done")
+            assertEquals(w.getValue("progress").jsonArray.map { it.jsonPrimitive.long }, q.progress.toList(), "$at $questId progress")
+        }
+        val view = story.dialogueView()
+        val wd = ws.getValue("dialogue")
+        if (wd is JsonNull) {
+            assertFalse(view.active, "$at dialogue should be closed")
+        } else {
+            val d = wd.jsonObject
+            assertTrue(view.active, "$at dialogue should be open")
+            assertEquals(d.getValue("type").jsonPrimitive.content == "choice", view.isChoice, "$at dialogue type")
+            if (view.isChoice) {
+                assertEquals(d.getValue("choices").jsonArray.map { it.jsonPrimitive.content }, view.choices, "$at choices")
+            } else {
+                assertEquals(d.getValue("speaker").jsonPrimitive.content, view.speaker, "$at speaker")
+                assertEquals(d.getValue("text").jsonPrimitive.content, view.text, "$at text")
+            }
+        }
+    }
+
     @Test
-    fun combatSuite() {
-        val doc = Json.parseToJsonElement(File(repoRoot, "tests/conformance/combat.json").readText()).jsonObject
+    fun combatSuite() = runSuite("combat")
+
+    @Test
+    fun storySuite() = runSuite("story")
+
+    private fun runSuite(suiteName: String) {
+        val doc = Json.parseToJsonElement(File(repoRoot, "tests/conformance/$suiteName.json").readText()).jsonObject
         for (case in doc.getValue("cases").jsonArray) {
             val c = case.jsonObject
             val label = c.getValue("name").jsonPrimitive.content
@@ -145,6 +210,7 @@ class CombatTest {
                 xpTable = input.getValue("xp_table").jsonArray.map { it.jsonPrimitive.long },
                 seed = input.getValue("seed").jsonPrimitive.content.removePrefix("0x").toULong(16),
                 startLevel = player.getValue("level").jsonPrimitive.int,
+                story = input["story"]?.let { parseStorySetup(it) } ?: StorySetup(),
             )
 
             val sim = WorldSim(gridMap, gridTileset, 0f, combat)
@@ -154,6 +220,14 @@ class CombatTest {
                 val seg = segment.jsonObject
                 val move = seg.getValue("move").jsonArray
                 val attack = seg.getValue("attack").jsonPrimitive.boolean
+                for (command in seg["do"]?.jsonArray ?: JsonArray(emptyList())) {
+                    val cmd = command.jsonObject
+                    when (cmd.getValue("cmd").jsonPrimitive.content) {
+                        "interact" -> sim.story.interact()
+                        "advance" -> sim.story.advance()
+                        "choose" -> sim.story.choose(cmd.getValue("index").jsonPrimitive.int)
+                    }
+                }
                 repeat(seg.getValue("ticks").jsonPrimitive.int) { sim.tick(move[0].num(), move[1].num(), attack) }
 
                 val want = expect.getValue("checkpoints").jsonArray[index].jsonObject
@@ -180,6 +254,7 @@ class CombatTest {
                 for ((item, quantity) in wantInventory) {
                     assertEquals(quantity.jsonPrimitive.long, sim.inventory[item], "$at inventory $item")
                 }
+                want["story"]?.jsonObject?.let { ws -> assertStory(ws, sim, at) }
             }
         }
         assertFalse(doc.getValue("cases").jsonArray.isEmpty())

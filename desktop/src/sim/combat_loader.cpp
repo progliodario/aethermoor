@@ -130,6 +130,36 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
         setup.xp_table = table->second.values;
     }
 
+    // Story: every quest and dialogue document of the pack, and the NPCs of the map.
+    for (const auto& [id, path] : pack.document_paths) {
+        const bool quest = path.rfind("quests/", 0) == 0;
+        const bool dialogue = path.rfind("dialogues/", 0) == 0;
+        if (!quest && !dialogue) {
+            continue;
+        }
+        const auto text = pack.read_document(id);
+        if (!text) {
+            error = "cannot read " + id;
+            return std::nullopt;
+        }
+        if (quest) {
+            auto parsed = parse_quest(*text, error);
+            if (!parsed) {
+                return std::nullopt;
+            }
+            setup.story.quests.emplace(id, std::move(*parsed));
+        } else {
+            auto parsed = parse_dialogue(*text, error);
+            if (!parsed) {
+                return std::nullopt;
+            }
+            setup.story.dialogues.emplace(id, std::move(*parsed));
+        }
+    }
+    for (const NpcPoint& npc : map.npcs) {
+        setup.story.npcs.push_back({npc.key, npc.dialogue, npc.variant, npc.x, npc.y});
+    }
+
     std::map<std::string, EnemyDef> cache;
     for (const SpawnPoint& spawn : map.spawners) {
         auto found = cache.find(spawn.enemy);
