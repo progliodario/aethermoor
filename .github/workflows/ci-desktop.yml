@@ -93,4 +93,5 @@ jobs:
           path: |
             desktop/build/${{ matrix.preset }}/screenshots/*.png
             desktop/build/${{ matrix.preset }}/screenshots_world/*.png
+            desktop/build/${{ matrix.preset }}/screenshots_settlement/*.png
           if-no-files-found: warn
