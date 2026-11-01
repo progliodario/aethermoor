@@ -174,6 +174,8 @@ private:
     void sync_window();
     void mark_explored();
     void add_chunk_enemies(int cx, int cy);
+    void add_chunk_people(int cx, int cy);
+    void rebuild_npc_circles();
 
     // StoryHost
     void grant_xp(std::int64_t amount) override;
@@ -203,6 +205,8 @@ private:
     int m_window_y_ = 0;
     std::map<std::pair<int, int>, std::int64_t> m_cleared_;  // spawner tile -> world tick of the death
     std::int64_t m_world_ticks_ = 0;
+    std::vector<NpcDef> m_npcs_;            // settlement people of the active window (spec 09)
+    std::vector<Circle> m_npc_circles_;     // their collision circles
     std::set<std::pair<int, int>> m_explored_;
 };
 

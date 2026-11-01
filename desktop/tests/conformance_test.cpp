@@ -676,8 +676,8 @@ TEST_CASE("conformance: worldtime", "[conformance]") {
             "thresholds":{"water":1,"beach":2,"mountain":3,"snow":4,"desert_heat":5,"desert_dry":6,"forest_wet":7},
             "tiles":{"water":4,"beach":6,"desert":6,"snow":7,"mountain":8,"forest":9,"plains":[1],"river":4,"ford":10,"road":11,"bridge":12},
             "props":{},"spawners":{"enemy":"x:enemy/x","biomes":[],"min_distance":1,"per_10000":1,"respawn_ticks":1},
-            "regions":[{"id":"x","name":"x","x_pm":0,"y_pm":0,"danger":1}],
-            "settlements":{"per_mille":0,"kinds":[{"id":"h","weight":1,"stamps":[]}],"names":{"start":["a"],"mid":["b"],"end":["c"]}},
+            "regions":[{"id":"x","name":"x","x_pm":0,"y_pm":0,"danger":1,"tone":"warm"}],
+            "settlements":{"per_mille":0,"dialogue":"x:dialogue/x","variants":[""],"quirks":["q"],"people":{"start":["a"],"end":["b"]},"kinds":[{"id":"h","weight":1,"stamps":[]}],"names":{"start":["a"],"mid":["b"],"end":["c"]}},
             "npcs":[]})");
         world["time"] = in.at("time");
         const auto params = aether::parse_world_params(world.dump(), error);
@@ -812,6 +812,23 @@ TEST_CASE("conformance: worldgen chunks", "[conformance]") {
             REQUIRE(aether::digest_props(chunk.props) == hex(want.at("prop_digest")));
             REQUIRE(chunk.spawners.size() == want.at("spawner_count").get<std::size_t>());
             REQUIRE(aether::digest_spawners(chunk.spawners) == hex(want.at("spawner_digest")));
+            REQUIRE(chunk.people.size() == want.at("people").size());
+            for (std::size_t i = 0; i < chunk.people.size(); ++i) {
+                const Json& e = want.at("people").at(i);
+                const aether::GenPerson& got = chunk.people[i];
+                INFO("person " << i);
+                REQUIRE(got.key == e.at(0).get<std::string>());
+                REQUIRE(got.role == e.at(1).get<std::string>());
+                REQUIRE(got.x256 == e.at(2).get<int>());
+                REQUIRE(got.y256 == e.at(3).get<int>());
+                REQUIRE(got.name == e.at(4).get<std::string>());
+                REQUIRE(got.variant == e.at(5).get<std::string>());
+                REQUIRE(got.tone == e.at(6).get<std::string>());
+                REQUIRE(got.dialogue == e.at(7).get<std::string>());
+                REQUIRE(got.place == e.at(8).get<std::string>());
+                REQUIRE(got.region == e.at(9).get<std::string>());
+                REQUIRE(got.quirk == e.at(10).get<std::string>());
+            }
             std::map<int, std::int64_t> histogram;
             for (const int gid : chunk.tiles) {
                 ++histogram[gid];

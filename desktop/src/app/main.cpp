@@ -62,6 +62,7 @@ struct Ui {
     int choice_index = 0;
     std::string last_speaker;  // last line spoken in the open dialogue, kept while choices are shown
     std::string last_text;
+    std::map<std::string, std::string> last_args;  // arguments of the last spoken line
     std::string message;  // short notice ("Game saved"), shown for a moment
     int message_frames = 0;
     bool show_inventory = false;
@@ -619,6 +620,34 @@ void handle_dialogue_button(aether::WorldSim& sim, Ui& ui, Uint8 button) {
     }
 }
 
+// A dialogue text with its arguments (spec 07): values that start with "$i18n:" are text keys resolved with the plain ones.
+std::string dialogue_text(const aether::Pack& pack, const std::string& lang, const std::string& reference,
+                          const std::map<std::string, std::string>& args) {
+    aether::FormatArgs plain;
+    for (const auto& [key, value] : args) {
+        if (value.rfind("$i18n:", 0) != 0) {
+            plain[key] = value;
+        }
+    }
+    aether::FormatArgs all = plain;
+    for (const auto& [key, value] : args) {
+        if (value.rfind("$i18n:", 0) == 0) {
+            all[key] = pack.text(lang, value, plain);
+        }
+    }
+    return pack.text(lang, reference, all);
+}
+
+// The name shown for a speaker: "npc" is the NPC being talked to, any other one has a text.
+std::string speaker_name(const aether::Pack& pack, const std::string& lang, const std::string& speaker,
+                         const std::map<std::string, std::string>& args) {
+    if (speaker == "npc") {
+        const auto name = args.find("npc");
+        return name == args.end() ? std::string() : name->second;
+    }
+    return pack.text(lang, "$i18n:speaker." + speaker);
+}
+
 void draw_dialogue(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui,
                    int out_w, int out_h, float density) {
     const aether::DialogueView view = sim.story().dialogue_view();
@@ -633,19 +662,19 @@ void draw_dialogue(SDL_Renderer* renderer, const Assets& assets, const aether::W
     std::string heading;
     if (view.is_choice) {
         if (!ui.last_text.empty()) {
-            heading = assets.pack.text(ui.lang, "$i18n:speaker." + ui.last_speaker);
-            lines = wrap_text(assets.pack.text(ui.lang, ui.last_text), columns);
+            heading = speaker_name(assets.pack, ui.lang, ui.last_speaker, ui.last_args);
+            lines = wrap_text(dialogue_text(assets.pack, ui.lang, ui.last_text, ui.last_args), columns);
             lines.emplace_back();
         }
         for (std::size_t i = 0; i < view.choices.size(); ++i) {
-            const std::string text = assets.pack.text(ui.lang, view.choices[i]);
+            const std::string text = dialogue_text(assets.pack, ui.lang, view.choices[i], view.args);
             const std::vector<std::string> wrapped = wrap_text(text, columns > 6 ? columns - 6 : columns);
             lines.push_back((static_cast<int>(i) == ui.choice_index ? "> " : "  ") + std::to_string(i + 1) + ". " +
                             (wrapped.empty() ? std::string() : wrapped.front()));
         }
     } else {
-        heading = assets.pack.text(ui.lang, "$i18n:speaker." + view.speaker);
-        lines = wrap_text(assets.pack.text(ui.lang, view.text), columns);
+        heading = speaker_name(assets.pack, ui.lang, view.speaker, view.args);
+        lines = wrap_text(dialogue_text(assets.pack, ui.lang, view.text, view.args), columns);
     }
     const float line_h = 8.0F * kScale + 6.0F;
     const float box_h = (static_cast<float>(lines.size()) + (heading.empty() ? 0.0F : 1.0F)) * line_h + 24.0F;
@@ -828,6 +857,9 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     for (const aether::NpcDef& npc : sim.story().setup().npcs) {
         items.push_back({npc.y, 3, nullptr, nullptr, &npc});
     }
+    for (const aether::NpcDef& npc : sim.story().dynamic_npcs()) {
+        items.push_back({npc.y, 3, nullptr, nullptr, &npc});
+    }
     items.push_back({sim.player().position.y, 2, nullptr, nullptr, nullptr});
     std::stable_sort(items.begin(), items.end(),
                      [](const DrawItem& a, const DrawItem& b) { return a.feet_y < b.feet_y; });
@@ -878,6 +910,11 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
             const float hy = (npc->y - cam.y) * tile - 2.2F * tile;
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
             SDL_RenderDebugText(renderer, hx, hy, hint.c_str());
+            if (!npc->name.empty()) {
+                SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
+                SDL_RenderDebugText(renderer, (npc->x - cam.x) * tile - static_cast<float>(npc->name.size()) * 4.0F, hy - 12.0F,
+                                    npc->name.c_str());
+            }
         }
     }
     draw_dialogue(renderer, assets, sim, ui, out_w, out_h, density);
@@ -1170,6 +1207,7 @@ int main(int argc, char** argv) {
                 if (spoken.active && !spoken.is_choice) {
                     ui.last_speaker = spoken.speaker;
                     ui.last_text = spoken.text;
+                    ui.last_args = spoken.args;
                 } else if (!spoken.active) {
                     ui.last_text.clear();
                 }

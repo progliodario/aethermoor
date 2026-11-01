@@ -243,6 +243,27 @@ TEST_CASE("the overworld is streamed from the content pack and is playable", "[w
     check_window();
     INFO("enemies at the spawn " << at_spawn);
 
+    // The home village has people: walk up to its elder and talk (spec 07 and 09).
+    sim.teleport(8228.5F, 8234.5F);
+    sim.tick(0.0F, 0.0F, false);
+    REQUIRE(!sim.story().dynamic_npcs().empty());
+    const aether::NpcDef* elder = sim.story().npc_in_range();
+    REQUIRE(elder != nullptr);
+    REQUIRE(!elder->name.empty());
+    REQUIRE(elder->dialogue.rfind("base:dialogue/role/", 0) == 0);
+    REQUIRE(elder->args.count("place") == 1);
+    sim.story().interact();
+    REQUIRE(sim.story().dialogue_active());
+    const aether::DialogueView spoken = sim.story().dialogue_view();
+    REQUIRE(spoken.speaker == "npc");
+    REQUIRE(spoken.args.at("npc") == elder->name);
+    sim.story().advance();  // the elder has a menu with news and goodbye: pick goodbye (the last choice)
+    sim.story().choose(1);
+    REQUIRE(!sim.story().dialogue_active());
+    sim.teleport(static_cast<float>(map.width / 2) + 0.5F, static_cast<float>(map.height / 2) + 0.5F);  // back to the spawn
+    sim.tick(0.0F, 0.0F, false);
+    check_window();
+
     // Saving and loading into a fresh world of the same seed gives the same enemies.
     const aether::SaveState state = sim.capture();
     REQUIRE(state.enemies.size() == sim.enemies().size());

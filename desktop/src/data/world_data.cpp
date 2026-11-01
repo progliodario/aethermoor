@@ -107,7 +107,7 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
         }
         for (const Json& r : j.at("regions")) {
             p.regions.push_back({r.at("id").get<std::string>(), r.at("name").get<std::string>(), r.at("x_pm").get<int>(),
-                                 r.at("y_pm").get<int>(), r.at("danger").get<int>()});
+                                 r.at("y_pm").get<int>(), r.at("danger").get<int>(), r.at("tone").get<std::string>()});
         }
         const Json& settlements = j.at("settlements");
         p.settlement_per_mille = settlements.at("per_mille").get<int>();
@@ -126,6 +126,19 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
         }
         for (const Json& syllable : settlements.at("names").at("end")) {
             p.names_end.push_back(syllable.get<std::string>());
+        }
+        p.settlement_dialogue = settlements.at("dialogue").get<std::string>();
+        for (const Json& variant : settlements.at("variants")) {
+            p.variants.push_back(variant.get<std::string>());
+        }
+        for (const Json& quirk : settlements.at("quirks")) {
+            p.quirks.push_back(quirk.get<std::string>());
+        }
+        for (const Json& syllable : settlements.at("people").at("start")) {
+            p.people_start.push_back(syllable.get<std::string>());
+        }
+        for (const Json& syllable : settlements.at("people").at("end")) {
+            p.people_end.push_back(syllable.get<std::string>());
         }
         if (j.contains("stamp_defs")) {
             for (const auto& [id, def] : j.at("stamp_defs").items()) {
@@ -169,6 +182,10 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
                     return std::nullopt;
                 }
             }
+        }
+        if (p.variants.empty() || p.quirks.empty() || p.people_start.empty() || p.people_end.empty()) {
+            error = "invalid settlement people";
+            return std::nullopt;
         }
         if (p.regions.empty() || p.names_start.empty() || p.names_mid.empty() || p.names_end.empty() || p.settlement_kinds.empty()) {
             error = "invalid regions or settlements";
