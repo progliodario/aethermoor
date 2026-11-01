@@ -12,6 +12,7 @@ Hand-made maps are **Tiled TMJ** files (`data/<pack>/maps/*.tmj`, JSON, no compr
 - Tile layer `ground`: `data` holds `width * height` gids, row-major, `0` = empty (treated as not solid, not drawn).
 - Object layer `objects`; positions are in pixels (divide by `tilewidth` for tiles):
   - `type: "spawn_player"`: point object, the player's starting position.
+  - `type: "enemy_spawner"`: point object at the enemy's feet with property `enemy` (enemy ID); see `05-combat-v1.md`.
   - `type: "prop"`: point object at the **feet** of the prop; properties `art` (recipe ID) and `radius` (float, tiles).
     A prop is a solid circle.
 - Cells outside the map are solid.

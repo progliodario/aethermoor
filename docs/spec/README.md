@@ -9,7 +9,7 @@ Normative rules shared by the desktop and Android clients. **Status:** 00, 01, 0
 | [02](02-entities-and-movement.md) | entities, maps and movement (M2 subset) | M2, done |
 | [03](03-systems-order.md) | systems order and game loop (M2 subset) | M2, done |
 | [04](04-stats-and-combat.md) | stats and combat (formulas done; hitboxes in M3) | M1 / M3 |
-| 05 | skills, status effects, elements | M3 |
+| [05](05-combat-v1.md) | combat v1: attack, enemies, XP, loot (status effects and elements later) | M3, done |
 | 06 | items, crafting, economy | M4 / M6 |
 | 07 | quests and dialogue | M4 |
 | 08 | world time, weather, NPC schedules | M5 |

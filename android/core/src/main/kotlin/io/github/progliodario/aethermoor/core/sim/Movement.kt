@@ -33,10 +33,10 @@ class CollisionWorld(val width: Int, val height: Int, private val solid: Boolean
     }
 
     /** Pushes (x, y) out of solid tiles and prop circles (spec: resolve). */
-    fun resolve(start: Vec2): Vec2 {
+    fun resolve(start: Vec2, radius: Float = PLAYER_RADIUS): Vec2 {
         var x = start.x
         var y = start.y
-        val r = PLAYER_RADIUS
+        val r = radius
         for (iteration in 0 until 4) {
             var moved = false
             val ty0 = floor(y - r).toInt()
@@ -100,8 +100,8 @@ class CollisionWorld(val width: Int, val height: Int, private val solid: Boolean
     }
 
     /** One tick of movement: X axis, resolve, Y axis, resolve. */
-    fun step(position: Vec2, direction: Vec2, speedTilesPerS: Float): Vec2 {
-        val movedX = resolve(Vec2(position.x + direction.x * speedTilesPerS * TICK_DT, position.y))
-        return resolve(Vec2(movedX.x, movedX.y + direction.y * speedTilesPerS * TICK_DT))
+    fun step(position: Vec2, direction: Vec2, speedTilesPerS: Float, radius: Float = PLAYER_RADIUS): Vec2 {
+        val movedX = resolve(Vec2(position.x + direction.x * speedTilesPerS * TICK_DT, position.y), radius)
+        return resolve(Vec2(movedX.x, movedX.y + direction.y * speedTilesPerS * TICK_DT), radius)
     }
 }

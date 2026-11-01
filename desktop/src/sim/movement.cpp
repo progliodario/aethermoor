@@ -35,8 +35,8 @@ bool CollisionWorld::solid(int tx, int ty) const {
                     static_cast<std::size_t>(tx)];
 }
 
-void CollisionWorld::resolve(float& x, float& y) const {
-    const float r = kPlayerRadius;
+void CollisionWorld::resolve(float& x, float& y, float radius) const {
+    const float r = radius;
     for (int iteration = 0; iteration < 4; ++iteration) {
         bool moved = false;
         const int ty0 = static_cast<int>(std::floor(y - r));
@@ -102,11 +102,11 @@ void CollisionWorld::resolve(float& x, float& y) const {
     }
 }
 
-void CollisionWorld::step(Vec2& position, Vec2 direction, float speed_tiles_per_s) const {
+void CollisionWorld::step(Vec2& position, Vec2 direction, float speed_tiles_per_s, float radius) const {
     position.x += direction.x * speed_tiles_per_s * kTickDt;
-    resolve(position.x, position.y);
+    resolve(position.x, position.y, radius);
     position.y += direction.y * speed_tiles_per_s * kTickDt;
-    resolve(position.x, position.y);
+    resolve(position.x, position.y, radius);
 }
 
 }  // namespace aether

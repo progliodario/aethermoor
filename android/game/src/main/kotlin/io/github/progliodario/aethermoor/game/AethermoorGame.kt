@@ -8,17 +8,18 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
-import io.github.progliodario.aethermoor.core.Equipment
 import io.github.progliodario.aethermoor.core.GameInfo
 import io.github.progliodario.aethermoor.core.Pack
-import io.github.progliodario.aethermoor.core.derivedStats
 import io.github.progliodario.aethermoor.core.loadPack
-import io.github.progliodario.aethermoor.core.parseProtagonist
+import io.github.progliodario.aethermoor.core.sim.AttackPhase
+import io.github.progliodario.aethermoor.core.sim.Enemy
+import io.github.progliodario.aethermoor.core.sim.EnemyState
 import io.github.progliodario.aethermoor.core.sim.Prop
 import io.github.progliodario.aethermoor.core.sim.TICK_DT
 import io.github.progliodario.aethermoor.core.sim.TileMap
 import io.github.progliodario.aethermoor.core.sim.Tileset
 import io.github.progliodario.aethermoor.core.sim.WorldSim
+import io.github.progliodario.aethermoor.core.sim.loadCombatSetup
 import io.github.progliodario.aethermoor.core.sim.parseTileMap
 import io.github.progliodario.aethermoor.core.sim.parseTileset
 import io.github.progliodario.aethermoor.core.vector.Clip
@@ -26,6 +27,9 @@ import io.github.progliodario.aethermoor.core.vector.Rig
 import io.github.progliodario.aethermoor.core.vector.evaluatePose
 import io.github.progliodario.aethermoor.core.vector.parseClip
 import io.github.progliodario.aethermoor.core.vector.parseRig
+import java.util.Locale
+import kotlin.math.PI
+import kotlin.math.atan2
 import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.math.max
@@ -33,7 +37,7 @@ import kotlin.math.min
 import kotlin.math.roundToInt
 
 /**
- * M2 client: a vector-art character walking around a tile map, drawn with libGDX.
+ * M3 client: a vector-art character exploring a tile map and fighting slimes, drawn with libGDX.
  * Mirrors desktop/src/app/main.cpp (draw order, scale buckets, fixed 60 Hz simulation).
  */
 class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
@@ -44,8 +48,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val walk: Clip,
         val map: TileMap,
         val tileset: Tileset,
-        val speedTilesPerS: Float,
     )
+
+    private class FloatingText(val x: Float, val y: Float, val text: String, val onPlayer: Boolean, val crit: Boolean) {
+        var age = 0
+    }
 
     private lateinit var batch: SpriteBatch
     private lateinit var shapes: ShapeRenderer
@@ -57,18 +64,27 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var assets: Assets? = null
     private var sim: WorldSim? = null
     private var error: String? = null
+    private var language = "en"
     private var accumulator = 0f
+    private val floating = ArrayList<FloatingText>()
 
     override fun create() {
         batch = SpriteBatch()
         shapes = ShapeRenderer()
-        font = BitmapFont().apply { color = Color(0.435f, 0.89f, 1f, 1f) }
+        font = BitmapFont(true) // flipped: the projection has y pointing down
         camera = OrthographicCamera()
+        language = if (Locale.getDefault().language == "it") "it" else "en"
 
         val loaded = loadAssets() ?: return
         assets = loaded
         cache = TextureCache(loaded.pack)
-        sim = WorldSim(loaded.map, loaded.tileset, loaded.speedTilesPerS)
+        val combat = loadCombatSetup(loaded.pack, loaded.map, PROTAGONIST_ID, System.nanoTime().toULong())
+            .getOrElse {
+                error = it.message
+                Gdx.app.error(TAG, "Cannot build the combat setup: ${it.message}")
+                return
+            }
+        sim = WorldSim(loaded.map, loaded.tileset, 0f, combat)
     }
 
     private fun loadAssets(): Assets? {
@@ -81,8 +97,6 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
         return try {
             fun doc(id: String) = requireNotNull(pack.readDocument(id)) { "missing document $id" }
-            val protagonist = parseProtagonist(doc("base:protagonist/ren")).getOrThrow()
-            val stats = derivedStats(1, protagonist.baseStats, Equipment())
             Assets(
                 pack = pack,
                 rig = parseRig(doc("base:art/rig/humanoid")).getOrThrow(),
@@ -90,7 +104,6 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 walk = parseClip(doc("base:art/clip/humanoid_walk")).getOrThrow(),
                 map = parseTileMap(requireNotNull(pack.readFile("maps/demo.tmj")) { "missing maps/demo.tmj" }).getOrThrow(),
                 tileset = parseTileset(doc("base:tileset/overworld")).getOrThrow(),
-                speedTilesPerS = stats.moveSpeedX100 / 100f,
             )
         } catch (e: IllegalArgumentException) {
             error = e.message
@@ -118,15 +131,19 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             return
         }
 
-        val (rawX, rawY) = input.read()
+        val frame = input.read()
         accumulator += min(Gdx.graphics.deltaTime, MAX_FRAME_SECONDS)
         var ticks = 0
         while (accumulator >= TICK_DT && ticks < MAX_TICKS_PER_FRAME) {
-            world.tick(rawX, rawY)
+            world.tick(frame.x, frame.y, frame.attack)
             accumulator -= TICK_DT
             ticks++
         }
         if (ticks == MAX_TICKS_PER_FRAME) accumulator = 0f
+
+        for (e in world.takeEvents()) floating.add(FloatingText(e.position.x, e.position.y, e.amount.toString(), e.onPlayer, e.crit))
+        floating.forEach { it.age++ }
+        floating.removeAll { it.age > FLOATING_TEXT_FRAMES }
 
         val tilePx = max(16, (BASE_TILE_PX * Gdx.graphics.density).roundToInt())
         cache.releaseOtherBuckets(tilePx)
@@ -136,15 +153,12 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private fun draw(world: WorldSim, data: Assets, tilePx: Int) {
         val tile = tilePx.toFloat()
         val k = tile / 32f
-        val width = Gdx.graphics.width
-        val height = Gdx.graphics.height
-        val viewW = width / tile
-        val viewH = height / tile
+        val viewW = Gdx.graphics.width / tile
+        val viewH = Gdx.graphics.height / tile
         val cam = world.camera(viewW, viewH)
 
         batch.projectionMatrix = camera.combined
         batch.begin()
-
         val map = world.map
         val x0 = max(0, floor(cam.x).toInt())
         val x1 = min(map.width, ceil(cam.x + viewW).toInt())
@@ -162,30 +176,27 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             }
         }
 
-        // Props and the player, sorted by feet y (smaller first; ties keep map order, the player last).
-        val visible = map.props.filter {
-            it.x >= cam.x - 2f && it.x <= cam.x + viewW + 2f && it.y >= cam.y - 1f && it.y <= cam.y + viewH + 4f
-        }
-        val playerY = world.player.position.y
-        var playerDrawn = false
-        for (prop in visible.sortedBy { it.y }) {
-            if (!playerDrawn && prop.y > playerY) {
-                drawPlayer(world, data, cam.x, cam.y, tilePx, k)
-                playerDrawn = true
+        // Props, enemies and the player, sorted by feet y (smaller first; ties keep list order, the player last).
+        class Item(val feetY: Float, val prop: Prop?, val enemy: Enemy?)
+        val items = ArrayList<Item>()
+        for (prop in map.props) {
+            if (prop.x >= cam.x - 2f && prop.x <= cam.x + viewW + 2f && prop.y >= cam.y - 1f && prop.y <= cam.y + viewH + 4f) {
+                items.add(Item(prop.y, prop, null))
             }
-            drawProp(prop, cam.x, cam.y, tilePx, tile, k)
         }
-        if (!playerDrawn) drawPlayer(world, data, cam.x, cam.y, tilePx, k)
-
-        font.draw(
-            batch,
-            "${info.versionLine()}  ${Gdx.graphics.framesPerSecond} fps  pos %.2f,%.2f  tile %dpx  textures %d".format(
-                world.player.position.x, world.player.position.y, tilePx, cache.size,
-            ),
-            8f,
-            8f + font.lineHeight,
-        )
+        for (enemy in world.enemies) if (enemy.state != EnemyState.DEAD) items.add(Item(enemy.position.y, null, enemy))
+        items.add(Item(world.player.position.y, null, null))
+        for (item in items.sortedBy { it.feetY }) {
+            when {
+                item.prop != null -> drawProp(item.prop, cam.x, cam.y, tilePx, tile, k)
+                item.enemy != null -> drawEnemy(item.enemy, cam.x, cam.y, tilePx, tile, k)
+                else -> drawPlayer(world, data, cam.x, cam.y, tilePx, k)
+            }
+        }
         batch.end()
+
+        drawOverlays(world, cam.x, cam.y, tile, k)
+        drawTexts(world, data, cam.x, cam.y, tile)
         drawStick()
     }
 
@@ -196,6 +207,22 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         batch.draw(sprite.region, fx - sprite.originX * k, fy - sprite.originY * k, sprite.width * k, sprite.height * k)
     }
 
+    private fun drawEnemy(enemy: Enemy, camX: Float, camY: Float, tilePx: Int, tile: Float, k: Float) {
+        val sprite = cache.get(enemy.def.art, tilePx) ?: return
+        val fx = (enemy.position.x - camX) * tile
+        val fy = (enemy.position.y - camY) * tile
+        val phase = ((System.currentTimeMillis() / 16 + (enemy.home.x * 37f).toLong()) % 60).toFloat()
+        val wave = if (phase < 30f) phase / 30f else (60f - phase) / 30f
+        val squash = 0.95f + 0.1f * wave
+        if (enemy.hitFlash > 0) batch.setColor(1f, 0.47f, 0.47f, 1f)
+        batch.draw(
+            sprite.region,
+            fx - sprite.originX * k * (2f - squash), fy - sprite.originY * k * squash,
+            sprite.width * k * (2f - squash), sprite.height * k * squash,
+        )
+        batch.setColor(1f, 1f, 1f, 1f)
+    }
+
     private fun drawPlayer(world: WorldSim, data: Assets, camX: Float, camY: Float, tilePx: Int, k: Float) {
         val tile = tilePx.toFloat()
         val player = world.player
@@ -203,6 +230,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val feetY = (player.position.y - camY) * tile
         val clip = if (player.moving) data.walk else data.idle
         val pose = evaluatePose(data.rig, clip, player.clipTick.toFloat(), player.facingLeft).sortedBy { it.z }
+        val blink = player.iframes > 0 && (player.iframes / 4) % 2 == 0
+        batch.setColor(1f, 1f, 1f, if (blink) 0.47f else 1f)
         for (posed in pose) {
             val part = data.rig.parts[posed.partIndex]
             val sprite = cache.get(part.art, tilePx) ?: continue
@@ -220,6 +249,77 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 posed.rotationDeg,
             )
         }
+        batch.setColor(1f, 1f, 1f, 1f)
+    }
+
+    /** Enemy health bars, the sword swing and the HUD bars (shapes, no textures). */
+    private fun drawOverlays(world: WorldSim, camX: Float, camY: Float, tile: Float, k: Float) {
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        for (enemy in world.enemies) {
+            if (enemy.state == EnemyState.DEAD || enemy.hp >= enemy.def.hp) continue
+            val sprite = cache.get(enemy.def.art, max(16, tile.roundToInt())) ?: continue
+            val fx = (enemy.position.x - camX) * tile
+            val fy = (enemy.position.y - camY) * tile - sprite.height * k - 3f * k
+            val barW = 28f * k
+            shapes.color = Color(0.08f, 0.08f, 0.08f, 0.8f)
+            shapes.rect(fx - barW / 2f, fy, barW, 2f * k)
+            shapes.color = Color(0.86f, 0.27f, 0.27f, 1f)
+            shapes.rect(fx - barW / 2f, fy, barW * enemy.hp.toFloat() / enemy.def.hp.toFloat(), 2f * k)
+        }
+
+        val p = world.player
+        if (p.phase == AttackPhase.ACTIVE || p.phase == AttackPhase.RECOVERY) {
+            val skill = world.combat.skill
+            val radius = skill.radiusX100 / 100f * tile
+            val centerDeg = atan2(p.facing.y, p.facing.x) * 180f / PI.toFloat()
+            shapes.color = Color(1f, 1f, 1f, if (p.phase == AttackPhase.ACTIVE) 0.35f else 0.12f)
+            shapes.arc(
+                (p.position.x - camX) * tile, (p.position.y - camY) * tile - 0.5f * tile,
+                radius, centerDeg - skill.angleDeg / 2f, skill.angleDeg.toFloat(),
+            )
+        }
+
+        val density = Gdx.graphics.density
+        val barW = 220f * density
+        val barH = 16f * density
+        val x = 12f * density
+        val y = 12f * density
+        val hpRatio = (p.hp.toFloat() / world.derived.maxHp.toFloat()).coerceIn(0f, 1f)
+        val need = world.combat.xpTable.getOrNull((p.level - 1).toInt()) ?: 0L
+        val xpRatio = if (need > 0) (p.xp.toFloat() / need.toFloat()).coerceIn(0f, 1f) else 0f
+        shapes.color = Color(0.04f, 0.08f, 0.16f, 0.8f)
+        shapes.rect(x - 2f, y - 2f, barW + 4f, barH + 4f)
+        shapes.color = Color(0.82f, 0.24f, 0.24f, 1f)
+        shapes.rect(x, y, barW * hpRatio, barH)
+        shapes.color = Color(0.04f, 0.08f, 0.16f, 0.8f)
+        shapes.rect(x, y + barH + 6f, barW, 6f * density)
+        shapes.color = Color(0.35f, 0.78f, 0.47f, 1f)
+        shapes.rect(x, y + barH + 6f, barW * xpRatio, 6f * density)
+        shapes.end()
+    }
+
+    private fun drawTexts(world: WorldSim, data: Assets, camX: Float, camY: Float, tile: Float) {
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        val density = Gdx.graphics.density
+        val p = world.player
+        font.color = Color.WHITE
+        font.draw(batch, "${data.pack.text(language, "\$i18n:ui.hp")} ${p.hp}/${world.derived.maxHp}", 12f * density + 4f, 12f * density + 2f)
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.level", mapOf("level" to p.level)), 12f * density, 12f * density + 16f * density + 20f)
+        for (f in floating) {
+            font.color = when {
+                f.onPlayer -> Color(1f, 0.35f, 0.35f, 1f)
+                f.crit -> Color(1f, 0.86f, 0.31f, 1f)
+                else -> Color.WHITE
+            }
+            font.draw(batch, f.text, (f.x - camX) * tile - f.text.length * 4f, (f.y - camY) * tile - tile - f.age * 0.6f * density)
+        }
+        font.color = Color(0.435f, 0.89f, 1f, 1f)
+        font.draw(batch, "${info.versionLine()}  ${Gdx.graphics.framesPerSecond} fps", 8f, Gdx.graphics.height - font.lineHeight - 4f)
+        batch.end()
     }
 
     private fun drawStick() {
@@ -251,8 +351,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     companion object {
         private const val TAG = "Aethermoor"
+        private const val PROTAGONIST_ID = "base:protagonist/ren"
         private const val BASE_TILE_PX = 48f
         private const val MAX_TICKS_PER_FRAME = 5
         private const val MAX_FRAME_SECONDS = 0.25f
+        private const val FLOATING_TEXT_FRAMES = 50
     }
 }

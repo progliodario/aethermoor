@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aethermoor.invalid/schemas/behavior.schema.json",
+  "title": "Enemy behavior",
+  "type": "object",
+  "required": [
+    "id",
+    "kind",
+    "aggro_x100",
+    "leash_x100",
+    "attack_range_x100",
+    "hit_range_x100",
+    "windup_ticks",
+    "recovery_ticks"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+    },
+    "kind": {
+      "const": "melee_chaser"
+    },
+    "aggro_x100": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "leash_x100": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "attack_range_x100": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "hit_range_x100": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "windup_ticks": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "recovery_ticks": {
+      "type": "integer",
+      "minimum": 0
+    }
+  }
+}

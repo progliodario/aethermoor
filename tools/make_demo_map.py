@@ -91,6 +91,20 @@ def build_objects(grid: list[list[int]]) -> list[dict]:
             add({"type": "prop", "point": True, "x": (x + 0.5) * TILE, "y": (y + 0.9) * TILE,
                  "properties": [{"name": "art", "type": "string", "value": kind},
                                 {"name": "radius", "type": "float", "value": radius}]})
+    placed = 0
+    for y in range(3, HEIGHT - 3):
+        for x in range(3, WIDTH - 3):
+            if placed >= 12:
+                break
+            if near_walkway_or_water(grid, x, y) or abs(x + 0.5 - SPAWN[0]) + abs(y + 0.5 - SPAWN[1]) < 9:
+                continue
+            if any(abs(o.get("x", 0) - (x + 0.5) * TILE) < 36 and abs(o.get("y", 0) - (y + 0.5) * TILE) < 36
+                   for o in objects):
+                continue
+            if (hash64(SEED + 2, x, y) >> 32) % 1000 < 150:
+                add({"type": "enemy_spawner", "point": True, "x": (x + 0.5) * TILE, "y": (y + 0.5) * TILE,
+                     "properties": [{"name": "enemy", "type": "string", "value": "base:enemy/slime_green"}]})
+                placed += 1
     return objects
 
 

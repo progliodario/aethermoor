@@ -27,6 +27,12 @@ struct Prop {
     float radius = 0.3F;
 };
 
+struct SpawnPoint {
+    std::string enemy;  // enemy ID
+    float x = 0.0F;     // feet position, in tiles
+    float y = 0.0F;
+};
+
 struct TileMap {
     int width = 0;
     int height = 0;
@@ -35,6 +41,7 @@ struct TileMap {
     float spawn_x = 0.0F;
     float spawn_y = 0.0F;
     std::vector<Prop> props;
+    std::vector<SpawnPoint> spawners;
 
     // gid at the cell, 0 when out of range.
     int gid_at(int x, int y) const;
