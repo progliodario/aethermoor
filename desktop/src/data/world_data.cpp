@@ -104,19 +104,19 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
         for (const Json& rank : guild.at("ranks")) {
             p.guild.ranks.push_back({rank.at("id").get<std::string>(), rank.at("points").get<int>()});
         }
-        for (const Json& t : guild.at("templates")) {
+        for (const Json& entry : guild.at("templates")) {
             GuildTemplate tpl;
-            tpl.id = t.at("id").get<std::string>();
-            tpl.type = t.at("type").get<std::string>();
-            tpl.target = t.at("target").get<std::string>();
-            tpl.count_min = t.at("count_min").get<int>();
-            tpl.count_max = t.at("count_max").get<int>();
-            tpl.gold_base = t.at("gold_base").get<int>();
-            tpl.gold_per = t.at("gold_per").get<int>();
-            tpl.xp_base = t.at("xp_base").get<int>();
-            tpl.xp_per = t.at("xp_per").get<int>();
-            tpl.points_base = t.at("points_base").get<int>();
-            tpl.points_per = t.at("points_per").get<int>();
+            tpl.id = entry.at("id").get<std::string>();
+            tpl.type = entry.at("type").get<std::string>();
+            tpl.target = entry.at("target").get<std::string>();
+            tpl.count_min = entry.at("count_min").get<int>();
+            tpl.count_max = entry.at("count_max").get<int>();
+            tpl.gold_base = entry.at("gold_base").get<int>();
+            tpl.gold_per = entry.at("gold_per").get<int>();
+            tpl.xp_base = entry.at("xp_base").get<int>();
+            tpl.xp_per = entry.at("xp_per").get<int>();
+            tpl.points_base = entry.at("points_base").get<int>();
+            tpl.points_per = entry.at("points_per").get<int>();
             p.guild.templates.push_back(std::move(tpl));
         }
         if (p.guild.ranks.empty() || p.guild.templates.empty() || p.guild.offers_per_day < 1) {
