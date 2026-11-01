@@ -53,3 +53,11 @@ jobs:
       - name: Test
         working-directory: desktop
         run: ctest --preset ${{ matrix.preset }}
+
+      - name: Upload smoke-test screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots-${{ matrix.name }}
+          path: desktop/build/${{ matrix.preset }}/screenshots/*.png
+          if-no-files-found: warn

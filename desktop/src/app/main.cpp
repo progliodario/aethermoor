@@ -465,7 +465,8 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
 }
 
 void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& assets, const aether::WorldSim& sim,
-            const Ui& ui, std::vector<FloatingText>& floating, int tile_px, float density, bool debug, double fps) {
+            const Ui& ui, std::vector<FloatingText>& floating, int tile_px, float density, bool debug, double fps,
+            const std::string& capture_path = {}) {
     int out_w = 0;
     int out_h = 0;
     SDL_GetCurrentRenderOutputSize(renderer, &out_w, &out_h);
@@ -579,6 +580,14 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         SDL_RenderDebugText(renderer, 8.0F, static_cast<float>(out_h) - 16.0F, line);
     }
+    if (!capture_path.empty()) {
+        if (SDL_Surface* surface = SDL_RenderReadPixels(renderer, nullptr)) {
+            if (!SDL_SavePNG(surface, capture_path.c_str())) {
+                SDL_Log("cannot save %s: %s", capture_path.c_str(), SDL_GetError());
+            }
+            SDL_DestroySurface(surface);
+        }
+    }
     SDL_RenderPresent(renderer);
 }
 
@@ -586,6 +595,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
 
 int main(int argc, char** argv) {
     bool smoke_test = false;
+    fs::path screenshot_dir;
     for (int i = 1; i < argc; ++i) {
         if (std::strcmp(argv[i], "--version") == 0) {
             std::printf("%s\n", aether::version_line().c_str());
@@ -593,6 +603,9 @@ int main(int argc, char** argv) {
         }
         if (std::strcmp(argv[i], "--smoke-test") == 0) {
             smoke_test = true;
+        }
+        if (std::strncmp(argv[i], "--screenshot-dir=", 17) == 0) {
+            screenshot_dir = argv[i] + 17;
         }
     }
 
@@ -640,6 +653,7 @@ int main(int argc, char** argv) {
         bool running = true;
         bool debug = false;
         int frames = 0;
+        bool captured_choice = false;
         int talk_step = 0;  // smoke test: scripted conversation with the guild clerk
         double accumulator = 0.0;
         double fps = 0.0;
@@ -724,7 +738,21 @@ int main(int argc, char** argv) {
             }
             const int tile_px = std::max(16, static_cast<int>(std::lround(kBaseTilePx * density)));
             cache.release_other_buckets(tile_px);
-            render(renderer, cache, assets, sim, ui, floating, tile_px, density, debug, fps);
+            std::string capture;
+            if (!screenshot_dir.empty() && smoke_test) {
+                std::error_code ec;
+                fs::create_directories(screenshot_dir, ec);
+                const aether::DialogueView view = sim.story().dialogue_view();
+                if (view.active && view.is_choice && !captured_choice) {
+                    capture = (screenshot_dir / "dialogue_choice.png").string();
+                    captured_choice = true;
+                } else if (frames == 20) {
+                    capture = (screenshot_dir / "walking.png").string();
+                } else if (frames == kSmokeTestFrames - 1) {
+                    capture = (screenshot_dir / "final.png").string();
+                }
+            }
+            render(renderer, cache, assets, sim, ui, floating, tile_px, density, debug, fps, capture);
 
             if (smoke_test && ++frames >= kSmokeTestFrames) {
                 running = false;
