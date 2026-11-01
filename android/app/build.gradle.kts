@@ -1,4 +1,5 @@
 import groovy.json.JsonSlurper
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.application)
@@ -45,10 +46,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-
     sourceSets {
         // The shared data pack (data/base/...) is bundled as assets: assets/base/pack.json, ...
         getByName("main").assets.srcDir(rootProject.file("../data"))
@@ -56,6 +53,12 @@ android {
 }
 
 val natives: Configuration by configurations.creating
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
+}
 
 dependencies {
     implementation(project(":game"))
