@@ -19,6 +19,7 @@
 #include "core/rules.hpp"
 #include "data/pack.hpp"
 #include "sim/movement.hpp"
+#include "sim/world.hpp"
 #include "vector/raster.hpp"
 #include "vector/recipe.hpp"
 #include "vector/rig.hpp"
@@ -337,6 +338,122 @@ TEST_CASE("conformance: raster", "[conformance]") {
             const double rel_tol = expect.at("sum_alpha").at("rel_tol").get<double>();
             INFO("area " << sum << " expected " << wanted);
             REQUIRE(std::abs(sum - wanted) <= wanted * rel_tol);
+        }
+    }
+}
+
+namespace {
+
+aether::EnemyDef enemy_def_from_json(const Json& d) {
+    aether::EnemyDef def;
+    def.hp = d.at("hp").get<std::int64_t>();
+    def.atk = d.at("atk").get<std::int64_t>();
+    def.def = d.at("def").get<std::int64_t>();
+    def.level = d.at("level").get<std::int64_t>();
+    def.xp = d.at("xp").get<std::int64_t>();
+    def.radius_x100 = d.at("radius_x100").get<int>();
+    def.speed_x100 = d.at("speed_x100").get<int>();
+    for (const Json& drop : d.at("drops")) {
+        def.drops.push_back({drop.at("item").get<std::string>(), drop.at("qty_min").get<std::int64_t>(),
+                             drop.at("qty_max").get<std::int64_t>(), drop.at("weight_pm").get<std::int64_t>()});
+    }
+    const Json& b = d.at("behavior");
+    def.behavior.aggro_x100 = b.at("aggro_x100").get<int>();
+    def.behavior.leash_x100 = b.at("leash_x100").get<int>();
+    def.behavior.attack_range_x100 = b.at("attack_range_x100").get<int>();
+    def.behavior.hit_range_x100 = b.at("hit_range_x100").get<int>();
+    def.behavior.windup_ticks = b.at("windup_ticks").get<int>();
+    def.behavior.recovery_ticks = b.at("recovery_ticks").get<int>();
+    return def;
+}
+
+aether::Primary primary_from_json(const Json& s) {
+    return aether::Primary{integer(s, "str"), integer(s, "vit"), integer(s, "dex"), integer(s, "agi"),
+                           integer(s, "int"), integer(s, "wis"), integer(s, "luk")};
+}
+
+}  // namespace
+
+TEST_CASE("conformance: combat", "[conformance]") {
+    const Json doc = load_suite("combat");
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        const Json& in = c.at("input");
+        const Json& player = in.at("player");
+
+        aether::TileMap map;
+        map.height = static_cast<int>(in.at("grid").size());
+        map.width = static_cast<int>(in.at("grid")[0].get<std::string>().size());
+        for (const Json& row : in.at("grid")) {
+            for (const char ch : row.get<std::string>()) {
+                map.ground.push_back(ch == '#' ? 5 : 1);
+            }
+        }
+        map.spawn_x = player.at("start").at(0).get<float>();
+        map.spawn_y = player.at("start").at(1).get<float>();
+        aether::Tileset tileset;
+        tileset.tiles[1] = {"floor", false};
+        tileset.tiles[5] = {"wall", true};
+
+        aether::CombatSetup setup;
+        setup.enabled = true;
+        setup.seed = hex(in.at("seed"));
+        setup.start_level = player.at("level").get<int>();
+        setup.player.base = primary_from_json(player.at("base_stats"));
+        setup.player.growth_pm = primary_from_json(player.at("growth_pm"));
+        setup.player.weapon_atk = integer(player, "weapon_atk");
+        setup.player.weapon_matk = integer(player, "weapon_matk");
+        const Json& skill = in.at("skill");
+        setup.skill.startup = skill.at("startup").get<int>();
+        setup.skill.active = skill.at("active").get<int>();
+        setup.skill.recovery = skill.at("recovery").get<int>();
+        setup.skill.cooldown = skill.at("cooldown").get<int>();
+        setup.skill.power_pct = integer(skill, "power_pct");
+        setup.skill.radius_x100 = skill.at("radius_x100").get<int>();
+        setup.skill.angle_deg = skill.at("angle_deg").get<int>();
+        for (const Json& v : in.at("xp_table")) {
+            setup.xp_table.push_back(v.get<std::int64_t>());
+        }
+        for (const Json& e : in.at("enemies")) {
+            setup.spawns.push_back({enemy_def_from_json(e.at("def")), e.at("pos").at(0).get<float>(),
+                                    e.at("pos").at(1).get<float>()});
+        }
+
+        aether::WorldSim sim(map, tileset, 0.0F, setup);
+        const float tol = c.at("expect").at("tol").get<float>();
+        std::size_t index = 0;
+        for (const Json& segment : in.at("script")) {
+            const float mx = segment.at("move").at(0).get<float>();
+            const float my = segment.at("move").at(1).get<float>();
+            const bool attack = segment.at("attack").get<bool>();
+            for (int tick = 0; tick < segment.at("ticks").get<int>(); ++tick) {
+                sim.tick(mx, my, attack);
+            }
+            INFO("checkpoint " << index);
+            const Json& want = c.at("expect").at("checkpoints").at(index);
+            const aether::Player& p = sim.player();
+            REQUIRE(p.hp == integer(want.at("player"), "hp"));
+            REQUIRE(p.level == integer(want.at("player"), "level"));
+            REQUIRE(p.xp == integer(want.at("player"), "xp"));
+            REQUIRE(p.deaths == want.at("player").at("deaths").get<int>());
+            REQUIRE(p.position.x == Catch::Approx(want.at("player").at("x").get<float>()).margin(tol));
+            REQUIRE(p.position.y == Catch::Approx(want.at("player").at("y").get<float>()).margin(tol));
+            REQUIRE(p.kills == want.at("kills").get<int>());
+            REQUIRE(sim.enemies().size() == want.at("enemies").size());
+            for (std::size_t i = 0; i < sim.enemies().size(); ++i) {
+                const Json& we = want.at("enemies")[i];
+                INFO("enemy " << i);
+                REQUIRE(sim.enemies()[i].hp == integer(we, "hp"));
+                REQUIRE(std::string(aether::to_string(sim.enemies()[i].state)) == we.at("state").get<std::string>());
+                REQUIRE(sim.enemies()[i].position.x == Catch::Approx(we.at("x").get<float>()).margin(tol));
+                REQUIRE(sim.enemies()[i].position.y == Catch::Approx(we.at("y").get<float>()).margin(tol));
+            }
+            const Json& inventory = want.at("inventory");
+            REQUIRE(sim.inventory().size() == inventory.size());
+            for (const auto& [item, quantity] : inventory.items()) {
+                REQUIRE(sim.inventory().at(item) == quantity.get<std::int64_t>());
+            }
+            ++index;
         }
     }
 }

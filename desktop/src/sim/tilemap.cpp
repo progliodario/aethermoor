@@ -85,6 +85,14 @@ std::optional<TileMap> parse_tilemap(std::string_view tmj_text, std::string& err
                             prop.radius = radius->get<float>();
                         }
                         map.props.push_back(std::move(prop));
+                    } else if (kind == "enemy_spawner") {
+                        SpawnPoint spawn;
+                        spawn.x = x;
+                        spawn.y = y;
+                        if (const Json* enemy = find_property(object, "enemy")) {
+                            spawn.enemy = enemy->get<std::string>();
+                        }
+                        map.spawners.push_back(std::move(spawn));
                     }
                 }
             }

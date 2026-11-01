@@ -34,10 +34,10 @@ public:
     int height() const { return m_height_; }
 
     // Pushes (x, y) out of solid tiles and prop circles (spec: resolve).
-    void resolve(float& x, float& y) const;
+    void resolve(float& x, float& y, float radius = kPlayerRadius) const;
 
     // One tick of movement: X axis, resolve, Y axis, resolve.
-    void step(Vec2& position, Vec2 direction, float speed_tiles_per_s) const;
+    void step(Vec2& position, Vec2 direction, float speed_tiles_per_s, float radius = kPlayerRadius) const;
 
 private:
     int m_width_;

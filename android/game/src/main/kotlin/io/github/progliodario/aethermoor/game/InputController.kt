@@ -4,9 +4,13 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import kotlin.math.sqrt
 
+/** Input of one frame: raw movement vector (the simulation normalizes it) and the attack button. */
+data class FrameInput(val x: Float, val y: Float, val attack: Boolean)
+
 /**
- * Movement input (spec 16): WASD/arrow keys, and a floating touch stick. The first touch on the left half of
- * the screen is the stick origin; dragging up to [STICK_RADIUS_DP] from it gives a vector of length 1.
+ * Input (spec 16): WASD/arrow keys and J/Space to attack, and on touch screens a floating stick on the left half
+ * (the first touch is the origin; dragging up to [STICK_RADIUS_DP] gives a vector of length 1) and an attack
+ * button: any touch on the right half.
  */
 class InputController {
     private var stickPointer = -1
@@ -19,8 +23,8 @@ class InputController {
     var stickPosition: Pair<Float, Float>? = null
         private set
 
-    /** Raw movement vector for this frame; the simulation normalizes it. */
-    fun read(): Pair<Float, Float> {
+    /** Input for this frame. */
+    fun read(): FrameInput {
         var x = 0f
         var y = 0f
         val input = Gdx.input
@@ -34,7 +38,9 @@ class InputController {
             x = touch.first
             y = touch.second
         }
-        return Pair(x, y)
+        val attack = input.isKeyPressed(Input.Keys.SPACE) || input.isKeyPressed(Input.Keys.J) ||
+            (0 until MAX_POINTERS).any { input.isTouched(it) && input.getX(it) >= Gdx.graphics.width / 2 }
+        return FrameInput(x, y, attack)
     }
 
     private fun readStick(): Pair<Float, Float> {

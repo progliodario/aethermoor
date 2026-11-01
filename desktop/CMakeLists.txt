@@ -51,8 +51,9 @@ target_link_libraries(aether_vector PUBLIC aether_core PRIVATE nlohmann_json::nl
 aether_target_options(aether_vector)
 
 # Simulation: tile maps, movement, collisions, the M2 world. Headless.
-add_library(aether_sim STATIC src/sim/tilemap.cpp src/sim/movement.cpp src/sim/world.cpp)
-target_link_libraries(aether_sim PUBLIC aether_core PRIVATE nlohmann_json::nlohmann_json)
+add_library(aether_sim STATIC
+  src/sim/tilemap.cpp src/sim/movement.cpp src/sim/combat.cpp src/sim/combat_loader.cpp src/sim/world.cpp)
+target_link_libraries(aether_sim PUBLIC aether_core aether_data PRIVATE nlohmann_json::nlohmann_json)
 aether_target_options(aether_sim)
 
 add_executable(aethermoor src/app/main.cpp src/app/texture_cache.cpp)
@@ -73,7 +74,8 @@ add_executable(aether_tests
   tests/version_test.cpp
   tests/conformance_test.cpp
   tests/pack_test.cpp
-  tests/sim_test.cpp)
+  tests/sim_test.cpp
+  tests/combat_test.cpp)
 target_link_libraries(aether_tests PRIVATE aether_core aether_data aether_vector aether_sim
                                            nlohmann_json::nlohmann_json Catch2::Catch2WithMain)
 target_compile_definitions(aether_tests PRIVATE AETHER_REPO_ROOT="${AETHER_REPO_ROOT}")

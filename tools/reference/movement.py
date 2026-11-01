@@ -34,8 +34,8 @@ def _clamp(v: float, lo: float, hi: float) -> float:
     return lo if v < lo else hi if v > hi else v
 
 
-def resolve(x: float, y: float, grid: Grid, props: list[tuple[float, float, float]]) -> tuple[float, float]:
-    r = PLAYER_RADIUS
+def resolve(x: float, y: float, grid: Grid, props: list[tuple[float, float, float]],
+            r: float = PLAYER_RADIUS) -> tuple[float, float]:
     for _ in range(4):
         moved = False
         for ty in range(math.floor(y - r), math.floor(y + r) + 1):
@@ -83,12 +83,12 @@ def resolve(x: float, y: float, grid: Grid, props: list[tuple[float, float, floa
 
 
 def step(x: float, y: float, vx: float, vy: float, speed: float, grid: Grid,
-         props: list[tuple[float, float, float]]) -> tuple[float, float]:
+         props: list[tuple[float, float, float]], r: float = PLAYER_RADIUS) -> tuple[float, float]:
     """One 1/60 s tick: move along X, resolve, move along Y, resolve."""
     x += vx * speed * TICK_DT
-    x, y = resolve(x, y, grid, props)
+    x, y = resolve(x, y, grid, props, r)
     y += vy * speed * TICK_DT
-    return resolve(x, y, grid, props)
+    return resolve(x, y, grid, props, r)
 
 
 def run_script(rows: list[str], props: list[tuple[float, float, float]], start: tuple[float, float],

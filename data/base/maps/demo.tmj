@@ -10,7 +10,7 @@
  "tilewidth": 32,
  "tileheight": 32,
  "nextlayerid": 3,
- "nextobjectid": 41,
+ "nextobjectid": 53,
  "properties": [
   {
    "name": "tileset",
@@ -2102,6 +2102,210 @@
        "name": "radius",
        "type": "float",
        "value": 0.35
+      }
+     ]
+    },
+    {
+     "id": 41,
+     "name": "",
+     "width": 0,
+     "height": 0,
+     "type": "enemy_spawner",
+     "point": true,
+     "x": 880.0,
+     "y": 112.0,
+     "properties": [
+      {
+       "name": "enemy",
+       "type": "string",
+       "value": "base:enemy/slime_green"
+      }
+     ]
+    },
+    {
+     "id": 42,
+     "name": "",
+     "width": 0,
+     "height": 0,
+     "type": "enemy_spawner",
+     "point": true,
+     "x": 1008.0,
+     "y": 112.0,
+     "properties": [
+      {
+       "name": "enemy",
+       "type": "string",
+       "value": "base:enemy/slime_green"
+      }
+     ]
+    },
+    {
+     "id": 43,
+     "name": "",
+     "width": 0,
+     "height": 0,
+     "type": "enemy_spawner",
+     "point": true,
+     "x": 528.0,
+     "y": 144.0,
+     "properties": [
+      {
+       "name": "enemy",
+       "type": "string",
+       "value": "base:enemy/slime_green"
+      }
+     ]
+    },
+    {
+     "id": 44,
+     "name": "",
+     "width": 0,
+     "height": 0,
+     "type": "enemy_spawner",
+     "point": true,
+     "x": 144.0,
+     "y": 176.0,
+     "properties": [
+      {
+       "name": "enemy",
+       "type": "string",
+       "value": "base:enemy/slime_green"
+      }
+     ]
+    },
+    {
+     "id": 45,
+     "name": "",
+     "width": 0,
+     "height": 0,
+     "type": "enemy_spawner",
+     "point": true,
+     "x": 400.0,
+     "y": 208.0,
+     "properties": [
+      {
+       "name": "enemy",
+       "type": "string",
+       "value": "base:enemy/slime_green"
+      }
+     ]
+    },
+    {
+     "id": 46,
+     "name": "",
+     "width": 0,
+     "height": 0,
+     "type": "enemy_spawner",
+     "point": true,
+     "x": 720.0,
+     "y": 240.0,
+     "properties": [
+      {
+       "name": "enemy",
+       "type": "string",
+       "value": "base:enemy/slime_green"
+      }
+     ]
+    },
+    {
+     "id": 47,
+     "name": "",
+     "width": 0,
+     "height": 0,
+     "type": "enemy_spawner",
+     "point": true,
+     "x": 432.0,
+     "y": 432.0,
+     "properties": [
+      {
+       "name": "enemy",
+       "type": "string",
+       "value": "base:enemy/slime_green"
+      }
+     ]
+    },
+    {
+     "id": 48,
+     "name": "",
+     "width": 0,
+     "height": 0,
+     "type": "enemy_spawner",
+     "point": true,
+     "x": 720.0,
+     "y": 432.0,
+     "properties": [
+      {
+       "name": "enemy",
+       "type": "string",
+       "value": "base:enemy/slime_green"
+      }
+     ]
+    },
+    {
+     "id": 49,
+     "name": "",
+     "width": 0,
+     "height": 0,
+     "type": "enemy_spawner",
+     "point": true,
+     "x": 816.0,
+     "y": 432.0,
+     "properties": [
+      {
+       "name": "enemy",
+       "type": "string",
+       "value": "base:enemy/slime_green"
+      }
+     ]
+    },
+    {
+     "id": 50,
+     "name": "",
+     "width": 0,
+     "height": 0,
+     "type": "enemy_spawner",
+     "point": true,
+     "x": 368.0,
+     "y": 592.0,
+     "properties": [
+      {
+       "name": "enemy",
+       "type": "string",
+       "value": "base:enemy/slime_green"
+      }
+     ]
+    },
+    {
+     "id": 51,
+     "name": "",
+     "width": 0,
+     "height": 0,
+     "type": "enemy_spawner",
+     "point": true,
+     "x": 848.0,
+     "y": 592.0,
+     "properties": [
+      {
+       "name": "enemy",
+       "type": "string",
+       "value": "base:enemy/slime_green"
+      }
+     ]
+    },
+    {
+     "id": 52,
+     "name": "",
+     "width": 0,
+     "height": 0,
+     "type": "enemy_spawner",
+     "point": true,
+     "x": 752.0,
+     "y": 656.0,
+     "properties": [
+      {
+       "name": "enemy",
+       "type": "string",
+       "value": "base:enemy/slime_green"
       }
      ]
     }

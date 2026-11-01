@@ -1,0 +1,11 @@
+{
+  "$schema": "../../../schemas/behavior.schema.json",
+  "id": "base:behavior/melee_chaser_basic",
+  "kind": "melee_chaser",
+  "aggro_x100": 600,
+  "leash_x100": 900,
+  "attack_range_x100": 120,
+  "hit_range_x100": 150,
+  "windup_ticks": 18,
+  "recovery_ticks": 30
+}

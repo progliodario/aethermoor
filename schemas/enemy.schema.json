@@ -3,48 +3,154 @@
   "$id": "https://aethermoor.invalid/schemas/enemy.schema.json",
   "title": "Enemy",
   "type": "object",
-  "required": ["id", "name", "level", "stats", "element", "xp"],
+  "required": [
+    "id",
+    "name",
+    "level",
+    "stats",
+    "element",
+    "xp",
+    "radius_x100",
+    "behavior",
+    "art"
+  ],
   "additionalProperties": false,
   "properties": {
-    "$schema": { "type": "string" },
-    "id": { "$ref": "#/$defs/id" },
-    "name": { "$ref": "#/$defs/i18n_ref" },
-    "level": { "type": "integer", "minimum": 1, "maximum": 99 },
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "$ref": "#/$defs/id"
+    },
+    "name": {
+      "$ref": "#/$defs/i18n_ref"
+    },
+    "level": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 99
+    },
     "stats": {
       "type": "object",
-      "required": ["hp", "atk", "def", "mdef", "speed_x100"],
+      "required": [
+        "hp",
+        "atk",
+        "def",
+        "mdef",
+        "speed_x100"
+      ],
       "additionalProperties": false,
       "properties": {
-        "hp": { "type": "integer", "minimum": 1 }, "atk": { "type": "integer", "minimum": 0 },
-        "def": { "type": "integer", "minimum": 0 }, "mdef": { "type": "integer", "minimum": 0 },
-        "speed_x100": { "type": "integer", "minimum": 0 }
+        "hp": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atk": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "def": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "mdef": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "speed_x100": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
-    "element": { "enum": ["none", "fire", "water", "wind", "earth", "light", "dark"] },
+    "element": {
+      "enum": [
+        "none",
+        "fire",
+        "water",
+        "wind",
+        "earth",
+        "light",
+        "dark"
+      ]
+    },
     "weaknesses_pm": {
       "type": "object",
-      "propertyNames": { "enum": ["fire", "water", "wind", "earth", "light", "dark"] },
-      "additionalProperties": { "type": "integer", "minimum": 0 }
+      "propertyNames": {
+        "enum": [
+          "fire",
+          "water",
+          "wind",
+          "earth",
+          "light",
+          "dark"
+        ]
+      },
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
     },
-    "xp": { "type": "integer", "minimum": 0 },
-    "skills": { "type": "array", "items": { "$ref": "#/$defs/id" } },
+    "xp": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/id"
+      }
+    },
     "drops": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["item", "qty_min", "qty_max", "weight_pm"],
+        "required": [
+          "item",
+          "qty_min",
+          "qty_max",
+          "weight_pm"
+        ],
         "additionalProperties": false,
         "properties": {
-          "item": { "$ref": "#/$defs/id" },
-          "qty_min": { "type": "integer", "minimum": 1 },
-          "qty_max": { "type": "integer", "minimum": 1 },
-          "weight_pm": { "type": "integer", "minimum": 0, "maximum": 1000 }
+          "item": {
+            "$ref": "#/$defs/id"
+          },
+          "qty_min": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "qty_max": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "weight_pm": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000
+          }
         }
       }
+    },
+    "radius_x100": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "behavior": {
+      "$ref": "#/$defs/id"
+    },
+    "art": {
+      "$ref": "#/$defs/id"
     }
   },
   "$defs": {
-    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$" },
-    "i18n_ref": { "type": "string", "pattern": "^\\$i18n:[a-z0-9_]+(\\.[a-z0-9_]+)*$" }
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+    },
+    "i18n_ref": {
+      "type": "string",
+      "pattern": "^\\$i18n:[a-z0-9_]+(\\.[a-z0-9_]+)*$"
+    }
   }
 }
