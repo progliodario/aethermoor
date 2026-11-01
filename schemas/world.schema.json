@@ -1,0 +1,321 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aethermoor.invalid/schemas/world.schema.json",
+  "title": "Procedural world parameters (docs/spec/09-worldgen.md)",
+  "type": "object",
+  "required": [
+    "id",
+    "width",
+    "height",
+    "border",
+    "spawn_clear_radius",
+    "elevation",
+    "moisture",
+    "temperature",
+    "thresholds",
+    "tiles",
+    "props",
+    "spawners",
+    "npcs"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+    },
+    "width": {
+      "type": "integer",
+      "minimum": 32,
+      "maximum": 4096
+    },
+    "height": {
+      "type": "integer",
+      "minimum": 32,
+      "maximum": 4096
+    },
+    "border": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "spawn_clear_radius": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "elevation": {
+      "type": "object",
+      "required": [
+        "salt",
+        "scale",
+        "octaves"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "salt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "scale": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "octaves": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        }
+      }
+    },
+    "moisture": {
+      "type": "object",
+      "required": [
+        "salt",
+        "scale",
+        "octaves"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "salt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "scale": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "octaves": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        }
+      }
+    },
+    "temperature": {
+      "type": "object",
+      "required": [
+        "salt",
+        "scale",
+        "octaves"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "salt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "scale": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "octaves": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        }
+      }
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "water",
+        "beach",
+        "mountain",
+        "snow",
+        "desert_heat",
+        "desert_dry",
+        "forest_wet"
+      ],
+      "properties": {
+        "water": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "beach": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "mountain": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "snow": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "desert_heat": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "desert_dry": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forest_wet": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        }
+      }
+    },
+    "tiles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "water",
+        "beach",
+        "desert",
+        "snow",
+        "mountain",
+        "forest",
+        "plains"
+      ],
+      "properties": {
+        "water": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "beach": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "desert": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "snow": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "mountain": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "forest": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "plains": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    },
+    "props": {
+      "type": "object",
+      "propertyNames": {
+        "enum": [
+          "plains",
+          "forest",
+          "snow",
+          "desert",
+          "beach",
+          "mountain"
+        ]
+      },
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "art",
+            "radius_x100",
+            "per_mille"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "art": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+            },
+            "radius_x100": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "per_mille": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000
+            }
+          }
+        }
+      }
+    },
+    "spawners": {
+      "type": "object",
+      "required": [
+        "enemy",
+        "biomes",
+        "min_distance",
+        "per_10000"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "enemy": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+        },
+        "biomes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "min_distance": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "per_10000": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000
+        }
+      }
+    },
+    "npcs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "key",
+          "dialogue",
+          "variant",
+          "dx",
+          "dy"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "dialogue": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+          },
+          "variant": {
+            "type": "string"
+          },
+          "dx": {
+            "type": "integer"
+          },
+          "dy": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}

@@ -19,6 +19,8 @@
 #include "core/rules.hpp"
 #include "data/pack.hpp"
 #include "sim/movement.hpp"
+#include "core/worldgen.hpp"
+#include "data/world_data.hpp"
 #include "sim/save.hpp"
 #include "sim/story.hpp"
 #include "sim/world.hpp"
@@ -575,3 +577,50 @@ TEST_CASE("conformance: combat", "[conformance]") { run_combat_suite("combat"); 
 TEST_CASE("conformance: story", "[conformance]") { run_combat_suite("story"); }
 
 TEST_CASE("conformance: save and resume", "[conformance]") { run_save_suite(); }
+
+TEST_CASE("conformance: worldgen", "[conformance]") {
+    const Json doc = load_suite("worldgen");
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        const Json& in = c.at("input");
+        const Json& want = c.at("expect");
+        std::string error;
+        const auto params = aether::parse_world_params(in.at("params").dump(), error);
+        INFO(error);
+        REQUIRE(params.has_value());
+        const aether::GeneratedWorld world = aether::generate_world(hex(in.at("seed")), *params);
+
+        REQUIRE(world.tiles.size() == want.at("tile_count").get<std::size_t>());
+        for (const Json& probe : want.at("probes")) {
+            const int x = probe.at(0).get<int>();
+            const int y = probe.at(1).get<int>();
+            INFO("probe " << x << "," << y);
+            REQUIRE(world.tiles[static_cast<std::size_t>(y) * static_cast<std::size_t>(world.width) + static_cast<std::size_t>(x)] ==
+                    probe.at(2).get<int>());
+        }
+        for (const Json& row : want.at("row_digests")) {
+            INFO("row " << row.at(0).get<int>());
+            REQUIRE(aether::digest_tile_row(world.tiles, world.width, row.at(0).get<int>()) == hex(row.at(1)));
+        }
+        REQUIRE(world.props.size() == want.at("prop_count").get<std::size_t>());
+        REQUIRE(aether::digest_props(world.props) == hex(want.at("prop_digest")));
+        REQUIRE(world.spawners.size() == want.at("spawner_count").get<std::size_t>());
+        REQUIRE(aether::digest_spawners(world.spawners) == hex(want.at("spawner_digest")));
+        REQUIRE(world.spawn_x256 == want.at("spawn").at(0).get<int>());
+        REQUIRE(world.spawn_y256 == want.at("spawn").at(1).get<int>());
+        REQUIRE(world.npcs.size() == want.at("npcs").size());
+        for (std::size_t i = 0; i < world.npcs.size(); ++i) {
+            REQUIRE(world.npcs[i].key == want.at("npcs")[i].at(0).get<std::string>());
+            REQUIRE(world.npcs[i].x256 == want.at("npcs")[i].at(1).get<int>());
+            REQUIRE(world.npcs[i].y256 == want.at("npcs")[i].at(2).get<int>());
+        }
+        std::map<int, std::int64_t> histogram;
+        for (const int gid : world.tiles) {
+            ++histogram[gid];
+        }
+        REQUIRE(histogram.size() == want.at("gid_histogram").size());
+        for (const auto& [gid, count] : want.at("gid_histogram").items()) {
+            REQUIRE(histogram.at(std::stoi(gid)) == count.get<std::int64_t>());
+        }
+    }
+}

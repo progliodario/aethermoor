@@ -12,7 +12,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import io.github.progliodario.aethermoor.core.GameInfo
 import io.github.progliodario.aethermoor.core.Pack
+import io.github.progliodario.aethermoor.core.generateWorld
 import io.github.progliodario.aethermoor.core.loadPack
+import io.github.progliodario.aethermoor.core.parseWorldParams
 import io.github.progliodario.aethermoor.core.sim.AttackPhase
 import io.github.progliodario.aethermoor.core.sim.Enemy
 import io.github.progliodario.aethermoor.core.sim.EnemyState
@@ -28,8 +30,9 @@ import io.github.progliodario.aethermoor.core.sim.Tileset
 import io.github.progliodario.aethermoor.core.sim.ObjectiveKind
 import io.github.progliodario.aethermoor.core.sim.WorldSim
 import io.github.progliodario.aethermoor.core.sim.loadCombatSetup
-import io.github.progliodario.aethermoor.core.sim.parseTileMap
+import io.github.progliodario.aethermoor.core.sim.makeTileMap
 import io.github.progliodario.aethermoor.core.sim.parseTileset
+import io.github.progliodario.aethermoor.core.sim.savePeek
 import io.github.progliodario.aethermoor.core.vector.Clip
 import io.github.progliodario.aethermoor.core.vector.Rig
 import io.github.progliodario.aethermoor.core.vector.evaluatePose
@@ -45,7 +48,7 @@ import kotlin.math.min
 import kotlin.math.roundToInt
 
 /**
- * M3 client: a vector-art character exploring a tile map and fighting slimes, drawn with libGDX.
+ * Client: a vector-art character exploring the generated world, fighting and talking, drawn with libGDX.
  * Mirrors desktop/src/app/main.cpp (draw order, scale buckets, fixed 60 Hz simulation).
  */
 class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
@@ -99,7 +102,6 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val loaded = loadAssets() ?: return
         assets = loaded
         cache = TextureCache(loaded.pack)
-        seed = System.nanoTime().toULong()
         val combat = loadCombatSetup(loaded.pack, loaded.map, PROTAGONIST_ID, seed)
             .getOrElse {
                 error = it.message
@@ -109,6 +111,16 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val world = WorldSim(loaded.map, loaded.tileset, 0f, combat)
         sim = world
         loadAutosave(world, loaded.pack)
+    }
+
+    /** The seed of the last session on the generated world (so the same world comes back), else a new one. */
+    private fun chooseSeed(): ULong {
+        val file = saveFile()
+        if (file.exists()) {
+            val peek = savePeek(file.readString("UTF-8")).getOrNull()
+            if (peek != null && peek.map == MAP_WORLD) return peek.seed
+        }
+        return System.nanoTime().toULong()
     }
 
     private fun loadAssets(): Assets? {
@@ -121,12 +133,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
         return try {
             fun doc(id: String) = requireNotNull(pack.readDocument(id)) { "missing document $id" }
+            seed = chooseSeed()
+            val worldParams = parseWorldParams(doc("base:world/overworld")).getOrThrow()
             Assets(
                 pack = pack,
                 rig = parseRig(doc("base:art/rig/humanoid")).getOrThrow(),
                 idle = parseClip(doc("base:art/clip/humanoid_idle")).getOrThrow(),
                 walk = parseClip(doc("base:art/clip/humanoid_walk")).getOrThrow(),
-                map = parseTileMap(requireNotNull(pack.readFile("maps/demo.tmj")) { "missing maps/demo.tmj" }).getOrThrow(),
+                map = makeTileMap(generateWorld(seed, worldParams), worldParams),
                 tileset = parseTileset(doc("base:tileset/overworld")).getOrThrow(),
             )
         } catch (e: IllegalArgumentException) {
@@ -148,7 +162,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private fun saveGame(world: WorldSim) {
         try {
             val temp = Gdx.files.local("saves/auto.json.tmp")
-            temp.writeString(saveToJson(world.capture(), SaveMeta(info.version, 1, PROTAGONIST_ID, seed)), false, "UTF-8")
+            temp.writeString(saveToJson(world.capture(), SaveMeta(info.version, 1, PROTAGONIST_ID, seed, MAP_WORLD)), false, "UTF-8")
             temp.moveTo(saveFile())
         } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
             Gdx.app.error(TAG, "Cannot write the save: ${e.message}")
@@ -158,7 +172,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private fun loadAutosave(world: WorldSim, pack: Pack) {
         val file = saveFile()
         if (!file.exists()) return
-        val result = saveFromJson(file.readString("UTF-8")).mapCatching { world.restore(it).getOrThrow() }
+        val text = file.readString("UTF-8")
+        val peek = savePeek(text).getOrNull()
+        if (peek == null || peek.map != MAP_WORLD || peek.seed != seed) return // another map: start a fresh run
+        val result = saveFromJson(text).mapCatching { world.restore(it).getOrThrow() }
         if (result.isSuccess) {
             showNotice(pack.text(language, "\$i18n:ui.loaded"))
         } else {
@@ -696,6 +713,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     companion object {
         private const val TAG = "Aethermoor"
         private const val PROTAGONIST_ID = "base:protagonist/ren"
+        private const val MAP_WORLD = "world"
         private const val BASE_TILE_PX = 48f
         private const val MAX_TICKS_PER_FRAME = 5
         private const val MAX_FRAME_SECONDS = 0.25f

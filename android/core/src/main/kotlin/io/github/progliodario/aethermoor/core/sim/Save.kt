@@ -50,7 +50,23 @@ class SaveState(
     val story: StoryState,
 )
 
-class SaveMeta(val gameVersion: String, val dataFormatVersion: Int, val protagonist: String, val seed: ULong)
+class SaveMeta(
+    val gameVersion: String,
+    val dataFormatVersion: Int,
+    val protagonist: String,
+    val seed: ULong,
+    /** "world" (generated from the seed) or "demo" (the hand-made map). */
+    val map: String = "",
+)
+
+/** The seed and map name of a save, read without building a world (to rebuild the same world first). */
+class SavePeek(val seed: ULong, val map: String)
+
+fun savePeek(text: String): Result<SavePeek> =
+    runCatching {
+        val j = Json.parseToJsonElement(text).jsonObject
+        SavePeek(parseHex64(j.getValue("seed")), (j["map"] as? JsonPrimitive)?.content ?: "")
+    }
 
 private fun hex64(value: ULong) = "0x" + value.toString(16).padStart(16, '0')
 
@@ -70,6 +86,7 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
         put("data_format_version", meta.dataFormatVersion)
         put("protagonist", meta.protagonist)
         put("seed", hex64(meta.seed))
+        put("map", meta.map)
         put(
             "player",
             buildJsonObject {
