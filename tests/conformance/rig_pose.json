@@ -1,0 +1,2527 @@
+{
+  "suite": "rig_pose",
+  "spec_version": 1,
+  "generated_by": "tools/gen_conformance.py",
+  "cases": [
+    {
+      "name": "pose_loop_plain_0",
+      "input": {
+        "op": "pose",
+        "rig": {
+          "id": "test:art/rig/arm_chain",
+          "parts": [
+            {
+              "id": "torso",
+              "parent": null,
+              "offset": [
+                0,
+                0
+              ],
+              "z": 0,
+              "art": "test:art/part/torso"
+            },
+            {
+              "id": "arm",
+              "parent": "torso",
+              "offset": [
+                2,
+                -1
+              ],
+              "z": 1,
+              "art": "test:art/part/arm"
+            },
+            {
+              "id": "hand",
+              "parent": "arm",
+              "offset": [
+                0,
+                3
+              ],
+              "z": 2,
+              "art": "test:art/part/hand"
+            }
+          ]
+        },
+        "clip": {
+          "id": "test:art/clip/wave",
+          "rig": "test:art/rig/arm_chain",
+          "loop": true,
+          "length_ticks": 24,
+          "tracks": {
+            "torso": {
+              "rot": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  10
+                ],
+                [
+                  24,
+                  0
+                ]
+              ],
+              "pos": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  -1
+                ],
+                [
+                  24,
+                  0,
+                  0
+                ]
+              ]
+            },
+            "arm": {
+              "rot": [
+                [
+                  0,
+                  -30
+                ],
+                [
+                  12,
+                  60
+                ],
+                [
+                  24,
+                  -30
+                ]
+              ]
+            }
+          }
+        },
+        "tick": 0,
+        "mirror": false
+      },
+      "expect": {
+        "parts": [
+          {
+            "part": "torso",
+            "x": 0.0,
+            "y": 0.0,
+            "rot": 0.0,
+            "z": 0
+          },
+          {
+            "part": "arm",
+            "x": 2.0,
+            "y": -1.0,
+            "rot": -30.0,
+            "z": 1
+          },
+          {
+            "part": "hand",
+            "x": 3.5,
+            "y": 1.598076211353316,
+            "rot": -30.0,
+            "z": 2
+          }
+        ],
+        "tol": 0.001
+      }
+    },
+    {
+      "name": "pose_loop_plain_6",
+      "input": {
+        "op": "pose",
+        "rig": {
+          "id": "test:art/rig/arm_chain",
+          "parts": [
+            {
+              "id": "torso",
+              "parent": null,
+              "offset": [
+                0,
+                0
+              ],
+              "z": 0,
+              "art": "test:art/part/torso"
+            },
+            {
+              "id": "arm",
+              "parent": "torso",
+              "offset": [
+                2,
+                -1
+              ],
+              "z": 1,
+              "art": "test:art/part/arm"
+            },
+            {
+              "id": "hand",
+              "parent": "arm",
+              "offset": [
+                0,
+                3
+              ],
+              "z": 2,
+              "art": "test:art/part/hand"
+            }
+          ]
+        },
+        "clip": {
+          "id": "test:art/clip/wave",
+          "rig": "test:art/rig/arm_chain",
+          "loop": true,
+          "length_ticks": 24,
+          "tracks": {
+            "torso": {
+              "rot": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  10
+                ],
+                [
+                  24,
+                  0
+                ]
+              ],
+              "pos": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  -1
+                ],
+                [
+                  24,
+                  0,
+                  0
+                ]
+              ]
+            },
+            "arm": {
+              "rot": [
+                [
+                  0,
+                  -30
+                ],
+                [
+                  12,
+                  60
+                ],
+                [
+                  24,
+                  -30
+                ]
+              ]
+            }
+          }
+        },
+        "tick": 6,
+        "mirror": false
+      },
+      "expect": {
+        "parts": [
+          {
+            "part": "torso",
+            "x": 0.0,
+            "y": -0.5,
+            "rot": 5.0,
+            "z": 0
+          },
+          {
+            "part": "arm",
+            "x": 2.0795451389311492,
+            "y": -1.3218832125964293,
+            "rot": 20.0,
+            "z": 1
+          },
+          {
+            "part": "hand",
+            "x": 1.053484708954143,
+            "y": 1.497194649761296,
+            "rot": 20.0,
+            "z": 2
+          }
+        ],
+        "tol": 0.001
+      }
+    },
+    {
+      "name": "pose_loop_plain_12",
+      "input": {
+        "op": "pose",
+        "rig": {
+          "id": "test:art/rig/arm_chain",
+          "parts": [
+            {
+              "id": "torso",
+              "parent": null,
+              "offset": [
+                0,
+                0
+              ],
+              "z": 0,
+              "art": "test:art/part/torso"
+            },
+            {
+              "id": "arm",
+              "parent": "torso",
+              "offset": [
+                2,
+                -1
+              ],
+              "z": 1,
+              "art": "test:art/part/arm"
+            },
+            {
+              "id": "hand",
+              "parent": "arm",
+              "offset": [
+                0,
+                3
+              ],
+              "z": 2,
+              "art": "test:art/part/hand"
+            }
+          ]
+        },
+        "clip": {
+          "id": "test:art/clip/wave",
+          "rig": "test:art/rig/arm_chain",
+          "loop": true,
+          "length_ticks": 24,
+          "tracks": {
+            "torso": {
+              "rot": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  10
+                ],
+                [
+                  24,
+                  0
+                ]
+              ],
+              "pos": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  -1
+                ],
+                [
+                  24,
+                  0,
+                  0
+                ]
+              ]
+            },
+            "arm": {
+              "rot": [
+                [
+                  0,
+                  -30
+                ],
+                [
+                  12,
+                  60
+                ],
+                [
+                  24,
+                  -30
+                ]
+              ]
+            }
+          }
+        },
+        "tick": 12,
+        "mirror": false
+      },
+      "expect": {
+        "parts": [
+          {
+            "part": "torso",
+            "x": 0.0,
+            "y": -1.0,
+            "rot": 10.0,
+            "z": 0
+          },
+          {
+            "part": "arm",
+            "x": 2.1432636836913463,
+            "y": -1.6375113976783475,
+            "rot": 70.0,
+            "z": 1
+          },
+          {
+            "part": "hand",
+            "x": -0.6758141786663785,
+            "y": -0.6114509677013411,
+            "rot": 70.0,
+            "z": 2
+          }
+        ],
+        "tol": 0.001
+      }
+    },
+    {
+      "name": "pose_loop_plain_18",
+      "input": {
+        "op": "pose",
+        "rig": {
+          "id": "test:art/rig/arm_chain",
+          "parts": [
+            {
+              "id": "torso",
+              "parent": null,
+              "offset": [
+                0,
+                0
+              ],
+              "z": 0,
+              "art": "test:art/part/torso"
+            },
+            {
+              "id": "arm",
+              "parent": "torso",
+              "offset": [
+                2,
+                -1
+              ],
+              "z": 1,
+              "art": "test:art/part/arm"
+            },
+            {
+              "id": "hand",
+              "parent": "arm",
+              "offset": [
+                0,
+                3
+              ],
+              "z": 2,
+              "art": "test:art/part/hand"
+            }
+          ]
+        },
+        "clip": {
+          "id": "test:art/clip/wave",
+          "rig": "test:art/rig/arm_chain",
+          "loop": true,
+          "length_ticks": 24,
+          "tracks": {
+            "torso": {
+              "rot": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  10
+                ],
+                [
+                  24,
+                  0
+                ]
+              ],
+              "pos": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  -1
+                ],
+                [
+                  24,
+                  0,
+                  0
+                ]
+              ]
+            },
+            "arm": {
+              "rot": [
+                [
+                  0,
+                  -30
+                ],
+                [
+                  12,
+                  60
+                ],
+                [
+                  24,
+                  -30
+                ]
+              ]
+            }
+          }
+        },
+        "tick": 18,
+        "mirror": false
+      },
+      "expect": {
+        "parts": [
+          {
+            "part": "torso",
+            "x": 0.0,
+            "y": -0.5,
+            "rot": 5.0,
+            "z": 0
+          },
+          {
+            "part": "arm",
+            "x": 2.0795451389311492,
+            "y": -1.3218832125964293,
+            "rot": 20.0,
+            "z": 1
+          },
+          {
+            "part": "hand",
+            "x": 1.053484708954143,
+            "y": 1.497194649761296,
+            "rot": 20.0,
+            "z": 2
+          }
+        ],
+        "tol": 0.001
+      }
+    },
+    {
+      "name": "pose_loop_plain_24",
+      "input": {
+        "op": "pose",
+        "rig": {
+          "id": "test:art/rig/arm_chain",
+          "parts": [
+            {
+              "id": "torso",
+              "parent": null,
+              "offset": [
+                0,
+                0
+              ],
+              "z": 0,
+              "art": "test:art/part/torso"
+            },
+            {
+              "id": "arm",
+              "parent": "torso",
+              "offset": [
+                2,
+                -1
+              ],
+              "z": 1,
+              "art": "test:art/part/arm"
+            },
+            {
+              "id": "hand",
+              "parent": "arm",
+              "offset": [
+                0,
+                3
+              ],
+              "z": 2,
+              "art": "test:art/part/hand"
+            }
+          ]
+        },
+        "clip": {
+          "id": "test:art/clip/wave",
+          "rig": "test:art/rig/arm_chain",
+          "loop": true,
+          "length_ticks": 24,
+          "tracks": {
+            "torso": {
+              "rot": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  10
+                ],
+                [
+                  24,
+                  0
+                ]
+              ],
+              "pos": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  -1
+                ],
+                [
+                  24,
+                  0,
+                  0
+                ]
+              ]
+            },
+            "arm": {
+              "rot": [
+                [
+                  0,
+                  -30
+                ],
+                [
+                  12,
+                  60
+                ],
+                [
+                  24,
+                  -30
+                ]
+              ]
+            }
+          }
+        },
+        "tick": 24,
+        "mirror": false
+      },
+      "expect": {
+        "parts": [
+          {
+            "part": "torso",
+            "x": 0.0,
+            "y": 0.0,
+            "rot": 0.0,
+            "z": 0
+          },
+          {
+            "part": "arm",
+            "x": 2.0,
+            "y": -1.0,
+            "rot": -30.0,
+            "z": 1
+          },
+          {
+            "part": "hand",
+            "x": 3.5,
+            "y": 1.598076211353316,
+            "rot": -30.0,
+            "z": 2
+          }
+        ],
+        "tol": 0.001
+      }
+    },
+    {
+      "name": "pose_loop_plain_30",
+      "input": {
+        "op": "pose",
+        "rig": {
+          "id": "test:art/rig/arm_chain",
+          "parts": [
+            {
+              "id": "torso",
+              "parent": null,
+              "offset": [
+                0,
+                0
+              ],
+              "z": 0,
+              "art": "test:art/part/torso"
+            },
+            {
+              "id": "arm",
+              "parent": "torso",
+              "offset": [
+                2,
+                -1
+              ],
+              "z": 1,
+              "art": "test:art/part/arm"
+            },
+            {
+              "id": "hand",
+              "parent": "arm",
+              "offset": [
+                0,
+                3
+              ],
+              "z": 2,
+              "art": "test:art/part/hand"
+            }
+          ]
+        },
+        "clip": {
+          "id": "test:art/clip/wave",
+          "rig": "test:art/rig/arm_chain",
+          "loop": true,
+          "length_ticks": 24,
+          "tracks": {
+            "torso": {
+              "rot": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  10
+                ],
+                [
+                  24,
+                  0
+                ]
+              ],
+              "pos": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  -1
+                ],
+                [
+                  24,
+                  0,
+                  0
+                ]
+              ]
+            },
+            "arm": {
+              "rot": [
+                [
+                  0,
+                  -30
+                ],
+                [
+                  12,
+                  60
+                ],
+                [
+                  24,
+                  -30
+                ]
+              ]
+            }
+          }
+        },
+        "tick": 30,
+        "mirror": false
+      },
+      "expect": {
+        "parts": [
+          {
+            "part": "torso",
+            "x": 0.0,
+            "y": -0.5,
+            "rot": 5.0,
+            "z": 0
+          },
+          {
+            "part": "arm",
+            "x": 2.0795451389311492,
+            "y": -1.3218832125964293,
+            "rot": 20.0,
+            "z": 1
+          },
+          {
+            "part": "hand",
+            "x": 1.053484708954143,
+            "y": 1.497194649761296,
+            "rot": 20.0,
+            "z": 2
+          }
+        ],
+        "tol": 0.001
+      }
+    },
+    {
+      "name": "pose_loop_mirror_0",
+      "input": {
+        "op": "pose",
+        "rig": {
+          "id": "test:art/rig/arm_chain",
+          "parts": [
+            {
+              "id": "torso",
+              "parent": null,
+              "offset": [
+                0,
+                0
+              ],
+              "z": 0,
+              "art": "test:art/part/torso"
+            },
+            {
+              "id": "arm",
+              "parent": "torso",
+              "offset": [
+                2,
+                -1
+              ],
+              "z": 1,
+              "art": "test:art/part/arm"
+            },
+            {
+              "id": "hand",
+              "parent": "arm",
+              "offset": [
+                0,
+                3
+              ],
+              "z": 2,
+              "art": "test:art/part/hand"
+            }
+          ]
+        },
+        "clip": {
+          "id": "test:art/clip/wave",
+          "rig": "test:art/rig/arm_chain",
+          "loop": true,
+          "length_ticks": 24,
+          "tracks": {
+            "torso": {
+              "rot": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  10
+                ],
+                [
+                  24,
+                  0
+                ]
+              ],
+              "pos": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  -1
+                ],
+                [
+                  24,
+                  0,
+                  0
+                ]
+              ]
+            },
+            "arm": {
+              "rot": [
+                [
+                  0,
+                  -30
+                ],
+                [
+                  12,
+                  60
+                ],
+                [
+                  24,
+                  -30
+                ]
+              ]
+            }
+          }
+        },
+        "tick": 0,
+        "mirror": true
+      },
+      "expect": {
+        "parts": [
+          {
+            "part": "torso",
+            "x": -0.0,
+            "y": 0.0,
+            "rot": -0.0,
+            "z": 0
+          },
+          {
+            "part": "arm",
+            "x": -2.0,
+            "y": -1.0,
+            "rot": 30.0,
+            "z": 1
+          },
+          {
+            "part": "hand",
+            "x": -3.5,
+            "y": 1.598076211353316,
+            "rot": 30.0,
+            "z": 2
+          }
+        ],
+        "tol": 0.001
+      }
+    },
+    {
+      "name": "pose_loop_mirror_6",
+      "input": {
+        "op": "pose",
+        "rig": {
+          "id": "test:art/rig/arm_chain",
+          "parts": [
+            {
+              "id": "torso",
+              "parent": null,
+              "offset": [
+                0,
+                0
+              ],
+              "z": 0,
+              "art": "test:art/part/torso"
+            },
+            {
+              "id": "arm",
+              "parent": "torso",
+              "offset": [
+                2,
+                -1
+              ],
+              "z": 1,
+              "art": "test:art/part/arm"
+            },
+            {
+              "id": "hand",
+              "parent": "arm",
+              "offset": [
+                0,
+                3
+              ],
+              "z": 2,
+              "art": "test:art/part/hand"
+            }
+          ]
+        },
+        "clip": {
+          "id": "test:art/clip/wave",
+          "rig": "test:art/rig/arm_chain",
+          "loop": true,
+          "length_ticks": 24,
+          "tracks": {
+            "torso": {
+              "rot": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  10
+                ],
+                [
+                  24,
+                  0
+                ]
+              ],
+              "pos": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  -1
+                ],
+                [
+                  24,
+                  0,
+                  0
+                ]
+              ]
+            },
+            "arm": {
+              "rot": [
+                [
+                  0,
+                  -30
+                ],
+                [
+                  12,
+                  60
+                ],
+                [
+                  24,
+                  -30
+                ]
+              ]
+            }
+          }
+        },
+        "tick": 6,
+        "mirror": true
+      },
+      "expect": {
+        "parts": [
+          {
+            "part": "torso",
+            "x": -0.0,
+            "y": -0.5,
+            "rot": -5.0,
+            "z": 0
+          },
+          {
+            "part": "arm",
+            "x": -2.0795451389311492,
+            "y": -1.3218832125964293,
+            "rot": -20.0,
+            "z": 1
+          },
+          {
+            "part": "hand",
+            "x": -1.053484708954143,
+            "y": 1.497194649761296,
+            "rot": -20.0,
+            "z": 2
+          }
+        ],
+        "tol": 0.001
+      }
+    },
+    {
+      "name": "pose_loop_mirror_12",
+      "input": {
+        "op": "pose",
+        "rig": {
+          "id": "test:art/rig/arm_chain",
+          "parts": [
+            {
+              "id": "torso",
+              "parent": null,
+              "offset": [
+                0,
+                0
+              ],
+              "z": 0,
+              "art": "test:art/part/torso"
+            },
+            {
+              "id": "arm",
+              "parent": "torso",
+              "offset": [
+                2,
+                -1
+              ],
+              "z": 1,
+              "art": "test:art/part/arm"
+            },
+            {
+              "id": "hand",
+              "parent": "arm",
+              "offset": [
+                0,
+                3
+              ],
+              "z": 2,
+              "art": "test:art/part/hand"
+            }
+          ]
+        },
+        "clip": {
+          "id": "test:art/clip/wave",
+          "rig": "test:art/rig/arm_chain",
+          "loop": true,
+          "length_ticks": 24,
+          "tracks": {
+            "torso": {
+              "rot": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  10
+                ],
+                [
+                  24,
+                  0
+                ]
+              ],
+              "pos": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  -1
+                ],
+                [
+                  24,
+                  0,
+                  0
+                ]
+              ]
+            },
+            "arm": {
+              "rot": [
+                [
+                  0,
+                  -30
+                ],
+                [
+                  12,
+                  60
+                ],
+                [
+                  24,
+                  -30
+                ]
+              ]
+            }
+          }
+        },
+        "tick": 12,
+        "mirror": true
+      },
+      "expect": {
+        "parts": [
+          {
+            "part": "torso",
+            "x": -0.0,
+            "y": -1.0,
+            "rot": -10.0,
+            "z": 0
+          },
+          {
+            "part": "arm",
+            "x": -2.1432636836913463,
+            "y": -1.6375113976783475,
+            "rot": -70.0,
+            "z": 1
+          },
+          {
+            "part": "hand",
+            "x": 0.6758141786663785,
+            "y": -0.6114509677013411,
+            "rot": -70.0,
+            "z": 2
+          }
+        ],
+        "tol": 0.001
+      }
+    },
+    {
+      "name": "pose_loop_mirror_18",
+      "input": {
+        "op": "pose",
+        "rig": {
+          "id": "test:art/rig/arm_chain",
+          "parts": [
+            {
+              "id": "torso",
+              "parent": null,
+              "offset": [
+                0,
+                0
+              ],
+              "z": 0,
+              "art": "test:art/part/torso"
+            },
+            {
+              "id": "arm",
+              "parent": "torso",
+              "offset": [
+                2,
+                -1
+              ],
+              "z": 1,
+              "art": "test:art/part/arm"
+            },
+            {
+              "id": "hand",
+              "parent": "arm",
+              "offset": [
+                0,
+                3
+              ],
+              "z": 2,
+              "art": "test:art/part/hand"
+            }
+          ]
+        },
+        "clip": {
+          "id": "test:art/clip/wave",
+          "rig": "test:art/rig/arm_chain",
+          "loop": true,
+          "length_ticks": 24,
+          "tracks": {
+            "torso": {
+              "rot": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  10
+                ],
+                [
+                  24,
+                  0
+                ]
+              ],
+              "pos": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  -1
+                ],
+                [
+                  24,
+                  0,
+                  0
+                ]
+              ]
+            },
+            "arm": {
+              "rot": [
+                [
+                  0,
+                  -30
+                ],
+                [
+                  12,
+                  60
+                ],
+                [
+                  24,
+                  -30
+                ]
+              ]
+            }
+          }
+        },
+        "tick": 18,
+        "mirror": true
+      },
+      "expect": {
+        "parts": [
+          {
+            "part": "torso",
+            "x": -0.0,
+            "y": -0.5,
+            "rot": -5.0,
+            "z": 0
+          },
+          {
+            "part": "arm",
+            "x": -2.0795451389311492,
+            "y": -1.3218832125964293,
+            "rot": -20.0,
+            "z": 1
+          },
+          {
+            "part": "hand",
+            "x": -1.053484708954143,
+            "y": 1.497194649761296,
+            "rot": -20.0,
+            "z": 2
+          }
+        ],
+        "tol": 0.001
+      }
+    },
+    {
+      "name": "pose_loop_mirror_24",
+      "input": {
+        "op": "pose",
+        "rig": {
+          "id": "test:art/rig/arm_chain",
+          "parts": [
+            {
+              "id": "torso",
+              "parent": null,
+              "offset": [
+                0,
+                0
+              ],
+              "z": 0,
+              "art": "test:art/part/torso"
+            },
+            {
+              "id": "arm",
+              "parent": "torso",
+              "offset": [
+                2,
+                -1
+              ],
+              "z": 1,
+              "art": "test:art/part/arm"
+            },
+            {
+              "id": "hand",
+              "parent": "arm",
+              "offset": [
+                0,
+                3
+              ],
+              "z": 2,
+              "art": "test:art/part/hand"
+            }
+          ]
+        },
+        "clip": {
+          "id": "test:art/clip/wave",
+          "rig": "test:art/rig/arm_chain",
+          "loop": true,
+          "length_ticks": 24,
+          "tracks": {
+            "torso": {
+              "rot": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  10
+                ],
+                [
+                  24,
+                  0
+                ]
+              ],
+              "pos": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  -1
+                ],
+                [
+                  24,
+                  0,
+                  0
+                ]
+              ]
+            },
+            "arm": {
+              "rot": [
+                [
+                  0,
+                  -30
+                ],
+                [
+                  12,
+                  60
+                ],
+                [
+                  24,
+                  -30
+                ]
+              ]
+            }
+          }
+        },
+        "tick": 24,
+        "mirror": true
+      },
+      "expect": {
+        "parts": [
+          {
+            "part": "torso",
+            "x": -0.0,
+            "y": 0.0,
+            "rot": -0.0,
+            "z": 0
+          },
+          {
+            "part": "arm",
+            "x": -2.0,
+            "y": -1.0,
+            "rot": 30.0,
+            "z": 1
+          },
+          {
+            "part": "hand",
+            "x": -3.5,
+            "y": 1.598076211353316,
+            "rot": 30.0,
+            "z": 2
+          }
+        ],
+        "tol": 0.001
+      }
+    },
+    {
+      "name": "pose_loop_mirror_30",
+      "input": {
+        "op": "pose",
+        "rig": {
+          "id": "test:art/rig/arm_chain",
+          "parts": [
+            {
+              "id": "torso",
+              "parent": null,
+              "offset": [
+                0,
+                0
+              ],
+              "z": 0,
+              "art": "test:art/part/torso"
+            },
+            {
+              "id": "arm",
+              "parent": "torso",
+              "offset": [
+                2,
+                -1
+              ],
+              "z": 1,
+              "art": "test:art/part/arm"
+            },
+            {
+              "id": "hand",
+              "parent": "arm",
+              "offset": [
+                0,
+                3
+              ],
+              "z": 2,
+              "art": "test:art/part/hand"
+            }
+          ]
+        },
+        "clip": {
+          "id": "test:art/clip/wave",
+          "rig": "test:art/rig/arm_chain",
+          "loop": true,
+          "length_ticks": 24,
+          "tracks": {
+            "torso": {
+              "rot": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  10
+                ],
+                [
+                  24,
+                  0
+                ]
+              ],
+              "pos": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  -1
+                ],
+                [
+                  24,
+                  0,
+                  0
+                ]
+              ]
+            },
+            "arm": {
+              "rot": [
+                [
+                  0,
+                  -30
+                ],
+                [
+                  12,
+                  60
+                ],
+                [
+                  24,
+                  -30
+                ]
+              ]
+            }
+          }
+        },
+        "tick": 30,
+        "mirror": true
+      },
+      "expect": {
+        "parts": [
+          {
+            "part": "torso",
+            "x": -0.0,
+            "y": -0.5,
+            "rot": -5.0,
+            "z": 0
+          },
+          {
+            "part": "arm",
+            "x": -2.0795451389311492,
+            "y": -1.3218832125964293,
+            "rot": -20.0,
+            "z": 1
+          },
+          {
+            "part": "hand",
+            "x": -1.053484708954143,
+            "y": 1.497194649761296,
+            "rot": -20.0,
+            "z": 2
+          }
+        ],
+        "tol": 0.001
+      }
+    },
+    {
+      "name": "pose_once_plain_0",
+      "input": {
+        "op": "pose",
+        "rig": {
+          "id": "test:art/rig/arm_chain",
+          "parts": [
+            {
+              "id": "torso",
+              "parent": null,
+              "offset": [
+                0,
+                0
+              ],
+              "z": 0,
+              "art": "test:art/part/torso"
+            },
+            {
+              "id": "arm",
+              "parent": "torso",
+              "offset": [
+                2,
+                -1
+              ],
+              "z": 1,
+              "art": "test:art/part/arm"
+            },
+            {
+              "id": "hand",
+              "parent": "arm",
+              "offset": [
+                0,
+                3
+              ],
+              "z": 2,
+              "art": "test:art/part/hand"
+            }
+          ]
+        },
+        "clip": {
+          "id": "test:art/clip/wave",
+          "rig": "test:art/rig/arm_chain",
+          "loop": false,
+          "length_ticks": 24,
+          "tracks": {
+            "torso": {
+              "rot": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  10
+                ],
+                [
+                  24,
+                  0
+                ]
+              ],
+              "pos": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  -1
+                ],
+                [
+                  24,
+                  0,
+                  0
+                ]
+              ]
+            },
+            "arm": {
+              "rot": [
+                [
+                  0,
+                  -30
+                ],
+                [
+                  12,
+                  60
+                ],
+                [
+                  24,
+                  -30
+                ]
+              ]
+            }
+          }
+        },
+        "tick": 0,
+        "mirror": false
+      },
+      "expect": {
+        "parts": [
+          {
+            "part": "torso",
+            "x": 0.0,
+            "y": 0.0,
+            "rot": 0.0,
+            "z": 0
+          },
+          {
+            "part": "arm",
+            "x": 2.0,
+            "y": -1.0,
+            "rot": -30.0,
+            "z": 1
+          },
+          {
+            "part": "hand",
+            "x": 3.5,
+            "y": 1.598076211353316,
+            "rot": -30.0,
+            "z": 2
+          }
+        ],
+        "tol": 0.001
+      }
+    },
+    {
+      "name": "pose_once_plain_12",
+      "input": {
+        "op": "pose",
+        "rig": {
+          "id": "test:art/rig/arm_chain",
+          "parts": [
+            {
+              "id": "torso",
+              "parent": null,
+              "offset": [
+                0,
+                0
+              ],
+              "z": 0,
+              "art": "test:art/part/torso"
+            },
+            {
+              "id": "arm",
+              "parent": "torso",
+              "offset": [
+                2,
+                -1
+              ],
+              "z": 1,
+              "art": "test:art/part/arm"
+            },
+            {
+              "id": "hand",
+              "parent": "arm",
+              "offset": [
+                0,
+                3
+              ],
+              "z": 2,
+              "art": "test:art/part/hand"
+            }
+          ]
+        },
+        "clip": {
+          "id": "test:art/clip/wave",
+          "rig": "test:art/rig/arm_chain",
+          "loop": false,
+          "length_ticks": 24,
+          "tracks": {
+            "torso": {
+              "rot": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  10
+                ],
+                [
+                  24,
+                  0
+                ]
+              ],
+              "pos": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  -1
+                ],
+                [
+                  24,
+                  0,
+                  0
+                ]
+              ]
+            },
+            "arm": {
+              "rot": [
+                [
+                  0,
+                  -30
+                ],
+                [
+                  12,
+                  60
+                ],
+                [
+                  24,
+                  -30
+                ]
+              ]
+            }
+          }
+        },
+        "tick": 12,
+        "mirror": false
+      },
+      "expect": {
+        "parts": [
+          {
+            "part": "torso",
+            "x": 0.0,
+            "y": -1.0,
+            "rot": 10.0,
+            "z": 0
+          },
+          {
+            "part": "arm",
+            "x": 2.1432636836913463,
+            "y": -1.6375113976783475,
+            "rot": 70.0,
+            "z": 1
+          },
+          {
+            "part": "hand",
+            "x": -0.6758141786663785,
+            "y": -0.6114509677013411,
+            "rot": 70.0,
+            "z": 2
+          }
+        ],
+        "tol": 0.001
+      }
+    },
+    {
+      "name": "pose_once_plain_24",
+      "input": {
+        "op": "pose",
+        "rig": {
+          "id": "test:art/rig/arm_chain",
+          "parts": [
+            {
+              "id": "torso",
+              "parent": null,
+              "offset": [
+                0,
+                0
+              ],
+              "z": 0,
+              "art": "test:art/part/torso"
+            },
+            {
+              "id": "arm",
+              "parent": "torso",
+              "offset": [
+                2,
+                -1
+              ],
+              "z": 1,
+              "art": "test:art/part/arm"
+            },
+            {
+              "id": "hand",
+              "parent": "arm",
+              "offset": [
+                0,
+                3
+              ],
+              "z": 2,
+              "art": "test:art/part/hand"
+            }
+          ]
+        },
+        "clip": {
+          "id": "test:art/clip/wave",
+          "rig": "test:art/rig/arm_chain",
+          "loop": false,
+          "length_ticks": 24,
+          "tracks": {
+            "torso": {
+              "rot": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  10
+                ],
+                [
+                  24,
+                  0
+                ]
+              ],
+              "pos": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  -1
+                ],
+                [
+                  24,
+                  0,
+                  0
+                ]
+              ]
+            },
+            "arm": {
+              "rot": [
+                [
+                  0,
+                  -30
+                ],
+                [
+                  12,
+                  60
+                ],
+                [
+                  24,
+                  -30
+                ]
+              ]
+            }
+          }
+        },
+        "tick": 24,
+        "mirror": false
+      },
+      "expect": {
+        "parts": [
+          {
+            "part": "torso",
+            "x": 0.0,
+            "y": 0.0,
+            "rot": 0.0,
+            "z": 0
+          },
+          {
+            "part": "arm",
+            "x": 2.0,
+            "y": -1.0,
+            "rot": -30.0,
+            "z": 1
+          },
+          {
+            "part": "hand",
+            "x": 3.5,
+            "y": 1.598076211353316,
+            "rot": -30.0,
+            "z": 2
+          }
+        ],
+        "tol": 0.001
+      }
+    },
+    {
+      "name": "pose_once_plain_40",
+      "input": {
+        "op": "pose",
+        "rig": {
+          "id": "test:art/rig/arm_chain",
+          "parts": [
+            {
+              "id": "torso",
+              "parent": null,
+              "offset": [
+                0,
+                0
+              ],
+              "z": 0,
+              "art": "test:art/part/torso"
+            },
+            {
+              "id": "arm",
+              "parent": "torso",
+              "offset": [
+                2,
+                -1
+              ],
+              "z": 1,
+              "art": "test:art/part/arm"
+            },
+            {
+              "id": "hand",
+              "parent": "arm",
+              "offset": [
+                0,
+                3
+              ],
+              "z": 2,
+              "art": "test:art/part/hand"
+            }
+          ]
+        },
+        "clip": {
+          "id": "test:art/clip/wave",
+          "rig": "test:art/rig/arm_chain",
+          "loop": false,
+          "length_ticks": 24,
+          "tracks": {
+            "torso": {
+              "rot": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  10
+                ],
+                [
+                  24,
+                  0
+                ]
+              ],
+              "pos": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  -1
+                ],
+                [
+                  24,
+                  0,
+                  0
+                ]
+              ]
+            },
+            "arm": {
+              "rot": [
+                [
+                  0,
+                  -30
+                ],
+                [
+                  12,
+                  60
+                ],
+                [
+                  24,
+                  -30
+                ]
+              ]
+            }
+          }
+        },
+        "tick": 40,
+        "mirror": false
+      },
+      "expect": {
+        "parts": [
+          {
+            "part": "torso",
+            "x": 0.0,
+            "y": 0.0,
+            "rot": 0.0,
+            "z": 0
+          },
+          {
+            "part": "arm",
+            "x": 2.0,
+            "y": -1.0,
+            "rot": -30.0,
+            "z": 1
+          },
+          {
+            "part": "hand",
+            "x": 3.5,
+            "y": 1.598076211353316,
+            "rot": -30.0,
+            "z": 2
+          }
+        ],
+        "tol": 0.001
+      }
+    },
+    {
+      "name": "pose_once_mirror_0",
+      "input": {
+        "op": "pose",
+        "rig": {
+          "id": "test:art/rig/arm_chain",
+          "parts": [
+            {
+              "id": "torso",
+              "parent": null,
+              "offset": [
+                0,
+                0
+              ],
+              "z": 0,
+              "art": "test:art/part/torso"
+            },
+            {
+              "id": "arm",
+              "parent": "torso",
+              "offset": [
+                2,
+                -1
+              ],
+              "z": 1,
+              "art": "test:art/part/arm"
+            },
+            {
+              "id": "hand",
+              "parent": "arm",
+              "offset": [
+                0,
+                3
+              ],
+              "z": 2,
+              "art": "test:art/part/hand"
+            }
+          ]
+        },
+        "clip": {
+          "id": "test:art/clip/wave",
+          "rig": "test:art/rig/arm_chain",
+          "loop": false,
+          "length_ticks": 24,
+          "tracks": {
+            "torso": {
+              "rot": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  10
+                ],
+                [
+                  24,
+                  0
+                ]
+              ],
+              "pos": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  -1
+                ],
+                [
+                  24,
+                  0,
+                  0
+                ]
+              ]
+            },
+            "arm": {
+              "rot": [
+                [
+                  0,
+                  -30
+                ],
+                [
+                  12,
+                  60
+                ],
+                [
+                  24,
+                  -30
+                ]
+              ]
+            }
+          }
+        },
+        "tick": 0,
+        "mirror": true
+      },
+      "expect": {
+        "parts": [
+          {
+            "part": "torso",
+            "x": -0.0,
+            "y": 0.0,
+            "rot": -0.0,
+            "z": 0
+          },
+          {
+            "part": "arm",
+            "x": -2.0,
+            "y": -1.0,
+            "rot": 30.0,
+            "z": 1
+          },
+          {
+            "part": "hand",
+            "x": -3.5,
+            "y": 1.598076211353316,
+            "rot": 30.0,
+            "z": 2
+          }
+        ],
+        "tol": 0.001
+      }
+    },
+    {
+      "name": "pose_once_mirror_12",
+      "input": {
+        "op": "pose",
+        "rig": {
+          "id": "test:art/rig/arm_chain",
+          "parts": [
+            {
+              "id": "torso",
+              "parent": null,
+              "offset": [
+                0,
+                0
+              ],
+              "z": 0,
+              "art": "test:art/part/torso"
+            },
+            {
+              "id": "arm",
+              "parent": "torso",
+              "offset": [
+                2,
+                -1
+              ],
+              "z": 1,
+              "art": "test:art/part/arm"
+            },
+            {
+              "id": "hand",
+              "parent": "arm",
+              "offset": [
+                0,
+                3
+              ],
+              "z": 2,
+              "art": "test:art/part/hand"
+            }
+          ]
+        },
+        "clip": {
+          "id": "test:art/clip/wave",
+          "rig": "test:art/rig/arm_chain",
+          "loop": false,
+          "length_ticks": 24,
+          "tracks": {
+            "torso": {
+              "rot": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  10
+                ],
+                [
+                  24,
+                  0
+                ]
+              ],
+              "pos": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  -1
+                ],
+                [
+                  24,
+                  0,
+                  0
+                ]
+              ]
+            },
+            "arm": {
+              "rot": [
+                [
+                  0,
+                  -30
+                ],
+                [
+                  12,
+                  60
+                ],
+                [
+                  24,
+                  -30
+                ]
+              ]
+            }
+          }
+        },
+        "tick": 12,
+        "mirror": true
+      },
+      "expect": {
+        "parts": [
+          {
+            "part": "torso",
+            "x": -0.0,
+            "y": -1.0,
+            "rot": -10.0,
+            "z": 0
+          },
+          {
+            "part": "arm",
+            "x": -2.1432636836913463,
+            "y": -1.6375113976783475,
+            "rot": -70.0,
+            "z": 1
+          },
+          {
+            "part": "hand",
+            "x": 0.6758141786663785,
+            "y": -0.6114509677013411,
+            "rot": -70.0,
+            "z": 2
+          }
+        ],
+        "tol": 0.001
+      }
+    },
+    {
+      "name": "pose_once_mirror_24",
+      "input": {
+        "op": "pose",
+        "rig": {
+          "id": "test:art/rig/arm_chain",
+          "parts": [
+            {
+              "id": "torso",
+              "parent": null,
+              "offset": [
+                0,
+                0
+              ],
+              "z": 0,
+              "art": "test:art/part/torso"
+            },
+            {
+              "id": "arm",
+              "parent": "torso",
+              "offset": [
+                2,
+                -1
+              ],
+              "z": 1,
+              "art": "test:art/part/arm"
+            },
+            {
+              "id": "hand",
+              "parent": "arm",
+              "offset": [
+                0,
+                3
+              ],
+              "z": 2,
+              "art": "test:art/part/hand"
+            }
+          ]
+        },
+        "clip": {
+          "id": "test:art/clip/wave",
+          "rig": "test:art/rig/arm_chain",
+          "loop": false,
+          "length_ticks": 24,
+          "tracks": {
+            "torso": {
+              "rot": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  10
+                ],
+                [
+                  24,
+                  0
+                ]
+              ],
+              "pos": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  -1
+                ],
+                [
+                  24,
+                  0,
+                  0
+                ]
+              ]
+            },
+            "arm": {
+              "rot": [
+                [
+                  0,
+                  -30
+                ],
+                [
+                  12,
+                  60
+                ],
+                [
+                  24,
+                  -30
+                ]
+              ]
+            }
+          }
+        },
+        "tick": 24,
+        "mirror": true
+      },
+      "expect": {
+        "parts": [
+          {
+            "part": "torso",
+            "x": -0.0,
+            "y": 0.0,
+            "rot": -0.0,
+            "z": 0
+          },
+          {
+            "part": "arm",
+            "x": -2.0,
+            "y": -1.0,
+            "rot": 30.0,
+            "z": 1
+          },
+          {
+            "part": "hand",
+            "x": -3.5,
+            "y": 1.598076211353316,
+            "rot": 30.0,
+            "z": 2
+          }
+        ],
+        "tol": 0.001
+      }
+    },
+    {
+      "name": "pose_once_mirror_40",
+      "input": {
+        "op": "pose",
+        "rig": {
+          "id": "test:art/rig/arm_chain",
+          "parts": [
+            {
+              "id": "torso",
+              "parent": null,
+              "offset": [
+                0,
+                0
+              ],
+              "z": 0,
+              "art": "test:art/part/torso"
+            },
+            {
+              "id": "arm",
+              "parent": "torso",
+              "offset": [
+                2,
+                -1
+              ],
+              "z": 1,
+              "art": "test:art/part/arm"
+            },
+            {
+              "id": "hand",
+              "parent": "arm",
+              "offset": [
+                0,
+                3
+              ],
+              "z": 2,
+              "art": "test:art/part/hand"
+            }
+          ]
+        },
+        "clip": {
+          "id": "test:art/clip/wave",
+          "rig": "test:art/rig/arm_chain",
+          "loop": false,
+          "length_ticks": 24,
+          "tracks": {
+            "torso": {
+              "rot": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  10
+                ],
+                [
+                  24,
+                  0
+                ]
+              ],
+              "pos": [
+                [
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  12,
+                  0,
+                  -1
+                ],
+                [
+                  24,
+                  0,
+                  0
+                ]
+              ]
+            },
+            "arm": {
+              "rot": [
+                [
+                  0,
+                  -30
+                ],
+                [
+                  12,
+                  60
+                ],
+                [
+                  24,
+                  -30
+                ]
+              ]
+            }
+          }
+        },
+        "tick": 40,
+        "mirror": true
+      },
+      "expect": {
+        "parts": [
+          {
+            "part": "torso",
+            "x": -0.0,
+            "y": 0.0,
+            "rot": -0.0,
+            "z": 0
+          },
+          {
+            "part": "arm",
+            "x": -2.0,
+            "y": -1.0,
+            "rot": 30.0,
+            "z": 1
+          },
+          {
+            "part": "hand",
+            "x": -3.5,
+            "y": 1.598076211353316,
+            "rot": 30.0,
+            "z": 2
+          }
+        ],
+        "tol": 0.001
+      }
+    }
+  ]
+}

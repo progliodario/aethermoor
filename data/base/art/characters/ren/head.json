@@ -1,0 +1,98 @@
+{
+  "$schema": "../../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/char/ren/head",
+  "canvas": {
+    "w": 22,
+    "h": 22,
+    "origin": [
+      11,
+      19
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          11,
+          11,
+          8.5,
+          8.5
+        ]
+      },
+      "fill": {
+        "radial": {
+          "cx": 8,
+          "cy": 8,
+          "r": 14,
+          "stops": [
+            [
+              0,
+              "#FFE0BD"
+            ],
+            [
+              1,
+              "$p.skin"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 2 10 Q 3 0 11 1 Q 19 0 20 10 Q 16 5 11 6 Q 6 5 2 10 Z"
+      },
+      "fill": {
+        "color": "$p.hair"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.4
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          15,
+          12,
+          1.4,
+          1.9
+        ]
+      },
+      "fill": {
+        "color": "$p.outline"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          8.5,
+          12,
+          1.2,
+          1.7
+        ]
+      },
+      "fill": {
+        "color": "$p.outline"
+      }
+    }
+  ],
+  "palette": {
+    "skin": "#F1C9A0",
+    "hair": "#2E2A3A",
+    "shirt": "#3F6FD1",
+    "shirt_dark": "#2E54A5",
+    "pants": "#4A4F62",
+    "boots": "#3A2E2A",
+    "outline": "#1E1B28"
+  },
+  "variants": {
+    "red": {
+      "shirt": "#D14B3F",
+      "shirt_dark": "#A5362E"
+    }
+  }
+}

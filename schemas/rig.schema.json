@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aethermoor.invalid/schemas/rig.schema.json",
+  "title": "Animation rig",
+  "type": "object",
+  "required": ["id", "parts"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": { "$ref": "#/$defs/id" },
+    "parts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "parent", "offset", "z", "art"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "parent": { "type": ["string", "null"], "pattern": "^[a-z][a-z0-9_]*$" },
+          "offset": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 },
+          "z": { "type": "integer" },
+          "art": { "$ref": "#/$defs/id" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$" }
+  }
+}

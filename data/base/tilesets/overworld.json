@@ -1,0 +1,31 @@
+{
+  "$schema": "../../../schemas/tileset.schema.json",
+  "id": "base:tileset/overworld",
+  "tiles": [
+    {
+      "gid": 1,
+      "art": "base:art/tile/grass_a",
+      "solid": false
+    },
+    {
+      "gid": 2,
+      "art": "base:art/tile/grass_b",
+      "solid": false
+    },
+    {
+      "gid": 3,
+      "art": "base:art/tile/path_dirt",
+      "solid": false
+    },
+    {
+      "gid": 4,
+      "art": "base:art/tile/water",
+      "solid": true
+    },
+    {
+      "gid": 5,
+      "art": "base:art/tile/wall_stone",
+      "solid": true
+    }
+  ]
+}

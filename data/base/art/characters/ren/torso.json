@@ -1,0 +1,70 @@
+{
+  "$schema": "../../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/char/ren/torso",
+  "canvas": {
+    "w": 22,
+    "h": 26,
+    "origin": [
+      11,
+      13
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "path": "M 3 3 Q 11 0 19 3 L 20 24 Q 11 26 2 24 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 0,
+          "y0": 0,
+          "x1": 0,
+          "y1": 26,
+          "stops": [
+            [
+              0,
+              "$p.shirt"
+            ],
+            [
+              1,
+              "$p.shirt_dark"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.4
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          2,
+          19,
+          18,
+          4
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.15
+    }
+  ],
+  "palette": {
+    "skin": "#F1C9A0",
+    "hair": "#2E2A3A",
+    "shirt": "#3F6FD1",
+    "shirt_dark": "#2E54A5",
+    "pants": "#4A4F62",
+    "boots": "#3A2E2A",
+    "outline": "#1E1B28"
+  },
+  "variants": {
+    "red": {
+      "shirt": "#D14B3F",
+      "shirt_dark": "#A5362E"
+    }
+  }
+}

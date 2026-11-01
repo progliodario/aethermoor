@@ -1,0 +1,53 @@
+{
+  "$schema": "../../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/char/ren/leg",
+  "canvas": {
+    "w": 9,
+    "h": 16,
+    "origin": [
+      4.5,
+      1
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "path": "M 1.5 0 L 7.5 0 L 7.5 10 L 1.5 10 Z"
+      },
+      "fill": {
+        "color": "$p.pants"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 0.5 10 L 8.5 10 Q 9 15 6 15 L 1 15 Q 0 13 0.5 10 Z"
+      },
+      "fill": {
+        "color": "$p.boots"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.4
+      }
+    }
+  ],
+  "palette": {
+    "skin": "#F1C9A0",
+    "hair": "#2E2A3A",
+    "shirt": "#3F6FD1",
+    "shirt_dark": "#2E54A5",
+    "pants": "#4A4F62",
+    "boots": "#3A2E2A",
+    "outline": "#1E1B28"
+  },
+  "variants": {
+    "red": {
+      "shirt": "#D14B3F",
+      "shirt_dark": "#A5362E"
+    }
+  }
+}

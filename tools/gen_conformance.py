@@ -17,6 +17,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import conformance_m2  # noqa: E402
 from reference import numerics as nm  # noqa: E402
 from reference import rules  # noqa: E402
 from reference.i18n import format_message  # noqa: E402
@@ -212,6 +213,9 @@ SUITES = {
     "xp": suite_xp,
     "i18n_format": suite_i18n,
     "ids": suite_ids,
+    "rig_pose": conformance_m2.suite_rig_pose,
+    "movement": conformance_m2.suite_movement,
+    "raster": conformance_m2.suite_raster,
 }
 
 

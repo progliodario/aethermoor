@@ -38,6 +38,14 @@ public:
     std::map<std::string, std::map<std::string, std::string, std::less<>>, std::less<>> strings;
     std::map<std::string, IntTable, std::less<>> int_tables;
 
+    // Every JSON document outside i18n/ that has an "id", mapped to its path relative to `root`.
+    std::filesystem::path root;
+    std::map<std::string, std::string, std::less<>> document_paths;
+
+    // Raw text of the document with this id, or of the file at `relative_path`.
+    std::optional<std::string> read_document(std::string_view id) const;
+    std::optional<std::string> read_file(std::string_view relative_path) const;
+
     // Raw message for `key` in `lang`, falling back to "en", then to the key itself.
     std::string message(std::string_view lang, std::string_view key) const;
 

@@ -1,0 +1,1088 @@
+{
+  "suite": "raster",
+  "spec_version": 1,
+  "generated_by": "tools/gen_conformance.py",
+  "cases": [
+    {
+      "name": "rect_full",
+      "input": {
+        "op": "raster",
+        "recipe": {
+          "id": "test:art/probe",
+          "canvas": {
+            "w": 8,
+            "h": 8,
+            "origin": [
+              0,
+              0
+            ]
+          },
+          "layers": [
+            {
+              "shape": {
+                "rect": [
+                  2,
+                  2,
+                  4,
+                  4
+                ]
+              },
+              "fill": {
+                "color": "#FF0000"
+              }
+            }
+          ]
+        },
+        "scale": 1.0,
+        "variant": null
+      },
+      "expect": {
+        "width": 8,
+        "height": 8,
+        "probes": [
+          {
+            "x": 3,
+            "y": 3,
+            "rgba": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "tol": 2
+          },
+          {
+            "x": 2,
+            "y": 2,
+            "rgba": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "tol": 2
+          },
+          {
+            "x": 5,
+            "y": 5,
+            "rgba": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "tol": 2
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "rgba": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "tol": 2
+          },
+          {
+            "x": 6,
+            "y": 6,
+            "rgba": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "tol": 2
+          },
+          {
+            "x": 0,
+            "y": 7,
+            "rgba": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "tol": 2
+          }
+        ]
+      }
+    },
+    {
+      "name": "rect_half_pixel",
+      "input": {
+        "op": "raster",
+        "recipe": {
+          "id": "test:art/probe",
+          "canvas": {
+            "w": 8,
+            "h": 8,
+            "origin": [
+              0,
+              0
+            ]
+          },
+          "layers": [
+            {
+              "shape": {
+                "rect": [
+                  2.5,
+                  2,
+                  3,
+                  4
+                ]
+              },
+              "fill": {
+                "color": "#FF0000"
+              }
+            }
+          ]
+        },
+        "scale": 1.0,
+        "variant": null
+      },
+      "expect": {
+        "width": 8,
+        "height": 8,
+        "probes": [
+          {
+            "x": 2,
+            "y": 3,
+            "rgba": [
+              255,
+              0,
+              0,
+              128
+            ],
+            "tol": 2
+          },
+          {
+            "x": 5,
+            "y": 3,
+            "rgba": [
+              255,
+              0,
+              0,
+              128
+            ],
+            "tol": 2
+          },
+          {
+            "x": 3,
+            "y": 3,
+            "rgba": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "tol": 2
+          },
+          {
+            "x": 1,
+            "y": 3,
+            "rgba": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "tol": 2
+          }
+        ]
+      }
+    },
+    {
+      "name": "layer_alpha",
+      "input": {
+        "op": "raster",
+        "recipe": {
+          "id": "test:art/probe",
+          "canvas": {
+            "w": 4,
+            "h": 4,
+            "origin": [
+              0,
+              0
+            ]
+          },
+          "layers": [
+            {
+              "shape": {
+                "rect": [
+                  0,
+                  0,
+                  4,
+                  4
+                ]
+              },
+              "fill": {
+                "color": "#FF0000"
+              },
+              "alpha": 0.5
+            }
+          ]
+        },
+        "scale": 1.0,
+        "variant": null
+      },
+      "expect": {
+        "width": 4,
+        "height": 4,
+        "probes": [
+          {
+            "x": 1,
+            "y": 1,
+            "rgba": [
+              255,
+              0,
+              0,
+              128
+            ],
+            "tol": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "color_alpha",
+      "input": {
+        "op": "raster",
+        "recipe": {
+          "id": "test:art/probe",
+          "canvas": {
+            "w": 4,
+            "h": 4,
+            "origin": [
+              0,
+              0
+            ]
+          },
+          "layers": [
+            {
+              "shape": {
+                "rect": [
+                  0,
+                  0,
+                  4,
+                  4
+                ]
+              },
+              "fill": {
+                "color": "#00FF0080"
+              }
+            }
+          ]
+        },
+        "scale": 1.0,
+        "variant": null
+      },
+      "expect": {
+        "width": 4,
+        "height": 4,
+        "probes": [
+          {
+            "x": 2,
+            "y": 2,
+            "rgba": [
+              0,
+              255,
+              0,
+              128
+            ],
+            "tol": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "scale_two",
+      "input": {
+        "op": "raster",
+        "recipe": {
+          "id": "test:art/probe",
+          "canvas": {
+            "w": 8,
+            "h": 8,
+            "origin": [
+              0,
+              0
+            ]
+          },
+          "layers": [
+            {
+              "shape": {
+                "rect": [
+                  2,
+                  2,
+                  4,
+                  4
+                ]
+              },
+              "fill": {
+                "color": "#FF0000"
+              }
+            }
+          ]
+        },
+        "scale": 2.0,
+        "variant": null
+      },
+      "expect": {
+        "width": 16,
+        "height": 16,
+        "probes": [
+          {
+            "x": 4,
+            "y": 4,
+            "rgba": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "tol": 2
+          },
+          {
+            "x": 11,
+            "y": 11,
+            "rgba": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "tol": 2
+          },
+          {
+            "x": 3,
+            "y": 3,
+            "rgba": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "tol": 2
+          },
+          {
+            "x": 12,
+            "y": 12,
+            "rgba": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "tol": 2
+          }
+        ]
+      }
+    },
+    {
+      "name": "scale_fractional_size",
+      "input": {
+        "op": "raster",
+        "recipe": {
+          "id": "test:art/probe",
+          "canvas": {
+            "w": 10,
+            "h": 6,
+            "origin": [
+              0,
+              0
+            ]
+          },
+          "layers": [
+            {
+              "shape": {
+                "rect": [
+                  0,
+                  0,
+                  10,
+                  6
+                ]
+              },
+              "fill": {
+                "color": "#FF0000"
+              }
+            }
+          ]
+        },
+        "scale": 1.5,
+        "variant": null
+      },
+      "expect": {
+        "width": 15,
+        "height": 9,
+        "probes": [
+          {
+            "x": 14,
+            "y": 8,
+            "rgba": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "tol": 2
+          },
+          {
+            "x": 0,
+            "y": 0,
+            "rgba": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "tol": 2
+          }
+        ]
+      }
+    },
+    {
+      "name": "ellipse_area",
+      "input": {
+        "op": "raster",
+        "recipe": {
+          "id": "test:art/probe",
+          "canvas": {
+            "w": 32,
+            "h": 32,
+            "origin": [
+              0,
+              0
+            ]
+          },
+          "layers": [
+            {
+              "shape": {
+                "ellipse": [
+                  16,
+                  16,
+                  12,
+                  12
+                ]
+              },
+              "fill": {
+                "color": "#FF0000"
+              }
+            }
+          ]
+        },
+        "scale": 1.0,
+        "variant": null
+      },
+      "expect": {
+        "width": 32,
+        "height": 32,
+        "probes": [
+          {
+            "x": 16,
+            "y": 16,
+            "rgba": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "tol": 2
+          },
+          {
+            "x": 0,
+            "y": 0,
+            "rgba": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "tol": 2
+          },
+          {
+            "x": 31,
+            "y": 31,
+            "rgba": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "tol": 2
+          }
+        ],
+        "sum_alpha": {
+          "value": 452.3893421169302,
+          "rel_tol": 0.02
+        }
+      }
+    },
+    {
+      "name": "linear_gradient",
+      "input": {
+        "op": "raster",
+        "recipe": {
+          "id": "test:art/probe",
+          "canvas": {
+            "w": 16,
+            "h": 4,
+            "origin": [
+              0,
+              0
+            ]
+          },
+          "layers": [
+            {
+              "shape": {
+                "rect": [
+                  0,
+                  0,
+                  16,
+                  4
+                ]
+              },
+              "fill": {
+                "linear": {
+                  "x0": 0,
+                  "y0": 0,
+                  "x1": 16,
+                  "y1": 0,
+                  "stops": [
+                    [
+                      0,
+                      "#FF0000"
+                    ],
+                    [
+                      1,
+                      "#0000FF"
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "scale": 1.0,
+        "variant": null
+      },
+      "expect": {
+        "width": 16,
+        "height": 4,
+        "probes": [
+          {
+            "x": 0,
+            "y": 1,
+            "rgba": [
+              247,
+              0,
+              8,
+              255
+            ],
+            "tol": 2
+          },
+          {
+            "x": 7,
+            "y": 1,
+            "rgba": [
+              135,
+              0,
+              120,
+              255
+            ],
+            "tol": 2
+          },
+          {
+            "x": 15,
+            "y": 1,
+            "rgba": [
+              8,
+              0,
+              247,
+              255
+            ],
+            "tol": 2
+          }
+        ]
+      }
+    },
+    {
+      "name": "radial_gradient",
+      "input": {
+        "op": "raster",
+        "recipe": {
+          "id": "test:art/probe",
+          "canvas": {
+            "w": 16,
+            "h": 16,
+            "origin": [
+              0,
+              0
+            ]
+          },
+          "layers": [
+            {
+              "shape": {
+                "rect": [
+                  0,
+                  0,
+                  16,
+                  16
+                ]
+              },
+              "fill": {
+                "radial": {
+                  "cx": 8,
+                  "cy": 8,
+                  "r": 8,
+                  "stops": [
+                    [
+                      0,
+                      "#FFFFFF"
+                    ],
+                    [
+                      1,
+                      "#000000"
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "scale": 1.0,
+        "variant": null
+      },
+      "expect": {
+        "width": 16,
+        "height": 16,
+        "probes": [
+          {
+            "x": 7,
+            "y": 7,
+            "rgba": [
+              232,
+              232,
+              232,
+              255
+            ],
+            "tol": 3
+          },
+          {
+            "x": 0,
+            "y": 0,
+            "rgba": [
+              0,
+              0,
+              0,
+              255
+            ],
+            "tol": 2
+          }
+        ]
+      }
+    },
+    {
+      "name": "stroke_polygon",
+      "input": {
+        "op": "raster",
+        "recipe": {
+          "id": "test:art/probe",
+          "canvas": {
+            "w": 16,
+            "h": 16,
+            "origin": [
+              0,
+              0
+            ]
+          },
+          "layers": [
+            {
+              "shape": {
+                "polygon": [
+                  [
+                    4,
+                    4
+                  ],
+                  [
+                    12,
+                    4
+                  ],
+                  [
+                    12,
+                    12
+                  ],
+                  [
+                    4,
+                    12
+                  ]
+                ]
+              },
+              "stroke": {
+                "color": "#00FF00",
+                "width": 2
+              }
+            }
+          ]
+        },
+        "scale": 1.0,
+        "variant": null
+      },
+      "expect": {
+        "width": 16,
+        "height": 16,
+        "probes": [
+          {
+            "x": 4,
+            "y": 8,
+            "rgba": [
+              0,
+              255,
+              0,
+              255
+            ],
+            "tol": 2
+          },
+          {
+            "x": 8,
+            "y": 4,
+            "rgba": [
+              0,
+              255,
+              0,
+              255
+            ],
+            "tol": 2
+          },
+          {
+            "x": 8,
+            "y": 8,
+            "rgba": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "tol": 2
+          },
+          {
+            "x": 2,
+            "y": 8,
+            "rgba": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "tol": 2
+          }
+        ]
+      }
+    },
+    {
+      "name": "palette_default",
+      "input": {
+        "op": "raster",
+        "recipe": {
+          "id": "test:art/probe",
+          "canvas": {
+            "w": 4,
+            "h": 4,
+            "origin": [
+              0,
+              0
+            ]
+          },
+          "layers": [
+            {
+              "shape": {
+                "rect": [
+                  0,
+                  0,
+                  4,
+                  4
+                ]
+              },
+              "fill": {
+                "color": "$p.c"
+              }
+            }
+          ],
+          "palette": {
+            "c": "#FF0000"
+          },
+          "variants": {
+            "blue": {
+              "c": "#0000FF"
+            }
+          }
+        },
+        "scale": 1.0,
+        "variant": null
+      },
+      "expect": {
+        "width": 4,
+        "height": 4,
+        "probes": [
+          {
+            "x": 1,
+            "y": 1,
+            "rgba": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "tol": 0
+          }
+        ]
+      }
+    },
+    {
+      "name": "palette_variant",
+      "input": {
+        "op": "raster",
+        "recipe": {
+          "id": "test:art/probe",
+          "canvas": {
+            "w": 4,
+            "h": 4,
+            "origin": [
+              0,
+              0
+            ]
+          },
+          "layers": [
+            {
+              "shape": {
+                "rect": [
+                  0,
+                  0,
+                  4,
+                  4
+                ]
+              },
+              "fill": {
+                "color": "$p.c"
+              }
+            }
+          ],
+          "palette": {
+            "c": "#FF0000"
+          },
+          "variants": {
+            "blue": {
+              "c": "#0000FF"
+            }
+          }
+        },
+        "scale": 1.0,
+        "variant": "blue"
+      },
+      "expect": {
+        "width": 4,
+        "height": 4,
+        "probes": [
+          {
+            "x": 1,
+            "y": 1,
+            "rgba": [
+              0,
+              0,
+              255,
+              255
+            ],
+            "tol": 0
+          }
+        ]
+      }
+    },
+    {
+      "name": "path_square",
+      "input": {
+        "op": "raster",
+        "recipe": {
+          "id": "test:art/probe",
+          "canvas": {
+            "w": 8,
+            "h": 8,
+            "origin": [
+              0,
+              0
+            ]
+          },
+          "layers": [
+            {
+              "shape": {
+                "path": "M 2 2 L 6 2 L 6 6 L 2 6 Z"
+              },
+              "fill": {
+                "color": "#FF0000"
+              }
+            }
+          ]
+        },
+        "scale": 1.0,
+        "variant": null
+      },
+      "expect": {
+        "width": 8,
+        "height": 8,
+        "probes": [
+          {
+            "x": 3,
+            "y": 3,
+            "rgba": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "tol": 2
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "rgba": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "tol": 2
+          },
+          {
+            "x": 6,
+            "y": 6,
+            "rgba": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "tol": 2
+          }
+        ]
+      }
+    },
+    {
+      "name": "path_hv_commands",
+      "input": {
+        "op": "raster",
+        "recipe": {
+          "id": "test:art/probe",
+          "canvas": {
+            "w": 8,
+            "h": 8,
+            "origin": [
+              0,
+              0
+            ]
+          },
+          "layers": [
+            {
+              "shape": {
+                "path": "M 1 1 H 7 V 7 H 1 Z"
+              },
+              "fill": {
+                "color": "#FF0000"
+              }
+            }
+          ]
+        },
+        "scale": 1.0,
+        "variant": null
+      },
+      "expect": {
+        "width": 8,
+        "height": 8,
+        "probes": [
+          {
+            "x": 4,
+            "y": 4,
+            "rgba": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "tol": 2
+          },
+          {
+            "x": 0,
+            "y": 0,
+            "rgba": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "tol": 2
+          }
+        ]
+      }
+    },
+    {
+      "name": "path_quadratic_area",
+      "input": {
+        "op": "raster",
+        "recipe": {
+          "id": "test:art/probe",
+          "canvas": {
+            "w": 16,
+            "h": 16,
+            "origin": [
+              0,
+              0
+            ]
+          },
+          "layers": [
+            {
+              "shape": {
+                "path": "M 2 8 Q 8 0 14 8 Z"
+              },
+              "fill": {
+                "color": "#FF0000"
+              }
+            }
+          ]
+        },
+        "scale": 1.0,
+        "variant": null
+      },
+      "expect": {
+        "width": 16,
+        "height": 16,
+        "probes": [
+          {
+            "x": 8,
+            "y": 6,
+            "rgba": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "tol": 2
+          },
+          {
+            "x": 8,
+            "y": 12,
+            "rgba": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "tol": 2
+          }
+        ],
+        "sum_alpha": {
+          "value": 31.77777777777778,
+          "rel_tol": 0.03
+        }
+      }
+    }
+  ]
+}

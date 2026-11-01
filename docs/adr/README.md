@@ -15,3 +15,4 @@ Records of significant decisions. To add one, copy the latest file, increment th
 | [0009](0009-feature-gating-and-parity-debt.md) | Feature gating and parity debt |
 | [0010](0010-licenses.md) | Licenses |
 | [0011](0011-project-languages.md) | Project languages |
+| [0012](0012-in-house-software-rasterizer.md) | In-house software rasterizer for vector art |

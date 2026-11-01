@@ -100,7 +100,7 @@ def test_valid_id_matches_regex():
 
 
 def test_generated_files_are_current():
-    for script in ("gen_conformance.py", "gen_tables.py"):
+    for script in ("gen_conformance.py", "gen_tables.py", "make_demo_map.py"):
         result = subprocess.run([sys.executable, str(TOOLS / script), "--check"],
                                 capture_output=True, text=True, check=False)
         assert result.returncode == 0, result.stdout + result.stderr

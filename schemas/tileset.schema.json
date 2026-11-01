@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aethermoor.invalid/schemas/tileset.schema.json",
+  "title": "Tileset: tile ids mapped to art recipes",
+  "type": "object",
+  "required": ["id", "tiles"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": { "$ref": "#/$defs/id" },
+    "tiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["gid", "art", "solid"],
+        "additionalProperties": false,
+        "properties": {
+          "gid": { "type": "integer", "minimum": 1 },
+          "art": { "$ref": "#/$defs/id" },
+          "solid": { "type": "boolean" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$" }
+  }
+}
