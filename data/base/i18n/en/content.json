@@ -8,7 +8,7 @@
   "skill.ren.analyze.desc": "Observe a target to reveal its stats and weaknesses.",
   "item.practice_sword.name": "Practice sword",
   "item.practice_sword.desc": "Light, and not very sharp.",
-  "item.bread.name": "{count, plural, one {Bread} other {Breads}}",
+  "item.bread.name": "{count, plural, one {Bread} other {Bread}}",
   "item.bread.desc": "Restores a little health.",
   "item.slime_gel.name": "Slime gel",
   "item.slime_gel.desc": "Sticky, but useful for crafting.",
