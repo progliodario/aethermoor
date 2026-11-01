@@ -15,7 +15,6 @@ DATA = ROOT / "data" / "base"
 
 TONES = ["warm", "mystic", "gruff", "flowery", "stoic", "salty", "grim", "scholarly"]
 ROLES = ["elder", "shopkeeper", "innkeeper", "villager", "guild_clerk"]
-QUEST = "base:quest/guild/slime_extermination"
 
 # --------------------------------------------------------------------------------------------- English
 EN = {
@@ -25,10 +24,6 @@ EN = {
         "innkeeper": "Ah, a guest! I'm {npc}. The beds are soft and the porridge is only slightly lumpy. Rooms will be ready soon, I promise!",
         "villager": "Oh, hello! I'm {npc}. Lovely day in {place}, isn't it? Even the rain feels friendly around here.",
         "clerk_hello": "Welcome to the guild desk of {place}! I'm {npc}. Looking for honest work?",
-        "clerk_offer": "A pest problem! Green slimes are chewing up the plains. Five of them, and the guild pays a fair price. Interested?",
-        "clerk_accepted": "Wonderful! Come back safe, and with all your fingers. The soup will be waiting.",
-        "clerk_busy": "Still on the slimes? Take your time. Well, a little less time than that.",
-        "clerk_thanks": "The slimes are gone and my desk is quiet again. You're a hero, and I mean it kindly.",
         "rumor": "They say a stranger from another world will save us all. I hope they bring appetite, we have a lot of pie.",
     },
     "mystic": {
@@ -37,10 +32,6 @@ EN = {
         "innkeeper": "{npc} keeps the hearth here. Sleep gently, guest: the branches outside whisper, and they do not always lie.",
         "villager": "Shh... do you hear it? I'm {npc}. The leaves of {place} are telling secrets again.",
         "clerk_hello": "The guild keeps a small light in {place}. I am {npc}. Do you walk the path of work?",
-        "clerk_offer": "Green creatures drift over the plains like lost thoughts. Five must be put to rest. Will you walk that path?",
-        "clerk_accepted": "May the roots guide your steps. Return when the task is done, or the task has done you.",
-        "clerk_busy": "The path is not yet walked to its end. The slimes still wander.",
-        "clerk_thanks": "The plains are calm. The leaves say your name now. Do not let it go to your head.",
         "rumor": "The old tree at the heart of the wood has not blossomed for nine springs. Something sleeps beneath it.",
     },
     "gruff": {
@@ -49,10 +40,6 @@ EN = {
         "innkeeper": "{npc}. Bed's a bed. Walls are stone, they don't fall down. Don't break anything.",
         "villager": "Hm. {npc}. If you're lost, {place} is the one with the mountain on top.",
         "clerk_hello": "Guild desk, {place}. {npc}. Work or leave.",
-        "clerk_offer": "Slimes on the plains. Five. Kill them. Guild pays. Take it or don't.",
-        "clerk_accepted": "Good. Don't die. Paperwork's a nightmare.",
-        "clerk_busy": "Not done. Go kill slimes.",
-        "clerk_thanks": "Done, then. Fine work. Don't let it swell your head. The ceilings are low.",
         "rumor": "Strange tapping from the deep shafts, lately. Not ours. Nobody's down there. Nobody should be.",
     },
     "flowery": {
@@ -61,10 +48,6 @@ EN = {
         "innkeeper": "A traveller! I am {npc}. My rooms are cool, my tea is sweet, and my prices are a gift. Almost a gift.",
         "villager": "Peace and plenty, stranger! I am {npc}. {place} is the pearl of the sands, and I mean it with all my heart.",
         "clerk_hello": "Welcome, welcome to the guild house of {place}! {npc} at your service. Work for a man of your talent?",
-        "clerk_offer": "Slimes, my friend! Five green villains upon the plains. The guild pays handsomely, I would never say otherwise. Shall we shake on it?",
-        "clerk_accepted": "A pleasure! A pure pleasure! Go, and may the sands bless your blade.",
-        "clerk_busy": "Still hunting? A great hunter takes his time. A good hunter, a little less.",
-        "clerk_thanks": "Magnificent! The plains sing your name! Between us, the guild would pay more, but I have said nothing.",
         "rumor": "A caravan master swears there is an oasis that moves. I swear nothing, but I would follow him.",
     },
     "stoic": {
@@ -73,10 +56,6 @@ EN = {
         "innkeeper": "{npc}. A fire, a bed, a bowl. Close the door behind you.",
         "villager": "{npc}. {place} is quiet. We like it that way.",
         "clerk_hello": "{npc}, guild desk of {place}. Work exists. Speak.",
-        "clerk_offer": "Slimes. Five. The plains. The guild pays. Accept or do not.",
-        "clerk_accepted": "So be it. Return alive.",
-        "clerk_busy": "Unfinished. The cold is patient. The slimes are not.",
-        "clerk_thanks": "It is done. You did well. Rest.",
         "rumor": "The ice in the old temple groans at night. It has not done that in forty winters.",
     },
     "salty": {
@@ -85,10 +64,6 @@ EN = {
         "innkeeper": "{npc}, at the sign o' the Drowned Boot! Beds don't rock, ale does. Rooms be ready soon enough, har har.",
         "villager": "Fair winds, friend! {npc}. {place} smells of fish and freedom, and mostly fish.",
         "clerk_hello": "Guild post o' {place}, {npc} at the wheel. Lookin' for a bit o' honest work, sailor?",
-        "clerk_offer": "Slimes! Five o' the green wretches in the meadows, bold as barnacles. Guild pays fair coin. Sign on?",
-        "clerk_accepted": "That's the spirit! Fair winds, and don't fall overboard.",
-        "clerk_busy": "Still battlin' slimes? The tide waits for no one, but it waits more than I do.",
-        "clerk_thanks": "Slimes be gone! Ye did fine work, matey. Drinks be on the guild. Probably.",
         "rumor": "A lighthouse out on the rocks lit itself last night. The keeper died forty years ago. I'm sayin' nothin'.",
     },
     "grim": {
@@ -97,10 +72,6 @@ EN = {
         "innkeeper": "{npc}. A bed, a roof. Both may collapse. Tonight, probably not.",
         "villager": "Ah. A visitor. I am {npc}. {place} thanks you for noticing it. Briefly.",
         "clerk_hello": "{npc}, guild desk of {place}. Work is plentiful. Survivors are not.",
-        "clerk_offer": "Green slimes, five. The plains still hold them. A rare mercy: easy work. Take it before it ends.",
-        "clerk_accepted": "Go. Try not to be part of the ash.",
-        "clerk_busy": "Still alive? Good sign. Still unfinished. Bad one.",
-        "clerk_thanks": "Done. It will not last, but it was done. That is something.",
         "rumor": "The ash falls upward some nights. We stopped asking why.",
     },
     "scholarly": {
@@ -109,10 +80,6 @@ EN = {
         "innkeeper": "{npc}. Accommodation, with footnotes. Do mind the third stair; it has a theory about gravity.",
         "villager": "Fascinating! A new face. I am {npc}. I study {place}. {place} has not yet agreed to be studied.",
         "clerk_hello": "{npc}, guild registrar of {place}. Employment, in the classical sense. Do you have a moment?",
-        "clerk_offer": "A field survey: five green slimes on the plains, to be... retired. The guild compensates the researcher. Your answer, please.",
-        "clerk_accepted": "Excellent. Do record your observations; the guild library accepts them gladly.",
-        "clerk_busy": "The survey remains incomplete. The data, as ever, is wriggling.",
-        "clerk_thanks": "Conclusive results! The plains are, as hypothesised, slime-free. Citation pending.",
         "rumor": "A floating island has drifted two degrees off its charted course. Nobody has explained it. Everybody has theories.",
     },
 }
@@ -125,10 +92,6 @@ IT = {
         "innkeeper": "Ah, un ospite! Sono {npc}. I letti sono morbidi e la polenta è solo un po' grumosa. Le stanze saranno pronte presto, promesso!",
         "villager": "Oh, ciao! Io sono {npc}. Bella giornata a {place}, vero? Qui anche la pioggia è gentile.",
         "clerk_hello": "Benvenuto allo sportello della gilda di {place}! Sono {npc}. Cerchi un lavoretto onesto?",
-        "clerk_offer": "Un problema di parassiti! Gli slime verdi rosicchiano le pianure. Cinque, e la gilda paga il giusto. Ti interessa?",
-        "clerk_accepted": "Meraviglioso! Torna sano e con tutte le dita. La zuppa ti aspetta.",
-        "clerk_busy": "Ancora con gli slime? Prenditi il tuo tempo. Un po' meno di così, però.",
-        "clerk_thanks": "Gli slime sono spariti e il mio sportello è tranquillo. Sei un eroe, e lo dico con affetto.",
         "rumor": "Dicono che uno straniero da un altro mondo ci salverà tutti. Spero abbia appetito, abbiamo tanta torta.",
     },
     "mystic": {
@@ -137,10 +100,6 @@ IT = {
         "innkeeper": "{npc} custodisce il focolare. Dormi piano, ospite: i rami là fuori sussurrano, e non sempre mentono.",
         "villager": "Zitto... lo senti? Io sono {npc}. Le foglie di {place} raccontano di nuovo i loro segreti.",
         "clerk_hello": "La gilda tiene una piccola luce a {place}. Sono {npc}. Cammini sul sentiero del lavoro?",
-        "clerk_offer": "Creature verdi vagano per le pianure come pensieri smarriti. Cinque vanno messe a riposo. Percorrerai quel sentiero?",
-        "clerk_accepted": "Le radici guidino i tuoi passi. Torna quando il compito è finito, o quando ha finito te.",
-        "clerk_busy": "Il sentiero non è ancora percorso fino in fondo. Gli slime vagano ancora.",
-        "clerk_thanks": "Le pianure sono calme. Le foglie ora dicono il tuo nome. Non montarti la testa.",
         "rumor": "Il vecchio albero nel cuore del bosco non fiorisce da nove primavere. Qualcosa dorme sotto di lui.",
     },
     "gruff": {
@@ -149,10 +108,6 @@ IT = {
         "innkeeper": "{npc}. Un letto è un letto. Muri di pietra, non crollano. Non rompere niente.",
         "villager": "Hm. {npc}. Se sei perso, {place} è quello con la montagna sopra.",
         "clerk_hello": "Sportello della gilda, {place}. {npc}. Lavoro o fuori.",
-        "clerk_offer": "Slime sulle pianure. Cinque. Ammazzali. La gilda paga. Prendere o lasciare.",
-        "clerk_accepted": "Bene. Non morire. Le scartoffie sono un incubo.",
-        "clerk_busy": "Non è finita. Vai ad ammazzare slime.",
-        "clerk_thanks": "Fatto, allora. Buon lavoro. Non gonfiarti la testa. I soffitti sono bassi.",
         "rumor": "Strani colpi dai pozzi profondi, ultimamente. Non sono i nostri. Là sotto non c'è nessuno. Non dovrebbe esserci.",
     },
     "flowery": {
@@ -161,10 +116,6 @@ IT = {
         "innkeeper": "Un viaggiatore! Sono {npc}. Stanze fresche, tè dolce e prezzi che sono un regalo. Quasi un regalo.",
         "villager": "Pace e abbondanza, straniero! Sono {npc}. {place} è la perla delle sabbie, e lo dico con tutto il cuore.",
         "clerk_hello": "Benvenuto, benvenuto alla casa della gilda di {place}! {npc} al tuo servizio. Lavoro per un uomo del tuo talento?",
-        "clerk_offer": "Slime, amico mio! Cinque furfanti verdi sulle pianure. La gilda paga generosamente, non direi mai il contrario. Ci stringiamo la mano?",
-        "clerk_accepted": "Un piacere! Un puro piacere! Va', e che le sabbie benedicano la tua lama.",
-        "clerk_busy": "Ancora a caccia? Un grande cacciatore si prende il suo tempo. Un buon cacciatore, un po' meno.",
-        "clerk_thanks": "Magnifico! Le pianure cantano il tuo nome! Tra noi, la gilda pagherebbe di più, ma non ho detto nulla.",
         "rumor": "Un capocarovana giura che esiste un'oasi che si sposta. Io non giuro nulla, ma lo seguirei.",
     },
     "stoic": {
@@ -173,10 +124,6 @@ IT = {
         "innkeeper": "{npc}. Un fuoco, un letto, una scodella. Chiudi la porta.",
         "villager": "{npc}. {place} è tranquilla. Ci piace così.",
         "clerk_hello": "{npc}, sportello della gilda di {place}. Il lavoro c'è. Parla.",
-        "clerk_offer": "Slime. Cinque. Le pianure. La gilda paga. Accetta o no.",
-        "clerk_accepted": "E sia. Torna vivo.",
-        "clerk_busy": "Incompiuto. Il freddo è paziente. Gli slime no.",
-        "clerk_thanks": "È fatto. Hai fatto bene. Riposa.",
         "rumor": "Il ghiaccio del vecchio tempio geme di notte. Non lo faceva da quarant'anni.",
     },
     "salty": {
@@ -185,10 +132,6 @@ IT = {
         "innkeeper": "{npc}, all'insegna dello Stivale Annegato! I letti non ondeggiano, la birra sì. Le stanze saranno pronte presto, har har.",
         "villager": "Buon vento, amico! {npc}. {place} sa di pesce e di libertà, ma soprattutto di pesce.",
         "clerk_hello": "Posto della gilda di {place}, {npc} al timone. Cerchi un lavoretto onesto, marinaio?",
-        "clerk_offer": "Slime! Cinque di quei miserabili verdi nei prati, sfacciati come cozze. La gilda paga in monete sante. Ti arruoli?",
-        "clerk_accepted": "Questo è lo spirito! Buon vento, e non cadere in mare.",
-        "clerk_busy": "Ancora in battaglia con gli slime? La marea non aspetta nessuno, ma aspetta più di me.",
-        "clerk_thanks": "Slime spariti! Bel lavoro, mozzo. I drink li offre la gilda. Probabilmente.",
         "rumor": "Il faro sugli scogli si è acceso da solo ieri notte. Il guardiano è morto quarant'anni fa. Io non dico niente.",
     },
     "grim": {
@@ -197,10 +140,6 @@ IT = {
         "innkeeper": "{npc}. Un letto, un tetto. Possono crollare entrambi. Stanotte, forse no.",
         "villager": "Ah. Una visita. Sono {npc}. {place} ti ringrazia di averla notata. Per poco.",
         "clerk_hello": "{npc}, sportello della gilda di {place}. Il lavoro abbonda. I sopravvissuti no.",
-        "clerk_offer": "Slime verdi, cinque. Le pianure li tengono ancora. Una rara grazia: lavoro facile. Prendilo prima che finisca.",
-        "clerk_accepted": "Va'. Cerca di non finire nella cenere.",
-        "clerk_busy": "Ancora vivo? Buon segno. Ancora incompiuto. Cattivo segno.",
-        "clerk_thanks": "Fatto. Non durerà, ma è fatto. È qualcosa.",
         "rumor": "Certe notti la cenere cade verso l'alto. Abbiamo smesso di chiederci perché.",
     },
     "scholarly": {
@@ -209,17 +148,13 @@ IT = {
         "innkeeper": "{npc}. Alloggio, con note a piè di pagina. Attenzione al terzo gradino: ha una teoria sulla gravità.",
         "villager": "Affascinante! Una faccia nuova. Sono {npc}. Studio {place}. {place} non ha ancora accettato di essere studiata.",
         "clerk_hello": "{npc}, cancelliere della gilda di {place}. Impiego, in senso classico. Hai un momento?",
-        "clerk_offer": "Un rilievo sul campo: cinque slime verdi nelle pianure, da... mandare in pensione. La gilda compensa il ricercatore. La tua risposta, prego.",
-        "clerk_accepted": "Eccellente. Registra le tue osservazioni; la biblioteca della gilda le accoglie volentieri.",
-        "clerk_busy": "Il rilievo resta incompleto. I dati, come sempre, si dimenano.",
-        "clerk_thanks": "Risultati conclusivi! Le pianure sono, come ipotizzato, prive di slime. Citazione in attesa.",
         "rumor": "Un'isola fluttuante è andata alla deriva di due gradi rispetto alla rotta. Nessuno lo spiega. Tutti hanno teorie.",
     },
 }
 
 CHOICES = {
-    "en": {"wares": "Show me your wares.", "rumor": "Any news?", "bye": "Goodbye.", "work": "I'm looking for work.", "accept": "I'll take it.", "decline": "Not now."},
-    "it": {"wares": "Fammi vedere la merce.", "rumor": "Novità?", "bye": "Arrivederci.", "work": "Cerco lavoro.", "accept": "Ci sto.", "decline": "Non adesso."},
+    "en": {"wares": "Show me your wares.", "rumor": "Any news?", "bye": "Goodbye.", "work": "Show me the board."},
+    "it": {"wares": "Fammi vedere la merce.", "rumor": "Novità?", "bye": "Arrivederci.", "work": "Fammi vedere la bacheca."},
 }
 
 QUIRKS = {
@@ -259,6 +194,42 @@ PEOPLE_NAMES = {
 }
 
 
+BOARD_EN = {
+    "warm": {"cull": ("Slimes in the garden", "Chase off the pests bothering {place}: {target} x{count}."),
+             "gather": ("Gel for the glue pot", "The folk of {place} need gel to mend things: {target} x{count}.")},
+    "mystic": {"cull": ("The restless green ones", "Put to rest what drifts near {place}: {target} x{count}."),
+               "gather": ("Offerings of gel", "Bring the shimmer the forest asks for to {place}: {target} x{count}.")},
+    "gruff": {"cull": ("Pest control", "Kill them. {place}. {target} x{count}."),
+              "gather": ("Gel. Bring it.", "{place} needs it. {target} x{count}.")},
+    "flowery": {"cull": ("A noble hunt!", "Glory awaits near {place}: {target} x{count}, and a fine reward!"),
+                "gather": ("A treasure of gel!", "Gather the finest gel for the merchants of {place}: {target} x{count}.")},
+    "stoic": {"cull": ("Slimes", "The plains near {place}. {target} x{count}."), "gather": ("Gel", "For {place}. {target} x{count}.")},
+    "salty": {"cull": ("Slimes off the starboard!", "Clear the meadows round {place}, matey: {target} x{count}."),
+              "gather": ("Gel for the caulking", "Fetch caulking gel for the docks o' {place}: {target} x{count}.")},
+    "grim": {"cull": ("Pests", "{place} cannot afford them. {target} x{count}."),
+             "gather": ("Gel, while it lasts", "{place} needs it before winter takes it. {target} x{count}.")},
+    "scholarly": {"cull": ("Population control, a field study", "Retire the specimens near {place}: {target} x{count}."),
+                  "gather": ("Gel specimens for study", "A sample for the scholars of {place}: {target} x{count}.")},
+}
+BOARD_IT = {
+    "warm": {"cull": ("Slime in giardino", "Caccia i parassiti che infastidiscono {place}: {target} x{count}."),
+             "gather": ("Gel per il barattolo della colla", "La gente di {place} ha bisogno di gel per aggiustare le cose: {target} x{count}.")},
+    "mystic": {"cull": ("Le verdi inquiete", "Metti a riposo ciò che vaga vicino a {place}: {target} x{count}."),
+               "gather": ("Offerte di gel", "Porta a {place} il bagliore che la foresta chiede: {target} x{count}.")},
+    "gruff": {"cull": ("Disinfestazione", "Ammazzali. {place}. {target} x{count}."),
+              "gather": ("Gel. Portalo.", "{place} ne ha bisogno. {target} x{count}.")},
+    "flowery": {"cull": ("Una nobile caccia!", "La gloria ti attende vicino a {place}: {target} x{count}, e un'ottima ricompensa!"),
+                "gather": ("Un tesoro di gel!", "Raccogli il gel più pregiato per i mercanti di {place}: {target} x{count}.")},
+    "stoic": {"cull": ("Slime", "Le pianure vicino a {place}. {target} x{count}."), "gather": ("Gel", "Per {place}. {target} x{count}.")},
+    "salty": {"cull": ("Slime a dritta!", "Ripulisci i prati intorno a {place}, mozzo: {target} x{count}."),
+              "gather": ("Gel per calafatare", "Porta il gel per calafatare ai moli di {place}: {target} x{count}.")},
+    "grim": {"cull": ("Parassiti", "{place} non può permetterseli. {target} x{count}."),
+             "gather": ("Gel, finché dura", "{place} ne ha bisogno prima che l'inverno se lo prenda. {target} x{count}.")},
+    "scholarly": {"cull": ("Controllo della popolazione, uno studio sul campo", "Metti a riposo gli esemplari vicino a {place}: {target} x{count}."),
+                  "gather": ("Esemplari di gel per lo studio", "Un campione per gli studiosi di {place}: {target} x{count}.")},
+}
+
+
 def node_say(text_key: str, next_node: str = "end") -> dict:
     return {"type": "say", "speaker": "npc", "text": f"$i18n:{text_key}", "next": next_node}
 
@@ -276,18 +247,9 @@ def dialogue(role: str, tone: str) -> dict:
         nodes["start"] = node_say(f"{base}.hello", "menu")
         nodes["menu"] = {"type": "choice", "choices": [rumor_choice, bye_choice]}
     else:
-        nodes["start"] = {"type": "condition", "when": {"quest_done": QUEST}, "then": "thanks", "else": "active_check"}
-        nodes["active_check"] = {"type": "condition", "when": {"quest_active": QUEST}, "then": "busy", "else": "hello"}
-        nodes["hello"] = node_say(f"{base}.hello", "menu")
-        nodes["menu"] = {"type": "choice", "choices": [
-            {"text": "$i18n:dlg.role.work", "next": "offer"}, rumor_choice, bye_choice]}
-        nodes["offer"] = node_say(f"{base}.offer", "offer_choice")
-        nodes["offer_choice"] = {"type": "choice", "choices": [
-            {"text": "$i18n:dlg.role.accept", "effects": [{"effect": "start_quest", "quest": QUEST}], "next": "accepted"},
-            {"text": "$i18n:dlg.role.decline", "next": "end"}]}
-        nodes["accepted"] = node_say(f"{base}.accepted")
-        nodes["busy"] = node_say(f"{base}.busy")
-        nodes["thanks"] = node_say(f"{base}.thanks")
+        nodes["start"] = node_say(f"{base}.hello", "menu")
+        nodes["menu"] = {"type": "choice", "choices": [{"text": "$i18n:dlg.role.work", "next": "board"}, rumor_choice, bye_choice]}
+        nodes["board"] = {"type": "effects", "effects": [{"effect": "open_board"}], "next": "end"}
     nodes["rumor"] = node_say(f"dlg.tone.{tone}.rumor")
     return {"$schema": "../../../../schemas/dialogue.schema.json", "id": f"base:dialogue/role/{role}_{tone}", "start": "start", "nodes": nodes}
 
@@ -300,8 +262,9 @@ def texts(lang: str) -> dict[str, str]:
         for role in ("elder", "shopkeeper", "innkeeper", "villager"):
             out[f"dlg.role.{role}.{tone}.hello"] = t[role]
         out[f"dlg.role.guild_clerk.{tone}.hello"] = t["clerk_hello"]
-        for part in ("offer", "accepted", "busy", "thanks"):
-            out[f"dlg.role.guild_clerk.{tone}.{part}"] = t[f"clerk_{part}"]
+        for template, (title, journal) in (BOARD_EN if lang == "en" else BOARD_IT)[tone].items():
+            out[f"quest.board.{template}.{tone}.name"] = title
+            out[f"quest.board.{template}.{tone}.journal"] = journal
         out[f"dlg.tone.{tone}.rumor"] = t["rumor"]
     for key, value in CHOICES[lang].items():
         out[f"dlg.role.{key}"] = value

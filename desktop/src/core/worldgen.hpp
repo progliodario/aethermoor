@@ -60,6 +60,32 @@ struct StampEntry {
     std::string npc;
 };
 
+// The guild (spec 07, "Guild"): ranks and the templates of the board offers.
+struct GuildRank {
+    std::string id;
+    int points = 0;
+};
+
+struct GuildTemplate {
+    std::string id;
+    std::string type;    // "kill" or "collect"
+    std::string target;  // enemy or item ID
+    int count_min = 1;
+    int count_max = 1;
+    int gold_base = 0;
+    int gold_per = 0;
+    int xp_base = 0;
+    int xp_per = 0;
+    int points_base = 0;
+    int points_per = 0;
+};
+
+struct GuildParams {
+    int offers_per_day = 0;
+    std::vector<GuildRank> ranks;
+    std::vector<GuildTemplate> templates;
+};
+
 struct Stamp {
     int w = 0;
     int h = 0;
@@ -121,6 +147,8 @@ struct WorldParams {
     std::string home_stamp;
     int home_dx = 0;
     int home_dy = 0;
+
+    GuildParams guild;
 
     std::vector<Region> regions;
     int settlement_per_mille = 0;
@@ -217,6 +245,28 @@ struct Settlement {
 
 // The NPC standing on the slot tile (x, y) of the settlement.
 GenPerson person_at(std::uint64_t seed, const WorldParams& params, const Settlement& settlement, int x, int y);
+
+// An offer of the board of a settlement (spec 07, "Guild").
+struct Offer {
+    std::string id;  // board:<sx>:<sy>:<day>:<slot>
+    int slot = 0;
+    int min_rank = 0;
+    std::string template_id;
+    std::string type;
+    std::string target;
+    int count = 0;
+    std::int64_t gold = 0;
+    std::int64_t xp = 0;
+    std::int64_t points = 0;
+    std::string place;
+    std::string tone;
+};
+
+// Index of the rank of a member with that many guild points.
+int rank_index(const GuildParams& guild, std::int64_t points);
+std::vector<Offer> offers_for(std::uint64_t seed, const WorldParams& params, const Settlement& settlement, std::int64_t day);
+// The offer a generated quest id names, or nothing when the world cannot rebuild it.
+std::optional<Offer> resolve_offer(std::uint64_t seed, const WorldParams& params, const std::string& quest_id);
 
 // Index of the region of the tile: the nearest center.
 int region_at(const WorldParams& params, int x, int y);

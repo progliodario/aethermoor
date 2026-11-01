@@ -5,6 +5,7 @@
 #include <SDL3/SDL_main.h>
 
 #include <algorithm>
+#include <cctype>
 #include <cmath>
 #include <cstdint>
 #include <cstdio>
@@ -68,6 +69,7 @@ struct Ui {
     bool show_inventory = false;
     int bag_cursor = 0;  // index of the selected item in the bag
     int shop_cursor = 0;
+    int board_cursor = 0;
     bool shop_sell = false;  // the shop shows what the player sells instead of what it sells
     bool show_map = false;
     mutable std::map<std::pair<int, int>, std::optional<aether::Settlement>> map_markers;  // settlement shown on a cell
@@ -534,6 +536,9 @@ bool load_game(aether::WorldSim& sim, const fs::path& file, std::string& error) 
     return state.has_value() && sim.restore(*state, error);
 }
 
+std::string dialogue_text(const aether::Pack& pack, const std::string& lang, const std::string& reference,
+                          const std::map<std::string, std::string>& args);
+
 void notify(Ui& ui, const std::string& text) {
     ui.message = text;
     ui.message_frames = 150;
@@ -648,6 +653,37 @@ void handle_shop_key(aether::WorldSim& sim, const Assets& assets, Ui& ui, SDL_Ke
         ui.shop_cursor = 0;
     } else if (key == SDLK_E || key == SDLK_RETURN || key == SDLK_SPACE) {
         shop_confirm(sim, assets, ui);
+    }
+}
+
+// The guild board (spec 07, "Guild").
+void board_move(const aether::WorldSim& sim, Ui& ui, int delta) {
+    const int count = sim.board() == nullptr ? 0 : static_cast<int>(sim.board()->offers.size());
+    ui.board_cursor = count > 0 ? (std::clamp(ui.board_cursor, 0, count - 1) + delta + count) % count : 0;
+}
+
+void board_accept(aether::WorldSim& sim, const Assets& assets, Ui& ui) {
+    if (sim.board() == nullptr || sim.board()->offers.empty()) {
+        return;
+    }
+    const int slot = std::clamp(ui.board_cursor, 0, static_cast<int>(sim.board()->offers.size()) - 1);
+    const aether::Offer offer = sim.board()->offers[static_cast<std::size_t>(slot)];
+    if (sim.accept_offer(slot)) {
+        const aether::QuestDef quest = aether::quest_from_offer(offer);
+        notify(ui, assets.pack.text(ui.lang, "$i18n:ui.quest_accepted",
+                                    {{"quest", dialogue_text(assets.pack, ui.lang, quest.name, quest.args)}}));
+    } else {
+        notify(ui, assets.pack.text(ui.lang, "$i18n:ui.cannot_do"));
+    }
+}
+
+void handle_board_key(aether::WorldSim& sim, const Assets& assets, Ui& ui, SDL_Keycode key) {
+    if (key == SDLK_UP || key == SDLK_W) {
+        board_move(sim, ui, -1);
+    } else if (key == SDLK_DOWN || key == SDLK_S) {
+        board_move(sim, ui, 1);
+    } else if (key == SDLK_E || key == SDLK_RETURN || key == SDLK_SPACE) {
+        board_accept(sim, assets, ui);
     }
 }
 
@@ -767,6 +803,16 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
     std::snprintf(line, sizeof(line), "%s", assets.pack.text(ui.lang, "$i18n:ui.gold", {{"gold", story.gold()}}).c_str());
     SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
     SDL_RenderDebugText(renderer, x, y, line);
+    if (sim.streamed()) {
+        if (const aether::ChunkStore* store = sim.chunks()) {
+            std::string letter = store->params().guild.ranks[static_cast<std::size_t>(sim.guild_rank())].id;
+            for (char& c : letter) {
+                c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+            }
+            const std::string text = assets.pack.text(ui.lang, "$i18n:ui.rank", {{"rank", letter}});
+            SDL_RenderDebugText(renderer, x - static_cast<float>(text.size()) * 8.0F - 8.0F, y, text.c_str());
+        }
+    }
     y += 16.0F;
     for (const auto& [quest_id, progress] : story.quests()) {
         if (progress.done) {
@@ -783,10 +829,10 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
             continue;
         }
         SDL_SetRenderDrawColor(renderer, 111, 227, 255, 255);
-        SDL_RenderDebugText(renderer, x, y, assets.pack.text(ui.lang, def.name).c_str());
+        SDL_RenderDebugText(renderer, x, y, dialogue_text(assets.pack, ui.lang, def.name, def.args).c_str());
         y += 14.0F;
         SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
-        for (const std::string& wrapped : wrap_text(assets.pack.text(ui.lang, stage->journal), 24)) {
+        for (const std::string& wrapped : wrap_text(dialogue_text(assets.pack, ui.lang, stage->journal, def.args), 24)) {
             SDL_RenderDebugText(renderer, x, y, wrapped.c_str());
             y += 12.0F;
         }
@@ -847,6 +893,74 @@ void draw_shop(SDL_Renderer* renderer, const Assets& assets, const aether::World
     }
     SDL_SetRenderDrawColor(renderer, 170, 200, 230, 255);
     SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + h - 28.0F) / kScale, assets.pack.text(ui.lang, "$i18n:ui.shop_hint").c_str());
+    SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+}
+
+void draw_board(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w, int out_h,
+                float density) {
+    const aether::WorldSim::Board* board = sim.board();
+    const aether::ChunkStore* store = sim.chunks();
+    if (board == nullptr || store == nullptr) {
+        return;
+    }
+    constexpr float kScale = 2.0F;
+    const float row = 8.0F * kScale + 8.0F;
+    const float w = std::min(static_cast<float>(out_w) - 40.0F, 760.0F * density);
+    const float h = 110.0F + row * 3.0F * static_cast<float>(std::max<std::size_t>(board->offers.size(), 1));
+    const float x = (static_cast<float>(out_w) - w) / 2.0F;
+    const float y = (static_cast<float>(out_h) - h) / 2.0F;
+    const aether::GuildParams& guild = store->params().guild;
+    const auto rank_letter = [&guild](int index) {
+        std::string letter = guild.ranks[static_cast<std::size_t>(index)].id;
+        for (char& c : letter) {
+            c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+        }
+        return letter;
+    };
+    fill_rect(renderer, x, y, w, h, 11, 31, 58, 245);
+    fill_rect(renderer, x, y, w, 3.0F, 111, 227, 255, 255);
+    SDL_SetRenderScale(renderer, kScale, kScale);
+    SDL_SetRenderDrawColor(renderer, 111, 227, 255, 255);
+    const std::string title = assets.pack.text(ui.lang, "$i18n:ui.board") + " - " + board->settlement.name;
+    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + 12.0F) / kScale, title.c_str());
+    const std::string status = assets.pack.text(ui.lang, "$i18n:ui.rank", {{"rank", rank_letter(sim.guild_rank())}}) + "  " +
+                               assets.pack.text(ui.lang, "$i18n:ui.guild_points", {{"points", static_cast<std::int64_t>(sim.story().guild_points())}});
+    SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
+    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + 12.0F + row) / kScale, status.c_str());
+    float ty = y + 12.0F + row * 2.0F + 6.0F;
+    const int cursor = std::clamp(ui.board_cursor, 0, std::max(static_cast<int>(board->offers.size()) - 1, 0));
+    for (std::size_t i = 0; i < board->offers.size(); ++i) {
+        const aether::Offer& offer = board->offers[i];
+        const aether::QuestDef quest = aether::quest_from_offer(offer);
+        const bool locked = sim.guild_rank() < offer.min_rank;
+        const bool taken = sim.story().quests().count(offer.id) != 0;
+        if (static_cast<int>(i) == cursor) {
+            SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+            fill_rect(renderer, x + 8.0F, ty - 3.0F, w - 16.0F, row * 3.0F, 40, 90, 140, 255);
+            SDL_SetRenderScale(renderer, kScale, kScale);
+        }
+        const std::string name = dialogue_text(assets.pack, ui.lang, quest.name, quest.args);
+        std::string tag;
+        if (taken) {
+            tag = "  (" + assets.pack.text(ui.lang, "$i18n:ui.board_taken") + ")";
+        } else if (locked) {
+            tag = "  (" + assets.pack.text(ui.lang, "$i18n:ui.board_locked", {{"rank", rank_letter(offer.min_rank)}}) + ")";
+        }
+        SDL_SetRenderDrawColor(renderer, locked ? 130 : 255, locked ? 140 : 255, locked ? 160 : 255, 255);
+        SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, ty / kScale, ((static_cast<int>(i) == cursor ? ">" : " ") + name + tag).c_str());
+        SDL_SetRenderDrawColor(renderer, 170, 200, 230, 255);
+        const std::string journal = dialogue_text(assets.pack, ui.lang, quest.stages.front().journal, quest.args);
+        SDL_RenderDebugText(renderer, (x + 16.0F + 8.0F * kScale) / kScale, (ty + row) / kScale, journal.substr(0, 80).c_str());
+        SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
+        const std::string reward = assets.pack.text(ui.lang, "$i18n:ui.board_reward",
+                                                    {{"gold", static_cast<std::int64_t>(offer.gold)},
+                                                     {"xp", static_cast<std::int64_t>(offer.xp)},
+                                                     {"points", static_cast<std::int64_t>(offer.points)}});
+        SDL_RenderDebugText(renderer, (x + 16.0F + 8.0F * kScale) / kScale, (ty + row * 2.0F) / kScale, reward.c_str());
+        ty += row * 3.0F;
+    }
+    SDL_SetRenderDrawColor(renderer, 170, 200, 230, 255);
+    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + h - 28.0F) / kScale, assets.pack.text(ui.lang, "$i18n:ui.board_hint").c_str());
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
@@ -1030,6 +1144,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     draw_inventory_and_notice(renderer, assets, sim, ui, out_w, out_h, density);
     draw_world_map(renderer, assets, sim, ui, out_w, out_h, density);
     draw_shop(renderer, assets, sim, ui, out_w, out_h, density);
+    draw_board(renderer, assets, sim, ui, out_w, out_h, density);
 
     if (debug) {
         char line[160];
@@ -1192,10 +1307,11 @@ int main(int argc, char** argv) {
             SDL_Event event;
             while (SDL_PollEvent(&event)) {
                 if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE &&
-                    (ui.show_map || ui.show_inventory || sim.shop() != nullptr)) {
+                    (ui.show_map || ui.show_inventory || sim.shop() != nullptr || sim.board() != nullptr)) {
                     ui.show_map = false;  // Esc closes the open panel first
                     ui.show_inventory = false;
                     sim.close_shop();
+                    sim.close_board();
                 } else if (event.type == SDL_EVENT_QUIT ||
                            (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE)) {
                     running = false;
@@ -1224,7 +1340,9 @@ int main(int argc, char** argv) {
                         notify(ui, assets.pack.text(ui.lang, "$i18n:ui.new_game"));
                     }
                 } else if (event.type == SDL_EVENT_KEY_DOWN && !smoke_test) {
-                    if (sim.shop() != nullptr) {
+                    if (sim.board() != nullptr) {
+                        handle_board_key(sim, assets, ui, event.key.key);
+                    } else if (sim.shop() != nullptr) {
                         handle_shop_key(sim, assets, ui, event.key.key);
                     } else if (ui.show_inventory) {
                         if (event.key.key == SDLK_UP || event.key.key == SDLK_W) {
@@ -1240,7 +1358,17 @@ int main(int argc, char** argv) {
                 } else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN && !smoke_test && sim.story().dialogue_active()) {
                     activate_dialogue(sim, ui);
                 } else if (event.type == SDL_EVENT_GAMEPAD_BUTTON_DOWN && !smoke_test) {
-                    if (sim.shop() != nullptr) {
+                    if (sim.board() != nullptr) {
+                        if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_UP) {
+                            board_move(sim, ui, -1);
+                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_DOWN) {
+                            board_move(sim, ui, 1);
+                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_WEST || event.gbutton.button == SDL_GAMEPAD_BUTTON_SOUTH) {
+                            board_accept(sim, assets, ui);
+                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_EAST) {
+                            sim.close_board();
+                        }
+                    } else if (sim.shop() != nullptr) {
                         if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_UP) {
                             shop_move(sim, ui, -1);
                         } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_DOWN) {
@@ -1314,8 +1442,8 @@ int main(int argc, char** argv) {
                     ui.show_map = sim.streamed();  // the last frames show the world map
                 }
                 sim.tick(input.x, input.y, input.attack);
-            } else if (ui.show_inventory || ui.show_map || sim.shop() != nullptr) {
-                accumulator = 0.0;  // the bag, the map and the shop pause the game
+            } else if (ui.show_inventory || ui.show_map || sim.shop() != nullptr || sim.board() != nullptr) {
+                accumulator = 0.0;  // the bag, the map, the shop and the board pause the game
             } else {
                 accumulator += frame_seconds;
                 int ticks = 0;

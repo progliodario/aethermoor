@@ -64,6 +64,16 @@ WorldSim::WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, Combat
       m_loot_rng_(derive_stream(m_setup_.seed, "loot")),
       m_story_(m_setup_.story, *this) {
     m_story_.set_dynamic_npcs(&m_npcs_);
+    if (m_store_) {
+        const ChunkStore* store = m_store_.get();
+        m_story_.set_quest_resolver([store](const std::string& id) -> std::optional<QuestDef> {
+            const auto offer = resolve_offer(store->seed(), store->params(), id);
+            if (!offer) {
+                return std::nullopt;
+            }
+            return quest_from_offer(*offer);
+        });
+    }
     m_collision_.set_dynamic_props(&m_npc_circles_);
     m_player_.position = {m_map_.spawn_x, m_map_.spawn_y};
     if (m_store_) {
@@ -276,6 +286,41 @@ int stack_limit(const ItemDef& item) {
 }
 
 }  // namespace
+
+void WorldSim::open_board() {
+    if (!m_store_) {
+        return;
+    }
+    const WorldParams& params = m_store_->params();
+    const int sx = static_cast<int>(std::floor(m_player_.position.x)) >> 8;
+    const int sy = static_cast<int>(std::floor(m_player_.position.y)) >> 8;
+    const auto settlement = settlement_site(m_store_->seed(), params, sx, sy);
+    if (!settlement) {
+        return;
+    }
+    Board board;
+    board.settlement = *settlement;
+    board.day = m_world_ticks_ / params.time.day_ticks + 1;
+    board.offers = offers_for(m_store_->seed(), params, *settlement, board.day);
+    m_board_ = std::move(board);
+}
+
+int WorldSim::guild_rank() const {
+    return m_store_ ? rank_index(m_store_->params().guild, m_story_.guild_points()) : 0;
+}
+
+bool WorldSim::accept_offer(int slot) {
+    if (!m_board_ || slot < 0 || slot >= static_cast<int>(m_board_->offers.size())) {
+        return false;
+    }
+    const Offer& offer = m_board_->offers[static_cast<std::size_t>(slot)];
+    if (guild_rank() < offer.min_rank || m_story_.quests().count(offer.id) != 0) {
+        return false;
+    }
+    m_story_.add_generated_quest(quest_from_offer(offer));
+    m_story_.start_quest(offer.id);
+    return true;
+}
 
 bool WorldSim::equip(const std::string& item_id) {
     const auto item = m_setup_.items.find(item_id);
@@ -767,6 +812,7 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
     m_equipped_weapon_ = s.equipped_weapon == "<start>" ? m_setup_.start_weapon : s.equipped_weapon;
     m_equipped_armor_ = s.equipped_armor;
     m_shop_.reset();
+    m_board_.reset();
     recompute_derived();
     m_player_.hp = std::min(s.hp, m_derived_.max_hp);
     m_explored_ = std::set<std::pair<int, int>>(s.explored.begin(), s.explored.end());

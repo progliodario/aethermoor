@@ -503,6 +503,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": null
             }
@@ -539,6 +540,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": {
                 "type": "say",
@@ -579,6 +581,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": {
                 "type": "choice",
@@ -621,6 +624,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "kill",
@@ -669,6 +673,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "kill",
@@ -715,6 +720,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "report",
@@ -761,6 +767,7 @@
             "story": {
               "flags": {},
               "gold": 120,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "report",
@@ -811,6 +818,7 @@
             "story": {
               "flags": {},
               "gold": 120,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "report",
@@ -1281,6 +1289,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": null
             }
@@ -1304,6 +1313,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": {
                 "type": "say",
@@ -1331,6 +1341,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": {
                 "type": "choice",
@@ -1360,6 +1371,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": null
             }
@@ -1383,6 +1395,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": {
                 "type": "say",
@@ -1410,6 +1423,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": {
                 "type": "choice",
@@ -1439,6 +1453,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "kill",
@@ -1474,6 +1489,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "kill",
@@ -1505,6 +1521,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "kill",
@@ -1540,6 +1557,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "kill",
@@ -1965,6 +1983,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": null
             }
@@ -1995,6 +2014,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": {
                 "type": "say",
@@ -2029,6 +2049,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": {
                 "type": "say",
@@ -2063,6 +2084,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": {
                 "type": "choice",
@@ -2523,6 +2545,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": {
                 "type": "say",
@@ -2550,6 +2573,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": {
                 "type": "choice",
@@ -2581,6 +2605,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": {
                 "type": "say",
@@ -2612,6 +2637,7 @@
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": null
             }
@@ -2639,6 +2665,7 @@
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": {
                 "type": "say",
@@ -2670,6 +2697,7 @@
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": {
                 "type": "choice",
@@ -2704,6 +2732,7 @@
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/gel": {
                   "stage": "collect",
@@ -2744,6 +2773,7 @@
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/gel": {
                   "stage": "collect",
@@ -2780,6 +2810,7 @@
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/gel": {
                   "stage": "collect",

@@ -486,7 +486,9 @@ void run_segment(aether::WorldSim& sim, const Json& segment) {
     if (segment.contains("do")) {
         for (const Json& command : segment.at("do")) {
             const std::string cmd = command.at("cmd").get<std::string>();
-            if (cmd == "use") {
+            if (cmd == "start_quest") {
+                sim.story().start_quest(command.at("quest").get<std::string>());
+            } else if (cmd == "use") {
                 sim.use_item(command.at("item").get<std::string>());
             } else if (cmd == "equip") {
                 sim.equip(command.at("item").get<std::string>());
@@ -543,6 +545,9 @@ void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) 
         const Json& ws = want.at("story");
         const aether::Story& story = sim.story();
         REQUIRE(story.gold() == integer(ws, "gold"));
+        if (ws.contains("guild_points")) {
+            REQUIRE(story.guild_points() == integer(ws, "guild_points"));
+        }
         REQUIRE(story.flags().size() == ws.at("flags").size());
         for (const auto& [flag, value] : ws.at("flags").items()) {
             REQUIRE(story.flags().at(flag) == value.get<bool>());
@@ -643,6 +648,66 @@ TEST_CASE("conformance: story", "[conformance]") { run_combat_suite("story"); }
 
 TEST_CASE("conformance: save and resume", "[conformance]") { run_save_suite(); }
 
+TEST_CASE("conformance: guild", "[conformance]") {
+    const Json doc = load_suite("guild");
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        const Json& in = c.at("input");
+        const Json& want = c.at("expect");
+        std::string error;
+        const auto params = aether::parse_world_params(in.at("params").dump(), error);
+        INFO(error);
+        REQUIRE(params.has_value());
+        const std::uint64_t seed = hex(in.at("seed"));
+        for (const Json& rank : want.at("ranks")) {
+            REQUIRE(aether::rank_index(params->guild, rank.at(0).get<std::int64_t>()) == rank.at(1).get<int>());
+        }
+        std::size_t index = 0;
+        for (const Json& site : in.at("sites")) {
+            const int sx = site.at(0).get<int>();
+            const int sy = site.at(1).get<int>();
+            const auto settlement = aether::settlement_site(seed, *params, sx, sy);
+            REQUIRE(settlement.has_value());
+            for (const Json& day : in.at("days")) {
+                for (const aether::Offer& offer : aether::offers_for(seed, *params, *settlement, day.get<std::int64_t>())) {
+                    const Json& e = want.at("offers").at(index);
+                    INFO("offer " << index);
+                    REQUIRE(offer.id == e.at(0).get<std::string>());
+                    REQUIRE(offer.min_rank == e.at(1).get<int>());
+                    REQUIRE(offer.template_id == e.at(2).get<std::string>());
+                    REQUIRE(offer.type == e.at(3).get<std::string>());
+                    REQUIRE(offer.target == e.at(4).get<std::string>());
+                    REQUIRE(offer.count == e.at(5).get<int>());
+                    REQUIRE(offer.gold == e.at(6).get<std::int64_t>());
+                    REQUIRE(offer.xp == e.at(7).get<std::int64_t>());
+                    REQUIRE(offer.points == e.at(8).get<std::int64_t>());
+                    REQUIRE(offer.place == e.at(9).get<std::string>());
+                    REQUIRE(offer.tone == e.at(10).get<std::string>());
+                    // The quest it becomes, and the rebuild from its id.
+                    const aether::QuestDef quest = aether::quest_from_offer(offer);
+                    const Json& q = want.at("quests").at(index);
+                    REQUIRE(quest.id == q.at("id").get<std::string>());
+                    REQUIRE(quest.name == q.at("name").get<std::string>());
+                    REQUIRE(quest.stages.front().journal == q.at("stages").at(0).at("journal").get<std::string>());
+                    REQUIRE(quest.stages.front().objectives.front().count ==
+                            q.at("stages").at(0).at("objectives").at(0).at("count").get<std::int64_t>());
+                    for (const auto& [key, value] : q.at("args").items()) {
+                        REQUIRE(quest.args.at(key) == value.get<std::string>());
+                    }
+                    REQUIRE(quest.rewards.size() == 3);
+                    REQUIRE(quest.rewards[1].n == q.at("rewards").at(1).at("amount").get<std::int64_t>());
+                    REQUIRE(quest.rewards[2].n == q.at("rewards").at(2).at("amount").get<std::int64_t>());
+                    const auto rebuilt = aether::resolve_offer(seed, *params, offer.id);
+                    REQUIRE(rebuilt.has_value());
+                    REQUIRE(rebuilt->gold == offer.gold);
+                    ++index;
+                }
+            }
+        }
+        REQUIRE(index == want.at("offers").size());
+    }
+}
+
 TEST_CASE("conformance: settlements", "[conformance]") {
     const Json doc = load_suite("settlements");
     for (const Json& c : doc.at("cases")) {
@@ -721,6 +786,7 @@ TEST_CASE("conformance: worldtime", "[conformance]") {
             "thresholds":{"water":1,"beach":2,"mountain":3,"snow":4,"desert_heat":5,"desert_dry":6,"forest_wet":7},
             "tiles":{"water":4,"beach":6,"desert":6,"snow":7,"mountain":8,"forest":9,"plains":[1],"river":4,"ford":10,"road":11,"bridge":12},
             "props":{},"spawners":{"enemy":"x:enemy/x","biomes":[],"min_distance":1,"per_10000":1,"respawn_ticks":1},
+            "guild":{"offers_per_day":1,"ranks":[{"id":"f","points":0}],"templates":[{"id":"t","type":"kill","target":"x:enemy/x","count_min":1,"count_max":1,"gold_base":0,"gold_per":0,"xp_base":0,"xp_per":0,"points_base":0,"points_per":0}]},
             "regions":[{"id":"x","name":"x","x_pm":0,"y_pm":0,"danger":1,"tone":"warm","shop":{"price_pm":1000,"stock":[]}}],
             "settlements":{"per_mille":0,"dialogue":"x:dialogue/x","variants":[""],"quirks":["q"],"people":{"start":["a"],"end":["b"]},"kinds":[{"id":"h","weight":1,"stamps":[]}],"names":{"start":["a"],"mid":["b"],"end":["c"]}},
             "npcs":[]})");

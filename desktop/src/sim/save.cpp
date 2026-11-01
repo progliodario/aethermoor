@@ -135,6 +135,7 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
     }
     story["flags"] = flags;
     story["gold"] = s.story.gold;
+    story["guild_points"] = s.story.guild_points;
     Json quests = Json::object();
     for (const auto& [id, q] : s.story.quests) {
         Json progress = Json::array();
@@ -227,6 +228,7 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
                 s.story.flags[flag] = value.get<bool>();
             }
             s.story.gold = story.at("gold").get<std::int64_t>();
+            s.story.guild_points = story.value("guild_points", static_cast<std::int64_t>(0));
             for (const auto& [id, q] : story.at("quests").items()) {
                 QuestProgress progress;
                 progress.stage = q.at("stage").get<std::string>();

@@ -67,6 +67,7 @@
           "story": {
             "flags": {},
             "gold": 0,
+            "guild_points": 0,
             "quests": {},
             "dialogue": {
               "id": "test:dialogue/clerk",
@@ -570,6 +571,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "kill",
@@ -618,6 +620,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "kill",
@@ -664,6 +667,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "report",
@@ -710,6 +714,7 @@
             "story": {
               "flags": {},
               "gold": 120,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "report",
@@ -760,6 +765,7 @@
             "story": {
               "flags": {},
               "gold": 120,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "report",
@@ -840,6 +846,7 @@
           "story": {
             "flags": {},
             "gold": 0,
+            "guild_points": 0,
             "quests": {
               "test:quest/slimes": {
                 "stage": "kill",
@@ -1350,6 +1357,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "report",
@@ -1396,6 +1404,7 @@
             "story": {
               "flags": {},
               "gold": 120,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "report",
@@ -1446,6 +1455,7 @@
             "story": {
               "flags": {},
               "gold": 120,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "report",
@@ -2150,6 +2160,7 @@
           "story": {
             "flags": {},
             "gold": 0,
+            "guild_points": 0,
             "quests": {},
             "dialogue": {
               "id": "test:dialogue/trader",
@@ -2601,6 +2612,7 @@
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": {
                 "type": "say",
@@ -2632,6 +2644,7 @@
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": null
             }
@@ -2659,6 +2672,7 @@
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": {
                 "type": "say",
@@ -2690,6 +2704,7 @@
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": {
                 "type": "choice",
@@ -2724,6 +2739,7 @@
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/gel": {
                   "stage": "collect",
@@ -2764,6 +2780,7 @@
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/gel": {
                   "stage": "collect",
@@ -2800,6 +2817,7 @@
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/gel": {
                   "stage": "collect",
@@ -2866,6 +2884,7 @@
               "visited": true
             },
             "gold": 0,
+            "guild_points": 0,
             "quests": {},
             "dialogue": {
               "id": "test:dialogue/trader",
@@ -3319,6 +3338,7 @@
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": {
                 "type": "choice",
@@ -3353,6 +3373,7 @@
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/gel": {
                   "stage": "collect",
@@ -3393,6 +3414,7 @@
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/gel": {
                   "stage": "collect",
@@ -3429,6 +3451,7 @@
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/gel": {
                   "stage": "collect",

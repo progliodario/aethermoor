@@ -4,7 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from reference import numerics as nm
-from reference import worldgen, worldtime
+from reference import guild, worldgen, worldtime
 
 ROOT = Path(__file__).resolve().parent.parent
 PARAMS = worldgen.load_params()
@@ -133,6 +133,31 @@ def suite_settlements() -> list[dict]:
                 "regions": regions,
                 "markers": markers,
             },
+        })
+    return cases
+
+
+def suite_guild() -> list[dict]:
+    """Ranks, the board offers of settlements on several days and the quests they become (spec 07, "Guild")."""
+    params = {**PARAMS, "width": 16384, "height": 16384}
+    cases = []
+    for name, seed in (("seed_7", 7), ("seed_c0ffee", 0xC0FFEE), ("seed_max_u64", nm.M64)):
+        found = worldgen.settlements_in(seed, params, 0, 0, 63, 63)
+        sites = [[32, 32]] + [[s["sx"], s["sy"]] for s in found[:5]]
+        days = [1, 2, 9, 400]
+        listed = []
+        quests = []
+        for sx, sy in sites:
+            for day in days:
+                for offer in guild.offers(seed, params, sx, sy, day):
+                    listed.append([offer["id"], offer["min_rank"], offer["template"], offer["type"], offer["target"], offer["count"],
+                                   offer["gold"], offer["xp"], offer["points"], offer["place"], offer["tone"]])
+                    quests.append(guild.quest_def(offer))
+        points = [0, 1, 99, 100, 299, 300, 699, 700, 1499, 1500, 2999, 3000, 5999, 6000, 99999]
+        cases.append({
+            "name": f"guild_{name}",
+            "input": {"op": "guild", "seed": h64(seed), "sites": sites, "days": days, "points": points, "params": params},
+            "expect": {"offers": listed, "quests": quests, "ranks": [[x, guild.rank_index(params["guild"], x)] for x in points]},
         })
     return cases
 

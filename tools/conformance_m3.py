@@ -1,7 +1,7 @@
 """Conformance suite added in M3: combat scenarios. Imported by gen_conformance.py."""
 from __future__ import annotations
 
-from reference import combat, rules
+from reference import combat, guild, rules, worldgen
 
 SLIME = {
     "hp": 28, "atk": 6, "def": 2, "level": 1, "xp": 6, "radius_x100": 35, "speed_x100": 250,
@@ -68,8 +68,19 @@ def segment(ticks: int, move=(0, 0), attack=False, do=None) -> dict:
     return result
 
 
+def board_quest() -> dict:
+    """The quest of a kill offer of a real board (a settlement of the base world, day 1): spec 07, "Guild"."""
+    params = worldgen.load_params()
+    for site in worldgen.settlements_in(7, params, 0, 0, 63, 63):
+        for offer in guild.offers_for(7, params, site, 1):
+            if offer["type"] == "kill" and offer["count"] == 3:
+                return guild.quest_def(offer)
+    raise AssertionError("no kill offer of three")
+
+
 def build_scenarios() -> list[dict]:
     passive = {"behavior_overrides": {"aggro_x100": 0}, "speed_x100": 0}
+    quest = board_quest()
     return [
         scenario("stationary_kill", [enemy(3.5, 4.5, **passive)], [segment(30, attack=True), segment(200, attack=True)]),
         scenario("miss_behind", [enemy(3.4, 4.5, **passive)], [segment(90, attack=True)], player={"start": [4.5, 4.5]}),
@@ -116,6 +127,11 @@ def build_scenarios() -> list[dict]:
                  inventory={"base:item/practice_sword": 1, "base:item/slime_gel": 2, "base:item/leather_vest": 1},
                  equipped={"weapon": "base:item/practice_sword"}, story=EMPTY_STORY, start_gold=200,
                  shop={"price_pm": 1200, "stock": ["base:item/bread", "base:item/iron_sword", "base:item/leather_vest"]}),
+        # A generated board quest runs like any quest and its rewards include guild points (spec 07, "Guild").
+        scenario("board_quest_rewards", [enemy(3.5, 4.5, id="base:enemy/slime_green", **passive), enemy(3.6, 4.7, id="base:enemy/slime_green", **passive),
+                                         enemy(3.4, 4.3, id="base:enemy/slime_green", **passive)],
+                 [segment(1, do=[{"cmd": "start_quest", "quest": quest["id"]}]), segment(40, attack=True), segment(20)],
+                 story={"quests": {quest["id"]: quest}, "dialogues": {}, "npcs": []}),
         scenario("leash_and_return", [enemy(4.0, 4.5, behavior_overrides={"leash_x100": 300})],
                  [segment(20, attack=True), segment(150, move=(1, 0)), segment(250)]),
     ]
