@@ -66,6 +66,16 @@ struct PlayerSetup {
     std::int64_t weapon_matk = 0;
 };
 
+// What using an item does (spec 06): a list of effects.
+struct ItemEffect {
+    std::string effect;  // "heal"
+    std::int64_t amount = 0;
+};
+
+struct ItemDef {
+    std::vector<ItemEffect> effects;
+};
+
 struct CombatSetup {
     bool enabled = false;
     PlayerSetup player;
@@ -76,6 +86,7 @@ struct CombatSetup {
     int start_level = 1;
     StorySetup story;
     std::map<std::string, std::int64_t> start_inventory;  // items owned in a new game
+    std::map<std::string, ItemDef> items;  // items with a `use` block, by item ID
     std::optional<EnemyDef> stream_enemy;  // the enemy of the spawners of a streamed world
 };
 

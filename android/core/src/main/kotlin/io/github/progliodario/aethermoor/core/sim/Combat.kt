@@ -48,6 +48,12 @@ data class PlayerSetup(
     val weaponMatk: Long = 0,
 )
 
+/** One effect of using an item (spec 06): "heal" with an [amount]. */
+class ItemEffect(val effect: String, val amount: Long)
+
+/** What using an item does. */
+class ItemDef(val effects: List<ItemEffect>)
+
 class CombatSetup(
     val enabled: Boolean = false,
     val player: PlayerSetup = PlayerSetup(),
@@ -62,6 +68,8 @@ class CombatSetup(
     val startInventory: Map<String, Long> = emptyMap(),
     /** The enemy of the spawners of a streamed world. */
     val streamEnemy: EnemyDef? = null,
+    /** Items with a `use` block, by item ID (spec 06). */
+    val items: Map<String, ItemDef> = emptyMap(),
 )
 
 enum class AttackPhase { NONE, STARTUP, ACTIVE, RECOVERY }

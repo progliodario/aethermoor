@@ -165,6 +165,30 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
         setup.story.npcs.push_back({npc.key, npc.dialogue, npc.variant, npc.x, npc.y});
     }
 
+    // Items that can be used (spec 06).
+    for (const auto& [id, path] : pack.document_paths) {
+        if (path.rfind("items/", 0) != 0) {
+            continue;
+        }
+        const auto item = document(pack, id, error);
+        if (!item) {
+            return std::nullopt;
+        }
+        if (!item->contains("use")) {
+            continue;
+        }
+        try {
+            ItemDef def;
+            for (const Json& effect : item->at("use").at("effects")) {
+                def.effects.push_back({effect.at("effect").get<std::string>(), effect.value("amount", static_cast<std::int64_t>(0))});
+            }
+            setup.items.emplace(id, std::move(def));
+        } catch (const Json::exception& e) {
+            error = id + ": " + e.what();
+            return std::nullopt;
+        }
+    }
+
     std::map<std::string, EnemyDef> cache;
     for (const SpawnPoint& spawn : map.spawners) {
         auto found = cache.find(spawn.enemy);

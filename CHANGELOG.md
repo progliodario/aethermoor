@@ -6,6 +6,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- M6a: items can be used (spec 06). The bag has a cursor (W/S or arrows, D-pad, or tapping a row), shows the description of the selected item and uses it with E, Enter or X (or a second tap); bread heals 30 health, and using an item that would change nothing is refused; shared combat scenarios `use_bread_heals` and `use_refused_at_full_health`. Esc closes the map or bag before it quits the game.
 - M5e: exploration and the world map (spec 09). The cells of 128 x 128 tiles around the player become explored and are kept in saves; press `M` (or the map button on Android) to see the explored world by biome with your position; conformance suite `worldmap`.
 - M5d: rivers and roads (spec 09). Winding rivers with fords every few tens of tiles, roads, and bridges where they meet; new tiles (shallows, road, bridge); no props or enemy spawners on them; the world generation vectors change for every client.
 - M5c: world time (spec 08). A 20 minute day with a night that darkens the screen, weather (clear, cloudy, rain) that is a function of the seed and the time, a clock on the HUD, and enemies that respawn 10 minutes after their death when the player comes back to their chunk. `world_ticks` and the time of each death are kept in saves; conformance suite `worldtime` and respawn steps in `chunk_window`.

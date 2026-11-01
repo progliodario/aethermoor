@@ -89,6 +89,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var lastSpeaker = ""
     private var lastText = ""
     private var showInventory = false
+    private var bagCursor = 0
+    private var bagRowRects: List<FloatArray> = emptyList()
     private var bagRect: FloatArray? = null
     private var showMap = false
     private var mapRect: FloatArray? = null
@@ -188,6 +190,21 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             showNotice(pack.text(language, "\$i18n:ui.loaded"))
         } else {
             Gdx.app.error(TAG, "Cannot load the save: ${result.exceptionOrNull()?.message}")
+        }
+    }
+
+    /** Uses the item under the bag cursor (spec 06) and tells what happened. */
+    private fun useSelectedItem(world: WorldSim) {
+        val pack = assets?.pack ?: return
+        val items = world.inventory.keys.toList()
+        if (items.isEmpty()) return
+        val itemId = items[bagCursor.coerceIn(0, items.size - 1)]
+        val name = pack.text(language, "\$i18n:${itemId.substringAfter(':').replace('/', '.')}.name", mapOf("count" to 1L))
+        if (world.useItem(itemId)) {
+            showNotice(pack.text(language, "\$i18n:ui.item_used", mapOf("item" to name)))
+            bagCursor = bagCursor.coerceIn(0, max(world.inventory.size - 1, 0))
+        } else {
+            showNotice(pack.text(language, "\$i18n:ui.item_unchanged"))
         }
     }
 
@@ -483,7 +500,28 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             return
         }
         if (showInventory) {
-            if (input.isKeyJustPressed(Input.Keys.I) || input.isKeyJustPressed(Input.Keys.ESCAPE) || input.justTouched()) showInventory = false
+            val count = world.inventory.size
+            if (input.isKeyJustPressed(Input.Keys.I) || input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+                showInventory = false
+            } else if (input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W)) {
+                if (count > 0) bagCursor = (bagCursor.coerceIn(0, count - 1) + count - 1) % count
+            } else if (input.isKeyJustPressed(Input.Keys.DOWN) || input.isKeyJustPressed(Input.Keys.S)) {
+                if (count > 0) bagCursor = (bagCursor.coerceIn(0, count - 1) + 1) % count
+            } else if (input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.ENTER) || input.isKeyJustPressed(Input.Keys.SPACE)) {
+                useSelectedItem(world)
+            } else if (input.justTouched()) {
+                // Tapping a row selects it, tapping the selected row uses it, tapping elsewhere closes the bag.
+                val x = input.x.toFloat()
+                val y = input.y.toFloat()
+                val row = bagRowRects.indexOfFirst { x >= it[0] && x <= it[0] + it[2] && y >= it[1] && y <= it[1] + it[3] }
+                if (row < 0) {
+                    showInventory = false
+                } else if (row == bagCursor) {
+                    useSelectedItem(world)
+                } else {
+                    bagCursor = row
+                }
+            }
             return
         }
         if (input.isKeyJustPressed(Input.Keys.M) && world.chunks != null) {
@@ -744,9 +782,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val items = world.inventory.entries.toList()
         val rowH = font.lineHeight * 1.5f
         val panelW = min(width - 40f, 420f * density)
-        val panelH = 56f * density + rowH * max(items.size, 1)
+        val panelH = 56f * density + rowH * max(items.size, 1) + rowH * 2f
         val panelX = (width - panelW) / 2f
         val panelY = (height - panelH) / 2f
+        val firstRowY = panelY + 14f * density + rowH + 6f * density
+        bagRowRects = if (showInventory) items.indices.map { floatArrayOf(panelX, firstRowY + it * rowH, panelW, rowH) } else emptyList()
 
         shapes.projectionMatrix = camera.combined
         Gdx.gl.glEnable(GL20.GL_BLEND)
@@ -771,12 +811,27 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             var ty = panelY + 14f * density + rowH + 6f * density
             font.color = Color(0.92f, 0.96f, 1f, 1f)
             if (items.isEmpty()) font.draw(batch, data.pack.text(language, "\$i18n:ui.empty_bag"), panelX + 16f * density, ty)
-            for ((itemId, quantity) in items) {
+            val cursor = bagCursor.coerceIn(0, max(items.size - 1, 0))
+            var selectedKey = ""
+            for ((index, entry) in items.withIndex()) {
+                val (itemId, quantity) = entry
                 // "base:item/slime_gel" -> text key "item.slime_gel.name"
                 val key = itemId.substringAfter(':').replace('/', '.')
                 val name = data.pack.text(language, "\$i18n:$key.name", mapOf("count" to quantity))
-                font.draw(batch, "$name  x$quantity", panelX + 16f * density, ty)
+                if (index == cursor) {
+                    selectedKey = key
+                    font.color = Color.WHITE
+                    font.draw(batch, ">  $name  x$quantity", panelX + 16f * density, ty)
+                    font.color = Color(0.92f, 0.96f, 1f, 1f)
+                } else {
+                    font.draw(batch, "    $name  x$quantity", panelX + 16f * density, ty)
+                }
                 ty += rowH
+            }
+            if (selectedKey.isNotEmpty()) {
+                font.color = Color(0.67f, 0.78f, 0.9f, 1f)
+                font.draw(batch, data.pack.text(language, "\$i18n:$selectedKey.desc"), panelX + 16f * density, ty + 6f * density)
+                font.draw(batch, data.pack.text(language, "\$i18n:ui.bag_use_hint"), panelX + 16f * density, ty + 6f * density + rowH)
             }
         }
         if (messageFrames > 0 && message.isNotEmpty()) {

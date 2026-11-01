@@ -229,6 +229,19 @@ class WorldSim(
         )
     }
 
+    /** Uses one item of the inventory (spec 06). Returns false, changing nothing, when it is refused. */
+    fun useItem(itemId: String): Boolean {
+        if (story.dialogueActive) return false
+        val item = combat.items[itemId] ?: return false
+        if ((inventory[itemId] ?: 0L) < 1L) return false
+        val heal = item.effects.filter { it.effect == "heal" }.sumOf { it.amount }
+        if (heal <= 0L || player.hp >= derived.maxHp) return false
+        player.hp = minOf(derived.maxHp, player.hp + heal)
+        val left = (inventory[itemId] ?: 0L) - 1L
+        if (left == 0L) inventory.remove(itemId) else inventory[itemId] = left
+        return true
+    }
+
     /** Events produced since the last call (damage numbers). */
     fun takeEvents(): List<DamageEvent> {
         val copy = ArrayList(events)
