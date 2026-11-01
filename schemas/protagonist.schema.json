@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aethermoor.invalid/schemas/protagonist.schema.json",
+  "title": "Playable protagonist",
+  "type": "object",
+  "required": ["id", "name", "tone", "base_stats", "growth_pm", "free_points_per_level", "cheat",
+               "starting_skills", "initially_available"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": { "$ref": "#/$defs/id" },
+    "name": { "$ref": "#/$defs/i18n_ref" },
+    "tagline": { "$ref": "#/$defs/i18n_ref" },
+    "tone": { "enum": ["comedy_light", "slapstick", "drama", "cozy", "adventure", "noir", "dark", "dark_comedy"] },
+    "base_stats": { "$ref": "#/$defs/primary_stats" },
+    "growth_pm": { "$ref": "#/$defs/primary_stats" },
+    "free_points_per_level": { "type": "integer", "minimum": 0, "maximum": 10 },
+    "cheat": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "starting_items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["item", "qty"],
+        "additionalProperties": false,
+        "properties": { "item": { "$ref": "#/$defs/id" }, "qty": { "type": "integer", "minimum": 1 } }
+      }
+    },
+    "starting_skills": { "type": "array", "items": { "$ref": "#/$defs/id" } },
+    "initially_available": { "type": "boolean" },
+    "requires_features": { "type": "array", "items": { "type": "string" } }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$" },
+    "i18n_ref": { "type": "string", "pattern": "^\\$i18n:[a-z0-9_]+(\\.[a-z0-9_]+)*$" },
+    "primary_stats": {
+      "type": "object",
+      "required": ["str", "vit", "dex", "agi", "int", "wis", "luk"],
+      "additionalProperties": false,
+      "properties": {
+        "str": { "type": "integer", "minimum": 0 }, "vit": { "type": "integer", "minimum": 0 },
+        "dex": { "type": "integer", "minimum": 0 }, "agi": { "type": "integer", "minimum": 0 },
+        "int": { "type": "integer", "minimum": 0 }, "wis": { "type": "integer", "minimum": 0 },
+        "luk": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

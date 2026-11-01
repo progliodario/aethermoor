@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../../schemas/i18n.schema.json",
+  "protagonist.ren.name": "Ren Takahashi",
+  "protagonist.ren.tagline": "Impiegato di 27 anni, investito da un camion. Succede.",
+  "skill.common.slash.name": "Fendente",
+  "skill.common.slash.desc": "Un colpo di spada ad arco davanti a te.",
+  "skill.ren.analyze.name": "Analizza",
+  "skill.ren.analyze.desc": "Osserva un bersaglio e ne rivela statistiche e debolezze.",
+  "item.practice_sword.name": "Spada da allenamento",
+  "item.practice_sword.desc": "Pesa poco e taglia ancora meno.",
+  "item.bread.name": "{count, plural, one {Pane} other {Pani}}",
+  "item.bread.desc": "Ripristina un po' di salute.",
+  "item.slime_gel.name": "Gelatina di slime",
+  "item.slime_gel.desc": "Appiccicosa, ma utile ai mestieri.",
+  "enemy.slime_green.name": "Slime verde",
+  "quest.slime_extermination.name": "Disinfestazione di slime",
+  "quest.slime_extermination.kill": "Sconfiggi 5 slime verdi nelle pianure.",
+  "quest.slime_extermination.report": "Riferisci a Mira, alla gilda.",
+  "dlg.ren.prologue.n1": "Benvenuto, Ospite. Il tuo vecchio mondo ti ha lasciato andare.",
+  "dlg.ren.prologue.c1": "Va bene, ci sto.",
+  "dlg.ren.prologue.c2": "Aspetta... è colpa del camion?",
+  "dlg.ren.prologue.n4": "Diciamo che il camion ha avuto un ruolo."
+}

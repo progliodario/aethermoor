@@ -24,16 +24,28 @@ function(aether_target_options target)
   endif()
 endfunction()
 
+find_package(nlohmann_json CONFIG REQUIRED)
+
 # Headless core: must not depend on SDL, graphics, audio, input or UI.
-add_library(aether_core STATIC src/core/version.cpp)
+add_library(aether_core STATIC
+  src/core/version.cpp
+  src/core/numerics.cpp
+  src/core/rules.cpp
+  src/core/id.cpp
+  src/core/message_format.cpp)
 target_include_directories(aether_core PUBLIC src)
 target_compile_definitions(aether_core PUBLIC
   AETHER_GAME_NAME="${AETHER_NAME}"
   AETHER_GAME_VERSION="${AETHER_VERSION}")
 aether_target_options(aether_core)
 
+# Content packs: JSON loading. Still headless.
+add_library(aether_data STATIC src/data/pack.cpp)
+target_link_libraries(aether_data PUBLIC aether_core PRIVATE nlohmann_json::nlohmann_json)
+aether_target_options(aether_data)
+
 add_executable(aethermoor src/app/main.cpp)
-target_link_libraries(aethermoor PRIVATE aether_core SDL3::SDL3)
+target_link_libraries(aethermoor PRIVATE aether_core aether_data SDL3::SDL3)
 aether_target_options(aethermoor)
 
 # Ship the shared data next to the executable.
@@ -44,8 +56,15 @@ add_custom_command(TARGET aethermoor POST_BUILD
 enable_testing()
 
 find_package(Catch2 3 CONFIG REQUIRED)
-add_executable(aether_tests tests/version_test.cpp)
-target_link_libraries(aether_tests PRIVATE aether_core Catch2::Catch2WithMain)
+get_filename_component(AETHER_REPO_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/.." ABSOLUTE)
+
+add_executable(aether_tests
+  tests/version_test.cpp
+  tests/conformance_test.cpp
+  tests/pack_test.cpp)
+target_link_libraries(aether_tests PRIVATE aether_core aether_data nlohmann_json::nlohmann_json
+                                           Catch2::Catch2WithMain)
+target_compile_definitions(aether_tests PRIVATE AETHER_REPO_ROOT="${AETHER_REPO_ROOT}")
 add_test(NAME unit COMMAND aether_tests)
 
 # Smoke test: opens a window with the dummy video driver and renders a few frames.

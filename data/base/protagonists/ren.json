@@ -1,0 +1,17 @@
+{
+  "$schema": "../../../schemas/protagonist.schema.json",
+  "id": "base:protagonist/ren",
+  "name": "$i18n:protagonist.ren.name",
+  "tagline": "$i18n:protagonist.ren.tagline",
+  "tone": "comedy_light",
+  "base_stats": { "str": 6, "vit": 7, "dex": 8, "agi": 8, "int": 7, "wis": 7, "luk": 9 },
+  "growth_pm": { "str": 1000, "vit": 1000, "dex": 1200, "agi": 1100, "int": 1000, "wis": 1000, "luk": 1300 },
+  "free_points_per_level": 2,
+  "cheat": "system_eye",
+  "starting_items": [
+    { "item": "base:item/practice_sword", "qty": 1 },
+    { "item": "base:item/bread", "qty": 3 }
+  ],
+  "starting_skills": ["base:skill/common/slash", "base:skill/ren/analyze"],
+  "initially_available": true
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/bread",
+  "name": "$i18n:item.bread.name",
+  "description": "$i18n:item.bread.desc",
+  "kind": "food",
+  "rarity": "common",
+  "price": 5,
+  "stack_max": 99,
+  "use": { "effects": [{ "effect": "heal", "amount": 30 }] }
+}

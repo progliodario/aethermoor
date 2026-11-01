@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/slime_green",
+  "name": "$i18n:enemy.slime_green.name",
+  "level": 1,
+  "stats": { "hp": 28, "atk": 6, "def": 2, "mdef": 1, "speed_x100": 250 },
+  "element": "none",
+  "weaknesses_pm": { "fire": 1500 },
+  "xp": 6,
+  "drops": [
+    { "item": "base:item/slime_gel", "qty_min": 1, "qty_max": 2, "weight_pm": 700 }
+  ]
+}

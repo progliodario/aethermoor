@@ -1,0 +1,1261 @@
+{
+  "suite": "stats",
+  "spec_version": 1,
+  "generated_by": "tools/gen_conformance.py",
+  "cases": [
+    {
+      "name": "derived_0",
+      "input": {
+        "op": "derived_stats",
+        "level": 1,
+        "primary": {
+          "str": 0,
+          "vit": 0,
+          "dex": 0,
+          "agi": 0,
+          "int": 0,
+          "wis": 0,
+          "luk": 0
+        },
+        "equipment": {
+          "hp": 0,
+          "mp": 0,
+          "weapon_atk": 0,
+          "weapon_matk": 0,
+          "armor_def": 0,
+          "armor_mdef": 0
+        }
+      },
+      "expect": {
+        "max_hp": 58,
+        "max_mp": 23,
+        "atk": 0,
+        "matk": 0,
+        "def": 0,
+        "mdef": 0,
+        "move_speed_x100": 400,
+        "attack_speed_pm": 1000,
+        "crit_chance_pm": 50,
+        "crit_mult_pm": 1500,
+        "status_resist_pm": 0,
+        "mp_regen_x100": 50
+      }
+    },
+    {
+      "name": "derived_1",
+      "input": {
+        "op": "derived_stats",
+        "level": 99,
+        "primary": {
+          "str": 999,
+          "vit": 999,
+          "dex": 999,
+          "agi": 999,
+          "int": 999,
+          "wis": 999,
+          "luk": 999
+        },
+        "equipment": {
+          "hp": 500,
+          "mp": 500,
+          "weapon_atk": 300,
+          "weapon_matk": 300,
+          "armor_def": 200,
+          "armor_mdef": 200
+        }
+      },
+      "expect": {
+        "max_hp": 13330,
+        "max_mp": 11806,
+        "atk": 2797,
+        "matk": 2797,
+        "def": 1398,
+        "mdef": 1398,
+        "move_speed_x100": 560,
+        "attack_speed_pm": 2000,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 2500,
+        "status_resist_pm": 750,
+        "mp_regen_x100": 5045
+      }
+    },
+    {
+      "name": "derived_2",
+      "input": {
+        "op": "derived_stats",
+        "level": 10,
+        "primary": {
+          "str": 6,
+          "vit": 7,
+          "dex": 8,
+          "agi": 8,
+          "int": 7,
+          "wis": 7,
+          "luk": 9
+        },
+        "equipment": {
+          "hp": 0,
+          "mp": 0,
+          "weapon_atk": 5,
+          "weapon_matk": 0,
+          "armor_def": 2,
+          "armor_mdef": 1
+        }
+      },
+      "expect": {
+        "max_hp": 214,
+        "max_mp": 127,
+        "atk": 21,
+        "matk": 17,
+        "def": 10,
+        "mdef": 9,
+        "move_speed_x100": 406,
+        "attack_speed_pm": 1048,
+        "crit_chance_pm": 265,
+        "crit_mult_pm": 1527,
+        "status_resist_pm": 30,
+        "mp_regen_x100": 85
+      }
+    },
+    {
+      "name": "derived_3",
+      "input": {
+        "op": "derived_stats",
+        "level": 95,
+        "primary": {
+          "str": 53,
+          "vit": 82,
+          "dex": 94,
+          "agi": 127,
+          "int": 5,
+          "wis": 58,
+          "luk": 99
+        },
+        "equipment": {
+          "hp": 0,
+          "mp": 69,
+          "weapon_atk": 75,
+          "weapon_matk": 79,
+          "armor_def": 9,
+          "armor_mdef": 58
+        }
+      },
+      "expect": {
+        "max_hp": 1794,
+        "max_mp": 853,
+        "atk": 228,
+        "matk": 118,
+        "def": 107,
+        "mdef": 127,
+        "move_speed_x100": 501,
+        "attack_speed_pm": 1696,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1797,
+        "status_resist_pm": 273,
+        "mp_regen_x100": 340
+      }
+    },
+    {
+      "name": "derived_4",
+      "input": {
+        "op": "derived_stats",
+        "level": 49,
+        "primary": {
+          "str": 7,
+          "vit": 114,
+          "dex": 41,
+          "agi": 140,
+          "int": 120,
+          "wis": 61,
+          "luk": 29
+        },
+        "equipment": {
+          "hp": 36,
+          "mp": 37,
+          "weapon_atk": 27,
+          "weapon_matk": 14,
+          "armor_def": 40,
+          "armor_mdef": 70
+        }
+      },
+      "expect": {
+        "max_hp": 1846,
+        "max_mp": 1052,
+        "atk": 61,
+        "matk": 284,
+        "def": 176,
+        "mdef": 143,
+        "move_speed_x100": 512,
+        "attack_speed_pm": 1642,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1587,
+        "status_resist_pm": 212,
+        "mp_regen_x100": 355
+      }
+    },
+    {
+      "name": "derived_5",
+      "input": {
+        "op": "derived_stats",
+        "level": 65,
+        "primary": {
+          "str": 127,
+          "vit": 134,
+          "dex": 126,
+          "agi": 98,
+          "int": 136,
+          "wis": 115,
+          "luk": 80
+        },
+        "equipment": {
+          "hp": 23,
+          "mp": 53,
+          "weapon_atk": 27,
+          "weapon_matk": 19,
+          "armor_def": 77,
+          "armor_mdef": 28
+        }
+      },
+      "expect": {
+        "max_hp": 2201,
+        "max_mp": 1596,
+        "atk": 344,
+        "matk": 348,
+        "def": 237,
+        "mdef": 166,
+        "move_speed_x100": 478,
+        "attack_speed_pm": 1644,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1740,
+        "status_resist_pm": 425,
+        "mp_regen_x100": 625
+      }
+    },
+    {
+      "name": "derived_6",
+      "input": {
+        "op": "derived_stats",
+        "level": 87,
+        "primary": {
+          "str": 9,
+          "vit": 136,
+          "dex": 80,
+          "agi": 126,
+          "int": 132,
+          "wis": 3,
+          "luk": 130
+        },
+        "equipment": {
+          "hp": 44,
+          "mp": 63,
+          "weapon_atk": 48,
+          "weapon_matk": 55,
+          "armor_def": 24,
+          "armor_mdef": 31
+        }
+      },
+      "expect": {
+        "max_hp": 2422,
+        "max_mp": 764,
+        "atk": 106,
+        "matk": 320,
+        "def": 187,
+        "mdef": 34,
+        "move_speed_x100": 500,
+        "attack_speed_pm": 1664,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1890,
+        "status_resist_pm": 139,
+        "mp_regen_x100": 65
+      }
+    },
+    {
+      "name": "derived_7",
+      "input": {
+        "op": "derived_stats",
+        "level": 85,
+        "primary": {
+          "str": 133,
+          "vit": 3,
+          "dex": 134,
+          "agi": 117,
+          "int": 136,
+          "wis": 56,
+          "luk": 141
+        },
+        "equipment": {
+          "hp": 39,
+          "mp": 55,
+          "weapon_atk": 5,
+          "weapon_matk": 13,
+          "armor_def": 64,
+          "armor_mdef": 13
+        }
+      },
+      "expect": {
+        "max_hp": 805,
+        "max_mp": 1186,
+        "atk": 338,
+        "matk": 313,
+        "def": 67,
+        "mdef": 80,
+        "move_speed_x100": 493,
+        "attack_speed_pm": 1736,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1923,
+        "status_resist_pm": 309,
+        "mp_regen_x100": 330
+      }
+    },
+    {
+      "name": "derived_8",
+      "input": {
+        "op": "derived_stats",
+        "level": 44,
+        "primary": {
+          "str": 111,
+          "vit": 35,
+          "dex": 137,
+          "agi": 1,
+          "int": 66,
+          "wis": 95,
+          "luk": 16
+        },
+        "equipment": {
+          "hp": 21,
+          "mp": 10,
+          "weapon_atk": 47,
+          "weapon_matk": 39,
+          "armor_def": 80,
+          "armor_mdef": 52
+        }
+      },
+      "expect": {
+        "max_hp": 843,
+        "max_mp": 1120,
+        "atk": 337,
+        "matk": 218,
+        "def": 122,
+        "mdef": 166,
+        "move_speed_x100": 400,
+        "attack_speed_pm": 1278,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1548,
+        "status_resist_pm": 301,
+        "mp_regen_x100": 525
+      }
+    },
+    {
+      "name": "derived_9",
+      "input": {
+        "op": "derived_stats",
+        "level": 31,
+        "primary": {
+          "str": 114,
+          "vit": 57,
+          "dex": 42,
+          "agi": 26,
+          "int": 74,
+          "wis": 56,
+          "luk": 97
+        },
+        "equipment": {
+          "hp": 11,
+          "mp": 76,
+          "weapon_atk": 75,
+          "weapon_matk": 67,
+          "armor_def": 15,
+          "armor_mdef": 78
+        }
+      },
+      "expect": {
+        "max_hp": 993,
+        "max_mp": 859,
+        "atk": 324,
+        "matk": 243,
+        "def": 83,
+        "mdef": 145,
+        "move_speed_x100": 420,
+        "attack_speed_pm": 1188,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1791,
+        "status_resist_pm": 265,
+        "mp_regen_x100": 330
+      }
+    },
+    {
+      "name": "derived_10",
+      "input": {
+        "op": "derived_stats",
+        "level": 70,
+        "primary": {
+          "str": 98,
+          "vit": 24,
+          "dex": 144,
+          "agi": 142,
+          "int": 148,
+          "wis": 64,
+          "luk": 27
+        },
+        "equipment": {
+          "hp": 52,
+          "mp": 25,
+          "weapon_atk": 76,
+          "weapon_matk": 39,
+          "armor_def": 77,
+          "armor_mdef": 30
+        }
+      },
+      "expect": {
+        "max_hp": 950,
+        "max_mp": 1211,
+        "atk": 344,
+        "matk": 367,
+        "def": 105,
+        "mdef": 106,
+        "move_speed_x100": 513,
+        "attack_speed_pm": 1856,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1581,
+        "status_resist_pm": 219,
+        "mp_regen_x100": 370
+      }
+    },
+    {
+      "name": "derived_11",
+      "input": {
+        "op": "derived_stats",
+        "level": 39,
+        "primary": {
+          "str": 138,
+          "vit": 52,
+          "dex": 80,
+          "agi": 119,
+          "int": 142,
+          "wis": 133,
+          "luk": 8
+        },
+        "equipment": {
+          "hp": 11,
+          "mp": 21,
+          "weapon_atk": 0,
+          "weapon_matk": 78,
+          "armor_def": 38,
+          "armor_mdef": 2
+        }
+      },
+      "expect": {
+        "max_hp": 997,
+        "max_mp": 1648,
+        "atk": 316,
+        "matk": 428,
+        "def": 100,
+        "mdef": 161,
+        "move_speed_x100": 495,
+        "attack_speed_pm": 1636,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1524,
+        "status_resist_pm": 407,
+        "mp_regen_x100": 715
+      }
+    },
+    {
+      "name": "derived_12",
+      "input": {
+        "op": "derived_stats",
+        "level": 63,
+        "primary": {
+          "str": 44,
+          "vit": 30,
+          "dex": 101,
+          "agi": 74,
+          "int": 78,
+          "wis": 42,
+          "luk": 2
+        },
+        "equipment": {
+          "hp": 17,
+          "mp": 33,
+          "weapon_atk": 0,
+          "weapon_matk": 7,
+          "armor_def": 34,
+          "armor_mdef": 70
+        }
+      },
+      "expect": {
+        "max_hp": 931,
+        "max_mp": 812,
+        "atk": 138,
+        "matk": 184,
+        "def": 70,
+        "mdef": 120,
+        "move_speed_x100": 459,
+        "attack_speed_pm": 1498,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1506,
+        "status_resist_pm": 128,
+        "mp_regen_x100": 260
+      }
+    },
+    {
+      "name": "derived_13",
+      "input": {
+        "op": "derived_stats",
+        "level": 58,
+        "primary": {
+          "str": 119,
+          "vit": 67,
+          "dex": 120,
+          "agi": 37,
+          "int": 24,
+          "wis": 114,
+          "luk": 101
+        },
+        "equipment": {
+          "hp": 35,
+          "mp": 22,
+          "weapon_atk": 37,
+          "weapon_matk": 53,
+          "armor_def": 8,
+          "armor_mdef": 3
+        }
+      },
+      "expect": {
+        "max_hp": 1353,
+        "max_mp": 1200,
+        "atk": 335,
+        "matk": 158,
+        "def": 88,
+        "mdef": 139,
+        "move_speed_x100": 429,
+        "attack_speed_pm": 1388,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1803,
+        "status_resist_pm": 443,
+        "mp_regen_x100": 620
+      }
+    },
+    {
+      "name": "derived_14",
+      "input": {
+        "op": "derived_stats",
+        "level": 38,
+        "primary": {
+          "str": 51,
+          "vit": 91,
+          "dex": 49,
+          "agi": 67,
+          "int": 117,
+          "wis": 89,
+          "luk": 50
+        },
+        "equipment": {
+          "hp": 72,
+          "mp": 29,
+          "weapon_atk": 1,
+          "weapon_matk": 0,
+          "armor_def": 40,
+          "armor_mdef": 40
+        }
+      },
+      "expect": {
+        "max_hp": 1518,
+        "max_mp": 1226,
+        "atk": 127,
+        "matk": 278,
+        "def": 149,
+        "mdef": 146,
+        "move_speed_x100": 453,
+        "attack_speed_pm": 1366,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1650,
+        "status_resist_pm": 317,
+        "mp_regen_x100": 495
+      }
+    },
+    {
+      "name": "derived_15",
+      "input": {
+        "op": "derived_stats",
+        "level": 42,
+        "primary": {
+          "str": 5,
+          "vit": 48,
+          "dex": 50,
+          "agi": 24,
+          "int": 49,
+          "wis": 86,
+          "luk": 65
+        },
+        "equipment": {
+          "hp": 57,
+          "mp": 19,
+          "weapon_atk": 76,
+          "weapon_matk": 26,
+          "armor_def": 9,
+          "armor_mdef": 61
+        }
+      },
+      "expect": {
+        "max_hp": 1019,
+        "max_mp": 1000,
+        "atk": 111,
+        "matk": 167,
+        "def": 66,
+        "mdef": 164,
+        "move_speed_x100": 419,
+        "attack_speed_pm": 1196,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1695,
+        "status_resist_pm": 323,
+        "mp_regen_x100": 480
+      }
+    },
+    {
+      "name": "derived_16",
+      "input": {
+        "op": "derived_stats",
+        "level": 22,
+        "primary": {
+          "str": 91,
+          "vit": 112,
+          "dex": 105,
+          "agi": 23,
+          "int": 132,
+          "wis": 86,
+          "luk": 61
+        },
+        "equipment": {
+          "hp": 51,
+          "mp": 24,
+          "weapon_atk": 70,
+          "weapon_matk": 72,
+          "armor_def": 8,
+          "armor_mdef": 25
+        }
+      },
+      "expect": {
+        "max_hp": 1621,
+        "max_mp": 1194,
+        "atk": 304,
+        "matk": 379,
+        "def": 142,
+        "mdef": 128,
+        "move_speed_x100": 418,
+        "attack_speed_pm": 1302,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1683,
+        "status_resist_pm": 319,
+        "mp_regen_x100": 480
+      }
+    },
+    {
+      "name": "derived_17",
+      "input": {
+        "op": "derived_stats",
+        "level": 71,
+        "primary": {
+          "str": 39,
+          "vit": 149,
+          "dex": 63,
+          "agi": 15,
+          "int": 127,
+          "wis": 1,
+          "luk": 38
+        },
+        "equipment": {
+          "hp": 3,
+          "mp": 23,
+          "weapon_atk": 32,
+          "weapon_matk": 40,
+          "armor_def": 37,
+          "armor_mdef": 49
+        }
+      },
+      "expect": {
+        "max_hp": 2409,
+        "max_mp": 645,
+        "atk": 141,
+        "matk": 294,
+        "def": 215,
+        "mdef": 50,
+        "move_speed_x100": 412,
+        "attack_speed_pm": 1186,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1614,
+        "status_resist_pm": 41,
+        "mp_regen_x100": 55
+      }
+    },
+    {
+      "name": "derived_18",
+      "input": {
+        "op": "derived_stats",
+        "level": 2,
+        "primary": {
+          "str": 88,
+          "vit": 44,
+          "dex": 6,
+          "agi": 129,
+          "int": 45,
+          "wis": 4,
+          "luk": 38
+        },
+        "equipment": {
+          "hp": 47,
+          "mp": 73,
+          "weapon_atk": 33,
+          "weapon_matk": 57,
+          "armor_def": 7,
+          "armor_mdef": 7
+        }
+      },
+      "expect": {
+        "max_hp": 641,
+        "max_mp": 266,
+        "atk": 212,
+        "matk": 149,
+        "def": 59,
+        "mdef": 11,
+        "move_speed_x100": 503,
+        "attack_speed_pm": 1528,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1614,
+        "status_resist_pm": 50,
+        "mp_regen_x100": 70
+      }
+    },
+    {
+      "name": "derived_19",
+      "input": {
+        "op": "derived_stats",
+        "level": 22,
+        "primary": {
+          "str": 63,
+          "vit": 45,
+          "dex": 119,
+          "agi": 12,
+          "int": 87,
+          "wis": 101,
+          "luk": 0
+        },
+        "equipment": {
+          "hp": 9,
+          "mp": 28,
+          "weapon_atk": 61,
+          "weapon_matk": 31,
+          "armor_def": 37,
+          "armor_mdef": 59
+        }
+      },
+      "expect": {
+        "max_hp": 775,
+        "max_mp": 1183,
+        "atk": 246,
+        "matk": 255,
+        "def": 91,
+        "mdef": 180,
+        "move_speed_x100": 409,
+        "attack_speed_pm": 1286,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1500,
+        "status_resist_pm": 303,
+        "mp_regen_x100": 555
+      }
+    },
+    {
+      "name": "derived_20",
+      "input": {
+        "op": "derived_stats",
+        "level": 6,
+        "primary": {
+          "str": 123,
+          "vit": 79,
+          "dex": 95,
+          "agi": 63,
+          "int": 94,
+          "wis": 112,
+          "luk": 101
+        },
+        "equipment": {
+          "hp": 60,
+          "mp": 4,
+          "weapon_atk": 33,
+          "weapon_matk": 26,
+          "armor_def": 30,
+          "armor_mdef": 0
+        }
+      },
+      "expect": {
+        "max_hp": 1106,
+        "max_mp": 1220,
+        "atk": 326,
+        "matk": 270,
+        "def": 124,
+        "mdef": 134,
+        "move_speed_x100": 450,
+        "attack_speed_pm": 1442,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1803,
+        "status_resist_pm": 437,
+        "mp_regen_x100": 610
+      }
+    },
+    {
+      "name": "derived_21",
+      "input": {
+        "op": "derived_stats",
+        "level": 81,
+        "primary": {
+          "str": 13,
+          "vit": 51,
+          "dex": 14,
+          "agi": 26,
+          "int": 43,
+          "wis": 28,
+          "luk": 105
+        },
+        "equipment": {
+          "hp": 55,
+          "mp": 7,
+          "weapon_atk": 69,
+          "weapon_matk": 31,
+          "armor_def": 0,
+          "armor_mdef": 61
+        }
+      },
+      "expect": {
+        "max_hp": 1365,
+        "max_mp": 623,
+        "atk": 102,
+        "matk": 131,
+        "def": 61,
+        "mdef": 94,
+        "move_speed_x100": 420,
+        "attack_speed_pm": 1132,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1815,
+        "status_resist_pm": 189,
+        "mp_regen_x100": 190
+      }
+    },
+    {
+      "name": "derived_22",
+      "input": {
+        "op": "derived_stats",
+        "level": 35,
+        "primary": {
+          "str": 24,
+          "vit": 39,
+          "dex": 8,
+          "agi": 49,
+          "int": 89,
+          "wis": 117,
+          "luk": 32
+        },
+        "equipment": {
+          "hp": 35,
+          "mp": 59,
+          "weapon_atk": 65,
+          "weapon_matk": 30,
+          "armor_def": 74,
+          "armor_mdef": 33
+        }
+      },
+      "expect": {
+        "max_hp": 833,
+        "max_mp": 1387,
+        "atk": 117,
+        "matk": 266,
+        "def": 120,
+        "mdef": 173,
+        "move_speed_x100": 439,
+        "attack_speed_pm": 1212,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1596,
+        "status_resist_pm": 383,
+        "mp_regen_x100": 635
+      }
+    },
+    {
+      "name": "derived_23",
+      "input": {
+        "op": "derived_stats",
+        "level": 97,
+        "primary": {
+          "str": 51,
+          "vit": 56,
+          "dex": 25,
+          "agi": 22,
+          "int": 18,
+          "wis": 123,
+          "luk": 108
+        },
+        "equipment": {
+          "hp": 31,
+          "mp": 33,
+          "weapon_atk": 68,
+          "weapon_matk": 46,
+          "armor_def": 79,
+          "armor_mdef": 36
+        }
+      },
+      "expect": {
+        "max_hp": 1529,
+        "max_mp": 1382,
+        "atk": 182,
+        "matk": 143,
+        "def": 146,
+        "mdef": 183,
+        "move_speed_x100": 417,
+        "attack_speed_pm": 1138,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1824,
+        "status_resist_pm": 477,
+        "mp_regen_x100": 665
+      }
+    },
+    {
+      "name": "derived_24",
+      "input": {
+        "op": "derived_stats",
+        "level": 51,
+        "primary": {
+          "str": 41,
+          "vit": 129,
+          "dex": 35,
+          "agi": 139,
+          "int": 32,
+          "wis": 35,
+          "luk": 69
+        },
+        "equipment": {
+          "hp": 80,
+          "mp": 68,
+          "weapon_atk": 77,
+          "weapon_matk": 20,
+          "armor_def": 72,
+          "armor_mdef": 2
+        }
+      },
+      "expect": {
+        "max_hp": 2086,
+        "max_mp": 617,
+        "atk": 176,
+        "matk": 101,
+        "def": 226,
+        "mdef": 44,
+        "move_speed_x100": 511,
+        "attack_speed_pm": 1626,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1707,
+        "status_resist_pm": 174,
+        "mp_regen_x100": 225
+      }
+    },
+    {
+      "name": "derived_25",
+      "input": {
+        "op": "derived_stats",
+        "level": 78,
+        "primary": {
+          "str": 97,
+          "vit": 31,
+          "dex": 69,
+          "agi": 147,
+          "int": 102,
+          "wis": 64,
+          "luk": 67
+        },
+        "equipment": {
+          "hp": 4,
+          "mp": 22,
+          "weapon_atk": 4,
+          "weapon_matk": 40,
+          "armor_def": 27,
+          "armor_mdef": 40
+        }
+      },
+      "expect": {
+        "max_hp": 1050,
+        "max_mp": 1094,
+        "atk": 232,
+        "matk": 276,
+        "def": 64,
+        "mdef": 116,
+        "move_speed_x100": 517,
+        "attack_speed_pm": 1726,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1701,
+        "status_resist_pm": 259,
+        "mp_regen_x100": 370
+      }
+    },
+    {
+      "name": "derived_26",
+      "input": {
+        "op": "derived_stats",
+        "level": 1,
+        "primary": {
+          "str": 116,
+          "vit": 5,
+          "dex": 17,
+          "agi": 33,
+          "int": 122,
+          "wis": 131,
+          "luk": 19
+        },
+        "equipment": {
+          "hp": 54,
+          "mp": 11,
+          "weapon_atk": 34,
+          "weapon_matk": 73,
+          "armor_def": 79,
+          "armor_mdef": 57
+        }
+      },
+      "expect": {
+        "max_hp": 172,
+        "max_mp": 1448,
+        "atk": 274,
+        "matk": 382,
+        "def": 85,
+        "mdef": 214,
+        "move_speed_x100": 426,
+        "attack_speed_pm": 1166,
+        "crit_chance_pm": 505,
+        "crit_mult_pm": 1557,
+        "status_resist_pm": 412,
+        "mp_regen_x100": 705
+      }
+    },
+    {
+      "name": "derived_27",
+      "input": {
+        "op": "derived_stats",
+        "level": 49,
+        "primary": {
+          "str": 55,
+          "vit": 25,
+          "dex": 2,
+          "agi": 113,
+          "int": 36,
+          "wis": 49,
+          "luk": 91
+        },
+        "equipment": {
+          "hp": 41,
+          "mp": 73,
+          "weapon_atk": 74,
+          "weapon_matk": 47,
+          "armor_def": 73,
+          "armor_mdef": 27
+        }
+      },
+      "expect": {
+        "max_hp": 783,
+        "max_mp": 740,
+        "atk": 185,
+        "matk": 143,
+        "def": 103,
+        "mdef": 85,
+        "move_speed_x100": 490,
+        "attack_speed_pm": 1456,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1773,
+        "status_resist_pm": 238,
+        "mp_regen_x100": 295
+      }
+    },
+    {
+      "name": "derived_28",
+      "input": {
+        "op": "derived_stats",
+        "level": 36,
+        "primary": {
+          "str": 25,
+          "vit": 147,
+          "dex": 33,
+          "agi": 75,
+          "int": 53,
+          "wis": 11,
+          "luk": 112
+        },
+        "equipment": {
+          "hp": 28,
+          "mp": 8,
+          "weapon_atk": 32,
+          "weapon_matk": 34,
+          "armor_def": 75,
+          "armor_mdef": 47
+        }
+      },
+      "expect": {
+        "max_hp": 2130,
+        "max_mp": 383,
+        "atk": 98,
+        "matk": 145,
+        "def": 251,
+        "mdef": 60,
+        "move_speed_x100": 460,
+        "attack_speed_pm": 1366,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1836,
+        "status_resist_pm": 145,
+        "mp_regen_x100": 105
+      }
+    },
+    {
+      "name": "derived_29",
+      "input": {
+        "op": "derived_stats",
+        "level": 47,
+        "primary": {
+          "str": 24,
+          "vit": 32,
+          "dex": 128,
+          "agi": 66,
+          "int": 68,
+          "wis": 50,
+          "luk": 4
+        },
+        "equipment": {
+          "hp": 49,
+          "mp": 43,
+          "weapon_atk": 46,
+          "weapon_matk": 34,
+          "armor_def": 46,
+          "armor_mdef": 31
+        }
+      },
+      "expect": {
+        "max_hp": 859,
+        "max_mp": 808,
+        "atk": 158,
+        "matk": 195,
+        "def": 84,
+        "mdef": 91,
+        "move_speed_x100": 452,
+        "attack_speed_pm": 1520,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1512,
+        "status_resist_pm": 154,
+        "mp_regen_x100": 300
+      }
+    },
+    {
+      "name": "derived_30",
+      "input": {
+        "op": "derived_stats",
+        "level": 76,
+        "primary": {
+          "str": 78,
+          "vit": 16,
+          "dex": 28,
+          "agi": 118,
+          "int": 18,
+          "wis": 25,
+          "luk": 145
+        },
+        "equipment": {
+          "hp": 49,
+          "mp": 25,
+          "weapon_atk": 75,
+          "weapon_matk": 14,
+          "armor_def": 10,
+          "armor_mdef": 9
+        }
+      },
+      "expect": {
+        "max_hp": 899,
+        "max_mp": 527,
+        "atk": 245,
+        "matk": 62,
+        "def": 29,
+        "mdef": 39,
+        "move_speed_x100": 494,
+        "attack_speed_pm": 1528,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1935,
+        "status_resist_pm": 220,
+        "mp_regen_x100": 175
+      }
+    },
+    {
+      "name": "derived_31",
+      "input": {
+        "op": "derived_stats",
+        "level": 2,
+        "primary": {
+          "str": 74,
+          "vit": 6,
+          "dex": 82,
+          "agi": 14,
+          "int": 80,
+          "wis": 122,
+          "luk": 38
+        },
+        "equipment": {
+          "hp": 24,
+          "mp": 29,
+          "weapon_atk": 7,
+          "weapon_matk": 54,
+          "armor_def": 46,
+          "armor_mdef": 30
+        }
+      },
+      "expect": {
+        "max_hp": 162,
+        "max_mp": 1271,
+        "atk": 196,
+        "matk": 275,
+        "def": 53,
+        "mdef": 176,
+        "move_speed_x100": 411,
+        "attack_speed_pm": 1220,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1614,
+        "status_resist_pm": 404,
+        "mp_regen_x100": 660
+      }
+    },
+    {
+      "name": "derived_32",
+      "input": {
+        "op": "derived_stats",
+        "level": 72,
+        "primary": {
+          "str": 133,
+          "vit": 53,
+          "dex": 105,
+          "agi": 106,
+          "int": 103,
+          "wis": 106,
+          "luk": 33
+        },
+        "equipment": {
+          "hp": 51,
+          "mp": 24,
+          "weapon_atk": 80,
+          "weapon_matk": 74,
+          "armor_def": 59,
+          "armor_mdef": 57
+        }
+      },
+      "expect": {
+        "max_hp": 1313,
+        "max_mp": 1417,
+        "atk": 398,
+        "matk": 333,
+        "def": 122,
+        "mdef": 184,
+        "move_speed_x100": 484,
+        "attack_speed_pm": 1634,
+        "crit_chance_pm": 600,
+        "crit_mult_pm": 1599,
+        "status_resist_pm": 351,
+        "mp_regen_x100": 580
+      }
+    }
+  ]
+}

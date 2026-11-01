@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/slime_gel",
+  "name": "$i18n:item.slime_gel.name",
+  "description": "$i18n:item.slime_gel.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 3,
+  "stack_max": 99
+}

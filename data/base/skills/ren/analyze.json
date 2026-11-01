@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../../schemas/skill.schema.json",
+  "id": "base:skill/ren/analyze",
+  "name": "$i18n:skill.ren.analyze.name",
+  "description": "$i18n:skill.ren.analyze.desc",
+  "type": "active",
+  "cost": { "mp": 0 },
+  "cooldown_ticks": 60,
+  "timing": { "startup": 12, "active": 1, "recovery": 6 },
+  "effects": [{ "effect": "analyze_target" }],
+  "tags": ["utility", "cheat"],
+  "requires_features": ["gauge_v1"]
+}

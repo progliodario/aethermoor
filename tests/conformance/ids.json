@@ -1,0 +1,217 @@
+{
+  "suite": "ids",
+  "spec_version": 1,
+  "generated_by": "tools/gen_conformance.py",
+  "cases": [
+    {
+      "name": "id_0",
+      "input": {
+        "op": "valid_id",
+        "text": "base:enemy/slime_green"
+      },
+      "expect": {
+        "valid": true
+      }
+    },
+    {
+      "name": "id_1",
+      "input": {
+        "op": "valid_id",
+        "text": "base:skill/ren/analyze"
+      },
+      "expect": {
+        "valid": true
+      }
+    },
+    {
+      "name": "id_2",
+      "input": {
+        "op": "valid_id",
+        "text": "mymod:item/fancy_hat"
+      },
+      "expect": {
+        "valid": true
+      }
+    },
+    {
+      "name": "id_3",
+      "input": {
+        "op": "valid_id",
+        "text": "a:b/c"
+      },
+      "expect": {
+        "valid": true
+      }
+    },
+    {
+      "name": "id_4",
+      "input": {
+        "op": "valid_id",
+        "text": "a1_b:c2/d_3"
+      },
+      "expect": {
+        "valid": true
+      }
+    },
+    {
+      "name": "id_5",
+      "input": {
+        "op": "valid_id",
+        "text": "Base:enemy/slime"
+      },
+      "expect": {
+        "valid": false
+      }
+    },
+    {
+      "name": "id_6",
+      "input": {
+        "op": "valid_id",
+        "text": "base:enemy"
+      },
+      "expect": {
+        "valid": false
+      }
+    },
+    {
+      "name": "id_7",
+      "input": {
+        "op": "valid_id",
+        "text": "base:/slime"
+      },
+      "expect": {
+        "valid": false
+      }
+    },
+    {
+      "name": "id_8",
+      "input": {
+        "op": "valid_id",
+        "text": "base:enemy/"
+      },
+      "expect": {
+        "valid": false
+      }
+    },
+    {
+      "name": "id_9",
+      "input": {
+        "op": "valid_id",
+        "text": "base:enemy//slime"
+      },
+      "expect": {
+        "valid": false
+      }
+    },
+    {
+      "name": "id_10",
+      "input": {
+        "op": "valid_id",
+        "text": "base:Enemy/slime"
+      },
+      "expect": {
+        "valid": false
+      }
+    },
+    {
+      "name": "id_11",
+      "input": {
+        "op": "valid_id",
+        "text": "1base:enemy/slime"
+      },
+      "expect": {
+        "valid": false
+      }
+    },
+    {
+      "name": "id_12",
+      "input": {
+        "op": "valid_id",
+        "text": "base:enemy/Slime"
+      },
+      "expect": {
+        "valid": false
+      }
+    },
+    {
+      "name": "id_13",
+      "input": {
+        "op": "valid_id",
+        "text": "base:enemy/sl ime"
+      },
+      "expect": {
+        "valid": false
+      }
+    },
+    {
+      "name": "id_14",
+      "input": {
+        "op": "valid_id",
+        "text": ":enemy/slime"
+      },
+      "expect": {
+        "valid": false
+      }
+    },
+    {
+      "name": "id_15",
+      "input": {
+        "op": "valid_id",
+        "text": "base:enemy/slime:x"
+      },
+      "expect": {
+        "valid": false
+      }
+    },
+    {
+      "name": "id_16",
+      "input": {
+        "op": "valid_id",
+        "text": "base"
+      },
+      "expect": {
+        "valid": false
+      }
+    },
+    {
+      "name": "id_17",
+      "input": {
+        "op": "valid_id",
+        "text": ""
+      },
+      "expect": {
+        "valid": false
+      }
+    },
+    {
+      "name": "id_18",
+      "input": {
+        "op": "valid_id",
+        "text": "base:9enemy/slime"
+      },
+      "expect": {
+        "valid": false
+      }
+    },
+    {
+      "name": "id_19",
+      "input": {
+        "op": "valid_id",
+        "text": "base:enemy/9slime"
+      },
+      "expect": {
+        "valid": true
+      }
+    },
+    {
+      "name": "id_20",
+      "input": {
+        "op": "valid_id",
+        "text": "base:enemy/sl-ime"
+      },
+      "expect": {
+        "valid": false
+      }
+    }
+  ]
+}
