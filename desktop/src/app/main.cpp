@@ -345,10 +345,12 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
     const std::string level =
         assets.pack.text(ui.lang, "$i18n:ui.level", {{"level", static_cast<std::int64_t>(p.level)}});
     SDL_RenderDebugText(renderer, x / 2.0F, (y + bar_h + 16.0F * density) / 2.0F, level.c_str());
-    SDL_RenderDebugText(renderer, (x + 110.0F * density) / 2.0F, (y + bar_h + 16.0F * density) / 2.0F,
-                        assets.pack.text(ui.lang, "$i18n:ui.bag_hint").c_str());
+    const std::string bag_hint = assets.pack.text(ui.lang, "$i18n:ui.bag_hint");
+    const float hint_x = (x + 110.0F * density) / 2.0F;
+    SDL_RenderDebugText(renderer, hint_x, (y + bar_h + 16.0F * density) / 2.0F, bag_hint.c_str());
     if (sim.streamed()) {
-        SDL_RenderDebugText(renderer, (x + 110.0F * density) / 2.0F + 8.0F * 9.0F, (y + bar_h + 16.0F * density) / 2.0F,
+        // The map hint follows the bag hint whatever the language: 8 units per character, two characters of gap.
+        SDL_RenderDebugText(renderer, hint_x + 8.0F * static_cast<float>(bag_hint.size() + 2), (y + bar_h + 16.0F * density) / 2.0F,
                             assets.pack.text(ui.lang, "$i18n:ui.map_hint").c_str());
     }
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
