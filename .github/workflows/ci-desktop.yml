@@ -62,7 +62,9 @@ jobs:
           if [ "$RUNNER_OS" = "Windows" ]; then
             build=desktop/build/windows-release/Release
             ls "$build"
-            cp -r "$build"/. package/
+            cp "$build/aethermoor.exe" package/
+            cp "$build"/*.dll package/
+            cp -r "$build/data" package/
             cp desktop/PLAY.txt package/
             (cd package && 7z a -tzip "$GITHUB_WORKSPACE/aethermoor-windows-x64.zip" . > /dev/null)
           else
