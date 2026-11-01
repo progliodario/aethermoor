@@ -3,9 +3,11 @@ package io.github.progliodario.aethermoor.core.sim
 import io.github.progliodario.aethermoor.core.DamageInput
 import io.github.progliodario.aethermoor.core.DerivedStats
 import io.github.progliodario.aethermoor.core.Equipment
+import io.github.progliodario.aethermoor.core.TimeSample
 import io.github.progliodario.aethermoor.core.damage
 import io.github.progliodario.aethermoor.core.deriveStream
 import io.github.progliodario.aethermoor.core.derivedStats
+import io.github.progliodario.aethermoor.core.sampleTime
 import io.github.progliodario.aethermoor.core.xpGain
 import kotlin.math.PI
 import kotlin.math.abs
@@ -112,7 +114,12 @@ class WorldSim(
     val enemies = ArrayList<Enemy>()
     override val inventory = java.util.TreeMap<String, Long>()
     private val hitSet = ArrayList<Boolean>(List(combat.spawns.size) { false })
-    private val cleared = java.util.TreeSet<Pair<Int, Int>>(compareBy({ it.first }, { it.second }))
+    /** Spawner tile -> world tick of the death. */
+    private val cleared = java.util.TreeMap<Pair<Int, Int>, Long>(compareBy({ it.first }, { it.second }))
+
+    /** Simulation ticks since the world was created (spec 08). */
+    var worldTicks: Long = chunks?.params?.time?.startTick ?: 0L
+        private set
     private var windowValid = false
     private var windowX = 0
     private var windowY = 0
@@ -136,6 +143,9 @@ class WorldSim(
         }
     }
 
+    /** Day, light and weather of the streamed world now (spec 08); null on a fixed map. */
+    fun time(): TimeSample? = chunks?.let { sampleTime(it.seed, it.params.time, worldTicks) }
+
     /** The gid at the tile on whichever map is played, 0 when unknown. */
     fun gidAt(x: Int, y: Int): Int = chunks?.gidAt(x, y) ?: map.gidAt(x, y)
 
@@ -150,9 +160,15 @@ class WorldSim(
 
     private fun addChunkEnemies(cx: Int, cy: Int) {
         val def = combat.streamEnemy ?: return
-        val chunk = chunks?.find(cx, cy) ?: return
+        val store = chunks ?: return
+        val chunk = store.find(cx, cy) ?: return
         for ((sx, sy) in chunk.spawners) {
-            if (cleared.contains(Pair(sx, sy))) continue
+            val died = cleared[Pair(sx, sy)]
+            if (died != null) {
+                // A spawner whose enemy has been dead long enough is ready again when its chunk enters the window (spec 08).
+                if (worldTicks - died < store.params.spawnerRespawnTicks) continue
+                cleared.remove(Pair(sx, sy))
+            }
             val enemy = Enemy(def, Vec2(sx + 0.5f, sy + 0.5f))
             enemy.spawnerX = sx
             enemy.spawnerY = sy
@@ -212,6 +228,7 @@ class WorldSim(
 
     /** One fixed tick (1/60 s) with the raw movement input and the attack input of this tick. */
     fun tick(rawXIn: Float, rawYIn: Float, attackIn: Boolean = false) {
+        worldTicks++
         syncWindow()
         val frozen = story.dialogueActive
         val rawX = if (frozen) 0f else rawXIn
@@ -315,7 +332,7 @@ class WorldSim(
     }
 
     private fun onKill(enemy: Enemy) {
-        if (chunks != null) cleared.add(Pair(enemy.spawnerX, enemy.spawnerY))
+        if (chunks != null) cleared[Pair(enemy.spawnerX, enemy.spawnerY)] = worldTicks
         val p = player
         p.kills++
         for (drop in enemy.def.drops) {
@@ -439,7 +456,8 @@ class WorldSim(
             enemies = enemies.map {
                 SaveEnemy(it.position.x, it.position.y, it.hp, it.state, it.stateTick, if (chunks != null) Pair(it.spawnerX, it.spawnerY) else null)
             },
-            cleared = cleared.toList(),
+            cleared = cleared.map { (spawner, died) -> ClearedSpawner(spawner.first, spawner.second, died) },
+            worldTicks = worldTicks,
             inventory = HashMap(inventory), story = story.capture(),
         )
     }
@@ -451,7 +469,7 @@ class WorldSim(
             val cx = chunkOf(floor(s.x).toInt())
             val cy = chunkOf(floor(s.y).toInt())
             chunks.keepAround(cx, cy)
-            val clearedSet = s.cleared.toSet()
+            val clearedSet = s.cleared.map { Pair(it.x, it.y) }.toSet()
             val inWindow = HashSet<Pair<Int, Int>>()
             for (j in cy - ACTIVE_RADIUS..cy + ACTIVE_RADIUS) {
                 for (i in cx - ACTIVE_RADIUS..cx + ACTIVE_RADIUS) inWindow.addAll(chunks.find(i, j)!!.spawners)
@@ -502,7 +520,7 @@ class WorldSim(
             hitSet.clear()
             hitSet.addAll(s.hitSet)
             cleared.clear()
-            cleared.addAll(s.cleared)
+            for (c in s.cleared) cleared[Pair(c.x, c.y)] = c.died
             windowValid = true
             windowX = chunkOf(floor(s.x).toInt())
             windowY = chunkOf(floor(s.y).toInt())
@@ -520,6 +538,7 @@ class WorldSim(
         }
         inventory.clear()
         inventory.putAll(s.inventory)
+        worldTicks = if (s.worldTicks >= 0) s.worldTicks else chunks?.params?.time?.startTick ?: 0L
         events.clear()
         return Result.success(Unit)
     }

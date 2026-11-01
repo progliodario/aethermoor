@@ -65,6 +65,7 @@ WorldSim::WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, Combat
       m_story_(m_setup_.story, *this) {
     m_player_.position = {m_map_.spawn_x, m_map_.spawn_y};
     if (m_store_) {
+        m_world_ticks_ = m_store_->params().time.start_tick;
         m_store_->keep_around(chunk_of(static_cast<int>(std::floor(m_player_.position.x))),
                               chunk_of(static_cast<int>(std::floor(m_player_.position.y))));
     }
@@ -91,6 +92,13 @@ WorldSim::WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, Combat
     }
 }
 
+std::optional<TimeSample> WorldSim::time() const {
+    if (!m_store_) {
+        return std::nullopt;
+    }
+    return sample_time(m_store_->seed(), m_store_->params().time, m_world_ticks_);
+}
+
 int WorldSim::gid_at(int x, int y) const { return m_store_ ? m_store_->gid_at(x, y) : m_map_.gid_at(x, y); }
 
 void WorldSim::for_each_prop(float x0, float y0, float x1, float y1, const std::function<void(const Prop&)>& fn) const {
@@ -114,8 +122,13 @@ void WorldSim::add_chunk_enemies(int cx, int cy) {
         return;
     }
     for (const auto& [sx, sy] : chunk->spawners) {
-        if (m_cleared_.count({sx, sy}) != 0) {
-            continue;
+        const auto died = m_cleared_.find({sx, sy});
+        if (died != m_cleared_.end()) {
+            // A spawner whose enemy has been dead long enough is ready again when its chunk enters the window (spec 08).
+            if (m_world_ticks_ - died->second < m_store_->params().spawner_respawn_ticks) {
+                continue;
+            }
+            m_cleared_.erase(died);
         }
         Enemy enemy;
         enemy.def = *m_setup_.stream_enemy;
@@ -182,6 +195,7 @@ std::vector<DamageEvent> WorldSim::take_events() { return std::exchange(m_events
 void WorldSim::tick(float raw_x, float raw_y, bool attack) {
     Player& p = m_player_;
     const bool combat = m_setup_.enabled;
+    ++m_world_ticks_;
     sync_window();
     if (m_story_.dialogue_active()) {
         raw_x = 0.0F;
@@ -312,7 +326,7 @@ void WorldSim::on_kill(Enemy& enemy) {
     Player& p = m_player_;
     ++p.kills;
     if (m_store_) {
-        m_cleared_.insert({enemy.spawner_x, enemy.spawner_y});
+        m_cleared_[{enemy.spawner_x, enemy.spawner_y}] = m_world_ticks_;
     }
     for (const DropDef& drop : enemy.def.drops) {
         if (static_cast<std::int64_t>(m_loot_rng_.next_bounded(1000)) < drop.weight_pm) {
@@ -454,7 +468,10 @@ SaveState WorldSim::capture() const {
         s.enemies.push_back({enemy.position, enemy.hp, enemy.state, enemy.state_tick, m_store_ != nullptr, enemy.spawner_x,
                              enemy.spawner_y});
     }
-    s.cleared.assign(m_cleared_.begin(), m_cleared_.end());
+    for (const auto& [spawner, died] : m_cleared_) {
+        s.cleared.push_back({spawner.first, spawner.second, died});
+    }
+    s.world_ticks = m_world_ticks_;
     s.inventory = m_inventory_;
     s.story = m_story_.capture();
     return s;
@@ -466,7 +483,10 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
         const int cx = chunk_of(static_cast<int>(std::floor(s.position.x)));
         const int cy = chunk_of(static_cast<int>(std::floor(s.position.y)));
         m_store_->keep_around(cx, cy);
-        const std::set<std::pair<int, int>> cleared(s.cleared.begin(), s.cleared.end());
+        std::set<std::pair<int, int>> cleared;
+        for (const ClearedSpawner& c : s.cleared) {
+            cleared.insert({c.x, c.y});
+        }
         std::set<std::pair<int, int>> in_window;
         for (int j = cy - kActiveRadius; j <= cy + kActiveRadius; ++j) {
             for (int i = cx - kActiveRadius; i <= cx + kActiveRadius; ++i) {
@@ -531,7 +551,10 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
             enemy.spawner_y = e.spawner_y;
             m_enemies_.push_back(std::move(enemy));
         }
-        m_cleared_ = std::set<std::pair<int, int>>(s.cleared.begin(), s.cleared.end());
+        m_cleared_.clear();
+        for (const ClearedSpawner& c : s.cleared) {
+            m_cleared_[{c.x, c.y}] = c.died;
+        }
         m_window_valid_ = true;
         m_window_x_ = chunk_of(static_cast<int>(std::floor(s.position.x)));
         m_window_y_ = chunk_of(static_cast<int>(std::floor(s.position.y)));
@@ -544,6 +567,7 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
         m_enemies_[i].hit_flash = 0;
     }
     m_inventory_ = s.inventory;
+    m_world_ticks_ = s.world_ticks >= 0 ? s.world_ticks : (m_store_ ? m_store_->params().time.start_tick : 0);
     m_events_.clear();
     return true;
 }

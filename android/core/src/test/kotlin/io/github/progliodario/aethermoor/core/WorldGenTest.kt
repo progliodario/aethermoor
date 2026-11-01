@@ -153,11 +153,19 @@ class WorldGenTest {
             // The enemy list of spec 09 ("Streaming"): spawner tiles with a dead flag.
             class Entry(val x: Int, val y: Int, var dead: Boolean)
             var enemies = ArrayList<Entry>()
-            val cleared = HashSet<Pair<Int, Int>>()
+            val cleared = HashMap<Pair<Int, Int>, Long>() // spawner tile -> world tick of the death
+            var now = params.time.startTick
             var curX = input.getValue("start").jsonArray[0].jsonPrimitive.int
             var curY = input.getValue("start").jsonArray[1].jsonPrimitive.int
             fun enter(cx: Int, cy: Int) {
-                for ((x, y) in generateChunk(seed, params, cx, cy).spawners) if (Pair(x, y) !in cleared) enemies.add(Entry(x, y, false))
+                for ((x, y) in generateChunk(seed, params, cx, cy).spawners) {
+                    val died = cleared[Pair(x, y)]
+                    if (died != null) {
+                        if (now - died < params.spawnerRespawnTicks) continue
+                        cleared.remove(Pair(x, y))
+                    }
+                    enemies.add(Entry(x, y, false))
+                }
             }
             fun inside(i: Int, j: Int, wx: Int, wy: Int) = max(abs(i - wx), abs(j - wy)) <= 2
             fun digest(): ULong {
@@ -177,14 +185,41 @@ class WorldGenTest {
                     for (j in ny - 2..ny + 2) for (i in nx - 2..nx + 2) if (!inside(i, j, curX, curY)) enter(i, j)
                     curX = nx
                     curY = ny
+                } else if (s[0].jsonPrimitive.content == "wait") {
+                    now += s[1].jsonPrimitive.long
                 } else {
                     val e = enemies[s[1].jsonPrimitive.int]
                     e.dead = true
-                    cleared.add(Pair(e.x, e.y))
+                    cleared[Pair(e.x, e.y)] = now
                 }
                 val want = after[index + 1].jsonObject
                 assertEquals(want.getValue("count").jsonPrimitive.int, enemies.size, "$label step ${index + 1}")
                 assertEquals(hex(want.getValue("digest").jsonPrimitive.content), digest(), "$label step ${index + 1} digest")
+            }
+        }
+    }
+
+    @Test
+    fun worldtimeSuite() {
+        val doc = Json.parseToJsonElement(File(repoRoot, "tests/conformance/worldtime.json").readText()).jsonObject
+        for (case in doc.getValue("cases").jsonArray) {
+            val c = case.jsonObject
+            val label = c.getValue("name").jsonPrimitive.content
+            val input = c.getValue("input").jsonObject
+            val params = parseTimeParams(input.getValue("time").jsonObject)
+            val seed = hex(input.getValue("seed").jsonPrimitive.content)
+            for (sample in c.getValue("expect").jsonObject.getValue("samples").jsonArray) {
+                val want = sample.jsonObject
+                val ticks = want.getValue("ticks").jsonPrimitive.long
+                val got = sampleTime(seed, params, ticks)
+                val name = "$label ticks $ticks"
+                assertEquals(want.getValue("day").jsonPrimitive.long, got.day, "$name day")
+                assertEquals(want.getValue("tod_pm").jsonPrimitive.int, got.todPm, "$name tod")
+                assertEquals(want.getValue("light_pm").jsonPrimitive.int, got.lightPm, "$name light")
+                assertEquals(want.getValue("kind").jsonPrimitive.content, got.kind, "$name kind")
+                assertEquals(want.getValue("rain_pm").jsonPrimitive.int, got.rainPm, "$name rain")
+                assertEquals(want.getValue("dim_pm").jsonPrimitive.int, got.dimPm, "$name dim")
+                assertEquals(want.getValue("effective_light_pm").jsonPrimitive.int, got.effectiveLightPm, "$name effective light")
             }
         }
     }
@@ -209,6 +244,8 @@ class WorldGenTest {
         assertTrue(gid == 1 || gid == 2)
         repeat(120) { sim.tick(0f, 0f, false) }
         assertTrue(sim.story.npcInRange() != null)
+        assertEquals(params.time.startTick + 120, sim.worldTicks) // the world clock runs with the ticks
+        assertEquals((sim.worldTicks * 1000 / params.time.dayTicks).toInt(), sim.time()?.todPm)
 
         // The enemies are exactly those of the spawners in the 5 x 5 chunks around the player, whichever chunk that is.
         fun checkWindow() {
@@ -239,5 +276,6 @@ class WorldGenTest {
         fresh.restore(reread).getOrThrow()
         assertEquals(sim.enemies.size, fresh.enemies.size)
         assertEquals(sim.player.position.x, fresh.player.position.x)
+        assertEquals(sim.worldTicks, fresh.worldTicks)
     }
 }

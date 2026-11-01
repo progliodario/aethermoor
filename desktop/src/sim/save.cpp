@@ -105,10 +105,11 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
         enemies.push_back(std::move(enemy));
     }
     j["enemies"] = enemies;
+    j["world_ticks"] = s.world_ticks;
     if (meta.map == "world") {
         Json cleared = Json::array();
-        for (const auto& [x, y] : s.cleared) {
-            cleared.push_back({x, y});
+        for (const ClearedSpawner& c : s.cleared) {
+            cleared.push_back({c.x, c.y, c.died});
         }
         j["cleared_spawners"] = cleared;
     }
@@ -187,9 +188,10 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
             }
             s.enemies.push_back(enemy);
         }
+        s.world_ticks = j.value("world_ticks", static_cast<std::int64_t>(-1));
         if (j.contains("cleared_spawners")) {
             for (const Json& c : j.at("cleared_spawners")) {
-                s.cleared.emplace_back(c.at(0).get<int>(), c.at(1).get<int>());
+                s.cleared.push_back({c.at(0).get<int>(), c.at(1).get<int>(), c.size() > 2 ? c.at(2).get<std::int64_t>() : 0});
             }
         }
         for (const auto& [item, quantity] : j.at("inventory").items()) {

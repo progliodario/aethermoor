@@ -55,6 +55,34 @@
             "move",
             256,
             256
+          ],
+          [
+            "wait",
+            20000
+          ],
+          [
+            "move",
+            300,
+            300
+          ],
+          [
+            "move",
+            258,
+            258
+          ],
+          [
+            "wait",
+            20000
+          ],
+          [
+            "move",
+            300,
+            300
+          ],
+          [
+            "move",
+            258,
+            258
           ]
         ],
         "params": {
@@ -142,7 +170,62 @@
               "forest"
             ],
             "min_distance": 14,
-            "per_10000": 8
+            "per_10000": 8,
+            "respawn_ticks": 36000
+          },
+          "time": {
+            "day_ticks": 72000,
+            "start_tick": 24000,
+            "light": [
+              [
+                0,
+                180
+              ],
+              [
+                200,
+                180
+              ],
+              [
+                300,
+                1000
+              ],
+              [
+                700,
+                1000
+              ],
+              [
+                800,
+                180
+              ],
+              [
+                1000,
+                180
+              ]
+            ],
+            "weather": {
+              "period_ticks": 18000,
+              "fade_ticks": 600,
+              "kinds": [
+                {
+                  "id": "clear",
+                  "weight": 600,
+                  "rain_pm": 0,
+                  "dim_pm": 0
+                },
+                {
+                  "id": "cloudy",
+                  "weight": 250,
+                  "rain_pm": 0,
+                  "dim_pm": 250
+                },
+                {
+                  "id": "rain",
+                  "weight": 150,
+                  "rain_pm": 1000,
+                  "dim_pm": 400
+                }
+              ]
+            }
           },
           "npcs": [
             {
@@ -206,6 +289,36 @@
             "op": "move",
             "count": 12,
             "digest": "0x5f0e5e6d27c8a1a7"
+          },
+          {
+            "op": "wait",
+            "count": 12,
+            "digest": "0x5f0e5e6d27c8a1a7"
+          },
+          {
+            "op": "move",
+            "count": 7,
+            "digest": "0x835dee0fdc9a3490"
+          },
+          {
+            "op": "move",
+            "count": 22,
+            "digest": "0x1c64547f41ed4991"
+          },
+          {
+            "op": "wait",
+            "count": 22,
+            "digest": "0x1c64547f41ed4991"
+          },
+          {
+            "op": "move",
+            "count": 7,
+            "digest": "0x835dee0fdc9a3490"
+          },
+          {
+            "op": "move",
+            "count": 24,
+            "digest": "0x13c419a4cad45e70"
           }
         ]
       }
@@ -248,6 +361,20 @@
             "move",
             100,
             400
+          ],
+          [
+            "move",
+            101,
+            401
+          ],
+          [
+            "wait",
+            36000
+          ],
+          [
+            "move",
+            0,
+            0
           ],
           [
             "move",
@@ -340,7 +467,62 @@
               "forest"
             ],
             "min_distance": 14,
-            "per_10000": 8
+            "per_10000": 8,
+            "respawn_ticks": 36000
+          },
+          "time": {
+            "day_ticks": 72000,
+            "start_tick": 24000,
+            "light": [
+              [
+                0,
+                180
+              ],
+              [
+                200,
+                180
+              ],
+              [
+                300,
+                1000
+              ],
+              [
+                700,
+                1000
+              ],
+              [
+                800,
+                180
+              ],
+              [
+                1000,
+                180
+              ]
+            ],
+            "weather": {
+              "period_ticks": 18000,
+              "fade_ticks": 600,
+              "kinds": [
+                {
+                  "id": "clear",
+                  "weight": 600,
+                  "rain_pm": 0,
+                  "dim_pm": 0
+                },
+                {
+                  "id": "cloudy",
+                  "weight": 250,
+                  "rain_pm": 0,
+                  "dim_pm": 250
+                },
+                {
+                  "id": "rain",
+                  "weight": 150,
+                  "rain_pm": 1000,
+                  "dim_pm": 400
+                }
+              ]
+            }
           },
           "npcs": [
             {
@@ -394,6 +576,21 @@
             "op": "move",
             "count": 3,
             "digest": "0x985bf2eab9c10c2f"
+          },
+          {
+            "op": "wait",
+            "count": 3,
+            "digest": "0x985bf2eab9c10c2f"
+          },
+          {
+            "op": "move",
+            "count": 0,
+            "digest": "0x0000000000000000"
+          },
+          {
+            "op": "move",
+            "count": 4,
+            "digest": "0x7921d5fa0a7ae29d"
           }
         ]
       }

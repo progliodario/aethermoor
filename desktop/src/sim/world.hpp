@@ -72,6 +72,12 @@ struct SaveEnemy {
     int spawner_y = 0;
 };
 
+struct ClearedSpawner {
+    int x = 0;
+    int y = 0;
+    std::int64_t died = 0;  // world tick of the death
+};
+
 struct SaveState {
     Vec2 position;
     Vec2 facing{1.0F, 0.0F};
@@ -93,7 +99,8 @@ struct SaveState {
     std::uint64_t loot_state = 0;
     std::uint64_t loot_inc = 0;
     std::vector<SaveEnemy> enemies;
-    std::vector<std::pair<int, int>> cleared;  // streamed worlds: spawners whose enemy was killed
+    std::vector<ClearedSpawner> cleared;  // streamed worlds: spawners whose enemy was killed
+    std::int64_t world_ticks = -1;  // -1: not in the save (a new game starts at the world's start tick)
     std::map<std::string, std::int64_t> inventory;
     StoryState story;
 };
@@ -127,6 +134,9 @@ public:
     const std::map<std::string, std::int64_t>& inventory() const { return m_inventory_; }
     const DerivedStats& derived() const { return m_derived_; }
     bool streamed() const { return m_store_ != nullptr; }
+    std::int64_t world_ticks() const { return m_world_ticks_; }
+    // Day, light and weather of the streamed world now (spec 08); nullopt on a fixed map.
+    std::optional<TimeSample> time() const;
     const ChunkStore* chunks() const { return m_store_.get(); }
     // The gid at the tile on whichever map is played, 0 when unknown.
     int gid_at(int x, int y) const;
@@ -183,7 +193,8 @@ private:
     bool m_window_valid_ = false;
     int m_window_x_ = 0;  // chunk of the player the enemies were synchronized for
     int m_window_y_ = 0;
-    std::set<std::pair<int, int>> m_cleared_;
+    std::map<std::pair<int, int>, std::int64_t> m_cleared_;  // spawner tile -> world tick of the death
+    std::int64_t m_world_ticks_ = 0;
 };
 
 }  // namespace aether

@@ -36,9 +36,10 @@ described in the plan arrive with the procedural world and reincarnation.
   rebuilds the same map from it before loading; a save of another map is not restored.
 - `enemies` is in the order of the map spawners; only changed state is stored (definitions and home positions come from data).
 - **Streamed world** (`map` is `world`): `enemies` lists only the enemies of the active window, in the order of the live game, and each one has
-  `"spawner": [x, y]` (its spawner tile, which also gives its home); `cleared_spawners` lists the spawners whose enemy was killed. On load the
+  `"spawner": [x, y]` (its spawner tile, which also gives its home); `cleared_spawners` lists the spawners whose enemy was killed as `[x, y, died_tick]` (spec 08, the world tick of the death). On load the
   window is rebuilt around the saved player position; every enemy must belong to a spawner of the window (the enemy of a cleared spawner is dead), and every
   uncleared spawner of the window must have its enemy, otherwise the save is invalid for this build. `cleared_spawners` and `spawner` are absent on fixed maps.
+- `world_ticks` is the world clock (spec 08); a save without it starts at the world's `time.start_tick`.
 - `story` is null when the world has no story. `dialogue` is null when no dialogue is open.
 - 64-bit values are hex strings. Positions are floats (a client reads them as 32-bit floats).
 - Random stream states are the PCG32 `state` and `inc` after the last draw: resuming a save continues the same random sequence.

@@ -25,5 +25,6 @@
   "ui.loaded": "Partita caricata",
   "ui.load_failed": "Impossibile caricare il salvataggio",
   "ui.new_game": "Nuova partita",
+  "ui.clock": "Giorno {day}  {time}",
   "ui.bag_hint": "[I] Zaino"
 }

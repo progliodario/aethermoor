@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
+#include <map>
 #include <set>
 #include <string>
 #include <utility>
@@ -581,6 +582,40 @@ TEST_CASE("conformance: story", "[conformance]") { run_combat_suite("story"); }
 
 TEST_CASE("conformance: save and resume", "[conformance]") { run_save_suite(); }
 
+TEST_CASE("conformance: worldtime", "[conformance]") {
+    const Json doc = load_suite("worldtime");
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        const Json& in = c.at("input");
+        // The `time` object is parsed together with the rest of a world: wrap it with the minimum the parser needs.
+        std::string error;
+        Json world = Json::parse(R"({"id":"x:world/x","width":64,"height":64,"border":1,"spawn_clear_radius":2,
+            "elevation":{"salt":1,"scale":8,"octaves":1},"moisture":{"salt":2,"scale":8,"octaves":1},
+            "temperature":{"salt":3,"scale":8,"octaves":1},
+            "thresholds":{"water":1,"beach":2,"mountain":3,"snow":4,"desert_heat":5,"desert_dry":6,"forest_wet":7},
+            "tiles":{"water":4,"beach":6,"desert":6,"snow":7,"mountain":8,"forest":9,"plains":[1]},
+            "props":{},"spawners":{"enemy":"x:enemy/x","biomes":[],"min_distance":1,"per_10000":1,"respawn_ticks":1},
+            "npcs":[]})");
+        world["time"] = in.at("time");
+        const auto params = aether::parse_world_params(world.dump(), error);
+        INFO(error);
+        REQUIRE(params.has_value());
+        const std::uint64_t seed = hex(in.at("seed"));
+        for (const Json& want : c.at("expect").at("samples")) {
+            const std::int64_t ticks = want.at("ticks").get<std::int64_t>();
+            INFO("ticks " << ticks);
+            const aether::TimeSample s = aether::sample_time(seed, params->time, ticks);
+            REQUIRE(s.day == want.at("day").get<std::int64_t>());
+            REQUIRE(s.tod_pm == want.at("tod_pm").get<int>());
+            REQUIRE(s.light_pm == want.at("light_pm").get<int>());
+            REQUIRE(s.kind == want.at("kind").get<std::string>());
+            REQUIRE(s.rain_pm == want.at("rain_pm").get<int>());
+            REQUIRE(s.dim_pm == want.at("dim_pm").get<int>());
+            REQUIRE(s.effective_light_pm == want.at("effective_light_pm").get<int>());
+        }
+    }
+}
+
 TEST_CASE("conformance: chunk window", "[conformance]") {
     const Json doc = load_suite("chunk_window");
     for (const Json& c : doc.at("cases")) {
@@ -598,14 +633,20 @@ TEST_CASE("conformance: chunk window", "[conformance]") {
             bool dead;
         };
         std::vector<Entry> enemies;
-        std::set<std::pair<int, int>> cleared;
+        std::map<std::pair<int, int>, std::int64_t> cleared;  // spawner tile -> world tick of the death
+        std::int64_t now = params->time.start_tick;
         int cur_x = in.at("start").at(0).get<int>();
         int cur_y = in.at("start").at(1).get<int>();
         const auto enter = [&](int cx, int cy) {
             for (const auto& s : aether::generate_chunk(seed, *params, cx, cy).spawners) {
-                if (cleared.count(s) == 0) {
-                    enemies.push_back({s.first, s.second, false});
+                const auto died = cleared.find(s);
+                if (died != cleared.end()) {
+                    if (now - died->second < params->spawner_respawn_ticks) {
+                        continue;
+                    }
+                    cleared.erase(died);
                 }
+                enemies.push_back({s.first, s.second, false});
             }
         };
         const auto inside = [](int i, int j, int wx, int wy) {
@@ -648,10 +689,12 @@ TEST_CASE("conformance: chunk window", "[conformance]") {
                 }
                 cur_x = nx;
                 cur_y = ny;
+            } else if (step.at(0).get<std::string>() == "wait") {
+                now += step.at(1).get<std::int64_t>();
             } else {
                 Entry& e = enemies.at(step.at(1).get<std::size_t>());
                 e.dead = true;
-                cleared.insert({e.x, e.y});
+                cleared[{e.x, e.y}] = now;
             }
             REQUIRE(enemies.size() == after.at(index).at("count").get<std::size_t>());
             REQUIRE(digest() == hex(after.at(index).at("digest")));

@@ -9,6 +9,8 @@
 #include <utility>
 #include <vector>
 
+#include "core/worldtime.hpp"
+
 namespace aether {
 
 struct NoiseSpec {
@@ -63,6 +65,9 @@ struct WorldParams {
     std::vector<std::string> spawner_biomes;
     int spawner_min_distance = 0;
     int spawner_per_10000 = 0;
+    int spawner_respawn_ticks = 0;
+
+    TimeParams time;
 
     std::vector<WorldNpc> npcs;
 };

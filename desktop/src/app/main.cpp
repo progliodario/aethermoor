@@ -345,6 +345,42 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
+// Night and weather over the world, and the clock (spec 08). Presentation only.
+void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w, int out_h,
+                     float density, Uint64 now_ms) {
+    const auto time = sim.time();
+    if (!time) {
+        return;
+    }
+    const int dark = 1000 - time->effective_light_pm;  // 0 = full daylight
+    if (dark > 0) {
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+        SDL_SetRenderDrawColor(renderer, 8, 14, 44, static_cast<Uint8>(dark * 175 / 1000));
+        const SDL_FRect all{0.0F, 0.0F, static_cast<float>(out_w), static_cast<float>(out_h)};
+        SDL_RenderFillRect(renderer, &all);
+    }
+    if (time->rain_pm > 0) {
+        const int drops = 160 * time->rain_pm / 1000;
+        SDL_SetRenderDrawColor(renderer, 170, 190, 230, 150);
+        for (int i = 0; i < drops; ++i) {
+            const Uint64 fall = now_ms / 2 + static_cast<Uint64>(i) * 977;
+            const float x = static_cast<float>((static_cast<Uint64>(i) * 7919 + now_ms / 5) % static_cast<Uint64>(out_w));
+            const float y = static_cast<float>(fall % static_cast<Uint64>(out_h));
+            SDL_RenderLine(renderer, x, y, x - 3.0F * density, y + 12.0F * density);
+        }
+    }
+    const int hour = time->tod_pm * 24 / 1000;
+    const int minute = (time->tod_pm * 1440 / 1000) % 60;
+    char clock[16];
+    std::snprintf(clock, sizeof(clock), "%02d:%02d", hour, minute);
+    const std::string line = assets.pack.text(ui.lang, "$i18n:ui.clock", {{"day", static_cast<std::int64_t>(time->day)}, {"time", std::string(clock)}});
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_SetRenderScale(renderer, 2.0F, 2.0F);
+    SDL_RenderDebugText(renderer, (static_cast<float>(out_w) - 12.0F * density) / 2.0F - static_cast<float>(line.size()) * 8.0F,
+                        12.0F * density / 2.0F, line.c_str());
+    SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+}
+
 // "world" or "demo": which map this run plays on (stored in the saves).
 std::string g_map_name = "world";
 
@@ -694,6 +730,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
         SDL_RenderDebugText(renderer, sx, sy, f.text.c_str());
     }
 
+    draw_atmosphere(renderer, assets, sim, ui, out_w, out_h, density, now_ms);
     draw_hud(renderer, assets, sim, ui, density);
     draw_quest_tracker(renderer, assets, sim, ui, out_w, density);
 

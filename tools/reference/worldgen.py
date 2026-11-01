@@ -168,12 +168,15 @@ class ChunkWindow:
 
     An enemy exists iff its spawner lies in an active chunk and the spawner is not cleared. Chunks entering the window add
     their enemies at the end of the list (chunks row-major, spawners in scan order); chunks leaving remove theirs; the order of
-    the others never changes. A killed enemy stays in the list (dead) until its chunk leaves, and its spawner is cleared.
+    the others never changes. A killed enemy stays in the list (dead) until its chunk leaves, and its spawner is cleared with the
+    world tick of the death; a cleared spawner whose enemy has been dead for `respawn_ticks` is ready and, when its chunk
+    enters the window, it is uncleared and creates an enemy again (spec 08, "Respawn").
     """
 
     def __init__(self, seed: int, params: dict, cx: int, cy: int):
         self.seed, self.params = seed, params
-        self.cleared: set[tuple[int, int]] = set()
+        self.now = params["time"]["start_tick"]  # world ticks
+        self.cleared: dict[tuple[int, int], int] = {}  # spawner tile -> world tick of the death
         self.enemies: list[dict] = []  # {"x", "y", "dead"} by spawner tile
         self.cx, self.cy = cx, cy
         for chunk in window_chunks(cx, cy):
@@ -181,8 +184,12 @@ class ChunkWindow:
 
     def _enter(self, chunk: tuple[int, int]) -> None:
         for x, y in chunk_spawners(self.seed, self.params, chunk[0], chunk[1]):
-            if (x, y) not in self.cleared:
-                self.enemies.append({"x": x, "y": y, "dead": False})
+            died = self.cleared.get((x, y))
+            if died is not None:
+                if self.now - died < self.params["spawners"]["respawn_ticks"]:
+                    continue
+                del self.cleared[(x, y)]
+            self.enemies.append({"x": x, "y": y, "dead": False})
 
     def move_to(self, cx: int, cy: int) -> None:
         old = set(window_chunks(self.cx, self.cy))
@@ -195,10 +202,13 @@ class ChunkWindow:
                 self._enter(chunk)
         self.cx, self.cy = cx, cy
 
+    def wait(self, ticks: int) -> None:
+        self.now += ticks
+
     def kill(self, index: int) -> None:
         enemy = self.enemies[index]
         enemy["dead"] = True
-        self.cleared.add((enemy["x"], enemy["y"]))
+        self.cleared[(enemy["x"], enemy["y"])] = self.now
 
     def digest(self) -> int:
         h = 0

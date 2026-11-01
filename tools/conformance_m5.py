@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 from reference import numerics as nm
-from reference import worldgen
+from reference import worldgen, worldtime
 
 ROOT = Path(__file__).resolve().parent.parent
 PARAMS = json.loads((ROOT / "data" / "base" / "worlds" / "overworld.json").read_text(encoding="utf-8"))
@@ -64,10 +64,12 @@ def suite_chunk_window() -> list[dict]:
         "walk_and_kill": (7, (256, 256), [
             ["move", 257, 256], ["move", 258, 258], ["kill", 0], ["kill", 1], ["move", 256, 256],
             ["move", 300, 300], ["move", 300, 299], ["move", 258, 258], ["move", 256, 256],
+            # Too early: the killed spawners stay cleared. Then enough time passes and they respawn on re-entering.
+            ["wait", 20000], ["move", 300, 300], ["move", 258, 258], ["wait", 20000], ["move", 300, 300], ["move", 258, 258],
         ]),
         "long_jumps": (0xBEEF, (100, 400), [
             ["move", 101, 400], ["move", 101, 401], ["kill", 0], ["move", 0, 0], ["move", 511, 511], ["move", 100, 400],
-            ["move", 101, 401],
+            ["move", 101, 401], ["wait", 36000], ["move", 0, 0], ["move", 101, 401],
         ]),
     }
     cases = []
@@ -77,6 +79,8 @@ def suite_chunk_window() -> list[dict]:
         for step in steps:
             if step[0] == "move":
                 window.move_to(step[1], step[2])
+            elif step[0] == "wait":
+                window.wait(step[1])
             else:
                 assert len(window.enemies) > step[1], f"{name}: no enemy {step[1]} to kill"
                 window.kill(step[1])
@@ -86,6 +90,20 @@ def suite_chunk_window() -> list[dict]:
             "input": {"op": "chunk_window", "seed": h64(seed), "start": list(start), "steps": steps, "params": params},
             "expect": {"after": results},
         })
+    return cases
+
+
+def suite_worldtime() -> list[dict]:
+    """Day, light and weather at a list of world ticks (spec 08)."""
+    t = PARAMS["time"]
+    ticks = [0, 1, 17999, 18000, 18001, 18300, 18599, 18600, 24000, 35999, 36000, 71999, 72000, 100000, 1_000_000, 123_456_789, 2**40]
+    cases = []
+    for name, seed in (("seed_1", 1), ("seed_c0ffee", 0xC0FFEE), ("seed_max_u64", nm.M64)):
+        samples = []
+        for tick in ticks:
+            samples.append({"ticks": tick, **worldtime.sample(seed, t, tick)})
+        cases.append({"name": f"worldtime_{name}", "input": {"op": "worldtime", "seed": h64(seed), "time": t},
+                      "expect": {"samples": samples}})
     return cases
 
 
