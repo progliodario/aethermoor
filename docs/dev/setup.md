@@ -39,6 +39,6 @@ gradle wrapper --gradle-version 8.10.2    # once, generates gradlew
 
 Set `ANDROID_HOME` or create `android/local.properties` with `sdk.dir=...`.
 
-## Status of the skeletons (M0)
+## Verification
 
-The desktop and Android skeletons were written but **not built locally** during M0. The CI workflows are their first real check. Expect small fixes in the first CI runs.
+CI builds and tests the desktop client on Windows (MSVC) and Linux (GCC) and the Android client (JVM unit tests and `assembleDebug`). Local builds need the tools above; the project was developed on a machine without them, so CI is the reference.

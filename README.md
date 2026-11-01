@@ -3,7 +3,7 @@
 > Titolo provvisorio. Action RPG isekai fantasy, top-down e in tempo reale, in grafica vettoriale. Gratuito e open source.
 > English version: [README.en.md](README.en.md)
 
-**Stato:** M0, fondazioni. Il gioco non è ancora giocabile. Vedi la [roadmap](docs/plan/06-roadmap-rischi-backlog.md).
+**Stato:** M2 (motore base). C'è un personaggio vettoriale che cammina su una mappa, su Windows, Linux e Android; non c'è ancora combattimento né storia. Vedi la [roadmap](docs/plan/06-roadmap-rischi-backlog.md).
 
 ## Di che cosa si tratta
 
