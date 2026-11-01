@@ -1,0 +1,95 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/role/guild_clerk_grim",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/slime_extermination"
+      },
+      "then": "thanks",
+      "else": "active_check"
+    },
+    "active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/slime_extermination"
+      },
+      "then": "busy",
+      "else": "hello"
+    },
+    "hello": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.guild_clerk.grim.hello",
+      "next": "menu"
+    },
+    "menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.work",
+          "next": "offer"
+        },
+        {
+          "text": "$i18n:dlg.role.rumor",
+          "next": "rumor"
+        },
+        {
+          "text": "$i18n:dlg.role.bye",
+          "next": "end"
+        }
+      ]
+    },
+    "offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.guild_clerk.grim.offer",
+      "next": "offer_choice"
+    },
+    "offer_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/slime_extermination"
+            }
+          ],
+          "next": "accepted"
+        },
+        {
+          "text": "$i18n:dlg.role.decline",
+          "next": "end"
+        }
+      ]
+    },
+    "accepted": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.guild_clerk.grim.accepted",
+      "next": "end"
+    },
+    "busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.guild_clerk.grim.busy",
+      "next": "end"
+    },
+    "thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.guild_clerk.grim.thanks",
+      "next": "end"
+    },
+    "rumor": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.grim.rumor",
+      "next": "end"
+    }
+  }
+}

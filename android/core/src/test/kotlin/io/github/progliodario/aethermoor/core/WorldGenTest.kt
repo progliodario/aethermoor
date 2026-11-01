@@ -105,6 +105,24 @@ class WorldGenTest {
                 assertEquals(hex(want.getValue("prop_digest").jsonPrimitive.content), digestProps(chunk.props), "$name prop digest")
                 assertEquals(want.getValue("spawner_count").jsonPrimitive.long, chunk.spawners.size.toLong(), "$name spawners")
                 assertEquals(hex(want.getValue("spawner_digest").jsonPrimitive.content), digestSpawners(chunk.spawners), "$name spawner digest")
+                val people = want.getValue("people").jsonArray
+                assertEquals(people.size, chunk.people.size, "$name people")
+                for ((i, entry) in people.withIndex()) {
+                    val e = entry.jsonArray
+                    val got = chunk.people[i]
+                    val who = "$name person $i"
+                    assertEquals(e[0].jsonPrimitive.content, got.key, "$who key")
+                    assertEquals(e[1].jsonPrimitive.content, got.role, "$who role")
+                    assertEquals(e[2].jsonPrimitive.int, got.x256, "$who x")
+                    assertEquals(e[3].jsonPrimitive.int, got.y256, "$who y")
+                    assertEquals(e[4].jsonPrimitive.content, got.name, "$who name")
+                    assertEquals(e[5].jsonPrimitive.content, got.variant, "$who variant")
+                    assertEquals(e[6].jsonPrimitive.content, got.tone, "$who tone")
+                    assertEquals(e[7].jsonPrimitive.content, got.dialogue, "$who dialogue")
+                    assertEquals(e[8].jsonPrimitive.content, got.place, "$who place")
+                    assertEquals(e[9].jsonPrimitive.content, got.region, "$who region")
+                    assertEquals(e[10].jsonPrimitive.content, got.quirk, "$who quirk")
+                }
                 val histogram = chunk.tiles.groupBy { it }.mapValues { it.value.size.toLong() }
                 val wantHistogram = want.getValue("gid_histogram").jsonObject
                 assertEquals(wantHistogram.size, histogram.size, "$name histogram size")
@@ -333,6 +351,26 @@ class WorldGenTest {
         // The spawn is at the left edge of its chunk: a few steps to the left enter the next chunk and the window moves.
         repeat(90) { sim.tick(-1f, 0f, false) }
         assertEquals(map.width / 2 / 32 - 1, chunkOf(floor(sim.player.position.x).toInt()))
+        checkWindow()
+
+        // The home village has people: walk up to its elder and talk (spec 07 and 09).
+        sim.teleport(8228.5f, 8234.5f)
+        sim.tick(0f, 0f, false)
+        assertTrue(sim.story.dynamicNpcs.isNotEmpty())
+        val elder = requireNotNull(sim.story.npcInRange())
+        assertTrue(elder.name.isNotEmpty())
+        assertTrue(elder.dialogue.startsWith("base:dialogue/role/"))
+        assertTrue(elder.args.containsKey("place"))
+        sim.story.interact()
+        assertTrue(sim.story.dialogueActive)
+        val spoken = sim.story.dialogueView()
+        assertEquals("npc", spoken.speaker)
+        assertEquals(elder.name, spoken.args["npc"])
+        sim.story.advance() // the elder has a menu with news and goodbye: pick goodbye (the last choice)
+        sim.story.choose(1)
+        assertFalse(sim.story.dialogueActive)
+        sim.teleport(map.width / 2 + 0.5f, map.height / 2 + 0.5f) // back to the spawn
+        sim.tick(0f, 0f, false)
         checkWindow()
 
         // Saving and loading into a fresh world of the same seed gives the same enemies.

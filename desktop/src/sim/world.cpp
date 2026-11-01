@@ -63,6 +63,8 @@ WorldSim::WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, Combat
       m_combat_rng_(derive_stream(m_setup_.seed, "combat")),
       m_loot_rng_(derive_stream(m_setup_.seed, "loot")),
       m_story_(m_setup_.story, *this) {
+    m_story_.set_dynamic_npcs(&m_npcs_);
+    m_collision_.set_dynamic_props(&m_npc_circles_);
     m_player_.position = {m_map_.spawn_x, m_map_.spawn_y};
     if (m_store_) {
         m_world_ticks_ = m_store_->params().time.start_tick;
@@ -111,6 +113,31 @@ void WorldSim::for_each_prop(float x0, float y0, float x1, float y1, const std::
         if (prop.x >= x0 && prop.x <= x1 && prop.y >= y0 && prop.y <= y1) {
             fn(prop);
         }
+    }
+}
+
+void WorldSim::rebuild_npc_circles() {
+    m_npc_circles_.clear();
+    for (const NpcDef& npc : m_npcs_) {
+        m_npc_circles_.push_back({npc.x, npc.y, kNpcRadius});
+    }
+}
+
+void WorldSim::add_chunk_people(int cx, int cy) {
+    const Chunk* chunk = m_store_->find(cx, cy);
+    if (chunk == nullptr) {
+        return;
+    }
+    for (const GenPerson& person : chunk->people) {
+        NpcDef npc;
+        npc.key = person.key;
+        npc.dialogue = person.dialogue;
+        npc.variant = person.variant;
+        npc.x = static_cast<float>(person.x256) / 256.0F;
+        npc.y = static_cast<float>(person.y256) / 256.0F;
+        npc.name = person.name;
+        npc.args = {{"npc", person.name}, {"place", person.place}, {"region", person.region}, {"quirk", "$i18n:" + person.quirk}};
+        m_npcs_.push_back(std::move(npc));
     }
 }
 
@@ -165,6 +192,13 @@ void WorldSim::sync_window() {
         return std::max(std::abs(i - wx), std::abs(j - wy)) <= kActiveRadius;
     };
     if (m_window_valid_) {
+        std::vector<NpcDef> staying;
+        for (NpcDef& npc : m_npcs_) {
+            if (inside(chunk_of(static_cast<int>(std::floor(npc.x))), chunk_of(static_cast<int>(std::floor(npc.y))), cx, cy)) {
+                staying.push_back(std::move(npc));
+            }
+        }
+        m_npcs_ = std::move(staying);
         std::size_t kept = 0;
         for (std::size_t i = 0; i < m_enemies_.size(); ++i) {
             if (!inside(chunk_of(m_enemies_[i].spawner_x), chunk_of(m_enemies_[i].spawner_y), cx, cy)) {
@@ -183,9 +217,11 @@ void WorldSim::sync_window() {
         for (int i = cx - kActiveRadius; i <= cx + kActiveRadius; ++i) {
             if (!m_window_valid_ || !inside(i, j, m_window_x_, m_window_y_)) {
                 add_chunk_enemies(i, j);
+                add_chunk_people(i, j);
             }
         }
     }
+    rebuild_npc_circles();
     m_window_valid_ = true;
     m_window_x_ = cx;
     m_window_y_ = cy;
@@ -603,6 +639,15 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
         for (const ClearedSpawner& c : s.cleared) {
             m_cleared_[{c.x, c.y}] = c.died;
         }
+        m_npcs_.clear();
+        const int wcx = chunk_of(static_cast<int>(std::floor(s.position.x)));
+        const int wcy = chunk_of(static_cast<int>(std::floor(s.position.y)));
+        for (int j = wcy - kActiveRadius; j <= wcy + kActiveRadius; ++j) {
+            for (int i = wcx - kActiveRadius; i <= wcx + kActiveRadius; ++i) {
+                add_chunk_people(i, j);
+            }
+        }
+        rebuild_npc_circles();
         m_window_valid_ = true;
         m_window_x_ = chunk_of(static_cast<int>(std::floor(s.position.x)));
         m_window_y_ = chunk_of(static_cast<int>(std::floor(s.position.y)));

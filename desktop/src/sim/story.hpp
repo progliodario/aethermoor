@@ -86,6 +86,8 @@ struct NpcDef {
     std::string variant;   // art palette variant of the player rig
     float x = 0.0F;
     float y = 0.0F;
+    std::string name;                          // settlement people: a proper noun, empty for the others
+    std::map<std::string, std::string> args;   // arguments of the dialogue texts (spec 07)
 };
 
 struct StorySetup {
@@ -106,6 +108,7 @@ struct DialogueView {
     std::string speaker;                // say
     std::string text;                   // say
     std::vector<std::string> choices;   // choice: texts of the visible choices
+    std::map<std::string, std::string> args;  // arguments of the texts (spec 07, "Dialogue arguments")
 };
 
 struct QuestProgress {
@@ -122,6 +125,7 @@ struct StoryState {
     bool dialogue_active = false;
     std::string dialogue_id;
     std::string node;
+    std::map<std::string, std::string> dialogue_args;
 };
 
 // What the story needs from the world that owns it.
@@ -154,6 +158,9 @@ public:
 
     // The NPC `interact` would talk to now, or nullptr.
     const NpcDef* npc_in_range() const;
+    // NPCs that come and go with the world (settlement people); owned by the world, listed after the static ones.
+    void set_dynamic_npcs(const std::vector<NpcDef>* npcs) { m_dynamic_npcs_ = npcs; }
+    const std::vector<NpcDef>& dynamic_npcs() const { return *m_dynamic_npcs_; }
 
     StoryState capture() const;
     // Returns false (and changes nothing) when the state names a dialogue or node that does not exist.
@@ -182,6 +189,9 @@ private:
     bool m_dialogue_active_ = false;
     std::string m_dialogue_id_;
     std::string m_node_;
+    std::map<std::string, std::string> m_dialogue_args_;
+    const std::vector<NpcDef>* m_dynamic_npcs_ = &s_no_npcs;
+    static const std::vector<NpcDef> s_no_npcs;
 };
 
 }  // namespace aether

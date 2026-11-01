@@ -227,6 +227,8 @@ std::optional<StorySetup> parse_story_setup(std::string_view json_text, std::str
 
 // ------------------------------------------------------------------------------------- runtime
 
+const std::vector<NpcDef> Story::s_no_npcs;
+
 Story::Story(StorySetup setup, StoryHost& host) : m_setup_(std::move(setup)), m_host_(host) {}
 
 bool Story::holds(const Condition& c) const {
@@ -489,7 +491,7 @@ void Story::choose(int index) {
 const NpcDef* Story::npc_in_range() const {
     const NpcDef* best = nullptr;
     float best_dist = kInteractRange;
-    for (const NpcDef& npc : m_setup_.npcs) {
+    const auto consider = [&](const NpcDef& npc) {
         const float dx = npc.x - m_host_.player_x();
         const float dy = npc.y - m_host_.player_y();
         const float d = std::sqrt(dx * dx + dy * dy);
@@ -497,6 +499,12 @@ const NpcDef* Story::npc_in_range() const {
             best = &npc;
             best_dist = d;
         }
+    };
+    for (const NpcDef& npc : m_setup_.npcs) {
+        consider(npc);
+    }
+    for (const NpcDef& npc : *m_dynamic_npcs_) {
+        consider(npc);
     }
     return best;
 }
@@ -509,6 +517,10 @@ void Story::interact() {
     if (const NpcDef* npc = npc_in_range()) {
         const std::string key = npc->key;
         const std::string dialogue = npc->dialogue;
+        m_dialogue_args_ = npc->args;
+        if (!npc->name.empty()) {
+            m_dialogue_args_["npc"] = npc->name;
+        }
         on_talk(key);
         start_dialogue(dialogue);
     }
@@ -522,6 +534,7 @@ StoryState Story::capture() const {
     state.dialogue_active = m_dialogue_active_;
     state.dialogue_id = m_dialogue_id_;
     state.node = m_node_;
+    state.dialogue_args = m_dialogue_args_;
     return state;
 }
 
@@ -543,6 +556,7 @@ bool Story::restore(const StoryState& state) {
     m_dialogue_active_ = state.dialogue_active;
     m_dialogue_id_ = state.dialogue_id;
     m_node_ = state.node;
+    m_dialogue_args_ = state.dialogue_args;
     return true;
 }
 
@@ -552,6 +566,7 @@ DialogueView Story::dialogue_view() const {
         return view;
     }
     view.active = true;
+    view.args = m_dialogue_args_;
     const DialogueNode& n = node();
     if (n.kind == DialogueNode::Kind::Say) {
         view.speaker = n.speaker;

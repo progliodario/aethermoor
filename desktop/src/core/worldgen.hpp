@@ -41,6 +41,7 @@ struct Region {
     int x_pm = 0;
     int y_pm = 0;
     int danger = 1;
+    std::string tone;  // the voice of the people of the region
 };
 
 struct SettlementKind {
@@ -125,6 +126,11 @@ struct WorldParams {
     std::vector<std::string> names_start;
     std::vector<std::string> names_mid;
     std::vector<std::string> names_end;
+    std::string settlement_dialogue;  // dialogue id of a settlement NPC with {role} and {tone}
+    std::vector<std::string> variants;
+    std::vector<std::string> quirks;
+    std::vector<std::string> people_start;
+    std::vector<std::string> people_end;
     std::map<std::string, Stamp> stamps;  // by id, resolved by the loader
 
     std::vector<WorldNpc> npcs;
@@ -145,6 +151,21 @@ struct GenNpc {
     int y256 = 0;
 };
 
+// An NPC of a settlement (spec 09, "Settlement people").
+struct GenPerson {
+    std::string key;
+    std::string role;
+    int x256 = 0;
+    int y256 = 0;
+    std::string name;
+    std::string variant;
+    std::string tone;
+    std::string dialogue;
+    std::string place;
+    std::string region;  // a text key
+    std::string quirk;   // a text key
+};
+
 struct GeneratedWorld {
     int width = 0;
     int height = 0;
@@ -154,6 +175,7 @@ struct GeneratedWorld {
     int spawn_x256 = 0;
     int spawn_y256 = 0;
     std::vector<GenNpc> npcs;
+    std::vector<GenPerson> people;
 };
 
 GeneratedWorld generate_world(std::uint64_t seed, const WorldParams& params);
@@ -165,6 +187,7 @@ struct GeneratedChunk {
     std::vector<int> tiles;  // kChunkSize * kChunkSize gids, row-major
     std::vector<GenProp> props;  // scan order inside the chunk
     std::vector<std::pair<int, int>> spawners;  // absolute tile coordinates, scan order
+    std::vector<GenPerson> people;  // scan order
 };
 
 // Exactly the restriction of generate_world to the window. Any chunk coordinates are valid: tiles outside the world are water.
@@ -184,7 +207,14 @@ struct Settlement {
     std::string kind;
     std::string name;
     int region = 0;
+    int sx = 0;  // site cell
+    int sy = 0;
+    // NPC slots by tile: (index in scan order of the stamp, role).
+    std::map<std::pair<int, int>, std::pair<int, std::string>> slots;
 };
+
+// The NPC standing on the slot tile (x, y) of the settlement.
+GenPerson person_at(std::uint64_t seed, const WorldParams& params, const Settlement& settlement, int x, int y);
 
 // Index of the region of the tile: the nearest center.
 int region_at(const WorldParams& params, int x, int y);

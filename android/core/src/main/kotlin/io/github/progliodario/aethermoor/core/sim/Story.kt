@@ -76,7 +76,16 @@ sealed interface DialogueNode {
 data class DialogueDef(val id: String, val start: String, val nodes: Map<String, DialogueNode>)
 
 /** An NPC: [x], [y] is the feet position in tiles. */
-data class NpcDef(val key: String, val dialogue: String, val variant: String, val x: Float, val y: Float)
+/** [name] and [args] are set for settlement people: the arguments of the dialogue texts (spec 07). */
+data class NpcDef(
+    val key: String,
+    val dialogue: String,
+    val variant: String,
+    val x: Float,
+    val y: Float,
+    val name: String = "",
+    val args: Map<String, String> = emptyMap(),
+)
 
 class StorySetup(
     val quests: Map<String, QuestDef> = emptyMap(),
@@ -91,6 +100,7 @@ data class DialogueView(
     val speaker: String = "",
     val text: String = "",
     val choices: List<String> = emptyList(),
+    val args: Map<String, String> = emptyMap(),
 )
 
 class QuestProgress(var stage: String, var progress: LongArray, var done: Boolean = false)
@@ -103,6 +113,7 @@ class StoryState(
     val dialogueActive: Boolean,
     val dialogueId: String,
     val node: String,
+    val dialogueArgs: Map<String, String> = emptyMap(),
 )
 
 /** What the story needs from the world that owns it. */
@@ -380,10 +391,14 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
     }
 
     /** The NPC [interact] would talk to now, or null. */
+    /** NPCs that come and go with the world (settlement people), listed after the static ones. */
+    var dynamicNpcs: List<NpcDef> = emptyList()
+    private var dialogueArgs: Map<String, String> = emptyMap()
+
     fun npcInRange(): NpcDef? {
         var best: NpcDef? = null
         var bestDist = INTERACT_RANGE
-        for (npc in setup.npcs) {
+        for (npc in setup.npcs + dynamicNpcs) {
             val dx = npc.x - host.playerX
             val dy = npc.y - host.playerY
             val d = sqrt(dx * dx + dy * dy)
@@ -401,6 +416,7 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
             return
         }
         val npc = npcInRange() ?: return
+        dialogueArgs = if (npc.name.isEmpty()) npc.args else npc.args + ("npc" to npc.name)
         onTalk(npc.key)
         startDialogue(npc.dialogue)
     }
@@ -408,7 +424,7 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
     fun capture(): StoryState =
         StoryState(
             HashMap(flags), gold, quests.mapValues { QuestProgress(it.value.stage, it.value.progress.copyOf(), it.value.done) },
-            dialogueActive, dialogueId, nodeName,
+            dialogueActive, dialogueId, nodeName, HashMap(dialogueArgs),
         )
 
     /** Returns false (and changes nothing) when the state names a quest, dialogue or node that does not exist. */
@@ -423,14 +439,15 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
         dialogueActive = state.dialogueActive
         dialogueId = state.dialogueId
         nodeName = state.node
+        dialogueArgs = HashMap(state.dialogueArgs)
         return true
     }
 
     fun dialogueView(): DialogueView {
         if (!dialogueActive) return DialogueView()
         return when (val n = node()) {
-            is DialogueNode.Say -> DialogueView(active = true, isChoice = false, speaker = n.speaker, text = n.text)
-            else -> DialogueView(active = true, isChoice = true, choices = visibleChoices().map { it.text })
+            is DialogueNode.Say -> DialogueView(active = true, isChoice = false, speaker = n.speaker, text = n.text, args = dialogueArgs)
+            else -> DialogueView(active = true, isChoice = true, choices = visibleChoices().map { it.text }, args = dialogueArgs)
         }
     }
 }

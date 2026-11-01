@@ -30,6 +30,7 @@ const Chunk& ChunkStore::load(int cx, int cy) {
                                static_cast<float>(p.radius_x100) / 100.0F});
     }
     chunk.spawners = std::move(generated.spawners);
+    chunk.people = std::move(generated.people);
     return m_chunks_.emplace(std::make_pair(cx, cy), std::move(chunk)).first->second;
 }
 

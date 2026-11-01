@@ -186,7 +186,7 @@ public:
     }
 
     // True when the tile lies in a footprint; `entry` is then the legend entry of its character, or null.
-    bool at(int x, int y, const StampEntry*& entry) {
+    bool at(int x, int y, const StampEntry*& entry, const Settlement** settlement = nullptr) {
         entry = nullptr;
         const auto& s = site(x >> 8, y >> 8);
         if (!s) {
@@ -196,6 +196,9 @@ public:
         const int ly = y - s->y;
         if (lx < 0 || ly < 0 || lx >= s->w || ly >= s->h) {
             return false;
+        }
+        if (settlement != nullptr) {
+            *settlement = &*s;
         }
         const Stamp& stamp = m_params_.stamps.at(s->stamp);
         const auto legend = stamp.legend.find(stamp.rows[static_cast<std::size_t>(ly)][static_cast<std::size_t>(lx)]);
@@ -270,6 +273,7 @@ private:
         s.name = p.names_start[n % p.names_start.size()] + p.names_mid[(n >> 16) % p.names_mid.size()] +
                  p.names_end[(n >> 32) % p.names_end.size()];
         s.region = region_at(p, px, py);
+        add_slots(s, sx, sy);
         return s;
     }
 
@@ -296,7 +300,24 @@ private:
         s.name = p.names_start[n % p.names_start.size()] + p.names_mid[(n >> 16) % p.names_mid.size()] +
                  p.names_end[(n >> 32) % p.names_end.size()];
         s.region = region_at(p, px, py);
+        add_slots(s, sx, sy);
         return s;
+    }
+
+    // The cell and the NPC slots of the stamp (its characters with an npc role, in scan order).
+    void add_slots(Settlement& s, int sx, int sy) const {
+        s.sx = sx;
+        s.sy = sy;
+        const Stamp& stamp = m_params_.stamps.at(s.stamp);
+        for (int ly = 0; ly < stamp.h; ++ly) {
+            for (int lx = 0; lx < stamp.w; ++lx) {
+                const auto entry = stamp.legend.find(stamp.rows[static_cast<std::size_t>(ly)][static_cast<std::size_t>(lx)]);
+                if (entry != stamp.legend.end() && !entry->second.npc.empty()) {
+                    const int index = static_cast<int>(s.slots.size());
+                    s.slots[{s.x + lx, s.y + ly}] = {index, entry->second.npc};
+                }
+            }
+        }
     }
 
     std::uint64_t m_seed_;
@@ -306,13 +327,17 @@ private:
 
 // Appends tile (x, y): its gid, and its prop or spawner. Settlements replace everything under their footprint.
 void emit_tile(std::uint64_t seed, const WorldParams& p, Sites& sites, int x, int y, std::vector<int>& tiles,
-               std::vector<GenProp>& props, std::vector<std::pair<int, int>>& spawners) {
+               std::vector<GenProp>& props, std::vector<std::pair<int, int>>& spawners, std::vector<GenPerson>& people) {
     const Biome biome = biome_at(seed, p, x, y);
     const StampEntry* entry = nullptr;
-    if (sites.at(x, y, entry)) {
+    const Settlement* settlement = nullptr;
+    if (sites.at(x, y, entry, &settlement)) {
         tiles.push_back(entry != nullptr && entry->tile != 0 ? entry->tile : gid_for(seed, p, biome, x, y, Overlay::None));
         if (entry != nullptr && !entry->prop.empty()) {
             props.push_back({entry->prop, entry->radius_x100, x * 256 + 128, y * 256 + 192});
+        }
+        if (entry != nullptr && !entry->npc.empty()) {
+            people.push_back(person_at(seed, p, *settlement, x, y));
         }
         return;
     }
@@ -330,6 +355,32 @@ void emit_tile(std::uint64_t seed, const WorldParams& p, Sites& sites, int x, in
 }
 
 }  // namespace
+
+GenPerson person_at(std::uint64_t seed, const WorldParams& p, const Settlement& s, int x, int y) {
+    const auto& [index, role] = s.slots.at({x, y});
+    const std::uint64_t h = hash64(seed, s.sx, s.sy, 100 + index);
+    const Region& region = p.regions[static_cast<std::size_t>(s.region)];
+    GenPerson person;
+    person.key = "settle:" + std::to_string(s.sx) + ":" + std::to_string(s.sy) + ":" + std::to_string(index);
+    person.role = role;
+    person.x256 = x * 256 + 128;
+    person.y256 = y * 256 + 160;
+    person.name = p.people_start[h % p.people_start.size()] + p.people_end[(h >> 16) % p.people_end.size()];
+    person.variant = p.variants[(h >> 32) % p.variants.size()];
+    person.tone = region.tone;
+    person.dialogue = p.settlement_dialogue;
+    const auto replace_all = [&person](const std::string& token, const std::string& value) {
+        for (std::size_t at = person.dialogue.find(token); at != std::string::npos; at = person.dialogue.find(token, at + value.size())) {
+            person.dialogue.replace(at, token.size(), value);
+        }
+    };
+    replace_all("{role}", role);
+    replace_all("{tone}", region.tone);
+    person.place = s.name;
+    person.region = region.name;
+    person.quirk = p.quirks[hash64(seed, s.sx, s.sy, 44) % p.quirks.size()];
+    return person;
+}
 
 int region_at(const WorldParams& p, int x, int y) {
     int best = 0;
@@ -382,7 +433,7 @@ GeneratedWorld generate_world(std::uint64_t seed, const WorldParams& p) {
     Sites sites(seed, p);
     for (int y = 0; y < p.height; ++y) {
         for (int x = 0; x < p.width; ++x) {
-            emit_tile(seed, p, sites, x, y, world.tiles, world.props, world.spawners);
+            emit_tile(seed, p, sites, x, y, world.tiles, world.props, world.spawners, world.people);
         }
     }
     const int cx = p.width / 2;
@@ -401,7 +452,7 @@ GeneratedChunk generate_chunk(std::uint64_t seed, const WorldParams& p, int chun
     Sites sites(seed, p);
     for (int y = chunk_y * kChunkSize; y < (chunk_y + 1) * kChunkSize; ++y) {
         for (int x = chunk_x * kChunkSize; x < (chunk_x + 1) * kChunkSize; ++x) {
-            emit_tile(seed, p, sites, x, y, chunk.tiles, chunk.props, chunk.spawners);
+            emit_tile(seed, p, sites, x, y, chunk.tiles, chunk.props, chunk.spawners, chunk.people);
         }
     }
     return chunk;

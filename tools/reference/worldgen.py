@@ -102,8 +102,8 @@ class Sites:
         names = cfg["names"]
         name = names["start"][n % len(names["start"])] + names["mid"][(n >> 16) % len(names["mid"])] \
             + names["end"][(n >> 32) % len(names["end"])]
-        return {"x": ox, "y": oy, "px": px, "py": py, "w": stamp["w"], "h": stamp["h"], "stamp": stamp_id,
-                "kind": kind["id"], "name": name, "region": region_at(params, px, py)}
+        return self._with_slots({"x": ox, "y": oy, "px": px, "py": py, "w": stamp["w"], "h": stamp["h"], "stamp": stamp_id,
+                                 "kind": kind["id"], "name": name, "region": region_at(params, px, py)}, sx, sy)
 
     def _home(self, sx: int, sy: int, px: int, py: int, stamp_id: str) -> dict:
         """The home village: a settlement of fixed position, stamp and kind near the spawn (spec 09, "The home village")."""
@@ -114,8 +114,20 @@ class Sites:
         name = names["start"][n % len(names["start"])] + names["mid"][(n >> 16) % len(names["mid"])] \
             + names["end"][(n >> 32) % len(names["end"])]
         kind = next((k["id"] for k in params["settlements"]["kinds"] if stamp_id in k["stamps"]), "village")
-        return {"x": px - stamp["anchor"][0], "y": py - stamp["anchor"][1], "px": px, "py": py, "w": stamp["w"], "h": stamp["h"],
-                "stamp": stamp_id, "kind": kind, "name": name, "region": region_at(params, px, py)}
+        return self._with_slots({"x": px - stamp["anchor"][0], "y": py - stamp["anchor"][1], "px": px, "py": py, "w": stamp["w"],
+                                 "h": stamp["h"], "stamp": stamp_id, "kind": kind, "name": name, "region": region_at(params, px, py)},
+                                sx, sy)
+
+    def _with_slots(self, site: dict, sx: int, sy: int) -> dict:
+        """Adds the cell and the NPC slots of the stamp (its characters with an `npc` role, in scan order)."""
+        stamp = self.params["stamp_defs"][site["stamp"]]
+        slots: dict[tuple[int, int], tuple[int, str]] = {}
+        for ly, row in enumerate(stamp["rows"]):
+            for lx, ch in enumerate(row):
+                entry = stamp["legend"].get(ch)
+                if entry is not None and "npc" in entry:
+                    slots[(site["x"] + lx, site["y"] + ly)] = (len(slots), entry["npc"])
+        return {**site, "sx": sx, "sy": sy, "slots": slots}
 
     def at(self, x: int, y: int) -> tuple[dict, dict | None] | None:
         """(settlement, legend entry of the stamp character) when tile (x, y) lies in a settlement footprint."""
@@ -127,6 +139,28 @@ class Sites:
             return None
         stamp = self.params["stamp_defs"][site["stamp"]]
         return site, stamp["legend"].get(stamp["rows"][ly][lx])
+
+
+def person_at(seed: int, params: dict, site: dict, x: int, y: int) -> dict:
+    """The settlement NPC that stands on slot tile (x, y) of the settlement (spec 09, "Settlement people")."""
+    index, role = site["slots"][(x, y)]
+    cfg = params["settlements"]
+    h = hash64(seed, site["sx"], site["sy"], 100 + index)
+    people = cfg["people"]
+    region = params["regions"][site["region"]]
+    return {
+        "key": f"settle:{site['sx']}:{site['sy']}:{index}",
+        "role": role,
+        "x256": x * 256 + 128,
+        "y256": y * 256 + 160,
+        "name": people["start"][h % len(people["start"])] + people["end"][(h >> 16) % len(people["end"])],
+        "variant": cfg["variants"][(h >> 32) % len(cfg["variants"])],
+        "tone": region["tone"],
+        "dialogue": cfg["dialogue"].replace("{role}", role).replace("{tone}", region["tone"]),
+        "place": site["name"],
+        "region": region["name"],
+        "quirk": cfg["quirks"][hash64(seed, site["sx"], site["sy"], 44) % len(cfg["quirks"])],
+    }
 
 
 def settlements_in(seed: int, params: dict, sx0: int, sy0: int, sx1: int, sy1: int) -> list[dict]:
@@ -258,7 +292,7 @@ def spawner_at(seed: int, params: dict, biome: str, x: int, y: int) -> bool:
     return (hash64(seed, x, y, 11) >> 20) % 10000 < s["per_10000"]
 
 
-def _tile(seed: int, params: dict, sites: Sites, x: int, y: int, tiles: list, props: list, spawners: list) -> None:
+def _tile(seed: int, params: dict, sites: Sites, x: int, y: int, tiles: list, props: list, spawners: list, people: list) -> None:
     """Appends tile (x, y): its gid, and its prop or spawner (spec 09). Settlements replace everything under their footprint."""
     biome = biome_at(seed, params, x, y)
     found = sites.at(x, y)
@@ -267,6 +301,8 @@ def _tile(seed: int, params: dict, sites: Sites, x: int, y: int, tiles: list, pr
         tiles.append(entry["tile"] if entry is not None and "tile" in entry else gid_for(seed, params, biome, x, y))
         if entry is not None and "prop" in entry:
             props.append({"art": entry["prop"], "radius_x100": entry["radius_x100"], "x256": x * 256 + 128, "y256": y * 256 + 192})
+        if entry is not None and "npc" in entry:
+            people.append(person_at(seed, params, found[0], x, y))
         return
     overlay = overlay_at(seed, params, biome, x, y)
     tiles.append(gid_for(seed, params, biome, x, y, overlay))
@@ -285,12 +321,13 @@ def generate(seed: int, params: dict) -> dict:
     tiles: list[int] = []
     props: list[dict] = []
     spawners: list[list[int]] = []
+    people: list[dict] = []
     sites = Sites(seed, params)
     for y in range(h):
         for x in range(w):
-            _tile(seed, params, sites, x, y, tiles, props, spawners)
+            _tile(seed, params, sites, x, y, tiles, props, spawners, people)
     cx, cy = w // 2, h // 2
-    return {"tiles": tiles, "props": props, "spawners": spawners,
+    return {"tiles": tiles, "props": props, "spawners": spawners, "people": people,
             "spawn": [cx * 256 + 128, cy * 256 + 128],
             "npcs": [{**npc, "x256": (cx + npc["dx"]) * 256 + 128, "y256": (cy + npc["dy"]) * 256 + 128}
                      for npc in params["npcs"]]}
@@ -305,11 +342,12 @@ def generate_chunk(seed: int, params: dict, cx: int, cy: int) -> dict:
     tiles: list[int] = []
     props: list[dict] = []
     spawners: list[list[int]] = []
+    people: list[dict] = []
     sites = Sites(seed, params)
     for y in range(cy * CHUNK_SIZE, (cy + 1) * CHUNK_SIZE):
         for x in range(cx * CHUNK_SIZE, (cx + 1) * CHUNK_SIZE):
-            _tile(seed, params, sites, x, y, tiles, props, spawners)
-    return {"tiles": tiles, "props": props, "spawners": spawners}
+            _tile(seed, params, sites, x, y, tiles, props, spawners, people)
+    return {"tiles": tiles, "props": props, "spawners": spawners, "people": people}
 
 
 # ---------------------------------------------------------------------------- exploration and the world map

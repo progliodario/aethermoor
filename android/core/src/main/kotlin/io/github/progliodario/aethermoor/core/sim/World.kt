@@ -118,6 +118,10 @@ class WorldSim(
     /** Spawner tile -> world tick of the death. */
     private val cleared = java.util.TreeMap<Pair<Int, Int>, Long>(compareBy({ it.first }, { it.second }))
 
+    /** Settlement people of the active window (spec 09) and their collision circles. */
+    private val npcList = ArrayList<NpcDef>()
+    private val npcCircles = ArrayList<Circle>()
+
     /** Explored world map cells (spec 09); empty on a fixed map. */
     val explored: MutableSet<Pair<Int, Int>> = java.util.TreeSet<Pair<Int, Int>>(compareBy({ it.second }, { it.first }))
 
@@ -136,6 +140,8 @@ class WorldSim(
     override val playerY: Float get() = player.position.y
 
     init {
+        story.dynamicNpcs = npcList
+        collision.dynamicProps = npcCircles
         for (npc in combat.story.npcs) collision.addProp(Circle(npc.x, npc.y, NPC_RADIUS))
         if (combat.enabled) {
             player.level = combat.startLevel.toLong()
@@ -168,6 +174,23 @@ class WorldSim(
         for (prop in map.props) if (prop.x >= x0 && prop.x <= x1 && prop.y >= y0 && prop.y <= y1) fn(prop)
     }
 
+    private fun rebuildNpcCircles() {
+        npcCircles.clear()
+        for (npc in npcList) npcCircles.add(Circle(npc.x, npc.y, NPC_RADIUS))
+    }
+
+    private fun addChunkPeople(cx: Int, cy: Int) {
+        val chunk = chunks?.find(cx, cy) ?: return
+        for (person in chunk.people) {
+            npcList.add(
+                NpcDef(
+                    person.key, person.dialogue, person.variant, person.x256 / 256f, person.y256 / 256f, person.name,
+                    mapOf("npc" to person.name, "place" to person.place, "region" to person.region, "quirk" to "\$i18n:${person.quirk}"),
+                ),
+            )
+        }
+    }
+
     private fun addChunkEnemies(cx: Int, cy: Int) {
         val def = combat.streamEnemy ?: return
         val store = chunks ?: return
@@ -197,6 +220,7 @@ class WorldSim(
         if (windowValid && cx == windowX && cy == windowY) return
         store.keepAround(cx, cy)
         if (windowValid) {
+            npcList.removeAll { !insideWindow(chunkOf(floor(it.x).toInt()), chunkOf(floor(it.y).toInt()), cx, cy) }
             val keptEnemies = ArrayList<Enemy>()
             val keptHits = ArrayList<Boolean>()
             for (i in enemies.indices) {
@@ -213,9 +237,13 @@ class WorldSim(
         }
         for (j in cy - ACTIVE_RADIUS..cy + ACTIVE_RADIUS) {
             for (i in cx - ACTIVE_RADIUS..cx + ACTIVE_RADIUS) {
-                if (!windowValid || !insideWindow(i, j, windowX, windowY)) addChunkEnemies(i, j)
+                if (!windowValid || !insideWindow(i, j, windowX, windowY)) {
+                    addChunkEnemies(i, j)
+                    addChunkPeople(i, j)
+                }
             }
         }
+        rebuildNpcCircles()
         windowValid = true
         windowX = cx
         windowY = cy
@@ -227,6 +255,15 @@ class WorldSim(
             primaryAtLevel(combat.player, player.level),
             Equipment(weaponAtk = combat.player.weaponAtk, weaponMatk = combat.player.weaponMatk),
         )
+    }
+
+    /** Puts the player at (x, y) in tiles, loading the chunks around (developer option, later the Threshold Stones). */
+    fun teleport(x: Float, y: Float) {
+        player.position = Vec2(x, y)
+        chunks?.keepAround(chunkOf(floor(x).toInt()), chunkOf(floor(y).toInt()))
+        player.position = collision.resolve(player.position)
+        syncWindow()
+        markExplored()
     }
 
     /** Uses one item of the inventory (spec 06). Returns false, changing nothing, when it is refused. */
@@ -546,6 +583,11 @@ class WorldSim(
             hitSet.addAll(s.hitSet)
             cleared.clear()
             for (c in s.cleared) cleared[Pair(c.x, c.y)] = c.died
+            npcList.clear()
+            for (j in chunkOf(floor(s.y).toInt()) - ACTIVE_RADIUS..chunkOf(floor(s.y).toInt()) + ACTIVE_RADIUS) {
+                for (i in chunkOf(floor(s.x).toInt()) - ACTIVE_RADIUS..chunkOf(floor(s.x).toInt()) + ACTIVE_RADIUS) addChunkPeople(i, j)
+            }
+            rebuildNpcCircles()
             windowValid = true
             windowX = chunkOf(floor(s.x).toInt())
             windowY = chunkOf(floor(s.y).toInt())

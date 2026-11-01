@@ -18,7 +18,7 @@ data class PropOption(val art: String, val radiusX100: Int, val perMille: Int)
 
 data class WorldNpc(val key: String, val dialogue: String, val variant: String, val dx: Int, val dy: Int)
 
-class Region(val id: String, /** An $i18n: key. */ val name: String, val xPm: Int, val yPm: Int, val danger: Int)
+class Region(val id: String, /** An $i18n: key. */ val name: String, val xPm: Int, val yPm: Int, val danger: Int, /** The voice of the people of the region. */ val tone: String)
 
 class SettlementKind(val id: String, val weight: Int, val stamps: List<String>)
 
@@ -39,6 +39,28 @@ class Settlement(
     val kind: String,
     val name: String,
     val region: Int,
+    /** The cell of the site. */
+    val sx: Int,
+    val sy: Int,
+    /** NPC slots by tile: (index in scan order of the stamp, role). */
+    val slots: Map<Pair<Int, Int>, Pair<Int, String>>,
+)
+
+/** An NPC of a settlement (spec 09, "Settlement people"). */
+class GenPerson(
+    val key: String,
+    val role: String,
+    val x256: Int,
+    val y256: Int,
+    val name: String,
+    val variant: String,
+    val tone: String,
+    val dialogue: String,
+    val place: String,
+    /** A text key. */
+    val region: String,
+    /** A text key. */
+    val quirk: String,
 )
 
 class WorldParams(
@@ -95,6 +117,12 @@ class WorldParams(
     val namesStart: List<String>,
     val namesMid: List<String>,
     val namesEnd: List<String>,
+    /** Dialogue id of a settlement NPC with {role} and {tone}. */
+    val settlementDialogue: String,
+    val variants: List<String>,
+    val quirks: List<String>,
+    val peopleStart: List<String>,
+    val peopleEnd: List<String>,
     /** By id, resolved by the loader. */
     val stamps: Map<String, Stamp>,
 )
@@ -114,6 +142,7 @@ class GeneratedWorld(
     val spawnX256: Int,
     val spawnY256: Int,
     val npcs: List<GenNpc>,
+    val people: List<GenPerson> = emptyList(),
 )
 
 private enum class Biome(val id: String) { WATER("water"), BEACH("beach"), MOUNTAIN("mountain"), SNOW("snow"), DESERT("desert"), FOREST("forest"), PLAINS("plains") }
@@ -179,7 +208,7 @@ private class Sites(private val seed: ULong, private val p: WorldParams) {
     }
 
     /** Null outside every footprint; else the legend entry of the tile's character (itself null when it has none). */
-    class Hit(val entry: StampEntry?)
+    class Hit(val entry: StampEntry?, val settlement: Settlement)
 
     fun at(x: Int, y: Int): Hit? {
         val s = site(x shr 8, y shr 8) ?: return null
@@ -187,7 +216,7 @@ private class Sites(private val seed: ULong, private val p: WorldParams) {
         val ly = y - s.y
         if (lx < 0 || ly < 0 || lx >= s.w || ly >= s.h) return null
         val stamp = p.stamps.getValue(s.stamp)
-        return Hit(stamp.legend[stamp.rows[ly][lx]])
+        return Hit(stamp.legend[stamp.rows[ly][lx]], s)
     }
 
     /** The home village: fixed position, stamp and kind near the spawn (spec 09, "The home village"). */
@@ -198,7 +227,19 @@ private class Sites(private val seed: ULong, private val p: WorldParams) {
             p.namesMid[((n shr 16) % p.namesMid.size.toULong()).toInt()] +
             p.namesEnd[((n shr 32) % p.namesEnd.size.toULong()).toInt()]
         val kind = p.settlementKinds.firstOrNull { p.homeStamp in it.stamps }?.id ?: "village"
-        return Settlement(px - stamp.anchorX, py - stamp.anchorY, px, py, stamp.w, stamp.h, p.homeStamp, kind, name, regionAt(p, px, py))
+        return withSlots(px - stamp.anchorX, py - stamp.anchorY, px, py, stamp, p.homeStamp, kind, name, sx, sy)
+    }
+
+    /** Builds the settlement with the NPC slots of its stamp (the characters with an npc role, in scan order). */
+    private fun withSlots(x: Int, y: Int, px: Int, py: Int, stamp: Stamp, stampId: String, kind: String, name: String, sx: Int, sy: Int): Settlement {
+        val slots = LinkedHashMap<Pair<Int, Int>, Pair<Int, String>>()
+        for ((ly, row) in stamp.rows.withIndex()) {
+            for ((lx, ch) in row.withIndex()) {
+                val entry = stamp.legend[ch]
+                if (entry != null && entry.npc.isNotEmpty()) slots[Pair(x + lx, y + ly)] = Pair(slots.size, entry.npc)
+            }
+        }
+        return Settlement(x, y, px, py, stamp.w, stamp.h, stampId, kind, name, regionAt(p, px, py), sx, sy, slots)
     }
 
     private fun compute(sx: Int, sy: Int): Settlement? {
@@ -242,8 +283,28 @@ private class Sites(private val seed: ULong, private val p: WorldParams) {
         val name = p.namesStart[(n % p.namesStart.size.toULong()).toInt()] +
             p.namesMid[((n shr 16) % p.namesMid.size.toULong()).toInt()] +
             p.namesEnd[((n shr 32) % p.namesEnd.size.toULong()).toInt()]
-        return Settlement(ox, oy, px, py, stamp.w, stamp.h, stampId, chosen.id, name, regionAt(p, px, py))
+        return withSlots(ox, oy, px, py, stamp, stampId, chosen.id, name, sx, sy)
     }
+}
+
+/** The NPC standing on the slot tile (x, y) of the settlement (spec 09, "Settlement people"). */
+fun personAt(seed: ULong, p: WorldParams, s: Settlement, x: Int, y: Int): GenPerson {
+    val (index, role) = s.slots.getValue(Pair(x, y))
+    val h = hash64(seed, s.sx.toLong(), s.sy.toLong(), 100L + index)
+    val region = p.regions[s.region]
+    return GenPerson(
+        key = "settle:${s.sx}:${s.sy}:$index",
+        role = role,
+        x256 = x * 256 + 128,
+        y256 = y * 256 + 160,
+        name = p.peopleStart[(h % p.peopleStart.size.toULong()).toInt()] + p.peopleEnd[((h shr 16) % p.peopleEnd.size.toULong()).toInt()],
+        variant = p.variants[((h shr 32) % p.variants.size.toULong()).toInt()],
+        tone = region.tone,
+        dialogue = p.settlementDialogue.replace("{role}", role).replace("{tone}", region.tone),
+        place = s.name,
+        region = region.name,
+        quirk = p.quirks[(hash64(seed, s.sx.toLong(), s.sy.toLong(), 44) % p.quirks.size.toULong()).toInt()],
+    )
 }
 
 fun settlementSite(seed: ULong, p: WorldParams, siteX: Int, siteY: Int): Settlement? = Sites(seed, p).site(siteX, siteY)
@@ -274,6 +335,7 @@ private fun emitTile(
     index: Int,
     props: MutableList<GenProp>,
     spawners: MutableList<Pair<Int, Int>>,
+    people: MutableList<GenPerson>,
 ) {
     val biome = biomeAt(seed, p, x, y)
     val hit = sites.at(x, y)
@@ -281,6 +343,7 @@ private fun emitTile(
         val entry = hit.entry
         tiles[index] = if (entry != null && entry.tile != 0) entry.tile else gidFor(seed, p, biome, x, y, Overlay.NONE)
         if (entry != null && entry.prop.isNotEmpty()) props.add(GenProp(entry.prop, entry.radiusX100, x * 256 + 128, y * 256 + 192))
+        if (entry != null && entry.npc.isNotEmpty()) people.add(personAt(seed, p, hit.settlement, x, y))
         return
     }
     val overlay = overlayAt(seed, p, biome, x, y)
@@ -360,16 +423,18 @@ fun generateWorld(seed: ULong, p: WorldParams): GeneratedWorld {
     val tiles = IntArray(p.width * p.height)
     val props = ArrayList<GenProp>()
     val spawners = ArrayList<Pair<Int, Int>>()
+    val people = ArrayList<GenPerson>()
     var index = 0
     val sites = Sites(seed, p)
     for (y in 0 until p.height) {
-        for (x in 0 until p.width) emitTile(seed, p, sites, x, y, tiles, index++, props, spawners)
+        for (x in 0 until p.width) emitTile(seed, p, sites, x, y, tiles, index++, props, spawners, people)
     }
     val cx = p.width / 2
     val cy = p.height / 2
     return GeneratedWorld(
         p.width, p.height, tiles, props, spawners, cx * 256 + 128, cy * 256 + 128,
         p.npcs.map { GenNpc(it.key, it.dialogue, it.variant, (cx + it.dx) * 256 + 128, (cy + it.dy) * 256 + 128) },
+        people,
     )
 }
 
@@ -383,6 +448,8 @@ class GeneratedChunk(
     val props: List<GenProp>,
     /** Absolute tile coordinates, in scan order. */
     val spawners: List<Pair<Int, Int>>,
+    /** Settlement NPCs, in scan order. */
+    val people: List<GenPerson> = emptyList(),
 )
 
 /** Exactly the restriction of [generateWorld] to the window. Any chunk coordinates are valid: tiles outside the world are water. */
@@ -390,12 +457,13 @@ fun generateChunk(seed: ULong, p: WorldParams, chunkX: Int, chunkY: Int): Genera
     val tiles = IntArray(CHUNK_SIZE * CHUNK_SIZE)
     val props = ArrayList<GenProp>()
     val spawners = ArrayList<Pair<Int, Int>>()
+    val people = ArrayList<GenPerson>()
     var index = 0
     val sites = Sites(seed, p)
     for (y in chunkY * CHUNK_SIZE until (chunkY + 1) * CHUNK_SIZE) {
-        for (x in chunkX * CHUNK_SIZE until (chunkX + 1) * CHUNK_SIZE) emitTile(seed, p, sites, x, y, tiles, index++, props, spawners)
+        for (x in chunkX * CHUNK_SIZE until (chunkX + 1) * CHUNK_SIZE) emitTile(seed, p, sites, x, y, tiles, index++, props, spawners, people)
     }
-    return GeneratedChunk(tiles, props, spawners)
+    return GeneratedChunk(tiles, props, spawners, people)
 }
 
 /** Side of a world map cell in tiles (spec 09, "Exploration and the world map"). */
@@ -546,6 +614,7 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
                 Region(
                     r.getValue("id").jsonPrimitive.content, r.getValue("name").jsonPrimitive.content,
                     r.getValue("x_pm").jsonPrimitive.int, r.getValue("y_pm").jsonPrimitive.int, r.getValue("danger").jsonPrimitive.int,
+                    r.getValue("tone").jsonPrimitive.content,
                 )
             },
             settlementPerMille = j.getValue("settlements").jsonObject.getValue("per_mille").jsonPrimitive.int,
@@ -559,6 +628,11 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
             namesStart = names("start", j),
             namesMid = names("mid", j),
             namesEnd = names("end", j),
+            settlementDialogue = j.getValue("settlements").jsonObject.getValue("dialogue").jsonPrimitive.content,
+            variants = j.getValue("settlements").jsonObject.getValue("variants").jsonArray.map { it.jsonPrimitive.content },
+            quirks = j.getValue("settlements").jsonObject.getValue("quirks").jsonArray.map { it.jsonPrimitive.content },
+            peopleStart = j.getValue("settlements").jsonObject.getValue("people").jsonObject.getValue("start").jsonArray.map { it.jsonPrimitive.content },
+            peopleEnd = j.getValue("settlements").jsonObject.getValue("people").jsonObject.getValue("end").jsonArray.map { it.jsonPrimitive.content },
             stamps = (j["stamp_defs"]?.jsonObject ?: JsonObject(emptyMap())).mapValues { (_, def) -> parseStamp(def.jsonObject) },
             npcs = j.getValue("npcs").jsonArray.map {
                 val n = it.jsonObject

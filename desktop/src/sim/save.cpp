@@ -144,7 +144,11 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
     }
     story["quests"] = quests;
     if (s.story.dialogue_active) {
-        story["dialogue"] = {{"id", s.story.dialogue_id}, {"node", s.story.node}};
+        Json dialogue = {{"id", s.story.dialogue_id}, {"node", s.story.node}};
+        if (!s.story.dialogue_args.empty()) {
+            dialogue["args"] = s.story.dialogue_args;
+        }
+        story["dialogue"] = dialogue;
     } else {
         story["dialogue"] = nullptr;
     }
@@ -229,6 +233,11 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
                 s.story.dialogue_active = true;
                 s.story.dialogue_id = story.at("dialogue").at("id").get<std::string>();
                 s.story.node = story.at("dialogue").at("node").get<std::string>();
+                if (story.at("dialogue").contains("args")) {
+                    for (const auto& [key, value] : story.at("dialogue").at("args").items()) {
+                        s.story.dialogue_args[key] = value.get<std::string>();
+                    }
+                }
             }
         }
         return s;

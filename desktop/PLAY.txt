@@ -17,7 +17,8 @@ The game picks Italian or English from your system language.
 The game saves by itself every 30 seconds and when you quit; it continues
 where you left off (same world). Saves are in your user data folder.
 
-What to try: talk to the guild clerk Mira next to you and accept her quest,
+What to try: head south-east to the village near the start and talk to the people there (each region has its own way of speaking),
+talk to the guild clerk Mira next to you and accept her quest,
 fight the green slimes, walk far away (the world is 16384 x 16384 tiles),
 open the map (M) and watch the day turn to night and the weather change.
 
@@ -39,7 +40,8 @@ Il gioco sceglie italiano o inglese dalla lingua del sistema.
 Il gioco salva da solo ogni 30 secondi e quando esci, e riprende da dove avevi
 lasciato (stesso mondo). I salvataggi sono nella cartella dati dell'utente.
 
-Cosa provare: parla con l'impiegata della gilda Mira, qui accanto, e accetta la
+Cosa provare: vai a sud-est, al villaggio vicino al punto di partenza, e parla con la gente
+(ogni regione ha il suo modo di parlare); parla con l'impiegata della gilda Mira, qui accanto, e accetta la
 sua missione; combatti gli slime verdi; allontanati (il mondo e' di
 16384 x 16384 tile); apri la mappa (M) e guarda il giorno che diventa notte
 e il meteo che cambia.

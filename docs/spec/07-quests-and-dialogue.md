@@ -65,6 +65,15 @@ A dialogue is a graph of named nodes with a `start` node and the special target 
 - `interact`: when a dialogue is open it behaves as `advance`. Otherwise the nearest NPC within 1.5 tiles (first in list order on ties) is talked to:
   first the `talk` event is processed, then its dialogue starts.
 
+## Dynamic NPCs and dialogue arguments
+
+NPCs that come from the generated world (settlement people, spec 09) have the same fields plus a `name` (a proper noun, not translated) and **arguments**, a map of strings
+that the texts of their dialogue may use as `{npc}`, `{place}`, `{region}` and `{quirk}`. The arguments of the NPC being talked to are kept while the dialogue is open
+(and saved with it, spec 12). A value that starts with `$i18n:` is a text key that the client resolves in the current language, formatting it with the other (plain) arguments.
+In a `say` node the speaker `npc` means the name of the NPC being talked to; any other speaker is the text `speaker.<key>`.
+Dynamic NPCs exist in the order they entered the active window of chunks (spec 09, "Streaming"); the `interact` rules above apply to the static and the dynamic NPCs together,
+with the static ones first.
+
 ## Presentation (not in the contract)
 
 The dialogue box shows the speaker (`speaker.<key>` text), the text and the visible choices. The quest tracker shows the quest name, the

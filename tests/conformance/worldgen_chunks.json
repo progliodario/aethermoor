@@ -46,56 +46,64 @@
               "name": "$i18n:region.verdalis.name",
               "x_pm": 500,
               "y_pm": 500,
-              "danger": 1
+              "danger": 1,
+              "tone": "warm"
             },
             {
               "id": "whisperwood",
               "name": "$i18n:region.whisperwood.name",
               "x_pm": 230,
               "y_pm": 340,
-              "danger": 3
+              "danger": 3,
+              "tone": "mystic"
             },
             {
               "id": "ironspine",
               "name": "$i18n:region.ironspine.name",
               "x_pm": 780,
               "y_pm": 220,
-              "danger": 4
+              "danger": 4,
+              "tone": "gruff"
             },
             {
               "id": "sunscar",
               "name": "$i18n:region.sunscar.name",
               "x_pm": 810,
               "y_pm": 730,
-              "danger": 4
+              "danger": 4,
+              "tone": "flowery"
             },
             {
               "id": "frostveil",
               "name": "$i18n:region.frostveil.name",
               "x_pm": 450,
               "y_pm": 90,
-              "danger": 5
+              "danger": 5,
+              "tone": "stoic"
             },
             {
               "id": "tidehaven",
               "name": "$i18n:region.tidehaven.name",
               "x_pm": 140,
               "y_pm": 770,
-              "danger": 3
+              "danger": 3,
+              "tone": "salty"
             },
             {
               "id": "ashen_wastes",
               "name": "$i18n:region.ashen_wastes.name",
               "x_pm": 920,
               "y_pm": 480,
-              "danger": 7
+              "danger": 7,
+              "tone": "grim"
             },
             {
               "id": "lumeria",
               "name": "$i18n:region.lumeria.name",
               "x_pm": 480,
               "y_pm": 900,
-              "danger": 5
+              "danger": 5,
+              "tone": "scholarly"
             }
           ],
           "home": {
@@ -106,6 +114,80 @@
           },
           "settlements": {
             "per_mille": 130,
+            "dialogue": "base:dialogue/role/{role}_{tone}",
+            "variants": [
+              "",
+              "red",
+              "green",
+              "ochre",
+              "purple",
+              "teal",
+              "cream",
+              "brown"
+            ],
+            "quirks": [
+              "quirk.cheese",
+              "quirk.bells",
+              "quirk.bad_luck",
+              "quirk.bakers",
+              "quirk.singing",
+              "quirk.lanterns",
+              "quirk.mushrooms",
+              "quirk.kites",
+              "quirk.honey",
+              "quirk.riddles",
+              "quirk.cats",
+              "quirk.bridges"
+            ],
+            "people": {
+              "start": [
+                "An",
+                "Bri",
+                "Cor",
+                "Dar",
+                "El",
+                "Fia",
+                "Gor",
+                "Hel",
+                "Ing",
+                "Jor",
+                "Kai",
+                "Lis",
+                "Mar",
+                "Nia",
+                "Ori",
+                "Pip",
+                "Quin",
+                "Rod",
+                "Sal",
+                "Tam",
+                "Ulf",
+                "Vera",
+                "Wil",
+                "Yan",
+                "Zed"
+              ],
+              "end": [
+                "a",
+                "bert",
+                "dric",
+                "ela",
+                "gar",
+                "ina",
+                "ik",
+                "la",
+                "mund",
+                "na",
+                "o",
+                "rin",
+                "sa",
+                "thor",
+                "us",
+                "wen",
+                "ya",
+                "zo"
+              ]
+            },
             "kinds": [
               {
                 "id": "hamlet",
@@ -610,6 +692,7 @@
             "prop_digest": "0x1e60dd44a728320d",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
+            "people": [],
             "gid_histogram": {
               "1": 61,
               "2": 61,
@@ -691,6 +774,7 @@
             "prop_digest": "0x083cfafa71fcef7d",
             "spawner_count": 2,
             "spawner_digest": "0x6ee84afcdca4df83",
+            "people": [],
             "gid_histogram": {
               "1": 496,
               "2": 528
@@ -768,6 +852,7 @@
             "prop_digest": "0x3faaafb7d9515773",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
+            "people": [],
             "gid_histogram": {
               "1": 529,
               "2": 495
@@ -845,6 +930,7 @@
             "prop_digest": "0x34d01caf12f39530",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
+            "people": [],
             "gid_histogram": {
               "1": 155,
               "2": 163,
@@ -926,6 +1012,7 @@
             "prop_digest": "0x18b68c8c9c79cb78",
             "spawner_count": 1,
             "spawner_digest": "0x94f9642c4e0c1199",
+            "people": [],
             "gid_histogram": {
               "1": 151,
               "2": 173,
@@ -1005,6 +1092,7 @@
             "prop_digest": "0x0000000000000000",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
+            "people": [],
             "gid_histogram": {
               "4": 1024
             }
@@ -1081,6 +1169,7 @@
             "prop_digest": "0x0000000000000000",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
+            "people": [],
             "gid_histogram": {
               "4": 1024
             }
@@ -1131,56 +1220,64 @@
               "name": "$i18n:region.verdalis.name",
               "x_pm": 500,
               "y_pm": 500,
-              "danger": 1
+              "danger": 1,
+              "tone": "warm"
             },
             {
               "id": "whisperwood",
               "name": "$i18n:region.whisperwood.name",
               "x_pm": 230,
               "y_pm": 340,
-              "danger": 3
+              "danger": 3,
+              "tone": "mystic"
             },
             {
               "id": "ironspine",
               "name": "$i18n:region.ironspine.name",
               "x_pm": 780,
               "y_pm": 220,
-              "danger": 4
+              "danger": 4,
+              "tone": "gruff"
             },
             {
               "id": "sunscar",
               "name": "$i18n:region.sunscar.name",
               "x_pm": 810,
               "y_pm": 730,
-              "danger": 4
+              "danger": 4,
+              "tone": "flowery"
             },
             {
               "id": "frostveil",
               "name": "$i18n:region.frostveil.name",
               "x_pm": 450,
               "y_pm": 90,
-              "danger": 5
+              "danger": 5,
+              "tone": "stoic"
             },
             {
               "id": "tidehaven",
               "name": "$i18n:region.tidehaven.name",
               "x_pm": 140,
               "y_pm": 770,
-              "danger": 3
+              "danger": 3,
+              "tone": "salty"
             },
             {
               "id": "ashen_wastes",
               "name": "$i18n:region.ashen_wastes.name",
               "x_pm": 920,
               "y_pm": 480,
-              "danger": 7
+              "danger": 7,
+              "tone": "grim"
             },
             {
               "id": "lumeria",
               "name": "$i18n:region.lumeria.name",
               "x_pm": 480,
               "y_pm": 900,
-              "danger": 5
+              "danger": 5,
+              "tone": "scholarly"
             }
           ],
           "home": {
@@ -1191,6 +1288,80 @@
           },
           "settlements": {
             "per_mille": 130,
+            "dialogue": "base:dialogue/role/{role}_{tone}",
+            "variants": [
+              "",
+              "red",
+              "green",
+              "ochre",
+              "purple",
+              "teal",
+              "cream",
+              "brown"
+            ],
+            "quirks": [
+              "quirk.cheese",
+              "quirk.bells",
+              "quirk.bad_luck",
+              "quirk.bakers",
+              "quirk.singing",
+              "quirk.lanterns",
+              "quirk.mushrooms",
+              "quirk.kites",
+              "quirk.honey",
+              "quirk.riddles",
+              "quirk.cats",
+              "quirk.bridges"
+            ],
+            "people": {
+              "start": [
+                "An",
+                "Bri",
+                "Cor",
+                "Dar",
+                "El",
+                "Fia",
+                "Gor",
+                "Hel",
+                "Ing",
+                "Jor",
+                "Kai",
+                "Lis",
+                "Mar",
+                "Nia",
+                "Ori",
+                "Pip",
+                "Quin",
+                "Rod",
+                "Sal",
+                "Tam",
+                "Ulf",
+                "Vera",
+                "Wil",
+                "Yan",
+                "Zed"
+              ],
+              "end": [
+                "a",
+                "bert",
+                "dric",
+                "ela",
+                "gar",
+                "ina",
+                "ik",
+                "la",
+                "mund",
+                "na",
+                "o",
+                "rin",
+                "sa",
+                "thor",
+                "us",
+                "wen",
+                "ya",
+                "zo"
+              ]
+            },
             "kinds": [
               {
                 "id": "hamlet",
@@ -1695,6 +1866,7 @@
             "prop_digest": "0xba11b36e1e636db5",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
+            "people": [],
             "gid_histogram": {
               "1": 176,
               "2": 188,
@@ -1774,6 +1946,7 @@
             "prop_digest": "0x595d15b045e3d233",
             "spawner_count": 2,
             "spawner_digest": "0x73e54fc645b05b14",
+            "people": [],
             "gid_histogram": {
               "1": 470,
               "2": 483,
@@ -1852,6 +2025,7 @@
             "prop_digest": "0x030e815f9ff44caf",
             "spawner_count": 1,
             "spawner_digest": "0x446c2b1fa2bde6f4",
+            "people": [],
             "gid_histogram": {
               "1": 126,
               "2": 115,
@@ -1932,6 +2106,7 @@
             "prop_digest": "0x8768a2b4091c2cc4",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
+            "people": [],
             "gid_histogram": {
               "1": 31,
               "2": 37,
@@ -1986,56 +2161,64 @@
               "name": "$i18n:region.verdalis.name",
               "x_pm": 500,
               "y_pm": 500,
-              "danger": 1
+              "danger": 1,
+              "tone": "warm"
             },
             {
               "id": "whisperwood",
               "name": "$i18n:region.whisperwood.name",
               "x_pm": 230,
               "y_pm": 340,
-              "danger": 3
+              "danger": 3,
+              "tone": "mystic"
             },
             {
               "id": "ironspine",
               "name": "$i18n:region.ironspine.name",
               "x_pm": 780,
               "y_pm": 220,
-              "danger": 4
+              "danger": 4,
+              "tone": "gruff"
             },
             {
               "id": "sunscar",
               "name": "$i18n:region.sunscar.name",
               "x_pm": 810,
               "y_pm": 730,
-              "danger": 4
+              "danger": 4,
+              "tone": "flowery"
             },
             {
               "id": "frostveil",
               "name": "$i18n:region.frostveil.name",
               "x_pm": 450,
               "y_pm": 90,
-              "danger": 5
+              "danger": 5,
+              "tone": "stoic"
             },
             {
               "id": "tidehaven",
               "name": "$i18n:region.tidehaven.name",
               "x_pm": 140,
               "y_pm": 770,
-              "danger": 3
+              "danger": 3,
+              "tone": "salty"
             },
             {
               "id": "ashen_wastes",
               "name": "$i18n:region.ashen_wastes.name",
               "x_pm": 920,
               "y_pm": 480,
-              "danger": 7
+              "danger": 7,
+              "tone": "grim"
             },
             {
               "id": "lumeria",
               "name": "$i18n:region.lumeria.name",
               "x_pm": 480,
               "y_pm": 900,
-              "danger": 5
+              "danger": 5,
+              "tone": "scholarly"
             }
           ],
           "home": {
@@ -2046,6 +2229,80 @@
           },
           "settlements": {
             "per_mille": 130,
+            "dialogue": "base:dialogue/role/{role}_{tone}",
+            "variants": [
+              "",
+              "red",
+              "green",
+              "ochre",
+              "purple",
+              "teal",
+              "cream",
+              "brown"
+            ],
+            "quirks": [
+              "quirk.cheese",
+              "quirk.bells",
+              "quirk.bad_luck",
+              "quirk.bakers",
+              "quirk.singing",
+              "quirk.lanterns",
+              "quirk.mushrooms",
+              "quirk.kites",
+              "quirk.honey",
+              "quirk.riddles",
+              "quirk.cats",
+              "quirk.bridges"
+            ],
+            "people": {
+              "start": [
+                "An",
+                "Bri",
+                "Cor",
+                "Dar",
+                "El",
+                "Fia",
+                "Gor",
+                "Hel",
+                "Ing",
+                "Jor",
+                "Kai",
+                "Lis",
+                "Mar",
+                "Nia",
+                "Ori",
+                "Pip",
+                "Quin",
+                "Rod",
+                "Sal",
+                "Tam",
+                "Ulf",
+                "Vera",
+                "Wil",
+                "Yan",
+                "Zed"
+              ],
+              "end": [
+                "a",
+                "bert",
+                "dric",
+                "ela",
+                "gar",
+                "ina",
+                "ik",
+                "la",
+                "mund",
+                "na",
+                "o",
+                "rin",
+                "sa",
+                "thor",
+                "us",
+                "wen",
+                "ya",
+                "zo"
+              ]
+            },
             "kinds": [
               {
                 "id": "hamlet",
@@ -2550,6 +2807,21 @@
             "prop_digest": "0x3d4273f5d3e8f71f",
             "spawner_count": 1,
             "spawner_digest": "0x4627751a26a22705",
+            "people": [
+              [
+                "settle:51:0:0",
+                "villager",
+                3362176,
+                35744,
+                "Gorbert",
+                "",
+                "gruff",
+                "base:dialogue/role/villager_gruff",
+                "Holomere",
+                "$i18n:region.ironspine.name",
+                "quirk.bad_luck"
+              ]
+            ],
             "gid_histogram": {
               "1": 408,
               "2": 350,
@@ -2633,6 +2905,21 @@
             "prop_digest": "0x3d4273f5d3e8f71f",
             "spawner_count": 1,
             "spawner_digest": "0x4627751a26a22705",
+            "people": [
+              [
+                "settle:51:0:0",
+                "villager",
+                3362176,
+                35744,
+                "Gorbert",
+                "",
+                "gruff",
+                "base:dialogue/role/villager_gruff",
+                "Holomere",
+                "$i18n:region.ironspine.name",
+                "quirk.bad_luck"
+              ]
+            ],
             "gid_histogram": {
               "1": 408,
               "2": 350,
@@ -2716,6 +3003,73 @@
             "prop_digest": "0x44ef570803e792bb",
             "spawner_count": 1,
             "spawner_digest": "0x0d1db27e225fd306",
+            "people": [
+              [
+                "settle:54:0:0",
+                "villager",
+                3590272,
+                37792,
+                "Jorsa",
+                "teal",
+                "gruff",
+                "base:dialogue/role/villager_gruff",
+                "Ostohaven",
+                "$i18n:region.ironspine.name",
+                "quirk.bridges"
+              ],
+              [
+                "settle:54:0:1",
+                "shopkeeper",
+                3593856,
+                38048,
+                "Zeda",
+                "teal",
+                "gruff",
+                "base:dialogue/role/shopkeeper_gruff",
+                "Ostohaven",
+                "$i18n:region.ironspine.name",
+                "quirk.bridges"
+              ],
+              [
+                "settle:54:0:2",
+                "elder",
+                3591808,
+                39328,
+                "Andric",
+                "brown",
+                "gruff",
+                "base:dialogue/role/elder_gruff",
+                "Ostohaven",
+                "$i18n:region.ironspine.name",
+                "quirk.bridges"
+              ],
+              [
+                "settle:54:0:3",
+                "villager",
+                3590016,
+                39840,
+                "Darik",
+                "ochre",
+                "gruff",
+                "base:dialogue/role/villager_gruff",
+                "Ostohaven",
+                "$i18n:region.ironspine.name",
+                "quirk.bridges"
+              ],
+              [
+                "settle:54:0:4",
+                "villager",
+                3593600,
+                40352,
+                "Helik",
+                "red",
+                "gruff",
+                "base:dialogue/role/villager_gruff",
+                "Ostohaven",
+                "$i18n:region.ironspine.name",
+                "quirk.bridges"
+              ]
+            ],
             "gid_histogram": {
               "5": 64,
               "6": 1,
@@ -2799,6 +3153,73 @@
             "prop_digest": "0x44ef570803e792bb",
             "spawner_count": 1,
             "spawner_digest": "0x0d1db27e225fd306",
+            "people": [
+              [
+                "settle:54:0:0",
+                "villager",
+                3590272,
+                37792,
+                "Jorsa",
+                "teal",
+                "gruff",
+                "base:dialogue/role/villager_gruff",
+                "Ostohaven",
+                "$i18n:region.ironspine.name",
+                "quirk.bridges"
+              ],
+              [
+                "settle:54:0:1",
+                "shopkeeper",
+                3593856,
+                38048,
+                "Zeda",
+                "teal",
+                "gruff",
+                "base:dialogue/role/shopkeeper_gruff",
+                "Ostohaven",
+                "$i18n:region.ironspine.name",
+                "quirk.bridges"
+              ],
+              [
+                "settle:54:0:2",
+                "elder",
+                3591808,
+                39328,
+                "Andric",
+                "brown",
+                "gruff",
+                "base:dialogue/role/elder_gruff",
+                "Ostohaven",
+                "$i18n:region.ironspine.name",
+                "quirk.bridges"
+              ],
+              [
+                "settle:54:0:3",
+                "villager",
+                3590016,
+                39840,
+                "Darik",
+                "ochre",
+                "gruff",
+                "base:dialogue/role/villager_gruff",
+                "Ostohaven",
+                "$i18n:region.ironspine.name",
+                "quirk.bridges"
+              ],
+              [
+                "settle:54:0:4",
+                "villager",
+                3593600,
+                40352,
+                "Helik",
+                "red",
+                "gruff",
+                "base:dialogue/role/villager_gruff",
+                "Ostohaven",
+                "$i18n:region.ironspine.name",
+                "quirk.bridges"
+              ]
+            ],
             "gid_histogram": {
               "5": 64,
               "6": 1,
@@ -2882,6 +3303,73 @@
             "prop_digest": "0xca1c228f6563ae15",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
+            "people": [
+              [
+                "settle:18:12:2",
+                "villager",
+                1196416,
+                819616,
+                "Marrin",
+                "cream",
+                "mystic",
+                "base:dialogue/role/villager_mystic",
+                "Silawick",
+                "$i18n:region.whisperwood.name",
+                "quirk.singing"
+              ],
+              [
+                "settle:18:12:3",
+                "villager",
+                1201024,
+                819616,
+                "Lissa",
+                "cream",
+                "mystic",
+                "base:dialogue/role/villager_mystic",
+                "Silawick",
+                "$i18n:region.whisperwood.name",
+                "quirk.singing"
+              ],
+              [
+                "settle:18:12:4",
+                "elder",
+                1198720,
+                820128,
+                "Elrin",
+                "",
+                "mystic",
+                "base:dialogue/role/elder_mystic",
+                "Silawick",
+                "$i18n:region.whisperwood.name",
+                "quirk.singing"
+              ],
+              [
+                "settle:18:12:5",
+                "villager",
+                1200256,
+                821152,
+                "Fiazo",
+                "ochre",
+                "mystic",
+                "base:dialogue/role/villager_mystic",
+                "Silawick",
+                "$i18n:region.whisperwood.name",
+                "quirk.singing"
+              ],
+              [
+                "settle:18:12:6",
+                "innkeeper",
+                1197440,
+                821408,
+                "Ulfwen",
+                "",
+                "mystic",
+                "base:dialogue/role/innkeeper_mystic",
+                "Silawick",
+                "$i18n:region.whisperwood.name",
+                "quirk.singing"
+              ]
+            ],
             "gid_histogram": {
               "1": 170,
               "2": 166,
@@ -2966,6 +3454,73 @@
             "prop_digest": "0xca1c228f6563ae15",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
+            "people": [
+              [
+                "settle:18:12:2",
+                "villager",
+                1196416,
+                819616,
+                "Marrin",
+                "cream",
+                "mystic",
+                "base:dialogue/role/villager_mystic",
+                "Silawick",
+                "$i18n:region.whisperwood.name",
+                "quirk.singing"
+              ],
+              [
+                "settle:18:12:3",
+                "villager",
+                1201024,
+                819616,
+                "Lissa",
+                "cream",
+                "mystic",
+                "base:dialogue/role/villager_mystic",
+                "Silawick",
+                "$i18n:region.whisperwood.name",
+                "quirk.singing"
+              ],
+              [
+                "settle:18:12:4",
+                "elder",
+                1198720,
+                820128,
+                "Elrin",
+                "",
+                "mystic",
+                "base:dialogue/role/elder_mystic",
+                "Silawick",
+                "$i18n:region.whisperwood.name",
+                "quirk.singing"
+              ],
+              [
+                "settle:18:12:5",
+                "villager",
+                1200256,
+                821152,
+                "Fiazo",
+                "ochre",
+                "mystic",
+                "base:dialogue/role/villager_mystic",
+                "Silawick",
+                "$i18n:region.whisperwood.name",
+                "quirk.singing"
+              ],
+              [
+                "settle:18:12:6",
+                "innkeeper",
+                1197440,
+                821408,
+                "Ulfwen",
+                "",
+                "mystic",
+                "base:dialogue/role/innkeeper_mystic",
+                "Silawick",
+                "$i18n:region.whisperwood.name",
+                "quirk.singing"
+              ]
+            ],
             "gid_histogram": {
               "1": 170,
               "2": 166,
@@ -3024,56 +3579,64 @@
               "name": "$i18n:region.verdalis.name",
               "x_pm": 500,
               "y_pm": 500,
-              "danger": 1
+              "danger": 1,
+              "tone": "warm"
             },
             {
               "id": "whisperwood",
               "name": "$i18n:region.whisperwood.name",
               "x_pm": 230,
               "y_pm": 340,
-              "danger": 3
+              "danger": 3,
+              "tone": "mystic"
             },
             {
               "id": "ironspine",
               "name": "$i18n:region.ironspine.name",
               "x_pm": 780,
               "y_pm": 220,
-              "danger": 4
+              "danger": 4,
+              "tone": "gruff"
             },
             {
               "id": "sunscar",
               "name": "$i18n:region.sunscar.name",
               "x_pm": 810,
               "y_pm": 730,
-              "danger": 4
+              "danger": 4,
+              "tone": "flowery"
             },
             {
               "id": "frostveil",
               "name": "$i18n:region.frostveil.name",
               "x_pm": 450,
               "y_pm": 90,
-              "danger": 5
+              "danger": 5,
+              "tone": "stoic"
             },
             {
               "id": "tidehaven",
               "name": "$i18n:region.tidehaven.name",
               "x_pm": 140,
               "y_pm": 770,
-              "danger": 3
+              "danger": 3,
+              "tone": "salty"
             },
             {
               "id": "ashen_wastes",
               "name": "$i18n:region.ashen_wastes.name",
               "x_pm": 920,
               "y_pm": 480,
-              "danger": 7
+              "danger": 7,
+              "tone": "grim"
             },
             {
               "id": "lumeria",
               "name": "$i18n:region.lumeria.name",
               "x_pm": 480,
               "y_pm": 900,
-              "danger": 5
+              "danger": 5,
+              "tone": "scholarly"
             }
           ],
           "home": {
@@ -3084,6 +3647,80 @@
           },
           "settlements": {
             "per_mille": 130,
+            "dialogue": "base:dialogue/role/{role}_{tone}",
+            "variants": [
+              "",
+              "red",
+              "green",
+              "ochre",
+              "purple",
+              "teal",
+              "cream",
+              "brown"
+            ],
+            "quirks": [
+              "quirk.cheese",
+              "quirk.bells",
+              "quirk.bad_luck",
+              "quirk.bakers",
+              "quirk.singing",
+              "quirk.lanterns",
+              "quirk.mushrooms",
+              "quirk.kites",
+              "quirk.honey",
+              "quirk.riddles",
+              "quirk.cats",
+              "quirk.bridges"
+            ],
+            "people": {
+              "start": [
+                "An",
+                "Bri",
+                "Cor",
+                "Dar",
+                "El",
+                "Fia",
+                "Gor",
+                "Hel",
+                "Ing",
+                "Jor",
+                "Kai",
+                "Lis",
+                "Mar",
+                "Nia",
+                "Ori",
+                "Pip",
+                "Quin",
+                "Rod",
+                "Sal",
+                "Tam",
+                "Ulf",
+                "Vera",
+                "Wil",
+                "Yan",
+                "Zed"
+              ],
+              "end": [
+                "a",
+                "bert",
+                "dric",
+                "ela",
+                "gar",
+                "ina",
+                "ik",
+                "la",
+                "mund",
+                "na",
+                "o",
+                "rin",
+                "sa",
+                "thor",
+                "us",
+                "wen",
+                "ya",
+                "zo"
+              ]
+            },
             "kinds": [
               {
                 "id": "hamlet",
@@ -3588,6 +4225,47 @@
             "prop_digest": "0x2c5a91406f68f3c5",
             "spawner_count": 1,
             "spawner_digest": "0x20d89009d95dd454",
+            "people": [
+              [
+                "settle:13:0:0",
+                "villager",
+                889728,
+                37792,
+                "Bria",
+                "ochre",
+                "stoic",
+                "base:dialogue/role/villager_stoic",
+                "Ostivale",
+                "$i18n:region.frostveil.name",
+                "quirk.mushrooms"
+              ],
+              [
+                "settle:13:0:2",
+                "elder",
+                891264,
+                39328,
+                "Angar",
+                "green",
+                "stoic",
+                "base:dialogue/role/elder_stoic",
+                "Ostivale",
+                "$i18n:region.frostveil.name",
+                "quirk.mushrooms"
+              ],
+              [
+                "settle:13:0:3",
+                "villager",
+                889472,
+                39840,
+                "Yansa",
+                "",
+                "stoic",
+                "base:dialogue/role/villager_stoic",
+                "Ostivale",
+                "$i18n:region.frostveil.name",
+                "quirk.mushrooms"
+              ]
+            ],
             "gid_histogram": {
               "1": 245,
               "2": 208,
@@ -3673,6 +4351,34 @@
             "prop_digest": "0xcec3cb560c278148",
             "spawner_count": 4,
             "spawner_digest": "0x9048d0da623333f0",
+            "people": [
+              [
+                "settle:13:0:1",
+                "shopkeeper",
+                893312,
+                38048,
+                "Jorwen",
+                "cream",
+                "stoic",
+                "base:dialogue/role/shopkeeper_stoic",
+                "Ostivale",
+                "$i18n:region.frostveil.name",
+                "quirk.mushrooms"
+              ],
+              [
+                "settle:13:0:4",
+                "villager",
+                893056,
+                40352,
+                "Corrin",
+                "red",
+                "stoic",
+                "base:dialogue/role/villager_stoic",
+                "Ostivale",
+                "$i18n:region.frostveil.name",
+                "quirk.mushrooms"
+              ]
+            ],
             "gid_histogram": {
               "1": 87,
               "2": 83,
@@ -3756,6 +4462,21 @@
             "prop_digest": "0xc34f0c51842be5ba",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
+            "people": [
+              [
+                "settle:33:0:0",
+                "villager",
+                2191232,
+                22176,
+                "Marus",
+                "purple",
+                "stoic",
+                "base:dialogue/role/villager_stoic",
+                "Calarhaven",
+                "$i18n:region.frostveil.name",
+                "quirk.kites"
+              ]
+            ],
             "gid_histogram": {
               "1": 282,
               "2": 230,
@@ -3839,6 +4560,21 @@
             "prop_digest": "0xc34f0c51842be5ba",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
+            "people": [
+              [
+                "settle:33:0:0",
+                "villager",
+                2191232,
+                22176,
+                "Marus",
+                "purple",
+                "stoic",
+                "base:dialogue/role/villager_stoic",
+                "Calarhaven",
+                "$i18n:region.frostveil.name",
+                "quirk.kites"
+              ]
+            ],
             "gid_histogram": {
               "1": 282,
               "2": 230,
@@ -3922,6 +4658,47 @@
             "prop_digest": "0x665edd32ea9222f1",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
+            "people": [
+              [
+                "settle:32:21:2",
+                "villager",
+                2134400,
+                1417376,
+                "Jorya",
+                "purple",
+                "warm",
+                "base:dialogue/role/villager_warm",
+                "Torenton",
+                "$i18n:region.verdalis.name",
+                "quirk.riddles"
+              ],
+              [
+                "settle:32:21:4",
+                "elder",
+                2136704,
+                1417888,
+                "Darrin",
+                "ochre",
+                "warm",
+                "base:dialogue/role/elder_warm",
+                "Torenton",
+                "$i18n:region.verdalis.name",
+                "quirk.riddles"
+              ],
+              [
+                "settle:32:21:6",
+                "innkeeper",
+                2135424,
+                1419168,
+                "Wilsa",
+                "brown",
+                "warm",
+                "base:dialogue/role/innkeeper_warm",
+                "Torenton",
+                "$i18n:region.verdalis.name",
+                "quirk.riddles"
+              ]
+            ],
             "gid_histogram": {
               "1": 98,
               "2": 112,
@@ -4005,6 +4782,34 @@
             "prop_digest": "0x2997d940608cd60c",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
+            "people": [
+              [
+                "settle:32:21:3",
+                "villager",
+                2139008,
+                1417376,
+                "Salina",
+                "green",
+                "warm",
+                "base:dialogue/role/villager_warm",
+                "Torenton",
+                "$i18n:region.verdalis.name",
+                "quirk.riddles"
+              ],
+              [
+                "settle:32:21:5",
+                "villager",
+                2138240,
+                1418912,
+                "Oriya",
+                "purple",
+                "warm",
+                "base:dialogue/role/villager_warm",
+                "Torenton",
+                "$i18n:region.verdalis.name",
+                "quirk.riddles"
+              ]
+            ],
             "gid_histogram": {
               "1": 23,
               "2": 30,
