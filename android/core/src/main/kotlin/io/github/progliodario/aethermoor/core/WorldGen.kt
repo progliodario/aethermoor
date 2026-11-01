@@ -44,6 +44,8 @@ class WorldParams(
     val spawnerBiomes: List<String>,
     val spawnerMinDistance: Int,
     val spawnerPer10000: Int,
+    val spawnerRespawnTicks: Int,
+    val time: TimeParams,
     val npcs: List<WorldNpc>,
 )
 
@@ -251,6 +253,8 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
             spawnerBiomes = s.getValue("biomes").jsonArray.map { it.jsonPrimitive.content },
             spawnerMinDistance = s.getValue("min_distance").jsonPrimitive.int,
             spawnerPer10000 = s.getValue("per_10000").jsonPrimitive.int,
+            spawnerRespawnTicks = s.getValue("respawn_ticks").jsonPrimitive.int,
+            time = parseTimeParams(j.getValue("time").jsonObject),
             npcs = j.getValue("npcs").jsonArray.map {
                 val n = it.jsonObject
                 WorldNpc(

@@ -146,3 +146,20 @@ def test_world_chunks_are_the_restriction_of_the_world():
     key = lambda p: (p["y256"], p["x256"])  # noqa: E731
     assert sorted(props, key=key) == sorted(world["props"], key=key)
     assert sorted(spawners) == sorted(world["spawners"])
+
+
+def test_world_time_light_and_weather():
+    import json
+
+    from reference import worldtime
+
+    t = json.loads((TOOLS.parent / "data" / "base" / "worlds" / "overworld.json").read_text(encoding="utf-8"))["time"]
+    assert worldtime.tod_pm(t, t["day_ticks"] * 3 + t["day_ticks"] // 2) == 500
+    assert worldtime.day_of(t, t["day_ticks"] * 3) == 4
+    assert [worldtime.light_pm(t, tod) for tod in (0, 200, 250, 300, 500, 700, 750, 800, 1000)] == [180, 180, 590, 1000, 1000, 1000, 590, 180, 180]
+    for ticks in range(0, 5 * t["weather"]["period_ticks"], 997):
+        s = worldtime.sample(42, t, ticks)
+        assert 0 <= s["rain_pm"] <= 1000 and 0 <= s["dim_pm"] <= 1000 and 0 <= s["effective_light_pm"] <= 1000
+    # The weather only depends on the seed and the period: same period, same kind.
+    period = t["weather"]["period_ticks"]
+    assert worldtime.weather_at(9, t, 7 * period + 5000)["kind"] == worldtime.weather_at(9, t, 7 * period + 17000)["kind"]

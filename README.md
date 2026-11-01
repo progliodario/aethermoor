@@ -3,7 +3,7 @@
 > Titolo provvisorio. Action RPG isekai fantasy, top-down e in tempo reale, in grafica vettoriale. Gratuito e open source.
 > English version: [README.en.md](README.en.md)
 
-**Stato:** M5a (mondo procedurale). Su Windows, Linux e Android c'è un personaggio vettoriale che esplora un mondo generato da un seme, combatte contro slime, parla con una PNG e accetta una quest, con salvataggi; mancano ancora gli altri protagonisti, i dungeon e la vita di villaggio. Vedi la [roadmap](docs/plan/06-roadmap-rischi-backlog.md).
+**Stato:** M5c (mondo procedurale in streaming, con giorno e notte). Su Windows, Linux e Android c'è un personaggio vettoriale che esplora un mondo generato da un seme, combatte contro slime, parla con una PNG e accetta una quest, con salvataggi; mancano ancora gli altri protagonisti, i dungeon e la vita di villaggio. Vedi la [roadmap](docs/plan/06-roadmap-rischi-backlog.md).
 
 ## Di che cosa si tratta
 

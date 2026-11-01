@@ -25,5 +25,6 @@
   "ui.loaded": "Game loaded",
   "ui.load_failed": "Cannot load the save",
   "ui.new_game": "New game",
+  "ui.clock": "Day {day}  {time}",
   "ui.bag_hint": "[I] Bag"
 }

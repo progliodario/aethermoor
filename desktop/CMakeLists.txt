@@ -34,7 +34,8 @@ add_library(aether_core STATIC
   src/core/rules.cpp
   src/core/id.cpp
   src/core/message_format.cpp
-  src/core/worldgen.cpp)
+  src/core/worldgen.cpp
+  src/core/worldtime.cpp)
 target_include_directories(aether_core PUBLIC src)
 target_compile_definitions(aether_core PUBLIC
   AETHER_GAME_NAME="${AETHER_NAME}"

@@ -16,6 +16,7 @@
     "tiles",
     "props",
     "spawners",
+    "time",
     "npcs"
   ],
   "additionalProperties": false,
@@ -260,7 +261,8 @@
         "enemy",
         "biomes",
         "min_distance",
-        "per_10000"
+        "per_10000",
+        "respawn_ticks"
       ],
       "additionalProperties": false,
       "properties": {
@@ -282,6 +284,96 @@
           "type": "integer",
           "minimum": 0,
           "maximum": 10000
+        },
+        "respawn_ticks": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "time": {
+      "type": "object",
+      "required": [
+        "day_ticks",
+        "start_tick",
+        "light",
+        "weather"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "day_ticks": {
+          "type": "integer",
+          "minimum": 1000
+        },
+        "start_tick": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "light": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000
+            }
+          }
+        },
+        "weather": {
+          "type": "object",
+          "required": [
+            "period_ticks",
+            "fade_ticks",
+            "kinds"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "period_ticks": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "fade_ticks": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "kinds": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "weight",
+                  "rain_pm",
+                  "dim_pm"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "weight": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "rain_pm": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000
+                  },
+                  "dim_pm": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },

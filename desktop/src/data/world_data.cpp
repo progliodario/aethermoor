@@ -65,6 +65,26 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
         }
         p.spawner_min_distance = s.at("min_distance").get<int>();
         p.spawner_per_10000 = s.at("per_10000").get<int>();
+        p.spawner_respawn_ticks = s.at("respawn_ticks").get<int>();
+
+        const Json& time = j.at("time");
+        p.time.day_ticks = time.at("day_ticks").get<int>();
+        p.time.start_tick = time.at("start_tick").get<std::int64_t>();
+        for (const Json& key : time.at("light")) {
+            p.time.light.emplace_back(key.at(0).get<int>(), key.at(1).get<int>());
+        }
+        const Json& weather = time.at("weather");
+        p.time.period_ticks = weather.at("period_ticks").get<int>();
+        p.time.fade_ticks = weather.at("fade_ticks").get<int>();
+        for (const Json& kind : weather.at("kinds")) {
+            p.time.kinds.push_back({kind.at("id").get<std::string>(), kind.at("weight").get<int>(),
+                                    kind.at("rain_pm").get<int>(), kind.at("dim_pm").get<int>()});
+        }
+        if (p.time.light.size() < 2 || p.time.kinds.empty() || p.time.day_ticks < 1 || p.time.period_ticks < 1 ||
+            p.time.fade_ticks < 1) {
+            error = "invalid world time parameters";
+            return std::nullopt;
+        }
 
         for (const Json& n : j.at("npcs")) {
             p.npcs.push_back({n.at("key").get<std::string>(), n.at("dialogue").get<std::string>(),

@@ -1,0 +1,712 @@
+{
+  "suite": "worldtime",
+  "spec_version": 1,
+  "generated_by": "tools/gen_conformance.py",
+  "cases": [
+    {
+      "name": "worldtime_seed_1",
+      "input": {
+        "op": "worldtime",
+        "seed": "0x0000000000000001",
+        "time": {
+          "day_ticks": 72000,
+          "start_tick": 24000,
+          "light": [
+            [
+              0,
+              180
+            ],
+            [
+              200,
+              180
+            ],
+            [
+              300,
+              1000
+            ],
+            [
+              700,
+              1000
+            ],
+            [
+              800,
+              180
+            ],
+            [
+              1000,
+              180
+            ]
+          ],
+          "weather": {
+            "period_ticks": 18000,
+            "fade_ticks": 600,
+            "kinds": [
+              {
+                "id": "clear",
+                "weight": 600,
+                "rain_pm": 0,
+                "dim_pm": 0
+              },
+              {
+                "id": "cloudy",
+                "weight": 250,
+                "rain_pm": 0,
+                "dim_pm": 250
+              },
+              {
+                "id": "rain",
+                "weight": 150,
+                "rain_pm": 1000,
+                "dim_pm": 400
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "samples": [
+          {
+            "ticks": 0,
+            "day": 1,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180
+          },
+          {
+            "ticks": 1,
+            "day": 1,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180
+          },
+          {
+            "ticks": 17999,
+            "day": 1,
+            "tod_pm": 249,
+            "light_pm": 581,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 581
+          },
+          {
+            "ticks": 18000,
+            "day": 1,
+            "tod_pm": 250,
+            "light_pm": 590,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 590
+          },
+          {
+            "ticks": 18001,
+            "day": 1,
+            "tod_pm": 250,
+            "light_pm": 590,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 590
+          },
+          {
+            "ticks": 18300,
+            "day": 1,
+            "tod_pm": 254,
+            "light_pm": 622,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 622
+          },
+          {
+            "ticks": 18599,
+            "day": 1,
+            "tod_pm": 258,
+            "light_pm": 655,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 655
+          },
+          {
+            "ticks": 18600,
+            "day": 1,
+            "tod_pm": 258,
+            "light_pm": 655,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 655
+          },
+          {
+            "ticks": 24000,
+            "day": 1,
+            "tod_pm": 333,
+            "light_pm": 1000,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 1000
+          },
+          {
+            "ticks": 35999,
+            "day": 1,
+            "tod_pm": 499,
+            "light_pm": 1000,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 1000
+          },
+          {
+            "ticks": 36000,
+            "day": 1,
+            "tod_pm": 500,
+            "light_pm": 1000,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 1000
+          },
+          {
+            "ticks": 71999,
+            "day": 1,
+            "tod_pm": 999,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180
+          },
+          {
+            "ticks": 72000,
+            "day": 2,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "cloudy",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180
+          },
+          {
+            "ticks": 100000,
+            "day": 2,
+            "tod_pm": 388,
+            "light_pm": 1000,
+            "kind": "cloudy",
+            "rain_pm": 0,
+            "dim_pm": 250,
+            "effective_light_pm": 750
+          },
+          {
+            "ticks": 1000000,
+            "day": 14,
+            "tod_pm": 888,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180
+          },
+          {
+            "ticks": 123456789,
+            "day": 1715,
+            "tod_pm": 677,
+            "light_pm": 1000,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 1000
+          },
+          {
+            "ticks": 1099511627776,
+            "day": 15270995,
+            "tod_pm": 830,
+            "light_pm": 180,
+            "kind": "cloudy",
+            "rain_pm": 0,
+            "dim_pm": 250,
+            "effective_light_pm": 135
+          }
+        ]
+      }
+    },
+    {
+      "name": "worldtime_seed_c0ffee",
+      "input": {
+        "op": "worldtime",
+        "seed": "0x0000000000c0ffee",
+        "time": {
+          "day_ticks": 72000,
+          "start_tick": 24000,
+          "light": [
+            [
+              0,
+              180
+            ],
+            [
+              200,
+              180
+            ],
+            [
+              300,
+              1000
+            ],
+            [
+              700,
+              1000
+            ],
+            [
+              800,
+              180
+            ],
+            [
+              1000,
+              180
+            ]
+          ],
+          "weather": {
+            "period_ticks": 18000,
+            "fade_ticks": 600,
+            "kinds": [
+              {
+                "id": "clear",
+                "weight": 600,
+                "rain_pm": 0,
+                "dim_pm": 0
+              },
+              {
+                "id": "cloudy",
+                "weight": 250,
+                "rain_pm": 0,
+                "dim_pm": 250
+              },
+              {
+                "id": "rain",
+                "weight": 150,
+                "rain_pm": 1000,
+                "dim_pm": 400
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "samples": [
+          {
+            "ticks": 0,
+            "day": 1,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180
+          },
+          {
+            "ticks": 1,
+            "day": 1,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180
+          },
+          {
+            "ticks": 17999,
+            "day": 1,
+            "tod_pm": 249,
+            "light_pm": 581,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 581
+          },
+          {
+            "ticks": 18000,
+            "day": 1,
+            "tod_pm": 250,
+            "light_pm": 590,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 590
+          },
+          {
+            "ticks": 18001,
+            "day": 1,
+            "tod_pm": 250,
+            "light_pm": 590,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 590
+          },
+          {
+            "ticks": 18300,
+            "day": 1,
+            "tod_pm": 254,
+            "light_pm": 622,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 622
+          },
+          {
+            "ticks": 18599,
+            "day": 1,
+            "tod_pm": 258,
+            "light_pm": 655,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 655
+          },
+          {
+            "ticks": 18600,
+            "day": 1,
+            "tod_pm": 258,
+            "light_pm": 655,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 655
+          },
+          {
+            "ticks": 24000,
+            "day": 1,
+            "tod_pm": 333,
+            "light_pm": 1000,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 1000
+          },
+          {
+            "ticks": 35999,
+            "day": 1,
+            "tod_pm": 499,
+            "light_pm": 1000,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 1000
+          },
+          {
+            "ticks": 36000,
+            "day": 1,
+            "tod_pm": 500,
+            "light_pm": 1000,
+            "kind": "cloudy",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 1000
+          },
+          {
+            "ticks": 71999,
+            "day": 1,
+            "tod_pm": 999,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180
+          },
+          {
+            "ticks": 72000,
+            "day": 2,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "rain",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180
+          },
+          {
+            "ticks": 100000,
+            "day": 2,
+            "tod_pm": 388,
+            "light_pm": 1000,
+            "kind": "rain",
+            "rain_pm": 1000,
+            "dim_pm": 400,
+            "effective_light_pm": 600
+          },
+          {
+            "ticks": 1000000,
+            "day": 14,
+            "tod_pm": 888,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180
+          },
+          {
+            "ticks": 123456789,
+            "day": 1715,
+            "tod_pm": 677,
+            "light_pm": 1000,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 1000
+          },
+          {
+            "ticks": 1099511627776,
+            "day": 15270995,
+            "tod_pm": 830,
+            "light_pm": 180,
+            "kind": "cloudy",
+            "rain_pm": 0,
+            "dim_pm": 250,
+            "effective_light_pm": 135
+          }
+        ]
+      }
+    },
+    {
+      "name": "worldtime_seed_max_u64",
+      "input": {
+        "op": "worldtime",
+        "seed": "0xffffffffffffffff",
+        "time": {
+          "day_ticks": 72000,
+          "start_tick": 24000,
+          "light": [
+            [
+              0,
+              180
+            ],
+            [
+              200,
+              180
+            ],
+            [
+              300,
+              1000
+            ],
+            [
+              700,
+              1000
+            ],
+            [
+              800,
+              180
+            ],
+            [
+              1000,
+              180
+            ]
+          ],
+          "weather": {
+            "period_ticks": 18000,
+            "fade_ticks": 600,
+            "kinds": [
+              {
+                "id": "clear",
+                "weight": 600,
+                "rain_pm": 0,
+                "dim_pm": 0
+              },
+              {
+                "id": "cloudy",
+                "weight": 250,
+                "rain_pm": 0,
+                "dim_pm": 250
+              },
+              {
+                "id": "rain",
+                "weight": 150,
+                "rain_pm": 1000,
+                "dim_pm": 400
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "samples": [
+          {
+            "ticks": 0,
+            "day": 1,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "rain",
+            "rain_pm": 1000,
+            "dim_pm": 400,
+            "effective_light_pm": 108
+          },
+          {
+            "ticks": 1,
+            "day": 1,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "rain",
+            "rain_pm": 1000,
+            "dim_pm": 400,
+            "effective_light_pm": 108
+          },
+          {
+            "ticks": 17999,
+            "day": 1,
+            "tod_pm": 249,
+            "light_pm": 581,
+            "kind": "rain",
+            "rain_pm": 1000,
+            "dim_pm": 400,
+            "effective_light_pm": 348
+          },
+          {
+            "ticks": 18000,
+            "day": 1,
+            "tod_pm": 250,
+            "light_pm": 590,
+            "kind": "clear",
+            "rain_pm": 1000,
+            "dim_pm": 400,
+            "effective_light_pm": 354
+          },
+          {
+            "ticks": 18001,
+            "day": 1,
+            "tod_pm": 250,
+            "light_pm": 590,
+            "kind": "clear",
+            "rain_pm": 998,
+            "dim_pm": 399,
+            "effective_light_pm": 354
+          },
+          {
+            "ticks": 18300,
+            "day": 1,
+            "tod_pm": 254,
+            "light_pm": 622,
+            "kind": "clear",
+            "rain_pm": 500,
+            "dim_pm": 200,
+            "effective_light_pm": 497
+          },
+          {
+            "ticks": 18599,
+            "day": 1,
+            "tod_pm": 258,
+            "light_pm": 655,
+            "kind": "clear",
+            "rain_pm": 1,
+            "dim_pm": 0,
+            "effective_light_pm": 655
+          },
+          {
+            "ticks": 18600,
+            "day": 1,
+            "tod_pm": 258,
+            "light_pm": 655,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 655
+          },
+          {
+            "ticks": 24000,
+            "day": 1,
+            "tod_pm": 333,
+            "light_pm": 1000,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 1000
+          },
+          {
+            "ticks": 35999,
+            "day": 1,
+            "tod_pm": 499,
+            "light_pm": 1000,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 1000
+          },
+          {
+            "ticks": 36000,
+            "day": 1,
+            "tod_pm": 500,
+            "light_pm": 1000,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 1000
+          },
+          {
+            "ticks": 71999,
+            "day": 1,
+            "tod_pm": 999,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180
+          },
+          {
+            "ticks": 72000,
+            "day": 2,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180
+          },
+          {
+            "ticks": 100000,
+            "day": 2,
+            "tod_pm": 388,
+            "light_pm": 1000,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 1000
+          },
+          {
+            "ticks": 1000000,
+            "day": 14,
+            "tod_pm": 888,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180
+          },
+          {
+            "ticks": 123456789,
+            "day": 1715,
+            "tod_pm": 677,
+            "light_pm": 1000,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 1000
+          },
+          {
+            "ticks": 1099511627776,
+            "day": 15270995,
+            "tod_pm": 830,
+            "light_pm": 180,
+            "kind": "rain",
+            "rain_pm": 1000,
+            "dim_pm": 400,
+            "effective_light_pm": 108
+          }
+        ]
+      }
+    }
+  ]
+}

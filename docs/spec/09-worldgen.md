@@ -87,16 +87,15 @@ player, `(floor(x / 32), floor(y / 32))` with `(x, y)` in tiles. The window is r
   tile with full hit points, and its home is that point. Chunks that **enter** the window add their enemies at the end of the enemy list
   (chunks in row-major order, spawners in scan order); chunks that **leave** remove theirs; the order of the other enemies never changes.
   A killed enemy stays in the list (dead, not drawn) until its chunk leaves, and its spawner becomes cleared. A cleared spawner stays cleared
-  for the whole game (respawn over time comes with world time, later).
+  until its enemy has been dead for `respawn_ticks` of world time and its chunk enters the window again (spec 08, "Respawn").
 - **NPCs** are placed from the world parameters (see above) and always exist.
 - **Saves** keep the seed, the cleared spawners and the enemies of the window with their state (spec 12); on load the window is rebuilt around the
   saved player position and the saved enemy list defines the order.
 
-Conformance suite `chunk_window`: scripted walks (`move` to a chunk, `kill` an enemy by index) through a 16384 x 16384 world; after each step the
+Conformance suite `chunk_window`: scripted walks (`move` to a chunk, `kill` an enemy by index, `wait` some world ticks) through a 16384 x 16384 world; after each step the
 number of enemies and their digest (`fold hash64(h, x, y, dead)` over the spawner tiles) are compared.
 
 ## Scale and what comes next
 
-M5a generates the whole world at load time (512 x 512 tiles by default; about 0.1 s in C++). The shipped world must be far larger, so
-M5b streams chunks around the player in the simulation and the renderer; after it come changes of the world kept in saves,
-rivers, roads, hand-made stamps, regions, day/night and weather are the next steps of the world milestone.
+The shipped overworld is 16384 x 16384 tiles and is streamed (M5b); `generate_world` of the whole world remains for small worlds and tests. World time,
+weather and respawn are in spec 08 (M5c). Next come changes of the world kept in saves, rivers, roads, hand-made stamps and regions.

@@ -205,6 +205,9 @@ TEST_CASE("the overworld is streamed from the content pack and is playable", "[w
         sim.tick(0.0F, 0.0F, false);
     }
     REQUIRE(sim.story().npc_in_range() != nullptr);
+    REQUIRE(sim.world_ticks() == params->time.start_tick + 120);  // the world clock runs with the ticks
+    REQUIRE(sim.time().has_value());
+    REQUIRE(sim.time()->tod_pm == static_cast<int>(sim.world_ticks() * 1000 / params->time.day_ticks));
 
     // The enemies are exactly those of the spawners in the 5 x 5 chunks around the player, whichever chunk that is.
     const auto check_window = [&]() {
@@ -251,6 +254,7 @@ TEST_CASE("the overworld is streamed from the content pack and is playable", "[w
     REQUIRE(fresh.restore(*reread, error));
     REQUIRE(fresh.enemies().size() == sim.enemies().size());
     REQUIRE(fresh.player().position.x == sim.player().position.x);
+    REQUIRE(fresh.world_ticks() == sim.world_ticks());
 
     // A save with an enemy that does not exist in this world is refused and changes nothing.
     aether::SaveState bad = *reread;

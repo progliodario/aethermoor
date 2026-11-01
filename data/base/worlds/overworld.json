@@ -27,7 +27,21 @@
     "snow": [{ "art": "base:art/prop/pine", "radius_x100": 30, "per_mille": 90 }],
     "desert": [{ "art": "base:art/prop/cactus", "radius_x100": 28, "per_mille": 25 }]
   },
-  "spawners": { "enemy": "base:enemy/slime_green", "biomes": ["plains", "forest"], "min_distance": 14, "per_10000": 8 },
+  "spawners": { "enemy": "base:enemy/slime_green", "biomes": ["plains", "forest"], "min_distance": 14, "per_10000": 8, "respawn_ticks": 36000 },
+  "time": {
+    "day_ticks": 72000,
+    "start_tick": 24000,
+    "light": [[0, 180], [200, 180], [300, 1000], [700, 1000], [800, 180], [1000, 180]],
+    "weather": {
+      "period_ticks": 18000,
+      "fade_ticks": 600,
+      "kinds": [
+        { "id": "clear", "weight": 600, "rain_pm": 0, "dim_pm": 0 },
+        { "id": "cloudy", "weight": 250, "rain_pm": 0, "dim_pm": 250 },
+        { "id": "rain", "weight": 150, "rain_pm": 1000, "dim_pm": 400 }
+      ]
+    }
+  },
   "npcs": [
     { "key": "guild_clerk_mira", "dialogue": "base:dialogue/npc/mira", "variant": "red", "dx": 1, "dy": -1 }
   ]

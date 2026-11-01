@@ -283,6 +283,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
         batch.end()
 
+        drawAtmosphere(world)
         drawOverlays(world, cam.x, cam.y, tile, k)
         drawTexts(world, data, cam.x, cam.y, tile)
         drawStory(world, data)
@@ -358,6 +359,36 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     }
 
     /** Enemy health bars, the sword swing and the HUD bars (shapes, no textures). */
+    /** Night and weather over the world (spec 08). Presentation only. */
+    private fun drawAtmosphere(world: WorldSim) {
+        val time = world.time() ?: return
+        val w = Gdx.graphics.width.toFloat()
+        val h = Gdx.graphics.height.toFloat()
+        val dark = 1000 - time.effectiveLightPm
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
+        if (dark > 0) {
+            shapes.begin(ShapeRenderer.ShapeType.Filled)
+            shapes.color = Color(0.03f, 0.055f, 0.17f, dark * 0.69f / 1000f)
+            shapes.rect(0f, 0f, w, h)
+            shapes.end()
+        }
+        if (time.rainPm > 0) {
+            val density = Gdx.graphics.density
+            val now = System.currentTimeMillis()
+            val drops = 160 * time.rainPm / 1000
+            shapes.begin(ShapeRenderer.ShapeType.Line)
+            shapes.color = Color(0.67f, 0.745f, 0.9f, 0.6f)
+            for (i in 0 until drops) {
+                val x = ((i * 7919L + now / 5) % w.toLong()).toFloat()
+                val y = ((now / 2 + i * 977L) % h.toLong()).toFloat()
+                shapes.line(x, y, x - 3f * density, y + 12f * density)
+            }
+            shapes.end()
+        }
+    }
+
     private fun drawOverlays(world: WorldSim, camX: Float, camY: Float, tile: Float, k: Float) {
         shapes.projectionMatrix = camera.combined
         Gdx.gl.glEnable(GL20.GL_BLEND)
@@ -414,6 +445,15 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         font.color = Color.WHITE
         font.draw(batch, "${data.pack.text(language, "\$i18n:ui.hp")} ${p.hp}/${world.derived.maxHp}", 12f * density + 4f, 12f * density + 2f)
         font.draw(batch, data.pack.text(language, "\$i18n:ui.level", mapOf("level" to p.level)), 12f * density, 12f * density + 16f * density + 20f)
+        world.time()?.let { time ->
+            val hour = time.todPm * 24 / 1000
+            val minute = time.todPm * 1440 / 1000 % 60
+            val clock = data.pack.text(
+                language, "\$i18n:ui.clock", mapOf("day" to time.day, "time" to "%02d:%02d".format(hour, minute)),
+            )
+            layout.setText(font, clock)
+            font.draw(batch, clock, Gdx.graphics.width - layout.width - 12f * density, 12f * density + 2f)
+        }
         for (f in floating) {
             font.color = when {
                 f.onPlayer -> Color(1f, 0.35f, 0.35f, 1f)

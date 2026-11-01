@@ -20,6 +20,9 @@ import kotlinx.serialization.json.put
 
 const val SAVE_VERSION = 1
 
+/** A spawner whose enemy was killed, with the world tick of the death. */
+class ClearedSpawner(val x: Int, val y: Int, val died: Long)
+
 class SaveEnemy(
     val x: Float,
     val y: Float,
@@ -55,7 +58,9 @@ class SaveState(
     val lootInc: ULong,
     val enemies: List<SaveEnemy>,
     /** Streamed worlds only: the spawners whose enemy was killed. */
-    val cleared: List<Pair<Int, Int>> = emptyList(),
+    val cleared: List<ClearedSpawner> = emptyList(),
+    /** -1: not in the save (a new game starts at the world's start tick). */
+    val worldTicks: Long = -1,
     val inventory: Map<String, Long>,
     val story: StoryState,
 )
@@ -141,8 +146,12 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
             ),
         )
         if (meta.map == "world") {
-            put("cleared_spawners", JsonArray(s.cleared.map { JsonArray(listOf(JsonPrimitive(it.first), JsonPrimitive(it.second))) }))
+            put(
+                "cleared_spawners",
+                JsonArray(s.cleared.map { JsonArray(listOf(JsonPrimitive(it.x), JsonPrimitive(it.y), JsonPrimitive(it.died))) }),
+            )
         }
+        put("world_ticks", s.worldTicks)
         put("inventory", buildJsonObject { for ((item, quantity) in s.inventory) put(item, quantity) })
         put(
             "story",
@@ -237,8 +246,11 @@ fun saveFromJson(text: String): Result<SaveState> =
                     e["spawner"]?.jsonArray?.let { sp -> Pair(sp[0].jsonPrimitive.int, sp[1].jsonPrimitive.int) },
                 )
             },
-            cleared = (j["cleared_spawners"] as? JsonArray)?.map { c -> Pair(c.jsonArray[0].jsonPrimitive.int, c.jsonArray[1].jsonPrimitive.int) }
-                ?: emptyList(),
+            cleared = (j["cleared_spawners"] as? JsonArray)?.map { c ->
+                val a = c.jsonArray
+                ClearedSpawner(a[0].jsonPrimitive.int, a[1].jsonPrimitive.int, if (a.size > 2) a[2].jsonPrimitive.long else 0L)
+            } ?: emptyList(),
+            worldTicks = j["world_ticks"]?.jsonPrimitive?.long ?: -1L,
             inventory = j.getValue("inventory").jsonObject.mapValues { it.value.jsonPrimitive.long },
             story = story,
         )

@@ -12,7 +12,7 @@ Normative rules shared by the desktop and Android clients. **Status:** 00, 01, 0
 | [05](05-combat-v1.md) | combat v1: attack, enemies, XP, loot (status effects and elements later) | M3, done |
 | 06 | items, crafting, economy | M4 / M6 |
 | [07](07-quests-and-dialogue.md) | quests, dialogue, conditions and effects | M4a, done |
-| 08 | world time, weather, NPC schedules | M5 |
+| 08 | world time, weather, respawn (NPC schedules later) | M5c |
 | 09 | world generation | M5 |
 | 10 | companions and AI | M7 |
 | 11 | progression, titles, tags, reincarnation | M8 |
