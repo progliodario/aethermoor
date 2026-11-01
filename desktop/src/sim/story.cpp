@@ -21,8 +21,9 @@ Condition parse_condition(const Json& j) {
     if (!j.is_object() || j.size() != 1) {
         throw std::runtime_error("a condition must be an object with exactly one key");
     }
-    const std::string key = j.begin().key();
-    const Json& value = j.begin().value();
+    const auto entry = j.begin();
+    const std::string key = entry.key();
+    const Json& value = entry.value();
     Condition c;
     if (key == "flag") {
         c.kind = Condition::Kind::Flag;

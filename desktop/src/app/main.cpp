@@ -640,6 +640,7 @@ int main(int argc, char** argv) {
         bool running = true;
         bool debug = false;
         int frames = 0;
+        int talk_step = 0;  // smoke test: scripted conversation with the guild clerk
         double accumulator = 0.0;
         double fps = 0.0;
         Uint64 last = SDL_GetTicksNS();
@@ -678,14 +679,20 @@ int main(int argc, char** argv) {
             if (smoke_test) {
                 input = {1.0F, 0.0F, frames % 2 == 0};  // scripted: walk right, swinging now and then
                 // Talk to the guild clerk and accept her quest while passing by (real dialogue data).
-                if (frames == 40) {
-                    sim.story().interact();
-                } else if (frames == 41) {
+                if (talk_step == 0) {
+                    if (sim.story().npc_in_range() != nullptr) {
+                        sim.story().interact();
+                        talk_step = 1;
+                    }
+                } else if (talk_step == 1) {
                     sim.story().advance();
-                } else if (frames == 42) {
+                    talk_step = 2;
+                } else if (talk_step == 2) {
                     sim.story().choose(0);
-                } else if (frames == 43) {
+                    talk_step = 3;
+                } else if (talk_step == 3) {
                     sim.story().advance();
+                    talk_step = 4;
                 }
                 sim.tick(input.x, input.y, input.attack);
             } else {
