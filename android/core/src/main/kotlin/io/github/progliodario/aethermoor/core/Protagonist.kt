@@ -17,6 +17,7 @@ data class ProtagonistDef(
     val growthPm: Primary,
     val startingItems: List<String>,
     val startingSkills: List<String>,
+    val startingInventory: Map<String, Long> = emptyMap(),
 )
 
 fun parseProtagonist(jsonText: String): Result<ProtagonistDef> =
@@ -33,5 +34,8 @@ fun parseProtagonist(jsonText: String): Result<ProtagonistDef> =
             growthPm = Primary(growth("str"), growth("vit"), growth("dex"), growth("agi"), growth("int"), growth("wis"), growth("luk")),
             startingItems = j["starting_items"]?.jsonArray?.map { it.jsonObject.getValue("item").jsonPrimitive.content } ?: emptyList(),
             startingSkills = j.getValue("starting_skills").jsonArray.map { it.jsonPrimitive.content },
+            startingInventory = j["starting_items"]?.jsonArray?.associate {
+                it.jsonObject.getValue("item").jsonPrimitive.content to it.jsonObject.getValue("qty").jsonPrimitive.long
+            } ?: emptyMap(),
         )
     }

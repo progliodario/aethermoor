@@ -113,6 +113,7 @@ class WorldSim(
             recomputeDerived()
             player.hp = derived.maxHp
             for (s in combat.spawns) enemies.add(Enemy(s.def, Vec2(s.x, s.y)))
+            inventory.putAll(combat.startInventory)
         }
     }
 
@@ -344,6 +345,61 @@ class WorldSim(
             p.phaseTick = 0
             p.iframes = RESPAWN_IFRAMES
         }
+    }
+
+    /** Everything that changes while playing (spec 12). */
+    fun capture(): SaveState {
+        val p = player
+        return SaveState(
+            x = p.position.x, y = p.position.y, facingX = p.facing.x, facingY = p.facing.y, facingLeft = p.facingLeft,
+            moving = p.moving, clipTick = p.clipTick, hp = p.hp, level = p.level, xp = p.xp, deaths = p.deaths,
+            kills = p.kills, iframes = p.iframes, cooldown = p.cooldown, phase = p.phase, phaseTick = p.phaseTick,
+            hitSet = hitSet.toList(), combatState = combatRng.state, combatInc = combatRng.inc,
+            lootState = lootRng.state, lootInc = lootRng.inc,
+            enemies = enemies.map { SaveEnemy(it.position.x, it.position.y, it.hp, it.state, it.stateTick) },
+            inventory = HashMap(inventory), story = story.capture(),
+        )
+    }
+
+    /** Overwrites the mutable state. On a mismatch with the loaded data it fails and changes nothing. */
+    fun restore(s: SaveState): Result<Unit> {
+        if (s.enemies.size != enemies.size || s.hitSet.size != hitSet.size) {
+            return Result.failure(IllegalArgumentException("the save has a different number of enemies than the loaded map"))
+        }
+        if (s.level < 1 || s.level > MAX_LEVEL) return Result.failure(IllegalArgumentException("invalid level in the save"))
+        if (!story.restore(s.story)) {
+            return Result.failure(IllegalArgumentException("the save refers to a quest or dialogue that does not exist"))
+        }
+        val p = player
+        p.position = Vec2(s.x, s.y)
+        p.facing = Vec2(s.facingX, s.facingY)
+        p.facingLeft = s.facingLeft
+        p.moving = s.moving
+        p.clipTick = s.clipTick
+        p.level = s.level
+        recomputeDerived()
+        p.hp = s.hp
+        p.xp = s.xp
+        p.deaths = s.deaths
+        p.kills = s.kills
+        p.iframes = s.iframes
+        p.cooldown = s.cooldown
+        p.phase = s.phase
+        p.phaseTick = s.phaseTick
+        s.hitSet.forEachIndexed { i, hit -> hitSet[i] = hit }
+        combatRng.setState(s.combatState, s.combatInc)
+        lootRng.setState(s.lootState, s.lootInc)
+        for ((i, e) in enemies.withIndex()) {
+            e.position = Vec2(s.enemies[i].x, s.enemies[i].y)
+            e.hp = s.enemies[i].hp
+            e.state = s.enemies[i].state
+            e.stateTick = s.enemies[i].stateTick
+            e.hitFlash = 0
+        }
+        inventory.clear()
+        inventory.putAll(s.inventory)
+        events.clear()
+        return Result.success(Unit)
     }
 
     /** View of [viewW] x [viewH] tiles centered on the player and clamped to the map. */

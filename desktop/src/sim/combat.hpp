@@ -3,6 +3,7 @@
 // Combat data structures. Spec: docs/spec/05-combat-v1.md. Reference: tools/reference/combat.py.
 
 #include <cstdint>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -73,6 +74,7 @@ struct CombatSetup {
     std::uint64_t seed = 0;
     int start_level = 1;
     StorySetup story;
+    std::map<std::string, std::int64_t> start_inventory;  // items owned in a new game
 };
 
 enum class AttackPhase { None, Startup, Active, Recovery };

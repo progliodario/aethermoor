@@ -95,6 +95,16 @@ data class DialogueView(
 
 class QuestProgress(var stage: String, var progress: LongArray, var done: Boolean = false)
 
+/** The part of the story that changes while playing (saves). */
+class StoryState(
+    val flags: Map<String, Boolean>,
+    val gold: Long,
+    val quests: Map<String, QuestProgress>,
+    val dialogueActive: Boolean,
+    val dialogueId: String,
+    val node: String,
+)
+
 /** What the story needs from the world that owns it. */
 interface StoryHost {
     fun grantXp(amount: Long)
@@ -393,6 +403,27 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
         val npc = npcInRange() ?: return
         onTalk(npc.key)
         startDialogue(npc.dialogue)
+    }
+
+    fun capture(): StoryState =
+        StoryState(
+            HashMap(flags), gold, quests.mapValues { QuestProgress(it.value.stage, it.value.progress.copyOf(), it.value.done) },
+            dialogueActive, dialogueId, nodeName,
+        )
+
+    /** Returns false (and changes nothing) when the state names a quest, dialogue or node that does not exist. */
+    fun restore(state: StoryState): Boolean {
+        if (state.dialogueActive && setup.dialogues[state.dialogueId]?.nodes?.containsKey(state.node) != true) return false
+        if (state.quests.keys.any { it !in setup.quests }) return false
+        flags.clear()
+        flags.putAll(state.flags)
+        gold = state.gold
+        quests.clear()
+        for ((id, q) in state.quests) quests[id] = QuestProgress(q.stage, q.progress.copyOf(), q.done)
+        dialogueActive = state.dialogueActive
+        dialogueId = state.dialogueId
+        nodeName = state.node
+        return true
     }
 
     fun dialogueView(): DialogueView {

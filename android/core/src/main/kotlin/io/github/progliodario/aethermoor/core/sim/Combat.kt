@@ -58,6 +58,8 @@ class CombatSetup(
     val seed: ULong = 0uL,
     val startLevel: Int = 1,
     val story: StorySetup = StorySetup(),
+    /** Items owned in a new game. */
+    val startInventory: Map<String, Long> = emptyMap(),
 )
 
 enum class AttackPhase { NONE, STARTUP, ACTIVE, RECOVERY }

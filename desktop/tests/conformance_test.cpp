@@ -19,6 +19,7 @@
 #include "core/rules.hpp"
 #include "data/pack.hpp"
 #include "sim/movement.hpp"
+#include "sim/save.hpp"
 #include "sim/story.hpp"
 #include "sim/world.hpp"
 #include "vector/raster.hpp"
@@ -374,149 +375,203 @@ aether::Primary primary_from_json(const Json& s) {
                            integer(s, "int"), integer(s, "wis"), integer(s, "luk")};
 }
 
-}  // namespace
+// The world described by a scenario input (see tools/conformance_m3.py).
+struct Scenario {
+    aether::TileMap map;
+    aether::Tileset tileset;
+    aether::CombatSetup setup;
+};
+
+Scenario scenario_from_json(const Json& in) {
+    const Json& player = in.at("player");
+    Scenario sc;
+    sc.map.height = static_cast<int>(in.at("grid").size());
+    sc.map.width = static_cast<int>(in.at("grid")[0].get<std::string>().size());
+    for (const Json& row : in.at("grid")) {
+        for (const char ch : row.get<std::string>()) {
+            sc.map.ground.push_back(ch == '#' ? 5 : 1);
+        }
+    }
+    sc.map.spawn_x = player.at("start").at(0).get<float>();
+    sc.map.spawn_y = player.at("start").at(1).get<float>();
+    sc.tileset.tiles[1] = {"floor", false};
+    sc.tileset.tiles[5] = {"wall", true};
+
+    aether::CombatSetup& setup = sc.setup;
+    setup.enabled = true;
+    setup.seed = hex(in.at("seed"));
+    setup.start_level = player.at("level").get<int>();
+    setup.player.base = primary_from_json(player.at("base_stats"));
+    setup.player.growth_pm = primary_from_json(player.at("growth_pm"));
+    setup.player.weapon_atk = integer(player, "weapon_atk");
+    setup.player.weapon_matk = integer(player, "weapon_matk");
+    const Json& skill = in.at("skill");
+    setup.skill.startup = skill.at("startup").get<int>();
+    setup.skill.active = skill.at("active").get<int>();
+    setup.skill.recovery = skill.at("recovery").get<int>();
+    setup.skill.cooldown = skill.at("cooldown").get<int>();
+    setup.skill.power_pct = integer(skill, "power_pct");
+    setup.skill.radius_x100 = skill.at("radius_x100").get<int>();
+    setup.skill.angle_deg = skill.at("angle_deg").get<int>();
+    for (const Json& v : in.at("xp_table")) {
+        setup.xp_table.push_back(v.get<std::int64_t>());
+    }
+    for (const Json& e : in.at("enemies")) {
+        setup.spawns.push_back({enemy_def_from_json(e.at("def")), e.at("pos").at(0).get<float>(),
+                                e.at("pos").at(1).get<float>()});
+    }
+    if (in.contains("story")) {
+        std::string story_error;
+        auto story = aether::parse_story_setup(in.at("story").dump(), story_error);
+        INFO(story_error);
+        REQUIRE(story.has_value());
+        setup.story = std::move(*story);
+    }
+    return sc;
+}
+
+void run_segment(aether::WorldSim& sim, const Json& segment) {
+    const float mx = segment.at("move").at(0).get<float>();
+    const float my = segment.at("move").at(1).get<float>();
+    const bool attack = segment.at("attack").get<bool>();
+    if (segment.contains("do")) {
+        for (const Json& command : segment.at("do")) {
+            const std::string cmd = command.at("cmd").get<std::string>();
+            if (cmd == "interact") {
+                sim.story().interact();
+            } else if (cmd == "advance") {
+                sim.story().advance();
+            } else if (cmd == "choose") {
+                sim.story().choose(command.at("index").get<int>());
+            }
+        }
+    }
+    for (int tick = 0; tick < segment.at("ticks").get<int>(); ++tick) {
+        sim.tick(mx, my, attack);
+    }
+}
+
+void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) {
+    const aether::Player& p = sim.player();
+    REQUIRE(p.hp == integer(want.at("player"), "hp"));
+    REQUIRE(p.level == integer(want.at("player"), "level"));
+    REQUIRE(p.xp == integer(want.at("player"), "xp"));
+    REQUIRE(p.deaths == want.at("player").at("deaths").get<int>());
+    REQUIRE(p.position.x == Catch::Approx(want.at("player").at("x").get<float>()).margin(tol));
+    REQUIRE(p.position.y == Catch::Approx(want.at("player").at("y").get<float>()).margin(tol));
+    REQUIRE(p.kills == want.at("kills").get<int>());
+    REQUIRE(sim.enemies().size() == want.at("enemies").size());
+    for (std::size_t i = 0; i < sim.enemies().size(); ++i) {
+        const Json& we = want.at("enemies")[i];
+        INFO("enemy " << i);
+        REQUIRE(sim.enemies()[i].hp == integer(we, "hp"));
+        REQUIRE(std::string(aether::to_string(sim.enemies()[i].state)) == we.at("state").get<std::string>());
+        REQUIRE(sim.enemies()[i].position.x == Catch::Approx(we.at("x").get<float>()).margin(tol));
+        REQUIRE(sim.enemies()[i].position.y == Catch::Approx(we.at("y").get<float>()).margin(tol));
+    }
+    const Json& inventory = want.at("inventory");
+    REQUIRE(sim.inventory().size() == inventory.size());
+    for (const auto& [item, quantity] : inventory.items()) {
+        REQUIRE(sim.inventory().at(item) == quantity.get<std::int64_t>());
+    }
+    if (want.contains("story")) {
+        const Json& ws = want.at("story");
+        const aether::Story& story = sim.story();
+        REQUIRE(story.gold() == integer(ws, "gold"));
+        REQUIRE(story.flags().size() == ws.at("flags").size());
+        for (const auto& [flag, value] : ws.at("flags").items()) {
+            REQUIRE(story.flags().at(flag) == value.get<bool>());
+        }
+        REQUIRE(story.quests().size() == ws.at("quests").size());
+        for (const auto& [quest_id, wq] : ws.at("quests").items()) {
+            const aether::QuestProgress& q = story.quests().at(quest_id);
+            INFO("quest " << quest_id);
+            REQUIRE(q.stage == wq.at("stage").get<std::string>());
+            REQUIRE(q.done == wq.at("done").get<bool>());
+            REQUIRE(q.progress.size() == wq.at("progress").size());
+            for (std::size_t i = 0; i < q.progress.size(); ++i) {
+                REQUIRE(q.progress[i] == wq.at("progress")[i].get<std::int64_t>());
+            }
+        }
+        const aether::DialogueView view = story.dialogue_view();
+        if (ws.at("dialogue").is_null()) {
+            REQUIRE_FALSE(view.active);
+        } else {
+            const Json& wd = ws.at("dialogue");
+            REQUIRE(view.active);
+            REQUIRE(view.is_choice == (wd.at("type").get<std::string>() == "choice"));
+            if (view.is_choice) {
+                REQUIRE(view.choices.size() == wd.at("choices").size());
+                for (std::size_t i = 0; i < view.choices.size(); ++i) {
+                    REQUIRE(view.choices[i] == wd.at("choices")[i].get<std::string>());
+                }
+            } else {
+                REQUIRE(view.speaker == wd.at("speaker").get<std::string>());
+                REQUIRE(view.text == wd.at("text").get<std::string>());
+            }
+        }
+    }
+}
 
 void run_combat_suite(const std::string& suite) {
     const Json doc = load_suite(suite);
     for (const Json& c : doc.at("cases")) {
         INFO("case " << c.at("name").get<std::string>());
         const Json& in = c.at("input");
-        const Json& player = in.at("player");
-
-        aether::TileMap map;
-        map.height = static_cast<int>(in.at("grid").size());
-        map.width = static_cast<int>(in.at("grid")[0].get<std::string>().size());
-        for (const Json& row : in.at("grid")) {
-            for (const char ch : row.get<std::string>()) {
-                map.ground.push_back(ch == '#' ? 5 : 1);
-            }
-        }
-        map.spawn_x = player.at("start").at(0).get<float>();
-        map.spawn_y = player.at("start").at(1).get<float>();
-        aether::Tileset tileset;
-        tileset.tiles[1] = {"floor", false};
-        tileset.tiles[5] = {"wall", true};
-
-        aether::CombatSetup setup;
-        setup.enabled = true;
-        setup.seed = hex(in.at("seed"));
-        setup.start_level = player.at("level").get<int>();
-        setup.player.base = primary_from_json(player.at("base_stats"));
-        setup.player.growth_pm = primary_from_json(player.at("growth_pm"));
-        setup.player.weapon_atk = integer(player, "weapon_atk");
-        setup.player.weapon_matk = integer(player, "weapon_matk");
-        const Json& skill = in.at("skill");
-        setup.skill.startup = skill.at("startup").get<int>();
-        setup.skill.active = skill.at("active").get<int>();
-        setup.skill.recovery = skill.at("recovery").get<int>();
-        setup.skill.cooldown = skill.at("cooldown").get<int>();
-        setup.skill.power_pct = integer(skill, "power_pct");
-        setup.skill.radius_x100 = skill.at("radius_x100").get<int>();
-        setup.skill.angle_deg = skill.at("angle_deg").get<int>();
-        for (const Json& v : in.at("xp_table")) {
-            setup.xp_table.push_back(v.get<std::int64_t>());
-        }
-        for (const Json& e : in.at("enemies")) {
-            setup.spawns.push_back({enemy_def_from_json(e.at("def")), e.at("pos").at(0).get<float>(),
-                                    e.at("pos").at(1).get<float>()});
-        }
-
-        if (in.contains("story")) {
-            std::string story_error;
-            auto story = aether::parse_story_setup(in.at("story").dump(), story_error);
-            INFO(story_error);
-            REQUIRE(story.has_value());
-            setup.story = std::move(*story);
-        }
-
-        aether::WorldSim sim(map, tileset, 0.0F, setup);
+        Scenario sc = scenario_from_json(in);
+        aether::WorldSim sim(sc.map, sc.tileset, 0.0F, sc.setup);
         const float tol = c.at("expect").at("tol").get<float>();
         std::size_t index = 0;
         for (const Json& segment : in.at("script")) {
-            const float mx = segment.at("move").at(0).get<float>();
-            const float my = segment.at("move").at(1).get<float>();
-            const bool attack = segment.at("attack").get<bool>();
-            if (segment.contains("do")) {
-                for (const Json& command : segment.at("do")) {
-                    const std::string cmd = command.at("cmd").get<std::string>();
-                    if (cmd == "interact") {
-                        sim.story().interact();
-                    } else if (cmd == "advance") {
-                        sim.story().advance();
-                    } else if (cmd == "choose") {
-                        sim.story().choose(command.at("index").get<int>());
-                    }
-                }
-            }
-            for (int tick = 0; tick < segment.at("ticks").get<int>(); ++tick) {
-                sim.tick(mx, my, attack);
-            }
+            run_segment(sim, segment);
             INFO("checkpoint " << index);
-            const Json& want = c.at("expect").at("checkpoints").at(index);
-            const aether::Player& p = sim.player();
-            REQUIRE(p.hp == integer(want.at("player"), "hp"));
-            REQUIRE(p.level == integer(want.at("player"), "level"));
-            REQUIRE(p.xp == integer(want.at("player"), "xp"));
-            REQUIRE(p.deaths == want.at("player").at("deaths").get<int>());
-            REQUIRE(p.position.x == Catch::Approx(want.at("player").at("x").get<float>()).margin(tol));
-            REQUIRE(p.position.y == Catch::Approx(want.at("player").at("y").get<float>()).margin(tol));
-            REQUIRE(p.kills == want.at("kills").get<int>());
-            REQUIRE(sim.enemies().size() == want.at("enemies").size());
-            for (std::size_t i = 0; i < sim.enemies().size(); ++i) {
-                const Json& we = want.at("enemies")[i];
-                INFO("enemy " << i);
-                REQUIRE(sim.enemies()[i].hp == integer(we, "hp"));
-                REQUIRE(std::string(aether::to_string(sim.enemies()[i].state)) == we.at("state").get<std::string>());
-                REQUIRE(sim.enemies()[i].position.x == Catch::Approx(we.at("x").get<float>()).margin(tol));
-                REQUIRE(sim.enemies()[i].position.y == Catch::Approx(we.at("y").get<float>()).margin(tol));
-            }
-            const Json& inventory = want.at("inventory");
-            REQUIRE(sim.inventory().size() == inventory.size());
-            for (const auto& [item, quantity] : inventory.items()) {
-                REQUIRE(sim.inventory().at(item) == quantity.get<std::int64_t>());
-            }
-            if (want.contains("story")) {
-                const Json& ws = want.at("story");
-                const aether::Story& story = sim.story();
-                REQUIRE(story.gold() == integer(ws, "gold"));
-                REQUIRE(story.flags().size() == ws.at("flags").size());
-                for (const auto& [flag, value] : ws.at("flags").items()) {
-                    REQUIRE(story.flags().at(flag) == value.get<bool>());
-                }
-                REQUIRE(story.quests().size() == ws.at("quests").size());
-                for (const auto& [quest_id, wq] : ws.at("quests").items()) {
-                    const aether::QuestProgress& q = story.quests().at(quest_id);
-                    INFO("quest " << quest_id);
-                    REQUIRE(q.stage == wq.at("stage").get<std::string>());
-                    REQUIRE(q.done == wq.at("done").get<bool>());
-                    REQUIRE(q.progress.size() == wq.at("progress").size());
-                    for (std::size_t i = 0; i < q.progress.size(); ++i) {
-                        REQUIRE(q.progress[i] == wq.at("progress")[i].get<std::int64_t>());
-                    }
-                }
-                const aether::DialogueView view = story.dialogue_view();
-                if (ws.at("dialogue").is_null()) {
-                    REQUIRE_FALSE(view.active);
-                } else {
-                    const Json& wd = ws.at("dialogue");
-                    REQUIRE(view.active);
-                    REQUIRE(view.is_choice == (wd.at("type").get<std::string>() == "choice"));
-                    if (view.is_choice) {
-                        REQUIRE(view.choices.size() == wd.at("choices").size());
-                        for (std::size_t i = 0; i < view.choices.size(); ++i) {
-                            REQUIRE(view.choices[i] == wd.at("choices")[i].get<std::string>());
-                        }
-                    } else {
-                        REQUIRE(view.speaker == wd.at("speaker").get<std::string>());
-                        REQUIRE(view.text == wd.at("text").get<std::string>());
-                    }
-                }
-            }
+            check_checkpoint(sim, c.at("expect").at("checkpoints").at(index), tol);
             ++index;
         }
     }
 }
 
+// Runs the first `split` segments, saves, and finishes from two different saves: one written by this client and one
+// written by the Python reference. Both must reach the checkpoints of the uninterrupted run.
+void run_save_suite() {
+    const Json doc = load_suite("save");
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        const Json& in = c.at("input");
+        const auto split = in.at("split").get<std::size_t>();
+        const float tol = c.at("expect").at("tol").get<float>();
+        Scenario sc = scenario_from_json(in);
+
+        aether::WorldSim first(sc.map, sc.tileset, 0.0F, sc.setup);
+        for (std::size_t i = 0; i < split; ++i) {
+            run_segment(first, in.at("script")[i]);
+        }
+        aether::SaveMeta meta;
+        meta.game_version = "test";
+        const std::string own_text = aether::save_to_json(first.capture(), meta);
+
+        Json python_save = in.at("save");
+        python_save["save_version"] = 1;
+        for (const std::string& text : {own_text, python_save.dump()}) {
+            std::string error;
+            const auto state = aether::save_from_json(text, error);
+            INFO(error);
+            REQUIRE(state.has_value());
+            aether::WorldSim resumed(sc.map, sc.tileset, 0.0F, sc.setup);
+            REQUIRE(resumed.restore(*state, error));
+            for (std::size_t i = split; i < in.at("script").size(); ++i) {
+                run_segment(resumed, in.at("script")[i]);
+                INFO("checkpoint " << i);
+                check_checkpoint(resumed, c.at("expect").at("checkpoints").at(i - split), tol);
+            }
+        }
+    }
+}
+
+}  // namespace
+
 TEST_CASE("conformance: combat", "[conformance]") { run_combat_suite("combat"); }
 
 TEST_CASE("conformance: story", "[conformance]") { run_combat_suite("story"); }
+
+TEST_CASE("conformance: save and resume", "[conformance]") { run_save_suite(); }

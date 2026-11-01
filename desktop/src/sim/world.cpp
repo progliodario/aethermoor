@@ -79,6 +79,7 @@ WorldSim::WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, Combat
             m_enemies_.push_back(std::move(enemy));
         }
         m_hit_set_.assign(m_enemies_.size(), false);
+        m_inventory_ = m_setup_.start_inventory;
     }
 }
 
@@ -334,6 +335,80 @@ void WorldSim::hurt_player(const Enemy& enemy) {
         p.phase_tick = 0;
         p.iframes = kRespawnIframes;
     }
+}
+
+SaveState WorldSim::capture() const {
+    SaveState s;
+    const Player& p = m_player_;
+    s.position = p.position;
+    s.facing = p.facing;
+    s.facing_left = p.facing_left;
+    s.moving = p.moving;
+    s.clip_tick = p.clip_tick;
+    s.hp = p.hp;
+    s.level = p.level;
+    s.xp = p.xp;
+    s.deaths = p.deaths;
+    s.kills = p.kills;
+    s.iframes = p.iframes;
+    s.cooldown = p.cooldown;
+    s.phase = p.phase;
+    s.phase_tick = p.phase_tick;
+    s.hit_set = m_hit_set_;
+    s.combat_state = m_combat_rng_.state();
+    s.combat_inc = m_combat_rng_.inc();
+    s.loot_state = m_loot_rng_.state();
+    s.loot_inc = m_loot_rng_.inc();
+    for (const Enemy& enemy : m_enemies_) {
+        s.enemies.push_back({enemy.position, enemy.hp, enemy.state, enemy.state_tick});
+    }
+    s.inventory = m_inventory_;
+    s.story = m_story_.capture();
+    return s;
+}
+
+bool WorldSim::restore(const SaveState& s, std::string& error) {
+    if (s.enemies.size() != m_enemies_.size() || s.hit_set.size() != m_hit_set_.size()) {
+        error = "the save has a different number of enemies than the loaded map";
+        return false;
+    }
+    if (s.level < 1 || s.level > kMaxLevel) {
+        error = "invalid level in the save";
+        return false;
+    }
+    if (!m_story_.restore(s.story)) {
+        error = "the save refers to a quest or dialogue that does not exist";
+        return false;
+    }
+    Player& p = m_player_;
+    p.position = s.position;
+    p.facing = s.facing;
+    p.facing_left = s.facing_left;
+    p.moving = s.moving;
+    p.clip_tick = s.clip_tick;
+    p.level = s.level;
+    recompute_derived();
+    p.hp = s.hp;
+    p.xp = s.xp;
+    p.deaths = s.deaths;
+    p.kills = s.kills;
+    p.iframes = s.iframes;
+    p.cooldown = s.cooldown;
+    p.phase = s.phase;
+    p.phase_tick = s.phase_tick;
+    m_hit_set_ = s.hit_set;
+    m_combat_rng_.set_state(s.combat_state, s.combat_inc);
+    m_loot_rng_.set_state(s.loot_state, s.loot_inc);
+    for (std::size_t i = 0; i < m_enemies_.size(); ++i) {
+        m_enemies_[i].position = s.enemies[i].position;
+        m_enemies_[i].hp = s.enemies[i].hp;
+        m_enemies_[i].state = s.enemies[i].state;
+        m_enemies_[i].state_tick = s.enemies[i].state_tick;
+        m_enemies_[i].hit_flash = 0;
+    }
+    m_inventory_ = s.inventory;
+    m_events_.clear();
+    return true;
 }
 
 Camera WorldSim::camera(float view_w, float view_h) const {

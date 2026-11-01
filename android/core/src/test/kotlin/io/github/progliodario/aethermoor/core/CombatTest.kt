@@ -1,42 +1,30 @@
 package io.github.progliodario.aethermoor.core
 
 import io.github.progliodario.aethermoor.core.sim.CombatSetup
-import io.github.progliodario.aethermoor.core.sim.StorySetup
-import io.github.progliodario.aethermoor.core.sim.parseStorySetup
-import io.github.progliodario.aethermoor.core.sim.EnemyDef
-import io.github.progliodario.aethermoor.core.sim.BehaviorDef
-import io.github.progliodario.aethermoor.core.sim.DropDef
 import io.github.progliodario.aethermoor.core.sim.EnemySpawn
-import io.github.progliodario.aethermoor.core.sim.PlayerSetup
-import io.github.progliodario.aethermoor.core.sim.SkillDef
+import io.github.progliodario.aethermoor.core.sim.SaveMeta
 import io.github.progliodario.aethermoor.core.sim.TileMap
 import io.github.progliodario.aethermoor.core.sim.Tileset
-import io.github.progliodario.aethermoor.core.sim.TileDef
 import io.github.progliodario.aethermoor.core.sim.WorldSim
 import io.github.progliodario.aethermoor.core.sim.loadCombatSetup
 import io.github.progliodario.aethermoor.core.sim.parseTileMap
 import io.github.progliodario.aethermoor.core.sim.parseTileset
+import io.github.progliodario.aethermoor.core.sim.saveFromJson
+import io.github.progliodario.aethermoor.core.sim.saveToJson
 import java.io.File
 import kotlin.math.abs
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonArray
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.boolean
-import kotlinx.serialization.json.double
-import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import kotlinx.serialization.json.long
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
-/** Combat on the real data (mirror of combat_test.cpp) and the shared combat scenarios (suite "combat"). */
+/** Combat, story and saves on the real data (mirror of combat_test.cpp) and the shared scenarios. */
 class CombatTest {
     private val repoRoot = File(System.getProperty("aether.repoRoot") ?: error("aether.repoRoot is not set"))
     private val pack = loadBasePack(repoRoot)
@@ -60,12 +48,14 @@ class CombatTest {
     }
 
     @Test
-    fun thePlayerStartsWithFullHealthAndDerivedStats() {
+    fun thePlayerStartsWithFullHealthDerivedStatsAndTheStartingItems() {
         val sim = WorldSim(map, tileset, 0f, setup)
         assertEquals(1L, sim.player.level)
         assertEquals(sim.derived.maxHp, sim.player.hp)
         assertEquals(6L * 2 + 8 / 2 + 3, sim.derived.atk)
         assertEquals(12, sim.enemies.size)
+        assertEquals(1L, sim.inventory["base:item/practice_sword"])
+        assertEquals(3L, sim.inventory["base:item/bread"])
     }
 
     @Test
@@ -112,61 +102,52 @@ class CombatTest {
         assertEquals(before, sim.player.position)
     }
 
-    // ---------------------------------------------------------------------------- conformance
+    @Test
+    fun aSaveOfTheRealWorldSurvivesTheRoundTrip() {
+        val sim = WorldSim(map, tileset, 0f, setup)
+        repeat(200) { sim.tick(1f, 0f, it % 3 == 0) }
+        sim.story.interact()
+        val meta = SaveMeta("test", 1, "base:protagonist/ren", setup.seed)
+        val text = saveToJson(sim.capture(), meta)
 
-    private fun JsonElement.num(): Float = jsonPrimitive.double.toFloat()
-
-    private fun JsonObject.long(key: String) = getValue(key).jsonPrimitive.long
-
-    private fun primary(s: JsonObject) =
-        Primary(s.long("str"), s.long("vit"), s.long("dex"), s.long("agi"), s.long("int"), s.long("wis"), s.long("luk"))
-
-    private fun enemyDef(d: JsonObject): EnemyDef {
-        val b = d.getValue("behavior").jsonObject
-        return EnemyDef(
-            id = (d["id"] as? JsonPrimitive)?.content ?: "",
-            hp = d.long("hp"), atk = d.long("atk"), def = d.long("def"), level = d.long("level"), xp = d.long("xp"),
-            radiusX100 = d.getValue("radius_x100").jsonPrimitive.int, speedX100 = d.getValue("speed_x100").jsonPrimitive.int,
-            drops = d.getValue("drops").jsonArray.map {
-                val o = it.jsonObject
-                DropDef(o.getValue("item").jsonPrimitive.content, o.long("qty_min"), o.long("qty_max"), o.long("weight_pm"))
-            },
-            behavior = BehaviorDef(
-                b.getValue("aggro_x100").jsonPrimitive.int, b.getValue("leash_x100").jsonPrimitive.int,
-                b.getValue("attack_range_x100").jsonPrimitive.int, b.getValue("hit_range_x100").jsonPrimitive.int,
-                b.getValue("windup_ticks").jsonPrimitive.int, b.getValue("recovery_ticks").jsonPrimitive.int,
-            ),
-        )
+        val copy = WorldSim(map, tileset, 0f, setup)
+        copy.restore(saveFromJson(text).getOrThrow()).getOrThrow()
+        // Same state, so the same future.
+        repeat(300) {
+            sim.tick(1f, 0f, it % 2 == 0)
+            copy.tick(1f, 0f, it % 2 == 0)
+        }
+        assertEquals(saveToJson(sim.capture(), meta), saveToJson(copy.capture(), meta))
     }
 
-    private fun assertStory(ws: JsonObject, sim: WorldSim, at: String) {
-        val story = sim.story
-        assertEquals(ws.long("gold"), story.gold, "$at gold")
-        val wantFlags = ws.getValue("flags").jsonObject
-        assertEquals(wantFlags.size, story.flags.size, "$at flags size")
-        for ((flag, value) in wantFlags) assertEquals(value.jsonPrimitive.boolean, story.flags[flag], "$at flag $flag")
-        val wantQuests = ws.getValue("quests").jsonObject
-        assertEquals(wantQuests.size, story.quests.size, "$at quests size")
-        for ((questId, wq) in wantQuests) {
-            val q = story.quests.getValue(questId)
-            val w = wq.jsonObject
-            assertEquals(w.getValue("stage").jsonPrimitive.content, q.stage, "$at $questId stage")
-            assertEquals(w.getValue("done").jsonPrimitive.boolean, q.done, "$at $questId done")
-            assertEquals(w.getValue("progress").jsonArray.map { it.jsonPrimitive.long }, q.progress.toList(), "$at $questId progress")
-        }
-        val view = story.dialogueView()
-        val wd = ws.getValue("dialogue")
-        if (wd is JsonNull) {
-            assertFalse(view.active, "$at dialogue should be closed")
-        } else {
-            val d = wd.jsonObject
-            assertTrue(view.active, "$at dialogue should be open")
-            assertEquals(d.getValue("type").jsonPrimitive.content == "choice", view.isChoice, "$at dialogue type")
-            if (view.isChoice) {
-                assertEquals(d.getValue("choices").jsonArray.map { it.jsonPrimitive.content }, view.choices, "$at choices")
-            } else {
-                assertEquals(d.getValue("speaker").jsonPrimitive.content, view.speaker, "$at speaker")
-                assertEquals(d.getValue("text").jsonPrimitive.content, view.text, "$at text")
+    @Test
+    fun aSaveForADifferentWorldIsRefusedWithoutChangingAnything() {
+        val sim = WorldSim(map, tileset, 0f, setup)
+        val extra = "{\"x\":1,\"y\":1,\"hp\":1,\"state\":\"idle\",\"state_tick\":0},"
+        val text = saveToJson(sim.capture(), SaveMeta("test", 1, "x", 0uL)).replace("\"enemies\":[", "\"enemies\":[$extra")
+        val state = saveFromJson(text).getOrThrow()
+        val before = sim.capture().hp
+        assertTrue(sim.restore(state).isFailure)
+        assertEquals(before, sim.capture().hp)
+        assertTrue(saveFromJson("{\"save_version\": 99}").isFailure)
+    }
+
+    // ---------------------------------------------------------------------------- conformance
+
+    private fun suite(name: String): JsonObject =
+        Json.parseToJsonElement(File(repoRoot, "tests/conformance/$name.json").readText()).jsonObject
+
+    private fun runSuite(name: String) {
+        for (case in suite(name).getValue("cases").jsonArray) {
+            val c = case.jsonObject
+            val label = c.getValue("name").jsonPrimitive.content
+            val input = c.getValue("input").jsonObject
+            val expect = c.getValue("expect").jsonObject
+            val tol = expect.getValue("tol").num()
+            val sim = newSim(scenarioFromJson(input))
+            for ((index, segment) in input.getValue("script").jsonArray.withIndex()) {
+                runSegment(sim, segment.jsonObject)
+                assertCheckpoint(sim, expect.getValue("checkpoints").jsonArray[index].jsonObject, tol, "$label checkpoint $index")
             }
         }
     }
@@ -177,86 +158,37 @@ class CombatTest {
     @Test
     fun storySuite() = runSuite("story")
 
-    private fun runSuite(suiteName: String) {
-        val doc = Json.parseToJsonElement(File(repoRoot, "tests/conformance/$suiteName.json").readText()).jsonObject
-        for (case in doc.getValue("cases").jsonArray) {
+    /** Finishes each scenario from a save written by this client and from one written by the Python reference. */
+    @Test
+    fun saveSuite() {
+        val cases = suite("save").getValue("cases").jsonArray
+        assertFalse(cases.isEmpty())
+        for (case in cases) {
             val c = case.jsonObject
             val label = c.getValue("name").jsonPrimitive.content
             val input = c.getValue("input").jsonObject
-            val player = input.getValue("player").jsonObject
-            val rows = input.getValue("grid").jsonArray.map { it.jsonPrimitive.content }
-            val ground = IntArray(rows.size * rows[0].length) { if (rows[it / rows[0].length][it % rows[0].length] == '#') 5 else 1 }
-            val start = player.getValue("start").jsonArray
-            val gridMap = TileMap(rows[0].length, rows.size, "", ground, start[0].num(), start[1].num(), emptyList())
-            val gridTileset = Tileset("", mapOf(1 to TileDef("floor", false), 5 to TileDef("wall", true)))
-
-            val s = input.getValue("skill").jsonObject
-            val combat = CombatSetup(
-                enabled = true,
-                player = PlayerSetup(
-                    primary(player.getValue("base_stats").jsonObject), primary(player.getValue("growth_pm").jsonObject),
-                    player.long("weapon_atk"), player.long("weapon_matk"),
-                ),
-                skill = SkillDef(
-                    s.getValue("startup").jsonPrimitive.int, s.getValue("active").jsonPrimitive.int,
-                    s.getValue("recovery").jsonPrimitive.int, s.getValue("cooldown").jsonPrimitive.int,
-                    s.long("power_pct"), s.getValue("radius_x100").jsonPrimitive.int, s.getValue("angle_deg").jsonPrimitive.int,
-                ),
-                spawns = input.getValue("enemies").jsonArray.map {
-                    val e = it.jsonObject
-                    val pos = e.getValue("pos").jsonArray
-                    EnemySpawn(enemyDef(e.getValue("def").jsonObject), pos[0].num(), pos[1].num())
-                },
-                xpTable = input.getValue("xp_table").jsonArray.map { it.jsonPrimitive.long },
-                seed = input.getValue("seed").jsonPrimitive.content.removePrefix("0x").toULong(16),
-                startLevel = player.getValue("level").jsonPrimitive.int,
-                story = input["story"]?.let { parseStorySetup(it) } ?: StorySetup(),
-            )
-
-            val sim = WorldSim(gridMap, gridTileset, 0f, combat)
             val expect = c.getValue("expect").jsonObject
             val tol = expect.getValue("tol").num()
-            for ((index, segment) in input.getValue("script").jsonArray.withIndex()) {
-                val seg = segment.jsonObject
-                val move = seg.getValue("move").jsonArray
-                val attack = seg.getValue("attack").jsonPrimitive.boolean
-                for (command in seg["do"]?.jsonArray ?: JsonArray(emptyList())) {
-                    val cmd = command.jsonObject
-                    when (cmd.getValue("cmd").jsonPrimitive.content) {
-                        "interact" -> sim.story.interact()
-                        "advance" -> sim.story.advance()
-                        "choose" -> sim.story.choose(cmd.getValue("index").jsonPrimitive.int)
-                    }
-                }
-                repeat(seg.getValue("ticks").jsonPrimitive.int) { sim.tick(move[0].num(), move[1].num(), attack) }
+            val split = input.getValue("split").jsonPrimitive.content.toInt()
+            val script = input.getValue("script").jsonArray
+            val world = scenarioFromJson(input)
 
-                val want = expect.getValue("checkpoints").jsonArray[index].jsonObject
-                val wantPlayer = want.getValue("player").jsonObject
-                val at = "$label checkpoint $index"
-                assertEquals(wantPlayer.long("hp"), sim.player.hp, "$at hp")
-                assertEquals(wantPlayer.long("level"), sim.player.level, "$at level")
-                assertEquals(wantPlayer.long("xp"), sim.player.xp, "$at xp")
-                assertEquals(wantPlayer.getValue("deaths").jsonPrimitive.int, sim.player.deaths, "$at deaths")
-                assertTrue(abs(wantPlayer.getValue("x").num() - sim.player.position.x) <= tol, "$at x")
-                assertTrue(abs(wantPlayer.getValue("y").num() - sim.player.position.y) <= tol, "$at y")
-                assertEquals(want.getValue("kills").jsonPrimitive.int, sim.player.kills, "$at kills")
-                val wantEnemies: JsonArray = want.getValue("enemies").jsonArray
-                assertEquals(wantEnemies.size, sim.enemies.size, "$at enemy count")
-                for ((i, enemy) in sim.enemies.withIndex()) {
-                    val we = wantEnemies[i].jsonObject
-                    assertEquals(we.long("hp"), enemy.hp, "$at enemy $i hp")
-                    assertEquals(we.getValue("state").jsonPrimitive.content, enemy.state.id, "$at enemy $i state")
-                    assertTrue(abs(we.getValue("x").num() - enemy.position.x) <= tol, "$at enemy $i x")
-                    assertTrue(abs(we.getValue("y").num() - enemy.position.y) <= tol, "$at enemy $i y")
+            val first = newSim(world)
+            for (i in 0 until split) runSegment(first, script[i].jsonObject)
+            val ownText = saveToJson(first.capture(), SaveMeta("test", 1, "test", 0uL))
+            val pythonText = JsonObject(input.getValue("save").jsonObject + ("save_version" to JsonPrimitive(1))).toString()
+
+            for ((source, text) in listOf("own save" to ownText, "python save" to pythonText)) {
+                val resumed = newSim(world)
+                resumed.restore(saveFromJson(text).getOrThrow()).getOrThrow()
+                for (i in split until script.size) {
+                    runSegment(resumed, script[i].jsonObject)
+                    assertCheckpoint(
+                        resumed, expect.getValue("checkpoints").jsonArray[i - split].jsonObject, tol,
+                        "$label ($source) checkpoint $i",
+                    )
                 }
-                val wantInventory = want.getValue("inventory").jsonObject
-                assertEquals(wantInventory.size, sim.inventory.size, "$at inventory size")
-                for ((item, quantity) in wantInventory) {
-                    assertEquals(quantity.jsonPrimitive.long, sim.inventory[item], "$at inventory $item")
-                }
-                want["story"]?.jsonObject?.let { ws -> assertStory(ws, sim, at) }
             }
         }
-        assertFalse(doc.getValue("cases").jsonArray.isEmpty())
     }
 }

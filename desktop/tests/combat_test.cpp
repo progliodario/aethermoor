@@ -9,6 +9,7 @@
 
 #include "data/pack.hpp"
 #include "sim/combat_loader.hpp"
+#include "sim/save.hpp"
 #include "sim/world.hpp"
 
 namespace {
@@ -119,4 +120,50 @@ TEST_CASE("talking to the guild clerk with the real data starts her quest", "[co
     }
     REQUIRE(sim.player().position.x == before.x);
     REQUIRE(sim.player().position.y == before.y);
+}
+
+TEST_CASE("the player starts with the protagonist's items", "[combat]") {
+    const Demo demo = load_demo();
+    aether::WorldSim sim(demo.map, demo.tileset, 0.0F, demo.setup);
+    REQUIRE(sim.inventory().at("base:item/practice_sword") == 1);
+    REQUIRE(sim.inventory().at("base:item/bread") == 3);
+}
+
+TEST_CASE("a save of the real world survives the round trip and has the same future", "[combat][save]") {
+    const Demo demo = load_demo();
+    aether::WorldSim sim(demo.map, demo.tileset, 0.0F, demo.setup);
+    for (int i = 0; i < 200; ++i) {
+        sim.tick(1.0F, 0.0F, i % 3 == 0);
+    }
+    sim.story().interact();
+    aether::SaveMeta meta;
+    meta.game_version = "test";
+    meta.seed = demo.setup.seed;
+    const std::string text = aether::save_to_json(sim.capture(), meta);
+
+    std::string error;
+    const auto state = aether::save_from_json(text, error);
+    INFO(error);
+    REQUIRE(state.has_value());
+    aether::WorldSim copy(demo.map, demo.tileset, 0.0F, demo.setup);
+    REQUIRE(copy.restore(*state, error));
+    for (int i = 0; i < 300; ++i) {
+        sim.tick(1.0F, 0.0F, i % 2 == 0);
+        copy.tick(1.0F, 0.0F, i % 2 == 0);
+    }
+    REQUIRE(aether::save_to_json(sim.capture(), meta) == aether::save_to_json(copy.capture(), meta));
+}
+
+TEST_CASE("a save for a different world or a newer game is refused", "[combat][save]") {
+    const Demo demo = load_demo();
+    aether::WorldSim sim(demo.map, demo.tileset, 0.0F, demo.setup);
+    aether::SaveState state = sim.capture();
+    state.enemies.pop_back();
+    std::string error;
+    REQUIRE_FALSE(sim.restore(state, error));
+    REQUIRE_FALSE(error.empty());
+
+    std::string parse_error;
+    REQUIRE_FALSE(aether::save_from_json("{\"save_version\": 99}", parse_error).has_value());
+    REQUIRE_FALSE(aether::save_from_json("not json", parse_error).has_value());
 }

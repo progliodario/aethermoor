@@ -204,6 +204,25 @@ class Story:
             self.on_talk(best["key"])
             self.start_dialogue(best["dialogue"])
 
+    # ----------------------------------------------------------------------------------- saves
+
+    def save_state(self) -> dict:
+        return {
+            "flags": {k: self.flags[k] for k in sorted(self.flags)},
+            "gold": self.gold,
+            "quests": {k: {"stage": v["stage"], "progress": list(v["progress"]), "done": v["done"]}
+                       for k, v in sorted(self.quests.items())},
+            "dialogue": None if self.dialogue is None else {"id": self.dialogue[0], "node": self.dialogue[1]},
+        }
+
+    def load_state(self, state: dict) -> None:
+        self.flags = dict(state["flags"])
+        self.gold = state["gold"]
+        self.quests = {k: {"stage": v["stage"], "progress": list(v["progress"]), "done": v["done"]}
+                       for k, v in state["quests"].items()}
+        d = state["dialogue"]
+        self.dialogue = None if d is None else (d["id"], d["node"])
+
     # ------------------------------------------------------------------------------------ view
 
     def dialogue_view(self) -> dict | None:

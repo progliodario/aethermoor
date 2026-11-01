@@ -85,6 +85,7 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
     setup.seed = seed;
     setup.player.base = protagonist->base_stats;
     setup.player.growth_pm = protagonist->growth_pm;
+    setup.start_inventory = protagonist->starting_inventory;
 
     try {
         for (const std::string& item_id : protagonist->starting_items) {

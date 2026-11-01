@@ -1,29 +1,53 @@
 # 12. Save format
 
-Status: **draft v1**. The load/save implementation arrives in M4. This document fixes the layout so the clients can be built against it.
+Status: **v1 (M4b)**. Reference: `CombatSim.save_state` / `load_state` in `tools/reference/combat.py`.
+Schema: `schemas/save.schema.json`. Conformance suite: `save` (resume scenarios).
 
-## Layout
+## Files
 
+One JSON file per slot, `<user data>/saves/<slot>.json`, with the slots `auto` (written every 30 s, when the app pauses or
+quits) and `quick` (manual). The user data folder is `SDL_GetPrefPath` on desktop and the app-private folder on Android. A
+save can be copied by hand between devices and platforms. The inventory-level profile (`profile.json`) and per-chunk deltas
+described in the plan arrive with the procedural world and reincarnation.
+
+## Document
+
+```json
+{
+  "save_version": 1,
+  "game_version": "0.0.1",
+  "data_format_version": 1,
+  "protagonist": "base:protagonist/ren",
+  "seed": "0x00000000DEADBEEF",
+  "player": { "x": 5.5, "y": 15.5, "facing": [1.0, 0.0], "facing_left": false, "moving": false, "clip_tick": 0,
+              "hp": 142, "level": 1, "xp": 0, "deaths": 0, "kills": 0, "iframes": 0, "cooldown": 0,
+              "phase": "none", "phase_tick": 0, "hit_set": [false, false] },
+  "rng": { "combat": {"state": "0x...", "inc": "0x..."}, "loot": {"state": "0x...", "inc": "0x..."} },
+  "enemies": [ { "x": 4.9, "y": 4.5, "hp": 5, "state": "idle", "state_tick": 0 } ],
+  "inventory": { "base:item/bread": 3 },
+  "story": { "flags": {}, "gold": 0,
+             "quests": { "base:quest/guild/slime_extermination": { "stage": "kill", "progress": [2], "done": false } },
+             "dialogue": { "id": "base:dialogue/npc/mira", "node": "offer_choice" } }
+}
 ```
-saves/
-  profile.json        meta-progression shared by all lives (echoes, unlocked protagonists, titles, bestiary)
-  slot_1/ ... slot_5/
-    run.json          protagonist, world seed, world time, player, party, inventory, quests, flags, variables, RNG streams
-    deltas/{cx}_{cy}.json   per-chunk differences against the generated world
-    thumbnail.pam
-  auto/               three rotating autosaves with the same layout as a slot
-```
 
-## Common fields
-
-`save_version` (integer), `game_version`, `data_format_version`, `pack_list` (`id` and `version` per loaded pack), `created_at` (ISO 8601 UTC), `play_time_s`, `crc32` (of the file with this field set to 0).
+- `enemies` is in the order of the map spawners; only changed state is stored (definitions and home positions come from data).
+- `story` is null when the world has no story. `dialogue` is null when no dialogue is open.
+- 64-bit values are hex strings. Positions are floats (a client reads them as 32-bit floats).
+- Random stream states are the PCG32 `state` and `inc` after the last draw: resuming a save continues the same random sequence.
+- Derived stats are not stored; they are recomputed from the level, the protagonist data and the equipment.
 
 ## Rules
 
-- Writes are atomic: write `file.tmp`, flush, rename; keep three `.bak` copies.
-- Only differences against the generated world are stored (never whole chunks).
-- Every format change bumps `save_version` and adds a migration `migrate_N_to_N+1`, tested with sample files in `tests/conformance/saves/`.
-- A save with an unknown newer `save_version` is refused with a clear message.
-- Missing mod content is replaced by placeholders and reported; the save still loads.
-- Export/import uses one `.aethersave` zip (profile + one slot). Desktop: file copy or button. Android: Storage Access Framework.
-- Numbers are integers wherever the rules are integers. Positions may be stored as floats.
+- **Loading** builds the world from data (the same map and seed-independent setup), then overwrites the mutable state. A save whose
+  `save_version` is higher than the client supports is refused with a clear message; the world is left unchanged.
+- **Entities that no longer exist** in data (enemy count mismatch) make the save invalid for this build; the client reports it and keeps
+  the current world.
+- **Writing is atomic**: write `<slot>.json.tmp`, then rename over `<slot>.json`.
+- **Resume equivalence** (tested): running part of a scenario, saving, loading into a fresh world and finishing gives the same
+  checkpoints as running it without interruption, on both clients, also when loading a save written by the Python reference.
+- Every format change bumps `save_version` and adds a migration `migrate_N_to_N+1` with a fixture in `tests/conformance`.
+
+## Not yet in v1
+
+CRC of the file, `profile.json` (meta-progression), per-chunk deltas (arrive with the procedural world), thumbnails, `.aethersave` export.

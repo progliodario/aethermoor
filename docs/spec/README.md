@@ -16,7 +16,7 @@ Normative rules shared by the desktop and Android clients. **Status:** 00, 01, 0
 | 09 | world generation | M5 |
 | 10 | companions and AI | M7 |
 | 11 | progression, titles, tags, reincarnation | M8 |
-| [12](12-save-format.md) | save format (draft) | M1, M4 |
+| [12](12-save-format.md) | save format v1 | M4b, done |
 | [13](13-vector-art.md) | vector art recipes, rasterizer, rigs | M2, done |
 | 14 | audio synthesis | M3 / M10 |
 | 15 | UI layout | M4 |

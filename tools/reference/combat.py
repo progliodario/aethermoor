@@ -57,6 +57,9 @@ class CombatSim:
         self.spawn = tuple(pl["start"])
         self.x, self.y = self.spawn
         self.facing = (1.0, 0.0)
+        self.facing_left = False
+        self.moving = False
+        self.clip_tick = 0
         self.level = pl.get("level", 1)
         self.xp = 0
         self.derived = self._derive()
@@ -98,6 +101,13 @@ class CombatSim:
             length = math.sqrt(vx * vx + vy * vy)
             self.facing = (vx / length, vy / length)
         mult = ATTACK_MOVE_MULT if self.phase != NONE else 1.0
+        moving_now = vx != 0.0 or vy != 0.0
+        if vx != 0.0:
+            self.facing_left = vx < 0.0
+        if moving_now != self.moving:
+            self.moving, self.clip_tick = moving_now, 0
+        else:
+            self.clip_tick += 1
         self.x, self.y = mv.step(self.x, self.y, vx, vy, self.speed * mult, self.grid, self.props)
 
         if attack and self.phase == NONE and self.cooldown == 0:
@@ -223,6 +233,47 @@ class CombatSim:
             self.phase, self.phase_tick = NONE, 0
             self.iframes = RESPAWN_IFRAMES
 
+    # ---------------------------------------------------------------------------------- saves
+
+    def save_state(self) -> dict:
+        """The save document of docs/spec/12-save-format.md (without the file-level metadata)."""
+        return {
+            "player": {
+                "x": self.x, "y": self.y, "facing": [self.facing[0], self.facing[1]],
+                "facing_left": self.facing_left, "moving": self.moving, "clip_tick": self.clip_tick,
+                "hp": self.hp, "level": self.level, "xp": self.xp, "deaths": self.deaths, "kills": self.kills,
+                "iframes": self.iframes, "cooldown": self.cooldown, "phase": self.phase,
+                "phase_tick": self.phase_tick,
+                "hit_set": [i in self.hit_set for i in range(len(self.enemies))],
+            },
+            "rng": {
+                "combat": {"state": f"0x{self.combat.state:016x}", "inc": f"0x{self.combat.inc:016x}"},
+                "loot": {"state": f"0x{self.loot.state:016x}", "inc": f"0x{self.loot.inc:016x}"},
+            },
+            "enemies": [{"x": e.x, "y": e.y, "hp": e.hp, "state": e.state, "state_tick": e.t} for e in self.enemies],
+            "inventory": dict(sorted(self.inventory.items())),
+            "story": self.story.save_state() if self.story is not None else None,
+        }
+
+    def load_state(self, save: dict) -> None:
+        p = save["player"]
+        self.x, self.y = p["x"], p["y"]
+        self.facing = (p["facing"][0], p["facing"][1])
+        self.facing_left, self.moving, self.clip_tick = p["facing_left"], p["moving"], p["clip_tick"]
+        self.level, self.xp, self.deaths, self.kills = p["level"], p["xp"], p["deaths"], p["kills"]
+        self.derived = self._derive()
+        self.hp = p["hp"]
+        self.iframes, self.cooldown, self.phase, self.phase_tick = p["iframes"], p["cooldown"], p["phase"], p["phase_tick"]
+        self.hit_set = {i for i, hit in enumerate(p["hit_set"]) if hit}
+        for name, stream in (("combat", self.combat), ("loot", self.loot)):
+            stream.state = int(save["rng"][name]["state"], 16)
+            stream.inc = int(save["rng"][name]["inc"], 16)
+        for enemy, data in zip(self.enemies, save["enemies"]):
+            enemy.x, enemy.y, enemy.hp, enemy.state, enemy.t = data["x"], data["y"], data["hp"], data["state"], data["state_tick"]
+        self.inventory = dict(save["inventory"])
+        if self.story is not None and save["story"] is not None:
+            self.story.load_state(save["story"])
+
     # ------------------------------------------------------------------------------ checkpoint
 
     def snapshot(self) -> dict:
@@ -236,21 +287,40 @@ class CombatSim:
         }
 
 
+def run_segment(sim: CombatSim, segment: dict) -> None:
+    """Runs the story commands of a script segment, then its ticks."""
+    move = segment["move"]
+    for command in segment.get("do", []):
+        if sim.story is None:
+            continue
+        if command["cmd"] == "interact":
+            sim.story.interact()
+        elif command["cmd"] == "advance":
+            sim.story.advance()
+        elif command["cmd"] == "choose":
+            sim.story.choose(command["index"])
+    for _ in range(segment["ticks"]):
+        sim.tick(move[0], move[1], segment["attack"])
+
+
 def run_scenario(scenario: dict) -> list[dict]:
     sim = CombatSim(scenario)
     out = []
     for segment in scenario["script"]:
-        move = segment["move"]
-        for command in segment.get("do", []):
-            if sim.story is None:
-                continue
-            if command["cmd"] == "interact":
-                sim.story.interact()
-            elif command["cmd"] == "advance":
-                sim.story.advance()
-            elif command["cmd"] == "choose":
-                sim.story.choose(command["index"])
-        for _ in range(segment["ticks"]):
-            sim.tick(move[0], move[1], segment["attack"])
+        run_segment(sim, segment)
         out.append(sim.snapshot())
     return out
+
+
+def run_with_save(scenario: dict, split: int) -> tuple[dict, list[dict]]:
+    """Save document taken before segment `split`, and the checkpoints of the segments from `split` on."""
+    sim = CombatSim(scenario)
+    save: dict = {}
+    checkpoints = []
+    for index, segment in enumerate(scenario["script"]):
+        if index == split:
+            save = sim.save_state()
+        run_segment(sim, segment)
+        if index >= split:
+            checkpoints.append(sim.snapshot())
+    return save, checkpoints

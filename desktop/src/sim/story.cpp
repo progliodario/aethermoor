@@ -514,6 +514,38 @@ void Story::interact() {
     }
 }
 
+StoryState Story::capture() const {
+    StoryState state;
+    state.flags = m_flags_;
+    state.gold = m_gold_;
+    state.quests = m_quests_;
+    state.dialogue_active = m_dialogue_active_;
+    state.dialogue_id = m_dialogue_id_;
+    state.node = m_node_;
+    return state;
+}
+
+bool Story::restore(const StoryState& state) {
+    if (state.dialogue_active) {
+        const auto dialogue = m_setup_.dialogues.find(state.dialogue_id);
+        if (dialogue == m_setup_.dialogues.end() || dialogue->second.nodes.find(state.node) == dialogue->second.nodes.end()) {
+            return false;
+        }
+    }
+    for (const auto& entry : state.quests) {
+        if (m_setup_.quests.find(entry.first) == m_setup_.quests.end()) {
+            return false;
+        }
+    }
+    m_flags_ = state.flags;
+    m_gold_ = state.gold;
+    m_quests_ = state.quests;
+    m_dialogue_active_ = state.dialogue_active;
+    m_dialogue_id_ = state.dialogue_id;
+    m_node_ = state.node;
+    return true;
+}
+
 DialogueView Story::dialogue_view() const {
     DialogueView view;
     if (!m_dialogue_active_) {

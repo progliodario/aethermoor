@@ -18,5 +18,12 @@
   "ui.interact": "[E] Parla",
   "ui.quest": "Missione",
   "ui.gold": "Oro: {gold}",
-  "ui.quest_done": "Missione completata"
+  "ui.quest_done": "Missione completata",
+  "ui.inventory": "Zaino",
+  "ui.empty_bag": "Lo zaino è vuoto",
+  "ui.saved": "Partita salvata",
+  "ui.loaded": "Partita caricata",
+  "ui.load_failed": "Impossibile caricare il salvataggio",
+  "ui.new_game": "Nuova partita",
+  "ui.bag_hint": "[I] Zaino"
 }

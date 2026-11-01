@@ -120,3 +120,28 @@ def suite_story() -> list[dict]:
         cases.append({"name": f"story_{name}", "input": {"op": "combat", **sc},
                       "expect": {"checkpoints": checkpoints, "tol": 0.02}})
     return cases
+
+
+SAVE_SPLITS = {
+    "clerk_quest": (3, 5),            # a choice is open; then mid-quest, before the fight
+    "chase_hurts_then_dies": (1,),    # the slime is attacking, random streams have advanced
+    "player_death": (1,),             # after a death and respawn
+    "leash_and_return": (2,),         # the slime is walking home
+    "trader_conditions_and_effects": (2, 5),  # inventory, flags and an open dialogue
+}
+
+
+def suite_save() -> list[dict]:
+    from conformance_m3 import build_scenarios as combat_scenarios
+
+    by_name = {sc["name"]: sc for sc in combat_scenarios() + build_scenarios()}
+    cases = []
+    for name, splits in SAVE_SPLITS.items():
+        for split in splits:
+            sc = dict(by_name[name])
+            sc.pop("name")
+            save, checkpoints = combat.run_with_save(sc, split)
+            cases.append({"name": f"save_{name}_at_{split}",
+                          "input": {"op": "save_resume", "split": split, "save": save, **sc},
+                          "expect": {"checkpoints": checkpoints, "tol": 0.02}})
+    return cases
