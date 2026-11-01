@@ -64,6 +64,14 @@ with that role (used by the next step; v1 ignores it).
 Conformance suite `settlements`: the settlements (top-left tile, site point, kind, stamp, name, region) of blocks of site cells, regions of 40 random tiles and the
 names for the world map markers; the chunks that contain settlements are also in the `worldgen_chunks` suite.
 
+## The home village
+
+`home` (`{radius, stamp, dx, dy}`) guarantees a village next to the start. Tiles within `radius` of the center of the world that would otherwise be land are
+**plains** (the home meadow, after the spawn clearing and before the elevation: it is only a change of biome, trees, rocks and enemies grow there as on any plains). The site
+cell that contains the tile `(width / 2 + dx, height / 2 + dy)` has a settlement at exactly that site point with the stamp `home.stamp` and the kind of the first
+entry of `settlements.kinds` that lists that stamp, without the random roll and the biome conditions (the footprint must lie inside its site cell); its name is made like the others.
+A world with no `home` has neither the meadow nor the village.
+
 ## Rivers and roads
 
 On top of the biome, a **land** tile (plains, forest, desert, snow or beach) outside the spawn clearing may carry an overlay. Rivers and roads are

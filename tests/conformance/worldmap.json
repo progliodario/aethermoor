@@ -128,6 +128,12 @@
               "danger": 5
             }
           ],
+          "home": {
+            "radius": 72,
+            "stamp": "base:stamp/village",
+            "dx": 36,
+            "dy": 40
+          },
           "settlements": {
             "per_mille": 130,
             "kinds": [
@@ -892,6 +898,12 @@
               "danger": 5
             }
           ],
+          "home": {
+            "radius": 72,
+            "stamp": "base:stamp/village",
+            "dx": 36,
+            "dy": 40
+          },
           "settlements": {
             "per_mille": 130,
             "kinds": [

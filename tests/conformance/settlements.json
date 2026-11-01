@@ -103,6 +103,12 @@
               "danger": 5
             }
           ],
+          "home": {
+            "radius": 72,
+            "stamp": "base:stamp/village",
+            "dx": 36,
+            "dy": 40
+          },
           "settlements": {
             "per_mille": 130,
             "kinds": [
@@ -536,7 +542,7 @@
         }
       },
       "expect": {
-        "count": 128,
+        "count": 129,
         "settlements": [
           [
             13128,
@@ -1167,6 +1173,16 @@
             "base:stamp/hamlet",
             "Wynarstead",
             1
+          ],
+          [
+            8218,
+            8225,
+            8228,
+            8232,
+            "village",
+            "base:stamp/village",
+            "Torodale",
+            0
           ],
           [
             10917,
@@ -2275,6 +2291,12 @@
               "danger": 5
             }
           ],
+          "home": {
+            "radius": 72,
+            "stamp": "base:stamp/village",
+            "dx": 36,
+            "dy": 40
+          },
           "settlements": {
             "per_mille": 130,
             "kinds": [
@@ -3317,6 +3339,12 @@
               "danger": 5
             }
           ],
+          "home": {
+            "radius": 72,
+            "stamp": "base:stamp/village",
+            "dx": 36,
+            "dy": 40
+          },
           "settlements": {
             "per_mille": 130,
             "kinds": [
@@ -3750,7 +3778,7 @@
         }
       },
       "expect": {
-        "count": 19,
+        "count": 20,
         "settlements": [
           [
             8032,
@@ -3840,6 +3868,16 @@
             "village",
             "base:stamp/village",
             "Silibrook",
+            0
+          ],
+          [
+            8218,
+            8225,
+            8228,
+            8232,
+            "village",
+            "base:stamp/village",
+            "Holelvale",
             0
           ],
           [
@@ -4190,6 +4228,11 @@
             87,
             62,
             "Silibrook"
+          ],
+          [
+            64,
+            64,
+            "Holelvale"
           ],
           [
             43,

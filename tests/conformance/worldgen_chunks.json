@@ -98,6 +98,12 @@
               "danger": 5
             }
           ],
+          "home": {
+            "radius": 72,
+            "stamp": "base:stamp/village",
+            "dx": 36,
+            "dy": 40
+          },
           "settlements": {
             "per_mille": 130,
             "kinds": [
@@ -622,73 +628,72 @@
               [
                 3,
                 5,
-                8
+                2
               ],
               [
                 6,
                 8,
-                8
+                2
               ],
               [
                 23,
                 9,
-                8
+                1
               ],
               [
                 21,
                 30,
-                8
+                2
               ],
               [
                 13,
                 6,
-                8
+                2
               ],
               [
                 13,
                 28,
-                8
+                1
               ],
               [
                 12,
                 2,
-                8
+                1
               ],
               [
                 31,
                 25,
-                8
+                1
               ],
               [
                 31,
                 25,
-                8
+                1
               ],
               [
                 8,
                 21,
-                8
+                1
               ],
               [
                 9,
                 19,
-                8
+                1
               ],
               [
                 10,
                 11,
-                8
+                2
               ]
             ],
-            "tile_digest": "0x32485f5c10d930f5",
-            "prop_count": 5,
-            "prop_digest": "0x04b8a64165172e7b",
-            "spawner_count": 0,
-            "spawner_digest": "0x0000000000000000",
+            "tile_digest": "0xb3cc90bb1a680b34",
+            "prop_count": 36,
+            "prop_digest": "0x083cfafa71fcef7d",
+            "spawner_count": 2,
+            "spawner_digest": "0x6ee84afcdca4df83",
             "gid_histogram": {
-              "1": 43,
-              "2": 61,
-              "8": 920
+              "1": 496,
+              "2": 528
             }
           },
           {
@@ -705,69 +710,67 @@
               [
                 2,
                 17,
-                6
+                1
               ],
               [
                 28,
                 15,
-                9
+                1
               ],
               [
                 9,
                 12,
-                6
+                1
               ],
               [
                 1,
                 16,
-                6
+                1
               ],
               [
                 21,
                 24,
-                9
+                2
               ],
               [
                 24,
                 14,
-                9
+                1
               ],
               [
                 30,
                 16,
-                9
+                2
               ],
               [
                 12,
                 6,
-                6
+                1
               ],
               [
                 28,
                 9,
-                9
+                1
               ],
               [
                 31,
                 3,
-                9
+                2
               ],
               [
                 10,
                 18,
-                6
+                1
               ]
             ],
-            "tile_digest": "0xa344b8e77f36c41e",
-            "prop_count": 70,
-            "prop_digest": "0x14e1379704a0e11c",
+            "tile_digest": "0x6678884e57dff4c1",
+            "prop_count": 32,
+            "prop_digest": "0x3faaafb7d9515773",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "gid_histogram": {
-              "1": 139,
-              "2": 119,
-              "6": 474,
-              "9": 292
+              "1": 529,
+              "2": 495
             }
           },
           {
@@ -1180,6 +1183,12 @@
               "danger": 5
             }
           ],
+          "home": {
+            "radius": 72,
+            "stamp": "base:stamp/village",
+            "dx": 36,
+            "dy": 40
+          },
           "settlements": {
             "per_mille": 130,
             "kinds": [
@@ -1702,12 +1711,12 @@
               [
                 9,
                 5,
-                7
+                2
               ],
               [
                 24,
                 0,
-                4
+                2
               ],
               [
                 8,
@@ -1717,42 +1726,42 @@
               [
                 19,
                 24,
-                6
+                1
               ],
               [
                 23,
                 19,
-                4
+                2
               ],
               [
                 26,
                 11,
-                4
+                2
               ],
               [
                 3,
                 15,
-                7
+                1
               ],
               [
                 20,
                 30,
-                6
+                2
               ],
               [
                 16,
                 5,
-                4
+                2
               ],
               [
                 2,
                 8,
-                7
+                1
               ],
               [
                 28,
                 9,
-                4
+                1
               ],
               [
                 9,
@@ -1760,18 +1769,14 @@
                 11
               ]
             ],
-            "tile_digest": "0x7db8e2674c8e0d1e",
-            "prop_count": 24,
-            "prop_digest": "0x2194e4fcb20bd68f",
-            "spawner_count": 0,
-            "spawner_digest": "0x0000000000000000",
+            "tile_digest": "0x125d9fd4db3638a1",
+            "prop_count": 39,
+            "prop_digest": "0x595d15b045e3d233",
+            "spawner_count": 2,
+            "spawner_digest": "0x73e54fc645b05b14",
             "gid_histogram": {
-              "1": 20,
-              "2": 32,
-              "4": 404,
-              "6": 207,
-              "7": 289,
-              "9": 1,
+              "1": 470,
+              "2": 483,
               "11": 71
             }
           },
@@ -2033,6 +2038,12 @@
               "danger": 5
             }
           ],
+          "home": {
+            "radius": 72,
+            "stamp": "base:stamp/village",
+            "dx": 36,
+            "dy": 40
+          },
           "settlements": {
             "per_mille": 130,
             "kinds": [
@@ -3065,6 +3076,12 @@
               "danger": 5
             }
           ],
+          "home": {
+            "radius": 72,
+            "stamp": "base:stamp/village",
+            "dx": 36,
+            "dy": 40
+          },
           "settlements": {
             "per_mille": 130,
             "kinds": [

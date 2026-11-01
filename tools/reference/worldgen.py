@@ -18,10 +18,12 @@ def load_params(world_id: str = "overworld") -> dict:
     """The parameters of a world of the base pack with the stamps of its settlements resolved into `stamp_defs`."""
     params = json.loads((ROOT / "data" / "base" / "worlds" / f"{world_id}.json").read_text(encoding="utf-8"))
     stamps = {}
-    for kind in params["settlements"]["kinds"]:
-        for stamp_id in kind["stamps"]:
-            path = ROOT / "data" / "base" / "stamps" / f"{stamp_id.rsplit('/', 1)[-1]}.json"
-            stamps[stamp_id] = json.loads(path.read_text(encoding="utf-8"))
+    wanted = [stamp_id for kind in params["settlements"]["kinds"] for stamp_id in kind["stamps"]]
+    if "home" in params:
+        wanted.append(params["home"]["stamp"])
+    for stamp_id in wanted:
+        path = ROOT / "data" / "base" / "stamps" / f"{stamp_id.rsplit('/', 1)[-1]}.json"
+        stamps[stamp_id] = json.loads(path.read_text(encoding="utf-8"))
     return {**params, "stamp_defs": stamps}
 
 
@@ -64,6 +66,11 @@ class Sites:
     def _compute(self, sx: int, sy: int) -> dict | None:
         seed, params = self.seed, self.params
         cfg = params["settlements"]
+        home = params.get("home")
+        if home is not None:
+            hx, hy = params["width"] // 2 + home["dx"], params["height"] // 2 + home["dy"]
+            if (hx // SITE_CELL, hy // SITE_CELL) == (sx, sy):
+                return self._home(sx, sy, hx, hy, home["stamp"])
         h = hash64(seed, sx, sy, 41)
         if (h >> 40) % 1000 >= cfg["per_mille"]:
             return None
@@ -97,6 +104,18 @@ class Sites:
             + names["end"][(n >> 32) % len(names["end"])]
         return {"x": ox, "y": oy, "px": px, "py": py, "w": stamp["w"], "h": stamp["h"], "stamp": stamp_id,
                 "kind": kind["id"], "name": name, "region": region_at(params, px, py)}
+
+    def _home(self, sx: int, sy: int, px: int, py: int, stamp_id: str) -> dict:
+        """The home village: a settlement of fixed position, stamp and kind near the spawn (spec 09, "The home village")."""
+        params = self.params
+        stamp = params["stamp_defs"][stamp_id]
+        names = params["settlements"]["names"]
+        n = hash64(self.seed, sx, sy, 43)
+        name = names["start"][n % len(names["start"])] + names["mid"][(n >> 16) % len(names["mid"])] \
+            + names["end"][(n >> 32) % len(names["end"])]
+        kind = next((k["id"] for k in params["settlements"]["kinds"] if stamp_id in k["stamps"]), "village")
+        return {"x": px - stamp["anchor"][0], "y": py - stamp["anchor"][1], "px": px, "py": py, "w": stamp["w"], "h": stamp["h"],
+                "stamp": stamp_id, "kind": kind, "name": name, "region": region_at(params, px, py)}
 
     def at(self, x: int, y: int) -> tuple[dict, dict | None] | None:
         """(settlement, legend entry of the stamp character) when tile (x, y) lies in a settlement footprint."""
@@ -152,6 +171,9 @@ def biome_at(seed: int, params: dict, x: int, y: int) -> str:
     r = params["spawn_clear_radius"]
     if (x - cx) ** 2 + (y - cy) ** 2 < r * r:
         return "plains"
+    home = params.get("home")
+    if home is not None and (x - cx) ** 2 + (y - cy) ** 2 < home["radius"] ** 2:
+        return "plains"  # the home meadow
     t = params["thresholds"]
     e = field(seed, params["elevation"], x, y)
     if e < t["water"]:
