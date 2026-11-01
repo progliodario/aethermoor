@@ -162,7 +162,13 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
         }
     }
     for (const NpcPoint& npc : map.npcs) {
-        setup.story.npcs.push_back({npc.key, npc.dialogue, npc.variant, npc.x, npc.y});
+        NpcDef def;
+        def.key = npc.key;
+        def.dialogue = npc.dialogue;
+        def.variant = npc.variant;
+        def.x = npc.x;
+        def.y = npc.y;
+        setup.story.npcs.push_back(std::move(def));
     }
 
     // Items that can be used (spec 06).
