@@ -92,5 +92,17 @@
   "dlg.mira.mine_decline": "Non ancora.",
   "dlg.mira.mine_accepted": "Porta pane e pozioni, e risveglia le Pietre della Soglia delle città che attraversi: ti riporteranno a casa. Anche la miniera ha una pietra alla porta.",
   "dlg.mira.mine_busy": "Il caposquadra batte ancora nella miniera di Ironspine. Prenditi il tempo sulla strada, ma torna vivo.",
-  "dlg.mira.mine_thanks": "A Ironspine il martellare è finito. La gilda ti deve più di quanto io possa pagare, ma continuerò a provarci."
+  "dlg.mira.mine_thanks": "A Ironspine il martellare è finito. La gilda ti deve più di quanto io possa pagare, ma continuerò a provarci.",
+  "dlg.mira.temple_offer": "La gente di costa di Tidehaven, lontano a sud-ovest, dice che un tempio sommerso è emerso dalla baia con la bassa marea, e un Reggente al suo interno annega chiunque passi. Attraverserai le terre per aiutarli?",
+  "dlg.mira.temple_accept": "Andrò a Tidehaven.",
+  "dlg.mira.temple_decline": "Non ancora.",
+  "dlg.mira.temple_accepted": "Porta pazienza, non solo una spada. Il tempio ha una Pietra della Soglia ai suoi gradini: risvegliala prima di entrare.",
+  "dlg.mira.temple_busy": "Il Reggente siede ancora nel tempio sommerso. La marea non aspetta per sempre, ma non buttarti dentro.",
+  "dlg.mira.temple_thanks": "La baia è calma di nuovo e i pescatori cantano il tuo nome. Lo riferirò alla gilda.",
+  "dlg.mira.cavern_offer": "L'ultima lettera è la peggiore. Nell'estremo nord una caverna sotto i ghiacciai di Frostveil respira freddo, e uno Spettro al suo interno congela intere carovane. È la strada più lunga di tutte. Ci andrai?",
+  "dlg.mira.cavern_accept": "Andrò a Frostveil.",
+  "dlg.mira.cavern_decline": "Non ancora.",
+  "dlg.mira.cavern_accepted": "Vestiti caldo e porta pozioni. La caverna ha una Pietra della Soglia all'ingresso. Torna con il gelo fuori dalle ossa.",
+  "dlg.mira.cavern_busy": "Lo Spettro è ancora nella caverna e il nord è ancora freddo. Torna vivo.",
+  "dlg.mira.cavern_thanks": "Frostveil è silenziosa. Hai ripulito la miniera, la cantina, il tumulo, il tempio e la caverna. La gilda non ha più lettere come queste."
 }

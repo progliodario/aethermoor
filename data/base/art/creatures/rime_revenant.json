@@ -1,0 +1,247 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/creature/rime_revenant",
+  "canvas": {
+    "w": 56,
+    "h": 64,
+    "origin": [
+      28,
+      60
+    ]
+  },
+  "palette": {
+    "light": "#EAF6FF",
+    "body": "#9CC7E8",
+    "dark": "#4C6F94",
+    "outline": "#1B2A3D",
+    "glow": "#6FE3FF",
+    "bone": "#E9E2CC",
+    "slit": "#14161C"
+  },
+  "variants": {},
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          28,
+          60,
+          20,
+          5
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.3
+    },
+    {
+      "shape": {
+        "path": "M 12 58 Q 10 34 28 28 Q 46 34 44 58 Q 28 62 12 58 Z"
+      },
+      "fill": {
+        "radial": {
+          "cx": 22,
+          "cy": 36,
+          "r": 30,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.5,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.8
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          12,
+          37,
+          7,
+          6
+        ]
+      },
+      "fill": {
+        "color": "$p.body"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          44,
+          37,
+          7,
+          6
+        ]
+      },
+      "fill": {
+        "color": "$p.body"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            28,
+            36
+          ],
+          [
+            32,
+            43
+          ],
+          [
+            28,
+            52
+          ],
+          [
+            24,
+            43
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.glow"
+      },
+      "alpha": 0.85
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            19,
+            15
+          ],
+          [
+            11,
+            3
+          ],
+          [
+            23,
+            11
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.bone"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.4
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            37,
+            15
+          ],
+          [
+            45,
+            3
+          ],
+          [
+            33,
+            11
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.bone"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 18 28 Q 18 10 28 8 Q 38 10 38 28 Q 28 32 18 28 Z"
+      },
+      "fill": {
+        "radial": {
+          "cx": 23,
+          "cy": 14,
+          "r": 22,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.55,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.8
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          20,
+          18.5,
+          16,
+          4
+        ]
+      },
+      "fill": {
+        "color": "$p.slit"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          24.5,
+          20.5,
+          1.9,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "$p.glow"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          31.5,
+          20.5,
+          1.9,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "$p.glow"
+      }
+    }
+  ]
+}

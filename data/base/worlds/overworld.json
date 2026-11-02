@@ -31,7 +31,9 @@
   "landmarks": [
     { "id": "grunmoor_barrow", "name": "Grunmoor Barrow", "stamp": "base:stamp/barrow", "kind": "dungeon", "dx": -60, "dy": -34 },
     { "id": "mossveil_cellar", "name": "Mossveil Cellar", "stamp": "base:stamp/cellar", "kind": "dungeon", "dx": 50, "dy": -45 },
-    { "id": "ironspine_mine", "name": "Ironspine Mine", "stamp": "base:stamp/mine", "kind": "dungeon", "dx": 4480, "dy": -4480 }
+    { "id": "ironspine_mine", "name": "Ironspine Mine", "stamp": "base:stamp/mine", "kind": "dungeon", "dx": 4480, "dy": -4480 },
+    { "id": "drowned_temple", "name": "Drowned Temple", "stamp": "base:stamp/temple", "kind": "dungeon", "dx": -6016, "dy": 4480 },
+    { "id": "frostveil_cavern", "name": "Frostveil Cavern", "stamp": "base:stamp/cavern", "kind": "dungeon", "dx": -896, "dy": -6784 }
   ],
   "guild": {
     "offers_per_day": 4,

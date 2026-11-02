@@ -315,6 +315,22 @@
               "kind": "dungeon",
               "dx": 4480,
               "dy": -4480
+            },
+            {
+              "id": "drowned_temple",
+              "name": "Drowned Temple",
+              "stamp": "base:stamp/temple",
+              "kind": "dungeon",
+              "dx": -6016,
+              "dy": 4480
+            },
+            {
+              "id": "frostveil_cavern",
+              "name": "Frostveil Cavern",
+              "stamp": "base:stamp/cavern",
+              "kind": "dungeon",
+              "dx": -896,
+              "dy": -6784
             }
           ],
           "guild": {
@@ -1350,6 +1366,151 @@
                 "m": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_slate"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/temple": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/temple",
+              "w": 35,
+              "h": 31,
+              "anchor": [
+                17,
+                29
+              ],
+              "rows": [
+                "...................................",
+                ".#################################.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#clcccccccc#ccccccccc#cccccccclc#.",
+                ".#cccccciccc#ciccQccic#cccicccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#####c#####cccccccccc#.",
+                ".#cccccccccc#clccccclc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#ccccicccccccccccccccccccccicccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccxcccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".############ccccccccc############.",
+                ".#clcccccccc#ccccccccc#cccccccclc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccccccccxccccccccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccciccccc#ccccccccc#cccccicccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccxcccxcc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccclclccc#cccccccccc#.",
+                ".################c################.",
+                "..............T..c.................",
+                ".................c................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "Q": {
+                  "tile": 14,
+                  "spawner": "base:enemy/tide_regent"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "i": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_tide"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/cavern": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/cavern",
+              "w": 33,
+              "h": 28,
+              "anchor": [
+                16,
+                27
+              ],
+              "rows": [
+                ".................................",
+                ".###############################.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccRcccccccccccclc#.",
+                ".#ccccccfcccccccccccccccfcccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".###############c###############.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccccccclc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#ccfccccccfcccccccccfccccccfcc#.",
+                ".#ccccccccccccc##cccccccccccccc#.",
+                ".#ccccccccccccc##cccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccfcccccccccccccc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#ccccccccccccc##cccccccccccccc#.",
+                ".#ccxcccccccccc##cccccccccccxcc#.",
+                ".#ccccccccfcccccccccccfcccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccxcccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccclclccccccccccccc#.",
+                ".###############c###############.",
+                ".............T..c................"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "R": {
+                  "tile": 14,
+                  "spawner": "base:enemy/rime_revenant"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "f": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_frost"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
                 }
               },
               "spots": []
@@ -2228,6 +2389,22 @@
               "kind": "dungeon",
               "dx": 4480,
               "dy": -4480
+            },
+            {
+              "id": "drowned_temple",
+              "name": "Drowned Temple",
+              "stamp": "base:stamp/temple",
+              "kind": "dungeon",
+              "dx": -6016,
+              "dy": 4480
+            },
+            {
+              "id": "frostveil_cavern",
+              "name": "Frostveil Cavern",
+              "stamp": "base:stamp/cavern",
+              "kind": "dungeon",
+              "dx": -896,
+              "dy": -6784
             }
           ],
           "guild": {
@@ -3263,6 +3440,151 @@
                 "m": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_slate"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/temple": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/temple",
+              "w": 35,
+              "h": 31,
+              "anchor": [
+                17,
+                29
+              ],
+              "rows": [
+                "...................................",
+                ".#################################.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#clcccccccc#ccccccccc#cccccccclc#.",
+                ".#cccccciccc#ciccQccic#cccicccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#####c#####cccccccccc#.",
+                ".#cccccccccc#clccccclc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#ccccicccccccccccccccccccccicccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccxcccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".############ccccccccc############.",
+                ".#clcccccccc#ccccccccc#cccccccclc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccccccccxccccccccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccciccccc#ccccccccc#cccccicccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccxcccxcc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccclclccc#cccccccccc#.",
+                ".################c################.",
+                "..............T..c.................",
+                ".................c................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "Q": {
+                  "tile": 14,
+                  "spawner": "base:enemy/tide_regent"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "i": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_tide"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/cavern": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/cavern",
+              "w": 33,
+              "h": 28,
+              "anchor": [
+                16,
+                27
+              ],
+              "rows": [
+                ".................................",
+                ".###############################.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccRcccccccccccclc#.",
+                ".#ccccccfcccccccccccccccfcccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".###############c###############.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccccccclc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#ccfccccccfcccccccccfccccccfcc#.",
+                ".#ccccccccccccc##cccccccccccccc#.",
+                ".#ccccccccccccc##cccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccfcccccccccccccc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#ccccccccccccc##cccccccccccccc#.",
+                ".#ccxcccccccccc##cccccccccccxcc#.",
+                ".#ccccccccfcccccccccccfcccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccxcccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccclclccccccccccccc#.",
+                ".###############c###############.",
+                ".............T..c................"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "R": {
+                  "tile": 14,
+                  "spawner": "base:enemy/rime_revenant"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "f": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_frost"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
                 }
               },
               "spots": []
@@ -3908,6 +4230,22 @@
               "kind": "dungeon",
               "dx": 4480,
               "dy": -4480
+            },
+            {
+              "id": "drowned_temple",
+              "name": "Drowned Temple",
+              "stamp": "base:stamp/temple",
+              "kind": "dungeon",
+              "dx": -6016,
+              "dy": 4480
+            },
+            {
+              "id": "frostveil_cavern",
+              "name": "Frostveil Cavern",
+              "stamp": "base:stamp/cavern",
+              "kind": "dungeon",
+              "dx": -896,
+              "dy": -6784
             }
           ],
           "guild": {
@@ -4943,6 +5281,151 @@
                 "m": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_slate"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/temple": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/temple",
+              "w": 35,
+              "h": 31,
+              "anchor": [
+                17,
+                29
+              ],
+              "rows": [
+                "...................................",
+                ".#################################.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#clcccccccc#ccccccccc#cccccccclc#.",
+                ".#cccccciccc#ciccQccic#cccicccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#####c#####cccccccccc#.",
+                ".#cccccccccc#clccccclc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#ccccicccccccccccccccccccccicccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccxcccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".############ccccccccc############.",
+                ".#clcccccccc#ccccccccc#cccccccclc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccccccccxccccccccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccciccccc#ccccccccc#cccccicccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccxcccxcc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccclclccc#cccccccccc#.",
+                ".################c################.",
+                "..............T..c.................",
+                ".................c................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "Q": {
+                  "tile": 14,
+                  "spawner": "base:enemy/tide_regent"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "i": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_tide"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/cavern": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/cavern",
+              "w": 33,
+              "h": 28,
+              "anchor": [
+                16,
+                27
+              ],
+              "rows": [
+                ".................................",
+                ".###############################.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccRcccccccccccclc#.",
+                ".#ccccccfcccccccccccccccfcccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".###############c###############.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccccccclc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#ccfccccccfcccccccccfccccccfcc#.",
+                ".#ccccccccccccc##cccccccccccccc#.",
+                ".#ccccccccccccc##cccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccfcccccccccccccc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#ccccccccccccc##cccccccccccccc#.",
+                ".#ccxcccccccccc##cccccccccccxcc#.",
+                ".#ccccccccfcccccccccccfcccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccxcccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccclclccccccccccccc#.",
+                ".###############c###############.",
+                ".............T..c................"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "R": {
+                  "tile": 14,
+                  "spawner": "base:enemy/rime_revenant"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "f": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_frost"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
                 }
               },
               "spots": []
@@ -5474,6 +5957,170 @@
           },
           {
             "chunk": [
+              228,
+              44
+            ],
+            "probes": [
+              [
+                14,
+                19,
+                4
+              ],
+              [
+                26,
+                25,
+                6
+              ],
+              [
+                29,
+                12,
+                2
+              ],
+              [
+                10,
+                10,
+                4
+              ],
+              [
+                25,
+                28,
+                6
+              ],
+              [
+                15,
+                21,
+                4
+              ],
+              [
+                28,
+                22,
+                6
+              ],
+              [
+                30,
+                5,
+                1
+              ],
+              [
+                22,
+                27,
+                6
+              ],
+              [
+                11,
+                14,
+                4
+              ],
+              [
+                27,
+                24,
+                6
+              ],
+              [
+                30,
+                16,
+                2
+              ]
+            ],
+            "tile_digest": "0xb055ec796b312107",
+            "prop_count": 11,
+            "prop_digest": "0x2fa1b8287b47f026",
+            "spawner_count": 0,
+            "spawner_digest": "0x0000000000000000",
+            "people": [],
+            "gid_histogram": {
+              "1": 86,
+              "2": 81,
+              "4": 573,
+              "6": 278,
+              "10": 5,
+              "14": 1
+            }
+          },
+          {
+            "chunk": [
+              228,
+              44
+            ],
+            "probes": [
+              [
+                14,
+                19,
+                4
+              ],
+              [
+                26,
+                25,
+                6
+              ],
+              [
+                29,
+                12,
+                2
+              ],
+              [
+                10,
+                10,
+                4
+              ],
+              [
+                25,
+                28,
+                6
+              ],
+              [
+                15,
+                21,
+                4
+              ],
+              [
+                28,
+                22,
+                6
+              ],
+              [
+                30,
+                5,
+                1
+              ],
+              [
+                22,
+                27,
+                6
+              ],
+              [
+                11,
+                14,
+                4
+              ],
+              [
+                27,
+                24,
+                6
+              ],
+              [
+                30,
+                16,
+                2
+              ]
+            ],
+            "tile_digest": "0xb055ec796b312107",
+            "prop_count": 11,
+            "prop_digest": "0x2fa1b8287b47f026",
+            "spawner_count": 0,
+            "spawner_digest": "0x0000000000000000",
+            "people": [],
+            "gid_histogram": {
+              "1": 86,
+              "2": 81,
+              "4": 573,
+              "6": 278,
+              "10": 5,
+              "14": 1
+            }
+          },
+          {
+            "chunk": [
               146,
               100
             ],
@@ -5792,170 +6439,6 @@
               "11": 19,
               "13": 45,
               "14": 42
-            }
-          },
-          {
-            "chunk": [
-              396,
-              116
-            ],
-            "probes": [
-              [
-                15,
-                4,
-                6
-              ],
-              [
-                18,
-                5,
-                6
-              ],
-              [
-                16,
-                25,
-                1
-              ],
-              [
-                25,
-                2,
-                6
-              ],
-              [
-                17,
-                6,
-                6
-              ],
-              [
-                27,
-                10,
-                1
-              ],
-              [
-                18,
-                30,
-                6
-              ],
-              [
-                18,
-                17,
-                1
-              ],
-              [
-                24,
-                15,
-                6
-              ],
-              [
-                10,
-                16,
-                1
-              ],
-              [
-                18,
-                21,
-                1
-              ],
-              [
-                27,
-                20,
-                6
-              ]
-            ],
-            "tile_digest": "0x2aec3f2dcf06dccd",
-            "prop_count": 25,
-            "prop_digest": "0xe31e851c8587dd03",
-            "spawner_count": 0,
-            "spawner_digest": "0x0000000000000000",
-            "people": [],
-            "gid_histogram": {
-              "1": 236,
-              "2": 248,
-              "4": 39,
-              "6": 478,
-              "10": 21,
-              "14": 2
-            }
-          },
-          {
-            "chunk": [
-              396,
-              116
-            ],
-            "probes": [
-              [
-                15,
-                4,
-                6
-              ],
-              [
-                18,
-                5,
-                6
-              ],
-              [
-                16,
-                25,
-                1
-              ],
-              [
-                25,
-                2,
-                6
-              ],
-              [
-                17,
-                6,
-                6
-              ],
-              [
-                27,
-                10,
-                1
-              ],
-              [
-                18,
-                30,
-                6
-              ],
-              [
-                18,
-                17,
-                1
-              ],
-              [
-                24,
-                15,
-                6
-              ],
-              [
-                10,
-                16,
-                1
-              ],
-              [
-                18,
-                21,
-                1
-              ],
-              [
-                27,
-                20,
-                6
-              ]
-            ],
-            "tile_digest": "0x2aec3f2dcf06dccd",
-            "prop_count": 25,
-            "prop_digest": "0xe31e851c8587dd03",
-            "spawner_count": 0,
-            "spawner_digest": "0x0000000000000000",
-            "people": [],
-            "gid_histogram": {
-              "1": 236,
-              "2": 248,
-              "4": 39,
-              "6": 478,
-              "10": 21,
-              "14": 2
             }
           }
         ]
@@ -6273,6 +6756,22 @@
               "kind": "dungeon",
               "dx": 4480,
               "dy": -4480
+            },
+            {
+              "id": "drowned_temple",
+              "name": "Drowned Temple",
+              "stamp": "base:stamp/temple",
+              "kind": "dungeon",
+              "dx": -6016,
+              "dy": 4480
+            },
+            {
+              "id": "frostveil_cavern",
+              "name": "Frostveil Cavern",
+              "stamp": "base:stamp/cavern",
+              "kind": "dungeon",
+              "dx": -896,
+              "dy": -6784
             }
           ],
           "guild": {
@@ -7308,6 +7807,151 @@
                 "m": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_slate"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/temple": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/temple",
+              "w": 35,
+              "h": 31,
+              "anchor": [
+                17,
+                29
+              ],
+              "rows": [
+                "...................................",
+                ".#################################.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#clcccccccc#ccccccccc#cccccccclc#.",
+                ".#cccccciccc#ciccQccic#cccicccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#####c#####cccccccccc#.",
+                ".#cccccccccc#clccccclc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#ccccicccccccccccccccccccccicccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccxcccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".############ccccccccc############.",
+                ".#clcccccccc#ccccccccc#cccccccclc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccccccccxccccccccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccciccccc#ccccccccc#cccccicccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccxcccxcc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccclclccc#cccccccccc#.",
+                ".################c################.",
+                "..............T..c.................",
+                ".................c................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "Q": {
+                  "tile": 14,
+                  "spawner": "base:enemy/tide_regent"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "i": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_tide"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/cavern": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/cavern",
+              "w": 33,
+              "h": 28,
+              "anchor": [
+                16,
+                27
+              ],
+              "rows": [
+                ".................................",
+                ".###############################.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccRcccccccccccclc#.",
+                ".#ccccccfcccccccccccccccfcccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".###############c###############.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccccccclc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#ccfccccccfcccccccccfccccccfcc#.",
+                ".#ccccccccccccc##cccccccccccccc#.",
+                ".#ccccccccccccc##cccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccfcccccccccccccc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#ccccccccccccc##cccccccccccccc#.",
+                ".#ccxcccccccccc##cccccccccccxcc#.",
+                ".#ccccccccfcccccccccccfcccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccxcccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccclclccccccccccccc#.",
+                ".###############c###############.",
+                ".............T..c................"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "R": {
+                  "tile": 14,
+                  "spawner": "base:enemy/rime_revenant"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "f": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_frost"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
                 }
               },
               "spots": []
@@ -7766,162 +8410,166 @@
           },
           {
             "chunk": [
-              396,
-              116
+              228,
+              44
             ],
             "probes": [
               [
+                6,
+                30,
+                7
+              ],
+              [
                 28,
-                18,
-                6
+                29,
+                4
               ],
               [
-                27,
-                19,
-                6
+                1,
+                15,
+                7
               ],
               [
-                31,
+                13,
+                13,
+                7
+              ],
+              [
+                15,
                 23,
                 6
               ],
               [
-                18,
-                0,
-                8
-              ],
-              [
-                0,
-                20,
-                6
-              ],
-              [
-                24,
-                30,
-                6
-              ],
-              [
+                26,
                 17,
-                3,
-                8
+                4
               ],
               [
-                13,
-                11,
-                8
+                0,
+                12,
+                7
               ],
               [
-                28,
-                22,
-                6
-              ],
-              [
-                14,
-                6,
-                8
-              ],
-              [
-                8,
-                7,
-                8
-              ],
-              [
-                14,
+                16,
                 4,
-                8
+                7
+              ],
+              [
+                4,
+                14,
+                7
+              ],
+              [
+                0,
+                18,
+                7
+              ],
+              [
+                5,
+                31,
+                7
+              ],
+              [
+                21,
+                13,
+                6
               ]
             ],
-            "tile_digest": "0x3344e050806f680f",
-            "prop_count": 9,
-            "prop_digest": "0xc8ca2542f656c7d9",
+            "tile_digest": "0x3048f0515dea6baa",
+            "prop_count": 43,
+            "prop_digest": "0x3760a6beaa5185a8",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "people": [],
             "gid_histogram": {
-              "4": 21,
-              "6": 489,
-              "8": 512,
-              "14": 2
+              "1": 24,
+              "2": 25,
+              "4": 279,
+              "6": 153,
+              "7": 542,
+              "14": 1
             }
           },
           {
             "chunk": [
-              396,
-              116
+              228,
+              44
             ],
             "probes": [
               [
+                6,
+                30,
+                7
+              ],
+              [
                 28,
-                18,
-                6
+                29,
+                4
               ],
               [
-                27,
-                19,
-                6
+                1,
+                15,
+                7
               ],
               [
-                31,
+                13,
+                13,
+                7
+              ],
+              [
+                15,
                 23,
                 6
               ],
               [
-                18,
-                0,
-                8
-              ],
-              [
-                0,
-                20,
-                6
-              ],
-              [
-                24,
-                30,
-                6
-              ],
-              [
+                26,
                 17,
-                3,
-                8
+                4
               ],
               [
-                13,
-                11,
-                8
+                0,
+                12,
+                7
               ],
               [
-                28,
-                22,
-                6
-              ],
-              [
-                14,
-                6,
-                8
-              ],
-              [
-                8,
-                7,
-                8
-              ],
-              [
-                14,
+                16,
                 4,
-                8
+                7
+              ],
+              [
+                4,
+                14,
+                7
+              ],
+              [
+                0,
+                18,
+                7
+              ],
+              [
+                5,
+                31,
+                7
+              ],
+              [
+                21,
+                13,
+                6
               ]
             ],
-            "tile_digest": "0x3344e050806f680f",
-            "prop_count": 9,
-            "prop_digest": "0xc8ca2542f656c7d9",
+            "tile_digest": "0x3048f0515dea6baa",
+            "prop_count": 43,
+            "prop_digest": "0x3760a6beaa5185a8",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "people": [],
             "gid_histogram": {
-              "4": 21,
-              "6": 489,
-              "8": 512,
-              "14": 2
+              "1": 24,
+              "2": 25,
+              "4": 279,
+              "6": 153,
+              "7": 542,
+              "14": 1
             }
           },
           {

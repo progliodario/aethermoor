@@ -29,6 +29,10 @@ LEGEND = {
     "m": {"tile": 14, "spawner": "base:enemy/slime_slate"},
     "d": {"tile": 14, "spawner": "base:enemy/wolf_shade"},
     "F": {"tile": 14, "spawner": "base:enemy/iron_foreman"},
+    "f": {"tile": 14, "spawner": "base:enemy/wolf_frost"},
+    "i": {"tile": 14, "spawner": "base:enemy/slime_tide"},
+    "R": {"tile": 14, "spawner": "base:enemy/rime_revenant"},
+    "Q": {"tile": 14, "spawner": "base:enemy/tide_regent"},
     "T": {"tile": 14, "prop": "base:art/prop/threshold_stone", "radius_x100": 35},  # Threshold Stone (fast travel)
     "V": {"tile": 13, "npc": "villager"},
     "G": {"tile": 13, "npc": "guild_clerk"},
@@ -237,9 +241,61 @@ def mine() -> dict:
     return stamp("base:stamp/mine", c, (18, 28), [])
 
 
+def cavern() -> dict:
+    """The dungeon of Frostveil: a frozen cavern of pillars and wolves, the Rime Revenant in its north hall (spec 09, "Landmarks")."""
+    c = Canvas(33, 28)
+    c.rect(1, 1, 31, 26, "#")
+    c.rect(2, 2, 29, 24, "c")
+    c.hline(2, 30, 7, "#")
+    c.put(16, 7, "c")  # the door of the north hall
+    for x, y in ((6, 10), (6, 17), (25, 10), (25, 17), (15, 13), (15, 19)):  # ice pillars
+        c.rect(x, y, 2, 2, "#")
+    for y in (26, 27):  # the entrance and the path to it
+        c.put(16, y, "c")
+    for x, y in ((3, 3), (29, 3), (3, 9), (29, 9), (15, 25), (17, 25)):
+        c.put(x, y, "l")
+    c.put(16, 3, "R")
+    for x, y in ((8, 4), (24, 4)):
+        c.put(x, y, "f")
+    for x, y in ((4, 12), (28, 12), (10, 21), (22, 21), (16, 16), (11, 12), (21, 12)):
+        c.put(x, y, "f")
+    for x, y in ((4, 20), (28, 20), (16, 23)):
+        c.put(x, y, "x")
+    c.put(13, 27, "T")
+    return stamp("base:stamp/cavern", c, (16, 27), [])
+
+
+def temple() -> dict:
+    """The dungeon of Tidehaven: a drowned temple with a nave, four side chambers and the Tide Regent in its apse (spec 09, "Landmarks")."""
+    c = Canvas(35, 31)
+    c.rect(1, 1, 33, 28, "#")
+    c.rect(2, 2, 31, 26, "c")
+    c.hline(13, 21, 8, "#")
+    c.put(17, 8, "c")  # the door of the apse
+    for x in (12, 22):  # the walls between the nave and the chambers, with a door for each chamber
+        c.vline(x, 2, 27, "#")
+        for y in (12, 20):
+            c.put(x, y, "c")
+    c.hline(2, 11, 16, "#")
+    c.hline(23, 32, 16, "#")
+    for y in (28, 29, 30):  # the entrance and the path to it
+        c.put(17, y, "c")
+    for x, y in ((3, 3), (31, 3), (14, 9), (20, 9), (3, 17), (31, 17), (16, 27), (18, 27)):
+        c.put(x, y, "l")
+    c.put(17, 4, "Q")
+    for x, y in ((14, 4), (20, 4)):
+        c.put(x, y, "i")
+    for x, y in ((6, 12), (6, 22), (28, 12), (28, 22), (8, 4), (26, 4)):
+        c.put(x, y, "i")
+    for x, y in ((17, 14), (17, 20), (15, 24), (19, 24)):
+        c.put(x, y, "x")
+    c.put(14, 29, "T")
+    return stamp("base:stamp/temple", c, (17, 29), [])
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    for build in (hamlet, village, town, barrow, cellar, mine):
+    for build in (hamlet, village, town, barrow, cellar, mine, cavern, temple):
         data = build()
         name = data["id"].split("/")[-1]
         (OUT / f"{name}.json").write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
