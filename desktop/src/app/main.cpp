@@ -1452,12 +1452,12 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
 }
 
 // The title screen (spec 12, "Slots"): the games to pick from. Returns the game (1..kSlotCount), or 0 when the player quits.
-int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, const std::string& lang) {
+int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, const std::string& lang, int first_slot) {
     std::vector<SlotInfo> slots;
     for (int slot = 1; slot <= kSlotCount; ++slot) {
         slots.push_back(read_slot(slot));
     }
-    int cursor = 0;
+    int cursor = std::clamp(first_slot - 1, 0, kSlotCount - 1);
     int pending_delete = -1;
     std::string notice;
     for (;;) {
@@ -1491,7 +1491,10 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
                 const SDL_Keycode key = event.key.key;
                 const int digit = static_cast<int>(key) - static_cast<int>(SDLK_1);
                 if (key == SDLK_ESCAPE) {
-                    return 0;
+                    if (!event.key.repeat) {  // the Esc that left a game may still be held
+                        return 0;
+                    }
+                    continue;
                 }
                 if (key == SDLK_UP || key == SDLK_W) {
                     cursor = (cursor + kSlotCount - 1) % kSlotCount;
@@ -1644,371 +1647,382 @@ int main(int argc, char** argv) {
     }
     SDL_SetRenderVSync(renderer, 1);
 
-    // The game (spec 12, "Slots"): chosen on the title screen; the smoke test has a folder of its own.
-    if (smoke_test) {
-        g_slot_dir = save_dir() / "smoke";
-        std::error_code folder_error;
-        fs::create_directories(g_slot_dir, folder_error);
-    } else {
-        migrate_legacy_saves();
-        const int slot = forced_slot >= 1 && forced_slot <= kSlotCount
-                             ? forced_slot
-                             : run_title(window, renderer, assets, saved_language().value_or(detect_language()));
-        if (slot == 0) {
-            SDL_DestroyRenderer(renderer);
-            SDL_DestroyWindow(window);
-            SDL_Quit();
-            return 0;
+    // One game after another: Esc in a game comes back to the title screen, where another slot can be chosen.
+    int exit_code = 0;
+    int last_slot = 0;
+    for (;;) {
+        bool back_to_title = false;
+        // The game (spec 12, "Slots"): chosen on the title screen; the smoke test has a folder of its own.
+        if (smoke_test) {
+            g_slot_dir = save_dir() / "smoke";
+            std::error_code folder_error;
+            fs::create_directories(g_slot_dir, folder_error);
+        } else {
+            migrate_legacy_saves();
+            const int slot = forced_slot >= 1 && forced_slot <= kSlotCount
+                                 ? forced_slot
+                                 : run_title(window, renderer, assets, saved_language().value_or(detect_language()), last_slot);
+            if (slot == 0) {
+                SDL_DestroyRenderer(renderer);
+                SDL_DestroyWindow(window);
+                SDL_Quit();
+                return 0;
+            }
+            last_slot = slot;
+            g_slot_dir = slot_dir(slot);
         }
-        g_slot_dir = slot_dir(slot);
-    }
 
-    // The seed: forced, else the one of the last session on this map (so the same world comes back), else a new one.
-    std::uint64_t seed = smoke_test ? 1234U : SDL_GetTicksNS();
-    if (forced_seed) {
-        seed = *forced_seed;
-    } else if (!smoke_test) {
-        if (const auto text = read_text_file(g_slot_dir / "auto.json")) {
-            if (const auto peek = aether::save_peek(*text); peek && peek->map == g_map_name) {
-                seed = peek->seed;
+        // The seed: forced, else the one of the last session on this map (so the same world comes back), else a new one.
+        std::uint64_t seed = smoke_test ? 1234U : SDL_GetTicksNS();
+        if (forced_seed) {
+            seed = *forced_seed;
+        } else if (!smoke_test) {
+            if (const auto text = read_text_file(g_slot_dir / "auto.json")) {
+                if (const auto peek = aether::save_peek(*text); peek && peek->map == g_map_name) {
+                    seed = peek->seed;
+                }
             }
         }
-    }
-    std::optional<aether::StreamConfig> stream;
-    if (g_map_name == "world") {
-        std::string world_error;
-        const auto params = aether::load_world_params(assets.pack, kWorldId, world_error);
-        if (!params) {
-            SDL_Log("cannot read the world parameters: %s", world_error.c_str());
+        std::optional<aether::StreamConfig> stream;
+        if (g_map_name == "world") {
+            std::string world_error;
+            const auto params = aether::load_world_params(assets.pack, kWorldId, world_error);
+            if (!params) {
+                SDL_Log("cannot read the world parameters: %s", world_error.c_str());
+                SDL_Quit();
+                return 1;
+            }
+            assets.map = aether::make_stream_map(*params);
+            stream = aether::StreamConfig{*params, seed};
+        }
+        std::string combat_error;
+        auto combat = aether::load_combat_setup(assets.pack, assets.map, kProtagonistId, seed, combat_error);
+        if (combat && stream) {
+            for (const std::string& enemy : aether::world_enemy_ids(stream->params)) {
+                if (combat && combat->stream_enemies.count(enemy) == 0) {
+                    if (auto def = aether::load_enemy_def(assets.pack, enemy, combat_error)) {
+                        combat->stream_enemies.emplace(enemy, std::move(*def));
+                    } else {
+                        combat.reset();
+                    }
+                }
+            }
+        }
+        if (!combat) {
+            SDL_Log("cannot build the combat setup: %s", combat_error.c_str());
             SDL_Quit();
             return 1;
         }
-        assets.map = aether::make_stream_map(*params);
-        stream = aether::StreamConfig{*params, seed};
-    }
-    std::string combat_error;
-    auto combat = aether::load_combat_setup(assets.pack, assets.map, kProtagonistId, seed, combat_error);
-    if (combat && stream) {
-        for (const std::string& enemy : aether::world_enemy_ids(stream->params)) {
-            if (combat && combat->stream_enemies.count(enemy) == 0) {
-                if (auto def = aether::load_enemy_def(assets.pack, enemy, combat_error)) {
-                    combat->stream_enemies.emplace(enemy, std::move(*def));
-                } else {
-                    combat.reset();
+
+        {
+            aether::TextureCache cache(renderer, assets.pack);
+            aether::WorldSim sim(assets.map, assets.tileset, 0.0F, std::move(*combat), stream);
+            if (start_at && g_map_name == "world") {
+                sim.teleport(start_at->first, start_at->second);
+            }
+            const float spawn_x = sim.player().position.x;
+            const aether::SaveState initial_state = sim.capture();
+            double since_autosave = 0.0;
+            InputDevices devices;
+            devices.open_first_gamepad();
+            std::vector<FloatingText> floating;
+            Ui ui;
+            ui.lang = saved_language().value_or(detect_language());
+
+            if (!smoke_test) {  // continue the last session, if there is one
+                std::string ignored;
+                const auto previous = read_text_file(g_slot_dir / "auto.json");
+                const auto peek = previous ? aether::save_peek(*previous) : std::nullopt;
+                if (peek && peek->map == g_map_name && peek->seed == seed && load_game(sim, g_slot_dir / "auto.json", ignored)) {
+                    notify(ui, assets.pack.text(ui.lang, "$i18n:ui.loaded"));
                 }
             }
-        }
-    }
-    if (!combat) {
-        SDL_Log("cannot build the combat setup: %s", combat_error.c_str());
-        SDL_Quit();
-        return 1;
-    }
 
-    int exit_code = 0;
-    {
-        aether::TextureCache cache(renderer, assets.pack);
-        aether::WorldSim sim(assets.map, assets.tileset, 0.0F, std::move(*combat), stream);
-        if (start_at && g_map_name == "world") {
-            sim.teleport(start_at->first, start_at->second);
-        }
-        const float spawn_x = sim.player().position.x;
-        const aether::SaveState initial_state = sim.capture();
-        double since_autosave = 0.0;
-        InputDevices devices;
-        devices.open_first_gamepad();
-        std::vector<FloatingText> floating;
-        Ui ui;
-        ui.lang = saved_language().value_or(detect_language());
+            bool running = true;
+            bool debug = false;
+            int frames = 0;
+            bool captured_choice = false;
+            bool smoke_save_ok = false;
+            int talk_step = 0;  // smoke test: scripted conversation with the guild clerk
+            double accumulator = 0.0;
+            double fps = 0.0;
+            Uint64 last = SDL_GetTicksNS();
+            while (running) {
+                const Uint64 now = SDL_GetTicksNS();
+                const double frame_seconds = std::min(static_cast<double>(now - last) / 1.0e9, kMaxFrameSeconds);
+                last = now;
+                if (frame_seconds > 0.0) {
+                    fps = fps * 0.9 + (1.0 / frame_seconds) * 0.1;
+                }
 
-        if (!smoke_test) {  // continue the last session, if there is one
-            std::string ignored;
-            const auto previous = read_text_file(g_slot_dir / "auto.json");
-            const auto peek = previous ? aether::save_peek(*previous) : std::nullopt;
-            if (peek && peek->map == g_map_name && peek->seed == seed && load_game(sim, g_slot_dir / "auto.json", ignored)) {
-                notify(ui, assets.pack.text(ui.lang, "$i18n:ui.loaded"));
-            }
-        }
-
-        bool running = true;
-        bool debug = false;
-        int frames = 0;
-        bool captured_choice = false;
-        bool smoke_save_ok = false;
-        int talk_step = 0;  // smoke test: scripted conversation with the guild clerk
-        double accumulator = 0.0;
-        double fps = 0.0;
-        Uint64 last = SDL_GetTicksNS();
-        while (running) {
-            const Uint64 now = SDL_GetTicksNS();
-            const double frame_seconds = std::min(static_cast<double>(now - last) / 1.0e9, kMaxFrameSeconds);
-            last = now;
-            if (frame_seconds > 0.0) {
-                fps = fps * 0.9 + (1.0 / frame_seconds) * 0.1;
-            }
-
-            SDL_Event event;
-            while (SDL_PollEvent(&event)) {
-                if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE &&
-                    (ui.show_map || ui.show_inventory || ui.show_journal || sim.shop() != nullptr || sim.board() != nullptr ||
-                     sim.travel() != nullptr)) {
-                    ui.show_map = false;  // Esc closes the open panel first
-                    ui.show_inventory = false;
-                    ui.show_journal = false;
-                    sim.close_shop();
-                    sim.close_board();
-                    sim.close_travel();
-                } else if (event.type == SDL_EVENT_QUIT ||
-                           (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE)) {
-                    running = false;
-                } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_F3) {
-                    debug = !debug;
-                } else if (event.type == SDL_EVENT_KEY_DOWN && !smoke_test &&
-                           (event.key.key == SDLK_F5 || event.key.key == SDLK_F9 || event.key.key == SDLK_F7 ||
-                            event.key.key == SDLK_I || event.key.key == SDLK_M || event.key.key == SDLK_Q ||
-                            event.key.key == SDLK_F2)) {
-                    if (event.key.key == SDLK_I) {
-                        ui.show_inventory = !ui.show_inventory;
-                        ui.show_map = false;
-                        ui.show_journal = false;
-                    } else if (event.key.key == SDLK_M) {
-                        ui.show_map = !ui.show_map && sim.streamed();
+                SDL_Event event;
+                while (SDL_PollEvent(&event)) {
+                    if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE &&
+                        (ui.show_map || ui.show_inventory || ui.show_journal || sim.shop() != nullptr || sim.board() != nullptr ||
+                         sim.travel() != nullptr)) {
+                        ui.show_map = false;  // Esc closes the open panel first
                         ui.show_inventory = false;
                         ui.show_journal = false;
-                    } else if (event.key.key == SDLK_Q) {
-                        ui.show_journal = !ui.show_journal && sim.shop() == nullptr && sim.board() == nullptr;
-                        ui.journal_scroll = 0;
-                        ui.show_inventory = false;
-                        ui.show_map = false;
-                    } else if (event.key.key == SDLK_F2) {
-                        ui.lang = ui.lang == "it" ? "en" : "it";
-                        save_language(ui.lang);
-                        notify(ui, assets.pack.text(ui.lang, "$i18n:ui.language_set"));
-                    } else if (event.key.key == SDLK_F5) {
-                        notify(ui, save_game(sim, g_slot_dir / "quick.json") ? assets.pack.text(ui.lang, "$i18n:ui.saved")
-                                                                              : "save failed");
-                    } else if (event.key.key == SDLK_F9) {
-                        std::string load_error;
-                        notify(ui, load_game(sim, g_slot_dir / "quick.json", load_error)
-                                       ? assets.pack.text(ui.lang, "$i18n:ui.loaded")
-                                       : assets.pack.text(ui.lang, "$i18n:ui.load_failed"));
-                    } else {
-                        std::string ignored;
-                        sim.restore(initial_state, ignored);
-                        notify(ui, assets.pack.text(ui.lang, "$i18n:ui.new_game"));
-                    }
-                } else if (event.type == SDL_EVENT_KEY_DOWN && !smoke_test) {
-                    if (sim.travel() != nullptr) {
-                        handle_travel_key(sim, assets, ui, event.key.key);
-                    } else if (sim.board() != nullptr) {
-                        handle_board_key(sim, assets, ui, event.key.key);
-                    } else if (sim.shop() != nullptr) {
-                        handle_shop_key(sim, assets, ui, event.key.key);
-                    } else if (ui.show_journal) {
-                        if (event.key.key == SDLK_UP || event.key.key == SDLK_W) {
-                            ui.journal_scroll = std::max(ui.journal_scroll - 1, 0);
-                        } else if (event.key.key == SDLK_DOWN || event.key.key == SDLK_S) {
-                            ++ui.journal_scroll;  // clamped when drawn
-                        }
-                    } else if (ui.show_inventory) {
-                        if (event.key.key == SDLK_UP || event.key.key == SDLK_W) {
-                            bag_move(sim, ui, -1);
-                        } else if (event.key.key == SDLK_DOWN || event.key.key == SDLK_S) {
-                            bag_move(sim, ui, 1);
-                        } else if (event.key.key == SDLK_E || event.key.key == SDLK_RETURN || event.key.key == SDLK_SPACE) {
-                            bag_use(sim, assets, ui);
-                        }
-                    } else {
-                        handle_dialogue_key(sim, ui, event.key.key);
-                    }
-                } else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN && !smoke_test && sim.story().dialogue_active()) {
-                    activate_dialogue(sim, ui);
-                } else if (event.type == SDL_EVENT_GAMEPAD_BUTTON_DOWN && !smoke_test) {
-                    if (sim.travel() != nullptr) {
-                        if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_UP) {
-                            travel_move(sim, ui, -1);
-                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_DOWN) {
-                            travel_move(sim, ui, 1);
-                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_WEST || event.gbutton.button == SDL_GAMEPAD_BUTTON_SOUTH) {
-                            travel_go(sim, assets, ui);
-                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_EAST) {
-                            sim.close_travel();
-                        }
-                    } else if (sim.board() != nullptr) {
-                        if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_UP) {
-                            board_move(sim, ui, -1);
-                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_DOWN) {
-                            board_move(sim, ui, 1);
-                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_WEST || event.gbutton.button == SDL_GAMEPAD_BUTTON_SOUTH) {
-                            board_accept(sim, assets, ui);
-                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_EAST) {
-                            sim.close_board();
-                        }
-                    } else if (sim.shop() != nullptr) {
-                        if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_UP) {
-                            shop_move(sim, ui, -1);
-                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_DOWN) {
-                            shop_move(sim, ui, 1);
-                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_NORTH) {
-                            ui.shop_sell = !ui.shop_sell;
-                            ui.shop_cursor = 0;
-                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_WEST || event.gbutton.button == SDL_GAMEPAD_BUTTON_SOUTH) {
-                            shop_confirm(sim, assets, ui);
-                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_EAST) {
-                            sim.close_shop();
-                        }
-                    } else if (ui.show_inventory) {
-                        if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_UP) {
-                            bag_move(sim, ui, -1);
-                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_DOWN) {
-                            bag_move(sim, ui, 1);
-                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_WEST || event.gbutton.button == SDL_GAMEPAD_BUTTON_SOUTH) {
-                            bag_use(sim, assets, ui);
-                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_EAST) {
+                        sim.close_shop();
+                        sim.close_board();
+                        sim.close_travel();
+                    } else if (event.type == SDL_EVENT_QUIT) {
+                        running = false;
+                    } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE) {
+                        running = false;
+                        back_to_title = !smoke_test && forced_slot == 0;  // Esc leaves the game for the title screen (spec 12, "Slots")
+                    } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_F3) {
+                        debug = !debug;
+                    } else if (event.type == SDL_EVENT_KEY_DOWN && !smoke_test &&
+                               (event.key.key == SDLK_F5 || event.key.key == SDLK_F9 || event.key.key == SDLK_F7 ||
+                                event.key.key == SDLK_I || event.key.key == SDLK_M || event.key.key == SDLK_Q ||
+                                event.key.key == SDLK_F2)) {
+                        if (event.key.key == SDLK_I) {
+                            ui.show_inventory = !ui.show_inventory;
+                            ui.show_map = false;
+                            ui.show_journal = false;
+                        } else if (event.key.key == SDLK_M) {
+                            ui.show_map = !ui.show_map && sim.streamed();
                             ui.show_inventory = false;
+                            ui.show_journal = false;
+                        } else if (event.key.key == SDLK_Q) {
+                            ui.show_journal = !ui.show_journal && sim.shop() == nullptr && sim.board() == nullptr;
+                            ui.journal_scroll = 0;
+                            ui.show_inventory = false;
+                            ui.show_map = false;
+                        } else if (event.key.key == SDLK_F2) {
+                            ui.lang = ui.lang == "it" ? "en" : "it";
+                            save_language(ui.lang);
+                            notify(ui, assets.pack.text(ui.lang, "$i18n:ui.language_set"));
+                        } else if (event.key.key == SDLK_F5) {
+                            notify(ui, save_game(sim, g_slot_dir / "quick.json") ? assets.pack.text(ui.lang, "$i18n:ui.saved")
+                                                                                  : "save failed");
+                        } else if (event.key.key == SDLK_F9) {
+                            std::string load_error;
+                            notify(ui, load_game(sim, g_slot_dir / "quick.json", load_error)
+                                           ? assets.pack.text(ui.lang, "$i18n:ui.loaded")
+                                           : assets.pack.text(ui.lang, "$i18n:ui.load_failed"));
+                        } else {
+                            std::string ignored;
+                            sim.restore(initial_state, ignored);
+                            notify(ui, assets.pack.text(ui.lang, "$i18n:ui.new_game"));
                         }
-                    } else {
-                        handle_dialogue_button(sim, ui, event.gbutton.button);
+                    } else if (event.type == SDL_EVENT_KEY_DOWN && !smoke_test) {
+                        if (sim.travel() != nullptr) {
+                            handle_travel_key(sim, assets, ui, event.key.key);
+                        } else if (sim.board() != nullptr) {
+                            handle_board_key(sim, assets, ui, event.key.key);
+                        } else if (sim.shop() != nullptr) {
+                            handle_shop_key(sim, assets, ui, event.key.key);
+                        } else if (ui.show_journal) {
+                            if (event.key.key == SDLK_UP || event.key.key == SDLK_W) {
+                                ui.journal_scroll = std::max(ui.journal_scroll - 1, 0);
+                            } else if (event.key.key == SDLK_DOWN || event.key.key == SDLK_S) {
+                                ++ui.journal_scroll;  // clamped when drawn
+                            }
+                        } else if (ui.show_inventory) {
+                            if (event.key.key == SDLK_UP || event.key.key == SDLK_W) {
+                                bag_move(sim, ui, -1);
+                            } else if (event.key.key == SDLK_DOWN || event.key.key == SDLK_S) {
+                                bag_move(sim, ui, 1);
+                            } else if (event.key.key == SDLK_E || event.key.key == SDLK_RETURN || event.key.key == SDLK_SPACE) {
+                                bag_use(sim, assets, ui);
+                            }
+                        } else {
+                            handle_dialogue_key(sim, ui, event.key.key);
+                        }
+                    } else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN && !smoke_test && sim.story().dialogue_active()) {
+                        activate_dialogue(sim, ui);
+                    } else if (event.type == SDL_EVENT_GAMEPAD_BUTTON_DOWN && !smoke_test) {
+                        if (sim.travel() != nullptr) {
+                            if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_UP) {
+                                travel_move(sim, ui, -1);
+                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_DOWN) {
+                                travel_move(sim, ui, 1);
+                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_WEST || event.gbutton.button == SDL_GAMEPAD_BUTTON_SOUTH) {
+                                travel_go(sim, assets, ui);
+                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_EAST) {
+                                sim.close_travel();
+                            }
+                        } else if (sim.board() != nullptr) {
+                            if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_UP) {
+                                board_move(sim, ui, -1);
+                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_DOWN) {
+                                board_move(sim, ui, 1);
+                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_WEST || event.gbutton.button == SDL_GAMEPAD_BUTTON_SOUTH) {
+                                board_accept(sim, assets, ui);
+                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_EAST) {
+                                sim.close_board();
+                            }
+                        } else if (sim.shop() != nullptr) {
+                            if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_UP) {
+                                shop_move(sim, ui, -1);
+                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_DOWN) {
+                                shop_move(sim, ui, 1);
+                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_NORTH) {
+                                ui.shop_sell = !ui.shop_sell;
+                                ui.shop_cursor = 0;
+                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_WEST || event.gbutton.button == SDL_GAMEPAD_BUTTON_SOUTH) {
+                                shop_confirm(sim, assets, ui);
+                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_EAST) {
+                                sim.close_shop();
+                            }
+                        } else if (ui.show_inventory) {
+                            if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_UP) {
+                                bag_move(sim, ui, -1);
+                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_DOWN) {
+                                bag_move(sim, ui, 1);
+                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_WEST || event.gbutton.button == SDL_GAMEPAD_BUTTON_SOUTH) {
+                                bag_use(sim, assets, ui);
+                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_EAST) {
+                                ui.show_inventory = false;
+                            }
+                        } else {
+                            handle_dialogue_button(sim, ui, event.gbutton.button);
+                        }
+                    } else if (event.type == SDL_EVENT_GAMEPAD_ADDED) {
+                        devices.open_first_gamepad();
+                    } else if (event.type == SDL_EVENT_GAMEPAD_REMOVED && devices.gamepad != nullptr &&
+                               !SDL_GamepadConnected(devices.gamepad)) {
+                        SDL_CloseGamepad(devices.gamepad);
+                        devices.gamepad = nullptr;
+                        devices.open_first_gamepad();
                     }
-                } else if (event.type == SDL_EVENT_GAMEPAD_ADDED) {
-                    devices.open_first_gamepad();
-                } else if (event.type == SDL_EVENT_GAMEPAD_REMOVED && devices.gamepad != nullptr &&
-                           !SDL_GamepadConnected(devices.gamepad)) {
-                    SDL_CloseGamepad(devices.gamepad);
-                    devices.gamepad = nullptr;
-                    devices.open_first_gamepad();
                 }
-            }
 
-            InputState input = devices.read();
-            if (smoke_test) {
-                input = {1.0F, 0.0F, frames % 2 == 0};  // scripted: walk right, swinging now and then
-                // Talk to the guild clerk and accept her quest while passing by (real dialogue data).
-                if (talk_step == 0 && g_map_name == "demo") {
-                    if (sim.story().npc_in_range() != nullptr) {
-                        sim.story().interact();
-                        talk_step = 1;
+                InputState input = devices.read();
+                if (smoke_test) {
+                    input = {1.0F, 0.0F, frames % 2 == 0};  // scripted: walk right, swinging now and then
+                    // Talk to the guild clerk and accept her quest while passing by (real dialogue data).
+                    if (talk_step == 0 && g_map_name == "demo") {
+                        if (sim.story().npc_in_range() != nullptr) {
+                            sim.story().interact();
+                            talk_step = 1;
+                        }
+                    } else if (talk_step == 1 && g_map_name == "demo") {
+                        sim.story().advance();
+                        talk_step = 2;
+                    } else if (talk_step == 2 && g_map_name == "demo") {
+                        sim.story().choose(0);
+                        talk_step = 3;
+                    } else if (talk_step == 3 && g_map_name == "demo") {
+                        sim.story().advance();
+                        talk_step = 4;
                     }
-                } else if (talk_step == 1 && g_map_name == "demo") {
-                    sim.story().advance();
-                    talk_step = 2;
-                } else if (talk_step == 2 && g_map_name == "demo") {
-                    sim.story().choose(0);
-                    talk_step = 3;
-                } else if (talk_step == 3 && g_map_name == "demo") {
-                    sim.story().advance();
-                    talk_step = 4;
-                }
-                // At frame 60 write a save file, load it back into the running world and keep playing.
-                if (frames == 60) {
-                    const fs::path file = fs::temp_directory_path() / "aethermoor_smoke_save.json";
-                    std::string load_error;
-                    smoke_save_ok = save_game(sim, file) && load_game(sim, file, load_error);
-                    std::error_code ec;
-                    fs::remove(file, ec);
-                    if (!smoke_save_ok) {
-                        SDL_Log("smoke: save/load failed: %s", load_error.c_str());
+                    // At frame 60 write a save file, load it back into the running world and keep playing.
+                    if (frames == 60) {
+                        const fs::path file = fs::temp_directory_path() / "aethermoor_smoke_save.json";
+                        std::string load_error;
+                        smoke_save_ok = save_game(sim, file) && load_game(sim, file, load_error);
+                        std::error_code ec;
+                        fs::remove(file, ec);
+                        if (!smoke_save_ok) {
+                            SDL_Log("smoke: save/load failed: %s", load_error.c_str());
+                        }
                     }
-                }
-                if (frames == 80) {
-                    ui.show_inventory = true;  // frames 80 to 83 show the bag
-                }
-                if (frames == 84) {
-                    ui.show_inventory = false;
-                    ui.show_map = sim.streamed();  // the last frames show the world map
-                }
-                sim.tick(input.x, input.y, input.attack);
-            } else if (ui.show_inventory || ui.show_map || ui.show_journal || sim.shop() != nullptr || sim.board() != nullptr ||
-                       sim.travel() != nullptr) {
-                accumulator = 0.0;  // the bag, the map, the journal, the shop and the board pause the game
-            } else {
-                accumulator += frame_seconds;
-                int ticks = 0;
-                while (accumulator >= static_cast<double>(aether::kTickDt) && ticks < kMaxTicksPerFrame) {
+                    if (frames == 80) {
+                        ui.show_inventory = true;  // frames 80 to 83 show the bag
+                    }
+                    if (frames == 84) {
+                        ui.show_inventory = false;
+                        ui.show_map = sim.streamed();  // the last frames show the world map
+                    }
                     sim.tick(input.x, input.y, input.attack);
-                    accumulator -= static_cast<double>(aether::kTickDt);
-                    ++ticks;
+                } else if (ui.show_inventory || ui.show_map || ui.show_journal || sim.shop() != nullptr || sim.board() != nullptr ||
+                           sim.travel() != nullptr) {
+                    accumulator = 0.0;  // the bag, the map, the journal, the shop and the board pause the game
+                } else {
+                    accumulator += frame_seconds;
+                    int ticks = 0;
+                    while (accumulator >= static_cast<double>(aether::kTickDt) && ticks < kMaxTicksPerFrame) {
+                        sim.tick(input.x, input.y, input.attack);
+                        accumulator -= static_cast<double>(aether::kTickDt);
+                        ++ticks;
+                    }
+                    if (ticks == kMaxTicksPerFrame) {
+                        accumulator = 0.0;  // drop the backlog instead of spiralling
+                    }
                 }
-                if (ticks == kMaxTicksPerFrame) {
-                    accumulator = 0.0;  // drop the backlog instead of spiralling
-                }
-            }
 
-            {
-                const aether::DialogueView spoken = sim.story().dialogue_view();
-                if (spoken.active && !spoken.is_choice) {
-                    ui.last_speaker = spoken.speaker;
-                    ui.last_text = spoken.text;
-                    ui.last_args = spoken.args;
-                } else if (!spoken.active) {
-                    ui.last_text.clear();
+                {
+                    const aether::DialogueView spoken = sim.story().dialogue_view();
+                    if (spoken.active && !spoken.is_choice) {
+                        ui.last_speaker = spoken.speaker;
+                        ui.last_text = spoken.text;
+                        ui.last_args = spoken.args;
+                    } else if (!spoken.active) {
+                        ui.last_text.clear();
+                    }
+                }
+                for (const aether::DamageEvent& e : sim.take_events()) {
+                    floating.push_back({e.position.x, e.position.y, 0, std::to_string(e.amount), e.on_player, e.crit});
+                }
+                for (FloatingText& f : floating) {
+                    ++f.age;
+                }
+                floating.erase(std::remove_if(floating.begin(), floating.end(),
+                                              [](const FloatingText& f) { return f.age > kFloatingTextFrames; }),
+                               floating.end());
+
+                if (ui.message_frames > 0) {
+                    --ui.message_frames;
+                }
+                since_autosave += frame_seconds;
+                if (!smoke_test && since_autosave >= kAutosaveSeconds) {
+                    since_autosave = 0.0;
+                    save_game(sim, g_slot_dir / "auto.json");
+                }
+
+                float density = SDL_GetWindowPixelDensity(window);
+                if (density <= 0.0F) {
+                    density = 1.0F;
+                }
+                const int tile_px = std::max(16, static_cast<int>(std::lround(kBaseTilePx * density)));
+                cache.release_other_buckets(tile_px);
+                std::string capture;
+                if (!screenshot_dir.empty() && smoke_test) {
+                    std::error_code ec;
+                    fs::create_directories(screenshot_dir, ec);
+                    const aether::DialogueView view = sim.story().dialogue_view();
+                    if (view.active && view.is_choice && !captured_choice) {
+                        capture = (screenshot_dir / "dialogue_choice.png").string();
+                        captured_choice = true;
+                    } else if (frames == 20) {
+                        capture = (screenshot_dir / "walking.png").string();
+                    } else if (frames == 82) {
+                        capture = (screenshot_dir / "bag.png").string();
+                    } else if (frames == kSmokeTestFrames - 1 && ui.show_map) {
+                        capture = (screenshot_dir / "map.png").string();
+                    }
+                }
+                render(renderer, cache, assets, sim, ui, floating, tile_px, density, debug, fps, capture);
+
+                if (smoke_test && ++frames >= kSmokeTestFrames) {
+                    running = false;
+                    const bool moved = g_map_name == "world" || sim.player().position.x > spawn_x + 1.0F;
+                    const bool baked = cache.size() > 10;
+                    const bool enemies = g_map_name == "world"
+                                             ? (sim.chunks() != nullptr && sim.chunks()->loaded() >= 25 && smoke_save_ok)
+                                             : (sim.enemies().size() == 12 && sim.story().quests().size() == 1 &&
+                                                !sim.story().dialogue_active() && smoke_save_ok &&
+                                                sim.inventory().count("base:item/bread") == 1);
+                    std::printf("smoke: x %.2f -> %.2f, textures %zu, enemies %zu, %s\n", static_cast<double>(spawn_x),
+                                static_cast<double>(sim.player().position.x), cache.size(), sim.enemies().size(),
+                                (moved && baked && enemies) ? "ok" : "FAILED");
+                    if (!moved || !baked || !enemies) {
+                        exit_code = 2;
+                    }
                 }
             }
-            for (const aether::DamageEvent& e : sim.take_events()) {
-                floating.push_back({e.position.x, e.position.y, 0, std::to_string(e.amount), e.on_player, e.crit});
-            }
-            for (FloatingText& f : floating) {
-                ++f.age;
-            }
-            floating.erase(std::remove_if(floating.begin(), floating.end(),
-                                          [](const FloatingText& f) { return f.age > kFloatingTextFrames; }),
-                           floating.end());
-
-            if (ui.message_frames > 0) {
-                --ui.message_frames;
-            }
-            since_autosave += frame_seconds;
-            if (!smoke_test && since_autosave >= kAutosaveSeconds) {
-                since_autosave = 0.0;
+            if (!smoke_test) {
                 save_game(sim, g_slot_dir / "auto.json");
             }
-
-            float density = SDL_GetWindowPixelDensity(window);
-            if (density <= 0.0F) {
-                density = 1.0F;
-            }
-            const int tile_px = std::max(16, static_cast<int>(std::lround(kBaseTilePx * density)));
-            cache.release_other_buckets(tile_px);
-            std::string capture;
-            if (!screenshot_dir.empty() && smoke_test) {
-                std::error_code ec;
-                fs::create_directories(screenshot_dir, ec);
-                const aether::DialogueView view = sim.story().dialogue_view();
-                if (view.active && view.is_choice && !captured_choice) {
-                    capture = (screenshot_dir / "dialogue_choice.png").string();
-                    captured_choice = true;
-                } else if (frames == 20) {
-                    capture = (screenshot_dir / "walking.png").string();
-                } else if (frames == 82) {
-                    capture = (screenshot_dir / "bag.png").string();
-                } else if (frames == kSmokeTestFrames - 1 && ui.show_map) {
-                    capture = (screenshot_dir / "map.png").string();
-                }
-            }
-            render(renderer, cache, assets, sim, ui, floating, tile_px, density, debug, fps, capture);
-
-            if (smoke_test && ++frames >= kSmokeTestFrames) {
-                running = false;
-                const bool moved = g_map_name == "world" || sim.player().position.x > spawn_x + 1.0F;
-                const bool baked = cache.size() > 10;
-                const bool enemies = g_map_name == "world"
-                                         ? (sim.chunks() != nullptr && sim.chunks()->loaded() >= 25 && smoke_save_ok)
-                                         : (sim.enemies().size() == 12 && sim.story().quests().size() == 1 &&
-                                            !sim.story().dialogue_active() && smoke_save_ok &&
-                                            sim.inventory().count("base:item/bread") == 1);
-                std::printf("smoke: x %.2f -> %.2f, textures %zu, enemies %zu, %s\n", static_cast<double>(spawn_x),
-                            static_cast<double>(sim.player().position.x), cache.size(), sim.enemies().size(),
-                            (moved && baked && enemies) ? "ok" : "FAILED");
-                if (!moved || !baked || !enemies) {
-                    exit_code = 2;
-                }
+            if (devices.gamepad != nullptr) {
+                SDL_CloseGamepad(devices.gamepad);
             }
         }
-        if (!smoke_test) {
-            save_game(sim, g_slot_dir / "auto.json");
-        }
-        if (devices.gamepad != nullptr) {
-            SDL_CloseGamepad(devices.gamepad);
+        if (!back_to_title) {
+            break;
         }
     }
 

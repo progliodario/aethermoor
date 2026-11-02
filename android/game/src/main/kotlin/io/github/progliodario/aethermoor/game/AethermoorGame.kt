@@ -144,6 +144,48 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         cache = TextureCache(loaded.pack)
         migrateLegacySaves()
         titleSlots = readSlots()
+        Gdx.input.setCatchKey(Input.Keys.BACK, true) // Back leaves a game for the title screen (spec 12, "Slots")
+    }
+
+    /** Saves the game and goes back to the title screen; the world is built again when a game is chosen. */
+    private fun returnToTitle() {
+        sim?.let { saveGame(it) }
+        sim = null
+        titleCursor = (currentSlot - 1).coerceIn(0, SLOT_COUNT - 1)
+        titlePendingDelete = -1
+        titleNotice = ""
+        showInventory = false
+        showMap = false
+        showJournal = false
+        accumulator = 0f
+        sinceAutosave = 0f
+        message = ""
+        messageFrames = 0
+        floating.clear()
+        mapCodes.clear()
+        mapMarkers.clear()
+        titleSlots = readSlots()
+    }
+
+    /** Back (or Esc with no panel open) comes out of a game; with a panel open, Back closes it. Returns true when the game was left. */
+    private fun handleBack(world: WorldSim): Boolean {
+        val back = Gdx.input.isKeyJustPressed(Input.Keys.BACK)
+        val escape = Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)
+        if (!back && !escape) return false
+        val panelOpen = showInventory || showMap || showJournal || world.shop != null || world.board != null || world.travel != null
+        if (panelOpen) {
+            if (back) {
+                showInventory = false
+                showMap = false
+                showJournal = false
+                world.closeShop()
+                world.closeBoard()
+                world.closeTravel()
+            }
+            return false // Esc is handled by the panel itself
+        }
+        returnToTitle()
+        return true
     }
 
     /** Builds the world of a game (spec 12, "Slots") and continues its autosave. */
@@ -340,6 +382,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val data = assets
         val slots = titleSlots
         if (world == null && data != null && slots != null) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.BACK) || Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+                Gdx.app.exit() // Back on the title screen closes the game
+                return
+            }
             handleTitleInput(data, slots)
             titleSlots?.let { drawTitle(data, it) } // null when a game was just chosen
             return
@@ -349,6 +395,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             return
         }
 
+        if (handleBack(world)) return
         handleStoryInput(world)
         val frame = input.read()
         if (showInventory || showMap || showJournal || world.shop != null || world.board != null || world.travel != null) {
