@@ -46,16 +46,16 @@
             8159
           ],
           [
+            8242,
+            8129
+          ],
+          [
             8234,
             8130
           ],
           [
             8250,
             8130
-          ],
-          [
-            8242,
-            8137
           ],
           [
             3773,
@@ -252,6 +252,10 @@
           [
             8246,
             8120
+          ],
+          [
+            8242,
+            8137
           ],
           [
             8233,
@@ -1474,7 +1478,7 @@
                 ".###########################.",
                 ".#ccccccccccccccccccccccccc#.",
                 ".#clccccccccccccccccccccclc#.",
-                ".#ccccccccccccGcccccccccccc#.",
+                ".#ccccccccccccKcccccccccccc#.",
                 ".#ccccxcccccccccccccccxcccc#.",
                 ".#ccccccccccccccccccccccccc#.",
                 ".#ccccccccccccccccccccccccc#.",
@@ -1499,9 +1503,9 @@
                 "#": {
                   "tile": 5
                 },
-                "G": {
-                  "tile": 13,
-                  "npc": "guild_clerk"
+                "K": {
+                  "tile": 14,
+                  "spawner": "base:enemy/gel_king"
                 },
                 "T": {
                   "tile": 14,
@@ -1596,6 +1600,13 @@
             "base:item/slime_gel"
           ],
           [
+            8242,
+            8129,
+            0,
+            "base:enemy/gel_king",
+            ""
+          ],
+          [
             8234,
             8130,
             0,
@@ -1605,13 +1616,6 @@
           [
             8250,
             8130,
-            0,
-            "base:enemy/slime_blue",
-            ""
-          ],
-          [
-            8242,
-            8137,
             0,
             "base:enemy/slime_blue",
             ""
@@ -1960,6 +1964,13 @@
             "base:item/slime_gel"
           ],
           [
+            8242,
+            8137,
+            0,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
             8233,
             8138,
             0,
@@ -2050,6 +2061,10 @@
             8136
           ],
           [
+            8242,
+            8129
+          ],
+          [
             8234,
             8130
           ],
@@ -2060,10 +2075,6 @@
           [
             8242,
             8137
-          ],
-          [
-            8233,
-            8138
           ],
           [
             3739,
@@ -2364,6 +2375,10 @@
           [
             8127,
             8154
+          ],
+          [
+            8233,
+            8138
           ],
           [
             8247,
@@ -3578,7 +3593,7 @@
                 ".###########################.",
                 ".#ccccccccccccccccccccccccc#.",
                 ".#clccccccccccccccccccccclc#.",
-                ".#ccccccccccccGcccccccccccc#.",
+                ".#ccccccccccccKcccccccccccc#.",
                 ".#ccccxcccccccccccccccxcccc#.",
                 ".#ccccccccccccccccccccccccc#.",
                 ".#ccccccccccccccccccccccccc#.",
@@ -3603,9 +3618,9 @@
                 "#": {
                   "tile": 5
                 },
-                "G": {
-                  "tile": 13,
-                  "npc": "guild_clerk"
+                "K": {
+                  "tile": 14,
+                  "spawner": "base:enemy/gel_king"
                 },
                 "T": {
                   "tile": 14,
@@ -3693,6 +3708,13 @@
             "base:item/slime_gel"
           ],
           [
+            8242,
+            8129,
+            0,
+            "base:enemy/gel_king",
+            ""
+          ],
+          [
             8234,
             8130,
             0,
@@ -3711,13 +3733,6 @@
             8137,
             0,
             "base:enemy/slime_blue",
-            ""
-          ],
-          [
-            8233,
-            8138,
-            0,
-            "base:enemy/slime_green",
             ""
           ],
           [
@@ -4243,6 +4258,13 @@
             8154,
             0,
             "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            8233,
+            8138,
+            0,
+            "base:enemy/slime_green",
             ""
           ],
           [

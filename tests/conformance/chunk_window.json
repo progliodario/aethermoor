@@ -1277,7 +1277,7 @@
                 ".###########################.",
                 ".#ccccccccccccccccccccccccc#.",
                 ".#clccccccccccccccccccccclc#.",
-                ".#ccccccccccccGcccccccccccc#.",
+                ".#ccccccccccccKcccccccccccc#.",
                 ".#ccccxcccccccccccccccxcccc#.",
                 ".#ccccccccccccccccccccccccc#.",
                 ".#ccccccccccccccccccccccccc#.",
@@ -1302,9 +1302,9 @@
                 "#": {
                   "tile": 5
                 },
-                "G": {
-                  "tile": 13,
-                  "npc": "guild_clerk"
+                "K": {
+                  "tile": 14,
+                  "spawner": "base:enemy/gel_king"
                 },
                 "T": {
                   "tile": 14,
@@ -1337,13 +1337,13 @@
         "after": [
           {
             "op": "start",
-            "count": 35,
-            "digest": "0xf7a5f93b0b17006d"
+            "count": 36,
+            "digest": "0xbec6d0dc7b2e2a49"
           },
           {
             "op": "move",
-            "count": 27,
-            "digest": "0x9563aacf59b911df"
+            "count": 28,
+            "digest": "0x9680730b0f0a9359"
           },
           {
             "op": "move",
@@ -1362,8 +1362,8 @@
           },
           {
             "op": "move",
-            "count": 35,
-            "digest": "0x282b6b85698abf5f"
+            "count": 36,
+            "digest": "0x6ff64ad3ff50e97a"
           },
           {
             "op": "move",
@@ -1382,13 +1382,13 @@
           },
           {
             "op": "move",
-            "count": 33,
-            "digest": "0x0dab022b79ffdc06"
+            "count": 34,
+            "digest": "0x2fcba1c395fa1dec"
           },
           {
             "op": "wait",
-            "count": 33,
-            "digest": "0x0dab022b79ffdc06"
+            "count": 34,
+            "digest": "0x2fcba1c395fa1dec"
           },
           {
             "op": "move",
@@ -2669,7 +2669,7 @@
                 ".###########################.",
                 ".#ccccccccccccccccccccccccc#.",
                 ".#clccccccccccccccccccccclc#.",
-                ".#ccccccccccccGcccccccccccc#.",
+                ".#ccccccccccccKcccccccccccc#.",
                 ".#ccccxcccccccccccccccxcccc#.",
                 ".#ccccccccccccccccccccccccc#.",
                 ".#ccccccccccccccccccccccccc#.",
@@ -2694,9 +2694,9 @@
                 "#": {
                   "tile": 5
                 },
-                "G": {
-                  "tile": 13,
-                  "npc": "guild_clerk"
+                "K": {
+                  "tile": 14,
+                  "spawner": "base:enemy/gel_king"
                 },
                 "T": {
                   "tile": 14,

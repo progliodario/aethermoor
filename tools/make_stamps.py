@@ -25,7 +25,7 @@ LEGEND = {
     "W": {"tile": 14, "spawner": "base:enemy/wolf_grey"},
     "B": {"tile": 14, "spawner": "base:enemy/barrow_warden"},
     "s": {"tile": 14, "spawner": "base:enemy/slime_green"},
-    "G": {"tile": 14, "spawner": "base:enemy/gel_king"},
+    "K": {"tile": 14, "spawner": "base:enemy/gel_king"},
     "T": {"tile": 14, "prop": "base:art/prop/threshold_stone", "radius_x100": 35},  # Threshold Stone (fast travel)
     "V": {"tile": 13, "npc": "villager"},
     "G": {"tile": 13, "npc": "guild_clerk"},
@@ -198,7 +198,7 @@ def cellar() -> dict:
         c.put(x, y, "l")
     for x, y in ((6, 5), (22, 5)):
         c.put(x, y, "x")
-    c.put(14, 4, "G")
+    c.put(14, 4, "K")
     for x, y in ((5, 13), (9, 17), (19, 13), (23, 17)):
         c.put(x, y, "s")
     for x, y in ((7, 15), (21, 15), (14, 12)):
