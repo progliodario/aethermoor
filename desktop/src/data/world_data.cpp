@@ -88,10 +88,6 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
                 landmark.kind = entry.at("kind").get<std::string>();
                 landmark.dx = entry.at("dx").get<int>();
                 landmark.dy = entry.at("dy").get<int>();
-                if (p.stamps.find(landmark.stamp) == p.stamps.end()) {
-                    error = "unknown stamp " + landmark.stamp;
-                    return std::nullopt;
-                }
                 p.landmarks.push_back(std::move(landmark));
             }
         }
@@ -280,6 +276,12 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
         if (p.home_radius > 0 && p.stamps.find(p.home_stamp) == p.stamps.end()) {
             error = "unknown home stamp " + p.home_stamp;
             return std::nullopt;
+        }
+        for (const WorldParams::Landmark& landmark : p.landmarks) {
+            if (p.stamps.find(landmark.stamp) == p.stamps.end()) {
+                error = "unknown stamp " + landmark.stamp;
+                return std::nullopt;
+            }
         }
         for (const SettlementKind& kind : p.settlement_kinds) {
             for (const std::string& stamp : kind.stamps) {
