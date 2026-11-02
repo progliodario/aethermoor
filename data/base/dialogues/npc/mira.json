@@ -6,10 +6,10 @@
     "start": {
       "type": "condition",
       "when": {
-        "quest_done": "base:quest/guild/cellar"
+        "quest_done": "base:quest/guild/mine"
       },
-      "then": "cellar_thanks",
-      "else": "cellar_active_check"
+      "then": "mine_thanks",
+      "else": "mine_active_check"
     },
     "active_check": {
       "type": "condition",
@@ -216,6 +216,84 @@
       "type": "say",
       "speaker": "guild_clerk_mira",
       "text": "$i18n:dlg.mira.cellar_thanks",
+      "next": "cellar_thanked"
+    },
+    "mine_active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/mine"
+      },
+      "then": "mine_busy",
+      "else": "cellar_done_check"
+    },
+    "cellar_done_check": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/cellar"
+      },
+      "then": "cellar_thanked_check",
+      "else": "cellar_active_check"
+    },
+    "cellar_thanked_check": {
+      "type": "condition",
+      "when": {
+        "flag": "mira_cellar_thanked"
+      },
+      "then": "mine_offer",
+      "else": "cellar_thanks"
+    },
+    "cellar_thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_cellar_thanked",
+          "value": true
+        }
+      ],
+      "next": "mine_offer"
+    },
+    "mine_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.mine_offer",
+      "next": "mine_choice"
+    },
+    "mine_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.mira.mine_accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/mine"
+            }
+          ],
+          "next": "mine_accepted"
+        },
+        {
+          "text": "$i18n:dlg.mira.mine_decline",
+          "next": "end"
+        }
+      ]
+    },
+    "mine_accepted": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.mine_accepted",
+      "next": "end"
+    },
+    "mine_busy": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.mine_busy",
+      "next": "end"
+    },
+    "mine_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.mine_thanks",
       "next": "end"
     }
   }

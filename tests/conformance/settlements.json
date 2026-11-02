@@ -312,6 +312,14 @@
               "kind": "dungeon",
               "dx": 50,
               "dy": -45
+            },
+            {
+              "id": "ironspine_mine",
+              "name": "Ironspine Mine",
+              "stamp": "base:stamp/mine",
+              "kind": "dungeon",
+              "dx": 4480,
+              "dy": -4480
             }
           ],
           "guild": {
@@ -1273,12 +1281,89 @@
                 }
               },
               "spots": []
+            },
+            "base:stamp/mine": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/mine",
+              "w": 37,
+              "h": 30,
+              "anchor": [
+                18,
+                28
+              ],
+              "rows": [
+                ".....................................",
+                ".###################################.",
+                ".#ccccccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccccFcccccccccccccccc#.",
+                ".#ccccccdcccccccccccccccccccdcccccc#.",
+                ".#ccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccc#.",
+                ".#################c#################.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#clcccccccc#ccccccccccc#cccccccclc#.",
+                ".#cccccmcccc#cccccmccccc#ccccmccccc#.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccc#.",
+                ".#ccdcccWccc#cccccWccccc#cccWcccdcc#.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#cccccmcccc#ccccccccccc#ccccmccccc#.",
+                ".#cccccccccc#cccccmccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#cccccccccc#cccclclcccc#cccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccc#.",
+                ".#################c#################.",
+                "...............T..c..................",
+                "..................c.................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "F": {
+                  "tile": 14,
+                  "spawner": "base:enemy/iron_foreman"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "d": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_shade"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "m": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_slate"
+                }
+              },
+              "spots": []
             }
           }
         }
       },
       "expect": {
-        "count": 131,
+        "count": 132,
         "settlements": [
           [
             13128,
@@ -1588,6 +1673,16 @@
             "village",
             "base:stamp/village",
             "Iramere",
+            2
+          ],
+          [
+            12654,
+            3684,
+            12672,
+            3712,
+            "dungeon",
+            "base:stamp/mine",
+            "Ironspine Mine",
             2
           ],
           [
@@ -3256,6 +3351,14 @@
               "kind": "dungeon",
               "dx": 50,
               "dy": -45
+            },
+            {
+              "id": "ironspine_mine",
+              "name": "Ironspine Mine",
+              "stamp": "base:stamp/mine",
+              "kind": "dungeon",
+              "dx": 4480,
+              "dy": -4480
             }
           ],
           "guild": {
@@ -4214,6 +4317,83 @@
                 "x": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_blue"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/mine": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/mine",
+              "w": 37,
+              "h": 30,
+              "anchor": [
+                18,
+                28
+              ],
+              "rows": [
+                ".....................................",
+                ".###################################.",
+                ".#ccccccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccccFcccccccccccccccc#.",
+                ".#ccccccdcccccccccccccccccccdcccccc#.",
+                ".#ccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccc#.",
+                ".#################c#################.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#clcccccccc#ccccccccccc#cccccccclc#.",
+                ".#cccccmcccc#cccccmccccc#ccccmccccc#.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccc#.",
+                ".#ccdcccWccc#cccccWccccc#cccWcccdcc#.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#cccccmcccc#ccccccccccc#ccccmccccc#.",
+                ".#cccccccccc#cccccmccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#cccccccccc#cccclclcccc#cccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccc#.",
+                ".#################c#################.",
+                "...............T..c..................",
+                "..................c.................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "F": {
+                  "tile": 14,
+                  "spawner": "base:enemy/iron_foreman"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "d": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_shade"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "m": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_slate"
                 }
               },
               "spots": []
@@ -5055,6 +5235,14 @@
               "kind": "dungeon",
               "dx": 50,
               "dy": -45
+            },
+            {
+              "id": "ironspine_mine",
+              "name": "Ironspine Mine",
+              "stamp": "base:stamp/mine",
+              "kind": "dungeon",
+              "dx": 4480,
+              "dy": -4480
             }
           ],
           "guild": {
@@ -6013,6 +6201,83 @@
                 "x": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_blue"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/mine": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/mine",
+              "w": 37,
+              "h": 30,
+              "anchor": [
+                18,
+                28
+              ],
+              "rows": [
+                ".....................................",
+                ".###################################.",
+                ".#ccccccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccccFcccccccccccccccc#.",
+                ".#ccccccdcccccccccccccccccccdcccccc#.",
+                ".#ccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccc#.",
+                ".#################c#################.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#clcccccccc#ccccccccccc#cccccccclc#.",
+                ".#cccccmcccc#cccccmccccc#ccccmccccc#.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccc#.",
+                ".#ccdcccWccc#cccccWccccc#cccWcccdcc#.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#cccccmcccc#ccccccccccc#ccccmccccc#.",
+                ".#cccccccccc#cccccmccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccccc#cccccccccc#.",
+                ".#cccccccccc#cccclclcccc#cccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccc#.",
+                ".#################c#################.",
+                "...............T..c..................",
+                "..................c.................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "F": {
+                  "tile": 14,
+                  "spawner": "base:enemy/iron_foreman"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "d": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_shade"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "m": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_slate"
                 }
               },
               "spots": []

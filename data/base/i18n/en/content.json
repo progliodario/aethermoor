@@ -72,5 +72,11 @@
   "item.tide_pearl.desc": "A small salty pearl. Sailors say it brings a calm sea.",
   "enemy.slime_glow.name": "Glow slime",
   "item.star_dust.name": "Star dust",
-  "item.star_dust.desc": "A pinch of light that sparkles even in a closed pouch. Scholars pay well for it."
+  "item.star_dust.desc": "A pinch of light that sparkles even in a closed pouch. Scholars pay well for it.",
+  "enemy.iron_foreman.name": "Ironbound Foreman",
+  "item.foreman_maul.name": "Foreman's maul",
+  "item.foreman_maul.desc": "A heavy maul that rings like a bell. It still remembers the mine.",
+  "quest.mine.name": "The Ironspine Mine",
+  "quest.mine.kill": "Defeat the Ironbound Foreman in the sealed mine of Ironspine, far north-east beyond the mountains.",
+  "quest.mine.report": "Report to Mira at the guild."
 }

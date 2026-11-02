@@ -26,6 +26,9 @@ LEGEND = {
     "B": {"tile": 14, "spawner": "base:enemy/barrow_warden"},
     "s": {"tile": 14, "spawner": "base:enemy/slime_green"},
     "K": {"tile": 14, "spawner": "base:enemy/gel_king"},
+    "m": {"tile": 14, "spawner": "base:enemy/slime_slate"},
+    "d": {"tile": 14, "spawner": "base:enemy/wolf_shade"},
+    "F": {"tile": 14, "spawner": "base:enemy/iron_foreman"},
     "T": {"tile": 14, "prop": "base:art/prop/threshold_stone", "radius_x100": 35},  # Threshold Stone (fast travel)
     "V": {"tile": 13, "npc": "villager"},
     "G": {"tile": 13, "npc": "guild_clerk"},
@@ -207,9 +210,36 @@ def cellar() -> dict:
     return stamp("base:stamp/cellar", c, (14, 22), [])
 
 
+def mine() -> dict:
+    """The first dungeon of Ironspine: a sealed mine of three galleries and the Ironbound Foreman in its north hall (spec 09, "Landmarks")."""
+    c = Canvas(37, 30)
+    c.rect(1, 1, 35, 27, "#")
+    c.rect(2, 2, 33, 25, "c")
+    c.hline(2, 34, 9, "#")
+    c.put(18, 9, "c")  # the door of the north hall
+    for x in (12, 24):  # the pillars that divide the galleries, with a passage in the middle
+        c.vline(x, 10, 14, "#")
+        c.vline(x, 17, 25, "#")
+    for y in (26, 27, 28, 29):  # the entrance and the path to it
+        c.put(18, y, "c")
+    for x, y in ((3, 3), (33, 3), (3, 11), (33, 11), (17, 25), (19, 25)):
+        c.put(x, y, "l")
+    c.put(18, 4, "F")
+    for x, y in ((8, 5), (28, 5)):
+        c.put(x, y, "d")
+    for x, y in ((7, 12), (7, 22), (18, 12), (18, 23), (29, 12), (29, 22)):
+        c.put(x, y, "m")
+    for x, y in ((4, 17), (32, 17)):
+        c.put(x, y, "d")
+    for x, y in ((18, 17), (8, 17), (28, 17)):
+        c.put(x, y, "W")
+    c.put(15, 28, "T")
+    return stamp("base:stamp/mine", c, (18, 28), [])
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    for build in (hamlet, village, town, barrow, cellar):
+    for build in (hamlet, village, town, barrow, cellar, mine):
         data = build()
         name = data["id"].split("/")[-1]
         (OUT / f"{name}.json").write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

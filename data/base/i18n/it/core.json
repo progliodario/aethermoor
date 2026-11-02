@@ -86,5 +86,11 @@
   "season.winter": "Inverno",
   "ui.map": "Mappa del mondo",
   "ui.map_hint": "[M] Mappa",
-  "ui.bag_hint": "[I] Zaino"
+  "ui.bag_hint": "[I] Zaino",
+  "dlg.mira.mine_offer": "È arrivata notizia dalla sede della gilda di Ironspine, lontano a nord-est oltre le montagne. La vecchia miniera è sigillata: un caposquadra di ferro che nessuno ha assunto continua a lavorarci. È una lunga strada. Ci andrai?",
+  "dlg.mira.mine_accept": "Andrò a Ironspine.",
+  "dlg.mira.mine_decline": "Non ancora.",
+  "dlg.mira.mine_accepted": "Porta pane e pozioni, e risveglia le Pietre della Soglia delle città che attraversi: ti riporteranno a casa. Anche la miniera ha una pietra alla porta.",
+  "dlg.mira.mine_busy": "Il caposquadra batte ancora nella miniera di Ironspine. Prenditi il tempo sulla strada, ma torna vivo.",
+  "dlg.mira.mine_thanks": "A Ironspine il martellare è finito. La gilda ti deve più di quanto io possa pagare, ma continuerò a provarci."
 }

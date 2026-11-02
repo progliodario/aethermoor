@@ -72,5 +72,11 @@
   "item.tide_pearl.desc": "Una piccola perla salata. I marinai dicono che porti il mare calmo.",
   "enemy.slime_glow.name": "Slime lucente",
   "item.star_dust.name": "Polvere di stelle",
-  "item.star_dust.desc": "Un pizzico di luce che brilla anche in una borsa chiusa. Gli studiosi la pagano bene."
+  "item.star_dust.desc": "Un pizzico di luce che brilla anche in una borsa chiusa. Gli studiosi la pagano bene.",
+  "enemy.iron_foreman.name": "Caposquadra di ferro",
+  "item.foreman_maul.name": "Maglio del caposquadra",
+  "item.foreman_maul.desc": "Un maglio pesante che risuona come una campana. Ricorda ancora la miniera.",
+  "quest.mine.name": "La miniera di Ironspine",
+  "quest.mine.kill": "Sconfiggi il caposquadra di ferro nella miniera sigillata di Ironspine, lontano a nord-est oltre le montagne.",
+  "quest.mine.report": "Riferisci a Mira alla gilda."
 }
