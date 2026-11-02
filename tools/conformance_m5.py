@@ -137,6 +137,30 @@ def suite_settlements() -> list[dict]:
     return cases
 
 
+def suite_fauna() -> list[dict]:
+    """The enemy of spawners in every region: a weighted pick among the fauna of the region (spec 09, "Fauna")."""
+    params = {**PARAMS, "width": 16384, "height": 16384}
+    cases = []
+    for name, seed in (("seed_7", 7), ("seed_c0ffee", 0xC0FFEE)):
+        tiles = []
+        for region in params["regions"]:
+            cx = region["x_pm"] * params["width"] // 1000 // 32
+            cy = region["y_pm"] * params["height"] // 1000 // 32
+            found = []
+            for j in range(cy - 2, cy + 3):
+                for i in range(cx - 2, cx + 3):
+                    found.extend(worldgen.chunk_spawners(seed, params, i, j))
+            tiles.extend(found[:12])
+        expect = [[x, y, worldgen.region_at(params, x, y), worldgen.fauna_at(seed, params, x, y)["enemy"],
+                   worldgen.fauna_at(seed, params, x, y)["drop"]] for x, y in tiles]
+        cases.append({
+            "name": f"fauna_{name}",
+            "input": {"op": "fauna", "seed": h64(seed), "tiles": tiles, "params": params},
+            "expect": {"spawners": expect},
+        })
+    return cases
+
+
 def suite_guild() -> list[dict]:
     """Ranks, the board offers of settlements on several days and the quests they become (spec 07, "Guild")."""
     params = {**PARAMS, "width": 16384, "height": 16384}

@@ -78,6 +78,13 @@
               "y_pm": 500,
               "danger": 1,
               "tone": "warm",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 1
+                }
+              ],
               "shop": {
                 "price_pm": 1000,
                 "stock": [
@@ -95,6 +102,18 @@
               "y_pm": 340,
               "danger": 3,
               "tone": "mystic",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 3
+                }
+              ],
               "shop": {
                 "price_pm": 1100,
                 "stock": [
@@ -111,6 +130,18 @@
               "y_pm": 220,
               "danger": 4,
               "tone": "gruff",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 4
+                },
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 1
+                }
+              ],
               "shop": {
                 "price_pm": 900,
                 "stock": [
@@ -128,6 +159,18 @@
               "y_pm": 730,
               "danger": 4,
               "tone": "flowery",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
+                }
+              ],
               "shop": {
                 "price_pm": 1300,
                 "stock": [
@@ -145,6 +188,18 @@
               "y_pm": 90,
               "danger": 5,
               "tone": "stoic",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 4
+                },
+                {
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 2
+                }
+              ],
               "shop": {
                 "price_pm": 1200,
                 "stock": [
@@ -161,6 +216,18 @@
               "y_pm": 770,
               "danger": 3,
               "tone": "salty",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 4
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 1
+                }
+              ],
               "shop": {
                 "price_pm": 1000,
                 "stock": [
@@ -178,6 +245,18 @@
               "y_pm": 480,
               "danger": 7,
               "tone": "grim",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 1
+                }
+              ],
               "shop": {
                 "price_pm": 1500,
                 "stock": [
@@ -194,6 +273,23 @@
               "y_pm": 900,
               "danger": 5,
               "tone": "scholarly",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 1
+                }
+              ],
               "shop": {
                 "price_pm": 1100,
                 "stock": [
@@ -246,7 +342,7 @@
               {
                 "id": "cull",
                 "type": "kill",
-                "target": "base:enemy/slime_green",
+                "target": "$fauna",
                 "count_min": 3,
                 "count_max": 6,
                 "gold_base": 10,
@@ -259,7 +355,7 @@
               {
                 "id": "gather",
                 "type": "collect",
-                "target": "base:item/slime_gel",
+                "target": "$drop",
                 "count_min": 4,
                 "count_max": 8,
                 "gold_base": 8,
@@ -486,7 +582,6 @@
             ]
           },
           "spawners": {
-            "enemy": "base:enemy/slime_green",
             "biomes": [
               "plains",
               "forest"
@@ -1059,6 +1154,13 @@
               "y_pm": 500,
               "danger": 1,
               "tone": "warm",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 1
+                }
+              ],
               "shop": {
                 "price_pm": 1000,
                 "stock": [
@@ -1076,6 +1178,18 @@
               "y_pm": 340,
               "danger": 3,
               "tone": "mystic",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 3
+                }
+              ],
               "shop": {
                 "price_pm": 1100,
                 "stock": [
@@ -1092,6 +1206,18 @@
               "y_pm": 220,
               "danger": 4,
               "tone": "gruff",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 4
+                },
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 1
+                }
+              ],
               "shop": {
                 "price_pm": 900,
                 "stock": [
@@ -1109,6 +1235,18 @@
               "y_pm": 730,
               "danger": 4,
               "tone": "flowery",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
+                }
+              ],
               "shop": {
                 "price_pm": 1300,
                 "stock": [
@@ -1126,6 +1264,18 @@
               "y_pm": 90,
               "danger": 5,
               "tone": "stoic",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 4
+                },
+                {
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 2
+                }
+              ],
               "shop": {
                 "price_pm": 1200,
                 "stock": [
@@ -1142,6 +1292,18 @@
               "y_pm": 770,
               "danger": 3,
               "tone": "salty",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 4
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 1
+                }
+              ],
               "shop": {
                 "price_pm": 1000,
                 "stock": [
@@ -1159,6 +1321,18 @@
               "y_pm": 480,
               "danger": 7,
               "tone": "grim",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 1
+                }
+              ],
               "shop": {
                 "price_pm": 1500,
                 "stock": [
@@ -1175,6 +1349,23 @@
               "y_pm": 900,
               "danger": 5,
               "tone": "scholarly",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 1
+                }
+              ],
               "shop": {
                 "price_pm": 1100,
                 "stock": [
@@ -1227,7 +1418,7 @@
               {
                 "id": "cull",
                 "type": "kill",
-                "target": "base:enemy/slime_green",
+                "target": "$fauna",
                 "count_min": 3,
                 "count_max": 6,
                 "gold_base": 10,
@@ -1240,7 +1431,7 @@
               {
                 "id": "gather",
                 "type": "collect",
-                "target": "base:item/slime_gel",
+                "target": "$drop",
                 "count_min": 4,
                 "count_max": 8,
                 "gold_base": 8,
@@ -1467,7 +1658,6 @@
             ]
           },
           "spawners": {
-            "enemy": "base:enemy/slime_green",
             "biomes": [
               "plains",
               "forest"

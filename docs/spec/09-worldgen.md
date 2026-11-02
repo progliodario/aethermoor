@@ -137,7 +137,12 @@ For each tile outside the spawn clearing, with the biome's list of options `{art
 
 A tile outside the clearing is a spawner when its biome is in `spawners.biomes`, its distance from the center is at least
 `spawners.min_distance` (`(x-cx)^2 + (y-cy)^2 >= d^2`) and `(hash64(seed, x, y, 11) >> 20) % 10000 < per_10000`.
-It spawns one `spawners.enemy`, at the center of the tile (`x + 0.5`, `y + 0.5`).
+It spawns one enemy, at the center of the tile (`x + 0.5`, `y + 0.5`), chosen by the **fauna** of the region of the tile.
+
+**Fauna.** Every region lists `fauna`: entries `{enemy, drop, weight}` (`drop` is the item the enemy leaves, used by the guild for collect jobs). The enemy of a spawner is the entry
+that `r = (hash64(seed, x, y, 12) >> 20) mod W` falls on, where `W` is the sum of the weights and the entries share the slots `0..W-1` in order (an entry of weight `w` takes the next `w` slots).
+The choice depends only on the seed, the tile and its region, so a spawner always makes the same enemy and a saved enemy is rebuilt from its spawner tile.
+Conformance suite `fauna`: the region and the enemy of spawners near the center of every region.
 
 ## Spawn and NPCs
 

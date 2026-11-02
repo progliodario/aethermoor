@@ -5,7 +5,7 @@ Integer arithmetic only. The board is a pure function of (seed, settlement, day)
 from __future__ import annotations
 
 from .numerics import hash64
-from .worldgen import Sites
+from .worldgen import Sites, pick_weighted
 
 
 def rank_index(guild: dict, points: int) -> int:
@@ -36,6 +36,10 @@ def offers_for(seed: int, params: dict, site: dict, day: int) -> list[dict]:
     for slot in range(guild["offers_per_day"]):
         h = hash64(hash64(seed, site["sx"], site["sy"], 200 + slot), day, slot)
         template = templates[(h >> 16) % len(templates)]
+        target = template["target"]
+        if target in ("$fauna", "$drop"):  # the enemy (or its drop) of the fauna of the region of the settlement
+            entry = pick_weighted(params["regions"][site["region"]]["fauna"], h >> 48)
+            target = entry["enemy"] if target == "$fauna" else entry["drop"]
         span = template["count_max"] - template["count_min"] + 1
         count = template["count_min"] + (h >> 32) % span
         tier = slot + 1
@@ -45,7 +49,7 @@ def offers_for(seed: int, params: dict, site: dict, day: int) -> list[dict]:
             "min_rank": min(slot, len(guild["ranks"]) - 1),
             "template": template["id"],
             "type": template["type"],
-            "target": template["target"],
+            "target": target,
             "count": count,
             "gold": (template["gold_base"] + count * template["gold_per"]) * tier,
             "xp": (template["xp_base"] + count * template["xp_per"]) * tier,

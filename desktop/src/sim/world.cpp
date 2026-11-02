@@ -153,8 +153,12 @@ void WorldSim::add_chunk_people(int cx, int cy) {
     }
 }
 
+const EnemyDef& WorldSim::stream_enemy_at(int x, int y) const {
+    return m_setup_.stream_enemies.at(fauna_at(m_store_->seed(), m_store_->params(), x, y).enemy);
+}
+
 void WorldSim::add_chunk_enemies(int cx, int cy) {
-    if (!m_setup_.stream_enemy) {
+    if (m_setup_.stream_enemies.empty()) {
         return;
     }
     const Chunk* chunk = m_store_->find(cx, cy);
@@ -171,7 +175,7 @@ void WorldSim::add_chunk_enemies(int cx, int cy) {
             m_cleared_.erase(died);
         }
         Enemy enemy;
-        enemy.def = *m_setup_.stream_enemy;
+        enemy.def = stream_enemy_at(sx, sy);
         enemy.position = {static_cast<float>(sx) + 0.5F, static_cast<float>(sy) + 0.5F};
         enemy.home = enemy.position;
         enemy.hp = enemy.def.hp;
@@ -778,7 +782,7 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
         m_enemies_.clear();
         for (const SaveEnemy& e : s.enemies) {
             Enemy enemy;
-            enemy.def = *m_setup_.stream_enemy;
+            enemy.def = stream_enemy_at(e.spawner_x, e.spawner_y);
             enemy.home = {static_cast<float>(e.spawner_x) + 0.5F, static_cast<float>(e.spawner_y) + 0.5F};
             enemy.spawner_x = e.spawner_x;
             enemy.spawner_y = e.spawner_y;

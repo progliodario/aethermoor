@@ -2481,7 +2481,7 @@
               "kind": "guild",
               "args": {
                 "count": "3",
-                "target": "$i18n:enemy.slime_green.name",
+                "target": "$i18n:enemy.wolf_grey.name",
                 "place": "Holomere"
               },
               "stages": [
@@ -2491,7 +2491,7 @@
                   "objectives": [
                     {
                       "type": "kill",
-                      "enemy": "base:enemy/slime_green",
+                      "enemy": "base:enemy/wolf_grey",
                       "count": 3
                     }
                   ],
@@ -2610,7 +2610,7 @@
                 "windup_ticks": 18,
                 "recovery_ticks": 30
               },
-              "id": "base:enemy/slime_green"
+              "id": "base:enemy/wolf_grey"
             }
           },
           {
@@ -2642,7 +2642,7 @@
                 "windup_ticks": 18,
                 "recovery_ticks": 30
               },
-              "id": "base:enemy/slime_green"
+              "id": "base:enemy/wolf_grey"
             }
           },
           {
@@ -2674,7 +2674,7 @@
                 "windup_ticks": 18,
                 "recovery_ticks": 30
               },
-              "id": "base:enemy/slime_green"
+              "id": "base:enemy/wolf_grey"
             }
           }
         ],

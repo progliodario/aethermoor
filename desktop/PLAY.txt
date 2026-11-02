@@ -10,6 +10,7 @@ The game picks Italian or English from your system language.
   Attack .......... J or Space (gamepad: A)
   Talk / confirm .. E or Enter (gamepad: X), choices with W/S or 1-9
   Bag ............. I (W/S to choose, E to use or wear)
+  Journal ......... Q (W/S to scroll)       Language ..... F2 (Italian/English)
   Shop ............ talk to a shopkeeper and pick the wares; Tab buy/sell, E confirm
   Guild board ..... talk to a guild clerk in a town and choose the day's work; E accept
   World map ....... M        Close a panel ... Esc
@@ -35,6 +36,7 @@ Il gioco sceglie italiano o inglese dalla lingua del sistema.
   Attaccare ....... J o Spazio (gamepad: A)
   Parlare/confermare  E o Invio (gamepad: X), scelte con W/S o 1-9
   Zaino ........... I (W/S per scegliere, E per usare o indossare)
+  Diario .......... Q (W/S per scorrere)    Lingua ....... F2 (italiano/inglese)
   Negozio ......... parla con il bottegaio e scegli la merce; Tab compra/vendi, E conferma
   Bacheca ......... parla con l'impiegato della gilda in una citta e scegli il lavoro; E accetta
   Mappa del mondo . M        Chiudere un pannello  Esc

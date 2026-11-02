@@ -1,0 +1,3138 @@
+{
+  "suite": "fauna",
+  "spec_version": 1,
+  "generated_by": "tools/gen_conformance.py",
+  "cases": [
+    {
+      "name": "fauna_seed_7",
+      "input": {
+        "op": "fauna",
+        "seed": "0x0000000000000007",
+        "tiles": [
+          [
+            8169,
+            8134
+          ],
+          [
+            8163,
+            8159
+          ],
+          [
+            8276,
+            8144
+          ],
+          [
+            8161,
+            8169
+          ],
+          [
+            8186,
+            8178
+          ],
+          [
+            8192,
+            8171
+          ],
+          [
+            8247,
+            8174
+          ],
+          [
+            8128,
+            8203
+          ],
+          [
+            8143,
+            8209
+          ],
+          [
+            8254,
+            8212
+          ],
+          [
+            8277,
+            8211
+          ],
+          [
+            8158,
+            8251
+          ],
+          [
+            3773,
+            5528
+          ],
+          [
+            3801,
+            5516
+          ],
+          [
+            3807,
+            5528
+          ],
+          [
+            3811,
+            5509
+          ],
+          [
+            3799,
+            5577
+          ],
+          [
+            3684,
+            5602
+          ],
+          [
+            3700,
+            5616
+          ],
+          [
+            3680,
+            5628
+          ],
+          [
+            3824,
+            5607
+          ],
+          [
+            3791,
+            5644
+          ],
+          [
+            3813,
+            5647
+          ],
+          [
+            12812,
+            3559
+          ],
+          [
+            12862,
+            3619
+          ],
+          [
+            12800,
+            3648
+          ],
+          [
+            13216,
+            11910
+          ],
+          [
+            13241,
+            11914
+          ],
+          [
+            13268,
+            11912
+          ],
+          [
+            13290,
+            11910
+          ],
+          [
+            13281,
+            11929
+          ],
+          [
+            13308,
+            11998
+          ],
+          [
+            13309,
+            11998
+          ],
+          [
+            13318,
+            12006
+          ],
+          [
+            7350,
+            1446
+          ],
+          [
+            7350,
+            1458
+          ],
+          [
+            7447,
+            1480
+          ],
+          [
+            2255,
+            12597
+          ],
+          [
+            2353,
+            12581
+          ],
+          [
+            2243,
+            12614
+          ],
+          [
+            2217,
+            12693
+          ],
+          [
+            2221,
+            12701
+          ],
+          [
+            2255,
+            12697
+          ],
+          [
+            2297,
+            12681
+          ],
+          [
+            15022,
+            7790
+          ],
+          [
+            15162,
+            7806
+          ],
+          [
+            15039,
+            7826
+          ],
+          [
+            15071,
+            7844
+          ],
+          [
+            15119,
+            7854
+          ],
+          [
+            7861,
+            14657
+          ],
+          [
+            7933,
+            14715
+          ],
+          [
+            7935,
+            14767
+          ]
+        ],
+        "params": {
+          "$schema": "../../../schemas/world.schema.json",
+          "id": "base:world/overworld",
+          "width": 16384,
+          "height": 16384,
+          "border": 4,
+          "spawn_clear_radius": 7,
+          "elevation": {
+            "salt": 1,
+            "scale": 56,
+            "octaves": 5
+          },
+          "moisture": {
+            "salt": 2,
+            "scale": 80,
+            "octaves": 4
+          },
+          "temperature": {
+            "salt": 3,
+            "scale": 120,
+            "octaves": 3
+          },
+          "thresholds": {
+            "water": 25000,
+            "beach": 27500,
+            "mountain": 44000,
+            "snow": 20000,
+            "desert_heat": 36000,
+            "desert_dry": 33000,
+            "forest_wet": 38000
+          },
+          "regions": [
+            {
+              "id": "verdalis",
+              "name": "$i18n:region.verdalis.name",
+              "x_pm": 500,
+              "y_pm": 500,
+              "danger": 1,
+              "tone": "warm",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 1
+                }
+              ],
+              "shop": {
+                "price_pm": 1000,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/leather_vest"
+                ]
+              }
+            },
+            {
+              "id": "whisperwood",
+              "name": "$i18n:region.whisperwood.name",
+              "x_pm": 230,
+              "y_pm": 340,
+              "danger": 3,
+              "tone": "mystic",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 3
+                }
+              ],
+              "shop": {
+                "price_pm": 1100,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/leather_vest"
+                ]
+              }
+            },
+            {
+              "id": "ironspine",
+              "name": "$i18n:region.ironspine.name",
+              "x_pm": 780,
+              "y_pm": 220,
+              "danger": 4,
+              "tone": "gruff",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 4
+                },
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 1
+                }
+              ],
+              "shop": {
+                "price_pm": 900,
+                "stock": [
+                  "base:item/iron_sword",
+                  "base:item/steel_sword",
+                  "base:item/chain_mail",
+                  "base:item/leather_vest"
+                ]
+              }
+            },
+            {
+              "id": "sunscar",
+              "name": "$i18n:region.sunscar.name",
+              "x_pm": 810,
+              "y_pm": 730,
+              "danger": 4,
+              "tone": "flowery",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
+                }
+              ],
+              "shop": {
+                "price_pm": 1300,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/leather_vest"
+                ]
+              }
+            },
+            {
+              "id": "frostveil",
+              "name": "$i18n:region.frostveil.name",
+              "x_pm": 450,
+              "y_pm": 90,
+              "danger": 5,
+              "tone": "stoic",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 4
+                },
+                {
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 2
+                }
+              ],
+              "shop": {
+                "price_pm": 1200,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/chain_mail"
+                ]
+              }
+            },
+            {
+              "id": "tidehaven",
+              "name": "$i18n:region.tidehaven.name",
+              "x_pm": 140,
+              "y_pm": 770,
+              "danger": 3,
+              "tone": "salty",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 4
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 1
+                }
+              ],
+              "shop": {
+                "price_pm": 1000,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/steel_sword"
+                ]
+              }
+            },
+            {
+              "id": "ashen_wastes",
+              "name": "$i18n:region.ashen_wastes.name",
+              "x_pm": 920,
+              "y_pm": 480,
+              "danger": 7,
+              "tone": "grim",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 1
+                }
+              ],
+              "shop": {
+                "price_pm": 1500,
+                "stock": [
+                  "base:item/potion_small",
+                  "base:item/steel_sword",
+                  "base:item/chain_mail"
+                ]
+              }
+            },
+            {
+              "id": "lumeria",
+              "name": "$i18n:region.lumeria.name",
+              "x_pm": 480,
+              "y_pm": 900,
+              "danger": 5,
+              "tone": "scholarly",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 1
+                }
+              ],
+              "shop": {
+                "price_pm": 1100,
+                "stock": [
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/chain_mail"
+                ]
+              }
+            }
+          ],
+          "home": {
+            "radius": 72,
+            "stamp": "base:stamp/village",
+            "dx": 36,
+            "dy": 40
+          },
+          "guild": {
+            "offers_per_day": 4,
+            "ranks": [
+              {
+                "id": "f",
+                "points": 0
+              },
+              {
+                "id": "e",
+                "points": 100
+              },
+              {
+                "id": "d",
+                "points": 300
+              },
+              {
+                "id": "c",
+                "points": 700
+              },
+              {
+                "id": "b",
+                "points": 1500
+              },
+              {
+                "id": "a",
+                "points": 3000
+              },
+              {
+                "id": "s",
+                "points": 6000
+              }
+            ],
+            "templates": [
+              {
+                "id": "cull",
+                "type": "kill",
+                "target": "$fauna",
+                "count_min": 3,
+                "count_max": 6,
+                "gold_base": 10,
+                "gold_per": 12,
+                "xp_base": 10,
+                "xp_per": 6,
+                "points_base": 4,
+                "points_per": 3
+              },
+              {
+                "id": "gather",
+                "type": "collect",
+                "target": "$drop",
+                "count_min": 4,
+                "count_max": 8,
+                "gold_base": 8,
+                "gold_per": 9,
+                "xp_base": 8,
+                "xp_per": 4,
+                "points_base": 3,
+                "points_per": 2
+              }
+            ]
+          },
+          "settlements": {
+            "per_mille": 130,
+            "dialogue": "base:dialogue/role/{role}_{tone}",
+            "variants": [
+              "",
+              "red",
+              "green",
+              "ochre",
+              "purple",
+              "teal",
+              "cream",
+              "brown"
+            ],
+            "quirks": [
+              "quirk.cheese",
+              "quirk.bells",
+              "quirk.bad_luck",
+              "quirk.bakers",
+              "quirk.singing",
+              "quirk.lanterns",
+              "quirk.mushrooms",
+              "quirk.kites",
+              "quirk.honey",
+              "quirk.riddles",
+              "quirk.cats",
+              "quirk.bridges"
+            ],
+            "people": {
+              "start": [
+                "An",
+                "Bri",
+                "Cor",
+                "Dar",
+                "El",
+                "Fia",
+                "Gor",
+                "Hel",
+                "Ing",
+                "Jor",
+                "Kai",
+                "Lis",
+                "Mar",
+                "Nia",
+                "Ori",
+                "Pip",
+                "Quin",
+                "Rod",
+                "Sal",
+                "Tam",
+                "Ulf",
+                "Vera",
+                "Wil",
+                "Yan",
+                "Zed"
+              ],
+              "end": [
+                "a",
+                "bert",
+                "dric",
+                "ela",
+                "gar",
+                "ina",
+                "ik",
+                "la",
+                "mund",
+                "na",
+                "o",
+                "rin",
+                "sa",
+                "thor",
+                "us",
+                "wen",
+                "ya",
+                "zo"
+              ]
+            },
+            "kinds": [
+              {
+                "id": "hamlet",
+                "weight": 5,
+                "stamps": [
+                  "base:stamp/hamlet"
+                ]
+              },
+              {
+                "id": "village",
+                "weight": 4,
+                "stamps": [
+                  "base:stamp/village"
+                ]
+              },
+              {
+                "id": "town",
+                "weight": 1,
+                "stamps": [
+                  "base:stamp/town"
+                ]
+              }
+            ],
+            "names": {
+              "start": [
+                "Al",
+                "Ber",
+                "Cal",
+                "Dun",
+                "El",
+                "Fen",
+                "Gal",
+                "Hol",
+                "Ir",
+                "Kel",
+                "Lor",
+                "Mar",
+                "Nor",
+                "Ost",
+                "Pel",
+                "Rav",
+                "Sil",
+                "Tor",
+                "Vel",
+                "Wyn"
+              ],
+              "mid": [
+                "a",
+                "e",
+                "i",
+                "o",
+                "ar",
+                "en",
+                "or",
+                "an",
+                "el",
+                "in"
+              ],
+              "end": [
+                "wick",
+                "mere",
+                "ford",
+                "dale",
+                "haven",
+                "stead",
+                "brook",
+                "ton",
+                "holm",
+                "vale"
+              ]
+            }
+          },
+          "river": {
+            "salt": 4,
+            "scale": 110,
+            "octaves": 3,
+            "half_width": 400,
+            "ford_salt": 5,
+            "ford_scale": 20,
+            "ford_min": 36000
+          },
+          "road": {
+            "salt": 6,
+            "scale": 150,
+            "octaves": 2,
+            "half_width": 350
+          },
+          "tiles": {
+            "water": 4,
+            "beach": 6,
+            "desert": 6,
+            "snow": 7,
+            "mountain": 8,
+            "forest": 9,
+            "plains": [
+              1,
+              2
+            ],
+            "river": 4,
+            "ford": 10,
+            "road": 11,
+            "bridge": 12
+          },
+          "props": {
+            "plains": [
+              {
+                "art": "base:art/prop/tree_oak",
+                "radius_x100": 30,
+                "per_mille": 30
+              },
+              {
+                "art": "base:art/prop/rock",
+                "radius_x100": 35,
+                "per_mille": 12
+              }
+            ],
+            "forest": [
+              {
+                "art": "base:art/prop/tree_oak",
+                "radius_x100": 30,
+                "per_mille": 220
+              }
+            ],
+            "snow": [
+              {
+                "art": "base:art/prop/pine",
+                "radius_x100": 30,
+                "per_mille": 90
+              }
+            ],
+            "desert": [
+              {
+                "art": "base:art/prop/cactus",
+                "radius_x100": 28,
+                "per_mille": 25
+              }
+            ]
+          },
+          "spawners": {
+            "biomes": [
+              "plains",
+              "forest"
+            ],
+            "min_distance": 14,
+            "per_10000": 8,
+            "respawn_ticks": 36000
+          },
+          "time": {
+            "day_ticks": 72000,
+            "start_tick": 24000,
+            "light": [
+              [
+                0,
+                180
+              ],
+              [
+                200,
+                180
+              ],
+              [
+                300,
+                1000
+              ],
+              [
+                700,
+                1000
+              ],
+              [
+                800,
+                180
+              ],
+              [
+                1000,
+                180
+              ]
+            ],
+            "weather": {
+              "period_ticks": 18000,
+              "fade_ticks": 600,
+              "kinds": [
+                {
+                  "id": "clear",
+                  "weight": 600,
+                  "rain_pm": 0,
+                  "dim_pm": 0
+                },
+                {
+                  "id": "cloudy",
+                  "weight": 250,
+                  "rain_pm": 0,
+                  "dim_pm": 250
+                },
+                {
+                  "id": "rain",
+                  "weight": 150,
+                  "rain_pm": 1000,
+                  "dim_pm": 400
+                }
+              ]
+            }
+          },
+          "npcs": [
+            {
+              "key": "guild_clerk_mira",
+              "dialogue": "base:dialogue/npc/mira",
+              "variant": "red",
+              "dx": 1,
+              "dy": -1
+            }
+          ],
+          "stamp_defs": {
+            "base:stamp/hamlet": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hamlet",
+              "w": 11,
+              "h": 9,
+              "anchor": [
+                5,
+                4
+              ],
+              "rows": [
+                "...........",
+                ".t.#####...",
+                "...#bV_#.t.",
+                "...#___#...",
+                "...##_##...",
+                ".....=.....",
+                "...ccwcc...",
+                ".t...=...t.",
+                ".....=....."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            },
+            "base:stamp/village": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/village",
+              "w": 21,
+              "h": 15,
+              "anchor": [
+                10,
+                7
+              ],
+              "rows": [
+                "..........=..........",
+                ".######.t.=..#######.",
+                ".#b_V_#...=..#bb___#.",
+                ".#____#...=..#____S#.",
+                ".###_##...=..#_____#.",
+                "........lcccl###_###.",
+                "........ccccc........",
+                "========ccwcc========",
+                "........ccEcc.......t",
+                ".######.lcccl........",
+                ".#_V__#...=...######.",
+                ".#____#...=...#b___#.",
+                ".###_##...=...#__V_#.",
+                "t........t=...###_##.",
+                "..........=.........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            },
+            "base:stamp/town": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/town",
+              "w": 31,
+              "h": 25,
+              "anchor": [
+                15,
+                12
+              ],
+              "rows": [
+                "t.....t........=..............t",
+                "...............=...............",
+                "..#############=#############..",
+                "..#............=............#..",
+                "..#.#########..=..########..#..",
+                "..#.#bb____b#..=..#bb____#..#..",
+                "..#.#_____G_#..=..#____S_#..#..",
+                "..#.#_______#..=..#______#..#..",
+                "..#.####_####..=..####_###..#..",
+                "..#.........lcccccl.........#..",
+                "..#.#####...ccccccc...#####.#..",
+                "..#.#_V_#...ccccccc...#_V_#.#..",
+                "====#___#===cccwccc===#___#====",
+                "..#.##_##...cccEccc...##_##.#..",
+                "..#.........ccccccc.........#..",
+                "..#.........lcccccl.........#..",
+                "..#.#########..=...######...#..",
+                "..#.#b______#..=...#_V__#...#..",
+                "..#.#_____I_#..=...#____#...#..",
+                "..#.#_______#..=...###_##...#..",
+                "..#.####_####..=............#..",
+                "..#............=............#..",
+                "..#############=#############..",
+                "...............=...............",
+                "t..............=........t.....t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "G": {
+                  "tile": 13,
+                  "npc": "guild_clerk"
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            }
+          }
+        }
+      },
+      "expect": {
+        "spawners": [
+          [
+            8169,
+            8134,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8163,
+            8159,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8276,
+            8144,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8161,
+            8169,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8186,
+            8178,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8192,
+            8171,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8247,
+            8174,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8128,
+            8203,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8143,
+            8209,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8254,
+            8212,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8277,
+            8211,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8158,
+            8251,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            3773,
+            5528,
+            1,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            3801,
+            5516,
+            1,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            3807,
+            5528,
+            1,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            3811,
+            5509,
+            1,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            3799,
+            5577,
+            1,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            3684,
+            5602,
+            1,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            3700,
+            5616,
+            1,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            3680,
+            5628,
+            1,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            3824,
+            5607,
+            1,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            3791,
+            5644,
+            1,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            3813,
+            5647,
+            1,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            12812,
+            3559,
+            2,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            12862,
+            3619,
+            2,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            12800,
+            3648,
+            2,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            13216,
+            11910,
+            3,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            13241,
+            11914,
+            3,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            13268,
+            11912,
+            3,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            13290,
+            11910,
+            3,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            13281,
+            11929,
+            3,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            13308,
+            11998,
+            3,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            13309,
+            11998,
+            3,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            13318,
+            12006,
+            3,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            7350,
+            1446,
+            4,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            7350,
+            1458,
+            4,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            7447,
+            1480,
+            4,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            2255,
+            12597,
+            5,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            2353,
+            12581,
+            5,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            2243,
+            12614,
+            5,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            2217,
+            12693,
+            5,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            2221,
+            12701,
+            5,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            2255,
+            12697,
+            5,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            2297,
+            12681,
+            5,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            15022,
+            7790,
+            6,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            15162,
+            7806,
+            6,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            15039,
+            7826,
+            6,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            15071,
+            7844,
+            6,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            15119,
+            7854,
+            6,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            7861,
+            14657,
+            7,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            7933,
+            14715,
+            7,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            7935,
+            14767,
+            7,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "fauna_seed_c0ffee",
+      "input": {
+        "op": "fauna",
+        "seed": "0x0000000000c0ffee",
+        "tiles": [
+          [
+            8188,
+            8136
+          ],
+          [
+            8157,
+            8184
+          ],
+          [
+            8191,
+            8160
+          ],
+          [
+            8158,
+            8223
+          ],
+          [
+            8175,
+            8199
+          ],
+          [
+            8176,
+            8223
+          ],
+          [
+            8242,
+            8214
+          ],
+          [
+            8265,
+            8196
+          ],
+          [
+            8179,
+            8231
+          ],
+          [
+            8160,
+            8241
+          ],
+          [
+            8246,
+            8282
+          ],
+          [
+            3739,
+            5556
+          ],
+          [
+            3695,
+            5592
+          ],
+          [
+            3820,
+            5576
+          ],
+          [
+            3832,
+            5576
+          ],
+          [
+            3830,
+            5594
+          ],
+          [
+            3782,
+            5607
+          ],
+          [
+            3825,
+            5623
+          ],
+          [
+            3813,
+            5627
+          ],
+          [
+            3732,
+            5652
+          ],
+          [
+            3744,
+            5644
+          ],
+          [
+            12773,
+            3546
+          ],
+          [
+            12756,
+            3597
+          ],
+          [
+            12791,
+            3606
+          ],
+          [
+            12812,
+            3593
+          ],
+          [
+            12817,
+            3595
+          ],
+          [
+            12738,
+            3622
+          ],
+          [
+            12794,
+            3621
+          ],
+          [
+            12733,
+            3663
+          ],
+          [
+            13290,
+            11897
+          ],
+          [
+            13343,
+            11877
+          ],
+          [
+            13342,
+            11885
+          ],
+          [
+            13222,
+            11954
+          ],
+          [
+            13197,
+            11980
+          ],
+          [
+            13201,
+            11991
+          ],
+          [
+            13244,
+            11999
+          ],
+          [
+            13340,
+            11972
+          ],
+          [
+            7383,
+            1444
+          ],
+          [
+            7371,
+            1450
+          ],
+          [
+            7378,
+            1456
+          ],
+          [
+            7381,
+            1467
+          ],
+          [
+            7404,
+            1445
+          ],
+          [
+            7413,
+            1477
+          ],
+          [
+            7451,
+            1475
+          ],
+          [
+            7454,
+            1489
+          ],
+          [
+            7309,
+            1534
+          ],
+          [
+            7397,
+            1541
+          ],
+          [
+            7447,
+            1548
+          ],
+          [
+            2271,
+            12569
+          ],
+          [
+            2297,
+            12547
+          ],
+          [
+            2302,
+            12553
+          ],
+          [
+            2308,
+            12557
+          ],
+          [
+            2310,
+            12559
+          ],
+          [
+            2330,
+            12644
+          ],
+          [
+            2326,
+            12647
+          ],
+          [
+            2233,
+            12691
+          ],
+          [
+            2252,
+            12675
+          ],
+          [
+            15012,
+            7808
+          ],
+          [
+            15121,
+            7810
+          ],
+          [
+            15118,
+            7831
+          ],
+          [
+            15094,
+            7845
+          ],
+          [
+            15089,
+            7861
+          ],
+          [
+            15111,
+            7863
+          ],
+          [
+            15143,
+            7903
+          ],
+          [
+            15047,
+            7916
+          ],
+          [
+            15099,
+            7907
+          ],
+          [
+            15123,
+            7911
+          ],
+          [
+            7809,
+            14681
+          ],
+          [
+            7885,
+            14676
+          ],
+          [
+            7864,
+            14694
+          ],
+          [
+            7890,
+            14688
+          ],
+          [
+            7880,
+            14693
+          ],
+          [
+            7914,
+            14689
+          ],
+          [
+            7895,
+            14742
+          ],
+          [
+            7922,
+            14741
+          ],
+          [
+            7920,
+            14757
+          ],
+          [
+            7776,
+            14806
+          ],
+          [
+            7882,
+            14798
+          ],
+          [
+            7929,
+            14789
+          ]
+        ],
+        "params": {
+          "$schema": "../../../schemas/world.schema.json",
+          "id": "base:world/overworld",
+          "width": 16384,
+          "height": 16384,
+          "border": 4,
+          "spawn_clear_radius": 7,
+          "elevation": {
+            "salt": 1,
+            "scale": 56,
+            "octaves": 5
+          },
+          "moisture": {
+            "salt": 2,
+            "scale": 80,
+            "octaves": 4
+          },
+          "temperature": {
+            "salt": 3,
+            "scale": 120,
+            "octaves": 3
+          },
+          "thresholds": {
+            "water": 25000,
+            "beach": 27500,
+            "mountain": 44000,
+            "snow": 20000,
+            "desert_heat": 36000,
+            "desert_dry": 33000,
+            "forest_wet": 38000
+          },
+          "regions": [
+            {
+              "id": "verdalis",
+              "name": "$i18n:region.verdalis.name",
+              "x_pm": 500,
+              "y_pm": 500,
+              "danger": 1,
+              "tone": "warm",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 1
+                }
+              ],
+              "shop": {
+                "price_pm": 1000,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/leather_vest"
+                ]
+              }
+            },
+            {
+              "id": "whisperwood",
+              "name": "$i18n:region.whisperwood.name",
+              "x_pm": 230,
+              "y_pm": 340,
+              "danger": 3,
+              "tone": "mystic",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 3
+                }
+              ],
+              "shop": {
+                "price_pm": 1100,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/leather_vest"
+                ]
+              }
+            },
+            {
+              "id": "ironspine",
+              "name": "$i18n:region.ironspine.name",
+              "x_pm": 780,
+              "y_pm": 220,
+              "danger": 4,
+              "tone": "gruff",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 4
+                },
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 1
+                }
+              ],
+              "shop": {
+                "price_pm": 900,
+                "stock": [
+                  "base:item/iron_sword",
+                  "base:item/steel_sword",
+                  "base:item/chain_mail",
+                  "base:item/leather_vest"
+                ]
+              }
+            },
+            {
+              "id": "sunscar",
+              "name": "$i18n:region.sunscar.name",
+              "x_pm": 810,
+              "y_pm": 730,
+              "danger": 4,
+              "tone": "flowery",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
+                }
+              ],
+              "shop": {
+                "price_pm": 1300,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/leather_vest"
+                ]
+              }
+            },
+            {
+              "id": "frostveil",
+              "name": "$i18n:region.frostveil.name",
+              "x_pm": 450,
+              "y_pm": 90,
+              "danger": 5,
+              "tone": "stoic",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 4
+                },
+                {
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 2
+                }
+              ],
+              "shop": {
+                "price_pm": 1200,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/chain_mail"
+                ]
+              }
+            },
+            {
+              "id": "tidehaven",
+              "name": "$i18n:region.tidehaven.name",
+              "x_pm": 140,
+              "y_pm": 770,
+              "danger": 3,
+              "tone": "salty",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 4
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 1
+                }
+              ],
+              "shop": {
+                "price_pm": 1000,
+                "stock": [
+                  "base:item/bread",
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/steel_sword"
+                ]
+              }
+            },
+            {
+              "id": "ashen_wastes",
+              "name": "$i18n:region.ashen_wastes.name",
+              "x_pm": 920,
+              "y_pm": 480,
+              "danger": 7,
+              "tone": "grim",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 1
+                }
+              ],
+              "shop": {
+                "price_pm": 1500,
+                "stock": [
+                  "base:item/potion_small",
+                  "base:item/steel_sword",
+                  "base:item/chain_mail"
+                ]
+              }
+            },
+            {
+              "id": "lumeria",
+              "name": "$i18n:region.lumeria.name",
+              "x_pm": 480,
+              "y_pm": 900,
+              "danger": 5,
+              "tone": "scholarly",
+              "fauna": [
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 1
+                }
+              ],
+              "shop": {
+                "price_pm": 1100,
+                "stock": [
+                  "base:item/potion_small",
+                  "base:item/iron_sword",
+                  "base:item/chain_mail"
+                ]
+              }
+            }
+          ],
+          "home": {
+            "radius": 72,
+            "stamp": "base:stamp/village",
+            "dx": 36,
+            "dy": 40
+          },
+          "guild": {
+            "offers_per_day": 4,
+            "ranks": [
+              {
+                "id": "f",
+                "points": 0
+              },
+              {
+                "id": "e",
+                "points": 100
+              },
+              {
+                "id": "d",
+                "points": 300
+              },
+              {
+                "id": "c",
+                "points": 700
+              },
+              {
+                "id": "b",
+                "points": 1500
+              },
+              {
+                "id": "a",
+                "points": 3000
+              },
+              {
+                "id": "s",
+                "points": 6000
+              }
+            ],
+            "templates": [
+              {
+                "id": "cull",
+                "type": "kill",
+                "target": "$fauna",
+                "count_min": 3,
+                "count_max": 6,
+                "gold_base": 10,
+                "gold_per": 12,
+                "xp_base": 10,
+                "xp_per": 6,
+                "points_base": 4,
+                "points_per": 3
+              },
+              {
+                "id": "gather",
+                "type": "collect",
+                "target": "$drop",
+                "count_min": 4,
+                "count_max": 8,
+                "gold_base": 8,
+                "gold_per": 9,
+                "xp_base": 8,
+                "xp_per": 4,
+                "points_base": 3,
+                "points_per": 2
+              }
+            ]
+          },
+          "settlements": {
+            "per_mille": 130,
+            "dialogue": "base:dialogue/role/{role}_{tone}",
+            "variants": [
+              "",
+              "red",
+              "green",
+              "ochre",
+              "purple",
+              "teal",
+              "cream",
+              "brown"
+            ],
+            "quirks": [
+              "quirk.cheese",
+              "quirk.bells",
+              "quirk.bad_luck",
+              "quirk.bakers",
+              "quirk.singing",
+              "quirk.lanterns",
+              "quirk.mushrooms",
+              "quirk.kites",
+              "quirk.honey",
+              "quirk.riddles",
+              "quirk.cats",
+              "quirk.bridges"
+            ],
+            "people": {
+              "start": [
+                "An",
+                "Bri",
+                "Cor",
+                "Dar",
+                "El",
+                "Fia",
+                "Gor",
+                "Hel",
+                "Ing",
+                "Jor",
+                "Kai",
+                "Lis",
+                "Mar",
+                "Nia",
+                "Ori",
+                "Pip",
+                "Quin",
+                "Rod",
+                "Sal",
+                "Tam",
+                "Ulf",
+                "Vera",
+                "Wil",
+                "Yan",
+                "Zed"
+              ],
+              "end": [
+                "a",
+                "bert",
+                "dric",
+                "ela",
+                "gar",
+                "ina",
+                "ik",
+                "la",
+                "mund",
+                "na",
+                "o",
+                "rin",
+                "sa",
+                "thor",
+                "us",
+                "wen",
+                "ya",
+                "zo"
+              ]
+            },
+            "kinds": [
+              {
+                "id": "hamlet",
+                "weight": 5,
+                "stamps": [
+                  "base:stamp/hamlet"
+                ]
+              },
+              {
+                "id": "village",
+                "weight": 4,
+                "stamps": [
+                  "base:stamp/village"
+                ]
+              },
+              {
+                "id": "town",
+                "weight": 1,
+                "stamps": [
+                  "base:stamp/town"
+                ]
+              }
+            ],
+            "names": {
+              "start": [
+                "Al",
+                "Ber",
+                "Cal",
+                "Dun",
+                "El",
+                "Fen",
+                "Gal",
+                "Hol",
+                "Ir",
+                "Kel",
+                "Lor",
+                "Mar",
+                "Nor",
+                "Ost",
+                "Pel",
+                "Rav",
+                "Sil",
+                "Tor",
+                "Vel",
+                "Wyn"
+              ],
+              "mid": [
+                "a",
+                "e",
+                "i",
+                "o",
+                "ar",
+                "en",
+                "or",
+                "an",
+                "el",
+                "in"
+              ],
+              "end": [
+                "wick",
+                "mere",
+                "ford",
+                "dale",
+                "haven",
+                "stead",
+                "brook",
+                "ton",
+                "holm",
+                "vale"
+              ]
+            }
+          },
+          "river": {
+            "salt": 4,
+            "scale": 110,
+            "octaves": 3,
+            "half_width": 400,
+            "ford_salt": 5,
+            "ford_scale": 20,
+            "ford_min": 36000
+          },
+          "road": {
+            "salt": 6,
+            "scale": 150,
+            "octaves": 2,
+            "half_width": 350
+          },
+          "tiles": {
+            "water": 4,
+            "beach": 6,
+            "desert": 6,
+            "snow": 7,
+            "mountain": 8,
+            "forest": 9,
+            "plains": [
+              1,
+              2
+            ],
+            "river": 4,
+            "ford": 10,
+            "road": 11,
+            "bridge": 12
+          },
+          "props": {
+            "plains": [
+              {
+                "art": "base:art/prop/tree_oak",
+                "radius_x100": 30,
+                "per_mille": 30
+              },
+              {
+                "art": "base:art/prop/rock",
+                "radius_x100": 35,
+                "per_mille": 12
+              }
+            ],
+            "forest": [
+              {
+                "art": "base:art/prop/tree_oak",
+                "radius_x100": 30,
+                "per_mille": 220
+              }
+            ],
+            "snow": [
+              {
+                "art": "base:art/prop/pine",
+                "radius_x100": 30,
+                "per_mille": 90
+              }
+            ],
+            "desert": [
+              {
+                "art": "base:art/prop/cactus",
+                "radius_x100": 28,
+                "per_mille": 25
+              }
+            ]
+          },
+          "spawners": {
+            "biomes": [
+              "plains",
+              "forest"
+            ],
+            "min_distance": 14,
+            "per_10000": 8,
+            "respawn_ticks": 36000
+          },
+          "time": {
+            "day_ticks": 72000,
+            "start_tick": 24000,
+            "light": [
+              [
+                0,
+                180
+              ],
+              [
+                200,
+                180
+              ],
+              [
+                300,
+                1000
+              ],
+              [
+                700,
+                1000
+              ],
+              [
+                800,
+                180
+              ],
+              [
+                1000,
+                180
+              ]
+            ],
+            "weather": {
+              "period_ticks": 18000,
+              "fade_ticks": 600,
+              "kinds": [
+                {
+                  "id": "clear",
+                  "weight": 600,
+                  "rain_pm": 0,
+                  "dim_pm": 0
+                },
+                {
+                  "id": "cloudy",
+                  "weight": 250,
+                  "rain_pm": 0,
+                  "dim_pm": 250
+                },
+                {
+                  "id": "rain",
+                  "weight": 150,
+                  "rain_pm": 1000,
+                  "dim_pm": 400
+                }
+              ]
+            }
+          },
+          "npcs": [
+            {
+              "key": "guild_clerk_mira",
+              "dialogue": "base:dialogue/npc/mira",
+              "variant": "red",
+              "dx": 1,
+              "dy": -1
+            }
+          ],
+          "stamp_defs": {
+            "base:stamp/hamlet": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hamlet",
+              "w": 11,
+              "h": 9,
+              "anchor": [
+                5,
+                4
+              ],
+              "rows": [
+                "...........",
+                ".t.#####...",
+                "...#bV_#.t.",
+                "...#___#...",
+                "...##_##...",
+                ".....=.....",
+                "...ccwcc...",
+                ".t...=...t.",
+                ".....=....."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            },
+            "base:stamp/village": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/village",
+              "w": 21,
+              "h": 15,
+              "anchor": [
+                10,
+                7
+              ],
+              "rows": [
+                "..........=..........",
+                ".######.t.=..#######.",
+                ".#b_V_#...=..#bb___#.",
+                ".#____#...=..#____S#.",
+                ".###_##...=..#_____#.",
+                "........lcccl###_###.",
+                "........ccccc........",
+                "========ccwcc========",
+                "........ccEcc.......t",
+                ".######.lcccl........",
+                ".#_V__#...=...######.",
+                ".#____#...=...#b___#.",
+                ".###_##...=...#__V_#.",
+                "t........t=...###_##.",
+                "..........=.........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            },
+            "base:stamp/town": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/town",
+              "w": 31,
+              "h": 25,
+              "anchor": [
+                15,
+                12
+              ],
+              "rows": [
+                "t.....t........=..............t",
+                "...............=...............",
+                "..#############=#############..",
+                "..#............=............#..",
+                "..#.#########..=..########..#..",
+                "..#.#bb____b#..=..#bb____#..#..",
+                "..#.#_____G_#..=..#____S_#..#..",
+                "..#.#_______#..=..#______#..#..",
+                "..#.####_####..=..####_###..#..",
+                "..#.........lcccccl.........#..",
+                "..#.#####...ccccccc...#####.#..",
+                "..#.#_V_#...ccccccc...#_V_#.#..",
+                "====#___#===cccwccc===#___#====",
+                "..#.##_##...cccEccc...##_##.#..",
+                "..#.........ccccccc.........#..",
+                "..#.........lcccccl.........#..",
+                "..#.#########..=...######...#..",
+                "..#.#b______#..=...#_V__#...#..",
+                "..#.#_____I_#..=...#____#...#..",
+                "..#.#_______#..=...###_##...#..",
+                "..#.####_####..=............#..",
+                "..#............=............#..",
+                "..#############=#############..",
+                "...............=...............",
+                "t..............=........t.....t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "G": {
+                  "tile": 13,
+                  "npc": "guild_clerk"
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              }
+            }
+          }
+        }
+      },
+      "expect": {
+        "spawners": [
+          [
+            8188,
+            8136,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8157,
+            8184,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8191,
+            8160,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8158,
+            8223,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8175,
+            8199,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8176,
+            8223,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8242,
+            8214,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8265,
+            8196,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8179,
+            8231,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8160,
+            8241,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8246,
+            8282,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            3739,
+            5556,
+            1,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            3695,
+            5592,
+            1,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            3820,
+            5576,
+            1,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            3832,
+            5576,
+            1,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            3830,
+            5594,
+            1,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            3782,
+            5607,
+            1,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            3825,
+            5623,
+            1,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            3813,
+            5627,
+            1,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            3732,
+            5652,
+            1,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            3744,
+            5644,
+            1,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            12773,
+            3546,
+            2,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            12756,
+            3597,
+            2,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            12791,
+            3606,
+            2,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            12812,
+            3593,
+            2,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            12817,
+            3595,
+            2,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            12738,
+            3622,
+            2,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            12794,
+            3621,
+            2,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            12733,
+            3663,
+            2,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            13290,
+            11897,
+            3,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            13343,
+            11877,
+            3,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            13342,
+            11885,
+            3,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            13222,
+            11954,
+            3,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            13197,
+            11980,
+            3,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            13201,
+            11991,
+            3,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            13244,
+            11999,
+            3,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            13340,
+            11972,
+            3,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            7383,
+            1444,
+            4,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            7371,
+            1450,
+            4,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            7378,
+            1456,
+            4,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            7381,
+            1467,
+            4,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            7404,
+            1445,
+            4,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            7413,
+            1477,
+            4,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            7451,
+            1475,
+            4,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            7454,
+            1489,
+            4,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            7309,
+            1534,
+            4,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            7397,
+            1541,
+            4,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            7447,
+            1548,
+            4,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            2271,
+            12569,
+            5,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            2297,
+            12547,
+            5,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            2302,
+            12553,
+            5,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            2308,
+            12557,
+            5,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            2310,
+            12559,
+            5,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            2330,
+            12644,
+            5,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            2326,
+            12647,
+            5,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            2233,
+            12691,
+            5,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            2252,
+            12675,
+            5,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            15012,
+            7808,
+            6,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            15121,
+            7810,
+            6,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            15118,
+            7831,
+            6,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            15094,
+            7845,
+            6,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            15089,
+            7861,
+            6,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            15111,
+            7863,
+            6,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            15143,
+            7903,
+            6,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            15047,
+            7916,
+            6,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            15099,
+            7907,
+            6,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            15123,
+            7911,
+            6,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            7809,
+            14681,
+            7,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            7885,
+            14676,
+            7,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            7864,
+            14694,
+            7,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            7890,
+            14688,
+            7,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            7880,
+            14693,
+            7,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            7914,
+            14689,
+            7,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            7895,
+            14742,
+            7,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            7922,
+            14741,
+            7,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            7920,
+            14757,
+            7,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            7776,
+            14806,
+            7,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            7882,
+            14798,
+            7,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            7929,
+            14789,
+            7,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ]
+        ]
+      }
+    }
+  ]
+}

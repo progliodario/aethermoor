@@ -1,0 +1,27 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/wolf_grey",
+  "name": "$i18n:enemy.wolf_grey.name",
+  "level": 4,
+  "stats": {
+    "hp": 60,
+    "atk": 14,
+    "def": 5,
+    "mdef": 2,
+    "speed_x100": 340
+  },
+  "element": "none",
+  "weaknesses_pm": {},
+  "xp": 22,
+  "drops": [
+    {
+      "item": "base:item/wolf_fang",
+      "qty_min": 1,
+      "qty_max": 2,
+      "weight_pm": 600
+    }
+  ],
+  "radius_x100": 40,
+  "behavior": "base:behavior/melee_chaser_basic",
+  "art": "base:art/creature/wolf_grey"
+}

@@ -382,6 +382,25 @@ GenPerson person_at(std::uint64_t seed, const WorldParams& p, const Settlement& 
     return person;
 }
 
+const FaunaEntry& pick_fauna(const std::vector<FaunaEntry>& entries, std::uint64_t r) {
+    std::uint64_t total = 0;
+    for (const FaunaEntry& e : entries) {
+        total += static_cast<std::uint64_t>(e.weight);
+    }
+    std::uint64_t rest = r % total;
+    for (const FaunaEntry& e : entries) {
+        if (rest < static_cast<std::uint64_t>(e.weight)) {
+            return e;
+        }
+        rest -= static_cast<std::uint64_t>(e.weight);
+    }
+    return entries.back();
+}
+
+const FaunaEntry& fauna_at(std::uint64_t seed, const WorldParams& p, int x, int y) {
+    return pick_fauna(p.regions[static_cast<std::size_t>(region_at(p, x, y))].fauna, hash64(seed, x, y, 12) >> 20);
+}
+
 int rank_index(const GuildParams& guild, std::int64_t points) {
     int index = 0;
     for (std::size_t i = 0; i < guild.ranks.size(); ++i) {
@@ -406,6 +425,10 @@ std::vector<Offer> offers_for(std::uint64_t seed, const WorldParams& p, const Se
         offer.template_id = t.id;
         offer.type = t.type;
         offer.target = t.target;
+        if (t.target == "$fauna" || t.target == "$drop") {  // what lives around the town (spec 07, "Guild")
+            const FaunaEntry& entry = pick_fauna(p.regions[static_cast<std::size_t>(settlement.region)].fauna, h >> 48);
+            offer.target = t.target == "$fauna" ? entry.enemy : entry.drop;
+        }
         offer.count = t.count_min + static_cast<int>((h >> 32) % span);
         const std::int64_t tier = slot + 1;
         offer.gold = (t.gold_base + static_cast<std::int64_t>(offer.count) * t.gold_per) * tier;

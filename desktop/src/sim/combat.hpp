@@ -105,7 +105,7 @@ struct CombatSetup {
     std::string start_weapon;              // the weapon worn in a new game (an item ID, or empty)
     std::string start_armor;               // the armor worn in a new game (an item ID, or empty)
     std::optional<ShopDef> shop;           // the shop of fixed maps and scenarios (streamed worlds use their regions)
-    std::optional<EnemyDef> stream_enemy;  // the enemy of the spawners of a streamed world
+    std::map<std::string, EnemyDef> stream_enemies;  // the enemies of the fauna of a streamed world, by ID
 };
 
 enum class AttackPhase { None, Startup, Active, Recovery };

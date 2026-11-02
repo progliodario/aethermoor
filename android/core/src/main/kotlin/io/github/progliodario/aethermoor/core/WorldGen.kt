@@ -18,10 +18,15 @@ data class PropOption(val art: String, val radiusX100: Int, val perMille: Int)
 
 data class WorldNpc(val key: String, val dialogue: String, val variant: String, val dx: Int, val dy: Int)
 
+/** An enemy of the fauna of a region (spec 09, "Fauna"): what a spawner makes and what it drops. */
+class FaunaEntry(val enemy: String, val drop: String, val weight: Int)
+
 class Region(val id: String, /** An $i18n: key. */ val name: String, val xPm: Int, val yPm: Int, val danger: Int, /** The voice of the people of the region. */ val tone: String,
     /** What the shops of the region sell (spec 06): prices in permille and the stock. */
     val shopPricePm: Int,
     val shopStock: List<String>,
+    /** The enemies of the spawners of the region, by weight. */
+    val fauna: List<FaunaEntry>,
 )
 
 class SettlementKind(val id: String, val weight: Int, val stamps: List<String>)
@@ -140,7 +145,6 @@ class WorldParams(
     val tileBridge: Int,
     val tilesPlains: List<Int>,
     val props: Map<String, List<PropOption>>,
-    val spawnerEnemy: String,
     val spawnerBiomes: List<String>,
     val spawnerMinDistance: Int,
     val spawnerPer10000: Int,
@@ -224,6 +228,20 @@ private fun biomeAt(seed: ULong, p: WorldParams, x: Int, y: Int): Biome {
 const val SITE_CELL = 256
 
 /** Index of the region of the tile: the nearest center. */
+/** The entry that [r] falls on when the entries share the sum of the weights as slots, in order. */
+fun pickFauna(entries: List<FaunaEntry>, r: ULong): FaunaEntry {
+    var rest = r % entries.sumOf { it.weight }.toULong()
+    for (entry in entries) {
+        if (rest < entry.weight.toULong()) return entry
+        rest -= entry.weight.toULong()
+    }
+    return entries.last()
+}
+
+/** The fauna entry of the spawner on tile (x, y): a weighted pick among the fauna of its region (spec 09). */
+fun faunaAt(seed: ULong, p: WorldParams, x: Int, y: Int): FaunaEntry =
+    pickFauna(p.regions[regionAt(p, x, y)].fauna, hash64(seed, x.toLong(), y.toLong(), 12L) shr 20)
+
 fun regionAt(p: WorldParams, x: Int, y: Int): Int {
     var best = 0
     var bestDistance = -1L
@@ -364,13 +382,18 @@ fun offersFor(seed: ULong, p: WorldParams, s: Settlement, day: Long): List<Offer
         val span = (t.countMax - t.countMin + 1).toULong()
         val count = t.countMin + ((h shr 32) % span).toInt()
         val tier = (slot + 1).toLong()
+        var target = t.target
+        if (target == "\$fauna" || target == "\$drop") { // what lives around the town (spec 07, "Guild")
+            val entry = pickFauna(p.regions[s.region].fauna, h shr 48)
+            target = if (target == "\$fauna") entry.enemy else entry.drop
+        }
         Offer(
             id = "board:${s.sx}:${s.sy}:$day:$slot",
             slot = slot,
             minRank = minOf(slot, p.guild.ranks.size - 1),
             template = t.id,
             type = t.type,
-            target = t.target,
+            target = target,
             count = count,
             gold = (t.goldBase + count.toLong() * t.goldPer) * tier,
             xp = (t.xpBase + count.toLong() * t.xpPer) * tier,
@@ -684,7 +707,6 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
                     PropOption(o.getValue("art").jsonPrimitive.content, o.getValue("radius_x100").jsonPrimitive.int, o.getValue("per_mille").jsonPrimitive.int)
                 }
             },
-            spawnerEnemy = s.getValue("enemy").jsonPrimitive.content,
             spawnerBiomes = s.getValue("biomes").jsonArray.map { it.jsonPrimitive.content },
             spawnerMinDistance = s.getValue("min_distance").jsonPrimitive.int,
             spawnerPer10000 = s.getValue("per_10000").jsonPrimitive.int,
@@ -718,6 +740,10 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
                     r.getValue("tone").jsonPrimitive.content,
                     r.getValue("shop").jsonObject.getValue("price_pm").jsonPrimitive.int,
                     r.getValue("shop").jsonObject.getValue("stock").jsonArray.map { it.jsonPrimitive.content },
+                    r.getValue("fauna").jsonArray.map { f ->
+                        val e = f.jsonObject
+                        FaunaEntry(e.getValue("enemy").jsonPrimitive.content, e.getValue("drop").jsonPrimitive.content, e.getValue("weight").jsonPrimitive.int)
+                    }.also { list -> require(list.isNotEmpty() && list.all { it.weight >= 1 }) { "a region needs fauna with positive weights" } },
                 )
             },
             settlementPerMille = j.getValue("settlements").jsonObject.getValue("per_mille").jsonPrimitive.int,

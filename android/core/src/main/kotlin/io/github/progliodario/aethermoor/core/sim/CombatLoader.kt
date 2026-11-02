@@ -63,8 +63,8 @@ fun loadCombatSetup(
     map: TileMap,
     protagonistId: String,
     seed: ULong,
-    /** The enemy of the spawners of a streamed world, if the map is one. */
-    streamEnemyId: String? = null,
+    /** The enemies of the fauna of a streamed world, if the map is one. */
+    streamEnemyIds: Collection<String> = emptyList(),
 ): Result<CombatSetup> =
     runCatching {
         val protagonist = parseProtagonist(requireNotNull(pack.readDocument(protagonistId)) { "missing $protagonistId" }).getOrThrow()
@@ -146,7 +146,7 @@ fun loadCombatSetup(
             seed = seed,
             story = StorySetup(quests, dialogues, npcs),
             startInventory = protagonist.startingInventory,
-            streamEnemy = streamEnemyId?.let { loadEnemy(pack, it) },
+            streamEnemies = streamEnemyIds.toSet().associateWith { loadEnemy(pack, it) },
             items = items,
             startWeapon = startWeapon,
         )
