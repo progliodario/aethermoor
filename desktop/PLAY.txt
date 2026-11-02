@@ -18,8 +18,11 @@ The game picks Italian or English from your system language.
   Quick save ...... F5       Quick load .. F9       New game ......... F7
   Debug info ...... F3       Quit ........ Esc (with no panel open)
 
+The game opens on a list of three games, each with its own world: pick one
+(W/S and E, the number keys 1-3 or the mouse); D twice deletes the selected game.
 The game saves by itself every 30 seconds and when you quit; it continues
-where you left off (same world). Saves are in your user data folder.
+where you left off (same world). To change game, quit and start it again.
+Saves are in your user data folder.
 
 What to try: head south-east to the village near the start and talk to the people there (each region has its own way of speaking),
 talk to the guild clerk Mira next to you and accept her quest,
@@ -45,8 +48,11 @@ Il gioco sceglie italiano o inglese dalla lingua del sistema.
   Salvataggio rapido  F5     Carica ...... F9          Nuova partita ........ F7
   Info di debug ... F3       Esci ........ Esc (senza pannelli aperti)
 
+All'avvio vedi un elenco di tre partite, ognuna con il suo mondo: scegline una
+(W/S ed E, i tasti 1-3 o il mouse); D due volte cancella la partita selezionata.
 Il gioco salva da solo ogni 30 secondi e quando esci, e riprende da dove avevi
-lasciato (stesso mondo). I salvataggi sono nella cartella dati dell'utente.
+lasciato (stesso mondo). Per cambiare partita esci e riavvia il gioco.
+I salvataggi sono nella cartella dati dell'utente.
 
 Cosa provare: vai a sud-est, al villaggio vicino al punto di partenza, e parla con la gente
 (ogni regione ha il suo modo di parlare); parla con l'impiegata della gilda Mira, qui accanto, e accetta la

@@ -173,6 +173,21 @@ TEST_CASE("a save for a different world or a newer game is refused", "[combat][s
     REQUIRE_FALSE(aether::save_from_json("not json", parse_error).has_value());
 }
 
+TEST_CASE("a save is summarized without building its world", "[save]") {
+    const auto peek = aether::save_peek(R"({"seed": "0x0000000000000010", "map": "world", "player": {"level": 4}, "story": {"gold": 75}})");
+    REQUIRE(peek.has_value());
+    REQUIRE(peek->seed == 16U);
+    REQUIRE(peek->map == "world");
+    REQUIRE(peek->level == 4);
+    REQUIRE(peek->gold == 75);
+
+    const auto bare = aether::save_peek(R"({"seed": "0x0000000000000001", "story": null})");
+    REQUIRE(bare.has_value());
+    REQUIRE(bare->level == 1);
+    REQUIRE(bare->gold == 0);
+    REQUIRE_FALSE(aether::save_peek("not json").has_value());
+}
+
 TEST_CASE("the overworld is streamed from the content pack and is playable", "[world]") {
     const Demo demo = load_demo();
     const auto text = demo.pack.read_document("base:world/overworld");

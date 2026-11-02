@@ -31,6 +31,8 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
 struct SavePeek {
     std::uint64_t seed = 0;
     std::string map;
+    int level = 1;  // for the slot list (spec 12, "Slots")
+    std::int64_t gold = 0;
 };
 std::optional<SavePeek> save_peek(std::string_view json_text);
 

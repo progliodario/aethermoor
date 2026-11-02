@@ -272,6 +272,12 @@ std::optional<SavePeek> save_peek(std::string_view json_text) {
         SavePeek peek;
         peek.seed = parse_hex64(j.at("seed"));
         peek.map = j.value("map", "");
+        if (j.contains("player") && j.at("player").is_object()) {
+            peek.level = j.at("player").value("level", 1);
+        }
+        if (j.contains("story") && j.at("story").is_object()) {
+            peek.gold = j.at("story").value("gold", static_cast<std::int64_t>(0));
+        }
         return peek;
     } catch (const std::exception&) {
         return std::nullopt;

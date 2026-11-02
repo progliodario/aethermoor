@@ -5,10 +5,24 @@ Schema: `schemas/save.schema.json`. Conformance suite: `save` (resume scenarios)
 
 ## Files
 
-One JSON file per slot, `<user data>/saves/<slot>.json`, with the slots `auto` (written every 30 s, when the app pauses or
-quits) and `quick` (manual). The user data folder is `SDL_GetPrefPath` on desktop and the app-private folder on Android. A
-save can be copied by hand between devices and platforms. The inventory-level profile (`profile.json`) and per-chunk deltas
-described in the plan arrive with the procedural world and reincarnation.
+One JSON file per save, `<user data>/saves/slot<N>/<name>.json`, with the games (slots) `slot1`, `slot2` and `slot3` and, in each,
+the saves `auto` (written every 30 s, when the app pauses or quits) and `quick` (manual, desktop). The user data folder is
+`SDL_GetPrefPath` on desktop and the app-private folder on Android. A save can be copied by hand between devices and platforms.
+The inventory-level profile (`profile.json`) and per-chunk deltas described in the plan arrive with reincarnation.
+
+## Slots
+
+A game is a slot: its own world (its own seed), progress and saves. Three slots exist.
+
+- **Title screen.** At launch the client lists the slots before it builds any world: a used slot shows `level` and `story.gold` of its
+  `auto` save, read without building the world (`save_peek`: `seed`, `map`, `player.level`, `story.gold`), an empty slot says it is a new game.
+  Choosing a used slot continues it; choosing an empty one starts a new world with a new random seed. The seed is written
+  into the saves of the slot, so the same world comes back.
+- **Delete.** A used slot can be deleted after a second confirmation (desktop: `D` twice; Android: the cross, then the cross again). Deleting removes
+  the files of that slot only.
+- **Migration.** A save written before slots (`saves/auto.json`, `saves/quick.json`) is moved to `slot1` the first time a client starts.
+- **Dev options.** Desktop `--slot=N` skips the title screen; `--smoke-test` uses its own folder and never touches the three slots.
+- To return to the title screen the player restarts the game (a restart of the process on desktop, closing the app on Android).
 
 ## Document
 
