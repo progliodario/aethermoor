@@ -16,7 +16,7 @@ TileMap make_tilemap(const GeneratedWorld& world, const WorldParams& params, std
                              static_cast<float>(p.radius_x100) / 100.0F});
     }
     for (const auto& s : world.spawners) {
-        map.spawners.push_back({fauna_at(seed, params, s.first, s.second).enemy, static_cast<float>(s.first) + 0.5F,
+        map.spawners.push_back({spawner_enemy_at(seed, params, s.first, s.second), static_cast<float>(s.first) + 0.5F,
                                 static_cast<float>(s.second) + 0.5F});
     }
     for (const GenNpc& n : world.npcs) {

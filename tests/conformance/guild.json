@@ -324,6 +324,16 @@
             "dx": 36,
             "dy": 40
           },
+          "landmarks": [
+            {
+              "id": "grunmoor_barrow",
+              "name": "Grunmoor Barrow",
+              "stamp": "base:stamp/barrow",
+              "kind": "dungeon",
+              "dx": -60,
+              "dy": -34
+            }
+          ],
           "guild": {
             "offers_per_day": 4,
             "ranks": [
@@ -1147,6 +1157,75 @@
                   14
                 ]
               ]
+            },
+            "base:stamp/barrow": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/barrow",
+              "w": 33,
+              "h": 26,
+              "anchor": [
+                16,
+                24
+              ],
+              "rows": [
+                ".................................",
+                ".###############################.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccBcccccccccccccc#.",
+                ".#ccccWcccccccccccccccccccWcccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccxcccccccccccxcccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".###############c###############.",
+                ".#clcccccccccc#ccc#cccccccccclc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cccxccccxccc#ccc#cccWccccWccc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cWcccccccccc#ccc#cccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cccccxcccWcc#ccc#cccccWcccxcc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cccccccccccc#lcl#cccccccccccc#.",
+                ".###############c###############.",
+                ".............T..c................",
+                "................c................"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "B": {
+                  "tile": 14,
+                  "spawner": "base:enemy/barrow_warden"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
+                }
+              },
+              "spots": []
             }
           }
         }
@@ -6437,6 +6516,16 @@
             "dx": 36,
             "dy": 40
           },
+          "landmarks": [
+            {
+              "id": "grunmoor_barrow",
+              "name": "Grunmoor Barrow",
+              "stamp": "base:stamp/barrow",
+              "kind": "dungeon",
+              "dx": -60,
+              "dy": -34
+            }
+          ],
           "guild": {
             "offers_per_day": 4,
             "ranks": [
@@ -7260,6 +7349,75 @@
                   14
                 ]
               ]
+            },
+            "base:stamp/barrow": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/barrow",
+              "w": 33,
+              "h": 26,
+              "anchor": [
+                16,
+                24
+              ],
+              "rows": [
+                ".................................",
+                ".###############################.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccBcccccccccccccc#.",
+                ".#ccccWcccccccccccccccccccWcccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccxcccccccccccxcccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".###############c###############.",
+                ".#clcccccccccc#ccc#cccccccccclc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cccxccccxccc#ccc#cccWccccWccc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cWcccccccccc#ccc#cccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cccccxcccWcc#ccc#cccccWcccxcc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cccccccccccc#lcl#cccccccccccc#.",
+                ".###############c###############.",
+                ".............T..c................",
+                "................c................"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "B": {
+                  "tile": 14,
+                  "spawner": "base:enemy/barrow_warden"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
+                }
+              },
+              "spots": []
             }
           }
         }
@@ -12550,6 +12708,16 @@
             "dx": 36,
             "dy": 40
           },
+          "landmarks": [
+            {
+              "id": "grunmoor_barrow",
+              "name": "Grunmoor Barrow",
+              "stamp": "base:stamp/barrow",
+              "kind": "dungeon",
+              "dx": -60,
+              "dy": -34
+            }
+          ],
           "guild": {
             "offers_per_day": 4,
             "ranks": [
@@ -13373,6 +13541,75 @@
                   14
                 ]
               ]
+            },
+            "base:stamp/barrow": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/barrow",
+              "w": 33,
+              "h": 26,
+              "anchor": [
+                16,
+                24
+              ],
+              "rows": [
+                ".................................",
+                ".###############################.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccBcccccccccccccc#.",
+                ".#ccccWcccccccccccccccccccWcccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccxcccccccccccxcccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".###############c###############.",
+                ".#clcccccccccc#ccc#cccccccccclc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cccxccccxccc#ccc#cccWccccWccc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cWcccccccccc#ccc#cccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cccccxcccWcc#ccc#cccccWcccxcc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cccccccccccc#lcl#cccccccccccc#.",
+                ".###############c###############.",
+                ".............T..c................",
+                "................c................"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "B": {
+                  "tile": 14,
+                  "spawner": "base:enemy/barrow_warden"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
+                }
+              },
+              "spots": []
             }
           }
         }

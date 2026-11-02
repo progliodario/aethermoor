@@ -1,6 +1,7 @@
 #include "core/worldgen.hpp"
 
 #include <algorithm>
+#include <set>
 #include <utility>
 
 #include "core/numerics.hpp"
@@ -218,6 +219,13 @@ private:
                 return home(sx, sy, hx, hy);
             }
         }
+        for (const WorldParams::Landmark& landmark : p.landmarks) {
+            const int lx = p.width / 2 + landmark.dx;
+            const int ly = p.height / 2 + landmark.dy;
+            if ((lx >> 8) == sx && (ly >> 8) == sy) {
+                return landmark_site(sx, sy, lx, ly, landmark);
+            }
+        }
         const std::uint64_t h = hash64(m_seed_, sx, sy, 41);
         if ((h >> 40) % 1000 >= static_cast<std::uint64_t>(p.settlement_per_mille)) {
             return std::nullopt;
@@ -273,6 +281,24 @@ private:
         s.name = p.names_start[n % p.names_start.size()] + p.names_mid[(n >> 16) % p.names_mid.size()] +
                  p.names_end[(n >> 32) % p.names_end.size()];
         s.region = region_at(p, px, py);
+        add_slots(s, sx, sy);
+        return s;
+    }
+
+    // A landmark (a dungeon): fixed position, stamp, kind and name (spec 09, "Landmarks").
+    Settlement landmark_site(int sx, int sy, int px, int py, const WorldParams::Landmark& landmark) const {
+        const Stamp& stamp = m_params_.stamps.at(landmark.stamp);
+        Settlement s;
+        s.x = px - stamp.anchor_x;
+        s.y = py - stamp.anchor_y;
+        s.px = px;
+        s.py = py;
+        s.w = stamp.w;
+        s.h = stamp.h;
+        s.stamp = landmark.stamp;
+        s.kind = landmark.kind;
+        s.name = landmark.name;
+        s.region = region_at(m_params_, px, py);
         add_slots(s, sx, sy);
         return s;
     }
@@ -341,6 +367,9 @@ void emit_tile(std::uint64_t seed, const WorldParams& p, Sites& sites, int x, in
         }
         if (entry != nullptr && !entry->npc.empty()) {
             people.push_back(person_at(seed, p, *settlement, x, y));
+        }
+        if (entry != nullptr && !entry->spawner.empty()) {
+            spawners.emplace_back(x, y);
         }
         return;
     }
@@ -423,6 +452,39 @@ const FaunaEntry& pick_fauna(const std::vector<FaunaEntry>& entries, std::uint64
         rest -= static_cast<std::uint64_t>(e.weight);
     }
     return entries.back();
+}
+
+std::optional<std::string> stamp_spawner_at(std::uint64_t seed, const WorldParams& p, int x, int y) {
+    Sites sites(seed, p);
+    const StampEntry* entry = nullptr;
+    if (sites.at(x, y, entry) && entry != nullptr && !entry->spawner.empty()) {
+        return entry->spawner;
+    }
+    return std::nullopt;
+}
+
+std::string spawner_enemy_at(std::uint64_t seed, const WorldParams& p, int x, int y) {
+    if (auto enemy = stamp_spawner_at(seed, p, x, y)) {
+        return *enemy;
+    }
+    return fauna_at(seed, p, x, y).enemy;
+}
+
+std::vector<std::string> world_enemy_ids(const WorldParams& p) {
+    std::set<std::string> ids;
+    for (const Region& region : p.regions) {
+        for (const FaunaEntry& entry : region.fauna) {
+            ids.insert(entry.enemy);
+        }
+    }
+    for (const auto& [stamp_id, stamp] : p.stamps) {
+        for (const auto& [ch, entry] : stamp.legend) {
+            if (!entry.spawner.empty()) {
+                ids.insert(entry.spawner);
+            }
+        }
+    }
+    return {ids.begin(), ids.end()};
 }
 
 const FaunaEntry& fauna_at(std::uint64_t seed, const WorldParams& p, int x, int y) {

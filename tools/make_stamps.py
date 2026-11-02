@@ -21,6 +21,9 @@ LEGEND = {
     "l": {"tile": 14, "prop": "base:art/prop/lamp", "radius_x100": 15},
     "b": {"tile": 13, "prop": "base:art/prop/barrel", "radius_x100": 25},
     "t": {"prop": "base:art/prop/tree_oak", "radius_x100": 30},
+    "x": {"tile": 14, "spawner": "base:enemy/slime_blue"},  # dungeon spawners
+    "W": {"tile": 14, "spawner": "base:enemy/wolf_grey"},
+    "B": {"tile": 14, "spawner": "base:enemy/barrow_warden"},
     "T": {"tile": 14, "prop": "base:art/prop/threshold_stone", "radius_x100": 35},  # Threshold Stone (fast travel)
     "V": {"tile": 13, "npc": "villager"},
     "G": {"tile": 13, "npc": "guild_clerk"},
@@ -148,9 +151,41 @@ def town() -> dict:
     return stamp("base:stamp/town", c, (15, 12), [(13, 10), (14, 10), (16, 10), (13, 14), (17, 14), (15, 14)])
 
 
+def barrow() -> dict:
+    """The dungeon of Verdalis: a walled barrow with a corridor, two side rooms, a north hall and a boss (spec 09, "Landmarks")."""
+    c = Canvas(33, 26)
+    c.rect(1, 1, 31, 23, "#")
+    c.rect(2, 2, 29, 21, "c")
+    c.hline(2, 30, 11, "#")
+    c.vline(14, 12, 22, "#")
+    c.vline(18, 12, 22, "#")
+    c.put(16, 11, "c")  # the door of the north hall
+    c.put(14, 17, "c")  # the doors of the side rooms
+    c.put(18, 17, "c")
+    c.put(16, 23, "c")  # the entrance
+    c.put(16, 24, "c")
+    c.put(16, 25, "c")
+    for x, y in ((15, 22), (17, 22), (3, 3), (29, 3), (3, 12), (29, 12)):
+        c.put(x, y, "l")
+    for x, y in ((5, 14), (10, 14), (7, 20)):
+        c.put(x, y, "x")
+    for x, y in ((11, 20), (3, 16)):
+        c.put(x, y, "W")
+    for x, y in ((22, 14), (27, 14), (24, 20)):
+        c.put(x, y, "W")
+    c.put(28, 20, "x")
+    for x, y in ((6, 5), (26, 5)):
+        c.put(x, y, "W")
+    for x, y in ((10, 8), (22, 8)):
+        c.put(x, y, "x")
+    c.put(16, 4, "B")
+    c.put(13, 24, "T")
+    return stamp("base:stamp/barrow", c, (16, 24), [])
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    for build in (hamlet, village, town):
+    for build in (hamlet, village, town, barrow):
         data = build()
         name = data["id"].split("/")[-1]
         (OUT / f"{name}.json").write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

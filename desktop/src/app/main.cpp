@@ -1475,14 +1475,12 @@ int main(int argc, char** argv) {
     std::string combat_error;
     auto combat = aether::load_combat_setup(assets.pack, assets.map, kProtagonistId, seed, combat_error);
     if (combat && stream) {
-        for (const aether::Region& region : stream->params.regions) {
-            for (const aether::FaunaEntry& entry : region.fauna) {
-                if (combat && combat->stream_enemies.count(entry.enemy) == 0) {
-                    if (auto def = aether::load_enemy_def(assets.pack, entry.enemy, combat_error)) {
-                        combat->stream_enemies.emplace(entry.enemy, std::move(*def));
-                    } else {
-                        combat.reset();
-                    }
+        for (const std::string& enemy : aether::world_enemy_ids(stream->params)) {
+            if (combat && combat->stream_enemies.count(enemy) == 0) {
+                if (auto def = aether::load_enemy_def(assets.pack, enemy, combat_error)) {
+                    combat->stream_enemies.emplace(enemy, std::move(*def));
+                } else {
+                    combat.reset();
                 }
             }
         }

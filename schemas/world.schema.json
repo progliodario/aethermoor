@@ -977,6 +977,45 @@
           }
         }
       }
+    },
+    "landmarks": {
+      "type": "array",
+      "description": "Hand-placed sites with a fixed stamp, such as dungeons (spec 09, Landmarks). Each one lies in a site cell of its own.",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "stamp",
+          "kind",
+          "dx",
+          "dy"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "stamp": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+          },
+          "kind": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "dx": {
+            "type": "integer"
+          },
+          "dy": {
+            "type": "integer"
+          }
+        }
+      }
     }
   }
 }

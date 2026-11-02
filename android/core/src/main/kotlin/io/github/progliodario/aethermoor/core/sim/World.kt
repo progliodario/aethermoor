@@ -10,7 +10,7 @@ import io.github.progliodario.aethermoor.core.damage
 import io.github.progliodario.aethermoor.core.deriveStream
 import io.github.progliodario.aethermoor.core.derivedStats
 import io.github.progliodario.aethermoor.core.explore
-import io.github.progliodario.aethermoor.core.faunaAt
+import io.github.progliodario.aethermoor.core.spawnerEnemyAt
 import io.github.progliodario.aethermoor.core.offersFor
 import io.github.progliodario.aethermoor.core.personPlacement
 import io.github.progliodario.aethermoor.core.rankIndex
@@ -253,7 +253,7 @@ class WorldSim(
     /** The enemy the spawner on a tile makes (spec 09, "Fauna"). */
     private fun streamEnemyAt(x: Int, y: Int): EnemyDef {
         val store = requireNotNull(chunks) { "not a streamed world" }
-        val id = faunaAt(store.seed, store.params, x, y).enemy
+        val id = spawnerEnemyAt(store.seed, store.params, x, y)
         return requireNotNull(combat.streamEnemies[id]) { "no enemy $id for the fauna" }
     }
 

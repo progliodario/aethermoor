@@ -10,6 +10,34 @@
         "seed": "0x0000000000000007",
         "tiles": [
           [
+            8132,
+            8138
+          ],
+          [
+            8142,
+            8139
+          ],
+          [
+            8138,
+            8142
+          ],
+          [
+            8138,
+            8148
+          ],
+          [
+            8143,
+            8148
+          ],
+          [
+            8140,
+            8154
+          ],
+          [
+            8144,
+            8154
+          ],
+          [
             8169,
             8134
           ],
@@ -28,34 +56,6 @@
           [
             8186,
             8178
-          ],
-          [
-            8192,
-            8171
-          ],
-          [
-            8247,
-            8174
-          ],
-          [
-            8128,
-            8203
-          ],
-          [
-            8143,
-            8209
-          ],
-          [
-            8254,
-            8212
-          ],
-          [
-            8277,
-            8211
-          ],
-          [
-            8158,
-            8251
           ],
           [
             3773,
@@ -216,6 +216,34 @@
           [
             7935,
             14767
+          ],
+          [
+            8122,
+            8139
+          ],
+          [
+            8126,
+            8142
+          ],
+          [
+            8121,
+            8148
+          ],
+          [
+            8126,
+            8148
+          ],
+          [
+            8119,
+            8150
+          ],
+          [
+            8123,
+            8154
+          ],
+          [
+            8127,
+            8154
           ]
         ],
         "params": {
@@ -485,6 +513,16 @@
             "dx": 36,
             "dy": 40
           },
+          "landmarks": [
+            {
+              "id": "grunmoor_barrow",
+              "name": "Grunmoor Barrow",
+              "stamp": "base:stamp/barrow",
+              "kind": "dungeon",
+              "dx": -60,
+              "dy": -34
+            }
+          ],
           "guild": {
             "offers_per_day": 4,
             "ranks": [
@@ -1308,12 +1346,130 @@
                   14
                 ]
               ]
+            },
+            "base:stamp/barrow": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/barrow",
+              "w": 33,
+              "h": 26,
+              "anchor": [
+                16,
+                24
+              ],
+              "rows": [
+                ".................................",
+                ".###############################.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccBcccccccccccccc#.",
+                ".#ccccWcccccccccccccccccccWcccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccxcccccccccccxcccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".###############c###############.",
+                ".#clcccccccccc#ccc#cccccccccclc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cccxccccxccc#ccc#cccWccccWccc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cWcccccccccc#ccc#cccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cccccxcccWcc#ccc#cccccWcccxcc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cccccccccccc#lcl#cccccccccccc#.",
+                ".###############c###############.",
+                ".............T..c................",
+                "................c................"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "B": {
+                  "tile": 14,
+                  "spawner": "base:enemy/barrow_warden"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
+                }
+              },
+              "spots": []
             }
           }
         }
       },
       "expect": {
         "spawners": [
+          [
+            8132,
+            8138,
+            0,
+            "base:enemy/barrow_warden",
+            ""
+          ],
+          [
+            8142,
+            8139,
+            0,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            8138,
+            8142,
+            0,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            8138,
+            8148,
+            0,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            8143,
+            8148,
+            0,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            8140,
+            8154,
+            0,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            8144,
+            8154,
+            0,
+            "base:enemy/slime_blue",
+            ""
+          ],
           [
             8169,
             8134,
@@ -1345,55 +1501,6 @@
           [
             8186,
             8178,
-            0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
-          ],
-          [
-            8192,
-            8171,
-            0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
-          ],
-          [
-            8247,
-            8174,
-            0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
-          ],
-          [
-            8128,
-            8203,
-            0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
-          ],
-          [
-            8143,
-            8209,
-            0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
-          ],
-          [
-            8254,
-            8212,
-            0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
-          ],
-          [
-            8277,
-            8211,
-            0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
-          ],
-          [
-            8158,
-            8251,
             0,
             "base:enemy/slime_green",
             "base:item/slime_gel"
@@ -1677,6 +1784,55 @@
             7,
             "base:enemy/slime_blue",
             "base:item/slime_gel"
+          ],
+          [
+            8122,
+            8139,
+            0,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            8126,
+            8142,
+            0,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            8121,
+            8148,
+            0,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            8126,
+            8148,
+            0,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            8119,
+            8150,
+            0,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            8123,
+            8154,
+            0,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            8127,
+            8154,
+            0,
+            "base:enemy/wolf_grey",
+            ""
           ]
         ]
       }
@@ -1687,6 +1843,34 @@
         "op": "fauna",
         "seed": "0x0000000000c0ffee",
         "tiles": [
+          [
+            8132,
+            8138
+          ],
+          [
+            8142,
+            8139
+          ],
+          [
+            8138,
+            8142
+          ],
+          [
+            8138,
+            8148
+          ],
+          [
+            8143,
+            8148
+          ],
+          [
+            8140,
+            8154
+          ],
+          [
+            8144,
+            8154
+          ],
           [
             8188,
             8136
@@ -1706,30 +1890,6 @@
           [
             8175,
             8199
-          ],
-          [
-            8176,
-            8223
-          ],
-          [
-            8242,
-            8214
-          ],
-          [
-            8265,
-            8196
-          ],
-          [
-            8179,
-            8231
-          ],
-          [
-            8160,
-            8241
-          ],
-          [
-            8246,
-            8282
           ],
           [
             3739,
@@ -2002,6 +2162,34 @@
           [
             7929,
             14789
+          ],
+          [
+            8122,
+            8139
+          ],
+          [
+            8126,
+            8142
+          ],
+          [
+            8121,
+            8148
+          ],
+          [
+            8126,
+            8148
+          ],
+          [
+            8119,
+            8150
+          ],
+          [
+            8123,
+            8154
+          ],
+          [
+            8127,
+            8154
           ]
         ],
         "params": {
@@ -2271,6 +2459,16 @@
             "dx": 36,
             "dy": 40
           },
+          "landmarks": [
+            {
+              "id": "grunmoor_barrow",
+              "name": "Grunmoor Barrow",
+              "stamp": "base:stamp/barrow",
+              "kind": "dungeon",
+              "dx": -60,
+              "dy": -34
+            }
+          ],
           "guild": {
             "offers_per_day": 4,
             "ranks": [
@@ -3094,12 +3292,130 @@
                   14
                 ]
               ]
+            },
+            "base:stamp/barrow": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/barrow",
+              "w": 33,
+              "h": 26,
+              "anchor": [
+                16,
+                24
+              ],
+              "rows": [
+                ".................................",
+                ".###############################.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccBcccccccccccccc#.",
+                ".#ccccWcccccccccccccccccccWcccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccxcccccccccccxcccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".###############c###############.",
+                ".#clcccccccccc#ccc#cccccccccclc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cccxccccxccc#ccc#cccWccccWccc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cWcccccccccc#ccc#cccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cccccxcccWcc#ccc#cccccWcccxcc#.",
+                ".#cccccccccccc#ccc#cccccccccccc#.",
+                ".#cccccccccccc#lcl#cccccccccccc#.",
+                ".###############c###############.",
+                ".............T..c................",
+                "................c................"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "B": {
+                  "tile": 14,
+                  "spawner": "base:enemy/barrow_warden"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
+                }
+              },
+              "spots": []
             }
           }
         }
       },
       "expect": {
         "spawners": [
+          [
+            8132,
+            8138,
+            0,
+            "base:enemy/barrow_warden",
+            ""
+          ],
+          [
+            8142,
+            8139,
+            0,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            8138,
+            8142,
+            0,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            8138,
+            8148,
+            0,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            8143,
+            8148,
+            0,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            8140,
+            8154,
+            0,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            8144,
+            8154,
+            0,
+            "base:enemy/slime_blue",
+            ""
+          ],
           [
             8188,
             8136,
@@ -3131,48 +3447,6 @@
           [
             8175,
             8199,
-            0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
-          ],
-          [
-            8176,
-            8223,
-            0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
-          ],
-          [
-            8242,
-            8214,
-            0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
-          ],
-          [
-            8265,
-            8196,
-            0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
-          ],
-          [
-            8179,
-            8231,
-            0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
-          ],
-          [
-            8160,
-            8241,
-            0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
-          ],
-          [
-            8246,
-            8282,
             0,
             "base:enemy/slime_green",
             "base:item/slime_gel"
@@ -3652,6 +3926,55 @@
             7,
             "base:enemy/slime_green",
             "base:item/slime_gel"
+          ],
+          [
+            8122,
+            8139,
+            0,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            8126,
+            8142,
+            0,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            8121,
+            8148,
+            0,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            8126,
+            8148,
+            0,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            8119,
+            8150,
+            0,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            8123,
+            8154,
+            0,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            8127,
+            8154,
+            0,
+            "base:enemy/wolf_grey",
+            ""
           ]
         ]
       }
