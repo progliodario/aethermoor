@@ -267,3 +267,59 @@ def test_settlement_people_have_dialogues_and_texts():
         assert person["role"] == role and person["place"] == town["name"] and person["key"].endswith(f":{index}")
         keys.append(person["key"])
     assert len(set(keys)) == len(keys) >= 7
+
+
+def test_every_elder_offers_a_local_errand_that_pays_once():
+    import json
+
+    from reference import story, worldgen
+
+    class Host:
+        x = y = 0.0
+        level = 1
+
+        def __init__(self) -> None:
+            self.inventory: dict[str, int] = {}
+            self.xp = 0
+
+        def grant_xp(self, amount: int) -> None:
+            self.xp += amount
+
+    data = TOOLS.parent / "data" / "base"
+    params = worldgen.load_params()
+    tones = {region["tone"] for region in params["regions"]}
+    assert len(tones) == len(params["regions"])
+    for tone in sorted(tones):
+        dialogue = json.loads((data / "dialogues" / "role" / f"elder_{tone}.json").read_text(encoding="utf-8"))
+        quests = {}
+        for path in (data / "quests" / "side").glob("*.json"):
+            quest = json.loads(path.read_text(encoding="utf-8"))
+            quests[quest["id"]] = quest
+        host = Host()
+        s = story.Story(host, {"quests": quests, "dialogues": {dialogue["id"]: dialogue}, "npcs": []})
+        s.start_dialogue(dialogue["id"])
+        s.advance()  # the greeting
+        offer = next(i for i, c in enumerate(s.visible_choices()) if c["next"] == "errand_offer")
+        s.choose(offer)
+        s.advance()  # the offer
+        s.choose(0)  # accept
+        (quest_id,) = s.quests
+        assert quests[quest_id]["kind"] == "side" and s.quests[quest_id]["done"] is False
+        objectives = quests[quest_id]["stages"][0]["objectives"]
+        for objective in objectives:
+            if objective["type"] == "kill":
+                for _ in range(objective["count"]):
+                    s.on_kill(objective["enemy"])
+            else:
+                host.inventory[objective["item"]] = objective["count"]
+                s.on_kill("base:enemy/none")
+        assert s.quests[quest_id]["done"] is True
+        s.start_dialogue(dialogue["id"])
+        s.advance()
+        report = next(i for i, c in enumerate(s.visible_choices()) if c["next"] == "errand_paid")
+        s.choose(report)
+        assert s.flags and s.gold > 0 and host.xp > 0 and host.inventory["base:item/potion_small"] > 0
+        s.advance()  # the thanks
+        s.start_dialogue(dialogue["id"])
+        s.advance()
+        assert all(c["next"] not in ("errand_offer", "errand_paid") for c in s.visible_choices())

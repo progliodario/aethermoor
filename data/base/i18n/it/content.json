@@ -114,5 +114,21 @@
   "item.cinderblade.desc": "Vetro nero ancora caldo della fucina che lo ha fatto, e ancora affamato.",
   "quest.citadel.name": "La cittadella di cenere",
   "quest.citadel.kill": "Sconfiggi il Colosso di cenere nella cittadella di cenere, lontano a est nelle Terre Ceneri.",
-  "quest.citadel.report": "Riferisci a Mira alla gilda."
+  "quest.citadel.report": "Riferisci a Mira alla gilda.",
+  "quest.meadow_gel.name": "Gel sui prati",
+  "quest.meadow_gel.hunt": "Caccia le melme verdi dei prati e riporta gel per il bottaio.",
+  "quest.lantern_wisps.name": "Fuochi fatui per le lanterne",
+  "quest.lantern_wisps.hunt": "Caccia i lupi d'ombra della Whisperwood e riporta i loro fuochi fatui per le lanterne del villaggio.",
+  "quest.slate_toll.name": "Il pedaggio d'ardesia",
+  "quest.slate_toll.hunt": "Libera le strade di Ironspine dalle melme d'ardesia e riporta schegge d'ardesia per il fabbro.",
+  "quest.garden_gel.name": "Gel per il giardino",
+  "quest.garden_gel.hunt": "Scaccia le melme di sabbia che calpestano le terrazze di Sunscar e raccogli gel per le radici.",
+  "quest.winter_pelts.name": "Pelli per l'inverno",
+  "quest.winter_pelts.hunt": "Caccia i lupi di brina di Frostveil e riporta le loro pelli prima del pieno inverno.",
+  "quest.tide_pearls.name": "Perle dalla marea",
+  "quest.tide_pearls.hunt": "Libera le secche di Tidehaven dalle melme di marea e riporta cinque perle.",
+  "quest.furnace_cores.name": "Nuclei per la fornace",
+  "quest.furnace_cores.hunt": "Caccia le melme di brace delle Terre Ceneri e riporta i loro nuclei per la fornace.",
+  "quest.dust_survey.name": "Il rilievo della polvere stellare",
+  "quest.dust_survey.hunt": "Dirada le melme luminose di Lumeria e raccogli cinque misure di polvere stellare per l'Archivio."
 }

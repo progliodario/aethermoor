@@ -102,6 +102,25 @@ In a `say` node the speaker `npc` means the name of the NPC being talked to; any
 Dynamic NPCs exist in the order they entered the active window of chunks (spec 09, "Streaming"); the `interact` rules above apply to the static and the dynamic NPCs together,
 with the static ones first.
 
+## Local errands (elders)
+
+The tone of a region is also the tone of its elders' dialogue (`base:dialogue/role/elder_<tone>`, spec 09), and there is one tone per region, so each region has **one local errand**: a `side` quest
+(`base:quest/side/...`) with a single stage that asks to kill a number of the region's own enemies and to hold a number of the item they drop. Nothing in the engine is new:
+the elder's menu shows "Is there anything I can do for you?" until the quest exists, "About that errand..." while it is active, and "The errand is done." once it is done and its payment flag
+(`errand_<quest>_paid`) is not set. That last choice runs the payment as dialogue effects (`set_flag`, `add_xp`, `add_gold`, `add_item` of small potions), so the quest itself has no `rewards`
+and the payment is made once, by the elder the player talks to, whichever settlement of the region that is. The elder texts are in `roles.json`.
+
+| Tone | Region | Kill | Hold | Payment |
+|---|---|---|---|---|
+| warm | Verdalis | 8 green slimes | 6 slime gel | 60 XP, 150 gold, 2 potions |
+| mystic | Whisperwood | 5 shade wolves | 4 shade wisps | 140 XP, 300 gold, 3 potions |
+| gruff | Ironspine | 6 slate slimes | 5 slate shards | 200 XP, 400 gold, 3 potions |
+| flowery | Sunscar | 8 sand slimes | 6 slime gel | 180 XP, 380 gold, 3 potions |
+| stoic | Frostveil | 6 frost wolves | 4 frost pelts | 260 XP, 520 gold, 3 potions |
+| salty | Tidehaven | 6 tide slimes | 5 tide pearls | 170 XP, 360 gold, 3 potions |
+| grim | Ashen Wastes | 6 ember slimes | 4 ember cores | 380 XP, 800 gold, 4 potions |
+| scholarly | Lumeria | 5 glow slimes | 5 star dust | 280 XP, 560 gold, 3 potions |
+
 ## Journal
 
 The journal lists every quest of the story state: first those in progress (name, the journal text of the current stage with the quest arguments, and the
