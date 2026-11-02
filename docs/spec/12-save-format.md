@@ -22,7 +22,7 @@ A game is a slot: its own world (its own seed), progress and saves. Three slots 
   the files of that slot only.
 - **Migration.** A save written before slots (`saves/auto.json`, `saves/quick.json`) is moved to `slot1` the first time a client starts.
 - **Dev options.** Desktop `--slot=N` skips the title screen; `--smoke-test` uses its own folder and never touches the three slots.
-- To return to the title screen the player restarts the game (a restart of the process on desktop, closing the app on Android).
+- **Back to the title.** Leaving a game (desktop: `Esc` with no panel open; Android: the Back key with no panel open, `Esc` on a keyboard) writes the `auto` save and returns to the title screen, where another game can be chosen; the world of the next game is built when it is chosen, from its own seed, and nothing of the previous world is kept (the map cells already seen are forgotten with it). With a panel open, Back closes the panel. On the title screen `Esc` or Back quits, and so does closing the window in a game. `--slot=N` and `--smoke-test` on desktop keep their one game and quit on `Esc`.
 
 ## Document
 
