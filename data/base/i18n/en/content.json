@@ -60,5 +60,17 @@
   "item.leather_vest.name": "Leather vest",
   "item.leather_vest.desc": "Light protection for travellers.",
   "item.chain_mail.name": "Chain mail",
-  "item.chain_mail.desc": "Heavy rings that turn a blade aside."
+  "item.chain_mail.desc": "Heavy rings that turn a blade aside.",
+  "enemy.slime_slate.name": "Slate slime",
+  "item.slate_shard.name": "Slate shard",
+  "item.slate_shard.desc": "A flat grey chip, hard as the mountain it came from.",
+  "enemy.wolf_shade.name": "Shade wolf",
+  "item.shade_wisp.name": "Shade wisp",
+  "item.shade_wisp.desc": "A thread of violet mist that stays cold in the hand.",
+  "enemy.slime_tide.name": "Tide slime",
+  "item.tide_pearl.name": "Tide pearl",
+  "item.tide_pearl.desc": "A small salty pearl. Sailors say it brings a calm sea.",
+  "enemy.slime_glow.name": "Glow slime",
+  "item.star_dust.name": "Star dust",
+  "item.star_dust.desc": "A pinch of light that sparkles even in a closed pouch. Scholars pay well for it."
 }
