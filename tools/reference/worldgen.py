@@ -21,6 +21,7 @@ def load_params(world_id: str = "overworld") -> dict:
     wanted = [stamp_id for kind in params["settlements"]["kinds"] for stamp_id in kind["stamps"]]
     if "home" in params:
         wanted.append(params["home"]["stamp"])
+    wanted += [landmark["stamp"] for landmark in params.get("landmarks", [])]
     for stamp_id in wanted:
         path = ROOT / "data" / "base" / "stamps" / f"{stamp_id.rsplit('/', 1)[-1]}.json"
         stamps[stamp_id] = json.loads(path.read_text(encoding="utf-8"))
@@ -71,6 +72,10 @@ class Sites:
             hx, hy = params["width"] // 2 + home["dx"], params["height"] // 2 + home["dy"]
             if (hx // SITE_CELL, hy // SITE_CELL) == (sx, sy):
                 return self._home(sx, sy, hx, hy, home["stamp"])
+        for landmark in params.get("landmarks", []):
+            lx, ly = params["width"] // 2 + landmark["dx"], params["height"] // 2 + landmark["dy"]
+            if (lx // SITE_CELL, ly // SITE_CELL) == (sx, sy):
+                return self._landmark(sx, sy, lx, ly, landmark)
         h = hash64(seed, sx, sy, 41)
         if (h >> 40) % 1000 >= cfg["per_mille"]:
             return None
@@ -104,6 +109,13 @@ class Sites:
             + names["end"][(n >> 32) % len(names["end"])]
         return self._with_slots({"x": ox, "y": oy, "px": px, "py": py, "w": stamp["w"], "h": stamp["h"], "stamp": stamp_id,
                                  "kind": kind["id"], "name": name, "region": region_at(params, px, py)}, sx, sy)
+
+    def _landmark(self, sx: int, sy: int, px: int, py: int, landmark: dict) -> dict:
+        """A landmark (a dungeon): fixed position, stamp, kind and name (spec 09, "Landmarks")."""
+        stamp = self.params["stamp_defs"][landmark["stamp"]]
+        return self._with_slots({"x": px - stamp["anchor"][0], "y": py - stamp["anchor"][1], "px": px, "py": py, "w": stamp["w"],
+                                 "h": stamp["h"], "stamp": landmark["stamp"], "kind": landmark["kind"], "name": landmark["name"],
+                                 "region": region_at(self.params, px, py)}, sx, sy)
 
     def _home(self, sx: int, sy: int, px: int, py: int, stamp_id: str) -> dict:
         """The home village: a settlement of fixed position, stamp and kind near the spawn (spec 09, "The home village")."""
@@ -297,6 +309,27 @@ def pick_weighted(entries: list, r: int) -> dict:
     raise AssertionError("unreachable")
 
 
+def stamp_spawner(seed: int, params: dict, x: int, y: int, sites: "Sites | None" = None) -> str | None:
+    """The enemy ID that the stamp under tile (x, y) names for a spawner there, if any (dungeons)."""
+    found = (sites or Sites(seed, params)).at(x, y)
+    if found is not None and found[1] is not None and "spawner" in found[1]:
+        return found[1]["spawner"]
+    return None
+
+
+def spawner_enemy(seed: int, params: dict, x: int, y: int, sites: "Sites | None" = None) -> str:
+    """The enemy ID of the spawner on tile (x, y): the one its stamp names, else a pick of the fauna of its region (spec 09)."""
+    return stamp_spawner(seed, params, x, y, sites) or fauna_at(seed, params, x, y)["enemy"]
+
+
+def world_enemy_ids(params: dict) -> list[str]:
+    """Every enemy a spawner of the world can make: the fauna of the regions and the spawners of the stamps, sorted."""
+    ids = {entry["enemy"] for region in params["regions"] for entry in region["fauna"]}
+    for stamp in params["stamp_defs"].values():
+        ids.update(entry["spawner"] for entry in stamp["legend"].values() if "spawner" in entry)
+    return sorted(ids)
+
+
 def fauna_at(seed: int, params: dict, x: int, y: int) -> dict:
     """The fauna entry ({enemy, drop, weight}) of the spawner on tile (x, y): a weighted pick among the fauna of its region (spec 09)."""
     entries = params["regions"][region_at(params, x, y)]["fauna"]
@@ -324,6 +357,8 @@ def _tile(seed: int, params: dict, sites: Sites, x: int, y: int, tiles: list, pr
             props.append({"art": entry["prop"], "radius_x100": entry["radius_x100"], "x256": x * 256 + 128, "y256": y * 256 + 192})
         if entry is not None and "npc" in entry:
             people.append(person_at(seed, params, found[0], x, y))
+        if entry is not None and "spawner" in entry:
+            spawners.append([x, y])
         return
     overlay = overlay_at(seed, params, biome, x, y)
     tiles.append(gid_for(seed, params, biome, x, y, overlay))
@@ -414,12 +449,15 @@ def chunk_spawners(seed: int, params: dict, cx: int, cy: int) -> list[list[int]]
     sites = Sites(seed, params)
     for y in range(cy * CHUNK_SIZE, (cy + 1) * CHUNK_SIZE):
         for x in range(cx * CHUNK_SIZE, (cx + 1) * CHUNK_SIZE):
+            found = sites.at(x, y)
+            if found is not None:  # inside a footprint only the spawners of the stamp count
+                if found[1] is not None and "spawner" in found[1]:
+                    result.append([x, y])
+                continue
             if (hash64(seed, x, y, 11) >> 20) % 10000 >= s["per_10000"]:
                 continue
             d2 = (x - mid_x) ** 2 + (y - mid_y) ** 2
             if d2 < clear or d2 < s["min_distance"] ** 2:
-                continue
-            if sites.at(x, y) is not None:
                 continue
             biome = biome_at(seed, params, x, y)
             if biome in s["biomes"] and overlay_at(seed, params, biome, x, y) is None:

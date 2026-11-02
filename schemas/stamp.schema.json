@@ -72,6 +72,11 @@
           "npc": {
             "type": "string",
             "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "spawner": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$",
+            "description": "An enemy spawner of this tile (dungeons)."
           }
         }
       }

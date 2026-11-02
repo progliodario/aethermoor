@@ -175,7 +175,7 @@ void WorldSim::add_chunk_people(int cx, int cy) {
 }
 
 const EnemyDef& WorldSim::stream_enemy_at(int x, int y) const {
-    return m_setup_.stream_enemies.at(fauna_at(m_store_->seed(), m_store_->params(), x, y).enemy);
+    return m_setup_.stream_enemies.at(spawner_enemy_at(m_store_->seed(), m_store_->params(), x, y));
 }
 
 void WorldSim::add_chunk_enemies(int cx, int cy) {

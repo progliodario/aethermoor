@@ -33,7 +33,10 @@ class Region(val id: String, /** An $i18n: key. */ val name: String, val xPm: In
 class SettlementKind(val id: String, val weight: Int, val stamps: List<String>)
 
 /** What a character of a stamp means (spec 09, "Settlements"); [tile] 0 keeps the terrain. */
-class StampEntry(val tile: Int, val prop: String, val radiusX100: Int, val npc: String)
+class StampEntry(val tile: Int, val prop: String, val radiusX100: Int, val npc: String, val spawner: String = "")
+
+/** A hand-placed site with a fixed stamp, such as a dungeon (spec 09, "Landmarks"). */
+class Landmark(val id: String, val name: String, val stamp: String, val kind: String, val dx: Int, val dy: Int)
 
 class Stamp(
     val w: Int,
@@ -167,6 +170,7 @@ class WorldParams(
     val time: TimeParams,
     val npcs: List<WorldNpc>,
     val guild: GuildParams,
+    val landmarks: List<Landmark>,
     /** Daily routines by role: keyframes (from permille, state) with state work, plaza or away (spec 08). */
     val routines: Map<String, List<Pair<Int, String>>>,
     /** The prop that is a Threshold Stone and how near the player must be to use it, in 1/100 tile (spec 09). */
@@ -248,6 +252,21 @@ private fun biomeAt(seed: ULong, p: WorldParams, x: Int, y: Int): Biome {
 const val SITE_CELL = 256
 
 /** Index of the region of the tile: the nearest center. */
+/** The enemy that the stamp under the tile names for a spawner there (dungeons), if any. */
+fun stampSpawnerAt(seed: ULong, p: WorldParams, x: Int, y: Int): String? =
+    Sites(seed, p).at(x, y)?.entry?.spawner?.takeIf { it.isNotEmpty() }
+
+/** The enemy of the spawner on the tile: the one of its stamp, else a pick of the fauna of its region (spec 09). */
+fun spawnerEnemyAt(seed: ULong, p: WorldParams, x: Int, y: Int): String = stampSpawnerAt(seed, p, x, y) ?: faunaAt(seed, p, x, y).enemy
+
+/** Every enemy a spawner of the world can make (fauna of the regions and spawners of the stamps), sorted. */
+fun worldEnemyIds(p: WorldParams): List<String> {
+    val ids = sortedSetOf<String>()
+    for (region in p.regions) for (entry in region.fauna) ids.add(entry.enemy)
+    for (stamp in p.stamps.values) for (entry in stamp.legend.values) if (entry.spawner.isNotEmpty()) ids.add(entry.spawner)
+    return ids.toList()
+}
+
 /** The entry that [r] falls on when the entries share the sum of the weights as slots, in order. */
 fun pickFauna(entries: List<FaunaEntry>, r: ULong): FaunaEntry {
     var rest = r % entries.sumOf { it.weight }.toULong()
@@ -327,6 +346,14 @@ private class Sites(private val seed: ULong, private val p: WorldParams) {
             val hx = p.width / 2 + p.homeDx
             val hy = p.height / 2 + p.homeDy
             if ((hx shr 8) == sx && (hy shr 8) == sy) return home(sx, sy, hx, hy)
+        }
+        for (landmark in p.landmarks) {
+            val lx = p.width / 2 + landmark.dx
+            val ly = p.height / 2 + landmark.dy
+            if ((lx shr 8) == sx && (ly shr 8) == sy) {
+                val stamp = p.stamps.getValue(landmark.stamp)
+                return withSlots(lx - stamp.anchorX, ly - stamp.anchorY, lx, ly, stamp, landmark.stamp, landmark.kind, landmark.name, sx, sy)
+            }
         }
         val h = hash64(seed, sx.toLong(), sy.toLong(), 41)
         if ((h shr 40) % 1000uL >= p.settlementPerMille.toULong()) return null
@@ -504,6 +531,7 @@ private fun emitTile(
         tiles[index] = if (entry != null && entry.tile != 0) entry.tile else gidFor(seed, p, biome, x, y, Overlay.NONE)
         if (entry != null && entry.prop.isNotEmpty()) props.add(GenProp(entry.prop, entry.radiusX100, x * 256 + 128, y * 256 + 192))
         if (entry != null && entry.npc.isNotEmpty()) people.add(personAt(seed, p, hit.settlement, x, y))
+        if (entry != null && entry.spawner.isNotEmpty()) spawners.add(Pair(x, y))
         return
     }
     val overlay = overlayAt(seed, p, biome, x, y)
@@ -700,6 +728,7 @@ private fun parseStamp(d: JsonObject): Stamp {
         key[0] to StampEntry(
             e["tile"]?.jsonPrimitive?.int ?: 0, e["prop"]?.jsonPrimitive?.content ?: "",
             e["radius_x100"]?.jsonPrimitive?.int ?: 0, e["npc"]?.jsonPrimitive?.content ?: "",
+            e["spawner"]?.jsonPrimitive?.content ?: "",
         )
     }
     val spots = (d["spots"] as? JsonArray)?.map { s -> Pair(s.jsonArray[0].jsonPrimitive.int, s.jsonArray[1].jsonPrimitive.int) } ?: emptyList()
@@ -712,6 +741,10 @@ fun loadWorldParams(pack: Pack, worldId: String): Result<WorldParams> =
         val j = Json.parseToJsonElement(requireNotNull(pack.readDocument(worldId)) { "missing world $worldId" }).jsonObject
         val defs = HashMap<String, JsonElement>()
         j["home"]?.jsonObject?.getValue("stamp")?.jsonPrimitive?.content?.let { id ->
+            defs[id] = Json.parseToJsonElement(requireNotNull(pack.readDocument(id)) { "missing stamp $id" })
+        }
+        for (landmark in (j["landmarks"] as? JsonArray) ?: JsonArray(emptyList())) {
+            val id = landmark.jsonObject.getValue("stamp").jsonPrimitive.content
             defs[id] = Json.parseToJsonElement(requireNotNull(pack.readDocument(id)) { "missing stamp $id" })
         }
         for (kind in j.getValue("settlements").jsonObject.getValue("kinds").jsonArray) {
@@ -770,6 +803,13 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
             } ?: emptyMap(),
             stoneArt = j.getValue("stones").jsonObject.getValue("art").jsonPrimitive.content,
             stoneRangeX100 = j.getValue("stones").jsonObject.getValue("range_x100").jsonPrimitive.int,
+            landmarks = (j["landmarks"] as? JsonArray)?.map {
+                val l = it.jsonObject
+                Landmark(
+                    l.getValue("id").jsonPrimitive.content, l.getValue("name").jsonPrimitive.content, l.getValue("stamp").jsonPrimitive.content,
+                    l.getValue("kind").jsonPrimitive.content, l.getValue("dx").jsonPrimitive.int, l.getValue("dy").jsonPrimitive.int,
+                )
+            } ?: emptyList(),
             guild = j.getValue("guild").jsonObject.let { g ->
                 GuildParams(
                     g.getValue("offers_per_day").jsonPrimitive.int,

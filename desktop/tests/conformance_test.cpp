@@ -704,9 +704,9 @@ TEST_CASE("conformance: fauna", "[conformance]") {
             const int y = tiles.at(i).at(1).get<int>();
             INFO("spawner " << x << "," << y);
             REQUIRE(aether::region_at(*params, x, y) == want.at(i).at(2).get<int>());
-            const aether::FaunaEntry& entry = aether::fauna_at(seed, *params, x, y);
-            REQUIRE(entry.enemy == want.at(i).at(3).get<std::string>());
-            REQUIRE(entry.drop == want.at(i).at(4).get<std::string>());
+            REQUIRE(aether::spawner_enemy_at(seed, *params, x, y) == want.at(i).at(3).get<std::string>());
+            const std::string drop = aether::stamp_spawner_at(seed, *params, x, y) ? "" : aether::fauna_at(seed, *params, x, y).drop;
+            REQUIRE(drop == want.at(i).at(4).get<std::string>());
         }
     }
 }

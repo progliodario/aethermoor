@@ -72,6 +72,17 @@ cell that contains the tile `(width / 2 + dx, height / 2 + dy)` has a settlement
 entry of `settlements.kinds` that lists that stamp, without the random roll and the biome conditions (the footprint must lie inside its site cell); its name is made like the others.
 A world with no `home` has neither the meadow nor the village.
 
+## Landmarks and dungeons
+
+`landmarks` (world data, `{id, name, stamp, kind, dx, dy}`) places hand-made sites such as dungeons. The site cell that contains the tile `(width / 2 + dx, height / 2 + dy)` has a settlement of that `kind`
+at exactly that site point, with the stamp, the proper-noun `name` of the landmark and no random roll or biome condition (like the home village); each landmark lies in a site cell of its own. A footprint
+replaces everything under it, so a landmark is a **fully specified** picture (walls, floors, doors): its characters decide every tile.
+
+A legend entry may name a `spawner` (an enemy ID): the tile is an **enemy spawner** of that enemy, listed with the other spawners in scan order (spec 09, "Enemy spawners"; the random spawner test does not
+apply inside footprints). The enemy of any spawner is therefore the `spawner` of its stamp tile when it has one, else a pick of the fauna of its region. Spawners of a dungeon respawn like any other (spec 08).
+The first dungeon is Grunmoor Barrow (`base:stamp/barrow`), north-west of the start, with a Threshold Stone at its entrance and the Barrow Warden in its north hall.
+Conformance suite `fauna` includes every spawner of the dungeons.
+
 ## Settlement people
 
 The stamp characters whose legend entry has an `npc` role are **NPC slots**. Slots are numbered `0, 1, ...` in scan order of the stamp (rows from the top, columns left to right).

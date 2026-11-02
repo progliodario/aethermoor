@@ -66,6 +66,7 @@ struct StampEntry {
     std::string prop;
     int radius_x100 = 0;
     std::string npc;
+    std::string spawner;  // an enemy ID: an enemy spawner stands on this tile (dungeons)
 };
 
 // The guild (spec 07, "Guild"): ranks and the templates of the board offers.
@@ -157,6 +158,17 @@ struct WorldParams {
     int home_dy = 0;
 
     GuildParams guild;
+
+    // Hand-placed sites with a fixed stamp, such as dungeons (spec 09, "Landmarks").
+    struct Landmark {
+        std::string id;
+        std::string name;
+        std::string stamp;
+        std::string kind;
+        int dx = 0;
+        int dy = 0;
+    };
+    std::vector<Landmark> landmarks;
 
     // Daily routines by role: keyframes (from_pm, state) with state work, plaza or away (spec 08).
     std::map<std::string, std::vector<std::pair<int, std::string>>> routines;
@@ -293,6 +305,13 @@ int rank_index(const GuildParams& guild, std::int64_t points);
 std::vector<Offer> offers_for(std::uint64_t seed, const WorldParams& params, const Settlement& settlement, std::int64_t day);
 // The offer a generated quest id names, or nothing when the world cannot rebuild it.
 std::optional<Offer> resolve_offer(std::uint64_t seed, const WorldParams& params, const std::string& quest_id);
+
+// The enemy that the stamp under the tile names for a spawner there (dungeons), if any.
+std::optional<std::string> stamp_spawner_at(std::uint64_t seed, const WorldParams& params, int x, int y);
+// The enemy of the spawner on the tile: the one of its stamp, else a pick of the fauna of its region (spec 09).
+std::string spawner_enemy_at(std::uint64_t seed, const WorldParams& params, int x, int y);
+// Every enemy a spawner of the world can make (fauna of the regions and spawners of the stamps), sorted.
+std::vector<std::string> world_enemy_ids(const WorldParams& params);
 
 // The settlement whose footprint contains the tile, if any (looks at the site cell of the tile and its neighbours).
 std::optional<Settlement> settlement_containing(std::uint64_t seed, const WorldParams& params, int x, int y);

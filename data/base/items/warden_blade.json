@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/warden_blade",
+  "name": "$i18n:item.warden_blade.name",
+  "description": "$i18n:item.warden_blade.desc",
+  "kind": "weapon",
+  "rarity": "epic",
+  "price": 900,
+  "weapon": {
+    "atk": 20,
+    "matk": 0
+  }
+}

@@ -79,6 +79,22 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
                 }
             }
         }
+        if (j.contains("landmarks")) {
+            for (const Json& entry : j.at("landmarks")) {
+                WorldParams::Landmark landmark;
+                landmark.id = entry.at("id").get<std::string>();
+                landmark.name = entry.at("name").get<std::string>();
+                landmark.stamp = entry.at("stamp").get<std::string>();
+                landmark.kind = entry.at("kind").get<std::string>();
+                landmark.dx = entry.at("dx").get<int>();
+                landmark.dy = entry.at("dy").get<int>();
+                if (p.stamps.find(landmark.stamp) == p.stamps.end()) {
+                    error = "unknown stamp " + landmark.stamp;
+                    return std::nullopt;
+                }
+                p.landmarks.push_back(std::move(landmark));
+            }
+        }
         p.stone_art = j.at("stones").at("art").get<std::string>();
         p.stone_range_x100 = j.at("stones").at("range_x100").get<int>();
 
@@ -255,6 +271,7 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
                     parsed.prop = entry.value("prop", "");
                     parsed.radius_x100 = entry.value("radius_x100", 0);
                     parsed.npc = entry.value("npc", "");
+                    parsed.spawner = entry.value("spawner", "");
                     stamp.legend[key.at(0)] = parsed;
                 }
                 p.stamps[id] = std::move(stamp);
@@ -322,6 +339,17 @@ std::optional<WorldParams> load_world_params(const Pack& pack, std::string_view 
                     return std::nullopt;
                 }
                 defs[stamp.get<std::string>()] = Json::parse(*stamp_text);
+            }
+        }
+        if (j.contains("landmarks")) {
+            for (const Json& landmark : j.at("landmarks")) {
+                const std::string id = landmark.at("stamp").get<std::string>();
+                const auto stamp_text = pack.read_document(id);
+                if (!stamp_text) {
+                    error = "missing stamp " + id;
+                    return std::nullopt;
+                }
+                defs[id] = Json::parse(*stamp_text);
             }
         }
         j["stamp_defs"] = defs;

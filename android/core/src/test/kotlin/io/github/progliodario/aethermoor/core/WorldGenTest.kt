@@ -268,9 +268,8 @@ class WorldGenTest {
                 val e = want[i].jsonArray
                 val who = "$label spawner $x,$y"
                 assertEquals(e[2].jsonPrimitive.int, regionAt(params, x, y), "$who region")
-                val entry = faunaAt(seed, params, x, y)
-                assertEquals(e[3].jsonPrimitive.content, entry.enemy, "$who enemy")
-                assertEquals(e[4].jsonPrimitive.content, entry.drop, "$who drop")
+                assertEquals(e[3].jsonPrimitive.content, spawnerEnemyAt(seed, params, x, y), "$who enemy")
+                assertEquals(e[4].jsonPrimitive.content, if (stampSpawnerAt(seed, params, x, y) != null) "" else faunaAt(seed, params, x, y).drop, "$who drop")
             }
         }
     }
@@ -428,7 +427,7 @@ class WorldGenTest {
         assertEquals(0, map.ground.size)
         assertEquals(1, map.npcs.size)
         assertEquals("guild_clerk_mira", map.npcs[0].key)
-        val setup = loadCombatSetup(pack, map, "base:protagonist/ren", 42uL, params.regions.flatMap { r -> r.fauna.map { it.enemy } }).getOrThrow()
+        val setup = loadCombatSetup(pack, map, "base:protagonist/ren", 42uL, worldEnemyIds(params)).getOrThrow()
         val tileset = parseTileset(requireNotNull(pack.readDocument("base:tileset/overworld"))).getOrThrow()
         val sim = WorldSim(map, tileset, 0f, setup, StreamConfig(params, 42uL))
         val store = requireNotNull(sim.chunks)

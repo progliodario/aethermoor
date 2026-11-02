@@ -194,13 +194,11 @@ TEST_CASE("the overworld is streamed from the content pack and is playable", "[w
     auto setup = aether::load_combat_setup(demo.pack, map, "base:protagonist/ren", 42, error);
     INFO(error);
     REQUIRE(setup.has_value());
-    for (const aether::Region& region : params->regions) {
-        for (const aether::FaunaEntry& entry : region.fauna) {
-            auto def = aether::load_enemy_def(demo.pack, entry.enemy, error);
-            INFO(error);
-            REQUIRE(def.has_value());
-            setup->stream_enemies.emplace(entry.enemy, std::move(*def));
-        }
+    for (const std::string& enemy : aether::world_enemy_ids(*params)) {
+        auto def = aether::load_enemy_def(demo.pack, enemy, error);
+        INFO(error);
+        REQUIRE(def.has_value());
+        setup->stream_enemies.emplace(enemy, std::move(*def));
     }
     aether::WorldSim sim(map, demo.tileset, 0.0F, *setup, aether::StreamConfig{*params, 42});
     REQUIRE(sim.streamed());

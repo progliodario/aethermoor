@@ -17,6 +17,7 @@ import io.github.progliodario.aethermoor.core.WorldParams
 import io.github.progliodario.aethermoor.core.biomeCode
 import io.github.progliodario.aethermoor.core.regionAt
 import io.github.progliodario.aethermoor.core.settlementMarker
+import io.github.progliodario.aethermoor.core.worldEnemyIds
 import io.github.progliodario.aethermoor.core.loadPack
 import io.github.progliodario.aethermoor.core.loadWorldParams
 import io.github.progliodario.aethermoor.core.sim.AttackPhase
@@ -130,7 +131,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val loaded = loadAssets() ?: return
         assets = loaded
         cache = TextureCache(loaded.pack)
-        val combat = loadCombatSetup(loaded.pack, loaded.map, PROTAGONIST_ID, seed, loaded.worldParams.regions.flatMap { r -> r.fauna.map { it.enemy } })
+        val combat = loadCombatSetup(loaded.pack, loaded.map, PROTAGONIST_ID, seed, worldEnemyIds(loaded.worldParams))
             .getOrElse {
                 error = it.message
                 Gdx.app.error(TAG, "Cannot build the combat setup: ${it.message}")

@@ -6,10 +6,10 @@
     "start": {
       "type": "condition",
       "when": {
-        "quest_done": "base:quest/guild/slime_extermination"
+        "quest_done": "base:quest/guild/barrow"
       },
-      "then": "thanks",
-      "else": "active_check"
+      "then": "barrow_thanks",
+      "else": "barrow_active_check"
     },
     "active_check": {
       "type": "condition",
@@ -60,6 +60,84 @@
       "type": "say",
       "speaker": "guild_clerk_mira",
       "text": "$i18n:dlg.mira.thanks",
+      "next": "thanked"
+    },
+    "barrow_active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/barrow"
+      },
+      "then": "barrow_busy",
+      "else": "slime_done_check"
+    },
+    "slime_done_check": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/slime_extermination"
+      },
+      "then": "thanked_check",
+      "else": "active_check"
+    },
+    "thanked_check": {
+      "type": "condition",
+      "when": {
+        "flag": "mira_slime_thanked"
+      },
+      "then": "barrow_offer",
+      "else": "thanks"
+    },
+    "thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_slime_thanked",
+          "value": true
+        }
+      ],
+      "next": "barrow_offer"
+    },
+    "barrow_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.barrow_offer",
+      "next": "barrow_choice"
+    },
+    "barrow_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.mira.barrow_accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/barrow"
+            }
+          ],
+          "next": "barrow_accepted"
+        },
+        {
+          "text": "$i18n:dlg.mira.barrow_decline",
+          "next": "end"
+        }
+      ]
+    },
+    "barrow_accepted": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.barrow_accepted",
+      "next": "end"
+    },
+    "barrow_busy": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.barrow_busy",
+      "next": "end"
+    },
+    "barrow_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.barrow_thanks",
       "next": "end"
     }
   }
