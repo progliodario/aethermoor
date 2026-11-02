@@ -318,6 +318,9 @@ private:
                 }
             }
         }
+        for (const auto& [lx, ly] : stamp.spots) {
+            s.spots.emplace_back(s.x + lx, s.y + ly);
+        }
     }
 
     std::uint64_t m_seed_;
@@ -379,7 +382,32 @@ GenPerson person_at(std::uint64_t seed, const WorldParams& p, const Settlement& 
     person.place = s.name;
     person.region = region.name;
     person.quirk = p.quirks[hash64(seed, s.sx, s.sy, 44) % p.quirks.size()];
+    if (!s.spots.empty()) {
+        const auto& spot = s.spots[static_cast<std::size_t>(index) % s.spots.size()];
+        person.plaza_x256 = spot.first * 256 + 128;
+        person.plaza_y256 = spot.second * 256 + 160;
+    }
     return person;
+}
+
+std::optional<Placement> person_placement(const WorldParams& p, const GenPerson& person, int tod_pm) {
+    std::string state = "work";
+    const auto roster = p.routines.find(person.role);
+    if (roster != p.routines.end() && !roster->second.empty()) {
+        state = roster->second.front().second;
+        for (const auto& [from_pm, frame_state] : roster->second) {
+            if (from_pm <= tod_pm) {
+                state = frame_state;
+            }
+        }
+    }
+    if (state == "away") {
+        return std::nullopt;
+    }
+    if (state == "plaza" && person.plaza_x256 >= 0) {
+        return Placement{"plaza", person.plaza_x256, person.plaza_y256};
+    }
+    return Placement{"work", person.x256, person.y256};
 }
 
 const FaunaEntry& pick_fauna(const std::vector<FaunaEntry>& entries, std::uint64_t r) {

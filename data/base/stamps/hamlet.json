@@ -54,5 +54,15 @@
       "prop": "base:art/prop/well",
       "radius_x100": 40
     }
-  }
+  },
+  "spots": [
+    [
+      4,
+      6
+    ],
+    [
+      6,
+      6
+    ]
+  ]
 }

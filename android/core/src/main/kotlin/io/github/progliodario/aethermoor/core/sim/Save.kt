@@ -35,7 +35,7 @@ class SaveEnemy(
 )
 
 /** Everything that changes while playing. */
-class SaveState(
+data class SaveState(
     val x: Float,
     val y: Float,
     val facingX: Float,

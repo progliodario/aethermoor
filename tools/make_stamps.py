@@ -70,7 +70,7 @@ class Canvas:
         return ["".join(row) for row in self.cells]
 
 
-def stamp(stamp_id: str, canvas: Canvas, anchor: tuple[int, int]) -> dict:
+def stamp(stamp_id: str, canvas: Canvas, anchor: tuple[int, int], spots: list[tuple[int, int]]) -> dict:
     used = {ch for row in canvas.rows() for ch in row if ch != "."}
     return {
         "$schema": "../../../schemas/stamp.schema.json",
@@ -80,6 +80,7 @@ def stamp(stamp_id: str, canvas: Canvas, anchor: tuple[int, int]) -> dict:
         "anchor": list(anchor),
         "rows": canvas.rows(),
         "legend": {ch: LEGEND[ch] for ch in sorted(used)},
+        "spots": [list(spot) for spot in spots],  # where the people gather in the evening (plaza tiles)
     }
 
 
@@ -92,7 +93,7 @@ def hamlet() -> dict:
     c.put(7, 6, "T")
     for x, y in ((1, 1), (9, 2), (1, 7), (9, 7)):
         c.put(x, y, "t")
-    return stamp("base:stamp/hamlet", c, (5, 4))
+    return stamp("base:stamp/hamlet", c, (5, 4), [(4, 6), (6, 6)])
 
 
 def village() -> dict:
@@ -118,7 +119,7 @@ def village() -> dict:
     c.house(14, 10, 6, 4, {(1, 1): "b", (3, 2): "V"})
     for x, y in ((8, 1), (0, 13), (9, 13), (20, 8)):
         c.put(x, y, "t")
-    return stamp("base:stamp/village", c, (10, 7))
+    return stamp("base:stamp/village", c, (10, 7), [(9, 6), (11, 6), (9, 8), (11, 8)])
 
 
 def town() -> dict:
@@ -144,7 +145,7 @@ def town() -> dict:
     c.house(22, 10, 5, 4, {(2, 1): "V"}, door=2)
     for x, y in ((0, 0), (30, 0), (0, 24), (30, 24), (6, 0), (24, 24)):
         c.put(x, y, "t")
-    return stamp("base:stamp/town", c, (15, 12))
+    return stamp("base:stamp/town", c, (15, 12), [(13, 10), (14, 10), (16, 10), (13, 14), (17, 14), (15, 14)])
 
 
 def main() -> None:

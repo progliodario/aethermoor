@@ -221,6 +221,9 @@ private:
     void mark_explored();
     void add_chunk_enemies(int cx, int cy);
     void add_chunk_people(int cx, int cy);
+    // Rebuilds the dynamic NPCs of the 5 x 5 chunks around chunk (cx, cy) for the time of day (spec 08, Routines).
+    void refresh_people(int cx, int cy);
+    int time_of_day_pm() const;
     void rebuild_npc_circles();
 
     // StoryHost
@@ -261,6 +264,7 @@ private:
     std::optional<Board> m_board_;
     std::vector<std::pair<int, int>> m_stones_;
     std::optional<Travel> m_travel_;
+    int m_routine_tod_ = -1;  // time of day (permille) the dynamic NPCs were built for
     std::vector<NpcDef> m_npcs_;            // settlement people of the active window (spec 09)
     std::vector<Circle> m_npc_circles_;     // their collision circles
     std::set<std::pair<int, int>> m_explored_;

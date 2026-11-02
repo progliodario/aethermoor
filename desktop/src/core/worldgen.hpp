@@ -101,6 +101,7 @@ struct Stamp {
     int anchor_y = 0;
     std::vector<std::string> rows;
     std::map<char, StampEntry> legend;
+    std::vector<std::pair<int, int>> spots;  // gathering tiles relative to the stamp (spec 08, Routines)
 };
 
 struct WorldParams {
@@ -157,6 +158,9 @@ struct WorldParams {
 
     GuildParams guild;
 
+    // Daily routines by role: keyframes (from_pm, state) with state work, plaza or away (spec 08).
+    std::map<std::string, std::vector<std::pair<int, std::string>>> routines;
+
     std::string stone_art;  // the prop that is a Threshold Stone (spec 09)
     int stone_range_x100 = 0;  // how near the player must be to use it, in 1/100 tile
 
@@ -204,6 +208,8 @@ struct GenPerson {
     std::string place;
     std::string region;  // a text key
     std::string quirk;   // a text key
+    int plaza_x256 = -1;  // gathering spot (spec 08), -1 when the stamp has none
+    int plaza_y256 = -1;
 };
 
 struct GeneratedWorld {
@@ -251,10 +257,20 @@ struct Settlement {
     int sy = 0;
     // NPC slots by tile: (index in scan order of the stamp, role).
     std::map<std::pair<int, int>, std::pair<int, std::string>> slots;
+    // Gathering tiles of the stamp, in the world.
+    std::vector<std::pair<int, int>> spots;
 };
 
 // The NPC standing on the slot tile (x, y) of the settlement.
 GenPerson person_at(std::uint64_t seed, const WorldParams& params, const Settlement& settlement, int x, int y);
+
+// Where a person is at a time of day (spec 08, "Routines"): state work or plaza, nothing while away.
+struct Placement {
+    std::string state;
+    int x256 = 0;
+    int y256 = 0;
+};
+std::optional<Placement> person_placement(const WorldParams& params, const GenPerson& person, int tod_pm);
 
 // An offer of the board of a settlement (spec 07, "Guild").
 struct Offer {

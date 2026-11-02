@@ -599,6 +599,80 @@
               }
             ]
           },
+          "routines": {
+            "roles": {
+              "elder": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  250,
+                  "work"
+                ],
+                [
+                  700,
+                  "plaza"
+                ],
+                [
+                  900,
+                  "away"
+                ]
+              ],
+              "shopkeeper": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  280,
+                  "work"
+                ],
+                [
+                  760,
+                  "away"
+                ]
+              ],
+              "guild_clerk": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  300,
+                  "work"
+                ],
+                [
+                  800,
+                  "away"
+                ]
+              ],
+              "innkeeper": [
+                [
+                  0,
+                  "work"
+                ]
+              ],
+              "villager": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  250,
+                  "work"
+                ],
+                [
+                  700,
+                  "plaza"
+                ],
+                [
+                  900,
+                  "away"
+                ]
+              ]
+            }
+          },
           "stones": {
             "art": "base:art/prop/threshold_stone",
             "range_x100": 160
@@ -732,7 +806,17 @@
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
                 }
-              }
+              },
+              "spots": [
+                [
+                  4,
+                  6
+                ],
+                [
+                  6,
+                  6
+                ]
+              ]
             },
             "base:stamp/village": {
               "$schema": "../../../schemas/stamp.schema.json",
@@ -809,7 +893,25 @@
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
                 }
-              }
+              },
+              "spots": [
+                [
+                  9,
+                  6
+                ],
+                [
+                  11,
+                  6
+                ],
+                [
+                  9,
+                  8
+                ],
+                [
+                  11,
+                  8
+                ]
+              ]
             },
             "base:stamp/town": {
               "$schema": "../../../schemas/stamp.schema.json",
@@ -904,7 +1006,33 @@
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
                 }
-              }
+              },
+              "spots": [
+                [
+                  13,
+                  10
+                ],
+                [
+                  14,
+                  10
+                ],
+                [
+                  16,
+                  10
+                ],
+                [
+                  13,
+                  14
+                ],
+                [
+                  17,
+                  14
+                ],
+                [
+                  15,
+                  14
+                ]
+              ]
             }
           }
         }
@@ -6470,6 +6598,80 @@
               }
             ]
           },
+          "routines": {
+            "roles": {
+              "elder": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  250,
+                  "work"
+                ],
+                [
+                  700,
+                  "plaza"
+                ],
+                [
+                  900,
+                  "away"
+                ]
+              ],
+              "shopkeeper": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  280,
+                  "work"
+                ],
+                [
+                  760,
+                  "away"
+                ]
+              ],
+              "guild_clerk": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  300,
+                  "work"
+                ],
+                [
+                  800,
+                  "away"
+                ]
+              ],
+              "innkeeper": [
+                [
+                  0,
+                  "work"
+                ]
+              ],
+              "villager": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  250,
+                  "work"
+                ],
+                [
+                  700,
+                  "plaza"
+                ],
+                [
+                  900,
+                  "away"
+                ]
+              ]
+            }
+          },
           "stones": {
             "art": "base:art/prop/threshold_stone",
             "range_x100": 160
@@ -6603,7 +6805,17 @@
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
                 }
-              }
+              },
+              "spots": [
+                [
+                  4,
+                  6
+                ],
+                [
+                  6,
+                  6
+                ]
+              ]
             },
             "base:stamp/village": {
               "$schema": "../../../schemas/stamp.schema.json",
@@ -6680,7 +6892,25 @@
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
                 }
-              }
+              },
+              "spots": [
+                [
+                  9,
+                  6
+                ],
+                [
+                  11,
+                  6
+                ],
+                [
+                  9,
+                  8
+                ],
+                [
+                  11,
+                  8
+                ]
+              ]
             },
             "base:stamp/town": {
               "$schema": "../../../schemas/stamp.schema.json",
@@ -6775,7 +7005,33 @@
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
                 }
-              }
+              },
+              "spots": [
+                [
+                  13,
+                  10
+                ],
+                [
+                  14,
+                  10
+                ],
+                [
+                  16,
+                  10
+                ],
+                [
+                  13,
+                  14
+                ],
+                [
+                  17,
+                  14
+                ],
+                [
+                  15,
+                  14
+                ]
+              ]
             }
           }
         }
@@ -12341,6 +12597,80 @@
               }
             ]
           },
+          "routines": {
+            "roles": {
+              "elder": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  250,
+                  "work"
+                ],
+                [
+                  700,
+                  "plaza"
+                ],
+                [
+                  900,
+                  "away"
+                ]
+              ],
+              "shopkeeper": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  280,
+                  "work"
+                ],
+                [
+                  760,
+                  "away"
+                ]
+              ],
+              "guild_clerk": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  300,
+                  "work"
+                ],
+                [
+                  800,
+                  "away"
+                ]
+              ],
+              "innkeeper": [
+                [
+                  0,
+                  "work"
+                ]
+              ],
+              "villager": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  250,
+                  "work"
+                ],
+                [
+                  700,
+                  "plaza"
+                ],
+                [
+                  900,
+                  "away"
+                ]
+              ]
+            }
+          },
           "stones": {
             "art": "base:art/prop/threshold_stone",
             "range_x100": 160
@@ -12474,7 +12804,17 @@
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
                 }
-              }
+              },
+              "spots": [
+                [
+                  4,
+                  6
+                ],
+                [
+                  6,
+                  6
+                ]
+              ]
             },
             "base:stamp/village": {
               "$schema": "../../../schemas/stamp.schema.json",
@@ -12551,7 +12891,25 @@
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
                 }
-              }
+              },
+              "spots": [
+                [
+                  9,
+                  6
+                ],
+                [
+                  11,
+                  6
+                ],
+                [
+                  9,
+                  8
+                ],
+                [
+                  11,
+                  8
+                ]
+              ]
             },
             "base:stamp/town": {
               "$schema": "../../../schemas/stamp.schema.json",
@@ -12646,7 +13004,33 @@
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
                 }
-              }
+              },
+              "spots": [
+                [
+                  13,
+                  10
+                ],
+                [
+                  14,
+                  10
+                ],
+                [
+                  16,
+                  10
+                ],
+                [
+                  13,
+                  14
+                ],
+                [
+                  17,
+                  14
+                ],
+                [
+                  15,
+                  14
+                ]
+              ]
             }
           }
         }

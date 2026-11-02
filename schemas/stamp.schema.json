@@ -75,6 +75,19 @@
           }
         }
       }
+    },
+    "spots": {
+      "type": "array",
+      "description": "Plaza tiles [x, y] (relative to the stamp) where people gather in the evening (spec 08, Routines).",
+      "items": {
+        "type": "array",
+        "minItems": 2,
+        "maxItems": 2,
+        "items": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
     }
   }
 }

@@ -71,6 +71,14 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
             }
         }
 
+        if (j.contains("routines")) {
+            for (const auto& [role, frames] : j.at("routines").at("roles").items()) {
+                auto& list = p.routines[role];
+                for (const Json& frame : frames) {
+                    list.emplace_back(frame.at(0).get<int>(), frame.at(1).get<std::string>());
+                }
+            }
+        }
         p.stone_art = j.at("stones").at("art").get<std::string>();
         p.stone_range_x100 = j.at("stones").at("range_x100").get<int>();
 
@@ -209,6 +217,11 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
                     if (static_cast<int>(row.size()) != stamp.w) {
                         error = id + ": a row does not have w characters";
                         return std::nullopt;
+                    }
+                }
+                if (def.contains("spots")) {
+                    for (const Json& spot : def.at("spots")) {
+                        stamp.spots.emplace_back(spot.at(0).get<int>(), spot.at(1).get<int>());
                     }
                 }
                 for (const auto& [key, entry] : def.at("legend").items()) {

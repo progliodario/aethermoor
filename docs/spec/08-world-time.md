@@ -50,6 +50,20 @@ the client's art direction, not from data yet) and draw rain with density `rain_
 Conformance suite `worldtime`: for a list of `world_ticks` (also huge ones) and seeds, `day`, `tod_pm`, `light_pm`, the kind id of the period, `rain_pm`, `dim_pm`
 and the effective light.
 
+## Routines
+
+Settlement people (spec 09) follow a daily routine by **role**. `routines.roles` (world data) maps a role to keyframes `[from_pm, state]` in increasing `from_pm`, the first at 0; the
+**state** at a time of day `tod_pm` is the one of the last keyframe with `from_pm <= tod_pm`. A role with no routine is always `work`. States:
+
+- `work`: the person stands on its slot tile (spec 09);
+- `plaza`: the person stands on its **gathering spot**, `plaza_x256 = x * 256 + 128`, `plaza_y256 = y * 256 + 160` of the tile `spots[index % count]` of the stamp (`index` is the slot index of the
+  person and `spots` the `spots` of the stamp, tiles relative to it, placed with the settlement). A settlement without spots keeps its people at `work`;
+- `away`: the person is indoors and does not exist: it cannot be talked to, drawn or collided with (a shopkeeper away means a closed shop).
+
+An NPC exists iff its chunk is in the active window **and** its state is not `away` at the current time of day. There is no walking: at a change of state the person is where the new state says.
+Clients re-evaluate the people when the permille of the day changes and when the window moves; the list of dynamic NPCs is always in the order chunks (row-major) then slots (scan order).
+Conformance suite `routines`: who is present, with state and position, in the chunks of a few settlements at times across the day.
+
 ## Respawn
 
 When an enemy is killed, its spawner is *cleared* and remembers the world tick of the death. A cleared spawner whose enemy has been dead for at least
