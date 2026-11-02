@@ -648,6 +648,44 @@ TEST_CASE("conformance: story", "[conformance]") { run_combat_suite("story"); }
 
 TEST_CASE("conformance: save and resume", "[conformance]") { run_save_suite(); }
 
+TEST_CASE("conformance: routines", "[conformance]") {
+    const Json doc = load_suite("routines");
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        const Json& in = c.at("input");
+        std::string error;
+        const auto params = aether::parse_world_params(in.at("params").dump(), error);
+        INFO(error);
+        REQUIRE(params.has_value());
+        const std::uint64_t seed = hex(in.at("seed"));
+        std::vector<aether::GenPerson> people;
+        for (const Json& chunk : in.at("chunks")) {
+            for (const aether::GenPerson& person : aether::generate_chunk(seed, *params, chunk.at(0).get<int>(), chunk.at(1).get<int>()).people) {
+                people.push_back(person);
+            }
+        }
+        const Json& times = in.at("times");
+        const Json& present = c.at("expect").at("present");
+        REQUIRE(times.size() == present.size());
+        for (std::size_t t = 0; t < times.size(); ++t) {
+            INFO("time of day " << times.at(t).get<int>());
+            std::vector<std::string> got;
+            for (const aether::GenPerson& person : people) {
+                if (const auto placement = aether::person_placement(*params, person, times.at(t).get<int>())) {
+                    got.push_back(person.key + "|" + placement->state + "|" + std::to_string(placement->x256) + "|" +
+                                  std::to_string(placement->y256));
+                }
+            }
+            std::vector<std::string> want;
+            for (const Json& row : present.at(t)) {
+                want.push_back(row.at(0).get<std::string>() + "|" + row.at(1).get<std::string>() + "|" +
+                               std::to_string(row.at(2).get<int>()) + "|" + std::to_string(row.at(3).get<int>()));
+            }
+            REQUIRE(got == want);
+        }
+    }
+}
+
 TEST_CASE("conformance: fauna", "[conformance]") {
     const Json doc = load_suite("fauna");
     for (const Json& c : doc.at("cases")) {
@@ -964,6 +1002,8 @@ TEST_CASE("conformance: worldgen chunks", "[conformance]") {
                 REQUIRE(got.place == e.at(8).get<std::string>());
                 REQUIRE(got.region == e.at(9).get<std::string>());
                 REQUIRE(got.quirk == e.at(10).get<std::string>());
+                REQUIRE(got.plaza_x256 == e.at(11).get<int>());
+                REQUIRE(got.plaza_y256 == e.at(12).get<int>());
             }
             std::map<int, std::int64_t> histogram;
             for (const int gid : chunk.tiles) {

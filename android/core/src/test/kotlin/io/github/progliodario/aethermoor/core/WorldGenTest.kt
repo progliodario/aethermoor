@@ -124,6 +124,8 @@ class WorldGenTest {
                     assertEquals(e[8].jsonPrimitive.content, got.place, "$who place")
                     assertEquals(e[9].jsonPrimitive.content, got.region, "$who region")
                     assertEquals(e[10].jsonPrimitive.content, got.quirk, "$who quirk")
+                    assertEquals(e[11].jsonPrimitive.int, got.plazaX256, "$who plaza x")
+                    assertEquals(e[12].jsonPrimitive.int, got.plazaY256, "$who plaza y")
                 }
                 val histogram = chunk.tiles.groupBy { it }.mapValues { it.value.size.toLong() }
                 val wantHistogram = want.getValue("gid_histogram").jsonObject
@@ -215,6 +217,35 @@ class WorldGenTest {
                 val want = after[index + 1].jsonObject
                 assertEquals(want.getValue("count").jsonPrimitive.int, enemies.size, "$label step ${index + 1}")
                 assertEquals(hex(want.getValue("digest").jsonPrimitive.content), digest(), "$label step ${index + 1} digest")
+            }
+        }
+    }
+
+    @Test
+    fun routinesSuite() {
+        val doc = Json.parseToJsonElement(File(repoRoot, "tests/conformance/routines.json").readText()).jsonObject
+        for (case in doc.getValue("cases").jsonArray) {
+            val c = case.jsonObject
+            val label = c.getValue("name").jsonPrimitive.content
+            val input = c.getValue("input").jsonObject
+            val params = parseWorldParams(input.getValue("params").toString()).getOrThrow()
+            val seed = hex(input.getValue("seed").jsonPrimitive.content)
+            val people = input.getValue("chunks").jsonArray.flatMap { chunk ->
+                generateChunk(seed, params, chunk.jsonArray[0].jsonPrimitive.int, chunk.jsonArray[1].jsonPrimitive.int).people
+            }
+            val times = input.getValue("times").jsonArray
+            val present = c.getValue("expect").jsonObject.getValue("present").jsonArray
+            assertEquals(present.size, times.size, "$label times")
+            for ((t, time) in times.withIndex()) {
+                val tod = time.jsonPrimitive.int
+                val got = people.mapNotNull { person ->
+                    personPlacement(params, person, tod)?.let { "${person.key}|${it.state}|${it.x256}|${it.y256}" }
+                }
+                val want = present[t].jsonArray.map { row ->
+                    val r = row.jsonArray
+                    "${r[0].jsonPrimitive.content}|${r[1].jsonPrimitive.content}|${r[2].jsonPrimitive.int}|${r[3].jsonPrimitive.int}"
+                }
+                assertEquals(want, got, "$label time of day $tod")
             }
         }
     }
@@ -554,6 +585,26 @@ class WorldGenTest {
             assertEquals(2, sim.stones.size)
             val saved = saveFromJson(saveToJson(sim.capture(), SaveMeta("test", 1, "base:protagonist/ren", 42uL, "world"))).getOrThrow()
             assertEquals(sim.stones.toList(), saved.stones)
+            sim.teleport(map.width / 2 + 0.5f, map.height / 2 + 0.5f)
+            sim.tick(0f, 0f, false)
+            checkWindow()
+        }
+
+        // Routines (spec 08): the shopkeeper of the home village is at the counter by day and indoors at night.
+        run {
+            sim.teleport(8236.5f, 8229.5f)
+            sim.tick(0f, 0f, false)
+            val dayTicks = params.time.dayTicks.toLong()
+            fun atTimeOfDay(todPm: Int) {
+                val state = sim.capture()
+                sim.restore(state.copy(worldTicks = (state.worldTicks / dayTicks) * dayTicks + dayTicks * todPm / 1000)).getOrThrow()
+            }
+            atTimeOfDay(500)
+            assertTrue(sim.story.npcInRange() != null)
+            atTimeOfDay(100)
+            assertTrue(sim.story.npcInRange() == null)
+            atTimeOfDay(500)
+            assertTrue(sim.story.npcInRange() != null)
             sim.teleport(map.width / 2 + 0.5f, map.height / 2 + 0.5f)
             sim.tick(0f, 0f, false)
             checkWindow()

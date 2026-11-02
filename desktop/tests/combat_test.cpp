@@ -411,6 +411,28 @@ TEST_CASE("the overworld is streamed from the content pack and is playable", "[w
         check_window();
     }
 
+    // Routines (spec 08): the shopkeeper of the home village is at the counter by day and indoors at night.
+    {
+        sim.teleport(8236.5F, 8229.5F);
+        sim.tick(0.0F, 0.0F, false);
+        const std::int64_t day_ticks = params->time.day_ticks;
+        const auto at_time_of_day = [&](int tod_pm) {
+            aether::SaveState state = sim.capture();
+            state.world_ticks = (state.world_ticks / day_ticks) * day_ticks + day_ticks * tod_pm / 1000;
+            std::string restore_error;
+            REQUIRE(sim.restore(state, restore_error));
+        };
+        at_time_of_day(500);
+        REQUIRE(sim.story().npc_in_range() != nullptr);
+        at_time_of_day(100);
+        REQUIRE(sim.story().npc_in_range() == nullptr);
+        at_time_of_day(500);
+        REQUIRE(sim.story().npc_in_range() != nullptr);
+        sim.teleport(static_cast<float>(map.width / 2) + 0.5F, static_cast<float>(map.height / 2) + 0.5F);
+        sim.tick(0.0F, 0.0F, false);
+        check_window();
+    }
+
     // Saving and loading into a fresh world of the same seed gives the same enemies.
     const aether::SaveState state = sim.capture();
     REQUIRE(state.enemies.size() == sim.enemies().size());

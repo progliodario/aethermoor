@@ -127,7 +127,8 @@ class Sites:
                 entry = stamp["legend"].get(ch)
                 if entry is not None and "npc" in entry:
                     slots[(site["x"] + lx, site["y"] + ly)] = (len(slots), entry["npc"])
-        return {**site, "sx": sx, "sy": sy, "slots": slots}
+        spots = [(site["x"] + sx_, site["y"] + sy_) for sx_, sy_ in stamp.get("spots", [])]
+        return {**site, "sx": sx, "sy": sy, "slots": slots, "spots": spots}
 
     def at(self, x: int, y: int) -> tuple[dict, dict | None] | None:
         """(settlement, legend entry of the stamp character) when tile (x, y) lies in a settlement footprint."""
@@ -148,6 +149,8 @@ def person_at(seed: int, params: dict, site: dict, x: int, y: int) -> dict:
     h = hash64(seed, site["sx"], site["sy"], 100 + index)
     people = cfg["people"]
     region = params["regions"][site["region"]]
+    spots = site["spots"]
+    plaza = spots[index % len(spots)] if spots else None
     return {
         "key": f"settle:{site['sx']}:{site['sy']}:{index}",
         "role": role,
@@ -160,6 +163,8 @@ def person_at(seed: int, params: dict, site: dict, x: int, y: int) -> dict:
         "place": site["name"],
         "region": region["name"],
         "quirk": cfg["quirks"][hash64(seed, site["sx"], site["sy"], 44) % len(cfg["quirks"])],
+        "plaza_x256": plaza[0] * 256 + 128 if plaza else -1,
+        "plaza_y256": plaza[1] * 256 + 160 if plaza else -1,
     }
 
 

@@ -12,6 +12,7 @@ import io.github.progliodario.aethermoor.core.derivedStats
 import io.github.progliodario.aethermoor.core.explore
 import io.github.progliodario.aethermoor.core.faunaAt
 import io.github.progliodario.aethermoor.core.offersFor
+import io.github.progliodario.aethermoor.core.personPlacement
 import io.github.progliodario.aethermoor.core.rankIndex
 import io.github.progliodario.aethermoor.core.regionAt
 import io.github.progliodario.aethermoor.core.resolveOffer
@@ -157,6 +158,7 @@ class WorldSim(
 
     /** Settlement people of the active window (spec 09) and their collision circles. */
     private val npcList = ArrayList<NpcDef>()
+    private var routineTod = -1 // time of day (permille) the dynamic NPCs were built for
     private val npcCircles = ArrayList<Circle>()
 
     /** Explored world map cells (spec 09); empty on a fixed map. */
@@ -219,12 +221,29 @@ class WorldSim(
         for (npc in npcList) npcCircles.add(Circle(npc.x, npc.y, NPC_RADIUS))
     }
 
+    /** The time of day in permille (spec 08). */
+    private fun timeOfDayPm(): Int {
+        val dayTicks = chunks?.params?.time?.dayTicks ?: return 0
+        return ((worldTicks % dayTicks) * 1000 / dayTicks).toInt()
+    }
+
+    /** Rebuilds the dynamic NPCs of the 5 x 5 chunks around chunk ([cx], [cy]) for the time of day (spec 08, Routines). */
+    private fun refreshPeople(cx: Int, cy: Int) {
+        npcList.clear()
+        for (j in cy - ACTIVE_RADIUS..cy + ACTIVE_RADIUS) for (i in cx - ACTIVE_RADIUS..cx + ACTIVE_RADIUS) addChunkPeople(i, j)
+        routineTod = timeOfDayPm()
+        rebuildNpcCircles()
+    }
+
     private fun addChunkPeople(cx: Int, cy: Int) {
-        val chunk = chunks?.find(cx, cy) ?: return
+        val store = chunks ?: return
+        val chunk = store.find(cx, cy) ?: return
+        val tod = timeOfDayPm()
         for (person in chunk.people) {
+            val placement = personPlacement(store.params, person, tod) ?: continue // indoors (spec 08)
             npcList.add(
                 NpcDef(
-                    person.key, person.dialogue, person.variant, person.x256 / 256f, person.y256 / 256f, person.name,
+                    person.key, person.dialogue, person.variant, placement.x256 / 256f, placement.y256 / 256f, person.name,
                     mapOf("npc" to person.name, "place" to person.place, "region" to person.region, "quirk" to "\$i18n:${person.quirk}"),
                 ),
             )
@@ -267,7 +286,6 @@ class WorldSim(
         if (windowValid && cx == windowX && cy == windowY) return
         store.keepAround(cx, cy)
         if (windowValid) {
-            npcList.removeAll { !insideWindow(chunkOf(floor(it.x).toInt()), chunkOf(floor(it.y).toInt()), cx, cy) }
             val keptEnemies = ArrayList<Enemy>()
             val keptHits = ArrayList<Boolean>()
             for (i in enemies.indices) {
@@ -286,11 +304,10 @@ class WorldSim(
             for (i in cx - ACTIVE_RADIUS..cx + ACTIVE_RADIUS) {
                 if (!windowValid || !insideWindow(i, j, windowX, windowY)) {
                     addChunkEnemies(i, j)
-                    addChunkPeople(i, j)
                 }
             }
         }
-        rebuildNpcCircles()
+        refreshPeople(cx, cy)
         windowValid = true
         windowX = cx
         windowY = cy
@@ -484,6 +501,7 @@ class WorldSim(
     fun tick(rawXIn: Float, rawYIn: Float, attackIn: Boolean = false) {
         worldTicks++
         syncWindow()
+        if (chunks != null && windowValid && timeOfDayPm() != routineTod) refreshPeople(windowX, windowY) // somebody goes home or comes out (spec 08)
         markExplored()
         val frozen = story.dialogueActive
         val rawX = if (frozen) 0f else rawXIn
@@ -814,6 +832,7 @@ class WorldSim(
         explored.addAll(s.explored)
         markExplored()
         worldTicks = if (s.worldTicks >= 0) s.worldTicks else chunks?.params?.time?.startTick ?: 0L
+        if (chunks != null && windowValid) refreshPeople(windowX, windowY) // the people of the saved time of day
         events.clear()
         return Result.success(Unit)
     }

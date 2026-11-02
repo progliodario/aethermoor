@@ -2,6 +2,7 @@ package io.github.progliodario.aethermoor.core
 
 import kotlin.math.abs
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.int
@@ -34,7 +35,16 @@ class SettlementKind(val id: String, val weight: Int, val stamps: List<String>)
 /** What a character of a stamp means (spec 09, "Settlements"); [tile] 0 keeps the terrain. */
 class StampEntry(val tile: Int, val prop: String, val radiusX100: Int, val npc: String)
 
-class Stamp(val w: Int, val h: Int, val anchorX: Int, val anchorY: Int, val rows: List<String>, val legend: Map<Char, StampEntry>)
+class Stamp(
+    val w: Int,
+    val h: Int,
+    val anchorX: Int,
+    val anchorY: Int,
+    val rows: List<String>,
+    val legend: Map<Char, StampEntry>,
+    /** Gathering tiles relative to the stamp (spec 08, Routines). */
+    val spots: List<Pair<Int, Int>> = emptyList(),
+)
 
 /** A settlement: [x], [y] is the top-left tile of its footprint, [px], [py] the site point (the anchor of the stamp). */
 class Settlement(
@@ -53,6 +63,8 @@ class Settlement(
     val sy: Int,
     /** NPC slots by tile: (index in scan order of the stamp, role). */
     val slots: Map<Pair<Int, Int>, Pair<Int, String>>,
+    /** Gathering tiles of the stamp, in the world. */
+    val spots: List<Pair<Int, Int>> = emptyList(),
 )
 
 /** An NPC of a settlement (spec 09, "Settlement people"). */
@@ -70,6 +82,9 @@ class GenPerson(
     val region: String,
     /** A text key. */
     val quirk: String,
+    /** Gathering spot (spec 08), -1 when the stamp has none. */
+    val plazaX256: Int = -1,
+    val plazaY256: Int = -1,
 )
 
 /** A rank of the guild (spec 07, "Guild"). */
@@ -152,6 +167,8 @@ class WorldParams(
     val time: TimeParams,
     val npcs: List<WorldNpc>,
     val guild: GuildParams,
+    /** Daily routines by role: keyframes (from permille, state) with state work, plaza or away (spec 08). */
+    val routines: Map<String, List<Pair<Int, String>>>,
     /** The prop that is a Threshold Stone and how near the player must be to use it, in 1/100 tile (spec 09). */
     val stoneArt: String,
     val stoneRangeX100: Int,
@@ -302,7 +319,7 @@ private class Sites(private val seed: ULong, private val p: WorldParams) {
                 if (entry != null && entry.npc.isNotEmpty()) slots[Pair(x + lx, y + ly)] = Pair(slots.size, entry.npc)
             }
         }
-        return Settlement(x, y, px, py, stamp.w, stamp.h, stampId, kind, name, regionAt(p, px, py), sx, sy, slots)
+        return Settlement(x, y, px, py, stamp.w, stamp.h, stampId, kind, name, regionAt(p, px, py), sx, sy, slots, stamp.spots.map { Pair(x + it.first, y + it.second) })
     }
 
     private fun compute(sx: Int, sy: Int): Settlement? {
@@ -367,7 +384,25 @@ fun personAt(seed: ULong, p: WorldParams, s: Settlement, x: Int, y: Int): GenPer
         place = s.name,
         region = region.name,
         quirk = p.quirks[(hash64(seed, s.sx.toLong(), s.sy.toLong(), 44) % p.quirks.size.toULong()).toInt()],
+        plazaX256 = if (s.spots.isEmpty()) -1 else s.spots[index % s.spots.size].first * 256 + 128,
+        plazaY256 = if (s.spots.isEmpty()) -1 else s.spots[index % s.spots.size].second * 256 + 160,
     )
+}
+
+/** Where a person is at a time of day (spec 08, "Routines"): [state] is work or plaza. */
+class Placement(val state: String, val x256: Int, val y256: Int)
+
+/** The placement of a person at a time of day in permille, or null while the person is away indoors. */
+fun personPlacement(p: WorldParams, person: GenPerson, todPm: Int): Placement? {
+    var state = "work"
+    val frames = p.routines[person.role]
+    if (!frames.isNullOrEmpty()) {
+        state = frames.first().second
+        for ((fromPm, frameState) in frames) if (fromPm <= todPm) state = frameState
+    }
+    if (state == "away") return null
+    if (state == "plaza" && person.plazaX256 >= 0) return Placement("plaza", person.plazaX256, person.plazaY256)
+    return Placement("work", person.x256, person.y256)
 }
 
 /** Index of the rank of a member with that many guild points. */
@@ -667,7 +702,8 @@ private fun parseStamp(d: JsonObject): Stamp {
             e["radius_x100"]?.jsonPrimitive?.int ?: 0, e["npc"]?.jsonPrimitive?.content ?: "",
         )
     }
-    return Stamp(w, h, anchor[0].jsonPrimitive.int, anchor[1].jsonPrimitive.int, rows, legend)
+    val spots = (d["spots"] as? JsonArray)?.map { s -> Pair(s.jsonArray[0].jsonPrimitive.int, s.jsonArray[1].jsonPrimitive.int) } ?: emptyList()
+    return Stamp(w, h, anchor[0].jsonPrimitive.int, anchor[1].jsonPrimitive.int, rows, legend, spots)
 }
 
 /** Reads the world document [worldId] of the pack and resolves the stamps of its settlements from the pack too. */
@@ -729,6 +765,9 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
             spawnerPer10000 = s.getValue("per_10000").jsonPrimitive.int,
             spawnerRespawnTicks = s.getValue("respawn_ticks").jsonPrimitive.int,
             time = parseTimeParams(j.getValue("time").jsonObject),
+            routines = (j["routines"] as? JsonObject)?.getValue("roles")?.jsonObject?.mapValues { (_, frames) ->
+                frames.jsonArray.map { f -> Pair(f.jsonArray[0].jsonPrimitive.int, f.jsonArray[1].jsonPrimitive.content) }
+            } ?: emptyMap(),
             stoneArt = j.getValue("stones").jsonObject.getValue("art").jsonPrimitive.content,
             stoneRangeX100 = j.getValue("stones").jsonObject.getValue("range_x100").jsonPrimitive.int,
             guild = j.getValue("guild").jsonObject.let { g ->

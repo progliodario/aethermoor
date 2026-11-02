@@ -57,7 +57,7 @@ For the site cell `(sx, sy)` (tile `(x, y)` belongs to cell `(x / 256, y / 256)`
 **Stamp tiles.** A stamp has `rows` of `w` characters (`h` rows) and a `legend` that maps characters to `{tile, prop, radius_x100, npc}`. A tile of the footprint takes the gid of its
 character's `tile` (a character with no `tile`, or one that is not in the legend, such as `.`, keeps the terrain's gid without river or road). A `prop` stands at the
 center of the tile, `x256 = x * 256 + 128`, `y256 = y * 256 + 192`. No random prop, enemy spawner, river, road or ford appears inside a footprint. `npc` marks a slot for a settlement NPC
-with that role (used by the next step; v1 ignores it).
+with that role (spec below). A stamp may also list `spots`, tiles `[x, y]` relative to it where its people gather in the evening (spec 08, Routines).
 
 **Order.** Props of stamps join the others in scan order (rows from the top, columns left to right), like all props.
 
@@ -89,12 +89,13 @@ The NPC of slot `i` of the settlement of site cell `(sx, sy)`, standing on tile 
 | `dialogue` | `settlements.dialogue` with `{role}` and `{tone}` replaced |
 | `place` | the name of the settlement |
 | `region` | the `name` text key of the region of the settlement |
+| `plaza` | `x256`, `y256` of its gathering spot (spec 08, Routines), or -1 when the stamp has no spots |
 | `quirk` | `settlements.quirks[hash64(seed, sx, sy, 44) % count]`, a text key: what the place is known for, the same for the whole settlement |
 
 The region gives the **tone** of the voice of its people (warm, mystic, gruff, flowery, stoic, salty, grim, scholarly); the quirk and the name make each place different.
 The dialogue texts use `{npc}`, `{place}`, `{region}` and `{quirk}` (spec 07, "Dialogue arguments").
 
-An NPC exists while the chunk of its tile is in the active window; entering chunks add theirs (chunks row-major, slots in scan order) and leaving chunks remove theirs.
+An NPC exists while the chunk of its tile is in the active window and its routine (spec 08) does not keep it away; the dynamic NPCs are listed in the order of chunks (row-major), then slots (scan order).
 `generate_chunk` also returns the people of the chunk, in scan order of their tiles; the conformance vectors of `worldgen_chunks` list them.
 
 ## Threshold Stones

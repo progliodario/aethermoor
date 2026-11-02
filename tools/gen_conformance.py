@@ -229,6 +229,7 @@ SUITES = {
     "worldmap": conformance_m5.suite_worldmap,
     "settlements": conformance_m5.suite_settlements,
     "fauna": conformance_m5.suite_fauna,
+    "routines": conformance_m5.suite_routines,
     "guild": conformance_m5.suite_guild,
 }
 

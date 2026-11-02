@@ -551,6 +551,80 @@
               }
             ]
           },
+          "routines": {
+            "roles": {
+              "elder": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  250,
+                  "work"
+                ],
+                [
+                  700,
+                  "plaza"
+                ],
+                [
+                  900,
+                  "away"
+                ]
+              ],
+              "shopkeeper": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  280,
+                  "work"
+                ],
+                [
+                  760,
+                  "away"
+                ]
+              ],
+              "guild_clerk": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  300,
+                  "work"
+                ],
+                [
+                  800,
+                  "away"
+                ]
+              ],
+              "innkeeper": [
+                [
+                  0,
+                  "work"
+                ]
+              ],
+              "villager": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  250,
+                  "work"
+                ],
+                [
+                  700,
+                  "plaza"
+                ],
+                [
+                  900,
+                  "away"
+                ]
+              ]
+            }
+          },
           "stones": {
             "art": "base:art/prop/threshold_stone",
             "range_x100": 160
@@ -684,7 +758,17 @@
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
                 }
-              }
+              },
+              "spots": [
+                [
+                  4,
+                  6
+                ],
+                [
+                  6,
+                  6
+                ]
+              ]
             },
             "base:stamp/village": {
               "$schema": "../../../schemas/stamp.schema.json",
@@ -761,7 +845,25 @@
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
                 }
-              }
+              },
+              "spots": [
+                [
+                  9,
+                  6
+                ],
+                [
+                  11,
+                  6
+                ],
+                [
+                  9,
+                  8
+                ],
+                [
+                  11,
+                  8
+                ]
+              ]
             },
             "base:stamp/town": {
               "$schema": "../../../schemas/stamp.schema.json",
@@ -856,7 +958,33 @@
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
                 }
-              }
+              },
+              "spots": [
+                [
+                  13,
+                  10
+                ],
+                [
+                  14,
+                  10
+                ],
+                [
+                  16,
+                  10
+                ],
+                [
+                  13,
+                  14
+                ],
+                [
+                  17,
+                  14
+                ],
+                [
+                  15,
+                  14
+                ]
+              ]
             }
           }
         }
@@ -1968,6 +2096,80 @@
               }
             ]
           },
+          "routines": {
+            "roles": {
+              "elder": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  250,
+                  "work"
+                ],
+                [
+                  700,
+                  "plaza"
+                ],
+                [
+                  900,
+                  "away"
+                ]
+              ],
+              "shopkeeper": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  280,
+                  "work"
+                ],
+                [
+                  760,
+                  "away"
+                ]
+              ],
+              "guild_clerk": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  300,
+                  "work"
+                ],
+                [
+                  800,
+                  "away"
+                ]
+              ],
+              "innkeeper": [
+                [
+                  0,
+                  "work"
+                ]
+              ],
+              "villager": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  250,
+                  "work"
+                ],
+                [
+                  700,
+                  "plaza"
+                ],
+                [
+                  900,
+                  "away"
+                ]
+              ]
+            }
+          },
           "stones": {
             "art": "base:art/prop/threshold_stone",
             "range_x100": 160
@@ -2101,7 +2303,17 @@
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
                 }
-              }
+              },
+              "spots": [
+                [
+                  4,
+                  6
+                ],
+                [
+                  6,
+                  6
+                ]
+              ]
             },
             "base:stamp/village": {
               "$schema": "../../../schemas/stamp.schema.json",
@@ -2178,7 +2390,25 @@
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
                 }
-              }
+              },
+              "spots": [
+                [
+                  9,
+                  6
+                ],
+                [
+                  11,
+                  6
+                ],
+                [
+                  9,
+                  8
+                ],
+                [
+                  11,
+                  8
+                ]
+              ]
             },
             "base:stamp/town": {
               "$schema": "../../../schemas/stamp.schema.json",
@@ -2273,7 +2503,33 @@
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
                 }
-              }
+              },
+              "spots": [
+                [
+                  13,
+                  10
+                ],
+                [
+                  14,
+                  10
+                ],
+                [
+                  16,
+                  10
+                ],
+                [
+                  13,
+                  14
+                ],
+                [
+                  17,
+                  14
+                ],
+                [
+                  15,
+                  14
+                ]
+              ]
             }
           }
         }
@@ -3152,6 +3408,80 @@
               }
             ]
           },
+          "routines": {
+            "roles": {
+              "elder": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  250,
+                  "work"
+                ],
+                [
+                  700,
+                  "plaza"
+                ],
+                [
+                  900,
+                  "away"
+                ]
+              ],
+              "shopkeeper": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  280,
+                  "work"
+                ],
+                [
+                  760,
+                  "away"
+                ]
+              ],
+              "guild_clerk": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  300,
+                  "work"
+                ],
+                [
+                  800,
+                  "away"
+                ]
+              ],
+              "innkeeper": [
+                [
+                  0,
+                  "work"
+                ]
+              ],
+              "villager": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  250,
+                  "work"
+                ],
+                [
+                  700,
+                  "plaza"
+                ],
+                [
+                  900,
+                  "away"
+                ]
+              ]
+            }
+          },
           "stones": {
             "art": "base:art/prop/threshold_stone",
             "range_x100": 160
@@ -3285,7 +3615,17 @@
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
                 }
-              }
+              },
+              "spots": [
+                [
+                  4,
+                  6
+                ],
+                [
+                  6,
+                  6
+                ]
+              ]
             },
             "base:stamp/village": {
               "$schema": "../../../schemas/stamp.schema.json",
@@ -3362,7 +3702,25 @@
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
                 }
-              }
+              },
+              "spots": [
+                [
+                  9,
+                  6
+                ],
+                [
+                  11,
+                  6
+                ],
+                [
+                  9,
+                  8
+                ],
+                [
+                  11,
+                  8
+                ]
+              ]
             },
             "base:stamp/town": {
               "$schema": "../../../schemas/stamp.schema.json",
@@ -3457,7 +3815,33 @@
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
                 }
-              }
+              },
+              "spots": [
+                [
+                  13,
+                  10
+                ],
+                [
+                  14,
+                  10
+                ],
+                [
+                  16,
+                  10
+                ],
+                [
+                  13,
+                  14
+                ],
+                [
+                  17,
+                  14
+                ],
+                [
+                  15,
+                  14
+                ]
+              ]
             }
           }
         }
@@ -3548,7 +3932,9 @@
                 "base:dialogue/role/villager_gruff",
                 "Holomere",
                 "$i18n:region.ironspine.name",
-                "quirk.bad_luck"
+                "quirk.bad_luck",
+                3361920,
+                36768
               ]
             ],
             "gid_histogram": {
@@ -3646,7 +4032,9 @@
                 "base:dialogue/role/villager_gruff",
                 "Holomere",
                 "$i18n:region.ironspine.name",
-                "quirk.bad_luck"
+                "quirk.bad_luck",
+                3361920,
+                36768
               ]
             ],
             "gid_histogram": {
@@ -3744,7 +4132,9 @@
                 "base:dialogue/role/villager_gruff",
                 "Ostohaven",
                 "$i18n:region.ironspine.name",
-                "quirk.bridges"
+                "quirk.bridges",
+                3591552,
+                38816
               ],
               [
                 "settle:54:0:1",
@@ -3757,7 +4147,9 @@
                 "base:dialogue/role/shopkeeper_gruff",
                 "Ostohaven",
                 "$i18n:region.ironspine.name",
-                "quirk.bridges"
+                "quirk.bridges",
+                3592064,
+                38816
               ],
               [
                 "settle:54:0:2",
@@ -3770,7 +4162,9 @@
                 "base:dialogue/role/elder_gruff",
                 "Ostohaven",
                 "$i18n:region.ironspine.name",
-                "quirk.bridges"
+                "quirk.bridges",
+                3591552,
+                39328
               ],
               [
                 "settle:54:0:3",
@@ -3783,7 +4177,9 @@
                 "base:dialogue/role/villager_gruff",
                 "Ostohaven",
                 "$i18n:region.ironspine.name",
-                "quirk.bridges"
+                "quirk.bridges",
+                3592064,
+                39328
               ],
               [
                 "settle:54:0:4",
@@ -3796,7 +4192,9 @@
                 "base:dialogue/role/villager_gruff",
                 "Ostohaven",
                 "$i18n:region.ironspine.name",
-                "quirk.bridges"
+                "quirk.bridges",
+                3591552,
+                38816
               ]
             ],
             "gid_histogram": {
@@ -3894,7 +4292,9 @@
                 "base:dialogue/role/villager_gruff",
                 "Ostohaven",
                 "$i18n:region.ironspine.name",
-                "quirk.bridges"
+                "quirk.bridges",
+                3591552,
+                38816
               ],
               [
                 "settle:54:0:1",
@@ -3907,7 +4307,9 @@
                 "base:dialogue/role/shopkeeper_gruff",
                 "Ostohaven",
                 "$i18n:region.ironspine.name",
-                "quirk.bridges"
+                "quirk.bridges",
+                3592064,
+                38816
               ],
               [
                 "settle:54:0:2",
@@ -3920,7 +4322,9 @@
                 "base:dialogue/role/elder_gruff",
                 "Ostohaven",
                 "$i18n:region.ironspine.name",
-                "quirk.bridges"
+                "quirk.bridges",
+                3591552,
+                39328
               ],
               [
                 "settle:54:0:3",
@@ -3933,7 +4337,9 @@
                 "base:dialogue/role/villager_gruff",
                 "Ostohaven",
                 "$i18n:region.ironspine.name",
-                "quirk.bridges"
+                "quirk.bridges",
+                3592064,
+                39328
               ],
               [
                 "settle:54:0:4",
@@ -3946,7 +4352,9 @@
                 "base:dialogue/role/villager_gruff",
                 "Ostohaven",
                 "$i18n:region.ironspine.name",
-                "quirk.bridges"
+                "quirk.bridges",
+                3591552,
+                38816
               ]
             ],
             "gid_histogram": {
@@ -4044,7 +4452,9 @@
                 "base:dialogue/role/villager_mystic",
                 "Silawick",
                 "$i18n:region.whisperwood.name",
-                "quirk.singing"
+                "quirk.singing",
+                1198976,
+                819360
               ],
               [
                 "settle:18:12:3",
@@ -4057,7 +4467,9 @@
                 "base:dialogue/role/villager_mystic",
                 "Silawick",
                 "$i18n:region.whisperwood.name",
-                "quirk.singing"
+                "quirk.singing",
+                1198208,
+                820384
               ],
               [
                 "settle:18:12:4",
@@ -4070,7 +4482,9 @@
                 "base:dialogue/role/elder_mystic",
                 "Silawick",
                 "$i18n:region.whisperwood.name",
-                "quirk.singing"
+                "quirk.singing",
+                1199232,
+                820384
               ],
               [
                 "settle:18:12:5",
@@ -4083,7 +4497,9 @@
                 "base:dialogue/role/villager_mystic",
                 "Silawick",
                 "$i18n:region.whisperwood.name",
-                "quirk.singing"
+                "quirk.singing",
+                1198720,
+                820384
               ],
               [
                 "settle:18:12:6",
@@ -4096,7 +4512,9 @@
                 "base:dialogue/role/innkeeper_mystic",
                 "Silawick",
                 "$i18n:region.whisperwood.name",
-                "quirk.singing"
+                "quirk.singing",
+                1198208,
+                819360
               ]
             ],
             "gid_histogram": {
@@ -4195,7 +4613,9 @@
                 "base:dialogue/role/villager_mystic",
                 "Silawick",
                 "$i18n:region.whisperwood.name",
-                "quirk.singing"
+                "quirk.singing",
+                1198976,
+                819360
               ],
               [
                 "settle:18:12:3",
@@ -4208,7 +4628,9 @@
                 "base:dialogue/role/villager_mystic",
                 "Silawick",
                 "$i18n:region.whisperwood.name",
-                "quirk.singing"
+                "quirk.singing",
+                1198208,
+                820384
               ],
               [
                 "settle:18:12:4",
@@ -4221,7 +4643,9 @@
                 "base:dialogue/role/elder_mystic",
                 "Silawick",
                 "$i18n:region.whisperwood.name",
-                "quirk.singing"
+                "quirk.singing",
+                1199232,
+                820384
               ],
               [
                 "settle:18:12:5",
@@ -4234,7 +4658,9 @@
                 "base:dialogue/role/villager_mystic",
                 "Silawick",
                 "$i18n:region.whisperwood.name",
-                "quirk.singing"
+                "quirk.singing",
+                1198720,
+                820384
               ],
               [
                 "settle:18:12:6",
@@ -4247,7 +4673,9 @@
                 "base:dialogue/role/innkeeper_mystic",
                 "Silawick",
                 "$i18n:region.whisperwood.name",
-                "quirk.singing"
+                "quirk.singing",
+                1198208,
+                819360
               ]
             ],
             "gid_histogram": {
@@ -4813,6 +5241,80 @@
               }
             ]
           },
+          "routines": {
+            "roles": {
+              "elder": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  250,
+                  "work"
+                ],
+                [
+                  700,
+                  "plaza"
+                ],
+                [
+                  900,
+                  "away"
+                ]
+              ],
+              "shopkeeper": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  280,
+                  "work"
+                ],
+                [
+                  760,
+                  "away"
+                ]
+              ],
+              "guild_clerk": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  300,
+                  "work"
+                ],
+                [
+                  800,
+                  "away"
+                ]
+              ],
+              "innkeeper": [
+                [
+                  0,
+                  "work"
+                ]
+              ],
+              "villager": [
+                [
+                  0,
+                  "away"
+                ],
+                [
+                  250,
+                  "work"
+                ],
+                [
+                  700,
+                  "plaza"
+                ],
+                [
+                  900,
+                  "away"
+                ]
+              ]
+            }
+          },
           "stones": {
             "art": "base:art/prop/threshold_stone",
             "range_x100": 160
@@ -4946,7 +5448,17 @@
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
                 }
-              }
+              },
+              "spots": [
+                [
+                  4,
+                  6
+                ],
+                [
+                  6,
+                  6
+                ]
+              ]
             },
             "base:stamp/village": {
               "$schema": "../../../schemas/stamp.schema.json",
@@ -5023,7 +5535,25 @@
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
                 }
-              }
+              },
+              "spots": [
+                [
+                  9,
+                  6
+                ],
+                [
+                  11,
+                  6
+                ],
+                [
+                  9,
+                  8
+                ],
+                [
+                  11,
+                  8
+                ]
+              ]
             },
             "base:stamp/town": {
               "$schema": "../../../schemas/stamp.schema.json",
@@ -5118,7 +5648,33 @@
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
                 }
-              }
+              },
+              "spots": [
+                [
+                  13,
+                  10
+                ],
+                [
+                  14,
+                  10
+                ],
+                [
+                  16,
+                  10
+                ],
+                [
+                  13,
+                  14
+                ],
+                [
+                  17,
+                  14
+                ],
+                [
+                  15,
+                  14
+                ]
+              ]
             }
           }
         }
@@ -5209,7 +5765,9 @@
                 "base:dialogue/role/villager_stoic",
                 "Ostivale",
                 "$i18n:region.frostveil.name",
-                "quirk.mushrooms"
+                "quirk.mushrooms",
+                891008,
+                38816
               ],
               [
                 "settle:13:0:2",
@@ -5222,7 +5780,9 @@
                 "base:dialogue/role/elder_stoic",
                 "Ostivale",
                 "$i18n:region.frostveil.name",
-                "quirk.mushrooms"
+                "quirk.mushrooms",
+                891008,
+                39328
               ],
               [
                 "settle:13:0:3",
@@ -5235,7 +5795,9 @@
                 "base:dialogue/role/villager_stoic",
                 "Ostivale",
                 "$i18n:region.frostveil.name",
-                "quirk.mushrooms"
+                "quirk.mushrooms",
+                891520,
+                39328
               ]
             ],
             "gid_histogram": {
@@ -5335,7 +5897,9 @@
                 "base:dialogue/role/shopkeeper_stoic",
                 "Ostivale",
                 "$i18n:region.frostveil.name",
-                "quirk.mushrooms"
+                "quirk.mushrooms",
+                891520,
+                38816
               ],
               [
                 "settle:13:0:4",
@@ -5348,7 +5912,9 @@
                 "base:dialogue/role/villager_stoic",
                 "Ostivale",
                 "$i18n:region.frostveil.name",
-                "quirk.mushrooms"
+                "quirk.mushrooms",
+                891008,
+                38816
               ]
             ],
             "gid_histogram": {
@@ -5446,7 +6012,9 @@
                 "base:dialogue/role/villager_stoic",
                 "Calarhaven",
                 "$i18n:region.frostveil.name",
-                "quirk.kites"
+                "quirk.kites",
+                2190976,
+                23200
               ]
             ],
             "gid_histogram": {
@@ -5544,7 +6112,9 @@
                 "base:dialogue/role/villager_stoic",
                 "Calarhaven",
                 "$i18n:region.frostveil.name",
-                "quirk.kites"
+                "quirk.kites",
+                2190976,
+                23200
               ]
             ],
             "gid_histogram": {
@@ -5642,7 +6212,9 @@
                 "base:dialogue/role/villager_warm",
                 "Torenton",
                 "$i18n:region.verdalis.name",
-                "quirk.riddles"
+                "quirk.riddles",
+                2136960,
+                1417120
               ],
               [
                 "settle:32:21:4",
@@ -5655,7 +6227,9 @@
                 "base:dialogue/role/elder_warm",
                 "Torenton",
                 "$i18n:region.verdalis.name",
-                "quirk.riddles"
+                "quirk.riddles",
+                2137216,
+                1418144
               ],
               [
                 "settle:32:21:6",
@@ -5668,7 +6242,9 @@
                 "base:dialogue/role/innkeeper_warm",
                 "Torenton",
                 "$i18n:region.verdalis.name",
-                "quirk.riddles"
+                "quirk.riddles",
+                2136192,
+                1417120
               ]
             ],
             "gid_histogram": {
@@ -5766,7 +6342,9 @@
                 "base:dialogue/role/villager_warm",
                 "Torenton",
                 "$i18n:region.verdalis.name",
-                "quirk.riddles"
+                "quirk.riddles",
+                2136192,
+                1418144
               ],
               [
                 "settle:32:21:5",
@@ -5779,7 +6357,9 @@
                 "base:dialogue/role/villager_warm",
                 "Torenton",
                 "$i18n:region.verdalis.name",
-                "quirk.riddles"
+                "quirk.riddles",
+                2136704,
+                1418144
               ]
             ],
             "gid_histogram": {

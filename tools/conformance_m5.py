@@ -4,7 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from reference import numerics as nm
-from reference import guild, worldgen, worldtime
+from reference import guild, routines, worldgen, worldtime
 
 ROOT = Path(__file__).resolve().parent.parent
 PARAMS = worldgen.load_params()
@@ -62,7 +62,7 @@ def suite_worldgen_chunks() -> list[dict]:
                 "spawner_count": len(chunk["spawners"]),
                 "spawner_digest": h64(digest_pairs(chunk["spawners"])),
                 "people": [[p["key"], p["role"], p["x256"], p["y256"], p["name"], p["variant"], p["tone"], p["dialogue"], p["place"],
-                            p["region"], p["quirk"]] for p in chunk["people"]],
+                            p["region"], p["quirk"], p["plaza_x256"], p["plaza_y256"]] for p in chunk["people"]],
                 "gid_histogram": {str(g): chunk["tiles"].count(g) for g in sorted(set(chunk["tiles"]))},
             })
         cases.append({
@@ -133,6 +133,41 @@ def suite_settlements() -> list[dict]:
                 "regions": regions,
                 "markers": markers,
             },
+        })
+    return cases
+
+
+def suite_routines() -> list[dict]:
+    """Who is present, and where, over a day in the chunks of a few settlements (spec 08, "Routines")."""
+    params = {**PARAMS, "width": 16384, "height": 16384}
+    cases = []
+    for name, seed in (("seed_7", 7), ("seed_c0ffee", 0xC0FFEE)):
+        sites = [worldgen.Sites(seed, params).site(32, 32)]
+        seen: set[str] = set()
+        for site in worldgen.settlements_in(seed, params, 0, 0, 63, 63):
+            if site["kind"] not in seen:
+                seen.add(site["kind"])
+                sites.append(site)
+        chunks = set()
+        for site in sites:
+            for cy in range(site["y"] // worldgen.CHUNK_SIZE, (site["y"] + site["h"] - 1) // worldgen.CHUNK_SIZE + 1):
+                for cx in range(site["x"] // worldgen.CHUNK_SIZE, (site["x"] + site["w"] - 1) // worldgen.CHUNK_SIZE + 1):
+                    chunks.add((cx, cy))
+        ordered = sorted(chunks, key=lambda c: (c[1], c[0]))  # row-major
+        times = [0, 100, 249, 250, 279, 280, 299, 300, 500, 699, 700, 759, 760, 799, 800, 899, 900, 999]
+        people = [person for cx, cy in ordered for person in worldgen.generate_chunk(seed, params, cx, cy)["people"]]
+        present = []
+        for tod in times:
+            row = []
+            for person in people:
+                found = routines.placement(params, person, tod)
+                if found is not None:
+                    row.append([person["key"], found[0], found[1], found[2]])
+            present.append(row)
+        cases.append({
+            "name": f"routines_{name}",
+            "input": {"op": "routines", "seed": h64(seed), "chunks": [list(c) for c in ordered], "times": times, "params": params},
+            "expect": {"present": present},
         })
     return cases
 

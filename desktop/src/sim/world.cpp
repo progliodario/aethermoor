@@ -135,18 +135,39 @@ void WorldSim::rebuild_npc_circles() {
     }
 }
 
+int WorldSim::time_of_day_pm() const {
+    const std::int64_t day_ticks = m_store_->params().time.day_ticks;
+    return static_cast<int>((m_world_ticks_ % day_ticks) * 1000 / day_ticks);
+}
+
+void WorldSim::refresh_people(int cx, int cy) {
+    m_npcs_.clear();
+    for (int j = cy - kActiveRadius; j <= cy + kActiveRadius; ++j) {
+        for (int i = cx - kActiveRadius; i <= cx + kActiveRadius; ++i) {
+            add_chunk_people(i, j);
+        }
+    }
+    m_routine_tod_ = time_of_day_pm();
+    rebuild_npc_circles();
+}
+
 void WorldSim::add_chunk_people(int cx, int cy) {
     const Chunk* chunk = m_store_->find(cx, cy);
     if (chunk == nullptr) {
         return;
     }
+    const int tod = time_of_day_pm();
     for (const GenPerson& person : chunk->people) {
+        const auto placement = person_placement(m_store_->params(), person, tod);
+        if (!placement) {
+            continue;  // indoors (spec 08)
+        }
         NpcDef npc;
         npc.key = person.key;
         npc.dialogue = person.dialogue;
         npc.variant = person.variant;
-        npc.x = static_cast<float>(person.x256) / 256.0F;
-        npc.y = static_cast<float>(person.y256) / 256.0F;
+        npc.x = static_cast<float>(placement->x256) / 256.0F;
+        npc.y = static_cast<float>(placement->y256) / 256.0F;
         npc.name = person.name;
         npc.args = {{"npc", person.name}, {"place", person.place}, {"region", person.region}, {"quirk", "$i18n:" + person.quirk}};
         m_npcs_.push_back(std::move(npc));
@@ -208,13 +229,6 @@ void WorldSim::sync_window() {
         return std::max(std::abs(i - wx), std::abs(j - wy)) <= kActiveRadius;
     };
     if (m_window_valid_) {
-        std::vector<NpcDef> staying;
-        for (NpcDef& npc : m_npcs_) {
-            if (inside(chunk_of(static_cast<int>(std::floor(npc.x))), chunk_of(static_cast<int>(std::floor(npc.y))), cx, cy)) {
-                staying.push_back(std::move(npc));
-            }
-        }
-        m_npcs_ = std::move(staying);
         std::size_t kept = 0;
         for (std::size_t i = 0; i < m_enemies_.size(); ++i) {
             if (!inside(chunk_of(m_enemies_[i].spawner_x), chunk_of(m_enemies_[i].spawner_y), cx, cy)) {
@@ -233,11 +247,10 @@ void WorldSim::sync_window() {
         for (int i = cx - kActiveRadius; i <= cx + kActiveRadius; ++i) {
             if (!m_window_valid_ || !inside(i, j, m_window_x_, m_window_y_)) {
                 add_chunk_enemies(i, j);
-                add_chunk_people(i, j);
             }
         }
     }
-    rebuild_npc_circles();
+    refresh_people(cx, cy);
     m_window_valid_ = true;
     m_window_x_ = cx;
     m_window_y_ = cy;
@@ -489,6 +502,9 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack) {
     const bool combat = m_setup_.enabled;
     ++m_world_ticks_;
     sync_window();
+    if (m_store_ && m_window_valid_ && time_of_day_pm() != m_routine_tod_) {
+        refresh_people(m_window_x_, m_window_y_);  // somebody goes home or comes out (spec 08)
+    }
     mark_explored();
     if (m_story_.dialogue_active()) {
         raw_x = 0.0F;
@@ -887,6 +903,9 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
     m_explored_ = std::set<std::pair<int, int>>(s.explored.begin(), s.explored.end());
     mark_explored();
     m_world_ticks_ = s.world_ticks >= 0 ? s.world_ticks : (m_store_ ? m_store_->params().time.start_tick : 0);
+    if (m_store_ && m_window_valid_) {
+        refresh_people(m_window_x_, m_window_y_);  // the people of the saved time of day
+    }
     m_events_.clear();
     return true;
 }
