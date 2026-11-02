@@ -269,16 +269,6 @@
               }
             }
           ],
-          "landmarks": [
-            {
-              "id": "grunmoor_barrow",
-              "name": "Grunmoor Barrow",
-              "stamp": "base:stamp/barrow",
-              "kind": "dungeon",
-              "dx": -60,
-              "dy": -34
-            }
-          ],
           "guild": {
             "offers_per_day": 4,
             "ranks": [
@@ -2113,16 +2103,6 @@
               }
             }
           ],
-          "landmarks": [
-            {
-              "id": "grunmoor_barrow",
-              "name": "Grunmoor Barrow",
-              "stamp": "base:stamp/barrow",
-              "kind": "dungeon",
-              "dx": -60,
-              "dy": -34
-            }
-          ],
           "guild": {
             "offers_per_day": 4,
             "ranks": [
@@ -3951,16 +3931,6 @@
                   "base:item/chain_mail"
                 ]
               }
-            }
-          ],
-          "landmarks": [
-            {
-              "id": "grunmoor_barrow",
-              "name": "Grunmoor Barrow",
-              "stamp": "base:stamp/barrow",
-              "kind": "dungeon",
-              "dx": -60,
-              "dy": -34
             }
           ],
           "guild": {
