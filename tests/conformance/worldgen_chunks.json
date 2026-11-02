@@ -74,14 +74,19 @@
               "tone": "mystic",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_green",
-                  "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "enemy": "base:enemy/wolf_shade",
+                  "drop": "base:item/shade_wisp",
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/wolf_grey",
                   "drop": "base:item/wolf_fang",
-                  "weight": 3
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -104,7 +109,12 @@
                 {
                   "enemy": "base:enemy/wolf_grey",
                   "drop": "base:item/wolf_fang",
-                  "weight": 4
+                  "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/slime_slate",
+                  "drop": "base:item/slate_shard",
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_blue",
@@ -188,9 +198,14 @@
               "tone": "salty",
               "fauna": [
                 {
+                  "enemy": "base:enemy/slime_tide",
+                  "drop": "base:item/tide_pearl",
+                  "weight": 4
+                },
+                {
                   "enemy": "base:enemy/slime_blue",
                   "drop": "base:item/slime_gel",
-                  "weight": 4
+                  "weight": 1
                 },
                 {
                   "enemy": "base:enemy/slime_green",
@@ -245,9 +260,9 @@
               "tone": "scholarly",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_green",
-                  "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "enemy": "base:enemy/slime_glow",
+                  "drop": "base:item/star_dust",
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_blue",
@@ -1887,14 +1902,19 @@
               "tone": "mystic",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_green",
-                  "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "enemy": "base:enemy/wolf_shade",
+                  "drop": "base:item/shade_wisp",
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/wolf_grey",
                   "drop": "base:item/wolf_fang",
-                  "weight": 3
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -1917,7 +1937,12 @@
                 {
                   "enemy": "base:enemy/wolf_grey",
                   "drop": "base:item/wolf_fang",
-                  "weight": 4
+                  "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/slime_slate",
+                  "drop": "base:item/slate_shard",
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_blue",
@@ -2001,9 +2026,14 @@
               "tone": "salty",
               "fauna": [
                 {
+                  "enemy": "base:enemy/slime_tide",
+                  "drop": "base:item/tide_pearl",
+                  "weight": 4
+                },
+                {
                   "enemy": "base:enemy/slime_blue",
                   "drop": "base:item/slime_gel",
-                  "weight": 4
+                  "weight": 1
                 },
                 {
                   "enemy": "base:enemy/slime_green",
@@ -2058,9 +2088,9 @@
               "tone": "scholarly",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_green",
-                  "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "enemy": "base:enemy/slime_glow",
+                  "drop": "base:item/star_dust",
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_blue",
@@ -3467,14 +3497,19 @@
               "tone": "mystic",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_green",
-                  "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "enemy": "base:enemy/wolf_shade",
+                  "drop": "base:item/shade_wisp",
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/wolf_grey",
                   "drop": "base:item/wolf_fang",
-                  "weight": 3
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -3497,7 +3532,12 @@
                 {
                   "enemy": "base:enemy/wolf_grey",
                   "drop": "base:item/wolf_fang",
-                  "weight": 4
+                  "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/slime_slate",
+                  "drop": "base:item/slate_shard",
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_blue",
@@ -3581,9 +3621,14 @@
               "tone": "salty",
               "fauna": [
                 {
+                  "enemy": "base:enemy/slime_tide",
+                  "drop": "base:item/tide_pearl",
+                  "weight": 4
+                },
+                {
                   "enemy": "base:enemy/slime_blue",
                   "drop": "base:item/slime_gel",
-                  "weight": 4
+                  "weight": 1
                 },
                 {
                   "enemy": "base:enemy/slime_green",
@@ -3638,9 +3683,9 @@
               "tone": "scholarly",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_green",
-                  "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "enemy": "base:enemy/slime_glow",
+                  "drop": "base:item/star_dust",
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_blue",
@@ -5734,14 +5779,19 @@
               "tone": "mystic",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_green",
-                  "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "enemy": "base:enemy/wolf_shade",
+                  "drop": "base:item/shade_wisp",
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/wolf_grey",
                   "drop": "base:item/wolf_fang",
-                  "weight": 3
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -5764,7 +5814,12 @@
                 {
                   "enemy": "base:enemy/wolf_grey",
                   "drop": "base:item/wolf_fang",
-                  "weight": 4
+                  "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/slime_slate",
+                  "drop": "base:item/slate_shard",
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_blue",
@@ -5848,9 +5903,14 @@
               "tone": "salty",
               "fauna": [
                 {
+                  "enemy": "base:enemy/slime_tide",
+                  "drop": "base:item/tide_pearl",
+                  "weight": 4
+                },
+                {
                   "enemy": "base:enemy/slime_blue",
                   "drop": "base:item/slime_gel",
-                  "weight": 4
+                  "weight": 1
                 },
                 {
                   "enemy": "base:enemy/slime_green",
@@ -5905,9 +5965,9 @@
               "tone": "scholarly",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_green",
-                  "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "enemy": "base:enemy/slime_glow",
+                  "drop": "base:item/star_dust",
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_blue",

@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/wolf_shade",
+  "name": "$i18n:enemy.wolf_shade.name",
+  "level": 5,
+  "stats": {
+    "hp": 72,
+    "atk": 16,
+    "def": 5,
+    "mdef": 8,
+    "speed_x100": 350
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "light": 1500
+  },
+  "xp": 28,
+  "drops": [
+    {
+      "item": "base:item/shade_wisp",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 500
+    }
+  ],
+  "radius_x100": 40,
+  "behavior": "base:behavior/melee_chaser_basic",
+  "art": "base:art/creature/wolf_shade"
+}

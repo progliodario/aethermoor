@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/slate_shard",
+  "name": "$i18n:item.slate_shard.name",
+  "description": "$i18n:item.slate_shard.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 12,
+  "stack_max": 99
+}
