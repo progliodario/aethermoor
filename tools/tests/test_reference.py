@@ -126,7 +126,7 @@ def test_world_chunks_are_the_restriction_of_the_world():
     from reference import worldgen
 
     params = worldgen.load_params()
-    params = {k: v for k, v in {**params, "width": 80, "height": 72, "border": 2}.items() if k != "home"}
+    params = {k: v for k, v in {**params, "width": 80, "height": 72, "border": 2}.items() if k not in ("home", "landmarks")}
     world = worldgen.generate(5, params)
     size = worldgen.CHUNK_SIZE
     props, spawners = [], []
