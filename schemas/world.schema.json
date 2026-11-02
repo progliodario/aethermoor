@@ -13,6 +13,7 @@
     "moisture",
     "temperature",
     "regions",
+    "guild",
     "settlements",
     "river",
     "road",
@@ -732,6 +733,113 @@
         },
         "dy": {
           "type": "integer"
+        }
+      }
+    },
+    "guild": {
+      "type": "object",
+      "required": [
+        "offers_per_day",
+        "ranks",
+        "templates"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "offers_per_day": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "ranks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "points"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z]+$"
+              },
+              "points": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        },
+        "templates": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "type",
+              "target",
+              "count_min",
+              "count_max",
+              "gold_base",
+              "gold_per",
+              "xp_base",
+              "xp_per",
+              "points_base",
+              "points_per"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$"
+              },
+              "type": {
+                "enum": [
+                  "kill",
+                  "collect"
+                ]
+              },
+              "target": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+              },
+              "count_min": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "count_max": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "gold_base": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "gold_per": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "xp_base": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "xp_per": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "points_base": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "points_per": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
         }
       }
     }

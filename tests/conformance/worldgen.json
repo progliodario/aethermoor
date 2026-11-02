@@ -173,6 +173,67 @@
               }
             }
           ],
+          "guild": {
+            "offers_per_day": 4,
+            "ranks": [
+              {
+                "id": "f",
+                "points": 0
+              },
+              {
+                "id": "e",
+                "points": 100
+              },
+              {
+                "id": "d",
+                "points": 300
+              },
+              {
+                "id": "c",
+                "points": 700
+              },
+              {
+                "id": "b",
+                "points": 1500
+              },
+              {
+                "id": "a",
+                "points": 3000
+              },
+              {
+                "id": "s",
+                "points": 6000
+              }
+            ],
+            "templates": [
+              {
+                "id": "cull",
+                "type": "kill",
+                "target": "base:enemy/slime_green",
+                "count_min": 3,
+                "count_max": 6,
+                "gold_base": 10,
+                "gold_per": 12,
+                "xp_base": 10,
+                "xp_per": 6,
+                "points_base": 4,
+                "points_per": 3
+              },
+              {
+                "id": "gather",
+                "type": "collect",
+                "target": "base:item/slime_gel",
+                "count_min": 4,
+                "count_max": 8,
+                "gold_base": 8,
+                "gold_per": 9,
+                "xp_base": 8,
+                "xp_per": 4,
+                "points_base": 3,
+                "points_per": 2
+              }
+            ]
+          },
           "settlements": {
             "per_mille": 130,
             "dialogue": "base:dialogue/role/{role}_{tone}",
@@ -1521,6 +1582,67 @@
               }
             }
           ],
+          "guild": {
+            "offers_per_day": 4,
+            "ranks": [
+              {
+                "id": "f",
+                "points": 0
+              },
+              {
+                "id": "e",
+                "points": 100
+              },
+              {
+                "id": "d",
+                "points": 300
+              },
+              {
+                "id": "c",
+                "points": 700
+              },
+              {
+                "id": "b",
+                "points": 1500
+              },
+              {
+                "id": "a",
+                "points": 3000
+              },
+              {
+                "id": "s",
+                "points": 6000
+              }
+            ],
+            "templates": [
+              {
+                "id": "cull",
+                "type": "kill",
+                "target": "base:enemy/slime_green",
+                "count_min": 3,
+                "count_max": 6,
+                "gold_base": 10,
+                "gold_per": 12,
+                "xp_base": 10,
+                "xp_per": 6,
+                "points_base": 4,
+                "points_per": 3
+              },
+              {
+                "id": "gather",
+                "type": "collect",
+                "target": "base:item/slime_gel",
+                "count_min": 4,
+                "count_max": 8,
+                "gold_base": 8,
+                "gold_per": 9,
+                "xp_base": 8,
+                "xp_per": 4,
+                "points_base": 3,
+                "points_per": 2
+              }
+            ]
+          },
           "settlements": {
             "per_mille": 130,
             "dialogue": "base:dialogue/role/{role}_{tone}",
@@ -2865,6 +2987,67 @@
               }
             }
           ],
+          "guild": {
+            "offers_per_day": 4,
+            "ranks": [
+              {
+                "id": "f",
+                "points": 0
+              },
+              {
+                "id": "e",
+                "points": 100
+              },
+              {
+                "id": "d",
+                "points": 300
+              },
+              {
+                "id": "c",
+                "points": 700
+              },
+              {
+                "id": "b",
+                "points": 1500
+              },
+              {
+                "id": "a",
+                "points": 3000
+              },
+              {
+                "id": "s",
+                "points": 6000
+              }
+            ],
+            "templates": [
+              {
+                "id": "cull",
+                "type": "kill",
+                "target": "base:enemy/slime_green",
+                "count_min": 3,
+                "count_max": 6,
+                "gold_base": 10,
+                "gold_per": 12,
+                "xp_base": 10,
+                "xp_per": 6,
+                "points_base": 4,
+                "points_per": 3
+              },
+              {
+                "id": "gather",
+                "type": "collect",
+                "target": "base:item/slime_gel",
+                "count_min": 4,
+                "count_max": 8,
+                "gold_base": 8,
+                "gold_per": 9,
+                "xp_base": 8,
+                "xp_per": 4,
+                "points_base": 3,
+                "points_per": 2
+              }
+            ]
+          },
           "settlements": {
             "per_mille": 130,
             "dialogue": "base:dialogue/role/{role}_{tone}",

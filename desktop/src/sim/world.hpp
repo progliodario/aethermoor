@@ -151,6 +151,16 @@ public:
     Story& story() { return m_story_; }
     // Puts the player at (x, y) in tiles, loading the chunks around (developer option --start, later the Threshold Stones).
     void teleport(float x, float y);
+    // The guild board (spec 07, "Guild"): open from a clerk's dialogue; each call returns false, changing nothing, when refused.
+    struct Board {
+        Settlement settlement;
+        std::int64_t day = 1;
+        std::vector<Offer> offers;
+    };
+    const Board* board() const { return m_board_ ? &*m_board_ : nullptr; }
+    void close_board() { m_board_.reset(); }
+    bool accept_offer(int slot);
+    int guild_rank() const;
     // Equipment and shops (spec 06): each returns false, changing nothing, when refused.
     bool equip(const std::string& item_id);
     bool buy(const std::string& item_id);
@@ -200,6 +210,7 @@ private:
     float player_x() const override { return m_player_.position.x; }
     float player_y() const override { return m_player_.position.y; }
     void open_shop() override;
+    void open_board() override;
 
     TileMap m_map_;
     Tileset m_tileset_;
@@ -225,6 +236,7 @@ private:
     std::string m_equipped_weapon_;
     std::string m_equipped_armor_;
     std::optional<ShopDef> m_shop_;
+    std::optional<Board> m_board_;
     std::vector<NpcDef> m_npcs_;            // settlement people of the active window (spec 09)
     std::vector<Circle> m_npc_circles_;     // their collision circles
     std::set<std::pair<int, int>> m_explored_;

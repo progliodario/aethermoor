@@ -35,6 +35,7 @@ import io.github.progliodario.aethermoor.core.sim.Tileset
 import io.github.progliodario.aethermoor.core.sim.ObjectiveKind
 import io.github.progliodario.aethermoor.core.sim.WorldSim
 import io.github.progliodario.aethermoor.core.sim.loadCombatSetup
+import io.github.progliodario.aethermoor.core.sim.questFromOffer
 import io.github.progliodario.aethermoor.core.sim.makeStreamMap
 import io.github.progliodario.aethermoor.core.sim.parseTileset
 import io.github.progliodario.aethermoor.core.sim.savePeek
@@ -97,6 +98,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var shopRowRects: List<FloatArray> = emptyList()
     private var shopBuyTab: FloatArray? = null
     private var shopSellTab: FloatArray? = null
+    private var boardCursor = 0
+    private var boardRowRects: List<FloatArray> = emptyList()
     private var bagCursor = 0
     private var bagRowRects: List<FloatArray> = emptyList()
     private var bagRect: FloatArray? = null
@@ -246,8 +249,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
         handleStoryInput(world)
         val frame = input.read()
-        if (showInventory || showMap || world.shop != null) {
-            accumulator = 0f // the bag, the map and the shop pause the game
+        if (showInventory || showMap || world.shop != null || world.board != null) {
+            accumulator = 0f // the bag, the map, the shop and the board pause the game
         } else {
             accumulator += min(Gdx.graphics.deltaTime, MAX_FRAME_SECONDS)
             var ticks = 0
@@ -590,10 +593,54 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
     }
 
+    /** The guild board (spec 07, "Guild"): the slot under the cursor is accepted or refused with a notice. */
+    private fun boardConfirm(world: WorldSim) {
+        val pack = assets?.pack ?: return
+        val board = world.board ?: return
+        if (board.offers.isEmpty()) return
+        val slot = boardCursor.coerceIn(0, board.offers.size - 1)
+        val quest = questFromOffer(board.offers[slot])
+        if (world.acceptOffer(slot)) {
+            showNotice(pack.text(language, "\$i18n:ui.quest_accepted", mapOf("quest" to dialogueText(pack, quest.name, quest.args))))
+        } else {
+            showNotice(pack.text(language, "\$i18n:ui.cannot_do"))
+        }
+    }
+
+    private fun handleBoardInput(world: WorldSim) {
+        val input = Gdx.input
+        val count = world.board?.offers?.size ?: 0
+        if (input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            world.closeBoard()
+        } else if (input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W)) {
+            if (count > 0) boardCursor = (boardCursor.coerceIn(0, count - 1) + count - 1) % count
+        } else if (input.isKeyJustPressed(Input.Keys.DOWN) || input.isKeyJustPressed(Input.Keys.S)) {
+            if (count > 0) boardCursor = (boardCursor.coerceIn(0, count - 1) + 1) % count
+        } else if (input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.ENTER) || input.isKeyJustPressed(Input.Keys.SPACE)) {
+            boardConfirm(world)
+        } else if (input.justTouched()) {
+            // A tap selects an offer, a second tap on it accepts it; a tap elsewhere closes the board.
+            val x = input.x.toFloat()
+            val y = input.y.toFloat()
+            val row = boardRowRects.indexOfFirst { x >= it[0] && x <= it[0] + it[2] && y >= it[1] && y <= it[1] + it[3] }
+            if (row < 0) {
+                world.closeBoard()
+            } else if (row == boardCursor) {
+                boardConfirm(world)
+            } else {
+                boardCursor = row
+            }
+        }
+    }
+
     private fun handleStoryInput(world: WorldSim) {
         val story = world.story
         val input = Gdx.input
         val view = story.dialogueView()
+        if (world.board != null) {
+            handleBoardInput(world)
+            return
+        }
         if (world.shop != null) {
             handleShopInput(world)
             return
@@ -771,13 +818,13 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         y += font.lineHeight * 1.3f
         for ((questId, progress) in story.quests) {
             if (progress.done) continue
-            val def = story.setup.quests.getValue(questId)
+            val def = story.questDef(questId) ?: continue
             val stage: QuestStage = def.stages.firstOrNull { it.id == progress.stage } ?: continue
             font.color = Color(0.435f, 0.89f, 1f, 1f)
-            font.draw(batch, data.pack.text(language, def.name), x, y)
+            font.draw(batch, dialogueText(data.pack, def.name, def.args), x, y)
             y += font.lineHeight * 1.2f
             font.color = Color(0.92f, 0.96f, 1f, 1f)
-            layout.setText(font, data.pack.text(language, stage.journal), font.color, 280f * density, 0, true)
+            layout.setText(font, dialogueText(data.pack, stage.journal, def.args), font.color, 280f * density, 0, true)
             font.draw(batch, layout, x, y)
             y += layout.height + 4f * density
             for ((i, objective) in stage.objectives.withIndex()) {
@@ -829,6 +876,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         drawBagAndNotice(world, data)
         drawWorldMap(world, data)
         drawShop(world, data)
+        drawBoard(world, data)
     }
 
     /** The shop (spec 06): buy / sell tabs, the entries with their price and the gold. */
@@ -896,6 +944,79 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             layout.setText(font, price)
             font.draw(batch, price, panelX + panelW - layout.width - 14f * density, firstRowY + i * rowH)
         }
+        batch.end()
+    }
+
+    /** The guild board (spec 07, "Guild"): rank, points and the offers of the day with their reward. */
+    private fun drawBoard(world: WorldSim, data: Assets) {
+        val board = world.board
+        val store = world.chunks
+        if (board == null || store == null) {
+            boardRowRects = emptyList()
+            return
+        }
+        val density = Gdx.graphics.density
+        val width = Gdx.graphics.width.toFloat()
+        val height = Gdx.graphics.height.toFloat()
+        val guild = store.params.guild
+        val rank = world.guildRank()
+        fun letter(index: Int) = guild.ranks[index].id.uppercase(Locale.ROOT)
+        val rowH = font.lineHeight * 3.4f
+        val panelW = min(width - 40f, 640f * density)
+        val panelH = 92f * density + rowH * max(board.offers.size, 1)
+        val panelX = (width - panelW) / 2f
+        val panelY = (height - panelH) / 2f
+        val firstRowY = panelY + 64f * density
+        boardRowRects = board.offers.indices.map { floatArrayOf(panelX, firstRowY + it * rowH, panelW, rowH) }
+        val cursor = boardCursor.coerceIn(0, max(board.offers.size - 1, 0))
+
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        shapes.color = Color(0.04f, 0.12f, 0.23f, 0.96f)
+        shapes.rect(panelX, panelY, panelW, panelH)
+        shapes.color = Color(0.435f, 0.89f, 1f, 1f)
+        shapes.rect(panelX, panelY, panelW, 3f * density)
+        if (board.offers.isNotEmpty()) {
+            shapes.color = Color(0.16f, 0.35f, 0.55f, 1f)
+            shapes.rect(panelX + 6f * density, firstRowY + cursor * rowH - 2f * density, panelW - 12f * density, rowH)
+        }
+        shapes.end()
+
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        font.color = Color(0.435f, 0.89f, 1f, 1f)
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.board") + " - " + board.settlement.name, panelX + 14f * density, panelY + 12f * density)
+        font.color = Color(1f, 0.84f, 0.47f, 1f)
+        val status = data.pack.text(language, "\$i18n:ui.rank", mapOf("rank" to letter(rank))) + "  " +
+            data.pack.text(language, "\$i18n:ui.guild_points", mapOf("points" to world.story.guildPoints))
+        font.draw(batch, status, panelX + 14f * density, panelY + 12f * density + font.lineHeight * 1.5f)
+        for ((i, offer) in board.offers.withIndex()) {
+            val quest = questFromOffer(offer)
+            val locked = rank < offer.minRank
+            val taken = offer.id in world.story.quests
+            var name = dialogueText(data.pack, quest.name, quest.args)
+            if (taken) {
+                name += "  (" + data.pack.text(language, "\$i18n:ui.board_taken") + ")"
+            } else if (locked) {
+                name += "  (" + data.pack.text(language, "\$i18n:ui.board_locked", mapOf("rank" to letter(offer.minRank))) + ")"
+            }
+            val rowY = firstRowY + i * rowH
+            font.color = if (locked) Color(0.51f, 0.55f, 0.63f, 1f) else Color.WHITE
+            font.draw(batch, (if (i == cursor) "> " else "  ") + name, panelX + 14f * density, rowY)
+            font.color = Color(0.67f, 0.78f, 0.9f, 1f)
+            layout.setText(font, dialogueText(data.pack, quest.stages.first().journal, quest.args), font.color, panelW - 48f * density, 0, true)
+            font.draw(batch, layout, panelX + 30f * density, rowY + font.lineHeight * 1.1f)
+            font.color = Color(1f, 0.84f, 0.47f, 1f)
+            val reward = data.pack.text(
+                language, "\$i18n:ui.board_reward",
+                mapOf("gold" to offer.gold, "xp" to offer.xp, "points" to offer.points),
+            )
+            font.draw(batch, reward, panelX + 30f * density, rowY + font.lineHeight * 2.2f)
+        }
+        font.color = Color(0.67f, 0.78f, 0.9f, 1f)
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.board_hint"), panelX + 14f * density, panelY + panelH - font.lineHeight * 1.6f)
+        font.color = Color.WHITE
         batch.end()
     }
 

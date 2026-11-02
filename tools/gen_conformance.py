@@ -228,6 +228,7 @@ SUITES = {
     "worldtime": conformance_m5.suite_worldtime,
     "worldmap": conformance_m5.suite_worldmap,
     "settlements": conformance_m5.suite_settlements,
+    "guild": conformance_m5.suite_guild,
 }
 
 

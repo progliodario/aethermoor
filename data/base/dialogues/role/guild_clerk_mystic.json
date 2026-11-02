@@ -4,22 +4,6 @@
   "start": "start",
   "nodes": {
     "start": {
-      "type": "condition",
-      "when": {
-        "quest_done": "base:quest/guild/slime_extermination"
-      },
-      "then": "thanks",
-      "else": "active_check"
-    },
-    "active_check": {
-      "type": "condition",
-      "when": {
-        "quest_active": "base:quest/guild/slime_extermination"
-      },
-      "then": "busy",
-      "else": "hello"
-    },
-    "hello": {
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.role.guild_clerk.mystic.hello",
@@ -30,7 +14,7 @@
       "choices": [
         {
           "text": "$i18n:dlg.role.work",
-          "next": "offer"
+          "next": "board"
         },
         {
           "text": "$i18n:dlg.role.rumor",
@@ -42,47 +26,13 @@
         }
       ]
     },
-    "offer": {
-      "type": "say",
-      "speaker": "npc",
-      "text": "$i18n:dlg.role.guild_clerk.mystic.offer",
-      "next": "offer_choice"
-    },
-    "offer_choice": {
-      "type": "choice",
-      "choices": [
+    "board": {
+      "type": "effects",
+      "effects": [
         {
-          "text": "$i18n:dlg.role.accept",
-          "effects": [
-            {
-              "effect": "start_quest",
-              "quest": "base:quest/guild/slime_extermination"
-            }
-          ],
-          "next": "accepted"
-        },
-        {
-          "text": "$i18n:dlg.role.decline",
-          "next": "end"
+          "effect": "open_board"
         }
-      ]
-    },
-    "accepted": {
-      "type": "say",
-      "speaker": "npc",
-      "text": "$i18n:dlg.role.guild_clerk.mystic.accepted",
-      "next": "end"
-    },
-    "busy": {
-      "type": "say",
-      "speaker": "npc",
-      "text": "$i18n:dlg.role.guild_clerk.mystic.busy",
-      "next": "end"
-    },
-    "thanks": {
-      "type": "say",
-      "speaker": "npc",
-      "text": "$i18n:dlg.role.guild_clerk.mystic.thanks",
+      ],
       "next": "end"
     },
     "rumor": {

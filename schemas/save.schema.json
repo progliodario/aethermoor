@@ -326,6 +326,10 @@
               "type": "string"
             }
           }
+        },
+        "guild_points": {
+          "type": "integer",
+          "minimum": 0
         }
       }
     },

@@ -6,6 +6,8 @@
 
 #include <nlohmann/json.hpp>
 
+#include "core/worldgen.hpp"
+
 namespace aether {
 
 namespace {
@@ -78,6 +80,11 @@ Effect parse_effect(const Json& j) {
         e.a = j.at("quest").get<std::string>();
     } else if (kind == "open_shop") {
         e.kind = Effect::Kind::OpenShop;
+    } else if (kind == "open_board") {
+        e.kind = Effect::Kind::OpenBoard;
+    } else if (kind == "add_guild_points") {
+        e.kind = Effect::Kind::AddGuildPoints;
+        e.n = j.at("amount").get<std::int64_t>();
     } else {
         throw std::runtime_error("unknown effect " + kind);
     }
@@ -125,6 +132,11 @@ QuestDef parse_quest_json(const Json& j) {
         quest.stages.push_back(std::move(stage));
     }
     quest.rewards = parse_effects(j, "rewards");
+    if (j.contains("args")) {
+        for (const auto& [key, value] : j.at("args").items()) {
+            quest.args[key] = value.get<std::string>();
+        }
+    }
     if (quest.stages.empty()) {
         throw std::runtime_error("a quest needs at least one stage");
     }
@@ -182,6 +194,36 @@ DialogueDef parse_dialogue_json(const Json& j) {
 }
 
 }  // namespace
+
+QuestDef quest_from_offer(const Offer& offer) {
+    QuestDef quest;
+    quest.id = offer.id;
+    quest.name = "$i18n:quest.board." + offer.template_id + "." + offer.tone + ".name";
+    std::string target_key = offer.target.substr(offer.target.find(':') + 1);
+    std::replace(target_key.begin(), target_key.end(), '/', '.');
+    quest.args = {{"count", std::to_string(offer.count)}, {"target", "$i18n:" + target_key + ".name"}, {"place", offer.place}};
+    QuestStage stage;
+    stage.id = "work";
+    stage.journal = "$i18n:quest.board." + offer.template_id + "." + offer.tone + ".journal";
+    stage.next = "end";
+    Objective objective;
+    objective.kind = offer.type == "kill" ? Objective::Kind::Kill : Objective::Kind::Collect;
+    objective.target = offer.target;
+    objective.count = offer.count;
+    stage.objectives.push_back(std::move(objective));
+    quest.stages.push_back(std::move(stage));
+    Effect xp;
+    xp.kind = Effect::Kind::AddXp;
+    xp.n = offer.xp;
+    Effect gold;
+    gold.kind = Effect::Kind::AddGold;
+    gold.n = offer.gold;
+    Effect points;
+    points.kind = Effect::Kind::AddGuildPoints;
+    points.n = offer.points;
+    quest.rewards = {xp, gold, points};
+    return quest;
+}
 
 std::optional<QuestDef> parse_quest(std::string_view json_text, std::string& error) {
     try {
@@ -288,6 +330,12 @@ void Story::apply(const Effect& effect) {
             break;
         case Effect::Kind::OpenShop:
             m_host_.open_shop();
+            break;
+        case Effect::Kind::OpenBoard:
+            m_host_.open_board();
+            break;
+        case Effect::Kind::AddGuildPoints:
+            m_guild_points_ += effect.n;
             break;
     }
 }
@@ -535,6 +583,7 @@ StoryState Story::capture() const {
     StoryState state;
     state.flags = m_flags_;
     state.gold = m_gold_;
+    state.guild_points = m_guild_points_;
     state.quests = m_quests_;
     state.dialogue_active = m_dialogue_active_;
     state.dialogue_id = m_dialogue_id_;
@@ -552,11 +601,17 @@ bool Story::restore(const StoryState& state) {
     }
     for (const auto& entry : state.quests) {
         if (m_setup_.quests.find(entry.first) == m_setup_.quests.end()) {
-            return false;
+            // A generated quest (spec 07, "Guild"): the world rebuilds it from its id.
+            const auto rebuilt = m_resolver_ ? m_resolver_(entry.first) : std::nullopt;
+            if (!rebuilt) {
+                return false;
+            }
+            m_setup_.quests.emplace(rebuilt->id, *rebuilt);
         }
     }
     m_flags_ = state.flags;
     m_gold_ = state.gold;
+    m_guild_points_ = state.guild_points;
     m_quests_ = state.quests;
     m_dialogue_active_ = state.dialogue_active;
     m_dialogue_id_ = state.dialogue_id;

@@ -290,6 +290,9 @@ class CombatSim:
     def close_shop(self) -> None:
         self.shop = None
 
+    def open_board(self) -> None:
+        """The `open_board` dialogue effect: the world shows the board (nothing to model in a scenario)."""
+
     def buy(self, item_id: str) -> bool:
         """Buys one item from the open shop (spec 06). Returns False, changing nothing, when refused."""
         if self.shop is None or self.story is None or item_id not in self.shop["stock"]:
@@ -385,6 +388,9 @@ def run_segment(sim: CombatSim, segment: dict) -> None:
             continue
         if command["cmd"] in ("equip", "buy", "sell"):
             getattr(sim, command["cmd"])(command["item"])
+            continue
+        if command["cmd"] == "start_quest":
+            sim.story.start_quest(command["quest"])
             continue
         if command["cmd"] == "open_shop":
             sim.open_shop()

@@ -382,6 +382,79 @@ GenPerson person_at(std::uint64_t seed, const WorldParams& p, const Settlement& 
     return person;
 }
 
+int rank_index(const GuildParams& guild, std::int64_t points) {
+    int index = 0;
+    for (std::size_t i = 0; i < guild.ranks.size(); ++i) {
+        if (points >= guild.ranks[i].points) {
+            index = static_cast<int>(i);
+        }
+    }
+    return index;
+}
+
+std::vector<Offer> offers_for(std::uint64_t seed, const WorldParams& p, const Settlement& settlement, std::int64_t day) {
+    std::vector<Offer> offers;
+    for (int slot = 0; slot < p.guild.offers_per_day; ++slot) {
+        const std::uint64_t h = hash64(hash64(seed, settlement.sx, settlement.sy, 200 + slot), day, slot);
+        const GuildTemplate& t = p.guild.templates[(h >> 16) % p.guild.templates.size()];
+        const std::uint64_t span = static_cast<std::uint64_t>(t.count_max - t.count_min + 1);
+        Offer offer;
+        offer.slot = slot;
+        offer.id = "board:" + std::to_string(settlement.sx) + ":" + std::to_string(settlement.sy) + ":" + std::to_string(day) + ":" +
+                   std::to_string(slot);
+        offer.min_rank = std::min(slot, static_cast<int>(p.guild.ranks.size()) - 1);
+        offer.template_id = t.id;
+        offer.type = t.type;
+        offer.target = t.target;
+        offer.count = t.count_min + static_cast<int>((h >> 32) % span);
+        const std::int64_t tier = slot + 1;
+        offer.gold = (t.gold_base + static_cast<std::int64_t>(offer.count) * t.gold_per) * tier;
+        offer.xp = (t.xp_base + static_cast<std::int64_t>(offer.count) * t.xp_per) * tier;
+        offer.points = (t.points_base + static_cast<std::int64_t>(offer.count) * t.points_per) * tier;
+        offer.place = settlement.name;
+        offer.tone = p.regions[static_cast<std::size_t>(settlement.region)].tone;
+        offers.push_back(std::move(offer));
+    }
+    return offers;
+}
+
+std::optional<Offer> resolve_offer(std::uint64_t seed, const WorldParams& p, const std::string& quest_id) {
+    std::vector<std::string> parts;
+    for (std::size_t start = 0; start <= quest_id.size();) {
+        const std::size_t end = quest_id.find(':', start);
+        parts.push_back(quest_id.substr(start, end == std::string::npos ? std::string::npos : end - start));
+        if (end == std::string::npos) {
+            break;
+        }
+        start = end + 1;
+    }
+    if (parts.size() != 5 || parts[0] != "board") {
+        return std::nullopt;
+    }
+    int sx = 0;
+    int sy = 0;
+    int slot = 0;
+    std::int64_t day = 0;
+    try {
+        sx = std::stoi(parts[1]);
+        sy = std::stoi(parts[2]);
+        day = std::stoll(parts[3]);
+        slot = std::stoi(parts[4]);
+    } catch (const std::exception&) {
+        return std::nullopt;
+    }
+    const auto settlement = settlement_site(seed, p, sx, sy);
+    if (!settlement) {
+        return std::nullopt;
+    }
+    for (Offer& offer : offers_for(seed, p, *settlement, day)) {
+        if (offer.slot == slot) {
+            return std::move(offer);
+        }
+    }
+    return std::nullopt;
+}
+
 int region_at(const WorldParams& p, int x, int y) {
     int best = 0;
     std::int64_t best_distance = -1;

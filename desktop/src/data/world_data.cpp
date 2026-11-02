@@ -99,6 +99,30 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
             return std::nullopt;
         }
 
+        const Json& guild = j.at("guild");
+        p.guild.offers_per_day = guild.at("offers_per_day").get<int>();
+        for (const Json& rank : guild.at("ranks")) {
+            p.guild.ranks.push_back({rank.at("id").get<std::string>(), rank.at("points").get<int>()});
+        }
+        for (const Json& entry : guild.at("templates")) {
+            GuildTemplate tpl;
+            tpl.id = entry.at("id").get<std::string>();
+            tpl.type = entry.at("type").get<std::string>();
+            tpl.target = entry.at("target").get<std::string>();
+            tpl.count_min = entry.at("count_min").get<int>();
+            tpl.count_max = entry.at("count_max").get<int>();
+            tpl.gold_base = entry.at("gold_base").get<int>();
+            tpl.gold_per = entry.at("gold_per").get<int>();
+            tpl.xp_base = entry.at("xp_base").get<int>();
+            tpl.xp_per = entry.at("xp_per").get<int>();
+            tpl.points_base = entry.at("points_base").get<int>();
+            tpl.points_per = entry.at("points_per").get<int>();
+            p.guild.templates.push_back(std::move(tpl));
+        }
+        if (p.guild.ranks.empty() || p.guild.templates.empty() || p.guild.offers_per_day < 1) {
+            error = "invalid guild parameters";
+            return std::nullopt;
+        }
         if (j.contains("home")) {
             p.home_radius = j.at("home").at("radius").get<int>();
             p.home_stamp = j.at("home").at("stamp").get<std::string>();

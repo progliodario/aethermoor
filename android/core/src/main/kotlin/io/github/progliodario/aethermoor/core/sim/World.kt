@@ -3,13 +3,19 @@ package io.github.progliodario.aethermoor.core.sim
 import io.github.progliodario.aethermoor.core.DamageInput
 import io.github.progliodario.aethermoor.core.DerivedStats
 import io.github.progliodario.aethermoor.core.Equipment
+import io.github.progliodario.aethermoor.core.Offer
+import io.github.progliodario.aethermoor.core.Settlement
 import io.github.progliodario.aethermoor.core.TimeSample
 import io.github.progliodario.aethermoor.core.damage
 import io.github.progliodario.aethermoor.core.deriveStream
 import io.github.progliodario.aethermoor.core.derivedStats
 import io.github.progliodario.aethermoor.core.explore
+import io.github.progliodario.aethermoor.core.offersFor
+import io.github.progliodario.aethermoor.core.rankIndex
 import io.github.progliodario.aethermoor.core.regionAt
+import io.github.progliodario.aethermoor.core.resolveOffer
 import io.github.progliodario.aethermoor.core.sampleTime
+import io.github.progliodario.aethermoor.core.settlementSite
 import io.github.progliodario.aethermoor.core.xpGain
 import kotlin.math.PI
 import kotlin.math.abs
@@ -125,6 +131,13 @@ class WorldSim(
     var equippedArmor: String = combat.startArmor
         private set
 
+    /** The board of a settlement (spec 07, "Guild"): the settlement, the day and its offers. */
+    class Board(val settlement: Settlement, val day: Long, val offers: List<Offer>)
+
+    /** The board that is open now, or null. */
+    var board: Board? = null
+        private set
+
     /** The shop that is open now (spec 06), or null. */
     var shop: ShopDef? = null
         private set
@@ -152,6 +165,9 @@ class WorldSim(
 
     init {
         story.dynamicNpcs = npcList
+        chunks?.let { store ->
+            story.questResolver = { id -> resolveOffer(store.seed, store.params, id)?.let { questFromOffer(it) } }
+        }
         collision.dynamicProps = npcCircles
         for (npc in combat.story.npcs) collision.addProp(Circle(npc.x, npc.y, NPC_RADIUS))
         if (combat.enabled) {
@@ -280,6 +296,31 @@ class WorldSim(
         player.position = collision.resolve(player.position)
         syncWindow()
         markExplored()
+    }
+
+    override fun openBoard() {
+        val store = chunks ?: return
+        val sx = floor(player.position.x).toInt() shr 8
+        val sy = floor(player.position.y).toInt() shr 8
+        val settlement = settlementSite(store.seed, store.params, sx, sy) ?: return
+        val day = worldTicks / store.params.time.dayTicks + 1
+        board = Board(settlement, day, offersFor(store.seed, store.params, settlement, day))
+    }
+
+    fun closeBoard() {
+        board = null
+    }
+
+    /** The guild rank (index) of the player (spec 07). */
+    fun guildRank(): Int = chunks?.let { rankIndex(it.params.guild, story.guildPoints) } ?: 0
+
+    /** Accepts the offer of a slot of the open board. Returns false, changing nothing, when refused. */
+    fun acceptOffer(slot: Int): Boolean {
+        val offer = board?.offers?.getOrNull(slot) ?: return false
+        if (guildRank() < offer.minRank || offer.id in story.quests) return false
+        story.addGeneratedQuest(questFromOffer(offer))
+        story.startQuest(offer.id)
+        return true
     }
 
     override fun openShop() {
@@ -695,6 +736,7 @@ class WorldSim(
         equippedWeapon = s.equippedWeapon ?: combat.startWeapon
         equippedArmor = s.equippedArmor
         shop = null
+        board = null
         recomputeDerived()
         player.hp = minOf(s.hp, derived.maxHp)
         explored.clear()

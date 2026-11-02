@@ -68,6 +68,12 @@
       "items": {
         "$ref": "#/$defs/effect"
       }
+    },
+    "args": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
     }
   },
   "$defs": {
@@ -229,6 +235,35 @@
           "properties": {
             "effect": {
               "const": "open_shop"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect",
+            "amount"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "const": "add_guild_points"
+            },
+            "amount": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "const": "open_board"
             }
           }
         }

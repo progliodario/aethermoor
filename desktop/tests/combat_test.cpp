@@ -290,6 +290,55 @@ TEST_CASE("the overworld is streamed from the content pack and is playable", "[w
     sim.tick(0.0F, 0.0F, false);
     check_window();
 
+    // The guild board of a town (spec 07, "Guild"): talk to a clerk, see the offers, accept one and keep it across a save.
+    {
+        const auto towns = aether::settlements_in(42, *params, 0, 0, 63, 63);
+        const aether::Settlement* town = nullptr;
+        std::pair<int, int> clerk_tile{0, 0};
+        for (const aether::Settlement& s : towns) {
+            for (const auto& [tile, slot] : s.slots) {
+                if (slot.second == "guild_clerk" && town == nullptr) {
+                    town = &s;
+                    clerk_tile = tile;
+                }
+            }
+        }
+        REQUIRE(town != nullptr);
+        sim.teleport(static_cast<float>(clerk_tile.first) + 0.5F, static_cast<float>(clerk_tile.second) + 1.4F);
+        sim.tick(0.0F, 0.0F, false);
+        const aether::NpcDef* clerk = sim.story().npc_in_range();
+        REQUIRE(clerk != nullptr);
+        REQUIRE(clerk->dialogue.find("guild_clerk") != std::string::npos);
+        sim.story().interact();
+        sim.story().advance();
+        sim.story().choose(0);  // "show me the board"
+        REQUIRE(!sim.story().dialogue_active());
+        REQUIRE(sim.board() != nullptr);
+        REQUIRE(sim.board()->offers.size() == static_cast<std::size_t>(params->guild.offers_per_day));
+        REQUIRE(sim.guild_rank() == 0);
+        REQUIRE(sim.accept_offer(0));
+        REQUIRE(!sim.accept_offer(0));  // already taken
+        REQUIRE(!sim.accept_offer(3));  // needs a higher rank
+        const std::string quest_id = sim.board()->offers[0].id;
+        REQUIRE(sim.story().quests().count(quest_id) == 1);
+        // A save keeps the generated quest and a fresh world rebuilds it from its id.
+        const aether::SaveState with_quest = sim.capture();
+        aether::SaveMeta quest_meta;
+        quest_meta.seed = 42;
+        quest_meta.map = "world";
+        std::string quest_json_error;
+        const auto quest_save = aether::save_from_json(aether::save_to_json(with_quest, quest_meta), quest_json_error);
+        REQUIRE(quest_save.has_value());
+        aether::WorldSim reloaded(map, demo.tileset, 0.0F, *setup, aether::StreamConfig{*params, 42});
+        std::string reload_error;
+        REQUIRE(reloaded.restore(*quest_save, reload_error));
+        REQUIRE(reloaded.story().quests().count(quest_id) == 1);
+        sim.close_board();
+        sim.teleport(static_cast<float>(map.width / 2) + 0.5F, static_cast<float>(map.height / 2) + 0.5F);
+        sim.tick(0.0F, 0.0F, false);
+        check_window();
+    }
+
     // Saving and loading into a fresh world of the same seed gives the same enemies.
     const aether::SaveState state = sim.capture();
     REQUIRE(state.enemies.size() == sim.enemies().size());

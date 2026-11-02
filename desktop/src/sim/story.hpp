@@ -4,6 +4,7 @@
 // Reference: tools/reference/story.py.
 
 #include <cstdint>
+#include <functional>
 #include <map>
 #include <optional>
 #include <string>
@@ -22,7 +23,7 @@ struct Condition {
 };
 
 struct Effect {
-    enum class Kind { AddXp, AddGold, AddItem, SetFlag, StartQuest, OpenShop };
+    enum class Kind { AddXp, AddGold, AddItem, SetFlag, StartQuest, OpenShop, AddGuildPoints, OpenBoard };
     Kind kind = Kind::AddXp;
     std::string a;  // item / flag / quest
     std::int64_t n = 0;  // amount / quantity
@@ -49,7 +50,12 @@ struct QuestDef {
     std::string name;  // "$i18n:..." reference
     std::vector<QuestStage> stages;
     std::vector<Effect> rewards;
+    std::map<std::string, std::string> args;  // arguments of the name and journal texts (spec 07)
 };
+
+struct Offer;
+// The quest of a board offer (spec 07, "Guild").
+QuestDef quest_from_offer(const Offer& offer);
 
 struct DialogueChoice {
     std::string text;
@@ -121,6 +127,7 @@ struct QuestProgress {
 struct StoryState {
     std::map<std::string, bool> flags;
     std::int64_t gold = 0;
+    std::int64_t guild_points = 0;
     std::map<std::string, QuestProgress> quests;
     bool dialogue_active = false;
     std::string dialogue_id;
@@ -138,6 +145,7 @@ public:
     virtual float player_x() const = 0;
     virtual float player_y() const = 0;
     virtual void open_shop() = 0;
+    virtual void open_board() = 0;
 };
 
 class Story {
@@ -171,6 +179,11 @@ public:
     const std::map<std::string, bool>& flags() const { return m_flags_; }
     std::int64_t gold() const { return m_gold_; }
     void set_gold(std::int64_t gold) { m_gold_ = gold; }
+    std::int64_t guild_points() const { return m_guild_points_; }
+    // Adds the quest of a board offer to the known quests (it can then be started and saved).
+    void add_generated_quest(QuestDef quest) { m_setup_.quests.emplace(quest.id, std::move(quest)); }
+    // Rebuilds the quest of a generated id when a save is loaded.
+    void set_quest_resolver(std::function<std::optional<QuestDef>(const std::string&)> resolver) { m_resolver_ = std::move(resolver); }
     const std::map<std::string, QuestProgress>& quests() const { return m_quests_; }
 
 private:
@@ -187,6 +200,8 @@ private:
     StoryHost& m_host_;
     std::map<std::string, bool> m_flags_;
     std::int64_t m_gold_ = 0;
+    std::int64_t m_guild_points_ = 0;
+    std::function<std::optional<QuestDef>(const std::string&)> m_resolver_;
     std::map<std::string, QuestProgress> m_quests_;
     bool m_dialogue_active_ = false;
     std::string m_dialogue_id_;

@@ -1,6 +1,7 @@
 package io.github.progliodario.aethermoor.core
 
 import io.github.progliodario.aethermoor.core.sim.ACTIVE_RADIUS
+import io.github.progliodario.aethermoor.core.sim.Effect
 import io.github.progliodario.aethermoor.core.sim.SaveMeta
 import io.github.progliodario.aethermoor.core.sim.StreamConfig
 import io.github.progliodario.aethermoor.core.sim.WorldSim
@@ -8,6 +9,7 @@ import io.github.progliodario.aethermoor.core.sim.chunkOf
 import io.github.progliodario.aethermoor.core.sim.loadCombatSetup
 import io.github.progliodario.aethermoor.core.sim.makeStreamMap
 import io.github.progliodario.aethermoor.core.sim.parseTileset
+import io.github.progliodario.aethermoor.core.sim.questFromOffer
 import io.github.progliodario.aethermoor.core.sim.saveFromJson
 import io.github.progliodario.aethermoor.core.sim.saveToJson
 import java.io.File
@@ -218,6 +220,57 @@ class WorldGenTest {
     }
 
     @Test
+    fun guildSuite() {
+        val doc = Json.parseToJsonElement(File(repoRoot, "tests/conformance/guild.json").readText()).jsonObject
+        for (case in doc.getValue("cases").jsonArray) {
+            val c = case.jsonObject
+            val label = c.getValue("name").jsonPrimitive.content
+            val input = c.getValue("input").jsonObject
+            val want = c.getValue("expect").jsonObject
+            val params = parseWorldParams(input.getValue("params").toString()).getOrThrow()
+            val seed = hex(input.getValue("seed").jsonPrimitive.content)
+            for (rank in want.getValue("ranks").jsonArray) {
+                val r = rank.jsonArray
+                assertEquals(r[1].jsonPrimitive.int, rankIndex(params.guild, r[0].jsonPrimitive.long), "$label rank of ${r[0]}")
+            }
+            var index = 0
+            for (site in input.getValue("sites").jsonArray) {
+                val settlement = requireNotNull(settlementSite(seed, params, site.jsonArray[0].jsonPrimitive.int, site.jsonArray[1].jsonPrimitive.int))
+                for (day in input.getValue("days").jsonArray) {
+                    for (offer in offersFor(seed, params, settlement, day.jsonPrimitive.long)) {
+                        val e = want.getValue("offers").jsonArray[index].jsonArray
+                        val who = "$label offer $index"
+                        assertEquals(e[0].jsonPrimitive.content, offer.id, "$who id")
+                        assertEquals(e[1].jsonPrimitive.int, offer.minRank, "$who min rank")
+                        assertEquals(e[2].jsonPrimitive.content, offer.template, "$who template")
+                        assertEquals(e[3].jsonPrimitive.content, offer.type, "$who type")
+                        assertEquals(e[4].jsonPrimitive.content, offer.target, "$who target")
+                        assertEquals(e[5].jsonPrimitive.int, offer.count, "$who count")
+                        assertEquals(e[6].jsonPrimitive.long, offer.gold, "$who gold")
+                        assertEquals(e[7].jsonPrimitive.long, offer.xp, "$who xp")
+                        assertEquals(e[8].jsonPrimitive.long, offer.points, "$who points")
+                        assertEquals(e[9].jsonPrimitive.content, offer.place, "$who place")
+                        assertEquals(e[10].jsonPrimitive.content, offer.tone, "$who tone")
+                        val quest = questFromOffer(offer)
+                        val q = want.getValue("quests").jsonArray[index].jsonObject
+                        assertEquals(q.getValue("id").jsonPrimitive.content, quest.id, "$who quest id")
+                        assertEquals(q.getValue("name").jsonPrimitive.content, quest.name, "$who quest name")
+                        val stage = q.getValue("stages").jsonArray[0].jsonObject
+                        assertEquals(stage.getValue("journal").jsonPrimitive.content, quest.stages[0].journal, "$who journal")
+                        assertEquals(stage.getValue("objectives").jsonArray[0].jsonObject.getValue("count").jsonPrimitive.long, quest.stages[0].objectives[0].count, "$who objective")
+                        for ((key, value) in q.getValue("args").jsonObject) assertEquals(value.jsonPrimitive.content, quest.args[key], "$who arg $key")
+                        assertEquals(q.getValue("rewards").jsonArray[1].jsonObject.getValue("amount").jsonPrimitive.long, (quest.rewards[1] as Effect.AddGold).amount, "$who reward gold")
+                        assertEquals(q.getValue("rewards").jsonArray[2].jsonObject.getValue("amount").jsonPrimitive.long, (quest.rewards[2] as Effect.AddGuildPoints).amount, "$who reward points")
+                        assertEquals(offer.gold, resolveOffer(seed, params, offer.id)?.gold, "$who rebuild")
+                        index++
+                    }
+                }
+            }
+            assertEquals(want.getValue("offers").jsonArray.size, index, "$label offers")
+        }
+    }
+
+    @Test
     fun settlementsSuite() {
         val doc = Json.parseToJsonElement(File(repoRoot, "tests/conformance/settlements.json").readText()).jsonObject
         for (case in doc.getValue("cases").jsonArray) {
@@ -398,6 +451,34 @@ class WorldGenTest {
         sim.teleport(map.width / 2 + 0.5f, map.height / 2 + 0.5f)
         sim.tick(0f, 0f, false)
         checkWindow()
+
+        // The guild board of a town (spec 07, "Guild"): talk to a clerk, see the offers, accept one and keep it across a save.
+        run {
+            val clerkTown = settlementsIn(42uL, params, 0, 0, 63, 63).first { s -> s.slots.values.any { it.second == "guild_clerk" } }
+            val clerkTile = clerkTown.slots.entries.first { it.value.second == "guild_clerk" }.key
+            sim.teleport(clerkTile.first + 0.5f, clerkTile.second + 1.4f)
+            sim.tick(0f, 0f, false)
+            assertTrue(requireNotNull(sim.story.npcInRange()).dialogue.contains("guild_clerk"))
+            sim.story.interact()
+            sim.story.advance()
+            sim.story.choose(0) // "show me the board"
+            assertFalse(sim.story.dialogueActive)
+            val board = requireNotNull(sim.board)
+            assertEquals(params.guild.offersPerDay, board.offers.size)
+            assertEquals(0, sim.guildRank())
+            assertTrue(sim.acceptOffer(0))
+            assertFalse(sim.acceptOffer(0)) // already taken
+            assertFalse(sim.acceptOffer(3)) // needs a higher rank
+            val questId = board.offers[0].id
+            assertTrue(questId in sim.story.quests)
+            val reloaded = WorldSim(map, tileset, 0f, setup, StreamConfig(params, 42uL))
+            reloaded.restore(saveFromJson(saveToJson(sim.capture(), SaveMeta("test", 1, "base:protagonist/ren", 42uL, "world"))).getOrThrow()).getOrThrow()
+            assertTrue(questId in reloaded.story.quests)
+            sim.closeBoard()
+            sim.teleport(map.width / 2 + 0.5f, map.height / 2 + 0.5f)
+            sim.tick(0f, 0f, false)
+            checkWindow()
+        }
 
         // Saving and loading into a fresh world of the same seed gives the same enemies.
         val state = sim.capture()

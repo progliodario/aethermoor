@@ -67,6 +67,43 @@ class GenPerson(
     val quirk: String,
 )
 
+/** A rank of the guild (spec 07, "Guild"). */
+class GuildRank(val id: String, val points: Int)
+
+class GuildTemplate(
+    val id: String,
+    /** "kill" or "collect". */
+    val type: String,
+    /** An enemy or item ID. */
+    val target: String,
+    val countMin: Int,
+    val countMax: Int,
+    val goldBase: Int,
+    val goldPer: Int,
+    val xpBase: Int,
+    val xpPer: Int,
+    val pointsBase: Int,
+    val pointsPer: Int,
+)
+
+class GuildParams(val offersPerDay: Int, val ranks: List<GuildRank>, val templates: List<GuildTemplate>)
+
+/** An offer of the board of a settlement. [id] is `board:<sx>:<sy>:<day>:<slot>`. */
+class Offer(
+    val id: String,
+    val slot: Int,
+    val minRank: Int,
+    val template: String,
+    val type: String,
+    val target: String,
+    val count: Int,
+    val gold: Long,
+    val xp: Long,
+    val points: Long,
+    val place: String,
+    val tone: String,
+)
+
 class WorldParams(
     val id: String,
     val width: Int,
@@ -110,6 +147,7 @@ class WorldParams(
     val spawnerRespawnTicks: Int,
     val time: TimeParams,
     val npcs: List<WorldNpc>,
+    val guild: GuildParams,
     /** The home meadow and village (spec 09); [homeRadius] 0: none. */
     val homeRadius: Int,
     val homeStamp: String,
@@ -309,6 +347,49 @@ fun personAt(seed: ULong, p: WorldParams, s: Settlement, x: Int, y: Int): GenPer
         region = region.name,
         quirk = p.quirks[(hash64(seed, s.sx.toLong(), s.sy.toLong(), 44) % p.quirks.size.toULong()).toInt()],
     )
+}
+
+/** Index of the rank of a member with that many guild points. */
+fun rankIndex(guild: GuildParams, points: Long): Int {
+    var index = 0
+    for ((i, rank) in guild.ranks.withIndex()) if (points >= rank.points) index = i
+    return index
+}
+
+/** The offers on the board of a settlement on a day (spec 07, "Guild"). */
+fun offersFor(seed: ULong, p: WorldParams, s: Settlement, day: Long): List<Offer> =
+    (0 until p.guild.offersPerDay).map { slot ->
+        val h = hash64(hash64(seed, s.sx.toLong(), s.sy.toLong(), 200L + slot), day, slot.toLong())
+        val t = p.guild.templates[((h shr 16) % p.guild.templates.size.toULong()).toInt()]
+        val span = (t.countMax - t.countMin + 1).toULong()
+        val count = t.countMin + ((h shr 32) % span).toInt()
+        val tier = (slot + 1).toLong()
+        Offer(
+            id = "board:${s.sx}:${s.sy}:$day:$slot",
+            slot = slot,
+            minRank = minOf(slot, p.guild.ranks.size - 1),
+            template = t.id,
+            type = t.type,
+            target = t.target,
+            count = count,
+            gold = (t.goldBase + count.toLong() * t.goldPer) * tier,
+            xp = (t.xpBase + count.toLong() * t.xpPer) * tier,
+            points = (t.pointsBase + count.toLong() * t.pointsPer) * tier,
+            place = s.name,
+            tone = p.regions[s.region].tone,
+        )
+    }
+
+/** The offer a generated quest id names, or null when the world cannot rebuild it. */
+fun resolveOffer(seed: ULong, p: WorldParams, questId: String): Offer? {
+    val parts = questId.split(":")
+    if (parts.size != 5 || parts[0] != "board") return null
+    val sx = parts[1].toIntOrNull() ?: return null
+    val sy = parts[2].toIntOrNull() ?: return null
+    val day = parts[3].toLongOrNull() ?: return null
+    val slot = parts[4].toIntOrNull() ?: return null
+    val settlement = settlementSite(seed, p, sx, sy) ?: return null
+    return offersFor(seed, p, settlement, day).firstOrNull { it.slot == slot }
 }
 
 fun settlementSite(seed: ULong, p: WorldParams, siteX: Int, siteY: Int): Settlement? = Sites(seed, p).site(siteX, siteY)
@@ -609,6 +690,22 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
             spawnerPer10000 = s.getValue("per_10000").jsonPrimitive.int,
             spawnerRespawnTicks = s.getValue("respawn_ticks").jsonPrimitive.int,
             time = parseTimeParams(j.getValue("time").jsonObject),
+            guild = j.getValue("guild").jsonObject.let { g ->
+                GuildParams(
+                    g.getValue("offers_per_day").jsonPrimitive.int,
+                    g.getValue("ranks").jsonArray.map { GuildRank(it.jsonObject.getValue("id").jsonPrimitive.content, it.jsonObject.getValue("points").jsonPrimitive.int) },
+                    g.getValue("templates").jsonArray.map {
+                        val t = it.jsonObject
+                        GuildTemplate(
+                            t.getValue("id").jsonPrimitive.content, t.getValue("type").jsonPrimitive.content, t.getValue("target").jsonPrimitive.content,
+                            t.getValue("count_min").jsonPrimitive.int, t.getValue("count_max").jsonPrimitive.int,
+                            t.getValue("gold_base").jsonPrimitive.int, t.getValue("gold_per").jsonPrimitive.int,
+                            t.getValue("xp_base").jsonPrimitive.int, t.getValue("xp_per").jsonPrimitive.int,
+                            t.getValue("points_base").jsonPrimitive.int, t.getValue("points_per").jsonPrimitive.int,
+                        )
+                    },
+                )
+            },
             homeRadius = j["home"]?.jsonObject?.getValue("radius")?.jsonPrimitive?.int ?: 0,
             homeStamp = j["home"]?.jsonObject?.getValue("stamp")?.jsonPrimitive?.content ?: "",
             homeDx = j["home"]?.jsonObject?.getValue("dx")?.jsonPrimitive?.int ?: 0,

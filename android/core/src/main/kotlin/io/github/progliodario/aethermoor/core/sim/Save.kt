@@ -168,6 +168,7 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
             buildJsonObject {
                 put("flags", buildJsonObject { for ((flag, value) in s.story.flags) put(flag, value) })
                 put("gold", s.story.gold)
+                put("guild_points", s.story.guildPoints)
                 put(
                     "quests",
                     buildJsonObject {
@@ -220,6 +221,7 @@ fun saveFromJson(text: String): Result<SaveState> =
                 StoryState(
                     flags = st.getValue("flags").jsonObject.mapValues { it.value.jsonPrimitive.boolean },
                     gold = st.getValue("gold").jsonPrimitive.long,
+                    guildPoints = st["guild_points"]?.jsonPrimitive?.long ?: 0L,
                     quests = st.getValue("quests").jsonObject.mapValues { (_, value) ->
                         val q = value.jsonObject
                         QuestProgress(

@@ -126,6 +126,7 @@ internal fun runSegment(sim: WorldSim, segment: JsonObject) {
     for (command in segment["do"]?.jsonArray ?: JsonArray(emptyList())) {
         val cmd = command.jsonObject
         when (cmd.getValue("cmd").jsonPrimitive.content) {
+            "start_quest" -> sim.story.startQuest(cmd.getValue("quest").jsonPrimitive.content)
             "use" -> sim.useItem(cmd.getValue("item").jsonPrimitive.content)
             "equip" -> sim.equip(cmd.getValue("item").jsonPrimitive.content)
             "buy" -> sim.buy(cmd.getValue("item").jsonPrimitive.content)
@@ -177,6 +178,7 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
 private fun assertStory(ws: JsonObject, sim: WorldSim, at: String) {
     val story = sim.story
     assertEquals(ws.long("gold"), story.gold, "$at gold")
+    ws["guild_points"]?.let { assertEquals(it.jsonPrimitive.long, story.guildPoints, "$at guild points") }
     val wantFlags = ws.getValue("flags").jsonObject
     assertEquals(wantFlags.size, story.flags.size, "$at flags size")
     for ((flag, value) in wantFlags) assertEquals(value.jsonPrimitive.boolean, story.flags[flag], "$at flag $flag")
