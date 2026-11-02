@@ -1465,6 +1465,346 @@
                 }
               },
               "spots": []
+            },
+            "base:stamp/hollow": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hollow",
+              "w": 35,
+              "h": 31,
+              "anchor": [
+                17,
+                30
+              ],
+              "rows": [
+                "...................................",
+                ".ttttttttttttttttttttttttttttttttt.",
+                ".ttttttttttttttttttttttttttttttttt.",
+                ".tt..............=..............tt.",
+                ".tt..............=..............tt.",
+                ".tt.........d....A....d.........tt.",
+                ".tt..............=..............tt.",
+                ".tt..............=..............tt.",
+                ".tt..............=..............tt.",
+                ".tt.....ttttttttt=ttttttttt.....tt.",
+                ".tt..............=..............tt.",
+                ".tt.........W....=....W.........tt.",
+                ".tt...d.......o..=..o.......d...tt.",
+                ".tt..............=..............tt.",
+                ".tt......tt......=......tt......tt.",
+                ".tt..............=..............tt.",
+                ".tt.......d......s......d.......tt.",
+                ".tt..............=..............tt.",
+                ".tt..o...........=...........o..tt.",
+                ".tt.........t....=....t.........tt.",
+                ".tt...d..........=..........d...tt.",
+                ".tt..............=..............tt.",
+                ".tt...........o..s..o...........tt.",
+                ".tt.....t........=........t.....tt.",
+                ".tt..........d...=...d..........tt.",
+                ".tt..............=..............tt.",
+                ".tt.....W........=........W.....tt.",
+                ".tt..............=..............tt.",
+                ".ttttttttttttttt===ttttttttttttttt.",
+                ".ttttttttttttttt===ttttttttttttttt.",
+                "..............T.l=l................"
+              ],
+              "legend": {
+                "=": {
+                  "tile": 11
+                },
+                "A": {
+                  "tile": 14,
+                  "spawner": "base:enemy/moonshade_alpha"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "d": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_shade"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "s": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_green"
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/ziggurat": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/ziggurat",
+              "w": 41,
+              "h": 41,
+              "anchor": [
+                20,
+                40
+              ],
+              "rows": [
+                ".........................................",
+                ".#######################################.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#cccaccccccacccccccccccccccaccccccaccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#cccccc############c############cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#clccccccccccccccccccclc#cccccc#.",
+                ".#cccccc#cccccccccccWccccccccccc#cccccc#.",
+                ".#cccccc#ccsWccccccccccccccccscc#cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#ccccc#############ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccacccccacc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#cccccYccccc#ccccc#cccccc#.",
+                ".#cccacc#ccWcc#ccccccccccc#ccWcc#ccaccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccacccccacc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc######c######ccccc#cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#cccccccccccWcccccccWccc#cccccc#.",
+                ".#cccccc#clccccccccccccccccccclc#cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#########################cccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#cccaccccccacccccccccccccccaccccccaccc#.",
+                ".#clccccccccccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".##################ccc##################.",
+                "...................ccc...................",
+                "................T..ccc..................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "Y": {
+                  "tile": 14,
+                  "spawner": "base:enemy/sand_sentinel"
+                },
+                "a": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_sand"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "s": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_green"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/observatory": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/observatory",
+              "w": 39,
+              "h": 39,
+              "anchor": [
+                19,
+                38
+              ],
+              "rows": [
+                ".......................................",
+                ".#####################################.",
+                ".###########ccccccccccccccc###########.",
+                ".###########clccccccccccclc###########.",
+                ".###########cccccccJccccccc###########.",
+                ".###########ccccccccccccccc###########.",
+                ".###########ccgcccccccccgcc###########.",
+                ".###########ccccccccccccccc###########.",
+                ".###########ccccccccccccccc###########.",
+                ".#################ccc#################.",
+                ".#############ccccccccccc#############.",
+                ".############ccccccccccccc############.",
+                ".###########ccccccccccccccc###########.",
+                ".##########cclccccccccccclcc##########.",
+                ".#ccccccc#cccccccccgccccccccc#ccccccc#.",
+                ".#clccccc#cccccWcccccccWccccc#ccccclc#.",
+                ".#ccccccc#ccccccccccccccccccc#ccccccc#.",
+                ".#ccgcccc#ccccccccccccccccccc#ccccgcc#.",
+                ".#ccccccc#ccccccccccccccccccc#ccccccc#.",
+                ".#cccxccccccccgcccccccccgccccccccxccc#.",
+                ".#ccccccc#ccccccccccccccccccc#ccccccc#.",
+                ".#ccccccc#ccccccccccccccccccc#ccccccc#.",
+                ".#ccccgcc#ccccccccccccccccccc#ccgcccc#.",
+                ".#clccccc#cccccWcccccccWccccc#ccccclc#.",
+                ".#ccccccc#cccccccccgccccccccc#ccccccc#.",
+                ".##########cclccccccccccclcc##########.",
+                ".###########ccccccccccccccc###########.",
+                ".############ccccccccccccc############.",
+                ".#############ccccccccccc#############.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                "..................ccc..................",
+                "................T.ccc.................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "J": {
+                  "tile": 14,
+                  "spawner": "base:enemy/astral_curator"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "g": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_glow"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/citadel": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/citadel",
+              "w": 47,
+              "h": 40,
+              "anchor": [
+                23,
+                39
+              ],
+              "rows": [
+                "...............................................",
+                ".#############################################.",
+                ".##########ccc###################ccc##########.",
+                ".##ccccccc#ccc#ccccccccccccccccc#ccc#ccccccc##.",
+                ".##ccccccc#ccc#clccccccccccccclc#ccc#ccccccc##.",
+                ".##ccccccc#ccc#ccccecccccccecccc#ccc#ccccccc##.",
+                ".##ccceccc#ccc#ccccccccNcccccccc#ccc#ccceccc##.",
+                ".##ccccccc#ccc#ccccccccccccccccc#ccc#ccccccc##.",
+                ".##ccccccc#ccc#ccccccccccccccccc#ccc#ccccccc##.",
+                ".##ccccccc#ccc#ccccccccccccccccc#ccc#ccccccc##.",
+                ".#####c####ccc#ccccecccccccecccc#ccc####c#####.",
+                ".#cccccccccccc#ccccccccccccccccc#cccccccccccc#.",
+                ".#cccccccccccc#ccccccccccccccccc#cccccccccccc#.",
+                ".#cccccccccccc#########c#########cccccccccccc#.",
+                ".#cccccccccclccccccccccccccccccccclcccccccccc#.",
+                ".#ccccccccccccccccccccceccccccccccccccccccccc#.",
+                ".#ccccccccccceccccccccccccccccccceccccccccccc#.",
+                ".#ccccccccccccccccccWcccccWcccccccccccccccccc#.",
+                ".#cccccccccccc##cccccccccccccc##ccccccccccccc#.",
+                ".#cccccccccccc##cccccccccccccc##ccccccccccccc#.",
+                ".#ccccccccccccccccccccceccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccceccccccccccccccccccceccccccccccc#.",
+                ".#ccccccccccccccccWcccccccccWcccccccccccccccc#.",
+                ".#####c####ccccccccccccccccccccccccc####c#####.",
+                ".##ccccccc#ccccccccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#ccc##cccccccccccccc##cccc#ccccccc##.",
+                ".##ccccccc#ccc##cccccccccccccc##cccc#ccccccc##.",
+                ".##ccceccc#ccccccccccccccccccccccccc#ccceccc##.",
+                ".##ccccccc#ccccccceccccccccceccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccccccccc#ccccccc##.",
+                ".##########cccccccccclccclcccccccccc##########.",
+                ".#ccccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#####################ccc#####################.",
+                "......................ccc......................",
+                "......................ccc......................",
+                "......................ccc......................",
+                "...................T..ccc......................",
+                "......................ccc......................"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "N": {
+                  "tile": 14,
+                  "spawner": "base:enemy/cinder_colossus"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "e": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ember"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
             }
           }
         }
@@ -3603,6 +3943,346 @@
                 }
               },
               "spots": []
+            },
+            "base:stamp/hollow": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hollow",
+              "w": 35,
+              "h": 31,
+              "anchor": [
+                17,
+                30
+              ],
+              "rows": [
+                "...................................",
+                ".ttttttttttttttttttttttttttttttttt.",
+                ".ttttttttttttttttttttttttttttttttt.",
+                ".tt..............=..............tt.",
+                ".tt..............=..............tt.",
+                ".tt.........d....A....d.........tt.",
+                ".tt..............=..............tt.",
+                ".tt..............=..............tt.",
+                ".tt..............=..............tt.",
+                ".tt.....ttttttttt=ttttttttt.....tt.",
+                ".tt..............=..............tt.",
+                ".tt.........W....=....W.........tt.",
+                ".tt...d.......o..=..o.......d...tt.",
+                ".tt..............=..............tt.",
+                ".tt......tt......=......tt......tt.",
+                ".tt..............=..............tt.",
+                ".tt.......d......s......d.......tt.",
+                ".tt..............=..............tt.",
+                ".tt..o...........=...........o..tt.",
+                ".tt.........t....=....t.........tt.",
+                ".tt...d..........=..........d...tt.",
+                ".tt..............=..............tt.",
+                ".tt...........o..s..o...........tt.",
+                ".tt.....t........=........t.....tt.",
+                ".tt..........d...=...d..........tt.",
+                ".tt..............=..............tt.",
+                ".tt.....W........=........W.....tt.",
+                ".tt..............=..............tt.",
+                ".ttttttttttttttt===ttttttttttttttt.",
+                ".ttttttttttttttt===ttttttttttttttt.",
+                "..............T.l=l................"
+              ],
+              "legend": {
+                "=": {
+                  "tile": 11
+                },
+                "A": {
+                  "tile": 14,
+                  "spawner": "base:enemy/moonshade_alpha"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "d": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_shade"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "s": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_green"
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/ziggurat": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/ziggurat",
+              "w": 41,
+              "h": 41,
+              "anchor": [
+                20,
+                40
+              ],
+              "rows": [
+                ".........................................",
+                ".#######################################.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#cccaccccccacccccccccccccccaccccccaccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#cccccc############c############cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#clccccccccccccccccccclc#cccccc#.",
+                ".#cccccc#cccccccccccWccccccccccc#cccccc#.",
+                ".#cccccc#ccsWccccccccccccccccscc#cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#ccccc#############ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccacccccacc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#cccccYccccc#ccccc#cccccc#.",
+                ".#cccacc#ccWcc#ccccccccccc#ccWcc#ccaccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccacccccacc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc######c######ccccc#cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#cccccccccccWcccccccWccc#cccccc#.",
+                ".#cccccc#clccccccccccccccccccclc#cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#########################cccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#cccaccccccacccccccccccccccaccccccaccc#.",
+                ".#clccccccccccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".##################ccc##################.",
+                "...................ccc...................",
+                "................T..ccc..................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "Y": {
+                  "tile": 14,
+                  "spawner": "base:enemy/sand_sentinel"
+                },
+                "a": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_sand"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "s": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_green"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/observatory": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/observatory",
+              "w": 39,
+              "h": 39,
+              "anchor": [
+                19,
+                38
+              ],
+              "rows": [
+                ".......................................",
+                ".#####################################.",
+                ".###########ccccccccccccccc###########.",
+                ".###########clccccccccccclc###########.",
+                ".###########cccccccJccccccc###########.",
+                ".###########ccccccccccccccc###########.",
+                ".###########ccgcccccccccgcc###########.",
+                ".###########ccccccccccccccc###########.",
+                ".###########ccccccccccccccc###########.",
+                ".#################ccc#################.",
+                ".#############ccccccccccc#############.",
+                ".############ccccccccccccc############.",
+                ".###########ccccccccccccccc###########.",
+                ".##########cclccccccccccclcc##########.",
+                ".#ccccccc#cccccccccgccccccccc#ccccccc#.",
+                ".#clccccc#cccccWcccccccWccccc#ccccclc#.",
+                ".#ccccccc#ccccccccccccccccccc#ccccccc#.",
+                ".#ccgcccc#ccccccccccccccccccc#ccccgcc#.",
+                ".#ccccccc#ccccccccccccccccccc#ccccccc#.",
+                ".#cccxccccccccgcccccccccgccccccccxccc#.",
+                ".#ccccccc#ccccccccccccccccccc#ccccccc#.",
+                ".#ccccccc#ccccccccccccccccccc#ccccccc#.",
+                ".#ccccgcc#ccccccccccccccccccc#ccgcccc#.",
+                ".#clccccc#cccccWcccccccWccccc#ccccclc#.",
+                ".#ccccccc#cccccccccgccccccccc#ccccccc#.",
+                ".##########cclccccccccccclcc##########.",
+                ".###########ccccccccccccccc###########.",
+                ".############ccccccccccccc############.",
+                ".#############ccccccccccc#############.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                "..................ccc..................",
+                "................T.ccc.................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "J": {
+                  "tile": 14,
+                  "spawner": "base:enemy/astral_curator"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "g": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_glow"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/citadel": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/citadel",
+              "w": 47,
+              "h": 40,
+              "anchor": [
+                23,
+                39
+              ],
+              "rows": [
+                "...............................................",
+                ".#############################################.",
+                ".##########ccc###################ccc##########.",
+                ".##ccccccc#ccc#ccccccccccccccccc#ccc#ccccccc##.",
+                ".##ccccccc#ccc#clccccccccccccclc#ccc#ccccccc##.",
+                ".##ccccccc#ccc#ccccecccccccecccc#ccc#ccccccc##.",
+                ".##ccceccc#ccc#ccccccccNcccccccc#ccc#ccceccc##.",
+                ".##ccccccc#ccc#ccccccccccccccccc#ccc#ccccccc##.",
+                ".##ccccccc#ccc#ccccccccccccccccc#ccc#ccccccc##.",
+                ".##ccccccc#ccc#ccccccccccccccccc#ccc#ccccccc##.",
+                ".#####c####ccc#ccccecccccccecccc#ccc####c#####.",
+                ".#cccccccccccc#ccccccccccccccccc#cccccccccccc#.",
+                ".#cccccccccccc#ccccccccccccccccc#cccccccccccc#.",
+                ".#cccccccccccc#########c#########cccccccccccc#.",
+                ".#cccccccccclccccccccccccccccccccclcccccccccc#.",
+                ".#ccccccccccccccccccccceccccccccccccccccccccc#.",
+                ".#ccccccccccceccccccccccccccccccceccccccccccc#.",
+                ".#ccccccccccccccccccWcccccWcccccccccccccccccc#.",
+                ".#cccccccccccc##cccccccccccccc##ccccccccccccc#.",
+                ".#cccccccccccc##cccccccccccccc##ccccccccccccc#.",
+                ".#ccccccccccccccccccccceccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccceccccccccccccccccccceccccccccccc#.",
+                ".#ccccccccccccccccWcccccccccWcccccccccccccccc#.",
+                ".#####c####ccccccccccccccccccccccccc####c#####.",
+                ".##ccccccc#ccccccccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#ccc##cccccccccccccc##cccc#ccccccc##.",
+                ".##ccccccc#ccc##cccccccccccccc##cccc#ccccccc##.",
+                ".##ccceccc#ccccccccccccccccccccccccc#ccceccc##.",
+                ".##ccccccc#ccccccceccccccccceccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccccccccc#ccccccc##.",
+                ".##########cccccccccclccclcccccccccc##########.",
+                ".#ccccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#####################ccc#####################.",
+                "......................ccc......................",
+                "......................ccc......................",
+                "......................ccc......................",
+                "...................T..ccc......................",
+                "......................ccc......................"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "N": {
+                  "tile": 14,
+                  "spawner": "base:enemy/cinder_colossus"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "e": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ember"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
             }
           }
         }
@@ -5734,6 +6414,346 @@
                 "x": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_blue"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/hollow": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hollow",
+              "w": 35,
+              "h": 31,
+              "anchor": [
+                17,
+                30
+              ],
+              "rows": [
+                "...................................",
+                ".ttttttttttttttttttttttttttttttttt.",
+                ".ttttttttttttttttttttttttttttttttt.",
+                ".tt..............=..............tt.",
+                ".tt..............=..............tt.",
+                ".tt.........d....A....d.........tt.",
+                ".tt..............=..............tt.",
+                ".tt..............=..............tt.",
+                ".tt..............=..............tt.",
+                ".tt.....ttttttttt=ttttttttt.....tt.",
+                ".tt..............=..............tt.",
+                ".tt.........W....=....W.........tt.",
+                ".tt...d.......o..=..o.......d...tt.",
+                ".tt..............=..............tt.",
+                ".tt......tt......=......tt......tt.",
+                ".tt..............=..............tt.",
+                ".tt.......d......s......d.......tt.",
+                ".tt..............=..............tt.",
+                ".tt..o...........=...........o..tt.",
+                ".tt.........t....=....t.........tt.",
+                ".tt...d..........=..........d...tt.",
+                ".tt..............=..............tt.",
+                ".tt...........o..s..o...........tt.",
+                ".tt.....t........=........t.....tt.",
+                ".tt..........d...=...d..........tt.",
+                ".tt..............=..............tt.",
+                ".tt.....W........=........W.....tt.",
+                ".tt..............=..............tt.",
+                ".ttttttttttttttt===ttttttttttttttt.",
+                ".ttttttttttttttt===ttttttttttttttt.",
+                "..............T.l=l................"
+              ],
+              "legend": {
+                "=": {
+                  "tile": 11
+                },
+                "A": {
+                  "tile": 14,
+                  "spawner": "base:enemy/moonshade_alpha"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "d": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_shade"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "s": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_green"
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/ziggurat": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/ziggurat",
+              "w": 41,
+              "h": 41,
+              "anchor": [
+                20,
+                40
+              ],
+              "rows": [
+                ".........................................",
+                ".#######################################.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#cccaccccccacccccccccccccccaccccccaccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#cccccc############c############cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#clccccccccccccccccccclc#cccccc#.",
+                ".#cccccc#cccccccccccWccccccccccc#cccccc#.",
+                ".#cccccc#ccsWccccccccccccccccscc#cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#ccccc#############ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccacccccacc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#cccccYccccc#ccccc#cccccc#.",
+                ".#cccacc#ccWcc#ccccccccccc#ccWcc#ccaccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccacccccacc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc######c######ccccc#cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#cccccccccccWcccccccWccc#cccccc#.",
+                ".#cccccc#clccccccccccccccccccclc#cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#########################cccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#cccaccccccacccccccccccccccaccccccaccc#.",
+                ".#clccccccccccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".##################ccc##################.",
+                "...................ccc...................",
+                "................T..ccc..................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "Y": {
+                  "tile": 14,
+                  "spawner": "base:enemy/sand_sentinel"
+                },
+                "a": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_sand"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "s": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_green"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/observatory": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/observatory",
+              "w": 39,
+              "h": 39,
+              "anchor": [
+                19,
+                38
+              ],
+              "rows": [
+                ".......................................",
+                ".#####################################.",
+                ".###########ccccccccccccccc###########.",
+                ".###########clccccccccccclc###########.",
+                ".###########cccccccJccccccc###########.",
+                ".###########ccccccccccccccc###########.",
+                ".###########ccgcccccccccgcc###########.",
+                ".###########ccccccccccccccc###########.",
+                ".###########ccccccccccccccc###########.",
+                ".#################ccc#################.",
+                ".#############ccccccccccc#############.",
+                ".############ccccccccccccc############.",
+                ".###########ccccccccccccccc###########.",
+                ".##########cclccccccccccclcc##########.",
+                ".#ccccccc#cccccccccgccccccccc#ccccccc#.",
+                ".#clccccc#cccccWcccccccWccccc#ccccclc#.",
+                ".#ccccccc#ccccccccccccccccccc#ccccccc#.",
+                ".#ccgcccc#ccccccccccccccccccc#ccccgcc#.",
+                ".#ccccccc#ccccccccccccccccccc#ccccccc#.",
+                ".#cccxccccccccgcccccccccgccccccccxccc#.",
+                ".#ccccccc#ccccccccccccccccccc#ccccccc#.",
+                ".#ccccccc#ccccccccccccccccccc#ccccccc#.",
+                ".#ccccgcc#ccccccccccccccccccc#ccgcccc#.",
+                ".#clccccc#cccccWcccccccWccccc#ccccclc#.",
+                ".#ccccccc#cccccccccgccccccccc#ccccccc#.",
+                ".##########cclccccccccccclcc##########.",
+                ".###########ccccccccccccccc###########.",
+                ".############ccccccccccccc############.",
+                ".#############ccccccccccc#############.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                "..................ccc..................",
+                "................T.ccc.................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "J": {
+                  "tile": 14,
+                  "spawner": "base:enemy/astral_curator"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "g": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_glow"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/citadel": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/citadel",
+              "w": 47,
+              "h": 40,
+              "anchor": [
+                23,
+                39
+              ],
+              "rows": [
+                "...............................................",
+                ".#############################################.",
+                ".##########ccc###################ccc##########.",
+                ".##ccccccc#ccc#ccccccccccccccccc#ccc#ccccccc##.",
+                ".##ccccccc#ccc#clccccccccccccclc#ccc#ccccccc##.",
+                ".##ccccccc#ccc#ccccecccccccecccc#ccc#ccccccc##.",
+                ".##ccceccc#ccc#ccccccccNcccccccc#ccc#ccceccc##.",
+                ".##ccccccc#ccc#ccccccccccccccccc#ccc#ccccccc##.",
+                ".##ccccccc#ccc#ccccccccccccccccc#ccc#ccccccc##.",
+                ".##ccccccc#ccc#ccccccccccccccccc#ccc#ccccccc##.",
+                ".#####c####ccc#ccccecccccccecccc#ccc####c#####.",
+                ".#cccccccccccc#ccccccccccccccccc#cccccccccccc#.",
+                ".#cccccccccccc#ccccccccccccccccc#cccccccccccc#.",
+                ".#cccccccccccc#########c#########cccccccccccc#.",
+                ".#cccccccccclccccccccccccccccccccclcccccccccc#.",
+                ".#ccccccccccccccccccccceccccccccccccccccccccc#.",
+                ".#ccccccccccceccccccccccccccccccceccccccccccc#.",
+                ".#ccccccccccccccccccWcccccWcccccccccccccccccc#.",
+                ".#cccccccccccc##cccccccccccccc##ccccccccccccc#.",
+                ".#cccccccccccc##cccccccccccccc##ccccccccccccc#.",
+                ".#ccccccccccccccccccccceccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccceccccccccccccccccccceccccccccccc#.",
+                ".#ccccccccccccccccWcccccccccWcccccccccccccccc#.",
+                ".#####c####ccccccccccccccccccccccccc####c#####.",
+                ".##ccccccc#ccccccccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#ccc##cccccccccccccc##cccc#ccccccc##.",
+                ".##ccccccc#ccc##cccccccccccccc##cccc#ccccccc##.",
+                ".##ccceccc#ccccccccccccccccccccccccc#ccceccc##.",
+                ".##ccccccc#ccccccceccccccccceccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccccccccc#ccccccc##.",
+                ".##########cccccccccclccclcccccccccc##########.",
+                ".#ccccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#####################ccc#####################.",
+                "......................ccc......................",
+                "......................ccc......................",
+                "......................ccc......................",
+                "...................T..ccc......................",
+                "......................ccc......................"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "N": {
+                  "tile": 14,
+                  "spawner": "base:enemy/cinder_colossus"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "e": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ember"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
                 }
               },
               "spots": []

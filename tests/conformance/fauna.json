@@ -206,16 +206,52 @@
             7854
           ],
           [
+            7808,
+            14686
+          ],
+          [
             7861,
             14657
           ],
           [
-            7933,
-            14715
+            7803,
+            14688
           ],
           [
-            7935,
-            14767
+            7804,
+            14697
+          ],
+          [
+            7793,
+            14699
+          ],
+          [
+            7794,
+            14701
+          ],
+          [
+            7803,
+            14701
+          ],
+          [
+            7795,
+            14704
+          ],
+          [
+            7804,
+            14705
+          ],
+          [
+            7813,
+            14688
+          ],
+          [
+            7808,
+            14696
+          ],
+          [
+            7812,
+            14697
           ],
           [
             8122,
@@ -448,6 +484,294 @@
           [
             7296,
             1404
+          ],
+          [
+            3707,
+            5479
+          ],
+          [
+            3707,
+            5485
+          ],
+          [
+            3701,
+            5486
+          ],
+          [
+            3705,
+            5490
+          ],
+          [
+            3701,
+            5494
+          ],
+          [
+            3708,
+            5498
+          ],
+          [
+            3703,
+            5500
+          ],
+          [
+            3712,
+            5479
+          ],
+          [
+            3717,
+            5479
+          ],
+          [
+            3717,
+            5485
+          ],
+          [
+            3723,
+            5486
+          ],
+          [
+            3712,
+            5490
+          ],
+          [
+            3719,
+            5490
+          ],
+          [
+            3723,
+            5494
+          ],
+          [
+            3712,
+            5496
+          ],
+          [
+            3716,
+            5498
+          ],
+          [
+            3721,
+            5500
+          ],
+          [
+            13425,
+            11869
+          ],
+          [
+            13432,
+            11869
+          ],
+          [
+            13443,
+            11847
+          ],
+          [
+            13448,
+            11869
+          ],
+          [
+            13455,
+            11869
+          ],
+          [
+            13431,
+            11876
+          ],
+          [
+            13432,
+            11876
+          ],
+          [
+            13437,
+            11881
+          ],
+          [
+            13425,
+            11884
+          ],
+          [
+            13431,
+            11884
+          ],
+          [
+            13437,
+            11886
+          ],
+          [
+            13425,
+            11899
+          ],
+          [
+            13432,
+            11899
+          ],
+          [
+            13440,
+            11875
+          ],
+          [
+            13449,
+            11876
+          ],
+          [
+            13443,
+            11881
+          ],
+          [
+            13440,
+            11883
+          ],
+          [
+            13449,
+            11884
+          ],
+          [
+            13455,
+            11884
+          ],
+          [
+            13443,
+            11886
+          ],
+          [
+            13440,
+            11892
+          ],
+          [
+            13448,
+            11892
+          ],
+          [
+            13448,
+            11899
+          ],
+          [
+            13455,
+            11899
+          ],
+          [
+            13467,
+            11931
+          ],
+          [
+            13440,
+            11935
+          ],
+          [
+            7823,
+            14699
+          ],
+          [
+            7813,
+            14701
+          ],
+          [
+            7822,
+            14701
+          ],
+          [
+            7821,
+            14704
+          ],
+          [
+            7812,
+            14705
+          ],
+          [
+            7808,
+            14706
+          ],
+          [
+            15228,
+            7774
+          ],
+          [
+            15215,
+            7775
+          ],
+          [
+            15255,
+            7750
+          ],
+          [
+            15236,
+            7774
+          ],
+          [
+            15232,
+            7775
+          ],
+          [
+            15249,
+            7775
+          ],
+          [
+            15228,
+            7779
+          ],
+          [
+            15222,
+            7785
+          ],
+          [
+            15229,
+            7786
+          ],
+          [
+            15222,
+            7791
+          ],
+          [
+            15227,
+            7792
+          ],
+          [
+            15215,
+            7797
+          ],
+          [
+            15227,
+            7798
+          ],
+          [
+            15236,
+            7779
+          ],
+          [
+            15232,
+            7784
+          ],
+          [
+            15242,
+            7785
+          ],
+          [
+            15235,
+            7786
+          ],
+          [
+            15232,
+            7789
+          ],
+          [
+            15242,
+            7791
+          ],
+          [
+            15237,
+            7792
+          ],
+          [
+            15249,
+            7797
+          ],
+          [
+            15237,
+            7798
+          ],
+          [
+            15240,
+            7821
           ]
         ],
         "params": {
@@ -772,6 +1096,38 @@
               "kind": "dungeon",
               "dx": -896,
               "dy": -6784
+            },
+            {
+              "id": "whisperwood_hollow",
+              "name": "Whisperwood Hollow",
+              "stamp": "base:stamp/hollow",
+              "kind": "dungeon",
+              "dx": -4480,
+              "dy": -2688
+            },
+            {
+              "id": "sunscar_ziggurat",
+              "name": "Sunken Ziggurat",
+              "stamp": "base:stamp/ziggurat",
+              "kind": "dungeon",
+              "dx": 5248,
+              "dy": 3712
+            },
+            {
+              "id": "lumeria_observatory",
+              "name": "Starfall Observatory",
+              "stamp": "base:stamp/observatory",
+              "kind": "dungeon",
+              "dx": -384,
+              "dy": 6528
+            },
+            {
+              "id": "ashen_citadel",
+              "name": "Cinder Citadel",
+              "stamp": "base:stamp/citadel",
+              "kind": "dungeon",
+              "dx": 7040,
+              "dy": -384
             }
           ],
           "guild": {
@@ -1955,6 +2311,346 @@
                 }
               },
               "spots": []
+            },
+            "base:stamp/hollow": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hollow",
+              "w": 35,
+              "h": 31,
+              "anchor": [
+                17,
+                30
+              ],
+              "rows": [
+                "...................................",
+                ".ttttttttttttttttttttttttttttttttt.",
+                ".ttttttttttttttttttttttttttttttttt.",
+                ".tt..............=..............tt.",
+                ".tt..............=..............tt.",
+                ".tt.........d....A....d.........tt.",
+                ".tt..............=..............tt.",
+                ".tt..............=..............tt.",
+                ".tt..............=..............tt.",
+                ".tt.....ttttttttt=ttttttttt.....tt.",
+                ".tt..............=..............tt.",
+                ".tt.........W....=....W.........tt.",
+                ".tt...d.......o..=..o.......d...tt.",
+                ".tt..............=..............tt.",
+                ".tt......tt......=......tt......tt.",
+                ".tt..............=..............tt.",
+                ".tt.......d......s......d.......tt.",
+                ".tt..............=..............tt.",
+                ".tt..o...........=...........o..tt.",
+                ".tt.........t....=....t.........tt.",
+                ".tt...d..........=..........d...tt.",
+                ".tt..............=..............tt.",
+                ".tt...........o..s..o...........tt.",
+                ".tt.....t........=........t.....tt.",
+                ".tt..........d...=...d..........tt.",
+                ".tt..............=..............tt.",
+                ".tt.....W........=........W.....tt.",
+                ".tt..............=..............tt.",
+                ".ttttttttttttttt===ttttttttttttttt.",
+                ".ttttttttttttttt===ttttttttttttttt.",
+                "..............T.l=l................"
+              ],
+              "legend": {
+                "=": {
+                  "tile": 11
+                },
+                "A": {
+                  "tile": 14,
+                  "spawner": "base:enemy/moonshade_alpha"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "d": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_shade"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "s": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_green"
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/ziggurat": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/ziggurat",
+              "w": 41,
+              "h": 41,
+              "anchor": [
+                20,
+                40
+              ],
+              "rows": [
+                ".........................................",
+                ".#######################################.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#cccaccccccacccccccccccccccaccccccaccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#cccccc############c############cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#clccccccccccccccccccclc#cccccc#.",
+                ".#cccccc#cccccccccccWccccccccccc#cccccc#.",
+                ".#cccccc#ccsWccccccccccccccccscc#cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#ccccc#############ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccacccccacc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#cccccYccccc#ccccc#cccccc#.",
+                ".#cccacc#ccWcc#ccccccccccc#ccWcc#ccaccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccacccccacc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc######c######ccccc#cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#cccccccccccWcccccccWccc#cccccc#.",
+                ".#cccccc#clccccccccccccccccccclc#cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#########################cccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#cccaccccccacccccccccccccccaccccccaccc#.",
+                ".#clccccccccccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".##################ccc##################.",
+                "...................ccc...................",
+                "................T..ccc..................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "Y": {
+                  "tile": 14,
+                  "spawner": "base:enemy/sand_sentinel"
+                },
+                "a": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_sand"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "s": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_green"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/observatory": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/observatory",
+              "w": 39,
+              "h": 39,
+              "anchor": [
+                19,
+                38
+              ],
+              "rows": [
+                ".......................................",
+                ".#####################################.",
+                ".###########ccccccccccccccc###########.",
+                ".###########clccccccccccclc###########.",
+                ".###########cccccccJccccccc###########.",
+                ".###########ccccccccccccccc###########.",
+                ".###########ccgcccccccccgcc###########.",
+                ".###########ccccccccccccccc###########.",
+                ".###########ccccccccccccccc###########.",
+                ".#################ccc#################.",
+                ".#############ccccccccccc#############.",
+                ".############ccccccccccccc############.",
+                ".###########ccccccccccccccc###########.",
+                ".##########cclccccccccccclcc##########.",
+                ".#ccccccc#cccccccccgccccccccc#ccccccc#.",
+                ".#clccccc#cccccWcccccccWccccc#ccccclc#.",
+                ".#ccccccc#ccccccccccccccccccc#ccccccc#.",
+                ".#ccgcccc#ccccccccccccccccccc#ccccgcc#.",
+                ".#ccccccc#ccccccccccccccccccc#ccccccc#.",
+                ".#cccxccccccccgcccccccccgccccccccxccc#.",
+                ".#ccccccc#ccccccccccccccccccc#ccccccc#.",
+                ".#ccccccc#ccccccccccccccccccc#ccccccc#.",
+                ".#ccccgcc#ccccccccccccccccccc#ccgcccc#.",
+                ".#clccccc#cccccWcccccccWccccc#ccccclc#.",
+                ".#ccccccc#cccccccccgccccccccc#ccccccc#.",
+                ".##########cclccccccccccclcc##########.",
+                ".###########ccccccccccccccc###########.",
+                ".############ccccccccccccc############.",
+                ".#############ccccccccccc#############.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                "..................ccc..................",
+                "................T.ccc.................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "J": {
+                  "tile": 14,
+                  "spawner": "base:enemy/astral_curator"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "g": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_glow"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/citadel": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/citadel",
+              "w": 47,
+              "h": 40,
+              "anchor": [
+                23,
+                39
+              ],
+              "rows": [
+                "...............................................",
+                ".#############################################.",
+                ".##########ccc###################ccc##########.",
+                ".##ccccccc#ccc#ccccccccccccccccc#ccc#ccccccc##.",
+                ".##ccccccc#ccc#clccccccccccccclc#ccc#ccccccc##.",
+                ".##ccccccc#ccc#ccccecccccccecccc#ccc#ccccccc##.",
+                ".##ccceccc#ccc#ccccccccNcccccccc#ccc#ccceccc##.",
+                ".##ccccccc#ccc#ccccccccccccccccc#ccc#ccccccc##.",
+                ".##ccccccc#ccc#ccccccccccccccccc#ccc#ccccccc##.",
+                ".##ccccccc#ccc#ccccccccccccccccc#ccc#ccccccc##.",
+                ".#####c####ccc#ccccecccccccecccc#ccc####c#####.",
+                ".#cccccccccccc#ccccccccccccccccc#cccccccccccc#.",
+                ".#cccccccccccc#ccccccccccccccccc#cccccccccccc#.",
+                ".#cccccccccccc#########c#########cccccccccccc#.",
+                ".#cccccccccclccccccccccccccccccccclcccccccccc#.",
+                ".#ccccccccccccccccccccceccccccccccccccccccccc#.",
+                ".#ccccccccccceccccccccccccccccccceccccccccccc#.",
+                ".#ccccccccccccccccccWcccccWcccccccccccccccccc#.",
+                ".#cccccccccccc##cccccccccccccc##ccccccccccccc#.",
+                ".#cccccccccccc##cccccccccccccc##ccccccccccccc#.",
+                ".#ccccccccccccccccccccceccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccceccccccccccccccccccceccccccccccc#.",
+                ".#ccccccccccccccccWcccccccccWcccccccccccccccc#.",
+                ".#####c####ccccccccccccccccccccccccc####c#####.",
+                ".##ccccccc#ccccccccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#ccc##cccccccccccccc##cccc#ccccccc##.",
+                ".##ccccccc#ccc##cccccccccccccc##cccc#ccccccc##.",
+                ".##ccceccc#ccccccccccccccccccccccccc#ccceccc##.",
+                ".##ccccccc#ccccccceccccccccceccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccccccccc#ccccccc##.",
+                ".##########cccccccccclccclcccccccccc##########.",
+                ".#ccccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#####################ccc#####################.",
+                "......................ccc......................",
+                "......................ccc......................",
+                "......................ccc......................",
+                "...................T..ccc......................",
+                "......................ccc......................"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "N": {
+                  "tile": 14,
+                  "spawner": "base:enemy/cinder_colossus"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "e": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ember"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
             }
           }
         }
@@ -2305,6 +3001,13 @@
             "base:item/ember_core"
           ],
           [
+            7808,
+            14686,
+            7,
+            "base:enemy/astral_curator",
+            ""
+          ],
+          [
             7861,
             14657,
             7,
@@ -2312,18 +3015,74 @@
             "base:item/star_dust"
           ],
           [
-            7933,
-            14715,
-            7,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
-          ],
-          [
-            7935,
-            14767,
+            7803,
+            14688,
             7,
             "base:enemy/slime_glow",
-            "base:item/star_dust"
+            ""
+          ],
+          [
+            7804,
+            14697,
+            7,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            7793,
+            14699,
+            7,
+            "base:enemy/slime_glow",
+            ""
+          ],
+          [
+            7794,
+            14701,
+            7,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            7803,
+            14701,
+            7,
+            "base:enemy/slime_glow",
+            ""
+          ],
+          [
+            7795,
+            14704,
+            7,
+            "base:enemy/slime_glow",
+            ""
+          ],
+          [
+            7804,
+            14705,
+            7,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            7813,
+            14688,
+            7,
+            "base:enemy/slime_glow",
+            ""
+          ],
+          [
+            7808,
+            14696,
+            7,
+            "base:enemy/slime_glow",
+            ""
+          ],
+          [
+            7812,
+            14697,
+            7,
+            "base:enemy/wolf_grey",
+            ""
           ],
           [
             8122,
@@ -2730,6 +3489,510 @@
             4,
             "base:enemy/slime_blue",
             ""
+          ],
+          [
+            3707,
+            5479,
+            1,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            3707,
+            5485,
+            1,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            3701,
+            5486,
+            1,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            3705,
+            5490,
+            1,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            3701,
+            5494,
+            1,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            3708,
+            5498,
+            1,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            3703,
+            5500,
+            1,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            3712,
+            5479,
+            1,
+            "base:enemy/moonshade_alpha",
+            ""
+          ],
+          [
+            3717,
+            5479,
+            1,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            3717,
+            5485,
+            1,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            3723,
+            5486,
+            1,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            3712,
+            5490,
+            1,
+            "base:enemy/slime_green",
+            ""
+          ],
+          [
+            3719,
+            5490,
+            1,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            3723,
+            5494,
+            1,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            3712,
+            5496,
+            1,
+            "base:enemy/slime_green",
+            ""
+          ],
+          [
+            3716,
+            5498,
+            1,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            3721,
+            5500,
+            1,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            13425,
+            11869,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13432,
+            11869,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13443,
+            11847,
+            3,
+            "base:enemy/slime_sand",
+            "base:item/slime_gel"
+          ],
+          [
+            13448,
+            11869,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13455,
+            11869,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13431,
+            11876,
+            3,
+            "base:enemy/slime_green",
+            ""
+          ],
+          [
+            13432,
+            11876,
+            3,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            13437,
+            11881,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13425,
+            11884,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13431,
+            11884,
+            3,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            13437,
+            11886,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13425,
+            11899,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13432,
+            11899,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13440,
+            11875,
+            3,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            13449,
+            11876,
+            3,
+            "base:enemy/slime_green",
+            ""
+          ],
+          [
+            13443,
+            11881,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13440,
+            11883,
+            3,
+            "base:enemy/sand_sentinel",
+            ""
+          ],
+          [
+            13449,
+            11884,
+            3,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            13455,
+            11884,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13443,
+            11886,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13440,
+            11892,
+            3,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            13448,
+            11892,
+            3,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            13448,
+            11899,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13455,
+            11899,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13467,
+            11931,
+            3,
+            "base:enemy/slime_sand",
+            "base:item/slime_gel"
+          ],
+          [
+            13440,
+            11935,
+            3,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            7823,
+            14699,
+            7,
+            "base:enemy/slime_glow",
+            ""
+          ],
+          [
+            7813,
+            14701,
+            7,
+            "base:enemy/slime_glow",
+            ""
+          ],
+          [
+            7822,
+            14701,
+            7,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            7821,
+            14704,
+            7,
+            "base:enemy/slime_glow",
+            ""
+          ],
+          [
+            7812,
+            14705,
+            7,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            7808,
+            14706,
+            7,
+            "base:enemy/slime_glow",
+            ""
+          ],
+          [
+            15228,
+            7774,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15215,
+            7775,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15255,
+            7750,
+            6,
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
+          ],
+          [
+            15236,
+            7774,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15232,
+            7775,
+            6,
+            "base:enemy/cinder_colossus",
+            ""
+          ],
+          [
+            15249,
+            7775,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15228,
+            7779,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15222,
+            7785,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15229,
+            7786,
+            6,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            15222,
+            7791,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15227,
+            7792,
+            6,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            15215,
+            7797,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15227,
+            7798,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15236,
+            7779,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15232,
+            7784,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15242,
+            7785,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15235,
+            7786,
+            6,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            15232,
+            7789,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15242,
+            7791,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15237,
+            7792,
+            6,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            15249,
+            7797,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15237,
+            7798,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15240,
+            7821,
+            6,
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ]
         ]
       }
@@ -3017,48 +4280,48 @@
             14681
           ],
           [
+            7808,
+            14686
+          ],
+          [
             7885,
             14676
           ],
           [
-            7864,
-            14694
-          ],
-          [
-            7890,
+            7803,
             14688
           ],
           [
-            7880,
-            14693
+            7804,
+            14697
           ],
           [
-            7914,
-            14689
+            7793,
+            14699
           ],
           [
-            7895,
-            14742
+            7794,
+            14701
           ],
           [
-            7922,
-            14741
+            7803,
+            14701
           ],
           [
-            7920,
-            14757
+            7795,
+            14704
           ],
           [
-            7776,
-            14806
+            7804,
+            14705
           ],
           [
-            7882,
-            14798
+            7813,
+            14688
           ],
           [
-            7929,
-            14789
+            7808,
+            14696
           ],
           [
             8122,
@@ -3287,6 +4550,278 @@
           [
             7296,
             1404
+          ],
+          [
+            3707,
+            5479
+          ],
+          [
+            3707,
+            5485
+          ],
+          [
+            3701,
+            5486
+          ],
+          [
+            3705,
+            5490
+          ],
+          [
+            3701,
+            5494
+          ],
+          [
+            3708,
+            5498
+          ],
+          [
+            3703,
+            5500
+          ],
+          [
+            3712,
+            5479
+          ],
+          [
+            3717,
+            5479
+          ],
+          [
+            3717,
+            5485
+          ],
+          [
+            3723,
+            5486
+          ],
+          [
+            3712,
+            5490
+          ],
+          [
+            3719,
+            5490
+          ],
+          [
+            3723,
+            5494
+          ],
+          [
+            3712,
+            5496
+          ],
+          [
+            3716,
+            5498
+          ],
+          [
+            3721,
+            5500
+          ],
+          [
+            13425,
+            11869
+          ],
+          [
+            13432,
+            11869
+          ],
+          [
+            13448,
+            11869
+          ],
+          [
+            13455,
+            11869
+          ],
+          [
+            13431,
+            11876
+          ],
+          [
+            13432,
+            11876
+          ],
+          [
+            13437,
+            11881
+          ],
+          [
+            13425,
+            11884
+          ],
+          [
+            13431,
+            11884
+          ],
+          [
+            13437,
+            11886
+          ],
+          [
+            13425,
+            11899
+          ],
+          [
+            13432,
+            11899
+          ],
+          [
+            13440,
+            11875
+          ],
+          [
+            13449,
+            11876
+          ],
+          [
+            13443,
+            11881
+          ],
+          [
+            13440,
+            11883
+          ],
+          [
+            13449,
+            11884
+          ],
+          [
+            13455,
+            11884
+          ],
+          [
+            13443,
+            11886
+          ],
+          [
+            13440,
+            11892
+          ],
+          [
+            13448,
+            11892
+          ],
+          [
+            13448,
+            11899
+          ],
+          [
+            13455,
+            11899
+          ],
+          [
+            7812,
+            14697
+          ],
+          [
+            7823,
+            14699
+          ],
+          [
+            7813,
+            14701
+          ],
+          [
+            7822,
+            14701
+          ],
+          [
+            7821,
+            14704
+          ],
+          [
+            7812,
+            14705
+          ],
+          [
+            7808,
+            14706
+          ],
+          [
+            15228,
+            7774
+          ],
+          [
+            15215,
+            7775
+          ],
+          [
+            15236,
+            7774
+          ],
+          [
+            15232,
+            7775
+          ],
+          [
+            15249,
+            7775
+          ],
+          [
+            15228,
+            7779
+          ],
+          [
+            15222,
+            7785
+          ],
+          [
+            15229,
+            7786
+          ],
+          [
+            15222,
+            7791
+          ],
+          [
+            15227,
+            7792
+          ],
+          [
+            15215,
+            7797
+          ],
+          [
+            15227,
+            7798
+          ],
+          [
+            15236,
+            7779
+          ],
+          [
+            15232,
+            7784
+          ],
+          [
+            15242,
+            7785
+          ],
+          [
+            15235,
+            7786
+          ],
+          [
+            15232,
+            7789
+          ],
+          [
+            15242,
+            7791
+          ],
+          [
+            15237,
+            7792
+          ],
+          [
+            15249,
+            7797
+          ],
+          [
+            15237,
+            7798
           ]
         ],
         "params": {
@@ -3611,6 +5146,38 @@
               "kind": "dungeon",
               "dx": -896,
               "dy": -6784
+            },
+            {
+              "id": "whisperwood_hollow",
+              "name": "Whisperwood Hollow",
+              "stamp": "base:stamp/hollow",
+              "kind": "dungeon",
+              "dx": -4480,
+              "dy": -2688
+            },
+            {
+              "id": "sunscar_ziggurat",
+              "name": "Sunken Ziggurat",
+              "stamp": "base:stamp/ziggurat",
+              "kind": "dungeon",
+              "dx": 5248,
+              "dy": 3712
+            },
+            {
+              "id": "lumeria_observatory",
+              "name": "Starfall Observatory",
+              "stamp": "base:stamp/observatory",
+              "kind": "dungeon",
+              "dx": -384,
+              "dy": 6528
+            },
+            {
+              "id": "ashen_citadel",
+              "name": "Cinder Citadel",
+              "stamp": "base:stamp/citadel",
+              "kind": "dungeon",
+              "dx": 7040,
+              "dy": -384
             }
           ],
           "guild": {
@@ -4791,6 +6358,346 @@
                 "x": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_blue"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/hollow": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hollow",
+              "w": 35,
+              "h": 31,
+              "anchor": [
+                17,
+                30
+              ],
+              "rows": [
+                "...................................",
+                ".ttttttttttttttttttttttttttttttttt.",
+                ".ttttttttttttttttttttttttttttttttt.",
+                ".tt..............=..............tt.",
+                ".tt..............=..............tt.",
+                ".tt.........d....A....d.........tt.",
+                ".tt..............=..............tt.",
+                ".tt..............=..............tt.",
+                ".tt..............=..............tt.",
+                ".tt.....ttttttttt=ttttttttt.....tt.",
+                ".tt..............=..............tt.",
+                ".tt.........W....=....W.........tt.",
+                ".tt...d.......o..=..o.......d...tt.",
+                ".tt..............=..............tt.",
+                ".tt......tt......=......tt......tt.",
+                ".tt..............=..............tt.",
+                ".tt.......d......s......d.......tt.",
+                ".tt..............=..............tt.",
+                ".tt..o...........=...........o..tt.",
+                ".tt.........t....=....t.........tt.",
+                ".tt...d..........=..........d...tt.",
+                ".tt..............=..............tt.",
+                ".tt...........o..s..o...........tt.",
+                ".tt.....t........=........t.....tt.",
+                ".tt..........d...=...d..........tt.",
+                ".tt..............=..............tt.",
+                ".tt.....W........=........W.....tt.",
+                ".tt..............=..............tt.",
+                ".ttttttttttttttt===ttttttttttttttt.",
+                ".ttttttttttttttt===ttttttttttttttt.",
+                "..............T.l=l................"
+              ],
+              "legend": {
+                "=": {
+                  "tile": 11
+                },
+                "A": {
+                  "tile": 14,
+                  "spawner": "base:enemy/moonshade_alpha"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "d": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_shade"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "s": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_green"
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/ziggurat": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/ziggurat",
+              "w": 41,
+              "h": 41,
+              "anchor": [
+                20,
+                40
+              ],
+              "rows": [
+                ".........................................",
+                ".#######################################.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#cccaccccccacccccccccccccccaccccccaccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#cccccc############c############cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#clccccccccccccccccccclc#cccccc#.",
+                ".#cccccc#cccccccccccWccccccccccc#cccccc#.",
+                ".#cccccc#ccsWccccccccccccccccscc#cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#ccccc#############ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccacccccacc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#cccccYccccc#ccccc#cccccc#.",
+                ".#cccacc#ccWcc#ccccccccccc#ccWcc#ccaccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccacccccacc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc#ccccccccccc#ccccc#cccccc#.",
+                ".#cccccc#ccccc######c######ccccc#cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#cccccccccccWcccccccWccc#cccccc#.",
+                ".#cccccc#clccccccccccccccccccclc#cccccc#.",
+                ".#cccccc#ccccccccccccccccccccccc#cccccc#.",
+                ".#cccccc#########################cccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#cccaccccccacccccccccccccccaccccccaccc#.",
+                ".#clccccccccccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".##################ccc##################.",
+                "...................ccc...................",
+                "................T..ccc..................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "Y": {
+                  "tile": 14,
+                  "spawner": "base:enemy/sand_sentinel"
+                },
+                "a": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_sand"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "s": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_green"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/observatory": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/observatory",
+              "w": 39,
+              "h": 39,
+              "anchor": [
+                19,
+                38
+              ],
+              "rows": [
+                ".......................................",
+                ".#####################################.",
+                ".###########ccccccccccccccc###########.",
+                ".###########clccccccccccclc###########.",
+                ".###########cccccccJccccccc###########.",
+                ".###########ccccccccccccccc###########.",
+                ".###########ccgcccccccccgcc###########.",
+                ".###########ccccccccccccccc###########.",
+                ".###########ccccccccccccccc###########.",
+                ".#################ccc#################.",
+                ".#############ccccccccccc#############.",
+                ".############ccccccccccccc############.",
+                ".###########ccccccccccccccc###########.",
+                ".##########cclccccccccccclcc##########.",
+                ".#ccccccc#cccccccccgccccccccc#ccccccc#.",
+                ".#clccccc#cccccWcccccccWccccc#ccccclc#.",
+                ".#ccccccc#ccccccccccccccccccc#ccccccc#.",
+                ".#ccgcccc#ccccccccccccccccccc#ccccgcc#.",
+                ".#ccccccc#ccccccccccccccccccc#ccccccc#.",
+                ".#cccxccccccccgcccccccccgccccccccxccc#.",
+                ".#ccccccc#ccccccccccccccccccc#ccccccc#.",
+                ".#ccccccc#ccccccccccccccccccc#ccccccc#.",
+                ".#ccccgcc#ccccccccccccccccccc#ccgcccc#.",
+                ".#clccccc#cccccWcccccccWccccc#ccccclc#.",
+                ".#ccccccc#cccccccccgccccccccc#ccccccc#.",
+                ".##########cclccccccccccclcc##########.",
+                ".###########ccccccccccccccc###########.",
+                ".############ccccccccccccc############.",
+                ".#############ccccccccccc#############.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                ".#################ccc#################.",
+                "..................ccc..................",
+                "................T.ccc.................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "J": {
+                  "tile": 14,
+                  "spawner": "base:enemy/astral_curator"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "g": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_glow"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/citadel": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/citadel",
+              "w": 47,
+              "h": 40,
+              "anchor": [
+                23,
+                39
+              ],
+              "rows": [
+                "...............................................",
+                ".#############################################.",
+                ".##########ccc###################ccc##########.",
+                ".##ccccccc#ccc#ccccccccccccccccc#ccc#ccccccc##.",
+                ".##ccccccc#ccc#clccccccccccccclc#ccc#ccccccc##.",
+                ".##ccccccc#ccc#ccccecccccccecccc#ccc#ccccccc##.",
+                ".##ccceccc#ccc#ccccccccNcccccccc#ccc#ccceccc##.",
+                ".##ccccccc#ccc#ccccccccccccccccc#ccc#ccccccc##.",
+                ".##ccccccc#ccc#ccccccccccccccccc#ccc#ccccccc##.",
+                ".##ccccccc#ccc#ccccccccccccccccc#ccc#ccccccc##.",
+                ".#####c####ccc#ccccecccccccecccc#ccc####c#####.",
+                ".#cccccccccccc#ccccccccccccccccc#cccccccccccc#.",
+                ".#cccccccccccc#ccccccccccccccccc#cccccccccccc#.",
+                ".#cccccccccccc#########c#########cccccccccccc#.",
+                ".#cccccccccclccccccccccccccccccccclcccccccccc#.",
+                ".#ccccccccccccccccccccceccccccccccccccccccccc#.",
+                ".#ccccccccccceccccccccccccccccccceccccccccccc#.",
+                ".#ccccccccccccccccccWcccccWcccccccccccccccccc#.",
+                ".#cccccccccccc##cccccccccccccc##ccccccccccccc#.",
+                ".#cccccccccccc##cccccccccccccc##ccccccccccccc#.",
+                ".#ccccccccccccccccccccceccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccceccccccccccccccccccceccccccccccc#.",
+                ".#ccccccccccccccccWcccccccccWcccccccccccccccc#.",
+                ".#####c####ccccccccccccccccccccccccc####c#####.",
+                ".##ccccccc#ccccccccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#ccc##cccccccccccccc##cccc#ccccccc##.",
+                ".##ccccccc#ccc##cccccccccccccc##cccc#ccccccc##.",
+                ".##ccceccc#ccccccccccccccccccccccccc#ccceccc##.",
+                ".##ccccccc#ccccccceccccccccceccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccccccccc#ccccccc##.",
+                ".##########cccccccccclccclcccccccccc##########.",
+                ".#ccccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#####################ccc#####################.",
+                "......................ccc......................",
+                "......................ccc......................",
+                "......................ccc......................",
+                "...................T..ccc......................",
+                "......................ccc......................"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "N": {
+                  "tile": 14,
+                  "spawner": "base:enemy/cinder_colossus"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "e": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ember"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
                 }
               },
               "spots": []
@@ -5284,6 +7191,13 @@
             "base:item/star_dust"
           ],
           [
+            7808,
+            14686,
+            7,
+            "base:enemy/astral_curator",
+            ""
+          ],
+          [
             7885,
             14676,
             7,
@@ -5291,74 +7205,67 @@
             "base:item/slime_gel"
           ],
           [
-            7864,
-            14694,
-            7,
-            "base:enemy/slime_glow",
-            "base:item/star_dust"
-          ],
-          [
-            7890,
+            7803,
             14688,
             7,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
-          ],
-          [
-            7880,
-            14693,
-            7,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
-          ],
-          [
-            7914,
-            14689,
-            7,
             "base:enemy/slime_glow",
-            "base:item/star_dust"
+            ""
           ],
           [
-            7895,
-            14742,
-            7,
-            "base:enemy/slime_glow",
-            "base:item/star_dust"
-          ],
-          [
-            7922,
-            14741,
-            7,
-            "base:enemy/slime_glow",
-            "base:item/star_dust"
-          ],
-          [
-            7920,
-            14757,
-            7,
-            "base:enemy/slime_glow",
-            "base:item/star_dust"
-          ],
-          [
-            7776,
-            14806,
-            7,
-            "base:enemy/slime_glow",
-            "base:item/star_dust"
-          ],
-          [
-            7882,
-            14798,
+            7804,
+            14697,
             7,
             "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            ""
           ],
           [
-            7929,
-            14789,
+            7793,
+            14699,
+            7,
+            "base:enemy/slime_glow",
+            ""
+          ],
+          [
+            7794,
+            14701,
             7,
             "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            ""
+          ],
+          [
+            7803,
+            14701,
+            7,
+            "base:enemy/slime_glow",
+            ""
+          ],
+          [
+            7795,
+            14704,
+            7,
+            "base:enemy/slime_glow",
+            ""
+          ],
+          [
+            7804,
+            14705,
+            7,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            7813,
+            14688,
+            7,
+            "base:enemy/slime_glow",
+            ""
+          ],
+          [
+            7808,
+            14696,
+            7,
+            "base:enemy/slime_glow",
+            ""
           ],
           [
             8122,
@@ -5757,6 +7664,482 @@
             1404,
             4,
             "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            3707,
+            5479,
+            1,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            3707,
+            5485,
+            1,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            3701,
+            5486,
+            1,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            3705,
+            5490,
+            1,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            3701,
+            5494,
+            1,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            3708,
+            5498,
+            1,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            3703,
+            5500,
+            1,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            3712,
+            5479,
+            1,
+            "base:enemy/moonshade_alpha",
+            ""
+          ],
+          [
+            3717,
+            5479,
+            1,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            3717,
+            5485,
+            1,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            3723,
+            5486,
+            1,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            3712,
+            5490,
+            1,
+            "base:enemy/slime_green",
+            ""
+          ],
+          [
+            3719,
+            5490,
+            1,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            3723,
+            5494,
+            1,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            3712,
+            5496,
+            1,
+            "base:enemy/slime_green",
+            ""
+          ],
+          [
+            3716,
+            5498,
+            1,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            3721,
+            5500,
+            1,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            13425,
+            11869,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13432,
+            11869,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13448,
+            11869,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13455,
+            11869,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13431,
+            11876,
+            3,
+            "base:enemy/slime_green",
+            ""
+          ],
+          [
+            13432,
+            11876,
+            3,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            13437,
+            11881,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13425,
+            11884,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13431,
+            11884,
+            3,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            13437,
+            11886,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13425,
+            11899,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13432,
+            11899,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13440,
+            11875,
+            3,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            13449,
+            11876,
+            3,
+            "base:enemy/slime_green",
+            ""
+          ],
+          [
+            13443,
+            11881,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13440,
+            11883,
+            3,
+            "base:enemy/sand_sentinel",
+            ""
+          ],
+          [
+            13449,
+            11884,
+            3,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            13455,
+            11884,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13443,
+            11886,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13440,
+            11892,
+            3,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            13448,
+            11892,
+            3,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            13448,
+            11899,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13455,
+            11899,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            7812,
+            14697,
+            7,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            7823,
+            14699,
+            7,
+            "base:enemy/slime_glow",
+            ""
+          ],
+          [
+            7813,
+            14701,
+            7,
+            "base:enemy/slime_glow",
+            ""
+          ],
+          [
+            7822,
+            14701,
+            7,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            7821,
+            14704,
+            7,
+            "base:enemy/slime_glow",
+            ""
+          ],
+          [
+            7812,
+            14705,
+            7,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            7808,
+            14706,
+            7,
+            "base:enemy/slime_glow",
+            ""
+          ],
+          [
+            15228,
+            7774,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15215,
+            7775,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15236,
+            7774,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15232,
+            7775,
+            6,
+            "base:enemy/cinder_colossus",
+            ""
+          ],
+          [
+            15249,
+            7775,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15228,
+            7779,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15222,
+            7785,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15229,
+            7786,
+            6,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            15222,
+            7791,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15227,
+            7792,
+            6,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            15215,
+            7797,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15227,
+            7798,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15236,
+            7779,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15232,
+            7784,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15242,
+            7785,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15235,
+            7786,
+            6,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            15232,
+            7789,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15242,
+            7791,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15237,
+            7792,
+            6,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            15249,
+            7797,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            15237,
+            7798,
+            6,
+            "base:enemy/slime_ember",
             ""
           ]
         ]
