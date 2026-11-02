@@ -869,6 +869,8 @@ TEST_CASE("conformance: worldtime", "[conformance]") {
             REQUIRE(s.rain_pm == want.at("rain_pm").get<int>());
             REQUIRE(s.dim_pm == want.at("dim_pm").get<int>());
             REQUIRE(s.effective_light_pm == want.at("effective_light_pm").get<int>());
+            const std::string got_season = s.season_index >= 0 ? params->time.seasons[static_cast<std::size_t>(s.season_index)].id : "";
+            REQUIRE(got_season == want.at("season").get<std::string>());
         }
     }
 }

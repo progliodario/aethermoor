@@ -93,6 +93,14 @@
     "day_ticks": 72000,
     "start_tick": 24000,
     "light": [[0, 180], [200, 180], [300, 1000], [700, 1000], [800, 180], [1000, 180]],
+    "seasons": [
+      { "id": "spring", "days": 8, "tint": [120, 220, 120, 14], "weights": { "clear": 450, "cloudy": 250, "rain": 300 } },
+      { "id": "summer", "days": 8, "tint": [255, 210, 90, 22], "weights": { "clear": 750, "cloudy": 200, "rain": 50 },
+        "light": [[0, 180], [150, 180], [250, 1000], [750, 1000], [850, 180], [1000, 180]] },
+      { "id": "autumn", "days": 8, "tint": [210, 120, 40, 34], "weights": { "clear": 400, "cloudy": 350, "rain": 250 } },
+      { "id": "winter", "days": 8, "tint": [190, 215, 255, 46], "weights": { "clear": 450, "cloudy": 450, "rain": 100 },
+        "light": [[0, 180], [250, 180], [350, 1000], [650, 1000], [750, 180], [1000, 180]] }
+    ],
     "weather": {
       "period_ticks": 18000,
       "fade_ticks": 600,

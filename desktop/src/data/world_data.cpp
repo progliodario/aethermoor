@@ -96,6 +96,31 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
         for (const Json& key : time.at("light")) {
             p.time.light.emplace_back(key.at(0).get<int>(), key.at(1).get<int>());
         }
+        if (time.contains("seasons")) {
+            for (const Json& entry : time.at("seasons")) {
+                Season season;
+                season.id = entry.at("id").get<std::string>();
+                season.days = entry.at("days").get<int>();
+                for (int i = 0; i < 4; ++i) {
+                    season.tint[i] = entry.at("tint").at(static_cast<std::size_t>(i)).get<int>();
+                }
+                if (entry.contains("weights")) {
+                    for (const auto& [kind, weight] : entry.at("weights").items()) {
+                        season.weights[kind] = weight.get<int>();
+                    }
+                }
+                if (entry.contains("light")) {
+                    for (const Json& key : entry.at("light")) {
+                        season.light.emplace_back(key.at(0).get<int>(), key.at(1).get<int>());
+                    }
+                }
+                if (season.days < 1) {
+                    error = "invalid season length";
+                    return std::nullopt;
+                }
+                p.time.seasons.push_back(std::move(season));
+            }
+        }
         const Json& weather = time.at("weather");
         p.time.period_ticks = weather.at("period_ticks").get<int>();
         p.time.fade_ticks = weather.at("fade_ticks").get<int>();

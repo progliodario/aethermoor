@@ -2,8 +2,8 @@
 
 Status: **v1 (M5c)**. Reference: `tools/reference/worldtime.py` and `ChunkWindow` in `tools/reference/worldgen.py`.
 Conformance suites: `worldtime` and `chunk_window`. Parameters: the `time` object and `spawners.respawn_ticks` of
-`data/base/worlds/overworld.json` (`schemas/world.schema.json`). All math is integer (spec 01). NPC schedules, seasons and the effect of
-the weather on gameplay come later; v1 weather is presentation only.
+`data/base/worlds/overworld.json` (`schemas/world.schema.json`). All math is integer (spec 01). Seasons and routines are described below; the effect of
+the weather on gameplay comes later and weather is presentation only.
 
 ## World time
 
@@ -18,9 +18,15 @@ tod_pm    = (world_ticks % day_ticks) * 1000 / day_ticks    # time of day in per
 
 Clients show the clock as hours and minutes: `hour = tod_pm * 24 / 1000`, `minute = (tod_pm * 1440 / 1000) % 60` (integer division).
 
+## Seasons
+
+`time.seasons` lists the seasons of the year in order, each with `id`, `days`, `tint` (`[r, g, b, a]`, the colour the clients lay over the screen: art direction), and optionally `weights` and `light`.
+A year lasts the sum of the `days`, and then the seasons repeat. The **season of a day** is found by `d = (day - 1) mod year_days`, taking the first season whose cumulative days exceed `d`.
+A world without `time.seasons` has no seasons (the season is empty, the light and weights below are the global ones).
+
 ## Light
 
-`time.light` is a list of keyframes `[tod_pm, light_pm]` in increasing `tod_pm`, the first at 0 and the last at 1000 (`light_pm` 0 = black,
+`time.light` (or `light` of the season of the day, if it has one: summers have longer days and winters shorter ones) is a list of keyframes `[tod_pm, light_pm]` in increasing `tod_pm`, the first at 0 and the last at 1000 (`light_pm` 0 = black,
 1000 = full daylight). The light at `tod_pm` interpolates linearly between the two keyframes `(p0, l0)` and `(p1, l1)` that contain it
 (`p0 <= tod_pm <= p1`, the first such pair), rounding toward zero in the part that is added or subtracted, so that it is the same on every platform:
 
@@ -34,7 +40,8 @@ light_pm = l0 - (l0 - l1) * d / span          otherwise
 
 Weather is a function of the world seed and the world time. Time is split in periods of `time.weather.period_ticks`; period `p = world_ticks / period_ticks`.
 Each kind in `time.weather.kinds` has `weight`, `rain_pm` (0..1000) and `dim_pm` (0..1000, how much it darkens the day). The kind of period `p` is
-picked with `roll = (hash64(seed, p, 21) >> 20) % total_weight` over the cumulative weights, in list order.
+picked with `roll = (hash64(seed, p, 21) >> 20) % total_weight` over the cumulative weights, in list order. The weight of a kind is `weights[kind.id]` of the season of the day
+that contains the first tick of the period (`p * period_ticks`) when that season lists it, else the `weight` of the kind.
 
 During the first `time.weather.fade_ticks` of a period the weather fades from the previous period's kind (`max(p - 1, 0)`) to the current one:
 
@@ -47,8 +54,8 @@ else: rain_pm = (prev.rain_pm * (fade_ticks - t) + cur.rain_pm * t) / fade_ticks
 The effective light is `light_pm * (1000 - dim_pm) / 1000`. Clients darken the screen in proportion to `1000 - effective light` (night colors come from
 the client's art direction, not from data yet) and draw rain with density `rain_pm`.
 
-Conformance suite `worldtime`: for a list of `world_ticks` (also huge ones) and seeds, `day`, `tod_pm`, `light_pm`, the kind id of the period, `rain_pm`, `dim_pm`
-and the effective light.
+Conformance suite `worldtime`: for a list of `world_ticks` (also huge ones and the edges of the seasons) and seeds, `day`, `tod_pm`, `light_pm`, the kind id of the period, `rain_pm`, `dim_pm`,
+the effective light and the season id.
 
 ## Routines
 

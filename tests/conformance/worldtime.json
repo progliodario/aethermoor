@@ -37,6 +37,120 @@
               180
             ]
           ],
+          "seasons": [
+            {
+              "id": "spring",
+              "days": 8,
+              "tint": [
+                120,
+                220,
+                120,
+                14
+              ],
+              "weights": {
+                "clear": 450,
+                "cloudy": 250,
+                "rain": 300
+              }
+            },
+            {
+              "id": "summer",
+              "days": 8,
+              "tint": [
+                255,
+                210,
+                90,
+                22
+              ],
+              "weights": {
+                "clear": 750,
+                "cloudy": 200,
+                "rain": 50
+              },
+              "light": [
+                [
+                  0,
+                  180
+                ],
+                [
+                  150,
+                  180
+                ],
+                [
+                  250,
+                  1000
+                ],
+                [
+                  750,
+                  1000
+                ],
+                [
+                  850,
+                  180
+                ],
+                [
+                  1000,
+                  180
+                ]
+              ]
+            },
+            {
+              "id": "autumn",
+              "days": 8,
+              "tint": [
+                210,
+                120,
+                40,
+                34
+              ],
+              "weights": {
+                "clear": 400,
+                "cloudy": 350,
+                "rain": 250
+              }
+            },
+            {
+              "id": "winter",
+              "days": 8,
+              "tint": [
+                190,
+                215,
+                255,
+                46
+              ],
+              "weights": {
+                "clear": 450,
+                "cloudy": 450,
+                "rain": 100
+              },
+              "light": [
+                [
+                  0,
+                  180
+                ],
+                [
+                  250,
+                  180
+                ],
+                [
+                  350,
+                  1000
+                ],
+                [
+                  650,
+                  1000
+                ],
+                [
+                  750,
+                  180
+                ],
+                [
+                  1000,
+                  180
+                ]
+              ]
+            }
+          ],
           "weather": {
             "period_ticks": 18000,
             "fade_ticks": 600,
@@ -73,7 +187,8 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 180
+            "effective_light_pm": 180,
+            "season": "spring"
           },
           {
             "ticks": 1,
@@ -83,7 +198,8 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 180
+            "effective_light_pm": 180,
+            "season": "spring"
           },
           {
             "ticks": 17999,
@@ -93,87 +209,96 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 581
+            "effective_light_pm": 581,
+            "season": "spring"
           },
           {
             "ticks": 18000,
             "day": 1,
             "tod_pm": 250,
             "light_pm": 590,
-            "kind": "clear",
+            "kind": "cloudy",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 590
+            "effective_light_pm": 590,
+            "season": "spring"
           },
           {
             "ticks": 18001,
             "day": 1,
             "tod_pm": 250,
             "light_pm": 590,
-            "kind": "clear",
+            "kind": "cloudy",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 590
+            "effective_light_pm": 590,
+            "season": "spring"
           },
           {
             "ticks": 18300,
             "day": 1,
             "tod_pm": 254,
             "light_pm": 622,
-            "kind": "clear",
+            "kind": "cloudy",
             "rain_pm": 0,
-            "dim_pm": 0,
-            "effective_light_pm": 622
+            "dim_pm": 125,
+            "effective_light_pm": 544,
+            "season": "spring"
           },
           {
             "ticks": 18599,
             "day": 1,
             "tod_pm": 258,
             "light_pm": 655,
-            "kind": "clear",
+            "kind": "cloudy",
             "rain_pm": 0,
-            "dim_pm": 0,
-            "effective_light_pm": 655
+            "dim_pm": 249,
+            "effective_light_pm": 491,
+            "season": "spring"
           },
           {
             "ticks": 18600,
             "day": 1,
             "tod_pm": 258,
             "light_pm": 655,
-            "kind": "clear",
+            "kind": "cloudy",
             "rain_pm": 0,
-            "dim_pm": 0,
-            "effective_light_pm": 655
+            "dim_pm": 250,
+            "effective_light_pm": 491,
+            "season": "spring"
           },
           {
             "ticks": 24000,
             "day": 1,
             "tod_pm": 333,
             "light_pm": 1000,
-            "kind": "clear",
+            "kind": "cloudy",
             "rain_pm": 0,
-            "dim_pm": 0,
-            "effective_light_pm": 1000
+            "dim_pm": 250,
+            "effective_light_pm": 750,
+            "season": "spring"
           },
           {
             "ticks": 35999,
             "day": 1,
             "tod_pm": 499,
             "light_pm": 1000,
-            "kind": "clear",
+            "kind": "cloudy",
             "rain_pm": 0,
-            "dim_pm": 0,
-            "effective_light_pm": 1000
+            "dim_pm": 250,
+            "effective_light_pm": 750,
+            "season": "spring"
           },
           {
             "ticks": 36000,
             "day": 1,
             "tod_pm": 500,
             "light_pm": 1000,
-            "kind": "clear",
+            "kind": "cloudy",
             "rain_pm": 0,
-            "dim_pm": 0,
-            "effective_light_pm": 1000
+            "dim_pm": 250,
+            "effective_light_pm": 750,
+            "season": "spring"
           },
           {
             "ticks": 71999,
@@ -183,17 +308,19 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 180
+            "effective_light_pm": 180,
+            "season": "spring"
           },
           {
             "ticks": 72000,
             "day": 2,
             "tod_pm": 0,
             "light_pm": 180,
-            "kind": "cloudy",
+            "kind": "rain",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 180
+            "effective_light_pm": 180,
+            "season": "spring"
           },
           {
             "ticks": 100000,
@@ -203,7 +330,8 @@
             "kind": "cloudy",
             "rain_pm": 0,
             "dim_pm": 250,
-            "effective_light_pm": 750
+            "effective_light_pm": 750,
+            "season": "spring"
           },
           {
             "ticks": 1000000,
@@ -213,7 +341,8 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 180
+            "effective_light_pm": 180,
+            "season": "summer"
           },
           {
             "ticks": 123456789,
@@ -223,7 +352,8 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 1000
+            "effective_light_pm": 1000,
+            "season": "autumn"
           },
           {
             "ticks": 1099511627776,
@@ -233,7 +363,107 @@
             "kind": "cloudy",
             "rain_pm": 0,
             "dim_pm": 250,
-            "effective_light_pm": 135
+            "effective_light_pm": 135,
+            "season": "autumn"
+          },
+          {
+            "ticks": 575999,
+            "day": 8,
+            "tod_pm": 999,
+            "light_pm": 180,
+            "kind": "rain",
+            "rain_pm": 1000,
+            "dim_pm": 400,
+            "effective_light_pm": 108,
+            "season": "spring"
+          },
+          {
+            "ticks": 576000,
+            "day": 9,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 1000,
+            "dim_pm": 400,
+            "effective_light_pm": 108,
+            "season": "summer"
+          },
+          {
+            "ticks": 1151999,
+            "day": 16,
+            "tod_pm": 999,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180,
+            "season": "summer"
+          },
+          {
+            "ticks": 1152000,
+            "day": 17,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "cloudy",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180,
+            "season": "autumn"
+          },
+          {
+            "ticks": 1727999,
+            "day": 24,
+            "tod_pm": 999,
+            "light_pm": 180,
+            "kind": "cloudy",
+            "rain_pm": 0,
+            "dim_pm": 250,
+            "effective_light_pm": 135,
+            "season": "autumn"
+          },
+          {
+            "ticks": 1728000,
+            "day": 25,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "cloudy",
+            "rain_pm": 0,
+            "dim_pm": 250,
+            "effective_light_pm": 135,
+            "season": "winter"
+          },
+          {
+            "ticks": 2303999,
+            "day": 32,
+            "tod_pm": 999,
+            "light_pm": 180,
+            "kind": "cloudy",
+            "rain_pm": 0,
+            "dim_pm": 250,
+            "effective_light_pm": 135,
+            "season": "winter"
+          },
+          {
+            "ticks": 2304000,
+            "day": 33,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "cloudy",
+            "rain_pm": 0,
+            "dim_pm": 250,
+            "effective_light_pm": 135,
+            "season": "spring"
+          },
+          {
+            "ticks": 2880000,
+            "day": 41,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180,
+            "season": "summer"
           }
         ]
       }
@@ -272,6 +502,120 @@
               180
             ]
           ],
+          "seasons": [
+            {
+              "id": "spring",
+              "days": 8,
+              "tint": [
+                120,
+                220,
+                120,
+                14
+              ],
+              "weights": {
+                "clear": 450,
+                "cloudy": 250,
+                "rain": 300
+              }
+            },
+            {
+              "id": "summer",
+              "days": 8,
+              "tint": [
+                255,
+                210,
+                90,
+                22
+              ],
+              "weights": {
+                "clear": 750,
+                "cloudy": 200,
+                "rain": 50
+              },
+              "light": [
+                [
+                  0,
+                  180
+                ],
+                [
+                  150,
+                  180
+                ],
+                [
+                  250,
+                  1000
+                ],
+                [
+                  750,
+                  1000
+                ],
+                [
+                  850,
+                  180
+                ],
+                [
+                  1000,
+                  180
+                ]
+              ]
+            },
+            {
+              "id": "autumn",
+              "days": 8,
+              "tint": [
+                210,
+                120,
+                40,
+                34
+              ],
+              "weights": {
+                "clear": 400,
+                "cloudy": 350,
+                "rain": 250
+              }
+            },
+            {
+              "id": "winter",
+              "days": 8,
+              "tint": [
+                190,
+                215,
+                255,
+                46
+              ],
+              "weights": {
+                "clear": 450,
+                "cloudy": 450,
+                "rain": 100
+              },
+              "light": [
+                [
+                  0,
+                  180
+                ],
+                [
+                  250,
+                  180
+                ],
+                [
+                  350,
+                  1000
+                ],
+                [
+                  650,
+                  1000
+                ],
+                [
+                  750,
+                  180
+                ],
+                [
+                  1000,
+                  180
+                ]
+              ]
+            }
+          ],
           "weather": {
             "period_ticks": 18000,
             "fade_ticks": 600,
@@ -308,7 +652,8 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 180
+            "effective_light_pm": 180,
+            "season": "spring"
           },
           {
             "ticks": 1,
@@ -318,7 +663,8 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 180
+            "effective_light_pm": 180,
+            "season": "spring"
           },
           {
             "ticks": 17999,
@@ -328,7 +674,8 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 581
+            "effective_light_pm": 581,
+            "season": "spring"
           },
           {
             "ticks": 18000,
@@ -338,7 +685,8 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 590
+            "effective_light_pm": 590,
+            "season": "spring"
           },
           {
             "ticks": 18001,
@@ -348,7 +696,8 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 590
+            "effective_light_pm": 590,
+            "season": "spring"
           },
           {
             "ticks": 18300,
@@ -358,7 +707,8 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 622
+            "effective_light_pm": 622,
+            "season": "spring"
           },
           {
             "ticks": 18599,
@@ -368,7 +718,8 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 655
+            "effective_light_pm": 655,
+            "season": "spring"
           },
           {
             "ticks": 18600,
@@ -378,7 +729,8 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 655
+            "effective_light_pm": 655,
+            "season": "spring"
           },
           {
             "ticks": 24000,
@@ -388,7 +740,8 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 1000
+            "effective_light_pm": 1000,
+            "season": "spring"
           },
           {
             "ticks": 35999,
@@ -398,27 +751,30 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 1000
+            "effective_light_pm": 1000,
+            "season": "spring"
           },
           {
             "ticks": 36000,
             "day": 1,
             "tod_pm": 500,
             "light_pm": 1000,
-            "kind": "cloudy",
+            "kind": "rain",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 1000
+            "effective_light_pm": 1000,
+            "season": "spring"
           },
           {
             "ticks": 71999,
             "day": 1,
             "tod_pm": 999,
             "light_pm": 180,
-            "kind": "clear",
+            "kind": "cloudy",
             "rain_pm": 0,
-            "dim_pm": 0,
-            "effective_light_pm": 180
+            "dim_pm": 250,
+            "effective_light_pm": 135,
+            "season": "spring"
           },
           {
             "ticks": 72000,
@@ -427,8 +783,9 @@
             "light_pm": 180,
             "kind": "rain",
             "rain_pm": 0,
-            "dim_pm": 0,
-            "effective_light_pm": 180
+            "dim_pm": 250,
+            "effective_light_pm": 135,
+            "season": "spring"
           },
           {
             "ticks": 100000,
@@ -438,7 +795,8 @@
             "kind": "rain",
             "rain_pm": 1000,
             "dim_pm": 400,
-            "effective_light_pm": 600
+            "effective_light_pm": 600,
+            "season": "spring"
           },
           {
             "ticks": 1000000,
@@ -448,7 +806,8 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 180
+            "effective_light_pm": 180,
+            "season": "summer"
           },
           {
             "ticks": 123456789,
@@ -458,7 +817,8 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 1000
+            "effective_light_pm": 1000,
+            "season": "autumn"
           },
           {
             "ticks": 1099511627776,
@@ -468,7 +828,107 @@
             "kind": "cloudy",
             "rain_pm": 0,
             "dim_pm": 250,
-            "effective_light_pm": 135
+            "effective_light_pm": 135,
+            "season": "autumn"
+          },
+          {
+            "ticks": 575999,
+            "day": 8,
+            "tod_pm": 999,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180,
+            "season": "spring"
+          },
+          {
+            "ticks": 576000,
+            "day": 9,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180,
+            "season": "summer"
+          },
+          {
+            "ticks": 1151999,
+            "day": 16,
+            "tod_pm": 999,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180,
+            "season": "summer"
+          },
+          {
+            "ticks": 1152000,
+            "day": 17,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "cloudy",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180,
+            "season": "autumn"
+          },
+          {
+            "ticks": 1727999,
+            "day": 24,
+            "tod_pm": 999,
+            "light_pm": 180,
+            "kind": "rain",
+            "rain_pm": 1000,
+            "dim_pm": 400,
+            "effective_light_pm": 108,
+            "season": "autumn"
+          },
+          {
+            "ticks": 1728000,
+            "day": 25,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "cloudy",
+            "rain_pm": 1000,
+            "dim_pm": 400,
+            "effective_light_pm": 108,
+            "season": "winter"
+          },
+          {
+            "ticks": 2303999,
+            "day": 32,
+            "tod_pm": 999,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180,
+            "season": "winter"
+          },
+          {
+            "ticks": 2304000,
+            "day": 33,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180,
+            "season": "spring"
+          },
+          {
+            "ticks": 2880000,
+            "day": 41,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 250,
+            "effective_light_pm": 135,
+            "season": "summer"
           }
         ]
       }
@@ -507,6 +967,120 @@
               180
             ]
           ],
+          "seasons": [
+            {
+              "id": "spring",
+              "days": 8,
+              "tint": [
+                120,
+                220,
+                120,
+                14
+              ],
+              "weights": {
+                "clear": 450,
+                "cloudy": 250,
+                "rain": 300
+              }
+            },
+            {
+              "id": "summer",
+              "days": 8,
+              "tint": [
+                255,
+                210,
+                90,
+                22
+              ],
+              "weights": {
+                "clear": 750,
+                "cloudy": 200,
+                "rain": 50
+              },
+              "light": [
+                [
+                  0,
+                  180
+                ],
+                [
+                  150,
+                  180
+                ],
+                [
+                  250,
+                  1000
+                ],
+                [
+                  750,
+                  1000
+                ],
+                [
+                  850,
+                  180
+                ],
+                [
+                  1000,
+                  180
+                ]
+              ]
+            },
+            {
+              "id": "autumn",
+              "days": 8,
+              "tint": [
+                210,
+                120,
+                40,
+                34
+              ],
+              "weights": {
+                "clear": 400,
+                "cloudy": 350,
+                "rain": 250
+              }
+            },
+            {
+              "id": "winter",
+              "days": 8,
+              "tint": [
+                190,
+                215,
+                255,
+                46
+              ],
+              "weights": {
+                "clear": 450,
+                "cloudy": 450,
+                "rain": 100
+              },
+              "light": [
+                [
+                  0,
+                  180
+                ],
+                [
+                  250,
+                  180
+                ],
+                [
+                  350,
+                  1000
+                ],
+                [
+                  650,
+                  1000
+                ],
+                [
+                  750,
+                  180
+                ],
+                [
+                  1000,
+                  180
+                ]
+              ]
+            }
+          ],
           "weather": {
             "period_ticks": 18000,
             "fade_ticks": 600,
@@ -543,7 +1117,8 @@
             "kind": "rain",
             "rain_pm": 1000,
             "dim_pm": 400,
-            "effective_light_pm": 108
+            "effective_light_pm": 108,
+            "season": "spring"
           },
           {
             "ticks": 1,
@@ -553,7 +1128,8 @@
             "kind": "rain",
             "rain_pm": 1000,
             "dim_pm": 400,
-            "effective_light_pm": 108
+            "effective_light_pm": 108,
+            "season": "spring"
           },
           {
             "ticks": 17999,
@@ -563,7 +1139,8 @@
             "kind": "rain",
             "rain_pm": 1000,
             "dim_pm": 400,
-            "effective_light_pm": 348
+            "effective_light_pm": 348,
+            "season": "spring"
           },
           {
             "ticks": 18000,
@@ -573,7 +1150,8 @@
             "kind": "clear",
             "rain_pm": 1000,
             "dim_pm": 400,
-            "effective_light_pm": 354
+            "effective_light_pm": 354,
+            "season": "spring"
           },
           {
             "ticks": 18001,
@@ -583,7 +1161,8 @@
             "kind": "clear",
             "rain_pm": 998,
             "dim_pm": 399,
-            "effective_light_pm": 354
+            "effective_light_pm": 354,
+            "season": "spring"
           },
           {
             "ticks": 18300,
@@ -593,7 +1172,8 @@
             "kind": "clear",
             "rain_pm": 500,
             "dim_pm": 200,
-            "effective_light_pm": 497
+            "effective_light_pm": 497,
+            "season": "spring"
           },
           {
             "ticks": 18599,
@@ -603,7 +1183,8 @@
             "kind": "clear",
             "rain_pm": 1,
             "dim_pm": 0,
-            "effective_light_pm": 655
+            "effective_light_pm": 655,
+            "season": "spring"
           },
           {
             "ticks": 18600,
@@ -613,7 +1194,8 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 655
+            "effective_light_pm": 655,
+            "season": "spring"
           },
           {
             "ticks": 24000,
@@ -623,7 +1205,8 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 1000
+            "effective_light_pm": 1000,
+            "season": "spring"
           },
           {
             "ticks": 35999,
@@ -633,7 +1216,8 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 1000
+            "effective_light_pm": 1000,
+            "season": "spring"
           },
           {
             "ticks": 36000,
@@ -643,27 +1227,30 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 1000
+            "effective_light_pm": 1000,
+            "season": "spring"
           },
           {
             "ticks": 71999,
             "day": 1,
             "tod_pm": 999,
             "light_pm": 180,
-            "kind": "clear",
+            "kind": "cloudy",
             "rain_pm": 0,
-            "dim_pm": 0,
-            "effective_light_pm": 180
+            "dim_pm": 250,
+            "effective_light_pm": 135,
+            "season": "spring"
           },
           {
             "ticks": 72000,
             "day": 2,
             "tod_pm": 0,
             "light_pm": 180,
-            "kind": "clear",
+            "kind": "cloudy",
             "rain_pm": 0,
-            "dim_pm": 0,
-            "effective_light_pm": 180
+            "dim_pm": 250,
+            "effective_light_pm": 135,
+            "season": "spring"
           },
           {
             "ticks": 100000,
@@ -673,7 +1260,8 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 1000
+            "effective_light_pm": 1000,
+            "season": "spring"
           },
           {
             "ticks": 1000000,
@@ -683,17 +1271,19 @@
             "kind": "clear",
             "rain_pm": 0,
             "dim_pm": 0,
-            "effective_light_pm": 180
+            "effective_light_pm": 180,
+            "season": "summer"
           },
           {
             "ticks": 123456789,
             "day": 1715,
             "tod_pm": 677,
             "light_pm": 1000,
-            "kind": "clear",
+            "kind": "cloudy",
             "rain_pm": 0,
-            "dim_pm": 0,
-            "effective_light_pm": 1000
+            "dim_pm": 250,
+            "effective_light_pm": 750,
+            "season": "autumn"
           },
           {
             "ticks": 1099511627776,
@@ -703,7 +1293,107 @@
             "kind": "rain",
             "rain_pm": 1000,
             "dim_pm": 400,
-            "effective_light_pm": 108
+            "effective_light_pm": 108,
+            "season": "autumn"
+          },
+          {
+            "ticks": 575999,
+            "day": 8,
+            "tod_pm": 999,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180,
+            "season": "spring"
+          },
+          {
+            "ticks": 576000,
+            "day": 9,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180,
+            "season": "summer"
+          },
+          {
+            "ticks": 1151999,
+            "day": 16,
+            "tod_pm": 999,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180,
+            "season": "summer"
+          },
+          {
+            "ticks": 1152000,
+            "day": 17,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "rain",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180,
+            "season": "autumn"
+          },
+          {
+            "ticks": 1727999,
+            "day": 24,
+            "tod_pm": 999,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180,
+            "season": "autumn"
+          },
+          {
+            "ticks": 1728000,
+            "day": 25,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "cloudy",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180,
+            "season": "winter"
+          },
+          {
+            "ticks": 2303999,
+            "day": 32,
+            "tod_pm": 999,
+            "light_pm": 180,
+            "kind": "clear",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180,
+            "season": "winter"
+          },
+          {
+            "ticks": 2304000,
+            "day": 33,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "cloudy",
+            "rain_pm": 0,
+            "dim_pm": 0,
+            "effective_light_pm": 180,
+            "season": "spring"
+          },
+          {
+            "ticks": 2880000,
+            "day": 41,
+            "tod_pm": 0,
+            "light_pm": 180,
+            "kind": "cloudy",
+            "rain_pm": 1000,
+            "dim_pm": 400,
+            "effective_light_pm": 108,
+            "season": "summer"
           }
         ]
       }
