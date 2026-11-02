@@ -1,0 +1,45 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/guild/cellar",
+  "name": "$i18n:quest.cellar.name",
+  "kind": "guild",
+  "stages": [
+    {
+      "id": "kill",
+      "journal": "$i18n:quest.cellar.kill",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/gel_king",
+          "count": 1
+        }
+      ],
+      "next": "report"
+    },
+    {
+      "id": "report",
+      "journal": "$i18n:quest.cellar.report",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "guild_clerk_mira"
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 150
+    },
+    {
+      "effect": "add_gold",
+      "amount": 300
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 80
+    }
+  ]
+}

@@ -24,6 +24,8 @@ LEGEND = {
     "x": {"tile": 14, "spawner": "base:enemy/slime_blue"},  # dungeon spawners
     "W": {"tile": 14, "spawner": "base:enemy/wolf_grey"},
     "B": {"tile": 14, "spawner": "base:enemy/barrow_warden"},
+    "s": {"tile": 14, "spawner": "base:enemy/slime_green"},
+    "G": {"tile": 14, "spawner": "base:enemy/gel_king"},
     "T": {"tile": 14, "prop": "base:art/prop/threshold_stone", "radius_x100": 35},  # Threshold Stone (fast travel)
     "V": {"tile": 13, "npc": "villager"},
     "G": {"tile": 13, "npc": "guild_clerk"},
@@ -183,9 +185,31 @@ def barrow() -> dict:
     return stamp("base:stamp/barrow", c, (16, 24), [])
 
 
+def cellar() -> dict:
+    """The second dungeon of Verdalis: a flooded cellar of slimes with the Gel King in its north room (spec 09, "Landmarks")."""
+    c = Canvas(29, 24)
+    c.rect(1, 1, 27, 21, "#")
+    c.rect(2, 2, 25, 19, "c")
+    c.hline(2, 26, 9, "#")
+    c.put(14, 9, "c")  # the door of the north room
+    for y in (21, 22, 23):  # the entrance and the path to it
+        c.put(14, y, "c")
+    for x, y in ((13, 20), (15, 20), (3, 3), (25, 3), (3, 10), (25, 10)):
+        c.put(x, y, "l")
+    for x, y in ((6, 5), (22, 5)):
+        c.put(x, y, "x")
+    c.put(14, 4, "G")
+    for x, y in ((5, 13), (9, 17), (19, 13), (23, 17)):
+        c.put(x, y, "s")
+    for x, y in ((7, 15), (21, 15), (14, 12)):
+        c.put(x, y, "x")
+    c.put(11, 22, "T")
+    return stamp("base:stamp/cellar", c, (14, 22), [])
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    for build in (hamlet, village, town, barrow):
+    for build in (hamlet, village, town, barrow, cellar):
         data = build()
         name = data["id"].split("/")[-1]
         (OUT / f"{name}.json").write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

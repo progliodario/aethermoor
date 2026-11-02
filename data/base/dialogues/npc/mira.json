@@ -6,10 +6,10 @@
     "start": {
       "type": "condition",
       "when": {
-        "quest_done": "base:quest/guild/barrow"
+        "quest_done": "base:quest/guild/cellar"
       },
-      "then": "barrow_thanks",
-      "else": "barrow_active_check"
+      "then": "cellar_thanks",
+      "else": "cellar_active_check"
     },
     "active_check": {
       "type": "condition",
@@ -138,6 +138,84 @@
       "type": "say",
       "speaker": "guild_clerk_mira",
       "text": "$i18n:dlg.mira.barrow_thanks",
+      "next": "barrow_thanked"
+    },
+    "cellar_active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/cellar"
+      },
+      "then": "cellar_busy",
+      "else": "barrow_done_check"
+    },
+    "barrow_done_check": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/barrow"
+      },
+      "then": "barrow_thanked_check",
+      "else": "barrow_active_check"
+    },
+    "barrow_thanked_check": {
+      "type": "condition",
+      "when": {
+        "flag": "mira_barrow_thanked"
+      },
+      "then": "cellar_offer",
+      "else": "barrow_thanks"
+    },
+    "barrow_thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_barrow_thanked",
+          "value": true
+        }
+      ],
+      "next": "cellar_offer"
+    },
+    "cellar_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.cellar_offer",
+      "next": "cellar_choice"
+    },
+    "cellar_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.mira.cellar_accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/cellar"
+            }
+          ],
+          "next": "cellar_accepted"
+        },
+        {
+          "text": "$i18n:dlg.mira.cellar_decline",
+          "next": "end"
+        }
+      ]
+    },
+    "cellar_accepted": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.cellar_accepted",
+      "next": "end"
+    },
+    "cellar_busy": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.cellar_busy",
+      "next": "end"
+    },
+    "cellar_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.cellar_thanks",
       "next": "end"
     }
   }

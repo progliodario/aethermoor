@@ -1,0 +1,67 @@
+{
+  "$schema": "../../../schemas/stamp.schema.json",
+  "id": "base:stamp/cellar",
+  "w": 29,
+  "h": 24,
+  "anchor": [
+    14,
+    22
+  ],
+  "rows": [
+    ".............................",
+    ".###########################.",
+    ".#ccccccccccccccccccccccccc#.",
+    ".#clccccccccccccccccccccclc#.",
+    ".#ccccccccccccGcccccccccccc#.",
+    ".#ccccxcccccccccccccccxcccc#.",
+    ".#ccccccccccccccccccccccccc#.",
+    ".#ccccccccccccccccccccccccc#.",
+    ".#ccccccccccccccccccccccccc#.",
+    ".#############c#############.",
+    ".#clccccccccccccccccccccclc#.",
+    ".#ccccccccccccccccccccccccc#.",
+    ".#ccccccccccccxcccccccccccc#.",
+    ".#cccscccccccccccccsccccccc#.",
+    ".#ccccccccccccccccccccccccc#.",
+    ".#cccccxcccccccccccccxccccc#.",
+    ".#ccccccccccccccccccccccccc#.",
+    ".#cccccccscccccccccccccsccc#.",
+    ".#ccccccccccccccccccccccccc#.",
+    ".#ccccccccccccccccccccccccc#.",
+    ".#ccccccccccclclccccccccccc#.",
+    ".#############c#############.",
+    "...........T..c..............",
+    "..............c.............."
+  ],
+  "legend": {
+    "#": {
+      "tile": 5
+    },
+    "G": {
+      "tile": 13,
+      "npc": "guild_clerk"
+    },
+    "T": {
+      "tile": 14,
+      "prop": "base:art/prop/threshold_stone",
+      "radius_x100": 35
+    },
+    "c": {
+      "tile": 14
+    },
+    "l": {
+      "tile": 14,
+      "prop": "base:art/prop/lamp",
+      "radius_x100": 15
+    },
+    "s": {
+      "tile": 14,
+      "spawner": "base:enemy/slime_green"
+    },
+    "x": {
+      "tile": 14,
+      "spawner": "base:enemy/slime_blue"
+    }
+  },
+  "spots": []
+}
