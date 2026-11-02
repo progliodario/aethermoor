@@ -532,6 +532,57 @@ std::optional<std::string> read_text_file(const fs::path& file) {
     return std::string(std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>());
 }
 
+constexpr int kSlotCount = 3;  // the games a player can keep (spec 12, "Slots")
+
+// The folder of the saves of a game (1..kSlotCount).
+fs::path slot_dir(int slot) {
+    const fs::path dir = save_dir() / ("slot" + std::to_string(slot));
+    std::error_code ec;
+    fs::create_directories(dir, ec);
+    return dir;
+}
+
+// The folder of the saves of this run, set once the game is chosen.
+fs::path g_slot_dir;
+
+// Saves written before slots existed become the first game.
+void migrate_legacy_saves() {
+    std::error_code ec;
+    if (!fs::exists(save_dir() / "auto.json", ec) || fs::exists(slot_dir(1) / "auto.json", ec)) {
+        return;
+    }
+    for (const char* name : {"auto.json", "quick.json"}) {
+        if (fs::exists(save_dir() / name, ec)) {
+            fs::rename(save_dir() / name, slot_dir(1) / name, ec);
+        }
+    }
+}
+
+struct SlotInfo {
+    bool used = false;
+    int level = 1;
+    std::int64_t gold = 0;
+};
+
+SlotInfo read_slot(int slot) {
+    SlotInfo info;
+    if (const auto text = read_text_file(slot_dir(slot) / "auto.json")) {
+        if (const auto peek = aether::save_peek(*text)) {
+            info.used = true;
+            info.level = peek->level;
+            info.gold = peek->gold;
+        }
+    }
+    return info;
+}
+
+void delete_slot(int slot) {
+    std::error_code ec;
+    for (const char* name : {"auto.json", "auto.json.tmp", "quick.json", "quick.json.tmp"}) {
+        fs::remove(slot_dir(slot) / name, ec);
+    }
+}
+
 // The settings file (spec 16): the language chosen by the player; without it the language of the system is used.
 fs::path settings_file() {
     return save_dir().parent_path() / "settings.json";
@@ -1400,10 +1451,140 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     SDL_RenderPresent(renderer);
 }
 
+// The title screen (spec 12, "Slots"): the games to pick from. Returns the game (1..kSlotCount), or 0 when the player quits.
+int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, const std::string& lang) {
+    std::vector<SlotInfo> slots;
+    for (int slot = 1; slot <= kSlotCount; ++slot) {
+        slots.push_back(read_slot(slot));
+    }
+    int cursor = 0;
+    int pending_delete = -1;
+    std::string notice;
+    for (;;) {
+        float density = SDL_GetWindowPixelDensity(window);
+        if (density <= 0.0F) {
+            density = 1.0F;
+        }
+        int out_w = 0;
+        int out_h = 0;
+        SDL_GetCurrentRenderOutputSize(renderer, &out_w, &out_h);
+        const float panel_w = std::min(static_cast<float>(out_w) - 40.0F, 600.0F * density);
+        const float panel_x = (static_cast<float>(out_w) - panel_w) / 2.0F;
+        const float row_h = 56.0F * density;
+        const float top = static_cast<float>(out_h) * 0.32F;
+        const auto row_at = [&](float px, float py) {
+            for (int i = 0; i < kSlotCount; ++i) {
+                const float ry = top + static_cast<float>(i) * (row_h + 8.0F * density);
+                if (px >= panel_x && px <= panel_x + panel_w && py >= ry && py <= ry + row_h) {
+                    return i;
+                }
+            }
+            return -1;
+        };
+
+        SDL_Event event;
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_EVENT_QUIT) {
+                return 0;
+            }
+            if (event.type == SDL_EVENT_KEY_DOWN) {
+                const SDL_Keycode key = event.key.key;
+                const int digit = static_cast<int>(key) - static_cast<int>(SDLK_1);
+                if (key == SDLK_ESCAPE) {
+                    return 0;
+                }
+                if (key == SDLK_UP || key == SDLK_W) {
+                    cursor = (cursor + kSlotCount - 1) % kSlotCount;
+                    pending_delete = -1;
+                    notice.clear();
+                } else if (key == SDLK_DOWN || key == SDLK_S) {
+                    cursor = (cursor + 1) % kSlotCount;
+                    pending_delete = -1;
+                    notice.clear();
+                } else if (key == SDLK_E || key == SDLK_RETURN || key == SDLK_KP_ENTER || key == SDLK_SPACE) {
+                    return cursor + 1;
+                } else if (digit >= 0 && digit < kSlotCount) {
+                    return digit + 1;
+                } else if ((key == SDLK_D || key == SDLK_DELETE) && slots[static_cast<std::size_t>(cursor)].used) {
+                    const aether::FormatArgs args{{"slot", static_cast<std::int64_t>(cursor + 1)}};
+                    if (pending_delete == cursor) {
+                        delete_slot(cursor + 1);
+                        slots[static_cast<std::size_t>(cursor)] = SlotInfo{};
+                        pending_delete = -1;
+                        notice = assets.pack.text(lang, "$i18n:ui.slot_deleted", args);
+                    } else {
+                        pending_delete = cursor;
+                        notice = assets.pack.text(lang, "$i18n:ui.slot_delete", args);
+                    }
+                }
+            } else if (event.type == SDL_EVENT_MOUSE_MOTION) {
+                SDL_ConvertEventToRenderCoordinates(renderer, &event);
+                const int hovered = row_at(event.motion.x, event.motion.y);
+                if (hovered >= 0 && hovered != cursor) {
+                    cursor = hovered;
+                    pending_delete = -1;
+                    notice.clear();
+                }
+            } else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN && event.button.button == SDL_BUTTON_LEFT) {
+                SDL_ConvertEventToRenderCoordinates(renderer, &event);
+                const int clicked = row_at(event.button.x, event.button.y);
+                if (clicked >= 0) {
+                    return clicked + 1;
+                }
+            }
+        }
+
+        const auto draw_text = [&](float scale, float px, float py, const std::string& line, Uint8 r, Uint8 g, Uint8 b) {
+            SDL_SetRenderScale(renderer, scale, scale);
+            SDL_SetRenderDrawColor(renderer, r, g, b, 255);
+            SDL_RenderDebugText(renderer, px / scale, py / scale, line.c_str());
+            SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+        };
+        SDL_SetRenderDrawColor(renderer, 11, 31, 58, 255);
+        SDL_RenderClear(renderer);
+        const std::string game_title = assets.pack.text(lang, "$i18n:game.title");
+        const float title_scale = 3.0F * density;
+        draw_text(title_scale, (static_cast<float>(out_w) - static_cast<float>(game_title.size()) * 8.0F * title_scale) / 2.0F,
+                  static_cast<float>(out_h) * 0.12F, game_title, 255, 215, 120);
+        const std::string choose = assets.pack.text(lang, "$i18n:ui.title_choose");
+        const float choose_scale = 1.5F * density;
+        draw_text(choose_scale, (static_cast<float>(out_w) - static_cast<float>(choose.size()) * 8.0F * choose_scale) / 2.0F,
+                  static_cast<float>(out_h) * 0.12F + 40.0F * density, choose, 170, 200, 230);
+        for (int i = 0; i < kSlotCount; ++i) {
+            const SlotInfo& info = slots[static_cast<std::size_t>(i)];
+            const float ry = top + static_cast<float>(i) * (row_h + 8.0F * density);
+            const bool selected = i == cursor;
+            const Uint8 fill_r = selected ? Uint8{30} : Uint8{20};
+            const Uint8 fill_g = selected ? Uint8{70} : Uint8{50};
+            const Uint8 fill_b = selected ? Uint8{120} : Uint8{90};
+            fill_rect(renderer, panel_x, ry, panel_w, row_h, fill_r, fill_g, fill_b, 255);
+            if (selected) {
+                fill_rect(renderer, panel_x, ry, panel_w, 3.0F, 255, 215, 120, 255);
+            }
+            const aether::FormatArgs args{{"slot", static_cast<std::int64_t>(i + 1)},
+                                          {"level", static_cast<std::int64_t>(info.level)},
+                                          {"gold", info.gold}};
+            const std::string line = assets.pack.text(lang, info.used ? "$i18n:ui.slot_used" : "$i18n:ui.slot_empty", args);
+            const Uint8 text_r = info.used ? Uint8{235} : Uint8{150};
+            const Uint8 text_g = info.used ? Uint8{245} : Uint8{170};
+            const Uint8 text_b = info.used ? Uint8{255} : Uint8{200};
+            draw_text(choose_scale, panel_x + 16.0F * density, ry + (row_h - 8.0F * choose_scale) / 2.0F, line, text_r, text_g, text_b);
+        }
+        const float hint_scale = 1.25F * density;
+        if (!notice.empty()) {
+            draw_text(hint_scale, panel_x, top + 3.0F * (row_h + 8.0F * density) + 12.0F * density, notice, 255, 215, 120);
+        }
+        draw_text(hint_scale, panel_x, static_cast<float>(out_h) - 36.0F * density, assets.pack.text(lang, "$i18n:ui.title_hint"), 170, 200,
+                  230);
+        SDL_RenderPresent(renderer);
+    }
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {
     bool smoke_test = false;
+    int forced_slot = 0;  // developer option: --slot=N skips the title screen
     std::string map_choice;  // "demo" or "world"; the default depends on the mode
     std::optional<std::uint64_t> forced_seed;
     std::optional<std::pair<float, float>> start_at;  // developer option: --start=X,Y in tiles
@@ -1432,6 +1613,9 @@ int main(int argc, char** argv) {
         if (std::strncmp(argv[i], "--seed=", 7) == 0) {
             forced_seed = std::strtoull(argv[i] + 7, nullptr, 0);
         }
+        if (std::strncmp(argv[i], "--slot=", 7) == 0) {
+            forced_slot = std::atoi(argv[i] + 7);
+        }
     }
 
     if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD)) {
@@ -1449,12 +1633,42 @@ int main(int argc, char** argv) {
     }
     g_map_name = map_choice;
 
+    const std::string title(aether::game_name());
+    SDL_Window* window = nullptr;
+    SDL_Renderer* renderer = nullptr;
+    if (!SDL_CreateWindowAndRenderer(title.c_str(), kWindowWidth, kWindowHeight,
+                                     SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY, &window, &renderer)) {
+        SDL_Log("Window creation failed: %s", SDL_GetError());
+        SDL_Quit();
+        return 1;
+    }
+    SDL_SetRenderVSync(renderer, 1);
+
+    // The game (spec 12, "Slots"): chosen on the title screen; the smoke test has a folder of its own.
+    if (smoke_test) {
+        g_slot_dir = save_dir() / "smoke";
+        std::error_code folder_error;
+        fs::create_directories(g_slot_dir, folder_error);
+    } else {
+        migrate_legacy_saves();
+        const int slot = forced_slot >= 1 && forced_slot <= kSlotCount
+                             ? forced_slot
+                             : run_title(window, renderer, assets, saved_language().value_or(detect_language()));
+        if (slot == 0) {
+            SDL_DestroyRenderer(renderer);
+            SDL_DestroyWindow(window);
+            SDL_Quit();
+            return 0;
+        }
+        g_slot_dir = slot_dir(slot);
+    }
+
     // The seed: forced, else the one of the last session on this map (so the same world comes back), else a new one.
     std::uint64_t seed = smoke_test ? 1234U : SDL_GetTicksNS();
     if (forced_seed) {
         seed = *forced_seed;
     } else if (!smoke_test) {
-        if (const auto text = read_text_file(save_dir() / "auto.json")) {
+        if (const auto text = read_text_file(g_slot_dir / "auto.json")) {
             if (const auto peek = aether::save_peek(*text); peek && peek->map == g_map_name) {
                 seed = peek->seed;
             }
@@ -1491,17 +1705,6 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    const std::string title(aether::game_name());
-    SDL_Window* window = nullptr;
-    SDL_Renderer* renderer = nullptr;
-    if (!SDL_CreateWindowAndRenderer(title.c_str(), kWindowWidth, kWindowHeight,
-                                     SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY, &window, &renderer)) {
-        SDL_Log("Window creation failed: %s", SDL_GetError());
-        SDL_Quit();
-        return 1;
-    }
-    SDL_SetRenderVSync(renderer, 1);
-
     int exit_code = 0;
     {
         aether::TextureCache cache(renderer, assets.pack);
@@ -1520,9 +1723,9 @@ int main(int argc, char** argv) {
 
         if (!smoke_test) {  // continue the last session, if there is one
             std::string ignored;
-            const auto previous = read_text_file(save_dir() / "auto.json");
+            const auto previous = read_text_file(g_slot_dir / "auto.json");
             const auto peek = previous ? aether::save_peek(*previous) : std::nullopt;
-            if (peek && peek->map == g_map_name && peek->seed == seed && load_game(sim, save_dir() / "auto.json", ignored)) {
+            if (peek && peek->map == g_map_name && peek->seed == seed && load_game(sim, g_slot_dir / "auto.json", ignored)) {
                 notify(ui, assets.pack.text(ui.lang, "$i18n:ui.loaded"));
             }
         }
@@ -1582,11 +1785,11 @@ int main(int argc, char** argv) {
                         save_language(ui.lang);
                         notify(ui, assets.pack.text(ui.lang, "$i18n:ui.language_set"));
                     } else if (event.key.key == SDLK_F5) {
-                        notify(ui, save_game(sim, save_dir() / "quick.json") ? assets.pack.text(ui.lang, "$i18n:ui.saved")
+                        notify(ui, save_game(sim, g_slot_dir / "quick.json") ? assets.pack.text(ui.lang, "$i18n:ui.saved")
                                                                               : "save failed");
                     } else if (event.key.key == SDLK_F9) {
                         std::string load_error;
-                        notify(ui, load_game(sim, save_dir() / "quick.json", load_error)
+                        notify(ui, load_game(sim, g_slot_dir / "quick.json", load_error)
                                        ? assets.pack.text(ui.lang, "$i18n:ui.loaded")
                                        : assets.pack.text(ui.lang, "$i18n:ui.load_failed"));
                     } else {
@@ -1757,7 +1960,7 @@ int main(int argc, char** argv) {
             since_autosave += frame_seconds;
             if (!smoke_test && since_autosave >= kAutosaveSeconds) {
                 since_autosave = 0.0;
-                save_game(sim, save_dir() / "auto.json");
+                save_game(sim, g_slot_dir / "auto.json");
             }
 
             float density = SDL_GetWindowPixelDensity(window);
@@ -1802,7 +2005,7 @@ int main(int argc, char** argv) {
             }
         }
         if (!smoke_test) {
-            save_game(sim, save_dir() / "auto.json");
+            save_game(sim, g_slot_dir / "auto.json");
         }
         if (devices.gamepad != nullptr) {
             SDL_CloseGamepad(devices.gamepad);

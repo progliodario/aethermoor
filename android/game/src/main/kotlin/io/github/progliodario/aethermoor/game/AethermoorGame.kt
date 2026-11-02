@@ -69,6 +69,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val worldParams: WorldParams,
     )
 
+    private class SlotSummary(val used: Boolean, val level: Int, val gold: Long)
+
     private class FloatingText(val x: Float, val y: Float, val text: String, val onPlayer: Boolean, val crit: Boolean) {
         var age = 0
     }
@@ -119,6 +121,15 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var messageFrames = 0
     private var sinceAutosave = 0f
     private var seed = 0uL
+    private var currentSlot = 0
+
+    /** The games on the title screen (spec 12, "Slots"); null once a game is running. */
+    private var titleSlots: List<SlotSummary>? = null
+    private var titleCursor = 0
+    private var titlePendingDelete = -1
+    private var titleNotice = ""
+    private var titleRowRects: List<FloatArray> = emptyList()
+    private var titleCrossRects: List<FloatArray> = emptyList()
 
     override fun create() {
         batch = SpriteBatch()
@@ -131,6 +142,16 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val loaded = loadAssets() ?: return
         assets = loaded
         cache = TextureCache(loaded.pack)
+        migrateLegacySaves()
+        titleSlots = readSlots()
+    }
+
+    /** Builds the world of a game (spec 12, "Slots") and continues its autosave. */
+    private fun startGame(slot: Int) {
+        val loaded = assets ?: return
+        currentSlot = slot
+        titleSlots = null
+        seed = chooseSeed()
         val combat = loadCombatSetup(loaded.pack, loaded.map, PROTAGONIST_ID, seed, worldEnemyIds(loaded.worldParams))
             .getOrElse {
                 error = it.message
@@ -142,7 +163,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         loadAutosave(world, loaded.pack)
     }
 
-    /** The seed of the last session on the generated world (so the same world comes back), else a new one. */
+    /** The seed of the last session of this game on the generated world (so the same world comes back), else a new one. */
     private fun chooseSeed(): ULong {
         val file = saveFile()
         if (file.exists()) {
@@ -162,7 +183,6 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
         return try {
             fun doc(id: String) = requireNotNull(pack.readDocument(id)) { "missing document $id" }
-            seed = chooseSeed()
             val worldParams = loadWorldParams(pack, "base:world/overworld").getOrThrow()
             Assets(
                 pack = pack,
@@ -186,12 +206,51 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     // ------------------------------------------------------------------------------------ saves
 
-    private fun saveFile() = Gdx.files.local("saves/auto.json")
+    private fun saveFile() = slotFile(currentSlot)
+
+    private fun slotFile(slot: Int) = Gdx.files.local("saves/slot$slot/auto.json")
+
+    /** Saves written before slots existed become the first game. */
+    private fun migrateLegacySaves() {
+        try {
+            val legacy = Gdx.files.local("saves/auto.json")
+            if (!legacy.exists() || slotFile(1).exists()) return
+            slotFile(1).parent().mkdirs()
+            legacy.moveTo(slotFile(1))
+            val quick = Gdx.files.local("saves/quick.json")
+            if (quick.exists()) quick.moveTo(Gdx.files.local("saves/slot1/quick.json"))
+        } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
+            Gdx.app.error(TAG, "Cannot move the old save: ${e.message}")
+        }
+    }
+
+    /** What the title screen shows of each game: read from the autosave without building the world. */
+    private fun readSlots(): List<SlotSummary> =
+        (1..SLOT_COUNT).map { slot ->
+            val peek = try {
+                val file = slotFile(slot)
+                if (file.exists()) savePeek(file.readString("UTF-8")).getOrNull() else null
+            } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
+                null
+            }
+            if (peek == null) SlotSummary(false, 1, 0L) else SlotSummary(true, peek.level, peek.gold)
+        }
+
+    private fun deleteSlot(slot: Int) {
+        try {
+            for (name in listOf("auto.json", "auto.json.tmp", "quick.json", "quick.json.tmp")) {
+                val file = Gdx.files.local("saves/slot$slot/$name")
+                if (file.exists()) file.delete()
+            }
+        } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
+            Gdx.app.error(TAG, "Cannot delete the game: ${e.message}")
+        }
+    }
 
     /** Writes the autosave (a temporary file first, then a move over the old save). */
     private fun saveGame(world: WorldSim) {
         try {
-            val temp = Gdx.files.local("saves/auto.json.tmp")
+            val temp = Gdx.files.local("saves/slot$currentSlot/auto.json.tmp")
             temp.writeString(saveToJson(world.capture(), SaveMeta(info.version, 1, PROTAGONIST_ID, seed, MAP_WORLD)), false, "UTF-8")
             temp.moveTo(saveFile())
         } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
@@ -279,6 +338,12 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         val world = sim
         val data = assets
+        val slots = titleSlots
+        if (world == null && data != null && slots != null) {
+            handleTitleInput(data, slots)
+            titleSlots?.let { drawTitle(data, it) } // null when a game was just chosen
+            return
+        }
         if (world == null || data == null) {
             drawError()
             return
@@ -1484,6 +1549,124 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         shapes.end()
     }
 
+    /** The title screen (spec 12, "Slots"): a tap or Enter on a game plays it, the cross or D deletes it after a second confirmation. */
+    private fun handleTitleInput(data: Assets, slots: List<SlotSummary>) {
+        val input = Gdx.input
+        if (input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W)) {
+            titleCursor = (titleCursor + SLOT_COUNT - 1) % SLOT_COUNT
+            titlePendingDelete = -1
+            titleNotice = ""
+        } else if (input.isKeyJustPressed(Input.Keys.DOWN) || input.isKeyJustPressed(Input.Keys.S)) {
+            titleCursor = (titleCursor + 1) % SLOT_COUNT
+            titlePendingDelete = -1
+            titleNotice = ""
+        } else if (input.isKeyJustPressed(Input.Keys.ENTER) || input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.SPACE)) {
+            startGame(titleCursor + 1)
+        } else if (input.isKeyJustPressed(Input.Keys.D) || input.isKeyJustPressed(Input.Keys.FORWARD_DEL)) {
+            deleteOrAsk(data, slots, titleCursor)
+        } else if (input.justTouched()) {
+            val x = input.x.toFloat()
+            val y = input.y.toFloat()
+            fun inside(r: FloatArray) = r.size == 4 && x >= r[0] && x <= r[0] + r[2] && y >= r[1] && y <= r[1] + r[3]
+            val cross = titleCrossRects.indexOfFirst { inside(it) }
+            val row = titleRowRects.indexOfFirst { inside(it) }
+            if (cross >= 0) {
+                titleCursor = cross
+                deleteOrAsk(data, slots, cross)
+            } else if (row >= 0) {
+                startGame(row + 1)
+            }
+        }
+    }
+
+    /** First call on a used game asks to confirm; a second call on the same game deletes its files. */
+    private fun deleteOrAsk(data: Assets, slots: List<SlotSummary>, index: Int) {
+        if (!slots[index].used) return
+        val args = mapOf<String, Any>("slot" to index + 1)
+        if (titlePendingDelete == index) {
+            deleteSlot(index + 1)
+            titlePendingDelete = -1
+            titleSlots = readSlots()
+            titleNotice = data.pack.text(language, "\$i18n:ui.slot_deleted", args)
+        } else {
+            titlePendingDelete = index
+            titleNotice = data.pack.text(language, "\$i18n:ui.slot_delete_touch", args)
+        }
+    }
+
+    private fun drawTitle(data: Assets, slots: List<SlotSummary>) {
+        val density = Gdx.graphics.density
+        val width = Gdx.graphics.width.toFloat()
+        val height = Gdx.graphics.height.toFloat()
+        val panelW = min(width - 40f, 560f * density)
+        val panelX = (width - panelW) / 2f
+        val rowH = 56f * density
+        val gap = 8f * density
+        val top = height * 0.32f
+        val rows = ArrayList<FloatArray>()
+        val crosses = ArrayList<FloatArray>()
+        for (i in slots.indices) {
+            val rowY = top + i * (rowH + gap)
+            rows.add(floatArrayOf(panelX, rowY, panelW, rowH))
+            crosses.add(if (slots[i].used) floatArrayOf(panelX + panelW - rowH, rowY, rowH, rowH) else floatArrayOf())
+        }
+        titleRowRects = rows
+        titleCrossRects = crosses
+
+        shapes.projectionMatrix = camera.combined
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        for (i in slots.indices) {
+            val r = rows[i]
+            shapes.color = if (i == titleCursor) Color(0.118f, 0.275f, 0.47f, 1f) else Color(0.078f, 0.196f, 0.353f, 1f)
+            shapes.rect(r[0], r[1], r[2], r[3])
+            if (i == titleCursor) {
+                shapes.color = Color(1f, 0.84f, 0.47f, 1f)
+                shapes.rect(r[0], r[1], r[2], 3f * density)
+            }
+            if (slots[i].used) {
+                val c = crosses[i]
+                shapes.color = if (titlePendingDelete == i) Color(0.7f, 0.2f, 0.2f, 1f) else Color(0.12f, 0.16f, 0.28f, 1f)
+                shapes.rect(c[0] + 6f * density, c[1] + 6f * density, c[2] - 12f * density, c[3] - 12f * density)
+            }
+        }
+        shapes.end()
+
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        val baseScale = font.data.scaleX
+        font.data.setScale(baseScale * 2f)
+        val name = data.pack.text(language, "\$i18n:game.title")
+        layout.setText(font, name)
+        font.color = Color(1f, 0.84f, 0.47f, 1f)
+        font.draw(batch, name, (width - layout.width) / 2f, height * 0.08f)
+        font.data.setScale(baseScale)
+        val choose = data.pack.text(language, "\$i18n:ui.title_choose")
+        layout.setText(font, choose)
+        font.color = Color(0.67f, 0.78f, 0.9f, 1f)
+        font.draw(batch, choose, (width - layout.width) / 2f, height * 0.08f + 56f * density)
+        for (i in slots.indices) {
+            val r = rows[i]
+            val slot = slots[i]
+            val key = if (slot.used) "\$i18n:ui.slot_used" else "\$i18n:ui.slot_empty"
+            val line = data.pack.text(language, key, mapOf("slot" to i + 1, "level" to slot.level, "gold" to slot.gold))
+            font.color = if (slot.used) Color(0.92f, 0.96f, 1f, 1f) else Color(0.59f, 0.67f, 0.78f, 1f)
+            font.draw(batch, line, r[0] + 16f * density, r[1] + (r[3] - font.lineHeight) / 2f)
+            if (slot.used) {
+                val c = crosses[i]
+                font.color = Color.WHITE
+                font.draw(batch, "x", c[0] + (c[2] - font.spaceXadvance) / 2f, c[1] + (c[3] - font.lineHeight) / 2f)
+            }
+        }
+        if (titleNotice.isNotEmpty()) {
+            font.color = Color(1f, 0.84f, 0.47f, 1f)
+            font.draw(batch, titleNotice, panelX, top + SLOT_COUNT * (rowH + gap) + 8f * density)
+        }
+        font.color = Color(0.67f, 0.78f, 0.9f, 1f)
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.title_hint_touch"), panelX, height - font.lineHeight * 2.4f)
+        font.color = Color.WHITE
+        batch.end()
+    }
+
     private fun drawError() {
         batch.projectionMatrix = camera.combined
         batch.begin()
@@ -1502,6 +1685,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         private const val TAG = "Aethermoor"
         private const val PROTAGONIST_ID = "base:protagonist/ren"
         private const val MAP_WORLD = "world"
+        private const val SLOT_COUNT = 3
         private const val BASE_TILE_PX = 48f
 
         /** Colors of the world map by biome code: water, beach, mountain, snow, desert, forest, plains. */
