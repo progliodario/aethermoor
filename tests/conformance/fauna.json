@@ -46,16 +46,16 @@
             8159
           ],
           [
-            8276,
-            8144
+            8242,
+            8129
           ],
           [
-            8161,
-            8169
+            8234,
+            8130
           ],
           [
-            8186,
-            8178
+            8250,
+            8130
           ],
           [
             3773,
@@ -244,6 +244,46 @@
           [
             8127,
             8154
+          ],
+          [
+            8250,
+            8096
+          ],
+          [
+            8246,
+            8120
+          ],
+          [
+            8242,
+            8137
+          ],
+          [
+            8233,
+            8138
+          ],
+          [
+            8247,
+            8138
+          ],
+          [
+            8235,
+            8140
+          ],
+          [
+            8249,
+            8140
+          ],
+          [
+            8237,
+            8142
+          ],
+          [
+            8251,
+            8142
+          ],
+          [
+            8276,
+            8144
           ]
         ],
         "params": {
@@ -521,6 +561,14 @@
               "kind": "dungeon",
               "dx": -60,
               "dy": -34
+            },
+            {
+              "id": "mossveil_cellar",
+              "name": "Mossveil Cellar",
+              "stamp": "base:stamp/cellar",
+              "kind": "dungeon",
+              "dx": 50,
+              "dy": -45
             }
           ],
           "guild": {
@@ -1415,6 +1463,73 @@
                 }
               },
               "spots": []
+            },
+            "base:stamp/cellar": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/cellar",
+              "w": 29,
+              "h": 24,
+              "anchor": [
+                14,
+                22
+              ],
+              "rows": [
+                ".............................",
+                ".###########################.",
+                ".#ccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccclc#.",
+                ".#ccccccccccccKcccccccccccc#.",
+                ".#ccccxcccccccccccccccxcccc#.",
+                ".#ccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccc#.",
+                ".#############c#############.",
+                ".#clccccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccccccc#.",
+                ".#ccccccccccccxcccccccccccc#.",
+                ".#cccscccccccccccccsccccccc#.",
+                ".#ccccccccccccccccccccccccc#.",
+                ".#cccccxcccccccccccccxccccc#.",
+                ".#ccccccccccccccccccccccccc#.",
+                ".#cccccccscccccccccccccsccc#.",
+                ".#ccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccc#.",
+                ".#ccccccccccclclccccccccccc#.",
+                ".#############c#############.",
+                "...........T..c..............",
+                "..............c.............."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "K": {
+                  "tile": 14,
+                  "spawner": "base:enemy/gel_king"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "s": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_green"
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
+                }
+              },
+              "spots": []
             }
           }
         }
@@ -1485,25 +1600,25 @@
             "base:item/slime_gel"
           ],
           [
-            8276,
-            8144,
+            8242,
+            8129,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/gel_king",
+            ""
           ],
           [
-            8161,
-            8169,
+            8234,
+            8130,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_blue",
+            ""
           ],
           [
-            8186,
-            8178,
+            8250,
+            8130,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_blue",
+            ""
           ],
           [
             3773,
@@ -1833,6 +1948,76 @@
             0,
             "base:enemy/wolf_grey",
             ""
+          ],
+          [
+            8250,
+            8096,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8246,
+            8120,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8242,
+            8137,
+            0,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            8233,
+            8138,
+            0,
+            "base:enemy/slime_green",
+            ""
+          ],
+          [
+            8247,
+            8138,
+            0,
+            "base:enemy/slime_green",
+            ""
+          ],
+          [
+            8235,
+            8140,
+            0,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            8249,
+            8140,
+            0,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            8237,
+            8142,
+            0,
+            "base:enemy/slime_green",
+            ""
+          ],
+          [
+            8251,
+            8142,
+            0,
+            "base:enemy/slime_green",
+            ""
+          ],
+          [
+            8276,
+            8144,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ]
         ]
       }
@@ -1876,20 +2061,20 @@
             8136
           ],
           [
-            8157,
-            8184
+            8242,
+            8129
           ],
           [
-            8191,
-            8160
+            8234,
+            8130
           ],
           [
-            8158,
-            8223
+            8250,
+            8130
           ],
           [
-            8175,
-            8199
+            8242,
+            8137
           ],
           [
             3739,
@@ -2190,6 +2375,30 @@
           [
             8127,
             8154
+          ],
+          [
+            8233,
+            8138
+          ],
+          [
+            8247,
+            8138
+          ],
+          [
+            8235,
+            8140
+          ],
+          [
+            8249,
+            8140
+          ],
+          [
+            8237,
+            8142
+          ],
+          [
+            8251,
+            8142
           ]
         ],
         "params": {
@@ -2467,6 +2676,14 @@
               "kind": "dungeon",
               "dx": -60,
               "dy": -34
+            },
+            {
+              "id": "mossveil_cellar",
+              "name": "Mossveil Cellar",
+              "stamp": "base:stamp/cellar",
+              "kind": "dungeon",
+              "dx": 50,
+              "dy": -45
             }
           ],
           "guild": {
@@ -3361,6 +3578,73 @@
                 }
               },
               "spots": []
+            },
+            "base:stamp/cellar": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/cellar",
+              "w": 29,
+              "h": 24,
+              "anchor": [
+                14,
+                22
+              ],
+              "rows": [
+                ".............................",
+                ".###########################.",
+                ".#ccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccclc#.",
+                ".#ccccccccccccKcccccccccccc#.",
+                ".#ccccxcccccccccccccccxcccc#.",
+                ".#ccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccc#.",
+                ".#############c#############.",
+                ".#clccccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccccccc#.",
+                ".#ccccccccccccxcccccccccccc#.",
+                ".#cccscccccccccccccsccccccc#.",
+                ".#ccccccccccccccccccccccccc#.",
+                ".#cccccxcccccccccccccxccccc#.",
+                ".#ccccccccccccccccccccccccc#.",
+                ".#cccccccscccccccccccccsccc#.",
+                ".#ccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccc#.",
+                ".#ccccccccccclclccccccccccc#.",
+                ".#############c#############.",
+                "...........T..c..............",
+                "..............c.............."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "K": {
+                  "tile": 14,
+                  "spawner": "base:enemy/gel_king"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "s": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_green"
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
+                }
+              },
+              "spots": []
             }
           }
         }
@@ -3424,32 +3708,32 @@
             "base:item/slime_gel"
           ],
           [
-            8157,
-            8184,
+            8242,
+            8129,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/gel_king",
+            ""
           ],
           [
-            8191,
-            8160,
+            8234,
+            8130,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_blue",
+            ""
           ],
           [
-            8158,
-            8223,
+            8250,
+            8130,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_blue",
+            ""
           ],
           [
-            8175,
-            8199,
+            8242,
+            8137,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_blue",
+            ""
           ],
           [
             3739,
@@ -3974,6 +4258,48 @@
             8154,
             0,
             "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            8233,
+            8138,
+            0,
+            "base:enemy/slime_green",
+            ""
+          ],
+          [
+            8247,
+            8138,
+            0,
+            "base:enemy/slime_green",
+            ""
+          ],
+          [
+            8235,
+            8140,
+            0,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            8249,
+            8140,
+            0,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            8237,
+            8142,
+            0,
+            "base:enemy/slime_green",
+            ""
+          ],
+          [
+            8251,
+            8142,
+            0,
+            "base:enemy/slime_green",
             ""
           ]
         ]
