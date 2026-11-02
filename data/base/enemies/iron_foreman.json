@@ -1,0 +1,35 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/iron_foreman",
+  "name": "$i18n:enemy.iron_foreman.name",
+  "level": 11,
+  "stats": {
+    "hp": 480,
+    "atk": 30,
+    "def": 14,
+    "mdef": 8,
+    "speed_x100": 290
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "water": 1500
+  },
+  "xp": 260,
+  "drops": [
+    {
+      "item": "base:item/foreman_maul",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 1000
+    },
+    {
+      "item": "base:item/slate_shard",
+      "qty_min": 3,
+      "qty_max": 5,
+      "weight_pm": 1000
+    }
+  ],
+  "radius_x100": 55,
+  "behavior": "base:behavior/melee_chaser_basic",
+  "art": "base:art/creature/iron_foreman"
+}

@@ -81,7 +81,7 @@ replaces everything under it, so a landmark is a **fully specified** picture (wa
 A legend entry may name a `spawner` (an enemy ID): the tile is an **enemy spawner** of that enemy, listed with the other spawners in scan order (spec 09, "Enemy spawners"; the random spawner test does not
 apply inside footprints). The enemy of any spawner is therefore the `spawner` of its stamp tile when it has one, else a pick of the fauna of its region. Spawners of a dungeon respawn like any other (spec 08).
 Verdalis has two dungeons: Grunmoor Barrow (`base:stamp/barrow`), north-west of the start, with the Barrow Warden in its north hall, and Mossveil Cellar (`base:stamp/cellar`), north-east, a cellar of slimes with the Gel King in its north room. Each has a Threshold Stone at its entrance.
-Conformance suite `fauna` includes every spawner of the dungeons.
+Ironspine has Ironspine Mine (`base:stamp/mine`), far to the north-east (about 6300 tiles from the start): three galleries of slate slimes, grey wolves and shade wolves and the Ironbound Foreman in the north hall, with a Threshold Stone at the door. Conformance suite `fauna` includes every spawner of the dungeons.
 
 ## Settlement people
 

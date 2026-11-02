@@ -86,5 +86,11 @@
   "season.winter": "Winter",
   "ui.map": "World map",
   "ui.map_hint": "[M] Map",
-  "ui.bag_hint": "[I] Bag"
+  "ui.bag_hint": "[I] Bag",
+  "dlg.mira.mine_offer": "Word came from the guild hall of Ironspine, far to the north-east beyond the mountains. The old mine is sealed: an iron foreman that no one hired keeps working it. It is a long road. Will you go?",
+  "dlg.mira.mine_accept": "I will go to Ironspine.",
+  "dlg.mira.mine_decline": "Not yet.",
+  "dlg.mira.mine_accepted": "Pack bread and potions, and wake the Threshold Stones of the towns you pass: they will bring you home. The mine has a stone at its door too.",
+  "dlg.mira.mine_busy": "The foreman is still hammering in the Ironspine mine. Take your time on the road, but come back alive.",
+  "dlg.mira.mine_thanks": "The hammering has stopped in Ironspine. The guild owes you more than I can pay, but I will keep trying."
 }
