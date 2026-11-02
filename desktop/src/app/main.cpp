@@ -446,6 +446,16 @@ void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether:
         const SDL_FRect all{0.0F, 0.0F, static_cast<float>(out_w), static_cast<float>(out_h)};
         SDL_RenderFillRect(renderer, &all);
     }
+    if (time->season_index >= 0 && sim.chunks() != nullptr) {  // the tint of the season (spec 08)
+        const aether::Season& season = sim.chunks()->params().time.seasons[static_cast<std::size_t>(time->season_index)];
+        if (season.tint[3] > 0) {
+            SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+            SDL_SetRenderDrawColor(renderer, static_cast<Uint8>(season.tint[0]), static_cast<Uint8>(season.tint[1]),
+                                   static_cast<Uint8>(season.tint[2]), static_cast<Uint8>(season.tint[3]));
+            const SDL_FRect all{0.0F, 0.0F, static_cast<float>(out_w), static_cast<float>(out_h)};
+            SDL_RenderFillRect(renderer, &all);
+        }
+    }
     if (time->rain_pm > 0) {
         const int drops = 160 * time->rain_pm / 1000;
         SDL_SetRenderDrawColor(renderer, 170, 190, 230, 150);
@@ -460,7 +470,13 @@ void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether:
     const int minute = (time->tod_pm * 1440 / 1000) % 60;
     char clock[16];
     std::snprintf(clock, sizeof(clock), "%02d:%02d", hour, minute);
-    const std::string line = assets.pack.text(ui.lang, "$i18n:ui.clock", {{"day", static_cast<std::int64_t>(time->day)}, {"time", std::string(clock)}});
+    std::string season_name;
+    if (time->season_index >= 0 && sim.chunks() != nullptr) {
+        season_name = assets.pack.text(
+            ui.lang, "$i18n:season." + sim.chunks()->params().time.seasons[static_cast<std::size_t>(time->season_index)].id);
+    }
+    const std::string line = assets.pack.text(ui.lang, "$i18n:ui.clock",
+                                              {{"day", static_cast<std::int64_t>(time->day)}, {"time", std::string(clock)}, {"season", season_name}});
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_SetRenderScale(renderer, 2.0F, 2.0F);
     SDL_RenderDebugText(renderer, (static_cast<float>(out_w) - 12.0F * density) / 2.0F - static_cast<float>(line.size()) * 8.0F,

@@ -465,6 +465,16 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             shapes.rect(0f, 0f, w, h)
             shapes.end()
         }
+        val params = world.chunks?.params
+        if (params != null && time.seasonIndex >= 0) { // the tint of the season (spec 08)
+            val tint = params.time.seasons[time.seasonIndex].tint
+            if (tint[3] > 0) {
+                shapes.begin(ShapeRenderer.ShapeType.Filled)
+                shapes.color = Color(tint[0] / 255f, tint[1] / 255f, tint[2] / 255f, tint[3] / 255f)
+                shapes.rect(0f, 0f, w, h)
+                shapes.end()
+            }
+        }
         if (time.rainPm > 0) {
             val density = Gdx.graphics.density
             val now = System.currentTimeMillis()
@@ -528,6 +538,13 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         shapes.end()
     }
 
+    /** The name of the season of the time sample (spec 08), empty without seasons. */
+    private fun seasonName(world: WorldSim, time: io.github.progliodario.aethermoor.core.TimeSample): String {
+        val params = world.chunks?.params ?: return ""
+        if (time.seasonIndex < 0) return ""
+        return assets?.pack?.text(language, "\$i18n:season.${params.time.seasons[time.seasonIndex].id}") ?: ""
+    }
+
     private fun drawTexts(world: WorldSim, data: Assets, camX: Float, camY: Float, tile: Float) {
         batch.projectionMatrix = camera.combined
         batch.begin()
@@ -540,7 +557,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             val hour = time.todPm * 24 / 1000
             val minute = time.todPm * 1440 / 1000 % 60
             val clock = data.pack.text(
-                language, "\$i18n:ui.clock", mapOf("day" to time.day, "time" to "%02d:%02d".format(hour, minute)),
+                language, "\$i18n:ui.clock",
+                mapOf("day" to time.day, "time" to "%02d:%02d".format(hour, minute), "season" to seasonName(world, time)),
             )
             layout.setText(font, clock)
             font.draw(batch, clock, Gdx.graphics.width - layout.width - 12f * density, 12f * density + 2f)

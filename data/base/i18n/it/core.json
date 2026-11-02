@@ -59,7 +59,11 @@
   "ui.loaded": "Partita caricata",
   "ui.load_failed": "Impossibile caricare il salvataggio",
   "ui.new_game": "Nuova partita",
-  "ui.clock": "Giorno {day}  {time}",
+  "ui.clock": "{season}, giorno {day}  {time}",
+  "season.spring": "Primavera",
+  "season.summer": "Estate",
+  "season.autumn": "Autunno",
+  "season.winter": "Inverno",
   "ui.map": "Mappa del mondo",
   "ui.map_hint": "[M] Mappa",
   "ui.bag_hint": "[I] Zaino"
