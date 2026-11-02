@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/slime_ember",
+  "name": "$i18n:enemy.slime_ember.name",
+  "level": 8,
+  "stats": {
+    "hp": 110,
+    "atk": 22,
+    "def": 9,
+    "mdef": 4,
+    "speed_x100": 270
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "water": 1500
+  },
+  "xp": 48,
+  "drops": [
+    {
+      "item": "base:item/ember_core",
+      "qty_min": 1,
+      "qty_max": 2,
+      "weight_pm": 500
+    }
+  ],
+  "radius_x100": 35,
+  "behavior": "base:behavior/melee_chaser_basic",
+  "art": "base:art/creature/slime_ember"
+}

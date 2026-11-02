@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/frost_pelt",
+  "name": "$i18n:item.frost_pelt.name",
+  "description": "$i18n:item.frost_pelt.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 14,
+  "stack_max": 99
+}
