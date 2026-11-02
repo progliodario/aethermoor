@@ -12,7 +12,7 @@ combat in M3.
 
 | Device | M2 mapping |
 |---|---|
-| Keyboard | `W A S D` and arrows move; `J`, `Space` or the mouse button attack; `E`/`Enter` talk and confirm; `I` opens the bag; `Q` opens the journal (`W`/`S` scroll); `F2` switches the language; `F5` quick save, `F9` quick load, `F7` new game; `F3` debug overlay; `Esc` quits (desktop) |
+| Keyboard | `W A S D` and arrows move; `J`, `Space` or the mouse button attack; `E`/`Enter` talk and confirm; `I` opens the bag; `E` also wakes and uses a Threshold Stone; `Q` opens the journal (`W`/`S` scroll); `F2` switches the language; `F5` quick save, `F9` quick load, `F7` new game; `F3` debug overlay; `Esc` quits (desktop) |
 | Gamepad | Left stick (SDL gamepad on desktop). Android controller support arrives later |
 | Touch (Android) | **Floating stick**: the first touch on the left half of the screen is the stick origin; dragging up to 64 dp from the origin gives the vector, scaled to length 1 at 64 dp |
 

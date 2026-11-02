@@ -16,7 +16,7 @@ import io.github.progliodario.aethermoor.core.rankIndex
 import io.github.progliodario.aethermoor.core.regionAt
 import io.github.progliodario.aethermoor.core.resolveOffer
 import io.github.progliodario.aethermoor.core.sampleTime
-import io.github.progliodario.aethermoor.core.settlementSite
+import io.github.progliodario.aethermoor.core.settlementContaining
 import io.github.progliodario.aethermoor.core.xpGain
 import kotlin.math.PI
 import kotlin.math.abs
@@ -134,6 +134,18 @@ class WorldSim(
 
     /** The board of a settlement (spec 07, "Guild"): the settlement, the day and its offers. */
     class Board(val settlement: Settlement, val day: Long, val offers: List<Offer>)
+
+    /** A stop of the Threshold Stone list: the stone tile, the name of its settlement and the text key of its region (spec 09). */
+    class StoneStop(val x: Int, val y: Int, val place: String, val region: String)
+
+    /** The list of stones offered by a stone being used: [here] is the index of that stone, [fresh] tells it was woken just now. */
+    class Travel(val stops: List<StoneStop>, val here: Int, val fresh: Boolean)
+
+    /** The Threshold Stones that were used, in order of waking (spec 09). */
+    val stones = ArrayList<Pair<Int, Int>>()
+
+    var travel: Travel? = null
+        private set
 
     /** The board that is open now, or null. */
     var board: Board? = null
@@ -306,11 +318,59 @@ class WorldSim(
         markExplored()
     }
 
+    /** The position of the Threshold Stone the player can use, or null (spec 09). */
+    fun stoneNear(): Vec2? {
+        val store = chunks ?: return null
+        val range = store.params.stoneRangeX100 / 100f
+        if (store.params.stoneArt.isEmpty()) return null
+        val px = player.position.x
+        val py = player.position.y
+        var best: Vec2? = null
+        var bestDistance = range * range
+        forEachProp(px - range, py - range, px + range, py + range) { prop ->
+            if (prop.art != store.params.stoneArt) return@forEachProp
+            val d = (prop.x - px) * (prop.x - px) + (prop.y - py) * (prop.y - py)
+            if (d <= bestDistance) {
+                bestDistance = d
+                best = Vec2(prop.x, prop.y)
+            }
+        }
+        return best
+    }
+
+    /** Wakes the stone near the player, restores health and offers the list of stones. Returns false when no stone is near. */
+    fun useStone(): Boolean {
+        val store = chunks ?: return false
+        val stone = stoneNear() ?: return false
+        val tile = Pair(floor(stone.x).toInt(), floor(stone.y).toInt())
+        val fresh = tile !in stones
+        if (fresh) stones.add(tile)
+        player.hp = derived.maxHp
+        val stops = stones.map { (x, y) ->
+            val settlement = settlementContaining(store.seed, store.params, x, y)
+            StoneStop(x, y, settlement?.name ?: "", settlement?.let { store.params.regions[it.region].name } ?: "")
+        }
+        travel = Travel(stops, stones.indexOf(tile), fresh)
+        return true
+    }
+
+    fun closeTravel() {
+        travel = null
+    }
+
+    /** Goes to a stone of the open list, one tile in front of it. Returns false, changing nothing, when refused. */
+    fun travelTo(index: Int): Boolean {
+        val open = travel ?: return false
+        if (index < 0 || index >= open.stops.size || index == open.here) return false
+        val stop = open.stops[index]
+        travel = null
+        teleport(stop.x + 0.5f, stop.y + 1.75f)
+        return true
+    }
+
     override fun openBoard() {
         val store = chunks ?: return
-        val sx = floor(player.position.x).toInt() shr 8
-        val sy = floor(player.position.y).toInt() shr 8
-        val settlement = settlementSite(store.seed, store.params, sx, sy) ?: return
+        val settlement = settlementContaining(store.seed, store.params, floor(player.position.x).toInt(), floor(player.position.y).toInt()) ?: return
         val day = worldTicks / store.params.time.dayTicks + 1
         board = Board(settlement, day, offersFor(store.seed, store.params, settlement, day))
     }
@@ -654,6 +714,7 @@ class WorldSim(
             cleared = cleared.map { (spawner, died) -> ClearedSpawner(spawner.first, spawner.second, died) },
             worldTicks = worldTicks,
             explored = explored.toList(),
+            stones = stones.toList(),
             equippedWeapon = equippedWeapon,
             equippedArmor = equippedArmor,
             inventory = HashMap(inventory), story = story.capture(),
@@ -744,6 +805,9 @@ class WorldSim(
         equippedArmor = s.equippedArmor
         shop = null
         board = null
+        travel = null
+        stones.clear()
+        stones.addAll(s.stones)
         recomputeDerived()
         player.hp = minOf(s.hp, derived.maxHp)
         explored.clear()

@@ -810,7 +810,7 @@ TEST_CASE("conformance: worldtime", "[conformance]") {
             "road":{"salt":6,"scale":8,"octaves":1,"half_width":1},
             "thresholds":{"water":1,"beach":2,"mountain":3,"snow":4,"desert_heat":5,"desert_dry":6,"forest_wet":7},
             "tiles":{"water":4,"beach":6,"desert":6,"snow":7,"mountain":8,"forest":9,"plains":[1],"river":4,"ford":10,"road":11,"bridge":12},
-            "props":{},"spawners":{"biomes":[],"min_distance":1,"per_10000":1,"respawn_ticks":1},
+            "props":{},"stones":{"art":"x:art/x","range_x100":1},"spawners":{"biomes":[],"min_distance":1,"per_10000":1,"respawn_ticks":1},
             "guild":{"offers_per_day":1,"ranks":[{"id":"f","points":0}],"templates":[{"id":"t","type":"kill","target":"x:enemy/x","count_min":1,"count_max":1,"gold_base":0,"gold_per":0,"xp_base":0,"xp_per":0,"points_base":0,"points_per":0}]},
             "regions":[{"id":"x","name":"x","x_pm":0,"y_pm":0,"danger":1,"tone":"warm","shop":{"price_pm":1000,"stock":[]},"fauna":[{"enemy":"x:enemy/x","drop":"x:item/x","weight":1}]}],
             "settlements":{"per_mille":0,"dialogue":"x:dialogue/x","variants":[""],"quirks":["q"],"people":{"start":["a"],"end":["b"]},"kinds":[{"id":"h","weight":1,"stamps":[]}],"names":{"start":["a"],"mid":["b"],"end":["c"]}},

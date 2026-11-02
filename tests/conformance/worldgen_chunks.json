@@ -551,6 +551,10 @@
               }
             ]
           },
+          "stones": {
+            "art": "base:art/prop/threshold_stone",
+            "range_x100": 160
+          },
           "spawners": {
             "biomes": [
               "plains",
@@ -640,7 +644,7 @@
                 "...#___#...",
                 "...##_##...",
                 ".....=.....",
-                "...ccwcc...",
+                "...ccwcT...",
                 ".t...=...t.",
                 ".....=....."
               ],
@@ -650,6 +654,11 @@
                 },
                 "=": {
                   "tile": 11
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
                 },
                 "V": {
                   "tile": 13,
@@ -693,7 +702,7 @@
                 ".#____#...=..#____S#.",
                 ".###_##...=..#_____#.",
                 "........lcccl###_###.",
-                "........ccccc........",
+                "........ccccT........",
                 "========ccwcc========",
                 "........ccEcc.......t",
                 ".######.lcccl........",
@@ -717,6 +726,11 @@
                 "S": {
                   "tile": 13,
                   "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
                 },
                 "V": {
                   "tile": 13,
@@ -769,7 +783,7 @@
                 "..#.#_______#..=..#______#..#..",
                 "..#.####_####..=..####_###..#..",
                 "..#.........lcccccl.........#..",
-                "..#.#####...ccccccc...#####.#..",
+                "..#.#####...ccccccT...#####.#..",
                 "..#.#_V_#...ccccccc...#_V_#.#..",
                 "====#___#===cccwccc===#___#====",
                 "..#.##_##...cccEccc...##_##.#..",
@@ -807,6 +821,11 @@
                 "S": {
                   "tile": 13,
                   "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
                 },
                 "V": {
                   "tile": 13,
@@ -1949,6 +1968,10 @@
               }
             ]
           },
+          "stones": {
+            "art": "base:art/prop/threshold_stone",
+            "range_x100": 160
+          },
           "spawners": {
             "biomes": [
               "plains",
@@ -2038,7 +2061,7 @@
                 "...#___#...",
                 "...##_##...",
                 ".....=.....",
-                "...ccwcc...",
+                "...ccwcT...",
                 ".t...=...t.",
                 ".....=....."
               ],
@@ -2048,6 +2071,11 @@
                 },
                 "=": {
                   "tile": 11
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
                 },
                 "V": {
                   "tile": 13,
@@ -2091,7 +2119,7 @@
                 ".#____#...=..#____S#.",
                 ".###_##...=..#_____#.",
                 "........lcccl###_###.",
-                "........ccccc........",
+                "........ccccT........",
                 "========ccwcc========",
                 "........ccEcc.......t",
                 ".######.lcccl........",
@@ -2115,6 +2143,11 @@
                 "S": {
                   "tile": 13,
                   "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
                 },
                 "V": {
                   "tile": 13,
@@ -2167,7 +2200,7 @@
                 "..#.#_______#..=..#______#..#..",
                 "..#.####_####..=..####_###..#..",
                 "..#.........lcccccl.........#..",
-                "..#.#####...ccccccc...#####.#..",
+                "..#.#####...ccccccT...#####.#..",
                 "..#.#_V_#...ccccccc...#_V_#.#..",
                 "====#___#===cccwccc===#___#====",
                 "..#.##_##...cccEccc...##_##.#..",
@@ -2205,6 +2238,11 @@
                 "S": {
                   "tile": 13,
                   "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
                 },
                 "V": {
                   "tile": 13,
@@ -3114,6 +3152,10 @@
               }
             ]
           },
+          "stones": {
+            "art": "base:art/prop/threshold_stone",
+            "range_x100": 160
+          },
           "spawners": {
             "biomes": [
               "plains",
@@ -3203,7 +3245,7 @@
                 "...#___#...",
                 "...##_##...",
                 ".....=.....",
-                "...ccwcc...",
+                "...ccwcT...",
                 ".t...=...t.",
                 ".....=....."
               ],
@@ -3213,6 +3255,11 @@
                 },
                 "=": {
                   "tile": 11
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
                 },
                 "V": {
                   "tile": 13,
@@ -3256,7 +3303,7 @@
                 ".#____#...=..#____S#.",
                 ".###_##...=..#_____#.",
                 "........lcccl###_###.",
-                "........ccccc........",
+                "........ccccT........",
                 "========ccwcc========",
                 "........ccEcc.......t",
                 ".######.lcccl........",
@@ -3280,6 +3327,11 @@
                 "S": {
                   "tile": 13,
                   "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
                 },
                 "V": {
                   "tile": 13,
@@ -3332,7 +3384,7 @@
                 "..#.#_______#..=..#______#..#..",
                 "..#.####_####..=..####_###..#..",
                 "..#.........lcccccl.........#..",
-                "..#.#####...ccccccc...#####.#..",
+                "..#.#####...ccccccT...#####.#..",
                 "..#.#_V_#...ccccccc...#_V_#.#..",
                 "====#___#===cccwccc===#___#====",
                 "..#.##_##...cccEccc...##_##.#..",
@@ -3370,6 +3422,11 @@
                 "S": {
                   "tile": 13,
                   "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
                 },
                 "V": {
                   "tile": 13,
@@ -3475,8 +3532,8 @@
               ]
             ],
             "tile_digest": "0x1db679147718d1b6",
-            "prop_count": 33,
-            "prop_digest": "0x3d4273f5d3e8f71f",
+            "prop_count": 34,
+            "prop_digest": "0xb78ab107427c0952",
             "spawner_count": 1,
             "spawner_digest": "0x4627751a26a22705",
             "people": [
@@ -3573,8 +3630,8 @@
               ]
             ],
             "tile_digest": "0x1db679147718d1b6",
-            "prop_count": 33,
-            "prop_digest": "0x3d4273f5d3e8f71f",
+            "prop_count": 34,
+            "prop_digest": "0xb78ab107427c0952",
             "spawner_count": 1,
             "spawner_digest": "0x4627751a26a22705",
             "people": [
@@ -3671,8 +3728,8 @@
               ]
             ],
             "tile_digest": "0x5fb51e8242f15391",
-            "prop_count": 144,
-            "prop_digest": "0x44ef570803e792bb",
+            "prop_count": 145,
+            "prop_digest": "0xfb7a98ca1c9f25db",
             "spawner_count": 1,
             "spawner_digest": "0x0d1db27e225fd306",
             "people": [
@@ -3821,8 +3878,8 @@
               ]
             ],
             "tile_digest": "0x5fb51e8242f15391",
-            "prop_count": 144,
-            "prop_digest": "0x44ef570803e792bb",
+            "prop_count": 145,
+            "prop_digest": "0xfb7a98ca1c9f25db",
             "spawner_count": 1,
             "spawner_digest": "0x0d1db27e225fd306",
             "people": [
@@ -3971,8 +4028,8 @@
               ]
             ],
             "tile_digest": "0x9c4b9679fc01273f",
-            "prop_count": 102,
-            "prop_digest": "0xca1c228f6563ae15",
+            "prop_count": 103,
+            "prop_digest": "0xae17f5ebbe6115d1",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "people": [
@@ -4122,8 +4179,8 @@
               ]
             ],
             "tile_digest": "0x9c4b9679fc01273f",
-            "prop_count": 102,
-            "prop_digest": "0xca1c228f6563ae15",
+            "prop_count": 103,
+            "prop_digest": "0xae17f5ebbe6115d1",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "people": [
@@ -4756,6 +4813,10 @@
               }
             ]
           },
+          "stones": {
+            "art": "base:art/prop/threshold_stone",
+            "range_x100": 160
+          },
           "spawners": {
             "biomes": [
               "plains",
@@ -4845,7 +4906,7 @@
                 "...#___#...",
                 "...##_##...",
                 ".....=.....",
-                "...ccwcc...",
+                "...ccwcT...",
                 ".t...=...t.",
                 ".....=....."
               ],
@@ -4855,6 +4916,11 @@
                 },
                 "=": {
                   "tile": 11
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
                 },
                 "V": {
                   "tile": 13,
@@ -4898,7 +4964,7 @@
                 ".#____#...=..#____S#.",
                 ".###_##...=..#_____#.",
                 "........lcccl###_###.",
-                "........ccccc........",
+                "........ccccT........",
                 "========ccwcc========",
                 "........ccEcc.......t",
                 ".######.lcccl........",
@@ -4922,6 +4988,11 @@
                 "S": {
                   "tile": 13,
                   "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
                 },
                 "V": {
                   "tile": 13,
@@ -4974,7 +5045,7 @@
                 "..#.#_______#..=..#______#..#..",
                 "..#.####_####..=..####_###..#..",
                 "..#.........lcccccl.........#..",
-                "..#.#####...ccccccc...#####.#..",
+                "..#.#####...ccccccT...#####.#..",
                 "..#.#_V_#...ccccccc...#_V_#.#..",
                 "====#___#===cccwccc===#___#====",
                 "..#.##_##...cccEccc...##_##.#..",
@@ -5012,6 +5083,11 @@
                 "S": {
                   "tile": 13,
                   "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
                 },
                 "V": {
                   "tile": 13,
@@ -5117,8 +5193,8 @@
               ]
             ],
             "tile_digest": "0xb04518b407c9259d",
-            "prop_count": 45,
-            "prop_digest": "0x2c5a91406f68f3c5",
+            "prop_count": 46,
+            "prop_digest": "0xd7c93e0d49f41673",
             "spawner_count": 1,
             "spawner_digest": "0x20d89009d95dd454",
             "people": [
@@ -5354,8 +5430,8 @@
               ]
             ],
             "tile_digest": "0xa5722e1f32bdce09",
-            "prop_count": 27,
-            "prop_digest": "0xc34f0c51842be5ba",
+            "prop_count": 28,
+            "prop_digest": "0x1d53ac20d3d5bbc0",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "people": [
@@ -5452,8 +5528,8 @@
               ]
             ],
             "tile_digest": "0xa5722e1f32bdce09",
-            "prop_count": 27,
-            "prop_digest": "0xc34f0c51842be5ba",
+            "prop_count": 28,
+            "prop_digest": "0x1d53ac20d3d5bbc0",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "people": [

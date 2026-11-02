@@ -152,6 +152,9 @@ class WorldParams(
     val time: TimeParams,
     val npcs: List<WorldNpc>,
     val guild: GuildParams,
+    /** The prop that is a Threshold Stone and how near the player must be to use it, in 1/100 tile (spec 09). */
+    val stoneArt: String,
+    val stoneRangeX100: Int,
     /** The home meadow and village (spec 09); [homeRadius] 0: none. */
     val homeRadius: Int,
     val homeStamp: String,
@@ -416,6 +419,20 @@ fun resolveOffer(seed: ULong, p: WorldParams, questId: String): Offer? {
 }
 
 fun settlementSite(seed: ULong, p: WorldParams, siteX: Int, siteY: Int): Settlement? = Sites(seed, p).site(siteX, siteY)
+
+/** The settlement whose footprint contains the tile, if any (looks at the site cell of the tile and its neighbours). */
+fun settlementContaining(seed: ULong, p: WorldParams, x: Int, y: Int): Settlement? {
+    for (dy in -1..1) {
+        for (dx in -1..1) {
+            val sx = (x shr 8) + dx
+            val sy = (y shr 8) + dy
+            if (sx < 0 || sy < 0) continue
+            val s = settlementSite(seed, p, sx, sy) ?: continue
+            if (x >= s.x && x < s.x + s.w && y >= s.y && y < s.y + s.h) return s
+        }
+    }
+    return null
+}
 
 /** The settlements of the site cells sx0..sx1, sy0..sy1 (inclusive), row-major. */
 fun settlementsIn(seed: ULong, p: WorldParams, sx0: Int, sy0: Int, sx1: Int, sy1: Int): List<Settlement> {
@@ -712,6 +729,8 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
             spawnerPer10000 = s.getValue("per_10000").jsonPrimitive.int,
             spawnerRespawnTicks = s.getValue("respawn_ticks").jsonPrimitive.int,
             time = parseTimeParams(j.getValue("time").jsonObject),
+            stoneArt = j.getValue("stones").jsonObject.getValue("art").jsonPrimitive.content,
+            stoneRangeX100 = j.getValue("stones").jsonObject.getValue("range_x100").jsonPrimitive.int,
             guild = j.getValue("guild").jsonObject.let { g ->
                 GuildParams(
                     g.getValue("offers_per_day").jsonPrimitive.int,

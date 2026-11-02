@@ -113,6 +113,11 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
             explored.push_back({x, y});
         }
         j["explored"] = explored;
+        Json stones = Json::array();
+        for (const auto& [x, y] : s.stones) {
+            stones.push_back({x, y});
+        }
+        j["stones"] = stones;
     }
     if (meta.map == "world") {
         Json cleared = Json::array();
@@ -204,6 +209,11 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
         if (j.contains("explored")) {
             for (const Json& c : j.at("explored")) {
                 s.explored.emplace_back(c.at(0).get<int>(), c.at(1).get<int>());
+            }
+        }
+        if (j.contains("stones")) {
+            for (const Json& c : j.at("stones")) {
+                s.stones.emplace_back(c.at(0).get<int>(), c.at(1).get<int>());
             }
         }
         if (j.contains("equipped")) {

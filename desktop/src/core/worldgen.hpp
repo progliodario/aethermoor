@@ -157,6 +157,9 @@ struct WorldParams {
 
     GuildParams guild;
 
+    std::string stone_art;  // the prop that is a Threshold Stone (spec 09)
+    int stone_range_x100 = 0;  // how near the player must be to use it, in 1/100 tile
+
     std::vector<Region> regions;
     int settlement_per_mille = 0;
     std::vector<SettlementKind> settlement_kinds;
@@ -274,6 +277,9 @@ int rank_index(const GuildParams& guild, std::int64_t points);
 std::vector<Offer> offers_for(std::uint64_t seed, const WorldParams& params, const Settlement& settlement, std::int64_t day);
 // The offer a generated quest id names, or nothing when the world cannot rebuild it.
 std::optional<Offer> resolve_offer(std::uint64_t seed, const WorldParams& params, const std::string& quest_id);
+
+// The settlement whose footprint contains the tile, if any (looks at the site cell of the tile and its neighbours).
+std::optional<Settlement> settlement_containing(std::uint64_t seed, const WorldParams& params, int x, int y);
 
 // Index of the region of the tile: the nearest center.
 int region_at(const WorldParams& params, int x, int y);

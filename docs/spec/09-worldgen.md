@@ -97,6 +97,16 @@ The dialogue texts use `{npc}`, `{place}`, `{region}` and `{quirk}` (spec 07, "D
 An NPC exists while the chunk of its tile is in the active window; entering chunks add theirs (chunks row-major, slots in scan order) and leaving chunks remove theirs.
 `generate_chunk` also returns the people of the chunk, in scan order of their tiles; the conformance vectors of `worldgen_chunks` list them.
 
+## Threshold Stones
+
+A **Threshold Stone** is a prop in the plaza of a hamlet, village or town (legend character `T` of the stamps, art `stones.art`, radius 0.35). The world data has `stones {art, range_x100}`.
+A stone is **near** when the distance from the player's feet to the foot of the prop is at most `range_x100 / 100` tiles (1.6).
+
+*Using* a stone (the interact action when no NPC is in range) **wakes** it: its tile `(floor(x), floor(y))` of the prop is added, if new, to the player's list of stones (order of waking, saved as `stones`, spec 12),
+the player's health is restored to the maximum, and the list of stones is offered. *Traveling* to another stone of the list (never the one in use) puts the player at `(x + 0.5, y + 1.75)` of the tile,
+one tile in front of the stone, and loads the chunks around. The list shows the name of the settlement of each stone (the settlement of the site cell that contains it) and its region.
+Traveling costs nothing and takes no time. The stones are placed by the stamps, so they follow the placement of settlements (the conformance vectors of `worldgen_chunks` and `settlements` include their props).
+
 ## Rivers and roads
 
 On top of the biome, a **land** tile (plains, forest, desert, snow or beach) outside the spawn clearing may carry an overlay. Rivers and roads are

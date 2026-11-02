@@ -478,6 +478,23 @@ std::optional<Offer> resolve_offer(std::uint64_t seed, const WorldParams& p, con
     return std::nullopt;
 }
 
+std::optional<Settlement> settlement_containing(std::uint64_t seed, const WorldParams& p, int x, int y) {
+    for (int dy = -1; dy <= 1; ++dy) {
+        for (int dx = -1; dx <= 1; ++dx) {
+            const int sx = (x >> 8) + dx;
+            const int sy = (y >> 8) + dy;
+            if (sx < 0 || sy < 0) {
+                continue;
+            }
+            const auto s = settlement_site(seed, p, sx, sy);
+            if (s && x >= s->x && x < s->x + s->w && y >= s->y && y < s->y + s->h) {
+                return s;
+            }
+        }
+    }
+    return std::nullopt;
+}
+
 int region_at(const WorldParams& p, int x, int y) {
     int best = 0;
     std::int64_t best_distance = -1;

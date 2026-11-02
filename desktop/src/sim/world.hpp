@@ -101,6 +101,7 @@ struct SaveState {
     std::vector<SaveEnemy> enemies;
     std::vector<ClearedSpawner> cleared;  // streamed worlds: spawners whose enemy was killed
     std::vector<std::pair<int, int>> explored;  // streamed worlds: explored world map cells
+    std::vector<std::pair<int, int>> stones;  // streamed worlds: tiles of the Threshold Stones that were used, in order (spec 09)
     std::int64_t world_ticks = -1;  // -1: not in the save (a new game starts at the world's start tick)
     std::map<std::string, std::int64_t> inventory;
     std::string equipped_weapon;  // spec 06
@@ -161,6 +162,25 @@ public:
     void close_board() { m_board_.reset(); }
     bool accept_offer(int slot);
     int guild_rank() const;
+    // Threshold Stones (spec 09): `stone_near` is the position of the stone prop the player can use, `use_stone` wakes it, restores
+    // health and opens the list of the stones that were used; `travel_to` goes to one of them.
+    struct StoneStop {
+        int x = 0;
+        int y = 0;
+        std::string place;   // name of the settlement
+        std::string region;  // $i18n: key of the region
+    };
+    struct Travel {
+        std::vector<StoneStop> stops;
+        int here = -1;       // index of the stone being used
+        bool fresh = false;  // the stone was woken just now
+    };
+    std::optional<std::pair<float, float>> stone_near() const;
+    bool use_stone();
+    bool travel_to(int index);
+    const Travel* travel() const { return m_travel_ ? &*m_travel_ : nullptr; }
+    void close_travel() { m_travel_.reset(); }
+    const std::vector<std::pair<int, int>>& stones() const { return m_stones_; }
     // Equipment and shops (spec 06): each returns false, changing nothing, when refused.
     bool equip(const std::string& item_id);
     bool buy(const std::string& item_id);
@@ -239,6 +259,8 @@ private:
     std::string m_equipped_armor_;
     std::optional<ShopDef> m_shop_;
     std::optional<Board> m_board_;
+    std::vector<std::pair<int, int>> m_stones_;
+    std::optional<Travel> m_travel_;
     std::vector<NpcDef> m_npcs_;            // settlement people of the active window (spec 09)
     std::vector<Circle> m_npc_circles_;     // their collision circles
     std::set<std::pair<int, int>> m_explored_;

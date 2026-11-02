@@ -22,7 +22,8 @@
     "props",
     "spawners",
     "time",
-    "npcs"
+    "npcs",
+    "stones"
   ],
   "additionalProperties": false,
   "properties": {
@@ -864,6 +865,25 @@
               }
             }
           }
+        }
+      }
+    },
+    "stones": {
+      "type": "object",
+      "required": [
+        "art",
+        "range_x100"
+      ],
+      "additionalProperties": false,
+      "description": "Threshold Stones (spec 09): the prop that is a stone and how near the player must be to use it.",
+      "properties": {
+        "art": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+        },
+        "range_x100": {
+          "type": "integer",
+          "minimum": 1
         }
       }
     }

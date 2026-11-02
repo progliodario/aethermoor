@@ -21,6 +21,7 @@ LEGEND = {
     "l": {"tile": 14, "prop": "base:art/prop/lamp", "radius_x100": 15},
     "b": {"tile": 13, "prop": "base:art/prop/barrel", "radius_x100": 25},
     "t": {"prop": "base:art/prop/tree_oak", "radius_x100": 30},
+    "T": {"tile": 14, "prop": "base:art/prop/threshold_stone", "radius_x100": 35},  # Threshold Stone (fast travel)
     "V": {"tile": 13, "npc": "villager"},
     "G": {"tile": 13, "npc": "guild_clerk"},
     "S": {"tile": 13, "npc": "shopkeeper"},
@@ -88,6 +89,7 @@ def hamlet() -> dict:
     c.vline(5, 5, 8, "=")
     c.hline(3, 7, 6, "c")
     c.put(5, 6, "w")
+    c.put(7, 6, "T")
     for x, y in ((1, 1), (9, 2), (1, 7), (9, 7)):
         c.put(x, y, "t")
     return stamp("base:stamp/hamlet", c, (5, 4))
@@ -109,6 +111,7 @@ def village() -> dict:
         c.put(10, y, "c")
     c.put(10, 7, "w")
     c.put(10, 8, "E")
+    c.put(12, 6, "T")
     c.house(1, 1, 6, 4, {(1, 1): "b", (3, 1): "V"})
     c.house(13, 1, 7, 5, {(1, 1): "b", (2, 1): "b", (5, 2): "S"}, door=3)
     c.house(1, 9, 6, 4, {(2, 1): "V"})
@@ -131,6 +134,7 @@ def town() -> dict:
     for x, y in ((12, 9), (18, 9), (12, 15), (18, 15)):
         c.put(x, y, "l")
     c.put(15, 13, "E")
+    c.put(18, 10, "T")
     # Guild hall (north-west), shop (north-east), inn (south-west) and houses.
     c.house(4, 4, 9, 5, {(1, 1): "b", (2, 1): "b", (6, 2): "G", (7, 1): "b"}, door=4)
     c.house(18, 4, 8, 5, {(1, 1): "b", (2, 1): "b", (5, 2): "S"}, door=4)
