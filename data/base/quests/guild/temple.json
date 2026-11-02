@@ -1,0 +1,45 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/guild/temple",
+  "name": "$i18n:quest.temple.name",
+  "kind": "guild",
+  "stages": [
+    {
+      "id": "kill",
+      "journal": "$i18n:quest.temple.kill",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/tide_regent",
+          "count": 1
+        }
+      ],
+      "next": "report"
+    },
+    {
+      "id": "report",
+      "journal": "$i18n:quest.temple.report",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "guild_clerk_mira"
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 300
+    },
+    {
+      "effect": "add_gold",
+      "amount": 700
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 170
+    }
+  ]
+}

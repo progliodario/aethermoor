@@ -92,5 +92,17 @@
   "dlg.mira.mine_decline": "Not yet.",
   "dlg.mira.mine_accepted": "Pack bread and potions, and wake the Threshold Stones of the towns you pass: they will bring you home. The mine has a stone at its door too.",
   "dlg.mira.mine_busy": "The foreman is still hammering in the Ironspine mine. Take your time on the road, but come back alive.",
-  "dlg.mira.mine_thanks": "The hammering has stopped in Ironspine. The guild owes you more than I can pay, but I will keep trying."
+  "dlg.mira.mine_thanks": "The hammering has stopped in Ironspine. The guild owes you more than I can pay, but I will keep trying.",
+  "dlg.mira.temple_offer": "The coast folk of Tidehaven, far to the south-west, say a drowned temple has risen from the bay at low tide, and a Regent in it drowns anyone who passes. Will you cross the land to them?",
+  "dlg.mira.temple_accept": "I will go to Tidehaven.",
+  "dlg.mira.temple_decline": "Not yet.",
+  "dlg.mira.temple_accepted": "Take a boat of patience, not just a sword. The temple has a Threshold Stone at its steps; wake it before you go in.",
+  "dlg.mira.temple_busy": "The Regent still sits in the Drowned Temple. The tide will not wait forever, so do not rush in.",
+  "dlg.mira.temple_thanks": "The bay is calm again and the fishers sing your name. I will tell the guild.",
+  "dlg.mira.cavern_offer": "The last letter is the worst. In the far north a cavern under the Frostveil glaciers breathes cold, and a Revenant in it freezes whole caravans. It is the longest road of all. Will you go?",
+  "dlg.mira.cavern_accept": "I will go to Frostveil.",
+  "dlg.mira.cavern_decline": "Not yet.",
+  "dlg.mira.cavern_accepted": "Dress warm and carry potions. The cavern has a Threshold Stone at its mouth. Come back with the cold gone from your bones.",
+  "dlg.mira.cavern_busy": "The Revenant is still in the cavern, and the north is still cold. Come back alive.",
+  "dlg.mira.cavern_thanks": "Frostveil is quiet. You have cleared the mine, the cellar, the barrow, the temple and the cavern. The guild has no more letters like these."
 }

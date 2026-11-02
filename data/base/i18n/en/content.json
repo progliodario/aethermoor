@@ -78,5 +78,17 @@
   "item.foreman_maul.desc": "A heavy maul that rings like a bell. It still remembers the mine.",
   "quest.mine.name": "The Ironspine Mine",
   "quest.mine.kill": "Defeat the Ironbound Foreman in the sealed mine of Ironspine, far north-east beyond the mountains.",
-  "quest.mine.report": "Report to Mira at the guild."
+  "quest.mine.report": "Report to Mira at the guild.",
+  "enemy.tide_regent.name": "Tide Regent",
+  "item.tidescale_mail.name": "Tidescale mail",
+  "item.tidescale_mail.desc": "Scales of a drowned king, cold and light as the sea.",
+  "quest.temple.name": "The Drowned Temple",
+  "quest.temple.kill": "Defeat the Tide Regent in the Drowned Temple on the coast of Tidehaven, far south-west.",
+  "quest.temple.report": "Report to Mira at the guild.",
+  "enemy.rime_revenant.name": "Rime Revenant",
+  "item.rimeblade.name": "Rimeblade",
+  "item.rimeblade.desc": "A sword of living ice that never melts, however warm the hand.",
+  "quest.cavern.name": "The Frostveil Cavern",
+  "quest.cavern.kill": "Defeat the Rime Revenant in the Frostveil Cavern, far to the north beyond the plains.",
+  "quest.cavern.report": "Report to Mira at the guild."
 }

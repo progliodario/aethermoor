@@ -340,6 +340,114 @@
           [
             12672,
             3707
+          ],
+          [
+            2167,
+            12647
+          ],
+          [
+            2173,
+            12647
+          ],
+          [
+            2165,
+            12655
+          ],
+          [
+            2165,
+            12665
+          ],
+          [
+            2174,
+            12667
+          ],
+          [
+            2176,
+            12647
+          ],
+          [
+            2179,
+            12647
+          ],
+          [
+            2185,
+            12647
+          ],
+          [
+            2187,
+            12655
+          ],
+          [
+            2176,
+            12657
+          ],
+          [
+            2176,
+            12663
+          ],
+          [
+            2187,
+            12665
+          ],
+          [
+            2178,
+            12667
+          ],
+          [
+            2206,
+            12688
+          ],
+          [
+            7288,
+            1385
+          ],
+          [
+            7284,
+            1393
+          ],
+          [
+            7291,
+            1393
+          ],
+          [
+            7284,
+            1401
+          ],
+          [
+            7290,
+            1402
+          ],
+          [
+            7296,
+            1384
+          ],
+          [
+            7304,
+            1385
+          ],
+          [
+            7301,
+            1393
+          ],
+          [
+            7308,
+            1393
+          ],
+          [
+            7296,
+            1397
+          ],
+          [
+            7308,
+            1401
+          ],
+          [
+            7302,
+            1402
+          ],
+          [
+            7296,
+            1404
           ]
         ],
         "params": {
@@ -648,6 +756,22 @@
               "kind": "dungeon",
               "dx": 4480,
               "dy": -4480
+            },
+            {
+              "id": "drowned_temple",
+              "name": "Drowned Temple",
+              "stamp": "base:stamp/temple",
+              "kind": "dungeon",
+              "dx": -6016,
+              "dy": 4480
+            },
+            {
+              "id": "frostveil_cavern",
+              "name": "Frostveil Cavern",
+              "stamp": "base:stamp/cavern",
+              "kind": "dungeon",
+              "dx": -896,
+              "dy": -6784
             }
           ],
           "guild": {
@@ -1683,6 +1807,151 @@
                 "m": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_slate"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/temple": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/temple",
+              "w": 35,
+              "h": 31,
+              "anchor": [
+                17,
+                29
+              ],
+              "rows": [
+                "...................................",
+                ".#################################.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#clcccccccc#ccccccccc#cccccccclc#.",
+                ".#cccccciccc#ciccQccic#cccicccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#####c#####cccccccccc#.",
+                ".#cccccccccc#clccccclc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#ccccicccccccccccccccccccccicccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccxcccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".############ccccccccc############.",
+                ".#clcccccccc#ccccccccc#cccccccclc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccccccccxccccccccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccciccccc#ccccccccc#cccccicccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccxcccxcc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccclclccc#cccccccccc#.",
+                ".################c################.",
+                "..............T..c.................",
+                ".................c................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "Q": {
+                  "tile": 14,
+                  "spawner": "base:enemy/tide_regent"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "i": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_tide"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/cavern": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/cavern",
+              "w": 33,
+              "h": 28,
+              "anchor": [
+                16,
+                27
+              ],
+              "rows": [
+                ".................................",
+                ".###############################.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccRcccccccccccclc#.",
+                ".#ccccccfcccccccccccccccfcccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".###############c###############.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccccccclc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#ccfccccccfcccccccccfccccccfcc#.",
+                ".#ccccccccccccc##cccccccccccccc#.",
+                ".#ccccccccccccc##cccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccfcccccccccccccc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#ccccccccccccc##cccccccccccccc#.",
+                ".#ccxcccccccccc##cccccccccccxcc#.",
+                ".#ccccccccfcccccccccccfcccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccxcccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccclclccccccccccccc#.",
+                ".###############c###############.",
+                ".............T..c................"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "R": {
+                  "tile": 14,
+                  "spawner": "base:enemy/rime_revenant"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "f": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_frost"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
                 }
               },
               "spots": []
@@ -2272,6 +2541,195 @@
             2,
             "base:enemy/slime_slate",
             ""
+          ],
+          [
+            2167,
+            12647,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2173,
+            12647,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2165,
+            12655,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2165,
+            12665,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2174,
+            12667,
+            5,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            2176,
+            12647,
+            5,
+            "base:enemy/tide_regent",
+            ""
+          ],
+          [
+            2179,
+            12647,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2185,
+            12647,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2187,
+            12655,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2176,
+            12657,
+            5,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            2176,
+            12663,
+            5,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            2187,
+            12665,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2178,
+            12667,
+            5,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            2206,
+            12688,
+            5,
+            "base:enemy/slime_tide",
+            "base:item/tide_pearl"
+          ],
+          [
+            7288,
+            1385,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7284,
+            1393,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7291,
+            1393,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7284,
+            1401,
+            4,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            7290,
+            1402,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7296,
+            1384,
+            4,
+            "base:enemy/rime_revenant",
+            ""
+          ],
+          [
+            7304,
+            1385,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7301,
+            1393,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7308,
+            1393,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7296,
+            1397,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7308,
+            1401,
+            4,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            7302,
+            1402,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7296,
+            1404,
+            4,
+            "base:enemy/slime_blue",
+            ""
           ]
         ]
       }
@@ -2709,6 +3167,126 @@
           [
             12672,
             3707
+          ],
+          [
+            2167,
+            12647
+          ],
+          [
+            2173,
+            12647
+          ],
+          [
+            2165,
+            12655
+          ],
+          [
+            2151,
+            12660
+          ],
+          [
+            2165,
+            12665
+          ],
+          [
+            2174,
+            12667
+          ],
+          [
+            2150,
+            12669
+          ],
+          [
+            2176,
+            12647
+          ],
+          [
+            2179,
+            12647
+          ],
+          [
+            2185,
+            12647
+          ],
+          [
+            2187,
+            12655
+          ],
+          [
+            2176,
+            12657
+          ],
+          [
+            2176,
+            12663
+          ],
+          [
+            2187,
+            12665
+          ],
+          [
+            2178,
+            12667
+          ],
+          [
+            2200,
+            12667
+          ],
+          [
+            7280,
+            1379
+          ],
+          [
+            7288,
+            1385
+          ],
+          [
+            7284,
+            1393
+          ],
+          [
+            7291,
+            1393
+          ],
+          [
+            7284,
+            1401
+          ],
+          [
+            7290,
+            1402
+          ],
+          [
+            7296,
+            1384
+          ],
+          [
+            7304,
+            1385
+          ],
+          [
+            7301,
+            1393
+          ],
+          [
+            7308,
+            1393
+          ],
+          [
+            7296,
+            1397
+          ],
+          [
+            7308,
+            1401
+          ],
+          [
+            7302,
+            1402
+          ],
+          [
+            7296,
+            1404
           ]
         ],
         "params": {
@@ -3017,6 +3595,22 @@
               "kind": "dungeon",
               "dx": 4480,
               "dy": -4480
+            },
+            {
+              "id": "drowned_temple",
+              "name": "Drowned Temple",
+              "stamp": "base:stamp/temple",
+              "kind": "dungeon",
+              "dx": -6016,
+              "dy": 4480
+            },
+            {
+              "id": "frostveil_cavern",
+              "name": "Frostveil Cavern",
+              "stamp": "base:stamp/cavern",
+              "kind": "dungeon",
+              "dx": -896,
+              "dy": -6784
             }
           ],
           "guild": {
@@ -4052,6 +4646,151 @@
                 "m": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_slate"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/temple": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/temple",
+              "w": 35,
+              "h": 31,
+              "anchor": [
+                17,
+                29
+              ],
+              "rows": [
+                "...................................",
+                ".#################################.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#clcccccccc#ccccccccc#cccccccclc#.",
+                ".#cccccciccc#ciccQccic#cccicccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#####c#####cccccccccc#.",
+                ".#cccccccccc#clccccclc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#ccccicccccccccccccccccccccicccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccxcccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".############ccccccccc############.",
+                ".#clcccccccc#ccccccccc#cccccccclc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccccccccxccccccccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccciccccc#ccccccccc#cccccicccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccxcccxcc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccccccccc#cccccccccc#.",
+                ".#cccccccccc#ccclclccc#cccccccccc#.",
+                ".################c################.",
+                "..............T..c.................",
+                ".................c................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "Q": {
+                  "tile": 14,
+                  "spawner": "base:enemy/tide_regent"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "i": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_tide"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/cavern": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/cavern",
+              "w": 33,
+              "h": 28,
+              "anchor": [
+                16,
+                27
+              ],
+              "rows": [
+                ".................................",
+                ".###############################.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccRcccccccccccclc#.",
+                ".#ccccccfcccccccccccccccfcccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".###############c###############.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccccccclc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#ccfccccccfcccccccccfccccccfcc#.",
+                ".#ccccccccccccc##cccccccccccccc#.",
+                ".#ccccccccccccc##cccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccfcccccccccccccc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#cccc##ccccccccccccccccc##cccc#.",
+                ".#ccccccccccccc##cccccccccccccc#.",
+                ".#ccxcccccccccc##cccccccccccxcc#.",
+                ".#ccccccccfcccccccccccfcccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccxcccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccclclccccccccccccc#.",
+                ".###############c###############.",
+                ".............T..c................"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "R": {
+                  "tile": 14,
+                  "spawner": "base:enemy/rime_revenant"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "f": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_frost"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "x": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_blue"
                 }
               },
               "spots": []
@@ -4808,6 +5547,216 @@
             3707,
             2,
             "base:enemy/slime_slate",
+            ""
+          ],
+          [
+            2167,
+            12647,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2173,
+            12647,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2165,
+            12655,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2151,
+            12660,
+            5,
+            "base:enemy/slime_tide",
+            "base:item/tide_pearl"
+          ],
+          [
+            2165,
+            12665,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2174,
+            12667,
+            5,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            2150,
+            12669,
+            5,
+            "base:enemy/slime_tide",
+            "base:item/tide_pearl"
+          ],
+          [
+            2176,
+            12647,
+            5,
+            "base:enemy/tide_regent",
+            ""
+          ],
+          [
+            2179,
+            12647,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2185,
+            12647,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2187,
+            12655,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2176,
+            12657,
+            5,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            2176,
+            12663,
+            5,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            2187,
+            12665,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2178,
+            12667,
+            5,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            2200,
+            12667,
+            5,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            7280,
+            1379,
+            4,
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
+          ],
+          [
+            7288,
+            1385,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7284,
+            1393,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7291,
+            1393,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7284,
+            1401,
+            4,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            7290,
+            1402,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7296,
+            1384,
+            4,
+            "base:enemy/rime_revenant",
+            ""
+          ],
+          [
+            7304,
+            1385,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7301,
+            1393,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7308,
+            1393,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7296,
+            1397,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7308,
+            1401,
+            4,
+            "base:enemy/slime_blue",
+            ""
+          ],
+          [
+            7302,
+            1402,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7296,
+            1404,
+            4,
+            "base:enemy/slime_blue",
             ""
           ]
         ]

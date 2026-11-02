@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/tide_regent",
+  "name": "$i18n:enemy.tide_regent.name",
+  "level": 12,
+  "stats": {
+    "hp": 540,
+    "atk": 31,
+    "def": 14,
+    "mdef": 12,
+    "speed_x100": 260
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "wind": 1500
+  },
+  "xp": 280,
+  "drops": [
+    {
+      "item": "base:item/tidescale_mail",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 1000
+    }
+  ],
+  "radius_x100": 60,
+  "behavior": "base:behavior/melee_chaser_basic",
+  "art": "base:art/creature/tide_regent"
+}

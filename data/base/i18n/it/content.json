@@ -78,5 +78,17 @@
   "item.foreman_maul.desc": "Un maglio pesante che risuona come una campana. Ricorda ancora la miniera.",
   "quest.mine.name": "La miniera di Ironspine",
   "quest.mine.kill": "Sconfiggi il caposquadra di ferro nella miniera sigillata di Ironspine, lontano a nord-est oltre le montagne.",
-  "quest.mine.report": "Riferisci a Mira alla gilda."
+  "quest.mine.report": "Riferisci a Mira alla gilda.",
+  "enemy.tide_regent.name": "Reggente della marea",
+  "item.tidescale_mail.name": "Maglia di squame di marea",
+  "item.tidescale_mail.desc": "Squame di un re annegato, fredde e leggere come il mare.",
+  "quest.temple.name": "Il tempio sommerso",
+  "quest.temple.kill": "Sconfiggi il Reggente della marea nel tempio sommerso sulla costa di Tidehaven, lontano a sud-ovest.",
+  "quest.temple.report": "Riferisci a Mira alla gilda.",
+  "enemy.rime_revenant.name": "Spettro del gelo",
+  "item.rimeblade.name": "Lama di brina",
+  "item.rimeblade.desc": "Una spada di ghiaccio vivo che non si scioglie, per quanto calda sia la mano.",
+  "quest.cavern.name": "La caverna di Frostveil",
+  "quest.cavern.kill": "Sconfiggi lo Spettro del gelo nella caverna di Frostveil, lontano a nord oltre le pianure.",
+  "quest.cavern.report": "Riferisci a Mira alla gilda."
 }

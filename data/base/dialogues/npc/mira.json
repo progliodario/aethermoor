@@ -6,10 +6,10 @@
     "start": {
       "type": "condition",
       "when": {
-        "quest_done": "base:quest/guild/mine"
+        "quest_done": "base:quest/guild/cavern"
       },
-      "then": "mine_thanks",
-      "else": "mine_active_check"
+      "then": "cavern_thanks",
+      "else": "cavern_active_check"
     },
     "active_check": {
       "type": "condition",
@@ -294,6 +294,162 @@
       "type": "say",
       "speaker": "guild_clerk_mira",
       "text": "$i18n:dlg.mira.mine_thanks",
+      "next": "mine_thanked"
+    },
+    "temple_active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/temple"
+      },
+      "then": "temple_busy",
+      "else": "mine_done_check"
+    },
+    "mine_done_check": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/mine"
+      },
+      "then": "mine_thanked_check",
+      "else": "mine_active_check"
+    },
+    "mine_thanked_check": {
+      "type": "condition",
+      "when": {
+        "flag": "mira_mine_thanked"
+      },
+      "then": "temple_offer",
+      "else": "mine_thanks"
+    },
+    "mine_thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_mine_thanked",
+          "value": true
+        }
+      ],
+      "next": "temple_offer"
+    },
+    "temple_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.temple_offer",
+      "next": "temple_choice"
+    },
+    "temple_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.mira.temple_accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/temple"
+            }
+          ],
+          "next": "temple_accepted"
+        },
+        {
+          "text": "$i18n:dlg.mira.temple_decline",
+          "next": "end"
+        }
+      ]
+    },
+    "temple_accepted": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.temple_accepted",
+      "next": "end"
+    },
+    "temple_busy": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.temple_busy",
+      "next": "end"
+    },
+    "temple_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.temple_thanks",
+      "next": "temple_thanked"
+    },
+    "cavern_active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/cavern"
+      },
+      "then": "cavern_busy",
+      "else": "temple_done_check"
+    },
+    "temple_done_check": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/temple"
+      },
+      "then": "temple_thanked_check",
+      "else": "temple_active_check"
+    },
+    "temple_thanked_check": {
+      "type": "condition",
+      "when": {
+        "flag": "mira_temple_thanked"
+      },
+      "then": "cavern_offer",
+      "else": "temple_thanks"
+    },
+    "temple_thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_temple_thanked",
+          "value": true
+        }
+      ],
+      "next": "cavern_offer"
+    },
+    "cavern_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.cavern_offer",
+      "next": "cavern_choice"
+    },
+    "cavern_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.mira.cavern_accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/cavern"
+            }
+          ],
+          "next": "cavern_accepted"
+        },
+        {
+          "text": "$i18n:dlg.mira.cavern_decline",
+          "next": "end"
+        }
+      ]
+    },
+    "cavern_accepted": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.cavern_accepted",
+      "next": "end"
+    },
+    "cavern_busy": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.cavern_busy",
+      "next": "end"
+    },
+    "cavern_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.cavern_thanks",
       "next": "end"
     }
   }
