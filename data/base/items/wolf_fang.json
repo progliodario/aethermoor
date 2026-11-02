@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/wolf_fang",
+  "name": "$i18n:item.wolf_fang.name",
+  "description": "$i18n:item.wolf_fang.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 9,
+  "stack_max": 99
+}

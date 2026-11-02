@@ -1369,9 +1369,16 @@ int main(int argc, char** argv) {
     std::string combat_error;
     auto combat = aether::load_combat_setup(assets.pack, assets.map, kProtagonistId, seed, combat_error);
     if (combat && stream) {
-        combat->stream_enemy = aether::load_enemy_def(assets.pack, stream->params.spawner_enemy, combat_error);
-        if (!combat->stream_enemy) {
-            combat.reset();
+        for (const aether::Region& region : stream->params.regions) {
+            for (const aether::FaunaEntry& entry : region.fauna) {
+                if (combat && combat->stream_enemies.count(entry.enemy) == 0) {
+                    if (auto def = aether::load_enemy_def(assets.pack, entry.enemy, combat_error)) {
+                        combat->stream_enemies.emplace(entry.enemy, std::move(*def));
+                    } else {
+                        combat.reset();
+                    }
+                }
+            }
         }
     }
     if (!combat) {

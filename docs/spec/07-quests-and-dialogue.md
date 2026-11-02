@@ -79,7 +79,8 @@ The rank of a member is the last one whose points are at most `guild_points`. Th
 offers, slot `0..n-1`. For slot `s`: `h = hash64(hash64(seed, sx, sy, 200 + s), day, s)`; the template is `guild.templates[(h >> 16) % count]`;
 `count = count_min + (h >> 32) % (count_max - count_min + 1)`; the **tier** is `s + 1`; the **minimum rank** is `s` (the last rank at most). Rewards:
 `gold = (gold_base + count * gold_per) * tier`, `xp = (xp_base + count * xp_per) * tier`, `points = (points_base + count * points_per) * tier`.
-A template has a `type` (`kill` or `collect`), a `target` (an enemy or item ID) and the fields above. Offers do not depend on the player: the same town shows the same
+A template has a `type` (`kill` or `collect`), a `target` and the fields above. The target is an enemy or item ID, or one of two values that take the **fauna of the region of the settlement** (spec 09):
+`$fauna` (the enemy) and `$drop` (its drop), of the entry `pick(fauna, h >> 48)` (the same weighted choice as spawners: `(h >> 48) mod W`); this way a board asks for what lives around the town. Offers do not depend on the player: the same town shows the same
 board to everyone on the same day, and a new one the next day. The offer text depends on the **tone** of the region (spec 09): `quest.board.<template>.<tone>.name` and `.journal`.
 
 **Generated quests.** Accepting an offer starts a quest with the id `board:<sx>:<sy>:<day>:<slot>` and one stage `work` with one objective (`kill` or `collect`, the target and the count)

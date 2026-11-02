@@ -81,8 +81,8 @@ class CombatSetup(
     val story: StorySetup = StorySetup(),
     /** Items owned in a new game. */
     val startInventory: Map<String, Long> = emptyMap(),
-    /** The enemy of the spawners of a streamed world. */
-    val streamEnemy: EnemyDef? = null,
+    /** The enemies of the fauna of a streamed world, by ID. */
+    val streamEnemies: Map<String, EnemyDef> = emptyMap(),
     /** Items with a `use` block, by item ID (spec 06). */
     val items: Map<String, ItemDef> = emptyMap(),
     /** The weapon and the armor worn in a new game (item ids, or empty). */

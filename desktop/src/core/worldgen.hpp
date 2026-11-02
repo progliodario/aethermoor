@@ -35,6 +35,13 @@ struct WorldNpc {
     int dy = 0;
 };
 
+// An enemy of the fauna of a region (spec 09, "Fauna"): what a spawner makes and what it drops.
+struct FaunaEntry {
+    std::string enemy;
+    std::string drop;
+    int weight = 1;
+};
+
 struct Region {
     std::string id;
     std::string name;  // an $i18n: key
@@ -44,6 +51,7 @@ struct Region {
     std::string tone;  // the voice of the people of the region
     int shop_price_pm = 1000;  // what the shops of the region sell (spec 06)
     std::vector<std::string> shop_stock;
+    std::vector<FaunaEntry> fauna;  // the enemies of the spawners of the region, by weight
 };
 
 struct SettlementKind {
@@ -135,7 +143,6 @@ struct WorldParams {
 
     std::map<std::string, std::vector<PropOption>> props;  // by biome name
 
-    std::string spawner_enemy;
     std::vector<std::string> spawner_biomes;
     int spawner_min_distance = 0;
     int spawner_per_10000 = 0;
@@ -270,6 +277,10 @@ std::optional<Offer> resolve_offer(std::uint64_t seed, const WorldParams& params
 
 // Index of the region of the tile: the nearest center.
 int region_at(const WorldParams& params, int x, int y);
+// The entry that r falls on when the entries share sum(weight) slots in order (entries must not be empty).
+const FaunaEntry& pick_fauna(const std::vector<FaunaEntry>& entries, std::uint64_t r);
+// The fauna entry of the spawner on tile (x, y): a weighted pick among the fauna of its region.
+const FaunaEntry& fauna_at(std::uint64_t seed, const WorldParams& params, int x, int y);
 std::optional<Settlement> settlement_site(std::uint64_t seed, const WorldParams& params, int site_x, int site_y);
 // The settlements of the site cells sx0..sx1, sy0..sy1 (inclusive), row-major.
 std::vector<Settlement> settlements_in(std::uint64_t seed, const WorldParams& params, int sx0, int sy0, int sx1, int sy1);

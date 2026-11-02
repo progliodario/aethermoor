@@ -18,14 +18,14 @@
     "forest_wet": 38000
   },
   "regions": [
-    { "id": "verdalis", "name": "$i18n:region.verdalis.name", "x_pm": 500, "y_pm": 500, "danger": 1, "tone": "warm", "shop": { "price_pm": 1000, "stock": ["base:item/bread", "base:item/potion_small", "base:item/iron_sword", "base:item/leather_vest"] } },
-    { "id": "whisperwood", "name": "$i18n:region.whisperwood.name", "x_pm": 230, "y_pm": 340, "danger": 3, "tone": "mystic", "shop": { "price_pm": 1100, "stock": ["base:item/bread", "base:item/potion_small", "base:item/leather_vest"] } },
-    { "id": "ironspine", "name": "$i18n:region.ironspine.name", "x_pm": 780, "y_pm": 220, "danger": 4, "tone": "gruff", "shop": { "price_pm": 900, "stock": ["base:item/iron_sword", "base:item/steel_sword", "base:item/chain_mail", "base:item/leather_vest"] } },
-    { "id": "sunscar", "name": "$i18n:region.sunscar.name", "x_pm": 810, "y_pm": 730, "danger": 4, "tone": "flowery", "shop": { "price_pm": 1300, "stock": ["base:item/bread", "base:item/potion_small", "base:item/iron_sword", "base:item/leather_vest"] } },
-    { "id": "frostveil", "name": "$i18n:region.frostveil.name", "x_pm": 450, "y_pm": 90, "danger": 5, "tone": "stoic", "shop": { "price_pm": 1200, "stock": ["base:item/bread", "base:item/potion_small", "base:item/chain_mail"] } },
-    { "id": "tidehaven", "name": "$i18n:region.tidehaven.name", "x_pm": 140, "y_pm": 770, "danger": 3, "tone": "salty", "shop": { "price_pm": 1000, "stock": ["base:item/bread", "base:item/potion_small", "base:item/iron_sword", "base:item/steel_sword"] } },
-    { "id": "ashen_wastes", "name": "$i18n:region.ashen_wastes.name", "x_pm": 920, "y_pm": 480, "danger": 7, "tone": "grim", "shop": { "price_pm": 1500, "stock": ["base:item/potion_small", "base:item/steel_sword", "base:item/chain_mail"] } },
-    { "id": "lumeria", "name": "$i18n:region.lumeria.name", "x_pm": 480, "y_pm": 900, "danger": 5, "tone": "scholarly", "shop": { "price_pm": 1100, "stock": ["base:item/potion_small", "base:item/iron_sword", "base:item/chain_mail"] } }
+    { "id": "verdalis", "name": "$i18n:region.verdalis.name", "x_pm": 500, "y_pm": 500, "danger": 1, "tone": "warm", "fauna": [{ "enemy": "base:enemy/slime_green", "drop": "base:item/slime_gel", "weight": 1 }], "shop": { "price_pm": 1000, "stock": ["base:item/bread", "base:item/potion_small", "base:item/iron_sword", "base:item/leather_vest"] } },
+    { "id": "whisperwood", "name": "$i18n:region.whisperwood.name", "x_pm": 230, "y_pm": 340, "danger": 3, "tone": "mystic", "fauna": [{ "enemy": "base:enemy/slime_green", "drop": "base:item/slime_gel", "weight": 2 }, { "enemy": "base:enemy/wolf_grey", "drop": "base:item/wolf_fang", "weight": 3 }], "shop": { "price_pm": 1100, "stock": ["base:item/bread", "base:item/potion_small", "base:item/leather_vest"] } },
+    { "id": "ironspine", "name": "$i18n:region.ironspine.name", "x_pm": 780, "y_pm": 220, "danger": 4, "tone": "gruff", "fauna": [{ "enemy": "base:enemy/wolf_grey", "drop": "base:item/wolf_fang", "weight": 4 }, { "enemy": "base:enemy/slime_blue", "drop": "base:item/slime_gel", "weight": 1 }], "shop": { "price_pm": 900, "stock": ["base:item/iron_sword", "base:item/steel_sword", "base:item/chain_mail", "base:item/leather_vest"] } },
+    { "id": "sunscar", "name": "$i18n:region.sunscar.name", "x_pm": 810, "y_pm": 730, "danger": 4, "tone": "flowery", "fauna": [{ "enemy": "base:enemy/slime_green", "drop": "base:item/slime_gel", "weight": 2 }, { "enemy": "base:enemy/slime_blue", "drop": "base:item/slime_gel", "weight": 2 }], "shop": { "price_pm": 1300, "stock": ["base:item/bread", "base:item/potion_small", "base:item/iron_sword", "base:item/leather_vest"] } },
+    { "id": "frostveil", "name": "$i18n:region.frostveil.name", "x_pm": 450, "y_pm": 90, "danger": 5, "tone": "stoic", "fauna": [{ "enemy": "base:enemy/slime_blue", "drop": "base:item/slime_gel", "weight": 4 }, { "enemy": "base:enemy/wolf_grey", "drop": "base:item/wolf_fang", "weight": 2 }], "shop": { "price_pm": 1200, "stock": ["base:item/bread", "base:item/potion_small", "base:item/chain_mail"] } },
+    { "id": "tidehaven", "name": "$i18n:region.tidehaven.name", "x_pm": 140, "y_pm": 770, "danger": 3, "tone": "salty", "fauna": [{ "enemy": "base:enemy/slime_blue", "drop": "base:item/slime_gel", "weight": 4 }, { "enemy": "base:enemy/slime_green", "drop": "base:item/slime_gel", "weight": 1 }], "shop": { "price_pm": 1000, "stock": ["base:item/bread", "base:item/potion_small", "base:item/iron_sword", "base:item/steel_sword"] } },
+    { "id": "ashen_wastes", "name": "$i18n:region.ashen_wastes.name", "x_pm": 920, "y_pm": 480, "danger": 7, "tone": "grim", "fauna": [{ "enemy": "base:enemy/wolf_grey", "drop": "base:item/wolf_fang", "weight": 3 }, { "enemy": "base:enemy/slime_blue", "drop": "base:item/slime_gel", "weight": 1 }], "shop": { "price_pm": 1500, "stock": ["base:item/potion_small", "base:item/steel_sword", "base:item/chain_mail"] } },
+    { "id": "lumeria", "name": "$i18n:region.lumeria.name", "x_pm": 480, "y_pm": 900, "danger": 5, "tone": "scholarly", "fauna": [{ "enemy": "base:enemy/slime_green", "drop": "base:item/slime_gel", "weight": 1 }, { "enemy": "base:enemy/slime_blue", "drop": "base:item/slime_gel", "weight": 2 }, { "enemy": "base:enemy/wolf_grey", "drop": "base:item/wolf_fang", "weight": 1 }], "shop": { "price_pm": 1100, "stock": ["base:item/potion_small", "base:item/iron_sword", "base:item/chain_mail"] } }
   ],
   "home": { "radius": 72, "stamp": "base:stamp/village", "dx": 36, "dy": 40 },
   "guild": {
@@ -40,9 +40,9 @@
       { "id": "s", "points": 6000 }
     ],
     "templates": [
-      { "id": "cull", "type": "kill", "target": "base:enemy/slime_green", "count_min": 3, "count_max": 6,
+      { "id": "cull", "type": "kill", "target": "$fauna", "count_min": 3, "count_max": 6,
         "gold_base": 10, "gold_per": 12, "xp_base": 10, "xp_per": 6, "points_base": 4, "points_per": 3 },
-      { "id": "gather", "type": "collect", "target": "base:item/slime_gel", "count_min": 4, "count_max": 8,
+      { "id": "gather", "type": "collect", "target": "$drop", "count_min": 4, "count_max": 8,
         "gold_base": 8, "gold_per": 9, "xp_base": 8, "xp_per": 4, "points_base": 3, "points_per": 2 }
     ]
   },
@@ -78,7 +78,7 @@
     "snow": [{ "art": "base:art/prop/pine", "radius_x100": 30, "per_mille": 90 }],
     "desert": [{ "art": "base:art/prop/cactus", "radius_x100": 28, "per_mille": 25 }]
   },
-  "spawners": { "enemy": "base:enemy/slime_green", "biomes": ["plains", "forest"], "min_distance": 14, "per_10000": 8, "respawn_ticks": 36000 },
+  "spawners": { "biomes": ["plains", "forest"], "min_distance": 14, "per_10000": 8, "respawn_ticks": 36000 },
   "time": {
     "day_ticks": 72000,
     "start_tick": 24000,

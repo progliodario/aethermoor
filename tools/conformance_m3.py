@@ -81,6 +81,7 @@ def board_quest() -> dict:
 def build_scenarios() -> list[dict]:
     passive = {"behavior_overrides": {"aggro_x100": 0}, "speed_x100": 0}
     quest = board_quest()
+    target = quest["stages"][0]["objectives"][0]["enemy"]
     return [
         scenario("stationary_kill", [enemy(3.5, 4.5, **passive)], [segment(30, attack=True), segment(200, attack=True)]),
         scenario("miss_behind", [enemy(3.4, 4.5, **passive)], [segment(90, attack=True)], player={"start": [4.5, 4.5]}),
@@ -128,8 +129,8 @@ def build_scenarios() -> list[dict]:
                  equipped={"weapon": "base:item/practice_sword"}, story=EMPTY_STORY, start_gold=200,
                  shop={"price_pm": 1200, "stock": ["base:item/bread", "base:item/iron_sword", "base:item/leather_vest"]}),
         # A generated board quest runs like any quest and its rewards include guild points (spec 07, "Guild").
-        scenario("board_quest_rewards", [enemy(3.5, 4.5, id="base:enemy/slime_green", **passive), enemy(3.6, 4.7, id="base:enemy/slime_green", **passive),
-                                         enemy(3.4, 4.3, id="base:enemy/slime_green", **passive)],
+        scenario("board_quest_rewards", [enemy(3.5, 4.5, id=target, **passive), enemy(3.6, 4.7, id=target, **passive),
+                                         enemy(3.4, 4.3, id=target, **passive)],
                  [segment(1, do=[{"cmd": "start_quest", "quest": quest["id"]}]), segment(40, attack=True), segment(20)],
                  story={"quests": {quest["id"]: quest}, "dialogues": {}, "npcs": []}),
         scenario("leash_and_return", [enemy(4.0, 4.5, behavior_overrides={"leash_x100": 300})],

@@ -10,6 +10,7 @@ import io.github.progliodario.aethermoor.core.damage
 import io.github.progliodario.aethermoor.core.deriveStream
 import io.github.progliodario.aethermoor.core.derivedStats
 import io.github.progliodario.aethermoor.core.explore
+import io.github.progliodario.aethermoor.core.faunaAt
 import io.github.progliodario.aethermoor.core.offersFor
 import io.github.progliodario.aethermoor.core.rankIndex
 import io.github.progliodario.aethermoor.core.regionAt
@@ -218,8 +219,15 @@ class WorldSim(
         }
     }
 
+    /** The enemy the spawner on a tile makes (spec 09, "Fauna"). */
+    private fun streamEnemyAt(x: Int, y: Int): EnemyDef {
+        val store = requireNotNull(chunks) { "not a streamed world" }
+        val id = faunaAt(store.seed, store.params, x, y).enemy
+        return requireNotNull(combat.streamEnemies[id]) { "no enemy $id for the fauna" }
+    }
+
     private fun addChunkEnemies(cx: Int, cy: Int) {
-        val def = combat.streamEnemy ?: return
+        if (combat.streamEnemies.isEmpty()) return
         val store = chunks ?: return
         val chunk = store.find(cx, cy) ?: return
         for ((sx, sy) in chunk.spawners) {
@@ -229,7 +237,7 @@ class WorldSim(
                 if (worldTicks - died < store.params.spawnerRespawnTicks) continue
                 cleared.remove(Pair(sx, sy))
             }
-            val enemy = Enemy(def, Vec2(sx + 0.5f, sy + 0.5f))
+            val enemy = Enemy(streamEnemyAt(sx, sy), Vec2(sx + 0.5f, sy + 0.5f))
             enemy.spawnerX = sx
             enemy.spawnerY = sy
             enemies.add(enemy)
@@ -698,11 +706,10 @@ class WorldSim(
         p.phase = s.phase
         p.phaseTick = s.phaseTick
         if (chunks != null) {
-            val def = requireNotNull(combat.streamEnemy) { "streamed world without an enemy" }
             enemies.clear()
             for (e in s.enemies) {
                 val spawner = requireNotNull(e.spawner)
-                val enemy = Enemy(def, Vec2(spawner.first + 0.5f, spawner.second + 0.5f))
+                val enemy = Enemy(streamEnemyAt(spawner.first, spawner.second), Vec2(spawner.first + 0.5f, spawner.second + 0.5f))
                 enemy.spawnerX = spawner.first
                 enemy.spawnerY = spawner.second
                 enemies.add(enemy)

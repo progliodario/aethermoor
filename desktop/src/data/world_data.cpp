@@ -72,7 +72,6 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
         }
 
         const Json& s = j.at("spawners");
-        p.spawner_enemy = s.at("enemy").get<std::string>();
         for (const Json& biome : s.at("biomes")) {
             p.spawner_biomes.push_back(biome.get<std::string>());
         }
@@ -130,12 +129,33 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
             p.home_dy = j.at("home").at("dy").get<int>();
         }
         for (const Json& r : j.at("regions")) {
-            p.regions.push_back({r.at("id").get<std::string>(), r.at("name").get<std::string>(), r.at("x_pm").get<int>(),
-                                 r.at("y_pm").get<int>(), r.at("danger").get<int>(), r.at("tone").get<std::string>(),
-                                 r.at("shop").at("price_pm").get<int>(), {}});
+            Region region;
+            region.id = r.at("id").get<std::string>();
+            region.name = r.at("name").get<std::string>();
+            region.x_pm = r.at("x_pm").get<int>();
+            region.y_pm = r.at("y_pm").get<int>();
+            region.danger = r.at("danger").get<int>();
+            region.tone = r.at("tone").get<std::string>();
+            region.shop_price_pm = r.at("shop").at("price_pm").get<int>();
             for (const Json& item : r.at("shop").at("stock")) {
-                p.regions.back().shop_stock.push_back(item.get<std::string>());
+                region.shop_stock.push_back(item.get<std::string>());
             }
+            for (const Json& entry : r.at("fauna")) {
+                FaunaEntry fauna;
+                fauna.enemy = entry.at("enemy").get<std::string>();
+                fauna.drop = entry.at("drop").get<std::string>();
+                fauna.weight = entry.at("weight").get<int>();
+                if (fauna.weight < 1) {
+                    error = "invalid fauna weight";
+                    return std::nullopt;
+                }
+                region.fauna.push_back(std::move(fauna));
+            }
+            if (region.fauna.empty()) {
+                error = "a region needs fauna";
+                return std::nullopt;
+            }
+            p.regions.push_back(std::move(region));
         }
         const Json& settlements = j.at("settlements");
         p.settlement_per_mille = settlements.at("per_mille").get<int>();

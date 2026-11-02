@@ -282,6 +282,22 @@ def prop_at(seed: int, params: dict, biome: str, x: int, y: int) -> dict | None:
     return None
 
 
+def pick_weighted(entries: list, r: int) -> dict:
+    """The entry that the number `r` falls on when the entries share `sum(weight)` slots in order."""
+    r %= sum(e["weight"] for e in entries)
+    for entry in entries:
+        if r < entry["weight"]:
+            return entry
+        r -= entry["weight"]
+    raise AssertionError("unreachable")
+
+
+def fauna_at(seed: int, params: dict, x: int, y: int) -> dict:
+    """The fauna entry ({enemy, drop, weight}) of the spawner on tile (x, y): a weighted pick among the fauna of its region (spec 09)."""
+    entries = params["regions"][region_at(params, x, y)]["fauna"]
+    return pick_weighted(entries, hash64(seed, x, y, 12) >> 20)
+
+
 def spawner_at(seed: int, params: dict, biome: str, x: int, y: int) -> bool:
     s = params["spawners"]
     if biome not in s["biomes"]:

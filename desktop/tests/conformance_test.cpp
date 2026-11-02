@@ -648,6 +648,31 @@ TEST_CASE("conformance: story", "[conformance]") { run_combat_suite("story"); }
 
 TEST_CASE("conformance: save and resume", "[conformance]") { run_save_suite(); }
 
+TEST_CASE("conformance: fauna", "[conformance]") {
+    const Json doc = load_suite("fauna");
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        const Json& in = c.at("input");
+        std::string error;
+        const auto params = aether::parse_world_params(in.at("params").dump(), error);
+        INFO(error);
+        REQUIRE(params.has_value());
+        const std::uint64_t seed = hex(in.at("seed"));
+        const Json& tiles = in.at("tiles");
+        const Json& want = c.at("expect").at("spawners");
+        REQUIRE(tiles.size() == want.size());
+        for (std::size_t i = 0; i < tiles.size(); ++i) {
+            const int x = tiles.at(i).at(0).get<int>();
+            const int y = tiles.at(i).at(1).get<int>();
+            INFO("spawner " << x << "," << y);
+            REQUIRE(aether::region_at(*params, x, y) == want.at(i).at(2).get<int>());
+            const aether::FaunaEntry& entry = aether::fauna_at(seed, *params, x, y);
+            REQUIRE(entry.enemy == want.at(i).at(3).get<std::string>());
+            REQUIRE(entry.drop == want.at(i).at(4).get<std::string>());
+        }
+    }
+}
+
 TEST_CASE("conformance: guild", "[conformance]") {
     const Json doc = load_suite("guild");
     for (const Json& c : doc.at("cases")) {
@@ -785,9 +810,9 @@ TEST_CASE("conformance: worldtime", "[conformance]") {
             "road":{"salt":6,"scale":8,"octaves":1,"half_width":1},
             "thresholds":{"water":1,"beach":2,"mountain":3,"snow":4,"desert_heat":5,"desert_dry":6,"forest_wet":7},
             "tiles":{"water":4,"beach":6,"desert":6,"snow":7,"mountain":8,"forest":9,"plains":[1],"river":4,"ford":10,"road":11,"bridge":12},
-            "props":{},"spawners":{"enemy":"x:enemy/x","biomes":[],"min_distance":1,"per_10000":1,"respawn_ticks":1},
+            "props":{},"spawners":{"biomes":[],"min_distance":1,"per_10000":1,"respawn_ticks":1},
             "guild":{"offers_per_day":1,"ranks":[{"id":"f","points":0}],"templates":[{"id":"t","type":"kill","target":"x:enemy/x","count_min":1,"count_max":1,"gold_base":0,"gold_per":0,"xp_base":0,"xp_per":0,"points_base":0,"points_per":0}]},
-            "regions":[{"id":"x","name":"x","x_pm":0,"y_pm":0,"danger":1,"tone":"warm","shop":{"price_pm":1000,"stock":[]}}],
+            "regions":[{"id":"x","name":"x","x_pm":0,"y_pm":0,"danger":1,"tone":"warm","shop":{"price_pm":1000,"stock":[]},"fauna":[{"enemy":"x:enemy/x","drop":"x:item/x","weight":1}]}],
             "settlements":{"per_mille":0,"dialogue":"x:dialogue/x","variants":[""],"quirks":["q"],"people":{"start":["a"],"end":["b"]},"kinds":[{"id":"h","weight":1,"stamps":[]}],"names":{"start":["a"],"mid":["b"],"end":["c"]}},
             "npcs":[]})");
         world["time"] = in.at("time");

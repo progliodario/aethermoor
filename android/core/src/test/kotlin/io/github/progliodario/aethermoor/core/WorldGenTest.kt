@@ -220,6 +220,31 @@ class WorldGenTest {
     }
 
     @Test
+    fun faunaSuite() {
+        val doc = Json.parseToJsonElement(File(repoRoot, "tests/conformance/fauna.json").readText()).jsonObject
+        for (case in doc.getValue("cases").jsonArray) {
+            val c = case.jsonObject
+            val label = c.getValue("name").jsonPrimitive.content
+            val input = c.getValue("input").jsonObject
+            val params = parseWorldParams(input.getValue("params").toString()).getOrThrow()
+            val seed = hex(input.getValue("seed").jsonPrimitive.content)
+            val tiles = input.getValue("tiles").jsonArray
+            val want = c.getValue("expect").jsonObject.getValue("spawners").jsonArray
+            assertEquals(want.size, tiles.size, "$label count")
+            for ((i, tile) in tiles.withIndex()) {
+                val x = tile.jsonArray[0].jsonPrimitive.int
+                val y = tile.jsonArray[1].jsonPrimitive.int
+                val e = want[i].jsonArray
+                val who = "$label spawner $x,$y"
+                assertEquals(e[2].jsonPrimitive.int, regionAt(params, x, y), "$who region")
+                val entry = faunaAt(seed, params, x, y)
+                assertEquals(e[3].jsonPrimitive.content, entry.enemy, "$who enemy")
+                assertEquals(e[4].jsonPrimitive.content, entry.drop, "$who drop")
+            }
+        }
+    }
+
+    @Test
     fun guildSuite() {
         val doc = Json.parseToJsonElement(File(repoRoot, "tests/conformance/guild.json").readText()).jsonObject
         for (case in doc.getValue("cases").jsonArray) {
@@ -371,7 +396,7 @@ class WorldGenTest {
         assertEquals(0, map.ground.size)
         assertEquals(1, map.npcs.size)
         assertEquals("guild_clerk_mira", map.npcs[0].key)
-        val setup = loadCombatSetup(pack, map, "base:protagonist/ren", 42uL, params.spawnerEnemy).getOrThrow()
+        val setup = loadCombatSetup(pack, map, "base:protagonist/ren", 42uL, params.regions.flatMap { r -> r.fauna.map { it.enemy } }).getOrThrow()
         val tileset = parseTileset(requireNotNull(pack.readDocument("base:tileset/overworld"))).getOrThrow()
         val sim = WorldSim(map, tileset, 0f, setup, StreamConfig(params, 42uL))
         val store = requireNotNull(sim.chunks)

@@ -128,7 +128,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val loaded = loadAssets() ?: return
         assets = loaded
         cache = TextureCache(loaded.pack)
-        val combat = loadCombatSetup(loaded.pack, loaded.map, PROTAGONIST_ID, seed, loaded.worldParams.spawnerEnemy)
+        val combat = loadCombatSetup(loaded.pack, loaded.map, PROTAGONIST_ID, seed, loaded.worldParams.regions.flatMap { r -> r.fauna.map { it.enemy } })
             .getOrElse {
                 error = it.message
                 Gdx.app.error(TAG, "Cannot build the combat setup: ${it.message}")
