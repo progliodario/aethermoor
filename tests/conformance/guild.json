@@ -179,14 +179,14 @@
               "tone": "flowery",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_green",
+                  "enemy": "base:enemy/slime_sand",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/slime_blue",
+                  "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -208,13 +208,13 @@
               "tone": "stoic",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_blue",
-                  "drop": "base:item/slime_gel",
+                  "enemy": "base:enemy/wolf_frost",
+                  "drop": "base:item/frost_pelt",
                   "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/wolf_grey",
-                  "drop": "base:item/wolf_fang",
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
                   "weight": 2
                 }
               ],
@@ -265,14 +265,14 @@
               "tone": "grim",
               "fauna": [
                 {
-                  "enemy": "base:enemy/wolf_grey",
-                  "drop": "base:item/wolf_fang",
-                  "weight": 3
+                  "enemy": "base:enemy/slime_ember",
+                  "drop": "base:item/ember_core",
+                  "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/slime_blue",
-                  "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -1936,7 +1936,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             5,
             70,
             40,
@@ -1949,7 +1949,7 @@
             1,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             8,
             160,
             80,
@@ -1962,7 +1962,7 @@
             2,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             4,
             132,
             72,
@@ -1975,7 +1975,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             5,
             280,
             160,
@@ -1988,7 +1988,7 @@
             0,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             6,
             62,
             32,
@@ -2001,7 +2001,7 @@
             1,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             6,
             124,
             64,
@@ -2014,7 +2014,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             5,
             210,
             120,
@@ -2027,7 +2027,7 @@
             3,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             7,
             284,
             144,
@@ -2040,7 +2040,7 @@
             0,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slime_gel",
             4,
             44,
             24,
@@ -2053,7 +2053,7 @@
             1,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slime_gel",
             4,
             88,
             48,
@@ -2066,7 +2066,7 @@
             2,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             8,
             240,
             120,
@@ -2079,7 +2079,7 @@
             3,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             6,
             248,
             128,
@@ -2092,7 +2092,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             4,
             58,
             34,
@@ -2105,7 +2105,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             4,
             116,
             68,
@@ -2118,7 +2118,7 @@
             2,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             5,
             159,
             84,
@@ -2131,7 +2131,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             6,
             328,
             184,
@@ -2144,7 +2144,7 @@
             0,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             7,
             71,
             36,
@@ -2157,7 +2157,7 @@
             1,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slime_gel",
             7,
             142,
             72,
@@ -2170,7 +2170,7 @@
             2,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             4,
             132,
             72,
@@ -2183,7 +2183,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             3,
             184,
             112,
@@ -2196,7 +2196,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             5,
             70,
             40,
@@ -2209,7 +2209,7 @@
             1,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slime_gel",
             8,
             160,
             80,
@@ -2222,7 +2222,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             5,
             210,
             120,
@@ -2235,7 +2235,7 @@
             3,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             6,
             248,
             128,
@@ -2248,7 +2248,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             3,
             46,
             28,
@@ -2261,7 +2261,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             5,
             140,
             80,
@@ -2274,7 +2274,7 @@
             2,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slime_gel",
             7,
             213,
             108,
@@ -2287,7 +2287,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             3,
             184,
             112,
@@ -2300,7 +2300,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             3,
             46,
             28,
@@ -2313,7 +2313,7 @@
             1,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slime_gel",
             5,
             106,
             56,
@@ -2326,7 +2326,7 @@
             2,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             7,
             213,
             108,
@@ -2339,7 +2339,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             3,
             184,
             112,
@@ -4387,7 +4387,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -4397,7 +4397,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 5
                   }
                 ],
@@ -4425,7 +4425,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -4435,7 +4435,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 8
                   }
                 ],
@@ -4463,7 +4463,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -4473,7 +4473,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 4
                   }
                 ],
@@ -4501,7 +4501,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -4511,7 +4511,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 5
                   }
                 ],
@@ -4539,7 +4539,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -4549,7 +4549,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 6
                   }
                 ],
@@ -4577,7 +4577,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -4587,7 +4587,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 6
                   }
                 ],
@@ -4615,7 +4615,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -4625,7 +4625,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 5
                   }
                 ],
@@ -4653,7 +4653,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -4663,7 +4663,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 7
                   }
                 ],
@@ -4691,7 +4691,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -4701,7 +4701,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slime_gel",
                     "count": 4
                   }
                 ],
@@ -4729,7 +4729,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -4739,7 +4739,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slime_gel",
                     "count": 4
                   }
                 ],
@@ -4767,7 +4767,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -4777,7 +4777,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 8
                   }
                 ],
@@ -4805,7 +4805,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -4815,7 +4815,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 6
                   }
                 ],
@@ -4843,7 +4843,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -4853,7 +4853,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 4
                   }
                 ],
@@ -4881,7 +4881,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -4891,7 +4891,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 4
                   }
                 ],
@@ -4919,7 +4919,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -4929,7 +4929,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 5
                   }
                 ],
@@ -4957,7 +4957,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -4967,7 +4967,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 6
                   }
                 ],
@@ -4995,7 +4995,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -5005,7 +5005,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 7
                   }
                 ],
@@ -5033,7 +5033,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -5043,7 +5043,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slime_gel",
                     "count": 7
                   }
                 ],
@@ -5071,7 +5071,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -5081,7 +5081,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 4
                   }
                 ],
@@ -5109,7 +5109,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -5119,7 +5119,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 3
                   }
                 ],
@@ -5147,7 +5147,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -5157,7 +5157,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 5
                   }
                 ],
@@ -5185,7 +5185,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -5195,7 +5195,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slime_gel",
                     "count": 8
                   }
                 ],
@@ -5223,7 +5223,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -5233,7 +5233,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 5
                   }
                 ],
@@ -5261,7 +5261,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -5271,7 +5271,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 6
                   }
                 ],
@@ -5299,7 +5299,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -5309,7 +5309,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 3
                   }
                 ],
@@ -5337,7 +5337,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -5347,7 +5347,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 5
                   }
                 ],
@@ -5371,158 +5371,6 @@
           },
           {
             "id": "board:24:1:9:2",
-            "name": "$i18n:quest.board.gather.stoic.name",
-            "kind": "guild",
-            "args": {
-              "count": "7",
-              "target": "$i18n:item.wolf_fang.name",
-              "place": "Dunovale"
-            },
-            "stages": [
-              {
-                "id": "work",
-                "journal": "$i18n:quest.board.gather.stoic.journal",
-                "objectives": [
-                  {
-                    "type": "collect",
-                    "item": "base:item/wolf_fang",
-                    "count": 7
-                  }
-                ],
-                "next": "end"
-              }
-            ],
-            "rewards": [
-              {
-                "effect": "add_xp",
-                "amount": 108
-              },
-              {
-                "effect": "add_gold",
-                "amount": 213
-              },
-              {
-                "effect": "add_guild_points",
-                "amount": 51
-              }
-            ]
-          },
-          {
-            "id": "board:24:1:9:3",
-            "name": "$i18n:quest.board.cull.stoic.name",
-            "kind": "guild",
-            "args": {
-              "count": "3",
-              "target": "$i18n:enemy.slime_blue.name",
-              "place": "Dunovale"
-            },
-            "stages": [
-              {
-                "id": "work",
-                "journal": "$i18n:quest.board.cull.stoic.journal",
-                "objectives": [
-                  {
-                    "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
-                    "count": 3
-                  }
-                ],
-                "next": "end"
-              }
-            ],
-            "rewards": [
-              {
-                "effect": "add_xp",
-                "amount": 112
-              },
-              {
-                "effect": "add_gold",
-                "amount": 184
-              },
-              {
-                "effect": "add_guild_points",
-                "amount": 52
-              }
-            ]
-          },
-          {
-            "id": "board:24:1:400:0",
-            "name": "$i18n:quest.board.cull.stoic.name",
-            "kind": "guild",
-            "args": {
-              "count": "3",
-              "target": "$i18n:enemy.slime_blue.name",
-              "place": "Dunovale"
-            },
-            "stages": [
-              {
-                "id": "work",
-                "journal": "$i18n:quest.board.cull.stoic.journal",
-                "objectives": [
-                  {
-                    "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
-                    "count": 3
-                  }
-                ],
-                "next": "end"
-              }
-            ],
-            "rewards": [
-              {
-                "effect": "add_xp",
-                "amount": 28
-              },
-              {
-                "effect": "add_gold",
-                "amount": 46
-              },
-              {
-                "effect": "add_guild_points",
-                "amount": 13
-              }
-            ]
-          },
-          {
-            "id": "board:24:1:400:1",
-            "name": "$i18n:quest.board.gather.stoic.name",
-            "kind": "guild",
-            "args": {
-              "count": "5",
-              "target": "$i18n:item.wolf_fang.name",
-              "place": "Dunovale"
-            },
-            "stages": [
-              {
-                "id": "work",
-                "journal": "$i18n:quest.board.gather.stoic.journal",
-                "objectives": [
-                  {
-                    "type": "collect",
-                    "item": "base:item/wolf_fang",
-                    "count": 5
-                  }
-                ],
-                "next": "end"
-              }
-            ],
-            "rewards": [
-              {
-                "effect": "add_xp",
-                "amount": 56
-              },
-              {
-                "effect": "add_gold",
-                "amount": 106
-              },
-              {
-                "effect": "add_guild_points",
-                "amount": 26
-              }
-            ]
-          },
-          {
-            "id": "board:24:1:400:2",
             "name": "$i18n:quest.board.gather.stoic.name",
             "kind": "guild",
             "args": {
@@ -5560,12 +5408,12 @@
             ]
           },
           {
-            "id": "board:24:1:400:3",
+            "id": "board:24:1:9:3",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -5575,7 +5423,159 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
+                    "count": 3
+                  }
+                ],
+                "next": "end"
+              }
+            ],
+            "rewards": [
+              {
+                "effect": "add_xp",
+                "amount": 112
+              },
+              {
+                "effect": "add_gold",
+                "amount": 184
+              },
+              {
+                "effect": "add_guild_points",
+                "amount": 52
+              }
+            ]
+          },
+          {
+            "id": "board:24:1:400:0",
+            "name": "$i18n:quest.board.cull.stoic.name",
+            "kind": "guild",
+            "args": {
+              "count": "3",
+              "target": "$i18n:enemy.wolf_frost.name",
+              "place": "Dunovale"
+            },
+            "stages": [
+              {
+                "id": "work",
+                "journal": "$i18n:quest.board.cull.stoic.journal",
+                "objectives": [
+                  {
+                    "type": "kill",
+                    "enemy": "base:enemy/wolf_frost",
+                    "count": 3
+                  }
+                ],
+                "next": "end"
+              }
+            ],
+            "rewards": [
+              {
+                "effect": "add_xp",
+                "amount": 28
+              },
+              {
+                "effect": "add_gold",
+                "amount": 46
+              },
+              {
+                "effect": "add_guild_points",
+                "amount": 13
+              }
+            ]
+          },
+          {
+            "id": "board:24:1:400:1",
+            "name": "$i18n:quest.board.gather.stoic.name",
+            "kind": "guild",
+            "args": {
+              "count": "5",
+              "target": "$i18n:item.slime_gel.name",
+              "place": "Dunovale"
+            },
+            "stages": [
+              {
+                "id": "work",
+                "journal": "$i18n:quest.board.gather.stoic.journal",
+                "objectives": [
+                  {
+                    "type": "collect",
+                    "item": "base:item/slime_gel",
+                    "count": 5
+                  }
+                ],
+                "next": "end"
+              }
+            ],
+            "rewards": [
+              {
+                "effect": "add_xp",
+                "amount": 56
+              },
+              {
+                "effect": "add_gold",
+                "amount": 106
+              },
+              {
+                "effect": "add_guild_points",
+                "amount": 26
+              }
+            ]
+          },
+          {
+            "id": "board:24:1:400:2",
+            "name": "$i18n:quest.board.gather.stoic.name",
+            "kind": "guild",
+            "args": {
+              "count": "7",
+              "target": "$i18n:item.frost_pelt.name",
+              "place": "Dunovale"
+            },
+            "stages": [
+              {
+                "id": "work",
+                "journal": "$i18n:quest.board.gather.stoic.journal",
+                "objectives": [
+                  {
+                    "type": "collect",
+                    "item": "base:item/frost_pelt",
+                    "count": 7
+                  }
+                ],
+                "next": "end"
+              }
+            ],
+            "rewards": [
+              {
+                "effect": "add_xp",
+                "amount": 108
+              },
+              {
+                "effect": "add_gold",
+                "amount": 213
+              },
+              {
+                "effect": "add_guild_points",
+                "amount": 51
+              }
+            ]
+          },
+          {
+            "id": "board:24:1:400:3",
+            "name": "$i18n:quest.board.cull.stoic.name",
+            "kind": "guild",
+            "args": {
+              "count": "3",
+              "target": "$i18n:enemy.wolf_frost.name",
+              "place": "Dunovale"
+            },
+            "stages": [
+              {
+                "id": "work",
+                "journal": "$i18n:quest.board.cull.stoic.journal",
+                "objectives": [
+                  {
+                    "type": "kill",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 3
                   }
                 ],
@@ -6446,14 +6446,14 @@
               "tone": "flowery",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_green",
+                  "enemy": "base:enemy/slime_sand",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/slime_blue",
+                  "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -6475,13 +6475,13 @@
               "tone": "stoic",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_blue",
-                  "drop": "base:item/slime_gel",
+                  "enemy": "base:enemy/wolf_frost",
+                  "drop": "base:item/frost_pelt",
                   "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/wolf_grey",
-                  "drop": "base:item/wolf_fang",
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
                   "weight": 2
                 }
               ],
@@ -6532,14 +6532,14 @@
               "tone": "grim",
               "fauna": [
                 {
-                  "enemy": "base:enemy/wolf_grey",
-                  "drop": "base:item/wolf_fang",
-                  "weight": 3
+                  "enemy": "base:enemy/slime_ember",
+                  "drop": "base:item/ember_core",
+                  "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/slime_blue",
-                  "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -7787,7 +7787,7 @@
             0,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slime_gel",
             8,
             80,
             40,
@@ -7800,7 +7800,7 @@
             1,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             4,
             88,
             48,
@@ -7813,7 +7813,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             6,
             246,
             138,
@@ -7826,7 +7826,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             4,
             232,
             136,
@@ -7839,7 +7839,7 @@
             0,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             8,
             80,
             40,
@@ -7852,7 +7852,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             3,
             92,
             56,
@@ -7865,7 +7865,7 @@
             2,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slime_gel",
             5,
             159,
             84,
@@ -7878,7 +7878,7 @@
             3,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             5,
             212,
             112,
@@ -7891,7 +7891,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             5,
             70,
             40,
@@ -7904,7 +7904,7 @@
             1,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slime_gel",
             6,
             124,
             64,
@@ -7917,7 +7917,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             5,
             210,
             120,
@@ -7930,7 +7930,7 @@
             3,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slime_gel",
             6,
             248,
             128,
@@ -7943,7 +7943,7 @@
             0,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             6,
             62,
             32,
@@ -7956,7 +7956,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             6,
             164,
             92,
@@ -7969,7 +7969,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             3,
             138,
             84,
@@ -7982,7 +7982,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             5,
             280,
             160,
@@ -7995,7 +7995,7 @@
             0,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             8,
             80,
             40,
@@ -8008,7 +8008,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             5,
             140,
             80,
@@ -8021,7 +8021,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             6,
             246,
             138,
@@ -8034,7 +8034,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             5,
             280,
             160,
@@ -8047,7 +8047,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             5,
             70,
             40,
@@ -8060,7 +8060,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             3,
             92,
             56,
@@ -8073,7 +8073,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             5,
             210,
             120,
@@ -8086,7 +8086,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             3,
             184,
             112,
@@ -8099,7 +8099,7 @@
             0,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slime_gel",
             6,
             62,
             32,
@@ -8112,7 +8112,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             4,
             116,
             68,
@@ -8125,7 +8125,7 @@
             2,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slime_gel",
             8,
             240,
             120,
@@ -8138,7 +8138,7 @@
             3,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             7,
             284,
             144,
@@ -8151,7 +8151,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             3,
             46,
             28,
@@ -8164,7 +8164,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             5,
             140,
             80,
@@ -8177,7 +8177,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             6,
             246,
             138,
@@ -8190,7 +8190,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             6,
             328,
             184,
@@ -8619,7 +8619,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             5,
             70,
             40,
@@ -8632,7 +8632,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             5,
             140,
             80,
@@ -8645,7 +8645,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             5,
             210,
             120,
@@ -8658,7 +8658,7 @@
             3,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             4,
             176,
             96,
@@ -8671,7 +8671,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             5,
             70,
             40,
@@ -8684,7 +8684,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             3,
             92,
             56,
@@ -8697,7 +8697,7 @@
             2,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             6,
             186,
             96,
@@ -8710,7 +8710,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             3,
             184,
             112,
@@ -8723,7 +8723,7 @@
             0,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             5,
             53,
             28,
@@ -8736,7 +8736,7 @@
             1,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             5,
             106,
             56,
@@ -8749,7 +8749,7 @@
             2,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             7,
             213,
             108,
@@ -8762,7 +8762,7 @@
             3,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             4,
             176,
             96,
@@ -8775,7 +8775,7 @@
             0,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             4,
             44,
             24,
@@ -8788,7 +8788,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             5,
             140,
             80,
@@ -8801,7 +8801,7 @@
             2,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             8,
             240,
             120,
@@ -8814,7 +8814,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             6,
             328,
             184,
@@ -9438,7 +9438,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Ostivale"
             },
             "stages": [
@@ -9448,7 +9448,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slime_gel",
                     "count": 8
                   }
                 ],
@@ -9476,7 +9476,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Ostivale"
             },
             "stages": [
@@ -9486,7 +9486,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 4
                   }
                 ],
@@ -9514,7 +9514,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Ostivale"
             },
             "stages": [
@@ -9524,7 +9524,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 6
                   }
                 ],
@@ -9552,7 +9552,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Ostivale"
             },
             "stages": [
@@ -9562,7 +9562,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 4
                   }
                 ],
@@ -9590,7 +9590,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Ostivale"
             },
             "stages": [
@@ -9600,7 +9600,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 8
                   }
                 ],
@@ -9628,7 +9628,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Ostivale"
             },
             "stages": [
@@ -9638,7 +9638,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 3
                   }
                 ],
@@ -9666,7 +9666,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Ostivale"
             },
             "stages": [
@@ -9676,7 +9676,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slime_gel",
                     "count": 5
                   }
                 ],
@@ -9704,7 +9704,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Ostivale"
             },
             "stages": [
@@ -9714,7 +9714,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 5
                   }
                 ],
@@ -9742,7 +9742,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Ostivale"
             },
             "stages": [
@@ -9752,7 +9752,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 5
                   }
                 ],
@@ -9780,7 +9780,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Ostivale"
             },
             "stages": [
@@ -9790,7 +9790,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slime_gel",
                     "count": 6
                   }
                 ],
@@ -9818,7 +9818,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Ostivale"
             },
             "stages": [
@@ -9828,7 +9828,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 5
                   }
                 ],
@@ -9856,7 +9856,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Ostivale"
             },
             "stages": [
@@ -9866,7 +9866,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slime_gel",
                     "count": 6
                   }
                 ],
@@ -9894,7 +9894,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Ostivale"
             },
             "stages": [
@@ -9904,7 +9904,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 6
                   }
                 ],
@@ -9932,7 +9932,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Ostivale"
             },
             "stages": [
@@ -9942,7 +9942,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 6
                   }
                 ],
@@ -9970,7 +9970,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Ostivale"
             },
             "stages": [
@@ -9980,7 +9980,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 3
                   }
                 ],
@@ -10008,7 +10008,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Ostivale"
             },
             "stages": [
@@ -10018,7 +10018,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 5
                   }
                 ],
@@ -10046,7 +10046,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Calarhaven"
             },
             "stages": [
@@ -10056,7 +10056,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 8
                   }
                 ],
@@ -10084,7 +10084,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Calarhaven"
             },
             "stages": [
@@ -10094,7 +10094,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 5
                   }
                 ],
@@ -10122,7 +10122,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Calarhaven"
             },
             "stages": [
@@ -10132,7 +10132,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 6
                   }
                 ],
@@ -10160,7 +10160,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Calarhaven"
             },
             "stages": [
@@ -10170,7 +10170,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 5
                   }
                 ],
@@ -10198,7 +10198,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Calarhaven"
             },
             "stages": [
@@ -10208,7 +10208,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 5
                   }
                 ],
@@ -10236,7 +10236,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Calarhaven"
             },
             "stages": [
@@ -10246,7 +10246,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 3
                   }
                 ],
@@ -10274,7 +10274,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Calarhaven"
             },
             "stages": [
@@ -10284,7 +10284,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 5
                   }
                 ],
@@ -10312,7 +10312,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Calarhaven"
             },
             "stages": [
@@ -10322,7 +10322,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 3
                   }
                 ],
@@ -10350,7 +10350,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Calarhaven"
             },
             "stages": [
@@ -10360,7 +10360,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slime_gel",
                     "count": 6
                   }
                 ],
@@ -10388,7 +10388,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Calarhaven"
             },
             "stages": [
@@ -10398,7 +10398,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 4
                   }
                 ],
@@ -10426,7 +10426,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Calarhaven"
             },
             "stages": [
@@ -10436,7 +10436,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slime_gel",
                     "count": 8
                   }
                 ],
@@ -10464,7 +10464,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Calarhaven"
             },
             "stages": [
@@ -10474,7 +10474,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 7
                   }
                 ],
@@ -10502,7 +10502,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Calarhaven"
             },
             "stages": [
@@ -10512,7 +10512,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 3
                   }
                 ],
@@ -10540,7 +10540,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Calarhaven"
             },
             "stages": [
@@ -10550,7 +10550,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 5
                   }
                 ],
@@ -10578,7 +10578,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Calarhaven"
             },
             "stages": [
@@ -10588,7 +10588,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 6
                   }
                 ],
@@ -10616,7 +10616,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Calarhaven"
             },
             "stages": [
@@ -10626,7 +10626,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 6
                   }
                 ],
@@ -11870,7 +11870,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Irenvale"
             },
             "stages": [
@@ -11880,7 +11880,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 5
                   }
                 ],
@@ -11908,7 +11908,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Irenvale"
             },
             "stages": [
@@ -11918,7 +11918,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 5
                   }
                 ],
@@ -11946,7 +11946,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Irenvale"
             },
             "stages": [
@@ -11956,7 +11956,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 5
                   }
                 ],
@@ -11984,7 +11984,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Irenvale"
             },
             "stages": [
@@ -11994,7 +11994,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 4
                   }
                 ],
@@ -12022,7 +12022,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Irenvale"
             },
             "stages": [
@@ -12032,7 +12032,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 5
                   }
                 ],
@@ -12060,7 +12060,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Irenvale"
             },
             "stages": [
@@ -12070,7 +12070,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 3
                   }
                 ],
@@ -12098,7 +12098,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Irenvale"
             },
             "stages": [
@@ -12108,7 +12108,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 6
                   }
                 ],
@@ -12136,7 +12136,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Irenvale"
             },
             "stages": [
@@ -12146,7 +12146,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 3
                   }
                 ],
@@ -12174,7 +12174,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Irenvale"
             },
             "stages": [
@@ -12184,7 +12184,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 5
                   }
                 ],
@@ -12212,7 +12212,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Irenvale"
             },
             "stages": [
@@ -12222,7 +12222,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 5
                   }
                 ],
@@ -12250,7 +12250,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Irenvale"
             },
             "stages": [
@@ -12260,7 +12260,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 7
                   }
                 ],
@@ -12288,7 +12288,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Irenvale"
             },
             "stages": [
@@ -12298,7 +12298,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 4
                   }
                 ],
@@ -12326,7 +12326,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Irenvale"
             },
             "stages": [
@@ -12336,7 +12336,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 4
                   }
                 ],
@@ -12364,7 +12364,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Irenvale"
             },
             "stages": [
@@ -12374,7 +12374,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 5
                   }
                 ],
@@ -12402,7 +12402,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Irenvale"
             },
             "stages": [
@@ -12412,7 +12412,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 8
                   }
                 ],
@@ -12440,7 +12440,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Irenvale"
             },
             "stages": [
@@ -12450,7 +12450,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 6
                   }
                 ],
@@ -12713,14 +12713,14 @@
               "tone": "flowery",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_green",
+                  "enemy": "base:enemy/slime_sand",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/slime_blue",
+                  "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -12742,13 +12742,13 @@
               "tone": "stoic",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_blue",
-                  "drop": "base:item/slime_gel",
+                  "enemy": "base:enemy/wolf_frost",
+                  "drop": "base:item/frost_pelt",
                   "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/wolf_grey",
-                  "drop": "base:item/wolf_fang",
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
                   "weight": 2
                 }
               ],
@@ -12799,14 +12799,14 @@
               "tone": "grim",
               "fauna": [
                 {
-                  "enemy": "base:enemy/wolf_grey",
-                  "drop": "base:item/wolf_fang",
-                  "weight": 3
+                  "enemy": "base:enemy/slime_ember",
+                  "drop": "base:item/ember_core",
+                  "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/slime_blue",
-                  "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -14054,7 +14054,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             6,
             82,
             46,
@@ -14067,7 +14067,7 @@
             1,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slime_gel",
             6,
             124,
             64,
@@ -14080,7 +14080,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             3,
             138,
             84,
@@ -14093,7 +14093,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             5,
             280,
             160,
@@ -14106,7 +14106,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             3,
             46,
             28,
@@ -14119,7 +14119,7 @@
             1,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             7,
             142,
             72,
@@ -14132,7 +14132,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             3,
             138,
             84,
@@ -14145,7 +14145,7 @@
             3,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slime_gel",
             5,
             212,
             112,
@@ -14158,7 +14158,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             3,
             46,
             28,
@@ -14171,7 +14171,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             3,
             92,
             56,
@@ -14184,7 +14184,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             4,
             174,
             102,
@@ -14197,7 +14197,7 @@
             3,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slime_gel",
             8,
             320,
             160,
@@ -14210,7 +14210,7 @@
             0,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             5,
             53,
             28,
@@ -14223,7 +14223,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             4,
             116,
             68,
@@ -14236,7 +14236,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             3,
             138,
             84,
@@ -14249,7 +14249,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             3,
             184,
             112,
@@ -14262,7 +14262,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             6,
             82,
             46,
@@ -14275,7 +14275,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             3,
             92,
             56,
@@ -14288,7 +14288,7 @@
             2,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slime_gel",
             8,
             240,
             120,
@@ -14301,7 +14301,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             4,
             232,
             136,
@@ -14314,7 +14314,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             4,
             58,
             34,
@@ -14327,7 +14327,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             5,
             140,
             80,
@@ -14340,7 +14340,7 @@
             2,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             6,
             186,
             96,
@@ -14353,7 +14353,7 @@
             3,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             7,
             284,
             144,
@@ -14366,7 +14366,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             6,
             82,
             46,
@@ -14379,7 +14379,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             6,
             164,
             92,
@@ -14392,7 +14392,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             4,
             174,
             102,
@@ -14405,7 +14405,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             5,
             280,
             160,
@@ -14418,7 +14418,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             6,
             82,
             46,
@@ -14431,7 +14431,7 @@
             1,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             4,
             88,
             48,
@@ -14444,7 +14444,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             5,
             210,
             120,
@@ -14457,7 +14457,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             6,
             328,
             184,
@@ -14678,7 +14678,7 @@
             0,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slime_gel",
             5,
             53,
             28,
@@ -14691,7 +14691,7 @@
             1,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slime_gel",
             4,
             88,
             48,
@@ -14704,7 +14704,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             3,
             138,
             84,
@@ -14717,7 +14717,7 @@
             3,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             5,
             212,
             112,
@@ -14730,7 +14730,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             6,
             82,
             46,
@@ -14743,7 +14743,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             6,
             164,
             92,
@@ -14756,7 +14756,7 @@
             2,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             7,
             213,
             108,
@@ -14769,7 +14769,7 @@
             3,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             8,
             320,
             160,
@@ -14782,7 +14782,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             4,
             58,
             34,
@@ -14795,7 +14795,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             5,
             140,
             80,
@@ -14808,7 +14808,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             6,
             246,
             138,
@@ -14821,7 +14821,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             6,
             328,
             184,
@@ -14834,7 +14834,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             3,
             46,
             28,
@@ -14847,7 +14847,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             6,
             164,
             92,
@@ -14860,7 +14860,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             4,
             174,
             102,
@@ -14873,7 +14873,7 @@
             3,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             5,
             212,
             112,
@@ -14886,7 +14886,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             5,
             70,
             40,
@@ -14899,7 +14899,7 @@
             1,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             8,
             160,
             80,
@@ -14912,7 +14912,7 @@
             2,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             4,
             132,
             72,
@@ -14925,7 +14925,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             5,
             280,
             160,
@@ -14938,7 +14938,7 @@
             0,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             6,
             62,
             32,
@@ -14951,7 +14951,7 @@
             1,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             6,
             124,
             64,
@@ -14964,7 +14964,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             5,
             210,
             120,
@@ -14977,7 +14977,7 @@
             3,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             7,
             284,
             144,
@@ -14990,7 +14990,7 @@
             0,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slime_gel",
             4,
             44,
             24,
@@ -15003,7 +15003,7 @@
             1,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slime_gel",
             4,
             88,
             48,
@@ -15016,7 +15016,7 @@
             2,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             8,
             240,
             120,
@@ -15029,7 +15029,7 @@
             3,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             6,
             248,
             128,
@@ -15042,7 +15042,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_frost",
             4,
             58,
             34,
@@ -15055,7 +15055,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             4,
             116,
             68,
@@ -15068,7 +15068,7 @@
             2,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             5,
             159,
             84,
@@ -15081,7 +15081,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             6,
             328,
             184,
@@ -15705,7 +15705,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Holendale"
             },
             "stages": [
@@ -15715,7 +15715,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 6
                   }
                 ],
@@ -15743,7 +15743,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Holendale"
             },
             "stages": [
@@ -15753,7 +15753,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slime_gel",
                     "count": 6
                   }
                 ],
@@ -15781,7 +15781,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Holendale"
             },
             "stages": [
@@ -15791,7 +15791,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 3
                   }
                 ],
@@ -15819,7 +15819,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Holendale"
             },
             "stages": [
@@ -15829,7 +15829,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 5
                   }
                 ],
@@ -15857,7 +15857,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Holendale"
             },
             "stages": [
@@ -15867,7 +15867,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 3
                   }
                 ],
@@ -15895,7 +15895,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Holendale"
             },
             "stages": [
@@ -15905,7 +15905,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 7
                   }
                 ],
@@ -15933,7 +15933,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Holendale"
             },
             "stages": [
@@ -15943,7 +15943,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 3
                   }
                 ],
@@ -15971,7 +15971,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Holendale"
             },
             "stages": [
@@ -15981,7 +15981,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slime_gel",
                     "count": 5
                   }
                 ],
@@ -16009,7 +16009,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Holendale"
             },
             "stages": [
@@ -16019,7 +16019,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 3
                   }
                 ],
@@ -16047,7 +16047,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Holendale"
             },
             "stages": [
@@ -16057,7 +16057,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 3
                   }
                 ],
@@ -16085,7 +16085,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Holendale"
             },
             "stages": [
@@ -16095,7 +16095,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 4
                   }
                 ],
@@ -16123,7 +16123,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Holendale"
             },
             "stages": [
@@ -16133,7 +16133,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slime_gel",
                     "count": 8
                   }
                 ],
@@ -16161,7 +16161,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Holendale"
             },
             "stages": [
@@ -16171,7 +16171,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 5
                   }
                 ],
@@ -16199,7 +16199,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Holendale"
             },
             "stages": [
@@ -16209,7 +16209,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 4
                   }
                 ],
@@ -16237,7 +16237,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Holendale"
             },
             "stages": [
@@ -16247,7 +16247,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 3
                   }
                 ],
@@ -16275,7 +16275,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Holendale"
             },
             "stages": [
@@ -16285,7 +16285,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 3
                   }
                 ],
@@ -16313,7 +16313,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -16323,7 +16323,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 6
                   }
                 ],
@@ -16351,7 +16351,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -16361,7 +16361,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 3
                   }
                 ],
@@ -16389,7 +16389,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -16399,7 +16399,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slime_gel",
                     "count": 8
                   }
                 ],
@@ -16427,7 +16427,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -16437,7 +16437,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 4
                   }
                 ],
@@ -16465,7 +16465,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -16475,7 +16475,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 4
                   }
                 ],
@@ -16503,7 +16503,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -16513,7 +16513,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 5
                   }
                 ],
@@ -16541,7 +16541,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -16551,7 +16551,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 6
                   }
                 ],
@@ -16579,7 +16579,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -16589,7 +16589,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 7
                   }
                 ],
@@ -16617,7 +16617,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -16627,7 +16627,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 6
                   }
                 ],
@@ -16655,7 +16655,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -16665,7 +16665,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 6
                   }
                 ],
@@ -16693,7 +16693,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -16703,7 +16703,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 4
                   }
                 ],
@@ -16731,7 +16731,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -16741,7 +16741,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 5
                   }
                 ],
@@ -16769,7 +16769,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -16779,7 +16779,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 6
                   }
                 ],
@@ -16807,7 +16807,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -16817,7 +16817,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 4
                   }
                 ],
@@ -16845,7 +16845,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -16855,7 +16855,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 5
                   }
                 ],
@@ -16883,7 +16883,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -16893,7 +16893,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 6
                   }
                 ],
@@ -17529,7 +17529,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Dunanholm"
             },
             "stages": [
@@ -17539,7 +17539,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slime_gel",
                     "count": 5
                   }
                 ],
@@ -17567,7 +17567,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Dunanholm"
             },
             "stages": [
@@ -17577,7 +17577,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slime_gel",
                     "count": 4
                   }
                 ],
@@ -17605,7 +17605,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Dunanholm"
             },
             "stages": [
@@ -17615,7 +17615,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 3
                   }
                 ],
@@ -17643,7 +17643,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Dunanholm"
             },
             "stages": [
@@ -17653,7 +17653,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 5
                   }
                 ],
@@ -17681,7 +17681,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Dunanholm"
             },
             "stages": [
@@ -17691,7 +17691,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 6
                   }
                 ],
@@ -17719,7 +17719,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Dunanholm"
             },
             "stages": [
@@ -17729,7 +17729,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 6
                   }
                 ],
@@ -17757,7 +17757,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Dunanholm"
             },
             "stages": [
@@ -17767,7 +17767,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 7
                   }
                 ],
@@ -17795,7 +17795,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Dunanholm"
             },
             "stages": [
@@ -17805,7 +17805,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 8
                   }
                 ],
@@ -17833,7 +17833,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Dunanholm"
             },
             "stages": [
@@ -17843,7 +17843,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 4
                   }
                 ],
@@ -17871,7 +17871,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Dunanholm"
             },
             "stages": [
@@ -17881,7 +17881,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 5
                   }
                 ],
@@ -17909,7 +17909,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Dunanholm"
             },
             "stages": [
@@ -17919,7 +17919,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 6
                   }
                 ],
@@ -17947,7 +17947,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Dunanholm"
             },
             "stages": [
@@ -17957,7 +17957,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 6
                   }
                 ],
@@ -17985,7 +17985,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Dunanholm"
             },
             "stages": [
@@ -17995,7 +17995,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 3
                   }
                 ],
@@ -18023,7 +18023,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Dunanholm"
             },
             "stages": [
@@ -18033,7 +18033,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 6
                   }
                 ],
@@ -18061,7 +18061,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Dunanholm"
             },
             "stages": [
@@ -18071,7 +18071,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 4
                   }
                 ],
@@ -18099,7 +18099,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Dunanholm"
             },
             "stages": [
@@ -18109,7 +18109,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 5
                   }
                 ],
@@ -18137,7 +18137,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -18147,7 +18147,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 5
                   }
                 ],
@@ -18175,7 +18175,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -18185,7 +18185,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 8
                   }
                 ],
@@ -18213,7 +18213,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -18223,7 +18223,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 4
                   }
                 ],
@@ -18251,7 +18251,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -18261,7 +18261,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 5
                   }
                 ],
@@ -18289,7 +18289,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -18299,7 +18299,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 6
                   }
                 ],
@@ -18327,7 +18327,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -18337,7 +18337,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 6
                   }
                 ],
@@ -18365,7 +18365,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -18375,7 +18375,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 5
                   }
                 ],
@@ -18403,7 +18403,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -18413,7 +18413,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 7
                   }
                 ],
@@ -18441,7 +18441,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -18451,7 +18451,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slime_gel",
                     "count": 4
                   }
                 ],
@@ -18479,7 +18479,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -18489,7 +18489,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slime_gel",
                     "count": 4
                   }
                 ],
@@ -18517,7 +18517,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -18527,7 +18527,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 8
                   }
                 ],
@@ -18555,7 +18555,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -18565,7 +18565,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 6
                   }
                 ],
@@ -18593,7 +18593,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -18603,7 +18603,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 4
                   }
                 ],
@@ -18631,7 +18631,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -18641,7 +18641,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 4
                   }
                 ],
@@ -18669,7 +18669,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -18679,7 +18679,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 5
                   }
                 ],
@@ -18707,7 +18707,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -18717,7 +18717,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 6
                   }
                 ],

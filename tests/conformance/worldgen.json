@@ -130,14 +130,14 @@
               "tone": "flowery",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_green",
+                  "enemy": "base:enemy/slime_sand",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/slime_blue",
+                  "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -159,13 +159,13 @@
               "tone": "stoic",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_blue",
-                  "drop": "base:item/slime_gel",
+                  "enemy": "base:enemy/wolf_frost",
+                  "drop": "base:item/frost_pelt",
                   "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/wolf_grey",
-                  "drop": "base:item/wolf_fang",
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
                   "weight": 2
                 }
               ],
@@ -216,14 +216,14 @@
               "tone": "grim",
               "fauna": [
                 {
-                  "enemy": "base:enemy/wolf_grey",
-                  "drop": "base:item/wolf_fang",
-                  "weight": 3
+                  "enemy": "base:enemy/slime_ember",
+                  "drop": "base:item/ember_core",
+                  "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/slime_blue",
-                  "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -2031,14 +2031,14 @@
               "tone": "flowery",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_green",
+                  "enemy": "base:enemy/slime_sand",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/slime_blue",
+                  "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -2060,13 +2060,13 @@
               "tone": "stoic",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_blue",
-                  "drop": "base:item/slime_gel",
+                  "enemy": "base:enemy/wolf_frost",
+                  "drop": "base:item/frost_pelt",
                   "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/wolf_grey",
-                  "drop": "base:item/wolf_fang",
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
                   "weight": 2
                 }
               ],
@@ -2117,14 +2117,14 @@
               "tone": "grim",
               "fauna": [
                 {
-                  "enemy": "base:enemy/wolf_grey",
-                  "drop": "base:item/wolf_fang",
-                  "weight": 3
+                  "enemy": "base:enemy/slime_ember",
+                  "drop": "base:item/ember_core",
+                  "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/slime_blue",
-                  "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -3928,14 +3928,14 @@
               "tone": "flowery",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_green",
+                  "enemy": "base:enemy/slime_sand",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/slime_blue",
+                  "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -3957,13 +3957,13 @@
               "tone": "stoic",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_blue",
-                  "drop": "base:item/slime_gel",
+                  "enemy": "base:enemy/wolf_frost",
+                  "drop": "base:item/frost_pelt",
                   "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/wolf_grey",
-                  "drop": "base:item/wolf_fang",
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
                   "weight": 2
                 }
               ],
@@ -4014,14 +4014,14 @@
               "tone": "grim",
               "fauna": [
                 {
-                  "enemy": "base:enemy/wolf_grey",
-                  "drop": "base:item/wolf_fang",
-                  "weight": 3
+                  "enemy": "base:enemy/slime_ember",
+                  "drop": "base:item/ember_core",
+                  "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/slime_blue",
-                  "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 2
                 }
               ],
               "shop": {

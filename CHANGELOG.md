@@ -6,6 +6,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- More regional fauna: sand slimes in Sunscar, frost wolves in Frostveil and ember slimes in the Ashen Wastes (new art, levels 4, 6 and 8, new drops: frost pelt and ember core). The guild board asks for these in the towns of those regions. Data only; the world vectors change.
 - Mossveil Cellar, the second dungeon of Verdalis, north-east of the start: green and blue slimes in a flooded cellar and the Gel King (a crowned giant slime) in its north room, who drops the Gel mail. Mira's chain goes on with "The Mossveil Cellar" after the barrow. New enemy, art, armor, quest and texts (it + en); no client code changes, the landmark system is data.
 - Grunmoor Barrow, the first dungeon (spec 09, "Landmarks and dungeons"), north-west of the start in Verdalis: a walled barrow with a corridor, two side rooms of wolves and blue slimes, a north hall and the Barrow Warden (boss, drops the Warden's blade), with a Threshold Stone at the door. Mira offers the quest "The Barrow Warden" once the slime job is done. New: `landmarks` in the world data, `spawner` in the stamp legend, enemy, art, item and texts.
 - Seasons (spec 08): the year has four seasons of eight days. Summers have longer days, winters shorter ones, the weather odds change with the season (more rain in spring, clear skies in summer), the screen takes a seasonal tint and the clock shows the season. Conformance suite `worldtime` covers the season edges.

@@ -408,14 +408,14 @@
               "tone": "flowery",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_green",
+                  "enemy": "base:enemy/slime_sand",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/slime_blue",
+                  "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -437,13 +437,13 @@
               "tone": "stoic",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_blue",
-                  "drop": "base:item/slime_gel",
+                  "enemy": "base:enemy/wolf_frost",
+                  "drop": "base:item/frost_pelt",
                   "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/wolf_grey",
-                  "drop": "base:item/wolf_fang",
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
                   "weight": 2
                 }
               ],
@@ -494,14 +494,14 @@
               "tone": "grim",
               "fauna": [
                 {
-                  "enemy": "base:enemy/wolf_grey",
-                  "drop": "base:item/wolf_fang",
-                  "weight": 3
+                  "enemy": "base:enemy/slime_ember",
+                  "drop": "base:item/ember_core",
+                  "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/slime_blue",
-                  "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -1722,78 +1722,78 @@
             13216,
             11910,
             3,
-            "base:enemy/slime_blue",
+            "base:enemy/slime_green",
             "base:item/slime_gel"
           ],
           [
             13241,
             11914,
             3,
-            "base:enemy/slime_green",
+            "base:enemy/slime_sand",
             "base:item/slime_gel"
           ],
           [
             13268,
             11912,
             3,
-            "base:enemy/slime_blue",
+            "base:enemy/slime_sand",
             "base:item/slime_gel"
           ],
           [
             13290,
             11910,
             3,
-            "base:enemy/slime_green",
+            "base:enemy/slime_sand",
             "base:item/slime_gel"
           ],
           [
             13281,
             11929,
             3,
-            "base:enemy/slime_green",
+            "base:enemy/slime_sand",
             "base:item/slime_gel"
           ],
           [
             13308,
             11998,
             3,
-            "base:enemy/slime_blue",
+            "base:enemy/slime_sand",
             "base:item/slime_gel"
           ],
           [
             13309,
             11998,
             3,
-            "base:enemy/slime_green",
+            "base:enemy/slime_sand",
             "base:item/slime_gel"
           ],
           [
             13318,
             12006,
             3,
-            "base:enemy/slime_blue",
+            "base:enemy/slime_sand",
             "base:item/slime_gel"
           ],
           [
             7350,
             1446,
             4,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             7350,
             1458,
             4,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             7447,
             1480,
             4,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             2255,
@@ -1848,36 +1848,36 @@
             15022,
             7790,
             6,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             15162,
             7806,
             6,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             15039,
             7826,
             6,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             15071,
             7844,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             15119,
             7854,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             7861,
@@ -2523,14 +2523,14 @@
               "tone": "flowery",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_green",
+                  "enemy": "base:enemy/slime_sand",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/slime_blue",
+                  "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -2552,13 +2552,13 @@
               "tone": "stoic",
               "fauna": [
                 {
-                  "enemy": "base:enemy/slime_blue",
-                  "drop": "base:item/slime_gel",
+                  "enemy": "base:enemy/wolf_frost",
+                  "drop": "base:item/frost_pelt",
                   "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/wolf_grey",
-                  "drop": "base:item/wolf_fang",
+                  "enemy": "base:enemy/slime_blue",
+                  "drop": "base:item/slime_gel",
                   "weight": 2
                 }
               ],
@@ -2609,14 +2609,14 @@
               "tone": "grim",
               "fauna": [
                 {
-                  "enemy": "base:enemy/wolf_grey",
-                  "drop": "base:item/wolf_fang",
-                  "weight": 3
+                  "enemy": "base:enemy/slime_ember",
+                  "drop": "base:item/ember_core",
+                  "weight": 4
                 },
                 {
-                  "enemy": "base:enemy/slime_blue",
-                  "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "enemy": "base:enemy/wolf_grey",
+                  "drop": "base:item/wolf_fang",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -3865,134 +3865,134 @@
             13290,
             11897,
             3,
-            "base:enemy/slime_green",
+            "base:enemy/slime_sand",
             "base:item/slime_gel"
           ],
           [
             13343,
             11877,
             3,
-            "base:enemy/slime_green",
+            "base:enemy/slime_sand",
             "base:item/slime_gel"
           ],
           [
             13342,
             11885,
             3,
-            "base:enemy/slime_green",
+            "base:enemy/slime_sand",
             "base:item/slime_gel"
           ],
           [
             13222,
             11954,
             3,
-            "base:enemy/slime_green",
+            "base:enemy/slime_sand",
             "base:item/slime_gel"
           ],
           [
             13197,
             11980,
             3,
-            "base:enemy/slime_green",
+            "base:enemy/slime_sand",
             "base:item/slime_gel"
           ],
           [
             13201,
             11991,
             3,
-            "base:enemy/slime_blue",
+            "base:enemy/slime_sand",
             "base:item/slime_gel"
           ],
           [
             13244,
             11999,
             3,
-            "base:enemy/slime_green",
+            "base:enemy/slime_sand",
             "base:item/slime_gel"
           ],
           [
             13340,
             11972,
             3,
-            "base:enemy/slime_green",
+            "base:enemy/slime_sand",
             "base:item/slime_gel"
           ],
           [
             7383,
             1444,
             4,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
           ],
           [
             7371,
             1450,
             4,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             7378,
             1456,
             4,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             7381,
             1467,
             4,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             7404,
             1445,
             4,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             7413,
             1477,
             4,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             7451,
             1475,
             4,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
           ],
           [
             7454,
             1489,
             4,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             7309,
             1534,
             4,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             7397,
             1541,
             4,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             7447,
             1548,
             4,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             2271,
@@ -4068,15 +4068,15 @@
             15121,
             7810,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             15118,
             7831,
             6,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             15094,
@@ -4089,43 +4089,43 @@
             15089,
             7861,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             15111,
             7863,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             15143,
             7903,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             15047,
             7916,
             6,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             15099,
             7907,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             15123,
             7911,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             7809,
