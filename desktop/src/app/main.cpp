@@ -72,6 +72,8 @@ struct Ui {
     int board_cursor = 0;
     bool shop_sell = false;  // the shop shows what the player sells instead of what it sells
     bool show_map = false;
+    bool show_journal = false;
+    int journal_scroll = 0;  // first visible line of the journal
     mutable std::map<std::pair<int, int>, std::optional<aether::Settlement>> map_markers;  // settlement shown on a cell
     mutable std::map<std::pair<int, int>, int> map_codes;  // biome code of the explored cells, filled when the map is drawn
 };
@@ -511,6 +513,29 @@ std::optional<std::string> read_text_file(const fs::path& file) {
         return std::nullopt;
     }
     return std::string(std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>());
+}
+
+// The settings file (spec 16): the language chosen by the player; without it the language of the system is used.
+fs::path settings_file() {
+    return save_dir().parent_path() / "settings.json";
+}
+
+void save_language(const std::string& lang) {
+    write_text_atomic(settings_file(), "{\n  \"language\": \"" + lang + "\"\n}\n");
+}
+
+std::optional<std::string> saved_language() {
+    const auto text = read_text_file(settings_file());
+    if (!text || text->find("\"language\"") == std::string::npos) {
+        return std::nullopt;
+    }
+    if (text->find("\"it\"") != std::string::npos) {
+        return "it";
+    }
+    if (text->find("\"en\"") != std::string::npos) {
+        return "en";
+    }
+    return std::nullopt;
 }
 
 aether::SaveMeta save_meta(const aether::WorldSim& sim) {
@@ -964,6 +989,109 @@ void draw_board(SDL_Renderer* renderer, const Assets& assets, const aether::Worl
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
+// The journal (spec 07, "Journal"): the quests in progress with their text and counts, then the finished ones.
+struct JournalLine {
+    std::string text;
+    int kind = 0;  // 0 section title, 1 quest name, 2 text, 3 finished quest
+};
+
+std::vector<JournalLine> journal_lines(const Assets& assets, const aether::WorldSim& sim, const Ui& ui, std::size_t columns) {
+    std::vector<JournalLine> lines;
+    const auto& quests = sim.story().quests();
+    bool any_active = false;
+    bool any_done = false;
+    for (const auto& entry : quests) {
+        (entry.second.done ? any_done : any_active) = true;
+    }
+    if (!any_active && !any_done) {
+        lines.push_back({assets.pack.text(ui.lang, "$i18n:ui.journal_empty"), 2});
+        return lines;
+    }
+    if (any_active) {
+        lines.push_back({assets.pack.text(ui.lang, "$i18n:ui.journal_active"), 0});
+        for (const auto& [quest_id, progress] : quests) {
+            if (progress.done) {
+                continue;
+            }
+            const aether::QuestDef& def = sim.story().setup().quests.at(quest_id);
+            const aether::QuestStage* stage = nullptr;
+            for (const aether::QuestStage& s : def.stages) {
+                if (s.id == progress.stage) {
+                    stage = &s;
+                }
+            }
+            if (stage == nullptr) {
+                continue;
+            }
+            lines.push_back({dialogue_text(assets.pack, ui.lang, def.name, def.args), 1});
+            for (const std::string& wrapped : wrap_text(dialogue_text(assets.pack, ui.lang, stage->journal, def.args), columns)) {
+                lines.push_back({"  " + wrapped, 2});
+            }
+            for (std::size_t i = 0; i < stage->objectives.size(); ++i) {
+                if (stage->objectives[i].kind != aether::Objective::Kind::Talk) {
+                    lines.push_back({"  " + std::to_string(progress.progress[i]) + "/" + std::to_string(stage->objectives[i].count), 2});
+                }
+            }
+            lines.push_back({"", 2});
+        }
+    }
+    if (any_done) {
+        lines.push_back({assets.pack.text(ui.lang, "$i18n:ui.journal_done"), 0});
+        for (const auto& [quest_id, progress] : quests) {
+            if (progress.done) {
+                const aether::QuestDef& def = sim.story().setup().quests.at(quest_id);
+                lines.push_back({dialogue_text(assets.pack, ui.lang, def.name, def.args), 3});
+            }
+        }
+    }
+    return lines;
+}
+
+void draw_journal(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w, int out_h,
+                  float density) {
+    if (!ui.show_journal) {
+        return;
+    }
+    constexpr float kScale = 1.5F;
+    const float row = 8.0F * kScale + 6.0F;
+    const float w = std::min(static_cast<float>(out_w) - 40.0F, 640.0F * density);
+    const float h = std::min(static_cast<float>(out_h) - 40.0F, 520.0F * density);
+    const float x = (static_cast<float>(out_w) - w) / 2.0F;
+    const float y = (static_cast<float>(out_h) - h) / 2.0F;
+    const std::size_t columns = static_cast<std::size_t>(std::max((w - 32.0F) / (8.0F * kScale), 20.0F));
+    const std::vector<JournalLine> lines = journal_lines(assets, sim, ui, columns);
+    const int visible = std::max(static_cast<int>((h - 90.0F) / row), 1);
+    const int first = std::clamp(ui.journal_scroll, 0, std::max(static_cast<int>(lines.size()) - visible, 0));
+    fill_rect(renderer, x, y, w, h, 11, 31, 58, 245);
+    fill_rect(renderer, x, y, w, 3.0F, 255, 215, 120, 255);
+    SDL_SetRenderScale(renderer, kScale, kScale);
+    SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
+    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + 14.0F) / kScale, assets.pack.text(ui.lang, "$i18n:ui.journal").c_str());
+    float ty = y + 14.0F + row * 1.5F;
+    for (int i = first; i < std::min(first + visible, static_cast<int>(lines.size())); ++i) {
+        const JournalLine& line = lines[static_cast<std::size_t>(i)];
+        switch (line.kind) {
+            case 0:
+                SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
+                break;
+            case 1:
+                SDL_SetRenderDrawColor(renderer, 111, 227, 255, 255);
+                break;
+            case 3:
+                SDL_SetRenderDrawColor(renderer, 130, 140, 160, 255);
+                break;
+            default:
+                SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
+                break;
+        }
+        SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, ty / kScale, line.text.c_str());
+        ty += row;
+    }
+    SDL_SetRenderDrawColor(renderer, 170, 200, 230, 255);
+    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + h - 28.0F) / kScale, assets.pack.text(ui.lang, "$i18n:ui.journal_hint").c_str());
+    SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+}
+
 void draw_inventory_and_notice(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui,
                                int out_w, int out_h, float density) {
     constexpr float kScale = 2.0F;
@@ -1145,6 +1273,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     draw_world_map(renderer, assets, sim, ui, out_w, out_h, density);
     draw_shop(renderer, assets, sim, ui, out_w, out_h, density);
     draw_board(renderer, assets, sim, ui, out_w, out_h, density);
+    draw_journal(renderer, assets, sim, ui, out_w, out_h, density);
 
     if (debug) {
         char line[160];
@@ -1276,7 +1405,7 @@ int main(int argc, char** argv) {
         devices.open_first_gamepad();
         std::vector<FloatingText> floating;
         Ui ui;
-        ui.lang = detect_language();
+        ui.lang = saved_language().value_or(detect_language());
 
         if (!smoke_test) {  // continue the last session, if there is one
             std::string ignored;
@@ -1307,9 +1436,10 @@ int main(int argc, char** argv) {
             SDL_Event event;
             while (SDL_PollEvent(&event)) {
                 if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE &&
-                    (ui.show_map || ui.show_inventory || sim.shop() != nullptr || sim.board() != nullptr)) {
+                    (ui.show_map || ui.show_inventory || ui.show_journal || sim.shop() != nullptr || sim.board() != nullptr)) {
                     ui.show_map = false;  // Esc closes the open panel first
                     ui.show_inventory = false;
+                    ui.show_journal = false;
                     sim.close_shop();
                     sim.close_board();
                 } else if (event.type == SDL_EVENT_QUIT ||
@@ -1319,13 +1449,25 @@ int main(int argc, char** argv) {
                     debug = !debug;
                 } else if (event.type == SDL_EVENT_KEY_DOWN && !smoke_test &&
                            (event.key.key == SDLK_F5 || event.key.key == SDLK_F9 || event.key.key == SDLK_F7 ||
-                            event.key.key == SDLK_I || event.key.key == SDLK_M)) {
+                            event.key.key == SDLK_I || event.key.key == SDLK_M || event.key.key == SDLK_Q ||
+                            event.key.key == SDLK_F2)) {
                     if (event.key.key == SDLK_I) {
                         ui.show_inventory = !ui.show_inventory;
                         ui.show_map = false;
+                        ui.show_journal = false;
                     } else if (event.key.key == SDLK_M) {
                         ui.show_map = !ui.show_map && sim.streamed();
                         ui.show_inventory = false;
+                        ui.show_journal = false;
+                    } else if (event.key.key == SDLK_Q) {
+                        ui.show_journal = !ui.show_journal && sim.shop() == nullptr && sim.board() == nullptr;
+                        ui.journal_scroll = 0;
+                        ui.show_inventory = false;
+                        ui.show_map = false;
+                    } else if (event.key.key == SDLK_F2) {
+                        ui.lang = ui.lang == "it" ? "en" : "it";
+                        save_language(ui.lang);
+                        notify(ui, assets.pack.text(ui.lang, "$i18n:ui.language_set"));
                     } else if (event.key.key == SDLK_F5) {
                         notify(ui, save_game(sim, save_dir() / "quick.json") ? assets.pack.text(ui.lang, "$i18n:ui.saved")
                                                                               : "save failed");
@@ -1344,6 +1486,12 @@ int main(int argc, char** argv) {
                         handle_board_key(sim, assets, ui, event.key.key);
                     } else if (sim.shop() != nullptr) {
                         handle_shop_key(sim, assets, ui, event.key.key);
+                    } else if (ui.show_journal) {
+                        if (event.key.key == SDLK_UP || event.key.key == SDLK_W) {
+                            ui.journal_scroll = std::max(ui.journal_scroll - 1, 0);
+                        } else if (event.key.key == SDLK_DOWN || event.key.key == SDLK_S) {
+                            ++ui.journal_scroll;  // clamped when drawn
+                        }
                     } else if (ui.show_inventory) {
                         if (event.key.key == SDLK_UP || event.key.key == SDLK_W) {
                             bag_move(sim, ui, -1);
@@ -1442,8 +1590,8 @@ int main(int argc, char** argv) {
                     ui.show_map = sim.streamed();  // the last frames show the world map
                 }
                 sim.tick(input.x, input.y, input.attack);
-            } else if (ui.show_inventory || ui.show_map || sim.shop() != nullptr || sim.board() != nullptr) {
-                accumulator = 0.0;  // the bag, the map, the shop and the board pause the game
+            } else if (ui.show_inventory || ui.show_map || ui.show_journal || sim.shop() != nullptr || sim.board() != nullptr) {
+                accumulator = 0.0;  // the bag, the map, the journal, the shop and the board pause the game
             } else {
                 accumulator += frame_seconds;
                 int ticks = 0;

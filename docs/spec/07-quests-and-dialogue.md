@@ -101,6 +101,12 @@ In a `say` node the speaker `npc` means the name of the NPC being talked to; any
 Dynamic NPCs exist in the order they entered the active window of chunks (spec 09, "Streaming"); the `interact` rules above apply to the static and the dynamic NPCs together,
 with the static ones first.
 
+## Journal
+
+The journal lists every quest of the story state: first those in progress (name, the journal text of the current stage with the quest arguments, and the
+`current/total` of each kill/collect objective), then the finished ones (name only). It reads only the story state, so it needs no data of its own and a
+generated quest (see "Guild") appears like any other. With no quest it shows the text `ui.journal_empty`. Opening the journal pauses the game.
+
 ## Presentation (not in the contract)
 
 The dialogue box shows the speaker (`speaker.<key>` text), the text and the visible choices. The quest tracker shows the quest name, the
