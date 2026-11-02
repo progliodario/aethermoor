@@ -33,6 +33,14 @@ LEGEND = {
     "i": {"tile": 14, "spawner": "base:enemy/slime_tide"},
     "R": {"tile": 14, "spawner": "base:enemy/rime_revenant"},
     "Q": {"tile": 14, "spawner": "base:enemy/tide_regent"},
+    "g": {"tile": 14, "spawner": "base:enemy/slime_glow"},
+    "a": {"tile": 14, "spawner": "base:enemy/slime_sand"},
+    "e": {"tile": 14, "spawner": "base:enemy/slime_ember"},
+    "A": {"tile": 14, "spawner": "base:enemy/moonshade_alpha"},
+    "Y": {"tile": 14, "spawner": "base:enemy/sand_sentinel"},
+    "J": {"tile": 14, "spawner": "base:enemy/astral_curator"},
+    "N": {"tile": 14, "spawner": "base:enemy/cinder_colossus"},
+    "o": {"prop": "base:art/prop/rock", "radius_x100": 30},
     "T": {"tile": 14, "prop": "base:art/prop/threshold_stone", "radius_x100": 35},  # Threshold Stone (fast travel)
     "V": {"tile": 13, "npc": "villager"},
     "G": {"tile": 13, "npc": "guild_clerk"},
@@ -293,9 +301,136 @@ def temple() -> dict:
     return stamp("base:stamp/temple", c, (17, 29), [])
 
 
+def hollow() -> dict:
+    """The dungeon of Whisperwood: a glade inside a ring of trees, shade wolves and the Moonshade Alpha in its north clearing (spec 09, "Landmarks")."""
+    c = Canvas(35, 31)
+    c.rect(1, 1, 33, 29, "t")  # the ring of trees, two deep
+    c.rect(3, 3, 29, 25, ".")
+    c.hline(8, 26, 9, "t")  # the grove of the Alpha, with a gap for the path
+    c.put(17, 9, "=")
+    c.vline(17, 3, 27, "=")
+    for y in (28, 29, 30):  # the way in
+        for x in (16, 17, 18):
+            c.put(x, y, "=")
+    for x, y in ((9, 14), (10, 14), (24, 14), (25, 14), (12, 19), (22, 19), (8, 23), (26, 23)):
+        c.put(x, y, "t")
+    for x, y in ((14, 12), (20, 12), (14, 22), (20, 22), (5, 18), (29, 18)):
+        c.put(x, y, "o")
+    c.put(17, 5, "A")
+    for x, y in ((12, 5), (22, 5)):
+        c.put(x, y, "d")
+    for x, y in ((6, 12), (28, 12), (10, 16), (24, 16), (6, 20), (28, 20), (13, 24), (21, 24)):
+        c.put(x, y, "d")
+    for x, y in ((12, 11), (22, 11), (8, 26), (26, 26)):
+        c.put(x, y, "W")
+    for x, y in ((17, 16), (17, 22)):
+        c.put(x, y, "s")
+    for x, y in ((16, 30), (18, 30)):
+        c.put(x, y, "l")
+    c.put(14, 30, "T")
+    return stamp("base:stamp/hollow", c, (17, 30), [])
+
+
+def ziggurat() -> dict:
+    """The dungeon of Sunscar: three rings of walls, each with its gate on the opposite side, and the Sand Sentinel at the center (spec 09, "Landmarks")."""
+    c = Canvas(41, 41)
+    c.rect(1, 1, 39, 38, "#")
+    c.rect(2, 2, 37, 36, "c")
+    c.rect(8, 8, 25, 24, "#")
+    c.rect(9, 9, 23, 22, "c")
+    c.put(20, 8, "c")  # the gate of the second ring, opposite the entrance
+    c.rect(14, 14, 13, 12, "#")
+    c.rect(15, 15, 11, 10, "c")
+    c.put(20, 25, "c")  # the gate of the inner sanctum
+    for y in (38, 39, 40):  # the entrance and the path to it
+        for x in (19, 20, 21):
+            c.put(x, y, "c")
+    for x, y in ((3, 3), (37, 3), (3, 36), (37, 36), (10, 10), (30, 10), (10, 29), (30, 29)):
+        c.put(x, y, "l")
+    c.put(20, 19, "Y")
+    for x, y in ((17, 17), (23, 17), (17, 22), (23, 22)):
+        c.put(x, y, "a")
+    for x, y in ((5, 5), (35, 5), (5, 35), (35, 35), (5, 20), (35, 20), (12, 5), (28, 5), (12, 35), (28, 35)):
+        c.put(x, y, "a")
+    for x, y in ((11, 20), (29, 20), (20, 11), (20, 28), (12, 12), (28, 28)):
+        c.put(x, y, "W")
+    for x, y in ((11, 12), (29, 12)):
+        c.put(x, y, "s")
+    c.put(16, 40, "T")
+    return stamp("base:stamp/ziggurat", c, (20, 40), [])
+
+
+def observatory() -> dict:
+    """The dungeon of Lumeria: a domed hall with a library on each side and the Astral Curator in its north chamber (spec 09, "Landmarks")."""
+    c = Canvas(39, 39)
+    c.rect(1, 1, 37, 36, "#")
+    c.rect(10, 10, 19, 19, "c")  # the domed hall
+    for i in range(4):  # chamfered corners
+        for j in range(4 - i):
+            for dx, dy in ((i, j), (18 - i, j), (i, 18 - j), (18 - i, 18 - j)):
+                c.put(10 + dx, 10 + dy, "#")
+    c.rect(12, 2, 15, 7, "c")  # the chamber of the Curator
+    c.rect(18, 9, 3, 1, "c")
+    c.rect(2, 14, 7, 11, "c")  # the west library
+    c.put(9, 19, "c")
+    c.rect(30, 14, 7, 11, "c")  # the east library
+    c.put(29, 19, "c")
+    c.rect(18, 29, 3, 9, "c")  # the south arm and the way in
+    for y in (37, 38):
+        for x in (18, 19, 20):
+            c.put(x, y, "c")
+    for x, y in ((13, 13), (25, 13), (13, 25), (25, 25), (13, 3), (25, 3), (3, 15), (35, 15), (3, 23), (35, 23)):
+        c.put(x, y, "l")
+    c.put(19, 4, "J")
+    for x, y in ((14, 6), (24, 6)):
+        c.put(x, y, "g")
+    for x, y in ((14, 19), (24, 19), (19, 14), (19, 24)):
+        c.put(x, y, "g")
+    for x, y in ((4, 17), (6, 22), (34, 17), (32, 22)):
+        c.put(x, y, "g")
+    for x, y in ((5, 19), (33, 19)):
+        c.put(x, y, "x")
+    for x, y in ((15, 15), (23, 15), (15, 23), (23, 23)):
+        c.put(x, y, "W")
+    c.put(16, 38, "T")
+    return stamp("base:stamp/observatory", c, (19, 38), [])
+
+
+def citadel() -> dict:
+    """The dungeon of the Ashen Wastes: a burned citadel with four bastions, a courtyard and the Cinder Colossus in the keep (spec 09, "Landmarks")."""
+    c = Canvas(47, 40)
+    c.rect(1, 1, 45, 34, "#")
+    c.rect(2, 2, 43, 32, "c")
+    for x, y, dx in ((2, 2, 6), (36, 2, 40), (2, 24, 6), (36, 24, 40)):  # the four bastions, each with a door to the courtyard
+        c.rect(x, y, 9, 9, "#")
+        c.rect(x + 1, y + 1, 7, 7, "c")
+        c.put(dx, y + (8 if y == 2 else 0), "c")
+    c.rect(14, 2, 19, 12, "#")  # the keep
+    c.rect(15, 3, 17, 10, "c")
+    c.put(23, 13, "c")
+    for x, y in ((14, 18), (30, 18), (14, 26), (30, 26)):  # broken columns
+        c.rect(x, y, 2, 2, "#")
+    for y in (34, 35, 36, 37, 38, 39):  # the gate and the road to it
+        for x in (22, 23, 24):
+            c.put(x, y, "c")
+    for x, y in ((12, 14), (34, 14), (21, 32), (25, 32), (16, 4), (30, 4)):
+        c.put(x, y, "l")
+    c.put(23, 6, "N")
+    for x, y in ((19, 5), (27, 5), (19, 10), (27, 10)):
+        c.put(x, y, "e")
+    for x, y in ((6, 6), (40, 6), (6, 28), (40, 28)):
+        c.put(x, y, "e")
+    for x, y in ((13, 16), (33, 16), (23, 20), (13, 22), (33, 22), (18, 29), (28, 29), (23, 15)):
+        c.put(x, y, "e")
+    for x, y in ((20, 17), (26, 17), (18, 23), (28, 23)):
+        c.put(x, y, "W")
+    c.put(19, 38, "T")
+    return stamp("base:stamp/citadel", c, (23, 39), [])
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    for build in (hamlet, village, town, barrow, cellar, mine, cavern, temple):
+    for build in (hamlet, village, town, barrow, cellar, mine, cavern, temple, hollow, ziggurat, observatory, citadel):
         data = build()
         name = data["id"].split("/")[-1]
         (OUT / f"{name}.json").write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

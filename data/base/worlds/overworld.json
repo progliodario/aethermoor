@@ -33,7 +33,11 @@
     { "id": "mossveil_cellar", "name": "Mossveil Cellar", "stamp": "base:stamp/cellar", "kind": "dungeon", "dx": 50, "dy": -45 },
     { "id": "ironspine_mine", "name": "Ironspine Mine", "stamp": "base:stamp/mine", "kind": "dungeon", "dx": 4480, "dy": -4480 },
     { "id": "drowned_temple", "name": "Drowned Temple", "stamp": "base:stamp/temple", "kind": "dungeon", "dx": -6016, "dy": 4480 },
-    { "id": "frostveil_cavern", "name": "Frostveil Cavern", "stamp": "base:stamp/cavern", "kind": "dungeon", "dx": -896, "dy": -6784 }
+    { "id": "frostveil_cavern", "name": "Frostveil Cavern", "stamp": "base:stamp/cavern", "kind": "dungeon", "dx": -896, "dy": -6784 },
+    { "id": "whisperwood_hollow", "name": "Whisperwood Hollow", "stamp": "base:stamp/hollow", "kind": "dungeon", "dx": -4480, "dy": -2688 },
+    { "id": "sunscar_ziggurat", "name": "Sunken Ziggurat", "stamp": "base:stamp/ziggurat", "kind": "dungeon", "dx": 5248, "dy": 3712 },
+    { "id": "lumeria_observatory", "name": "Starfall Observatory", "stamp": "base:stamp/observatory", "kind": "dungeon", "dx": -384, "dy": 6528 },
+    { "id": "ashen_citadel", "name": "Cinder Citadel", "stamp": "base:stamp/citadel", "kind": "dungeon", "dx": 7040, "dy": -384 }
   ],
   "guild": {
     "offers_per_day": 4,

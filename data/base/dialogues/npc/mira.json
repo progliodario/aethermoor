@@ -6,10 +6,10 @@
     "start": {
       "type": "condition",
       "when": {
-        "quest_done": "base:quest/guild/cavern"
+        "quest_done": "base:quest/guild/citadel"
       },
-      "then": "cavern_thanks",
-      "else": "cavern_active_check"
+      "then": "citadel_thanks",
+      "else": "citadel_active_check"
     },
     "active_check": {
       "type": "condition",
@@ -450,6 +450,318 @@
       "type": "say",
       "speaker": "guild_clerk_mira",
       "text": "$i18n:dlg.mira.cavern_thanks",
+      "next": "cavern_thanked"
+    },
+    "hollow_active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/hollow"
+      },
+      "then": "hollow_busy",
+      "else": "cavern_done_check"
+    },
+    "cavern_done_check": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/cavern"
+      },
+      "then": "cavern_thanked_check",
+      "else": "cavern_active_check"
+    },
+    "cavern_thanked_check": {
+      "type": "condition",
+      "when": {
+        "flag": "mira_cavern_thanked"
+      },
+      "then": "hollow_offer",
+      "else": "cavern_thanks"
+    },
+    "cavern_thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_cavern_thanked",
+          "value": true
+        }
+      ],
+      "next": "hollow_offer"
+    },
+    "hollow_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.hollow_offer",
+      "next": "hollow_choice"
+    },
+    "hollow_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.mira.hollow_accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/hollow"
+            }
+          ],
+          "next": "hollow_accepted"
+        },
+        {
+          "text": "$i18n:dlg.mira.hollow_decline",
+          "next": "end"
+        }
+      ]
+    },
+    "hollow_accepted": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.hollow_accepted",
+      "next": "end"
+    },
+    "hollow_busy": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.hollow_busy",
+      "next": "end"
+    },
+    "hollow_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.hollow_thanks",
+      "next": "hollow_thanked"
+    },
+    "ziggurat_active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/ziggurat"
+      },
+      "then": "ziggurat_busy",
+      "else": "hollow_done_check"
+    },
+    "hollow_done_check": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/hollow"
+      },
+      "then": "hollow_thanked_check",
+      "else": "hollow_active_check"
+    },
+    "hollow_thanked_check": {
+      "type": "condition",
+      "when": {
+        "flag": "mira_hollow_thanked"
+      },
+      "then": "ziggurat_offer",
+      "else": "hollow_thanks"
+    },
+    "hollow_thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_hollow_thanked",
+          "value": true
+        }
+      ],
+      "next": "ziggurat_offer"
+    },
+    "ziggurat_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.ziggurat_offer",
+      "next": "ziggurat_choice"
+    },
+    "ziggurat_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.mira.ziggurat_accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/ziggurat"
+            }
+          ],
+          "next": "ziggurat_accepted"
+        },
+        {
+          "text": "$i18n:dlg.mira.ziggurat_decline",
+          "next": "end"
+        }
+      ]
+    },
+    "ziggurat_accepted": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.ziggurat_accepted",
+      "next": "end"
+    },
+    "ziggurat_busy": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.ziggurat_busy",
+      "next": "end"
+    },
+    "ziggurat_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.ziggurat_thanks",
+      "next": "ziggurat_thanked"
+    },
+    "observatory_active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/observatory"
+      },
+      "then": "observatory_busy",
+      "else": "ziggurat_done_check"
+    },
+    "ziggurat_done_check": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/ziggurat"
+      },
+      "then": "ziggurat_thanked_check",
+      "else": "ziggurat_active_check"
+    },
+    "ziggurat_thanked_check": {
+      "type": "condition",
+      "when": {
+        "flag": "mira_ziggurat_thanked"
+      },
+      "then": "observatory_offer",
+      "else": "ziggurat_thanks"
+    },
+    "ziggurat_thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_ziggurat_thanked",
+          "value": true
+        }
+      ],
+      "next": "observatory_offer"
+    },
+    "observatory_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.observatory_offer",
+      "next": "observatory_choice"
+    },
+    "observatory_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.mira.observatory_accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/observatory"
+            }
+          ],
+          "next": "observatory_accepted"
+        },
+        {
+          "text": "$i18n:dlg.mira.observatory_decline",
+          "next": "end"
+        }
+      ]
+    },
+    "observatory_accepted": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.observatory_accepted",
+      "next": "end"
+    },
+    "observatory_busy": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.observatory_busy",
+      "next": "end"
+    },
+    "observatory_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.observatory_thanks",
+      "next": "observatory_thanked"
+    },
+    "citadel_active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/citadel"
+      },
+      "then": "citadel_busy",
+      "else": "observatory_done_check"
+    },
+    "observatory_done_check": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/observatory"
+      },
+      "then": "observatory_thanked_check",
+      "else": "observatory_active_check"
+    },
+    "observatory_thanked_check": {
+      "type": "condition",
+      "when": {
+        "flag": "mira_observatory_thanked"
+      },
+      "then": "citadel_offer",
+      "else": "observatory_thanks"
+    },
+    "observatory_thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_observatory_thanked",
+          "value": true
+        }
+      ],
+      "next": "citadel_offer"
+    },
+    "citadel_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.citadel_offer",
+      "next": "citadel_choice"
+    },
+    "citadel_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.mira.citadel_accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/citadel"
+            }
+          ],
+          "next": "citadel_accepted"
+        },
+        {
+          "text": "$i18n:dlg.mira.citadel_decline",
+          "next": "end"
+        }
+      ]
+    },
+    "citadel_accepted": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.citadel_accepted",
+      "next": "end"
+    },
+    "citadel_busy": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.citadel_busy",
+      "next": "end"
+    },
+    "citadel_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.citadel_thanks",
       "next": "end"
     }
   }

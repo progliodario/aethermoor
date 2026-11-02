@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/shadehide_cloak",
+  "name": "$i18n:item.shadehide_cloak.name",
+  "description": "$i18n:item.shadehide_cloak.desc",
+  "kind": "armor",
+  "rarity": "epic",
+  "price": 1700,
+  "armor": {
+    "def": 13,
+    "mdef": 12
+  }
+}

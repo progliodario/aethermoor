@@ -1,0 +1,83 @@
+{
+  "$schema": "../../../schemas/stamp.schema.json",
+  "id": "base:stamp/hollow",
+  "w": 35,
+  "h": 31,
+  "anchor": [
+    17,
+    30
+  ],
+  "rows": [
+    "...................................",
+    ".ttttttttttttttttttttttttttttttttt.",
+    ".ttttttttttttttttttttttttttttttttt.",
+    ".tt..............=..............tt.",
+    ".tt..............=..............tt.",
+    ".tt.........d....A....d.........tt.",
+    ".tt..............=..............tt.",
+    ".tt..............=..............tt.",
+    ".tt..............=..............tt.",
+    ".tt.....ttttttttt=ttttttttt.....tt.",
+    ".tt..............=..............tt.",
+    ".tt.........W....=....W.........tt.",
+    ".tt...d.......o..=..o.......d...tt.",
+    ".tt..............=..............tt.",
+    ".tt......tt......=......tt......tt.",
+    ".tt..............=..............tt.",
+    ".tt.......d......s......d.......tt.",
+    ".tt..............=..............tt.",
+    ".tt..o...........=...........o..tt.",
+    ".tt.........t....=....t.........tt.",
+    ".tt...d..........=..........d...tt.",
+    ".tt..............=..............tt.",
+    ".tt...........o..s..o...........tt.",
+    ".tt.....t........=........t.....tt.",
+    ".tt..........d...=...d..........tt.",
+    ".tt..............=..............tt.",
+    ".tt.....W........=........W.....tt.",
+    ".tt..............=..............tt.",
+    ".ttttttttttttttt===ttttttttttttttt.",
+    ".ttttttttttttttt===ttttttttttttttt.",
+    "..............T.l=l................"
+  ],
+  "legend": {
+    "=": {
+      "tile": 11
+    },
+    "A": {
+      "tile": 14,
+      "spawner": "base:enemy/moonshade_alpha"
+    },
+    "T": {
+      "tile": 14,
+      "prop": "base:art/prop/threshold_stone",
+      "radius_x100": 35
+    },
+    "W": {
+      "tile": 14,
+      "spawner": "base:enemy/wolf_grey"
+    },
+    "d": {
+      "tile": 14,
+      "spawner": "base:enemy/wolf_shade"
+    },
+    "l": {
+      "tile": 14,
+      "prop": "base:art/prop/lamp",
+      "radius_x100": 15
+    },
+    "o": {
+      "prop": "base:art/prop/rock",
+      "radius_x100": 30
+    },
+    "s": {
+      "tile": 14,
+      "spawner": "base:enemy/slime_green"
+    },
+    "t": {
+      "prop": "base:art/prop/tree_oak",
+      "radius_x100": 30
+    }
+  },
+  "spots": []
+}

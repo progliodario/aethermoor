@@ -198,7 +198,7 @@ TEST_CASE("the overworld is streamed from the content pack and is playable", "[w
     REQUIRE(params.has_value());
     REQUIRE(params->width == 16384);
     REQUIRE(params->regions.size() == 8);
-    REQUIRE(params->stamps.size() == 8);
+    REQUIRE(params->stamps.size() == 12);
     REQUIRE(params->home_radius == 72);
 
     const aether::TileMap map = aether::make_stream_map(*params);
