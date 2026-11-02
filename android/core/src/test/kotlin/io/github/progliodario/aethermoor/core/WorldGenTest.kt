@@ -505,6 +505,60 @@ class WorldGenTest {
             checkWindow()
         }
 
+        // Threshold Stones (spec 09): wake the stone of the home village and the one of a town, then travel between them.
+        run {
+            fun stoneOf(s: Settlement): Pair<Float, Float> {
+                for (cy in s.y / 32..(s.y + s.h - 1) / 32) {
+                    for (cx in s.x / 32..(s.x + s.w - 1) / 32) {
+                        for (prop in generateChunk(42uL, params, cx, cy).props) {
+                            val tx = prop.x256 / 256
+                            val ty = prop.y256 / 256
+                            if (prop.art == params.stoneArt && tx >= s.x && tx < s.x + s.w && ty >= s.y && ty < s.y + s.h) {
+                                return Pair(prop.x256 / 256f, prop.y256 / 256f)
+                            }
+                        }
+                    }
+                }
+                return Pair(-1f, -1f)
+            }
+            sim.teleport(8230.5f, 8232.7f)
+            sim.tick(0f, 0f, false)
+            assertTrue(sim.stoneNear() != null)
+            assertTrue(sim.useStone())
+            val first = requireNotNull(sim.travel)
+            assertTrue(first.fresh)
+            assertEquals(1, first.stops.size)
+            assertEquals(0, first.here)
+            assertTrue(first.stops[0].place.isNotEmpty())
+            assertFalse(sim.travelTo(0)) // never to the stone in use
+            sim.closeTravel()
+            assertTrue(sim.useStone()) // the second time the stone is not new
+            assertFalse(requireNotNull(sim.travel).fresh)
+            sim.closeTravel()
+
+            val town = settlementsIn(42uL, params, 0, 0, 63, 63).first { it.kind == "town" }
+            val stone = stoneOf(town)
+            assertTrue(stone.first > 0f)
+            sim.teleport(stone.first, stone.second + 0.9f)
+            sim.tick(0f, 0f, false)
+            assertTrue(sim.useStone())
+            val second = requireNotNull(sim.travel)
+            assertTrue(second.fresh)
+            assertEquals(2, second.stops.size)
+            assertEquals(1, second.here)
+            assertEquals(town.name, second.stops[1].place)
+            assertTrue(sim.travelTo(0))
+            assertTrue(sim.travel == null)
+            assertTrue(abs(sim.player.position.x - 8230.5f) < 1f)
+            assertTrue(abs(sim.player.position.y - 8232.75f) < 1f)
+            assertEquals(2, sim.stones.size)
+            val saved = saveFromJson(saveToJson(sim.capture(), SaveMeta("test", 1, "base:protagonist/ren", 42uL, "world"))).getOrThrow()
+            assertEquals(sim.stones.toList(), saved.stones)
+            sim.teleport(map.width / 2 + 0.5f, map.height / 2 + 0.5f)
+            sim.tick(0f, 0f, false)
+            checkWindow()
+        }
+
         // Saving and loading into a fresh world of the same seed gives the same enemies.
         val state = sim.capture()
         assertEquals(sim.enemies.size, state.enemies.size)

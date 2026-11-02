@@ -344,6 +344,19 @@
           "type": "string"
         }
       }
+    },
+    "stones": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "minItems": 2,
+        "maxItems": 2,
+        "items": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "description": "Tiles [x, y] of the Threshold Stones that were used, in order (spec 09)."
     }
   }
 }

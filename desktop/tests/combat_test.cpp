@@ -345,6 +345,72 @@ TEST_CASE("the overworld is streamed from the content pack and is playable", "[w
         check_window();
     }
 
+    // Threshold Stones (spec 09): wake the stone of the home village and the one of a town, then travel between them.
+    {
+        const auto stone_of = [&params](const aether::Settlement& s) {
+            for (int cy = s.y / 32; cy <= (s.y + s.h - 1) / 32; ++cy) {
+                for (int cx = s.x / 32; cx <= (s.x + s.w - 1) / 32; ++cx) {
+                    for (const aether::GenProp& prop : aether::generate_chunk(42, *params, cx, cy).props) {
+                        const int tx = prop.x256 / 256;
+                        const int ty = prop.y256 / 256;
+                        if (prop.art == params->stone_art && tx >= s.x && tx < s.x + s.w && ty >= s.y && ty < s.y + s.h) {
+                            return std::make_pair(static_cast<float>(prop.x256) / 256.0F, static_cast<float>(prop.y256) / 256.0F);
+                        }
+                    }
+                }
+            }
+            return std::make_pair(-1.0F, -1.0F);
+        };
+        sim.teleport(8230.5F, 8232.7F);
+        sim.tick(0.0F, 0.0F, false);
+        REQUIRE(sim.stone_near().has_value());
+        REQUIRE(sim.use_stone());
+        REQUIRE(sim.travel() != nullptr);
+        REQUIRE(sim.travel()->fresh);
+        REQUIRE(sim.travel()->stops.size() == 1);
+        REQUIRE(sim.travel()->here == 0);
+        REQUIRE(!sim.travel()->stops[0].place.empty());
+        REQUIRE(!sim.travel_to(0));  // never to the stone in use
+        sim.close_travel();
+        REQUIRE(sim.use_stone());  // the second time the stone is not new
+        REQUIRE(!sim.travel()->fresh);
+        sim.close_travel();
+
+        const auto towns = aether::settlements_in(42, *params, 0, 0, 63, 63);
+        const aether::Settlement* town = nullptr;
+        for (const aether::Settlement& s : towns) {
+            if (town == nullptr && s.kind == "town") {
+                town = &s;
+            }
+        }
+        REQUIRE(town != nullptr);
+        const auto stone = stone_of(*town);
+        REQUIRE(stone.first > 0.0F);
+        sim.teleport(stone.first, stone.second + 0.9F);
+        sim.tick(0.0F, 0.0F, false);
+        REQUIRE(sim.use_stone());
+        REQUIRE(sim.travel()->fresh);
+        REQUIRE(sim.travel()->stops.size() == 2);
+        REQUIRE(sim.travel()->here == 1);
+        REQUIRE(sim.travel()->stops[1].place == town->name);
+        REQUIRE(sim.travel_to(0));
+        REQUIRE(sim.travel() == nullptr);
+        REQUIRE(std::abs(sim.player().position.x - 8230.5F) < 1.0F);
+        REQUIRE(std::abs(sim.player().position.y - 8232.75F) < 1.0F);
+        REQUIRE(sim.stones().size() == 2);
+        // The stones are saved.
+        aether::SaveMeta stone_meta;
+        stone_meta.seed = 42;
+        stone_meta.map = "world";
+        std::string stone_error;
+        const auto stone_save = aether::save_from_json(aether::save_to_json(sim.capture(), stone_meta), stone_error);
+        REQUIRE(stone_save.has_value());
+        REQUIRE(stone_save->stones == sim.stones());
+        sim.teleport(static_cast<float>(map.width / 2) + 0.5F, static_cast<float>(map.height / 2) + 0.5F);
+        sim.tick(0.0F, 0.0F, false);
+        check_window();
+    }
+
     // Saving and loading into a fresh world of the same seed gives the same enemies.
     const aether::SaveState state = sim.capture();
     REQUIRE(state.enemies.size() == sim.enemies().size());

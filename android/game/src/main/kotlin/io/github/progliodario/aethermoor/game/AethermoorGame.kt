@@ -99,6 +99,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var shopBuyTab: FloatArray? = null
     private var shopSellTab: FloatArray? = null
     private var boardCursor = 0
+    private var travelCursor = 0
+    private var travelRowRects: List<FloatArray> = emptyList()
     private var boardRowRects: List<FloatArray> = emptyList()
     private var bagCursor = 0
     private var bagRowRects: List<FloatArray> = emptyList()
@@ -283,8 +285,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
         handleStoryInput(world)
         val frame = input.read()
-        if (showInventory || showMap || showJournal || world.shop != null || world.board != null) {
-            accumulator = 0f // the bag, the map, the journal, the shop and the board pause the game
+        if (showInventory || showMap || showJournal || world.shop != null || world.board != null || world.travel != null) {
+            accumulator = 0f // the bag, the map, the journal, the shop, the board and the stones pause the game
         } else {
             accumulator += min(Gdx.graphics.deltaTime, MAX_FRAME_SECONDS)
             var ticks = 0
@@ -667,10 +669,65 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
     }
 
+    /** Talks to the NPC in range or, with none, wakes the Threshold Stone near the player (spec 09). */
+    private fun interact(world: WorldSim) {
+        val story = world.story
+        if (!story.dialogueView().active && story.npcInRange() == null && world.useStone()) {
+            val travel = world.travel
+            travelCursor = if (travel != null && travel.here == 0 && travel.stops.size > 1) 1 else 0
+        } else {
+            story.interact()
+        }
+    }
+
+    private fun canInteract(world: WorldSim) = world.story.npcInRange() != null || world.stoneNear() != null
+
+    private fun travelConfirm(world: WorldSim) {
+        val pack = assets?.pack ?: return
+        val travel = world.travel ?: return
+        if (travel.stops.isEmpty()) return
+        val stop = travel.stops[travelCursor.coerceIn(0, travel.stops.size - 1)]
+        if (world.travelTo(travelCursor)) {
+            showNotice(pack.text(language, "\$i18n:ui.traveled", mapOf("place" to stop.place)))
+        } else {
+            showNotice(pack.text(language, "\$i18n:ui.cannot_do"))
+        }
+    }
+
+    private fun handleTravelInput(world: WorldSim) {
+        val input = Gdx.input
+        val count = world.travel?.stops?.size ?: 0
+        if (input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            world.closeTravel()
+        } else if (input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W)) {
+            if (count > 0) travelCursor = (travelCursor.coerceIn(0, count - 1) + count - 1) % count
+        } else if (input.isKeyJustPressed(Input.Keys.DOWN) || input.isKeyJustPressed(Input.Keys.S)) {
+            if (count > 0) travelCursor = (travelCursor.coerceIn(0, count - 1) + 1) % count
+        } else if (input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.ENTER) || input.isKeyJustPressed(Input.Keys.SPACE)) {
+            travelConfirm(world)
+        } else if (input.justTouched()) {
+            // A tap selects a stone, a second tap on it travels there; a tap elsewhere closes the list.
+            val x = input.x.toFloat()
+            val y = input.y.toFloat()
+            val row = travelRowRects.indexOfFirst { x >= it[0] && x <= it[0] + it[2] && y >= it[1] && y <= it[1] + it[3] }
+            if (row < 0) {
+                world.closeTravel()
+            } else if (row == travelCursor) {
+                travelConfirm(world)
+            } else {
+                travelCursor = row
+            }
+        }
+    }
+
     private fun handleStoryInput(world: WorldSim) {
         val story = world.story
         val input = Gdx.input
         val view = story.dialogueView()
+        if (world.travel != null) {
+            handleTravelInput(world)
+            return
+        }
         if (world.board != null) {
             handleBoardInput(world)
             return
@@ -768,7 +825,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             }
         }
         if (confirm) {
-            if (view.active && view.isChoice) story.choose(choiceIndex) else story.interact()
+            if (view.active && view.isChoice) story.choose(choiceIndex) else interact(world)
             choiceIndex = 0
             return
         }
@@ -806,15 +863,15 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                     return
                 }
                 val rect = talkRect
-                if (rect != null && story.npcInRange() != null &&
+                if (rect != null && canInteract(world) &&
                     x >= rect[0] && x <= rect[0] + rect[2] && y >= rect[1] && y <= rect[1] + rect[3]
                 ) {
-                    story.interact()
+                    interact(world)
                     choiceIndex = 0
                 }
             }
         }
-        this.input.attackExcludedRect = talkRect.takeIf { !story.dialogueView().active && story.npcInRange() != null }
+        this.input.attackExcludedRect = talkRect.takeIf { !story.dialogueView().active && canInteract(world) }
     }
 
     /** Quest tracker, gold, the talk button and the dialogue box. */
@@ -856,7 +913,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val boxY = height - boxH - margin
 
         // Talk button for touch screens.
-        val canTalk = !view.active && story.npcInRange() != null
+        val canTalk = !view.active && canInteract(world)
         val button = floatArrayOf(width - 150f * density, height / 2f - 40f * density, 130f * density, 60f * density)
         talkRect = button
 
@@ -954,6 +1011,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         drawShop(world, data)
         drawBoard(world, data)
         drawJournal(world, data)
+        drawTravel(world, data)
     }
 
     /** The shop (spec 06): buy / sell tabs, the entries with their price and the gold. */
@@ -1021,6 +1079,60 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             layout.setText(font, price)
             font.draw(batch, price, panelX + panelW - layout.width - 14f * density, firstRowY + i * rowH)
         }
+        batch.end()
+    }
+
+    /** The list of Threshold Stones (spec 09): the places whose stone was woken, with the region of each. */
+    private fun drawTravel(world: WorldSim, data: Assets) {
+        val travel = world.travel
+        if (travel == null) {
+            travelRowRects = emptyList()
+            return
+        }
+        val density = Gdx.graphics.density
+        val width = Gdx.graphics.width.toFloat()
+        val height = Gdx.graphics.height.toFloat()
+        val rowH = font.lineHeight * 2.6f
+        val panelW = min(width - 40f, 560f * density)
+        val panelH = 96f * density + rowH * max(travel.stops.size, 1)
+        val panelX = (width - panelW) / 2f
+        val panelY = (height - panelH) / 2f
+        val firstRowY = panelY + 64f * density
+        travelRowRects = travel.stops.indices.map { floatArrayOf(panelX, firstRowY + it * rowH, panelW, rowH) }
+        val cursor = travelCursor.coerceIn(0, max(travel.stops.size - 1, 0))
+
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        shapes.color = Color(0.04f, 0.12f, 0.23f, 0.96f)
+        shapes.rect(panelX, panelY, panelW, panelH)
+        shapes.color = Color(0.435f, 0.89f, 1f, 1f)
+        shapes.rect(panelX, panelY, panelW, 3f * density)
+        shapes.color = Color(0.16f, 0.35f, 0.55f, 1f)
+        shapes.rect(panelX + 6f * density, firstRowY + cursor * rowH - 2f * density, panelW - 12f * density, rowH)
+        shapes.end()
+
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        font.color = Color(0.435f, 0.89f, 1f, 1f)
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.travel"), panelX + 14f * density, panelY + 12f * density)
+        font.color = Color(1f, 0.84f, 0.47f, 1f)
+        font.draw(
+            batch, data.pack.text(language, if (travel.fresh) "\$i18n:ui.stone_awake" else "\$i18n:ui.stone_rest"),
+            panelX + 14f * density, panelY + 12f * density + font.lineHeight * 1.5f,
+        )
+        for ((i, stop) in travel.stops.withIndex()) {
+            val here = i == travel.here
+            val rowY = firstRowY + i * rowH
+            font.color = if (here) Color(0.51f, 0.55f, 0.63f, 1f) else Color.WHITE
+            val tag = if (here) "  (" + data.pack.text(language, "\$i18n:ui.travel_here") + ")" else ""
+            font.draw(batch, (if (i == cursor) "> " else "  ") + stop.place + tag, panelX + 14f * density, rowY)
+            font.color = Color(0.67f, 0.78f, 0.9f, 1f)
+            font.draw(batch, data.pack.text(language, stop.region), panelX + 30f * density, rowY + font.lineHeight * 1.2f)
+        }
+        font.color = Color(0.67f, 0.78f, 0.9f, 1f)
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.travel_hint"), panelX + 14f * density, panelY + panelH - font.lineHeight * 1.6f)
+        font.color = Color.WHITE
         batch.end()
     }
 

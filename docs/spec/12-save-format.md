@@ -40,6 +40,7 @@ described in the plan arrive with the procedural world and reincarnation.
   window is rebuilt around the saved player position; every enemy must belong to a spawner of the window (the enemy of a cleared spawner is dead), and every
   uncleared spawner of the window must have its enemy, otherwise the save is invalid for this build. `cleared_spawners` and `spawner` are absent on fixed maps.
 - `explored` (streamed world) is the list of explored world map cells `[x, y]`, ordered by row then column (spec 09); absent in old saves.
+- `stones` (streamed world) is the list of the tiles `[x, y]` of the Threshold Stones that were used, in the order they were woken (spec 09); absent in old saves.
 - `story.guild_points` is the guild points of the player (spec 07); absent in old saves (0). Quests whose id starts with `board:` are generated quests: only their progress is saved.
 - `equipped` is `{weapon, armor}`: the item ids worn (spec 06); absent in old saves (the starting weapon, no armor).
 - `world_ticks` is the world clock (spec 08); a save without it starts at the world's `time.start_tick`.

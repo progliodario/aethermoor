@@ -71,6 +71,9 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
             }
         }
 
+        p.stone_art = j.at("stones").at("art").get<std::string>();
+        p.stone_range_x100 = j.at("stones").at("range_x100").get<int>();
+
         const Json& s = j.at("spawners");
         for (const Json& biome : s.at("biomes")) {
             p.spawner_biomes.push_back(biome.get<std::string>());

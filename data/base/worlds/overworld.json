@@ -78,6 +78,7 @@
     "snow": [{ "art": "base:art/prop/pine", "radius_x100": 30, "per_mille": 90 }],
     "desert": [{ "art": "base:art/prop/cactus", "radius_x100": 28, "per_mille": 25 }]
   },
+  "stones": { "art": "base:art/prop/threshold_stone", "range_x100": 160 },
   "spawners": { "biomes": ["plains", "forest"], "min_distance": 14, "per_10000": 8, "respawn_ticks": 36000 },
   "time": {
     "day_ticks": 72000,

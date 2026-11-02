@@ -270,6 +270,69 @@ void WorldSim::teleport(float x, float y) {
     mark_explored();
 }
 
+std::optional<std::pair<float, float>> WorldSim::stone_near() const {
+    if (!m_store_ || m_store_->params().stone_art.empty()) {
+        return std::nullopt;
+    }
+    const WorldParams& params = m_store_->params();
+    const float range = static_cast<float>(params.stone_range_x100) / 100.0F;
+    const float px = m_player_.position.x;
+    const float py = m_player_.position.y;
+    std::optional<std::pair<float, float>> best;
+    float best_d = range * range;
+    for_each_prop(px - range, py - range, px + range, py + range, [&](const Prop& prop) {
+        if (prop.art != params.stone_art) {
+            return;
+        }
+        const float d = (prop.x - px) * (prop.x - px) + (prop.y - py) * (prop.y - py);
+        if (d <= best_d) {
+            best_d = d;
+            best = std::make_pair(prop.x, prop.y);
+        }
+    });
+    return best;
+}
+
+bool WorldSim::use_stone() {
+    const auto stone = stone_near();
+    if (!stone) {
+        return false;
+    }
+    const WorldParams& params = m_store_->params();
+    const std::pair<int, int> tile{static_cast<int>(std::floor(stone->first)), static_cast<int>(std::floor(stone->second))};
+    Travel travel;
+    if (std::find(m_stones_.begin(), m_stones_.end(), tile) == m_stones_.end()) {
+        m_stones_.push_back(tile);
+        travel.fresh = true;
+    }
+    m_player_.hp = m_derived_.max_hp;
+    for (std::size_t i = 0; i < m_stones_.size(); ++i) {
+        StoneStop stop;
+        stop.x = m_stones_[i].first;
+        stop.y = m_stones_[i].second;
+        if (const auto settlement = settlement_containing(m_store_->seed(), params, stop.x, stop.y)) {
+            stop.place = settlement->name;
+            stop.region = params.regions[static_cast<std::size_t>(settlement->region)].name;
+        }
+        if (m_stones_[i] == tile) {
+            travel.here = static_cast<int>(i);
+        }
+        travel.stops.push_back(std::move(stop));
+    }
+    m_travel_ = std::move(travel);
+    return true;
+}
+
+bool WorldSim::travel_to(int index) {
+    if (!m_travel_ || index < 0 || index >= static_cast<int>(m_travel_->stops.size()) || index == m_travel_->here) {
+        return false;
+    }
+    const WorldSim::StoneStop stop = m_travel_->stops[static_cast<std::size_t>(index)];
+    m_travel_.reset();
+    teleport(static_cast<float>(stop.x) + 0.5F, static_cast<float>(stop.y) + 1.75F);  // one tile in front of the stone
+    return true;
+}
+
 void WorldSim::open_shop() {
     if (m_store_) {
         const Region& region = m_store_->params().regions[static_cast<std::size_t>(region_at(
@@ -296,9 +359,8 @@ void WorldSim::open_board() {
         return;
     }
     const WorldParams& params = m_store_->params();
-    const int sx = static_cast<int>(std::floor(m_player_.position.x)) >> 8;
-    const int sy = static_cast<int>(std::floor(m_player_.position.y)) >> 8;
-    const auto settlement = settlement_site(m_store_->seed(), params, sx, sy);
+    const auto settlement = settlement_containing(m_store_->seed(), params, static_cast<int>(std::floor(m_player_.position.x)),
+                                                  static_cast<int>(std::floor(m_player_.position.y)));
     if (!settlement) {
         return;
     }
@@ -702,6 +764,7 @@ SaveState WorldSim::capture() const {
     for (const auto& [spawner, died] : m_cleared_) {
         s.cleared.push_back({spawner.first, spawner.second, died});
     }
+    s.stones = m_stones_;
     s.explored.assign(m_explored_.begin(), m_explored_.end());
     std::sort(s.explored.begin(), s.explored.end(), [](const auto& a, const auto& b) {  // rows first (spec 12)
         return a.second != b.second ? a.second < b.second : a.first < b.first;
@@ -817,6 +880,8 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
     m_equipped_armor_ = s.equipped_armor;
     m_shop_.reset();
     m_board_.reset();
+    m_travel_.reset();
+    m_stones_ = s.stones;
     recompute_derived();
     m_player_.hp = std::min(s.hp, m_derived_.max_hp);
     m_explored_ = std::set<std::pair<int, int>>(s.explored.begin(), s.explored.end());
