@@ -276,8 +276,8 @@ TEST_CASE("the overworld is streamed from the content pack and is playable", "[w
     const aether::DialogueView spoken = sim.story().dialogue_view();
     REQUIRE(spoken.speaker == "npc");
     REQUIRE(spoken.args.at("npc") == elder->name);
-    sim.story().advance();  // the elder has a menu with news and goodbye: pick goodbye (the last choice)
-    sim.story().choose(1);
+    sim.story().advance();  // the elder has a menu (errand, news, goodbye): pick goodbye (the last choice)
+    sim.story().choose(static_cast<int>(sim.story().dialogue_view().choices.size()) - 1);
     REQUIRE(!sim.story().dialogue_active());
     sim.teleport(static_cast<float>(map.width / 2) + 0.5F, static_cast<float>(map.height / 2) + 0.5F);  // back to the spawn
     sim.tick(0.0F, 0.0F, false);

@@ -114,5 +114,21 @@
   "item.cinderblade.desc": "Black glass still warm from the forge that made it, and still hungry.",
   "quest.citadel.name": "The Cinder Citadel",
   "quest.citadel.kill": "Defeat the Cinder Colossus in the Cinder Citadel, far east in the Ashen Wastes.",
-  "quest.citadel.report": "Report to Mira at the guild."
+  "quest.citadel.report": "Report to Mira at the guild.",
+  "quest.meadow_gel.name": "Gel on the Meadow",
+  "quest.meadow_gel.hunt": "Hunt the green slimes on the meadows and bring back gel for the cooper.",
+  "quest.lantern_wisps.name": "Wisps for the Lanterns",
+  "quest.lantern_wisps.hunt": "Hunt the shade wolves of the Whisperwood and bring back their wisps for the lanterns of the village.",
+  "quest.slate_toll.name": "The Slate Toll",
+  "quest.slate_toll.hunt": "Clear the slate slimes from the roads of Ironspine and bring back slate shards for the smith.",
+  "quest.garden_gel.name": "Gel for the Garden",
+  "quest.garden_gel.hunt": "Drive off the sand slimes trampling the terraces of Sunscar and gather gel for the roots.",
+  "quest.winter_pelts.name": "Pelts for the Winter",
+  "quest.winter_pelts.hunt": "Hunt the frost wolves of Frostveil and bring back their pelts before the deep winter.",
+  "quest.tide_pearls.name": "Pearls from the Tide",
+  "quest.tide_pearls.hunt": "Clear the tide slimes from the shallows of Tidehaven and bring back five pearls.",
+  "quest.furnace_cores.name": "Cores for the Furnace",
+  "quest.furnace_cores.hunt": "Hunt the ember slimes of the Ashen Wastes and bring back their cores for the furnace.",
+  "quest.dust_survey.name": "The Star Dust Survey",
+  "quest.dust_survey.hunt": "Cull the glow slimes of Lumeria and gather five measures of star dust for the Archive."
 }

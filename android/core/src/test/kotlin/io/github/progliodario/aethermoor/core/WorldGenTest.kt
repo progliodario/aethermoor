@@ -475,8 +475,8 @@ class WorldGenTest {
         val spoken = sim.story.dialogueView()
         assertEquals("npc", spoken.speaker)
         assertEquals(elder.name, spoken.args["npc"])
-        sim.story.advance() // the elder has a menu with news and goodbye: pick goodbye (the last choice)
-        sim.story.choose(1)
+        sim.story.advance() // the elder has a menu (errand, news, goodbye): pick goodbye (the last choice)
+        sim.story.choose(sim.story.dialogueView().choices.size - 1)
         assertFalse(sim.story.dialogueActive)
         sim.teleport(map.width / 2 + 0.5f, map.height / 2 + 0.5f) // back to the spawn
         sim.tick(0f, 0f, false)

@@ -13,6 +13,45 @@
       "type": "choice",
       "choices": [
         {
+          "text": "$i18n:dlg.role.errand.ask",
+          "when": {
+            "not": {
+              "any": [
+                {
+                  "quest_active": "base:quest/side/lantern_wisps"
+                },
+                {
+                  "quest_done": "base:quest/side/lantern_wisps"
+                }
+              ]
+            }
+          },
+          "next": "errand_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.status",
+          "when": {
+            "quest_active": "base:quest/side/lantern_wisps"
+          },
+          "next": "errand_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/lantern_wisps"
+              },
+              {
+                "not": {
+                  "flag": "errand_lantern_wisps_paid"
+                }
+              }
+            ]
+          },
+          "next": "errand_paid"
+        },
+        {
           "text": "$i18n:dlg.role.rumor",
           "next": "rumor"
         },
@@ -26,6 +65,67 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.tone.mystic.rumor",
+      "next": "end"
+    },
+    "errand_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.errand.mystic.offer",
+      "next": "errand_choice"
+    },
+    "errand_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/lantern_wisps"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "errand_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.errand.mystic.busy",
+      "next": "end"
+    },
+    "errand_paid": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "errand_lantern_wisps_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 140
+        },
+        {
+          "effect": "add_gold",
+          "amount": 300
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_small",
+          "qty": 3
+        }
+      ],
+      "next": "errand_thanks"
+    },
+    "errand_thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.errand.mystic.thanks",
       "next": "end"
     }
   }

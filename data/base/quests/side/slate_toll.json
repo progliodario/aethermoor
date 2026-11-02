@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/slate_toll",
+  "name": "$i18n:quest.slate_toll.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "hunt",
+      "journal": "$i18n:quest.slate_toll.hunt",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_slate",
+          "count": 6
+        },
+        {
+          "type": "collect",
+          "item": "base:item/slate_shard",
+          "count": 5
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}
