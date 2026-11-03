@@ -537,5 +537,7 @@
   "quest.season_cold_ash.name": "The Cold Ash",
   "quest.season_cold_ash.bring": "Bring ember cores and char chunks for the one cold season.",
   "quest.season_solstice_survey.name": "The Solstice Survey",
-  "quest.season_solstice_survey.bring": "Bring star dust and nebula ash for the solstice observations."
+  "quest.season_solstice_survey.bring": "Bring star dust and nebula ash for the solstice observations.",
+  "item.ring_mantle.name": "Ring-walker's mantle",
+  "item.ring_mantle.desc": "Eight patches, one from each outpost, and a ninth stitch for the road between."
 }
