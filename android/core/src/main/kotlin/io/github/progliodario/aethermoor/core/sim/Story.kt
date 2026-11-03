@@ -45,6 +45,8 @@ sealed interface Effect {
 
     data class AddItem(val item: String, val qty: Long) : Effect
 
+    data class RemoveItem(val item: String, val qty: Long) : Effect
+
     data class SetFlag(val flag: String, val value: Boolean) : Effect
 
     data class StartQuest(val quest: String) : Effect
@@ -195,6 +197,7 @@ private fun parseEffect(element: JsonElement): Effect {
         "add_xp" -> Effect.AddXp(o.getValue("amount").jsonPrimitive.long)
         "add_gold" -> Effect.AddGold(o.getValue("amount").jsonPrimitive.long)
         "add_item" -> Effect.AddItem(o.str("item"), o.getValue("qty").jsonPrimitive.long)
+        "remove_item" -> Effect.RemoveItem(o.str("item"), o.getValue("qty").jsonPrimitive.long)
         "set_flag" -> Effect.SetFlag(o.str("flag"), o.getValue("value").jsonPrimitive.boolean)
         "start_quest" -> Effect.StartQuest(o.str("quest"))
         "open_shop" -> Effect.OpenShop
@@ -319,6 +322,12 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
             is Effect.AddGold -> gold += effect.amount
             is Effect.AddItem -> {
                 host.inventory[effect.item] = (host.inventory[effect.item] ?: 0L) + effect.qty
+                refreshAll()
+            }
+            is Effect.RemoveItem -> {
+                val held = host.inventory[effect.item] ?: 0L
+                val left = held - minOf(held, effect.qty)
+                if (left > 0L) host.inventory[effect.item] = left else host.inventory.remove(effect.item)
                 refreshAll()
             }
             is Effect.SetFlag -> flags[effect.flag] = effect.value

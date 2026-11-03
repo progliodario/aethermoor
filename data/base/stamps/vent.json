@@ -17,7 +17,7 @@
     ".#ccccccccccccccccccccc#.",
     ".#ccccccccccccccccccccc#.",
     ".#ccccccccccccccccccccc#.",
-    "==ccccccMcccecccMcccccc#.",
+    "==ccccccMcccXcccMcccccc#.",
     "==ccccccccccccccccccccc#.",
     "==ccccccccccccccccccccc#.",
     ".#ccccccccccccccccccccc#.",
@@ -40,6 +40,10 @@
     "M": {
       "tile": 14,
       "spawner": "base:enemy/slime_magma"
+    },
+    "X": {
+      "tile": 14,
+      "spawner": "base:enemy/magma_heart"
     },
     "c": {
       "tile": 14

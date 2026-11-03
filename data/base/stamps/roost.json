@@ -17,7 +17,7 @@
     ".tt...................tt.",
     ".tt...o...........o...tt.",
     ".tt...................tt.",
-    ".tt.....O...d...O.....tt.",
+    ".tt.....O...k...O.....tt.",
     ".tt...................tt.",
     ".tt.........o.........tt.",
     ".tt...................tt.",
@@ -41,6 +41,10 @@
     "d": {
       "tile": 14,
       "spawner": "base:enemy/wolf_shade"
+    },
+    "k": {
+      "tile": 14,
+      "spawner": "base:enemy/storm_sovereign"
     },
     "o": {
       "prop": "base:art/prop/rock",

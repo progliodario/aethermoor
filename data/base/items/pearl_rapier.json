@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/pearl_rapier",
+  "name": "$i18n:item.pearl_rapier.name",
+  "description": "$i18n:item.pearl_rapier.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 1000,
+  "weapon": {
+    "atk": 19,
+    "matk": 0
+  }
+}

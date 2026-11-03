@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/roost_sovereign",
+  "name": "$i18n:quest.roost_sovereign.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "hunt",
+      "journal": "$i18n:quest.roost_sovereign.hunt",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/storm_sovereign",
+          "count": 1
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

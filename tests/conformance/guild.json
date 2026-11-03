@@ -688,21 +688,26 @@
                 "id": "hamlet",
                 "weight": 5,
                 "stamps": [
-                  "base:stamp/hamlet"
+                  "base:stamp/hamlet",
+                  "base:stamp/hamlet_b",
+                  "base:stamp/hamlet_c"
                 ]
               },
               {
                 "id": "village",
                 "weight": 4,
                 "stamps": [
-                  "base:stamp/village"
+                  "base:stamp/village",
+                  "base:stamp/village_b",
+                  "base:stamp/village_c"
                 ]
               },
               {
                 "id": "town",
                 "weight": 1,
                 "stamps": [
-                  "base:stamp/town"
+                  "base:stamp/town",
+                  "base:stamp/town_b"
                 ]
               }
             ],
@@ -1154,6 +1159,144 @@
                 ]
               ]
             },
+            "base:stamp/hamlet_b": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hamlet_b",
+              "w": 15,
+              "h": 9,
+              "anchor": [
+                7,
+                6
+              ],
+              "rows": [
+                "...............",
+                ".#####.t.#####.",
+                ".#bV_#...#b_V#.",
+                ".#___#...#___#.",
+                ".##_##...##_##.",
+                "...=.......=...",
+                "...=.ccwcT.=...",
+                "t..=.......=..t",
+                "...=...t...=..."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  6,
+                  6
+                ],
+                [
+                  8,
+                  6
+                ]
+              ]
+            },
+            "base:stamp/hamlet_c": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hamlet_c",
+              "w": 11,
+              "h": 11,
+              "anchor": [
+                5,
+                7
+              ],
+              "rows": [
+                "...........",
+                "..#######..",
+                "..#bb___#..",
+                "..#____V#..",
+                "..###_###..",
+                ".....=...t.",
+                ".t...=.....",
+                "...ccwcT...",
+                ".....=.....",
+                ".t...=...t.",
+                ".....=....."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  4,
+                  7
+                ],
+                [
+                  6,
+                  7
+                ]
+              ]
+            },
             "base:stamp/village": {
               "$schema": "../../../schemas/stamp.schema.json",
               "id": "base:stamp/village",
@@ -1246,6 +1389,191 @@
                 [
                   11,
                   8
+                ]
+              ]
+            },
+            "base:stamp/village_b": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/village_b",
+              "w": 23,
+              "h": 17,
+              "anchor": [
+                11,
+                8
+              ],
+              "rows": [
+                "...........=...........",
+                ".#######...=...#######.",
+                ".#b____#.t.=.t.#bb___#.",
+                ".#___V_#...=...#___S_#.",
+                ".#_____#...=...#_____#.",
+                ".###_###...=...###_###.",
+                ".........lcccl.........",
+                ".........ccccc.........",
+                "=========ccwcc=========",
+                ".........ccEcT.........",
+                ".........lcccl.........",
+                ".#######...=...#######.",
+                ".#b____#...=...#_____#.",
+                ".#___V_#...=...#___V_#.",
+                ".#_____#.t.=.t.#_____#.",
+                ".###_###...=...###_###.",
+                "...........=..........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  10,
+                  7
+                ],
+                [
+                  12,
+                  7
+                ],
+                [
+                  10,
+                  9
+                ],
+                [
+                  12,
+                  9
+                ]
+              ]
+            },
+            "base:stamp/village_c": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/village_c",
+              "w": 25,
+              "h": 13,
+              "anchor": [
+                12,
+                6
+              ],
+              "rows": [
+                "........................t",
+                ".######........########..",
+                ".#b_V_#........#bb____#..",
+                ".#____#........#____S_#..",
+                ".###_##........####_###..",
+                "...........ccT...........",
+                "===========cwc===========",
+                "...........cEc...........",
+                "..#######.......#######..",
+                "..#_V___#.......#_____#..",
+                "..#_____#.t...t.#__V__#..",
+                "..###_###.......###_###..",
+                "t........................"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  11,
+                  6
+                ],
+                [
+                  13,
+                  6
+                ],
+                [
+                  11,
+                  7
+                ],
+                [
+                  13,
+                  7
                 ]
               ]
             },
@@ -1367,6 +1695,129 @@
                 [
                   15,
                   14
+                ]
+              ]
+            },
+            "base:stamp/town_b": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/town_b",
+              "w": 35,
+              "h": 27,
+              "anchor": [
+                17,
+                13
+              ],
+              "rows": [
+                "t................=................t",
+                "...............t.=.................",
+                ".................=.................",
+                "...##########....=....#########....",
+                "...#bb______#....=....#bb_____#....",
+                "...#________#....=....#_______#....",
+                "...#______G_#....=....#_____S_#....",
+                "...#________#....=....#_______#....",
+                "...#####_####....=....####_####....",
+                ".............lcccccccl.............",
+                "..######.....cccccccTc.....######..",
+                "..#_V__#.....ccccccccc.....#_V__#..",
+                "..##_###.....ccccccccc.....##_###..",
+                "=============ccccwcccc=============",
+                ".............ccccEcccc.............",
+                ".............ccccccccc.............",
+                ".............ccccccccc.............",
+                ".............lcccccccl.............",
+                "...##########....=.....########....",
+                "...#b_______#....=.....#______#....",
+                "...#________#....=.....#__V___#....",
+                "...#______I_#....=.....#______#....",
+                "...#________#....=.....###_####....",
+                "...#####_####....=.................",
+                ".................=.................",
+                ".................=.t...............",
+                "t................=................t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "G": {
+                  "tile": 13,
+                  "npc": "guild_clerk"
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  15,
+                  11
+                ],
+                [
+                  16,
+                  11
+                ],
+                [
+                  18,
+                  11
+                ],
+                [
+                  15,
+                  15
+                ],
+                [
+                  19,
+                  15
+                ],
+                [
+                  17,
+                  15
                 ]
               ]
             },
@@ -2087,7 +2538,7 @@
                 ".tt...................tt.",
                 ".tt...o...............tt.",
                 ".tt...................tt.",
-                ".tt.....D...W...D.....===",
+                ".tt.....D...U...D.....===",
                 ".tt...................===",
                 ".tt...............o...===",
                 ".tt...................tt.",
@@ -2107,6 +2558,10 @@
                 "D": {
                   "tile": 14,
                   "spawner": "base:enemy/wolf_dire"
+                },
+                "U": {
+                  "tile": 14,
+                  "spawner": "base:enemy/dire_alpha"
                 },
                 "W": {
                   "tile": 14,
@@ -2142,7 +2597,7 @@
                 ".#ccccccccccccccccccccc#.",
                 ".#ccccccccccccccccccccc#.",
                 ".#ccccccccccccccccccccc#.",
-                "==ccccccMcccecccMcccccc#.",
+                "==ccccccMcccXcccMcccccc#.",
                 "==ccccccccccccccccccccc#.",
                 "==ccccccccccccccccccccc#.",
                 ".#ccccccccccccccccccccc#.",
@@ -2165,6 +2620,10 @@
                 "M": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_magma"
+                },
+                "X": {
+                  "tile": 14,
+                  "spawner": "base:enemy/magma_heart"
                 },
                 "c": {
                   "tile": 14
@@ -2200,7 +2659,7 @@
                 ".#ccccccccccccccccccccc#.",
                 ".#cccccc#ccccccc#cccccc#.",
                 ".#ccccccccccccccccccccc#.",
-                ".#ccccccZcccicccZcccccc#.",
+                ".#ccccccZcccCcccZcccccc#.",
                 ".#ccccccccccccccccccccc#.",
                 ".#cccccc#ccccccc#cccccc#.",
                 ".#ccccccccccccccccccccc#.",
@@ -2219,6 +2678,10 @@
                 },
                 "=": {
                   "tile": 11
+                },
+                "C": {
+                  "tile": 14,
+                  "spawner": "base:enemy/coral_matron"
                 },
                 "Z": {
                   "tile": 14,
@@ -2253,7 +2716,7 @@
                 ".oo...................oo.",
                 ".oo..t.............t..oo.",
                 ".oo...................oo.",
-                ".oo.....P...a...P.....oo.",
+                ".oo.....P...L...P.....oo.",
                 ".oo...................oo.",
                 ".oo...................oo.",
                 ".oo...................oo.",
@@ -2269,6 +2732,10 @@
               "legend": {
                 "=": {
                   "tile": 11
+                },
+                "L": {
+                  "tile": 14,
+                  "spawner": "base:enemy/amber_queen"
                 },
                 "P": {
                   "tile": 14,
@@ -2308,7 +2775,7 @@
                 ".#ccccccccccccccccccccc#.",
                 ".#ccccccccc#ccccccccccc#.",
                 ".#ccccccccccccccccccccc#.",
-                "==ccccccHcccfcccHcccccc==",
+                "==ccccccHcccjcccHcccccc==",
                 "==ccccccccccccccccccccc==",
                 "==ccccccccccc#ccccccccc==",
                 ".#ccccccccccccccccccccc#.",
@@ -2339,6 +2806,10 @@
                   "tile": 14,
                   "spawner": "base:enemy/wolf_frost"
                 },
+                "j": {
+                  "tile": 14,
+                  "spawner": "base:enemy/ice_warden"
+                },
                 "l": {
                   "tile": 14,
                   "prop": "base:art/prop/lamp",
@@ -2366,7 +2837,7 @@
                 ".tt...................tt.",
                 ".tt...o...........o...tt.",
                 ".tt...................tt.",
-                ".tt.....O...d...O.....tt.",
+                ".tt.....O...k...O.....tt.",
                 ".tt...................tt.",
                 ".tt.........o.........tt.",
                 ".tt...................tt.",
@@ -2390,6 +2861,10 @@
                 "d": {
                   "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
+                },
+                "k": {
+                  "tile": 14,
+                  "spawner": "base:enemy/storm_sovereign"
                 },
                 "o": {
                   "prop": "base:art/prop/rock",
@@ -8055,21 +8530,26 @@
                 "id": "hamlet",
                 "weight": 5,
                 "stamps": [
-                  "base:stamp/hamlet"
+                  "base:stamp/hamlet",
+                  "base:stamp/hamlet_b",
+                  "base:stamp/hamlet_c"
                 ]
               },
               {
                 "id": "village",
                 "weight": 4,
                 "stamps": [
-                  "base:stamp/village"
+                  "base:stamp/village",
+                  "base:stamp/village_b",
+                  "base:stamp/village_c"
                 ]
               },
               {
                 "id": "town",
                 "weight": 1,
                 "stamps": [
-                  "base:stamp/town"
+                  "base:stamp/town",
+                  "base:stamp/town_b"
                 ]
               }
             ],
@@ -8521,6 +9001,144 @@
                 ]
               ]
             },
+            "base:stamp/hamlet_b": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hamlet_b",
+              "w": 15,
+              "h": 9,
+              "anchor": [
+                7,
+                6
+              ],
+              "rows": [
+                "...............",
+                ".#####.t.#####.",
+                ".#bV_#...#b_V#.",
+                ".#___#...#___#.",
+                ".##_##...##_##.",
+                "...=.......=...",
+                "...=.ccwcT.=...",
+                "t..=.......=..t",
+                "...=...t...=..."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  6,
+                  6
+                ],
+                [
+                  8,
+                  6
+                ]
+              ]
+            },
+            "base:stamp/hamlet_c": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hamlet_c",
+              "w": 11,
+              "h": 11,
+              "anchor": [
+                5,
+                7
+              ],
+              "rows": [
+                "...........",
+                "..#######..",
+                "..#bb___#..",
+                "..#____V#..",
+                "..###_###..",
+                ".....=...t.",
+                ".t...=.....",
+                "...ccwcT...",
+                ".....=.....",
+                ".t...=...t.",
+                ".....=....."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  4,
+                  7
+                ],
+                [
+                  6,
+                  7
+                ]
+              ]
+            },
             "base:stamp/village": {
               "$schema": "../../../schemas/stamp.schema.json",
               "id": "base:stamp/village",
@@ -8613,6 +9231,191 @@
                 [
                   11,
                   8
+                ]
+              ]
+            },
+            "base:stamp/village_b": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/village_b",
+              "w": 23,
+              "h": 17,
+              "anchor": [
+                11,
+                8
+              ],
+              "rows": [
+                "...........=...........",
+                ".#######...=...#######.",
+                ".#b____#.t.=.t.#bb___#.",
+                ".#___V_#...=...#___S_#.",
+                ".#_____#...=...#_____#.",
+                ".###_###...=...###_###.",
+                ".........lcccl.........",
+                ".........ccccc.........",
+                "=========ccwcc=========",
+                ".........ccEcT.........",
+                ".........lcccl.........",
+                ".#######...=...#######.",
+                ".#b____#...=...#_____#.",
+                ".#___V_#...=...#___V_#.",
+                ".#_____#.t.=.t.#_____#.",
+                ".###_###...=...###_###.",
+                "...........=..........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  10,
+                  7
+                ],
+                [
+                  12,
+                  7
+                ],
+                [
+                  10,
+                  9
+                ],
+                [
+                  12,
+                  9
+                ]
+              ]
+            },
+            "base:stamp/village_c": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/village_c",
+              "w": 25,
+              "h": 13,
+              "anchor": [
+                12,
+                6
+              ],
+              "rows": [
+                "........................t",
+                ".######........########..",
+                ".#b_V_#........#bb____#..",
+                ".#____#........#____S_#..",
+                ".###_##........####_###..",
+                "...........ccT...........",
+                "===========cwc===========",
+                "...........cEc...........",
+                "..#######.......#######..",
+                "..#_V___#.......#_____#..",
+                "..#_____#.t...t.#__V__#..",
+                "..###_###.......###_###..",
+                "t........................"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  11,
+                  6
+                ],
+                [
+                  13,
+                  6
+                ],
+                [
+                  11,
+                  7
+                ],
+                [
+                  13,
+                  7
                 ]
               ]
             },
@@ -8734,6 +9537,129 @@
                 [
                   15,
                   14
+                ]
+              ]
+            },
+            "base:stamp/town_b": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/town_b",
+              "w": 35,
+              "h": 27,
+              "anchor": [
+                17,
+                13
+              ],
+              "rows": [
+                "t................=................t",
+                "...............t.=.................",
+                ".................=.................",
+                "...##########....=....#########....",
+                "...#bb______#....=....#bb_____#....",
+                "...#________#....=....#_______#....",
+                "...#______G_#....=....#_____S_#....",
+                "...#________#....=....#_______#....",
+                "...#####_####....=....####_####....",
+                ".............lcccccccl.............",
+                "..######.....cccccccTc.....######..",
+                "..#_V__#.....ccccccccc.....#_V__#..",
+                "..##_###.....ccccccccc.....##_###..",
+                "=============ccccwcccc=============",
+                ".............ccccEcccc.............",
+                ".............ccccccccc.............",
+                ".............ccccccccc.............",
+                ".............lcccccccl.............",
+                "...##########....=.....########....",
+                "...#b_______#....=.....#______#....",
+                "...#________#....=.....#__V___#....",
+                "...#______I_#....=.....#______#....",
+                "...#________#....=.....###_####....",
+                "...#####_####....=.................",
+                ".................=.................",
+                ".................=.t...............",
+                "t................=................t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "G": {
+                  "tile": 13,
+                  "npc": "guild_clerk"
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  15,
+                  11
+                ],
+                [
+                  16,
+                  11
+                ],
+                [
+                  18,
+                  11
+                ],
+                [
+                  15,
+                  15
+                ],
+                [
+                  19,
+                  15
+                ],
+                [
+                  17,
+                  15
                 ]
               ]
             },
@@ -9454,7 +10380,7 @@
                 ".tt...................tt.",
                 ".tt...o...............tt.",
                 ".tt...................tt.",
-                ".tt.....D...W...D.....===",
+                ".tt.....D...U...D.....===",
                 ".tt...................===",
                 ".tt...............o...===",
                 ".tt...................tt.",
@@ -9474,6 +10400,10 @@
                 "D": {
                   "tile": 14,
                   "spawner": "base:enemy/wolf_dire"
+                },
+                "U": {
+                  "tile": 14,
+                  "spawner": "base:enemy/dire_alpha"
                 },
                 "W": {
                   "tile": 14,
@@ -9509,7 +10439,7 @@
                 ".#ccccccccccccccccccccc#.",
                 ".#ccccccccccccccccccccc#.",
                 ".#ccccccccccccccccccccc#.",
-                "==ccccccMcccecccMcccccc#.",
+                "==ccccccMcccXcccMcccccc#.",
                 "==ccccccccccccccccccccc#.",
                 "==ccccccccccccccccccccc#.",
                 ".#ccccccccccccccccccccc#.",
@@ -9532,6 +10462,10 @@
                 "M": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_magma"
+                },
+                "X": {
+                  "tile": 14,
+                  "spawner": "base:enemy/magma_heart"
                 },
                 "c": {
                   "tile": 14
@@ -9567,7 +10501,7 @@
                 ".#ccccccccccccccccccccc#.",
                 ".#cccccc#ccccccc#cccccc#.",
                 ".#ccccccccccccccccccccc#.",
-                ".#ccccccZcccicccZcccccc#.",
+                ".#ccccccZcccCcccZcccccc#.",
                 ".#ccccccccccccccccccccc#.",
                 ".#cccccc#ccccccc#cccccc#.",
                 ".#ccccccccccccccccccccc#.",
@@ -9586,6 +10520,10 @@
                 },
                 "=": {
                   "tile": 11
+                },
+                "C": {
+                  "tile": 14,
+                  "spawner": "base:enemy/coral_matron"
                 },
                 "Z": {
                   "tile": 14,
@@ -9620,7 +10558,7 @@
                 ".oo...................oo.",
                 ".oo..t.............t..oo.",
                 ".oo...................oo.",
-                ".oo.....P...a...P.....oo.",
+                ".oo.....P...L...P.....oo.",
                 ".oo...................oo.",
                 ".oo...................oo.",
                 ".oo...................oo.",
@@ -9636,6 +10574,10 @@
               "legend": {
                 "=": {
                   "tile": 11
+                },
+                "L": {
+                  "tile": 14,
+                  "spawner": "base:enemy/amber_queen"
                 },
                 "P": {
                   "tile": 14,
@@ -9675,7 +10617,7 @@
                 ".#ccccccccccccccccccccc#.",
                 ".#ccccccccc#ccccccccccc#.",
                 ".#ccccccccccccccccccccc#.",
-                "==ccccccHcccfcccHcccccc==",
+                "==ccccccHcccjcccHcccccc==",
                 "==ccccccccccccccccccccc==",
                 "==ccccccccccc#ccccccccc==",
                 ".#ccccccccccccccccccccc#.",
@@ -9706,6 +10648,10 @@
                   "tile": 14,
                   "spawner": "base:enemy/wolf_frost"
                 },
+                "j": {
+                  "tile": 14,
+                  "spawner": "base:enemy/ice_warden"
+                },
                 "l": {
                   "tile": 14,
                   "prop": "base:art/prop/lamp",
@@ -9733,7 +10679,7 @@
                 ".tt...................tt.",
                 ".tt...o...........o...tt.",
                 ".tt...................tt.",
-                ".tt.....O...d...O.....tt.",
+                ".tt.....O...k...O.....tt.",
                 ".tt...................tt.",
                 ".tt.........o.........tt.",
                 ".tt...................tt.",
@@ -9757,6 +10703,10 @@
                 "d": {
                   "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
+                },
+                "k": {
+                  "tile": 14,
+                  "spawner": "base:enemy/storm_sovereign"
                 },
                 "o": {
                   "prop": "base:art/prop/rock",
@@ -14752,10 +15702,6 @@
             0
           ],
           [
-            40,
-            0
-          ],
-          [
             57,
             0
           ],
@@ -14765,6 +15711,10 @@
           ],
           [
             17,
+            1
+          ],
+          [
+            59,
             1
           ]
         ],
@@ -15422,21 +16372,26 @@
                 "id": "hamlet",
                 "weight": 5,
                 "stamps": [
-                  "base:stamp/hamlet"
+                  "base:stamp/hamlet",
+                  "base:stamp/hamlet_b",
+                  "base:stamp/hamlet_c"
                 ]
               },
               {
                 "id": "village",
                 "weight": 4,
                 "stamps": [
-                  "base:stamp/village"
+                  "base:stamp/village",
+                  "base:stamp/village_b",
+                  "base:stamp/village_c"
                 ]
               },
               {
                 "id": "town",
                 "weight": 1,
                 "stamps": [
-                  "base:stamp/town"
+                  "base:stamp/town",
+                  "base:stamp/town_b"
                 ]
               }
             ],
@@ -15888,6 +16843,144 @@
                 ]
               ]
             },
+            "base:stamp/hamlet_b": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hamlet_b",
+              "w": 15,
+              "h": 9,
+              "anchor": [
+                7,
+                6
+              ],
+              "rows": [
+                "...............",
+                ".#####.t.#####.",
+                ".#bV_#...#b_V#.",
+                ".#___#...#___#.",
+                ".##_##...##_##.",
+                "...=.......=...",
+                "...=.ccwcT.=...",
+                "t..=.......=..t",
+                "...=...t...=..."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  6,
+                  6
+                ],
+                [
+                  8,
+                  6
+                ]
+              ]
+            },
+            "base:stamp/hamlet_c": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hamlet_c",
+              "w": 11,
+              "h": 11,
+              "anchor": [
+                5,
+                7
+              ],
+              "rows": [
+                "...........",
+                "..#######..",
+                "..#bb___#..",
+                "..#____V#..",
+                "..###_###..",
+                ".....=...t.",
+                ".t...=.....",
+                "...ccwcT...",
+                ".....=.....",
+                ".t...=...t.",
+                ".....=....."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  4,
+                  7
+                ],
+                [
+                  6,
+                  7
+                ]
+              ]
+            },
             "base:stamp/village": {
               "$schema": "../../../schemas/stamp.schema.json",
               "id": "base:stamp/village",
@@ -15980,6 +17073,191 @@
                 [
                   11,
                   8
+                ]
+              ]
+            },
+            "base:stamp/village_b": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/village_b",
+              "w": 23,
+              "h": 17,
+              "anchor": [
+                11,
+                8
+              ],
+              "rows": [
+                "...........=...........",
+                ".#######...=...#######.",
+                ".#b____#.t.=.t.#bb___#.",
+                ".#___V_#...=...#___S_#.",
+                ".#_____#...=...#_____#.",
+                ".###_###...=...###_###.",
+                ".........lcccl.........",
+                ".........ccccc.........",
+                "=========ccwcc=========",
+                ".........ccEcT.........",
+                ".........lcccl.........",
+                ".#######...=...#######.",
+                ".#b____#...=...#_____#.",
+                ".#___V_#...=...#___V_#.",
+                ".#_____#.t.=.t.#_____#.",
+                ".###_###...=...###_###.",
+                "...........=..........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  10,
+                  7
+                ],
+                [
+                  12,
+                  7
+                ],
+                [
+                  10,
+                  9
+                ],
+                [
+                  12,
+                  9
+                ]
+              ]
+            },
+            "base:stamp/village_c": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/village_c",
+              "w": 25,
+              "h": 13,
+              "anchor": [
+                12,
+                6
+              ],
+              "rows": [
+                "........................t",
+                ".######........########..",
+                ".#b_V_#........#bb____#..",
+                ".#____#........#____S_#..",
+                ".###_##........####_###..",
+                "...........ccT...........",
+                "===========cwc===========",
+                "...........cEc...........",
+                "..#######.......#######..",
+                "..#_V___#.......#_____#..",
+                "..#_____#.t...t.#__V__#..",
+                "..###_###.......###_###..",
+                "t........................"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  11,
+                  6
+                ],
+                [
+                  13,
+                  6
+                ],
+                [
+                  11,
+                  7
+                ],
+                [
+                  13,
+                  7
                 ]
               ]
             },
@@ -16101,6 +17379,129 @@
                 [
                   15,
                   14
+                ]
+              ]
+            },
+            "base:stamp/town_b": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/town_b",
+              "w": 35,
+              "h": 27,
+              "anchor": [
+                17,
+                13
+              ],
+              "rows": [
+                "t................=................t",
+                "...............t.=.................",
+                ".................=.................",
+                "...##########....=....#########....",
+                "...#bb______#....=....#bb_____#....",
+                "...#________#....=....#_______#....",
+                "...#______G_#....=....#_____S_#....",
+                "...#________#....=....#_______#....",
+                "...#####_####....=....####_####....",
+                ".............lcccccccl.............",
+                "..######.....cccccccTc.....######..",
+                "..#_V__#.....ccccccccc.....#_V__#..",
+                "..##_###.....ccccccccc.....##_###..",
+                "=============ccccwcccc=============",
+                ".............ccccEcccc.............",
+                ".............ccccccccc.............",
+                ".............ccccccccc.............",
+                ".............lcccccccl.............",
+                "...##########....=.....########....",
+                "...#b_______#....=.....#______#....",
+                "...#________#....=.....#__V___#....",
+                "...#______I_#....=.....#______#....",
+                "...#________#....=.....###_####....",
+                "...#####_####....=.................",
+                ".................=.................",
+                ".................=.t...............",
+                "t................=................t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "G": {
+                  "tile": 13,
+                  "npc": "guild_clerk"
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  15,
+                  11
+                ],
+                [
+                  16,
+                  11
+                ],
+                [
+                  18,
+                  11
+                ],
+                [
+                  15,
+                  15
+                ],
+                [
+                  19,
+                  15
+                ],
+                [
+                  17,
+                  15
                 ]
               ]
             },
@@ -16821,7 +18222,7 @@
                 ".tt...................tt.",
                 ".tt...o...............tt.",
                 ".tt...................tt.",
-                ".tt.....D...W...D.....===",
+                ".tt.....D...U...D.....===",
                 ".tt...................===",
                 ".tt...............o...===",
                 ".tt...................tt.",
@@ -16841,6 +18242,10 @@
                 "D": {
                   "tile": 14,
                   "spawner": "base:enemy/wolf_dire"
+                },
+                "U": {
+                  "tile": 14,
+                  "spawner": "base:enemy/dire_alpha"
                 },
                 "W": {
                   "tile": 14,
@@ -16876,7 +18281,7 @@
                 ".#ccccccccccccccccccccc#.",
                 ".#ccccccccccccccccccccc#.",
                 ".#ccccccccccccccccccccc#.",
-                "==ccccccMcccecccMcccccc#.",
+                "==ccccccMcccXcccMcccccc#.",
                 "==ccccccccccccccccccccc#.",
                 "==ccccccccccccccccccccc#.",
                 ".#ccccccccccccccccccccc#.",
@@ -16899,6 +18304,10 @@
                 "M": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_magma"
+                },
+                "X": {
+                  "tile": 14,
+                  "spawner": "base:enemy/magma_heart"
                 },
                 "c": {
                   "tile": 14
@@ -16934,7 +18343,7 @@
                 ".#ccccccccccccccccccccc#.",
                 ".#cccccc#ccccccc#cccccc#.",
                 ".#ccccccccccccccccccccc#.",
-                ".#ccccccZcccicccZcccccc#.",
+                ".#ccccccZcccCcccZcccccc#.",
                 ".#ccccccccccccccccccccc#.",
                 ".#cccccc#ccccccc#cccccc#.",
                 ".#ccccccccccccccccccccc#.",
@@ -16953,6 +18362,10 @@
                 },
                 "=": {
                   "tile": 11
+                },
+                "C": {
+                  "tile": 14,
+                  "spawner": "base:enemy/coral_matron"
                 },
                 "Z": {
                   "tile": 14,
@@ -16987,7 +18400,7 @@
                 ".oo...................oo.",
                 ".oo..t.............t..oo.",
                 ".oo...................oo.",
-                ".oo.....P...a...P.....oo.",
+                ".oo.....P...L...P.....oo.",
                 ".oo...................oo.",
                 ".oo...................oo.",
                 ".oo...................oo.",
@@ -17003,6 +18416,10 @@
               "legend": {
                 "=": {
                   "tile": 11
+                },
+                "L": {
+                  "tile": 14,
+                  "spawner": "base:enemy/amber_queen"
                 },
                 "P": {
                   "tile": 14,
@@ -17042,7 +18459,7 @@
                 ".#ccccccccccccccccccccc#.",
                 ".#ccccccccc#ccccccccccc#.",
                 ".#ccccccccccccccccccccc#.",
-                "==ccccccHcccfcccHcccccc==",
+                "==ccccccHcccjcccHcccccc==",
                 "==ccccccccccccccccccccc==",
                 "==ccccccccccc#ccccccccc==",
                 ".#ccccccccccccccccccccc#.",
@@ -17073,6 +18490,10 @@
                   "tile": 14,
                   "spawner": "base:enemy/wolf_frost"
                 },
+                "j": {
+                  "tile": 14,
+                  "spawner": "base:enemy/ice_warden"
+                },
                 "l": {
                   "tile": 14,
                   "prop": "base:art/prop/lamp",
@@ -17100,7 +18521,7 @@
                 ".tt...................tt.",
                 ".tt...o...........o...tt.",
                 ".tt...................tt.",
-                ".tt.....O...d...O.....tt.",
+                ".tt.....O...k...O.....tt.",
                 ".tt...................tt.",
                 ".tt.........o.........tt.",
                 ".tt...................tt.",
@@ -17124,6 +18545,10 @@
                 "d": {
                   "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
+                },
+                "k": {
+                  "tile": 14,
+                  "spawner": "base:enemy/storm_sovereign"
                 },
                 "o": {
                   "prop": "base:art/prop/rock",
@@ -17555,214 +18980,6 @@
             112,
             52,
             "Holendale",
-            "stoic"
-          ],
-          [
-            "board:40:0:1:0",
-            0,
-            "purge",
-            "kill",
-            "base:enemy/wolf_frost",
-            10,
-            160,
-            90,
-            38,
-            "Galenholm",
-            "stoic"
-          ],
-          [
-            "board:40:0:1:1",
-            1,
-            "purge",
-            "kill",
-            "base:enemy/slime_ice",
-            11,
-            348,
-            194,
-            82,
-            "Galenholm",
-            "stoic"
-          ],
-          [
-            "board:40:0:1:2",
-            2,
-            "stockpile",
-            "collect",
-            "base:item/frost_pelt",
-            13,
-            432,
-            237,
-            96,
-            "Galenholm",
-            "stoic"
-          ],
-          [
-            "board:40:0:1:3",
-            3,
-            "purge",
-            "kill",
-            "base:enemy/wolf_frost",
-            9,
-            584,
-            332,
-            140,
-            "Galenholm",
-            "stoic"
-          ],
-          [
-            "board:40:0:2:0",
-            0,
-            "cull",
-            "kill",
-            "base:enemy/slime_ice",
-            4,
-            58,
-            34,
-            16,
-            "Galenholm",
-            "stoic"
-          ],
-          [
-            "board:40:0:2:1",
-            1,
-            "purge",
-            "kill",
-            "base:enemy/slime_ice",
-            12,
-            376,
-            208,
-            88,
-            "Galenholm",
-            "stoic"
-          ],
-          [
-            "board:40:0:2:2",
-            2,
-            "stockpile",
-            "collect",
-            "base:item/frost_pelt",
-            14,
-            462,
-            252,
-            102,
-            "Galenholm",
-            "stoic"
-          ],
-          [
-            "board:40:0:2:3",
-            3,
-            "gather",
-            "collect",
-            "base:item/frost_pelt",
-            7,
-            284,
-            144,
-            68,
-            "Galenholm",
-            "stoic"
-          ],
-          [
-            "board:40:0:9:0",
-            0,
-            "cull",
-            "kill",
-            "base:enemy/slime_blue",
-            6,
-            82,
-            46,
-            22,
-            "Galenholm",
-            "stoic"
-          ],
-          [
-            "board:40:0:9:1",
-            1,
-            "cull",
-            "kill",
-            "base:enemy/slime_ice",
-            6,
-            164,
-            92,
-            44,
-            "Galenholm",
-            "stoic"
-          ],
-          [
-            "board:40:0:9:2",
-            2,
-            "cull",
-            "kill",
-            "base:enemy/slime_blue",
-            4,
-            174,
-            102,
-            48,
-            "Galenholm",
-            "stoic"
-          ],
-          [
-            "board:40:0:9:3",
-            3,
-            "cull",
-            "kill",
-            "base:enemy/slime_blue",
-            5,
-            280,
-            160,
-            76,
-            "Galenholm",
-            "stoic"
-          ],
-          [
-            "board:40:0:400:0",
-            0,
-            "cull",
-            "kill",
-            "base:enemy/wolf_frost",
-            6,
-            82,
-            46,
-            22,
-            "Galenholm",
-            "stoic"
-          ],
-          [
-            "board:40:0:400:1",
-            1,
-            "stockpile",
-            "collect",
-            "base:item/frost_pelt",
-            11,
-            248,
-            138,
-            56,
-            "Galenholm",
-            "stoic"
-          ],
-          [
-            "board:40:0:400:2",
-            2,
-            "purge",
-            "kill",
-            "base:enemy/wolf_frost",
-            8,
-            396,
-            228,
-            96,
-            "Galenholm",
-            "stoic"
-          ],
-          [
-            "board:40:0:400:3",
-            3,
-            "cull",
-            "kill",
-            "base:enemy/wolf_frost",
-            6,
-            328,
-            184,
-            88,
-            "Galenholm",
             "stoic"
           ],
           [
@@ -18388,6 +19605,214 @@
             176,
             "Ostelholm",
             "stoic"
+          ],
+          [
+            "board:59:1:1:0",
+            0,
+            "stockpile",
+            "collect",
+            "base:item/slime_gel",
+            12,
+            134,
+            74,
+            30,
+            "Kelinford",
+            "gruff"
+          ],
+          [
+            "board:59:1:1:1",
+            1,
+            "gather",
+            "collect",
+            "base:item/slime_gel",
+            6,
+            124,
+            64,
+            30,
+            "Kelinford",
+            "gruff"
+          ],
+          [
+            "board:59:1:1:2",
+            2,
+            "stockpile",
+            "collect",
+            "base:item/dire_fang",
+            15,
+            492,
+            267,
+            108,
+            "Kelinford",
+            "gruff"
+          ],
+          [
+            "board:59:1:1:3",
+            3,
+            "purge",
+            "kill",
+            "base:enemy/slime_slate",
+            10,
+            640,
+            360,
+            152,
+            "Kelinford",
+            "gruff"
+          ],
+          [
+            "board:59:1:2:0",
+            0,
+            "cull",
+            "kill",
+            "base:enemy/slime_slate",
+            3,
+            46,
+            28,
+            13,
+            "Kelinford",
+            "gruff"
+          ],
+          [
+            "board:59:1:2:1",
+            1,
+            "stockpile",
+            "collect",
+            "base:item/slime_gel",
+            12,
+            268,
+            148,
+            60,
+            "Kelinford",
+            "gruff"
+          ],
+          [
+            "board:59:1:2:2",
+            2,
+            "cull",
+            "kill",
+            "base:enemy/wolf_grey",
+            6,
+            246,
+            138,
+            66,
+            "Kelinford",
+            "gruff"
+          ],
+          [
+            "board:59:1:2:3",
+            3,
+            "stockpile",
+            "collect",
+            "base:item/slime_gel",
+            15,
+            656,
+            356,
+            144,
+            "Kelinford",
+            "gruff"
+          ],
+          [
+            "board:59:1:9:0",
+            0,
+            "stockpile",
+            "collect",
+            "base:item/slate_shard",
+            15,
+            164,
+            89,
+            36,
+            "Kelinford",
+            "gruff"
+          ],
+          [
+            "board:59:1:9:1",
+            1,
+            "cull",
+            "kill",
+            "base:enemy/wolf_grey",
+            3,
+            92,
+            56,
+            26,
+            "Kelinford",
+            "gruff"
+          ],
+          [
+            "board:59:1:9:2",
+            2,
+            "gather",
+            "collect",
+            "base:item/slate_shard",
+            6,
+            186,
+            96,
+            45,
+            "Kelinford",
+            "gruff"
+          ],
+          [
+            "board:59:1:9:3",
+            3,
+            "purge",
+            "kill",
+            "base:enemy/wolf_dire",
+            9,
+            584,
+            332,
+            140,
+            "Kelinford",
+            "gruff"
+          ],
+          [
+            "board:59:1:400:0",
+            0,
+            "purge",
+            "kill",
+            "base:enemy/slime_blue",
+            8,
+            132,
+            76,
+            32,
+            "Kelinford",
+            "gruff"
+          ],
+          [
+            "board:59:1:400:1",
+            1,
+            "cull",
+            "kill",
+            "base:enemy/slime_blue",
+            4,
+            116,
+            68,
+            32,
+            "Kelinford",
+            "gruff"
+          ],
+          [
+            "board:59:1:400:2",
+            2,
+            "purge",
+            "kill",
+            "base:enemy/slime_blue",
+            8,
+            396,
+            228,
+            96,
+            "Kelinford",
+            "gruff"
+          ],
+          [
+            "board:59:1:400:3",
+            3,
+            "gather",
+            "collect",
+            "base:item/slate_shard",
+            5,
+            212,
+            112,
+            52,
+            "Kelinford",
+            "gruff"
           ]
         ],
         "quests": [
@@ -19604,614 +21029,6 @@
               {
                 "effect": "add_guild_points",
                 "amount": 52
-              }
-            ]
-          },
-          {
-            "id": "board:40:0:1:0",
-            "name": "$i18n:quest.board.purge.stoic.name",
-            "kind": "guild",
-            "args": {
-              "count": "10",
-              "target": "$i18n:enemy.wolf_frost.name",
-              "place": "Galenholm"
-            },
-            "stages": [
-              {
-                "id": "work",
-                "journal": "$i18n:quest.board.purge.stoic.journal",
-                "objectives": [
-                  {
-                    "type": "kill",
-                    "enemy": "base:enemy/wolf_frost",
-                    "count": 10
-                  }
-                ],
-                "next": "end"
-              }
-            ],
-            "rewards": [
-              {
-                "effect": "add_xp",
-                "amount": 90
-              },
-              {
-                "effect": "add_gold",
-                "amount": 160
-              },
-              {
-                "effect": "add_guild_points",
-                "amount": 38
-              }
-            ]
-          },
-          {
-            "id": "board:40:0:1:1",
-            "name": "$i18n:quest.board.purge.stoic.name",
-            "kind": "guild",
-            "args": {
-              "count": "11",
-              "target": "$i18n:enemy.slime_ice.name",
-              "place": "Galenholm"
-            },
-            "stages": [
-              {
-                "id": "work",
-                "journal": "$i18n:quest.board.purge.stoic.journal",
-                "objectives": [
-                  {
-                    "type": "kill",
-                    "enemy": "base:enemy/slime_ice",
-                    "count": 11
-                  }
-                ],
-                "next": "end"
-              }
-            ],
-            "rewards": [
-              {
-                "effect": "add_xp",
-                "amount": 194
-              },
-              {
-                "effect": "add_gold",
-                "amount": 348
-              },
-              {
-                "effect": "add_guild_points",
-                "amount": 82
-              }
-            ]
-          },
-          {
-            "id": "board:40:0:1:2",
-            "name": "$i18n:quest.board.stockpile.stoic.name",
-            "kind": "guild",
-            "args": {
-              "count": "13",
-              "target": "$i18n:item.frost_pelt.name",
-              "place": "Galenholm"
-            },
-            "stages": [
-              {
-                "id": "work",
-                "journal": "$i18n:quest.board.stockpile.stoic.journal",
-                "objectives": [
-                  {
-                    "type": "collect",
-                    "item": "base:item/frost_pelt",
-                    "count": 13
-                  }
-                ],
-                "next": "end"
-              }
-            ],
-            "rewards": [
-              {
-                "effect": "add_xp",
-                "amount": 237
-              },
-              {
-                "effect": "add_gold",
-                "amount": 432
-              },
-              {
-                "effect": "add_guild_points",
-                "amount": 96
-              }
-            ]
-          },
-          {
-            "id": "board:40:0:1:3",
-            "name": "$i18n:quest.board.purge.stoic.name",
-            "kind": "guild",
-            "args": {
-              "count": "9",
-              "target": "$i18n:enemy.wolf_frost.name",
-              "place": "Galenholm"
-            },
-            "stages": [
-              {
-                "id": "work",
-                "journal": "$i18n:quest.board.purge.stoic.journal",
-                "objectives": [
-                  {
-                    "type": "kill",
-                    "enemy": "base:enemy/wolf_frost",
-                    "count": 9
-                  }
-                ],
-                "next": "end"
-              }
-            ],
-            "rewards": [
-              {
-                "effect": "add_xp",
-                "amount": 332
-              },
-              {
-                "effect": "add_gold",
-                "amount": 584
-              },
-              {
-                "effect": "add_guild_points",
-                "amount": 140
-              }
-            ]
-          },
-          {
-            "id": "board:40:0:2:0",
-            "name": "$i18n:quest.board.cull.stoic.name",
-            "kind": "guild",
-            "args": {
-              "count": "4",
-              "target": "$i18n:enemy.slime_ice.name",
-              "place": "Galenholm"
-            },
-            "stages": [
-              {
-                "id": "work",
-                "journal": "$i18n:quest.board.cull.stoic.journal",
-                "objectives": [
-                  {
-                    "type": "kill",
-                    "enemy": "base:enemy/slime_ice",
-                    "count": 4
-                  }
-                ],
-                "next": "end"
-              }
-            ],
-            "rewards": [
-              {
-                "effect": "add_xp",
-                "amount": 34
-              },
-              {
-                "effect": "add_gold",
-                "amount": 58
-              },
-              {
-                "effect": "add_guild_points",
-                "amount": 16
-              }
-            ]
-          },
-          {
-            "id": "board:40:0:2:1",
-            "name": "$i18n:quest.board.purge.stoic.name",
-            "kind": "guild",
-            "args": {
-              "count": "12",
-              "target": "$i18n:enemy.slime_ice.name",
-              "place": "Galenholm"
-            },
-            "stages": [
-              {
-                "id": "work",
-                "journal": "$i18n:quest.board.purge.stoic.journal",
-                "objectives": [
-                  {
-                    "type": "kill",
-                    "enemy": "base:enemy/slime_ice",
-                    "count": 12
-                  }
-                ],
-                "next": "end"
-              }
-            ],
-            "rewards": [
-              {
-                "effect": "add_xp",
-                "amount": 208
-              },
-              {
-                "effect": "add_gold",
-                "amount": 376
-              },
-              {
-                "effect": "add_guild_points",
-                "amount": 88
-              }
-            ]
-          },
-          {
-            "id": "board:40:0:2:2",
-            "name": "$i18n:quest.board.stockpile.stoic.name",
-            "kind": "guild",
-            "args": {
-              "count": "14",
-              "target": "$i18n:item.frost_pelt.name",
-              "place": "Galenholm"
-            },
-            "stages": [
-              {
-                "id": "work",
-                "journal": "$i18n:quest.board.stockpile.stoic.journal",
-                "objectives": [
-                  {
-                    "type": "collect",
-                    "item": "base:item/frost_pelt",
-                    "count": 14
-                  }
-                ],
-                "next": "end"
-              }
-            ],
-            "rewards": [
-              {
-                "effect": "add_xp",
-                "amount": 252
-              },
-              {
-                "effect": "add_gold",
-                "amount": 462
-              },
-              {
-                "effect": "add_guild_points",
-                "amount": 102
-              }
-            ]
-          },
-          {
-            "id": "board:40:0:2:3",
-            "name": "$i18n:quest.board.gather.stoic.name",
-            "kind": "guild",
-            "args": {
-              "count": "7",
-              "target": "$i18n:item.frost_pelt.name",
-              "place": "Galenholm"
-            },
-            "stages": [
-              {
-                "id": "work",
-                "journal": "$i18n:quest.board.gather.stoic.journal",
-                "objectives": [
-                  {
-                    "type": "collect",
-                    "item": "base:item/frost_pelt",
-                    "count": 7
-                  }
-                ],
-                "next": "end"
-              }
-            ],
-            "rewards": [
-              {
-                "effect": "add_xp",
-                "amount": 144
-              },
-              {
-                "effect": "add_gold",
-                "amount": 284
-              },
-              {
-                "effect": "add_guild_points",
-                "amount": 68
-              }
-            ]
-          },
-          {
-            "id": "board:40:0:9:0",
-            "name": "$i18n:quest.board.cull.stoic.name",
-            "kind": "guild",
-            "args": {
-              "count": "6",
-              "target": "$i18n:enemy.slime_blue.name",
-              "place": "Galenholm"
-            },
-            "stages": [
-              {
-                "id": "work",
-                "journal": "$i18n:quest.board.cull.stoic.journal",
-                "objectives": [
-                  {
-                    "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
-                    "count": 6
-                  }
-                ],
-                "next": "end"
-              }
-            ],
-            "rewards": [
-              {
-                "effect": "add_xp",
-                "amount": 46
-              },
-              {
-                "effect": "add_gold",
-                "amount": 82
-              },
-              {
-                "effect": "add_guild_points",
-                "amount": 22
-              }
-            ]
-          },
-          {
-            "id": "board:40:0:9:1",
-            "name": "$i18n:quest.board.cull.stoic.name",
-            "kind": "guild",
-            "args": {
-              "count": "6",
-              "target": "$i18n:enemy.slime_ice.name",
-              "place": "Galenholm"
-            },
-            "stages": [
-              {
-                "id": "work",
-                "journal": "$i18n:quest.board.cull.stoic.journal",
-                "objectives": [
-                  {
-                    "type": "kill",
-                    "enemy": "base:enemy/slime_ice",
-                    "count": 6
-                  }
-                ],
-                "next": "end"
-              }
-            ],
-            "rewards": [
-              {
-                "effect": "add_xp",
-                "amount": 92
-              },
-              {
-                "effect": "add_gold",
-                "amount": 164
-              },
-              {
-                "effect": "add_guild_points",
-                "amount": 44
-              }
-            ]
-          },
-          {
-            "id": "board:40:0:9:2",
-            "name": "$i18n:quest.board.cull.stoic.name",
-            "kind": "guild",
-            "args": {
-              "count": "4",
-              "target": "$i18n:enemy.slime_blue.name",
-              "place": "Galenholm"
-            },
-            "stages": [
-              {
-                "id": "work",
-                "journal": "$i18n:quest.board.cull.stoic.journal",
-                "objectives": [
-                  {
-                    "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
-                    "count": 4
-                  }
-                ],
-                "next": "end"
-              }
-            ],
-            "rewards": [
-              {
-                "effect": "add_xp",
-                "amount": 102
-              },
-              {
-                "effect": "add_gold",
-                "amount": 174
-              },
-              {
-                "effect": "add_guild_points",
-                "amount": 48
-              }
-            ]
-          },
-          {
-            "id": "board:40:0:9:3",
-            "name": "$i18n:quest.board.cull.stoic.name",
-            "kind": "guild",
-            "args": {
-              "count": "5",
-              "target": "$i18n:enemy.slime_blue.name",
-              "place": "Galenholm"
-            },
-            "stages": [
-              {
-                "id": "work",
-                "journal": "$i18n:quest.board.cull.stoic.journal",
-                "objectives": [
-                  {
-                    "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
-                    "count": 5
-                  }
-                ],
-                "next": "end"
-              }
-            ],
-            "rewards": [
-              {
-                "effect": "add_xp",
-                "amount": 160
-              },
-              {
-                "effect": "add_gold",
-                "amount": 280
-              },
-              {
-                "effect": "add_guild_points",
-                "amount": 76
-              }
-            ]
-          },
-          {
-            "id": "board:40:0:400:0",
-            "name": "$i18n:quest.board.cull.stoic.name",
-            "kind": "guild",
-            "args": {
-              "count": "6",
-              "target": "$i18n:enemy.wolf_frost.name",
-              "place": "Galenholm"
-            },
-            "stages": [
-              {
-                "id": "work",
-                "journal": "$i18n:quest.board.cull.stoic.journal",
-                "objectives": [
-                  {
-                    "type": "kill",
-                    "enemy": "base:enemy/wolf_frost",
-                    "count": 6
-                  }
-                ],
-                "next": "end"
-              }
-            ],
-            "rewards": [
-              {
-                "effect": "add_xp",
-                "amount": 46
-              },
-              {
-                "effect": "add_gold",
-                "amount": 82
-              },
-              {
-                "effect": "add_guild_points",
-                "amount": 22
-              }
-            ]
-          },
-          {
-            "id": "board:40:0:400:1",
-            "name": "$i18n:quest.board.stockpile.stoic.name",
-            "kind": "guild",
-            "args": {
-              "count": "11",
-              "target": "$i18n:item.frost_pelt.name",
-              "place": "Galenholm"
-            },
-            "stages": [
-              {
-                "id": "work",
-                "journal": "$i18n:quest.board.stockpile.stoic.journal",
-                "objectives": [
-                  {
-                    "type": "collect",
-                    "item": "base:item/frost_pelt",
-                    "count": 11
-                  }
-                ],
-                "next": "end"
-              }
-            ],
-            "rewards": [
-              {
-                "effect": "add_xp",
-                "amount": 138
-              },
-              {
-                "effect": "add_gold",
-                "amount": 248
-              },
-              {
-                "effect": "add_guild_points",
-                "amount": 56
-              }
-            ]
-          },
-          {
-            "id": "board:40:0:400:2",
-            "name": "$i18n:quest.board.purge.stoic.name",
-            "kind": "guild",
-            "args": {
-              "count": "8",
-              "target": "$i18n:enemy.wolf_frost.name",
-              "place": "Galenholm"
-            },
-            "stages": [
-              {
-                "id": "work",
-                "journal": "$i18n:quest.board.purge.stoic.journal",
-                "objectives": [
-                  {
-                    "type": "kill",
-                    "enemy": "base:enemy/wolf_frost",
-                    "count": 8
-                  }
-                ],
-                "next": "end"
-              }
-            ],
-            "rewards": [
-              {
-                "effect": "add_xp",
-                "amount": 228
-              },
-              {
-                "effect": "add_gold",
-                "amount": 396
-              },
-              {
-                "effect": "add_guild_points",
-                "amount": 96
-              }
-            ]
-          },
-          {
-            "id": "board:40:0:400:3",
-            "name": "$i18n:quest.board.cull.stoic.name",
-            "kind": "guild",
-            "args": {
-              "count": "6",
-              "target": "$i18n:enemy.wolf_frost.name",
-              "place": "Galenholm"
-            },
-            "stages": [
-              {
-                "id": "work",
-                "journal": "$i18n:quest.board.cull.stoic.journal",
-                "objectives": [
-                  {
-                    "type": "kill",
-                    "enemy": "base:enemy/wolf_frost",
-                    "count": 6
-                  }
-                ],
-                "next": "end"
-              }
-            ],
-            "rewards": [
-              {
-                "effect": "add_xp",
-                "amount": 184
-              },
-              {
-                "effect": "add_gold",
-                "amount": 328
-              },
-              {
-                "effect": "add_guild_points",
-                "amount": 88
               }
             ]
           },
@@ -22036,6 +22853,614 @@
               {
                 "effect": "add_guild_points",
                 "amount": 176
+              }
+            ]
+          },
+          {
+            "id": "board:59:1:1:0",
+            "name": "$i18n:quest.board.stockpile.gruff.name",
+            "kind": "guild",
+            "args": {
+              "count": "12",
+              "target": "$i18n:item.slime_gel.name",
+              "place": "Kelinford"
+            },
+            "stages": [
+              {
+                "id": "work",
+                "journal": "$i18n:quest.board.stockpile.gruff.journal",
+                "objectives": [
+                  {
+                    "type": "collect",
+                    "item": "base:item/slime_gel",
+                    "count": 12
+                  }
+                ],
+                "next": "end"
+              }
+            ],
+            "rewards": [
+              {
+                "effect": "add_xp",
+                "amount": 74
+              },
+              {
+                "effect": "add_gold",
+                "amount": 134
+              },
+              {
+                "effect": "add_guild_points",
+                "amount": 30
+              }
+            ]
+          },
+          {
+            "id": "board:59:1:1:1",
+            "name": "$i18n:quest.board.gather.gruff.name",
+            "kind": "guild",
+            "args": {
+              "count": "6",
+              "target": "$i18n:item.slime_gel.name",
+              "place": "Kelinford"
+            },
+            "stages": [
+              {
+                "id": "work",
+                "journal": "$i18n:quest.board.gather.gruff.journal",
+                "objectives": [
+                  {
+                    "type": "collect",
+                    "item": "base:item/slime_gel",
+                    "count": 6
+                  }
+                ],
+                "next": "end"
+              }
+            ],
+            "rewards": [
+              {
+                "effect": "add_xp",
+                "amount": 64
+              },
+              {
+                "effect": "add_gold",
+                "amount": 124
+              },
+              {
+                "effect": "add_guild_points",
+                "amount": 30
+              }
+            ]
+          },
+          {
+            "id": "board:59:1:1:2",
+            "name": "$i18n:quest.board.stockpile.gruff.name",
+            "kind": "guild",
+            "args": {
+              "count": "15",
+              "target": "$i18n:item.dire_fang.name",
+              "place": "Kelinford"
+            },
+            "stages": [
+              {
+                "id": "work",
+                "journal": "$i18n:quest.board.stockpile.gruff.journal",
+                "objectives": [
+                  {
+                    "type": "collect",
+                    "item": "base:item/dire_fang",
+                    "count": 15
+                  }
+                ],
+                "next": "end"
+              }
+            ],
+            "rewards": [
+              {
+                "effect": "add_xp",
+                "amount": 267
+              },
+              {
+                "effect": "add_gold",
+                "amount": 492
+              },
+              {
+                "effect": "add_guild_points",
+                "amount": 108
+              }
+            ]
+          },
+          {
+            "id": "board:59:1:1:3",
+            "name": "$i18n:quest.board.purge.gruff.name",
+            "kind": "guild",
+            "args": {
+              "count": "10",
+              "target": "$i18n:enemy.slime_slate.name",
+              "place": "Kelinford"
+            },
+            "stages": [
+              {
+                "id": "work",
+                "journal": "$i18n:quest.board.purge.gruff.journal",
+                "objectives": [
+                  {
+                    "type": "kill",
+                    "enemy": "base:enemy/slime_slate",
+                    "count": 10
+                  }
+                ],
+                "next": "end"
+              }
+            ],
+            "rewards": [
+              {
+                "effect": "add_xp",
+                "amount": 360
+              },
+              {
+                "effect": "add_gold",
+                "amount": 640
+              },
+              {
+                "effect": "add_guild_points",
+                "amount": 152
+              }
+            ]
+          },
+          {
+            "id": "board:59:1:2:0",
+            "name": "$i18n:quest.board.cull.gruff.name",
+            "kind": "guild",
+            "args": {
+              "count": "3",
+              "target": "$i18n:enemy.slime_slate.name",
+              "place": "Kelinford"
+            },
+            "stages": [
+              {
+                "id": "work",
+                "journal": "$i18n:quest.board.cull.gruff.journal",
+                "objectives": [
+                  {
+                    "type": "kill",
+                    "enemy": "base:enemy/slime_slate",
+                    "count": 3
+                  }
+                ],
+                "next": "end"
+              }
+            ],
+            "rewards": [
+              {
+                "effect": "add_xp",
+                "amount": 28
+              },
+              {
+                "effect": "add_gold",
+                "amount": 46
+              },
+              {
+                "effect": "add_guild_points",
+                "amount": 13
+              }
+            ]
+          },
+          {
+            "id": "board:59:1:2:1",
+            "name": "$i18n:quest.board.stockpile.gruff.name",
+            "kind": "guild",
+            "args": {
+              "count": "12",
+              "target": "$i18n:item.slime_gel.name",
+              "place": "Kelinford"
+            },
+            "stages": [
+              {
+                "id": "work",
+                "journal": "$i18n:quest.board.stockpile.gruff.journal",
+                "objectives": [
+                  {
+                    "type": "collect",
+                    "item": "base:item/slime_gel",
+                    "count": 12
+                  }
+                ],
+                "next": "end"
+              }
+            ],
+            "rewards": [
+              {
+                "effect": "add_xp",
+                "amount": 148
+              },
+              {
+                "effect": "add_gold",
+                "amount": 268
+              },
+              {
+                "effect": "add_guild_points",
+                "amount": 60
+              }
+            ]
+          },
+          {
+            "id": "board:59:1:2:2",
+            "name": "$i18n:quest.board.cull.gruff.name",
+            "kind": "guild",
+            "args": {
+              "count": "6",
+              "target": "$i18n:enemy.wolf_grey.name",
+              "place": "Kelinford"
+            },
+            "stages": [
+              {
+                "id": "work",
+                "journal": "$i18n:quest.board.cull.gruff.journal",
+                "objectives": [
+                  {
+                    "type": "kill",
+                    "enemy": "base:enemy/wolf_grey",
+                    "count": 6
+                  }
+                ],
+                "next": "end"
+              }
+            ],
+            "rewards": [
+              {
+                "effect": "add_xp",
+                "amount": 138
+              },
+              {
+                "effect": "add_gold",
+                "amount": 246
+              },
+              {
+                "effect": "add_guild_points",
+                "amount": 66
+              }
+            ]
+          },
+          {
+            "id": "board:59:1:2:3",
+            "name": "$i18n:quest.board.stockpile.gruff.name",
+            "kind": "guild",
+            "args": {
+              "count": "15",
+              "target": "$i18n:item.slime_gel.name",
+              "place": "Kelinford"
+            },
+            "stages": [
+              {
+                "id": "work",
+                "journal": "$i18n:quest.board.stockpile.gruff.journal",
+                "objectives": [
+                  {
+                    "type": "collect",
+                    "item": "base:item/slime_gel",
+                    "count": 15
+                  }
+                ],
+                "next": "end"
+              }
+            ],
+            "rewards": [
+              {
+                "effect": "add_xp",
+                "amount": 356
+              },
+              {
+                "effect": "add_gold",
+                "amount": 656
+              },
+              {
+                "effect": "add_guild_points",
+                "amount": 144
+              }
+            ]
+          },
+          {
+            "id": "board:59:1:9:0",
+            "name": "$i18n:quest.board.stockpile.gruff.name",
+            "kind": "guild",
+            "args": {
+              "count": "15",
+              "target": "$i18n:item.slate_shard.name",
+              "place": "Kelinford"
+            },
+            "stages": [
+              {
+                "id": "work",
+                "journal": "$i18n:quest.board.stockpile.gruff.journal",
+                "objectives": [
+                  {
+                    "type": "collect",
+                    "item": "base:item/slate_shard",
+                    "count": 15
+                  }
+                ],
+                "next": "end"
+              }
+            ],
+            "rewards": [
+              {
+                "effect": "add_xp",
+                "amount": 89
+              },
+              {
+                "effect": "add_gold",
+                "amount": 164
+              },
+              {
+                "effect": "add_guild_points",
+                "amount": 36
+              }
+            ]
+          },
+          {
+            "id": "board:59:1:9:1",
+            "name": "$i18n:quest.board.cull.gruff.name",
+            "kind": "guild",
+            "args": {
+              "count": "3",
+              "target": "$i18n:enemy.wolf_grey.name",
+              "place": "Kelinford"
+            },
+            "stages": [
+              {
+                "id": "work",
+                "journal": "$i18n:quest.board.cull.gruff.journal",
+                "objectives": [
+                  {
+                    "type": "kill",
+                    "enemy": "base:enemy/wolf_grey",
+                    "count": 3
+                  }
+                ],
+                "next": "end"
+              }
+            ],
+            "rewards": [
+              {
+                "effect": "add_xp",
+                "amount": 56
+              },
+              {
+                "effect": "add_gold",
+                "amount": 92
+              },
+              {
+                "effect": "add_guild_points",
+                "amount": 26
+              }
+            ]
+          },
+          {
+            "id": "board:59:1:9:2",
+            "name": "$i18n:quest.board.gather.gruff.name",
+            "kind": "guild",
+            "args": {
+              "count": "6",
+              "target": "$i18n:item.slate_shard.name",
+              "place": "Kelinford"
+            },
+            "stages": [
+              {
+                "id": "work",
+                "journal": "$i18n:quest.board.gather.gruff.journal",
+                "objectives": [
+                  {
+                    "type": "collect",
+                    "item": "base:item/slate_shard",
+                    "count": 6
+                  }
+                ],
+                "next": "end"
+              }
+            ],
+            "rewards": [
+              {
+                "effect": "add_xp",
+                "amount": 96
+              },
+              {
+                "effect": "add_gold",
+                "amount": 186
+              },
+              {
+                "effect": "add_guild_points",
+                "amount": 45
+              }
+            ]
+          },
+          {
+            "id": "board:59:1:9:3",
+            "name": "$i18n:quest.board.purge.gruff.name",
+            "kind": "guild",
+            "args": {
+              "count": "9",
+              "target": "$i18n:enemy.wolf_dire.name",
+              "place": "Kelinford"
+            },
+            "stages": [
+              {
+                "id": "work",
+                "journal": "$i18n:quest.board.purge.gruff.journal",
+                "objectives": [
+                  {
+                    "type": "kill",
+                    "enemy": "base:enemy/wolf_dire",
+                    "count": 9
+                  }
+                ],
+                "next": "end"
+              }
+            ],
+            "rewards": [
+              {
+                "effect": "add_xp",
+                "amount": 332
+              },
+              {
+                "effect": "add_gold",
+                "amount": 584
+              },
+              {
+                "effect": "add_guild_points",
+                "amount": 140
+              }
+            ]
+          },
+          {
+            "id": "board:59:1:400:0",
+            "name": "$i18n:quest.board.purge.gruff.name",
+            "kind": "guild",
+            "args": {
+              "count": "8",
+              "target": "$i18n:enemy.slime_blue.name",
+              "place": "Kelinford"
+            },
+            "stages": [
+              {
+                "id": "work",
+                "journal": "$i18n:quest.board.purge.gruff.journal",
+                "objectives": [
+                  {
+                    "type": "kill",
+                    "enemy": "base:enemy/slime_blue",
+                    "count": 8
+                  }
+                ],
+                "next": "end"
+              }
+            ],
+            "rewards": [
+              {
+                "effect": "add_xp",
+                "amount": 76
+              },
+              {
+                "effect": "add_gold",
+                "amount": 132
+              },
+              {
+                "effect": "add_guild_points",
+                "amount": 32
+              }
+            ]
+          },
+          {
+            "id": "board:59:1:400:1",
+            "name": "$i18n:quest.board.cull.gruff.name",
+            "kind": "guild",
+            "args": {
+              "count": "4",
+              "target": "$i18n:enemy.slime_blue.name",
+              "place": "Kelinford"
+            },
+            "stages": [
+              {
+                "id": "work",
+                "journal": "$i18n:quest.board.cull.gruff.journal",
+                "objectives": [
+                  {
+                    "type": "kill",
+                    "enemy": "base:enemy/slime_blue",
+                    "count": 4
+                  }
+                ],
+                "next": "end"
+              }
+            ],
+            "rewards": [
+              {
+                "effect": "add_xp",
+                "amount": 68
+              },
+              {
+                "effect": "add_gold",
+                "amount": 116
+              },
+              {
+                "effect": "add_guild_points",
+                "amount": 32
+              }
+            ]
+          },
+          {
+            "id": "board:59:1:400:2",
+            "name": "$i18n:quest.board.purge.gruff.name",
+            "kind": "guild",
+            "args": {
+              "count": "8",
+              "target": "$i18n:enemy.slime_blue.name",
+              "place": "Kelinford"
+            },
+            "stages": [
+              {
+                "id": "work",
+                "journal": "$i18n:quest.board.purge.gruff.journal",
+                "objectives": [
+                  {
+                    "type": "kill",
+                    "enemy": "base:enemy/slime_blue",
+                    "count": 8
+                  }
+                ],
+                "next": "end"
+              }
+            ],
+            "rewards": [
+              {
+                "effect": "add_xp",
+                "amount": 228
+              },
+              {
+                "effect": "add_gold",
+                "amount": 396
+              },
+              {
+                "effect": "add_guild_points",
+                "amount": 96
+              }
+            ]
+          },
+          {
+            "id": "board:59:1:400:3",
+            "name": "$i18n:quest.board.gather.gruff.name",
+            "kind": "guild",
+            "args": {
+              "count": "5",
+              "target": "$i18n:item.slate_shard.name",
+              "place": "Kelinford"
+            },
+            "stages": [
+              {
+                "id": "work",
+                "journal": "$i18n:quest.board.gather.gruff.journal",
+                "objectives": [
+                  {
+                    "type": "collect",
+                    "item": "base:item/slate_shard",
+                    "count": 5
+                  }
+                ],
+                "next": "end"
+              }
+            ],
+            "rewards": [
+              {
+                "effect": "add_xp",
+                "amount": 112
+              },
+              {
+                "effect": "add_gold",
+                "amount": 212
+              },
+              {
+                "effect": "add_guild_points",
+                "amount": 52
               }
             ]
           }

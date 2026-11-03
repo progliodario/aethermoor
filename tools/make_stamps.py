@@ -47,6 +47,12 @@ LEGEND = {
     "P": {"tile": 14, "spawner": "base:enemy/slime_amber"},
     "H": {"tile": 14, "spawner": "base:enemy/slime_ice"},
     "O": {"tile": 14, "spawner": "base:enemy/wolf_storm"},
+    "U": {"tile": 14, "spawner": "base:enemy/dire_alpha"},
+    "X": {"tile": 14, "spawner": "base:enemy/magma_heart"},
+    "C": {"tile": 14, "spawner": "base:enemy/coral_matron"},
+    "L": {"tile": 14, "spawner": "base:enemy/amber_queen"},
+    "j": {"tile": 14, "spawner": "base:enemy/ice_warden"},
+    "k": {"tile": 14, "spawner": "base:enemy/storm_sovereign"},
     "T": {"tile": 14, "prop": "base:art/prop/threshold_stone", "radius_x100": 35},  # Threshold Stone (fast travel)
     "V": {"tile": 13, "npc": "villager"},
     "G": {"tile": 13, "npc": "guild_clerk"},
@@ -172,6 +178,91 @@ def town() -> dict:
     for x, y in ((0, 0), (30, 0), (0, 24), (30, 24), (6, 0), (24, 24)):
         c.put(x, y, "t")
     return stamp("base:stamp/town", c, (15, 12), [(13, 10), (14, 10), (16, 10), (13, 14), (17, 14), (15, 14)])
+
+
+def hamlet_b() -> dict:
+    """Two small houses on either side of a well."""
+    c = Canvas(15, 9)
+    c.house(1, 1, 5, 4, {(1, 1): "b", (2, 1): "V"})
+    c.house(9, 1, 5, 4, {(1, 1): "b", (3, 1): "V"})
+    c.vline(3, 5, 8, "=")
+    c.vline(11, 5, 8, "=")
+    c.hline(5, 9, 6, "c")
+    c.put(7, 6, "w")
+    c.put(9, 6, "T")
+    for x, y in ((7, 1), (0, 7), (14, 7), (7, 8)):
+        c.put(x, y, "t")
+    return stamp("base:stamp/hamlet_b", c, (7, 6), [(6, 6), (8, 6)])
+
+
+def hamlet_c() -> dict:
+    """A long barn with a yard and a well."""
+    c = Canvas(11, 11)
+    c.house(2, 1, 7, 4, {(1, 1): "b", (2, 1): "b", (5, 2): "V"}, door=3)
+    c.vline(5, 5, 10, "=")
+    c.hline(3, 7, 7, "c")
+    c.put(5, 7, "w")
+    c.put(7, 7, "T")
+    for x, y in ((1, 9), (9, 9), (1, 6), (9, 5)):
+        c.put(x, y, "t")
+    return stamp("base:stamp/hamlet_c", c, (5, 7), [(4, 7), (6, 7)])
+
+
+def village_b() -> dict:
+    """Four houses around a square with the well in the middle and the elder beside it."""
+    c = Canvas(23, 17)
+    c.hline(0, 22, 8, "=")
+    c.vline(11, 0, 16, "=")
+    c.plaza(11, 8, 2)
+    for x, y in ((9, 6), (13, 6), (9, 10), (13, 10)):
+        c.put(x, y, "l")
+    c.put(11, 9, "E")
+    c.put(13, 9, "T")
+    c.house(1, 1, 7, 5, {(1, 1): "b", (4, 2): "V"}, door=3)
+    c.house(15, 1, 7, 5, {(1, 1): "b", (2, 1): "b", (4, 2): "S"}, door=3)
+    c.house(1, 11, 7, 5, {(1, 1): "b", (4, 2): "V"}, door=3)
+    c.house(15, 11, 7, 5, {(4, 2): "V"}, door=3)
+    for x, y in ((9, 2), (13, 14), (9, 14), (13, 2)):
+        c.put(x, y, "t")
+    return stamp("base:stamp/village_b", c, (11, 8), [(10, 7), (12, 7), (10, 9), (12, 9)])
+
+
+def village_c() -> dict:
+    """A main street with houses on both sides and a small square."""
+    c = Canvas(25, 13)
+    c.hline(0, 24, 6, "=")
+    c.rect(11, 5, 3, 3, "c")
+    c.put(12, 6, "w")
+    c.put(12, 7, "E")
+    c.put(13, 5, "T")
+    c.house(1, 1, 6, 4, {(1, 1): "b", (3, 1): "V"})
+    c.house(15, 1, 8, 4, {(1, 1): "b", (2, 1): "b", (5, 2): "S"}, door=4)
+    c.house(2, 8, 7, 4, {(2, 1): "V"}, door=3)
+    c.house(16, 8, 7, 4, {(3, 2): "V"}, door=3)
+    for x, y in ((0, 12), (24, 0), (10, 10), (14, 10)):
+        c.put(x, y, "t")
+    return stamp("base:stamp/village_c", c, (12, 6), [(11, 6), (13, 6), (11, 7), (13, 7)])
+
+
+def town_b() -> dict:
+    """An open town around a big plaza: no walls, a guild hall, a shop and an inn."""
+    c = Canvas(35, 27)
+    c.vline(17, 0, 26, "=")
+    c.hline(0, 34, 13, "=")
+    c.plaza(17, 13, 4)
+    for x, y in ((13, 9), (21, 9), (13, 17), (21, 17)):
+        c.put(x, y, "l")
+    c.put(17, 14, "E")
+    c.put(20, 10, "T")
+    c.house(3, 3, 10, 6, {(1, 1): "b", (2, 1): "b", (7, 3): "G"}, door=5)
+    c.house(22, 3, 9, 6, {(1, 1): "b", (2, 1): "b", (6, 3): "S"}, door=4)
+    c.house(3, 18, 10, 6, {(1, 1): "b", (7, 3): "I"}, door=5)
+    c.house(23, 18, 8, 5, {(3, 2): "V"}, door=3)
+    c.house(2, 10, 6, 3, {(2, 1): "V"}, door=2)
+    c.house(27, 10, 6, 3, {(2, 1): "V"}, door=2)
+    for x, y in ((0, 0), (34, 0), (0, 26), (34, 26), (15, 1), (19, 25)):
+        c.put(x, y, "t")
+    return stamp("base:stamp/town_b", c, (17, 13), [(15, 11), (16, 11), (18, 11), (15, 15), (19, 15), (17, 15)])
 
 
 def barrow() -> dict:
@@ -434,8 +525,8 @@ def citadel() -> dict:
     return stamp("base:stamp/citadel", c, (23, 39), [])
 
 
-def lair(stamp_id: str, wall: str, thickness: int, floor: str, gaps: str, mob: str, other: str, extras: list[tuple[str, int, int]]) -> dict:
-    """A lair: a ring of `wall` around an open floor full of one kind of creature, with a few of another (spec 09, "Landmarks")."""
+def lair(stamp_id: str, wall: str, thickness: int, floor: str, gaps: str, mob: str, other: str, elite: str, extras: list[tuple[str, int, int]]) -> dict:
+    """A lair: a ring of `wall` around an open floor full of one kind of creature, with a few of another and an elite in the middle (spec 09, "Landmarks")."""
     c = Canvas(25, 21)
     c.rect(1, 1, 23, 19, wall)
     c.rect(1 + thickness, 1 + thickness, 23 - 2 * thickness, 19 - 2 * thickness, floor)
@@ -449,7 +540,7 @@ def lair(stamp_id: str, wall: str, thickness: int, floor: str, gaps: str, mob: s
             anchor = {"n": (12, 0), "s": (12, 20), "w": (0, 10), "e": (24, 10)}[side]
     points = [(x, y) for y in (5, 9, 13) for x in ((6, 10, 14, 18) if y != 9 else (8, 12, 16))]
     for i, (x, y) in enumerate(points):
-        c.put(x, y, other if i in (3, 5, 8) else mob)
+        c.put(x, y, elite if i == 5 else other if i in (3, 8) else mob)
     for ch, x, y in extras:
         c.put(x, y, ch)
     return stamp(stamp_id, c, anchor, [])
@@ -457,37 +548,37 @@ def lair(stamp_id: str, wall: str, thickness: int, floor: str, gaps: str, mob: s
 
 def den() -> dict:
     """Ironspine: a den of dire wolves inside a ring of trees."""
-    return lair("base:stamp/den", "t", 2, ".", "e", "D", "W", [("o", 6, 7), ("o", 18, 11), ("o", 10, 15)])
+    return lair("base:stamp/den", "t", 2, ".", "e", "D", "W", "U", [("o", 6, 7), ("o", 18, 11), ("o", 10, 15)])
 
 
 def vent() -> dict:
     """The Ashen Wastes: a ring of stone around a vent of magma slimes."""
-    return lair("base:stamp/vent", "#", 1, "c", "w", "M", "e", [("l", 3, 3), ("l", 21, 3), ("l", 3, 17), ("l", 21, 17)])
+    return lair("base:stamp/vent", "#", 1, "c", "w", "M", "e", "X", [("l", 3, 3), ("l", 21, 3), ("l", 3, 17), ("l", 21, 17)])
 
 
 def grotto() -> dict:
     """Tidehaven: a coral grotto open to the north and the south."""
-    return lair("base:stamp/grotto", "#", 1, "c", "ns", "Z", "i", [("#", 8, 7), ("#", 16, 7), ("#", 8, 11), ("#", 16, 11)])
+    return lair("base:stamp/grotto", "#", 1, "c", "ns", "Z", "i", "C", [("#", 8, 7), ("#", 16, 7), ("#", 8, 11), ("#", 16, 11)])
 
 
 def amber() -> dict:
     """Sunscar: a hollow of rocks full of amber slimes."""
-    return lair("base:stamp/amber", "o", 2, ".", "n", "P", "a", [("t", 5, 7), ("t", 19, 7), ("t", 12, 15)])
+    return lair("base:stamp/amber", "o", 2, ".", "n", "P", "a", "L", [("t", 5, 7), ("t", 19, 7), ("t", 12, 15)])
 
 
 def icepit() -> dict:
     """Frostveil: a pit of ice slimes with a way in on each side."""
-    return lair("base:stamp/icepit", "#", 1, "c", "ew", "H", "f", [("#", 11, 7), ("#", 13, 11), ("l", 3, 3), ("l", 21, 17)])
+    return lair("base:stamp/icepit", "#", 1, "c", "ew", "H", "f", "j", [("#", 11, 7), ("#", 13, 11), ("l", 3, 3), ("l", 21, 17)])
 
 
 def roost() -> dict:
     """Lumeria: a roost of storm wolves inside a ring of trees."""
-    return lair("base:stamp/roost", "t", 2, ".", "s", "O", "d", [("o", 6, 7), ("o", 18, 7), ("o", 12, 11)])
+    return lair("base:stamp/roost", "t", 2, ".", "s", "O", "d", "k", [("o", 6, 7), ("o", 18, 7), ("o", 12, 11)])
 
 
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    for build in (hamlet, village, town, barrow, cellar, mine, cavern, temple, hollow, ziggurat, observatory, citadel, den, vent, grotto, amber, icepit, roost):
+    for build in (hamlet, village, town, barrow, cellar, mine, cavern, temple, hollow, ziggurat, observatory, citadel, den, vent, grotto, amber, icepit, roost, hamlet_b, hamlet_c, village_b, village_c, town_b):
         data = build()
         name = data["id"].split("/")[-1]
         (OUT / f"{name}.json").write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

@@ -71,6 +71,10 @@ Effect parse_effect(const Json& j) {
         e.kind = Effect::Kind::AddItem;
         e.a = j.at("item").get<std::string>();
         e.n = j.at("qty").get<std::int64_t>();
+    } else if (kind == "remove_item") {
+        e.kind = Effect::Kind::RemoveItem;
+        e.a = j.at("item").get<std::string>();
+        e.n = j.at("qty").get<std::int64_t>();
     } else if (kind == "set_flag") {
         e.kind = Effect::Kind::SetFlag;
         e.a = j.at("flag").get<std::string>();
@@ -322,6 +326,18 @@ void Story::apply(const Effect& effect) {
             m_host_.host_inventory()[effect.a] += effect.n;
             refresh_all();
             break;
+        case Effect::Kind::RemoveItem: {
+            auto& inventory = m_host_.host_inventory();
+            const auto held = inventory.find(effect.a);
+            if (held != inventory.end()) {
+                held->second -= std::min(held->second, effect.n);
+                if (held->second <= 0) {
+                    inventory.erase(held);
+                }
+            }
+            refresh_all();
+            break;
+        }
         case Effect::Kind::SetFlag:
             m_flags_[effect.a] = effect.value;
             break;

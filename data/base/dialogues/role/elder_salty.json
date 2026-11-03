@@ -52,6 +52,52 @@
           "next": "errand_paid"
         },
         {
+          "text": "$i18n:dlg.role.hunt.ask",
+          "when": {
+            "all": [
+              {
+                "flag": "errand_tide_pearls_paid"
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/grotto_matron"
+                    },
+                    {
+                      "quest_done": "base:quest/side/grotto_matron"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "hunt_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.hunt.status",
+          "when": {
+            "quest_active": "base:quest/side/grotto_matron"
+          },
+          "next": "hunt_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.hunt.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/grotto_matron"
+              },
+              {
+                "not": {
+                  "flag": "hunt_grotto_matron_paid"
+                }
+              }
+            ]
+          },
+          "next": "hunt_paid"
+        },
+        {
           "text": "$i18n:dlg.role.rumor",
           "next": "rumor"
         },
@@ -126,6 +172,71 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.errand.salty.thanks",
+      "next": "end"
+    },
+    "hunt_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.hunt.salty.offer",
+      "next": "hunt_choice"
+    },
+    "hunt_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/grotto_matron"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "hunt_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.hunt.salty.busy",
+      "next": "end"
+    },
+    "hunt_paid": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "hunt_grotto_matron_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 240
+        },
+        {
+          "effect": "add_gold",
+          "amount": 560
+        },
+        {
+          "effect": "add_guild_points",
+          "amount": 30
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_large",
+          "qty": 2
+        }
+      ],
+      "next": "hunt_thanks"
+    },
+    "hunt_thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.hunt.salty.thanks",
       "next": "end"
     }
   }

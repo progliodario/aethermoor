@@ -28,6 +28,7 @@ An effect is an object with `effect` plus parameters, applied in list order:
 | `add_xp` | `amount` | `xp += amount`, then the level-up loop of spec 05 |
 | `add_gold` | `amount` | `gold += amount` |
 | `add_item` | `item`, `qty` | inventory `item += qty` |
+| `remove_item` | `item`, `qty` | inventory `item -= min(qty, held)`; the entry disappears at 0 (guard it with `has_item`) |
 | `set_flag` | `flag`, `value` | sets the flag to the boolean |
 | `start_quest` | `quest` | starts the quest (ignored when it already exists) |
 | `add_guild_points` | `amount` | `guild_points += amount` |
@@ -121,6 +122,10 @@ and the payment is made once, by the elder the player talks to, whichever settle
 | grim | Ashen Wastes | 6 ember slimes | 4 ember cores | 380 XP, 800 gold, 4 potions |
 | scholarly | Lumeria | 5 glow slimes | 5 star dust | 280 XP, 560 gold, 3 potions |
 
+A paid errand opens the elder's **second errand** ("Is there a harder job?"): a `side` quest with one `kill` objective against the strongest creature of the region, paid in the same way (flag `hunt_<quest>_paid`)
+with XP, gold, guild points and large potions. The targets are the Gel King (Verdalis), the Moonshade Alpha (Whisperwood), the Dire Alpha (Ironspine), the Amber Queen (Sunscar), the Ice Warden (Frostveil),
+the Coral Matron (Tidehaven), the Magma Heart (Ashen Wastes) and the Storm Sovereign (Lumeria).
+
 ## Innkeepers' favors and legends
 
 Like the elders' errands, each region's **innkeeper** (`base:dialogue/role/innkeeper_<tone>`) asks one favor: a `side` quest with a single `collect` objective for a material that a creature of the region drops
@@ -128,6 +133,25 @@ Like the elders' errands, each region's **innkeeper** (`base:dialogue/role/innke
 The menu shows "Anything you need around the inn?", "About that favor..." and "I brought what you asked." under the same conditions as the elders' (flag `pantry_<quest>_paid`), and the payment is a
 dialogue effect list: XP, gold and one or two medium potions. Villagers and innkeepers also answer "Know any old legends?" with a text of the region's tone (`dlg.tone.<tone>.legend`) that says
 where its dungeon is. The texts are in `roles.json`.
+
+## Workshops (shopkeepers)
+
+The shopkeeper of every region can **make one unique piece of equipment** from monster parts, once per game: the menu shows "Could you make something from monster parts?" until the flag `craft_<item>_done` is set; the
+shopkeeper names the two kinds of parts and how many, and the choice "Here are the parts. Make it." is visible only when the player holds enough of both (`has_item`). It runs `remove_item` for each part, `add_item` of the
+result and `set_flag`. The parts are drops of the region's own creatures, so the equipment (a weapon or an armor of rarity rare or epic) is a reward of hunting that region:
+
+| Tone | Region | Parts | Result |
+|---|---|---|---|
+| warm | Verdalis | 8 wolf fangs, 12 slime gel | Fang dagger (atk 14) |
+| mystic | Whisperwood | 6 shade wisps, 3 dire fangs | Wisp mantle (def 7, mdef 8) |
+| gruff | Ironspine | 14 slate shards, 6 wolf fangs | Slate cleaver (atk 18) |
+| flowery | Sunscar | 8 amber drops, 10 slime gel | Amber plate (def 9, mdef 6) |
+| stoic | Frostveil | 8 frost pelts, 4 ice crystals | Frostfur coat (def 10, mdef 7) |
+| salty | Tidehaven | 6 tide pearls, 8 coral fragments | Pearl rapier (atk 19) |
+| grim | Ashen Wastes | 8 ember cores, 5 magma shards | Ember greatsword (atk 24) |
+| scholarly | Lumeria | 8 star dust, 4 storm feathers | Starlit vestment (def 8, mdef 14) |
+
+Villagers and shopkeepers also answer "How is the road around here?" with a text of the region's tone (`dlg.tone.<tone>.road`).
 
 ## Journal
 

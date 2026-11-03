@@ -482,8 +482,33 @@
                     {
                       "text": "c.gift",
                       "next": "gift"
+                    },
+                    {
+                      "text": "c.barter",
+                      "when": {
+                        "has_item": {
+                          "item": "base:item/slime_gel",
+                          "qty": 2
+                        }
+                      },
+                      "next": "barter"
                     }
                   ]
+                },
+                "barter": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "remove_item",
+                      "item": "base:item/slime_gel",
+                      "qty": 2
+                    },
+                    {
+                      "effect": "add_gold",
+                      "amount": 7
+                    }
+                  ],
+                  "next": "after"
                 },
                 "gift": {
                   "type": "effects",
@@ -1266,8 +1291,33 @@
                     {
                       "text": "c.gift",
                       "next": "gift"
+                    },
+                    {
+                      "text": "c.barter",
+                      "when": {
+                        "has_item": {
+                          "item": "base:item/slime_gel",
+                          "qty": 2
+                        }
+                      },
+                      "next": "barter"
                     }
                   ]
+                },
+                "barter": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "remove_item",
+                      "item": "base:item/slime_gel",
+                      "qty": 2
+                    },
+                    {
+                      "effect": "add_gold",
+                      "amount": 7
+                    }
+                  ],
+                  "next": "after"
                 },
                 "gift": {
                   "type": "effects",
@@ -2534,8 +2584,33 @@
                     {
                       "text": "c.gift",
                       "next": "gift"
+                    },
+                    {
+                      "text": "c.barter",
+                      "when": {
+                        "has_item": {
+                          "item": "base:item/slime_gel",
+                          "qty": 2
+                        }
+                      },
+                      "next": "barter"
                     }
                   ]
+                },
+                "barter": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "remove_item",
+                      "item": "base:item/slime_gel",
+                      "qty": 2
+                    },
+                    {
+                      "effect": "add_gold",
+                      "amount": 7
+                    }
+                  ],
+                  "next": "after"
                 },
                 "gift": {
                   "type": "effects",
@@ -2710,7 +2785,8 @@
                 "type": "choice",
                 "choices": [
                   "c.start",
-                  "c.gift"
+                  "c.gift",
+                  "c.barter"
                 ]
               }
             }
@@ -3258,8 +3334,33 @@
                     {
                       "text": "c.gift",
                       "next": "gift"
+                    },
+                    {
+                      "text": "c.barter",
+                      "when": {
+                        "has_item": {
+                          "item": "base:item/slime_gel",
+                          "qty": 2
+                        }
+                      },
+                      "next": "barter"
                     }
                   ]
+                },
+                "barter": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "remove_item",
+                      "item": "base:item/slime_gel",
+                      "qty": 2
+                    },
+                    {
+                      "effect": "add_gold",
+                      "amount": 7
+                    }
+                  ],
+                  "next": "after"
                 },
                 "gift": {
                   "type": "effects",
@@ -3344,7 +3445,8 @@
                 "type": "choice",
                 "choices": [
                   "c.start",
-                  "c.gift"
+                  "c.gift",
+                  "c.barter"
                 ]
               }
             }

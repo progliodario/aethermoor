@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/thunderfang",
+  "name": "$i18n:item.thunderfang.name",
+  "description": "$i18n:item.thunderfang.desc",
+  "kind": "weapon",
+  "rarity": "epic",
+  "price": 1600,
+  "weapon": {
+    "atk": 28,
+    "matk": 0
+  }
+}

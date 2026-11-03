@@ -52,6 +52,52 @@
           "next": "errand_paid"
         },
         {
+          "text": "$i18n:dlg.role.hunt.ask",
+          "when": {
+            "all": [
+              {
+                "flag": "errand_dust_survey_paid"
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/roost_sovereign"
+                    },
+                    {
+                      "quest_done": "base:quest/side/roost_sovereign"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "hunt_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.hunt.status",
+          "when": {
+            "quest_active": "base:quest/side/roost_sovereign"
+          },
+          "next": "hunt_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.hunt.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/roost_sovereign"
+              },
+              {
+                "not": {
+                  "flag": "hunt_roost_sovereign_paid"
+                }
+              }
+            ]
+          },
+          "next": "hunt_paid"
+        },
+        {
           "text": "$i18n:dlg.role.rumor",
           "next": "rumor"
         },
@@ -126,6 +172,71 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.errand.scholarly.thanks",
+      "next": "end"
+    },
+    "hunt_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.hunt.scholarly.offer",
+      "next": "hunt_choice"
+    },
+    "hunt_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/roost_sovereign"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "hunt_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.hunt.scholarly.busy",
+      "next": "end"
+    },
+    "hunt_paid": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "hunt_roost_sovereign_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 380
+        },
+        {
+          "effect": "add_gold",
+          "amount": 850
+        },
+        {
+          "effect": "add_guild_points",
+          "amount": 50
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_large",
+          "qty": 2
+        }
+      ],
+      "next": "hunt_thanks"
+    },
+    "hunt_thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.hunt.scholarly.thanks",
       "next": "end"
     }
   }

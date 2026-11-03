@@ -160,6 +160,27 @@
           "type": "object",
           "required": [
             "effect",
+            "item",
+            "qty"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "const": "remove_item"
+            },
+            "item": {
+              "$ref": "#/$defs/id"
+            },
+            "qty": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect",
             "flag",
             "value"
           ],

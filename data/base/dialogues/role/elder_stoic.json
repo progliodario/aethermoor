@@ -52,6 +52,52 @@
           "next": "errand_paid"
         },
         {
+          "text": "$i18n:dlg.role.hunt.ask",
+          "when": {
+            "all": [
+              {
+                "flag": "errand_winter_pelts_paid"
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/pit_warden"
+                    },
+                    {
+                      "quest_done": "base:quest/side/pit_warden"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "hunt_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.hunt.status",
+          "when": {
+            "quest_active": "base:quest/side/pit_warden"
+          },
+          "next": "hunt_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.hunt.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/pit_warden"
+              },
+              {
+                "not": {
+                  "flag": "hunt_pit_warden_paid"
+                }
+              }
+            ]
+          },
+          "next": "hunt_paid"
+        },
+        {
           "text": "$i18n:dlg.role.rumor",
           "next": "rumor"
         },
@@ -126,6 +172,71 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.errand.stoic.thanks",
+      "next": "end"
+    },
+    "hunt_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.hunt.stoic.offer",
+      "next": "hunt_choice"
+    },
+    "hunt_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/pit_warden"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "hunt_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.hunt.stoic.busy",
+      "next": "end"
+    },
+    "hunt_paid": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "hunt_pit_warden_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 300
+        },
+        {
+          "effect": "add_gold",
+          "amount": 700
+        },
+        {
+          "effect": "add_guild_points",
+          "amount": 40
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_large",
+          "qty": 2
+        }
+      ],
+      "next": "hunt_thanks"
+    },
+    "hunt_thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.hunt.stoic.thanks",
       "next": "end"
     }
   }

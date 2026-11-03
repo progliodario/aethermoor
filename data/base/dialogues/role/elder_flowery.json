@@ -52,6 +52,52 @@
           "next": "errand_paid"
         },
         {
+          "text": "$i18n:dlg.role.hunt.ask",
+          "when": {
+            "all": [
+              {
+                "flag": "errand_garden_gel_paid"
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/amber_queen_hunt"
+                    },
+                    {
+                      "quest_done": "base:quest/side/amber_queen_hunt"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "hunt_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.hunt.status",
+          "when": {
+            "quest_active": "base:quest/side/amber_queen_hunt"
+          },
+          "next": "hunt_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.hunt.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/amber_queen_hunt"
+              },
+              {
+                "not": {
+                  "flag": "hunt_amber_queen_hunt_paid"
+                }
+              }
+            ]
+          },
+          "next": "hunt_paid"
+        },
+        {
           "text": "$i18n:dlg.role.rumor",
           "next": "rumor"
         },
@@ -126,6 +172,71 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.errand.flowery.thanks",
+      "next": "end"
+    },
+    "hunt_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.hunt.flowery.offer",
+      "next": "hunt_choice"
+    },
+    "hunt_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/amber_queen_hunt"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "hunt_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.hunt.flowery.busy",
+      "next": "end"
+    },
+    "hunt_paid": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "hunt_amber_queen_hunt_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 260
+        },
+        {
+          "effect": "add_gold",
+          "amount": 600
+        },
+        {
+          "effect": "add_guild_points",
+          "amount": 30
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_large",
+          "qty": 2
+        }
+      ],
+      "next": "hunt_thanks"
+    },
+    "hunt_thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.hunt.flowery.thanks",
       "next": "end"
     }
   }
