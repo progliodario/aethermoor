@@ -48,15 +48,16 @@ struct Region {
     int x_pm = 0;
     int y_pm = 0;
     int danger = 1;
-    std::string tone;  // the voice of the people of the region
+    std::string tone;          // the voice of the people of the region
     int shop_price_pm = 1000;  // what the shops of the region sell (spec 06)
     std::vector<std::string> shop_stock;
     std::vector<FaunaEntry> fauna;  // the enemies of the spawners of the region, by weight
-    int bias_elevation = 0;  // pull on the fields of the terrain near its center (spec 09, "Regions")
+    int bias_elevation = 0;         // pull on the fields of the terrain near its center (spec 09, "Regions")
     int bias_temperature = 0;
     int bias_moisture = 0;
     std::map<std::string, std::vector<int>> ground;  // ground tiles by biome name, instead of the ones of the world
-    std::map<std::string, std::vector<PropOption>> props;  // random props by biome name, instead of the ones of the world
+    std::map<std::string, std::vector<PropOption>>
+        props;  // random props by biome name, instead of the ones of the world
 };
 
 struct SettlementKind {
@@ -157,11 +158,11 @@ struct WorldParams {
 
     TimeParams time;
 
-    int region_blend = 0;     // tiles over which the biases of the regions are blended (spec 09); 0: no biases
-    int enemy_hp_pct = 100;   // difficulty (spec 04): health of the creatures of the streamed world, in percent
-    int enemy_atk_pct = 100;  // and their attack
+    int region_blend = 0;       // tiles over which the biases of the regions are blended (spec 09); 0: no biases
+    int enemy_hp_pct = 100;     // difficulty (spec 04): health of the creatures of the streamed world, in percent
+    int enemy_atk_pct = 100;    // and their attack
     int landmark_clearing = 0;  // tiles of plains around the footprint of a landmark (spec 09); 0: none
-    int home_radius = 0;  // the home meadow and village (spec 09); 0: none
+    int home_radius = 0;        // the home meadow and village (spec 09); 0: none
     std::string home_stamp;
     int home_dx = 0;
     int home_dy = 0;
@@ -182,7 +183,7 @@ struct WorldParams {
     // Daily routines by role: keyframes (from_pm, state) with state work, plaza or away (spec 08).
     std::map<std::string, std::vector<std::pair<int, std::string>>> routines;
 
-    std::string stone_art;  // the prop that is a Threshold Stone (spec 09)
+    std::string stone_art;     // the prop that is a Threshold Stone (spec 09)
     int stone_range_x100 = 0;  // how near the player must be to use it, in 1/100 tile
 
     std::vector<Region> regions;
@@ -227,8 +228,8 @@ struct GenPerson {
     std::string tone;
     std::string dialogue;
     std::string place;
-    std::string region;  // a text key
-    std::string quirk;   // a text key
+    std::string region;   // a text key
+    std::string quirk;    // a text key
     int plaza_x256 = -1;  // gathering spot (spec 08), -1 when the stamp has none
     int plaza_y256 = -1;
 };
@@ -247,17 +248,19 @@ struct GeneratedWorld {
 
 GeneratedWorld generate_world(std::uint64_t seed, const WorldParams& params);
 
-// A chunk is a kChunkSize x kChunkSize window of the world; chunk (cx, cy) starts at tile (cx * kChunkSize, cy * kChunkSize).
+// A chunk is a kChunkSize x kChunkSize window of the world; chunk (cx, cy) starts at tile (cx * kChunkSize, cy *
+// kChunkSize).
 constexpr int kChunkSize = 32;
 
 struct GeneratedChunk {
-    std::vector<int> tiles;  // kChunkSize * kChunkSize gids, row-major
-    std::vector<GenProp> props;  // scan order inside the chunk
+    std::vector<int> tiles;                     // kChunkSize * kChunkSize gids, row-major
+    std::vector<GenProp> props;                 // scan order inside the chunk
     std::vector<std::pair<int, int>> spawners;  // absolute tile coordinates, scan order
-    std::vector<GenPerson> people;  // scan order
+    std::vector<GenPerson> people;              // scan order
 };
 
-// Exactly the restriction of generate_world to the window. Any chunk coordinates are valid: tiles outside the world are water.
+// Exactly the restriction of generate_world to the window. Any chunk coordinates are valid: tiles outside the world are
+// water.
 GeneratedChunk generate_chunk(std::uint64_t seed, const WorldParams& params, int chunk_x, int chunk_y);
 
 // Regions and settlements (spec 09). Site cells are kSiteCell x kSiteCell tiles.
@@ -311,7 +314,8 @@ struct Offer {
 
 // Index of the rank of a member with that many guild points.
 int rank_index(const GuildParams& guild, std::int64_t points);
-std::vector<Offer> offers_for(std::uint64_t seed, const WorldParams& params, const Settlement& settlement, std::int64_t day);
+std::vector<Offer> offers_for(std::uint64_t seed, const WorldParams& params, const Settlement& settlement,
+                              std::int64_t day);
 // The offer a generated quest id names, or nothing when the world cannot rebuild it.
 std::optional<Offer> resolve_offer(std::uint64_t seed, const WorldParams& params, const std::string& quest_id);
 
@@ -333,7 +337,8 @@ const FaunaEntry& pick_fauna(const std::vector<FaunaEntry>& entries, std::uint64
 const FaunaEntry& fauna_at(std::uint64_t seed, const WorldParams& params, int x, int y);
 std::optional<Settlement> settlement_site(std::uint64_t seed, const WorldParams& params, int site_x, int site_y);
 // The settlements of the site cells sx0..sx1, sy0..sy1 (inclusive), row-major.
-std::vector<Settlement> settlements_in(std::uint64_t seed, const WorldParams& params, int sx0, int sy0, int sx1, int sy1);
+std::vector<Settlement> settlements_in(std::uint64_t seed, const WorldParams& params, int sx0, int sy0, int sx1,
+                                       int sy1);
 // The settlement shown on the world map cell: the one whose site point lies in the cell.
 std::optional<Settlement> settlement_marker(std::uint64_t seed, const WorldParams& params, int cell_x, int cell_y);
 

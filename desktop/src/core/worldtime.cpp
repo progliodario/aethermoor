@@ -35,7 +35,8 @@ int weight_of(const TimeParams& p, int season, const WeatherKind& k) {
 }
 
 const WeatherKind& kind_of(std::uint64_t seed, const TimeParams& p, std::int64_t period) {
-    const int season = season_index_of(p, period * p.period_ticks / p.day_ticks + 1);  // the season of the first tick of the period
+    const int season =
+        season_index_of(p, period * p.period_ticks / p.day_ticks + 1);  // the season of the first tick of the period
     std::uint64_t total = 0;
     for (const WeatherKind& k : p.kinds) {
         total += static_cast<std::uint64_t>(weight_of(p, season, k));

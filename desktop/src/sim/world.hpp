@@ -99,9 +99,10 @@ struct SaveState {
     std::uint64_t loot_state = 0;
     std::uint64_t loot_inc = 0;
     std::vector<SaveEnemy> enemies;
-    std::vector<ClearedSpawner> cleared;  // streamed worlds: spawners whose enemy was killed
+    std::vector<ClearedSpawner> cleared;        // streamed worlds: spawners whose enemy was killed
     std::vector<std::pair<int, int>> explored;  // streamed worlds: explored world map cells
-    std::vector<std::pair<int, int>> stones;  // streamed worlds: tiles of the Threshold Stones that were used, in order (spec 09)
+    std::vector<std::pair<int, int>>
+        stones;                     // streamed worlds: tiles of the Threshold Stones that were used, in order (spec 09)
     std::int64_t world_ticks = -1;  // -1: not in the save (a new game starts at the world's start tick)
     std::map<std::string, std::int64_t> inventory;
     std::string equipped_weapon;  // spec 06
@@ -150,9 +151,11 @@ public:
     void for_each_prop(float x0, float y0, float x1, float y1, const std::function<void(const Prop&)>& fn) const;
     const CombatSetup& combat() const { return m_setup_; }
     Story& story() { return m_story_; }
-    // Puts the player at (x, y) in tiles, loading the chunks around (developer option --start, later the Threshold Stones).
+    // Puts the player at (x, y) in tiles, loading the chunks around (developer option --start, later the Threshold
+    // Stones).
     void teleport(float x, float y);
-    // The guild board (spec 07, "Guild"): open from a clerk's dialogue; each call returns false, changing nothing, when refused.
+    // The guild board (spec 07, "Guild"): open from a clerk's dialogue; each call returns false, changing nothing, when
+    // refused.
     struct Board {
         Settlement settlement;
         std::int64_t day = 1;
@@ -162,8 +165,8 @@ public:
     void close_board() { m_board_.reset(); }
     bool accept_offer(int slot);
     int guild_rank() const;
-    // Threshold Stones (spec 09): `stone_near` is the position of the stone prop the player can use, `use_stone` wakes it, restores
-    // health and opens the list of the stones that were used; `travel_to` goes to one of them.
+    // Threshold Stones (spec 09): `stone_near` is the position of the stone prop the player can use, `use_stone` wakes
+    // it, restores health and opens the list of the stones that were used; `travel_to` goes to one of them.
     struct StoneStop {
         int x = 0;
         int y = 0;
@@ -267,9 +270,9 @@ private:
     std::optional<Board> m_board_;
     std::vector<std::pair<int, int>> m_stones_;
     std::optional<Travel> m_travel_;
-    int m_routine_tod_ = -1;  // time of day (permille) the dynamic NPCs were built for
-    std::vector<NpcDef> m_npcs_;            // settlement people of the active window (spec 09)
-    std::vector<Circle> m_npc_circles_;     // their collision circles
+    int m_routine_tod_ = -1;             // time of day (permille) the dynamic NPCs were built for
+    std::vector<NpcDef> m_npcs_;         // settlement people of the active window (spec 09)
+    std::vector<Circle> m_npc_circles_;  // their collision circles
     std::set<std::pair<int, int>> m_explored_;
 };
 

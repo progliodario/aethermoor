@@ -12,15 +12,15 @@ std::optional<ProtagonistDef> parse_protagonist(std::string_view json_text, std:
         def.id = j.at("id").get<std::string>();
         def.name_key = j.value("name", "");
         const Json& s = j.at("base_stats");
-        def.base_stats = Primary{s.at("str").get<std::int64_t>(), s.at("vit").get<std::int64_t>(),
-                                 s.at("dex").get<std::int64_t>(), s.at("agi").get<std::int64_t>(),
-                                 s.at("int").get<std::int64_t>(), s.at("wis").get<std::int64_t>(),
-                                 s.at("luk").get<std::int64_t>()};
+        def.base_stats =
+            Primary{s.at("str").get<std::int64_t>(), s.at("vit").get<std::int64_t>(), s.at("dex").get<std::int64_t>(),
+                    s.at("agi").get<std::int64_t>(), s.at("int").get<std::int64_t>(), s.at("wis").get<std::int64_t>(),
+                    s.at("luk").get<std::int64_t>()};
         const Json& g = j.at("growth_pm");
-        def.growth_pm = Primary{g.at("str").get<std::int64_t>(), g.at("vit").get<std::int64_t>(),
-                                g.at("dex").get<std::int64_t>(), g.at("agi").get<std::int64_t>(),
-                                g.at("int").get<std::int64_t>(), g.at("wis").get<std::int64_t>(),
-                                g.at("luk").get<std::int64_t>()};
+        def.growth_pm =
+            Primary{g.at("str").get<std::int64_t>(), g.at("vit").get<std::int64_t>(), g.at("dex").get<std::int64_t>(),
+                    g.at("agi").get<std::int64_t>(), g.at("int").get<std::int64_t>(), g.at("wis").get<std::int64_t>(),
+                    g.at("luk").get<std::int64_t>()};
         if (j.contains("starting_items")) {
             for (const Json& item : j.at("starting_items")) {
                 def.starting_items.push_back(item.at("item").get<std::string>());

@@ -17,9 +17,7 @@ bool is_ident(std::string_view s) {
 }
 
 // [a-z0-9_]+
-bool is_word(std::string_view s) {
-    return !s.empty() && std::all_of(s.begin(), s.end(), is_word_char);
-}
+bool is_word(std::string_view s) { return !s.empty() && std::all_of(s.begin(), s.end(), is_word_char); }
 
 }  // namespace
 

@@ -101,10 +101,10 @@ struct CombatSetup {
     int start_level = 1;
     StorySetup story;
     std::map<std::string, std::int64_t> start_inventory;  // items owned in a new game
-    std::map<std::string, ItemDef> items;  // every item, by item ID
-    std::string start_weapon;              // the weapon worn in a new game (an item ID, or empty)
-    std::string start_armor;               // the armor worn in a new game (an item ID, or empty)
-    std::optional<ShopDef> shop;           // the shop of fixed maps and scenarios (streamed worlds use their regions)
+    std::map<std::string, ItemDef> items;                 // every item, by item ID
+    std::string start_weapon;                             // the weapon worn in a new game (an item ID, or empty)
+    std::string start_armor;                              // the armor worn in a new game (an item ID, or empty)
+    std::optional<ShopDef> shop;  // the shop of fixed maps and scenarios (streamed worlds use their regions)
     std::map<std::string, EnemyDef> stream_enemies;  // the enemies of the fauna of a streamed world, by ID
 };
 

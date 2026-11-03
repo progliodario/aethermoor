@@ -174,7 +174,8 @@ TEST_CASE("a save for a different world or a newer game is refused", "[combat][s
 }
 
 TEST_CASE("a save is summarized without building its world", "[save]") {
-    const auto peek = aether::save_peek(R"({"seed": "0x0000000000000010", "map": "world", "player": {"level": 4}, "story": {"gold": 75}})");
+    const auto peek = aether::save_peek(
+        R"({"seed": "0x0000000000000010", "map": "world", "player": {"level": 4}, "story": {"gold": 75}})");
     REQUIRE(peek.has_value());
     REQUIRE(peek->seed == 16U);
     REQUIRE(peek->map == "world");
@@ -280,11 +281,13 @@ TEST_CASE("the overworld is streamed from the content pack and is playable", "[w
     sim.story().advance();  // the elder has a menu (errand, news, goodbye): pick goodbye (the last choice)
     sim.story().choose(static_cast<int>(sim.story().dialogue_view().choices.size()) - 1);
     REQUIRE(!sim.story().dialogue_active());
-    sim.teleport(static_cast<float>(map.width / 2) + 0.5F, static_cast<float>(map.height / 2) + 0.5F);  // back to the spawn
+    sim.teleport(static_cast<float>(map.width / 2) + 0.5F,
+                 static_cast<float>(map.height / 2) + 0.5F);  // back to the spawn
     sim.tick(0.0F, 0.0F, false);
     check_window();
 
-    // The shopkeeper of the home village sells the wares of Verdalis (spec 06): open the shop from the dialogue, buy, equip.
+    // The shopkeeper of the home village sells the wares of Verdalis (spec 06): open the shop from the dialogue, buy,
+    // equip.
     sim.teleport(8236.5F, 8229.5F);
     sim.tick(0.0F, 0.0F, false);
     REQUIRE(sim.story().npc_in_range() != nullptr);
@@ -299,7 +302,7 @@ TEST_CASE("the overworld is streamed from the content pack and is playable", "[w
     const std::int64_t attack_before = sim.derived().atk;
     REQUIRE(sim.buy("base:item/iron_sword"));
     REQUIRE(sim.story().gold() == 1000 - sim.buy_price("base:item/iron_sword"));
-    REQUIRE(!sim.buy("base:item/iron_sword"));  // one is the limit for a weapon
+    REQUIRE(!sim.buy("base:item/iron_sword"));   // one is the limit for a weapon
     REQUIRE(!sim.buy("base:item/steel_sword"));  // not sold in Verdalis
     REQUIRE(sim.equip("base:item/iron_sword"));
     REQUIRE(sim.derived().atk > attack_before);
@@ -310,7 +313,8 @@ TEST_CASE("the overworld is streamed from the content pack and is playable", "[w
     sim.tick(0.0F, 0.0F, false);
     check_window();
 
-    // The guild board of a town (spec 07, "Guild"): talk to a clerk, see the offers, accept one and keep it across a save.
+    // The guild board of a town (spec 07, "Guild"): talk to a clerk, see the offers, accept one and keep it across a
+    // save.
     {
         const auto towns = aether::settlements_in(42, *params, 0, 0, 63, 63);
         const aether::Settlement* town = nullptr;
@@ -367,8 +371,10 @@ TEST_CASE("the overworld is streamed from the content pack and is playable", "[w
                     for (const aether::GenProp& prop : aether::generate_chunk(42, *params, cx, cy).props) {
                         const int tx = prop.x256 / 256;
                         const int ty = prop.y256 / 256;
-                        if (prop.art == params->stone_art && tx >= s.x && tx < s.x + s.w && ty >= s.y && ty < s.y + s.h) {
-                            return std::make_pair(static_cast<float>(prop.x256) / 256.0F, static_cast<float>(prop.y256) / 256.0F);
+                        if (prop.art == params->stone_art && tx >= s.x && tx < s.x + s.w && ty >= s.y &&
+                            ty < s.y + s.h) {
+                            return std::make_pair(static_cast<float>(prop.x256) / 256.0F,
+                                                  static_cast<float>(prop.y256) / 256.0F);
                         }
                     }
                 }

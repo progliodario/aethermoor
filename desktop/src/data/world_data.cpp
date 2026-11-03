@@ -66,8 +66,8 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
 
         for (const auto& [biome, options] : j.at("props").items()) {
             for (const Json& o : options) {
-                p.props[biome].push_back({o.at("art").get<std::string>(), o.at("radius_x100").get<int>(),
-                                          o.at("per_mille").get<int>()});
+                p.props[biome].push_back(
+                    {o.at("art").get<std::string>(), o.at("radius_x100").get<int>(), o.at("per_mille").get<int>()});
             }
         }
 
@@ -224,7 +224,8 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
             if (r.contains("props")) {
                 for (const auto& [biome, options] : r.at("props").items()) {
                     for (const Json& o : options) {
-                        region.props[biome].push_back({o.at("art").get<std::string>(), o.at("radius_x100").get<int>(), o.at("per_mille").get<int>()});
+                        region.props[biome].push_back({o.at("art").get<std::string>(), o.at("radius_x100").get<int>(),
+                                                       o.at("per_mille").get<int>()});
                     }
                 }
             }
@@ -320,7 +321,8 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
             error = "invalid settlement people";
             return std::nullopt;
         }
-        if (p.regions.empty() || p.names_start.empty() || p.names_mid.empty() || p.names_end.empty() || p.settlement_kinds.empty()) {
+        if (p.regions.empty() || p.names_start.empty() || p.names_mid.empty() || p.names_end.empty() ||
+            p.settlement_kinds.empty()) {
             error = "invalid regions or settlements";
             return std::nullopt;
         }

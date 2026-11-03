@@ -28,8 +28,7 @@ std::int64_t damage(const DamageInput& in) {
     const std::int64_t elem = raw * in.elem_mult_pm / 1000;
     const std::int64_t def_eff = in.def_target * (1000 - in.pen_pm) / 1000;
     const std::int64_t mitigated = elem * 100 / (100 + def_eff);
-    const std::int64_t lvl_mod =
-        clamp_i64(1000 + 30 * (in.lvl_attacker - in.lvl_target), 700, 1300);
+    const std::int64_t lvl_mod = clamp_i64(1000 + 30 * (in.lvl_attacker - in.lvl_target), 700, 1300);
     std::int64_t x = mitigated * lvl_mod / 1000;
     x = x * in.variance_pm / 1000;
     x = x * (in.crit ? in.crit_mult_pm : 1000) / 1000;

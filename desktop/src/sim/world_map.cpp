@@ -20,7 +20,8 @@ TileMap make_tilemap(const GeneratedWorld& world, const WorldParams& params, std
                                 static_cast<float>(s.second) + 0.5F});
     }
     for (const GenNpc& n : world.npcs) {
-        map.npcs.push_back({n.key, n.dialogue, n.variant, static_cast<float>(n.x256) / 256.0F, static_cast<float>(n.y256) / 256.0F});
+        map.npcs.push_back(
+            {n.key, n.dialogue, n.variant, static_cast<float>(n.x256) / 256.0F, static_cast<float>(n.y256) / 256.0F});
     }
     return map;
 }

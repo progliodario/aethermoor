@@ -50,7 +50,8 @@ AttackPhase parse_phase(const std::string& name) {
 }
 
 EnemyState parse_enemy_state(const std::string& name) {
-    for (const EnemyState state : {EnemyState::Idle, EnemyState::Chase, EnemyState::Attack, EnemyState::Return, EnemyState::Dead}) {
+    for (const EnemyState state :
+         {EnemyState::Idle, EnemyState::Chase, EnemyState::Attack, EnemyState::Return, EnemyState::Dead}) {
         if (name == to_string(state)) {
             return state;
         }
@@ -97,7 +98,10 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
 
     Json enemies = Json::array();
     for (const SaveEnemy& e : s.enemies) {
-        Json enemy = {{"x", e.position.x}, {"y", e.position.y}, {"hp", e.hp}, {"state", to_string(e.state)},
+        Json enemy = {{"x", e.position.x},
+                      {"y", e.position.y},
+                      {"hp", e.hp},
+                      {"state", to_string(e.state)},
                       {"state_tick", e.state_tick}};
         if (e.has_spawner) {
             enemy["spawner"] = {e.spawner_x, e.spawner_y};
@@ -197,8 +201,10 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
         s.loot_inc = parse_hex64(rng.at("loot").at("inc"));
 
         for (const Json& e : j.at("enemies")) {
-            SaveEnemy enemy{{e.at("x").get<float>(), e.at("y").get<float>()}, e.at("hp").get<std::int64_t>(),
-                            parse_enemy_state(e.at("state").get<std::string>()), e.at("state_tick").get<int>()};
+            SaveEnemy enemy{{e.at("x").get<float>(), e.at("y").get<float>()},
+                            e.at("hp").get<std::int64_t>(),
+                            parse_enemy_state(e.at("state").get<std::string>()),
+                            e.at("state_tick").get<int>()};
             if (e.contains("spawner")) {
                 enemy.has_spawner = true;
                 enemy.spawner_x = e.at("spawner").at(0).get<int>();
@@ -225,7 +231,8 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
         s.world_ticks = j.value("world_ticks", static_cast<std::int64_t>(-1));
         if (j.contains("cleared_spawners")) {
             for (const Json& c : j.at("cleared_spawners")) {
-                s.cleared.push_back({c.at(0).get<int>(), c.at(1).get<int>(), c.size() > 2 ? c.at(2).get<std::int64_t>() : 0});
+                s.cleared.push_back(
+                    {c.at(0).get<int>(), c.at(1).get<int>(), c.size() > 2 ? c.at(2).get<std::int64_t>() : 0});
             }
         }
         for (const auto& [item, quantity] : j.at("inventory").items()) {

@@ -220,7 +220,8 @@ QuestDef quest_from_offer(const Offer& offer) {
     quest.name = "$i18n:quest.board." + offer.template_id + "." + offer.tone + ".name";
     std::string target_key = offer.target.substr(offer.target.find(':') + 1);
     std::replace(target_key.begin(), target_key.end(), '/', '.');
-    quest.args = {{"count", std::to_string(offer.count)}, {"target", "$i18n:" + target_key + ".name"}, {"place", offer.place}};
+    quest.args = {
+        {"count", std::to_string(offer.count)}, {"target", "$i18n:" + target_key + ".name"}, {"place", offer.place}};
     QuestStage stage;
     stage.id = "work";
     stage.journal = "$i18n:quest.board." + offer.template_id + "." + offer.tone + ".journal";
@@ -640,7 +641,8 @@ StoryState Story::capture() const {
 bool Story::restore(const StoryState& state) {
     if (state.dialogue_active) {
         const auto dialogue = m_setup_.dialogues.find(state.dialogue_id);
-        if (dialogue == m_setup_.dialogues.end() || dialogue->second.nodes.find(state.node) == dialogue->second.nodes.end()) {
+        if (dialogue == m_setup_.dialogues.end() ||
+            dialogue->second.nodes.find(state.node) == dialogue->second.nodes.end()) {
             return false;
         }
     }

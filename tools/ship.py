@@ -67,8 +67,23 @@ def current_branch() -> str:
     return run(["git", "rev-parse", "--abbrev-ref", "HEAD"], capture=True).stdout.strip()
 
 
+def format_cpp() -> None:
+    """Formats the C++ files that changed with clang-format (desktop/.clang-format), when it is installed."""
+    tool = ROOT / ".venv" / ("Scripts" if os.name == "nt" else "bin") / ("clang-format.exe" if os.name == "nt" else "clang-format")
+    if not tool.exists():
+        return
+    changed = run(["git", "diff", "--name-only", "HEAD"], capture=True).stdout.split()
+    changed += run(["git", "ls-files", "--others", "--exclude-standard"], capture=True).stdout.split()
+    files = [f for f in changed if f.startswith("desktop/") and f.endswith((".cpp", ".hpp")) and (ROOT / f).exists()]
+    for f in files:
+        run([str(tool), "-i", f])
+    if files:
+        print(f"  formatted {len(files)} C++ file(s)")
+
+
 def commit(title: str, trailers: list[str]) -> None:
     message = title + ("\n\n" + "\n".join(trailers) if trailers else "")
+    format_cpp()
     run(["git", "add", "-A"])
     if run(["git", "diff", "--cached", "--quiet"], check=False).returncode == 0:
         print("  nothing to commit; shipping the commits already on the branch")

@@ -32,15 +32,12 @@ struct Crossing {
 
 // ----------------------------------------------------------------------------------- geometry
 
-int circle_segments(float radius_px) {
-    return 16 + 4 * static_cast<int>(std::floor(std::sqrt(radius_px)));
-}
+int circle_segments(float radius_px) { return 16 + 4 * static_cast<int>(std::floor(std::sqrt(radius_px))); }
 
 void append_ellipse(Polygon& out, float cx, float cy, float rx, float ry, int segments) {
     for (int k = 0; k < segments; ++k) {
         const double angle = 2.0 * kPi * static_cast<double>(k) / static_cast<double>(segments);
-        out.push_back({static_cast<float>(cx + rx * std::cos(angle)),
-                       static_cast<float>(cy + ry * std::sin(angle))});
+        out.push_back({static_cast<float>(cx + rx * std::cos(angle)), static_cast<float>(cy + ry * std::sin(angle))});
     }
 }
 
@@ -164,8 +161,7 @@ std::vector<Subpath> parse_path(const std::string& d, float scale) {
                 for (int s = 1; s <= 12; ++s) {
                     const float t = static_cast<float>(s) / 12.0F;
                     const float u = 1.0F - t;
-                    add_point(u * u * x0 + 2.0F * u * t * a + t * t * c,
-                              u * u * y0 + 2.0F * u * t * b + t * t * dd);
+                    add_point(u * u * x0 + 2.0F * u * t * a + t * t * c, u * u * y0 + 2.0F * u * t * b + t * t * dd);
                 }
                 break;
             }
@@ -213,8 +209,7 @@ std::vector<Subpath> shape_subpaths(const Shape& shape, float scale) {
             const float ry = shape.v[3] * scale;
             Subpath sp;
             sp.closed = true;
-            append_ellipse(sp.pts, shape.v[0] * scale, shape.v[1] * scale, rx, ry,
-                           circle_segments(std::max(rx, ry)));
+            append_ellipse(sp.pts, shape.v[0] * scale, shape.v[1] * scale, rx, ry, circle_segments(std::max(rx, ry)));
             out.push_back(std::move(sp));
             break;
         }
@@ -275,8 +270,8 @@ std::vector<Polygon> stroke_polygons(const std::vector<Subpath>& subpaths, float
             }
             const float nx = -dy / length * half_width;
             const float ny = dx / length * half_width;
-            push_oriented({{p0.x + nx, p0.y + ny}, {p1.x + nx, p1.y + ny}, {p1.x - nx, p1.y - ny},
-                           {p0.x - nx, p0.y - ny}});
+            push_oriented(
+                {{p0.x + nx, p0.y + ny}, {p1.x + nx, p1.y + ny}, {p1.x - nx, p1.y - ny}, {p0.x - nx, p0.y - ny}});
         }
         for (const Pt& p : sp.pts) {
             Polygon circle;
@@ -350,9 +345,8 @@ std::vector<float> coverage(const std::vector<Polygon>& polys, int width, int he
                     crossings.push_back({x, e.dir});
                 }
             }
-            std::sort(crossings.begin(), crossings.end(), [](const Crossing& a, const Crossing& b) {
-                return a.x < b.x || (a.x == b.x && a.dir < b.dir);
-            });
+            std::sort(crossings.begin(), crossings.end(),
+                      [](const Crossing& a, const Crossing& b) { return a.x < b.x || (a.x == b.x && a.dir < b.dir); });
             int winding = 0;
             for (std::size_t i = 0; i < crossings.size(); ++i) {
                 if (i > 0 && winding != 0) {
@@ -463,18 +457,18 @@ Color paint_at(const ResolvedPaint& paint, float px, float py) {
     return {};
 }
 
-void composite(std::vector<float>& acc, const std::vector<float>& cov, const ResolvedPaint& paint,
-               float layer_alpha, int width, int height, float scale) {
+void composite(std::vector<float>& acc, const std::vector<float>& cov, const ResolvedPaint& paint, float layer_alpha,
+               int width, int height, float scale) {
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
-            const std::size_t index = static_cast<std::size_t>(y) * static_cast<std::size_t>(width) +
-                                      static_cast<std::size_t>(x);
+            const std::size_t index =
+                static_cast<std::size_t>(y) * static_cast<std::size_t>(width) + static_cast<std::size_t>(x);
             const float c = cov[index];
             if (c <= 0.0F) {
                 continue;
             }
-            const Color color = paint_at(paint, (static_cast<float>(x) + 0.5F) / scale,
-                                         (static_cast<float>(y) + 0.5F) / scale);
+            const Color color =
+                paint_at(paint, (static_cast<float>(x) + 0.5F) / scale, (static_cast<float>(y) + 0.5F) / scale);
             const float a = (c * layer_alpha) * color.a;
             float* dst = acc.data() + index * 4;
             const float inv = 1.0F - a;
@@ -518,8 +512,7 @@ Bitmap rasterize(const Recipe& recipe, float scale, std::string_view variant) {
                 }
             }
             const std::vector<float> cov = coverage(polys, bitmap.width, bitmap.height);
-            composite(acc, cov, resolve_paint(layer.fill, palette), layer.alpha, bitmap.width, bitmap.height,
-                      scale);
+            composite(acc, cov, resolve_paint(layer.fill, palette), layer.alpha, bitmap.width, bitmap.height, scale);
         }
         if (layer.stroke.present) {
             const std::vector<Polygon> polys = stroke_polygons(subpaths, layer.stroke.width * scale / 2.0F);

@@ -72,8 +72,7 @@ std::string Pack::message(std::string_view lang, std::string_view key) const {
     return std::string(key);
 }
 
-std::string Pack::text(std::string_view lang, std::string_view reference,
-                       const FormatArgs& args) const {
+std::string Pack::text(std::string_view lang, std::string_view reference, const FormatArgs& args) const {
     std::string_view key = reference;
     if (key.substr(0, kI18nPrefix.size()) == kI18nPrefix) {
         key.remove_prefix(kI18nPrefix.size());
@@ -130,8 +129,7 @@ std::optional<Pack> load_pack(const fs::path& dir, std::vector<std::string>& err
         errors.push_back("pack.json: id, version and languages are required");
         return std::nullopt;
     }
-    if (pack.manifest.data_format_version < 1 ||
-        pack.manifest.data_format_version > kSupportedDataFormatVersion) {
+    if (pack.manifest.data_format_version < 1 || pack.manifest.data_format_version > kSupportedDataFormatVersion) {
         errors.push_back("pack.json: unsupported data_format_version " +
                          std::to_string(pack.manifest.data_format_version));
         return std::nullopt;

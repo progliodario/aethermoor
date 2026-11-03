@@ -22,9 +22,9 @@ struct WeatherKind {
 struct Season {
     std::string id;
     int days = 1;
-    int tint[4] = {0, 0, 0, 0};                        // r, g, b, a laid over the screen (art direction)
-    std::map<std::string, int> weights;                // weather weights that replace the ones of the kinds
-    std::vector<std::pair<int, int>> light;            // keyframes of its own; empty: the global ones
+    int tint[4] = {0, 0, 0, 0};              // r, g, b, a laid over the screen (art direction)
+    std::map<std::string, int> weights;      // weather weights that replace the ones of the kinds
+    std::vector<std::pair<int, int>> light;  // keyframes of its own; empty: the global ones
 };
 
 struct TimeParams {
