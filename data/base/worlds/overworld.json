@@ -108,7 +108,7 @@
   "river": { "salt": 4, "scale": 110, "octaves": 3, "half_width": 400, "ford_salt": 5, "ford_scale": 20, "ford_min": 36000 },
   "road": { "salt": 6, "scale": 150, "octaves": 2, "half_width": 350 },
   "tiles": {
-    "water": 4, "beach": 6, "desert": 6, "snow": 7, "mountain": 8, "forest": 9, "plains": [1, 2],
+    "water": 4, "beach": 6, "desert": 6, "snow": 7, "mountain": 8, "forest": 9, "plains": [1, 2, 15, 16, 17, 18],
     "river": 4, "ford": 10, "road": 11, "bridge": 12
   },
   "props": {

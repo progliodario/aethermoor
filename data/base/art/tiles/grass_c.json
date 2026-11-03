@@ -1,0 +1,153 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/tile/grass_c",
+  "canvas": {
+    "w": 32,
+    "h": 32,
+    "origin": [
+      0,
+      0
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          32
+        ]
+      },
+      "fill": {
+        "color": "$p.base"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            4,
+            26
+          ],
+          [
+            6,
+            20
+          ],
+          [
+            8,
+            26
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.tuft"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            24,
+            12
+          ],
+          [
+            26,
+            6
+          ],
+          [
+            28,
+            12
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.tuft"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          10,
+          8,
+          1.8,
+          1.8
+        ]
+      },
+      "fill": {
+        "color": "$p.petal"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          10,
+          8,
+          0.7,
+          0.7
+        ]
+      },
+      "fill": {
+        "color": "$p.heart"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          22,
+          1.8,
+          1.8
+        ]
+      },
+      "fill": {
+        "color": "$p.petal"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          22,
+          0.7,
+          0.7
+        ]
+      },
+      "fill": {
+        "color": "$p.heart"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          27,
+          14,
+          1.4,
+          1.4
+        ]
+      },
+      "fill": {
+        "color": "$p.petal"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          27,
+          14,
+          0.5,
+          0.5
+        ]
+      },
+      "fill": {
+        "color": "$p.heart"
+      }
+    }
+  ],
+  "palette": {
+    "base": "#5DA95A",
+    "tuft": "#4C9450",
+    "petal": "#FFFFFF",
+    "heart": "#F2C94C"
+  }
+}
