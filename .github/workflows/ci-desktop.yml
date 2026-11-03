@@ -13,6 +13,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   build:
     name: ${{ matrix.name }}
@@ -29,6 +33,7 @@ jobs:
             preset: linux-release
     env:
       VCPKG_ROOT: ${{ matrix.os == 'windows-2022' && 'C:\vcpkg' || '/usr/local/share/vcpkg' }}
+      VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-cache
     steps:
       - uses: actions/checkout@v7
 
@@ -41,6 +46,18 @@ jobs:
             libxi-dev libxss-dev libxkbcommon-dev libwayland-dev wayland-protocols libdecor-0-dev \
             libasound2-dev libpulse-dev libpipewire-0.3-dev libudev-dev libdbus-1-dev libibus-1.0-dev \
             libgl-dev libegl1-mesa-dev libgles-dev libdrm-dev libgbm-dev libsndio-dev
+
+      # The dependencies (SDL3 above all) take minutes to build; vcpkg keeps the binaries of a build here.
+      - name: Create the vcpkg cache folder
+        shell: bash
+        run: mkdir -p .vcpkg-cache
+
+      - name: Restore the vcpkg binaries
+        uses: actions/cache@v4
+        with:
+          path: .vcpkg-cache
+          key: vcpkg-${{ matrix.name }}-${{ hashFiles('desktop/vcpkg.json', 'desktop/CMakePresets.json') }}
+          restore-keys: vcpkg-${{ matrix.name }}-
 
       - name: Configure
         working-directory: desktop
