@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/season_solstice_survey",
+  "name": "$i18n:quest.season_solstice_survey.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "bring",
+      "journal": "$i18n:quest.season_solstice_survey.bring",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/star_dust",
+          "count": 6
+        },
+        {
+          "type": "collect",
+          "item": "base:item/nebula_ash",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

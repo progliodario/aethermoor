@@ -10,6 +10,8 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- A seasonal job from every elder, offered only in its season (spec 07): the harvest cart in autumn, the wisp bloom and the festival of petals in spring, winter stores and the cold ash in winter, the short summer and the solstice survey in summer, the storm season in autumn. Out of season the elder says when to come back.
+- Content consistency tests: everything the quests and dialogues name exists, every kill target spawns somewhere and every item asked for can be found.
 - Two new dialogue conditions (spec 07): `season` and `tod_between` (a range of the time of day in permille, crossing midnight when it starts after it ends). Villagers now talk about the season (four lines per tone, in Italian and English) and innkeepers tell a tale about the night, only at night.
 - Bushes in the plains and the forest, rocks and bones in the desert and the snow: the wild looks fuller.
 - Eight creatures with new silhouettes (cave bat, cave spider, myconid, stone golem, will-o'-the-wisp, shore crab, dune scorpion, night owl: levels 4 to 12) with their materials, in the fauna of the regions; the slime elites of the lairs and nests wear a crown.

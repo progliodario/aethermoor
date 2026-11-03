@@ -521,5 +521,21 @@
   "item.scorpion_sting.desc": "Uncinato, cavo e da non prendere dalla parte sbagliata.",
   "enemy.night_owl.name": "Gufo notturno",
   "item.owl_feather.name": "Piuma di gufo",
-  "item.owl_feather.desc": "Silenziosa in volo, soffice in mano."
+  "item.owl_feather.desc": "Silenziosa in volo, soffice in mano.",
+  "quest.season_harvest_cart.name": "Il carro del raccolto",
+  "quest.season_harvest_cart.bring": "Porta foglie di menta e pelo fulvo per il carro del raccolto.",
+  "quest.season_wisp_bloom.name": "La fioritura dei fuochi",
+  "quest.season_wisp_bloom.bring": "Porta fuochi d'ombra e cappelli di spore per la fioritura di primavera.",
+  "quest.season_winter_stores.name": "Scorte d'inverno",
+  "quest.season_winter_stores.bring": "Porta schegge d'ardesia e scaglie di ruggine per rattoppare le scorte prima della neve peggiore.",
+  "quest.season_petal_festival.name": "La festa dei petali",
+  "quest.season_petal_festival.bring": "Porta gocce d'ambra e cappelli di spore per decorare la festa di primavera.",
+  "quest.season_short_summer.name": "La breve estate",
+  "quest.season_short_summer.bring": "Porta pelli di brina e pelo polare da accumulare prima che l'estate finisca.",
+  "quest.season_storm_season.name": "Stagione delle tempeste",
+  "quest.season_storm_season.bring": "Porta gusci di granchio e perle di marea per riparare le barche prima delle tempeste.",
+  "quest.season_cold_ash.name": "La cenere fredda",
+  "quest.season_cold_ash.bring": "Porta nuclei di brace e pezzi di carbone per l'unica stagione fredda.",
+  "quest.season_solstice_survey.name": "Il rilievo del solstizio",
+  "quest.season_solstice_survey.bring": "Porta polvere stellare e cenere di nebulosa per le osservazioni del solstizio."
 }

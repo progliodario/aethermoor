@@ -102,6 +102,77 @@
           "next": "rumor"
         },
         {
+          "text": "$i18n:dlg.role.seasonal.ask",
+          "when": {
+            "all": [
+              {
+                "season": "summer"
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/season_solstice_survey"
+                    },
+                    {
+                      "quest_done": "base:quest/side/season_solstice_survey"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "seasonal_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.seasonal.ask",
+          "when": {
+            "all": [
+              {
+                "not": {
+                  "season": "summer"
+                }
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/season_solstice_survey"
+                    },
+                    {
+                      "quest_done": "base:quest/side/season_solstice_survey"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "seasonal_wait"
+        },
+        {
+          "text": "$i18n:dlg.role.seasonal.status",
+          "when": {
+            "quest_active": "base:quest/side/season_solstice_survey"
+          },
+          "next": "seasonal_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.seasonal.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/season_solstice_survey"
+              },
+              {
+                "not": {
+                  "flag": "season_solstice_survey_paid"
+                }
+              }
+            ]
+          },
+          "next": "seasonal_paid"
+        },
+        {
           "text": "$i18n:dlg.role.bye",
           "next": "end"
         }
@@ -237,6 +308,73 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.hunt.scholarly.thanks",
+      "next": "end"
+    },
+    "seasonal_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.seasonal.scholarly.offer",
+      "next": "seasonal_choice"
+    },
+    "seasonal_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/season_solstice_survey"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "seasonal_wait": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.seasonal.scholarly.wait",
+      "next": "end"
+    },
+    "seasonal_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.seasonal.scholarly.busy",
+      "next": "end"
+    },
+    "seasonal_paid": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "season_solstice_survey_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 420
+        },
+        {
+          "effect": "add_gold",
+          "amount": 840
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_large",
+          "qty": 2
+        }
+      ],
+      "next": "seasonal_thanks"
+    },
+    "seasonal_thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.seasonal.scholarly.thanks",
       "next": "end"
     }
   }

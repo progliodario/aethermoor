@@ -102,6 +102,77 @@
           "next": "rumor"
         },
         {
+          "text": "$i18n:dlg.role.seasonal.ask",
+          "when": {
+            "all": [
+              {
+                "season": "spring"
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/season_petal_festival"
+                    },
+                    {
+                      "quest_done": "base:quest/side/season_petal_festival"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "seasonal_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.seasonal.ask",
+          "when": {
+            "all": [
+              {
+                "not": {
+                  "season": "spring"
+                }
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/season_petal_festival"
+                    },
+                    {
+                      "quest_done": "base:quest/side/season_petal_festival"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "seasonal_wait"
+        },
+        {
+          "text": "$i18n:dlg.role.seasonal.status",
+          "when": {
+            "quest_active": "base:quest/side/season_petal_festival"
+          },
+          "next": "seasonal_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.seasonal.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/season_petal_festival"
+              },
+              {
+                "not": {
+                  "flag": "season_petal_festival_paid"
+                }
+              }
+            ]
+          },
+          "next": "seasonal_paid"
+        },
+        {
           "text": "$i18n:dlg.role.bye",
           "next": "end"
         }
@@ -237,6 +308,73 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.hunt.flowery.thanks",
+      "next": "end"
+    },
+    "seasonal_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.seasonal.flowery.offer",
+      "next": "seasonal_choice"
+    },
+    "seasonal_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/season_petal_festival"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "seasonal_wait": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.seasonal.flowery.wait",
+      "next": "end"
+    },
+    "seasonal_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.seasonal.flowery.busy",
+      "next": "end"
+    },
+    "seasonal_paid": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "season_petal_festival_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 280
+        },
+        {
+          "effect": "add_gold",
+          "amount": 560
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_large",
+          "qty": 2
+        }
+      ],
+      "next": "seasonal_thanks"
+    },
+    "seasonal_thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.seasonal.flowery.thanks",
       "next": "end"
     }
   }
