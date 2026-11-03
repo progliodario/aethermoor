@@ -1,0 +1,45 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/guild/keep",
+  "name": "$i18n:quest.keep.name",
+  "kind": "guild",
+  "stages": [
+    {
+      "id": "kill",
+      "journal": "$i18n:quest.keep.kill",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/frost_sovereign",
+          "count": 1
+        }
+      ],
+      "next": "report"
+    },
+    {
+      "id": "report",
+      "journal": "$i18n:quest.keep.report",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "guild_clerk_mira"
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 1100
+    },
+    {
+      "effect": "add_gold",
+      "amount": 3400
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 620
+    }
+  ]
+}

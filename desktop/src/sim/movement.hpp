@@ -35,6 +35,8 @@ public:
 
     bool solid(int tx, int ty) const;  // cells outside the map are solid
     void add_prop(Circle prop) { m_props_.push_back(prop); }
+    // Circles that come and go with the world (settlement people); owned by the caller.
+    void set_dynamic_props(const std::vector<Circle>* props) { m_dynamic_props_ = props; }
     int width() const { return m_width_; }
     int height() const { return m_height_; }
 
@@ -50,6 +52,7 @@ private:
     int m_height_ = 0;
     std::vector<bool> m_solid_;
     std::vector<Circle> m_props_;
+    const std::vector<Circle>* m_dynamic_props_ = nullptr;
 };
 
 }  // namespace aether

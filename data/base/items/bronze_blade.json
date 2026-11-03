@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/bronze_blade",
+  "name": "$i18n:item.bronze_blade.name",
+  "description": "$i18n:item.bronze_blade.desc",
+  "kind": "weapon",
+  "rarity": "common",
+  "price": 60,
+  "weapon": {
+    "atk": 5,
+    "matk": 0
+  }
+}

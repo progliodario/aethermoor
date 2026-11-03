@@ -60,9 +60,14 @@
             }
           ],
           "inventory": {},
+          "equipped": {
+            "weapon": "",
+            "armor": ""
+          },
           "story": {
             "flags": {},
             "gold": 0,
+            "guild_points": 0,
             "quests": {},
             "dialogue": {
               "id": "test:dialogue/clerk",
@@ -477,8 +482,53 @@
                     {
                       "text": "c.gift",
                       "next": "gift"
+                    },
+                    {
+                      "text": "c.barter",
+                      "when": {
+                        "has_item": {
+                          "item": "base:item/slime_gel",
+                          "qty": 2
+                        }
+                      },
+                      "next": "barter"
+                    },
+                    {
+                      "text": "c.rest",
+                      "when": {
+                        "gold_at_least": 5
+                      },
+                      "next": "rest"
                     }
                   ]
+                },
+                "rest": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "spend_gold",
+                      "amount": 5
+                    },
+                    {
+                      "effect": "heal_full"
+                    }
+                  ],
+                  "next": "after"
+                },
+                "barter": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "remove_item",
+                      "item": "base:item/slime_gel",
+                      "qty": 2
+                    },
+                    {
+                      "effect": "add_gold",
+                      "amount": 7
+                    }
+                  ],
+                  "next": "after"
                 },
                 "gift": {
                   "type": "effects",
@@ -559,9 +609,14 @@
             ],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "kill",
@@ -603,9 +658,14 @@
             ],
             "kills": 0,
             "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "kill",
@@ -645,9 +705,14 @@
             "inventory": {
               "base:item/slime_gel": 3
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "report",
@@ -687,9 +752,14 @@
             "inventory": {
               "base:item/slime_gel": 3
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 120,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "report",
@@ -733,9 +803,14 @@
             "inventory": {
               "base:item/slime_gel": 3
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 120,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "report",
@@ -809,9 +884,14 @@
             }
           ],
           "inventory": {},
+          "equipped": {
+            "weapon": "",
+            "armor": ""
+          },
           "story": {
             "flags": {},
             "gold": 0,
+            "guild_points": 0,
             "quests": {
               "test:quest/slimes": {
                 "stage": "kill",
@@ -1231,8 +1311,53 @@
                     {
                       "text": "c.gift",
                       "next": "gift"
+                    },
+                    {
+                      "text": "c.barter",
+                      "when": {
+                        "has_item": {
+                          "item": "base:item/slime_gel",
+                          "qty": 2
+                        }
+                      },
+                      "next": "barter"
+                    },
+                    {
+                      "text": "c.rest",
+                      "when": {
+                        "gold_at_least": 5
+                      },
+                      "next": "rest"
                     }
                   ]
+                },
+                "rest": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "spend_gold",
+                      "amount": 5
+                    },
+                    {
+                      "effect": "heal_full"
+                    }
+                  ],
+                  "next": "after"
+                },
+                "barter": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "remove_item",
+                      "item": "base:item/slime_gel",
+                      "qty": 2
+                    },
+                    {
+                      "effect": "add_gold",
+                      "amount": 7
+                    }
+                  ],
+                  "next": "after"
                 },
                 "gift": {
                   "type": "effects",
@@ -1315,9 +1440,14 @@
             "inventory": {
               "base:item/slime_gel": 3
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "report",
@@ -1357,9 +1487,14 @@
             "inventory": {
               "base:item/slime_gel": 3
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 120,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "report",
@@ -1403,9 +1538,14 @@
             "inventory": {
               "base:item/slime_gel": 3
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 120,
+              "guild_points": 0,
               "quests": {
                 "test:quest/slimes": {
                   "stage": "report",
@@ -1471,6 +1611,10 @@
             }
           ],
           "inventory": {},
+          "equipped": {
+            "weapon": "",
+            "armor": ""
+          },
           "story": null
         },
         "grid": [
@@ -1610,6 +1754,10 @@
             "kills": 1,
             "inventory": {
               "base:item/slime_gel": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
             }
           }
         ],
@@ -1665,6 +1813,10 @@
             }
           ],
           "inventory": {},
+          "equipped": {
+            "weapon": "",
+            "armor": ""
+          },
           "story": null
         },
         "grid": [
@@ -1810,7 +1962,11 @@
               }
             ],
             "kills": 0,
-            "inventory": {}
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            }
           },
           {
             "player": {
@@ -1830,7 +1986,11 @@
               }
             ],
             "kills": 0,
-            "inventory": {}
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            }
           }
         ],
         "tol": 0.02
@@ -1885,6 +2045,10 @@
             }
           ],
           "inventory": {},
+          "equipped": {
+            "weapon": "",
+            "armor": ""
+          },
           "story": null
         },
         "grid": [
@@ -2030,7 +2194,11 @@
               }
             ],
             "kills": 0,
-            "inventory": {}
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            }
           }
         ],
         "tol": 0.02
@@ -2075,9 +2243,14 @@
           },
           "enemies": [],
           "inventory": {},
+          "equipped": {
+            "weapon": "",
+            "armor": ""
+          },
           "story": {
             "flags": {},
             "gold": 0,
+            "guild_points": 0,
             "quests": {},
             "dialogue": {
               "id": "test:dialogue/trader",
@@ -2451,8 +2624,53 @@
                     {
                       "text": "c.gift",
                       "next": "gift"
+                    },
+                    {
+                      "text": "c.barter",
+                      "when": {
+                        "has_item": {
+                          "item": "base:item/slime_gel",
+                          "qty": 2
+                        }
+                      },
+                      "next": "barter"
+                    },
+                    {
+                      "text": "c.rest",
+                      "when": {
+                        "gold_at_least": 5
+                      },
+                      "next": "rest"
                     }
                   ]
+                },
+                "rest": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "spend_gold",
+                      "amount": 5
+                    },
+                    {
+                      "effect": "heal_full"
+                    }
+                  ],
+                  "next": "after"
+                },
+                "barter": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "remove_item",
+                      "item": "base:item/slime_gel",
+                      "qty": 2
+                    },
+                    {
+                      "effect": "add_gold",
+                      "amount": 7
+                    }
+                  ],
+                  "next": "after"
                 },
                 "gift": {
                   "type": "effects",
@@ -2522,9 +2740,14 @@
             "inventory": {
               "base:item/slime_gel": 2
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {},
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": {
                 "type": "say",
@@ -2547,11 +2770,16 @@
             "inventory": {
               "base:item/slime_gel": 2
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": null
             }
@@ -2570,11 +2798,16 @@
             "inventory": {
               "base:item/slime_gel": 2
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": {
                 "type": "say",
@@ -2597,17 +2830,23 @@
             "inventory": {
               "base:item/slime_gel": 2
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": {
                 "type": "choice",
                 "choices": [
                   "c.start",
-                  "c.gift"
+                  "c.gift",
+                  "c.barter"
                 ]
               }
             }
@@ -2626,12 +2865,17 @@
             "inventory": {
               "base:item/slime_gel": 2
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {
                 "seen": true,
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/gel": {
                   "stage": "collect",
@@ -2662,12 +2906,17 @@
             "inventory": {
               "base:item/slime_gel": 2
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {
                 "seen": true,
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/gel": {
                   "stage": "collect",
@@ -2694,12 +2943,17 @@
             "inventory": {
               "base:item/slime_gel": 2
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {
                 "seen": true,
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/gel": {
                   "stage": "collect",
@@ -2757,11 +3011,16 @@
           "inventory": {
             "base:item/slime_gel": 2
           },
+          "equipped": {
+            "weapon": "",
+            "armor": ""
+          },
           "story": {
             "flags": {
               "visited": true
             },
             "gold": 0,
+            "guild_points": 0,
             "quests": {},
             "dialogue": {
               "id": "test:dialogue/trader",
@@ -3135,8 +3394,53 @@
                     {
                       "text": "c.gift",
                       "next": "gift"
+                    },
+                    {
+                      "text": "c.barter",
+                      "when": {
+                        "has_item": {
+                          "item": "base:item/slime_gel",
+                          "qty": 2
+                        }
+                      },
+                      "next": "barter"
+                    },
+                    {
+                      "text": "c.rest",
+                      "when": {
+                        "gold_at_least": 5
+                      },
+                      "next": "rest"
                     }
                   ]
+                },
+                "rest": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "spend_gold",
+                      "amount": 5
+                    },
+                    {
+                      "effect": "heal_full"
+                    }
+                  ],
+                  "next": "after"
+                },
+                "barter": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "remove_item",
+                      "item": "base:item/slime_gel",
+                      "qty": 2
+                    },
+                    {
+                      "effect": "add_gold",
+                      "amount": 7
+                    }
+                  ],
+                  "next": "after"
                 },
                 "gift": {
                   "type": "effects",
@@ -3206,17 +3510,23 @@
             "inventory": {
               "base:item/slime_gel": 2
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {},
               "dialogue": {
                 "type": "choice",
                 "choices": [
                   "c.start",
-                  "c.gift"
+                  "c.gift",
+                  "c.barter"
                 ]
               }
             }
@@ -3235,12 +3545,17 @@
             "inventory": {
               "base:item/slime_gel": 2
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {
                 "seen": true,
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/gel": {
                   "stage": "collect",
@@ -3271,12 +3586,17 @@
             "inventory": {
               "base:item/slime_gel": 2
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {
                 "seen": true,
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/gel": {
                   "stage": "collect",
@@ -3303,12 +3623,17 @@
             "inventory": {
               "base:item/slime_gel": 2
             },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
             "story": {
               "flags": {
                 "seen": true,
                 "visited": true
               },
               "gold": 0,
+              "guild_points": 0,
               "quests": {
                 "test:quest/gel": {
                   "stage": "collect",

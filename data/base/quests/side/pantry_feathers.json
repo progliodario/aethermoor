@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/pantry_feathers",
+  "name": "$i18n:quest.pantry_feathers.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "bring",
+      "journal": "$i18n:quest.pantry_feathers.bring",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/storm_feather",
+          "count": 3
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

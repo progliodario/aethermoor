@@ -63,20 +63,22 @@ fun loadCombatSetup(
     map: TileMap,
     protagonistId: String,
     seed: ULong,
-    /** The enemy of the spawners of a streamed world, if the map is one. */
-    streamEnemyId: String? = null,
+    /** The enemies of the fauna of a streamed world, if the map is one. */
+    streamEnemyIds: Collection<String> = emptyList(),
 ): Result<CombatSetup> =
     runCatching {
         val protagonist = parseProtagonist(requireNotNull(pack.readDocument(protagonistId)) { "missing $protagonistId" }).getOrThrow()
 
         var weaponAtk = 0L
         var weaponMatk = 0L
+        var startWeapon = ""
         for (itemId in protagonist.startingItems) {
             val item = document(pack, itemId)
             if (item.getValue("kind").jsonPrimitive.content == "weapon") {
                 val weapon = item.getValue("weapon").jsonObject
                 weaponAtk = weapon.getValue("atk").jsonPrimitive.long
                 weaponMatk = weapon.getValue("matk").jsonPrimitive.long
+                startWeapon = itemId
                 break
             }
         }
@@ -117,6 +119,24 @@ fun loadCombatSetup(
         }
         val npcs = map.npcs.map { NpcDef(it.key, it.dialogue, it.variant, it.x, it.y) }
 
+        // Items that can be used (spec 06).
+        val items = HashMap<String, ItemDef>()
+        for ((id, path) in pack.documentPaths) {
+            if (!path.startsWith("items/")) continue
+            val doc = document(pack, id)
+            items[id] = ItemDef(
+                effects = doc["use"]?.jsonObject?.getValue("effects")?.jsonArray?.map {
+                    val o = it.jsonObject
+                    ItemEffect(o.getValue("effect").jsonPrimitive.content, o["amount"]?.jsonPrimitive?.long ?: 0L)
+                } ?: emptyList(),
+                kind = doc.getValue("kind").jsonPrimitive.content,
+                price = doc.getValue("price").jsonPrimitive.long,
+                stackMax = doc["stack_max"]?.jsonPrimitive?.int ?: 0,
+                weapon = doc["weapon"]?.jsonObject?.let { WeaponStats(it.getValue("atk").jsonPrimitive.long, it.getValue("matk").jsonPrimitive.long) },
+                armor = doc["armor"]?.jsonObject?.let { ArmorStats(it.getValue("def").jsonPrimitive.long, it.getValue("mdef").jsonPrimitive.long) },
+            )
+        }
+
         CombatSetup(
             enabled = true,
             player = PlayerSetup(protagonist.baseStats, protagonist.growthPm, weaponAtk, weaponMatk),
@@ -126,6 +146,8 @@ fun loadCombatSetup(
             seed = seed,
             story = StorySetup(quests, dialogues, npcs),
             startInventory = protagonist.startingInventory,
-            streamEnemy = streamEnemyId?.let { loadEnemy(pack, it) },
+            streamEnemies = streamEnemyIds.toSet().associateWith { loadEnemy(pack, it) },
+            items = items,
+            startWeapon = startWeapon,
         )
     }

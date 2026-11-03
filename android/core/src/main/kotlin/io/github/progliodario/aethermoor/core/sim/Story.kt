@@ -1,5 +1,6 @@
 package io.github.progliodario.aethermoor.core.sim
 
+import io.github.progliodario.aethermoor.core.Offer
 import io.github.progliodario.aethermoor.core.vector.f
 import kotlin.math.min
 import kotlin.math.sqrt
@@ -9,6 +10,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
@@ -35,6 +37,13 @@ sealed interface Condition {
     data class HasItem(val item: String, val qty: Long) : Condition
 
     data class LevelAtLeast(val level: Long) : Condition
+
+    data class GoldAtLeast(val gold: Long) : Condition
+
+    data class Season(val id: String) : Condition
+
+    /** The time of day in permille is in [from, to); from > to crosses midnight. */
+    data class TodBetween(val from: Int, val to: Int) : Condition
 }
 
 sealed interface Effect {
@@ -44,9 +53,24 @@ sealed interface Effect {
 
     data class AddItem(val item: String, val qty: Long) : Effect
 
+    data class RemoveItem(val item: String, val qty: Long) : Effect
+
+    data class SpendGold(val amount: Long) : Effect
+
+    /** The health of the player becomes the maximum. */
+    data object HealFull : Effect
+
     data class SetFlag(val flag: String, val value: Boolean) : Effect
 
     data class StartQuest(val quest: String) : Effect
+
+    /** Opens the shop of the place (spec 06). */
+    data object OpenShop : Effect
+
+    data class AddGuildPoints(val amount: Long) : Effect
+
+    /** Opens the guild board of the settlement (spec 07). */
+    data object OpenBoard : Effect
 }
 
 enum class ObjectiveKind { KILL, COLLECT, TALK }
@@ -57,7 +81,32 @@ data class Objective(val kind: ObjectiveKind, val target: String, val count: Lon
 
 data class QuestStage(val id: String, val journal: String, val objectives: List<Objective>, val next: String)
 
-data class QuestDef(val id: String, val name: String, val stages: List<QuestStage>, val rewards: List<Effect>)
+/** [args] are the arguments of the name and journal texts (spec 07). */
+data class QuestDef(
+    val id: String,
+    val name: String,
+    val stages: List<QuestStage>,
+    val rewards: List<Effect>,
+    val args: Map<String, String> = emptyMap(),
+)
+
+/** The quest of a board offer (spec 07, "Guild"). */
+fun questFromOffer(offer: Offer): QuestDef {
+    val targetKey = offer.target.substringAfter(':').replace('/', '.')
+    return QuestDef(
+        id = offer.id,
+        name = "\$i18n:quest.board.${offer.template}.${offer.tone}.name",
+        stages = listOf(
+            QuestStage(
+                "work", "\$i18n:quest.board.${offer.template}.${offer.tone}.journal",
+                listOf(Objective(if (offer.type == "kill") ObjectiveKind.KILL else ObjectiveKind.COLLECT, offer.target, offer.count.toLong())),
+                "end",
+            ),
+        ),
+        rewards = listOf(Effect.AddXp(offer.xp), Effect.AddGold(offer.gold), Effect.AddGuildPoints(offer.points)),
+        args = mapOf("count" to offer.count.toString(), "target" to "\$i18n:$targetKey.name", "place" to offer.place),
+    )
+}
 
 data class DialogueChoice(val text: String, val whenCondition: Condition?, val effects: List<Effect>, val next: String)
 
@@ -76,7 +125,16 @@ sealed interface DialogueNode {
 data class DialogueDef(val id: String, val start: String, val nodes: Map<String, DialogueNode>)
 
 /** An NPC: [x], [y] is the feet position in tiles. */
-data class NpcDef(val key: String, val dialogue: String, val variant: String, val x: Float, val y: Float)
+/** [name] and [args] are set for settlement people: the arguments of the dialogue texts (spec 07). */
+data class NpcDef(
+    val key: String,
+    val dialogue: String,
+    val variant: String,
+    val x: Float,
+    val y: Float,
+    val name: String = "",
+    val args: Map<String, String> = emptyMap(),
+)
 
 class StorySetup(
     val quests: Map<String, QuestDef> = emptyMap(),
@@ -91,6 +149,7 @@ data class DialogueView(
     val speaker: String = "",
     val text: String = "",
     val choices: List<String> = emptyList(),
+    val args: Map<String, String> = emptyMap(),
 )
 
 class QuestProgress(var stage: String, var progress: LongArray, var done: Boolean = false)
@@ -103,6 +162,8 @@ class StoryState(
     val dialogueActive: Boolean,
     val dialogueId: String,
     val node: String,
+    val dialogueArgs: Map<String, String> = emptyMap(),
+    val guildPoints: Long = 0,
 )
 
 /** What the story needs from the world that owns it. */
@@ -113,6 +174,18 @@ interface StoryHost {
     val level: Long
     val playerX: Float
     val playerY: Float
+
+    fun openShop()
+
+    fun openBoard()
+
+    fun healFull()
+
+    /** The season of the day, empty without seasons. */
+    fun seasonId(): String
+
+    /** The time of day in permille, 0 without world time. */
+    fun todPm(): Int
 }
 
 // ------------------------------------------------------------------------------------ parsing
@@ -135,6 +208,9 @@ private fun parseCondition(element: JsonElement): Condition {
         "quest_stage" -> Condition.QuestStage(value.jsonObject.str("quest"), value.jsonObject.str("stage"))
         "has_item" -> Condition.HasItem(value.jsonObject.str("item"), value.jsonObject.getValue("qty").jsonPrimitive.long)
         "level_at_least" -> Condition.LevelAtLeast(value.jsonPrimitive.long)
+        "gold_at_least" -> Condition.GoldAtLeast(value.jsonPrimitive.long)
+        "season" -> Condition.Season(value.jsonPrimitive.content)
+        "tod_between" -> Condition.TodBetween(value.jsonArray[0].jsonPrimitive.int, value.jsonArray[1].jsonPrimitive.int)
         else -> throw IllegalArgumentException("unknown condition $key")
     }
 }
@@ -145,8 +221,14 @@ private fun parseEffect(element: JsonElement): Effect {
         "add_xp" -> Effect.AddXp(o.getValue("amount").jsonPrimitive.long)
         "add_gold" -> Effect.AddGold(o.getValue("amount").jsonPrimitive.long)
         "add_item" -> Effect.AddItem(o.str("item"), o.getValue("qty").jsonPrimitive.long)
+        "spend_gold" -> Effect.SpendGold(o.getValue("amount").jsonPrimitive.long)
+        "heal_full" -> Effect.HealFull
+        "remove_item" -> Effect.RemoveItem(o.str("item"), o.getValue("qty").jsonPrimitive.long)
         "set_flag" -> Effect.SetFlag(o.str("flag"), o.getValue("value").jsonPrimitive.boolean)
         "start_quest" -> Effect.StartQuest(o.str("quest"))
+        "open_shop" -> Effect.OpenShop
+        "open_board" -> Effect.OpenBoard
+        "add_guild_points" -> Effect.AddGuildPoints(o.getValue("amount").jsonPrimitive.long)
         else -> throw IllegalArgumentException("unknown effect $kind")
     }
 }
@@ -172,7 +254,8 @@ private fun parseQuestObject(j: JsonObject): QuestDef {
         )
     }
     require(stages.isNotEmpty()) { "a quest needs at least one stage" }
-    return QuestDef(optStr(j, "id"), optStr(j, "name"), stages, parseEffects(j, "rewards"))
+    val args = (j["args"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.content } ?: emptyMap()
+    return QuestDef(optStr(j, "id"), optStr(j, "name"), stages, parseEffects(j, "rewards"), args)
 }
 
 private fun parseDialogueObject(j: JsonObject): DialogueDef {
@@ -222,8 +305,24 @@ private const val MAX_SETTLE_STEPS = 64
 
 class Story(val setup: StorySetup, private val host: StoryHost) {
     val flags = java.util.TreeMap<String, Boolean>()
+    /** The gold of the player; shops and tests change it directly (spec 06). */
     var gold = 0L
-        private set
+
+    /** The guild points of the player (spec 07). */
+    var guildPoints = 0L
+
+    private val generated = HashMap<String, QuestDef>()
+
+    /** Rebuilds the quest of a generated id when a save is loaded; set by the world. */
+    var questResolver: ((String) -> QuestDef?)? = null
+
+    /** The definition of a quest of the pack or a generated one. */
+    fun questDef(questId: String): QuestDef? = setup.quests[questId] ?: generated[questId]
+
+    /** Adds the quest of a board offer to the known quests (it can then be started and saved). */
+    fun addGeneratedQuest(quest: QuestDef) {
+        generated.putIfAbsent(quest.id, quest)
+    }
     val quests = java.util.TreeMap<String, QuestProgress>()
     var dialogueActive = false
         private set
@@ -241,6 +340,12 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
             is Condition.QuestStage -> quests[c.quest]?.let { !it.done && it.stage == c.stage } ?: false
             is Condition.HasItem -> (host.inventory[c.item] ?: 0L) >= c.qty
             is Condition.LevelAtLeast -> host.level >= c.level
+            is Condition.GoldAtLeast -> gold >= c.gold
+            is Condition.Season -> host.seasonId() == c.id
+            is Condition.TodBetween -> {
+                val tod = host.todPm()
+                if (c.from <= c.to) tod >= c.from && tod < c.to else tod >= c.from || tod < c.to
+            }
         }
 
     fun apply(effect: Effect) {
@@ -251,20 +356,31 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
                 host.inventory[effect.item] = (host.inventory[effect.item] ?: 0L) + effect.qty
                 refreshAll()
             }
+            is Effect.SpendGold -> gold = maxOf(0L, gold - effect.amount)
+            is Effect.HealFull -> host.healFull()
+            is Effect.RemoveItem -> {
+                val held = host.inventory[effect.item] ?: 0L
+                val left = held - minOf(held, effect.qty)
+                if (left > 0L) host.inventory[effect.item] = left else host.inventory.remove(effect.item)
+                refreshAll()
+            }
             is Effect.SetFlag -> flags[effect.flag] = effect.value
             is Effect.StartQuest -> startQuest(effect.quest)
+            is Effect.OpenShop -> host.openShop()
+            is Effect.OpenBoard -> host.openBoard()
+            is Effect.AddGuildPoints -> guildPoints += effect.amount
         }
     }
 
     private fun currentStage(questId: String): QuestStage {
-        val def = setup.quests.getValue(questId)
+        val def = questDef(questId)!!
         val stage = quests.getValue(questId).stage
         return def.stages.firstOrNull { it.id == stage } ?: def.stages.first()
     }
 
     fun startQuest(questId: String) {
         if (questId in quests) return
-        val def = setup.quests[questId] ?: return
+        val def = questDef(questId) ?: return
         val stage = def.stages.first()
         quests[questId] = QuestProgress(stage.id, LongArray(stage.objectives.size))
         refresh(questId)
@@ -287,10 +403,10 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
             }
             if (stage.next == "end") {
                 q.done = true
-                for (reward in ArrayList(setup.quests.getValue(questId).rewards)) apply(reward)
+                for (reward in ArrayList(questDef(questId)!!.rewards)) apply(reward)
                 return
             }
-            val next = setup.quests.getValue(questId).stages.first { it.id == stage.next }
+            val next = questDef(questId)!!.stages.first { it.id == stage.next }
             q.stage = next.id
             q.progress = LongArray(next.objectives.size)
         }
@@ -380,10 +496,14 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
     }
 
     /** The NPC [interact] would talk to now, or null. */
+    /** NPCs that come and go with the world (settlement people), listed after the static ones. */
+    var dynamicNpcs: List<NpcDef> = emptyList()
+    private var dialogueArgs: Map<String, String> = emptyMap()
+
     fun npcInRange(): NpcDef? {
         var best: NpcDef? = null
         var bestDist = INTERACT_RANGE
-        for (npc in setup.npcs) {
+        for (npc in setup.npcs + dynamicNpcs) {
             val dx = npc.x - host.playerX
             val dy = npc.y - host.playerY
             val d = sqrt(dx * dx + dy * dy)
@@ -401,6 +521,7 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
             return
         }
         val npc = npcInRange() ?: return
+        dialogueArgs = if (npc.name.isEmpty()) npc.args else npc.args + ("npc" to npc.name)
         onTalk(npc.key)
         startDialogue(npc.dialogue)
     }
@@ -408,29 +529,36 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
     fun capture(): StoryState =
         StoryState(
             HashMap(flags), gold, quests.mapValues { QuestProgress(it.value.stage, it.value.progress.copyOf(), it.value.done) },
-            dialogueActive, dialogueId, nodeName,
+            dialogueActive, dialogueId, nodeName, HashMap(dialogueArgs), guildPoints,
         )
 
     /** Returns false (and changes nothing) when the state names a quest, dialogue or node that does not exist. */
     fun restore(state: StoryState): Boolean {
         if (state.dialogueActive && setup.dialogues[state.dialogueId]?.nodes?.containsKey(state.node) != true) return false
-        if (state.quests.keys.any { it !in setup.quests }) return false
+        for (id in state.quests.keys) {
+            if (questDef(id) != null) continue
+            // A generated quest (spec 07, "Guild"): the world rebuilds it from its id.
+            val rebuilt = questResolver?.invoke(id) ?: return false
+            generated[id] = rebuilt
+        }
         flags.clear()
         flags.putAll(state.flags)
         gold = state.gold
+        guildPoints = state.guildPoints
         quests.clear()
         for ((id, q) in state.quests) quests[id] = QuestProgress(q.stage, q.progress.copyOf(), q.done)
         dialogueActive = state.dialogueActive
         dialogueId = state.dialogueId
         nodeName = state.node
+        dialogueArgs = HashMap(state.dialogueArgs)
         return true
     }
 
     fun dialogueView(): DialogueView {
         if (!dialogueActive) return DialogueView()
         return when (val n = node()) {
-            is DialogueNode.Say -> DialogueView(active = true, isChoice = false, speaker = n.speaker, text = n.text)
-            else -> DialogueView(active = true, isChoice = true, choices = visibleChoices().map { it.text })
+            is DialogueNode.Say -> DialogueView(active = true, isChoice = false, speaker = n.speaker, text = n.text, args = dialogueArgs)
+            else -> DialogueView(active = true, isChoice = true, choices = visibleChoices().map { it.text }, args = dialogueArgs)
         }
     }
 }

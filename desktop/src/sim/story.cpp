@@ -6,6 +6,8 @@
 
 #include <nlohmann/json.hpp>
 
+#include "core/worldgen.hpp"
+
 namespace aether {
 
 namespace {
@@ -53,6 +55,16 @@ Condition parse_condition(const Json& j) {
     } else if (key == "level_at_least") {
         c.kind = Condition::Kind::LevelAtLeast;
         c.n = value.get<std::int64_t>();
+    } else if (key == "gold_at_least") {
+        c.kind = Condition::Kind::GoldAtLeast;
+        c.n = value.get<std::int64_t>();
+    } else if (key == "season") {
+        c.kind = Condition::Kind::Season;
+        c.a = value.get<std::string>();
+    } else if (key == "tod_between") {
+        c.kind = Condition::Kind::TodBetween;
+        c.n = value.at(0).get<std::int64_t>();
+        c.m = value.at(1).get<std::int64_t>();
     } else {
         throw std::runtime_error("unknown condition " + key);
     }
@@ -69,6 +81,15 @@ Effect parse_effect(const Json& j) {
         e.kind = Effect::Kind::AddItem;
         e.a = j.at("item").get<std::string>();
         e.n = j.at("qty").get<std::int64_t>();
+    } else if (kind == "spend_gold") {
+        e.kind = Effect::Kind::SpendGold;
+        e.n = j.at("amount").get<std::int64_t>();
+    } else if (kind == "heal_full") {
+        e.kind = Effect::Kind::HealFull;
+    } else if (kind == "remove_item") {
+        e.kind = Effect::Kind::RemoveItem;
+        e.a = j.at("item").get<std::string>();
+        e.n = j.at("qty").get<std::int64_t>();
     } else if (kind == "set_flag") {
         e.kind = Effect::Kind::SetFlag;
         e.a = j.at("flag").get<std::string>();
@@ -76,6 +97,13 @@ Effect parse_effect(const Json& j) {
     } else if (kind == "start_quest") {
         e.kind = Effect::Kind::StartQuest;
         e.a = j.at("quest").get<std::string>();
+    } else if (kind == "open_shop") {
+        e.kind = Effect::Kind::OpenShop;
+    } else if (kind == "open_board") {
+        e.kind = Effect::Kind::OpenBoard;
+    } else if (kind == "add_guild_points") {
+        e.kind = Effect::Kind::AddGuildPoints;
+        e.n = j.at("amount").get<std::int64_t>();
     } else {
         throw std::runtime_error("unknown effect " + kind);
     }
@@ -123,6 +151,11 @@ QuestDef parse_quest_json(const Json& j) {
         quest.stages.push_back(std::move(stage));
     }
     quest.rewards = parse_effects(j, "rewards");
+    if (j.contains("args")) {
+        for (const auto& [key, value] : j.at("args").items()) {
+            quest.args[key] = value.get<std::string>();
+        }
+    }
     if (quest.stages.empty()) {
         throw std::runtime_error("a quest needs at least one stage");
     }
@@ -181,6 +214,36 @@ DialogueDef parse_dialogue_json(const Json& j) {
 
 }  // namespace
 
+QuestDef quest_from_offer(const Offer& offer) {
+    QuestDef quest;
+    quest.id = offer.id;
+    quest.name = "$i18n:quest.board." + offer.template_id + "." + offer.tone + ".name";
+    std::string target_key = offer.target.substr(offer.target.find(':') + 1);
+    std::replace(target_key.begin(), target_key.end(), '/', '.');
+    quest.args = {{"count", std::to_string(offer.count)}, {"target", "$i18n:" + target_key + ".name"}, {"place", offer.place}};
+    QuestStage stage;
+    stage.id = "work";
+    stage.journal = "$i18n:quest.board." + offer.template_id + "." + offer.tone + ".journal";
+    stage.next = "end";
+    Objective objective;
+    objective.kind = offer.type == "kill" ? Objective::Kind::Kill : Objective::Kind::Collect;
+    objective.target = offer.target;
+    objective.count = offer.count;
+    stage.objectives.push_back(std::move(objective));
+    quest.stages.push_back(std::move(stage));
+    Effect xp;
+    xp.kind = Effect::Kind::AddXp;
+    xp.n = offer.xp;
+    Effect gold;
+    gold.kind = Effect::Kind::AddGold;
+    gold.n = offer.gold;
+    Effect points;
+    points.kind = Effect::Kind::AddGuildPoints;
+    points.n = offer.points;
+    quest.rewards = {xp, gold, points};
+    return quest;
+}
+
 std::optional<QuestDef> parse_quest(std::string_view json_text, std::string& error) {
     try {
         return parse_quest_json(Json::parse(json_text));
@@ -227,6 +290,8 @@ std::optional<StorySetup> parse_story_setup(std::string_view json_text, std::str
 
 // ------------------------------------------------------------------------------------- runtime
 
+const std::vector<NpcDef> Story::s_no_npcs;
+
 Story::Story(StorySetup setup, StoryHost& host) : m_setup_(std::move(setup)), m_host_(host) {}
 
 bool Story::holds(const Condition& c) const {
@@ -260,6 +325,14 @@ bool Story::holds(const Condition& c) const {
         }
         case Condition::Kind::LevelAtLeast:
             return m_host_.level() >= c.n;
+        case Condition::Kind::GoldAtLeast:
+            return m_gold_ >= c.n;
+        case Condition::Kind::Season:
+            return m_host_.season_id() == c.a;
+        case Condition::Kind::TodBetween: {
+            const std::int64_t tod = m_host_.tod_pm();
+            return c.n <= c.m ? (tod >= c.n && tod < c.m) : (tod >= c.n || tod < c.m);
+        }
     }
     return false;
 }
@@ -276,11 +349,38 @@ void Story::apply(const Effect& effect) {
             m_host_.host_inventory()[effect.a] += effect.n;
             refresh_all();
             break;
+        case Effect::Kind::SpendGold:
+            m_gold_ = std::max<std::int64_t>(0, m_gold_ - effect.n);
+            break;
+        case Effect::Kind::HealFull:
+            m_host_.heal_full();
+            break;
+        case Effect::Kind::RemoveItem: {
+            auto& inventory = m_host_.host_inventory();
+            const auto held = inventory.find(effect.a);
+            if (held != inventory.end()) {
+                held->second -= std::min(held->second, effect.n);
+                if (held->second <= 0) {
+                    inventory.erase(held);
+                }
+            }
+            refresh_all();
+            break;
+        }
         case Effect::Kind::SetFlag:
             m_flags_[effect.a] = effect.value;
             break;
         case Effect::Kind::StartQuest:
             start_quest(effect.a);
+            break;
+        case Effect::Kind::OpenShop:
+            m_host_.open_shop();
+            break;
+        case Effect::Kind::OpenBoard:
+            m_host_.open_board();
+            break;
+        case Effect::Kind::AddGuildPoints:
+            m_guild_points_ += effect.n;
             break;
     }
 }
@@ -489,7 +589,7 @@ void Story::choose(int index) {
 const NpcDef* Story::npc_in_range() const {
     const NpcDef* best = nullptr;
     float best_dist = kInteractRange;
-    for (const NpcDef& npc : m_setup_.npcs) {
+    const auto consider = [&](const NpcDef& npc) {
         const float dx = npc.x - m_host_.player_x();
         const float dy = npc.y - m_host_.player_y();
         const float d = std::sqrt(dx * dx + dy * dy);
@@ -497,6 +597,12 @@ const NpcDef* Story::npc_in_range() const {
             best = &npc;
             best_dist = d;
         }
+    };
+    for (const NpcDef& npc : m_setup_.npcs) {
+        consider(npc);
+    }
+    for (const NpcDef& npc : *m_dynamic_npcs_) {
+        consider(npc);
     }
     return best;
 }
@@ -509,6 +615,10 @@ void Story::interact() {
     if (const NpcDef* npc = npc_in_range()) {
         const std::string key = npc->key;
         const std::string dialogue = npc->dialogue;
+        m_dialogue_args_ = npc->args;
+        if (!npc->name.empty()) {
+            m_dialogue_args_["npc"] = npc->name;
+        }
         on_talk(key);
         start_dialogue(dialogue);
     }
@@ -518,10 +628,12 @@ StoryState Story::capture() const {
     StoryState state;
     state.flags = m_flags_;
     state.gold = m_gold_;
+    state.guild_points = m_guild_points_;
     state.quests = m_quests_;
     state.dialogue_active = m_dialogue_active_;
     state.dialogue_id = m_dialogue_id_;
     state.node = m_node_;
+    state.dialogue_args = m_dialogue_args_;
     return state;
 }
 
@@ -534,15 +646,22 @@ bool Story::restore(const StoryState& state) {
     }
     for (const auto& entry : state.quests) {
         if (m_setup_.quests.find(entry.first) == m_setup_.quests.end()) {
-            return false;
+            // A generated quest (spec 07, "Guild"): the world rebuilds it from its id.
+            const auto rebuilt = m_resolver_ ? m_resolver_(entry.first) : std::nullopt;
+            if (!rebuilt) {
+                return false;
+            }
+            m_setup_.quests.emplace(rebuilt->id, *rebuilt);
         }
     }
     m_flags_ = state.flags;
     m_gold_ = state.gold;
+    m_guild_points_ = state.guild_points;
     m_quests_ = state.quests;
     m_dialogue_active_ = state.dialogue_active;
     m_dialogue_id_ = state.dialogue_id;
     m_node_ = state.node;
+    m_dialogue_args_ = state.dialogue_args;
     return true;
 }
 
@@ -552,6 +671,7 @@ DialogueView Story::dialogue_view() const {
         return view;
     }
     view.active = true;
+    view.args = m_dialogue_args_;
     const DialogueNode& n = node();
     if (n.kind == DialogueNode::Kind::Say) {
         view.speaker = n.speaker;

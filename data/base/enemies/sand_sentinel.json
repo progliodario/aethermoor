@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/sand_sentinel",
+  "name": "$i18n:enemy.sand_sentinel.name",
+  "level": 16,
+  "stats": {
+    "hp": 780,
+    "atk": 39,
+    "def": 18,
+    "mdef": 9,
+    "speed_x100": 270
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "water": 1500
+  },
+  "xp": 480,
+  "drops": [
+    {
+      "item": "base:item/sunbrand",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 1000
+    }
+  ],
+  "radius_x100": 55,
+  "behavior": "base:behavior/guardian",
+  "art": "base:art/creature/sand_sentinel"
+}

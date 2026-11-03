@@ -1,0 +1,45 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/guild/observatory",
+  "name": "$i18n:quest.observatory.name",
+  "kind": "guild",
+  "stages": [
+    {
+      "id": "kill",
+      "journal": "$i18n:quest.observatory.kill",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/astral_curator",
+          "count": 1
+        }
+      ],
+      "next": "report"
+    },
+    {
+      "id": "report",
+      "journal": "$i18n:quest.observatory.report",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "guild_clerk_mira"
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 540
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1400
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 300
+    }
+  ]
+}

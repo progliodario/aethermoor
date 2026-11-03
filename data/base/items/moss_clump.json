@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/moss_clump",
+  "name": "$i18n:item.moss_clump.name",
+  "description": "$i18n:item.moss_clump.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 9,
+  "stack_max": 99
+}

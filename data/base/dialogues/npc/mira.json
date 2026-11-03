@@ -6,10 +6,40 @@
     "start": {
       "type": "condition",
       "when": {
-        "quest_done": "base:quest/guild/slime_extermination"
+        "all": [
+          {
+            "quest_done": "base:quest/side/way_tamsin_3"
+          },
+          {
+            "quest_done": "base:quest/side/way_elowen_3"
+          },
+          {
+            "quest_done": "base:quest/side/way_dorn_3"
+          },
+          {
+            "quest_done": "base:quest/side/way_zahra_3"
+          },
+          {
+            "quest_done": "base:quest/side/way_ilvi_3"
+          },
+          {
+            "quest_done": "base:quest/side/way_marlo_3"
+          },
+          {
+            "quest_done": "base:quest/side/way_kessa_3"
+          },
+          {
+            "quest_done": "base:quest/side/way_ottavio_3"
+          },
+          {
+            "not": {
+              "flag": "mira_ring_paid"
+            }
+          }
+        ]
       },
-      "then": "thanks",
-      "else": "active_check"
+      "then": "ring_offer",
+      "else": "chain_start"
     },
     "active_check": {
       "type": "condition",
@@ -60,6 +90,1068 @@
       "type": "say",
       "speaker": "guild_clerk_mira",
       "text": "$i18n:dlg.mira.thanks",
+      "next": "thanked"
+    },
+    "barrow_active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/barrow"
+      },
+      "then": "barrow_busy",
+      "else": "slime_done_check"
+    },
+    "slime_done_check": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/slime_extermination"
+      },
+      "then": "thanked_check",
+      "else": "active_check"
+    },
+    "thanked_check": {
+      "type": "condition",
+      "when": {
+        "flag": "mira_slime_thanked"
+      },
+      "then": "barrow_offer",
+      "else": "thanks"
+    },
+    "thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_slime_thanked",
+          "value": true
+        }
+      ],
+      "next": "barrow_offer"
+    },
+    "barrow_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.barrow_offer",
+      "next": "barrow_choice"
+    },
+    "barrow_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.mira.barrow_accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/barrow"
+            }
+          ],
+          "next": "barrow_accepted"
+        },
+        {
+          "text": "$i18n:dlg.mira.barrow_decline",
+          "next": "end"
+        }
+      ]
+    },
+    "barrow_accepted": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.barrow_accepted",
+      "next": "end"
+    },
+    "barrow_busy": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.barrow_busy",
+      "next": "end"
+    },
+    "barrow_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.barrow_thanks",
+      "next": "barrow_thanked"
+    },
+    "cellar_active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/cellar"
+      },
+      "then": "cellar_busy",
+      "else": "barrow_done_check"
+    },
+    "barrow_done_check": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/barrow"
+      },
+      "then": "barrow_thanked_check",
+      "else": "barrow_active_check"
+    },
+    "barrow_thanked_check": {
+      "type": "condition",
+      "when": {
+        "flag": "mira_barrow_thanked"
+      },
+      "then": "cellar_offer",
+      "else": "barrow_thanks"
+    },
+    "barrow_thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_barrow_thanked",
+          "value": true
+        }
+      ],
+      "next": "cellar_offer"
+    },
+    "cellar_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.cellar_offer",
+      "next": "cellar_choice"
+    },
+    "cellar_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.mira.cellar_accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/cellar"
+            }
+          ],
+          "next": "cellar_accepted"
+        },
+        {
+          "text": "$i18n:dlg.mira.cellar_decline",
+          "next": "end"
+        }
+      ]
+    },
+    "cellar_accepted": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.cellar_accepted",
+      "next": "end"
+    },
+    "cellar_busy": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.cellar_busy",
+      "next": "end"
+    },
+    "cellar_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.cellar_thanks",
+      "next": "cellar_thanked"
+    },
+    "mine_active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/mine"
+      },
+      "then": "mine_busy",
+      "else": "cellar_done_check"
+    },
+    "cellar_done_check": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/cellar"
+      },
+      "then": "cellar_thanked_check",
+      "else": "cellar_active_check"
+    },
+    "cellar_thanked_check": {
+      "type": "condition",
+      "when": {
+        "flag": "mira_cellar_thanked"
+      },
+      "then": "mine_offer",
+      "else": "cellar_thanks"
+    },
+    "cellar_thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_cellar_thanked",
+          "value": true
+        }
+      ],
+      "next": "mine_offer"
+    },
+    "mine_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.mine_offer",
+      "next": "mine_choice"
+    },
+    "mine_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.mira.mine_accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/mine"
+            }
+          ],
+          "next": "mine_accepted"
+        },
+        {
+          "text": "$i18n:dlg.mira.mine_decline",
+          "next": "end"
+        }
+      ]
+    },
+    "mine_accepted": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.mine_accepted",
+      "next": "end"
+    },
+    "mine_busy": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.mine_busy",
+      "next": "end"
+    },
+    "mine_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.mine_thanks",
+      "next": "mine_thanked"
+    },
+    "temple_active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/temple"
+      },
+      "then": "temple_busy",
+      "else": "mine_done_check"
+    },
+    "mine_done_check": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/mine"
+      },
+      "then": "mine_thanked_check",
+      "else": "mine_active_check"
+    },
+    "mine_thanked_check": {
+      "type": "condition",
+      "when": {
+        "flag": "mira_mine_thanked"
+      },
+      "then": "temple_offer",
+      "else": "mine_thanks"
+    },
+    "mine_thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_mine_thanked",
+          "value": true
+        }
+      ],
+      "next": "temple_offer"
+    },
+    "temple_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.temple_offer",
+      "next": "temple_choice"
+    },
+    "temple_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.mira.temple_accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/temple"
+            }
+          ],
+          "next": "temple_accepted"
+        },
+        {
+          "text": "$i18n:dlg.mira.temple_decline",
+          "next": "end"
+        }
+      ]
+    },
+    "temple_accepted": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.temple_accepted",
+      "next": "end"
+    },
+    "temple_busy": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.temple_busy",
+      "next": "end"
+    },
+    "temple_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.temple_thanks",
+      "next": "temple_thanked"
+    },
+    "cavern_active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/cavern"
+      },
+      "then": "cavern_busy",
+      "else": "temple_done_check"
+    },
+    "temple_done_check": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/temple"
+      },
+      "then": "temple_thanked_check",
+      "else": "temple_active_check"
+    },
+    "temple_thanked_check": {
+      "type": "condition",
+      "when": {
+        "flag": "mira_temple_thanked"
+      },
+      "then": "cavern_offer",
+      "else": "temple_thanks"
+    },
+    "temple_thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_temple_thanked",
+          "value": true
+        }
+      ],
+      "next": "cavern_offer"
+    },
+    "cavern_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.cavern_offer",
+      "next": "cavern_choice"
+    },
+    "cavern_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.mira.cavern_accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/cavern"
+            }
+          ],
+          "next": "cavern_accepted"
+        },
+        {
+          "text": "$i18n:dlg.mira.cavern_decline",
+          "next": "end"
+        }
+      ]
+    },
+    "cavern_accepted": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.cavern_accepted",
+      "next": "end"
+    },
+    "cavern_busy": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.cavern_busy",
+      "next": "end"
+    },
+    "cavern_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.cavern_thanks",
+      "next": "cavern_thanked"
+    },
+    "hollow_active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/hollow"
+      },
+      "then": "hollow_busy",
+      "else": "cavern_done_check"
+    },
+    "cavern_done_check": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/cavern"
+      },
+      "then": "cavern_thanked_check",
+      "else": "cavern_active_check"
+    },
+    "cavern_thanked_check": {
+      "type": "condition",
+      "when": {
+        "flag": "mira_cavern_thanked"
+      },
+      "then": "hollow_offer",
+      "else": "cavern_thanks"
+    },
+    "cavern_thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_cavern_thanked",
+          "value": true
+        }
+      ],
+      "next": "hollow_offer"
+    },
+    "hollow_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.hollow_offer",
+      "next": "hollow_choice"
+    },
+    "hollow_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.mira.hollow_accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/hollow"
+            }
+          ],
+          "next": "hollow_accepted"
+        },
+        {
+          "text": "$i18n:dlg.mira.hollow_decline",
+          "next": "end"
+        }
+      ]
+    },
+    "hollow_accepted": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.hollow_accepted",
+      "next": "end"
+    },
+    "hollow_busy": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.hollow_busy",
+      "next": "end"
+    },
+    "hollow_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.hollow_thanks",
+      "next": "hollow_thanked"
+    },
+    "ziggurat_active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/ziggurat"
+      },
+      "then": "ziggurat_busy",
+      "else": "hollow_done_check"
+    },
+    "hollow_done_check": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/hollow"
+      },
+      "then": "hollow_thanked_check",
+      "else": "hollow_active_check"
+    },
+    "hollow_thanked_check": {
+      "type": "condition",
+      "when": {
+        "flag": "mira_hollow_thanked"
+      },
+      "then": "ziggurat_offer",
+      "else": "hollow_thanks"
+    },
+    "hollow_thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_hollow_thanked",
+          "value": true
+        }
+      ],
+      "next": "ziggurat_offer"
+    },
+    "ziggurat_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.ziggurat_offer",
+      "next": "ziggurat_choice"
+    },
+    "ziggurat_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.mira.ziggurat_accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/ziggurat"
+            }
+          ],
+          "next": "ziggurat_accepted"
+        },
+        {
+          "text": "$i18n:dlg.mira.ziggurat_decline",
+          "next": "end"
+        }
+      ]
+    },
+    "ziggurat_accepted": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.ziggurat_accepted",
+      "next": "end"
+    },
+    "ziggurat_busy": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.ziggurat_busy",
+      "next": "end"
+    },
+    "ziggurat_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.ziggurat_thanks",
+      "next": "ziggurat_thanked"
+    },
+    "observatory_active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/observatory"
+      },
+      "then": "observatory_busy",
+      "else": "ziggurat_done_check"
+    },
+    "ziggurat_done_check": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/ziggurat"
+      },
+      "then": "ziggurat_thanked_check",
+      "else": "ziggurat_active_check"
+    },
+    "ziggurat_thanked_check": {
+      "type": "condition",
+      "when": {
+        "flag": "mira_ziggurat_thanked"
+      },
+      "then": "observatory_offer",
+      "else": "ziggurat_thanks"
+    },
+    "ziggurat_thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_ziggurat_thanked",
+          "value": true
+        }
+      ],
+      "next": "observatory_offer"
+    },
+    "observatory_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.observatory_offer",
+      "next": "observatory_choice"
+    },
+    "observatory_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.mira.observatory_accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/observatory"
+            }
+          ],
+          "next": "observatory_accepted"
+        },
+        {
+          "text": "$i18n:dlg.mira.observatory_decline",
+          "next": "end"
+        }
+      ]
+    },
+    "observatory_accepted": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.observatory_accepted",
+      "next": "end"
+    },
+    "observatory_busy": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.observatory_busy",
+      "next": "end"
+    },
+    "observatory_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.observatory_thanks",
+      "next": "observatory_thanked"
+    },
+    "citadel_active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/citadel"
+      },
+      "then": "citadel_busy",
+      "else": "observatory_done_check"
+    },
+    "observatory_done_check": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/observatory"
+      },
+      "then": "observatory_thanked_check",
+      "else": "observatory_active_check"
+    },
+    "observatory_thanked_check": {
+      "type": "condition",
+      "when": {
+        "flag": "mira_observatory_thanked"
+      },
+      "then": "citadel_offer",
+      "else": "observatory_thanks"
+    },
+    "observatory_thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_observatory_thanked",
+          "value": true
+        }
+      ],
+      "next": "citadel_offer"
+    },
+    "citadel_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.citadel_offer",
+      "next": "citadel_choice"
+    },
+    "citadel_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.mira.citadel_accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/citadel"
+            }
+          ],
+          "next": "citadel_accepted"
+        },
+        {
+          "text": "$i18n:dlg.mira.citadel_decline",
+          "next": "end"
+        }
+      ]
+    },
+    "citadel_accepted": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.citadel_accepted",
+      "next": "end"
+    },
+    "citadel_busy": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.citadel_busy",
+      "next": "end"
+    },
+    "citadel_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.citadel_thanks",
+      "next": "citadel_thanked"
+    },
+    "forge_active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/forge"
+      },
+      "then": "forge_busy",
+      "else": "citadel_done_check"
+    },
+    "citadel_done_check": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/citadel"
+      },
+      "then": "citadel_thanked_check",
+      "else": "citadel_active_check"
+    },
+    "citadel_thanked_check": {
+      "type": "condition",
+      "when": {
+        "flag": "mira_citadel_thanked"
+      },
+      "then": "forge_offer",
+      "else": "citadel_thanks"
+    },
+    "citadel_thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_citadel_thanked",
+          "value": true
+        }
+      ],
+      "next": "forge_offer"
+    },
+    "forge_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.forge_offer",
+      "next": "forge_choice"
+    },
+    "forge_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.mira.forge_accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/forge"
+            }
+          ],
+          "next": "forge_accepted"
+        },
+        {
+          "text": "$i18n:dlg.mira.forge_decline",
+          "next": "end"
+        }
+      ]
+    },
+    "forge_accepted": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.forge_accepted",
+      "next": "end"
+    },
+    "forge_busy": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.forge_busy",
+      "next": "end"
+    },
+    "forge_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.forge_thanks",
+      "next": "forge_thanked"
+    },
+    "galleon_active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/galleon"
+      },
+      "then": "galleon_busy",
+      "else": "forge_done_check"
+    },
+    "forge_done_check": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/forge"
+      },
+      "then": "forge_thanked_check",
+      "else": "forge_active_check"
+    },
+    "forge_thanked_check": {
+      "type": "condition",
+      "when": {
+        "flag": "mira_forge_thanked"
+      },
+      "then": "galleon_offer",
+      "else": "forge_thanks"
+    },
+    "forge_thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_forge_thanked",
+          "value": true
+        }
+      ],
+      "next": "galleon_offer"
+    },
+    "galleon_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.galleon_offer",
+      "next": "galleon_choice"
+    },
+    "galleon_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.mira.galleon_accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/galleon"
+            }
+          ],
+          "next": "galleon_accepted"
+        },
+        {
+          "text": "$i18n:dlg.mira.galleon_decline",
+          "next": "end"
+        }
+      ]
+    },
+    "galleon_accepted": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.galleon_accepted",
+      "next": "end"
+    },
+    "galleon_busy": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.galleon_busy",
+      "next": "end"
+    },
+    "galleon_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.galleon_thanks",
+      "next": "galleon_thanked"
+    },
+    "keep_active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/keep"
+      },
+      "then": "keep_busy",
+      "else": "galleon_done_check"
+    },
+    "galleon_done_check": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/galleon"
+      },
+      "then": "galleon_thanked_check",
+      "else": "galleon_active_check"
+    },
+    "galleon_thanked_check": {
+      "type": "condition",
+      "when": {
+        "flag": "mira_galleon_thanked"
+      },
+      "then": "keep_offer",
+      "else": "galleon_thanks"
+    },
+    "galleon_thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_galleon_thanked",
+          "value": true
+        }
+      ],
+      "next": "keep_offer"
+    },
+    "keep_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.keep_offer",
+      "next": "keep_choice"
+    },
+    "keep_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.mira.keep_accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/keep"
+            }
+          ],
+          "next": "keep_accepted"
+        },
+        {
+          "text": "$i18n:dlg.mira.keep_decline",
+          "next": "end"
+        }
+      ]
+    },
+    "keep_accepted": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.keep_accepted",
+      "next": "end"
+    },
+    "keep_busy": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.keep_busy",
+      "next": "end"
+    },
+    "keep_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.keep_thanks",
+      "next": "keep_thanked"
+    },
+    "vault_active_check": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/guild/vault"
+      },
+      "then": "vault_busy",
+      "else": "keep_done_check"
+    },
+    "keep_done_check": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/keep"
+      },
+      "then": "keep_thanked_check",
+      "else": "keep_active_check"
+    },
+    "keep_thanked_check": {
+      "type": "condition",
+      "when": {
+        "flag": "mira_keep_thanked"
+      },
+      "then": "vault_offer",
+      "else": "keep_thanks"
+    },
+    "keep_thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_keep_thanked",
+          "value": true
+        }
+      ],
+      "next": "vault_offer"
+    },
+    "vault_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.vault_offer",
+      "next": "vault_choice"
+    },
+    "vault_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.mira.vault_accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/guild/vault"
+            }
+          ],
+          "next": "vault_accepted"
+        },
+        {
+          "text": "$i18n:dlg.mira.vault_decline",
+          "next": "end"
+        }
+      ]
+    },
+    "vault_accepted": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.vault_accepted",
+      "next": "end"
+    },
+    "vault_busy": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.vault_busy",
+      "next": "end"
+    },
+    "vault_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.vault_thanks",
+      "next": "end"
+    },
+    "chain_start": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/vault"
+      },
+      "then": "vault_thanks",
+      "else": "vault_active_check"
+    },
+    "ring_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.ring",
+      "next": "ring_paid"
+    },
+    "ring_paid": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_ring_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 2500
+        },
+        {
+          "effect": "add_gold",
+          "amount": 6000
+        },
+        {
+          "effect": "add_guild_points",
+          "amount": 600
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/ring_mantle",
+          "qty": 1
+        }
+      ],
+      "next": "ring_thanks"
+    },
+    "ring_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.ring_thanks",
       "next": "end"
     }
   }

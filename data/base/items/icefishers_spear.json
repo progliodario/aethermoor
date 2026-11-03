@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/icefishers_spear",
+  "name": "$i18n:item.icefishers_spear.name",
+  "description": "$i18n:item.icefishers_spear.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 1300,
+  "weapon": {
+    "atk": 22,
+    "matk": 0
+  }
+}

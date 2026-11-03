@@ -7,7 +7,7 @@
 
 namespace aether {
 
-TileMap make_tilemap(const GeneratedWorld& world, const WorldParams& params);
+TileMap make_tilemap(const GeneratedWorld& world, const WorldParams& params, std::uint64_t seed);
 
 // The map of a streamed world: only its size, the spawn and the NPCs (tiles, props and enemies come from the chunks).
 TileMap make_stream_map(const WorldParams& params);

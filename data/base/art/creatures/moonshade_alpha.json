@@ -1,0 +1,267 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/creature/moonshade_alpha",
+  "canvas": {
+    "w": 40,
+    "h": 40,
+    "origin": [
+      20,
+      36
+    ]
+  },
+  "palette": {
+    "fur": "#3D4660",
+    "light": "#A8B6E0",
+    "dark": "#1B2033",
+    "outline": "#0A0C14",
+    "eye": "#7DF9FF",
+    "nose": "#0A0C14",
+    "inner": "#E0D8FF"
+  },
+  "variants": {},
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          20,
+          36,
+          14,
+          4
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "path": "M 7 34 Q 5 20 20 16 Q 35 20 33 34 Q 20 38 7 34 Z"
+      },
+      "fill": {
+        "radial": {
+          "cx": 16,
+          "cy": 22,
+          "r": 22,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.5,
+              "$p.fur"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      }
+    },
+    {
+      "shape": {
+        "path": "M 8 15 L 9 3 L 17 11 Z"
+      },
+      "fill": {
+        "color": "$p.fur"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 32 15 L 31 3 L 23 11 Z"
+      },
+      "fill": {
+        "color": "$p.fur"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 10 12 L 10.5 6 L 14 10 Z"
+      },
+      "fill": {
+        "color": "$p.inner"
+      }
+    },
+    {
+      "shape": {
+        "path": "M 30 12 L 29.5 6 L 26 10 Z"
+      },
+      "fill": {
+        "color": "$p.inner"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20,
+          17,
+          12,
+          9.5
+        ]
+      },
+      "fill": {
+        "radial": {
+          "cx": 16,
+          "cy": 12,
+          "r": 20,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.55,
+              "$p.fur"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20,
+          22,
+          6,
+          4.2
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.2
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20,
+          20.6,
+          2,
+          1.4
+        ]
+      },
+      "fill": {
+        "color": "$p.nose"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          14.5,
+          15,
+          2.2,
+          1.5
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          25.5,
+          15,
+          2.2,
+          1.5
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          14.5,
+          15,
+          0.7,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "$p.nose"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          25.5,
+          15,
+          0.7,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "$p.nose"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            17.5,
+            24
+          ],
+          [
+            18.7,
+            24
+          ],
+          [
+            18.1,
+            26.4
+          ]
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            21.3,
+            24
+          ],
+          [
+            22.5,
+            24
+          ],
+          [
+            21.9,
+            26.4
+          ]
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      }
+    }
+  ]
+}

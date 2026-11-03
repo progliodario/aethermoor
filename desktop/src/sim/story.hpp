@@ -4,6 +4,7 @@
 // Reference: tools/reference/story.py.
 
 #include <cstdint>
+#include <functional>
 #include <map>
 #include <optional>
 #include <string>
@@ -13,16 +14,17 @@
 namespace aether {
 
 struct Condition {
-    enum class Kind { Flag, Not, All, Any, QuestActive, QuestDone, QuestStage, HasItem, LevelAtLeast };
+    enum class Kind { Flag, Not, All, Any, QuestActive, QuestDone, QuestStage, HasItem, LevelAtLeast, GoldAtLeast, Season, TodBetween };
     Kind kind = Kind::Flag;
     std::string a;  // flag / quest / item
     std::string b;  // stage
-    std::int64_t n = 0;  // quantity / level
+    std::int64_t n = 0;  // quantity / level / start of a time range
+    std::int64_t m = 0;  // end of a time range
     std::vector<Condition> children;
 };
 
 struct Effect {
-    enum class Kind { AddXp, AddGold, AddItem, SetFlag, StartQuest };
+    enum class Kind { AddXp, AddGold, AddItem, RemoveItem, SpendGold, HealFull, SetFlag, StartQuest, OpenShop, AddGuildPoints, OpenBoard };
     Kind kind = Kind::AddXp;
     std::string a;  // item / flag / quest
     std::int64_t n = 0;  // amount / quantity
@@ -49,7 +51,12 @@ struct QuestDef {
     std::string name;  // "$i18n:..." reference
     std::vector<QuestStage> stages;
     std::vector<Effect> rewards;
+    std::map<std::string, std::string> args;  // arguments of the name and journal texts (spec 07)
 };
+
+struct Offer;
+// The quest of a board offer (spec 07, "Guild").
+QuestDef quest_from_offer(const Offer& offer);
 
 struct DialogueChoice {
     std::string text;
@@ -86,6 +93,8 @@ struct NpcDef {
     std::string variant;   // art palette variant of the player rig
     float x = 0.0F;
     float y = 0.0F;
+    std::string name;                          // settlement people: a proper noun, empty for the others
+    std::map<std::string, std::string> args;   // arguments of the dialogue texts (spec 07)
 };
 
 struct StorySetup {
@@ -106,6 +115,7 @@ struct DialogueView {
     std::string speaker;                // say
     std::string text;                   // say
     std::vector<std::string> choices;   // choice: texts of the visible choices
+    std::map<std::string, std::string> args;  // arguments of the texts (spec 07, "Dialogue arguments")
 };
 
 struct QuestProgress {
@@ -118,10 +128,12 @@ struct QuestProgress {
 struct StoryState {
     std::map<std::string, bool> flags;
     std::int64_t gold = 0;
+    std::int64_t guild_points = 0;
     std::map<std::string, QuestProgress> quests;
     bool dialogue_active = false;
     std::string dialogue_id;
     std::string node;
+    std::map<std::string, std::string> dialogue_args;
 };
 
 // What the story needs from the world that owns it.
@@ -133,6 +145,11 @@ public:
     virtual std::int64_t level() const = 0;
     virtual float player_x() const = 0;
     virtual float player_y() const = 0;
+    virtual void open_shop() = 0;
+    virtual void open_board() = 0;
+    virtual void heal_full() = 0;
+    virtual std::string season_id() const = 0;  // the season of the day, empty without seasons
+    virtual int tod_pm() const = 0;              // the time of day in permille, 0 without world time
 };
 
 class Story {
@@ -154,6 +171,9 @@ public:
 
     // The NPC `interact` would talk to now, or nullptr.
     const NpcDef* npc_in_range() const;
+    // NPCs that come and go with the world (settlement people); owned by the world, listed after the static ones.
+    void set_dynamic_npcs(const std::vector<NpcDef>* npcs) { m_dynamic_npcs_ = npcs; }
+    const std::vector<NpcDef>& dynamic_npcs() const { return *m_dynamic_npcs_; }
 
     StoryState capture() const;
     // Returns false (and changes nothing) when the state names a dialogue or node that does not exist.
@@ -162,6 +182,12 @@ public:
     const StorySetup& setup() const { return m_setup_; }
     const std::map<std::string, bool>& flags() const { return m_flags_; }
     std::int64_t gold() const { return m_gold_; }
+    void set_gold(std::int64_t gold) { m_gold_ = gold; }
+    std::int64_t guild_points() const { return m_guild_points_; }
+    // Adds the quest of a board offer to the known quests (it can then be started and saved).
+    void add_generated_quest(QuestDef quest) { m_setup_.quests.emplace(quest.id, std::move(quest)); }
+    // Rebuilds the quest of a generated id when a save is loaded.
+    void set_quest_resolver(std::function<std::optional<QuestDef>(const std::string&)> resolver) { m_resolver_ = std::move(resolver); }
     const std::map<std::string, QuestProgress>& quests() const { return m_quests_; }
 
 private:
@@ -178,10 +204,15 @@ private:
     StoryHost& m_host_;
     std::map<std::string, bool> m_flags_;
     std::int64_t m_gold_ = 0;
+    std::int64_t m_guild_points_ = 0;
+    std::function<std::optional<QuestDef>(const std::string&)> m_resolver_;
     std::map<std::string, QuestProgress> m_quests_;
     bool m_dialogue_active_ = false;
     std::string m_dialogue_id_;
     std::string m_node_;
+    std::map<std::string, std::string> m_dialogue_args_;
+    const std::vector<NpcDef>* m_dynamic_npcs_ = &s_no_npcs;
+    static const std::vector<NpcDef> s_no_npcs;
 };
 
 }  // namespace aether

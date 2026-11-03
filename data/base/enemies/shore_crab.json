@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/shore_crab",
+  "name": "$i18n:enemy.shore_crab.name",
+  "level": 5,
+  "stats": {
+    "hp": 90,
+    "atk": 16,
+    "def": 10,
+    "mdef": 3,
+    "speed_x100": 240
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "wind": 1500
+  },
+  "xp": 26,
+  "drops": [
+    {
+      "item": "base:item/crab_shell",
+      "qty_min": 1,
+      "qty_max": 2,
+      "weight_pm": 600
+    }
+  ],
+  "radius_x100": 36,
+  "behavior": "base:behavior/brute",
+  "art": "base:art/creature/shore_crab"
+}

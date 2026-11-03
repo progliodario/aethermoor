@@ -5,10 +5,24 @@ Schema: `schemas/save.schema.json`. Conformance suite: `save` (resume scenarios)
 
 ## Files
 
-One JSON file per slot, `<user data>/saves/<slot>.json`, with the slots `auto` (written every 30 s, when the app pauses or
-quits) and `quick` (manual). The user data folder is `SDL_GetPrefPath` on desktop and the app-private folder on Android. A
-save can be copied by hand between devices and platforms. The inventory-level profile (`profile.json`) and per-chunk deltas
-described in the plan arrive with the procedural world and reincarnation.
+One JSON file per save, `<user data>/saves/slot<N>/<name>.json`, with the games (slots) `slot1`, `slot2` and `slot3` and, in each,
+the saves `auto` (written every 30 s, when the app pauses or quits) and `quick` (manual, desktop). The user data folder is
+`SDL_GetPrefPath` on desktop and the app-private folder on Android. A save can be copied by hand between devices and platforms.
+The inventory-level profile (`profile.json`) and per-chunk deltas described in the plan arrive with reincarnation.
+
+## Slots
+
+A game is a slot: its own world (its own seed), progress and saves. Three slots exist.
+
+- **Title screen.** At launch the client lists the slots before it builds any world: a used slot shows `level` and `story.gold` of its
+  `auto` save, read without building the world (`save_peek`: `seed`, `map`, `player.level`, `story.gold`), an empty slot says it is a new game.
+  Choosing a used slot continues it; choosing an empty one starts a new world with a new random seed. The seed is written
+  into the saves of the slot, so the same world comes back.
+- **Delete.** A used slot can be deleted after a second confirmation (desktop: `D` twice; Android: the cross, then the cross again). Deleting removes
+  the files of that slot only.
+- **Migration.** A save written before slots (`saves/auto.json`, `saves/quick.json`) is moved to `slot1` the first time a client starts.
+- **Dev options.** Desktop `--slot=N` skips the title screen; `--smoke-test` uses its own folder and never touches the three slots.
+- **Back to the title.** Leaving a game (desktop: `Esc` with no panel open; Android: the Back key with no panel open, `Esc` on a keyboard) writes the `auto` save and returns to the title screen, where another game can be chosen; the world of the next game is built when it is chosen, from its own seed, and nothing of the previous world is kept (the map cells already seen are forgotten with it). With a panel open, Back closes the panel. On the title screen `Esc` or Back quits, and so does closing the window in a game. `--slot=N` and `--smoke-test` on desktop keep their one game and quit on `Esc`.
 
 ## Document
 
@@ -39,8 +53,12 @@ described in the plan arrive with the procedural world and reincarnation.
   `"spawner": [x, y]` (its spawner tile, which also gives its home); `cleared_spawners` lists the spawners whose enemy was killed as `[x, y, died_tick]` (spec 08, the world tick of the death). On load the
   window is rebuilt around the saved player position; every enemy must belong to a spawner of the window (the enemy of a cleared spawner is dead), and every
   uncleared spawner of the window must have its enemy, otherwise the save is invalid for this build. `cleared_spawners` and `spawner` are absent on fixed maps.
+- `explored` (streamed world) is the list of explored world map cells `[x, y]`, ordered by row then column (spec 09); absent in old saves.
+- `stones` (streamed world) is the list of the tiles `[x, y]` of the Threshold Stones that were used, in the order they were woken (spec 09); absent in old saves.
+- `story.guild_points` is the guild points of the player (spec 07); absent in old saves (0). Quests whose id starts with `board:` are generated quests: only their progress is saved.
+- `equipped` is `{weapon, armor}`: the item ids worn (spec 06); absent in old saves (the starting weapon, no armor).
 - `world_ticks` is the world clock (spec 08); a save without it starts at the world's `time.start_tick`.
-- `story` is null when the world has no story. `dialogue` is null when no dialogue is open.
+- `story` is null when the world has no story. `dialogue` is null when no dialogue is open; otherwise it has `id`, `node` and, when the NPC had arguments (spec 07), `args` (a map of strings).
 - 64-bit values are hex strings. Positions are floats (a client reads them as 32-bit floats).
 - Random stream states are the PCG32 `state` and `inc` after the last draw: resuming a save continues the same random sequence.
 - Derived stats are not stored; they are recomputed from the level, the protagonist data and the equipment.

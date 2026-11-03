@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/dragon_scale_vest",
+  "name": "$i18n:item.dragon_scale_vest.name",
+  "description": "$i18n:item.dragon_scale_vest.desc",
+  "kind": "armor",
+  "rarity": "epic",
+  "price": 2400,
+  "armor": {
+    "def": 14,
+    "mdef": 10
+  }
+}

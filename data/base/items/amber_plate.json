@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/amber_plate",
+  "name": "$i18n:item.amber_plate.name",
+  "description": "$i18n:item.amber_plate.desc",
+  "kind": "armor",
+  "rarity": "rare",
+  "price": 900,
+  "armor": {
+    "def": 9,
+    "mdef": 6
+  }
+}

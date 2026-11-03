@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/polar_fur",
+  "name": "$i18n:item.polar_fur.name",
+  "description": "$i18n:item.polar_fur.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 22,
+  "stack_max": 99
+}

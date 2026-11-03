@@ -1,0 +1,299 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/creature/night_owl",
+  "canvas": {
+    "w": 36,
+    "h": 40,
+    "origin": [
+      18,
+      36
+    ]
+  },
+  "palette": {
+    "body": "#6A5A48",
+    "light": "#B8A48A",
+    "dark": "#3A2E22",
+    "outline": "#14100A",
+    "eye": "#FFD84A",
+    "pupil": "#14100A",
+    "beak": "#E8A030",
+    "belly": "#E8DCC4"
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          18,
+          37,
+          9,
+          2
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "path": "M 7 22 Q 2 26 5 33 Q 8 31 10 28 Z"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "color": "$p.body"
+      }
+    },
+    {
+      "shape": {
+        "path": "M 29 22 Q 34 26 31 33 Q 28 31 26 28 Z"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "color": "$p.body"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18,
+          24,
+          10,
+          12.5
+        ]
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "radial": {
+          "cx": 15,
+          "cy": 19,
+          "r": 20,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.5,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18,
+          27,
+          6,
+          7.5
+        ]
+      },
+      "fill": {
+        "color": "$p.belly"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            11,
+            8
+          ],
+          [
+            9,
+            2
+          ],
+          [
+            15,
+            6
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.body"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.2
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            25,
+            8
+          ],
+          [
+            27,
+            2
+          ],
+          [
+            21,
+            6
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.body"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.2
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18,
+          12,
+          9,
+          7.5
+        ]
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "radial": {
+          "cx": 15,
+          "cy": 8,
+          "r": 16,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.5,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          14,
+          12,
+          3.6,
+          3.6
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.9
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          12,
+          3.6,
+          3.6
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.9
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          14,
+          12,
+          1.4,
+          1.8
+        ]
+      },
+      "fill": {
+        "color": "$p.pupil"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          12,
+          1.4,
+          1.8
+        ]
+      },
+      "fill": {
+        "color": "$p.pupil"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            16.6,
+            14
+          ],
+          [
+            19.4,
+            14
+          ],
+          [
+            18,
+            17.5
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.beak"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.8
+      }
+    },
+    {
+      "shape": {
+        "path": "M 14 35 L 14 38 M 12.5 38 L 15.5 38"
+      },
+      "stroke": {
+        "color": "$p.beak",
+        "width": 1.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 22 35 L 22 38 M 20.5 38 L 23.5 38"
+      },
+      "stroke": {
+        "color": "$p.beak",
+        "width": 1.4
+      }
+    }
+  ]
+}

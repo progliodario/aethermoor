@@ -1,0 +1,134 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/role/villager_grim",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.villager.grim.hello",
+      "next": "menu"
+    },
+    "menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.rumor",
+          "next": "rumor"
+        },
+        {
+          "text": "$i18n:dlg.role.legend",
+          "next": "legend"
+        },
+        {
+          "text": "$i18n:dlg.role.road",
+          "next": "road"
+        },
+        {
+          "text": "$i18n:dlg.role.gossip",
+          "next": "gossip1"
+        },
+        {
+          "text": "$i18n:dlg.role.season",
+          "next": "season_spring_check"
+        },
+        {
+          "text": "$i18n:dlg.role.bye",
+          "next": "end"
+        }
+      ]
+    },
+    "rumor": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.grim.rumor",
+      "next": "end"
+    },
+    "legend": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.grim.legend",
+      "next": "end"
+    },
+    "road": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.grim.road",
+      "next": "end"
+    },
+    "gossip1": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.gossip.grim.1",
+      "next": "gossip2"
+    },
+    "gossip2": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.gossip.grim.2",
+      "next": "gossip3"
+    },
+    "gossip3": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.gossip.grim.3",
+      "next": "end"
+    },
+    "season_spring_check": {
+      "type": "condition",
+      "when": {
+        "season": "spring"
+      },
+      "then": "season_spring",
+      "else": "season_summer_check"
+    },
+    "season_spring": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.season.grim.spring",
+      "next": "end"
+    },
+    "season_summer_check": {
+      "type": "condition",
+      "when": {
+        "season": "summer"
+      },
+      "then": "season_summer",
+      "else": "season_autumn_check"
+    },
+    "season_summer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.season.grim.summer",
+      "next": "end"
+    },
+    "season_autumn_check": {
+      "type": "condition",
+      "when": {
+        "season": "autumn"
+      },
+      "then": "season_autumn",
+      "else": "season_winter_check"
+    },
+    "season_autumn": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.season.grim.autumn",
+      "next": "end"
+    },
+    "season_winter_check": {
+      "type": "condition",
+      "when": {
+        "season": "winter"
+      },
+      "then": "season_winter",
+      "else": "end"
+    },
+    "season_winter": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.season.grim.winter",
+      "next": "end"
+    }
+  }
+}

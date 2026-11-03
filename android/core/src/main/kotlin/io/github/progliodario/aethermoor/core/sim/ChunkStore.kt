@@ -1,6 +1,7 @@
 package io.github.progliodario.aethermoor.core.sim
 
 import io.github.progliodario.aethermoor.core.CHUNK_SIZE
+import io.github.progliodario.aethermoor.core.GenPerson
 import io.github.progliodario.aethermoor.core.WorldParams
 import io.github.progliodario.aethermoor.core.generateChunk
 import kotlin.math.abs
@@ -33,6 +34,8 @@ class Chunk(
     val props: List<Prop>,
     /** Absolute tile coordinates, in scan order. */
     val spawners: List<Pair<Int, Int>>,
+    /** Settlement NPCs, in scan order. */
+    val people: List<GenPerson>,
 )
 
 class ChunkStore(val params: WorldParams, val seed: ULong, private val tileset: Tileset) {
@@ -50,6 +53,7 @@ class ChunkStore(val params: WorldParams, val seed: ULong, private val tileset: 
                 BooleanArray(generated.tiles.size) { tileset.tiles[generated.tiles[it]]?.solid ?: false },
                 generated.props.map { Prop(it.art, it.x256 / 256f, it.y256 / 256f, it.radiusX100 / 100f) },
                 generated.spawners,
+                generated.people,
             )
         }
 

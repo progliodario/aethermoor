@@ -48,6 +48,27 @@ data class PlayerSetup(
     val weaponMatk: Long = 0,
 )
 
+/** One effect of using an item (spec 06): "heal" with an [amount]. */
+class ItemEffect(val effect: String, val amount: Long)
+
+/** An item of the pack (spec 06): its effects when used, its price and, for equipment, its statistics. */
+class ItemDef(
+    val effects: List<ItemEffect> = emptyList(),
+    val kind: String = "",
+    val price: Long = 0,
+    /** 0: the default of the kind. */
+    val stackMax: Int = 0,
+    val weapon: WeaponStats? = null,
+    val armor: ArmorStats? = null,
+)
+
+class WeaponStats(val atk: Long, val matk: Long)
+
+class ArmorStats(val def: Long, val mdef: Long)
+
+/** What a shop sells: prices in permille of the base price. */
+class ShopDef(val pricePm: Int, val stock: List<String>)
+
 class CombatSetup(
     val enabled: Boolean = false,
     val player: PlayerSetup = PlayerSetup(),
@@ -60,8 +81,15 @@ class CombatSetup(
     val story: StorySetup = StorySetup(),
     /** Items owned in a new game. */
     val startInventory: Map<String, Long> = emptyMap(),
-    /** The enemy of the spawners of a streamed world. */
-    val streamEnemy: EnemyDef? = null,
+    /** The enemies of the fauna of a streamed world, by ID. */
+    val streamEnemies: Map<String, EnemyDef> = emptyMap(),
+    /** Items with a `use` block, by item ID (spec 06). */
+    val items: Map<String, ItemDef> = emptyMap(),
+    /** The weapon and the armor worn in a new game (item ids, or empty). */
+    val startWeapon: String = "",
+    val startArmor: String = "",
+    /** The shop of fixed maps and scenarios (streamed worlds use their regions). */
+    val shop: ShopDef? = null,
 )
 
 enum class AttackPhase { NONE, STARTUP, ACTIVE, RECOVERY }

@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/queens_stinger",
+  "name": "$i18n:item.queens_stinger.name",
+  "description": "$i18n:item.queens_stinger.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 1100,
+  "weapon": {
+    "atk": 22,
+    "matk": 0
+  }
+}

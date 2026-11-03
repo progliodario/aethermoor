@@ -63,6 +63,18 @@ WorldSim::WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, Combat
       m_combat_rng_(derive_stream(m_setup_.seed, "combat")),
       m_loot_rng_(derive_stream(m_setup_.seed, "loot")),
       m_story_(m_setup_.story, *this) {
+    m_story_.set_dynamic_npcs(&m_npcs_);
+    if (m_store_) {
+        const ChunkStore* store = m_store_.get();
+        m_story_.set_quest_resolver([store](const std::string& id) -> std::optional<QuestDef> {
+            const auto offer = resolve_offer(store->seed(), store->params(), id);
+            if (!offer) {
+                return std::nullopt;
+            }
+            return quest_from_offer(*offer);
+        });
+    }
+    m_collision_.set_dynamic_props(&m_npc_circles_);
     m_player_.position = {m_map_.spawn_x, m_map_.spawn_y};
     if (m_store_) {
         m_world_ticks_ = m_store_->params().time.start_tick;
@@ -76,6 +88,8 @@ WorldSim::WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, Combat
     }
     if (m_setup_.enabled) {
         m_player_.level = m_setup_.start_level;
+        m_equipped_weapon_ = m_setup_.start_weapon;
+        m_equipped_armor_ = m_setup_.start_armor;
         recompute_derived();
         m_player_.hp = m_derived_.max_hp;
         for (const EnemySpawn& spawn : m_setup_.spawns) {
@@ -89,6 +103,7 @@ WorldSim::WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, Combat
         m_hit_set_.assign(m_enemies_.size(), false);
         m_inventory_ = m_setup_.start_inventory;
         sync_window();
+        mark_explored();
     }
 }
 
@@ -113,8 +128,67 @@ void WorldSim::for_each_prop(float x0, float y0, float x1, float y1, const std::
     }
 }
 
+void WorldSim::rebuild_npc_circles() {
+    m_npc_circles_.clear();
+    for (const NpcDef& npc : m_npcs_) {
+        m_npc_circles_.push_back({npc.x, npc.y, kNpcRadius});
+    }
+}
+
+std::string WorldSim::season_id() const {
+    if (!m_store_) {
+        return {};
+    }
+    const TimeParams& time = m_store_->params().time;
+    const int index = season_index_of(time, m_world_ticks_ / time.day_ticks + 1);
+    return index >= 0 ? time.seasons[static_cast<std::size_t>(index)].id : std::string();
+}
+
+int WorldSim::time_of_day_pm() const {
+    const std::int64_t day_ticks = m_store_->params().time.day_ticks;
+    return static_cast<int>((m_world_ticks_ % day_ticks) * 1000 / day_ticks);
+}
+
+void WorldSim::refresh_people(int cx, int cy) {
+    m_npcs_.clear();
+    for (int j = cy - kActiveRadius; j <= cy + kActiveRadius; ++j) {
+        for (int i = cx - kActiveRadius; i <= cx + kActiveRadius; ++i) {
+            add_chunk_people(i, j);
+        }
+    }
+    m_routine_tod_ = time_of_day_pm();
+    rebuild_npc_circles();
+}
+
+void WorldSim::add_chunk_people(int cx, int cy) {
+    const Chunk* chunk = m_store_->find(cx, cy);
+    if (chunk == nullptr) {
+        return;
+    }
+    const int tod = time_of_day_pm();
+    for (const GenPerson& person : chunk->people) {
+        const auto placement = person_placement(m_store_->params(), person, tod);
+        if (!placement) {
+            continue;  // indoors (spec 08)
+        }
+        NpcDef npc;
+        npc.key = person.key;
+        npc.dialogue = person.dialogue;
+        npc.variant = person.variant;
+        npc.x = static_cast<float>(placement->x256) / 256.0F;
+        npc.y = static_cast<float>(placement->y256) / 256.0F;
+        npc.name = person.name;
+        npc.args = {{"npc", person.name}, {"place", person.place}, {"region", person.region}, {"quirk", "$i18n:" + person.quirk}};
+        m_npcs_.push_back(std::move(npc));
+    }
+}
+
+const EnemyDef& WorldSim::stream_enemy_at(int x, int y) const {
+    return m_setup_.stream_enemies.at(spawner_enemy_at(m_store_->seed(), m_store_->params(), x, y));
+}
+
 void WorldSim::add_chunk_enemies(int cx, int cy) {
-    if (!m_setup_.stream_enemy) {
+    if (m_setup_.stream_enemies.empty()) {
         return;
     }
     const Chunk* chunk = m_store_->find(cx, cy);
@@ -131,7 +205,7 @@ void WorldSim::add_chunk_enemies(int cx, int cy) {
             m_cleared_.erase(died);
         }
         Enemy enemy;
-        enemy.def = *m_setup_.stream_enemy;
+        enemy.def = stream_enemy_at(sx, sy);
         enemy.position = {static_cast<float>(sx) + 0.5F, static_cast<float>(sy) + 0.5F};
         enemy.home = enemy.position;
         enemy.hp = enemy.def.hp;
@@ -143,6 +217,13 @@ void WorldSim::add_chunk_enemies(int cx, int cy) {
 }
 
 // Spec 09, "Streaming": keeps the enemies in step with the 5 x 5 window around the player's chunk.
+void WorldSim::mark_explored() {
+    if (m_store_) {
+        explore(m_explored_, m_store_->params(), static_cast<int>(std::floor(m_player_.position.x)),
+                static_cast<int>(std::floor(m_player_.position.y)));
+    }
+}
+
 void WorldSim::sync_window() {
     if (!m_store_) {
         return;
@@ -178,6 +259,7 @@ void WorldSim::sync_window() {
             }
         }
     }
+    refresh_people(cx, cy);
     m_window_valid_ = true;
     m_window_x_ = cx;
     m_window_y_ = cy;
@@ -187,7 +269,239 @@ void WorldSim::recompute_derived() {
     Equipment equipment;
     equipment.weapon_atk = m_setup_.player.weapon_atk;
     equipment.weapon_matk = m_setup_.player.weapon_matk;
+    const auto weapon = m_setup_.items.find(m_equipped_weapon_);
+    if (weapon != m_setup_.items.end() && weapon->second.is_weapon) {
+        equipment.weapon_atk = weapon->second.weapon_atk;
+        equipment.weapon_matk = weapon->second.weapon_matk;
+    }
+    const auto armor = m_setup_.items.find(m_equipped_armor_);
+    if (armor != m_setup_.items.end() && armor->second.is_armor) {
+        equipment.armor_def = armor->second.armor_def;
+        equipment.armor_mdef = armor->second.armor_mdef;
+    }
     m_derived_ = derived_stats(m_player_.level, primary_at_level(m_setup_.player, m_player_.level), equipment);
+}
+
+void WorldSim::teleport(float x, float y) {
+    m_player_.position = {x, y};
+    if (m_store_) {
+        m_store_->keep_around(chunk_of(static_cast<int>(std::floor(x))), chunk_of(static_cast<int>(std::floor(y))));
+    }
+    m_collision_.resolve(m_player_.position.x, m_player_.position.y);
+    sync_window();
+    mark_explored();
+}
+
+std::optional<std::pair<float, float>> WorldSim::stone_near() const {
+    if (!m_store_ || m_store_->params().stone_art.empty()) {
+        return std::nullopt;
+    }
+    const WorldParams& params = m_store_->params();
+    const float range = static_cast<float>(params.stone_range_x100) / 100.0F;
+    const float px = m_player_.position.x;
+    const float py = m_player_.position.y;
+    std::optional<std::pair<float, float>> best;
+    float best_d = range * range;
+    for_each_prop(px - range, py - range, px + range, py + range, [&](const Prop& prop) {
+        if (prop.art != params.stone_art) {
+            return;
+        }
+        const float d = (prop.x - px) * (prop.x - px) + (prop.y - py) * (prop.y - py);
+        if (d <= best_d) {
+            best_d = d;
+            best = std::make_pair(prop.x, prop.y);
+        }
+    });
+    return best;
+}
+
+bool WorldSim::use_stone() {
+    const auto stone = stone_near();
+    if (!stone) {
+        return false;
+    }
+    const WorldParams& params = m_store_->params();
+    const std::pair<int, int> tile{static_cast<int>(std::floor(stone->first)), static_cast<int>(std::floor(stone->second))};
+    Travel travel;
+    if (std::find(m_stones_.begin(), m_stones_.end(), tile) == m_stones_.end()) {
+        m_stones_.push_back(tile);
+        travel.fresh = true;
+    }
+    m_player_.hp = m_derived_.max_hp;
+    for (std::size_t i = 0; i < m_stones_.size(); ++i) {
+        StoneStop stop;
+        stop.x = m_stones_[i].first;
+        stop.y = m_stones_[i].second;
+        if (const auto settlement = settlement_containing(m_store_->seed(), params, stop.x, stop.y)) {
+            stop.place = settlement->name;
+            stop.region = params.regions[static_cast<std::size_t>(settlement->region)].name;
+        }
+        if (m_stones_[i] == tile) {
+            travel.here = static_cast<int>(i);
+        }
+        travel.stops.push_back(std::move(stop));
+    }
+    m_travel_ = std::move(travel);
+    return true;
+}
+
+bool WorldSim::travel_to(int index) {
+    if (!m_travel_ || index < 0 || index >= static_cast<int>(m_travel_->stops.size()) || index == m_travel_->here) {
+        return false;
+    }
+    const WorldSim::StoneStop stop = m_travel_->stops[static_cast<std::size_t>(index)];
+    m_travel_.reset();
+    teleport(static_cast<float>(stop.x) + 0.5F, static_cast<float>(stop.y) + 1.75F);  // one tile in front of the stone
+    return true;
+}
+
+void WorldSim::open_shop() {
+    if (m_store_) {
+        const Region& region = m_store_->params().regions[static_cast<std::size_t>(region_at(
+            m_store_->params(), static_cast<int>(std::floor(m_player_.position.x)), static_cast<int>(std::floor(m_player_.position.y))))];
+        m_shop_ = ShopDef{region.shop_price_pm, region.shop_stock};
+    } else if (m_setup_.shop) {
+        m_shop_ = m_setup_.shop;
+    }
+}
+
+namespace {
+
+int stack_limit(const ItemDef& item) {
+    if (item.stack_max > 0) {
+        return item.stack_max;
+    }
+    return item.kind == "weapon" || item.kind == "armor" || item.kind == "accessory" ? 1 : 99;
+}
+
+}  // namespace
+
+void WorldSim::open_board() {
+    if (!m_store_) {
+        return;
+    }
+    const WorldParams& params = m_store_->params();
+    const auto settlement = settlement_containing(m_store_->seed(), params, static_cast<int>(std::floor(m_player_.position.x)),
+                                                  static_cast<int>(std::floor(m_player_.position.y)));
+    if (!settlement) {
+        return;
+    }
+    Board board;
+    board.settlement = *settlement;
+    board.day = m_world_ticks_ / params.time.day_ticks + 1;
+    board.offers = offers_for(m_store_->seed(), params, *settlement, board.day);
+    m_board_ = std::move(board);
+}
+
+int WorldSim::guild_rank() const {
+    return m_store_ ? rank_index(m_store_->params().guild, m_story_.guild_points()) : 0;
+}
+
+bool WorldSim::accept_offer(int slot) {
+    if (!m_board_ || slot < 0 || slot >= static_cast<int>(m_board_->offers.size())) {
+        return false;
+    }
+    const Offer& offer = m_board_->offers[static_cast<std::size_t>(slot)];
+    if (guild_rank() < offer.min_rank || m_story_.quests().count(offer.id) != 0) {
+        return false;
+    }
+    m_story_.add_generated_quest(quest_from_offer(offer));
+    m_story_.start_quest(offer.id);
+    return true;
+}
+
+bool WorldSim::equip(const std::string& item_id) {
+    const auto item = m_setup_.items.find(item_id);
+    const auto owned = m_inventory_.find(item_id);
+    if (item == m_setup_.items.end() || owned == m_inventory_.end() || owned->second < 1) {
+        return false;
+    }
+    if (item->second.is_weapon && item->second.kind == "weapon" && m_equipped_weapon_ != item_id) {
+        m_equipped_weapon_ = item_id;
+    } else if (item->second.is_armor && item->second.kind == "armor" && m_equipped_armor_ != item_id) {
+        m_equipped_armor_ = item_id;
+    } else {
+        return false;
+    }
+    recompute_derived();
+    m_player_.hp = std::min(m_player_.hp, m_derived_.max_hp);
+    return true;
+}
+
+std::int64_t WorldSim::buy_price(const std::string& item_id) const {
+    const auto item = m_setup_.items.find(item_id);
+    if (!m_shop_ || item == m_setup_.items.end() || item->second.price <= 0) {
+        return 0;
+    }
+    return std::max<std::int64_t>(1, item->second.price * m_shop_->price_pm / 1000);
+}
+
+std::int64_t WorldSim::sell_price(const std::string& item_id) const {
+    const auto item = m_setup_.items.find(item_id);
+    if (item == m_setup_.items.end() || item->second.price <= 0) {
+        return 0;
+    }
+    return std::max<std::int64_t>(1, item->second.price / 2);
+}
+
+bool WorldSim::buy(const std::string& item_id) {
+    if (!m_shop_ || std::find(m_shop_->stock.begin(), m_shop_->stock.end(), item_id) == m_shop_->stock.end()) {
+        return false;
+    }
+    const auto item = m_setup_.items.find(item_id);
+    const std::int64_t price = buy_price(item_id);
+    if (item == m_setup_.items.end() || price <= 0 || m_story_.gold() < price) {
+        return false;
+    }
+    const auto owned = m_inventory_.find(item_id);
+    const std::int64_t have = owned == m_inventory_.end() ? 0 : owned->second;
+    if (have >= stack_limit(item->second)) {
+        return false;
+    }
+    m_story_.set_gold(m_story_.gold() - price);
+    m_inventory_[item_id] = have + 1;
+    return true;
+}
+
+bool WorldSim::sell(const std::string& item_id) {
+    const auto item = m_setup_.items.find(item_id);
+    const auto owned = m_inventory_.find(item_id);
+    if (!m_shop_ || item == m_setup_.items.end() || owned == m_inventory_.end() || owned->second < 1 || sell_price(item_id) <= 0) {
+        return false;
+    }
+    if (owned->second == 1 && (item_id == m_equipped_weapon_ || item_id == m_equipped_armor_)) {
+        return false;
+    }
+    m_story_.set_gold(m_story_.gold() + sell_price(item_id));
+    if (--owned->second == 0) {
+        m_inventory_.erase(owned);
+    }
+    return true;
+}
+
+bool WorldSim::use_item(const std::string& item_id) {
+    if (m_story_.dialogue_active()) {
+        return false;
+    }
+    const auto item = m_setup_.items.find(item_id);
+    const auto owned = m_inventory_.find(item_id);
+    if (item == m_setup_.items.end() || owned == m_inventory_.end() || owned->second < 1) {
+        return false;
+    }
+    std::int64_t heal = 0;
+    for (const ItemEffect& effect : item->second.effects) {
+        if (effect.effect == "heal") {
+            heal += effect.amount;
+        }
+    }
+    if (heal <= 0 || m_player_.hp >= m_derived_.max_hp) {
+        return false;
+    }
+    m_player_.hp = std::min(m_derived_.max_hp, m_player_.hp + heal);
+    if (--owned->second == 0) {
+        m_inventory_.erase(owned);
+    }
+    return true;
 }
 
 std::vector<DamageEvent> WorldSim::take_events() { return std::exchange(m_events_, {}); }
@@ -197,6 +511,10 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack) {
     const bool combat = m_setup_.enabled;
     ++m_world_ticks_;
     sync_window();
+    if (m_store_ && m_window_valid_ && time_of_day_pm() != m_routine_tod_) {
+        refresh_people(m_window_x_, m_window_y_);  // somebody goes home or comes out (spec 08)
+    }
+    mark_explored();
     if (m_story_.dialogue_active()) {
         raw_x = 0.0F;
         raw_y = 0.0F;
@@ -471,8 +789,15 @@ SaveState WorldSim::capture() const {
     for (const auto& [spawner, died] : m_cleared_) {
         s.cleared.push_back({spawner.first, spawner.second, died});
     }
+    s.stones = m_stones_;
+    s.explored.assign(m_explored_.begin(), m_explored_.end());
+    std::sort(s.explored.begin(), s.explored.end(), [](const auto& a, const auto& b) {  // rows first (spec 12)
+        return a.second != b.second ? a.second < b.second : a.first < b.first;
+    });
     s.world_ticks = m_world_ticks_;
     s.inventory = m_inventory_;
+    s.equipped_weapon = m_equipped_weapon_;
+    s.equipped_armor = m_equipped_armor_;
     s.story = m_story_.capture();
     return s;
 }
@@ -545,7 +870,7 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
         m_enemies_.clear();
         for (const SaveEnemy& e : s.enemies) {
             Enemy enemy;
-            enemy.def = *m_setup_.stream_enemy;
+            enemy.def = stream_enemy_at(e.spawner_x, e.spawner_y);
             enemy.home = {static_cast<float>(e.spawner_x) + 0.5F, static_cast<float>(e.spawner_y) + 0.5F};
             enemy.spawner_x = e.spawner_x;
             enemy.spawner_y = e.spawner_y;
@@ -555,6 +880,15 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
         for (const ClearedSpawner& c : s.cleared) {
             m_cleared_[{c.x, c.y}] = c.died;
         }
+        m_npcs_.clear();
+        const int wcx = chunk_of(static_cast<int>(std::floor(s.position.x)));
+        const int wcy = chunk_of(static_cast<int>(std::floor(s.position.y)));
+        for (int j = wcy - kActiveRadius; j <= wcy + kActiveRadius; ++j) {
+            for (int i = wcx - kActiveRadius; i <= wcx + kActiveRadius; ++i) {
+                add_chunk_people(i, j);
+            }
+        }
+        rebuild_npc_circles();
         m_window_valid_ = true;
         m_window_x_ = chunk_of(static_cast<int>(std::floor(s.position.x)));
         m_window_y_ = chunk_of(static_cast<int>(std::floor(s.position.y)));
@@ -567,7 +901,20 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
         m_enemies_[i].hit_flash = 0;
     }
     m_inventory_ = s.inventory;
+    m_equipped_weapon_ = s.equipped_weapon == "<start>" ? m_setup_.start_weapon : s.equipped_weapon;
+    m_equipped_armor_ = s.equipped_armor;
+    m_shop_.reset();
+    m_board_.reset();
+    m_travel_.reset();
+    m_stones_ = s.stones;
+    recompute_derived();
+    m_player_.hp = std::min(s.hp, m_derived_.max_hp);
+    m_explored_ = std::set<std::pair<int, int>>(s.explored.begin(), s.explored.end());
+    mark_explored();
     m_world_ticks_ = s.world_ticks >= 0 ? s.world_ticks : (m_store_ ? m_store_->params().time.start_tick : 0);
+    if (m_store_ && m_window_valid_) {
+        refresh_people(m_window_x_, m_window_y_);  // the people of the saved time of day
+    }
     m_events_.clear();
     return true;
 }

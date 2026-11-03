@@ -1,0 +1,82 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/npc/pip",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.hello",
+      "next": "menu"
+    },
+    "menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.pip.q.fight",
+          "next": "a_fight"
+        },
+        {
+          "text": "$i18n:dlg.pip.q.heal",
+          "next": "a_heal"
+        },
+        {
+          "text": "$i18n:dlg.pip.q.money",
+          "next": "a_money"
+        },
+        {
+          "text": "$i18n:dlg.pip.q.stones",
+          "next": "a_stones"
+        },
+        {
+          "text": "$i18n:dlg.pip.q.first",
+          "next": "a_first"
+        },
+        {
+          "text": "$i18n:dlg.pip.q.map",
+          "next": "a_map"
+        },
+        {
+          "text": "$i18n:dlg.pip.q.bye",
+          "next": "end"
+        }
+      ]
+    },
+    "a_fight": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.a.fight",
+      "next": "menu"
+    },
+    "a_heal": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.a.heal",
+      "next": "menu"
+    },
+    "a_money": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.a.money",
+      "next": "menu"
+    },
+    "a_stones": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.a.stones",
+      "next": "menu"
+    },
+    "a_first": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.a.first",
+      "next": "menu"
+    },
+    "a_map": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.a.map",
+      "next": "menu"
+    }
+  }
+}

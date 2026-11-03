@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/wardens_cloak",
+  "name": "$i18n:item.wardens_cloak.name",
+  "description": "$i18n:item.wardens_cloak.desc",
+  "kind": "armor",
+  "rarity": "rare",
+  "price": 700,
+  "armor": {
+    "def": 6,
+    "mdef": 5
+  }
+}

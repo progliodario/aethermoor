@@ -1,0 +1,131 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/role/shopkeeper_stoic",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.shopkeeper.stoic.hello",
+      "next": "menu"
+    },
+    "menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.wares",
+          "next": "shop"
+        },
+        {
+          "text": "$i18n:dlg.role.craft.ask",
+          "when": {
+            "not": {
+              "flag": "craft_frostfur_coat_done"
+            }
+          },
+          "next": "craft_info"
+        },
+        {
+          "text": "$i18n:dlg.role.rumor",
+          "next": "rumor"
+        },
+        {
+          "text": "$i18n:dlg.role.road",
+          "next": "road"
+        },
+        {
+          "text": "$i18n:dlg.role.bye",
+          "next": "end"
+        }
+      ]
+    },
+    "shop": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "open_shop"
+        }
+      ],
+      "next": "end"
+    },
+    "rumor": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.stoic.rumor",
+      "next": "end"
+    },
+    "road": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.stoic.road",
+      "next": "end"
+    },
+    "craft_info": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.craft.stoic.info",
+      "next": "craft_menu"
+    },
+    "craft_menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.craft.make",
+          "when": {
+            "all": [
+              {
+                "has_item": {
+                  "item": "base:item/frost_pelt",
+                  "qty": 8
+                }
+              },
+              {
+                "has_item": {
+                  "item": "base:item/ice_crystal",
+                  "qty": 4
+                }
+              }
+            ]
+          },
+          "next": "craft_do"
+        },
+        {
+          "text": "$i18n:dlg.role.craft.later",
+          "next": "end"
+        }
+      ]
+    },
+    "craft_do": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "remove_item",
+          "item": "base:item/frost_pelt",
+          "qty": 8
+        },
+        {
+          "effect": "remove_item",
+          "item": "base:item/ice_crystal",
+          "qty": 4
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/frostfur_coat",
+          "qty": 1
+        },
+        {
+          "effect": "set_flag",
+          "flag": "craft_frostfur_coat_done",
+          "value": true
+        }
+      ],
+      "next": "craft_done"
+    },
+    "craft_done": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.craft.stoic.done",
+      "next": "end"
+    }
+  }
+}

@@ -66,6 +66,31 @@ struct PlayerSetup {
     std::int64_t weapon_matk = 0;
 };
 
+// What using an item does (spec 06): a list of effects.
+struct ItemEffect {
+    std::string effect;  // "heal"
+    std::int64_t amount = 0;
+};
+
+struct ItemDef {
+    std::string kind;  // weapon, armor, food, material, ...
+    std::int64_t price = 0;
+    int stack_max = 0;  // 0: the default of the kind (spec 06)
+    std::vector<ItemEffect> effects;
+    bool is_weapon = false;
+    std::int64_t weapon_atk = 0;
+    std::int64_t weapon_matk = 0;
+    bool is_armor = false;
+    std::int64_t armor_def = 0;
+    std::int64_t armor_mdef = 0;
+};
+
+// What a shop sells: prices in permille of the base price (spec 06).
+struct ShopDef {
+    int price_pm = 1000;
+    std::vector<std::string> stock;
+};
+
 struct CombatSetup {
     bool enabled = false;
     PlayerSetup player;
@@ -76,7 +101,11 @@ struct CombatSetup {
     int start_level = 1;
     StorySetup story;
     std::map<std::string, std::int64_t> start_inventory;  // items owned in a new game
-    std::optional<EnemyDef> stream_enemy;  // the enemy of the spawners of a streamed world
+    std::map<std::string, ItemDef> items;  // every item, by item ID
+    std::string start_weapon;              // the weapon worn in a new game (an item ID, or empty)
+    std::string start_armor;               // the armor worn in a new game (an item ID, or empty)
+    std::optional<ShopDef> shop;           // the shop of fixed maps and scenarios (streamed worlds use their regions)
+    std::map<std::string, EnemyDef> stream_enemies;  // the enemies of the fauna of a streamed world, by ID
 };
 
 enum class AttackPhase { None, Startup, Active, Recovery };

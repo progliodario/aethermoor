@@ -105,7 +105,20 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
         enemies.push_back(std::move(enemy));
     }
     j["enemies"] = enemies;
+    j["equipped"] = {{"weapon", s.equipped_weapon}, {"armor", s.equipped_armor}};
     j["world_ticks"] = s.world_ticks;
+    if (meta.map == "world") {
+        Json explored = Json::array();
+        for (const auto& [x, y] : s.explored) {
+            explored.push_back({x, y});
+        }
+        j["explored"] = explored;
+        Json stones = Json::array();
+        for (const auto& [x, y] : s.stones) {
+            stones.push_back({x, y});
+        }
+        j["stones"] = stones;
+    }
     if (meta.map == "world") {
         Json cleared = Json::array();
         for (const ClearedSpawner& c : s.cleared) {
@@ -127,6 +140,7 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
     }
     story["flags"] = flags;
     story["gold"] = s.story.gold;
+    story["guild_points"] = s.story.guild_points;
     Json quests = Json::object();
     for (const auto& [id, q] : s.story.quests) {
         Json progress = Json::array();
@@ -137,7 +151,11 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
     }
     story["quests"] = quests;
     if (s.story.dialogue_active) {
-        story["dialogue"] = {{"id", s.story.dialogue_id}, {"node", s.story.node}};
+        Json dialogue = {{"id", s.story.dialogue_id}, {"node", s.story.node}};
+        if (!s.story.dialogue_args.empty()) {
+            dialogue["args"] = s.story.dialogue_args;
+        }
+        story["dialogue"] = dialogue;
     } else {
         story["dialogue"] = nullptr;
     }
@@ -188,6 +206,22 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
             }
             s.enemies.push_back(enemy);
         }
+        if (j.contains("explored")) {
+            for (const Json& c : j.at("explored")) {
+                s.explored.emplace_back(c.at(0).get<int>(), c.at(1).get<int>());
+            }
+        }
+        if (j.contains("stones")) {
+            for (const Json& c : j.at("stones")) {
+                s.stones.emplace_back(c.at(0).get<int>(), c.at(1).get<int>());
+            }
+        }
+        if (j.contains("equipped")) {
+            s.equipped_weapon = j.at("equipped").value("weapon", "");
+            s.equipped_armor = j.at("equipped").value("armor", "");
+        } else {
+            s.equipped_weapon = "<start>";  // an old save: the starting weapon, no armor
+        }
         s.world_ticks = j.value("world_ticks", static_cast<std::int64_t>(-1));
         if (j.contains("cleared_spawners")) {
             for (const Json& c : j.at("cleared_spawners")) {
@@ -204,6 +238,7 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
                 s.story.flags[flag] = value.get<bool>();
             }
             s.story.gold = story.at("gold").get<std::int64_t>();
+            s.story.guild_points = story.value("guild_points", static_cast<std::int64_t>(0));
             for (const auto& [id, q] : story.at("quests").items()) {
                 QuestProgress progress;
                 progress.stage = q.at("stage").get<std::string>();
@@ -217,6 +252,11 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
                 s.story.dialogue_active = true;
                 s.story.dialogue_id = story.at("dialogue").at("id").get<std::string>();
                 s.story.node = story.at("dialogue").at("node").get<std::string>();
+                if (story.at("dialogue").contains("args")) {
+                    for (const auto& [key, value] : story.at("dialogue").at("args").items()) {
+                        s.story.dialogue_args[key] = value.get<std::string>();
+                    }
+                }
             }
         }
         return s;
@@ -232,6 +272,12 @@ std::optional<SavePeek> save_peek(std::string_view json_text) {
         SavePeek peek;
         peek.seed = parse_hex64(j.at("seed"));
         peek.map = j.value("map", "");
+        if (j.contains("player") && j.at("player").is_object()) {
+            peek.level = j.at("player").value("level", 1);
+        }
+        if (j.contains("story") && j.at("story").is_object()) {
+            peek.gold = j.at("story").value("gold", static_cast<std::int64_t>(0));
+        }
         return peek;
     } catch (const std::exception&) {
         return std::nullopt;

@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/storm_feather",
+  "name": "$i18n:item.storm_feather.name",
+  "description": "$i18n:item.storm_feather.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 20,
+  "stack_max": 99
+}

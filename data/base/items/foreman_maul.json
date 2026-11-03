@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/foreman_maul",
+  "name": "$i18n:item.foreman_maul.name",
+  "description": "$i18n:item.foreman_maul.desc",
+  "kind": "weapon",
+  "rarity": "epic",
+  "price": 1400,
+  "weapon": {
+    "atk": 26,
+    "matk": 0
+  }
+}

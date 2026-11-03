@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/tide_pearl",
+  "name": "$i18n:item.tide_pearl.name",
+  "description": "$i18n:item.tide_pearl.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 18,
+  "stack_max": 99
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/rimeblade",
+  "name": "$i18n:item.rimeblade.name",
+  "description": "$i18n:item.rimeblade.desc",
+  "kind": "weapon",
+  "rarity": "epic",
+  "price": 1900,
+  "weapon": {
+    "atk": 30,
+    "matk": 0
+  }
+}

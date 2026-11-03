@@ -12,6 +12,9 @@
     "elevation",
     "moisture",
     "temperature",
+    "regions",
+    "guild",
+    "settlements",
     "river",
     "road",
     "thresholds",
@@ -19,7 +22,8 @@
     "props",
     "spawners",
     "time",
-    "npcs"
+    "npcs",
+    "stones"
   ],
   "additionalProperties": false,
   "properties": {
@@ -43,6 +47,11 @@
     "border": {
       "type": "integer",
       "minimum": 0
+    },
+    "landmark_clearing": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 96
     },
     "spawn_clear_radius": {
       "type": "integer",
@@ -280,7 +289,6 @@
     "spawners": {
       "type": "object",
       "required": [
-        "enemy",
         "biomes",
         "min_distance",
         "per_10000",
@@ -288,10 +296,6 @@
       ],
       "additionalProperties": false,
       "properties": {
-        "enemy": {
-          "type": "string",
-          "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
-        },
         "biomes": {
           "type": "array",
           "items": {
@@ -388,6 +392,61 @@
                     "maximum": 1000
                   },
                   "dim_pm": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "seasons": {
+          "type": "array",
+          "minItems": 1,
+          "description": "The seasons of the year in order (spec 08, Seasons).",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "days",
+              "tint"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$"
+              },
+              "days": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "tint": {
+                "type": "array",
+                "minItems": 4,
+                "maxItems": 4,
+                "items": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 255
+                }
+              },
+              "weights": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "light": {
+                "type": "array",
+                "minItems": 2,
+                "items": {
+                  "type": "array",
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "items": {
                     "type": "integer",
                     "minimum": 0,
                     "maximum": 1000
@@ -502,6 +561,464 @@
         "half_width": {
           "type": "integer",
           "minimum": 1
+        }
+      }
+    },
+    "regions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "x_pm",
+          "y_pm",
+          "danger",
+          "tone",
+          "fauna",
+          "shop"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "x_pm": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000
+          },
+          "y_pm": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000
+          },
+          "danger": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "tone": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "shop": {
+            "type": "object",
+            "required": [
+              "price_pm",
+              "stock"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "price_pm": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "stock": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+                }
+              }
+            }
+          },
+          "fauna": {
+            "type": "array",
+            "minItems": 1,
+            "description": "The enemies of the spawners of the region, by weight (spec 09, Fauna).",
+            "items": {
+              "type": "object",
+              "required": [
+                "enemy",
+                "drop",
+                "weight"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "enemy": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+                },
+                "drop": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+                },
+                "weight": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "settlements": {
+      "type": "object",
+      "required": [
+        "per_mille",
+        "kinds",
+        "names",
+        "dialogue",
+        "variants",
+        "quirks",
+        "people"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "per_mille": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "kinds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "weight",
+              "stamps"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$"
+              },
+              "weight": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "stamps": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+                }
+              }
+            }
+          }
+        },
+        "names": {
+          "type": "object",
+          "required": [
+            "start",
+            "mid",
+            "end"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "start": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "mid": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "end": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "dialogue": {
+          "type": "string",
+          "description": "Dialogue id of a settlement NPC, with {role} and {tone}."
+        },
+        "variants": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "quirks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "people": {
+          "type": "object",
+          "required": [
+            "start",
+            "end"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "start": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "end": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "stamp_defs": {
+      "type": "object",
+      "description": "The stamps named by settlements.kinds, resolved by the loader (not written by hand).",
+      "additionalProperties": {
+        "type": "object"
+      }
+    },
+    "home": {
+      "type": "object",
+      "required": [
+        "radius",
+        "stamp",
+        "dx",
+        "dy"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "radius": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "stamp": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+        },
+        "dx": {
+          "type": "integer"
+        },
+        "dy": {
+          "type": "integer"
+        }
+      }
+    },
+    "guild": {
+      "type": "object",
+      "required": [
+        "offers_per_day",
+        "ranks",
+        "templates"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "offers_per_day": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "ranks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "points"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z]+$"
+              },
+              "points": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        },
+        "templates": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "type",
+              "target",
+              "count_min",
+              "count_max",
+              "gold_base",
+              "gold_per",
+              "xp_base",
+              "xp_per",
+              "points_base",
+              "points_per"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$"
+              },
+              "type": {
+                "enum": [
+                  "kill",
+                  "collect"
+                ]
+              },
+              "target": {
+                "type": "string",
+                "pattern": "^([a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+|\\$fauna|\\$drop)$"
+              },
+              "count_min": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "count_max": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "gold_base": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "gold_per": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "xp_base": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "xp_per": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "points_base": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "points_per": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "stones": {
+      "type": "object",
+      "required": [
+        "art",
+        "range_x100"
+      ],
+      "additionalProperties": false,
+      "description": "Threshold Stones (spec 09): the prop that is a stone and how near the player must be to use it.",
+      "properties": {
+        "art": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+        },
+        "range_x100": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "routines": {
+      "type": "object",
+      "required": [
+        "roles"
+      ],
+      "additionalProperties": false,
+      "description": "Daily routines of settlement people by role (spec 08, Routines).",
+      "properties": {
+        "roles": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "prefixItems": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 999
+                },
+                {
+                  "enum": [
+                    "work",
+                    "plaza",
+                    "away"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "landmarks": {
+      "type": "array",
+      "description": "Hand-placed sites with a fixed stamp, such as dungeons (spec 09, Landmarks). Each one lies in a site cell of its own.",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "stamp",
+          "kind",
+          "dx",
+          "dy"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "stamp": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+          },
+          "kind": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "dx": {
+            "type": "integer"
+          },
+          "dy": {
+            "type": "integer"
+          }
         }
       }
     }

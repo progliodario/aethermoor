@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/char_tyrant",
+  "name": "$i18n:enemy.char_tyrant.name",
+  "level": 16,
+  "stats": {
+    "hp": 520,
+    "atk": 40,
+    "def": 17,
+    "mdef": 9,
+    "speed_x100": 260
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "water": 1500
+  },
+  "xp": 190,
+  "drops": [
+    {
+      "item": "base:item/char_tyrants_blade",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 1000
+    }
+  ],
+  "radius_x100": 56,
+  "behavior": "base:behavior/guardian",
+  "art": "base:art/creature/char_tyrant"
+}

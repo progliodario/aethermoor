@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/pantry_coral",
+  "name": "$i18n:quest.pantry_coral.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "bring",
+      "journal": "$i18n:quest.pantry_coral.bring",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/coral_fragment",
+          "count": 5
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

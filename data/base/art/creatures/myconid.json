@@ -1,0 +1,187 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/creature/myconid",
+  "canvas": {
+    "w": 36,
+    "h": 38,
+    "origin": [
+      18,
+      34
+    ]
+  },
+  "palette": {
+    "body": "#C9473A",
+    "light": "#FF9A7A",
+    "dark": "#7A1E1A",
+    "outline": "#2E0A08",
+    "stem": "#EFE4CC",
+    "spot": "#FFFFFF",
+    "eye": "#2E1B14"
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          18,
+          35,
+          11,
+          2.5
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "path": "M 12 18 Q 11 30 13 34 L 23 34 Q 25 30 24 18 Z"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "radial": {
+          "cx": 15,
+          "cy": 22,
+          "r": 14,
+          "stops": [
+            [
+              0,
+              "$p.spot"
+            ],
+            [
+              0.5,
+              "$p.stem"
+            ],
+            [
+              1,
+              "$p.stem"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "shape": {
+        "path": "M 2 19 Q 2 4 18 2.5 Q 34 4 34 19 Q 18 23 2 19 Z"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "radial": {
+          "cx": 12,
+          "cy": 8,
+          "r": 28,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.5,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          10,
+          10,
+          3,
+          2.3
+        ]
+      },
+      "fill": {
+        "color": "$p.spot"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          7.5,
+          2.3,
+          1.8
+        ]
+      },
+      "fill": {
+        "color": "$p.spot"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          27,
+          13.5,
+          2.6,
+          2
+        ]
+      },
+      "fill": {
+        "color": "$p.spot"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          15,
+          25.5,
+          1.5,
+          2
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          21,
+          25.5,
+          1.5,
+          2
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            16,
+            29
+          ],
+          [
+            20,
+            29
+          ],
+          [
+            18,
+            31
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.dark"
+      },
+      "alpha": 0.6
+    }
+  ]
+}

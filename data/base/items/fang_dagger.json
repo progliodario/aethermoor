@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/fang_dagger",
+  "name": "$i18n:item.fang_dagger.name",
+  "description": "$i18n:item.fang_dagger.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 500,
+  "weapon": {
+    "atk": 14,
+    "matk": 0
+  }
+}

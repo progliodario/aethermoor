@@ -10,7 +10,7 @@ companions, bosses.
   `damage {kind, element, power_pct}` and `hitbox {shape: "arc", radius_x100, angle_deg}`.
 - **Enemy** (`schemas/enemy.schema.json`): `level`, `stats {hp, atk, def, mdef, speed_x100}`, `xp`, `radius_x100`,
   `drops`, `behavior` and `art`.
-- **Behavior** (`schemas/behavior.schema.json`): v1 has one kind, `melee_chaser`, with `aggro_x100`, `leash_x100`,
+- **Behavior** (`schemas/behavior.schema.json`): v1 has one kind, `melee_chaser` (the base pack has six sets of numbers for it: `melee_chaser_basic`, the shy `skittish`, the far-seeing `stalker`, the heavy `brute`, the long-reaching `lunger` and the post-bound `guardian`), with `aggro_x100`, `leash_x100`,
   `attack_range_x100`, `hit_range_x100`, `windup_ticks`, `recovery_ticks`. More kinds (and the full declarative state
   graph) come later; a kind is a closed behavior implemented by the engine and tuned by data.
 - **Map**: objects of `type: "enemy_spawner"` with property `enemy` (enemy ID) at the enemy's feet. One enemy per

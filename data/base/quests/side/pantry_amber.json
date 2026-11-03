@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/pantry_amber",
+  "name": "$i18n:quest.pantry_amber.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "bring",
+      "journal": "$i18n:quest.pantry_amber.bring",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/amber_drop",
+          "count": 5
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

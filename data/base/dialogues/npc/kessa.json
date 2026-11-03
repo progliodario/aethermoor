@@ -1,0 +1,241 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/npc/kessa",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "type": "condition",
+      "when": {
+        "all": [
+          {
+            "quest_stage": {
+              "quest": "base:quest/side/way_dorn_2",
+              "stage": "report"
+            }
+          },
+          {
+            "not": {
+              "flag": "letter_dorn_read"
+            }
+          }
+        ]
+      },
+      "then": "letter",
+      "else": "s0"
+    },
+    "letter": {
+      "type": "say",
+      "speaker": "wayfarer_kessa",
+      "text": "$i18n:dlg.way.kessa.incoming",
+      "next": "letter_flag"
+    },
+    "letter_flag": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "letter_dorn_read",
+          "value": true
+        }
+      ],
+      "next": "s0"
+    },
+    "s0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/way_kessa_3"
+      },
+      "then": "q3_thanks",
+      "else": "s1"
+    },
+    "s1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/way_kessa_3"
+      },
+      "then": "q3_busy",
+      "else": "s2"
+    },
+    "s2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/way_kessa_2"
+      },
+      "then": "s2t",
+      "else": "s3"
+    },
+    "s2t": {
+      "type": "condition",
+      "when": {
+        "flag": "way_kessa_q2_thanked"
+      },
+      "then": "q3_offer",
+      "else": "q2_thanks"
+    },
+    "q2_thanks": {
+      "type": "say",
+      "speaker": "wayfarer_kessa",
+      "text": "$i18n:dlg.way.kessa.q2_thanks",
+      "next": "q2_thanked"
+    },
+    "q2_thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "way_kessa_q2_thanked",
+          "value": true
+        }
+      ],
+      "next": "q3_offer"
+    },
+    "s3": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/way_kessa_2"
+      },
+      "then": "q2_busy",
+      "else": "s4"
+    },
+    "s4": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/way_kessa_1"
+      },
+      "then": "s4t",
+      "else": "s5"
+    },
+    "s4t": {
+      "type": "condition",
+      "when": {
+        "flag": "way_kessa_q1_thanked"
+      },
+      "then": "q2_offer",
+      "else": "q1_thanks"
+    },
+    "q1_thanks": {
+      "type": "say",
+      "speaker": "wayfarer_kessa",
+      "text": "$i18n:dlg.way.kessa.q1_thanks",
+      "next": "q1_thanked"
+    },
+    "q1_thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "way_kessa_q1_thanked",
+          "value": true
+        }
+      ],
+      "next": "q2_offer"
+    },
+    "s5": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/way_kessa_1"
+      },
+      "then": "q1_busy",
+      "else": "q1_offer"
+    },
+    "q1_offer": {
+      "type": "say",
+      "speaker": "wayfarer_kessa",
+      "text": "$i18n:dlg.way.kessa.q1_offer",
+      "next": "q1_choice"
+    },
+    "q1_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/way_kessa_1"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "q1_busy": {
+      "type": "say",
+      "speaker": "wayfarer_kessa",
+      "text": "$i18n:dlg.way.kessa.busy",
+      "next": "end"
+    },
+    "q2_offer": {
+      "type": "say",
+      "speaker": "wayfarer_kessa",
+      "text": "$i18n:dlg.way.kessa.q2_offer",
+      "next": "q2_choice"
+    },
+    "q2_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/way_kessa_2"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "q2_busy": {
+      "type": "say",
+      "speaker": "wayfarer_kessa",
+      "text": "$i18n:dlg.way.kessa.busy",
+      "next": "end"
+    },
+    "q3_offer": {
+      "type": "say",
+      "speaker": "wayfarer_kessa",
+      "text": "$i18n:dlg.way.kessa.q3_offer",
+      "next": "q3_choice"
+    },
+    "q3_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/way_kessa_3"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "q3_busy": {
+      "type": "say",
+      "speaker": "wayfarer_kessa",
+      "text": "$i18n:dlg.way.kessa.busy",
+      "next": "end"
+    },
+    "q3_thanks": {
+      "type": "say",
+      "speaker": "wayfarer_kessa",
+      "text": "$i18n:dlg.way.kessa.q3_thanks",
+      "next": "end"
+    }
+  }
+}

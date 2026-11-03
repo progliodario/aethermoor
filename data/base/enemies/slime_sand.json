@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/slime_sand",
+  "name": "$i18n:enemy.slime_sand.name",
+  "level": 4,
+  "stats": {
+    "hp": 52,
+    "atk": 12,
+    "def": 5,
+    "mdef": 2,
+    "speed_x100": 280
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "water": 1500
+  },
+  "xp": 16,
+  "drops": [
+    {
+      "item": "base:item/slime_gel",
+      "qty_min": 1,
+      "qty_max": 3,
+      "weight_pm": 800
+    }
+  ],
+  "radius_x100": 35,
+  "behavior": "base:behavior/skittish",
+  "art": "base:art/creature/slime_sand"
+}

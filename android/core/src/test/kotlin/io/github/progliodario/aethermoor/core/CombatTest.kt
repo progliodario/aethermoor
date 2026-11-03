@@ -10,6 +10,7 @@ import io.github.progliodario.aethermoor.core.sim.loadCombatSetup
 import io.github.progliodario.aethermoor.core.sim.parseTileMap
 import io.github.progliodario.aethermoor.core.sim.parseTileset
 import io.github.progliodario.aethermoor.core.sim.saveFromJson
+import io.github.progliodario.aethermoor.core.sim.savePeek
 import io.github.progliodario.aethermoor.core.sim.saveToJson
 import java.io.File
 import kotlin.math.abs
@@ -130,6 +131,19 @@ class CombatTest {
         assertTrue(sim.restore(state).isFailure)
         assertEquals(before, sim.capture().hp)
         assertTrue(saveFromJson("{\"save_version\": 99}").isFailure)
+    }
+
+    @Test
+    fun aSaveIsSummarizedWithoutBuildingItsWorld() {
+        val peek = savePeek("{\"seed\": \"0x0000000000000010\", \"map\": \"world\", \"player\": {\"level\": 4}, \"story\": {\"gold\": 75}}").getOrThrow()
+        assertEquals(16uL, peek.seed)
+        assertEquals("world", peek.map)
+        assertEquals(4, peek.level)
+        assertEquals(75L, peek.gold)
+        val bare = savePeek("{\"seed\": \"0x0000000000000001\", \"story\": null}").getOrThrow()
+        assertEquals(1, bare.level)
+        assertEquals(0L, bare.gold)
+        assertTrue(savePeek("not json").isFailure)
     }
 
     // ---------------------------------------------------------------------------- conformance

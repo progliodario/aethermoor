@@ -1,0 +1,137 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/banner",
+  "canvas": {
+    "w": 24,
+    "h": 40,
+    "origin": [
+      12,
+      36
+    ]
+  },
+  "palette": {
+    "cloth": "#B8483A",
+    "light": "#E27A68",
+    "dark": "#7A261C",
+    "emblem": "#F2C94C",
+    "outline": "#2E0E08",
+    "pole": "#6A4A2A"
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          12,
+          37,
+          5,
+          1.6
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "rect": [
+          11,
+          3,
+          2.4,
+          33
+        ]
+      },
+      "fill": {
+        "color": "$p.pole"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.0
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          12.2,
+          3,
+          2.2,
+          2.2
+        ]
+      },
+      "fill": {
+        "color": "$p.emblem"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.9
+      }
+    },
+    {
+      "shape": {
+        "path": "M 13.4 6 L 22 7 L 22 24 L 17.7 21 L 13.4 24 Z"
+      },
+      "fill": {
+        "color": "$p.cloth"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.3
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            13.4,
+            6
+          ],
+          [
+            22,
+            7
+          ],
+          [
+            22,
+            12
+          ],
+          [
+            13.4,
+            11
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.5
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            17.7,
+            11
+          ],
+          [
+            19.4,
+            15
+          ],
+          [
+            17.7,
+            18.4
+          ],
+          [
+            16,
+            15
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.emblem"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.8
+      }
+    }
+  ]
+}

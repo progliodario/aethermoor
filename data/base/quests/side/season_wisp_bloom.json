@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/season_wisp_bloom",
+  "name": "$i18n:quest.season_wisp_bloom.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "bring",
+      "journal": "$i18n:quest.season_wisp_bloom.bring",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/shade_wisp",
+          "count": 6
+        },
+        {
+          "type": "collect",
+          "item": "base:item/spore_cap",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

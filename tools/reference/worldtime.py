@@ -16,9 +16,25 @@ def tod_pm(t: dict, ticks: int) -> int:
     return (ticks % t["day_ticks"]) * 1000 // t["day_ticks"]
 
 
-def light_pm(t: dict, tod: int) -> int:
-    """Daylight in permille, interpolated linearly between the keyframes (rounding toward zero in the changed part)."""
-    keys = t["light"]
+def season_index(t: dict, day: int) -> int:
+    """Index of the season of a day (the year is the seasons in order, repeating), or -1 when the world has no seasons."""
+    seasons = t.get("seasons")
+    if not seasons:
+        return -1
+    d = (day - 1) % sum(s["days"] for s in seasons)
+    for i, season in enumerate(seasons):
+        if d < season["days"]:
+            return i
+        d -= season["days"]
+    raise AssertionError("unreachable")
+
+
+def light_pm(t: dict, tod: int, season: int = -1) -> int:
+    """Daylight in permille, interpolated linearly between the keyframes (rounding toward zero in the changed part).
+
+    A season may have keyframes of its own (shorter or longer days).
+    """
+    keys = t["seasons"][season].get("light", t["light"]) if season >= 0 else t["light"]
     for (p0, l0), (p1, l1) in zip(keys, keys[1:]):
         if p0 <= tod <= p1:
             span, d = p1 - p0, tod - p0
@@ -29,12 +45,15 @@ def light_pm(t: dict, tod: int) -> int:
 
 
 def weather_kind(seed: int, t: dict, period: int) -> dict:
+    """The kind of a weather period; the weights come from the season of the first tick of the period when it has its own."""
     kinds = t["weather"]["kinds"]
-    total = sum(k["weight"] for k in kinds)
+    season = season_index(t, day_of(t, period * t["weather"]["period_ticks"]))
+    weights = t["seasons"][season].get("weights", {}) if season >= 0 else {}
+    total = sum(weights.get(k["id"], k["weight"]) for k in kinds)
     roll = (hash64(seed, period, 21) >> 20) % total
     acc = 0
     for kind in kinds:
-        acc += kind["weight"]
+        acc += weights.get(kind["id"], kind["weight"])
         if roll < acc:
             return kind
     return kinds[-1]
@@ -59,6 +78,9 @@ def weather_at(seed: int, t: dict, ticks: int) -> dict:
 def sample(seed: int, t: dict, ticks: int) -> dict:
     tod = tod_pm(t, ticks)
     weather = weather_at(seed, t, ticks)
-    light = light_pm(t, tod)
-    return {"day": day_of(t, ticks), "tod_pm": tod, "light_pm": light, **weather,
-            "effective_light_pm": light * (1000 - weather["dim_pm"]) // 1000}
+    day = day_of(t, ticks)
+    season = season_index(t, day)
+    light = light_pm(t, tod, season)
+    return {"day": day, "tod_pm": tod, "light_pm": light, **weather,
+            "effective_light_pm": light * (1000 - weather["dim_pm"]) // 1000,
+            "season": t["seasons"][season]["id"] if season >= 0 else ""}

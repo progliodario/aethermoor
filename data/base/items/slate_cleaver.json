@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/slate_cleaver",
+  "name": "$i18n:item.slate_cleaver.name",
+  "description": "$i18n:item.slate_cleaver.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 900,
+  "weapon": {
+    "atk": 18,
+    "matk": 0
+  }
+}
