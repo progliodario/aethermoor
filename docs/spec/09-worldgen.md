@@ -98,6 +98,8 @@ shore crabs on the coast of Tidehaven, dune scorpions in Sunscar and night owls)
 `signpost`, `crate`, `statue`, `banner`, `bush`, `bones`, `campfire`): the outposts have a signpost, a campfire, a tent and crates, the lairs have bones and the entrances of the dungeons have banners, statues or crates. A prop has no tile of its
 own, so a stamp puts it on terrain that is not a wall.
 
+The random props of the biomes include the new ones: bushes in the plains (20 per mille) and the forest (40), rocks and bones in the desert (10 and 4) and in the snow (10 and 3).
+
 Settlements have more than one look: `settlements.kinds[].stamps` lists the stamps of a kind and the site picks one of them (step 3 above). Hamlets have four (`hamlet`, `hamlet_b` with two houses, `hamlet_c` with a barn and `hamlet_d` a crossroads), villages four (`village`, `village_b` four houses around a square, `village_c` a main street and `village_d` a long street) and towns three (`town` walled, `town_b` open around a big plaza and `town_c` with the guild hall on the square). All of a kind keep the same roles.
 
 ## Settlement people

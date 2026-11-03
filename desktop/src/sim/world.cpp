@@ -135,6 +135,15 @@ void WorldSim::rebuild_npc_circles() {
     }
 }
 
+std::string WorldSim::season_id() const {
+    if (!m_store_) {
+        return {};
+    }
+    const TimeParams& time = m_store_->params().time;
+    const int index = season_index_of(time, m_world_ticks_ / time.day_ticks + 1);
+    return index >= 0 ? time.seasons[static_cast<std::size_t>(index)].id : std::string();
+}
+
 int WorldSim::time_of_day_pm() const {
     const std::int64_t day_ticks = m_store_->params().time.day_ticks;
     return static_cast<int>((m_world_ticks_ % day_ticks) * 1000 / day_ticks);

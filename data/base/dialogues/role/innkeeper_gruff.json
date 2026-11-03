@@ -83,6 +83,16 @@
           "next": "inn_meal"
         },
         {
+          "text": "$i18n:dlg.role.night",
+          "when": {
+            "tod_between": [
+              800,
+              250
+            ]
+          },
+          "next": "night_tale"
+        },
+        {
           "text": "$i18n:dlg.role.bye",
           "next": "end"
         }
@@ -205,6 +215,12 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.inn.gruff.fed",
+      "next": "end"
+    },
+    "night_tale": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.night.gruff",
       "next": "end"
     }
   }

@@ -6,6 +6,8 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- Two new dialogue conditions (spec 07): `season` and `tod_between` (a range of the time of day in permille, crossing midnight when it starts after it ends). Villagers now talk about the season (four lines per tone, in Italian and English) and innkeepers tell a tale about the night, only at night.
+- Bushes in the plains and the forest, rocks and bones in the desert and the snow: the wild looks fuller.
 - Eight creatures with new silhouettes (cave bat, cave spider, myconid, stone golem, will-o'-the-wisp, shore crab, dune scorpion, night owl: levels 4 to 12) with their materials, in the fauna of the regions; the slime elites of the lairs and nests wear a crown.
 - Eight new props (tent, signpost, crate, statue, banner, bush, bones, campfire) placed in the outposts, lairs and dungeon entrances.
 - `tools/art_preview.py`: draws the art recipes as an HTML sheet to look at them without the game.

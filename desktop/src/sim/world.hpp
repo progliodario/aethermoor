@@ -235,6 +235,8 @@ private:
     void open_shop() override;
     void open_board() override;
     void heal_full() override { m_player_.hp = m_derived_.max_hp; }
+    std::string season_id() const override;
+    int tod_pm() const override { return m_store_ ? time_of_day_pm() : 0; }
     // The enemy the spawner on a tile makes (spec 09, "Fauna").
     const EnemyDef& stream_enemy_at(int x, int y) const;
 

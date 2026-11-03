@@ -183,6 +183,12 @@ class CombatSim:
         if self.story is not None:
             self.story.on_kill(enemy.d.get("id", ""))
 
+    def season_id(self) -> str:
+        return ""  # a combat scenario has no world time
+
+    def tod_pm(self) -> int:
+        return 0
+
     def heal_full(self) -> None:
         self.hp = self.derived["max_hp"]
 

@@ -114,6 +114,19 @@
         "gold_at_least": {
           "type": "integer",
           "minimum": 1
+        },
+        "season": {
+          "type": "string"
+        },
+        "tod_between": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000
+          },
+          "minItems": 2,
+          "maxItems": 2
         }
       }
     },
