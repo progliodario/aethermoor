@@ -152,6 +152,8 @@ struct WorldParams {
 
     TimeParams time;
 
+    int enemy_hp_pct = 100;   // difficulty (spec 04): health of the creatures of the streamed world, in percent
+    int enemy_atk_pct = 100;  // and their attack
     int landmark_clearing = 0;  // tiles of plains around the footprint of a landmark (spec 09); 0: none
     int home_radius = 0;  // the home meadow and village (spec 09); 0: none
     std::string home_stamp;

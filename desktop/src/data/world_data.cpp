@@ -171,6 +171,10 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
             return std::nullopt;
         }
         p.landmark_clearing = j.value("landmark_clearing", 0);
+        if (j.contains("difficulty")) {
+            p.enemy_hp_pct = j.at("difficulty").value("enemy_hp_pct", 100);
+            p.enemy_atk_pct = j.at("difficulty").value("enemy_atk_pct", 100);
+        }
         if (j.contains("home")) {
             p.home_radius = j.at("home").at("radius").get<int>();
             p.home_stamp = j.at("home").at("stamp").get<std::string>();

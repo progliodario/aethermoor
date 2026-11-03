@@ -93,6 +93,10 @@
           "border": 4,
           "spawn_clear_radius": 7,
           "landmark_clearing": 24,
+          "difficulty": {
+            "enemy_hp_pct": 100,
+            "enemy_atk_pct": 100
+          },
           "elevation": {
             "salt": 1,
             "scale": 56,
@@ -5436,6 +5440,10 @@
           "border": 4,
           "spawn_clear_radius": 7,
           "landmark_clearing": 24,
+          "difficulty": {
+            "enemy_hp_pct": 100,
+            "enemy_atk_pct": 100
+          },
           "elevation": {
             "salt": 1,
             "scale": 56,

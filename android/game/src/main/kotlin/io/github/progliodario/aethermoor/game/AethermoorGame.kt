@@ -194,7 +194,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         currentSlot = slot
         titleSlots = null
         seed = chooseSeed()
-        val combat = loadCombatSetup(loaded.pack, loaded.map, PROTAGONIST_ID, seed, worldEnemyIds(loaded.worldParams))
+        val combat = loadCombatSetup(loaded.pack, loaded.map, PROTAGONIST_ID, seed, worldEnemyIds(loaded.worldParams), loaded.worldParams.enemyHpPct, loaded.worldParams.enemyAtkPct)
             .getOrElse {
                 error = it.message
                 Gdx.app.error(TAG, "Cannot build the combat setup: ${it.message}")
