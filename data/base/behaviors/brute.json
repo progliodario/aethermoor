@@ -1,0 +1,11 @@
+{
+  "$schema": "../../../schemas/behavior.schema.json",
+  "id": "base:behavior/brute",
+  "kind": "melee_chaser",
+  "aggro_x100": 500,
+  "leash_x100": 850,
+  "attack_range_x100": 150,
+  "hit_range_x100": 190,
+  "windup_ticks": 30,
+  "recovery_ticks": 50
+}

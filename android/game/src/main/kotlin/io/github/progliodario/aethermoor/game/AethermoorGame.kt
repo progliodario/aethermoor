@@ -11,10 +11,15 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import io.github.progliodario.aethermoor.core.GameInfo
+import io.github.progliodario.aethermoor.core.MAP_CELL
 import io.github.progliodario.aethermoor.core.Pack
 import io.github.progliodario.aethermoor.core.WorldParams
+import io.github.progliodario.aethermoor.core.biomeCode
+import io.github.progliodario.aethermoor.core.regionAt
+import io.github.progliodario.aethermoor.core.settlementMarker
+import io.github.progliodario.aethermoor.core.worldEnemyIds
 import io.github.progliodario.aethermoor.core.loadPack
-import io.github.progliodario.aethermoor.core.parseWorldParams
+import io.github.progliodario.aethermoor.core.loadWorldParams
 import io.github.progliodario.aethermoor.core.sim.AttackPhase
 import io.github.progliodario.aethermoor.core.sim.Enemy
 import io.github.progliodario.aethermoor.core.sim.EnemyState
@@ -31,6 +36,7 @@ import io.github.progliodario.aethermoor.core.sim.Tileset
 import io.github.progliodario.aethermoor.core.sim.ObjectiveKind
 import io.github.progliodario.aethermoor.core.sim.WorldSim
 import io.github.progliodario.aethermoor.core.sim.loadCombatSetup
+import io.github.progliodario.aethermoor.core.sim.questFromOffer
 import io.github.progliodario.aethermoor.core.sim.makeStreamMap
 import io.github.progliodario.aethermoor.core.sim.parseTileset
 import io.github.progliodario.aethermoor.core.sim.savePeek
@@ -63,6 +69,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val worldParams: WorldParams,
     )
 
+    private class SlotSummary(val used: Boolean, val level: Int, val gold: Long)
+
     private class FloatingText(val x: Float, val y: Float, val text: String, val onPlayer: Boolean, val crit: Boolean) {
         var age = 0
     }
@@ -86,12 +94,42 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var talkRect: FloatArray? = null
     private var lastSpeaker = ""
     private var lastText = ""
+    private var lastArgs: Map<String, String> = emptyMap()
     private var showInventory = false
+    private var shopCursor = 0
+    private var shopSell = false
+    private var shopRowRects: List<FloatArray> = emptyList()
+    private var shopBuyTab: FloatArray? = null
+    private var shopSellTab: FloatArray? = null
+    private var boardCursor = 0
+    private var travelCursor = 0
+    private var travelRowRects: List<FloatArray> = emptyList()
+    private var boardRowRects: List<FloatArray> = emptyList()
+    private var bagCursor = 0
+    private var bagRowRects: List<FloatArray> = emptyList()
     private var bagRect: FloatArray? = null
+    private var showMap = false
+    private var showJournal = false
+    private var journalScroll = 0
+    private var journalRect: FloatArray? = null
+    private var journalPanel: FloatArray? = null
+    private var languageRect: FloatArray? = null
+    private var mapRect: FloatArray? = null
+    private val mapCodes = HashMap<Pair<Int, Int>, Int>()
+    private val mapMarkers = HashMap<Pair<Int, Int>, io.github.progliodario.aethermoor.core.Settlement?>()
     private var message = ""
     private var messageFrames = 0
     private var sinceAutosave = 0f
     private var seed = 0uL
+    private var currentSlot = 0
+
+    /** The games on the title screen (spec 12, "Slots"); null once a game is running. */
+    private var titleSlots: List<SlotSummary>? = null
+    private var titleCursor = 0
+    private var titlePendingDelete = -1
+    private var titleNotice = ""
+    private var titleRowRects: List<FloatArray> = emptyList()
+    private var titleCrossRects: List<FloatArray> = emptyList()
 
     override fun create() {
         batch = SpriteBatch()
@@ -99,12 +137,64 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         font = BitmapFont(true) // flipped: the projection has y pointing down
         font.data.setScale(max(1f, Gdx.graphics.density * 0.9f))
         camera = OrthographicCamera()
-        language = if (Locale.getDefault().language == "it") "it" else "en"
+        language = savedLanguage() ?: if (Locale.getDefault().language == "it") "it" else "en"
 
         val loaded = loadAssets() ?: return
         assets = loaded
         cache = TextureCache(loaded.pack)
-        val combat = loadCombatSetup(loaded.pack, loaded.map, PROTAGONIST_ID, seed, loaded.worldParams.spawnerEnemy)
+        migrateLegacySaves()
+        titleSlots = readSlots()
+        Gdx.input.setCatchKey(Input.Keys.BACK, true) // Back leaves a game for the title screen (spec 12, "Slots")
+    }
+
+    /** Saves the game and goes back to the title screen; the world is built again when a game is chosen. */
+    private fun returnToTitle() {
+        sim?.let { saveGame(it) }
+        sim = null
+        titleCursor = (currentSlot - 1).coerceIn(0, SLOT_COUNT - 1)
+        titlePendingDelete = -1
+        titleNotice = ""
+        showInventory = false
+        showMap = false
+        showJournal = false
+        accumulator = 0f
+        sinceAutosave = 0f
+        message = ""
+        messageFrames = 0
+        floating.clear()
+        mapCodes.clear()
+        mapMarkers.clear()
+        titleSlots = readSlots()
+    }
+
+    /** Back (or Esc with no panel open) comes out of a game; with a panel open, Back closes it. Returns true when the game was left. */
+    private fun handleBack(world: WorldSim): Boolean {
+        val back = Gdx.input.isKeyJustPressed(Input.Keys.BACK)
+        val escape = Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)
+        if (!back && !escape) return false
+        val panelOpen = showInventory || showMap || showJournal || world.shop != null || world.board != null || world.travel != null
+        if (panelOpen) {
+            if (back) {
+                showInventory = false
+                showMap = false
+                showJournal = false
+                world.closeShop()
+                world.closeBoard()
+                world.closeTravel()
+            }
+            return false // Esc is handled by the panel itself
+        }
+        returnToTitle()
+        return true
+    }
+
+    /** Builds the world of a game (spec 12, "Slots") and continues its autosave. */
+    private fun startGame(slot: Int) {
+        val loaded = assets ?: return
+        currentSlot = slot
+        titleSlots = null
+        seed = chooseSeed()
+        val combat = loadCombatSetup(loaded.pack, loaded.map, PROTAGONIST_ID, seed, worldEnemyIds(loaded.worldParams))
             .getOrElse {
                 error = it.message
                 Gdx.app.error(TAG, "Cannot build the combat setup: ${it.message}")
@@ -115,7 +205,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         loadAutosave(world, loaded.pack)
     }
 
-    /** The seed of the last session on the generated world (so the same world comes back), else a new one. */
+    /** The seed of the last session of this game on the generated world (so the same world comes back), else a new one. */
     private fun chooseSeed(): ULong {
         val file = saveFile()
         if (file.exists()) {
@@ -135,8 +225,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
         return try {
             fun doc(id: String) = requireNotNull(pack.readDocument(id)) { "missing document $id" }
-            seed = chooseSeed()
-            val worldParams = parseWorldParams(doc("base:world/overworld")).getOrThrow()
+            val worldParams = loadWorldParams(pack, "base:world/overworld").getOrThrow()
             Assets(
                 pack = pack,
                 rig = parseRig(doc("base:art/rig/humanoid")).getOrThrow(),
@@ -159,12 +248,51 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     // ------------------------------------------------------------------------------------ saves
 
-    private fun saveFile() = Gdx.files.local("saves/auto.json")
+    private fun saveFile() = slotFile(currentSlot)
+
+    private fun slotFile(slot: Int) = Gdx.files.local("saves/slot$slot/auto.json")
+
+    /** Saves written before slots existed become the first game. */
+    private fun migrateLegacySaves() {
+        try {
+            val legacy = Gdx.files.local("saves/auto.json")
+            if (!legacy.exists() || slotFile(1).exists()) return
+            slotFile(1).parent().mkdirs()
+            legacy.moveTo(slotFile(1))
+            val quick = Gdx.files.local("saves/quick.json")
+            if (quick.exists()) quick.moveTo(Gdx.files.local("saves/slot1/quick.json"))
+        } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
+            Gdx.app.error(TAG, "Cannot move the old save: ${e.message}")
+        }
+    }
+
+    /** What the title screen shows of each game: read from the autosave without building the world. */
+    private fun readSlots(): List<SlotSummary> =
+        (1..SLOT_COUNT).map { slot ->
+            val peek = try {
+                val file = slotFile(slot)
+                if (file.exists()) savePeek(file.readString("UTF-8")).getOrNull() else null
+            } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
+                null
+            }
+            if (peek == null) SlotSummary(false, 1, 0L) else SlotSummary(true, peek.level, peek.gold)
+        }
+
+    private fun deleteSlot(slot: Int) {
+        try {
+            for (name in listOf("auto.json", "auto.json.tmp", "quick.json", "quick.json.tmp")) {
+                val file = Gdx.files.local("saves/slot$slot/$name")
+                if (file.exists()) file.delete()
+            }
+        } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
+            Gdx.app.error(TAG, "Cannot delete the game: ${e.message}")
+        }
+    }
 
     /** Writes the autosave (a temporary file first, then a move over the old save). */
     private fun saveGame(world: WorldSim) {
         try {
-            val temp = Gdx.files.local("saves/auto.json.tmp")
+            val temp = Gdx.files.local("saves/slot$currentSlot/auto.json.tmp")
             temp.writeString(saveToJson(world.capture(), SaveMeta(info.version, 1, PROTAGONIST_ID, seed, MAP_WORLD)), false, "UTF-8")
             temp.moveTo(saveFile())
         } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
@@ -183,6 +311,53 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             showNotice(pack.text(language, "\$i18n:ui.loaded"))
         } else {
             Gdx.app.error(TAG, "Cannot load the save: ${result.exceptionOrNull()?.message}")
+        }
+    }
+
+    // ------------------------------------------------------------------------------------ settings
+
+    private fun settingsFile() = Gdx.files.local("settings.json")
+
+    /** The language the player chose (spec 16), if any. */
+    private fun savedLanguage(): String? =
+        try {
+            val file = settingsFile()
+            val text = if (file.exists()) file.readString("UTF-8") else ""
+            when {
+                !text.contains("\"language\"") -> null
+                text.contains("\"it\"") -> "it"
+                text.contains("\"en\"") -> "en"
+                else -> null
+            }
+        } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
+            null
+        }
+
+    private fun toggleLanguage(data: Assets) {
+        language = if (language == "it") "en" else "it"
+        try {
+            settingsFile().writeString("{\n  \"language\": \"$language\"\n}\n", false, "UTF-8")
+        } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
+            Gdx.app.error(TAG, "Cannot write the settings: ${e.message}")
+        }
+        showNotice(data.pack.text(language, "\$i18n:ui.language_set"))
+    }
+
+    /** Uses the item under the bag cursor (spec 06) and tells what happened. */
+    private fun useSelectedItem(world: WorldSim) {
+        val pack = assets?.pack ?: return
+        val items = world.inventory.keys.toList()
+        if (items.isEmpty()) return
+        val itemId = items[bagCursor.coerceIn(0, items.size - 1)]
+        val name = pack.text(language, "\$i18n:${itemId.substringAfter(':').replace('/', '.')}.name", mapOf("count" to 1L))
+        val kind = world.combat.items[itemId]?.kind
+        if ((kind == "weapon" || kind == "armor") && world.equip(itemId)) {
+            showNotice(pack.text(language, "\$i18n:ui.item_equipped", mapOf("item" to name)))
+        } else if (kind != "weapon" && kind != "armor" && world.useItem(itemId)) {
+            showNotice(pack.text(language, "\$i18n:ui.item_used", mapOf("item" to name)))
+            bagCursor = bagCursor.coerceIn(0, max(world.inventory.size - 1, 0))
+        } else {
+            showNotice(pack.text(language, "\$i18n:ui.item_unchanged"))
         }
     }
 
@@ -205,15 +380,26 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         val world = sim
         val data = assets
+        val slots = titleSlots
+        if (world == null && data != null && slots != null) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.BACK) || Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+                Gdx.app.exit() // Back on the title screen closes the game
+                return
+            }
+            handleTitleInput(data, slots)
+            titleSlots?.let { drawTitle(data, it) } // null when a game was just chosen
+            return
+        }
         if (world == null || data == null) {
             drawError()
             return
         }
 
+        if (handleBack(world)) return
         handleStoryInput(world)
         val frame = input.read()
-        if (showInventory) {
-            accumulator = 0f // the bag pauses the game
+        if (showInventory || showMap || showJournal || world.shop != null || world.board != null || world.travel != null) {
+            accumulator = 0f // the bag, the map, the journal, the shop, the board and the stones pause the game
         } else {
             accumulator += min(Gdx.graphics.deltaTime, MAX_FRAME_SECONDS)
             var ticks = 0
@@ -271,7 +457,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val items = ArrayList<Item>()
         world.forEachProp(cam.x - 2f, cam.y - 1f, cam.x + viewW + 2f, cam.y + viewH + 4f) { prop -> items.add(Item(prop.y, prop, null)) }
         for (enemy in world.enemies) if (enemy.state != EnemyState.DEAD) items.add(Item(enemy.position.y, null, enemy))
-        for (npc in world.story.setup.npcs) items.add(Item(npc.y, null, null, npc))
+        for (npc in world.story.setup.npcs + world.story.dynamicNpcs) items.add(Item(npc.y, null, null, npc))
         items.add(Item(world.player.position.y, null, null))
         for (item in items.sortedBy { it.feetY }) {
             when {
@@ -323,8 +509,26 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         )
     }
 
+    /** A dialogue text with its arguments (spec 07): values that start with "$i18n:" are text keys resolved with the plain ones. */
+    private fun dialogueText(pack: Pack, reference: String, args: Map<String, String>): String {
+        val plain = args.filterValues { !it.startsWith("\$i18n:") }
+        val all = HashMap<String, Any>(plain)
+        for ((key, value) in args) if (value.startsWith("\$i18n:")) all[key] = pack.text(language, value, plain)
+        return pack.text(language, reference, all)
+    }
+
+    /** The name shown for a speaker: "npc" is the NPC being talked to, any other one has a text. */
+    private fun speakerName(pack: Pack, speaker: String, args: Map<String, String>): String =
+        if (speaker == "npc") args["npc"] ?: "" else pack.text(language, "\$i18n:speaker.$speaker")
+
     private fun drawNpc(world: WorldSim, data: Assets, npc: NpcDef, camX: Float, camY: Float, tilePx: Int, k: Float) {
         val tile = tilePx.toFloat()
+        if (npc.name.isNotEmpty() && npc === world.story.npcInRange()) {
+            layout.setText(font, npc.name)
+            font.color = Color(1f, 0.84f, 0.47f, 1f)
+            font.draw(batch, npc.name, (npc.x - camX) * tile - layout.width / 2f, (npc.y - camY) * tile - 2.4f * tile)
+            font.color = Color.WHITE
+        }
         drawCharacter(
             data, false, world.player.position.x < npc.x, (System.currentTimeMillis() / 16).toInt(), false,
             npc.variant.ifEmpty { null }, (npc.x - camX) * tile, (npc.y - camY) * tile, tilePx, k,
@@ -373,6 +577,16 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             shapes.color = Color(0.03f, 0.055f, 0.17f, dark * 0.69f / 1000f)
             shapes.rect(0f, 0f, w, h)
             shapes.end()
+        }
+        val params = world.chunks?.params
+        if (params != null && time.seasonIndex >= 0) { // the tint of the season (spec 08)
+            val tint = params.time.seasons[time.seasonIndex].tint
+            if (tint[3] > 0) {
+                shapes.begin(ShapeRenderer.ShapeType.Filled)
+                shapes.color = Color(tint[0] / 255f, tint[1] / 255f, tint[2] / 255f, tint[3] / 255f)
+                shapes.rect(0f, 0f, w, h)
+                shapes.end()
+            }
         }
         if (time.rainPm > 0) {
             val density = Gdx.graphics.density
@@ -437,6 +651,13 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         shapes.end()
     }
 
+    /** The name of the season of the time sample (spec 08), empty without seasons. */
+    private fun seasonName(world: WorldSim, time: io.github.progliodario.aethermoor.core.TimeSample): String {
+        val params = world.chunks?.params ?: return ""
+        if (time.seasonIndex < 0) return ""
+        return assets?.pack?.text(language, "\$i18n:season.${params.time.seasons[time.seasonIndex].id}") ?: ""
+    }
+
     private fun drawTexts(world: WorldSim, data: Assets, camX: Float, camY: Float, tile: Float) {
         batch.projectionMatrix = camera.combined
         batch.begin()
@@ -449,10 +670,19 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             val hour = time.todPm * 24 / 1000
             val minute = time.todPm * 1440 / 1000 % 60
             val clock = data.pack.text(
-                language, "\$i18n:ui.clock", mapOf("day" to time.day, "time" to "%02d:%02d".format(hour, minute)),
+                language, "\$i18n:ui.clock",
+                mapOf("day" to time.day, "time" to "%02d:%02d".format(hour, minute), "season" to seasonName(world, time)),
             )
             layout.setText(font, clock)
             font.draw(batch, clock, Gdx.graphics.width - layout.width - 12f * density, 12f * density + 2f)
+            world.chunks?.let { store ->
+                val region = store.params.regions[regionAt(store.params, floor(p.position.x).toInt(), floor(p.position.y).toInt())]
+                val name = data.pack.text(language, region.name)
+                font.color = Color(1f, 0.84f, 0.47f, 1f)
+                layout.setText(font, name)
+                font.draw(batch, name, Gdx.graphics.width - layout.width - 12f * density, 12f * density + 2f + font.lineHeight * 1.2f)
+                font.color = Color.WHITE
+            }
         }
         for (f in floating) {
             font.color = when {
@@ -469,16 +699,240 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     // ------------------------------------------------------------------------------------ story
 
+    /** What the open shop lists: (item id, price), what it sells or what the player can sell (spec 06). */
+    private fun shopEntries(world: WorldSim): List<Pair<String, Long>> {
+        val shop = world.shop ?: return emptyList()
+        return if (!shopSell) {
+            shop.stock.map { Pair(it, world.buyPrice(it)) }
+        } else {
+            world.inventory.keys.filter { world.sellPrice(it) > 0L }.map { Pair(it, world.sellPrice(it)) }
+        }
+    }
+
+    private fun shopConfirm(world: WorldSim) {
+        val pack = assets?.pack ?: return
+        val entries = shopEntries(world)
+        if (entries.isEmpty()) return
+        val itemId = entries[shopCursor.coerceIn(0, entries.size - 1)].first
+        val name = pack.text(language, "\$i18n:${itemId.substringAfter(':').replace('/', '.')}.name", mapOf("count" to 1L))
+        val done = if (shopSell) world.sell(itemId) else world.buy(itemId)
+        if (done) {
+            showNotice(pack.text(language, if (shopSell) "\$i18n:ui.sold" else "\$i18n:ui.bought", mapOf("item" to name)))
+            shopCursor = shopCursor.coerceIn(0, max(shopEntries(world).size - 1, 0))
+        } else {
+            showNotice(pack.text(language, "\$i18n:ui.cannot_do"))
+        }
+    }
+
+    private fun handleShopInput(world: WorldSim) {
+        val input = Gdx.input
+        val count = shopEntries(world).size
+        if (input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            world.closeShop()
+        } else if (input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W)) {
+            if (count > 0) shopCursor = (shopCursor.coerceIn(0, count - 1) + count - 1) % count
+        } else if (input.isKeyJustPressed(Input.Keys.DOWN) || input.isKeyJustPressed(Input.Keys.S)) {
+            if (count > 0) shopCursor = (shopCursor.coerceIn(0, count - 1) + 1) % count
+        } else if (input.isKeyJustPressed(Input.Keys.TAB)) {
+            shopSell = !shopSell
+            shopCursor = 0
+        } else if (input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.ENTER) || input.isKeyJustPressed(Input.Keys.SPACE)) {
+            shopConfirm(world)
+        } else if (input.justTouched()) {
+            // The tabs switch between buying and selling; a row is selected by a tap and confirmed by a second one; elsewhere closes.
+            val x = input.x.toFloat()
+            val y = input.y.toFloat()
+            fun hit(r: FloatArray?) = r != null && x >= r[0] && x <= r[0] + r[2] && y >= r[1] && y <= r[1] + r[3]
+            val row = shopRowRects.indexOfFirst { hit(it) }
+            if (hit(shopBuyTab)) {
+                shopSell = false
+                shopCursor = 0
+            } else if (hit(shopSellTab)) {
+                shopSell = true
+                shopCursor = 0
+            } else if (row < 0) {
+                world.closeShop()
+            } else if (row == shopCursor) {
+                shopConfirm(world)
+            } else {
+                shopCursor = row
+            }
+        }
+    }
+
+    /** The guild board (spec 07, "Guild"): the slot under the cursor is accepted or refused with a notice. */
+    private fun boardConfirm(world: WorldSim) {
+        val pack = assets?.pack ?: return
+        val board = world.board ?: return
+        if (board.offers.isEmpty()) return
+        val slot = boardCursor.coerceIn(0, board.offers.size - 1)
+        val quest = questFromOffer(board.offers[slot])
+        if (world.acceptOffer(slot)) {
+            showNotice(pack.text(language, "\$i18n:ui.quest_accepted", mapOf("quest" to dialogueText(pack, quest.name, quest.args))))
+        } else {
+            showNotice(pack.text(language, "\$i18n:ui.cannot_do"))
+        }
+    }
+
+    private fun handleBoardInput(world: WorldSim) {
+        val input = Gdx.input
+        val count = world.board?.offers?.size ?: 0
+        if (input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            world.closeBoard()
+        } else if (input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W)) {
+            if (count > 0) boardCursor = (boardCursor.coerceIn(0, count - 1) + count - 1) % count
+        } else if (input.isKeyJustPressed(Input.Keys.DOWN) || input.isKeyJustPressed(Input.Keys.S)) {
+            if (count > 0) boardCursor = (boardCursor.coerceIn(0, count - 1) + 1) % count
+        } else if (input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.ENTER) || input.isKeyJustPressed(Input.Keys.SPACE)) {
+            boardConfirm(world)
+        } else if (input.justTouched()) {
+            // A tap selects an offer, a second tap on it accepts it; a tap elsewhere closes the board.
+            val x = input.x.toFloat()
+            val y = input.y.toFloat()
+            val row = boardRowRects.indexOfFirst { x >= it[0] && x <= it[0] + it[2] && y >= it[1] && y <= it[1] + it[3] }
+            if (row < 0) {
+                world.closeBoard()
+            } else if (row == boardCursor) {
+                boardConfirm(world)
+            } else {
+                boardCursor = row
+            }
+        }
+    }
+
+    /** Talks to the NPC in range or, with none, wakes the Threshold Stone near the player (spec 09). */
+    private fun interact(world: WorldSim) {
+        val story = world.story
+        if (!story.dialogueView().active && story.npcInRange() == null && world.useStone()) {
+            val travel = world.travel
+            travelCursor = if (travel != null && travel.here == 0 && travel.stops.size > 1) 1 else 0
+        } else {
+            story.interact()
+        }
+    }
+
+    private fun canInteract(world: WorldSim) = world.story.npcInRange() != null || world.stoneNear() != null
+
+    private fun travelConfirm(world: WorldSim) {
+        val pack = assets?.pack ?: return
+        val travel = world.travel ?: return
+        if (travel.stops.isEmpty()) return
+        val stop = travel.stops[travelCursor.coerceIn(0, travel.stops.size - 1)]
+        if (world.travelTo(travelCursor)) {
+            showNotice(pack.text(language, "\$i18n:ui.traveled", mapOf("place" to stop.place)))
+        } else {
+            showNotice(pack.text(language, "\$i18n:ui.cannot_do"))
+        }
+    }
+
+    private fun handleTravelInput(world: WorldSim) {
+        val input = Gdx.input
+        val count = world.travel?.stops?.size ?: 0
+        if (input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            world.closeTravel()
+        } else if (input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W)) {
+            if (count > 0) travelCursor = (travelCursor.coerceIn(0, count - 1) + count - 1) % count
+        } else if (input.isKeyJustPressed(Input.Keys.DOWN) || input.isKeyJustPressed(Input.Keys.S)) {
+            if (count > 0) travelCursor = (travelCursor.coerceIn(0, count - 1) + 1) % count
+        } else if (input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.ENTER) || input.isKeyJustPressed(Input.Keys.SPACE)) {
+            travelConfirm(world)
+        } else if (input.justTouched()) {
+            // A tap selects a stone, a second tap on it travels there; a tap elsewhere closes the list.
+            val x = input.x.toFloat()
+            val y = input.y.toFloat()
+            val row = travelRowRects.indexOfFirst { x >= it[0] && x <= it[0] + it[2] && y >= it[1] && y <= it[1] + it[3] }
+            if (row < 0) {
+                world.closeTravel()
+            } else if (row == travelCursor) {
+                travelConfirm(world)
+            } else {
+                travelCursor = row
+            }
+        }
+    }
+
     private fun handleStoryInput(world: WorldSim) {
         val story = world.story
         val input = Gdx.input
         val view = story.dialogueView()
+        if (world.travel != null) {
+            handleTravelInput(world)
+            return
+        }
+        if (world.board != null) {
+            handleBoardInput(world)
+            return
+        }
+        if (world.shop != null) {
+            handleShopInput(world)
+            return
+        }
+        if (input.isKeyJustPressed(Input.Keys.F2)) {
+            assets?.let { toggleLanguage(it) }
+            return
+        }
+        if (showJournal) {
+            if (input.isKeyJustPressed(Input.Keys.Q) || input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+                showJournal = false
+            } else if (input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W)) {
+                journalScroll = max(journalScroll - 1, 0)
+            } else if (input.isKeyJustPressed(Input.Keys.DOWN) || input.isKeyJustPressed(Input.Keys.S)) {
+                journalScroll++ // clamped when drawn
+            } else if (input.justTouched()) {
+                // A tap on the upper half of the panel scrolls up, on the lower half down, outside it closes the journal.
+                val x = input.x.toFloat()
+                val y = input.y.toFloat()
+                val panel = journalPanel
+                if (panel == null || x < panel[0] || x > panel[0] + panel[2] || y < panel[1] || y > panel[1] + panel[3]) {
+                    showJournal = false
+                } else if (y < panel[1] + panel[3] / 2f) {
+                    journalScroll = max(journalScroll - 3, 0)
+                } else {
+                    journalScroll += 3
+                }
+            }
+            return
+        }
+        if (showMap) {
+            if (input.isKeyJustPressed(Input.Keys.M) || input.isKeyJustPressed(Input.Keys.ESCAPE) || input.justTouched()) showMap = false
+            return
+        }
         if (showInventory) {
-            if (input.isKeyJustPressed(Input.Keys.I) || input.isKeyJustPressed(Input.Keys.ESCAPE) || input.justTouched()) showInventory = false
+            val count = world.inventory.size
+            if (input.isKeyJustPressed(Input.Keys.I) || input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+                showInventory = false
+            } else if (input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W)) {
+                if (count > 0) bagCursor = (bagCursor.coerceIn(0, count - 1) + count - 1) % count
+            } else if (input.isKeyJustPressed(Input.Keys.DOWN) || input.isKeyJustPressed(Input.Keys.S)) {
+                if (count > 0) bagCursor = (bagCursor.coerceIn(0, count - 1) + 1) % count
+            } else if (input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.ENTER) || input.isKeyJustPressed(Input.Keys.SPACE)) {
+                useSelectedItem(world)
+            } else if (input.justTouched()) {
+                // Tapping a row selects it, tapping the selected row uses it, tapping elsewhere closes the bag.
+                val x = input.x.toFloat()
+                val y = input.y.toFloat()
+                val row = bagRowRects.indexOfFirst { x >= it[0] && x <= it[0] + it[2] && y >= it[1] && y <= it[1] + it[3] }
+                if (row < 0) {
+                    showInventory = false
+                } else if (row == bagCursor) {
+                    useSelectedItem(world)
+                } else {
+                    bagCursor = row
+                }
+            }
+            return
+        }
+        if (input.isKeyJustPressed(Input.Keys.M) && world.chunks != null) {
+            showMap = true
             return
         }
         if (input.isKeyJustPressed(Input.Keys.I)) {
             showInventory = true
+            return
+        }
+        if (input.isKeyJustPressed(Input.Keys.Q)) {
+            showJournal = true
+            journalScroll = 0
             return
         }
         val confirm = input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.ENTER) ||
@@ -502,7 +956,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             }
         }
         if (confirm) {
-            if (view.active && view.isChoice) story.choose(choiceIndex) else story.interact()
+            if (view.active && view.isChoice) story.choose(choiceIndex) else interact(world)
             choiceIndex = 0
             return
         }
@@ -518,21 +972,37 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 }
                 choiceIndex = 0
             } else {
+                val map = mapRect
+                if (map != null && world.chunks != null && x >= map[0] && x <= map[0] + map[2] && y >= map[1] && y <= map[1] + map[3]) {
+                    showMap = true
+                    return
+                }
+                val journal = journalRect
+                if (journal != null && x >= journal[0] && x <= journal[0] + journal[2] && y >= journal[1] && y <= journal[1] + journal[3]) {
+                    showJournal = true
+                    journalScroll = 0
+                    return
+                }
+                val lang = languageRect
+                if (lang != null && x >= lang[0] && x <= lang[0] + lang[2] && y >= lang[1] && y <= lang[1] + lang[3]) {
+                    assets?.let { toggleLanguage(it) }
+                    return
+                }
                 val bag = bagRect
                 if (bag != null && x >= bag[0] && x <= bag[0] + bag[2] && y >= bag[1] && y <= bag[1] + bag[3]) {
                     showInventory = true
                     return
                 }
                 val rect = talkRect
-                if (rect != null && story.npcInRange() != null &&
+                if (rect != null && canInteract(world) &&
                     x >= rect[0] && x <= rect[0] + rect[2] && y >= rect[1] && y <= rect[1] + rect[3]
                 ) {
-                    story.interact()
+                    interact(world)
                     choiceIndex = 0
                 }
             }
         }
-        this.input.attackExcludedRect = talkRect.takeIf { !story.dialogueView().active && story.npcInRange() != null }
+        this.input.attackExcludedRect = talkRect.takeIf { !story.dialogueView().active && canInteract(world) }
     }
 
     /** Quest tracker, gold, the talk button and the dialogue box. */
@@ -545,6 +1015,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (view.active && !view.isChoice) {
             lastSpeaker = view.speaker
             lastText = view.text
+            lastArgs = view.args
         } else if (!view.active) {
             lastText = ""
         }
@@ -559,21 +1030,21 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             if (view.isChoice) {
                 boxH = view.choices.size * (font.lineHeight * 1.5f) + 24f * density
                 if (lastText.isNotEmpty()) {
-                    heading = data.pack.text(language, "\$i18n:speaker.$lastSpeaker")
-                    layout.setText(font, data.pack.text(language, lastText), Color.WHITE, boxW - 24f * density, 0, true)
+                    heading = speakerName(data.pack, lastSpeaker, lastArgs)
+                    layout.setText(font, dialogueText(data.pack, lastText, lastArgs), Color.WHITE, boxW - 24f * density, 0, true)
                     questionHeight = layout.height + font.lineHeight * 1.5f + 8f * density
                     boxH += questionHeight
                 }
             } else {
-                heading = data.pack.text(language, "\$i18n:speaker.${view.speaker}")
-                layout.setText(font, data.pack.text(language, view.text), Color.WHITE, boxW - 24f * density, 0, true)
+                heading = speakerName(data.pack, view.speaker, view.args)
+                layout.setText(font, dialogueText(data.pack, view.text, view.args), Color.WHITE, boxW - 24f * density, 0, true)
                 boxH = layout.height + font.lineHeight * 1.5f + 24f * density
             }
         }
         val boxY = height - boxH - margin
 
         // Talk button for touch screens.
-        val canTalk = !view.active && story.npcInRange() != null
+        val canTalk = !view.active && canInteract(world)
         val button = floatArrayOf(width - 150f * density, height / 2f - 40f * density, 130f * density, 60f * density)
         talkRect = button
 
@@ -611,13 +1082,13 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         y += font.lineHeight * 1.3f
         for ((questId, progress) in story.quests) {
             if (progress.done) continue
-            val def = story.setup.quests.getValue(questId)
+            val def = story.questDef(questId) ?: continue
             val stage: QuestStage = def.stages.firstOrNull { it.id == progress.stage } ?: continue
             font.color = Color(0.435f, 0.89f, 1f, 1f)
-            font.draw(batch, data.pack.text(language, def.name), x, y)
+            font.draw(batch, dialogueText(data.pack, def.name, def.args), x, y)
             y += font.lineHeight * 1.2f
             font.color = Color(0.92f, 0.96f, 1f, 1f)
-            layout.setText(font, data.pack.text(language, stage.journal), font.color, 280f * density, 0, true)
+            layout.setText(font, dialogueText(data.pack, stage.journal, def.args), font.color, 280f * density, 0, true)
             font.draw(batch, layout, x, y)
             y += layout.height + 4f * density
             for ((i, objective) in stage.objectives.withIndex()) {
@@ -643,14 +1114,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                     font.color = Color(1f, 0.84f, 0.47f, 1f)
                     font.draw(batch, heading, margin + 12f * density, ty)
                     font.color = Color(0.92f, 0.96f, 1f, 1f)
-                    layout.setText(font, data.pack.text(language, lastText), font.color, boxW - 24f * density, 0, true)
+                    layout.setText(font, dialogueText(data.pack, lastText, lastArgs), font.color, boxW - 24f * density, 0, true)
                     font.draw(batch, layout, margin + 12f * density, ty + font.lineHeight * 1.5f)
                     ty += questionHeight
                 }
                 for ((i, choice) in view.choices.withIndex()) {
                     font.color = if (i == choiceIndex) Color(0.435f, 0.89f, 1f, 1f) else Color.WHITE
                     font.draw(
-                        batch, "${i + 1}. ${data.pack.text(language, choice)}",
+                        batch, "${i + 1}. ${dialogueText(data.pack, choice, view.args)}",
                         margin + 12f * density, ty + (font.lineHeight * 1.5f - font.lineHeight) / 2f,
                     )
                     ty += font.lineHeight * 1.5f
@@ -660,13 +1131,396 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 font.draw(batch, heading, margin + 12f * density, ty)
                 ty += font.lineHeight * 1.5f
                 font.color = Color(0.92f, 0.96f, 1f, 1f)
-                layout.setText(font, data.pack.text(language, view.text), font.color, boxW - 24f * density, 0, true)
+                layout.setText(font, dialogueText(data.pack, view.text, view.args), font.color, boxW - 24f * density, 0, true)
                 font.draw(batch, layout, margin + 12f * density, ty)
             }
         }
         font.color = Color.WHITE
         batch.end()
         drawBagAndNotice(world, data)
+        drawWorldMap(world, data)
+        drawShop(world, data)
+        drawBoard(world, data)
+        drawJournal(world, data)
+        drawTravel(world, data)
+    }
+
+    /** The first row to draw of a long list: the rows that fit on the screen, with the cursor kept near the middle. */
+    private fun listWindow(total: Int, cursor: Int, maxRows: Int): Int = if (total <= maxRows) 0 else (cursor - maxRows / 2).coerceIn(0, total - maxRows)
+
+    /** The shop (spec 06): buy / sell tabs, the entries with their price and the gold. */
+    private fun drawShop(world: WorldSim, data: Assets) {
+        if (world.shop == null) {
+            shopRowRects = emptyList()
+            return
+        }
+        val density = Gdx.graphics.density
+        val width = Gdx.graphics.width.toFloat()
+        val height = Gdx.graphics.height.toFloat()
+        val entries = shopEntries(world)
+        val rowH = font.lineHeight * 1.5f
+        val panelW = min(width - 40f, 460f * density)
+        val cursor = shopCursor.coerceIn(0, max(entries.size - 1, 0))
+        val maxRows = max(3, ((height - 150f * density) / rowH).toInt()) // a long list scrolls with the cursor
+        val visible = min(entries.size, maxRows)
+        val first = listWindow(entries.size, cursor, maxRows)
+        val panelH = 96f * density + rowH * max(visible, 1)
+        val panelX = (width - panelW) / 2f
+        val panelY = (height - panelH) / 2f
+        val tabY = panelY + 10f * density
+        val tabW = 110f * density
+        val tabH = 30f * density
+        shopBuyTab = floatArrayOf(panelX + 12f * density, tabY, tabW, tabH)
+        shopSellTab = floatArrayOf(panelX + 24f * density + tabW, tabY, tabW, tabH)
+        val firstRowY = tabY + tabH + 12f * density
+        shopRowRects = entries.indices.map { if (it in first until first + visible) floatArrayOf(panelX, firstRowY + (it - first) * rowH, panelW, rowH) else OFF_SCREEN }
+
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        shapes.color = Color(0.04f, 0.12f, 0.23f, 0.96f)
+        shapes.rect(panelX, panelY, panelW, panelH)
+        shapes.color = Color(1f, 0.84f, 0.47f, 1f)
+        shapes.rect(panelX, panelY, panelW, 3f * density)
+        for ((i, tab) in listOf(shopBuyTab, shopSellTab).withIndex()) {
+            val active = (i == 1) == shopSell
+            shapes.color = if (active) Color(0.16f, 0.35f, 0.55f, 1f) else Color(0.08f, 0.16f, 0.28f, 1f)
+            shapes.rect(tab!![0], tab[1], tab[2], tab[3])
+        }
+        if (entries.isNotEmpty()) {
+            shapes.color = Color(0.16f, 0.35f, 0.55f, 1f)
+            shapes.rect(panelX + 6f * density, firstRowY + (cursor - first) * rowH - 2f * density, panelW - 12f * density, rowH)
+        }
+        shapes.end()
+
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        font.color = Color.WHITE
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.shop_buy"), shopBuyTab!![0] + 10f * density, tabY + (tabH - font.lineHeight) / 2f)
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.shop_sell"), shopSellTab!![0] + 10f * density, tabY + (tabH - font.lineHeight) / 2f)
+        font.color = Color(1f, 0.84f, 0.47f, 1f)
+        val gold = data.pack.text(language, "\$i18n:ui.gold", mapOf("gold" to world.story.gold))
+        layout.setText(font, gold)
+        font.draw(batch, gold, panelX + panelW - layout.width - 14f * density, tabY + (tabH - font.lineHeight) / 2f)
+        if (entries.isEmpty()) {
+            font.color = Color(0.92f, 0.96f, 1f, 1f)
+            font.draw(batch, data.pack.text(language, "\$i18n:ui.shop_empty"), panelX + 16f * density, firstRowY)
+        }
+        for ((i, entry) in entries.withIndex()) {
+            if (i < first || i >= first + visible) continue
+            val key = entry.first.substringAfter(':').replace('/', '.')
+            val name = data.pack.text(language, "\$i18n:$key.name", mapOf("count" to 1L))
+            font.color = if (i == cursor) Color.WHITE else Color(0.92f, 0.96f, 1f, 1f)
+            font.draw(batch, (if (i == cursor) "> " else "  ") + name, panelX + 14f * density, firstRowY + (i - first) * rowH)
+            font.color = Color(1f, 0.84f, 0.47f, 1f)
+            val price = entry.second.toString()
+            layout.setText(font, price)
+            font.draw(batch, price, panelX + panelW - layout.width - 14f * density, firstRowY + (i - first) * rowH)
+        }
+        batch.end()
+    }
+
+    /** The list of Threshold Stones (spec 09): the places whose stone was woken, with the region of each. */
+    private fun drawTravel(world: WorldSim, data: Assets) {
+        val travel = world.travel
+        if (travel == null) {
+            travelRowRects = emptyList()
+            return
+        }
+        val density = Gdx.graphics.density
+        val width = Gdx.graphics.width.toFloat()
+        val height = Gdx.graphics.height.toFloat()
+        val rowH = font.lineHeight * 2.6f
+        val panelW = min(width - 40f, 560f * density)
+        val cursor = travelCursor.coerceIn(0, max(travel.stops.size - 1, 0))
+        val maxRows = max(2, ((height - 170f * density) / rowH).toInt()) // a long list scrolls with the cursor
+        val visible = min(travel.stops.size, maxRows)
+        val first = listWindow(travel.stops.size, cursor, maxRows)
+        val panelH = 96f * density + rowH * max(visible, 1)
+        val panelX = (width - panelW) / 2f
+        val panelY = (height - panelH) / 2f
+        val firstRowY = panelY + 64f * density
+        travelRowRects = travel.stops.indices.map { if (it in first until first + visible) floatArrayOf(panelX, firstRowY + (it - first) * rowH, panelW, rowH) else OFF_SCREEN }
+
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        shapes.color = Color(0.04f, 0.12f, 0.23f, 0.96f)
+        shapes.rect(panelX, panelY, panelW, panelH)
+        shapes.color = Color(0.435f, 0.89f, 1f, 1f)
+        shapes.rect(panelX, panelY, panelW, 3f * density)
+        shapes.color = Color(0.16f, 0.35f, 0.55f, 1f)
+        shapes.rect(panelX + 6f * density, firstRowY + (cursor - first) * rowH - 2f * density, panelW - 12f * density, rowH)
+        shapes.end()
+
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        font.color = Color(0.435f, 0.89f, 1f, 1f)
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.travel"), panelX + 14f * density, panelY + 12f * density)
+        font.color = Color(1f, 0.84f, 0.47f, 1f)
+        font.draw(
+            batch, data.pack.text(language, if (travel.fresh) "\$i18n:ui.stone_awake" else "\$i18n:ui.stone_rest"),
+            panelX + 14f * density, panelY + 12f * density + font.lineHeight * 1.5f,
+        )
+        for ((i, stop) in travel.stops.withIndex()) {
+            if (i < first || i >= first + visible) continue
+            val here = i == travel.here
+            val rowY = firstRowY + (i - first) * rowH
+            font.color = if (here) Color(0.51f, 0.55f, 0.63f, 1f) else Color.WHITE
+            val tag = if (here) "  (" + data.pack.text(language, "\$i18n:ui.travel_here") + ")" else ""
+            font.draw(batch, (if (i == cursor) "> " else "  ") + stop.place + tag, panelX + 14f * density, rowY)
+            font.color = Color(0.67f, 0.78f, 0.9f, 1f)
+            font.draw(batch, data.pack.text(language, stop.region), panelX + 30f * density, rowY + font.lineHeight * 1.2f)
+        }
+        font.color = Color(0.67f, 0.78f, 0.9f, 1f)
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.travel_hint"), panelX + 14f * density, panelY + panelH - font.lineHeight * 1.6f)
+        font.color = Color.WHITE
+        batch.end()
+    }
+
+    /** The journal entries (spec 07, "Journal"): (text, kind) with kind 0 section title, 1 quest name, 2 text, 3 finished quest. */
+    private fun journalEntries(world: WorldSim, data: Assets): List<Pair<String, Int>> {
+        val story = world.story
+        val entries = ArrayList<Pair<String, Int>>()
+        if (story.quests.isEmpty()) {
+            entries.add(Pair(data.pack.text(language, "\$i18n:ui.journal_empty"), 2))
+            return entries
+        }
+        if (story.quests.values.any { !it.done }) {
+            entries.add(Pair(data.pack.text(language, "\$i18n:ui.journal_active"), 0))
+            for ((questId, progress) in story.quests) {
+                if (progress.done) continue
+                val def = story.questDef(questId) ?: continue
+                val stage = def.stages.firstOrNull { it.id == progress.stage } ?: continue
+                entries.add(Pair(dialogueText(data.pack, def.name, def.args), 1))
+                entries.add(Pair(dialogueText(data.pack, stage.journal, def.args), 2))
+                for ((i, objective) in stage.objectives.withIndex()) {
+                    if (objective.kind != ObjectiveKind.TALK) entries.add(Pair("${progress.progress[i]}/${objective.count}", 2))
+                }
+            }
+        }
+        if (story.quests.values.any { it.done }) {
+            entries.add(Pair(data.pack.text(language, "\$i18n:ui.journal_done"), 0))
+            for ((questId, progress) in story.quests) {
+                if (!progress.done) continue
+                val def = story.questDef(questId) ?: continue
+                entries.add(Pair(dialogueText(data.pack, def.name, def.args), 3))
+            }
+        }
+        return entries
+    }
+
+    /** The journal and language buttons, and the journal panel (the quests in progress, then the finished ones). */
+    private fun drawJournal(world: WorldSim, data: Assets) {
+        val density = Gdx.graphics.density
+        val width = Gdx.graphics.width.toFloat()
+        val height = Gdx.graphics.height.toFloat()
+        val journalButton = floatArrayOf(12f * density, 114f * density, 96f * density, 34f * density)
+        val languageButton = floatArrayOf(12f * density + 104f * density, 114f * density, 96f * density, 34f * density)
+        journalRect = journalButton
+        languageRect = languageButton
+        val panelW = min(width - 40f, 560f * density)
+        val panelH = min(height - 40f, 480f * density)
+        val panelX = (width - panelW) / 2f
+        val panelY = (height - panelH) / 2f
+        journalPanel = if (showJournal) floatArrayOf(panelX, panelY, panelW, panelH) else null
+
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        shapes.color = Color(0.04f, 0.12f, 0.23f, 0.8f)
+        shapes.rect(journalButton[0], journalButton[1], journalButton[2], journalButton[3])
+        shapes.rect(languageButton[0], languageButton[1], languageButton[2], languageButton[3])
+        if (showJournal) {
+            shapes.color = Color(0.04f, 0.12f, 0.23f, 0.96f)
+            shapes.rect(panelX, panelY, panelW, panelH)
+            shapes.color = Color(1f, 0.84f, 0.47f, 1f)
+            shapes.rect(panelX, panelY, panelW, 3f * density)
+        }
+        shapes.end()
+
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        font.color = Color.WHITE
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.journal"), journalButton[0] + 8f * density, journalButton[1] + (journalButton[3] - font.lineHeight) / 2f)
+        font.draw(batch, language.uppercase(Locale.ROOT), languageButton[0] + 8f * density, languageButton[1] + (languageButton[3] - font.lineHeight) / 2f)
+        if (showJournal) {
+            font.color = Color(1f, 0.84f, 0.47f, 1f)
+            font.draw(batch, data.pack.text(language, "\$i18n:ui.journal"), panelX + 16f * density, panelY + 12f * density)
+            val entries = journalEntries(world, data)
+            journalScroll = journalScroll.coerceIn(0, max(entries.size - 1, 0))
+            var ty = panelY + 12f * density + font.lineHeight * 1.8f
+            val limit = panelY + panelH - font.lineHeight * 2.2f
+            for (i in journalScroll until entries.size) {
+                val (text, kind) = entries[i]
+                font.color = when (kind) {
+                    0 -> Color(1f, 0.84f, 0.47f, 1f)
+                    1 -> Color(0.435f, 0.89f, 1f, 1f)
+                    3 -> Color(0.51f, 0.55f, 0.63f, 1f)
+                    else -> Color(0.92f, 0.96f, 1f, 1f)
+                }
+                layout.setText(font, text, font.color, panelW - 32f * density, 0, true)
+                if (ty + layout.height > limit) break
+                font.draw(batch, layout, panelX + 16f * density, ty)
+                ty += layout.height + font.lineHeight * 0.4f
+            }
+            font.color = Color(0.67f, 0.78f, 0.9f, 1f)
+            font.draw(batch, data.pack.text(language, "\$i18n:ui.journal_hint"), panelX + 16f * density, panelY + panelH - font.lineHeight * 1.5f)
+            font.color = Color.WHITE
+        }
+        batch.end()
+    }
+
+    /** The guild board (spec 07, "Guild"): rank, points and the offers of the day with their reward. */
+    private fun drawBoard(world: WorldSim, data: Assets) {
+        val board = world.board
+        val store = world.chunks
+        if (board == null || store == null) {
+            boardRowRects = emptyList()
+            return
+        }
+        val density = Gdx.graphics.density
+        val width = Gdx.graphics.width.toFloat()
+        val height = Gdx.graphics.height.toFloat()
+        val guild = store.params.guild
+        val rank = world.guildRank()
+        fun letter(index: Int) = guild.ranks[index].id.uppercase(Locale.ROOT)
+        val rowH = font.lineHeight * 3.4f
+        val panelW = min(width - 40f, 640f * density)
+        val panelH = 92f * density + rowH * max(board.offers.size, 1)
+        val panelX = (width - panelW) / 2f
+        val panelY = (height - panelH) / 2f
+        val firstRowY = panelY + 64f * density
+        boardRowRects = board.offers.indices.map { floatArrayOf(panelX, firstRowY + it * rowH, panelW, rowH) }
+        val cursor = boardCursor.coerceIn(0, max(board.offers.size - 1, 0))
+
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        shapes.color = Color(0.04f, 0.12f, 0.23f, 0.96f)
+        shapes.rect(panelX, panelY, panelW, panelH)
+        shapes.color = Color(0.435f, 0.89f, 1f, 1f)
+        shapes.rect(panelX, panelY, panelW, 3f * density)
+        if (board.offers.isNotEmpty()) {
+            shapes.color = Color(0.16f, 0.35f, 0.55f, 1f)
+            shapes.rect(panelX + 6f * density, firstRowY + cursor * rowH - 2f * density, panelW - 12f * density, rowH)
+        }
+        shapes.end()
+
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        font.color = Color(0.435f, 0.89f, 1f, 1f)
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.board") + " - " + board.settlement.name, panelX + 14f * density, panelY + 12f * density)
+        font.color = Color(1f, 0.84f, 0.47f, 1f)
+        val status = data.pack.text(language, "\$i18n:ui.rank", mapOf("rank" to letter(rank))) + "  " +
+            data.pack.text(language, "\$i18n:ui.guild_points", mapOf("points" to world.story.guildPoints))
+        font.draw(batch, status, panelX + 14f * density, panelY + 12f * density + font.lineHeight * 1.5f)
+        for ((i, offer) in board.offers.withIndex()) {
+            val quest = questFromOffer(offer)
+            val locked = rank < offer.minRank
+            val taken = offer.id in world.story.quests
+            var name = dialogueText(data.pack, quest.name, quest.args)
+            if (taken) {
+                name += "  (" + data.pack.text(language, "\$i18n:ui.board_taken") + ")"
+            } else if (locked) {
+                name += "  (" + data.pack.text(language, "\$i18n:ui.board_locked", mapOf("rank" to letter(offer.minRank))) + ")"
+            }
+            val rowY = firstRowY + i * rowH
+            font.color = if (locked) Color(0.51f, 0.55f, 0.63f, 1f) else Color.WHITE
+            font.draw(batch, (if (i == cursor) "> " else "  ") + name, panelX + 14f * density, rowY)
+            font.color = Color(0.67f, 0.78f, 0.9f, 1f)
+            layout.setText(font, dialogueText(data.pack, quest.stages.first().journal, quest.args), font.color, panelW - 48f * density, 0, true)
+            font.draw(batch, layout, panelX + 30f * density, rowY + font.lineHeight * 1.1f)
+            font.color = Color(1f, 0.84f, 0.47f, 1f)
+            val reward = data.pack.text(
+                language, "\$i18n:ui.board_reward",
+                mapOf("gold" to offer.gold, "xp" to offer.xp, "points" to offer.points),
+            )
+            font.draw(batch, reward, panelX + 30f * density, rowY + font.lineHeight * 2.2f)
+        }
+        font.color = Color(0.67f, 0.78f, 0.9f, 1f)
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.board_hint"), panelX + 14f * density, panelY + panelH - font.lineHeight * 1.6f)
+        font.color = Color.WHITE
+        batch.end()
+    }
+
+    /** The settlement shown on a world map cell, computed once per cell. */
+    private fun markerAt(store: io.github.progliodario.aethermoor.core.sim.ChunkStore, x: Int, y: Int): io.github.progliodario.aethermoor.core.Settlement? {
+        val key = Pair(x, y)
+        if (!mapMarkers.containsKey(key)) mapMarkers[key] = settlementMarker(store.seed, store.params, x, y)
+        return mapMarkers[key]
+    }
+
+    /** The map button and, when open, the world map: explored cells by biome and the player (spec 09). */
+    private fun drawWorldMap(world: WorldSim, data: Assets) {
+        val store = world.chunks ?: return
+        val density = Gdx.graphics.density
+        val width = Gdx.graphics.width.toFloat()
+        val height = Gdx.graphics.height.toFloat()
+        val button = floatArrayOf(12f * density + 104f * density, 74f * density, 96f * density, 34f * density)
+        mapRect = button
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        shapes.color = Color(0.04f, 0.12f, 0.23f, 0.8f)
+        shapes.rect(button[0], button[1], button[2], button[3])
+        var left = 0f
+        var top = 0f
+        var cell = 0f
+        if (showMap) {
+            val columns = (store.params.width + MAP_CELL - 1) / MAP_CELL
+            val rows = (store.params.height + MAP_CELL - 1) / MAP_CELL
+            cell = min(width, height) * 0.8f / max(columns, rows)
+            left = (width - cell * columns) / 2f
+            top = (height - cell * rows) / 2f + 10f * density
+            shapes.color = Color(0.016f, 0.04f, 0.094f, 0.88f)
+            shapes.rect(0f, 0f, width, height)
+            shapes.color = Color(0.08f, 0.14f, 0.26f, 1f)
+            shapes.rect(left - 2f, top - 2f, cell * columns + 4f, cell * rows + 4f)
+            for ((x, y) in world.explored) {
+                val code = mapCodes.getOrPut(Pair(x, y)) { biomeCode(store.seed, store.params, x, y) }
+                shapes.color = MAP_COLORS[code]
+                shapes.rect(left + cell * x, top + cell * y, ceil(cell), ceil(cell))
+            }
+            for ((x, y) in world.explored) {
+                val marker = markerAt(store, x, y) ?: continue
+                val size = (if (marker.kind == "town") 7f else if (marker.kind == "village") 5f else 3f) * density
+                val mx = left + cell * (x + 0.5f)
+                val my = top + cell * (y + 0.5f)
+                shapes.color = Color(0.08f, 0.08f, 0.12f, 1f)
+                shapes.rect(mx - size / 2f - 1f, my - size / 2f - 1f, size + 2f, size + 2f)
+                shapes.color = Color(1f, 0.92f, 0.59f, 1f)
+                shapes.rect(mx - size / 2f, my - size / 2f, size, size)
+            }
+            shapes.color = Color(1f, 0.24f, 0.24f, 1f)
+            val px = left + world.player.position.x / MAP_CELL * cell
+            val py = top + world.player.position.y / MAP_CELL * cell
+            shapes.rect(px - 3f * density, py - 3f * density, 6f * density, 6f * density)
+        }
+        shapes.end()
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        font.color = Color.WHITE
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.map_hint"), button[0] + 8f * density, button[1] + (button[3] - font.lineHeight) / 2f)
+        if (showMap) {
+            font.draw(batch, data.pack.text(language, "\$i18n:ui.map"), left, top - 26f * density)
+            for ((x, y) in world.explored) {
+                val marker = markerAt(store, x, y) ?: continue
+                if (marker.kind != "hamlet") font.draw(batch, marker.name, left + cell * (x + 0.5f) + 8f * density, top + cell * (y + 0.5f) - font.lineHeight / 2f)
+            }
+            font.color = Color(1f, 0.84f, 0.47f, 1f)
+            for (region in store.params.regions) {
+                val rx = (region.xPm.toLong() * store.params.width / 1000).toInt() / MAP_CELL
+                val ry = (region.yPm.toLong() * store.params.height / 1000).toInt() / MAP_CELL
+                if (Pair(rx, ry) !in world.explored) continue
+                val name = data.pack.text(language, region.name)
+                layout.setText(font, name)
+                font.draw(batch, name, left + cell * rx - layout.width / 2f, top + cell * ry + 14f * density)
+            }
+            font.color = Color.WHITE
+        }
+        batch.end()
     }
 
     /** The bag button, the inventory panel and short notices. */
@@ -679,9 +1533,15 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val items = world.inventory.entries.toList()
         val rowH = font.lineHeight * 1.5f
         val panelW = min(width - 40f, 420f * density)
-        val panelH = 56f * density + rowH * max(items.size, 1)
+        val listCursor = bagCursor.coerceIn(0, max(items.size - 1, 0))
+        val maxRows = max(3, ((height - 140f * density) / rowH).toInt() - 2) // a long list scrolls with the cursor
+        val visible = min(items.size, maxRows)
+        val first = listWindow(items.size, listCursor, maxRows)
+        val panelH = 56f * density + rowH * max(visible, 1) + rowH * 2f
         val panelX = (width - panelW) / 2f
         val panelY = (height - panelH) / 2f
+        val firstRowY = panelY + 14f * density + rowH + 6f * density
+        bagRowRects = if (showInventory) items.indices.map { if (it in first until first + visible) floatArrayOf(panelX, firstRowY + (it - first) * rowH, panelW, rowH) else OFF_SCREEN } else emptyList()
 
         shapes.projectionMatrix = camera.combined
         Gdx.gl.glEnable(GL20.GL_BLEND)
@@ -706,12 +1566,29 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             var ty = panelY + 14f * density + rowH + 6f * density
             font.color = Color(0.92f, 0.96f, 1f, 1f)
             if (items.isEmpty()) font.draw(batch, data.pack.text(language, "\$i18n:ui.empty_bag"), panelX + 16f * density, ty)
-            for ((itemId, quantity) in items) {
+            val cursor = bagCursor.coerceIn(0, max(items.size - 1, 0))
+            var selectedKey = ""
+            for ((index, entry) in items.withIndex()) {
+                if (index < first || index >= first + visible) continue
+                val (itemId, quantity) = entry
                 // "base:item/slime_gel" -> text key "item.slime_gel.name"
                 val key = itemId.substringAfter(':').replace('/', '.')
                 val name = data.pack.text(language, "\$i18n:$key.name", mapOf("count" to quantity))
-                font.draw(batch, "$name  x$quantity", panelX + 16f * density, ty)
+                val worn = if (itemId == world.equippedWeapon || itemId == world.equippedArmor) "  " + data.pack.text(language, "\$i18n:ui.worn") else ""
+                if (index == cursor) {
+                    selectedKey = key
+                    font.color = Color.WHITE
+                    font.draw(batch, ">  $name  x$quantity$worn", panelX + 16f * density, ty)
+                    font.color = Color(0.92f, 0.96f, 1f, 1f)
+                } else {
+                    font.draw(batch, "    $name  x$quantity$worn", panelX + 16f * density, ty)
+                }
                 ty += rowH
+            }
+            if (selectedKey.isNotEmpty()) {
+                font.color = Color(0.67f, 0.78f, 0.9f, 1f)
+                font.draw(batch, data.pack.text(language, "\$i18n:$selectedKey.desc"), panelX + 16f * density, ty + 6f * density)
+                font.draw(batch, data.pack.text(language, "\$i18n:ui.bag_use_hint"), panelX + 16f * density, ty + 6f * density + rowH)
             }
         }
         if (messageFrames > 0 && message.isNotEmpty()) {
@@ -735,6 +1612,124 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         shapes.end()
     }
 
+    /** The title screen (spec 12, "Slots"): a tap or Enter on a game plays it, the cross or D deletes it after a second confirmation. */
+    private fun handleTitleInput(data: Assets, slots: List<SlotSummary>) {
+        val input = Gdx.input
+        if (input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W)) {
+            titleCursor = (titleCursor + SLOT_COUNT - 1) % SLOT_COUNT
+            titlePendingDelete = -1
+            titleNotice = ""
+        } else if (input.isKeyJustPressed(Input.Keys.DOWN) || input.isKeyJustPressed(Input.Keys.S)) {
+            titleCursor = (titleCursor + 1) % SLOT_COUNT
+            titlePendingDelete = -1
+            titleNotice = ""
+        } else if (input.isKeyJustPressed(Input.Keys.ENTER) || input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.SPACE)) {
+            startGame(titleCursor + 1)
+        } else if (input.isKeyJustPressed(Input.Keys.D) || input.isKeyJustPressed(Input.Keys.FORWARD_DEL)) {
+            deleteOrAsk(data, slots, titleCursor)
+        } else if (input.justTouched()) {
+            val x = input.x.toFloat()
+            val y = input.y.toFloat()
+            fun inside(r: FloatArray) = r.size == 4 && x >= r[0] && x <= r[0] + r[2] && y >= r[1] && y <= r[1] + r[3]
+            val cross = titleCrossRects.indexOfFirst { inside(it) }
+            val row = titleRowRects.indexOfFirst { inside(it) }
+            if (cross >= 0) {
+                titleCursor = cross
+                deleteOrAsk(data, slots, cross)
+            } else if (row >= 0) {
+                startGame(row + 1)
+            }
+        }
+    }
+
+    /** First call on a used game asks to confirm; a second call on the same game deletes its files. */
+    private fun deleteOrAsk(data: Assets, slots: List<SlotSummary>, index: Int) {
+        if (!slots[index].used) return
+        val args = mapOf<String, Any>("slot" to index + 1)
+        if (titlePendingDelete == index) {
+            deleteSlot(index + 1)
+            titlePendingDelete = -1
+            titleSlots = readSlots()
+            titleNotice = data.pack.text(language, "\$i18n:ui.slot_deleted", args)
+        } else {
+            titlePendingDelete = index
+            titleNotice = data.pack.text(language, "\$i18n:ui.slot_delete_touch", args)
+        }
+    }
+
+    private fun drawTitle(data: Assets, slots: List<SlotSummary>) {
+        val density = Gdx.graphics.density
+        val width = Gdx.graphics.width.toFloat()
+        val height = Gdx.graphics.height.toFloat()
+        val panelW = min(width - 40f, 560f * density)
+        val panelX = (width - panelW) / 2f
+        val rowH = 56f * density
+        val gap = 8f * density
+        val top = height * 0.32f
+        val rows = ArrayList<FloatArray>()
+        val crosses = ArrayList<FloatArray>()
+        for (i in slots.indices) {
+            val rowY = top + i * (rowH + gap)
+            rows.add(floatArrayOf(panelX, rowY, panelW, rowH))
+            crosses.add(if (slots[i].used) floatArrayOf(panelX + panelW - rowH, rowY, rowH, rowH) else floatArrayOf())
+        }
+        titleRowRects = rows
+        titleCrossRects = crosses
+
+        shapes.projectionMatrix = camera.combined
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        for (i in slots.indices) {
+            val r = rows[i]
+            shapes.color = if (i == titleCursor) Color(0.118f, 0.275f, 0.47f, 1f) else Color(0.078f, 0.196f, 0.353f, 1f)
+            shapes.rect(r[0], r[1], r[2], r[3])
+            if (i == titleCursor) {
+                shapes.color = Color(1f, 0.84f, 0.47f, 1f)
+                shapes.rect(r[0], r[1], r[2], 3f * density)
+            }
+            if (slots[i].used) {
+                val c = crosses[i]
+                shapes.color = if (titlePendingDelete == i) Color(0.7f, 0.2f, 0.2f, 1f) else Color(0.12f, 0.16f, 0.28f, 1f)
+                shapes.rect(c[0] + 6f * density, c[1] + 6f * density, c[2] - 12f * density, c[3] - 12f * density)
+            }
+        }
+        shapes.end()
+
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        val baseScale = font.data.scaleX
+        font.data.setScale(baseScale * 2f)
+        val name = data.pack.text(language, "\$i18n:game.title")
+        layout.setText(font, name)
+        font.color = Color(1f, 0.84f, 0.47f, 1f)
+        font.draw(batch, name, (width - layout.width) / 2f, height * 0.08f)
+        font.data.setScale(baseScale)
+        val choose = data.pack.text(language, "\$i18n:ui.title_choose")
+        layout.setText(font, choose)
+        font.color = Color(0.67f, 0.78f, 0.9f, 1f)
+        font.draw(batch, choose, (width - layout.width) / 2f, height * 0.08f + 56f * density)
+        for (i in slots.indices) {
+            val r = rows[i]
+            val slot = slots[i]
+            val key = if (slot.used) "\$i18n:ui.slot_used" else "\$i18n:ui.slot_empty"
+            val line = data.pack.text(language, key, mapOf("slot" to i + 1, "level" to slot.level, "gold" to slot.gold))
+            font.color = if (slot.used) Color(0.92f, 0.96f, 1f, 1f) else Color(0.59f, 0.67f, 0.78f, 1f)
+            font.draw(batch, line, r[0] + 16f * density, r[1] + (r[3] - font.lineHeight) / 2f)
+            if (slot.used) {
+                val c = crosses[i]
+                font.color = Color.WHITE
+                font.draw(batch, "x", c[0] + (c[2] - font.spaceXadvance) / 2f, c[1] + (c[3] - font.lineHeight) / 2f)
+            }
+        }
+        if (titleNotice.isNotEmpty()) {
+            font.color = Color(1f, 0.84f, 0.47f, 1f)
+            font.draw(batch, titleNotice, panelX, top + SLOT_COUNT * (rowH + gap) + 8f * density)
+        }
+        font.color = Color(0.67f, 0.78f, 0.9f, 1f)
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.title_hint_touch"), panelX, height - font.lineHeight * 2.4f)
+        font.color = Color.WHITE
+        batch.end()
+    }
+
     private fun drawError() {
         batch.projectionMatrix = camera.combined
         batch.begin()
@@ -753,7 +1748,17 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         private const val TAG = "Aethermoor"
         private const val PROTAGONIST_ID = "base:protagonist/ren"
         private const val MAP_WORLD = "world"
+        private const val SLOT_COUNT = 3
         private const val BASE_TILE_PX = 48f
+
+        /** Colors of the world map by biome code: water, beach, mountain, snow, desert, forest, plains. */
+        private val MAP_COLORS = arrayOf(
+            Color(0.235f, 0.431f, 0.745f, 1f), Color(0.871f, 0.808f, 0.588f, 1f), Color(0.51f, 0.51f, 0.549f, 1f),
+            Color(0.922f, 0.941f, 0.961f, 1f), Color(0.871f, 0.808f, 0.588f, 1f), Color(0.235f, 0.51f, 0.275f, 1f),
+            Color(0.431f, 0.706f, 0.353f, 1f),
+        )
+        /** The rectangle of a list row that is not on the screen: no tap can hit it. */
+        private val OFF_SCREEN = floatArrayOf(-1f, -1f, 0f, 0f)
         private const val MAX_TICKS_PER_FRAME = 5
         private const val MAX_FRAME_SECONDS = 0.25f
         private const val FLOATING_TEXT_FRAMES = 50

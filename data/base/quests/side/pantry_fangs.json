@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/pantry_fangs",
+  "name": "$i18n:quest.pantry_fangs.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "bring",
+      "journal": "$i18n:quest.pantry_fangs.bring",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/wolf_fang",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/pantry_ice",
+  "name": "$i18n:quest.pantry_ice.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "bring",
+      "journal": "$i18n:quest.pantry_ice.bring",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/ice_crystal",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

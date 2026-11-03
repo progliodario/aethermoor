@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/den_alpha",
+  "name": "$i18n:quest.den_alpha.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "hunt",
+      "journal": "$i18n:quest.den_alpha.hunt",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/dire_alpha",
+          "count": 1
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

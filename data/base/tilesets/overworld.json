@@ -46,6 +46,51 @@
       "gid": 9,
       "art": "base:art/tile/forest_floor",
       "solid": false
+    },
+    {
+      "gid": 10,
+      "art": "base:art/tile/shallows",
+      "solid": false
+    },
+    {
+      "gid": 11,
+      "art": "base:art/tile/road",
+      "solid": false
+    },
+    {
+      "gid": 12,
+      "art": "base:art/tile/bridge",
+      "solid": false
+    },
+    {
+      "gid": 13,
+      "art": "base:art/tile/plank_floor",
+      "solid": false
+    },
+    {
+      "gid": 14,
+      "art": "base:art/tile/cobble",
+      "solid": false
+    },
+    {
+      "gid": 15,
+      "art": "base:art/tile/grass_c",
+      "solid": false
+    },
+    {
+      "gid": 16,
+      "art": "base:art/tile/grass_d",
+      "solid": false
+    },
+    {
+      "gid": 17,
+      "art": "base:art/tile/grass_e",
+      "solid": false
+    },
+    {
+      "gid": 18,
+      "art": "base:art/tile/grass_f",
+      "solid": false
     }
   ]
 }

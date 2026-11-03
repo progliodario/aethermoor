@@ -1,0 +1,95 @@
+{
+  "$schema": "../../../schemas/stamp.schema.json",
+  "id": "base:stamp/village",
+  "w": 21,
+  "h": 15,
+  "anchor": [
+    10,
+    7
+  ],
+  "rows": [
+    "..........=..........",
+    ".######.t.=..#######.",
+    ".#b_V_#...=..#bb___#.",
+    ".#____#...=..#____S#.",
+    ".###_##...=..#_____#.",
+    "........lcccl###_###.",
+    "........ccccT........",
+    "========ccwcc========",
+    "........ccEcc.......t",
+    ".######.lcccl........",
+    ".#_V__#...=...######.",
+    ".#____#...=...#b___#.",
+    ".###_##...=...#__V_#.",
+    "t........t=...###_##.",
+    "..........=.........."
+  ],
+  "legend": {
+    "#": {
+      "tile": 5
+    },
+    "=": {
+      "tile": 11
+    },
+    "E": {
+      "tile": 14,
+      "npc": "elder"
+    },
+    "S": {
+      "tile": 13,
+      "npc": "shopkeeper"
+    },
+    "T": {
+      "tile": 14,
+      "prop": "base:art/prop/threshold_stone",
+      "radius_x100": 35
+    },
+    "V": {
+      "tile": 13,
+      "npc": "villager"
+    },
+    "_": {
+      "tile": 13
+    },
+    "b": {
+      "tile": 13,
+      "prop": "base:art/prop/barrel",
+      "radius_x100": 25
+    },
+    "c": {
+      "tile": 14
+    },
+    "l": {
+      "tile": 14,
+      "prop": "base:art/prop/lamp",
+      "radius_x100": 15
+    },
+    "t": {
+      "prop": "base:art/prop/tree_oak",
+      "radius_x100": 30
+    },
+    "w": {
+      "tile": 14,
+      "prop": "base:art/prop/well",
+      "radius_x100": 40
+    }
+  },
+  "spots": [
+    [
+      9,
+      6
+    ],
+    [
+      11,
+      6
+    ],
+    [
+      9,
+      8
+    ],
+    [
+      11,
+      8
+    ]
+  ]
+}

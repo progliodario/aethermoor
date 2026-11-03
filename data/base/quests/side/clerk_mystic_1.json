@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/clerk_mystic_1",
+  "name": "$i18n:quest.clerk_mystic_1.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "hunt",
+      "journal": "$i18n:quest.clerk_mystic_1.hunt",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/wolf_shade",
+          "count": 8
+        }
+      ],
+      "next": "gather"
+    },
+    {
+      "id": "gather",
+      "journal": "$i18n:quest.clerk_mystic_1.gather",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/shade_wisp",
+          "count": 6
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

@@ -29,6 +29,7 @@ struct Chunk {
     std::vector<bool> solid;                    // same layout
     std::vector<Prop> props;                    // feet positions in tiles
     std::vector<std::pair<int, int>> spawners;  // absolute tile coordinates, scan order
+    std::vector<GenPerson> people;              // settlement NPCs, scan order
 };
 
 class ChunkStore {

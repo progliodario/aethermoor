@@ -1,0 +1,227 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/role/innkeeper_grim",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.innkeeper.grim.hello",
+      "next": "menu"
+    },
+    "menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.pantry.ask",
+          "when": {
+            "not": {
+              "any": [
+                {
+                  "quest_active": "base:quest/side/pantry_magma"
+                },
+                {
+                  "quest_done": "base:quest/side/pantry_magma"
+                }
+              ]
+            }
+          },
+          "next": "pantry_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.pantry.status",
+          "when": {
+            "quest_active": "base:quest/side/pantry_magma"
+          },
+          "next": "pantry_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.pantry.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/pantry_magma"
+              },
+              {
+                "not": {
+                  "flag": "pantry_pantry_magma_paid"
+                }
+              }
+            ]
+          },
+          "next": "pantry_paid"
+        },
+        {
+          "text": "$i18n:dlg.role.rumor",
+          "next": "rumor"
+        },
+        {
+          "text": "$i18n:dlg.role.legend",
+          "next": "legend"
+        },
+        {
+          "text": "$i18n:dlg.inn.grim.bed",
+          "when": {
+            "gold_at_least": 16
+          },
+          "next": "inn_rest"
+        },
+        {
+          "text": "$i18n:dlg.inn.grim.bed",
+          "when": {
+            "not": {
+              "gold_at_least": 16
+            }
+          },
+          "next": "inn_poor"
+        },
+        {
+          "text": "$i18n:dlg.inn.grim.meal",
+          "when": {
+            "gold_at_least": 96
+          },
+          "next": "inn_meal"
+        },
+        {
+          "text": "$i18n:dlg.role.night",
+          "when": {
+            "tod_between": [
+              800,
+              250
+            ]
+          },
+          "next": "night_tale"
+        },
+        {
+          "text": "$i18n:dlg.role.bye",
+          "next": "end"
+        }
+      ]
+    },
+    "rumor": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.grim.rumor",
+      "next": "end"
+    },
+    "legend": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.grim.legend",
+      "next": "end"
+    },
+    "pantry_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.pantry.grim.offer",
+      "next": "pantry_choice"
+    },
+    "pantry_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/pantry_magma"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "pantry_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.pantry.grim.busy",
+      "next": "end"
+    },
+    "pantry_paid": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "pantry_pantry_magma_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 260
+        },
+        {
+          "effect": "add_gold",
+          "amount": 600
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_medium",
+          "qty": 2
+        }
+      ],
+      "next": "pantry_thanks"
+    },
+    "pantry_thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.pantry.grim.thanks",
+      "next": "end"
+    },
+    "inn_rest": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "spend_gold",
+          "amount": 16
+        },
+        {
+          "effect": "heal_full"
+        }
+      ],
+      "next": "inn_slept"
+    },
+    "inn_slept": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.inn.grim.slept",
+      "next": "end"
+    },
+    "inn_poor": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.inn.grim.poor",
+      "next": "end"
+    },
+    "inn_meal": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "spend_gold",
+          "amount": 96
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/hearty_stew",
+          "qty": 2
+        }
+      ],
+      "next": "inn_fed"
+    },
+    "inn_fed": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.inn.grim.fed",
+      "next": "end"
+    },
+    "night_tale": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.night.grim",
+      "next": "end"
+    }
+  }
+}

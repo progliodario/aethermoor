@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/dune_mother",
+  "name": "$i18n:enemy.dune_mother.name",
+  "level": 11,
+  "stats": {
+    "hp": 280,
+    "atk": 30,
+    "def": 9,
+    "mdef": 6,
+    "speed_x100": 350
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "water": 1500
+  },
+  "xp": 105,
+  "drops": [
+    {
+      "item": "base:item/pack_mothers_fang",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 1000
+    }
+  ],
+  "radius_x100": 50,
+  "behavior": "base:behavior/guardian",
+  "art": "base:art/creature/dune_mother"
+}

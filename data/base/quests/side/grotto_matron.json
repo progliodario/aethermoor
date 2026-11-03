@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/grotto_matron",
+  "name": "$i18n:quest.grotto_matron.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "hunt",
+      "journal": "$i18n:quest.grotto_matron.hunt",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/coral_matron",
+          "count": 1
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

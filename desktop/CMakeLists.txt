@@ -86,6 +86,9 @@ add_test(NAME unit COMMAND aether_tests)
 # Smoke test: opens a window with the dummy video driver, bakes the art and walks the player.
 add_test(NAME smoke COMMAND aethermoor --smoke-test --map=demo --screenshot-dir=${CMAKE_BINARY_DIR}/screenshots)
 add_test(NAME smoke_world COMMAND aethermoor --smoke-test --map=world --screenshot-dir=${CMAKE_BINARY_DIR}/screenshots_world)
-set_tests_properties(smoke smoke_world PROPERTIES
+# A village of the world seen from its road (seed 1234: the village at tile 7520,7592).
+add_test(NAME smoke_settlement COMMAND aethermoor --smoke-test --map=world --start=7520.5,7598.5
+         --screenshot-dir=${CMAKE_BINARY_DIR}/screenshots_settlement)
+set_tests_properties(smoke smoke_world smoke_settlement PROPERTIES
   ENVIRONMENT "SDL_VIDEODRIVER=dummy;SDL_RENDER_DRIVER=software"
   TIMEOUT 60)

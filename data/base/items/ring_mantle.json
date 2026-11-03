@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/ring_mantle",
+  "name": "$i18n:item.ring_mantle.name",
+  "description": "$i18n:item.ring_mantle.desc",
+  "kind": "armor",
+  "rarity": "epic",
+  "price": 3200,
+  "armor": {
+    "def": 15,
+    "mdef": 15
+  }
+}

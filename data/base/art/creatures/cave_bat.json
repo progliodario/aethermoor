@@ -1,0 +1,249 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/creature/cave_bat",
+  "canvas": {
+    "w": 44,
+    "h": 34,
+    "origin": [
+      22,
+      30
+    ]
+  },
+  "palette": {
+    "body": "#5A4A6A",
+    "light": "#9A86B0",
+    "dark": "#2E2438",
+    "outline": "#120C1A",
+    "eye": "#FF6A5A",
+    "wing": "#3E3250",
+    "fang": "#FFFFFF"
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          31,
+          10,
+          2.5
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "path": "M 20 16 Q 10 3 1 10 Q 5 12 4 16 Q 8 15 9 19 Q 14 17 20 22 Z"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "color": "$p.body"
+      }
+    },
+    {
+      "shape": {
+        "path": "M 24 16 Q 34 3 43 10 Q 39 12 40 16 Q 36 15 35 19 Q 30 17 24 22 Z"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "color": "$p.body"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          19,
+          6.5,
+          8.5
+        ]
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "radial": {
+          "cx": 19,
+          "cy": 14,
+          "r": 14,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.5,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            17.5,
+            9
+          ],
+          [
+            16,
+            2.5
+          ],
+          [
+            21,
+            7.5
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.body"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.2
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            26.5,
+            9
+          ],
+          [
+            28,
+            2.5
+          ],
+          [
+            23,
+            7.5
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.body"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.2
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          12.5,
+          5.6,
+          5
+        ]
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "radial": {
+          "cx": 20,
+          "cy": 10,
+          "r": 10,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.5,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20,
+          12,
+          1.4,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          24,
+          12,
+          1.4,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            20.4,
+            15.6
+          ],
+          [
+            21.4,
+            15.6
+          ],
+          [
+            20.9,
+            18
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.fang"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            22.6,
+            15.6
+          ],
+          [
+            23.6,
+            15.6
+          ],
+          [
+            23.1,
+            18
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.fang"
+      }
+    }
+  ]
+}

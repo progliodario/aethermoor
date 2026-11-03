@@ -1,0 +1,11 @@
+{
+  "$schema": "../../../schemas/behavior.schema.json",
+  "id": "base:behavior/skittish",
+  "kind": "melee_chaser",
+  "aggro_x100": 350,
+  "leash_x100": 700,
+  "attack_range_x100": 100,
+  "hit_range_x100": 130,
+  "windup_ticks": 12,
+  "recovery_ticks": 22
+}

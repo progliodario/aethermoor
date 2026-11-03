@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/star_dust",
+  "name": "$i18n:item.star_dust.name",
+  "description": "$i18n:item.star_dust.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 22,
+  "stack_max": 99
+}

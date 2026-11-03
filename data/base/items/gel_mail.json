@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/gel_mail",
+  "name": "$i18n:item.gel_mail.name",
+  "description": "$i18n:item.gel_mail.desc",
+  "kind": "armor",
+  "rarity": "epic",
+  "price": 700,
+  "armor": {
+    "def": 9,
+    "mdef": 8
+  }
+}

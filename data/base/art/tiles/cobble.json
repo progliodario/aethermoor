@@ -1,0 +1,84 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/tile/cobble",
+  "canvas": {
+    "w": 32,
+    "h": 32,
+    "origin": [
+      0,
+      0
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          32
+        ]
+      },
+      "fill": {
+        "color": "$p.base"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          8,
+          8,
+          6,
+          5
+        ]
+      },
+      "fill": {
+        "color": "$p.stone"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          23,
+          9,
+          6,
+          5
+        ]
+      },
+      "fill": {
+        "color": "$p.stone2"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          9,
+          23,
+          6,
+          5
+        ]
+      },
+      "fill": {
+        "color": "$p.stone2"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          24,
+          24,
+          6,
+          5
+        ]
+      },
+      "fill": {
+        "color": "$p.stone"
+      }
+    }
+  ],
+  "palette": {
+    "base": "#7C7C84",
+    "stone": "#9C9CA6",
+    "stone2": "#8E8E98"
+  }
+}

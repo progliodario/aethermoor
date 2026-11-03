@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/dune_pelt",
+  "name": "$i18n:item.dune_pelt.name",
+  "description": "$i18n:item.dune_pelt.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 16,
+  "stack_max": 99
+}

@@ -68,6 +68,12 @@
       "items": {
         "$ref": "#/$defs/effect"
       }
+    },
+    "args": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
     }
   },
   "$defs": {
@@ -154,7 +160,8 @@
             "effect": {
               "enum": [
                 "add_xp",
-                "add_gold"
+                "add_gold",
+                "spend_gold"
               ]
             },
             "amount": {
@@ -174,6 +181,27 @@
           "properties": {
             "effect": {
               "const": "add_item"
+            },
+            "item": {
+              "$ref": "#/$defs/id"
+            },
+            "qty": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect",
+            "item",
+            "qty"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "const": "remove_item"
             },
             "item": {
               "$ref": "#/$defs/id"
@@ -217,6 +245,59 @@
             },
             "quest": {
               "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "const": "open_shop"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect",
+            "amount"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "const": "add_guild_points"
+            },
+            "amount": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "const": "open_board"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "const": "heal_full"
             }
           }
         }

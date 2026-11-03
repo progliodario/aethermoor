@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/mint_leaf",
+  "name": "$i18n:item.mint_leaf.name",
+  "description": "$i18n:item.mint_leaf.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 4,
+  "stack_max": 99
+}

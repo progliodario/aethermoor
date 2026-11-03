@@ -1,0 +1,262 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/creature/dune_scorpion",
+  "canvas": {
+    "w": 48,
+    "h": 36,
+    "origin": [
+      24,
+      32
+    ]
+  },
+  "palette": {
+    "body": "#C69A4A",
+    "light": "#EBCB84",
+    "dark": "#7A5622",
+    "outline": "#2E1E08",
+    "eye": "#1E1B28",
+    "sting": "#D8402A"
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          24,
+          33,
+          13,
+          2.5
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "path": "M 17 21 Q 9 18 5 24"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 2.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 16 24 Q 8 26 6 31"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 2.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 18 26 Q 13 30 12 34"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 2.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 31 21 Q 39 18 43 24"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 2.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 32 24 Q 40 26 42 31"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 2.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 30 26 Q 35 30 36 34"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 2.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 28 25 Q 44 26 42 14 Q 41 7 34 8"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 4.2
+      }
+    },
+    {
+      "shape": {
+        "path": "M 28 25 Q 44 26 42 14 Q 41 7 34 8"
+      },
+      "stroke": {
+        "color": "$p.body",
+        "width": 2.4
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            32,
+            5
+          ],
+          [
+            36,
+            6
+          ],
+          [
+            33,
+            11
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.sting"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 9 20 Q 3 14 6 8 Q 12 6 14 12 Q 12 14 13 18 Z"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "color": "$p.body"
+      }
+    },
+    {
+      "shape": {
+        "path": "M 39 20 Q 45 14 42 8 Q 36 6 34 12 Q 36 14 35 18 Z"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "color": "$p.body"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          24,
+          24,
+          9.5,
+          6.5
+        ]
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "radial": {
+          "cx": 20,
+          "cy": 20,
+          "r": 16,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.5,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          24,
+          17.5,
+          6,
+          4.4
+        ]
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "radial": {
+          "cx": 22,
+          "cy": 15,
+          "r": 10,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.5,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          21.5,
+          16.5,
+          1.2,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          26.5,
+          16.5,
+          1.2,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "path": "M 17 22 Q 24 25 31 22"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 0.9
+      }
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/captains_cutlass",
+  "name": "$i18n:item.captains_cutlass.name",
+  "description": "$i18n:item.captains_cutlass.desc",
+  "kind": "weapon",
+  "rarity": "epic",
+  "price": 2800,
+  "weapon": {
+    "atk": 36,
+    "matk": 0
+  }
+}

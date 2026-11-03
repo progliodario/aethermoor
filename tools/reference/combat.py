@@ -62,6 +62,12 @@ class CombatSim:
         self.clip_tick = 0
         self.level = pl.get("level", 1)
         self.xp = 0
+        self.inventory: dict[str, int] = dict(scenario.get("inventory", {}))
+        # item id -> {"kind", "price", "stack_max"?, "effects"?, "weapon"?: {"atk", "matk"}, "armor"?: {"def", "mdef"}}
+        self.items: dict[str, dict] = scenario.get("items", {})
+        self.equipped = {"weapon": scenario.get("equipped", {}).get("weapon", ""), "armor": scenario.get("equipped", {}).get("armor", "")}
+        self.shop: dict | None = None  # the open shop: {"price_pm": ..., "stock": [...]}
+        self.shop_def: dict | None = scenario.get("shop")  # what the shop of this place sells
         self.derived = self._derive()
         self.hp = self.derived["max_hp"]
         self.iframes = 0
@@ -71,16 +77,22 @@ class CombatSim:
         self.hit_set: set[int] = set()
         self.kills = 0
         self.deaths = 0
-        self.inventory: dict[str, int] = {}
         self.enemies = [_Enemy(e) for e in scenario["enemies"]]
         self.story = Story(self, story_setup) if story_setup else None
+        if self.story is not None:
+            self.story.gold = scenario.get("start_gold", 0)
 
     # ------------------------------------------------------------------------------- helpers
 
     def _derive(self) -> dict[str, int]:
         primary = primary_at_level(self.base, self.growth, self.level)
+        weapon = self.items.get(self.equipped["weapon"], {}).get("weapon")
+        armor = self.items.get(self.equipped["armor"], {}).get("armor")
         return rules.derived_stats(self.level, primary, rules.Equipment(
-            weapon_atk=self.weapon_atk, weapon_matk=self.weapon_matk))
+            weapon_atk=weapon["atk"] if weapon else self.weapon_atk,
+            weapon_matk=weapon["matk"] if weapon else self.weapon_matk,
+            armor_def=armor["def"] if armor else 0,
+            armor_mdef=armor["mdef"] if armor else 0))
 
     @property
     def speed(self) -> float:
@@ -171,6 +183,15 @@ class CombatSim:
         if self.story is not None:
             self.story.on_kill(enemy.d.get("id", ""))
 
+    def season_id(self) -> str:
+        return ""  # a combat scenario has no world time
+
+    def tod_pm(self) -> int:
+        return 0
+
+    def heal_full(self) -> None:
+        self.hp = self.derived["max_hp"]
+
     def grant_xp(self, amount: int) -> None:
         self.xp += amount
         while self.level < MAX_LEVEL and self.level - 1 < len(self.xp_table) and self.xp >= self.xp_table[self.level - 1]:
@@ -235,6 +256,82 @@ class CombatSim:
 
     # ---------------------------------------------------------------------------------- saves
 
+    def use_item(self, item_id: str) -> bool:
+        """Uses one item of the inventory (docs/spec/06-items.md). Returns False, changing nothing, when it is refused."""
+        if self.story is not None and self.story.dialogue_active:
+            return False
+        item = self.items.get(item_id)
+        if item is None or self.inventory.get(item_id, 0) < 1:
+            return False
+        heal = sum(e["amount"] for e in item["effects"] if e["effect"] == "heal")
+        if heal <= 0 or self.hp >= self.derived["max_hp"]:
+            return False
+        self.hp = min(self.derived["max_hp"], self.hp + heal)
+        self.inventory[item_id] -= 1
+        if self.inventory[item_id] == 0:
+            del self.inventory[item_id]
+        return True
+
+    def equip(self, item_id: str) -> bool:
+        """Equips a weapon or an armor of the inventory (docs/spec/06-items.md). Returns False, changing nothing, when refused."""
+        item = self.items.get(item_id)
+        if item is None or self.inventory.get(item_id, 0) < 1:
+            return False
+        slot = {"weapon": "weapon", "armor": "armor"}.get(item.get("kind", ""))
+        if slot is None or slot not in item or self.equipped[slot] == item_id:
+            return False
+        self.equipped[slot] = item_id
+        self.derived = self._derive()
+        self.hp = min(self.hp, self.derived["max_hp"])
+        return True
+
+    def _stack_max(self, item_id: str) -> int:
+        item = self.items[item_id]
+        return item.get("stack_max", 1 if item.get("kind") in ("weapon", "armor", "accessory") else 99)
+
+    def open_shop(self) -> bool:
+        """Opens the shop of the place (the `open_shop` dialogue effect)."""
+        if self.shop_def is None:
+            return False
+        self.shop = self.shop_def
+        return True
+
+    def close_shop(self) -> None:
+        self.shop = None
+
+    def open_board(self) -> None:
+        """The `open_board` dialogue effect: the world shows the board (nothing to model in a scenario)."""
+
+    def buy(self, item_id: str) -> bool:
+        """Buys one item from the open shop (spec 06). Returns False, changing nothing, when refused."""
+        if self.shop is None or self.story is None or item_id not in self.shop["stock"]:
+            return False
+        item = self.items.get(item_id)
+        if item is None or item.get("price", 0) <= 0 or self.inventory.get(item_id, 0) >= self._stack_max(item_id):
+            return False
+        price = max(1, item["price"] * self.shop["price_pm"] // 1000)
+        if self.story.gold < price:
+            return False
+        self.story.gold -= price
+        self.inventory[item_id] = self.inventory.get(item_id, 0) + 1
+        return True
+
+    def sell(self, item_id: str) -> bool:
+        """Sells one item of the inventory to the open shop (spec 06). Returns False, changing nothing, when refused."""
+        if self.shop is None or self.story is None:
+            return False
+        item = self.items.get(item_id)
+        owned = self.inventory.get(item_id, 0)
+        if item is None or owned < 1 or item.get("price", 0) <= 0:
+            return False
+        if owned == 1 and item_id in self.equipped.values():
+            return False
+        self.story.gold += max(1, item["price"] // 2)
+        self.inventory[item_id] = owned - 1
+        if self.inventory[item_id] == 0:
+            del self.inventory[item_id]
+        return True
+
     def save_state(self) -> dict:
         """The save document of docs/spec/12-save-format.md (without the file-level metadata)."""
         return {
@@ -252,6 +349,7 @@ class CombatSim:
             },
             "enemies": [{"x": e.x, "y": e.y, "hp": e.hp, "state": e.state, "state_tick": e.t} for e in self.enemies],
             "inventory": dict(sorted(self.inventory.items())),
+            "equipped": dict(self.equipped),
             "story": self.story.save_state() if self.story is not None else None,
         }
 
@@ -271,6 +369,8 @@ class CombatSim:
         for enemy, data in zip(self.enemies, save["enemies"]):
             enemy.x, enemy.y, enemy.hp, enemy.state, enemy.t = data["x"], data["y"], data["hp"], data["state"], data["state_tick"]
         self.inventory = dict(save["inventory"])
+        self.equipped = {"weapon": "", "armor": "", **save.get("equipped", {})}
+        self.derived = self._derive()
         if self.story is not None and save["story"] is not None:
             self.story.load_state(save["story"])
 
@@ -283,6 +383,7 @@ class CombatSim:
             "enemies": [{"hp": e.hp, "state": e.state, "x": e.x, "y": e.y} for e in self.enemies],
             "kills": self.kills,
             "inventory": dict(sorted(self.inventory.items())),
+            "equipped": dict(self.equipped),
             **({"story": self.story.snapshot()} if self.story is not None else {}),
         }
 
@@ -291,6 +392,21 @@ def run_segment(sim: CombatSim, segment: dict) -> None:
     """Runs the story commands of a script segment, then its ticks."""
     move = segment["move"]
     for command in segment.get("do", []):
+        if command["cmd"] == "use":
+            sim.use_item(command["item"])
+            continue
+        if command["cmd"] in ("equip", "buy", "sell"):
+            getattr(sim, command["cmd"])(command["item"])
+            continue
+        if command["cmd"] == "start_quest":
+            sim.story.start_quest(command["quest"])
+            continue
+        if command["cmd"] == "open_shop":
+            sim.open_shop()
+            continue
+        if command["cmd"] == "close_shop":
+            sim.close_shop()
+            continue
         if sim.story is None:
             continue
         if command["cmd"] == "interact":

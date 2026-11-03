@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/moonshade_alpha",
+  "name": "$i18n:enemy.moonshade_alpha.name",
+  "level": 15,
+  "stats": {
+    "hp": 700,
+    "atk": 37,
+    "def": 15,
+    "mdef": 14,
+    "speed_x100": 340
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "light": 1500
+  },
+  "xp": 420,
+  "drops": [
+    {
+      "item": "base:item/shadehide_cloak",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 1000
+    }
+  ],
+  "radius_x100": 50,
+  "behavior": "base:behavior/guardian",
+  "art": "base:art/creature/moonshade_alpha"
+}

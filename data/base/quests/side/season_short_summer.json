@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/season_short_summer",
+  "name": "$i18n:quest.season_short_summer.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "bring",
+      "journal": "$i18n:quest.season_short_summer.bring",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/frost_pelt",
+          "count": 6
+        },
+        {
+          "type": "collect",
+          "item": "base:item/polar_fur",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

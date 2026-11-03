@@ -1,0 +1,39 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/way_kessa_1",
+  "name": "$i18n:quest.way_kessa_1.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.way_kessa_1.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_ember",
+          "count": 8
+        },
+        {
+          "type": "collect",
+          "item": "base:item/ember_core",
+          "count": 6
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 250
+    },
+    {
+      "effect": "add_gold",
+      "amount": 550
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 15
+    }
+  ]
+}

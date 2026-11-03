@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/wolf_tawny",
+  "name": "$i18n:enemy.wolf_tawny.name",
+  "level": 3,
+  "stats": {
+    "hp": 45,
+    "atk": 11,
+    "def": 3,
+    "mdef": 2,
+    "speed_x100": 340
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "fire": 1500
+  },
+  "xp": 12,
+  "drops": [
+    {
+      "item": "base:item/tawny_fur",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 500
+    }
+  ],
+  "radius_x100": 38,
+  "behavior": "base:behavior/skittish",
+  "art": "base:art/creature/wolf_tawny"
+}

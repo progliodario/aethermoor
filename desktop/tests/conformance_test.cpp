@@ -386,6 +386,7 @@ struct Scenario {
     aether::TileMap map;
     aether::Tileset tileset;
     aether::CombatSetup setup;
+    std::int64_t start_gold = 0;
 };
 
 Scenario scenario_from_json(const Json& in) {
@@ -426,6 +427,48 @@ Scenario scenario_from_json(const Json& in) {
         setup.spawns.push_back({enemy_def_from_json(e.at("def")), e.at("pos").at(0).get<float>(),
                                 e.at("pos").at(1).get<float>()});
     }
+    if (in.contains("inventory")) {
+        for (const auto& [item, quantity] : in.at("inventory").items()) {
+            setup.start_inventory[item] = quantity.get<std::int64_t>();
+        }
+    }
+    if (in.contains("items")) {
+        for (const auto& [item, def] : in.at("items").items()) {
+            aether::ItemDef parsed;
+            parsed.kind = def.value("kind", "");
+            parsed.price = def.value("price", static_cast<std::int64_t>(0));
+            parsed.stack_max = def.value("stack_max", 0);
+            if (def.contains("effects")) {
+                for (const Json& effect : def.at("effects")) {
+                    parsed.effects.push_back({effect.at("effect").get<std::string>(), integer(effect, "amount")});
+                }
+            }
+            if (def.contains("weapon")) {
+                parsed.is_weapon = true;
+                parsed.weapon_atk = integer(def.at("weapon"), "atk");
+                parsed.weapon_matk = integer(def.at("weapon"), "matk");
+            }
+            if (def.contains("armor")) {
+                parsed.is_armor = true;
+                parsed.armor_def = integer(def.at("armor"), "def");
+                parsed.armor_mdef = integer(def.at("armor"), "mdef");
+            }
+            setup.items.emplace(item, std::move(parsed));
+        }
+    }
+    if (in.contains("equipped")) {
+        setup.start_weapon = in.at("equipped").value("weapon", "");
+        setup.start_armor = in.at("equipped").value("armor", "");
+    }
+    if (in.contains("shop")) {
+        aether::ShopDef shop;
+        shop.price_pm = in.at("shop").at("price_pm").get<int>();
+        for (const Json& item : in.at("shop").at("stock")) {
+            shop.stock.push_back(item.get<std::string>());
+        }
+        setup.shop = std::move(shop);
+    }
+    sc.start_gold = in.value("start_gold", static_cast<std::int64_t>(0));
     if (in.contains("story")) {
         std::string story_error;
         auto story = aether::parse_story_setup(in.at("story").dump(), story_error);
@@ -443,7 +486,21 @@ void run_segment(aether::WorldSim& sim, const Json& segment) {
     if (segment.contains("do")) {
         for (const Json& command : segment.at("do")) {
             const std::string cmd = command.at("cmd").get<std::string>();
-            if (cmd == "interact") {
+            if (cmd == "start_quest") {
+                sim.story().start_quest(command.at("quest").get<std::string>());
+            } else if (cmd == "use") {
+                sim.use_item(command.at("item").get<std::string>());
+            } else if (cmd == "equip") {
+                sim.equip(command.at("item").get<std::string>());
+            } else if (cmd == "buy") {
+                sim.buy(command.at("item").get<std::string>());
+            } else if (cmd == "sell") {
+                sim.sell(command.at("item").get<std::string>());
+            } else if (cmd == "open_shop") {
+                sim.open_shop_for_test();
+            } else if (cmd == "close_shop") {
+                sim.close_shop();
+            } else if (cmd == "interact") {
                 sim.story().interact();
             } else if (cmd == "advance") {
                 sim.story().advance();
@@ -475,6 +532,10 @@ void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) 
         REQUIRE(sim.enemies()[i].position.x == Catch::Approx(we.at("x").get<float>()).margin(tol));
         REQUIRE(sim.enemies()[i].position.y == Catch::Approx(we.at("y").get<float>()).margin(tol));
     }
+    if (want.contains("equipped")) {
+        REQUIRE(sim.equipped_weapon() == want.at("equipped").at("weapon").get<std::string>());
+        REQUIRE(sim.equipped_armor() == want.at("equipped").at("armor").get<std::string>());
+    }
     const Json& inventory = want.at("inventory");
     REQUIRE(sim.inventory().size() == inventory.size());
     for (const auto& [item, quantity] : inventory.items()) {
@@ -484,6 +545,9 @@ void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) 
         const Json& ws = want.at("story");
         const aether::Story& story = sim.story();
         REQUIRE(story.gold() == integer(ws, "gold"));
+        if (ws.contains("guild_points")) {
+            REQUIRE(story.guild_points() == integer(ws, "guild_points"));
+        }
         REQUIRE(story.flags().size() == ws.at("flags").size());
         for (const auto& [flag, value] : ws.at("flags").items()) {
             REQUIRE(story.flags().at(flag) == value.get<bool>());
@@ -526,6 +590,7 @@ void run_combat_suite(const std::string& suite) {
         const Json& in = c.at("input");
         Scenario sc = scenario_from_json(in);
         aether::WorldSim sim(sc.map, sc.tileset, 0.0F, sc.setup);
+        sim.story().set_gold(sc.start_gold);
         const float tol = c.at("expect").at("tol").get<float>();
         std::size_t index = 0;
         for (const Json& segment : in.at("script")) {
@@ -549,6 +614,7 @@ void run_save_suite() {
         Scenario sc = scenario_from_json(in);
 
         aether::WorldSim first(sc.map, sc.tileset, 0.0F, sc.setup);
+        first.story().set_gold(sc.start_gold);
         for (std::size_t i = 0; i < split; ++i) {
             run_segment(first, in.at("script")[i]);
         }
@@ -582,6 +648,192 @@ TEST_CASE("conformance: story", "[conformance]") { run_combat_suite("story"); }
 
 TEST_CASE("conformance: save and resume", "[conformance]") { run_save_suite(); }
 
+TEST_CASE("conformance: routines", "[conformance]") {
+    const Json doc = load_suite("routines");
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        const Json& in = c.at("input");
+        std::string error;
+        const auto params = aether::parse_world_params(in.at("params").dump(), error);
+        INFO(error);
+        REQUIRE(params.has_value());
+        const std::uint64_t seed = hex(in.at("seed"));
+        std::vector<aether::GenPerson> people;
+        for (const Json& chunk : in.at("chunks")) {
+            for (const aether::GenPerson& person : aether::generate_chunk(seed, *params, chunk.at(0).get<int>(), chunk.at(1).get<int>()).people) {
+                people.push_back(person);
+            }
+        }
+        const Json& times = in.at("times");
+        const Json& present = c.at("expect").at("present");
+        REQUIRE(times.size() == present.size());
+        for (std::size_t t = 0; t < times.size(); ++t) {
+            INFO("time of day " << times.at(t).get<int>());
+            std::vector<std::string> got;
+            for (const aether::GenPerson& person : people) {
+                if (const auto placement = aether::person_placement(*params, person, times.at(t).get<int>())) {
+                    got.push_back(person.key + "|" + placement->state + "|" + std::to_string(placement->x256) + "|" +
+                                  std::to_string(placement->y256));
+                }
+            }
+            std::vector<std::string> want;
+            for (const Json& row : present.at(t)) {
+                want.push_back(row.at(0).get<std::string>() + "|" + row.at(1).get<std::string>() + "|" +
+                               std::to_string(row.at(2).get<int>()) + "|" + std::to_string(row.at(3).get<int>()));
+            }
+            REQUIRE(got == want);
+        }
+    }
+}
+
+TEST_CASE("conformance: fauna", "[conformance]") {
+    const Json doc = load_suite("fauna");
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        const Json& in = c.at("input");
+        std::string error;
+        const auto params = aether::parse_world_params(in.at("params").dump(), error);
+        INFO(error);
+        REQUIRE(params.has_value());
+        const std::uint64_t seed = hex(in.at("seed"));
+        const Json& tiles = in.at("tiles");
+        const Json& want = c.at("expect").at("spawners");
+        REQUIRE(tiles.size() == want.size());
+        for (std::size_t i = 0; i < tiles.size(); ++i) {
+            const int x = tiles.at(i).at(0).get<int>();
+            const int y = tiles.at(i).at(1).get<int>();
+            INFO("spawner " << x << "," << y);
+            REQUIRE(aether::region_at(*params, x, y) == want.at(i).at(2).get<int>());
+            REQUIRE(aether::spawner_enemy_at(seed, *params, x, y) == want.at(i).at(3).get<std::string>());
+            const std::string drop = aether::stamp_spawner_at(seed, *params, x, y) ? "" : aether::fauna_at(seed, *params, x, y).drop;
+            REQUIRE(drop == want.at(i).at(4).get<std::string>());
+        }
+    }
+}
+
+TEST_CASE("conformance: guild", "[conformance]") {
+    const Json doc = load_suite("guild");
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        const Json& in = c.at("input");
+        const Json& want = c.at("expect");
+        std::string error;
+        const auto params = aether::parse_world_params(in.at("params").dump(), error);
+        INFO(error);
+        REQUIRE(params.has_value());
+        const std::uint64_t seed = hex(in.at("seed"));
+        for (const Json& rank : want.at("ranks")) {
+            REQUIRE(aether::rank_index(params->guild, rank.at(0).get<std::int64_t>()) == rank.at(1).get<int>());
+        }
+        std::size_t index = 0;
+        for (const Json& site : in.at("sites")) {
+            const int sx = site.at(0).get<int>();
+            const int sy = site.at(1).get<int>();
+            const auto settlement = aether::settlement_site(seed, *params, sx, sy);
+            REQUIRE(settlement.has_value());
+            for (const Json& day : in.at("days")) {
+                for (const aether::Offer& offer : aether::offers_for(seed, *params, *settlement, day.get<std::int64_t>())) {
+                    const Json& e = want.at("offers").at(index);
+                    INFO("offer " << index);
+                    REQUIRE(offer.id == e.at(0).get<std::string>());
+                    REQUIRE(offer.min_rank == e.at(1).get<int>());
+                    REQUIRE(offer.template_id == e.at(2).get<std::string>());
+                    REQUIRE(offer.type == e.at(3).get<std::string>());
+                    REQUIRE(offer.target == e.at(4).get<std::string>());
+                    REQUIRE(offer.count == e.at(5).get<int>());
+                    REQUIRE(offer.gold == e.at(6).get<std::int64_t>());
+                    REQUIRE(offer.xp == e.at(7).get<std::int64_t>());
+                    REQUIRE(offer.points == e.at(8).get<std::int64_t>());
+                    REQUIRE(offer.place == e.at(9).get<std::string>());
+                    REQUIRE(offer.tone == e.at(10).get<std::string>());
+                    // The quest it becomes, and the rebuild from its id.
+                    const aether::QuestDef quest = aether::quest_from_offer(offer);
+                    const Json& q = want.at("quests").at(index);
+                    REQUIRE(quest.id == q.at("id").get<std::string>());
+                    REQUIRE(quest.name == q.at("name").get<std::string>());
+                    REQUIRE(quest.stages.front().journal == q.at("stages").at(0).at("journal").get<std::string>());
+                    REQUIRE(quest.stages.front().objectives.front().count ==
+                            q.at("stages").at(0).at("objectives").at(0).at("count").get<std::int64_t>());
+                    for (const auto& [key, value] : q.at("args").items()) {
+                        REQUIRE(quest.args.at(key) == value.get<std::string>());
+                    }
+                    REQUIRE(quest.rewards.size() == 3);
+                    REQUIRE(quest.rewards[1].n == q.at("rewards").at(1).at("amount").get<std::int64_t>());
+                    REQUIRE(quest.rewards[2].n == q.at("rewards").at(2).at("amount").get<std::int64_t>());
+                    const auto rebuilt = aether::resolve_offer(seed, *params, offer.id);
+                    REQUIRE(rebuilt.has_value());
+                    REQUIRE(rebuilt->gold == offer.gold);
+                    ++index;
+                }
+            }
+        }
+        REQUIRE(index == want.at("offers").size());
+    }
+}
+
+TEST_CASE("conformance: settlements", "[conformance]") {
+    const Json doc = load_suite("settlements");
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        const Json& in = c.at("input");
+        const Json& want = c.at("expect");
+        std::string error;
+        const auto params = aether::parse_world_params(in.at("params").dump(), error);
+        INFO(error);
+        REQUIRE(params.has_value());
+        const std::uint64_t seed = hex(in.at("seed"));
+        const Json& block = in.at("block");
+        const auto found = aether::settlements_in(seed, *params, block.at(0).get<int>(), block.at(1).get<int>(), block.at(2).get<int>(),
+                                                  block.at(3).get<int>());
+        REQUIRE(found.size() == want.at("count").get<std::size_t>());
+        for (std::size_t i = 0; i < found.size(); ++i) {
+            const Json& s = want.at("settlements").at(i);
+            INFO("settlement " << i);
+            REQUIRE(found[i].x == s.at(0).get<int>());
+            REQUIRE(found[i].y == s.at(1).get<int>());
+            REQUIRE(found[i].px == s.at(2).get<int>());
+            REQUIRE(found[i].py == s.at(3).get<int>());
+            REQUIRE(found[i].kind == s.at(4).get<std::string>());
+            REQUIRE(found[i].stamp == s.at(5).get<std::string>());
+            REQUIRE(found[i].name == s.at(6).get<std::string>());
+            REQUIRE(found[i].region == s.at(7).get<int>());
+        }
+        for (const Json& sample : want.at("regions")) {
+            REQUIRE(aether::region_at(*params, sample.at(0).get<int>(), sample.at(1).get<int>()) == sample.at(2).get<int>());
+        }
+        for (const Json& marker : want.at("markers")) {
+            const auto s = aether::settlement_marker(seed, *params, marker.at(0).get<int>(), marker.at(1).get<int>());
+            REQUIRE(s.has_value());
+            REQUIRE(s->name == marker.at(2).get<std::string>());
+        }
+    }
+}
+
+TEST_CASE("conformance: worldmap", "[conformance]") {
+    const Json doc = load_suite("worldmap");
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        const Json& in = c.at("input");
+        const Json& want = c.at("expect");
+        std::string error;
+        const auto params = aether::parse_world_params(in.at("params").dump(), error);
+        INFO(error);
+        REQUIRE(params.has_value());
+        REQUIRE(in.at("cell").get<int>() == aether::kMapCell);
+        std::set<std::pair<int, int>> cells;
+        for (const Json& position : in.at("positions")) {
+            aether::explore(cells, *params, position.at(0).get<int>(), position.at(1).get<int>());
+        }
+        REQUIRE(cells.size() == want.at("explored_count").get<std::size_t>());
+        REQUIRE(aether::digest_cells(cells) == hex(want.at("explored_digest")));
+        const std::uint64_t seed = hex(in.at("seed"));
+        for (const Json& sample : want.at("biomes")) {
+            INFO("cell " << sample.at(0).get<int>() << "," << sample.at(1).get<int>());
+            REQUIRE(aether::biome_code(seed, *params, sample.at(0).get<int>(), sample.at(1).get<int>()) == sample.at(2).get<int>());
+        }
+    }
+}
+
 TEST_CASE("conformance: worldtime", "[conformance]") {
     const Json doc = load_suite("worldtime");
     for (const Json& c : doc.at("cases")) {
@@ -592,9 +844,14 @@ TEST_CASE("conformance: worldtime", "[conformance]") {
         Json world = Json::parse(R"({"id":"x:world/x","width":64,"height":64,"border":1,"spawn_clear_radius":2,
             "elevation":{"salt":1,"scale":8,"octaves":1},"moisture":{"salt":2,"scale":8,"octaves":1},
             "temperature":{"salt":3,"scale":8,"octaves":1},
+            "river":{"salt":4,"scale":8,"octaves":1,"half_width":1,"ford_salt":5,"ford_scale":8,"ford_min":1},
+            "road":{"salt":6,"scale":8,"octaves":1,"half_width":1},
             "thresholds":{"water":1,"beach":2,"mountain":3,"snow":4,"desert_heat":5,"desert_dry":6,"forest_wet":7},
-            "tiles":{"water":4,"beach":6,"desert":6,"snow":7,"mountain":8,"forest":9,"plains":[1]},
-            "props":{},"spawners":{"enemy":"x:enemy/x","biomes":[],"min_distance":1,"per_10000":1,"respawn_ticks":1},
+            "tiles":{"water":4,"beach":6,"desert":6,"snow":7,"mountain":8,"forest":9,"plains":[1],"river":4,"ford":10,"road":11,"bridge":12},
+            "props":{},"stones":{"art":"x:art/x","range_x100":1},"spawners":{"biomes":[],"min_distance":1,"per_10000":1,"respawn_ticks":1},
+            "guild":{"offers_per_day":1,"ranks":[{"id":"f","points":0}],"templates":[{"id":"t","type":"kill","target":"x:enemy/x","count_min":1,"count_max":1,"gold_base":0,"gold_per":0,"xp_base":0,"xp_per":0,"points_base":0,"points_per":0}]},
+            "regions":[{"id":"x","name":"x","x_pm":0,"y_pm":0,"danger":1,"tone":"warm","shop":{"price_pm":1000,"stock":[]},"fauna":[{"enemy":"x:enemy/x","drop":"x:item/x","weight":1}]}],
+            "settlements":{"per_mille":0,"dialogue":"x:dialogue/x","variants":[""],"quirks":["q"],"people":{"start":["a"],"end":["b"]},"kinds":[{"id":"h","weight":1,"stamps":[]}],"names":{"start":["a"],"mid":["b"],"end":["c"]}},
             "npcs":[]})");
         world["time"] = in.at("time");
         const auto params = aether::parse_world_params(world.dump(), error);
@@ -612,6 +869,8 @@ TEST_CASE("conformance: worldtime", "[conformance]") {
             REQUIRE(s.rain_pm == want.at("rain_pm").get<int>());
             REQUIRE(s.dim_pm == want.at("dim_pm").get<int>());
             REQUIRE(s.effective_light_pm == want.at("effective_light_pm").get<int>());
+            const std::string got_season = s.season_index >= 0 ? params->time.seasons[static_cast<std::size_t>(s.season_index)].id : "";
+            REQUIRE(got_season == want.at("season").get<std::string>());
         }
     }
 }
@@ -729,6 +988,25 @@ TEST_CASE("conformance: worldgen chunks", "[conformance]") {
             REQUIRE(aether::digest_props(chunk.props) == hex(want.at("prop_digest")));
             REQUIRE(chunk.spawners.size() == want.at("spawner_count").get<std::size_t>());
             REQUIRE(aether::digest_spawners(chunk.spawners) == hex(want.at("spawner_digest")));
+            REQUIRE(chunk.people.size() == want.at("people").size());
+            for (std::size_t i = 0; i < chunk.people.size(); ++i) {
+                const Json& e = want.at("people").at(i);
+                const aether::GenPerson& got = chunk.people[i];
+                INFO("person " << i);
+                REQUIRE(got.key == e.at(0).get<std::string>());
+                REQUIRE(got.role == e.at(1).get<std::string>());
+                REQUIRE(got.x256 == e.at(2).get<int>());
+                REQUIRE(got.y256 == e.at(3).get<int>());
+                REQUIRE(got.name == e.at(4).get<std::string>());
+                REQUIRE(got.variant == e.at(5).get<std::string>());
+                REQUIRE(got.tone == e.at(6).get<std::string>());
+                REQUIRE(got.dialogue == e.at(7).get<std::string>());
+                REQUIRE(got.place == e.at(8).get<std::string>());
+                REQUIRE(got.region == e.at(9).get<std::string>());
+                REQUIRE(got.quirk == e.at(10).get<std::string>());
+                REQUIRE(got.plaza_x256 == e.at(11).get<int>());
+                REQUIRE(got.plaza_y256 == e.at(12).get<int>());
+            }
             std::map<int, std::int64_t> histogram;
             for (const int gid : chunk.tiles) {
                 ++histogram[gid];

@@ -1,0 +1,381 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/role/elder_scholarly",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.elder.scholarly.hello",
+      "next": "menu"
+    },
+    "menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.ask",
+          "when": {
+            "not": {
+              "any": [
+                {
+                  "quest_active": "base:quest/side/dust_survey"
+                },
+                {
+                  "quest_done": "base:quest/side/dust_survey"
+                }
+              ]
+            }
+          },
+          "next": "errand_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.status",
+          "when": {
+            "quest_active": "base:quest/side/dust_survey"
+          },
+          "next": "errand_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/dust_survey"
+              },
+              {
+                "not": {
+                  "flag": "errand_dust_survey_paid"
+                }
+              }
+            ]
+          },
+          "next": "errand_paid"
+        },
+        {
+          "text": "$i18n:dlg.role.hunt.ask",
+          "when": {
+            "all": [
+              {
+                "flag": "errand_dust_survey_paid"
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/roost_sovereign"
+                    },
+                    {
+                      "quest_done": "base:quest/side/roost_sovereign"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "hunt_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.hunt.status",
+          "when": {
+            "quest_active": "base:quest/side/roost_sovereign"
+          },
+          "next": "hunt_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.hunt.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/roost_sovereign"
+              },
+              {
+                "not": {
+                  "flag": "hunt_roost_sovereign_paid"
+                }
+              }
+            ]
+          },
+          "next": "hunt_paid"
+        },
+        {
+          "text": "$i18n:dlg.role.rumor",
+          "next": "rumor"
+        },
+        {
+          "text": "$i18n:dlg.role.seasonal.ask",
+          "when": {
+            "all": [
+              {
+                "season": "summer"
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/season_solstice_survey"
+                    },
+                    {
+                      "quest_done": "base:quest/side/season_solstice_survey"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "seasonal_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.seasonal.ask",
+          "when": {
+            "all": [
+              {
+                "not": {
+                  "season": "summer"
+                }
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/season_solstice_survey"
+                    },
+                    {
+                      "quest_done": "base:quest/side/season_solstice_survey"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "seasonal_wait"
+        },
+        {
+          "text": "$i18n:dlg.role.seasonal.status",
+          "when": {
+            "quest_active": "base:quest/side/season_solstice_survey"
+          },
+          "next": "seasonal_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.seasonal.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/season_solstice_survey"
+              },
+              {
+                "not": {
+                  "flag": "season_solstice_survey_paid"
+                }
+              }
+            ]
+          },
+          "next": "seasonal_paid"
+        },
+        {
+          "text": "$i18n:dlg.role.bye",
+          "next": "end"
+        }
+      ]
+    },
+    "rumor": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.scholarly.rumor",
+      "next": "end"
+    },
+    "errand_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.errand.scholarly.offer",
+      "next": "errand_choice"
+    },
+    "errand_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/dust_survey"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "errand_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.errand.scholarly.busy",
+      "next": "end"
+    },
+    "errand_paid": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "errand_dust_survey_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 280
+        },
+        {
+          "effect": "add_gold",
+          "amount": 560
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_small",
+          "qty": 3
+        }
+      ],
+      "next": "errand_thanks"
+    },
+    "errand_thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.errand.scholarly.thanks",
+      "next": "end"
+    },
+    "hunt_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.hunt.scholarly.offer",
+      "next": "hunt_choice"
+    },
+    "hunt_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/roost_sovereign"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "hunt_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.hunt.scholarly.busy",
+      "next": "end"
+    },
+    "hunt_paid": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "hunt_roost_sovereign_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 380
+        },
+        {
+          "effect": "add_gold",
+          "amount": 850
+        },
+        {
+          "effect": "add_guild_points",
+          "amount": 50
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_large",
+          "qty": 2
+        }
+      ],
+      "next": "hunt_thanks"
+    },
+    "hunt_thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.hunt.scholarly.thanks",
+      "next": "end"
+    },
+    "seasonal_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.seasonal.scholarly.offer",
+      "next": "seasonal_choice"
+    },
+    "seasonal_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/season_solstice_survey"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "seasonal_wait": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.seasonal.scholarly.wait",
+      "next": "end"
+    },
+    "seasonal_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.seasonal.scholarly.busy",
+      "next": "end"
+    },
+    "seasonal_paid": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "season_solstice_survey_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 420
+        },
+        {
+          "effect": "add_gold",
+          "amount": 840
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_large",
+          "qty": 2
+        }
+      ],
+      "next": "seasonal_thanks"
+    },
+    "seasonal_thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.seasonal.scholarly.thanks",
+      "next": "end"
+    }
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/well",
+  "canvas": {
+    "w": 32,
+    "h": 36,
+    "origin": [
+      16,
+      32
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          16,
+          30,
+          13,
+          4
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "ellipse": [
+          16,
+          22,
+          12,
+          8
+        ]
+      },
+      "fill": {
+        "color": "$p.stone"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          16,
+          20,
+          8,
+          5
+        ]
+      },
+      "fill": {
+        "color": "$p.water"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          7,
+          8,
+          3,
+          14
+        ]
+      },
+      "fill": {
+        "color": "$p.wood"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          22,
+          8,
+          3,
+          14
+        ]
+      },
+      "fill": {
+        "color": "$p.wood"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          5,
+          5,
+          22,
+          4
+        ]
+      },
+      "fill": {
+        "color": "$p.roof"
+      }
+    }
+  ],
+  "palette": {
+    "stone": "#8F8F98",
+    "water": "#3C78B4",
+    "wood": "#7A5230",
+    "roof": "#B04A3A"
+  }
+}

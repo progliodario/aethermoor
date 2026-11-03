@@ -1,0 +1,143 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/tile/grass_e",
+  "canvas": {
+    "w": 32,
+    "h": 32,
+    "origin": [
+      0,
+      0
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          32
+        ]
+      },
+      "fill": {
+        "color": "$p.base"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            6,
+            12
+          ],
+          [
+            8,
+            6
+          ],
+          [
+            10,
+            12
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.dry"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            20,
+            24
+          ],
+          [
+            22,
+            18
+          ],
+          [
+            24,
+            24
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.dry"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            14,
+            28
+          ],
+          [
+            16,
+            22
+          ],
+          [
+            18,
+            28
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.tuft"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            26,
+            10
+          ],
+          [
+            28,
+            4
+          ],
+          [
+            30,
+            10
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.tuft"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          9,
+          24,
+          1,
+          1
+        ]
+      },
+      "fill": {
+        "color": "$p.seed"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          25,
+          12,
+          1,
+          1
+        ]
+      },
+      "fill": {
+        "color": "$p.seed"
+      }
+    }
+  ],
+  "palette": {
+    "base": "#66AC58",
+    "tuft": "#5A9A4A",
+    "dry": "#B8B45A",
+    "seed": "#8A7A3A"
+  }
+}

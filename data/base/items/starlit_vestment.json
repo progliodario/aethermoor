@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/starlit_vestment",
+  "name": "$i18n:item.starlit_vestment.name",
+  "description": "$i18n:item.starlit_vestment.desc",
+  "kind": "armor",
+  "rarity": "epic",
+  "price": 1500,
+  "armor": {
+    "def": 8,
+    "mdef": 14
+  }
+}

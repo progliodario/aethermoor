@@ -3,11 +3,22 @@ package io.github.progliodario.aethermoor.core.sim
 import io.github.progliodario.aethermoor.core.DamageInput
 import io.github.progliodario.aethermoor.core.DerivedStats
 import io.github.progliodario.aethermoor.core.Equipment
+import io.github.progliodario.aethermoor.core.Offer
+import io.github.progliodario.aethermoor.core.Settlement
 import io.github.progliodario.aethermoor.core.TimeSample
 import io.github.progliodario.aethermoor.core.damage
 import io.github.progliodario.aethermoor.core.deriveStream
 import io.github.progliodario.aethermoor.core.derivedStats
+import io.github.progliodario.aethermoor.core.explore
+import io.github.progliodario.aethermoor.core.spawnerEnemyAt
+import io.github.progliodario.aethermoor.core.offersFor
+import io.github.progliodario.aethermoor.core.personPlacement
+import io.github.progliodario.aethermoor.core.rankIndex
+import io.github.progliodario.aethermoor.core.regionAt
+import io.github.progliodario.aethermoor.core.resolveOffer
 import io.github.progliodario.aethermoor.core.sampleTime
+import io.github.progliodario.aethermoor.core.seasonIndexOf
+import io.github.progliodario.aethermoor.core.settlementContaining
 import io.github.progliodario.aethermoor.core.xpGain
 import kotlin.math.PI
 import kotlin.math.abs
@@ -117,6 +128,43 @@ class WorldSim(
     /** Spawner tile -> world tick of the death. */
     private val cleared = java.util.TreeMap<Pair<Int, Int>, Long>(compareBy({ it.first }, { it.second }))
 
+    /** The item ids worn (spec 06). */
+    var equippedWeapon: String = combat.startWeapon
+        private set
+    var equippedArmor: String = combat.startArmor
+        private set
+
+    /** The board of a settlement (spec 07, "Guild"): the settlement, the day and its offers. */
+    class Board(val settlement: Settlement, val day: Long, val offers: List<Offer>)
+
+    /** A stop of the Threshold Stone list: the stone tile, the name of its settlement and the text key of its region (spec 09). */
+    class StoneStop(val x: Int, val y: Int, val place: String, val region: String)
+
+    /** The list of stones offered by a stone being used: [here] is the index of that stone, [fresh] tells it was woken just now. */
+    class Travel(val stops: List<StoneStop>, val here: Int, val fresh: Boolean)
+
+    /** The Threshold Stones that were used, in order of waking (spec 09). */
+    val stones = ArrayList<Pair<Int, Int>>()
+
+    var travel: Travel? = null
+        private set
+
+    /** The board that is open now, or null. */
+    var board: Board? = null
+        private set
+
+    /** The shop that is open now (spec 06), or null. */
+    var shop: ShopDef? = null
+        private set
+
+    /** Settlement people of the active window (spec 09) and their collision circles. */
+    private val npcList = ArrayList<NpcDef>()
+    private var routineTod = -1 // time of day (permille) the dynamic NPCs were built for
+    private val npcCircles = ArrayList<Circle>()
+
+    /** Explored world map cells (spec 09); empty on a fixed map. */
+    val explored: MutableSet<Pair<Int, Int>> = java.util.TreeSet<Pair<Int, Int>>(compareBy({ it.second }, { it.first }))
+
     /** Simulation ticks since the world was created (spec 08). */
     var worldTicks: Long = chunks?.params?.time?.startTick ?: 0L
         private set
@@ -132,6 +180,11 @@ class WorldSim(
     override val playerY: Float get() = player.position.y
 
     init {
+        story.dynamicNpcs = npcList
+        chunks?.let { store ->
+            story.questResolver = { id -> resolveOffer(store.seed, store.params, id)?.let { questFromOffer(it) } }
+        }
+        collision.dynamicProps = npcCircles
         for (npc in combat.story.npcs) collision.addProp(Circle(npc.x, npc.y, NPC_RADIUS))
         if (combat.enabled) {
             player.level = combat.startLevel.toLong()
@@ -140,7 +193,13 @@ class WorldSim(
             for (s in combat.spawns) enemies.add(Enemy(s.def, Vec2(s.x, s.y)))
             inventory.putAll(combat.startInventory)
             syncWindow()
+            markExplored()
         }
+    }
+
+    private fun markExplored() {
+        val store = chunks ?: return
+        explore(explored, store.params, floor(player.position.x).toInt(), floor(player.position.y).toInt())
     }
 
     /** Day, light and weather of the streamed world now (spec 08); null on a fixed map. */
@@ -158,8 +217,49 @@ class WorldSim(
         for (prop in map.props) if (prop.x >= x0 && prop.x <= x1 && prop.y >= y0 && prop.y <= y1) fn(prop)
     }
 
+    private fun rebuildNpcCircles() {
+        npcCircles.clear()
+        for (npc in npcList) npcCircles.add(Circle(npc.x, npc.y, NPC_RADIUS))
+    }
+
+    /** The time of day in permille (spec 08). */
+    private fun timeOfDayPm(): Int {
+        val dayTicks = chunks?.params?.time?.dayTicks ?: return 0
+        return ((worldTicks % dayTicks) * 1000 / dayTicks).toInt()
+    }
+
+    /** Rebuilds the dynamic NPCs of the 5 x 5 chunks around chunk ([cx], [cy]) for the time of day (spec 08, Routines). */
+    private fun refreshPeople(cx: Int, cy: Int) {
+        npcList.clear()
+        for (j in cy - ACTIVE_RADIUS..cy + ACTIVE_RADIUS) for (i in cx - ACTIVE_RADIUS..cx + ACTIVE_RADIUS) addChunkPeople(i, j)
+        routineTod = timeOfDayPm()
+        rebuildNpcCircles()
+    }
+
+    private fun addChunkPeople(cx: Int, cy: Int) {
+        val store = chunks ?: return
+        val chunk = store.find(cx, cy) ?: return
+        val tod = timeOfDayPm()
+        for (person in chunk.people) {
+            val placement = personPlacement(store.params, person, tod) ?: continue // indoors (spec 08)
+            npcList.add(
+                NpcDef(
+                    person.key, person.dialogue, person.variant, placement.x256 / 256f, placement.y256 / 256f, person.name,
+                    mapOf("npc" to person.name, "place" to person.place, "region" to person.region, "quirk" to "\$i18n:${person.quirk}"),
+                ),
+            )
+        }
+    }
+
+    /** The enemy the spawner on a tile makes (spec 09, "Fauna"). */
+    private fun streamEnemyAt(x: Int, y: Int): EnemyDef {
+        val store = requireNotNull(chunks) { "not a streamed world" }
+        val id = spawnerEnemyAt(store.seed, store.params, x, y)
+        return requireNotNull(combat.streamEnemies[id]) { "no enemy $id for the fauna" }
+    }
+
     private fun addChunkEnemies(cx: Int, cy: Int) {
-        val def = combat.streamEnemy ?: return
+        if (combat.streamEnemies.isEmpty()) return
         val store = chunks ?: return
         val chunk = store.find(cx, cy) ?: return
         for ((sx, sy) in chunk.spawners) {
@@ -169,7 +269,7 @@ class WorldSim(
                 if (worldTicks - died < store.params.spawnerRespawnTicks) continue
                 cleared.remove(Pair(sx, sy))
             }
-            val enemy = Enemy(def, Vec2(sx + 0.5f, sy + 0.5f))
+            val enemy = Enemy(streamEnemyAt(sx, sy), Vec2(sx + 0.5f, sy + 0.5f))
             enemy.spawnerX = sx
             enemy.spawnerY = sy
             enemies.add(enemy)
@@ -203,9 +303,12 @@ class WorldSim(
         }
         for (j in cy - ACTIVE_RADIUS..cy + ACTIVE_RADIUS) {
             for (i in cx - ACTIVE_RADIUS..cx + ACTIVE_RADIUS) {
-                if (!windowValid || !insideWindow(i, j, windowX, windowY)) addChunkEnemies(i, j)
+                if (!windowValid || !insideWindow(i, j, windowX, windowY)) {
+                    addChunkEnemies(i, j)
+                }
             }
         }
+        refreshPeople(cx, cy)
         windowValid = true
         windowX = cx
         windowY = cy
@@ -215,8 +318,189 @@ class WorldSim(
         derived = derivedStats(
             player.level,
             primaryAtLevel(combat.player, player.level),
-            Equipment(weaponAtk = combat.player.weaponAtk, weaponMatk = combat.player.weaponMatk),
+            Equipment(
+                weaponAtk = combat.items[equippedWeapon]?.weapon?.atk ?: combat.player.weaponAtk,
+                weaponMatk = combat.items[equippedWeapon]?.weapon?.matk ?: combat.player.weaponMatk,
+                armorDef = combat.items[equippedArmor]?.armor?.def ?: 0L,
+                armorMdef = combat.items[equippedArmor]?.armor?.mdef ?: 0L,
+            ),
         )
+    }
+
+    /** Puts the player at (x, y) in tiles, loading the chunks around (developer option, later the Threshold Stones). */
+    fun teleport(x: Float, y: Float) {
+        player.position = Vec2(x, y)
+        chunks?.keepAround(chunkOf(floor(x).toInt()), chunkOf(floor(y).toInt()))
+        player.position = collision.resolve(player.position)
+        syncWindow()
+        markExplored()
+    }
+
+    /** The position of the Threshold Stone the player can use, or null (spec 09). */
+    fun stoneNear(): Vec2? {
+        val store = chunks ?: return null
+        val range = store.params.stoneRangeX100 / 100f
+        if (store.params.stoneArt.isEmpty()) return null
+        val px = player.position.x
+        val py = player.position.y
+        var best: Vec2? = null
+        var bestDistance = range * range
+        forEachProp(px - range, py - range, px + range, py + range) { prop ->
+            if (prop.art != store.params.stoneArt) return@forEachProp
+            val d = (prop.x - px) * (prop.x - px) + (prop.y - py) * (prop.y - py)
+            if (d <= bestDistance) {
+                bestDistance = d
+                best = Vec2(prop.x, prop.y)
+            }
+        }
+        return best
+    }
+
+    /** Wakes the stone near the player, restores health and offers the list of stones. Returns false when no stone is near. */
+    fun useStone(): Boolean {
+        val store = chunks ?: return false
+        val stone = stoneNear() ?: return false
+        val tile = Pair(floor(stone.x).toInt(), floor(stone.y).toInt())
+        val fresh = tile !in stones
+        if (fresh) stones.add(tile)
+        player.hp = derived.maxHp
+        val stops = stones.map { (x, y) ->
+            val settlement = settlementContaining(store.seed, store.params, x, y)
+            StoneStop(x, y, settlement?.name ?: "", settlement?.let { store.params.regions[it.region].name } ?: "")
+        }
+        travel = Travel(stops, stones.indexOf(tile), fresh)
+        return true
+    }
+
+    fun closeTravel() {
+        travel = null
+    }
+
+    /** Goes to a stone of the open list, one tile in front of it. Returns false, changing nothing, when refused. */
+    fun travelTo(index: Int): Boolean {
+        val open = travel ?: return false
+        if (index < 0 || index >= open.stops.size || index == open.here) return false
+        val stop = open.stops[index]
+        travel = null
+        teleport(stop.x + 0.5f, stop.y + 1.75f)
+        return true
+    }
+
+    override fun seasonId(): String {
+        val store = chunks ?: return ""
+        val index = seasonIndexOf(store.params.time, worldTicks / store.params.time.dayTicks + 1)
+        return if (index >= 0) store.params.time.seasons[index].id else ""
+    }
+
+    override fun todPm(): Int = timeOfDayPm()
+
+    override fun healFull() {
+        player.hp = derived.maxHp
+    }
+
+    override fun openBoard() {
+        val store = chunks ?: return
+        val settlement = settlementContaining(store.seed, store.params, floor(player.position.x).toInt(), floor(player.position.y).toInt()) ?: return
+        val day = worldTicks / store.params.time.dayTicks + 1
+        board = Board(settlement, day, offersFor(store.seed, store.params, settlement, day))
+    }
+
+    fun closeBoard() {
+        board = null
+    }
+
+    /** The guild rank (index) of the player (spec 07). */
+    fun guildRank(): Int = chunks?.let { rankIndex(it.params.guild, story.guildPoints) } ?: 0
+
+    /** Accepts the offer of a slot of the open board. Returns false, changing nothing, when refused. */
+    fun acceptOffer(slot: Int): Boolean {
+        val offer = board?.offers?.getOrNull(slot) ?: return false
+        if (guildRank() < offer.minRank || offer.id in story.quests) return false
+        story.addGeneratedQuest(questFromOffer(offer))
+        story.startQuest(offer.id)
+        return true
+    }
+
+    override fun openShop() {
+        val store = chunks
+        shop = if (store != null) {
+            val region = store.params.regions[regionAt(store.params, floor(player.position.x).toInt(), floor(player.position.y).toInt())]
+            ShopDef(region.shopPricePm, region.shopStock)
+        } else {
+            combat.shop
+        }
+    }
+
+    fun closeShop() {
+        shop = null
+    }
+
+    private fun stackLimit(item: ItemDef): Int =
+        if (item.stackMax > 0) item.stackMax else if (item.kind == "weapon" || item.kind == "armor" || item.kind == "accessory") 1 else 99
+
+    /** Price of buying an item in the open shop, 0 when it cannot be bought (spec 06). */
+    fun buyPrice(itemId: String): Long {
+        val item = combat.items[itemId] ?: return 0L
+        val open = shop ?: return 0L
+        return if (item.price <= 0) 0L else maxOf(1L, item.price * open.pricePm / 1000)
+    }
+
+    /** What the shop pays for an item, 0 when it cannot be sold. */
+    fun sellPrice(itemId: String): Long {
+        val item = combat.items[itemId] ?: return 0L
+        return if (item.price <= 0) 0L else maxOf(1L, item.price / 2)
+    }
+
+    /** Equips a weapon or an armor of the inventory (spec 06). Returns false, changing nothing, when refused. */
+    fun equip(itemId: String): Boolean {
+        val item = combat.items[itemId] ?: return false
+        if ((inventory[itemId] ?: 0L) < 1L) return false
+        if (item.weapon != null && item.kind == "weapon" && equippedWeapon != itemId) {
+            equippedWeapon = itemId
+        } else if (item.armor != null && item.kind == "armor" && equippedArmor != itemId) {
+            equippedArmor = itemId
+        } else {
+            return false
+        }
+        recomputeDerived()
+        player.hp = minOf(player.hp, derived.maxHp)
+        return true
+    }
+
+    /** Buys one item from the open shop (spec 06). Returns false, changing nothing, when refused. */
+    fun buy(itemId: String): Boolean {
+        val open = shop ?: return false
+        if (itemId !in open.stock) return false
+        val item = combat.items[itemId] ?: return false
+        val price = buyPrice(itemId)
+        if (price <= 0L || story.gold < price || (inventory[itemId] ?: 0L) >= stackLimit(item)) return false
+        story.gold -= price
+        inventory[itemId] = (inventory[itemId] ?: 0L) + 1L
+        return true
+    }
+
+    /** Sells one item of the inventory to the open shop (spec 06). Returns false, changing nothing, when refused. */
+    fun sell(itemId: String): Boolean {
+        if (shop == null) return false
+        val owned = inventory[itemId] ?: 0L
+        if (owned < 1L || sellPrice(itemId) <= 0L) return false
+        if (owned == 1L && (itemId == equippedWeapon || itemId == equippedArmor)) return false
+        story.gold += sellPrice(itemId)
+        if (owned == 1L) inventory.remove(itemId) else inventory[itemId] = owned - 1L
+        return true
+    }
+
+    /** Uses one item of the inventory (spec 06). Returns false, changing nothing, when it is refused. */
+    fun useItem(itemId: String): Boolean {
+        if (story.dialogueActive) return false
+        val item = combat.items[itemId] ?: return false
+        if ((inventory[itemId] ?: 0L) < 1L) return false
+        val heal = item.effects.filter { it.effect == "heal" }.sumOf { it.amount }
+        if (heal <= 0L || player.hp >= derived.maxHp) return false
+        player.hp = minOf(derived.maxHp, player.hp + heal)
+        val left = (inventory[itemId] ?: 0L) - 1L
+        if (left == 0L) inventory.remove(itemId) else inventory[itemId] = left
+        return true
     }
 
     /** Events produced since the last call (damage numbers). */
@@ -230,6 +514,8 @@ class WorldSim(
     fun tick(rawXIn: Float, rawYIn: Float, attackIn: Boolean = false) {
         worldTicks++
         syncWindow()
+        if (chunks != null && windowValid && timeOfDayPm() != routineTod) refreshPeople(windowX, windowY) // somebody goes home or comes out (spec 08)
+        markExplored()
         val frozen = story.dialogueActive
         val rawX = if (frozen) 0f else rawXIn
         val rawY = if (frozen) 0f else rawYIn
@@ -458,6 +744,10 @@ class WorldSim(
             },
             cleared = cleared.map { (spawner, died) -> ClearedSpawner(spawner.first, spawner.second, died) },
             worldTicks = worldTicks,
+            explored = explored.toList(),
+            stones = stones.toList(),
+            equippedWeapon = equippedWeapon,
+            equippedArmor = equippedArmor,
             inventory = HashMap(inventory), story = story.capture(),
         )
     }
@@ -508,11 +798,10 @@ class WorldSim(
         p.phase = s.phase
         p.phaseTick = s.phaseTick
         if (chunks != null) {
-            val def = requireNotNull(combat.streamEnemy) { "streamed world without an enemy" }
             enemies.clear()
             for (e in s.enemies) {
                 val spawner = requireNotNull(e.spawner)
-                val enemy = Enemy(def, Vec2(spawner.first + 0.5f, spawner.second + 0.5f))
+                val enemy = Enemy(streamEnemyAt(spawner.first, spawner.second), Vec2(spawner.first + 0.5f, spawner.second + 0.5f))
                 enemy.spawnerX = spawner.first
                 enemy.spawnerY = spawner.second
                 enemies.add(enemy)
@@ -521,6 +810,11 @@ class WorldSim(
             hitSet.addAll(s.hitSet)
             cleared.clear()
             for (c in s.cleared) cleared[Pair(c.x, c.y)] = c.died
+            npcList.clear()
+            for (j in chunkOf(floor(s.y).toInt()) - ACTIVE_RADIUS..chunkOf(floor(s.y).toInt()) + ACTIVE_RADIUS) {
+                for (i in chunkOf(floor(s.x).toInt()) - ACTIVE_RADIUS..chunkOf(floor(s.x).toInt()) + ACTIVE_RADIUS) addChunkPeople(i, j)
+            }
+            rebuildNpcCircles()
             windowValid = true
             windowX = chunkOf(floor(s.x).toInt())
             windowY = chunkOf(floor(s.y).toInt())
@@ -538,7 +832,20 @@ class WorldSim(
         }
         inventory.clear()
         inventory.putAll(s.inventory)
+        equippedWeapon = s.equippedWeapon ?: combat.startWeapon
+        equippedArmor = s.equippedArmor
+        shop = null
+        board = null
+        travel = null
+        stones.clear()
+        stones.addAll(s.stones)
+        recomputeDerived()
+        player.hp = minOf(s.hp, derived.maxHp)
+        explored.clear()
+        explored.addAll(s.explored)
+        markExplored()
         worldTicks = if (s.worldTicks >= 0) s.worldTicks else chunks?.params?.time?.startTick ?: 0L
+        if (chunks != null && windowValid) refreshPeople(windowX, windowY) // the people of the saved time of day
         events.clear()
         return Result.success(Unit)
     }

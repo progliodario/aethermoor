@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/barrow_warden",
+  "name": "$i18n:enemy.barrow_warden.name",
+  "level": 8,
+  "stats": {
+    "hp": 320,
+    "atk": 24,
+    "def": 10,
+    "mdef": 6,
+    "speed_x100": 300
+  },
+  "element": "none",
+  "weaknesses_pm": {},
+  "xp": 140,
+  "drops": [
+    {
+      "item": "base:item/warden_blade",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 1000
+    },
+    {
+      "item": "base:item/wolf_fang",
+      "qty_min": 2,
+      "qty_max": 4,
+      "weight_pm": 800
+    }
+  ],
+  "radius_x100": 55,
+  "behavior": "base:behavior/guardian",
+  "art": "base:art/creature/barrow_warden"
+}

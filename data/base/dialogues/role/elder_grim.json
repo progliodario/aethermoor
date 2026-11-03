@@ -1,0 +1,381 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/role/elder_grim",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.elder.grim.hello",
+      "next": "menu"
+    },
+    "menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.ask",
+          "when": {
+            "not": {
+              "any": [
+                {
+                  "quest_active": "base:quest/side/furnace_cores"
+                },
+                {
+                  "quest_done": "base:quest/side/furnace_cores"
+                }
+              ]
+            }
+          },
+          "next": "errand_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.status",
+          "when": {
+            "quest_active": "base:quest/side/furnace_cores"
+          },
+          "next": "errand_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/furnace_cores"
+              },
+              {
+                "not": {
+                  "flag": "errand_furnace_cores_paid"
+                }
+              }
+            ]
+          },
+          "next": "errand_paid"
+        },
+        {
+          "text": "$i18n:dlg.role.hunt.ask",
+          "when": {
+            "all": [
+              {
+                "flag": "errand_furnace_cores_paid"
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/vent_heart"
+                    },
+                    {
+                      "quest_done": "base:quest/side/vent_heart"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "hunt_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.hunt.status",
+          "when": {
+            "quest_active": "base:quest/side/vent_heart"
+          },
+          "next": "hunt_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.hunt.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/vent_heart"
+              },
+              {
+                "not": {
+                  "flag": "hunt_vent_heart_paid"
+                }
+              }
+            ]
+          },
+          "next": "hunt_paid"
+        },
+        {
+          "text": "$i18n:dlg.role.rumor",
+          "next": "rumor"
+        },
+        {
+          "text": "$i18n:dlg.role.seasonal.ask",
+          "when": {
+            "all": [
+              {
+                "season": "winter"
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/season_cold_ash"
+                    },
+                    {
+                      "quest_done": "base:quest/side/season_cold_ash"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "seasonal_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.seasonal.ask",
+          "when": {
+            "all": [
+              {
+                "not": {
+                  "season": "winter"
+                }
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/season_cold_ash"
+                    },
+                    {
+                      "quest_done": "base:quest/side/season_cold_ash"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "seasonal_wait"
+        },
+        {
+          "text": "$i18n:dlg.role.seasonal.status",
+          "when": {
+            "quest_active": "base:quest/side/season_cold_ash"
+          },
+          "next": "seasonal_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.seasonal.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/season_cold_ash"
+              },
+              {
+                "not": {
+                  "flag": "season_cold_ash_paid"
+                }
+              }
+            ]
+          },
+          "next": "seasonal_paid"
+        },
+        {
+          "text": "$i18n:dlg.role.bye",
+          "next": "end"
+        }
+      ]
+    },
+    "rumor": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.grim.rumor",
+      "next": "end"
+    },
+    "errand_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.errand.grim.offer",
+      "next": "errand_choice"
+    },
+    "errand_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/furnace_cores"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "errand_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.errand.grim.busy",
+      "next": "end"
+    },
+    "errand_paid": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "errand_furnace_cores_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 380
+        },
+        {
+          "effect": "add_gold",
+          "amount": 800
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_small",
+          "qty": 4
+        }
+      ],
+      "next": "errand_thanks"
+    },
+    "errand_thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.errand.grim.thanks",
+      "next": "end"
+    },
+    "hunt_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.hunt.grim.offer",
+      "next": "hunt_choice"
+    },
+    "hunt_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/vent_heart"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "hunt_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.hunt.grim.busy",
+      "next": "end"
+    },
+    "hunt_paid": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "hunt_vent_heart_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 400
+        },
+        {
+          "effect": "add_gold",
+          "amount": 900
+        },
+        {
+          "effect": "add_guild_points",
+          "amount": 50
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_large",
+          "qty": 2
+        }
+      ],
+      "next": "hunt_thanks"
+    },
+    "hunt_thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.hunt.grim.thanks",
+      "next": "end"
+    },
+    "seasonal_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.seasonal.grim.offer",
+      "next": "seasonal_choice"
+    },
+    "seasonal_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/season_cold_ash"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "seasonal_wait": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.seasonal.grim.wait",
+      "next": "end"
+    },
+    "seasonal_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.seasonal.grim.busy",
+      "next": "end"
+    },
+    "seasonal_paid": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "season_cold_ash_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 520
+        },
+        {
+          "effect": "add_gold",
+          "amount": 1000
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_large",
+          "qty": 2
+        }
+      ],
+      "next": "seasonal_thanks"
+    },
+    "seasonal_thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.seasonal.grim.thanks",
+      "next": "end"
+    }
+  }
+}

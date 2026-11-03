@@ -1,0 +1,55 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/way_kessa_3",
+  "name": "$i18n:quest.way_kessa_3.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "hunt",
+      "journal": "$i18n:quest.way_kessa_3.hunt",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_char",
+          "count": 12
+        },
+        {
+          "type": "collect",
+          "item": "base:item/char_chunk",
+          "count": 8
+        }
+      ],
+      "next": "report"
+    },
+    {
+      "id": "report",
+      "journal": "$i18n:quest.way_kessa_3.report",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "wayfarer_kessa"
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 800
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1750
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 45
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/ashwardens_plate",
+      "qty": 1
+    }
+  ]
+}

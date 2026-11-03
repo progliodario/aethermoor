@@ -1,0 +1,62 @@
+{
+  "$schema": "../../../schemas/stamp.schema.json",
+  "id": "base:stamp/shoal",
+  "w": 25,
+  "h": 21,
+  "anchor": [
+    12,
+    0
+  ],
+  "rows": [
+    "...........===...........",
+    ".##########===##########.",
+    ".#ccccccccccccccccccccc#.",
+    ".#clccccccccccccccccclc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#cccc9ccc9ccc9cccicccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#cccccc9ccc0ccc9cccccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#cccc9ccciccc9ccc9cccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#clccccccccccccccccclc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".##########===##########.",
+    "...........===..........."
+  ],
+  "legend": {
+    "#": {
+      "tile": 5
+    },
+    "0": {
+      "tile": 14,
+      "spawner": "base:enemy/pearl_empress"
+    },
+    "9": {
+      "tile": 14,
+      "spawner": "base:enemy/slime_pearl"
+    },
+    "=": {
+      "tile": 11
+    },
+    "c": {
+      "tile": 14
+    },
+    "i": {
+      "tile": 14,
+      "spawner": "base:enemy/slime_tide"
+    },
+    "l": {
+      "tile": 14,
+      "prop": "base:art/prop/lamp",
+      "radius_x100": 15
+    }
+  },
+  "spots": []
+}

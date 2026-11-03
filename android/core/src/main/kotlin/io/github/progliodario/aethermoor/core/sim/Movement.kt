@@ -39,6 +39,9 @@ class CollisionWorld(
         props.add(prop)
     }
 
+    /** Circles that come and go with the world (settlement people); owned by the caller. */
+    var dynamicProps: List<Circle> = emptyList()
+
     /** Cells outside the map are solid. */
     fun isSolid(tx: Int, ty: Int): Boolean {
         if (chunks != null) return chunks.isSolid(tx, ty)
@@ -109,6 +112,7 @@ class CollisionWorld(
                 }
             }
             for (prop in props) pushOut(prop.x, prop.y, prop.radius)
+            for (prop in dynamicProps) pushOut(prop.x, prop.y, prop.radius)
             chunks?.forEachPropNear(x, y) { pushOut(it.x, it.y, it.radius) }
             if (!moved) break
         }

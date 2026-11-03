@@ -1,0 +1,55 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/way_marlo_3",
+  "name": "$i18n:quest.way_marlo_3.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "hunt",
+      "journal": "$i18n:quest.way_marlo_3.hunt",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_pearl",
+          "count": 12
+        },
+        {
+          "type": "collect",
+          "item": "base:item/pearl_dust",
+          "count": 8
+        }
+      ],
+      "next": "report"
+    },
+    {
+      "id": "report",
+      "journal": "$i18n:quest.way_marlo_3.report",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "wayfarer_marlo"
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 544
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1190
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 45
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/old_captains_coat",
+      "qty": 1
+    }
+  ]
+}

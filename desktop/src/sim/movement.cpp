@@ -106,6 +106,11 @@ void CollisionWorld::resolve(float& x, float& y, float radius) const {
         for (const Circle& prop : m_props_) {
             push_out(prop);
         }
+        if (m_dynamic_props_ != nullptr) {
+            for (const Circle& prop : *m_dynamic_props_) {
+                push_out(prop);
+            }
+        }
         if (m_chunks_ != nullptr) {
             m_chunks_->for_each_prop_near(x, y, [&](const Prop& prop) { push_out({prop.x, prop.y, prop.radius}); });
         }

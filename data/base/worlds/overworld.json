@@ -5,6 +5,7 @@
   "height": 16384,
   "border": 4,
   "spawn_clear_radius": 7,
+  "landmark_clearing": 24,
   "elevation": { "salt": 1, "scale": 56, "octaves": 5 },
   "moisture": { "salt": 2, "scale": 80, "octaves": 4 },
   "temperature": { "salt": 3, "scale": 120, "octaves": 3 },
@@ -17,21 +18,143 @@
     "desert_dry": 33000,
     "forest_wet": 38000
   },
-  "tiles": { "water": 4, "beach": 6, "desert": 6, "snow": 7, "mountain": 8, "forest": 9, "plains": [1, 2] },
+  "regions": [
+    { "id": "verdalis", "name": "$i18n:region.verdalis.name", "x_pm": 500, "y_pm": 500, "danger": 1, "tone": "warm", "fauna": [{ "enemy": "base:enemy/slime_green", "drop": "base:item/slime_gel", "weight": 1 }, { "enemy": "base:enemy/slime_mint", "drop": "base:item/mint_leaf", "weight": 2 }, { "enemy": "base:enemy/wolf_tawny", "drop": "base:item/tawny_fur", "weight": 1 }, { "enemy": "base:enemy/myconid", "drop": "base:item/spore_cap", "weight": 1 }], "shop": { "price_pm": 1000, "stock": ["base:item/bread", "base:item/potion_small", "base:item/iron_sword", "base:item/leather_vest", "base:item/honey_cake", "base:item/studded_leather", "base:item/bronze_blade", "base:item/tonic"] } },
+    { "id": "whisperwood", "name": "$i18n:region.whisperwood.name", "x_pm": 230, "y_pm": 340, "danger": 3, "tone": "mystic", "fauna": [{ "enemy": "base:enemy/wolf_shade", "drop": "base:item/shade_wisp", "weight": 3 }, { "enemy": "base:enemy/wolf_grey", "drop": "base:item/wolf_fang", "weight": 2 }, { "enemy": "base:enemy/slime_green", "drop": "base:item/slime_gel", "weight": 2 }, { "enemy": "base:enemy/wolf_dire", "drop": "base:item/dire_fang", "weight": 2 }, { "enemy": "base:enemy/slime_moss", "drop": "base:item/moss_clump", "weight": 2 }, { "enemy": "base:enemy/cave_bat", "drop": "base:item/bat_wing", "weight": 1 }, { "enemy": "base:enemy/cave_spider", "drop": "base:item/spider_silk", "weight": 2 }, { "enemy": "base:enemy/myconid", "drop": "base:item/spore_cap", "weight": 2 }, { "enemy": "base:enemy/wisp", "drop": "base:item/wisp_ember", "weight": 1 }, { "enemy": "base:enemy/night_owl", "drop": "base:item/owl_feather", "weight": 2 }], "shop": { "price_pm": 1100, "stock": ["base:item/bread", "base:item/potion_small", "base:item/leather_vest", "base:item/potion_medium", "base:item/mage_robe", "base:item/hand_axe", "base:item/silk_robe", "base:item/travel_ration"] } },
+    { "id": "ironspine", "name": "$i18n:region.ironspine.name", "x_pm": 780, "y_pm": 220, "danger": 4, "tone": "gruff", "fauna": [{ "enemy": "base:enemy/wolf_grey", "drop": "base:item/wolf_fang", "weight": 3 }, { "enemy": "base:enemy/slime_slate", "drop": "base:item/slate_shard", "weight": 3 }, { "enemy": "base:enemy/slime_blue", "drop": "base:item/slime_gel", "weight": 1 }, { "enemy": "base:enemy/wolf_dire", "drop": "base:item/dire_fang", "weight": 1 }, { "enemy": "base:enemy/slime_rust", "drop": "base:item/rust_flake", "weight": 2 }, { "enemy": "base:enemy/cave_bat", "drop": "base:item/bat_wing", "weight": 2 }, { "enemy": "base:enemy/cave_spider", "drop": "base:item/spider_silk", "weight": 1 }, { "enemy": "base:enemy/stone_golem", "drop": "base:item/golem_core", "weight": 1 }], "shop": { "price_pm": 900, "stock": ["base:item/iron_sword", "base:item/steel_sword", "base:item/chain_mail", "base:item/leather_vest", "base:item/knight_sword", "base:item/brigandine", "base:item/pike", "base:item/scale_mail", "base:item/splint_mail"] } },
+    { "id": "sunscar", "name": "$i18n:region.sunscar.name", "x_pm": 810, "y_pm": 730, "danger": 4, "tone": "flowery", "fauna": [{ "enemy": "base:enemy/slime_sand", "drop": "base:item/slime_gel", "weight": 4 }, { "enemy": "base:enemy/slime_green", "drop": "base:item/slime_gel", "weight": 1 }, { "enemy": "base:enemy/slime_amber", "drop": "base:item/amber_drop", "weight": 3 }, { "enemy": "base:enemy/wolf_dune", "drop": "base:item/dune_pelt", "weight": 2 }, { "enemy": "base:enemy/stone_golem", "drop": "base:item/golem_core", "weight": 1 }, { "enemy": "base:enemy/shore_crab", "drop": "base:item/crab_shell", "weight": 1 }, { "enemy": "base:enemy/dune_scorpion", "drop": "base:item/scorpion_sting", "weight": 3 }], "shop": { "price_pm": 1300, "stock": ["base:item/bread", "base:item/potion_small", "base:item/iron_sword", "base:item/leather_vest", "base:item/potion_medium", "base:item/honey_cake", "base:item/saber", "base:item/studded_leather", "base:item/fish_stew"] } },
+    { "id": "frostveil", "name": "$i18n:region.frostveil.name", "x_pm": 450, "y_pm": 90, "danger": 5, "tone": "stoic", "fauna": [{ "enemy": "base:enemy/wolf_frost", "drop": "base:item/frost_pelt", "weight": 4 }, { "enemy": "base:enemy/slime_blue", "drop": "base:item/slime_gel", "weight": 2 }, { "enemy": "base:enemy/slime_ice", "drop": "base:item/ice_crystal", "weight": 3 }, { "enemy": "base:enemy/wolf_polar", "drop": "base:item/polar_fur", "weight": 2 }, { "enemy": "base:enemy/cave_bat", "drop": "base:item/bat_wing", "weight": 1 }, { "enemy": "base:enemy/night_owl", "drop": "base:item/owl_feather", "weight": 1 }], "shop": { "price_pm": 1200, "stock": ["base:item/bread", "base:item/potion_small", "base:item/chain_mail", "base:item/potion_medium", "base:item/hearty_stew", "base:item/brigandine", "base:item/claymore", "base:item/splint_mail", "base:item/fish_stew"] } },
+    { "id": "tidehaven", "name": "$i18n:region.tidehaven.name", "x_pm": 140, "y_pm": 770, "danger": 3, "tone": "salty", "fauna": [{ "enemy": "base:enemy/slime_tide", "drop": "base:item/tide_pearl", "weight": 4 }, { "enemy": "base:enemy/slime_blue", "drop": "base:item/slime_gel", "weight": 1 }, { "enemy": "base:enemy/slime_green", "drop": "base:item/slime_gel", "weight": 1 }, { "enemy": "base:enemy/slime_coral", "drop": "base:item/coral_fragment", "weight": 3 }, { "enemy": "base:enemy/slime_pearl", "drop": "base:item/pearl_dust", "weight": 2 }, { "enemy": "base:enemy/shore_crab", "drop": "base:item/crab_shell", "weight": 3 }], "shop": { "price_pm": 1000, "stock": ["base:item/bread", "base:item/potion_small", "base:item/iron_sword", "base:item/steel_sword", "base:item/grilled_fish", "base:item/potion_medium", "base:item/knight_sword", "base:item/saber", "base:item/scale_mail", "base:item/travel_ration"] } },
+    { "id": "ashen_wastes", "name": "$i18n:region.ashen_wastes.name", "x_pm": 920, "y_pm": 480, "danger": 7, "tone": "grim", "fauna": [{ "enemy": "base:enemy/slime_ember", "drop": "base:item/ember_core", "weight": 4 }, { "enemy": "base:enemy/wolf_grey", "drop": "base:item/wolf_fang", "weight": 2 }, { "enemy": "base:enemy/slime_magma", "drop": "base:item/magma_shard", "weight": 3 }, { "enemy": "base:enemy/wolf_dire", "drop": "base:item/dire_fang", "weight": 1 }, { "enemy": "base:enemy/slime_char", "drop": "base:item/char_chunk", "weight": 2 }, { "enemy": "base:enemy/stone_golem", "drop": "base:item/golem_core", "weight": 1 }, { "enemy": "base:enemy/wisp", "drop": "base:item/wisp_ember", "weight": 1 }, { "enemy": "base:enemy/dune_scorpion", "drop": "base:item/scorpion_sting", "weight": 1 }], "shop": { "price_pm": 1500, "stock": ["base:item/potion_small", "base:item/steel_sword", "base:item/chain_mail", "base:item/potion_large", "base:item/runed_blade", "base:item/plate_cuirass", "base:item/war_axe", "base:item/knight_plate", "base:item/royal_feast", "base:item/dragon_scale_vest"] } },
+    { "id": "lumeria", "name": "$i18n:region.lumeria.name", "x_pm": 480, "y_pm": 900, "danger": 5, "tone": "scholarly", "fauna": [{ "enemy": "base:enemy/slime_glow", "drop": "base:item/star_dust", "weight": 3 }, { "enemy": "base:enemy/slime_blue", "drop": "base:item/slime_gel", "weight": 2 }, { "enemy": "base:enemy/wolf_grey", "drop": "base:item/wolf_fang", "weight": 1 }, { "enemy": "base:enemy/wolf_storm", "drop": "base:item/storm_feather", "weight": 2 }, { "enemy": "base:enemy/slime_nebula", "drop": "base:item/nebula_ash", "weight": 2 }, { "enemy": "base:enemy/cave_spider", "drop": "base:item/spider_silk", "weight": 1 }, { "enemy": "base:enemy/myconid", "drop": "base:item/spore_cap", "weight": 1 }, { "enemy": "base:enemy/wisp", "drop": "base:item/wisp_ember", "weight": 2 }, { "enemy": "base:enemy/night_owl", "drop": "base:item/owl_feather", "weight": 1 }], "shop": { "price_pm": 1100, "stock": ["base:item/potion_small", "base:item/iron_sword", "base:item/chain_mail", "base:item/potion_medium", "base:item/mage_robe", "base:item/runed_blade", "base:item/moon_blade", "base:item/warding_robe", "base:item/silk_robe", "base:item/travel_ration"] } }
+  ],
+  "home": { "radius": 72, "stamp": "base:stamp/village", "dx": 36, "dy": 40 },
+  "landmarks": [
+    { "id": "grunmoor_barrow", "name": "Grunmoor Barrow", "stamp": "base:stamp/barrow", "kind": "dungeon", "dx": -60, "dy": -34 },
+    { "id": "mossveil_cellar", "name": "Mossveil Cellar", "stamp": "base:stamp/cellar", "kind": "dungeon", "dx": 50, "dy": -45 },
+    { "id": "ironspine_mine", "name": "Ironspine Mine", "stamp": "base:stamp/mine", "kind": "dungeon", "dx": 4480, "dy": -4480 },
+    { "id": "drowned_temple", "name": "Drowned Temple", "stamp": "base:stamp/temple", "kind": "dungeon", "dx": -6016, "dy": 4480 },
+    { "id": "frostveil_cavern", "name": "Frostveil Cavern", "stamp": "base:stamp/cavern", "kind": "dungeon", "dx": -896, "dy": -6784 },
+    { "id": "whisperwood_hollow", "name": "Whisperwood Hollow", "stamp": "base:stamp/hollow", "kind": "dungeon", "dx": -4480, "dy": -2688 },
+    { "id": "sunscar_ziggurat", "name": "Sunken Ziggurat", "stamp": "base:stamp/ziggurat", "kind": "dungeon", "dx": 5248, "dy": 3712 },
+    { "id": "lumeria_observatory", "name": "Starfall Observatory", "stamp": "base:stamp/observatory", "kind": "dungeon", "dx": -384, "dy": 6528 },
+    { "id": "ashen_citadel", "name": "Cinder Citadel", "stamp": "base:stamp/citadel", "kind": "dungeon", "dx": 7040, "dy": -384 },
+    { "id": "ironspine_den", "name": "Dire Den", "stamp": "base:stamp/den", "kind": "dungeon", "dx": 4736, "dy": -4736 },
+    { "id": "ashen_vent", "name": "Magma Vent", "stamp": "base:stamp/vent", "kind": "dungeon", "dx": 6784, "dy": -128 },
+    { "id": "tidehaven_grotto", "name": "Coral Grotto", "stamp": "base:stamp/grotto", "kind": "dungeon", "dx": -5760, "dy": 4224 },
+    { "id": "sunscar_amber", "name": "Amber Hollow", "stamp": "base:stamp/amber", "kind": "dungeon", "dx": 4992, "dy": 3968 },
+    { "id": "frostveil_pit", "name": "Ice Pit", "stamp": "base:stamp/icepit", "kind": "dungeon", "dx": -640, "dy": -6528 },
+    { "id": "lumeria_roost", "name": "Storm Roost", "stamp": "base:stamp/roost", "kind": "dungeon", "dx": -128, "dy": 6272 },
+    { "id": "ironspine_outpost", "name": "Ironspine Waystation", "stamp": "base:stamp/outpost_ironspine", "kind": "hamlet", "dx": 4224, "dy": -4736 },
+    { "id": "tidehaven_outpost", "name": "Brinewatch Post", "stamp": "base:stamp/outpost_tidehaven", "kind": "hamlet", "dx": -6272, "dy": 4224 },
+    { "id": "frostveil_outpost", "name": "Rimewatch Hut", "stamp": "base:stamp/outpost_frostveil", "kind": "hamlet", "dx": -1152, "dy": -6528 },
+    { "id": "whisperwood_outpost", "name": "Hollow's Edge Camp", "stamp": "base:stamp/outpost_whisperwood", "kind": "hamlet", "dx": -4224, "dy": -2688 },
+    { "id": "sunscar_outpost", "name": "Dune Caravanserai", "stamp": "base:stamp/outpost_sunscar", "kind": "hamlet", "dx": 5504, "dy": 3968 },
+    { "id": "lumeria_outpost", "name": "Lantern Rest", "stamp": "base:stamp/outpost_lumeria", "kind": "hamlet", "dx": -640, "dy": 6272 },
+    { "id": "ashen_outpost", "name": "Ember Watch", "stamp": "base:stamp/outpost_ashen", "kind": "hamlet", "dx": 6784, "dy": -384 },
+    { "id": "verdalis_outpost", "name": "Crossroads Camp", "stamp": "base:stamp/outpost_verdalis", "kind": "hamlet", "dx": 384, "dy": 128 },
+    { "id": "ironspine_forge", "name": "Deep Forge", "stamp": "base:stamp/forge", "kind": "dungeon", "dx": 3968, "dy": -4224 },
+    { "id": "tidehaven_galleon", "name": "Sunken Galleon", "stamp": "base:stamp/galleon", "kind": "dungeon", "dx": -5504, "dy": 4736 },
+    { "id": "frostveil_keep", "name": "Glacier Keep", "stamp": "base:stamp/keep", "kind": "dungeon", "dx": -1408, "dy": -6272 },
+    { "id": "ashen_vault", "name": "Obsidian Vault", "stamp": "base:stamp/vault", "kind": "dungeon", "dx": 6528, "dy": 128 },
+    { "id": "verdalis_mint", "name": "Mint Hollow", "stamp": "base:stamp/mint", "kind": "dungeon", "dx": -128, "dy": 128 },
+    { "id": "whisperwood_moss", "name": "Mossy Den", "stamp": "base:stamp/moss", "kind": "dungeon", "dx": -4736, "dy": -2944 },
+    { "id": "ironspine_rust", "name": "Rust Pit", "stamp": "base:stamp/rust", "kind": "dungeon", "dx": 4224, "dy": -4480 },
+    { "id": "sunscar_dune", "name": "Dune Den", "stamp": "base:stamp/dune", "kind": "dungeon", "dx": 4736, "dy": 3456 },
+    { "id": "frostveil_rookery", "name": "Polar Rookery", "stamp": "base:stamp/rookery", "kind": "dungeon", "dx": -1152, "dy": -7040 },
+    { "id": "tidehaven_shoal", "name": "Pearl Shoal", "stamp": "base:stamp/shoal", "kind": "dungeon", "dx": -6272, "dy": 4480 },
+    { "id": "lumeria_pool", "name": "Nebula Pool", "stamp": "base:stamp/pool", "kind": "dungeon", "dx": -640, "dy": 6528 },
+    { "id": "ashen_wastes_charpit", "name": "Char Pit", "stamp": "base:stamp/charpit", "kind": "dungeon", "dx": 6528, "dy": -640 }
+  ],
+  "guild": {
+    "offers_per_day": 4,
+    "ranks": [
+      { "id": "f", "points": 0 },
+      { "id": "e", "points": 100 },
+      { "id": "d", "points": 300 },
+      { "id": "c", "points": 700 },
+      { "id": "b", "points": 1500 },
+      { "id": "a", "points": 3000 },
+      { "id": "s", "points": 6000 }
+    ],
+    "templates": [
+      { "id": "cull", "type": "kill", "target": "$fauna", "count_min": 3, "count_max": 6,
+        "gold_base": 10, "gold_per": 12, "xp_base": 10, "xp_per": 6, "points_base": 4, "points_per": 3 },
+      { "id": "gather", "type": "collect", "target": "$drop", "count_min": 4, "count_max": 8,
+        "gold_base": 8, "gold_per": 9, "xp_base": 8, "xp_per": 4, "points_base": 3, "points_per": 2 },
+      { "id": "purge", "type": "kill", "target": "$fauna", "count_min": 8, "count_max": 12,
+        "gold_base": 20, "gold_per": 14, "xp_base": 20, "xp_per": 7, "points_base": 8, "points_per": 3 },
+      { "id": "stockpile", "type": "collect", "target": "$drop", "count_min": 9, "count_max": 15,
+        "gold_base": 14, "gold_per": 10, "xp_base": 14, "xp_per": 5, "points_base": 6, "points_per": 2 }
+    ]
+  },
+  "settlements": {
+    "per_mille": 130,
+    "dialogue": "base:dialogue/role/{role}_{tone}",
+    "variants": ["", "red", "green", "ochre", "purple", "teal", "cream", "brown"],
+    "quirks": ["quirk.cheese", "quirk.bells", "quirk.bad_luck", "quirk.bakers", "quirk.singing", "quirk.lanterns", "quirk.mushrooms", "quirk.kites", "quirk.honey", "quirk.riddles", "quirk.cats", "quirk.bridges"],
+    "people": {"start": ["An", "Bri", "Cor", "Dar", "El", "Fia", "Gor", "Hel", "Ing", "Jor", "Kai", "Lis", "Mar", "Nia", "Ori", "Pip", "Quin", "Rod", "Sal", "Tam", "Ulf", "Vera", "Wil", "Yan", "Zed"], "end": ["a", "bert", "dric", "ela", "gar", "ina", "ik", "la", "mund", "na", "o", "rin", "sa", "thor", "us", "wen", "ya", "zo"]},
+    "kinds": [
+      { "id": "hamlet", "weight": 5, "stamps": ["base:stamp/hamlet", "base:stamp/hamlet_b", "base:stamp/hamlet_c", "base:stamp/hamlet_d"] },
+      { "id": "village", "weight": 4, "stamps": ["base:stamp/village", "base:stamp/village_b", "base:stamp/village_c", "base:stamp/village_d"] },
+      { "id": "town", "weight": 1, "stamps": ["base:stamp/town", "base:stamp/town_b", "base:stamp/town_c"] }
+    ],
+    "names": {
+      "start": ["Al", "Ber", "Cal", "Dun", "El", "Fen", "Gal", "Hol", "Ir", "Kel", "Lor", "Mar", "Nor", "Ost", "Pel", "Rav", "Sil", "Tor", "Vel", "Wyn"],
+      "mid": ["a", "e", "i", "o", "ar", "en", "or", "an", "el", "in"],
+      "end": ["wick", "mere", "ford", "dale", "haven", "stead", "brook", "ton", "holm", "vale"]
+    }
+  },
+  "river": { "salt": 4, "scale": 110, "octaves": 3, "half_width": 400, "ford_salt": 5, "ford_scale": 20, "ford_min": 36000 },
+  "road": { "salt": 6, "scale": 150, "octaves": 2, "half_width": 350 },
+  "tiles": {
+    "water": 4, "beach": 6, "desert": 6, "snow": 7, "mountain": 8, "forest": 9, "plains": [1, 2, 15, 16, 17, 18],
+    "river": 4, "ford": 10, "road": 11, "bridge": 12
+  },
   "props": {
     "plains": [
       { "art": "base:art/prop/tree_oak", "radius_x100": 30, "per_mille": 30 },
-      { "art": "base:art/prop/rock", "radius_x100": 35, "per_mille": 12 }
+      { "art": "base:art/prop/rock", "radius_x100": 35, "per_mille": 12 },
+      { "art": "base:art/prop/bush", "radius_x100": 28, "per_mille": 20 }
     ],
-    "forest": [{ "art": "base:art/prop/tree_oak", "radius_x100": 30, "per_mille": 220 }],
-    "snow": [{ "art": "base:art/prop/pine", "radius_x100": 30, "per_mille": 90 }],
-    "desert": [{ "art": "base:art/prop/cactus", "radius_x100": 28, "per_mille": 25 }]
+    "forest": [
+      { "art": "base:art/prop/tree_oak", "radius_x100": 30, "per_mille": 220 },
+      { "art": "base:art/prop/bush", "radius_x100": 28, "per_mille": 40 }
+    ],
+    "snow": [
+      { "art": "base:art/prop/pine", "radius_x100": 30, "per_mille": 90 },
+      { "art": "base:art/prop/rock", "radius_x100": 35, "per_mille": 10 },
+      { "art": "base:art/prop/bones", "radius_x100": 8, "per_mille": 3 }
+    ],
+    "desert": [
+      { "art": "base:art/prop/cactus", "radius_x100": 28, "per_mille": 25 },
+      { "art": "base:art/prop/rock", "radius_x100": 35, "per_mille": 10 },
+      { "art": "base:art/prop/bones", "radius_x100": 8, "per_mille": 4 }
+    ]
   },
-  "spawners": { "enemy": "base:enemy/slime_green", "biomes": ["plains", "forest"], "min_distance": 14, "per_10000": 8, "respawn_ticks": 36000 },
+  "routines": {
+    "roles": {
+      "elder": [[0, "away"], [250, "work"], [700, "plaza"], [900, "away"]],
+      "shopkeeper": [[0, "away"], [280, "work"], [760, "away"]],
+      "guild_clerk": [[0, "away"], [300, "work"], [800, "away"]],
+      "innkeeper": [[0, "work"]],
+      "villager": [[0, "away"], [250, "work"], [700, "plaza"], [900, "away"]]
+    }
+  },
+  "stones": { "art": "base:art/prop/threshold_stone", "range_x100": 160 },
+  "spawners": { "biomes": ["plains", "forest"], "min_distance": 14, "per_10000": 8, "respawn_ticks": 36000 },
   "time": {
     "day_ticks": 72000,
     "start_tick": 24000,
     "light": [[0, 180], [200, 180], [300, 1000], [700, 1000], [800, 180], [1000, 180]],
+    "seasons": [
+      { "id": "spring", "days": 8, "tint": [120, 220, 120, 14], "weights": { "clear": 450, "cloudy": 250, "rain": 300 } },
+      { "id": "summer", "days": 8, "tint": [255, 210, 90, 22], "weights": { "clear": 750, "cloudy": 200, "rain": 50 },
+        "light": [[0, 180], [150, 180], [250, 1000], [750, 1000], [850, 180], [1000, 180]] },
+      { "id": "autumn", "days": 8, "tint": [210, 120, 40, 34], "weights": { "clear": 400, "cloudy": 350, "rain": 250 } },
+      { "id": "winter", "days": 8, "tint": [190, 215, 255, 46], "weights": { "clear": 450, "cloudy": 450, "rain": 100 },
+        "light": [[0, 180], [250, 180], [350, 1000], [650, 1000], [750, 180], [1000, 180]] }
+    ],
     "weather": {
       "period_ticks": 18000,
       "fade_ticks": 600,
@@ -43,6 +166,15 @@
     }
   },
   "npcs": [
-    { "key": "guild_clerk_mira", "dialogue": "base:dialogue/npc/mira", "variant": "red", "dx": 1, "dy": -1 }
+    { "key": "guild_clerk_mira", "dialogue": "base:dialogue/npc/mira", "variant": "red", "dx": 1, "dy": -1 },
+    { "key": "tutor_pip", "dialogue": "base:dialogue/npc/pip", "variant": "cream", "dx": -2, "dy": 2 },
+    { "key": "wayfarer_tamsin", "dialogue": "base:dialogue/npc/tamsin", "variant": "green", "dx": 384, "dy": 129 },
+    { "key": "wayfarer_elowen", "dialogue": "base:dialogue/npc/elowen", "variant": "purple", "dx": -4224, "dy": -2687 },
+    { "key": "wayfarer_dorn", "dialogue": "base:dialogue/npc/dorn", "variant": "brown", "dx": 4224, "dy": -4735 },
+    { "key": "wayfarer_zahra", "dialogue": "base:dialogue/npc/zahra", "variant": "ochre", "dx": 5504, "dy": 3969 },
+    { "key": "wayfarer_ilvi", "dialogue": "base:dialogue/npc/ilvi", "variant": "cream", "dx": -1152, "dy": -6527 },
+    { "key": "wayfarer_marlo", "dialogue": "base:dialogue/npc/marlo", "variant": "teal", "dx": -6272, "dy": 4225 },
+    { "key": "wayfarer_kessa", "dialogue": "base:dialogue/npc/kessa", "variant": "red", "dx": 6784, "dy": -383 },
+    { "key": "wayfarer_ottavio", "dialogue": "base:dialogue/npc/ottavio", "variant": "", "dx": -640, "dy": 6273 }
   ]
 }

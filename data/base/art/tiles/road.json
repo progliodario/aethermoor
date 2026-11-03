@@ -1,0 +1,97 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/tile/road",
+  "canvas": {
+    "w": 32,
+    "h": 32,
+    "origin": [
+      0,
+      0
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          32
+        ]
+      },
+      "fill": {
+        "color": "$p.base"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          6,
+          8,
+          2.4,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "$p.dark"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          12,
+          3,
+          1.4
+        ]
+      },
+      "fill": {
+        "color": "$p.dark"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          13,
+          24,
+          2.2,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "$p.dark"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          27,
+          27,
+          1.8,
+          0.9
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          10,
+          15,
+          1.6,
+          0.8
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      }
+    }
+  ],
+  "palette": {
+    "base": "#B58B5A",
+    "dark": "#9A7348",
+    "light": "#CDA878"
+  }
+}

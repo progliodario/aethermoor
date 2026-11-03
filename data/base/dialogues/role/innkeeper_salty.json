@@ -1,0 +1,227 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/role/innkeeper_salty",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.innkeeper.salty.hello",
+      "next": "menu"
+    },
+    "menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.pantry.ask",
+          "when": {
+            "not": {
+              "any": [
+                {
+                  "quest_active": "base:quest/side/pantry_coral"
+                },
+                {
+                  "quest_done": "base:quest/side/pantry_coral"
+                }
+              ]
+            }
+          },
+          "next": "pantry_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.pantry.status",
+          "when": {
+            "quest_active": "base:quest/side/pantry_coral"
+          },
+          "next": "pantry_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.pantry.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/pantry_coral"
+              },
+              {
+                "not": {
+                  "flag": "pantry_pantry_coral_paid"
+                }
+              }
+            ]
+          },
+          "next": "pantry_paid"
+        },
+        {
+          "text": "$i18n:dlg.role.rumor",
+          "next": "rumor"
+        },
+        {
+          "text": "$i18n:dlg.role.legend",
+          "next": "legend"
+        },
+        {
+          "text": "$i18n:dlg.inn.salty.bed",
+          "when": {
+            "gold_at_least": 12
+          },
+          "next": "inn_rest"
+        },
+        {
+          "text": "$i18n:dlg.inn.salty.bed",
+          "when": {
+            "not": {
+              "gold_at_least": 12
+            }
+          },
+          "next": "inn_poor"
+        },
+        {
+          "text": "$i18n:dlg.inn.salty.meal",
+          "when": {
+            "gold_at_least": 40
+          },
+          "next": "inn_meal"
+        },
+        {
+          "text": "$i18n:dlg.role.night",
+          "when": {
+            "tod_between": [
+              800,
+              250
+            ]
+          },
+          "next": "night_tale"
+        },
+        {
+          "text": "$i18n:dlg.role.bye",
+          "next": "end"
+        }
+      ]
+    },
+    "rumor": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.salty.rumor",
+      "next": "end"
+    },
+    "legend": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.salty.legend",
+      "next": "end"
+    },
+    "pantry_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.pantry.salty.offer",
+      "next": "pantry_choice"
+    },
+    "pantry_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/pantry_coral"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "pantry_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.pantry.salty.busy",
+      "next": "end"
+    },
+    "pantry_paid": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "pantry_pantry_coral_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 120
+        },
+        {
+          "effect": "add_gold",
+          "amount": 260
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_medium",
+          "qty": 1
+        }
+      ],
+      "next": "pantry_thanks"
+    },
+    "pantry_thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.pantry.salty.thanks",
+      "next": "end"
+    },
+    "inn_rest": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "spend_gold",
+          "amount": 12
+        },
+        {
+          "effect": "heal_full"
+        }
+      ],
+      "next": "inn_slept"
+    },
+    "inn_slept": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.inn.salty.slept",
+      "next": "end"
+    },
+    "inn_poor": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.inn.salty.poor",
+      "next": "end"
+    },
+    "inn_meal": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "spend_gold",
+          "amount": 40
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/grilled_fish",
+          "qty": 3
+        }
+      ],
+      "next": "inn_fed"
+    },
+    "inn_fed": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.inn.salty.fed",
+      "next": "end"
+    },
+    "night_tale": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.night.salty",
+      "next": "end"
+    }
+  }
+}

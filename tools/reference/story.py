@@ -19,6 +19,7 @@ class Story:
         self.npcs: list[dict] = setup["npcs"]
         self.flags: dict[str, bool] = {}
         self.gold = 0
+        self.guild_points = 0
         self.quests: dict[str, dict] = {}
         self.dialogue: tuple[str, str] | None = None  # (dialogue id, node name)
 
@@ -45,6 +46,14 @@ class Story:
             return self.host.inventory.get(value["item"], 0) >= value["qty"]
         if key == "level_at_least":
             return self.host.level >= value
+        if key == "gold_at_least":
+            return self.gold >= value
+        if key == "season":
+            return self.host.season_id() == value
+        if key == "tod_between":
+            start, end = value
+            tod = self.host.tod_pm()
+            return start <= tod < end if start <= end else tod >= start or tod < end
         raise ValueError(f"unknown condition {key}")
 
     # --------------------------------------------------------------------------------- effects
@@ -55,8 +64,26 @@ class Story:
             self.host.grant_xp(effect["amount"])
         elif kind == "add_gold":
             self.gold += effect["amount"]
+        elif kind == "add_guild_points":
+            self.guild_points += effect["amount"]
+        elif kind == "open_shop":
+            self.host.open_shop()
+        elif kind == "open_board":
+            self.host.open_board()
         elif kind == "add_item":
             self.host.inventory[effect["item"]] = self.host.inventory.get(effect["item"], 0) + effect["qty"]
+            self._refresh_all()
+        elif kind == "spend_gold":
+            self.gold = max(0, self.gold - effect["amount"])
+        elif kind == "heal_full":
+            self.host.heal_full()
+        elif kind == "remove_item":
+            held = self.host.inventory.get(effect["item"], 0)
+            left = held - min(held, effect["qty"])
+            if left > 0:
+                self.host.inventory[effect["item"]] = left
+            else:
+                self.host.inventory.pop(effect["item"], None)
             self._refresh_all()
         elif kind == "set_flag":
             self.flags[effect["flag"]] = effect["value"]
@@ -210,6 +237,7 @@ class Story:
         return {
             "flags": {k: self.flags[k] for k in sorted(self.flags)},
             "gold": self.gold,
+            "guild_points": self.guild_points,
             "quests": {k: {"stage": v["stage"], "progress": list(v["progress"]), "done": v["done"]}
                        for k, v in sorted(self.quests.items())},
             "dialogue": None if self.dialogue is None else {"id": self.dialogue[0], "node": self.dialogue[1]},
@@ -218,6 +246,7 @@ class Story:
     def load_state(self, state: dict) -> None:
         self.flags = dict(state["flags"])
         self.gold = state["gold"]
+        self.guild_points = state.get("guild_points", 0)
         self.quests = {k: {"stage": v["stage"], "progress": list(v["progress"]), "done": v["done"]}
                        for k, v in state["quests"].items()}
         d = state["dialogue"]
@@ -237,6 +266,7 @@ class Story:
         return {
             "flags": {k: self.flags[k] for k in sorted(self.flags)},
             "gold": self.gold,
+            "guild_points": self.guild_points,
             "quests": {k: {"stage": v["stage"], "done": v["done"], "progress": list(v["progress"])}
                        for k, v in sorted(self.quests.items())},
             "dialogue": self.dialogue_view(),

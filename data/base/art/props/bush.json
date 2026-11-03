@@ -1,0 +1,192 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/bush",
+  "canvas": {
+    "w": 32,
+    "h": 24,
+    "origin": [
+      16,
+      20
+    ]
+  },
+  "palette": {
+    "leaf": "#4E9A44",
+    "light": "#8AD068",
+    "dark": "#2E6228",
+    "outline": "#143312",
+    "berry": "#D8402A"
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          16,
+          21,
+          13,
+          2.4
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "ellipse": [
+          9,
+          14,
+          8,
+          6.5
+        ]
+      },
+      "fill": {
+        "radial": {
+          "cx": 7,
+          "cy": 11,
+          "r": 12,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.55,
+              "$p.leaf"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.3
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          23,
+          14,
+          8,
+          6.5
+        ]
+      },
+      "fill": {
+        "radial": {
+          "cx": 21,
+          "cy": 11,
+          "r": 12,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.55,
+              "$p.leaf"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.3
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          16,
+          11,
+          9.5,
+          8
+        ]
+      },
+      "fill": {
+        "radial": {
+          "cx": 13,
+          "cy": 7,
+          "r": 14,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.55,
+              "$p.leaf"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.3
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          12,
+          11,
+          1.2,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "$p.berry"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          19,
+          9,
+          1.2,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "$p.berry"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          21,
+          15,
+          1.2,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "$p.berry"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          8,
+          16,
+          1.2,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "$p.berry"
+      }
+    }
+  ]
+}

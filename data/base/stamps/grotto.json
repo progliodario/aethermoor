@@ -1,0 +1,57 @@
+{
+  "$schema": "../../../schemas/stamp.schema.json",
+  "id": "base:stamp/grotto",
+  "w": 25,
+  "h": 21,
+  "anchor": [
+    12,
+    0
+  ],
+  "rows": [
+    "...........===...........",
+    ".##########===##########.",
+    ".#ccccccccccccccccccccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#ccccZcccZcccZcccicccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#cccccc#ccccccc#cccccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#ccccccZcccCcccZcccccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#cccccc#ccccccc#cccccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#ccccZcccicccZcccZcccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".##########===##########.",
+    "...........===..........."
+  ],
+  "legend": {
+    "#": {
+      "tile": 5
+    },
+    "=": {
+      "tile": 11
+    },
+    "C": {
+      "tile": 14,
+      "spawner": "base:enemy/coral_matron"
+    },
+    "Z": {
+      "tile": 14,
+      "spawner": "base:enemy/slime_coral"
+    },
+    "c": {
+      "tile": 14
+    },
+    "i": {
+      "tile": 14,
+      "spawner": "base:enemy/slime_tide"
+    }
+  },
+  "spots": []
+}

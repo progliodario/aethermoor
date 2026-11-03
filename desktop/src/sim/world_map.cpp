@@ -2,7 +2,7 @@
 
 namespace aether {
 
-TileMap make_tilemap(const GeneratedWorld& world, const WorldParams& params) {
+TileMap make_tilemap(const GeneratedWorld& world, const WorldParams& params, std::uint64_t seed) {
     TileMap map;
     map.width = world.width;
     map.height = world.height;
@@ -16,7 +16,8 @@ TileMap make_tilemap(const GeneratedWorld& world, const WorldParams& params) {
                              static_cast<float>(p.radius_x100) / 100.0F});
     }
     for (const auto& s : world.spawners) {
-        map.spawners.push_back({params.spawner_enemy, static_cast<float>(s.first) + 0.5F, static_cast<float>(s.second) + 0.5F});
+        map.spawners.push_back({spawner_enemy_at(seed, params, s.first, s.second), static_cast<float>(s.first) + 0.5F,
+                                static_cast<float>(s.second) + 0.5F});
     }
     for (const GenNpc& n : world.npcs) {
         map.npcs.push_back({n.key, n.dialogue, n.variant, static_cast<float>(n.x256) / 256.0F, static_cast<float>(n.y256) / 256.0F});

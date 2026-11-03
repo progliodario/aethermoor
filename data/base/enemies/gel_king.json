@@ -1,0 +1,35 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/gel_king",
+  "name": "$i18n:enemy.gel_king.name",
+  "level": 6,
+  "stats": {
+    "hp": 200,
+    "atk": 18,
+    "def": 8,
+    "mdef": 8,
+    "speed_x100": 220
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "fire": 1500
+  },
+  "xp": 90,
+  "drops": [
+    {
+      "item": "base:item/gel_mail",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 1000
+    },
+    {
+      "item": "base:item/slime_gel",
+      "qty_min": 3,
+      "qty_max": 5,
+      "weight_pm": 1000
+    }
+  ],
+  "radius_x100": 60,
+  "behavior": "base:behavior/guardian",
+  "art": "base:art/creature/gel_king"
+}

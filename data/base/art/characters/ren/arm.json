@@ -53,6 +53,40 @@
     "red": {
       "shirt": "#D14B3F",
       "shirt_dark": "#A5362E"
+    },
+    "green": {
+      "shirt": "#4FA464",
+      "shirt_dark": "#38804A",
+      "hair": "#5A3A24"
+    },
+    "ochre": {
+      "shirt": "#D4A040",
+      "shirt_dark": "#A67C2A",
+      "skin": "#D9A77A",
+      "hair": "#1E1B28"
+    },
+    "purple": {
+      "shirt": "#8A5CC0",
+      "shirt_dark": "#6B439A",
+      "hair": "#C9C1B0"
+    },
+    "teal": {
+      "shirt": "#3FA8A8",
+      "shirt_dark": "#2E8080",
+      "skin": "#8D5A3C",
+      "hair": "#1A1620"
+    },
+    "cream": {
+      "shirt": "#E8E4DC",
+      "shirt_dark": "#BDB8AC",
+      "pants": "#6B5A48",
+      "hair": "#A0522D"
+    },
+    "brown": {
+      "shirt": "#8C6A48",
+      "shirt_dark": "#6A4E32",
+      "skin": "#C98E66",
+      "hair": "#2A1E16"
     }
   }
 }

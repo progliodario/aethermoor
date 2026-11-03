@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/pack_mothers_fang",
+  "name": "$i18n:item.pack_mothers_fang.name",
+  "description": "$i18n:item.pack_mothers_fang.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 1200,
+  "weapon": {
+    "atk": 21,
+    "matk": 0
+  }
+}

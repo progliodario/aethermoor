@@ -5,6 +5,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonNull
+import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.buildJsonObject
@@ -34,7 +35,7 @@ class SaveEnemy(
 )
 
 /** Everything that changes while playing. */
-class SaveState(
+data class SaveState(
     val x: Float,
     val y: Float,
     val facingX: Float,
@@ -61,6 +62,13 @@ class SaveState(
     val cleared: List<ClearedSpawner> = emptyList(),
     /** -1: not in the save (a new game starts at the world's start tick). */
     val worldTicks: Long = -1,
+    /** Streamed worlds only: explored world map cells. */
+    val explored: List<Pair<Int, Int>> = emptyList(),
+    /** Streamed worlds only: tiles of the Threshold Stones that were used, in order. */
+    val stones: List<Pair<Int, Int>> = emptyList(),
+    /** The item ids worn (spec 06); null: not in the save (the starting weapon, no armor). */
+    val equippedWeapon: String? = null,
+    val equippedArmor: String = "",
     val inventory: Map<String, Long>,
     val story: StoryState,
 )
@@ -75,12 +83,17 @@ class SaveMeta(
 )
 
 /** The seed and map name of a save, read without building a world (to rebuild the same world first). */
-class SavePeek(val seed: ULong, val map: String)
+class SavePeek(val seed: ULong, val map: String, val level: Int = 1, val gold: Long = 0)
 
 fun savePeek(text: String): Result<SavePeek> =
     runCatching {
         val j = Json.parseToJsonElement(text).jsonObject
-        SavePeek(parseHex64(j.getValue("seed")), (j["map"] as? JsonPrimitive)?.content ?: "")
+        val player = j["player"] as? JsonObject
+        val story = j["story"] as? JsonObject
+        SavePeek(
+            parseHex64(j.getValue("seed")), (j["map"] as? JsonPrimitive)?.content ?: "",
+            (player?.get("level") as? JsonPrimitive)?.int ?: 1, (story?.get("gold") as? JsonPrimitive)?.long ?: 0L,
+        )
     }
 
 private fun hex64(value: ULong) = "0x" + value.toString(16).padStart(16, '0')
@@ -152,12 +165,18 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
             )
         }
         put("world_ticks", s.worldTicks)
+        put("equipped", buildJsonObject { put("weapon", s.equippedWeapon ?: ""); put("armor", s.equippedArmor) })
+        if (meta.map == "world") {
+            put("explored", JsonArray(s.explored.map { JsonArray(listOf(JsonPrimitive(it.first), JsonPrimitive(it.second))) }))
+            put("stones", JsonArray(s.stones.map { JsonArray(listOf(JsonPrimitive(it.first), JsonPrimitive(it.second))) }))
+        }
         put("inventory", buildJsonObject { for ((item, quantity) in s.inventory) put(item, quantity) })
         put(
             "story",
             buildJsonObject {
                 put("flags", buildJsonObject { for ((flag, value) in s.story.flags) put(flag, value) })
                 put("gold", s.story.gold)
+                put("guild_points", s.story.guildPoints)
                 put(
                     "quests",
                     buildJsonObject {
@@ -174,7 +193,14 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
                     },
                 )
                 if (s.story.dialogueActive) {
-                    put("dialogue", buildJsonObject { put("id", s.story.dialogueId); put("node", s.story.node) })
+                    put(
+                        "dialogue",
+                        buildJsonObject {
+                            put("id", s.story.dialogueId)
+                            put("node", s.story.node)
+                            if (s.story.dialogueArgs.isNotEmpty()) put("args", buildJsonObject { for ((k, v) in s.story.dialogueArgs) put(k, v) })
+                        },
+                    )
                 } else {
                     put("dialogue", JsonNull)
                 }
@@ -203,6 +229,7 @@ fun saveFromJson(text: String): Result<SaveState> =
                 StoryState(
                     flags = st.getValue("flags").jsonObject.mapValues { it.value.jsonPrimitive.boolean },
                     gold = st.getValue("gold").jsonPrimitive.long,
+                    guildPoints = st["guild_points"]?.jsonPrimitive?.long ?: 0L,
                     quests = st.getValue("quests").jsonObject.mapValues { (_, value) ->
                         val q = value.jsonObject
                         QuestProgress(
@@ -214,6 +241,7 @@ fun saveFromJson(text: String): Result<SaveState> =
                     dialogueActive = dialogue !is JsonNull,
                     dialogueId = if (dialogue is JsonNull) "" else dialogue.jsonObject.getValue("id").jsonPrimitive.content,
                     node = if (dialogue is JsonNull) "" else dialogue.jsonObject.getValue("node").jsonPrimitive.content,
+                    dialogueArgs = if (dialogue is JsonNull) emptyMap() else (dialogue.jsonObject["args"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.content } ?: emptyMap(),
                 )
             }
         SaveState(
@@ -251,6 +279,12 @@ fun saveFromJson(text: String): Result<SaveState> =
                 ClearedSpawner(a[0].jsonPrimitive.int, a[1].jsonPrimitive.int, if (a.size > 2) a[2].jsonPrimitive.long else 0L)
             } ?: emptyList(),
             worldTicks = j["world_ticks"]?.jsonPrimitive?.long ?: -1L,
+            equippedWeapon = (j["equipped"] as? JsonObject)?.let { (it["weapon"] as? JsonPrimitive)?.content ?: "" },
+            equippedArmor = (j["equipped"] as? JsonObject)?.let { (it["armor"] as? JsonPrimitive)?.content } ?: "",
+            explored = (j["explored"] as? JsonArray)?.map { c -> Pair(c.jsonArray[0].jsonPrimitive.int, c.jsonArray[1].jsonPrimitive.int) }
+                ?: emptyList(),
+            stones = (j["stones"] as? JsonArray)?.map { c -> Pair(c.jsonArray[0].jsonPrimitive.int, c.jsonArray[1].jsonPrimitive.int) }
+                ?: emptyList(),
             inventory = j.getValue("inventory").jsonObject.mapValues { it.value.jsonPrimitive.long },
             story = story,
         )

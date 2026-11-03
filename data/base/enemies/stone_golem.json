@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/stone_golem",
+  "name": "$i18n:enemy.stone_golem.name",
+  "level": 12,
+  "stats": {
+    "hp": 350,
+    "atk": 32,
+    "def": 20,
+    "mdef": 10,
+    "speed_x100": 180
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "water": 1500
+  },
+  "xp": 110,
+  "drops": [
+    {
+      "item": "base:item/golem_core",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 450
+    }
+  ],
+  "radius_x100": 52,
+  "behavior": "base:behavior/brute",
+  "art": "base:art/creature/stone_golem"
+}
