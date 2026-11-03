@@ -139,6 +139,11 @@
                   "enemy": "base:enemy/wolf_tawny",
                   "drop": "base:item/tawny_fur",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/myconid",
+                  "drop": "base:item/spore_cap",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -186,6 +191,31 @@
                 {
                   "enemy": "base:enemy/slime_moss",
                   "drop": "base:item/moss_clump",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/cave_bat",
+                  "drop": "base:item/bat_wing",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/cave_spider",
+                  "drop": "base:item/spider_silk",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/myconid",
+                  "drop": "base:item/spore_cap",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wisp",
+                  "drop": "base:item/wisp_ember",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/night_owl",
+                  "drop": "base:item/owl_feather",
                   "weight": 2
                 }
               ],
@@ -235,6 +265,21 @@
                   "enemy": "base:enemy/slime_rust",
                   "drop": "base:item/rust_flake",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/cave_bat",
+                  "drop": "base:item/bat_wing",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/cave_spider",
+                  "drop": "base:item/spider_silk",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/stone_golem",
+                  "drop": "base:item/golem_core",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -279,6 +324,21 @@
                   "enemy": "base:enemy/wolf_dune",
                   "drop": "base:item/dune_pelt",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/stone_golem",
+                  "drop": "base:item/golem_core",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/shore_crab",
+                  "drop": "base:item/crab_shell",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/dune_scorpion",
+                  "drop": "base:item/scorpion_sting",
+                  "weight": 3
                 }
               ],
               "shop": {
@@ -323,6 +383,16 @@
                   "enemy": "base:enemy/wolf_polar",
                   "drop": "base:item/polar_fur",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/cave_bat",
+                  "drop": "base:item/bat_wing",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/night_owl",
+                  "drop": "base:item/owl_feather",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -372,6 +442,11 @@
                   "enemy": "base:enemy/slime_pearl",
                   "drop": "base:item/pearl_dust",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/shore_crab",
+                  "drop": "base:item/crab_shell",
+                  "weight": 3
                 }
               ],
               "shop": {
@@ -422,6 +497,21 @@
                   "enemy": "base:enemy/slime_char",
                   "drop": "base:item/char_chunk",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/stone_golem",
+                  "drop": "base:item/golem_core",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/wisp",
+                  "drop": "base:item/wisp_ember",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/dune_scorpion",
+                  "drop": "base:item/scorpion_sting",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -472,6 +562,26 @@
                   "enemy": "base:enemy/slime_nebula",
                   "drop": "base:item/nebula_ash",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/cave_spider",
+                  "drop": "base:item/spider_silk",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/myconid",
+                  "drop": "base:item/spore_cap",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/wisp",
+                  "drop": "base:item/wisp_ember",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/night_owl",
+                  "drop": "base:item/owl_feather",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -2676,12 +2786,16 @@
                 ".#cccccccccc#ccccccccc#cccccccccc#.",
                 ".#cccccccccc#ccclclccc#cccccccccc#.",
                 ".################c################.",
-                "..............T..c.................",
+                "..............T.@c@................",
                 ".................c................."
               ],
               "legend": {
                 "#": {
                   "tile": 5
+                },
+                "@": {
+                  "prop": "base:art/prop/banner",
+                  "radius_x100": 15
                 },
                 "Q": {
                   "tile": 14,
@@ -2748,7 +2862,7 @@
                 ".#ccccccccccccccccccccccccccccc#.",
                 ".#ccccccccccccclclccccccccccccc#.",
                 ".###############c###############.",
-                ".............T..c................"
+                ".............T.^c^..............."
               ],
               "legend": {
                 "#": {
@@ -2761,6 +2875,10 @@
                 "T": {
                   "tile": 14,
                   "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
                   "radius_x100": 35
                 },
                 "c": {
@@ -2914,12 +3032,16 @@
                 ".#clccccccccccccccccccccccccccccccccclc#.",
                 ".#ccccccccccccccccccccccccccccccccccccc#.",
                 ".##################ccc##################.",
-                "...................ccc...................",
+                "..................@ccc@..................",
                 "................T..ccc..................."
               ],
               "legend": {
                 "#": {
                   "tile": 5
+                },
+                "@": {
+                  "prop": "base:art/prop/banner",
+                  "radius_x100": 15
                 },
                 "T": {
                   "tile": 14,
@@ -3085,14 +3207,22 @@
                 ".#ccccccccccccccccccccccccccccccccccccccccccc#.",
                 ".#####################ccc#####################.",
                 "......................ccc......................",
-                "......................ccc......................",
-                "......................ccc......................",
+                "..................!...ccc...!..................",
+                ".....................@ccc@.....................",
                 "...................T..ccc......................",
                 "......................ccc......................"
               ],
               "legend": {
+                "!": {
+                  "prop": "base:art/prop/bush",
+                  "radius_x100": 30
+                },
                 "#": {
                   "tile": 5
+                },
+                "@": {
+                  "prop": "base:art/prop/banner",
+                  "radius_x100": 15
                 },
                 "N": {
                   "tile": 14,
@@ -3136,7 +3266,7 @@
                 ".ttttttttttttttttttttttt.",
                 ".ttttttttttttttttttttttt.",
                 ".tt...................tt.",
-                ".tt...................tt.",
+                ".tt.................$.tt.",
                 ".tt...D...D...D...W...tt.",
                 ".tt...................tt.",
                 ".tt...o...............tt.",
@@ -3148,13 +3278,17 @@
                 ".tt...D...W...D...D...tt.",
                 ".tt...................tt.",
                 ".tt.......o...........tt.",
-                ".tt...................tt.",
+                ".tt.$.................tt.",
                 ".tt...................tt.",
                 ".ttttttttttttttttttttttt.",
                 ".ttttttttttttttttttttttt.",
                 "........................."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "=": {
                   "tile": 11
                 },
@@ -3314,7 +3448,7 @@
                 ".oooooooooo===oooooooooo.",
                 ".oooooooooo===oooooooooo.",
                 ".oo...................oo.",
-                ".oo...................oo.",
+                ".oo.................$.oo.",
                 ".oo...P...P...P...a...oo.",
                 ".oo...................oo.",
                 ".oo..t.............t..oo.",
@@ -3326,13 +3460,17 @@
                 ".oo...P...a...P...P...oo.",
                 ".oo...................oo.",
                 ".oo.........t.........oo.",
-                ".oo...................oo.",
+                ".oo.$.................oo.",
                 ".oo...................oo.",
                 ".ooooooooooooooooooooooo.",
                 ".ooooooooooooooooooooooo.",
                 "........................."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "=": {
                   "tile": 11
                 },
@@ -3435,7 +3573,7 @@
                 ".ttttttttttttttttttttttt.",
                 ".ttttttttttttttttttttttt.",
                 ".tt...................tt.",
-                ".tt...................tt.",
+                ".tt.................$.tt.",
                 ".tt...O...O...O...d...tt.",
                 ".tt...................tt.",
                 ".tt...o...........o...tt.",
@@ -3447,13 +3585,17 @@
                 ".tt...O...d...O...O...tt.",
                 ".tt...................tt.",
                 ".tt...................tt.",
-                ".tt...................tt.",
+                ".tt.$.................tt.",
                 ".tt...................tt.",
                 ".tttttttttt===tttttttttt.",
                 ".tttttttttt===tttttttttt.",
                 "...........===..........."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "=": {
                   "tile": 11
                 },
@@ -3497,10 +3639,10 @@
                 ".#______#.....#______#.",
                 ".###_####.....####_###.",
                 ".........ccccc.........",
-                ".........ccwTc.........",
+                "......~..ccwTc..~......",
                 ".........cVccc.........",
                 ".....o.....=.....o.....",
-                "...........=...........",
+                "........?..=.+.....*...",
                 "...........=...........",
                 "o..........=..........o"
               ],
@@ -3508,8 +3650,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -3547,6 +3701,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -3577,19 +3735,31 @@
                 "..#_____________#..",
                 "..#######_#######..",
                 "...................",
-                ".......ccccc.......",
+                "....~..ccccc..~....",
                 "...o...VcwcT...o...",
                 ".......ccccc.......",
-                ".........=.........",
-                ".........=.........",
+                ".........=...*.....",
+                "......?..=+........",
                 "o........=........o"
               ],
               "legend": {
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -3627,6 +3797,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -3656,11 +3830,11 @@
                 ".#_____#.....#_____#.",
                 ".###_###.....###_###.",
                 ".....................",
-                "........lcccc........",
+                "....~...lcccc...~....",
                 "........ccwcT........",
                 "....t...cVccl...t....",
                 "..........=..........",
-                "..........=..........",
+                ".......?..=+...*.....",
                 "..........=..........",
                 "t.........=.........t"
               ],
@@ -3668,8 +3842,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -3712,6 +3898,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -3742,10 +3932,10 @@
                 ".#______#.....#______#.",
                 ".###_####.....####_###.",
                 ".........ccccc.........",
-                ".........ccwTc.........",
+                "......~..ccwTc..~......",
                 ".........cVccc.........",
                 ".....t.....=.....t.....",
-                "...........=...........",
+                "........?..=.+.....*...",
                 "...........=...........",
                 "t..........=..........t"
               ],
@@ -3753,8 +3943,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -3792,6 +3994,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -3822,19 +4028,31 @@
                 "..#_____________#..",
                 "..#######_#######..",
                 "...................",
-                ".......ccccc.......",
+                "....~..ccccc..~....",
                 "...o...VcwcT...o...",
                 ".......ccccc.......",
-                ".........=.........",
-                ".........=.........",
+                ".........=...*.....",
+                "......?..=+........",
                 "o........=........o"
               ],
               "legend": {
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -3872,6 +4090,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -3901,11 +4123,11 @@
                 ".#_____#.....#_____#.",
                 ".###_###.....###_###.",
                 ".....................",
-                "........lcccc........",
+                "....~...lcccc...~....",
                 "........ccwcT........",
                 "....t...cVccl...t....",
                 "..........=..........",
-                "..........=..........",
+                ".......?..=+...*.....",
                 "..........=..........",
                 "t.........=.........t"
               ],
@@ -3913,8 +4135,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -3957,6 +4191,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -3987,10 +4225,10 @@
                 ".#______#.....#______#.",
                 ".###_####.....####_###.",
                 ".........ccccc.........",
-                ".........ccwTc.........",
+                "......~..ccwTc..~......",
                 ".........cVccc.........",
                 ".....o.....=.....o.....",
-                "...........=...........",
+                "........?..=.+.....*...",
                 "...........=...........",
                 "o..........=..........o"
               ],
@@ -3998,8 +4236,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -4037,6 +4287,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -4066,11 +4320,11 @@
                 ".#_____#.....#_____#.",
                 ".###_###.....###_###.",
                 ".....................",
-                "........lcccc........",
+                "....~...lcccc...~....",
                 "........ccwcT........",
                 "....t...cVccl...t....",
                 "..........=..........",
-                "..........=..........",
+                ".......?..=+...*.....",
                 "..........=..........",
                 "t.........=.........t"
               ],
@@ -4078,8 +4332,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -4122,6 +4388,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -4180,12 +4450,16 @@
                 ".#ccccccc##cccccccccccccccccccc##cccccc#.",
                 ".#ccccccccccccccclccccclccccccccccccccc#.",
                 ".##################ccc##################.",
-                "...................ccc...................",
+                "..............~...@ccc@...~..............",
                 "...............T...ccc..................."
               ],
               "legend": {
                 "#": {
                   "tile": 5
+                },
+                "@": {
+                  "prop": "base:art/prop/banner",
+                  "radius_x100": 15
                 },
                 "D": {
                   "tile": 14,
@@ -4219,6 +4493,10 @@
                 "q": {
                   "tile": 14,
                   "spawner": "base:enemy/forge_tyrant"
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": []
@@ -4339,7 +4617,7 @@
                 ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
                 ".##########ccccccccccccccccccc##########.",
                 ".##################ccc##################.",
-                "...............T...ccc..................."
+                "...............T..^ccc^.................."
               ],
               "legend": {
                 "#": {
@@ -4356,6 +4634,10 @@
                 "T": {
                   "tile": 14,
                   "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
                   "radius_x100": 35
                 },
                 "c": {
@@ -4419,7 +4701,7 @@
                 ".###################clDlc###################.",
                 ".###################ccccc###################.",
                 ".####################ccc####################.",
-                "..................T..ccc....................."
+                "..................T.^ccc^...................."
               ],
               "legend": {
                 "#": {
@@ -4445,6 +4727,10 @@
                 "X": {
                   "tile": 14,
                   "spawner": "base:enemy/magma_heart"
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
+                  "radius_x100": 35
                 },
                 "c": {
                   "tile": 14
@@ -4479,7 +4765,7 @@
                 ".ooooooooooooooooooooooo.",
                 ".ooooooooooooooooooooooo.",
                 ".oo...................oo.",
-                ".oo...................oo.",
+                ".oo.................$.oo.",
                 ".oo...3...3...3...4...oo.",
                 ".oo...................oo.",
                 ".oo...o...............oo.",
@@ -4491,13 +4777,17 @@
                 ".oo...3...4...3...3...oo.",
                 ".oo...................oo.",
                 ".oo.......o...........oo.",
-                ".oo...................oo.",
+                ".oo.$.................oo.",
                 ".oo...................oo.",
                 ".oooooooooo===oooooooooo.",
                 ".oooooooooo===oooooooooo.",
                 "...........===..........."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "3": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_mint"
@@ -4534,7 +4824,7 @@
                 ".tttttttttt===tttttttttt.",
                 ".tttttttttt===tttttttttt.",
                 ".tt...................tt.",
-                ".tt...................tt.",
+                ".tt.................$.tt.",
                 ".tt...5...5...5...d...tt.",
                 ".tt...................tt.",
                 ".tt...o...............tt.",
@@ -4546,13 +4836,17 @@
                 ".tt...5...d...5...5...tt.",
                 ".tt...................tt.",
                 ".tt.......o...........tt.",
-                ".tt...................tt.",
+                ".tt.$.................tt.",
                 ".tt...................tt.",
                 ".ttttttttttttttttttttttt.",
                 ".ttttttttttttttttttttttt.",
                 "........................."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "5": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_moss"
@@ -4655,7 +4949,7 @@
                 ".ooooooooooooooooooooooo.",
                 ".ooooooooooooooooooooooo.",
                 ".oo...................oo.",
-                ".oo...................oo.",
+                ".oo.................$.oo.",
                 ".oo...7...7...7...a...oo.",
                 ".oo...................oo.",
                 ".oo...o...............oo.",
@@ -4667,13 +4961,17 @@
                 ".oo...7...a...7...7...oo.",
                 ".oo...................oo.",
                 ".oo.......o...........oo.",
-                ".oo...................oo.",
+                ".oo.$.................oo.",
                 ".oo...................oo.",
                 ".ooooooooooooooooooooooo.",
                 ".ooooooooooooooooooooooo.",
                 "........................."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "7": {
                   "tile": 14,
                   "spawner": "base:enemy/wolf_dune"
@@ -4834,7 +5132,7 @@
                 ".ooooooooooooooooooooooo.",
                 ".ooooooooooooooooooooooo.",
                 ".oo...................oo.",
-                ".oo...................oo.",
+                ".oo.................$.oo.",
                 ".oo...%...%...%...g...oo.",
                 ".oo...................oo.",
                 ".oo...o...............oo.",
@@ -4846,13 +5144,17 @@
                 ".oo...%...g...%...%...oo.",
                 ".oo...................oo.",
                 ".oo.......o...........oo.",
-                ".oo...................oo.",
+                ".oo.$.................oo.",
                 ".oo...................oo.",
                 ".oooooooooo===oooooooooo.",
                 ".oooooooooo===oooooooooo.",
                 "...........===..........."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "%": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_nebula"
@@ -5138,6 +5440,11 @@
                   "enemy": "base:enemy/wolf_tawny",
                   "drop": "base:item/tawny_fur",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/myconid",
+                  "drop": "base:item/spore_cap",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -5185,6 +5492,31 @@
                 {
                   "enemy": "base:enemy/slime_moss",
                   "drop": "base:item/moss_clump",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/cave_bat",
+                  "drop": "base:item/bat_wing",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/cave_spider",
+                  "drop": "base:item/spider_silk",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/myconid",
+                  "drop": "base:item/spore_cap",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wisp",
+                  "drop": "base:item/wisp_ember",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/night_owl",
+                  "drop": "base:item/owl_feather",
                   "weight": 2
                 }
               ],
@@ -5234,6 +5566,21 @@
                   "enemy": "base:enemy/slime_rust",
                   "drop": "base:item/rust_flake",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/cave_bat",
+                  "drop": "base:item/bat_wing",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/cave_spider",
+                  "drop": "base:item/spider_silk",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/stone_golem",
+                  "drop": "base:item/golem_core",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -5278,6 +5625,21 @@
                   "enemy": "base:enemy/wolf_dune",
                   "drop": "base:item/dune_pelt",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/stone_golem",
+                  "drop": "base:item/golem_core",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/shore_crab",
+                  "drop": "base:item/crab_shell",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/dune_scorpion",
+                  "drop": "base:item/scorpion_sting",
+                  "weight": 3
                 }
               ],
               "shop": {
@@ -5322,6 +5684,16 @@
                   "enemy": "base:enemy/wolf_polar",
                   "drop": "base:item/polar_fur",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/cave_bat",
+                  "drop": "base:item/bat_wing",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/night_owl",
+                  "drop": "base:item/owl_feather",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -5371,6 +5743,11 @@
                   "enemy": "base:enemy/slime_pearl",
                   "drop": "base:item/pearl_dust",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/shore_crab",
+                  "drop": "base:item/crab_shell",
+                  "weight": 3
                 }
               ],
               "shop": {
@@ -5421,6 +5798,21 @@
                   "enemy": "base:enemy/slime_char",
                   "drop": "base:item/char_chunk",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/stone_golem",
+                  "drop": "base:item/golem_core",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/wisp",
+                  "drop": "base:item/wisp_ember",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/dune_scorpion",
+                  "drop": "base:item/scorpion_sting",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -5471,6 +5863,26 @@
                   "enemy": "base:enemy/slime_nebula",
                   "drop": "base:item/nebula_ash",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/cave_spider",
+                  "drop": "base:item/spider_silk",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/myconid",
+                  "drop": "base:item/spore_cap",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/wisp",
+                  "drop": "base:item/wisp_ember",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/night_owl",
+                  "drop": "base:item/owl_feather",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -7675,12 +8087,16 @@
                 ".#cccccccccc#ccccccccc#cccccccccc#.",
                 ".#cccccccccc#ccclclccc#cccccccccc#.",
                 ".################c################.",
-                "..............T..c.................",
+                "..............T.@c@................",
                 ".................c................."
               ],
               "legend": {
                 "#": {
                   "tile": 5
+                },
+                "@": {
+                  "prop": "base:art/prop/banner",
+                  "radius_x100": 15
                 },
                 "Q": {
                   "tile": 14,
@@ -7747,7 +8163,7 @@
                 ".#ccccccccccccccccccccccccccccc#.",
                 ".#ccccccccccccclclccccccccccccc#.",
                 ".###############c###############.",
-                ".............T..c................"
+                ".............T.^c^..............."
               ],
               "legend": {
                 "#": {
@@ -7760,6 +8176,10 @@
                 "T": {
                   "tile": 14,
                   "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
                   "radius_x100": 35
                 },
                 "c": {
@@ -7913,12 +8333,16 @@
                 ".#clccccccccccccccccccccccccccccccccclc#.",
                 ".#ccccccccccccccccccccccccccccccccccccc#.",
                 ".##################ccc##################.",
-                "...................ccc...................",
+                "..................@ccc@..................",
                 "................T..ccc..................."
               ],
               "legend": {
                 "#": {
                   "tile": 5
+                },
+                "@": {
+                  "prop": "base:art/prop/banner",
+                  "radius_x100": 15
                 },
                 "T": {
                   "tile": 14,
@@ -8084,14 +8508,22 @@
                 ".#ccccccccccccccccccccccccccccccccccccccccccc#.",
                 ".#####################ccc#####################.",
                 "......................ccc......................",
-                "......................ccc......................",
-                "......................ccc......................",
+                "..................!...ccc...!..................",
+                ".....................@ccc@.....................",
                 "...................T..ccc......................",
                 "......................ccc......................"
               ],
               "legend": {
+                "!": {
+                  "prop": "base:art/prop/bush",
+                  "radius_x100": 30
+                },
                 "#": {
                   "tile": 5
+                },
+                "@": {
+                  "prop": "base:art/prop/banner",
+                  "radius_x100": 15
                 },
                 "N": {
                   "tile": 14,
@@ -8135,7 +8567,7 @@
                 ".ttttttttttttttttttttttt.",
                 ".ttttttttttttttttttttttt.",
                 ".tt...................tt.",
-                ".tt...................tt.",
+                ".tt.................$.tt.",
                 ".tt...D...D...D...W...tt.",
                 ".tt...................tt.",
                 ".tt...o...............tt.",
@@ -8147,13 +8579,17 @@
                 ".tt...D...W...D...D...tt.",
                 ".tt...................tt.",
                 ".tt.......o...........tt.",
-                ".tt...................tt.",
+                ".tt.$.................tt.",
                 ".tt...................tt.",
                 ".ttttttttttttttttttttttt.",
                 ".ttttttttttttttttttttttt.",
                 "........................."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "=": {
                   "tile": 11
                 },
@@ -8313,7 +8749,7 @@
                 ".oooooooooo===oooooooooo.",
                 ".oooooooooo===oooooooooo.",
                 ".oo...................oo.",
-                ".oo...................oo.",
+                ".oo.................$.oo.",
                 ".oo...P...P...P...a...oo.",
                 ".oo...................oo.",
                 ".oo..t.............t..oo.",
@@ -8325,13 +8761,17 @@
                 ".oo...P...a...P...P...oo.",
                 ".oo...................oo.",
                 ".oo.........t.........oo.",
-                ".oo...................oo.",
+                ".oo.$.................oo.",
                 ".oo...................oo.",
                 ".ooooooooooooooooooooooo.",
                 ".ooooooooooooooooooooooo.",
                 "........................."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "=": {
                   "tile": 11
                 },
@@ -8434,7 +8874,7 @@
                 ".ttttttttttttttttttttttt.",
                 ".ttttttttttttttttttttttt.",
                 ".tt...................tt.",
-                ".tt...................tt.",
+                ".tt.................$.tt.",
                 ".tt...O...O...O...d...tt.",
                 ".tt...................tt.",
                 ".tt...o...........o...tt.",
@@ -8446,13 +8886,17 @@
                 ".tt...O...d...O...O...tt.",
                 ".tt...................tt.",
                 ".tt...................tt.",
-                ".tt...................tt.",
+                ".tt.$.................tt.",
                 ".tt...................tt.",
                 ".tttttttttt===tttttttttt.",
                 ".tttttttttt===tttttttttt.",
                 "...........===..........."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "=": {
                   "tile": 11
                 },
@@ -8496,10 +8940,10 @@
                 ".#______#.....#______#.",
                 ".###_####.....####_###.",
                 ".........ccccc.........",
-                ".........ccwTc.........",
+                "......~..ccwTc..~......",
                 ".........cVccc.........",
                 ".....o.....=.....o.....",
-                "...........=...........",
+                "........?..=.+.....*...",
                 "...........=...........",
                 "o..........=..........o"
               ],
@@ -8507,8 +8951,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -8546,6 +9002,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -8576,19 +9036,31 @@
                 "..#_____________#..",
                 "..#######_#######..",
                 "...................",
-                ".......ccccc.......",
+                "....~..ccccc..~....",
                 "...o...VcwcT...o...",
                 ".......ccccc.......",
-                ".........=.........",
-                ".........=.........",
+                ".........=...*.....",
+                "......?..=+........",
                 "o........=........o"
               ],
               "legend": {
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -8626,6 +9098,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -8655,11 +9131,11 @@
                 ".#_____#.....#_____#.",
                 ".###_###.....###_###.",
                 ".....................",
-                "........lcccc........",
+                "....~...lcccc...~....",
                 "........ccwcT........",
                 "....t...cVccl...t....",
                 "..........=..........",
-                "..........=..........",
+                ".......?..=+...*.....",
                 "..........=..........",
                 "t.........=.........t"
               ],
@@ -8667,8 +9143,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -8711,6 +9199,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -8741,10 +9233,10 @@
                 ".#______#.....#______#.",
                 ".###_####.....####_###.",
                 ".........ccccc.........",
-                ".........ccwTc.........",
+                "......~..ccwTc..~......",
                 ".........cVccc.........",
                 ".....t.....=.....t.....",
-                "...........=...........",
+                "........?..=.+.....*...",
                 "...........=...........",
                 "t..........=..........t"
               ],
@@ -8752,8 +9244,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -8791,6 +9295,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -8821,19 +9329,31 @@
                 "..#_____________#..",
                 "..#######_#######..",
                 "...................",
-                ".......ccccc.......",
+                "....~..ccccc..~....",
                 "...o...VcwcT...o...",
                 ".......ccccc.......",
-                ".........=.........",
-                ".........=.........",
+                ".........=...*.....",
+                "......?..=+........",
                 "o........=........o"
               ],
               "legend": {
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -8871,6 +9391,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -8900,11 +9424,11 @@
                 ".#_____#.....#_____#.",
                 ".###_###.....###_###.",
                 ".....................",
-                "........lcccc........",
+                "....~...lcccc...~....",
                 "........ccwcT........",
                 "....t...cVccl...t....",
                 "..........=..........",
-                "..........=..........",
+                ".......?..=+...*.....",
                 "..........=..........",
                 "t.........=.........t"
               ],
@@ -8912,8 +9436,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -8956,6 +9492,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -8986,10 +9526,10 @@
                 ".#______#.....#______#.",
                 ".###_####.....####_###.",
                 ".........ccccc.........",
-                ".........ccwTc.........",
+                "......~..ccwTc..~......",
                 ".........cVccc.........",
                 ".....o.....=.....o.....",
-                "...........=...........",
+                "........?..=.+.....*...",
                 "...........=...........",
                 "o..........=..........o"
               ],
@@ -8997,8 +9537,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -9036,6 +9588,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -9065,11 +9621,11 @@
                 ".#_____#.....#_____#.",
                 ".###_###.....###_###.",
                 ".....................",
-                "........lcccc........",
+                "....~...lcccc...~....",
                 "........ccwcT........",
                 "....t...cVccl...t....",
                 "..........=..........",
-                "..........=..........",
+                ".......?..=+...*.....",
                 "..........=..........",
                 "t.........=.........t"
               ],
@@ -9077,8 +9633,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -9121,6 +9689,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -9179,12 +9751,16 @@
                 ".#ccccccc##cccccccccccccccccccc##cccccc#.",
                 ".#ccccccccccccccclccccclccccccccccccccc#.",
                 ".##################ccc##################.",
-                "...................ccc...................",
+                "..............~...@ccc@...~..............",
                 "...............T...ccc..................."
               ],
               "legend": {
                 "#": {
                   "tile": 5
+                },
+                "@": {
+                  "prop": "base:art/prop/banner",
+                  "radius_x100": 15
                 },
                 "D": {
                   "tile": 14,
@@ -9218,6 +9794,10 @@
                 "q": {
                   "tile": 14,
                   "spawner": "base:enemy/forge_tyrant"
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": []
@@ -9338,7 +9918,7 @@
                 ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
                 ".##########ccccccccccccccccccc##########.",
                 ".##################ccc##################.",
-                "...............T...ccc..................."
+                "...............T..^ccc^.................."
               ],
               "legend": {
                 "#": {
@@ -9355,6 +9935,10 @@
                 "T": {
                   "tile": 14,
                   "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
                   "radius_x100": 35
                 },
                 "c": {
@@ -9418,7 +10002,7 @@
                 ".###################clDlc###################.",
                 ".###################ccccc###################.",
                 ".####################ccc####################.",
-                "..................T..ccc....................."
+                "..................T.^ccc^...................."
               ],
               "legend": {
                 "#": {
@@ -9444,6 +10028,10 @@
                 "X": {
                   "tile": 14,
                   "spawner": "base:enemy/magma_heart"
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
+                  "radius_x100": 35
                 },
                 "c": {
                   "tile": 14
@@ -9478,7 +10066,7 @@
                 ".ooooooooooooooooooooooo.",
                 ".ooooooooooooooooooooooo.",
                 ".oo...................oo.",
-                ".oo...................oo.",
+                ".oo.................$.oo.",
                 ".oo...3...3...3...4...oo.",
                 ".oo...................oo.",
                 ".oo...o...............oo.",
@@ -9490,13 +10078,17 @@
                 ".oo...3...4...3...3...oo.",
                 ".oo...................oo.",
                 ".oo.......o...........oo.",
-                ".oo...................oo.",
+                ".oo.$.................oo.",
                 ".oo...................oo.",
                 ".oooooooooo===oooooooooo.",
                 ".oooooooooo===oooooooooo.",
                 "...........===..........."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "3": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_mint"
@@ -9533,7 +10125,7 @@
                 ".tttttttttt===tttttttttt.",
                 ".tttttttttt===tttttttttt.",
                 ".tt...................tt.",
-                ".tt...................tt.",
+                ".tt.................$.tt.",
                 ".tt...5...5...5...d...tt.",
                 ".tt...................tt.",
                 ".tt...o...............tt.",
@@ -9545,13 +10137,17 @@
                 ".tt...5...d...5...5...tt.",
                 ".tt...................tt.",
                 ".tt.......o...........tt.",
-                ".tt...................tt.",
+                ".tt.$.................tt.",
                 ".tt...................tt.",
                 ".ttttttttttttttttttttttt.",
                 ".ttttttttttttttttttttttt.",
                 "........................."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "5": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_moss"
@@ -9654,7 +10250,7 @@
                 ".ooooooooooooooooooooooo.",
                 ".ooooooooooooooooooooooo.",
                 ".oo...................oo.",
-                ".oo...................oo.",
+                ".oo.................$.oo.",
                 ".oo...7...7...7...a...oo.",
                 ".oo...................oo.",
                 ".oo...o...............oo.",
@@ -9666,13 +10262,17 @@
                 ".oo...7...a...7...7...oo.",
                 ".oo...................oo.",
                 ".oo.......o...........oo.",
-                ".oo...................oo.",
+                ".oo.$.................oo.",
                 ".oo...................oo.",
                 ".ooooooooooooooooooooooo.",
                 ".ooooooooooooooooooooooo.",
                 "........................."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "7": {
                   "tile": 14,
                   "spawner": "base:enemy/wolf_dune"
@@ -9833,7 +10433,7 @@
                 ".ooooooooooooooooooooooo.",
                 ".ooooooooooooooooooooooo.",
                 ".oo...................oo.",
-                ".oo...................oo.",
+                ".oo.................$.oo.",
                 ".oo...%...%...%...g...oo.",
                 ".oo...................oo.",
                 ".oo...o...............oo.",
@@ -9845,13 +10445,17 @@
                 ".oo...%...g...%...%...oo.",
                 ".oo...................oo.",
                 ".oo.......o...........oo.",
-                ".oo...................oo.",
+                ".oo.$.................oo.",
                 ".oo...................oo.",
                 ".oooooooooo===oooooooooo.",
                 ".oooooooooo===oooooooooo.",
                 "...........===..........."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "%": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_nebula"

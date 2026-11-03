@@ -12,7 +12,7 @@
     ".ttttttttttttttttttttttt.",
     ".ttttttttttttttttttttttt.",
     ".tt...................tt.",
-    ".tt...................tt.",
+    ".tt.................$.tt.",
     ".tt...D...D...D...W...tt.",
     ".tt...................tt.",
     ".tt...o...............tt.",
@@ -24,13 +24,17 @@
     ".tt...D...W...D...D...tt.",
     ".tt...................tt.",
     ".tt.......o...........tt.",
-    ".tt...................tt.",
+    ".tt.$.................tt.",
     ".tt...................tt.",
     ".ttttttttttttttttttttttt.",
     ".ttttttttttttttttttttttt.",
     "........................."
   ],
   "legend": {
+    "$": {
+      "prop": "base:art/prop/bones",
+      "radius_x100": 10
+    },
     "=": {
       "tile": 11
     },

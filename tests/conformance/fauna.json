@@ -1864,6 +1864,11 @@
                   "enemy": "base:enemy/wolf_tawny",
                   "drop": "base:item/tawny_fur",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/myconid",
+                  "drop": "base:item/spore_cap",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -1911,6 +1916,31 @@
                 {
                   "enemy": "base:enemy/slime_moss",
                   "drop": "base:item/moss_clump",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/cave_bat",
+                  "drop": "base:item/bat_wing",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/cave_spider",
+                  "drop": "base:item/spider_silk",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/myconid",
+                  "drop": "base:item/spore_cap",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wisp",
+                  "drop": "base:item/wisp_ember",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/night_owl",
+                  "drop": "base:item/owl_feather",
                   "weight": 2
                 }
               ],
@@ -1960,6 +1990,21 @@
                   "enemy": "base:enemy/slime_rust",
                   "drop": "base:item/rust_flake",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/cave_bat",
+                  "drop": "base:item/bat_wing",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/cave_spider",
+                  "drop": "base:item/spider_silk",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/stone_golem",
+                  "drop": "base:item/golem_core",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -2004,6 +2049,21 @@
                   "enemy": "base:enemy/wolf_dune",
                   "drop": "base:item/dune_pelt",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/stone_golem",
+                  "drop": "base:item/golem_core",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/shore_crab",
+                  "drop": "base:item/crab_shell",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/dune_scorpion",
+                  "drop": "base:item/scorpion_sting",
+                  "weight": 3
                 }
               ],
               "shop": {
@@ -2048,6 +2108,16 @@
                   "enemy": "base:enemy/wolf_polar",
                   "drop": "base:item/polar_fur",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/cave_bat",
+                  "drop": "base:item/bat_wing",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/night_owl",
+                  "drop": "base:item/owl_feather",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -2097,6 +2167,11 @@
                   "enemy": "base:enemy/slime_pearl",
                   "drop": "base:item/pearl_dust",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/shore_crab",
+                  "drop": "base:item/crab_shell",
+                  "weight": 3
                 }
               ],
               "shop": {
@@ -2147,6 +2222,21 @@
                   "enemy": "base:enemy/slime_char",
                   "drop": "base:item/char_chunk",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/stone_golem",
+                  "drop": "base:item/golem_core",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/wisp",
+                  "drop": "base:item/wisp_ember",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/dune_scorpion",
+                  "drop": "base:item/scorpion_sting",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -2197,6 +2287,26 @@
                   "enemy": "base:enemy/slime_nebula",
                   "drop": "base:item/nebula_ash",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/cave_spider",
+                  "drop": "base:item/spider_silk",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/myconid",
+                  "drop": "base:item/spore_cap",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/wisp",
+                  "drop": "base:item/wisp_ember",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/night_owl",
+                  "drop": "base:item/owl_feather",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -4401,12 +4511,16 @@
                 ".#cccccccccc#ccccccccc#cccccccccc#.",
                 ".#cccccccccc#ccclclccc#cccccccccc#.",
                 ".################c################.",
-                "..............T..c.................",
+                "..............T.@c@................",
                 ".................c................."
               ],
               "legend": {
                 "#": {
                   "tile": 5
+                },
+                "@": {
+                  "prop": "base:art/prop/banner",
+                  "radius_x100": 15
                 },
                 "Q": {
                   "tile": 14,
@@ -4473,7 +4587,7 @@
                 ".#ccccccccccccccccccccccccccccc#.",
                 ".#ccccccccccccclclccccccccccccc#.",
                 ".###############c###############.",
-                ".............T..c................"
+                ".............T.^c^..............."
               ],
               "legend": {
                 "#": {
@@ -4486,6 +4600,10 @@
                 "T": {
                   "tile": 14,
                   "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
                   "radius_x100": 35
                 },
                 "c": {
@@ -4639,12 +4757,16 @@
                 ".#clccccccccccccccccccccccccccccccccclc#.",
                 ".#ccccccccccccccccccccccccccccccccccccc#.",
                 ".##################ccc##################.",
-                "...................ccc...................",
+                "..................@ccc@..................",
                 "................T..ccc..................."
               ],
               "legend": {
                 "#": {
                   "tile": 5
+                },
+                "@": {
+                  "prop": "base:art/prop/banner",
+                  "radius_x100": 15
                 },
                 "T": {
                   "tile": 14,
@@ -4810,14 +4932,22 @@
                 ".#ccccccccccccccccccccccccccccccccccccccccccc#.",
                 ".#####################ccc#####################.",
                 "......................ccc......................",
-                "......................ccc......................",
-                "......................ccc......................",
+                "..................!...ccc...!..................",
+                ".....................@ccc@.....................",
                 "...................T..ccc......................",
                 "......................ccc......................"
               ],
               "legend": {
+                "!": {
+                  "prop": "base:art/prop/bush",
+                  "radius_x100": 30
+                },
                 "#": {
                   "tile": 5
+                },
+                "@": {
+                  "prop": "base:art/prop/banner",
+                  "radius_x100": 15
                 },
                 "N": {
                   "tile": 14,
@@ -4861,7 +4991,7 @@
                 ".ttttttttttttttttttttttt.",
                 ".ttttttttttttttttttttttt.",
                 ".tt...................tt.",
-                ".tt...................tt.",
+                ".tt.................$.tt.",
                 ".tt...D...D...D...W...tt.",
                 ".tt...................tt.",
                 ".tt...o...............tt.",
@@ -4873,13 +5003,17 @@
                 ".tt...D...W...D...D...tt.",
                 ".tt...................tt.",
                 ".tt.......o...........tt.",
-                ".tt...................tt.",
+                ".tt.$.................tt.",
                 ".tt...................tt.",
                 ".ttttttttttttttttttttttt.",
                 ".ttttttttttttttttttttttt.",
                 "........................."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "=": {
                   "tile": 11
                 },
@@ -5039,7 +5173,7 @@
                 ".oooooooooo===oooooooooo.",
                 ".oooooooooo===oooooooooo.",
                 ".oo...................oo.",
-                ".oo...................oo.",
+                ".oo.................$.oo.",
                 ".oo...P...P...P...a...oo.",
                 ".oo...................oo.",
                 ".oo..t.............t..oo.",
@@ -5051,13 +5185,17 @@
                 ".oo...P...a...P...P...oo.",
                 ".oo...................oo.",
                 ".oo.........t.........oo.",
-                ".oo...................oo.",
+                ".oo.$.................oo.",
                 ".oo...................oo.",
                 ".ooooooooooooooooooooooo.",
                 ".ooooooooooooooooooooooo.",
                 "........................."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "=": {
                   "tile": 11
                 },
@@ -5160,7 +5298,7 @@
                 ".ttttttttttttttttttttttt.",
                 ".ttttttttttttttttttttttt.",
                 ".tt...................tt.",
-                ".tt...................tt.",
+                ".tt.................$.tt.",
                 ".tt...O...O...O...d...tt.",
                 ".tt...................tt.",
                 ".tt...o...........o...tt.",
@@ -5172,13 +5310,17 @@
                 ".tt...O...d...O...O...tt.",
                 ".tt...................tt.",
                 ".tt...................tt.",
-                ".tt...................tt.",
+                ".tt.$.................tt.",
                 ".tt...................tt.",
                 ".tttttttttt===tttttttttt.",
                 ".tttttttttt===tttttttttt.",
                 "...........===..........."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "=": {
                   "tile": 11
                 },
@@ -5222,10 +5364,10 @@
                 ".#______#.....#______#.",
                 ".###_####.....####_###.",
                 ".........ccccc.........",
-                ".........ccwTc.........",
+                "......~..ccwTc..~......",
                 ".........cVccc.........",
                 ".....o.....=.....o.....",
-                "...........=...........",
+                "........?..=.+.....*...",
                 "...........=...........",
                 "o..........=..........o"
               ],
@@ -5233,8 +5375,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -5272,6 +5426,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -5302,19 +5460,31 @@
                 "..#_____________#..",
                 "..#######_#######..",
                 "...................",
-                ".......ccccc.......",
+                "....~..ccccc..~....",
                 "...o...VcwcT...o...",
                 ".......ccccc.......",
-                ".........=.........",
-                ".........=.........",
+                ".........=...*.....",
+                "......?..=+........",
                 "o........=........o"
               ],
               "legend": {
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -5352,6 +5522,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -5381,11 +5555,11 @@
                 ".#_____#.....#_____#.",
                 ".###_###.....###_###.",
                 ".....................",
-                "........lcccc........",
+                "....~...lcccc...~....",
                 "........ccwcT........",
                 "....t...cVccl...t....",
                 "..........=..........",
-                "..........=..........",
+                ".......?..=+...*.....",
                 "..........=..........",
                 "t.........=.........t"
               ],
@@ -5393,8 +5567,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -5437,6 +5623,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -5467,10 +5657,10 @@
                 ".#______#.....#______#.",
                 ".###_####.....####_###.",
                 ".........ccccc.........",
-                ".........ccwTc.........",
+                "......~..ccwTc..~......",
                 ".........cVccc.........",
                 ".....t.....=.....t.....",
-                "...........=...........",
+                "........?..=.+.....*...",
                 "...........=...........",
                 "t..........=..........t"
               ],
@@ -5478,8 +5668,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -5517,6 +5719,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -5547,19 +5753,31 @@
                 "..#_____________#..",
                 "..#######_#######..",
                 "...................",
-                ".......ccccc.......",
+                "....~..ccccc..~....",
                 "...o...VcwcT...o...",
                 ".......ccccc.......",
-                ".........=.........",
-                ".........=.........",
+                ".........=...*.....",
+                "......?..=+........",
                 "o........=........o"
               ],
               "legend": {
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -5597,6 +5815,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -5626,11 +5848,11 @@
                 ".#_____#.....#_____#.",
                 ".###_###.....###_###.",
                 ".....................",
-                "........lcccc........",
+                "....~...lcccc...~....",
                 "........ccwcT........",
                 "....t...cVccl...t....",
                 "..........=..........",
-                "..........=..........",
+                ".......?..=+...*.....",
                 "..........=..........",
                 "t.........=.........t"
               ],
@@ -5638,8 +5860,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -5682,6 +5916,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -5712,10 +5950,10 @@
                 ".#______#.....#______#.",
                 ".###_####.....####_###.",
                 ".........ccccc.........",
-                ".........ccwTc.........",
+                "......~..ccwTc..~......",
                 ".........cVccc.........",
                 ".....o.....=.....o.....",
-                "...........=...........",
+                "........?..=.+.....*...",
                 "...........=...........",
                 "o..........=..........o"
               ],
@@ -5723,8 +5961,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -5762,6 +6012,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -5791,11 +6045,11 @@
                 ".#_____#.....#_____#.",
                 ".###_###.....###_###.",
                 ".....................",
-                "........lcccc........",
+                "....~...lcccc...~....",
                 "........ccwcT........",
                 "....t...cVccl...t....",
                 "..........=..........",
-                "..........=..........",
+                ".......?..=+...*.....",
                 "..........=..........",
                 "t.........=.........t"
               ],
@@ -5803,8 +6057,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -5847,6 +6113,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -5905,12 +6175,16 @@
                 ".#ccccccc##cccccccccccccccccccc##cccccc#.",
                 ".#ccccccccccccccclccccclccccccccccccccc#.",
                 ".##################ccc##################.",
-                "...................ccc...................",
+                "..............~...@ccc@...~..............",
                 "...............T...ccc..................."
               ],
               "legend": {
                 "#": {
                   "tile": 5
+                },
+                "@": {
+                  "prop": "base:art/prop/banner",
+                  "radius_x100": 15
                 },
                 "D": {
                   "tile": 14,
@@ -5944,6 +6218,10 @@
                 "q": {
                   "tile": 14,
                   "spawner": "base:enemy/forge_tyrant"
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": []
@@ -6064,7 +6342,7 @@
                 ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
                 ".##########ccccccccccccccccccc##########.",
                 ".##################ccc##################.",
-                "...............T...ccc..................."
+                "...............T..^ccc^.................."
               ],
               "legend": {
                 "#": {
@@ -6081,6 +6359,10 @@
                 "T": {
                   "tile": 14,
                   "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
                   "radius_x100": 35
                 },
                 "c": {
@@ -6144,7 +6426,7 @@
                 ".###################clDlc###################.",
                 ".###################ccccc###################.",
                 ".####################ccc####################.",
-                "..................T..ccc....................."
+                "..................T.^ccc^...................."
               ],
               "legend": {
                 "#": {
@@ -6170,6 +6452,10 @@
                 "X": {
                   "tile": 14,
                   "spawner": "base:enemy/magma_heart"
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
+                  "radius_x100": 35
                 },
                 "c": {
                   "tile": 14
@@ -6204,7 +6490,7 @@
                 ".ooooooooooooooooooooooo.",
                 ".ooooooooooooooooooooooo.",
                 ".oo...................oo.",
-                ".oo...................oo.",
+                ".oo.................$.oo.",
                 ".oo...3...3...3...4...oo.",
                 ".oo...................oo.",
                 ".oo...o...............oo.",
@@ -6216,13 +6502,17 @@
                 ".oo...3...4...3...3...oo.",
                 ".oo...................oo.",
                 ".oo.......o...........oo.",
-                ".oo...................oo.",
+                ".oo.$.................oo.",
                 ".oo...................oo.",
                 ".oooooooooo===oooooooooo.",
                 ".oooooooooo===oooooooooo.",
                 "...........===..........."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "3": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_mint"
@@ -6259,7 +6549,7 @@
                 ".tttttttttt===tttttttttt.",
                 ".tttttttttt===tttttttttt.",
                 ".tt...................tt.",
-                ".tt...................tt.",
+                ".tt.................$.tt.",
                 ".tt...5...5...5...d...tt.",
                 ".tt...................tt.",
                 ".tt...o...............tt.",
@@ -6271,13 +6561,17 @@
                 ".tt...5...d...5...5...tt.",
                 ".tt...................tt.",
                 ".tt.......o...........tt.",
-                ".tt...................tt.",
+                ".tt.$.................tt.",
                 ".tt...................tt.",
                 ".ttttttttttttttttttttttt.",
                 ".ttttttttttttttttttttttt.",
                 "........................."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "5": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_moss"
@@ -6380,7 +6674,7 @@
                 ".ooooooooooooooooooooooo.",
                 ".ooooooooooooooooooooooo.",
                 ".oo...................oo.",
-                ".oo...................oo.",
+                ".oo.................$.oo.",
                 ".oo...7...7...7...a...oo.",
                 ".oo...................oo.",
                 ".oo...o...............oo.",
@@ -6392,13 +6686,17 @@
                 ".oo...7...a...7...7...oo.",
                 ".oo...................oo.",
                 ".oo.......o...........oo.",
-                ".oo...................oo.",
+                ".oo.$.................oo.",
                 ".oo...................oo.",
                 ".ooooooooooooooooooooooo.",
                 ".ooooooooooooooooooooooo.",
                 "........................."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "7": {
                   "tile": 14,
                   "spawner": "base:enemy/wolf_dune"
@@ -6559,7 +6857,7 @@
                 ".ooooooooooooooooooooooo.",
                 ".ooooooooooooooooooooooo.",
                 ".oo...................oo.",
-                ".oo...................oo.",
+                ".oo.................$.oo.",
                 ".oo...%...%...%...g...oo.",
                 ".oo...................oo.",
                 ".oo...o...............oo.",
@@ -6571,13 +6869,17 @@
                 ".oo...%...g...%...%...oo.",
                 ".oo...................oo.",
                 ".oo.......o...........oo.",
-                ".oo...................oo.",
+                ".oo.$.................oo.",
                 ".oo...................oo.",
                 ".oooooooooo===oooooooooo.",
                 ".oooooooooo===oooooooooo.",
                 "...........===..........."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "%": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_nebula"
@@ -6720,8 +7022,8 @@
             8169,
             8134,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_tawny",
+            "base:item/tawny_fur"
           ],
           [
             8163,
@@ -6755,71 +7057,71 @@
             3773,
             5528,
             1,
-            "base:enemy/slime_moss",
-            "base:item/moss_clump"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             3801,
             5516,
             1,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             3807,
             5528,
             1,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/wolf_shade",
+            "base:item/shade_wisp"
           ],
           [
             3811,
             5509,
             1,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/cave_spider",
+            "base:item/spider_silk"
           ],
           [
             3799,
             5577,
             1,
-            "base:enemy/wolf_shade",
-            "base:item/shade_wisp"
+            "base:enemy/cave_bat",
+            "base:item/bat_wing"
           ],
           [
             3684,
             5602,
             1,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             3700,
             5616,
             1,
-            "base:enemy/wolf_shade",
-            "base:item/shade_wisp"
+            "base:enemy/wisp",
+            "base:item/wisp_ember"
           ],
           [
             3680,
             5628,
             1,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_shade",
+            "base:item/shade_wisp"
           ],
           [
             3824,
             5607,
             1,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/slime_moss",
+            "base:item/moss_clump"
           ],
           [
             3791,
             5644,
             1,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/wolf_shade",
+            "base:item/shade_wisp"
           ],
           [
             3813,
@@ -6832,29 +7134,29 @@
             12812,
             3559,
             2,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             12862,
             3619,
             2,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/stone_golem",
+            "base:item/golem_core"
           ],
           [
             12800,
             3648,
             2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
+            "base:enemy/cave_bat",
+            "base:item/bat_wing"
           ],
           [
             13216,
             11910,
             3,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_dune",
+            "base:item/dune_pelt"
           ],
           [
             13241,
@@ -6874,15 +7176,15 @@
             13290,
             11910,
             3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
+            "base:enemy/slime_amber",
+            "base:item/amber_drop"
           ],
           [
             13281,
             11929,
             3,
-            "base:enemy/slime_amber",
-            "base:item/amber_drop"
+            "base:enemy/stone_golem",
+            "base:item/golem_core"
           ],
           [
             13308,
@@ -6895,113 +7197,113 @@
             13309,
             11998,
             3,
-            "base:enemy/slime_amber",
-            "base:item/amber_drop"
+            "base:enemy/slime_sand",
+            "base:item/slime_gel"
           ],
           [
             13318,
             12006,
             3,
-            "base:enemy/slime_amber",
-            "base:item/amber_drop"
+            "base:enemy/slime_sand",
+            "base:item/slime_gel"
           ],
           [
             7350,
             1446,
             4,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_ice",
+            "base:item/ice_crystal"
           ],
           [
             7350,
             1458,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/slime_ice",
+            "base:item/ice_crystal"
           ],
           [
             7447,
             1480,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
           ],
           [
             2255,
             12597,
             5,
-            "base:enemy/slime_tide",
-            "base:item/tide_pearl"
+            "base:enemy/slime_coral",
+            "base:item/coral_fragment"
           ],
           [
             2353,
             12581,
             5,
-            "base:enemy/slime_tide",
-            "base:item/tide_pearl"
+            "base:enemy/slime_coral",
+            "base:item/coral_fragment"
           ],
           [
             2243,
             12614,
             5,
-            "base:enemy/slime_coral",
-            "base:item/coral_fragment"
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
           ],
           [
             2217,
             12693,
             5,
-            "base:enemy/slime_coral",
-            "base:item/coral_fragment"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             2221,
             12701,
             5,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_tide",
+            "base:item/tide_pearl"
           ],
           [
             2255,
             12697,
             5,
-            "base:enemy/slime_pearl",
-            "base:item/pearl_dust"
+            "base:enemy/slime_tide",
+            "base:item/tide_pearl"
           ],
           [
             2297,
             12681,
             5,
-            "base:enemy/slime_pearl",
-            "base:item/pearl_dust"
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
           ],
           [
             15022,
             7790,
             6,
-            "base:enemy/slime_char",
-            "base:item/char_chunk"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             15162,
             7806,
             6,
-            "base:enemy/slime_magma",
-            "base:item/magma_shard"
+            "base:enemy/wisp",
+            "base:item/wisp_ember"
           ],
           [
             15039,
             7826,
             6,
-            "base:enemy/slime_magma",
-            "base:item/magma_shard"
+            "base:enemy/wisp",
+            "base:item/wisp_ember"
           ],
           [
             15071,
             7844,
             6,
-            "base:enemy/slime_magma",
-            "base:item/magma_shard"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             15119,
@@ -7147,8 +7449,8 @@
             8250,
             8096,
             0,
-            "base:enemy/slime_mint",
-            "base:item/mint_leaf"
+            "base:enemy/myconid",
+            "base:item/spore_cap"
           ],
           [
             8246,
@@ -7210,8 +7512,8 @@
             8276,
             8144,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_mint",
+            "base:item/mint_leaf"
           ],
           [
             12662,
@@ -7406,8 +7708,8 @@
             2206,
             12688,
             5,
-            "base:enemy/slime_tide",
-            "base:item/tide_pearl"
+            "base:enemy/slime_coral",
+            "base:item/coral_fragment"
           ],
           [
             7288,
@@ -7637,8 +7939,8 @@
             13443,
             11847,
             3,
-            "base:enemy/wolf_dune",
-            "base:item/dune_pelt"
+            "base:enemy/dune_scorpion",
+            "base:item/scorpion_sting"
           ],
           [
             13448,
@@ -7791,8 +8093,8 @@
             13467,
             11931,
             3,
-            "base:enemy/wolf_dune",
-            "base:item/dune_pelt"
+            "base:enemy/slime_sand",
+            "base:item/slime_gel"
           ],
           [
             13440,
@@ -7861,8 +8163,8 @@
             15255,
             7750,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/wisp",
+            "base:item/wisp_ember"
           ],
           [
             15236,
@@ -8001,8 +8303,8 @@
             15240,
             7821,
             6,
-            "base:enemy/slime_magma",
-            "base:item/magma_shard"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             12910,
@@ -8092,8 +8394,8 @@
             14976,
             8041,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
           ],
           [
             14982,
@@ -8484,43 +8786,43 @@
             12433,
             3448,
             2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
+            "base:enemy/slime_rust",
+            "base:item/rust_flake"
           ],
           [
             7014,
             1640,
             4,
-            "base:enemy/wolf_polar",
-            "base:item/polar_fur"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             7036,
             1649,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/wolf_polar",
+            "base:item/polar_fur"
           ],
           [
             7026,
             1674,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/slime_ice",
+            "base:item/ice_crystal"
           ],
           [
             3942,
             5479,
             1,
-            "base:enemy/wolf_shade",
-            "base:item/shade_wisp"
+            "base:enemy/cave_bat",
+            "base:item/bat_wing"
           ],
           [
             3995,
             5519,
             1,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/cave_spider",
+            "base:item/spider_silk"
           ],
           [
             13720,
@@ -8533,29 +8835,29 @@
             13686,
             12171,
             3,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_dune",
+            "base:item/dune_pelt"
           ],
           [
             13677,
             12173,
             3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
+            "base:enemy/dune_scorpion",
+            "base:item/scorpion_sting"
           ],
           [
             7552,
             14490,
             7,
-            "base:enemy/wolf_storm",
-            "base:item/storm_feather"
+            "base:enemy/slime_glow",
+            "base:item/star_dust"
           ],
           [
             14983,
             7821,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             14976,
@@ -8575,22 +8877,22 @@
             8556,
             8312,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_mint",
+            "base:item/mint_leaf"
           ],
           [
             8590,
             8304,
             0,
-            "base:enemy/wolf_tawny",
-            "base:item/tawny_fur"
+            "base:enemy/slime_mint",
+            "base:item/mint_leaf"
           ],
           [
             8570,
             8337,
             0,
-            "base:enemy/slime_mint",
-            "base:item/mint_leaf"
+            "base:enemy/myconid",
+            "base:item/spore_cap"
           ],
           [
             12146,
@@ -8750,15 +9052,15 @@
             2714,
             12908,
             5,
-            "base:enemy/slime_tide",
-            "base:item/tide_pearl"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             2711,
             12916,
             5,
-            "base:enemy/slime_pearl",
-            "base:item/pearl_dust"
+            "base:enemy/shore_crab",
+            "base:item/crab_shell"
           ],
           [
             2692,
@@ -8876,15 +9178,15 @@
             2721,
             12943,
             5,
-            "base:enemy/slime_coral",
-            "base:item/coral_fragment"
+            "base:enemy/slime_pearl",
+            "base:item/pearl_dust"
           ],
           [
             6754,
             1869,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/cave_bat",
+            "base:item/bat_wing"
           ],
           [
             6770,
@@ -9198,8 +9500,8 @@
             8042,
             8312,
             0,
-            "base:enemy/slime_mint",
-            "base:item/mint_leaf"
+            "base:enemy/myconid",
+            "base:item/spore_cap"
           ],
           [
             8058,
@@ -9261,8 +9563,8 @@
             8053,
             8348,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_tawny",
+            "base:item/tawny_fur"
           ],
           [
             3450,
@@ -11753,6 +12055,11 @@
                   "enemy": "base:enemy/wolf_tawny",
                   "drop": "base:item/tawny_fur",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/myconid",
+                  "drop": "base:item/spore_cap",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -11800,6 +12107,31 @@
                 {
                   "enemy": "base:enemy/slime_moss",
                   "drop": "base:item/moss_clump",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/cave_bat",
+                  "drop": "base:item/bat_wing",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/cave_spider",
+                  "drop": "base:item/spider_silk",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/myconid",
+                  "drop": "base:item/spore_cap",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wisp",
+                  "drop": "base:item/wisp_ember",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/night_owl",
+                  "drop": "base:item/owl_feather",
                   "weight": 2
                 }
               ],
@@ -11849,6 +12181,21 @@
                   "enemy": "base:enemy/slime_rust",
                   "drop": "base:item/rust_flake",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/cave_bat",
+                  "drop": "base:item/bat_wing",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/cave_spider",
+                  "drop": "base:item/spider_silk",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/stone_golem",
+                  "drop": "base:item/golem_core",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -11893,6 +12240,21 @@
                   "enemy": "base:enemy/wolf_dune",
                   "drop": "base:item/dune_pelt",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/stone_golem",
+                  "drop": "base:item/golem_core",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/shore_crab",
+                  "drop": "base:item/crab_shell",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/dune_scorpion",
+                  "drop": "base:item/scorpion_sting",
+                  "weight": 3
                 }
               ],
               "shop": {
@@ -11937,6 +12299,16 @@
                   "enemy": "base:enemy/wolf_polar",
                   "drop": "base:item/polar_fur",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/cave_bat",
+                  "drop": "base:item/bat_wing",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/night_owl",
+                  "drop": "base:item/owl_feather",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -11986,6 +12358,11 @@
                   "enemy": "base:enemy/slime_pearl",
                   "drop": "base:item/pearl_dust",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/shore_crab",
+                  "drop": "base:item/crab_shell",
+                  "weight": 3
                 }
               ],
               "shop": {
@@ -12036,6 +12413,21 @@
                   "enemy": "base:enemy/slime_char",
                   "drop": "base:item/char_chunk",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/stone_golem",
+                  "drop": "base:item/golem_core",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/wisp",
+                  "drop": "base:item/wisp_ember",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/dune_scorpion",
+                  "drop": "base:item/scorpion_sting",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -12086,6 +12478,26 @@
                   "enemy": "base:enemy/slime_nebula",
                   "drop": "base:item/nebula_ash",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/cave_spider",
+                  "drop": "base:item/spider_silk",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/myconid",
+                  "drop": "base:item/spore_cap",
+                  "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/wisp",
+                  "drop": "base:item/wisp_ember",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/night_owl",
+                  "drop": "base:item/owl_feather",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -14290,12 +14702,16 @@
                 ".#cccccccccc#ccccccccc#cccccccccc#.",
                 ".#cccccccccc#ccclclccc#cccccccccc#.",
                 ".################c################.",
-                "..............T..c.................",
+                "..............T.@c@................",
                 ".................c................."
               ],
               "legend": {
                 "#": {
                   "tile": 5
+                },
+                "@": {
+                  "prop": "base:art/prop/banner",
+                  "radius_x100": 15
                 },
                 "Q": {
                   "tile": 14,
@@ -14362,7 +14778,7 @@
                 ".#ccccccccccccccccccccccccccccc#.",
                 ".#ccccccccccccclclccccccccccccc#.",
                 ".###############c###############.",
-                ".............T..c................"
+                ".............T.^c^..............."
               ],
               "legend": {
                 "#": {
@@ -14375,6 +14791,10 @@
                 "T": {
                   "tile": 14,
                   "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
                   "radius_x100": 35
                 },
                 "c": {
@@ -14528,12 +14948,16 @@
                 ".#clccccccccccccccccccccccccccccccccclc#.",
                 ".#ccccccccccccccccccccccccccccccccccccc#.",
                 ".##################ccc##################.",
-                "...................ccc...................",
+                "..................@ccc@..................",
                 "................T..ccc..................."
               ],
               "legend": {
                 "#": {
                   "tile": 5
+                },
+                "@": {
+                  "prop": "base:art/prop/banner",
+                  "radius_x100": 15
                 },
                 "T": {
                   "tile": 14,
@@ -14699,14 +15123,22 @@
                 ".#ccccccccccccccccccccccccccccccccccccccccccc#.",
                 ".#####################ccc#####################.",
                 "......................ccc......................",
-                "......................ccc......................",
-                "......................ccc......................",
+                "..................!...ccc...!..................",
+                ".....................@ccc@.....................",
                 "...................T..ccc......................",
                 "......................ccc......................"
               ],
               "legend": {
+                "!": {
+                  "prop": "base:art/prop/bush",
+                  "radius_x100": 30
+                },
                 "#": {
                   "tile": 5
+                },
+                "@": {
+                  "prop": "base:art/prop/banner",
+                  "radius_x100": 15
                 },
                 "N": {
                   "tile": 14,
@@ -14750,7 +15182,7 @@
                 ".ttttttttttttttttttttttt.",
                 ".ttttttttttttttttttttttt.",
                 ".tt...................tt.",
-                ".tt...................tt.",
+                ".tt.................$.tt.",
                 ".tt...D...D...D...W...tt.",
                 ".tt...................tt.",
                 ".tt...o...............tt.",
@@ -14762,13 +15194,17 @@
                 ".tt...D...W...D...D...tt.",
                 ".tt...................tt.",
                 ".tt.......o...........tt.",
-                ".tt...................tt.",
+                ".tt.$.................tt.",
                 ".tt...................tt.",
                 ".ttttttttttttttttttttttt.",
                 ".ttttttttttttttttttttttt.",
                 "........................."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "=": {
                   "tile": 11
                 },
@@ -14928,7 +15364,7 @@
                 ".oooooooooo===oooooooooo.",
                 ".oooooooooo===oooooooooo.",
                 ".oo...................oo.",
-                ".oo...................oo.",
+                ".oo.................$.oo.",
                 ".oo...P...P...P...a...oo.",
                 ".oo...................oo.",
                 ".oo..t.............t..oo.",
@@ -14940,13 +15376,17 @@
                 ".oo...P...a...P...P...oo.",
                 ".oo...................oo.",
                 ".oo.........t.........oo.",
-                ".oo...................oo.",
+                ".oo.$.................oo.",
                 ".oo...................oo.",
                 ".ooooooooooooooooooooooo.",
                 ".ooooooooooooooooooooooo.",
                 "........................."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "=": {
                   "tile": 11
                 },
@@ -15049,7 +15489,7 @@
                 ".ttttttttttttttttttttttt.",
                 ".ttttttttttttttttttttttt.",
                 ".tt...................tt.",
-                ".tt...................tt.",
+                ".tt.................$.tt.",
                 ".tt...O...O...O...d...tt.",
                 ".tt...................tt.",
                 ".tt...o...........o...tt.",
@@ -15061,13 +15501,17 @@
                 ".tt...O...d...O...O...tt.",
                 ".tt...................tt.",
                 ".tt...................tt.",
-                ".tt...................tt.",
+                ".tt.$.................tt.",
                 ".tt...................tt.",
                 ".tttttttttt===tttttttttt.",
                 ".tttttttttt===tttttttttt.",
                 "...........===..........."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "=": {
                   "tile": 11
                 },
@@ -15111,10 +15555,10 @@
                 ".#______#.....#______#.",
                 ".###_####.....####_###.",
                 ".........ccccc.........",
-                ".........ccwTc.........",
+                "......~..ccwTc..~......",
                 ".........cVccc.........",
                 ".....o.....=.....o.....",
-                "...........=...........",
+                "........?..=.+.....*...",
                 "...........=...........",
                 "o..........=..........o"
               ],
@@ -15122,8 +15566,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -15161,6 +15617,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -15191,19 +15651,31 @@
                 "..#_____________#..",
                 "..#######_#######..",
                 "...................",
-                ".......ccccc.......",
+                "....~..ccccc..~....",
                 "...o...VcwcT...o...",
                 ".......ccccc.......",
-                ".........=.........",
-                ".........=.........",
+                ".........=...*.....",
+                "......?..=+........",
                 "o........=........o"
               ],
               "legend": {
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -15241,6 +15713,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -15270,11 +15746,11 @@
                 ".#_____#.....#_____#.",
                 ".###_###.....###_###.",
                 ".....................",
-                "........lcccc........",
+                "....~...lcccc...~....",
                 "........ccwcT........",
                 "....t...cVccl...t....",
                 "..........=..........",
-                "..........=..........",
+                ".......?..=+...*.....",
                 "..........=..........",
                 "t.........=.........t"
               ],
@@ -15282,8 +15758,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -15326,6 +15814,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -15356,10 +15848,10 @@
                 ".#______#.....#______#.",
                 ".###_####.....####_###.",
                 ".........ccccc.........",
-                ".........ccwTc.........",
+                "......~..ccwTc..~......",
                 ".........cVccc.........",
                 ".....t.....=.....t.....",
-                "...........=...........",
+                "........?..=.+.....*...",
                 "...........=...........",
                 "t..........=..........t"
               ],
@@ -15367,8 +15859,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -15406,6 +15910,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -15436,19 +15944,31 @@
                 "..#_____________#..",
                 "..#######_#######..",
                 "...................",
-                ".......ccccc.......",
+                "....~..ccccc..~....",
                 "...o...VcwcT...o...",
                 ".......ccccc.......",
-                ".........=.........",
-                ".........=.........",
+                ".........=...*.....",
+                "......?..=+........",
                 "o........=........o"
               ],
               "legend": {
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -15486,6 +16006,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -15515,11 +16039,11 @@
                 ".#_____#.....#_____#.",
                 ".###_###.....###_###.",
                 ".....................",
-                "........lcccc........",
+                "....~...lcccc...~....",
                 "........ccwcT........",
                 "....t...cVccl...t....",
                 "..........=..........",
-                "..........=..........",
+                ".......?..=+...*.....",
                 "..........=..........",
                 "t.........=.........t"
               ],
@@ -15527,8 +16051,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -15571,6 +16107,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -15601,10 +16141,10 @@
                 ".#______#.....#______#.",
                 ".###_####.....####_###.",
                 ".........ccccc.........",
-                ".........ccwTc.........",
+                "......~..ccwTc..~......",
                 ".........cVccc.........",
                 ".....o.....=.....o.....",
-                "...........=...........",
+                "........?..=.+.....*...",
                 "...........=...........",
                 "o..........=..........o"
               ],
@@ -15612,8 +16152,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -15651,6 +16203,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -15680,11 +16236,11 @@
                 ".#_____#.....#_____#.",
                 ".###_###.....###_###.",
                 ".....................",
-                "........lcccc........",
+                "....~...lcccc...~....",
                 "........ccwcT........",
                 "....t...cVccl...t....",
                 "..........=..........",
-                "..........=..........",
+                ".......?..=+...*.....",
                 "..........=..........",
                 "t.........=.........t"
               ],
@@ -15692,8 +16248,20 @@
                 "#": {
                   "tile": 5
                 },
+                "*": {
+                  "prop": "base:art/prop/tent",
+                  "radius_x100": 60
+                },
+                "+": {
+                  "prop": "base:art/prop/signpost",
+                  "radius_x100": 15
+                },
                 "=": {
                   "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
                 },
                 "I": {
                   "tile": 13,
@@ -15736,6 +16304,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/well",
                   "radius_x100": 40
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": [
@@ -15794,12 +16366,16 @@
                 ".#ccccccc##cccccccccccccccccccc##cccccc#.",
                 ".#ccccccccccccccclccccclccccccccccccccc#.",
                 ".##################ccc##################.",
-                "...................ccc...................",
+                "..............~...@ccc@...~..............",
                 "...............T...ccc..................."
               ],
               "legend": {
                 "#": {
                   "tile": 5
+                },
+                "@": {
+                  "prop": "base:art/prop/banner",
+                  "radius_x100": 15
                 },
                 "D": {
                   "tile": 14,
@@ -15833,6 +16409,10 @@
                 "q": {
                   "tile": 14,
                   "spawner": "base:enemy/forge_tyrant"
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
                 }
               },
               "spots": []
@@ -15953,7 +16533,7 @@
                 ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
                 ".##########ccccccccccccccccccc##########.",
                 ".##################ccc##################.",
-                "...............T...ccc..................."
+                "...............T..^ccc^.................."
               ],
               "legend": {
                 "#": {
@@ -15970,6 +16550,10 @@
                 "T": {
                   "tile": 14,
                   "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
                   "radius_x100": 35
                 },
                 "c": {
@@ -16033,7 +16617,7 @@
                 ".###################clDlc###################.",
                 ".###################ccccc###################.",
                 ".####################ccc####################.",
-                "..................T..ccc....................."
+                "..................T.^ccc^...................."
               ],
               "legend": {
                 "#": {
@@ -16059,6 +16643,10 @@
                 "X": {
                   "tile": 14,
                   "spawner": "base:enemy/magma_heart"
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
+                  "radius_x100": 35
                 },
                 "c": {
                   "tile": 14
@@ -16093,7 +16681,7 @@
                 ".ooooooooooooooooooooooo.",
                 ".ooooooooooooooooooooooo.",
                 ".oo...................oo.",
-                ".oo...................oo.",
+                ".oo.................$.oo.",
                 ".oo...3...3...3...4...oo.",
                 ".oo...................oo.",
                 ".oo...o...............oo.",
@@ -16105,13 +16693,17 @@
                 ".oo...3...4...3...3...oo.",
                 ".oo...................oo.",
                 ".oo.......o...........oo.",
-                ".oo...................oo.",
+                ".oo.$.................oo.",
                 ".oo...................oo.",
                 ".oooooooooo===oooooooooo.",
                 ".oooooooooo===oooooooooo.",
                 "...........===..........."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "3": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_mint"
@@ -16148,7 +16740,7 @@
                 ".tttttttttt===tttttttttt.",
                 ".tttttttttt===tttttttttt.",
                 ".tt...................tt.",
-                ".tt...................tt.",
+                ".tt.................$.tt.",
                 ".tt...5...5...5...d...tt.",
                 ".tt...................tt.",
                 ".tt...o...............tt.",
@@ -16160,13 +16752,17 @@
                 ".tt...5...d...5...5...tt.",
                 ".tt...................tt.",
                 ".tt.......o...........tt.",
-                ".tt...................tt.",
+                ".tt.$.................tt.",
                 ".tt...................tt.",
                 ".ttttttttttttttttttttttt.",
                 ".ttttttttttttttttttttttt.",
                 "........................."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "5": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_moss"
@@ -16269,7 +16865,7 @@
                 ".ooooooooooooooooooooooo.",
                 ".ooooooooooooooooooooooo.",
                 ".oo...................oo.",
-                ".oo...................oo.",
+                ".oo.................$.oo.",
                 ".oo...7...7...7...a...oo.",
                 ".oo...................oo.",
                 ".oo...o...............oo.",
@@ -16281,13 +16877,17 @@
                 ".oo...7...a...7...7...oo.",
                 ".oo...................oo.",
                 ".oo.......o...........oo.",
-                ".oo...................oo.",
+                ".oo.$.................oo.",
                 ".oo...................oo.",
                 ".ooooooooooooooooooooooo.",
                 ".ooooooooooooooooooooooo.",
                 "........................."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "7": {
                   "tile": 14,
                   "spawner": "base:enemy/wolf_dune"
@@ -16448,7 +17048,7 @@
                 ".ooooooooooooooooooooooo.",
                 ".ooooooooooooooooooooooo.",
                 ".oo...................oo.",
-                ".oo...................oo.",
+                ".oo.................$.oo.",
                 ".oo...%...%...%...g...oo.",
                 ".oo...................oo.",
                 ".oo...o...............oo.",
@@ -16460,13 +17060,17 @@
                 ".oo...%...g...%...%...oo.",
                 ".oo...................oo.",
                 ".oo.......o...........oo.",
-                ".oo...................oo.",
+                ".oo.$.................oo.",
                 ".oo...................oo.",
                 ".oooooooooo===oooooooooo.",
                 ".oooooooooo===oooooooooo.",
                 "...........===..........."
               ],
               "legend": {
+                "$": {
+                  "prop": "base:art/prop/bones",
+                  "radius_x100": 10
+                },
                 "%": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_nebula"
@@ -16644,134 +17248,134 @@
             3739,
             5556,
             1,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             3695,
             5592,
             1,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             3820,
             5576,
             1,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/myconid",
+            "base:item/spore_cap"
           ],
           [
             3832,
             5576,
             1,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             3830,
             5594,
             1,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             3782,
             5607,
             1,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/myconid",
+            "base:item/spore_cap"
           ],
           [
             3825,
             5623,
             1,
-            "base:enemy/wolf_shade",
-            "base:item/shade_wisp"
+            "base:enemy/cave_spider",
+            "base:item/spider_silk"
           ],
           [
             3813,
             5627,
             1,
-            "base:enemy/slime_moss",
-            "base:item/moss_clump"
+            "base:enemy/wolf_shade",
+            "base:item/shade_wisp"
           ],
           [
             3732,
             5652,
             1,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/night_owl",
+            "base:item/owl_feather"
           ],
           [
             3744,
             5644,
             1,
-            "base:enemy/slime_moss",
-            "base:item/moss_clump"
+            "base:enemy/night_owl",
+            "base:item/owl_feather"
           ],
           [
             12773,
             3546,
             2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
+            "base:enemy/slime_rust",
+            "base:item/rust_flake"
           ],
           [
             12756,
             3597,
             2,
-            "base:enemy/slime_rust",
-            "base:item/rust_flake"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             12791,
             3606,
             2,
-            "base:enemy/slime_rust",
-            "base:item/rust_flake"
+            "base:enemy/cave_bat",
+            "base:item/bat_wing"
           ],
           [
             12812,
             3593,
             2,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
           ],
           [
             12817,
             3595,
             2,
-            "base:enemy/slime_rust",
-            "base:item/rust_flake"
+            "base:enemy/stone_golem",
+            "base:item/golem_core"
           ],
           [
             12738,
             3622,
             2,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/cave_bat",
+            "base:item/bat_wing"
           ],
           [
             12794,
             3621,
             2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
+            "base:enemy/slime_rust",
+            "base:item/rust_flake"
           ],
           [
             12733,
             3663,
             2,
-            "base:enemy/slime_rust",
-            "base:item/rust_flake"
+            "base:enemy/cave_bat",
+            "base:item/bat_wing"
           ],
           [
             13290,
             11897,
             3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
+            "base:enemy/shore_crab",
+            "base:item/crab_shell"
           ],
           [
             13343,
@@ -16784,8 +17388,8 @@
             13342,
             11885,
             3,
-            "base:enemy/wolf_dune",
-            "base:item/dune_pelt"
+            "base:enemy/slime_sand",
+            "base:item/slime_gel"
           ],
           [
             13222,
@@ -16812,8 +17416,8 @@
             13244,
             11999,
             3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
+            "base:enemy/slime_amber",
+            "base:item/amber_drop"
           ],
           [
             13340,
@@ -16826,43 +17430,43 @@
             7383,
             1444,
             4,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/wolf_polar",
+            "base:item/polar_fur"
           ],
           [
             7371,
             1450,
             4,
-            "base:enemy/slime_ice",
-            "base:item/ice_crystal"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             7378,
             1456,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/cave_bat",
+            "base:item/bat_wing"
           ],
           [
             7381,
             1467,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/night_owl",
+            "base:item/owl_feather"
           ],
           [
             7404,
             1445,
             4,
-            "base:enemy/slime_ice",
-            "base:item/ice_crystal"
+            "base:enemy/wolf_polar",
+            "base:item/polar_fur"
           ],
           [
             7413,
             1477,
             4,
-            "base:enemy/wolf_polar",
-            "base:item/polar_fur"
+            "base:enemy/cave_bat",
+            "base:item/bat_wing"
           ],
           [
             7451,
@@ -16875,15 +17479,15 @@
             7454,
             1489,
             4,
-            "base:enemy/slime_ice",
-            "base:item/ice_crystal"
+            "base:enemy/wolf_polar",
+            "base:item/polar_fur"
           ],
           [
             7309,
             1534,
             4,
-            "base:enemy/slime_ice",
-            "base:item/ice_crystal"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             7397,
@@ -16903,57 +17507,57 @@
             2271,
             12569,
             5,
-            "base:enemy/slime_tide",
-            "base:item/tide_pearl"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             2297,
             12547,
             5,
-            "base:enemy/slime_pearl",
-            "base:item/pearl_dust"
+            "base:enemy/shore_crab",
+            "base:item/crab_shell"
           ],
           [
             2302,
             12553,
             5,
-            "base:enemy/slime_coral",
-            "base:item/coral_fragment"
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
           ],
           [
             2308,
             12557,
             5,
-            "base:enemy/slime_tide",
-            "base:item/tide_pearl"
+            "base:enemy/slime_coral",
+            "base:item/coral_fragment"
           ],
           [
             2310,
             12559,
             5,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_tide",
+            "base:item/tide_pearl"
           ],
           [
             2330,
             12644,
             5,
-            "base:enemy/slime_tide",
-            "base:item/tide_pearl"
+            "base:enemy/slime_pearl",
+            "base:item/pearl_dust"
           ],
           [
             2326,
             12647,
             5,
-            "base:enemy/slime_pearl",
-            "base:item/pearl_dust"
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
           ],
           [
             2233,
             12691,
             5,
-            "base:enemy/slime_tide",
-            "base:item/tide_pearl"
+            "base:enemy/slime_coral",
+            "base:item/coral_fragment"
           ],
           [
             2252,
@@ -16966,15 +17570,15 @@
             15012,
             7808,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
           ],
           [
             15121,
             7810,
             6,
-            "base:enemy/slime_magma",
-            "base:item/magma_shard"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             15118,
@@ -16987,8 +17591,8 @@
             15094,
             7845,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/wisp",
+            "base:item/wisp_ember"
           ],
           [
             15089,
@@ -17001,43 +17605,43 @@
             15111,
             7863,
             6,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/stone_golem",
+            "base:item/golem_core"
           ],
           [
             15143,
             7903,
             6,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             15047,
             7916,
             6,
-            "base:enemy/slime_char",
-            "base:item/char_chunk"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             15099,
             7907,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/wisp",
+            "base:item/wisp_ember"
           ],
           [
             15123,
             7911,
             6,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             7809,
             14681,
             7,
-            "base:enemy/wolf_storm",
-            "base:item/storm_feather"
+            "base:enemy/myconid",
+            "base:item/spore_cap"
           ],
           [
             7808,
@@ -17050,8 +17654,8 @@
             7885,
             14676,
             7,
-            "base:enemy/wolf_storm",
-            "base:item/storm_feather"
+            "base:enemy/wisp",
+            "base:item/wisp_ember"
           ],
           [
             7803,
@@ -17330,8 +17934,8 @@
             2151,
             12660,
             5,
-            "base:enemy/slime_tide",
-            "base:item/tide_pearl"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             2165,
@@ -17351,8 +17955,8 @@
             2150,
             12669,
             5,
-            "base:enemy/slime_tide",
-            "base:item/tide_pearl"
+            "base:enemy/shore_crab",
+            "base:item/crab_shell"
           ],
           [
             2176,
@@ -17421,8 +18025,8 @@
             7280,
             1379,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/slime_ice",
+            "base:item/ice_crystal"
           ],
           [
             7288,
@@ -17995,8 +18599,8 @@
             12904,
             3441,
             2,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             12910,
@@ -18051,8 +18655,8 @@
             12939,
             3425,
             2,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
           ],
           [
             12910,
@@ -18086,15 +18690,15 @@
             12943,
             3462,
             2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             14982,
             8046,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_char",
+            "base:item/char_chunk"
           ],
           [
             14982,
@@ -18177,15 +18781,15 @@
             14978,
             8077,
             6,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
           ],
           [
             14978,
             8084,
             6,
-            "base:enemy/slime_char",
-            "base:item/char_chunk"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             2426,
@@ -18212,8 +18816,8 @@
             2415,
             12428,
             5,
-            "base:enemy/slime_pearl",
-            "base:item/pearl_dust"
+            "base:enemy/shore_crab",
+            "base:item/crab_shell"
           ],
           [
             2426,
@@ -18352,8 +18956,8 @@
             13206,
             12191,
             3,
-            "base:enemy/slime_amber",
-            "base:item/amber_drop"
+            "base:enemy/stone_golem",
+            "base:item/golem_core"
           ],
           [
             7534,
@@ -18408,15 +19012,15 @@
             7552,
             1651,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/slime_ice",
+            "base:item/ice_crystal"
           ],
           [
             7560,
             1652,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/slime_ice",
+            "base:item/ice_crystal"
           ],
           [
             7534,
@@ -18534,29 +19138,29 @@
             8043,
             14480,
             7,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_glow",
+            "base:item/star_dust"
           ],
           [
             12385,
             3439,
             2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             12420,
             3473,
             2,
-            "base:enemy/slime_rust",
-            "base:item/rust_flake"
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
           ],
           [
             1908,
             12400,
             5,
-            "base:enemy/slime_tide",
-            "base:item/tide_pearl"
+            "base:enemy/slime_coral",
+            "base:item/coral_fragment"
           ],
           [
             1928,
@@ -18569,50 +19173,50 @@
             7034,
             1636,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/night_owl",
+            "base:item/owl_feather"
           ],
           [
             7059,
             1648,
             4,
-            "base:enemy/slime_ice",
-            "base:item/ice_crystal"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             13681,
             12134,
             3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
+            "base:enemy/slime_amber",
+            "base:item/amber_drop"
           ],
           [
             13666,
             12144,
             3,
-            "base:enemy/slime_amber",
-            "base:item/amber_drop"
+            "base:enemy/slime_sand",
+            "base:item/slime_gel"
           ],
           [
             13671,
             12149,
             3,
-            "base:enemy/slime_amber",
-            "base:item/amber_drop"
+            "base:enemy/slime_sand",
+            "base:item/slime_gel"
           ],
           [
             13673,
             12165,
             3,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/dune_scorpion",
+            "base:item/scorpion_sting"
           ],
           [
             8559,
             8327,
             0,
-            "base:enemy/wolf_tawny",
-            "base:item/tawny_fur"
+            "base:enemy/slime_mint",
+            "base:item/mint_leaf"
           ],
           [
             12130,
@@ -18625,8 +19229,8 @@
             12173,
             3915,
             2,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/cave_bat",
+            "base:item/bat_wing"
           ],
           [
             12146,
@@ -19402,8 +20006,8 @@
             12442,
             3726,
             2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
+            "base:enemy/stone_golem",
+            "base:item/golem_core"
           ],
           [
             12910,
@@ -19647,8 +20251,8 @@
             7538,
             14698,
             7,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/wisp",
+            "base:item/wisp_ember"
           ],
           [
             7546,
@@ -19675,8 +20279,8 @@
             7539,
             14712,
             7,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_nebula",
+            "base:item/nebula_ash"
           ],
           [
             7546,
@@ -19745,8 +20349,8 @@
             7561,
             14740,
             7,
-            "base:enemy/slime_glow",
-            "base:item/star_dust"
+            "base:enemy/cave_spider",
+            "base:item/spider_silk"
           ],
           [
             14702,
@@ -19801,8 +20405,8 @@
             14691,
             7554,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
           ],
           [
             14702,

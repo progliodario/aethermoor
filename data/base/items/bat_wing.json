@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/bat_wing",
+  "name": "$i18n:item.bat_wing.name",
+  "description": "$i18n:item.bat_wing.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 11,
+  "stack_max": 99
+}

@@ -37,12 +37,16 @@
     ".#cccccccccc#ccccccccc#cccccccccc#.",
     ".#cccccccccc#ccclclccc#cccccccccc#.",
     ".################c################.",
-    "..............T..c.................",
+    "..............T.@c@................",
     ".................c................."
   ],
   "legend": {
     "#": {
       "tile": 5
+    },
+    "@": {
+      "prop": "base:art/prop/banner",
+      "radius_x100": 15
     },
     "Q": {
       "tile": 14,

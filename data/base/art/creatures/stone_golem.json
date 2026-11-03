@@ -1,0 +1,414 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/creature/stone_golem",
+  "canvas": {
+    "w": 44,
+    "h": 46,
+    "origin": [
+      22,
+      42
+    ]
+  },
+  "palette": {
+    "body": "#8A8F96",
+    "light": "#C4C9D0",
+    "dark": "#52575E",
+    "outline": "#1E2126",
+    "glow": "#FFC04A",
+    "moss": "#5E8A4A"
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          43,
+          14,
+          3
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            12,
+            33
+          ],
+          [
+            20,
+            33
+          ],
+          [
+            20,
+            43
+          ],
+          [
+            11,
+            43
+          ]
+        ]
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "radial": {
+          "cx": 15,
+          "cy": 36,
+          "r": 14,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.5,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            24,
+            33
+          ],
+          [
+            32,
+            33
+          ],
+          [
+            33,
+            43
+          ],
+          [
+            24,
+            43
+          ]
+        ]
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "radial": {
+          "cx": 28,
+          "cy": 36,
+          "r": 14,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.5,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            3,
+            18
+          ],
+          [
+            11,
+            17
+          ],
+          [
+            10,
+            33
+          ],
+          [
+            2,
+            31
+          ]
+        ]
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "radial": {
+          "cx": 5,
+          "cy": 22,
+          "r": 16,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.5,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            41,
+            18
+          ],
+          [
+            33,
+            17
+          ],
+          [
+            34,
+            33
+          ],
+          [
+            42,
+            31
+          ]
+        ]
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "radial": {
+          "cx": 39,
+          "cy": 22,
+          "r": 16,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.5,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            11,
+            15
+          ],
+          [
+            33,
+            15
+          ],
+          [
+            35,
+            35
+          ],
+          [
+            9,
+            35
+          ]
+        ]
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "radial": {
+          "cx": 18,
+          "cy": 22,
+          "r": 26,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.5,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            15,
+            3
+          ],
+          [
+            29,
+            3
+          ],
+          [
+            31,
+            15
+          ],
+          [
+            13,
+            15
+          ]
+        ]
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "radial": {
+          "cx": 19,
+          "cy": 7,
+          "r": 16,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.5,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            11,
+            15
+          ],
+          [
+            16,
+            14
+          ],
+          [
+            14,
+            20
+          ],
+          [
+            10,
+            19
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.moss"
+      },
+      "alpha": 0.85
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            27,
+            30
+          ],
+          [
+            33,
+            29
+          ],
+          [
+            34,
+            34
+          ],
+          [
+            28,
+            35
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.moss"
+      },
+      "alpha": 0.85
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18.5,
+          9,
+          2.2,
+          1.6
+        ]
+      },
+      "fill": {
+        "color": "$p.glow"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          25.5,
+          9,
+          2.2,
+          1.6
+        ]
+      },
+      "fill": {
+        "color": "$p.glow"
+      }
+    },
+    {
+      "shape": {
+        "path": "M 17 13 L 22 12 L 27 13"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.2
+      }
+    },
+    {
+      "shape": {
+        "path": "M 22 18 L 20 24 L 23 29"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 1.0
+      }
+    }
+  ]
+}

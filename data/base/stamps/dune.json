@@ -12,7 +12,7 @@
     ".ooooooooooooooooooooooo.",
     ".ooooooooooooooooooooooo.",
     ".oo...................oo.",
-    ".oo...................oo.",
+    ".oo.................$.oo.",
     ".oo...7...7...7...a...oo.",
     ".oo...................oo.",
     ".oo...o...............oo.",
@@ -24,13 +24,17 @@
     ".oo...7...a...7...7...oo.",
     ".oo...................oo.",
     ".oo.......o...........oo.",
-    ".oo...................oo.",
+    ".oo.$.................oo.",
     ".oo...................oo.",
     ".ooooooooooooooooooooooo.",
     ".ooooooooooooooooooooooo.",
     "........................."
   ],
   "legend": {
+    "$": {
+      "prop": "base:art/prop/bones",
+      "radius_x100": 10
+    },
     "7": {
       "tile": 14,
       "spawner": "base:enemy/wolf_dune"

@@ -93,6 +93,11 @@ Eight **nests** complete the map: small lairs of the creatures that came with th
 the Mossy Den (`moss`), the Rust Pit (`rust`), the Dune Den (`dune`), the Polar Rookery (`rookery`), the Pearl Shoal (`shoal`), the Nebula Pool (`pool`) and the Char Pit (`charpit`). They are built like the lairs (ring, eight spawners of the creature and three of
 a second one) with an elite in the middle that stays near its post (behavior `guardian`) and drops a unique rare or epic piece: from the Minty charm vest (defense 3) of the Mint Matron, level 5, to the Char tyrant's blade (attack 30), level 16.
 
+Eight creatures with silhouettes of their own join the fauna (cave bats and cave spiders in Ironspine, Whisperwood and Lumeria, myconids from Verdalis to Lumeria, stone golems in Ironspine, Sunscar and the Ashen Wastes, will-o'-the-wisps,
+shore crabs on the coast of Tidehaven, dune scorpions in Sunscar and night owls), each with its material for the guild's gather jobs. The slime elites wear a crown to tell them from their kind. Stamps can use eight more props (`tent`,
+`signpost`, `crate`, `statue`, `banner`, `bush`, `bones`, `campfire`): the outposts have a signpost, a campfire, a tent and crates, the lairs have bones and the entrances of the dungeons have banners, statues or crates. A prop has no tile of its
+own, so a stamp puts it on terrain that is not a wall.
+
 Settlements have more than one look: `settlements.kinds[].stamps` lists the stamps of a kind and the site picks one of them (step 3 above). Hamlets have four (`hamlet`, `hamlet_b` with two houses, `hamlet_c` with a barn and `hamlet_d` a crossroads), villages four (`village`, `village_b` four houses around a square, `village_c` a main street and `village_d` a long street) and towns three (`town` walled, `town_b` open around a big plaza and `town_c` with the guild hall on the square). All of a kind keep the same roles.
 
 ## Settlement people

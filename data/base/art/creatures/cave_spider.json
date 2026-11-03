@@ -1,0 +1,299 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/creature/cave_spider",
+  "canvas": {
+    "w": 44,
+    "h": 34,
+    "origin": [
+      22,
+      30
+    ]
+  },
+  "palette": {
+    "body": "#3C3446",
+    "light": "#8A7C9C",
+    "dark": "#1C1824",
+    "outline": "#0A080E",
+    "eye": "#FF4A4A",
+    "mark": "#C23A3A",
+    "fang": "#EDE6D8"
+  },
+  "layers": [
+    {
+      "shape": {
+        "path": "M 17 20 Q 9 9 3 16"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 2.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 16 22 Q 6 18 2 26"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 2.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 17 24 Q 8 26 5 31"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 2.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 18 26 Q 14 31 11 32"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 2.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 27 20 Q 35 9 41 16"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 2.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 28 22 Q 38 18 42 26"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 2.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 27 24 Q 36 26 39 31"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 2.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 26 26 Q 30 31 33 32"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 2.0
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          31,
+          11,
+          2.5
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          23,
+          8.5,
+          7.5
+        ]
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "radial": {
+          "cx": 19,
+          "cy": 19,
+          "r": 14,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.5,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            22,
+            18
+          ],
+          [
+            25.5,
+            23
+          ],
+          [
+            22,
+            28
+          ],
+          [
+            18.5,
+            23
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.mark"
+      },
+      "alpha": 0.85
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          14.5,
+          5.2,
+          4.4
+        ]
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "radial": {
+          "cx": 20,
+          "cy": 12,
+          "r": 9,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.5,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          19.5,
+          13,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          24.5,
+          13,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          21,
+          11.6,
+          0.8,
+          0.8
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          23,
+          11.6,
+          0.8,
+          0.8
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            19.5,
+            17.5
+          ],
+          [
+            20.7,
+            17.5
+          ],
+          [
+            20,
+            20
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.fang"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            23.3,
+            17.5
+          ],
+          [
+            24.5,
+            17.5
+          ],
+          [
+            24,
+            20
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.fang"
+      }
+    }
+  ]
+}

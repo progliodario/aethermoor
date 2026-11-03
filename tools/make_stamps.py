@@ -76,6 +76,14 @@ LEGEND = {
     "1": {"tile": 14, "spawner": "base:enemy/nebula_heart"},
     "2": {"tile": 14, "spawner": "base:enemy/char_tyrant"},
     "T": {"tile": 14, "prop": "base:art/prop/threshold_stone", "radius_x100": 35},  # Threshold Stone (fast travel)
+    "*": {"prop": "base:art/prop/tent", "radius_x100": 60},
+    "+": {"prop": "base:art/prop/signpost", "radius_x100": 15},
+    "~": {"prop": "base:art/prop/crate", "radius_x100": 30},
+    "^": {"prop": "base:art/prop/statue", "radius_x100": 35},
+    "@": {"prop": "base:art/prop/banner", "radius_x100": 15},
+    "!": {"prop": "base:art/prop/bush", "radius_x100": 30},
+    "$": {"prop": "base:art/prop/bones", "radius_x100": 10},
+    "?": {"prop": "base:art/prop/campfire", "radius_x100": 30},
     "V": {"tile": 13, "npc": "villager"},
     "G": {"tile": 13, "npc": "guild_clerk"},
     "S": {"tile": 13, "npc": "shopkeeper"},
@@ -440,6 +448,8 @@ def cavern() -> dict:
     for x, y in ((4, 20), (28, 20), (16, 23)):
         c.put(x, y, "x")
     c.put(13, 27, "T")
+    c.put(15, 27, "^")
+    c.put(17, 27, "^")
     return stamp("base:stamp/cavern", c, (16, 27), [])
 
 
@@ -468,6 +478,8 @@ def temple() -> dict:
     for x, y in ((17, 14), (17, 20), (15, 24), (19, 24)):
         c.put(x, y, "x")
     c.put(14, 29, "T")
+    c.put(16, 29, "@")
+    c.put(18, 29, "@")
     return stamp("base:stamp/temple", c, (17, 29), [])
 
 
@@ -527,6 +539,8 @@ def ziggurat() -> dict:
     for x, y in ((11, 12), (29, 12)):
         c.put(x, y, "s")
     c.put(16, 40, "T")
+    c.put(18, 39, "@")
+    c.put(22, 39, "@")
     return stamp("base:stamp/ziggurat", c, (20, 40), [])
 
 
@@ -595,6 +609,10 @@ def citadel() -> dict:
     for x, y in ((20, 17), (26, 17), (18, 23), (28, 23)):
         c.put(x, y, "W")
     c.put(19, 38, "T")
+    c.put(21, 37, "@")
+    c.put(25, 37, "@")
+    c.put(18, 36, "!")
+    c.put(28, 36, "!")
     return stamp("base:stamp/citadel", c, (23, 39), [])
 
 
@@ -616,6 +634,9 @@ def lair(stamp_id: str, wall: str, thickness: int, floor: str, gaps: str, mob: s
         c.put(x, y, elite if i == 5 else other if i in (3, 8) else mob)
     for ch, x, y in extras:
         c.put(x, y, ch)
+    if floor == ".":
+        for x, y in ((4, 16), (20, 4)):
+            c.put(x, y, "$")
     return stamp(stamp_id, c, anchor, [])
 
 
@@ -662,6 +683,8 @@ def outpost(stamp_id: str, layout: str, deco: str) -> dict:
         c.vline(11, 9, 12, "=")
         for x, y in ((0, 12), (22, 12), (5, 9), (17, 9)):
             c.put(x, y, deco)
+        for ch, x, y in (("+", 13, 10), ("?", 8, 10), ("*", 19, 10), ("~", 6, 7), ("~", 16, 7)):
+            c.put(x, y, ch)
         return stamp(stamp_id, c, (11, 7), [(10, 7), (12, 8)])
     if layout == "b":
         c = Canvas(19, 13)
@@ -673,6 +696,8 @@ def outpost(stamp_id: str, layout: str, deco: str) -> dict:
         c.vline(9, 10, 12, "=")
         for x, y in ((0, 12), (18, 12), (3, 8), (15, 8)):
             c.put(x, y, deco)
+        for ch, x, y in (("+", 10, 11), ("?", 6, 11), ("*", 13, 10), ("~", 4, 7), ("~", 14, 7)):
+            c.put(x, y, ch)
         return stamp(stamp_id, c, (9, 8), [(8, 8), (10, 9)])
     c = Canvas(21, 13)
     c.house(1, 1, 7, 4, {(1, 1): "b", (3, 1): "S"}, door=3)
@@ -686,6 +711,8 @@ def outpost(stamp_id: str, layout: str, deco: str) -> dict:
     c.vline(10, 9, 12, "=")
     for x, y in ((0, 12), (20, 12), (4, 8), (16, 8)):
         c.put(x, y, deco)
+    for ch, x, y in (("+", 11, 10), ("?", 7, 10), ("*", 15, 10), ("~", 4, 6), ("~", 16, 6)):
+        c.put(x, y, ch)
     return stamp(stamp_id, c, (10, 7), [(9, 7), (11, 8)])
 
 
@@ -749,6 +776,10 @@ def forge() -> dict:
     for x, y in ((6, 31), (14, 30), (26, 30), (34, 31)):
         c.put(x, y, "m")
     c.put(15, 36, "T")
+    c.put(18, 35, "@")
+    c.put(22, 35, "@")
+    c.put(14, 35, "~")
+    c.put(26, 35, "~")
     return stamp("base:stamp/forge", c, (20, 36), [])
 
 
@@ -811,6 +842,8 @@ def keep() -> dict:
     for x, y in ((8, 20), (32, 20), (20, 8), (11, 11), (29, 11), (11, 29), (29, 29), (20, 33)):
         c.put(x, y, "f")
     c.put(15, 40, "T")
+    c.put(18, 40, "^")
+    c.put(22, 40, "^")
     return stamp("base:stamp/keep", c, (20, 40), [])
 
 
@@ -844,6 +877,8 @@ def vault() -> dict:
     for x, y in ((22, 26), (22, 29), (8, 16)):
         c.put(x, y, "D")
     c.put(18, 32, "T")
+    c.put(20, 32, "^")
+    c.put(24, 32, "^")
     return stamp("base:stamp/vault", c, (22, 32), [])
 
 

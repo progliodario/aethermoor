@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/dune_scorpion",
+  "name": "$i18n:enemy.dune_scorpion.name",
+  "level": 9,
+  "stats": {
+    "hp": 130,
+    "atk": 28,
+    "def": 9,
+    "mdef": 5,
+    "speed_x100": 300
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "water": 1500
+  },
+  "xp": 60,
+  "drops": [
+    {
+      "item": "base:item/scorpion_sting",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 500
+    }
+  ],
+  "radius_x100": 40,
+  "behavior": "base:behavior/lunger",
+  "art": "base:art/creature/dune_scorpion"
+}

@@ -1,0 +1,116 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/creature/wisp",
+  "canvas": {
+    "w": 32,
+    "h": 40,
+    "origin": [
+      16,
+      36
+    ]
+  },
+  "palette": {
+    "body": "#6AD8FF",
+    "light": "#E8FBFF",
+    "dark": "#2A7ACF",
+    "outline": "#0E2A5A",
+    "eye": "#0E2A5A",
+    "halo": "#9AEBFF"
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          16,
+          24,
+          14,
+          16
+        ]
+      },
+      "fill": {
+        "color": "$p.halo"
+      },
+      "alpha": 0.22
+    },
+    {
+      "shape": {
+        "ellipse": [
+          16,
+          37,
+          7,
+          1.8
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "path": "M 16 3 Q 27 15 25 26 Q 23 35 16 35 Q 9 35 7 26 Q 5 15 16 3 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 16,
+          "y0": 3,
+          "x1": 16,
+          "y1": 35,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.45,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 16 12 Q 21 19 20 26 Q 19 31 16 31 Q 13 31 12 26 Q 11 19 16 12 Z"
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.55
+    },
+    {
+      "shape": {
+        "ellipse": [
+          13,
+          24,
+          1.5,
+          2.4
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          19,
+          24,
+          1.5,
+          2.4
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      }
+    }
+  ]
+}
