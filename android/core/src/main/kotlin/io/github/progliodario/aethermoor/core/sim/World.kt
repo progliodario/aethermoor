@@ -17,6 +17,7 @@ import io.github.progliodario.aethermoor.core.rankIndex
 import io.github.progliodario.aethermoor.core.regionAt
 import io.github.progliodario.aethermoor.core.resolveOffer
 import io.github.progliodario.aethermoor.core.sampleTime
+import io.github.progliodario.aethermoor.core.seasonIndexOf
 import io.github.progliodario.aethermoor.core.settlementContaining
 import io.github.progliodario.aethermoor.core.xpGain
 import kotlin.math.PI
@@ -384,6 +385,14 @@ class WorldSim(
         teleport(stop.x + 0.5f, stop.y + 1.75f)
         return true
     }
+
+    override fun seasonId(): String {
+        val store = chunks ?: return ""
+        val index = seasonIndexOf(store.params.time, worldTicks / store.params.time.dayTicks + 1)
+        return if (index >= 0) store.params.time.seasons[index].id else ""
+    }
+
+    override fun todPm(): Int = timeOfDayPm()
 
     override fun healFull() {
         player.hp = derived.maxHp

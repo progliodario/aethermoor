@@ -19,6 +19,8 @@ A condition is a JSON object with exactly one key:
 | `has_item` | `{item, qty}` | the inventory holds at least `qty` of the item |
 | `level_at_least` | integer | the player level is at least that value |
 | `gold_at_least` | integer | the gold is at least that value |
+| `season` | season ID | the season of the day is that one (spec 08); never true in a world without seasons or on a map without world time |
+| `tod_between` | `[from_pm, to_pm]` | the time of day (permille, 0 = midnight) is in `[from_pm, to_pm)`; when `from_pm > to_pm` the range crosses midnight (`[800, 250]` is the night); always `from_pm == 0` on a map without world time |
 
 ## Effects (closed catalog, v1)
 
@@ -163,6 +165,8 @@ Villagers and shopkeepers also answer "How is the road around here?" with a text
 - **Commissions.** Every guild clerk has a `comm_hub` ("Do you have special commissions?") that offers three `side` quests of two stages each (`hunt`, a `kill` objective, then `gather`, a `collect` objective) with the creatures and materials of
   the region. The first needs level 1 to 7 (by region), the second 3 to 11 more and the third up to level 14, and each needs the previous one paid (flag `comm_clerk_<tone>_<n>_paid`). Payment is a dialogue effect list: XP, gold
   (scaled by the danger of the region), guild points and potions (medium for the first two, a large one for the third).
+- **Seasons and nights.** Villagers answer "How is the season treating you?" with a line for the season of the day (`season` conditions chained in the dialogue, four lines per tone), and innkeepers offer
+  "Any tales for a dark night?" only at night (`tod_between` `[800, 250]`, from 19:12 to 6:00), with one tale per tone.
 - **Gossip.** Villagers answer "Any gossip?" with three lines of their tone in a row (`dlg.gossip.<tone>.<n>`).
 
 ## Wayfarers

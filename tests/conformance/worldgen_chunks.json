@@ -1098,6 +1098,11 @@
                 "art": "base:art/prop/rock",
                 "radius_x100": 35,
                 "per_mille": 12
+              },
+              {
+                "art": "base:art/prop/bush",
+                "radius_x100": 28,
+                "per_mille": 20
               }
             ],
             "forest": [
@@ -1105,6 +1110,11 @@
                 "art": "base:art/prop/tree_oak",
                 "radius_x100": 30,
                 "per_mille": 220
+              },
+              {
+                "art": "base:art/prop/bush",
+                "radius_x100": 28,
+                "per_mille": 40
               }
             ],
             "snow": [
@@ -1112,6 +1122,16 @@
                 "art": "base:art/prop/pine",
                 "radius_x100": 30,
                 "per_mille": 90
+              },
+              {
+                "art": "base:art/prop/rock",
+                "radius_x100": 35,
+                "per_mille": 10
+              },
+              {
+                "art": "base:art/prop/bones",
+                "radius_x100": 8,
+                "per_mille": 3
               }
             ],
             "desert": [
@@ -1119,6 +1139,16 @@
                 "art": "base:art/prop/cactus",
                 "radius_x100": 28,
                 "per_mille": 25
+              },
+              {
+                "art": "base:art/prop/rock",
+                "radius_x100": 35,
+                "per_mille": 10
+              },
+              {
+                "art": "base:art/prop/bones",
+                "radius_x100": 8,
+                "per_mille": 4
               }
             ]
           },
@@ -5236,8 +5266,8 @@
               ]
             ],
             "tile_digest": "0xbe3e26a8bcde3a05",
-            "prop_count": 23,
-            "prop_digest": "0x1e60dd44a728320d",
+            "prop_count": 32,
+            "prop_digest": "0x9d19341c6181a116",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "people": [],
@@ -5318,8 +5348,8 @@
               ]
             ],
             "tile_digest": "0xb3cc90bb1a680b34",
-            "prop_count": 36,
-            "prop_digest": "0x083cfafa71fcef7d",
+            "prop_count": 50,
+            "prop_digest": "0xddb20f293b6a4eb1",
             "spawner_count": 2,
             "spawner_digest": "0x6ee84afcdca4df83",
             "people": [],
@@ -5396,8 +5426,8 @@
               ]
             ],
             "tile_digest": "0x6678884e57dff4c1",
-            "prop_count": 32,
-            "prop_digest": "0x3faaafb7d9515773",
+            "prop_count": 49,
+            "prop_digest": "0x4b01c86adb10616d",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "people": [],
@@ -5474,8 +5504,8 @@
               ]
             ],
             "tile_digest": "0x9a274adcae5c1f52",
-            "prop_count": 27,
-            "prop_digest": "0x34d01caf12f39530",
+            "prop_count": 37,
+            "prop_digest": "0x072546bb7b03aefd",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "people": [],
@@ -5556,8 +5586,8 @@
               ]
             ],
             "tile_digest": "0xb0cd3073887501c7",
-            "prop_count": 14,
-            "prop_digest": "0x18b68c8c9c79cb78",
+            "prop_count": 22,
+            "prop_digest": "0xd79b6a7c81e43333",
             "spawner_count": 1,
             "spawner_digest": "0x94f9642c4e0c1199",
             "people": [],
@@ -6820,6 +6850,11 @@
                 "art": "base:art/prop/rock",
                 "radius_x100": 35,
                 "per_mille": 12
+              },
+              {
+                "art": "base:art/prop/bush",
+                "radius_x100": 28,
+                "per_mille": 20
               }
             ],
             "forest": [
@@ -6827,6 +6862,11 @@
                 "art": "base:art/prop/tree_oak",
                 "radius_x100": 30,
                 "per_mille": 220
+              },
+              {
+                "art": "base:art/prop/bush",
+                "radius_x100": 28,
+                "per_mille": 40
               }
             ],
             "snow": [
@@ -6834,6 +6874,16 @@
                 "art": "base:art/prop/pine",
                 "radius_x100": 30,
                 "per_mille": 90
+              },
+              {
+                "art": "base:art/prop/rock",
+                "radius_x100": 35,
+                "per_mille": 10
+              },
+              {
+                "art": "base:art/prop/bones",
+                "radius_x100": 8,
+                "per_mille": 3
               }
             ],
             "desert": [
@@ -6841,6 +6891,16 @@
                 "art": "base:art/prop/cactus",
                 "radius_x100": 28,
                 "per_mille": 25
+              },
+              {
+                "art": "base:art/prop/rock",
+                "radius_x100": 35,
+                "per_mille": 10
+              },
+              {
+                "art": "base:art/prop/bones",
+                "radius_x100": 8,
+                "per_mille": 4
               }
             ]
           },
@@ -10958,8 +11018,8 @@
               ]
             ],
             "tile_digest": "0xd4cb4521a4a6f163",
-            "prop_count": 23,
-            "prop_digest": "0xba11b36e1e636db5",
+            "prop_count": 31,
+            "prop_digest": "0xf920087cb6e23739",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "people": [],
@@ -11038,8 +11098,8 @@
               ]
             ],
             "tile_digest": "0x125d9fd4db3638a1",
-            "prop_count": 39,
-            "prop_digest": "0x595d15b045e3d233",
+            "prop_count": 59,
+            "prop_digest": "0xef8a5ce553ad92cf",
             "spawner_count": 2,
             "spawner_digest": "0x73e54fc645b05b14",
             "people": [],
@@ -11117,8 +11177,8 @@
               ]
             ],
             "tile_digest": "0xb5416a3413af1d6f",
-            "prop_count": 53,
-            "prop_digest": "0x030e815f9ff44caf",
+            "prop_count": 65,
+            "prop_digest": "0xde6feb430ef7cf9c",
             "spawner_count": 1,
             "spawner_digest": "0x446c2b1fa2bde6f4",
             "people": [],
@@ -11198,8 +11258,8 @@
               ]
             ],
             "tile_digest": "0xe68a091b682ffc07",
-            "prop_count": 20,
-            "prop_digest": "0x8768a2b4091c2cc4",
+            "prop_count": 24,
+            "prop_digest": "0x0b2c683bb1c7b373",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "people": [],
@@ -12309,6 +12369,11 @@
                 "art": "base:art/prop/rock",
                 "radius_x100": 35,
                 "per_mille": 12
+              },
+              {
+                "art": "base:art/prop/bush",
+                "radius_x100": 28,
+                "per_mille": 20
               }
             ],
             "forest": [
@@ -12316,6 +12381,11 @@
                 "art": "base:art/prop/tree_oak",
                 "radius_x100": 30,
                 "per_mille": 220
+              },
+              {
+                "art": "base:art/prop/bush",
+                "radius_x100": 28,
+                "per_mille": 40
               }
             ],
             "snow": [
@@ -12323,6 +12393,16 @@
                 "art": "base:art/prop/pine",
                 "radius_x100": 30,
                 "per_mille": 90
+              },
+              {
+                "art": "base:art/prop/rock",
+                "radius_x100": 35,
+                "per_mille": 10
+              },
+              {
+                "art": "base:art/prop/bones",
+                "radius_x100": 8,
+                "per_mille": 3
               }
             ],
             "desert": [
@@ -12330,6 +12410,16 @@
                 "art": "base:art/prop/cactus",
                 "radius_x100": 28,
                 "per_mille": 25
+              },
+              {
+                "art": "base:art/prop/rock",
+                "radius_x100": 35,
+                "per_mille": 10
+              },
+              {
+                "art": "base:art/prop/bones",
+                "radius_x100": 8,
+                "per_mille": 4
               }
             ]
           },
@@ -16447,8 +16537,8 @@
               ]
             ],
             "tile_digest": "0x1db679147718d1b6",
-            "prop_count": 34,
-            "prop_digest": "0xb78ab107427c0952",
+            "prop_count": 45,
+            "prop_digest": "0xa80093f39237e9c3",
             "spawner_count": 1,
             "spawner_digest": "0x4627751a26a22705",
             "people": [
@@ -16547,8 +16637,8 @@
               ]
             ],
             "tile_digest": "0x1db679147718d1b6",
-            "prop_count": 34,
-            "prop_digest": "0xb78ab107427c0952",
+            "prop_count": 45,
+            "prop_digest": "0xa80093f39237e9c3",
             "spawner_count": 1,
             "spawner_digest": "0x4627751a26a22705",
             "people": [
@@ -16647,8 +16737,8 @@
               ]
             ],
             "tile_digest": "0x56999e6736bcbf02",
-            "prop_count": 149,
-            "prop_digest": "0xf66bd9261cdf8cf4",
+            "prop_count": 164,
+            "prop_digest": "0xcc47fcdb41e64209",
             "spawner_count": 1,
             "spawner_digest": "0x0d1db27e225fd306",
             "people": [
@@ -16807,8 +16897,8 @@
               ]
             ],
             "tile_digest": "0x56999e6736bcbf02",
-            "prop_count": 149,
-            "prop_digest": "0xf66bd9261cdf8cf4",
+            "prop_count": 164,
+            "prop_digest": "0xcc47fcdb41e64209",
             "spawner_count": 1,
             "spawner_digest": "0x0d1db27e225fd306",
             "people": [
@@ -16967,8 +17057,8 @@
               ]
             ],
             "tile_digest": "0xe0b388f2d39dc1ff",
-            "prop_count": 19,
-            "prop_digest": "0x9cd2ddbad359f89d",
+            "prop_count": 21,
+            "prop_digest": "0x190d892c5e7d64bf",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "people": [
@@ -17142,8 +17232,8 @@
               ]
             ],
             "tile_digest": "0xe0b388f2d39dc1ff",
-            "prop_count": 19,
-            "prop_digest": "0x9cd2ddbad359f89d",
+            "prop_count": 21,
+            "prop_digest": "0x190d892c5e7d64bf",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "people": [
@@ -17317,8 +17407,8 @@
               ]
             ],
             "tile_digest": "0x9cf52dc76ed06ecb",
-            "prop_count": 25,
-            "prop_digest": "0x99c0318abbd07a60",
+            "prop_count": 38,
+            "prop_digest": "0xc997d9ec8da6f25e",
             "spawner_count": 4,
             "spawner_digest": "0x1785cbea68dcfc16",
             "people": [],
@@ -17400,8 +17490,8 @@
               ]
             ],
             "tile_digest": "0x9cf52dc76ed06ecb",
-            "prop_count": 25,
-            "prop_digest": "0x99c0318abbd07a60",
+            "prop_count": 38,
+            "prop_digest": "0xc997d9ec8da6f25e",
             "spawner_count": 4,
             "spawner_digest": "0x1785cbea68dcfc16",
             "people": [],
@@ -18513,6 +18603,11 @@
                 "art": "base:art/prop/rock",
                 "radius_x100": 35,
                 "per_mille": 12
+              },
+              {
+                "art": "base:art/prop/bush",
+                "radius_x100": 28,
+                "per_mille": 20
               }
             ],
             "forest": [
@@ -18520,6 +18615,11 @@
                 "art": "base:art/prop/tree_oak",
                 "radius_x100": 30,
                 "per_mille": 220
+              },
+              {
+                "art": "base:art/prop/bush",
+                "radius_x100": 28,
+                "per_mille": 40
               }
             ],
             "snow": [
@@ -18527,6 +18627,16 @@
                 "art": "base:art/prop/pine",
                 "radius_x100": 30,
                 "per_mille": 90
+              },
+              {
+                "art": "base:art/prop/rock",
+                "radius_x100": 35,
+                "per_mille": 10
+              },
+              {
+                "art": "base:art/prop/bones",
+                "radius_x100": 8,
+                "per_mille": 3
               }
             ],
             "desert": [
@@ -18534,6 +18644,16 @@
                 "art": "base:art/prop/cactus",
                 "radius_x100": 28,
                 "per_mille": 25
+              },
+              {
+                "art": "base:art/prop/rock",
+                "radius_x100": 35,
+                "per_mille": 10
+              },
+              {
+                "art": "base:art/prop/bones",
+                "radius_x100": 8,
+                "per_mille": 4
               }
             ]
           },
@@ -22651,8 +22771,8 @@
               ]
             ],
             "tile_digest": "0xecaec1a2d899b786",
-            "prop_count": 46,
-            "prop_digest": "0x67ea2408f7ac6bcd",
+            "prop_count": 63,
+            "prop_digest": "0x97f85c12eaea2720",
             "spawner_count": 1,
             "spawner_digest": "0x20d89009d95dd454",
             "people": [
@@ -22783,8 +22903,8 @@
               ]
             ],
             "tile_digest": "0x5e484a109ff1bb3f",
-            "prop_count": 93,
-            "prop_digest": "0xb34921556ce7d463",
+            "prop_count": 123,
+            "prop_digest": "0x2b25140fcc8f5ece",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "people": [],
@@ -22864,8 +22984,8 @@
               ]
             ],
             "tile_digest": "0x0b041fc8a99b9732",
-            "prop_count": 28,
-            "prop_digest": "0xc830259a495b86a0",
+            "prop_count": 40,
+            "prop_digest": "0x14f04363ab3a41b0",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "people": [
@@ -22964,8 +23084,8 @@
               ]
             ],
             "tile_digest": "0x0b041fc8a99b9732",
-            "prop_count": 28,
-            "prop_digest": "0xc830259a495b86a0",
+            "prop_count": 40,
+            "prop_digest": "0x14f04363ab3a41b0",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "people": [
@@ -23064,8 +23184,8 @@
               ]
             ],
             "tile_digest": "0x8a881613fd8eded3",
-            "prop_count": 108,
-            "prop_digest": "0x0fd4bc8123feab66",
+            "prop_count": 128,
+            "prop_digest": "0xb0b234f1ce372aab",
             "spawner_count": 4,
             "spawner_digest": "0x1785cbea68dcfc16",
             "people": [],
@@ -23147,8 +23267,8 @@
               ]
             ],
             "tile_digest": "0x8a881613fd8eded3",
-            "prop_count": 108,
-            "prop_digest": "0x0fd4bc8123feab66",
+            "prop_count": 128,
+            "prop_digest": "0xb0b234f1ce372aab",
             "spawner_count": 4,
             "spawner_digest": "0x1785cbea68dcfc16",
             "people": [],
@@ -23230,8 +23350,8 @@
               ]
             ],
             "tile_digest": "0x54ebd6f15337880f",
-            "prop_count": 110,
-            "prop_digest": "0x665edd32ea9222f1",
+            "prop_count": 123,
+            "prop_digest": "0xc8fd563f9ffd1691",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "people": [
@@ -23360,8 +23480,8 @@
               ]
             ],
             "tile_digest": "0xa330f74e26cf19a5",
-            "prop_count": 38,
-            "prop_digest": "0x2997d940608cd60c",
+            "prop_count": 49,
+            "prop_digest": "0xac138494f01cbe63",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "people": [

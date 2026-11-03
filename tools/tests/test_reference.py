@@ -285,6 +285,12 @@ def test_every_elder_offers_a_local_errand_that_pays_once():
         def grant_xp(self, amount: int) -> None:
             self.xp += amount
 
+        def season_id(self) -> str:
+            return ""
+
+        def tod_pm(self) -> int:
+            return 500
+
     data = TOOLS.parent / "data" / "base"
     params = worldgen.load_params()
     tones = {region["tone"] for region in params["regions"]}
@@ -340,6 +346,12 @@ def test_every_innkeeper_has_a_favor_and_every_villager_a_legend():
 
         def grant_xp(self, amount: int) -> None:
             self.xp += amount
+
+        def season_id(self) -> str:
+            return ""
+
+        def tod_pm(self) -> int:
+            return 500
 
     data = TOOLS.parent / "data" / "base"
     params = worldgen.load_params()
@@ -438,6 +450,12 @@ def test_every_elder_has_a_second_errand_after_the_first():
         def grant_xp(self, amount: int) -> None:
             self.xp += amount
 
+        def season_id(self) -> str:
+            return ""
+
+        def tod_pm(self) -> int:
+            return 500
+
     data = TOOLS.parent / "data" / "base"
     params = worldgen.load_params()
     quests = {}
@@ -490,6 +508,12 @@ class _InnHost:
 
     def heal_full(self) -> None:
         self.healed += 1
+
+    def season_id(self) -> str:
+        return ""
+
+    def tod_pm(self) -> int:
+        return 500
 
 
 def _regional_dialogues(role: str) -> dict:
@@ -612,6 +636,12 @@ def test_the_wayfarers_tell_three_stories_and_pass_letters_around_a_ring():
         def grant_xp(self, amount: int) -> None:
             self.xp += amount
 
+        def season_id(self) -> str:
+            return ""
+
+        def tod_pm(self) -> int:
+            return 500
+
     host = Host()
     s = story.Story(host, {"quests": quests, "dialogues": dialogues, "npcs": []})
 
@@ -661,3 +691,46 @@ def test_the_wayfarers_tell_three_stories_and_pass_letters_around_a_ring():
                 s.advance() if s._node()["type"] == "say" else s.choose(len(s.visible_choices()) - 1)
         reward = next(e["item"] for e in quests[q[2]]["rewards"] if e["effect"] == "add_item")
         assert host.inventory.get(reward) == 1, key
+
+
+class _TimeHost(_InnHost):
+    def __init__(self, season: str, tod: int) -> None:
+        super().__init__()
+        self.season, self.tod = season, tod
+
+    def season_id(self) -> str:
+        return self.season
+
+    def tod_pm(self) -> int:
+        return self.tod
+
+
+def test_season_and_time_of_day_conditions():
+    from reference import story
+
+    s = story.Story(_TimeHost("winter", 900), {"quests": {}, "dialogues": {}, "npcs": []})
+    assert s.holds({"season": "winter"}) and not s.holds({"season": "summer"})
+    assert s.holds({"tod_between": [800, 250]}) and not s.holds({"tod_between": [250, 800]})  # 900 is night, not day
+    assert s.holds({"tod_between": [900, 901]}) and not s.holds({"tod_between": [800, 900]})  # the end is excluded
+    s.host.tod = 100
+    assert s.holds({"tod_between": [800, 250]}) and not s.holds({"tod_between": [250, 800]})  # the night crosses midnight
+
+
+def test_villagers_talk_about_the_season_and_innkeepers_tell_night_tales():
+    from reference import story
+
+    seasons = ("spring", "summer", "autumn", "winter")
+    for tone, dialogue in _regional_dialogues("villager").items():
+        for season in seasons:
+            host = _TimeHost(season, 500)
+            s = story.Story(host, {"quests": {}, "dialogues": {dialogue["id"]: dialogue}, "npcs": []})
+            s.start_dialogue(dialogue["id"])
+            s.advance()
+            s.choose(next(i for i, c in enumerate(s.visible_choices()) if c["next"] == "season_spring_check"))
+            assert s.dialogue is not None and s.dialogue[1] == f"season_{season}", (tone, season, s.dialogue)
+    for tone, dialogue in _regional_dialogues("innkeeper").items():
+        for tod, tale in ((500, False), (900, True), (100, True), (400, False)):
+            s = story.Story(_TimeHost("summer", tod), {"quests": {}, "dialogues": {dialogue["id"]: dialogue}, "npcs": []})
+            s.start_dialogue(dialogue["id"])
+            s.advance()
+            assert any(c["next"] == "night_tale" for c in s.visible_choices()) is tale, (tone, tod)

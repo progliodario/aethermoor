@@ -29,6 +29,10 @@
           "next": "gossip1"
         },
         {
+          "text": "$i18n:dlg.role.season",
+          "next": "season_spring_check"
+        },
+        {
           "text": "$i18n:dlg.role.bye",
           "next": "end"
         }
@@ -68,6 +72,62 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.gossip.scholarly.3",
+      "next": "end"
+    },
+    "season_spring_check": {
+      "type": "condition",
+      "when": {
+        "season": "spring"
+      },
+      "then": "season_spring",
+      "else": "season_summer_check"
+    },
+    "season_spring": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.season.scholarly.spring",
+      "next": "end"
+    },
+    "season_summer_check": {
+      "type": "condition",
+      "when": {
+        "season": "summer"
+      },
+      "then": "season_summer",
+      "else": "season_autumn_check"
+    },
+    "season_summer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.season.scholarly.summer",
+      "next": "end"
+    },
+    "season_autumn_check": {
+      "type": "condition",
+      "when": {
+        "season": "autumn"
+      },
+      "then": "season_autumn",
+      "else": "season_winter_check"
+    },
+    "season_autumn": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.season.scholarly.autumn",
+      "next": "end"
+    },
+    "season_winter_check": {
+      "type": "condition",
+      "when": {
+        "season": "winter"
+      },
+      "then": "season_winter",
+      "else": "end"
+    },
+    "season_winter": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.season.scholarly.winter",
       "next": "end"
     }
   }

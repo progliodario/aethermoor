@@ -48,6 +48,12 @@ class Story:
             return self.host.level >= value
         if key == "gold_at_least":
             return self.gold >= value
+        if key == "season":
+            return self.host.season_id() == value
+        if key == "tod_between":
+            start, end = value
+            tod = self.host.tod_pm()
+            return start <= tod < end if start <= end else tod >= start or tod < end
         raise ValueError(f"unknown condition {key}")
 
     # --------------------------------------------------------------------------------- effects

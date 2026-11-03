@@ -58,6 +58,13 @@ Condition parse_condition(const Json& j) {
     } else if (key == "gold_at_least") {
         c.kind = Condition::Kind::GoldAtLeast;
         c.n = value.get<std::int64_t>();
+    } else if (key == "season") {
+        c.kind = Condition::Kind::Season;
+        c.a = value.get<std::string>();
+    } else if (key == "tod_between") {
+        c.kind = Condition::Kind::TodBetween;
+        c.n = value.at(0).get<std::int64_t>();
+        c.m = value.at(1).get<std::int64_t>();
     } else {
         throw std::runtime_error("unknown condition " + key);
     }
@@ -320,6 +327,12 @@ bool Story::holds(const Condition& c) const {
             return m_host_.level() >= c.n;
         case Condition::Kind::GoldAtLeast:
             return m_gold_ >= c.n;
+        case Condition::Kind::Season:
+            return m_host_.season_id() == c.a;
+        case Condition::Kind::TodBetween: {
+            const std::int64_t tod = m_host_.tod_pm();
+            return c.n <= c.m ? (tod >= c.n && tod < c.m) : (tod >= c.n || tod < c.m);
+        }
     }
     return false;
 }

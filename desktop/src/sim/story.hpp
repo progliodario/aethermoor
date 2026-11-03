@@ -14,11 +14,12 @@
 namespace aether {
 
 struct Condition {
-    enum class Kind { Flag, Not, All, Any, QuestActive, QuestDone, QuestStage, HasItem, LevelAtLeast, GoldAtLeast };
+    enum class Kind { Flag, Not, All, Any, QuestActive, QuestDone, QuestStage, HasItem, LevelAtLeast, GoldAtLeast, Season, TodBetween };
     Kind kind = Kind::Flag;
     std::string a;  // flag / quest / item
     std::string b;  // stage
-    std::int64_t n = 0;  // quantity / level
+    std::int64_t n = 0;  // quantity / level / start of a time range
+    std::int64_t m = 0;  // end of a time range
     std::vector<Condition> children;
 };
 
@@ -147,6 +148,8 @@ public:
     virtual void open_shop() = 0;
     virtual void open_board() = 0;
     virtual void heal_full() = 0;
+    virtual std::string season_id() const = 0;  // the season of the day, empty without seasons
+    virtual int tod_pm() const = 0;              // the time of day in permille, 0 without world time
 };
 
 class Story {

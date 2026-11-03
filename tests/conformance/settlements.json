@@ -1103,6 +1103,11 @@
                 "art": "base:art/prop/rock",
                 "radius_x100": 35,
                 "per_mille": 12
+              },
+              {
+                "art": "base:art/prop/bush",
+                "radius_x100": 28,
+                "per_mille": 20
               }
             ],
             "forest": [
@@ -1110,6 +1115,11 @@
                 "art": "base:art/prop/tree_oak",
                 "radius_x100": 30,
                 "per_mille": 220
+              },
+              {
+                "art": "base:art/prop/bush",
+                "radius_x100": 28,
+                "per_mille": 40
               }
             ],
             "snow": [
@@ -1117,6 +1127,16 @@
                 "art": "base:art/prop/pine",
                 "radius_x100": 30,
                 "per_mille": 90
+              },
+              {
+                "art": "base:art/prop/rock",
+                "radius_x100": 35,
+                "per_mille": 10
+              },
+              {
+                "art": "base:art/prop/bones",
+                "radius_x100": 8,
+                "per_mille": 3
               }
             ],
             "desert": [
@@ -1124,6 +1144,16 @@
                 "art": "base:art/prop/cactus",
                 "radius_x100": 28,
                 "per_mille": 25
+              },
+              {
+                "art": "base:art/prop/rock",
+                "radius_x100": 35,
+                "per_mille": 10
+              },
+              {
+                "art": "base:art/prop/bones",
+                "radius_x100": 8,
+                "per_mille": 4
               }
             ]
           },
@@ -8171,6 +8201,11 @@
                 "art": "base:art/prop/rock",
                 "radius_x100": 35,
                 "per_mille": 12
+              },
+              {
+                "art": "base:art/prop/bush",
+                "radius_x100": 28,
+                "per_mille": 20
               }
             ],
             "forest": [
@@ -8178,6 +8213,11 @@
                 "art": "base:art/prop/tree_oak",
                 "radius_x100": 30,
                 "per_mille": 220
+              },
+              {
+                "art": "base:art/prop/bush",
+                "radius_x100": 28,
+                "per_mille": 40
               }
             ],
             "snow": [
@@ -8185,6 +8225,16 @@
                 "art": "base:art/prop/pine",
                 "radius_x100": 30,
                 "per_mille": 90
+              },
+              {
+                "art": "base:art/prop/rock",
+                "radius_x100": 35,
+                "per_mille": 10
+              },
+              {
+                "art": "base:art/prop/bones",
+                "radius_x100": 8,
+                "per_mille": 3
               }
             ],
             "desert": [
@@ -8192,6 +8242,16 @@
                 "art": "base:art/prop/cactus",
                 "radius_x100": 28,
                 "per_mille": 25
+              },
+              {
+                "art": "base:art/prop/rock",
+                "radius_x100": 35,
+                "per_mille": 10
+              },
+              {
+                "art": "base:art/prop/bones",
+                "radius_x100": 8,
+                "per_mille": 4
               }
             ]
           },
@@ -13849,6 +13909,11 @@
                 "art": "base:art/prop/rock",
                 "radius_x100": 35,
                 "per_mille": 12
+              },
+              {
+                "art": "base:art/prop/bush",
+                "radius_x100": 28,
+                "per_mille": 20
               }
             ],
             "forest": [
@@ -13856,6 +13921,11 @@
                 "art": "base:art/prop/tree_oak",
                 "radius_x100": 30,
                 "per_mille": 220
+              },
+              {
+                "art": "base:art/prop/bush",
+                "radius_x100": 28,
+                "per_mille": 40
               }
             ],
             "snow": [
@@ -13863,6 +13933,16 @@
                 "art": "base:art/prop/pine",
                 "radius_x100": 30,
                 "per_mille": 90
+              },
+              {
+                "art": "base:art/prop/rock",
+                "radius_x100": 35,
+                "per_mille": 10
+              },
+              {
+                "art": "base:art/prop/bones",
+                "radius_x100": 8,
+                "per_mille": 3
               }
             ],
             "desert": [
@@ -13870,6 +13950,16 @@
                 "art": "base:art/prop/cactus",
                 "radius_x100": 28,
                 "per_mille": 25
+              },
+              {
+                "art": "base:art/prop/rock",
+                "radius_x100": 35,
+                "per_mille": 10
+              },
+              {
+                "art": "base:art/prop/bones",
+                "radius_x100": 8,
+                "per_mille": 4
               }
             ]
           },

@@ -10,6 +10,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
@@ -38,6 +39,11 @@ sealed interface Condition {
     data class LevelAtLeast(val level: Long) : Condition
 
     data class GoldAtLeast(val gold: Long) : Condition
+
+    data class Season(val id: String) : Condition
+
+    /** The time of day in permille is in [from, to); from > to crosses midnight. */
+    data class TodBetween(val from: Int, val to: Int) : Condition
 }
 
 sealed interface Effect {
@@ -174,6 +180,12 @@ interface StoryHost {
     fun openBoard()
 
     fun healFull()
+
+    /** The season of the day, empty without seasons. */
+    fun seasonId(): String
+
+    /** The time of day in permille, 0 without world time. */
+    fun todPm(): Int
 }
 
 // ------------------------------------------------------------------------------------ parsing
@@ -197,6 +209,8 @@ private fun parseCondition(element: JsonElement): Condition {
         "has_item" -> Condition.HasItem(value.jsonObject.str("item"), value.jsonObject.getValue("qty").jsonPrimitive.long)
         "level_at_least" -> Condition.LevelAtLeast(value.jsonPrimitive.long)
         "gold_at_least" -> Condition.GoldAtLeast(value.jsonPrimitive.long)
+        "season" -> Condition.Season(value.jsonPrimitive.content)
+        "tod_between" -> Condition.TodBetween(value.jsonArray[0].jsonPrimitive.int, value.jsonArray[1].jsonPrimitive.int)
         else -> throw IllegalArgumentException("unknown condition $key")
     }
 }
@@ -327,6 +341,11 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
             is Condition.HasItem -> (host.inventory[c.item] ?: 0L) >= c.qty
             is Condition.LevelAtLeast -> host.level >= c.level
             is Condition.GoldAtLeast -> gold >= c.gold
+            is Condition.Season -> host.seasonId() == c.id
+            is Condition.TodBetween -> {
+                val tod = host.todPm()
+                if (c.from <= c.to) tod >= c.from && tod < c.to else tod >= c.from || tod < c.to
+            }
         }
 
     fun apply(effect: Effect) {
