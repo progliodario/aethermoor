@@ -178,7 +178,10 @@ void WorldSim::add_chunk_people(int cx, int cy) {
         npc.x = static_cast<float>(placement->x256) / 256.0F;
         npc.y = static_cast<float>(placement->y256) / 256.0F;
         npc.name = person.name;
-        npc.args = {{"npc", person.name}, {"place", person.place}, {"region", person.region}, {"quirk", "$i18n:" + person.quirk}};
+        npc.args = {{"npc", person.name},
+                    {"place", person.place},
+                    {"region", person.region},
+                    {"quirk", "$i18n:" + person.quirk}};
         m_npcs_.push_back(std::move(npc));
     }
 }
@@ -198,7 +201,8 @@ void WorldSim::add_chunk_enemies(int cx, int cy) {
     for (const auto& [sx, sy] : chunk->spawners) {
         const auto died = m_cleared_.find({sx, sy});
         if (died != m_cleared_.end()) {
-            // A spawner whose enemy has been dead long enough is ready again when its chunk enters the window (spec 08).
+            // A spawner whose enemy has been dead long enough is ready again when its chunk enters the window (spec
+            // 08).
             if (m_world_ticks_ - died->second < m_store_->params().spawner_respawn_ticks) {
                 continue;
             }
@@ -321,7 +325,8 @@ bool WorldSim::use_stone() {
         return false;
     }
     const WorldParams& params = m_store_->params();
-    const std::pair<int, int> tile{static_cast<int>(std::floor(stone->first)), static_cast<int>(std::floor(stone->second))};
+    const std::pair<int, int> tile{static_cast<int>(std::floor(stone->first)),
+                                   static_cast<int>(std::floor(stone->second))};
     Travel travel;
     if (std::find(m_stones_.begin(), m_stones_.end(), tile) == m_stones_.end()) {
         m_stones_.push_back(tile);
@@ -357,8 +362,9 @@ bool WorldSim::travel_to(int index) {
 
 void WorldSim::open_shop() {
     if (m_store_) {
-        const Region& region = m_store_->params().regions[static_cast<std::size_t>(region_at(
-            m_store_->params(), static_cast<int>(std::floor(m_player_.position.x)), static_cast<int>(std::floor(m_player_.position.y))))];
+        const Region& region = m_store_->params().regions[static_cast<std::size_t>(
+            region_at(m_store_->params(), static_cast<int>(std::floor(m_player_.position.x)),
+                      static_cast<int>(std::floor(m_player_.position.y))))];
         m_shop_ = ShopDef{region.shop_price_pm, region.shop_stock};
     } else if (m_setup_.shop) {
         m_shop_ = m_setup_.shop;
@@ -381,8 +387,9 @@ void WorldSim::open_board() {
         return;
     }
     const WorldParams& params = m_store_->params();
-    const auto settlement = settlement_containing(m_store_->seed(), params, static_cast<int>(std::floor(m_player_.position.x)),
-                                                  static_cast<int>(std::floor(m_player_.position.y)));
+    const auto settlement =
+        settlement_containing(m_store_->seed(), params, static_cast<int>(std::floor(m_player_.position.x)),
+                              static_cast<int>(std::floor(m_player_.position.y)));
     if (!settlement) {
         return;
     }
@@ -466,7 +473,8 @@ bool WorldSim::buy(const std::string& item_id) {
 bool WorldSim::sell(const std::string& item_id) {
     const auto item = m_setup_.items.find(item_id);
     const auto owned = m_inventory_.find(item_id);
-    if (!m_shop_ || item == m_setup_.items.end() || owned == m_inventory_.end() || owned->second < 1 || sell_price(item_id) <= 0) {
+    if (!m_shop_ || item == m_setup_.items.end() || owned == m_inventory_.end() || owned->second < 1 ||
+        sell_price(item_id) <= 0) {
         return false;
     }
     if (owned->second == 1 && (item_id == m_equipped_weapon_ || item_id == m_equipped_armor_)) {
@@ -597,8 +605,7 @@ void WorldSim::advance_attack() {
 void WorldSim::do_hits() {
     Player& p = m_player_;
     const SkillDef& s = m_setup_.skill;
-    const auto cos_half =
-        static_cast<float>(std::cos(static_cast<double>(s.angle_deg) / 2.0 * kPi / 180.0));
+    const auto cos_half = static_cast<float>(std::cos(static_cast<double>(s.angle_deg) / 2.0 * kPi / 180.0));
     for (std::size_t index = 0; index < m_enemies_.size(); ++index) {
         Enemy& enemy = m_enemies_[index];
         if (enemy.state == EnemyState::Dead || m_hit_set_[index]) {
@@ -783,8 +790,8 @@ SaveState WorldSim::capture() const {
     s.loot_state = m_loot_rng_.state();
     s.loot_inc = m_loot_rng_.inc();
     for (const Enemy& enemy : m_enemies_) {
-        s.enemies.push_back({enemy.position, enemy.hp, enemy.state, enemy.state_tick, m_store_ != nullptr, enemy.spawner_x,
-                             enemy.spawner_y});
+        s.enemies.push_back({enemy.position, enemy.hp, enemy.state, enemy.state_tick, m_store_ != nullptr,
+                             enemy.spawner_x, enemy.spawner_y});
     }
     for (const auto& [spawner, died] : m_cleared_) {
         s.cleared.push_back({spawner.first, spawner.second, died});

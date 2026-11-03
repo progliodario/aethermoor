@@ -188,7 +188,8 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
             def.stack_max = item->value("stack_max", 0);
             if (item->contains("use")) {
                 for (const Json& effect : item->at("use").at("effects")) {
-                    def.effects.push_back({effect.at("effect").get<std::string>(), effect.value("amount", static_cast<std::int64_t>(0))});
+                    def.effects.push_back(
+                        {effect.at("effect").get<std::string>(), effect.value("amount", static_cast<std::int64_t>(0))});
                 }
             }
             if (item->contains("weapon")) {

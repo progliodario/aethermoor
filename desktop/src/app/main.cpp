@@ -64,7 +64,7 @@ struct Ui {
     std::string last_speaker;  // last line spoken in the open dialogue, kept while choices are shown
     std::string last_text;
     std::map<std::string, std::string> last_args;  // arguments of the last spoken line
-    std::string message;  // short notice ("Game saved"), shown for a moment
+    std::string message;                           // short notice ("Game saved"), shown for a moment
     int message_frames = 0;
     bool show_inventory = false;
     int bag_cursor = 0;  // index of the selected item in the bag
@@ -76,7 +76,8 @@ struct Ui {
     bool show_journal = false;
     int journal_scroll = 0;  // first visible line of the journal
     mutable std::map<std::pair<int, int>, std::optional<aether::Settlement>> map_markers;  // settlement shown on a cell
-    mutable std::map<std::pair<int, int>, int> map_codes;  // biome code of the explored cells, filled when the map is drawn
+    mutable std::map<std::pair<int, int>, int>
+        map_codes;  // biome code of the explored cells, filled when the map is drawn
 };
 
 std::string detect_language() {
@@ -291,8 +292,8 @@ void draw_enemy(SDL_Renderer* renderer, aether::TextureCache& cache, const aethe
     if (enemy.hp < enemy.def.hp) {
         const float bar_w = 28.0F * k;
         const float ratio = static_cast<float>(enemy.hp) / static_cast<float>(enemy.def.hp);
-        fill_rect(renderer, feet_x - bar_w / 2.0F, feet_y - sprite->height * k - 6.0F * k * 0.5F, bar_w, 4.0F * k * 0.5F,
-                  20, 20, 20, 200);
+        fill_rect(renderer, feet_x - bar_w / 2.0F, feet_y - sprite->height * k - 6.0F * k * 0.5F, bar_w,
+                  4.0F * k * 0.5F, 20, 20, 20, 200);
         fill_rect(renderer, feet_x - bar_w / 2.0F, feet_y - sprite->height * k - 6.0F * k * 0.5F, bar_w * ratio,
                   4.0F * k * 0.5F, 220, 70, 70, 255);
     }
@@ -337,10 +338,12 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
     const float hp_ratio = std::clamp(static_cast<float>(p.hp) / static_cast<float>(sim.derived().max_hp), 0.0F, 1.0F);
     fill_rect(renderer, x - 2.0F, y - 2.0F, bar_w + 4.0F, bar_h + 4.0F, 10, 20, 40, 200);
     fill_rect(renderer, x, y, bar_w * hp_ratio, bar_h, 210, 60, 60, 255);
-    const std::int64_t need = sim.combat().xp_table.empty() || p.level - 1 >= static_cast<std::int64_t>(sim.combat().xp_table.size())
-                                  ? 0
-                                  : sim.combat().xp_table[static_cast<std::size_t>(p.level - 1)];
-    const float xp_ratio = need > 0 ? std::clamp(static_cast<float>(p.xp) / static_cast<float>(need), 0.0F, 1.0F) : 0.0F;
+    const std::int64_t need =
+        sim.combat().xp_table.empty() || p.level - 1 >= static_cast<std::int64_t>(sim.combat().xp_table.size())
+            ? 0
+            : sim.combat().xp_table[static_cast<std::size_t>(p.level - 1)];
+    const float xp_ratio =
+        need > 0 ? std::clamp(static_cast<float>(p.xp) / static_cast<float>(need), 0.0F, 1.0F) : 0.0F;
     fill_rect(renderer, x, y + bar_h + 6.0F, bar_w, 6.0F * density, 10, 20, 40, 200);
     fill_rect(renderer, x, y + bar_h + 6.0F, bar_w * xp_ratio, 6.0F * density, 90, 200, 120, 255);
 
@@ -358,15 +361,16 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
     SDL_RenderDebugText(renderer, hint_x, (y + bar_h + 16.0F * density) / 2.0F, bag_hint.c_str());
     if (sim.streamed()) {
         // The map hint follows the bag hint whatever the language: 8 units per character, two characters of gap.
-        SDL_RenderDebugText(renderer, hint_x + 8.0F * static_cast<float>(bag_hint.size() + 2), (y + bar_h + 16.0F * density) / 2.0F,
+        SDL_RenderDebugText(renderer, hint_x + 8.0F * static_cast<float>(bag_hint.size() + 2),
+                            (y + bar_h + 16.0F * density) / 2.0F,
                             assets.pack.text(ui.lang, "$i18n:ui.map_hint").c_str());
     }
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
 // The world map: explored cells by biome and the player (spec 09).
-void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w, int out_h,
-                    float density) {
+void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w,
+                    int out_h, float density) {
     const aether::ChunkStore* store = sim.chunks();
     if (!ui.show_map || store == nullptr) {
         return;
@@ -380,17 +384,18 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
     const float cell = side / static_cast<float>(std::max(columns, rows));
     const float left = (static_cast<float>(out_w) - cell * static_cast<float>(columns)) / 2.0F;
     const float top = (static_cast<float>(out_h) - cell * static_cast<float>(rows)) / 2.0F + 10.0F * density;
-    fill_rect(renderer, left - 2.0F, top - 2.0F, cell * static_cast<float>(columns) + 4.0F, cell * static_cast<float>(rows) + 4.0F, 20, 36, 66, 255);
-    static const Uint8 kColors[7][3] = {{60, 110, 190}, {222, 206, 150}, {130, 130, 140}, {235, 240, 245},
-                                        {222, 206, 150}, {60, 130, 70},  {110, 180, 90}};
+    fill_rect(renderer, left - 2.0F, top - 2.0F, cell * static_cast<float>(columns) + 4.0F,
+              cell * static_cast<float>(rows) + 4.0F, 20, 36, 66, 255);
+    static const Uint8 kColors[7][3] = {{60, 110, 190},  {222, 206, 150}, {130, 130, 140}, {235, 240, 245},
+                                        {222, 206, 150}, {60, 130, 70},   {110, 180, 90}};
     for (const auto& [x, y] : sim.explored()) {
         auto code = ui.map_codes.find({x, y});
         if (code == ui.map_codes.end()) {
             code = ui.map_codes.emplace(std::make_pair(x, y), aether::biome_code(store->seed(), params, x, y)).first;
         }
         const Uint8* color = kColors[code->second];
-        fill_rect(renderer, left + cell * static_cast<float>(x), top + cell * static_cast<float>(y), std::ceil(cell), std::ceil(cell), color[0],
-                  color[1], color[2], 255);
+        fill_rect(renderer, left + cell * static_cast<float>(x), top + cell * static_cast<float>(y), std::ceil(cell),
+                  std::ceil(cell), color[0], color[1], color[2], 255);
     }
     // Settlements of the explored cells, and the names of the regions whose center is explored.
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
@@ -405,7 +410,9 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
     for (const auto& [x, y] : sim.explored()) {
         auto marker = ui.map_markers.find({x, y});
         if (marker == ui.map_markers.end()) {
-            marker = ui.map_markers.emplace(std::make_pair(x, y), aether::settlement_marker(store->seed(), params, x, y)).first;
+            marker =
+                ui.map_markers.emplace(std::make_pair(x, y), aether::settlement_marker(store->seed(), params, x, y))
+                    .first;
         }
         if (!marker->second) {
             continue;
@@ -413,20 +420,24 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
         const float mx = left + cell * (static_cast<float>(x) + 0.5F);
         const float my = top + cell * (static_cast<float>(y) + 0.5F);
         const float size = marker->second->kind == "town" ? 7.0F : (marker->second->kind == "village" ? 5.0F : 3.0F);
-        fill_rect(renderer, mx - size * density / 2.0F - 1.0F, my - size * density / 2.0F - 1.0F, size * density + 2.0F, size * density + 2.0F, 20, 20, 30, 255);
-        fill_rect(renderer, mx - size * density / 2.0F, my - size * density / 2.0F, size * density, size * density, 255, 235, 150, 255);
+        fill_rect(renderer, mx - size * density / 2.0F - 1.0F, my - size * density / 2.0F - 1.0F, size * density + 2.0F,
+                  size * density + 2.0F, 20, 20, 30, 255);
+        fill_rect(renderer, mx - size * density / 2.0F, my - size * density / 2.0F, size * density, size * density, 255,
+                  235, 150, 255);
         if (marker->second->kind != "hamlet") {
             const int priority = marker->second->kind == "town" ? 0 : (marker->second->kind == "village" ? 1 : 2);
-            labels.push_back({mx + (size * density) / 2.0F + 3.0F, my - 4.0F, static_cast<float>(marker->second->name.size()) * 8.0F, priority,
-                              &marker->second->name});
+            labels.push_back({mx + (size * density) / 2.0F + 3.0F, my - 4.0F,
+                              static_cast<float>(marker->second->name.size()) * 8.0F, priority, &marker->second->name});
         }
     }
-    std::stable_sort(labels.begin(), labels.end(), [](const MapLabel& a, const MapLabel& b) { return a.priority < b.priority; });
+    std::stable_sort(labels.begin(), labels.end(),
+                     [](const MapLabel& a, const MapLabel& b) { return a.priority < b.priority; });
     std::vector<MapLabel> placed;  // a name that would be drawn over another one is left out
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     for (const MapLabel& label : labels) {
         const bool clash = std::any_of(placed.begin(), placed.end(), [&label](const MapLabel& other) {
-            return label.x < other.x + other.w && other.x < label.x + label.w && label.y < other.y + 10.0F && other.y < label.y + 10.0F;
+            return label.x < other.x + other.w && other.x < label.x + label.w && label.y < other.y + 10.0F &&
+                   other.y < label.y + 10.0F;
         });
         if (!clash) {
             SDL_RenderDebugText(renderer, label.x, label.y, label.text->c_str());
@@ -434,8 +445,10 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
         }
     }
     for (const aether::Region& region : params.regions) {
-        const int rx = static_cast<int>(static_cast<std::int64_t>(region.x_pm) * params.width / 1000) / aether::kMapCell;
-        const int ry = static_cast<int>(static_cast<std::int64_t>(region.y_pm) * params.height / 1000) / aether::kMapCell;
+        const int rx =
+            static_cast<int>(static_cast<std::int64_t>(region.x_pm) * params.width / 1000) / aether::kMapCell;
+        const int ry =
+            static_cast<int>(static_cast<std::int64_t>(region.y_pm) * params.height / 1000) / aether::kMapCell;
         if (sim.explored().count({rx, ry}) == 0) {
             continue;
         }
@@ -449,13 +462,14 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
     fill_rect(renderer, px - 3.0F * density, py - 3.0F * density, 6.0F * density, 6.0F * density, 255, 60, 60, 255);
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_SetRenderScale(renderer, 2.0F, 2.0F);
-    SDL_RenderDebugText(renderer, left / 2.0F, (top - 26.0F * density) / 2.0F, assets.pack.text(ui.lang, "$i18n:ui.map").c_str());
+    SDL_RenderDebugText(renderer, left / 2.0F, (top - 26.0F * density) / 2.0F,
+                        assets.pack.text(ui.lang, "$i18n:ui.map").c_str());
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
 // Night and weather over the world, and the clock (spec 08). Presentation only.
-void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w, int out_h,
-                     float density, Uint64 now_ms) {
+void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w,
+                     int out_h, float density, Uint64 now_ms) {
     const auto time = sim.time();
     if (!time) {
         return;
@@ -468,7 +482,8 @@ void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether:
         SDL_RenderFillRect(renderer, &all);
     }
     if (time->season_index >= 0 && sim.chunks() != nullptr) {  // the tint of the season (spec 08)
-        const aether::Season& season = sim.chunks()->params().time.seasons[static_cast<std::size_t>(time->season_index)];
+        const aether::Season& season =
+            sim.chunks()->params().time.seasons[static_cast<std::size_t>(time->season_index)];
         if (season.tint[3] > 0) {
             SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
             SDL_SetRenderDrawColor(renderer, static_cast<Uint8>(season.tint[0]), static_cast<Uint8>(season.tint[1]),
@@ -482,7 +497,8 @@ void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether:
         SDL_SetRenderDrawColor(renderer, 170, 190, 230, 150);
         for (int i = 0; i < drops; ++i) {
             const Uint64 fall = now_ms / 2 + static_cast<Uint64>(i) * 977;
-            const float x = static_cast<float>((static_cast<Uint64>(i) * 7919 + now_ms / 5) % static_cast<Uint64>(out_w));
+            const float x =
+                static_cast<float>((static_cast<Uint64>(i) * 7919 + now_ms / 5) % static_cast<Uint64>(out_w));
             const float y = static_cast<float>(fall % static_cast<Uint64>(out_h));
             SDL_RenderLine(renderer, x, y, x - 3.0F * density, y + 12.0F * density);
         }
@@ -494,22 +510,27 @@ void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether:
     std::string season_name;
     if (time->season_index >= 0 && sim.chunks() != nullptr) {
         season_name = assets.pack.text(
-            ui.lang, "$i18n:season." + sim.chunks()->params().time.seasons[static_cast<std::size_t>(time->season_index)].id);
+            ui.lang,
+            "$i18n:season." + sim.chunks()->params().time.seasons[static_cast<std::size_t>(time->season_index)].id);
     }
-    const std::string line = assets.pack.text(ui.lang, "$i18n:ui.clock",
-                                              {{"day", static_cast<std::int64_t>(time->day)}, {"time", std::string(clock)}, {"season", season_name}});
+    const std::string line = assets.pack.text(
+        ui.lang, "$i18n:ui.clock",
+        {{"day", static_cast<std::int64_t>(time->day)}, {"time", std::string(clock)}, {"season", season_name}});
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_SetRenderScale(renderer, 2.0F, 2.0F);
-    SDL_RenderDebugText(renderer, (static_cast<float>(out_w) - 12.0F * density) / 2.0F - static_cast<float>(line.size()) * 8.0F,
+    SDL_RenderDebugText(renderer,
+                        (static_cast<float>(out_w) - 12.0F * density) / 2.0F - static_cast<float>(line.size()) * 8.0F,
                         12.0F * density / 2.0F, line.c_str());
     if (const aether::ChunkStore* store = sim.chunks()) {
         const aether::WorldParams& params = store->params();
         const aether::Region& region = params.regions[static_cast<std::size_t>(
-            aether::region_at(params, static_cast<int>(std::floor(sim.player().position.x)), static_cast<int>(std::floor(sim.player().position.y))))];
+            aether::region_at(params, static_cast<int>(std::floor(sim.player().position.x)),
+                              static_cast<int>(std::floor(sim.player().position.y))))];
         const std::string name = assets.pack.text(ui.lang, region.name);
         SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
-        SDL_RenderDebugText(renderer, (static_cast<float>(out_w) - 12.0F * density) / 2.0F - static_cast<float>(name.size()) * 8.0F,
-                            12.0F * density / 2.0F + 12.0F, name.c_str());
+        SDL_RenderDebugText(
+            renderer, (static_cast<float>(out_w) - 12.0F * density) / 2.0F - static_cast<float>(name.size()) * 8.0F,
+            12.0F * density / 2.0F + 12.0F, name.c_str());
     }
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
@@ -605,9 +626,7 @@ void delete_slot(int slot) {
 }
 
 // The settings file (spec 16): the language chosen by the player; without it the language of the system is used.
-fs::path settings_file() {
-    return save_dir().parent_path() / "settings.json";
-}
+fs::path settings_file() { return save_dir().parent_path() / "settings.json"; }
 
 void save_language(const std::string& lang) {
     write_text_atomic(settings_file(), "{\n  \"language\": \"" + lang + "\"\n}\n");
@@ -708,9 +727,11 @@ void bag_use(aether::WorldSim& sim, const Assets& assets, Ui& ui) {
     auto it = items.begin();
     std::advance(it, std::clamp(ui.bag_cursor, 0, static_cast<int>(items.size()) - 1));
     const std::string item_id = it->first;
-    const std::string name = assets.pack.text(ui.lang, "$i18n:" + item_key(item_id) + ".name", {{"count", std::int64_t{1}}});
+    const std::string name =
+        assets.pack.text(ui.lang, "$i18n:" + item_key(item_id) + ".name", {{"count", std::int64_t{1}}});
     const auto def = sim.combat().items.find(item_id);
-    const bool wearable = def != sim.combat().items.end() && (def->second.kind == "weapon" || def->second.kind == "armor");
+    const bool wearable =
+        def != sim.combat().items.end() && (def->second.kind == "weapon" || def->second.kind == "armor");
     if (wearable && sim.equip(item_id)) {
         notify(ui, assets.pack.text(ui.lang, "$i18n:ui.item_equipped", {{"item", name}}));
     } else if (!wearable && sim.use_item(item_id)) {
@@ -751,7 +772,8 @@ void shop_confirm(aether::WorldSim& sim, const Assets& assets, Ui& ui) {
     if (entries.empty()) {
         return;
     }
-    const std::string id = entries[static_cast<std::size_t>(std::clamp(ui.shop_cursor, 0, static_cast<int>(entries.size()) - 1))].first;
+    const std::string id =
+        entries[static_cast<std::size_t>(std::clamp(ui.shop_cursor, 0, static_cast<int>(entries.size()) - 1))].first;
     const std::string name = assets.pack.text(ui.lang, "$i18n:" + item_key(id) + ".name", {{"count", std::int64_t{1}}});
     const bool done = ui.shop_sell ? sim.sell(id) : sim.buy(id);
     if (done) {
@@ -864,7 +886,8 @@ void handle_dialogue_button(aether::WorldSim& sim, Ui& ui, Uint8 button) {
     }
 }
 
-// A dialogue text with its arguments (spec 07): values that start with "$i18n:" are text keys resolved with the plain ones.
+// A dialogue text with its arguments (spec 07): values that start with "$i18n:" are text keys resolved with the plain
+// ones.
 std::string dialogue_text(const aether::Pack& pack, const std::string& lang, const std::string& reference,
                           const std::map<std::string, std::string>& args) {
     aether::FormatArgs plain;
@@ -892,8 +915,8 @@ std::string speaker_name(const aether::Pack& pack, const std::string& lang, cons
     return pack.text(lang, "$i18n:speaker." + speaker);
 }
 
-void draw_dialogue(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui,
-                   int out_w, int out_h, float density) {
+void draw_dialogue(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w,
+                   int out_h, float density) {
     const aether::DialogueView view = sim.story().dialogue_view();
     if (!view.active) {
         return;
@@ -901,7 +924,8 @@ void draw_dialogue(SDL_Renderer* renderer, const Assets& assets, const aether::W
     constexpr float kScale = 2.0F;
     const float char_w = 8.0F * kScale;
     const float margin = 24.0F * density;
-    const auto columns = static_cast<std::size_t>(std::max(20.0F, (static_cast<float>(out_w) - 2.0F * margin - 16.0F) / char_w));
+    const auto columns =
+        static_cast<std::size_t>(std::max(20.0F, (static_cast<float>(out_w) - 2.0F * margin - 16.0F) / char_w));
     std::vector<std::string> lines;
     std::string heading;
     if (view.is_choice) {
@@ -945,10 +969,12 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
     const aether::Story& story = sim.story();
     constexpr float kScale = 2.0F;
     const float x = (static_cast<float>(out_w) - 410.0F * density) / kScale;
-    float y = 12.0F * density / kScale + 32.0F;  // below the clock and the name of the region, which are right-aligned in the corner
+    float y = 12.0F * density / kScale +
+              32.0F;  // below the clock and the name of the region, which are right-aligned in the corner
     SDL_SetRenderScale(renderer, kScale, kScale);
     char line[96];
-    std::snprintf(line, sizeof(line), "%s", assets.pack.text(ui.lang, "$i18n:ui.gold", {{"gold", story.gold()}}).c_str());
+    std::snprintf(line, sizeof(line), "%s",
+                  assets.pack.text(ui.lang, "$i18n:ui.gold", {{"gold", story.gold()}}).c_str());
     SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
     SDL_RenderDebugText(renderer, x, y, line);
     if (sim.streamed()) {
@@ -980,7 +1006,8 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
         SDL_RenderDebugText(renderer, x, y, dialogue_text(assets.pack, ui.lang, def.name, def.args).c_str());
         y += 14.0F;
         SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
-        for (const std::string& wrapped : wrap_text(dialogue_text(assets.pack, ui.lang, stage->journal, def.args), 24)) {
+        for (const std::string& wrapped :
+             wrap_text(dialogue_text(assets.pack, ui.lang, stage->journal, def.args), 24)) {
             SDL_RenderDebugText(renderer, x, y, wrapped.c_str());
             y += 12.0F;
         }
@@ -1003,8 +1030,8 @@ int list_first(int total, int cursor, int max_rows) {
     return total <= max_rows ? 0 : std::clamp(cursor - max_rows / 2, 0, total - max_rows);
 }
 
-void draw_shop(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w, int out_h,
-               float density) {
+void draw_shop(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w,
+               int out_h, float density) {
     if (sim.shop() == nullptr) {
         return;
     }
@@ -1013,7 +1040,8 @@ void draw_shop(SDL_Renderer* renderer, const Assets& assets, const aether::World
     const float row = 8.0F * kScale + 8.0F;
     const float w = std::min(static_cast<float>(out_w) - 40.0F, 560.0F * density);
     const int cursor = std::clamp(ui.shop_cursor, 0, std::max(static_cast<int>(entries.size()) - 1, 0));
-    const int max_rows = std::max(3, static_cast<int>((static_cast<float>(out_h) - 150.0F) / row));  // a long list scrolls with the cursor
+    const int max_rows = std::max(
+        3, static_cast<int>((static_cast<float>(out_h) - 150.0F) / row));  // a long list scrolls with the cursor
     const int visible = std::min(static_cast<int>(entries.size()), max_rows);
     const int first = list_first(static_cast<int>(entries.size()), cursor, max_rows);
     const float h = 100.0F + row * static_cast<float>(std::max(visible, 1));
@@ -1026,15 +1054,19 @@ void draw_shop(SDL_Renderer* renderer, const Assets& assets, const aether::World
     const std::string title = assets.pack.text(ui.lang, "$i18n:ui.shop") + " - " +
                               assets.pack.text(ui.lang, ui.shop_sell ? "$i18n:ui.shop_sell" : "$i18n:ui.shop_buy");
     SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + 12.0F) / kScale, title.c_str());
-    const std::string gold = assets.pack.text(ui.lang, "$i18n:ui.gold", {{"gold", static_cast<std::int64_t>(sim.story().gold())}});
-    SDL_RenderDebugText(renderer, (x + w - 16.0F) / kScale - static_cast<float>(gold.size()) * 8.0F, (y + 12.0F) / kScale, gold.c_str());
+    const std::string gold =
+        assets.pack.text(ui.lang, "$i18n:ui.gold", {{"gold", static_cast<std::int64_t>(sim.story().gold())}});
+    SDL_RenderDebugText(renderer, (x + w - 16.0F) / kScale - static_cast<float>(gold.size()) * 8.0F,
+                        (y + 12.0F) / kScale, gold.c_str());
     float ty = y + 12.0F + row + 8.0F;
     if (entries.empty()) {
         SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
-        SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, ty / kScale, assets.pack.text(ui.lang, "$i18n:ui.shop_empty").c_str());
+        SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, ty / kScale,
+                            assets.pack.text(ui.lang, "$i18n:ui.shop_empty").c_str());
     }
     for (std::size_t i = static_cast<std::size_t>(first); i < static_cast<std::size_t>(first + visible); ++i) {
-        const std::string name = assets.pack.text(ui.lang, "$i18n:" + item_key(entries[i].first) + ".name", {{"count", std::int64_t{1}}});
+        const std::string name =
+            assets.pack.text(ui.lang, "$i18n:" + item_key(entries[i].first) + ".name", {{"count", std::int64_t{1}}});
         const std::string price = std::to_string(entries[i].second);
         if (static_cast<int>(i) == cursor) {
             SDL_SetRenderScale(renderer, 1.0F, 1.0F);
@@ -1042,18 +1074,21 @@ void draw_shop(SDL_Renderer* renderer, const Assets& assets, const aether::World
             SDL_SetRenderScale(renderer, kScale, kScale);
         }
         SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
-        SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, ty / kScale, ((static_cast<int>(i) == cursor ? ">" : " ") + name).c_str());
+        SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, ty / kScale,
+                            ((static_cast<int>(i) == cursor ? ">" : " ") + name).c_str());
         SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
-        SDL_RenderDebugText(renderer, (x + w - 16.0F) / kScale - static_cast<float>(price.size()) * 8.0F, ty / kScale, price.c_str());
+        SDL_RenderDebugText(renderer, (x + w - 16.0F) / kScale - static_cast<float>(price.size()) * 8.0F, ty / kScale,
+                            price.c_str());
         ty += row;
     }
     SDL_SetRenderDrawColor(renderer, 170, 200, 230, 255);
-    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + h - 28.0F) / kScale, assets.pack.text(ui.lang, "$i18n:ui.shop_hint").c_str());
+    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + h - 28.0F) / kScale,
+                        assets.pack.text(ui.lang, "$i18n:ui.shop_hint").c_str());
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
-void draw_board(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w, int out_h,
-                float density) {
+void draw_board(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w,
+                int out_h, float density) {
     const aether::WorldSim::Board* board = sim.board();
     const aether::ChunkStore* store = sim.chunks();
     if (board == nullptr || store == nullptr) {
@@ -1079,8 +1114,10 @@ void draw_board(SDL_Renderer* renderer, const Assets& assets, const aether::Worl
     SDL_SetRenderDrawColor(renderer, 111, 227, 255, 255);
     const std::string title = assets.pack.text(ui.lang, "$i18n:ui.board") + " - " + board->settlement.name;
     SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + 12.0F) / kScale, title.c_str());
-    const std::string status = assets.pack.text(ui.lang, "$i18n:ui.rank", {{"rank", rank_letter(sim.guild_rank())}}) + "  " +
-                               assets.pack.text(ui.lang, "$i18n:ui.guild_points", {{"points", static_cast<std::int64_t>(sim.story().guild_points())}});
+    const std::string status = assets.pack.text(ui.lang, "$i18n:ui.rank", {{"rank", rank_letter(sim.guild_rank())}}) +
+                               "  " +
+                               assets.pack.text(ui.lang, "$i18n:ui.guild_points",
+                                                {{"points", static_cast<std::int64_t>(sim.story().guild_points())}});
     SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
     SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + 12.0F + row) / kScale, status.c_str());
     float ty = y + 12.0F + row * 2.0F + 6.0F;
@@ -1100,13 +1137,16 @@ void draw_board(SDL_Renderer* renderer, const Assets& assets, const aether::Worl
         if (taken) {
             tag = "  (" + assets.pack.text(ui.lang, "$i18n:ui.board_taken") + ")";
         } else if (locked) {
-            tag = "  (" + assets.pack.text(ui.lang, "$i18n:ui.board_locked", {{"rank", rank_letter(offer.min_rank)}}) + ")";
+            tag = "  (" + assets.pack.text(ui.lang, "$i18n:ui.board_locked", {{"rank", rank_letter(offer.min_rank)}}) +
+                  ")";
         }
         SDL_SetRenderDrawColor(renderer, locked ? 130 : 255, locked ? 140 : 255, locked ? 160 : 255, 255);
-        SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, ty / kScale, ((static_cast<int>(i) == cursor ? ">" : " ") + name + tag).c_str());
+        SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, ty / kScale,
+                            ((static_cast<int>(i) == cursor ? ">" : " ") + name + tag).c_str());
         SDL_SetRenderDrawColor(renderer, 170, 200, 230, 255);
         const std::string journal = dialogue_text(assets.pack, ui.lang, quest.stages.front().journal, quest.args);
-        SDL_RenderDebugText(renderer, (x + 16.0F + 8.0F * kScale) / kScale, (ty + row) / kScale, journal.substr(0, 80).c_str());
+        SDL_RenderDebugText(renderer, (x + 16.0F + 8.0F * kScale) / kScale, (ty + row) / kScale,
+                            journal.substr(0, 80).c_str());
         SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
         const std::string reward = assets.pack.text(ui.lang, "$i18n:ui.board_reward",
                                                     {{"gold", static_cast<std::int64_t>(offer.gold)},
@@ -1116,7 +1156,8 @@ void draw_board(SDL_Renderer* renderer, const Assets& assets, const aether::Worl
         ty += row * 3.0F;
     }
     SDL_SetRenderDrawColor(renderer, 170, 200, 230, 255);
-    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + h - 28.0F) / kScale, assets.pack.text(ui.lang, "$i18n:ui.board_hint").c_str());
+    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + h - 28.0F) / kScale,
+                        assets.pack.text(ui.lang, "$i18n:ui.board_hint").c_str());
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
@@ -1126,7 +1167,8 @@ struct JournalLine {
     int kind = 0;  // 0 section title, 1 quest name, 2 text, 3 finished quest
 };
 
-std::vector<JournalLine> journal_lines(const Assets& assets, const aether::WorldSim& sim, const Ui& ui, std::size_t columns) {
+std::vector<JournalLine> journal_lines(const Assets& assets, const aether::WorldSim& sim, const Ui& ui,
+                                       std::size_t columns) {
     std::vector<JournalLine> lines;
     const auto& quests = sim.story().quests();
     bool any_active = false;
@@ -1155,12 +1197,15 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
                 continue;
             }
             lines.push_back({dialogue_text(assets.pack, ui.lang, def.name, def.args), 1});
-            for (const std::string& wrapped : wrap_text(dialogue_text(assets.pack, ui.lang, stage->journal, def.args), columns)) {
+            for (const std::string& wrapped :
+                 wrap_text(dialogue_text(assets.pack, ui.lang, stage->journal, def.args), columns)) {
                 lines.push_back({"  " + wrapped, 2});
             }
             for (std::size_t i = 0; i < stage->objectives.size(); ++i) {
                 if (stage->objectives[i].kind != aether::Objective::Kind::Talk) {
-                    lines.push_back({"  " + std::to_string(progress.progress[i]) + "/" + std::to_string(stage->objectives[i].count), 2});
+                    lines.push_back(
+                        {"  " + std::to_string(progress.progress[i]) + "/" + std::to_string(stage->objectives[i].count),
+                         2});
                 }
             }
             lines.push_back({"", 2});
@@ -1178,8 +1223,8 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
     return lines;
 }
 
-void draw_journal(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w, int out_h,
-                  float density) {
+void draw_journal(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w,
+                  int out_h, float density) {
     if (!ui.show_journal) {
         return;
     }
@@ -1197,7 +1242,8 @@ void draw_journal(SDL_Renderer* renderer, const Assets& assets, const aether::Wo
     fill_rect(renderer, x, y, w, 3.0F, 255, 215, 120, 255);
     SDL_SetRenderScale(renderer, kScale, kScale);
     SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
-    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + 14.0F) / kScale, assets.pack.text(ui.lang, "$i18n:ui.journal").c_str());
+    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + 14.0F) / kScale,
+                        assets.pack.text(ui.lang, "$i18n:ui.journal").c_str());
     float ty = y + 14.0F + row * 1.5F;
     for (int i = first; i < std::min(first + visible, static_cast<int>(lines.size())); ++i) {
         const JournalLine& line = lines[static_cast<std::size_t>(i)];
@@ -1219,12 +1265,13 @@ void draw_journal(SDL_Renderer* renderer, const Assets& assets, const aether::Wo
         ty += row;
     }
     SDL_SetRenderDrawColor(renderer, 170, 200, 230, 255);
-    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + h - 28.0F) / kScale, assets.pack.text(ui.lang, "$i18n:ui.journal_hint").c_str());
+    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + h - 28.0F) / kScale,
+                        assets.pack.text(ui.lang, "$i18n:ui.journal_hint").c_str());
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
-void draw_travel(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w, int out_h,
-                 float density) {
+void draw_travel(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w,
+                 int out_h, float density) {
     const aether::WorldSim::Travel* travel = sim.travel();
     if (travel == nullptr) {
         return;
@@ -1233,7 +1280,8 @@ void draw_travel(SDL_Renderer* renderer, const Assets& assets, const aether::Wor
     const float row = 8.0F * kScale + 8.0F;
     const float w = std::min(static_cast<float>(out_w) - 40.0F, 640.0F * density);
     const int cursor = std::clamp(ui.travel_cursor, 0, std::max(static_cast<int>(travel->stops.size()) - 1, 0));
-    const int max_rows = std::max(2, static_cast<int>((static_cast<float>(out_h) - 170.0F) / (row * 2.0F)));  // a long list scrolls with the cursor
+    const int max_rows = std::max(2, static_cast<int>((static_cast<float>(out_h) - 170.0F) /
+                                                      (row * 2.0F)));  // a long list scrolls with the cursor
     const int visible = std::min(static_cast<int>(travel->stops.size()), max_rows);
     const int first = list_first(static_cast<int>(travel->stops.size()), cursor, max_rows);
     const float h = 120.0F + row * 2.0F * static_cast<float>(std::max(visible, 1));
@@ -1243,10 +1291,12 @@ void draw_travel(SDL_Renderer* renderer, const Assets& assets, const aether::Wor
     fill_rect(renderer, x, y, w, 3.0F, 111, 227, 255, 255);
     SDL_SetRenderScale(renderer, kScale, kScale);
     SDL_SetRenderDrawColor(renderer, 111, 227, 255, 255);
-    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + 12.0F) / kScale, assets.pack.text(ui.lang, "$i18n:ui.travel").c_str());
+    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + 12.0F) / kScale,
+                        assets.pack.text(ui.lang, "$i18n:ui.travel").c_str());
     SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
-    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + 12.0F + row) / kScale,
-                        assets.pack.text(ui.lang, travel->fresh ? "$i18n:ui.stone_awake" : "$i18n:ui.stone_rest").c_str());
+    SDL_RenderDebugText(
+        renderer, (x + 16.0F) / kScale, (y + 12.0F + row) / kScale,
+        assets.pack.text(ui.lang, travel->fresh ? "$i18n:ui.stone_awake" : "$i18n:ui.stone_rest").c_str());
     float ty = y + 12.0F + row * 2.0F + 6.0F;
     for (std::size_t i = static_cast<std::size_t>(first); i < static_cast<std::size_t>(first + visible); ++i) {
         const aether::WorldSim::StoneStop& stop = travel->stops[i];
@@ -1268,7 +1318,8 @@ void draw_travel(SDL_Renderer* renderer, const Assets& assets, const aether::Wor
         ty += row * 2.0F;
     }
     SDL_SetRenderDrawColor(renderer, 170, 200, 230, 255);
-    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + h - 28.0F) / kScale, assets.pack.text(ui.lang, "$i18n:ui.travel_hint").c_str());
+    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + h - 28.0F) / kScale,
+                        assets.pack.text(ui.lang, "$i18n:ui.travel_hint").c_str());
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
@@ -1281,7 +1332,8 @@ void draw_inventory_and_notice(SDL_Renderer* renderer, const Assets& assets, con
         const float row = 8.0F * kScale + 8.0F;
         const auto& items = sim.inventory();
         const int bag_cursor = std::clamp(ui.bag_cursor, 0, std::max(static_cast<int>(items.size()) - 1, 0));
-        const int max_rows = std::max(3, static_cast<int>((static_cast<float>(out_h) - 140.0F) / row) - 2);  // a long list scrolls with the cursor
+        const int max_rows = std::max(3, static_cast<int>((static_cast<float>(out_h) - 140.0F) / row) -
+                                             2);  // a long list scrolls with the cursor
         const int visible = std::min(static_cast<int>(items.size()), max_rows);
         const int first = list_first(static_cast<int>(items.size()), bag_cursor, max_rows);
         const float h = 56.0F + row * static_cast<float>(std::max(visible, 1)) + row * 2.0F;
@@ -1459,8 +1511,8 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
             SDL_RenderDebugText(renderer, hx, hy, hint.c_str());
             if (!npc->name.empty()) {
                 SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
-                SDL_RenderDebugText(renderer, (npc->x - cam.x) * tile - static_cast<float>(npc->name.size()) * 4.0F, hy - 12.0F,
-                                    npc->name.c_str());
+                SDL_RenderDebugText(renderer, (npc->x - cam.x) * tile - static_cast<float>(npc->name.size()) * 4.0F,
+                                    hy - 12.0F, npc->name.c_str());
             }
         }
     }
@@ -1491,8 +1543,10 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     SDL_RenderPresent(renderer);
 }
 
-// The title screen (spec 12, "Slots"): the games to pick from. Returns the game (1..kSlotCount), or 0 when the player quits.
-int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, const std::string& lang, int first_slot) {
+// The title screen (spec 12, "Slots"): the games to pick from. Returns the game (1..kSlotCount), or 0 when the player
+// quits.
+int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, const std::string& lang,
+              int first_slot) {
     std::vector<SlotInfo> slots;
     for (int slot = 1; slot <= kSlotCount; ++slot) {
         slots.push_back(read_slot(slot));
@@ -1577,7 +1631,8 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
             }
         }
 
-        const auto draw_text = [&](float scale, float px, float py, const std::string& line, Uint8 r, Uint8 g, Uint8 b) {
+        const auto draw_text = [&](float scale, float px, float py, const std::string& line, Uint8 r, Uint8 g,
+                                   Uint8 b) {
             SDL_SetRenderScale(renderer, scale, scale);
             SDL_SetRenderDrawColor(renderer, r, g, b, 255);
             SDL_RenderDebugText(renderer, px / scale, py / scale, line.c_str());
@@ -1587,11 +1642,13 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
         SDL_RenderClear(renderer);
         const std::string game_title = assets.pack.text(lang, "$i18n:game.title");
         const float title_scale = 3.0F * density;
-        draw_text(title_scale, (static_cast<float>(out_w) - static_cast<float>(game_title.size()) * 8.0F * title_scale) / 2.0F,
+        draw_text(title_scale,
+                  (static_cast<float>(out_w) - static_cast<float>(game_title.size()) * 8.0F * title_scale) / 2.0F,
                   static_cast<float>(out_h) * 0.12F, game_title, 255, 215, 120);
         const std::string choose = assets.pack.text(lang, "$i18n:ui.title_choose");
         const float choose_scale = 1.5F * density;
-        draw_text(choose_scale, (static_cast<float>(out_w) - static_cast<float>(choose.size()) * 8.0F * choose_scale) / 2.0F,
+        draw_text(choose_scale,
+                  (static_cast<float>(out_w) - static_cast<float>(choose.size()) * 8.0F * choose_scale) / 2.0F,
                   static_cast<float>(out_h) * 0.12F + 40.0F * density, choose, 170, 200, 230);
         for (int i = 0; i < kSlotCount; ++i) {
             const SlotInfo& info = slots[static_cast<std::size_t>(i)];
@@ -1607,18 +1664,21 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
             const aether::FormatArgs args{{"slot", static_cast<std::int64_t>(i + 1)},
                                           {"level", static_cast<std::int64_t>(info.level)},
                                           {"gold", info.gold}};
-            const std::string line = assets.pack.text(lang, info.used ? "$i18n:ui.slot_used" : "$i18n:ui.slot_empty", args);
+            const std::string line =
+                assets.pack.text(lang, info.used ? "$i18n:ui.slot_used" : "$i18n:ui.slot_empty", args);
             const Uint8 text_r = info.used ? Uint8{235} : Uint8{150};
             const Uint8 text_g = info.used ? Uint8{245} : Uint8{170};
             const Uint8 text_b = info.used ? Uint8{255} : Uint8{200};
-            draw_text(choose_scale, panel_x + 16.0F * density, ry + (row_h - 8.0F * choose_scale) / 2.0F, line, text_r, text_g, text_b);
+            draw_text(choose_scale, panel_x + 16.0F * density, ry + (row_h - 8.0F * choose_scale) / 2.0F, line, text_r,
+                      text_g, text_b);
         }
         const float hint_scale = 1.25F * density;
         if (!notice.empty()) {
-            draw_text(hint_scale, panel_x, top + 3.0F * (row_h + 8.0F * density) + 12.0F * density, notice, 255, 215, 120);
+            draw_text(hint_scale, panel_x, top + 3.0F * (row_h + 8.0F * density) + 12.0F * density, notice, 255, 215,
+                      120);
         }
-        draw_text(hint_scale, panel_x, static_cast<float>(out_h) - 36.0F * density, assets.pack.text(lang, "$i18n:ui.title_hint"), 170, 200,
-                  230);
+        draw_text(hint_scale, panel_x, static_cast<float>(out_h) - 36.0F * density,
+                  assets.pack.text(lang, "$i18n:ui.title_hint"), 170, 200, 230);
         SDL_RenderPresent(renderer);
     }
 }
@@ -1627,7 +1687,7 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
 
 int main(int argc, char** argv) {
     bool smoke_test = false;
-    int forced_slot = 0;  // developer option: --slot=N skips the title screen
+    int forced_slot = 0;     // developer option: --slot=N skips the title screen
     std::string map_choice;  // "demo" or "world"; the default depends on the mode
     std::optional<std::uint64_t> forced_seed;
     std::optional<std::pair<float, float>> start_at;  // developer option: --start=X,Y in tiles
@@ -1699,9 +1759,10 @@ int main(int argc, char** argv) {
             fs::create_directories(g_slot_dir, folder_error);
         } else {
             migrate_legacy_saves();
-            const int slot = forced_slot >= 1 && forced_slot <= kSlotCount
-                                 ? forced_slot
-                                 : run_title(window, renderer, assets, saved_language().value_or(detect_language()), last_slot);
+            const int slot =
+                forced_slot >= 1 && forced_slot <= kSlotCount
+                    ? forced_slot
+                    : run_title(window, renderer, assets, saved_language().value_or(detect_language()), last_slot);
             if (slot == 0) {
                 SDL_DestroyRenderer(renderer);
                 SDL_DestroyWindow(window);
@@ -1712,7 +1773,8 @@ int main(int argc, char** argv) {
             g_slot_dir = slot_dir(slot);
         }
 
-        // The seed: forced, else the one of the last session on this map (so the same world comes back), else a new one.
+        // The seed: forced, else the one of the last session on this map (so the same world comes back), else a new
+        // one.
         std::uint64_t seed = smoke_test ? 1234U : SDL_GetTicksNS();
         if (forced_seed) {
             seed = *forced_seed;
@@ -1741,9 +1803,10 @@ int main(int argc, char** argv) {
             for (const std::string& enemy : aether::world_enemy_ids(stream->params)) {
                 if (combat && combat->stream_enemies.count(enemy) == 0) {
                     if (auto def = aether::load_enemy_def(assets.pack, enemy, combat_error)) {
-                        def->hp = std::max<std::int64_t>(1, def->hp * stream->params.enemy_hp_pct / 100);  // the difficulty of the world (spec 04)
-                    def->atk = def->atk * stream->params.enemy_atk_pct / 100;
-                    combat->stream_enemies.emplace(enemy, std::move(*def));
+                        def->hp = std::max<std::int64_t>(
+                            1, def->hp * stream->params.enemy_hp_pct / 100);  // the difficulty of the world (spec 04)
+                        def->atk = def->atk * stream->params.enemy_atk_pct / 100;
+                        combat->stream_enemies.emplace(enemy, std::move(*def));
                     } else {
                         combat.reset();
                     }
@@ -1775,7 +1838,8 @@ int main(int argc, char** argv) {
                 std::string ignored;
                 const auto previous = read_text_file(g_slot_dir / "auto.json");
                 const auto peek = previous ? aether::save_peek(*previous) : std::nullopt;
-                if (peek && peek->map == g_map_name && peek->seed == seed && load_game(sim, g_slot_dir / "auto.json", ignored)) {
+                if (peek && peek->map == g_map_name && peek->seed == seed &&
+                    load_game(sim, g_slot_dir / "auto.json", ignored)) {
                     notify(ui, assets.pack.text(ui.lang, "$i18n:ui.loaded"));
                 }
             }
@@ -1800,8 +1864,8 @@ int main(int argc, char** argv) {
                 SDL_Event event;
                 while (SDL_PollEvent(&event)) {
                     if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE &&
-                        (ui.show_map || ui.show_inventory || ui.show_journal || sim.shop() != nullptr || sim.board() != nullptr ||
-                         sim.travel() != nullptr)) {
+                        (ui.show_map || ui.show_inventory || ui.show_journal || sim.shop() != nullptr ||
+                         sim.board() != nullptr || sim.travel() != nullptr)) {
                         ui.show_map = false;  // Esc closes the open panel first
                         ui.show_inventory = false;
                         ui.show_journal = false;
@@ -1812,7 +1876,9 @@ int main(int argc, char** argv) {
                         running = false;
                     } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE) {
                         running = false;
-                        back_to_title = !smoke_test && forced_slot == 0;  // Esc leaves the game for the title screen (spec 12, "Slots")
+                        back_to_title =
+                            !smoke_test &&
+                            forced_slot == 0;  // Esc leaves the game for the title screen (spec 12, "Slots")
                     } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_F3) {
                         debug = !debug;
                     } else if (event.type == SDL_EVENT_KEY_DOWN && !smoke_test &&
@@ -1837,8 +1903,9 @@ int main(int argc, char** argv) {
                             save_language(ui.lang);
                             notify(ui, assets.pack.text(ui.lang, "$i18n:ui.language_set"));
                         } else if (event.key.key == SDLK_F5) {
-                            notify(ui, save_game(sim, g_slot_dir / "quick.json") ? assets.pack.text(ui.lang, "$i18n:ui.saved")
-                                                                                  : "save failed");
+                            notify(ui, save_game(sim, g_slot_dir / "quick.json")
+                                           ? assets.pack.text(ui.lang, "$i18n:ui.saved")
+                                           : "save failed");
                         } else if (event.key.key == SDLK_F9) {
                             std::string load_error;
                             notify(ui, load_game(sim, g_slot_dir / "quick.json", load_error)
@@ -1867,13 +1934,15 @@ int main(int argc, char** argv) {
                                 bag_move(sim, ui, -1);
                             } else if (event.key.key == SDLK_DOWN || event.key.key == SDLK_S) {
                                 bag_move(sim, ui, 1);
-                            } else if (event.key.key == SDLK_E || event.key.key == SDLK_RETURN || event.key.key == SDLK_SPACE) {
+                            } else if (event.key.key == SDLK_E || event.key.key == SDLK_RETURN ||
+                                       event.key.key == SDLK_SPACE) {
                                 bag_use(sim, assets, ui);
                             }
                         } else {
                             handle_dialogue_key(sim, ui, event.key.key);
                         }
-                    } else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN && !smoke_test && sim.story().dialogue_active()) {
+                    } else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN && !smoke_test &&
+                               sim.story().dialogue_active()) {
                         activate_dialogue(sim, ui);
                     } else if (event.type == SDL_EVENT_GAMEPAD_BUTTON_DOWN && !smoke_test) {
                         if (sim.travel() != nullptr) {
@@ -1881,7 +1950,8 @@ int main(int argc, char** argv) {
                                 travel_move(sim, ui, -1);
                             } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_DOWN) {
                                 travel_move(sim, ui, 1);
-                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_WEST || event.gbutton.button == SDL_GAMEPAD_BUTTON_SOUTH) {
+                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_WEST ||
+                                       event.gbutton.button == SDL_GAMEPAD_BUTTON_SOUTH) {
                                 travel_go(sim, assets, ui);
                             } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_EAST) {
                                 sim.close_travel();
@@ -1891,7 +1961,8 @@ int main(int argc, char** argv) {
                                 board_move(sim, ui, -1);
                             } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_DOWN) {
                                 board_move(sim, ui, 1);
-                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_WEST || event.gbutton.button == SDL_GAMEPAD_BUTTON_SOUTH) {
+                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_WEST ||
+                                       event.gbutton.button == SDL_GAMEPAD_BUTTON_SOUTH) {
                                 board_accept(sim, assets, ui);
                             } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_EAST) {
                                 sim.close_board();
@@ -1904,7 +1975,8 @@ int main(int argc, char** argv) {
                             } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_NORTH) {
                                 ui.shop_sell = !ui.shop_sell;
                                 ui.shop_cursor = 0;
-                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_WEST || event.gbutton.button == SDL_GAMEPAD_BUTTON_SOUTH) {
+                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_WEST ||
+                                       event.gbutton.button == SDL_GAMEPAD_BUTTON_SOUTH) {
                                 shop_confirm(sim, assets, ui);
                             } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_EAST) {
                                 sim.close_shop();
@@ -1914,7 +1986,8 @@ int main(int argc, char** argv) {
                                 bag_move(sim, ui, -1);
                             } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_DOWN) {
                                 bag_move(sim, ui, 1);
-                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_WEST || event.gbutton.button == SDL_GAMEPAD_BUTTON_SOUTH) {
+                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_WEST ||
+                                       event.gbutton.button == SDL_GAMEPAD_BUTTON_SOUTH) {
                                 bag_use(sim, assets, ui);
                             } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_EAST) {
                                 ui.show_inventory = false;
@@ -1970,8 +2043,8 @@ int main(int argc, char** argv) {
                         ui.show_map = sim.streamed();  // the last frames show the world map
                     }
                     sim.tick(input.x, input.y, input.attack);
-                } else if (ui.show_inventory || ui.show_map || ui.show_journal || sim.shop() != nullptr || sim.board() != nullptr ||
-                           sim.travel() != nullptr) {
+                } else if (ui.show_inventory || ui.show_map || ui.show_journal || sim.shop() != nullptr ||
+                           sim.board() != nullptr || sim.travel() != nullptr) {
                     accumulator = 0.0;  // the bag, the map, the journal, the shop and the board pause the game
                 } else {
                     accumulator += frame_seconds;
@@ -2043,11 +2116,12 @@ int main(int argc, char** argv) {
                     running = false;
                     const bool moved = g_map_name == "world" || sim.player().position.x > spawn_x + 1.0F;
                     const bool baked = cache.size() > 10;
-                    const bool enemies = g_map_name == "world"
-                                             ? (sim.chunks() != nullptr && sim.chunks()->loaded() >= 25 && smoke_save_ok)
-                                             : (sim.enemies().size() == 12 && sim.story().quests().size() == 1 &&
-                                                !sim.story().dialogue_active() && smoke_save_ok &&
-                                                sim.inventory().count("base:item/bread") == 1);
+                    const bool enemies =
+                        g_map_name == "world"
+                            ? (sim.chunks() != nullptr && sim.chunks()->loaded() >= 25 && smoke_save_ok)
+                            : (sim.enemies().size() == 12 && sim.story().quests().size() == 1 &&
+                               !sim.story().dialogue_active() && smoke_save_ok &&
+                               sim.inventory().count("base:item/bread") == 1);
                     std::printf("smoke: x %.2f -> %.2f, textures %zu, enemies %zu, %s\n", static_cast<double>(spawn_x),
                                 static_cast<double>(sim.player().position.x), cache.size(), sim.enemies().size(),
                                 (moved && baked && enemies) ? "ok" : "FAILED");

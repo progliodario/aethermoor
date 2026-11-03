@@ -48,9 +48,9 @@ const Sprite* TextureCache::get(const std::string& recipe_id, int tile_px, std::
     if (text) {
         if (const auto recipe = parse_recipe(*text, error)) {
             const Bitmap bitmap = rasterize(*recipe, static_cast<float>(bucket) / 32.0F, variant);
-            SDL_Surface* surface = SDL_CreateSurfaceFrom(bitmap.width, bitmap.height, SDL_PIXELFORMAT_RGBA32,
-                                                         const_cast<std::uint8_t*>(bitmap.rgba.data()),
-                                                         bitmap.width * 4);
+            SDL_Surface* surface =
+                SDL_CreateSurfaceFrom(bitmap.width, bitmap.height, SDL_PIXELFORMAT_RGBA32,
+                                      const_cast<std::uint8_t*>(bitmap.rgba.data()), bitmap.width * 4);
             if (surface != nullptr) {
                 SDL_Texture* texture = SDL_CreateTextureFromSurface(m_renderer_, surface);
                 SDL_DestroySurface(surface);

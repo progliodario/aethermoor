@@ -50,8 +50,7 @@ public:
     std::string message(std::string_view lang, std::string_view key) const;
 
     // Resolves "$i18n:key" (or a bare key) and formats it with `args`.
-    std::string text(std::string_view lang, std::string_view reference,
-                     const FormatArgs& args = {}) const;
+    std::string text(std::string_view lang, std::string_view reference, const FormatArgs& args = {}) const;
 
     // XP needed to go from `level` to `level + 1`, from table "base:table/xp"; 0 if out of range.
     std::int64_t xp_to_next(std::int64_t level) const;

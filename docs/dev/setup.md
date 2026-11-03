@@ -56,6 +56,7 @@ All of them are Python scripts in `tools/`; use the virtual environment of the "
 | `python tools/make_catalog.py` | writes `docs/design/catalog.md` (regions, creatures, items, quests, sites) |
 | `python tools/balance_report.py` | writes `docs/design/balance.md`, a rough model of every fight |
 | `python tools/ship.py "<title>" --body-file <file> [--play <folder>]` | checks, commits, pushes, opens the pull request, waits for CI, merges, and refreshes a play folder |
+| `clang-format -i <file>` (from the virtual environment) | formats C++ with `desktop/.clang-format` (120 columns); `ship.py` does it for the C++ files it commits |
 | `python -m pytest tools/tests` and `python -m ruff check tools` | the tests of the reference and of the data, and the linter |
 
 To see real frames of the game: `aethermoor --smoke-test --map=world --seed=7 --start=<x>,<y> --screenshot-dir=<folder>` writes PNG screenshots (walking, bag, map) at a place of the world.

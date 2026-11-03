@@ -38,8 +38,7 @@ bool CollisionWorld::solid(int tx, int ty) const {
     if (tx < 0 || ty < 0 || tx >= m_width_ || ty >= m_height_) {
         return true;
     }
-    return m_solid_[static_cast<std::size_t>(ty) * static_cast<std::size_t>(m_width_) +
-                    static_cast<std::size_t>(tx)];
+    return m_solid_[static_cast<std::size_t>(ty) * static_cast<std::size_t>(m_width_) + static_cast<std::size_t>(tx)];
 }
 
 void CollisionWorld::resolve(float& x, float& y, float radius) const {

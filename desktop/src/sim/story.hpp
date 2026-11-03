@@ -14,19 +14,44 @@
 namespace aether {
 
 struct Condition {
-    enum class Kind { Flag, Not, All, Any, QuestActive, QuestDone, QuestStage, HasItem, LevelAtLeast, GoldAtLeast, Season, TodBetween };
+    enum class Kind {
+        Flag,
+        Not,
+        All,
+        Any,
+        QuestActive,
+        QuestDone,
+        QuestStage,
+        HasItem,
+        LevelAtLeast,
+        GoldAtLeast,
+        Season,
+        TodBetween
+    };
     Kind kind = Kind::Flag;
-    std::string a;  // flag / quest / item
-    std::string b;  // stage
+    std::string a;       // flag / quest / item
+    std::string b;       // stage
     std::int64_t n = 0;  // quantity / level / start of a time range
     std::int64_t m = 0;  // end of a time range
     std::vector<Condition> children;
 };
 
 struct Effect {
-    enum class Kind { AddXp, AddGold, AddItem, RemoveItem, SpendGold, HealFull, SetFlag, StartQuest, OpenShop, AddGuildPoints, OpenBoard };
+    enum class Kind {
+        AddXp,
+        AddGold,
+        AddItem,
+        RemoveItem,
+        SpendGold,
+        HealFull,
+        SetFlag,
+        StartQuest,
+        OpenShop,
+        AddGuildPoints,
+        OpenBoard
+    };
     Kind kind = Kind::AddXp;
-    std::string a;  // item / flag / quest
+    std::string a;       // item / flag / quest
     std::int64_t n = 0;  // amount / quantity
     bool value = true;
 };
@@ -93,8 +118,8 @@ struct NpcDef {
     std::string variant;   // art palette variant of the player rig
     float x = 0.0F;
     float y = 0.0F;
-    std::string name;                          // settlement people: a proper noun, empty for the others
-    std::map<std::string, std::string> args;   // arguments of the dialogue texts (spec 07)
+    std::string name;                         // settlement people: a proper noun, empty for the others
+    std::map<std::string, std::string> args;  // arguments of the dialogue texts (spec 07)
 };
 
 struct StorySetup {
@@ -112,9 +137,9 @@ std::optional<StorySetup> parse_story_setup(std::string_view json_text, std::str
 struct DialogueView {
     bool active = false;
     bool is_choice = false;
-    std::string speaker;                // say
-    std::string text;                   // say
-    std::vector<std::string> choices;   // choice: texts of the visible choices
+    std::string speaker;                      // say
+    std::string text;                         // say
+    std::vector<std::string> choices;         // choice: texts of the visible choices
     std::map<std::string, std::string> args;  // arguments of the texts (spec 07, "Dialogue arguments")
 };
 
@@ -149,7 +174,7 @@ public:
     virtual void open_board() = 0;
     virtual void heal_full() = 0;
     virtual std::string season_id() const = 0;  // the season of the day, empty without seasons
-    virtual int tod_pm() const = 0;              // the time of day in permille, 0 without world time
+    virtual int tod_pm() const = 0;             // the time of day in permille, 0 without world time
 };
 
 class Story {
@@ -187,7 +212,9 @@ public:
     // Adds the quest of a board offer to the known quests (it can then be started and saved).
     void add_generated_quest(QuestDef quest) { m_setup_.quests.emplace(quest.id, std::move(quest)); }
     // Rebuilds the quest of a generated id when a save is loaded.
-    void set_quest_resolver(std::function<std::optional<QuestDef>(const std::string&)> resolver) { m_resolver_ = std::move(resolver); }
+    void set_quest_resolver(std::function<std::optional<QuestDef>(const std::string&)> resolver) {
+        m_resolver_ = std::move(resolver);
+    }
     const std::map<std::string, QuestProgress>& quests() const { return m_quests_; }
 
 private:

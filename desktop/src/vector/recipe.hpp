@@ -30,16 +30,16 @@ struct GradientStop {
 struct Paint {
     enum class Kind { None, Solid, Linear, Radial };
     Kind kind = Kind::None;
-    std::string color;                // Solid
+    std::string color;                                 // Solid
     float x0 = 0.0F, y0 = 0.0F, x1 = 0.0F, y1 = 0.0F;  // Linear
-    float cx = 0.0F, cy = 0.0F, r = 0.0F;               // Radial
-    std::vector<GradientStop> stops;  // Linear and Radial
+    float cx = 0.0F, cy = 0.0F, r = 0.0F;              // Radial
+    std::vector<GradientStop> stops;                   // Linear and Radial
 };
 
 struct Shape {
     enum class Kind { Rect, Ellipse, Polygon, Path };
     Kind kind = Kind::Rect;
-    std::array<float, 4> v{};  // Rect: x y w h. Ellipse: cx cy rx ry
+    std::array<float, 4> v{};                     // Rect: x y w h. Ellipse: cx cy rx ry
     std::vector<std::pair<float, float>> points;  // Polygon
     std::string path;                             // Path
 };

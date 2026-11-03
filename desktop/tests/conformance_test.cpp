@@ -92,8 +92,7 @@ TEST_CASE("conformance: rng", "[conformance]") {
                 REQUIRE(rng.next_bounded(bound) == expect.at("values")[i].get<std::uint32_t>());
             }
         } else if (op == "derive_stream") {
-            aether::Pcg32 rng = aether::derive_stream(hex(in.at("master_seed")),
-                                                      in.at("name").get<std::string>());
+            aether::Pcg32 rng = aether::derive_stream(hex(in.at("master_seed")), in.at("name").get<std::string>());
             for (std::size_t i = 0; i < count; ++i) {
                 REQUIRE(rng.next_u32() == expect.at("values")[i].get<std::uint32_t>());
             }
@@ -112,8 +111,8 @@ TEST_CASE("conformance: hash", "[conformance]") {
         const Json& in = c.at("input");
         const std::string op = in.at("op").get<std::string>();
         if (op == "hash64") {
-            REQUIRE(aether::hash64(hex(in.at("seed")), integer(in, "a"), integer(in, "b"),
-                                   integer(in, "c")) == hex(c.at("expect").at("value")));
+            REQUIRE(aether::hash64(hex(in.at("seed")), integer(in, "a"), integer(in, "b"), integer(in, "c")) ==
+                    hex(c.at("expect").at("value")));
         } else if (op == "lattice") {
             REQUIRE(aether::lattice(hex(in.at("seed")), integer(in, "x"), integer(in, "y")) ==
                     integer(c.at("expect"), "value"));
@@ -134,8 +133,7 @@ TEST_CASE("conformance: noise", "[conformance]") {
         if (op == "noise2") {
             REQUIRE(aether::noise2(seed, integer(in, "x"), integer(in, "y")) == expected);
         } else if (op == "fbm2") {
-            REQUIRE(aether::fbm2(seed, integer(in, "x"), integer(in, "y"),
-                                 in.at("octaves").get<int>()) == expected);
+            REQUIRE(aether::fbm2(seed, integer(in, "x"), integer(in, "y"), in.at("octaves").get<int>()) == expected);
         } else {
             FAIL("unknown op " << op);
         }
@@ -149,12 +147,10 @@ TEST_CASE("conformance: stats", "[conformance]") {
         const Json& in = c.at("input");
         const Json& p = in.at("primary");
         const Json& e = in.at("equipment");
-        const aether::Primary primary{integer(p, "str"), integer(p, "vit"), integer(p, "dex"),
-                                      integer(p, "agi"), integer(p, "int"), integer(p, "wis"),
-                                      integer(p, "luk")};
-        const aether::Equipment equipment{integer(e, "hp"),         integer(e, "mp"),
-                                          integer(e, "weapon_atk"), integer(e, "weapon_matk"),
-                                          integer(e, "armor_def"),  integer(e, "armor_mdef")};
+        const aether::Primary primary{integer(p, "str"), integer(p, "vit"), integer(p, "dex"), integer(p, "agi"),
+                                      integer(p, "int"), integer(p, "wis"), integer(p, "luk")};
+        const aether::Equipment equipment{integer(e, "hp"),          integer(e, "mp"),        integer(e, "weapon_atk"),
+                                          integer(e, "weapon_matk"), integer(e, "armor_def"), integer(e, "armor_mdef")};
         const aether::DerivedStats s = aether::derived_stats(integer(in, "level"), primary, equipment);
         const Json& x = c.at("expect");
         REQUIRE(s.max_hp == integer(x, "max_hp"));
@@ -203,8 +199,8 @@ TEST_CASE("conformance: xp", "[conformance]") {
         if (op == "xp_table") {
             REQUIRE(base_pack().xp_to_next(integer(in, "level")) == expected);
         } else if (op == "xp_gain") {
-            REQUIRE(aether::xp_gain(integer(in, "enemy_xp"), integer(in, "lvl_enemy"),
-                                    integer(in, "lvl_player")) == expected);
+            REQUIRE(aether::xp_gain(integer(in, "enemy_xp"), integer(in, "lvl_enemy"), integer(in, "lvl_player")) ==
+                    expected);
         } else {
             FAIL("unknown op " << op);
         }
@@ -233,8 +229,7 @@ TEST_CASE("conformance: i18n_format", "[conformance]") {
                 args[key] = value.get<std::string>();
             }
         }
-        REQUIRE(aether::format_message(in.at("message").get<std::string>(),
-                                       in.at("lang").get<std::string>(), args) ==
+        REQUIRE(aether::format_message(in.at("message").get<std::string>(), in.at("lang").get<std::string>(), args) ==
                 c.at("expect").at("text").get<std::string>());
     }
 }
@@ -328,8 +323,9 @@ TEST_CASE("conformance: raster", "[conformance]") {
             const int x = probe.at("x").get<int>();
             const int y = probe.at("y").get<int>();
             const int tol = probe.at("tol").get<int>();
-            const std::size_t index = (static_cast<std::size_t>(y) * static_cast<std::size_t>(bitmap.width) +
-                                       static_cast<std::size_t>(x)) * 4;
+            const std::size_t index =
+                (static_cast<std::size_t>(y) * static_cast<std::size_t>(bitmap.width) + static_cast<std::size_t>(x)) *
+                4;
             for (std::size_t channel = 0; channel < 4; ++channel) {
                 INFO("probe (" << x << "," << y << ") channel " << channel);
                 const int actual = bitmap.rgba[index + channel];
@@ -424,8 +420,8 @@ Scenario scenario_from_json(const Json& in) {
         setup.xp_table.push_back(v.get<std::int64_t>());
     }
     for (const Json& e : in.at("enemies")) {
-        setup.spawns.push_back({enemy_def_from_json(e.at("def")), e.at("pos").at(0).get<float>(),
-                                e.at("pos").at(1).get<float>()});
+        setup.spawns.push_back(
+            {enemy_def_from_json(e.at("def")), e.at("pos").at(0).get<float>(), e.at("pos").at(1).get<float>()});
     }
     if (in.contains("inventory")) {
         for (const auto& [item, quantity] : in.at("inventory").items()) {
@@ -660,7 +656,8 @@ TEST_CASE("conformance: routines", "[conformance]") {
         const std::uint64_t seed = hex(in.at("seed"));
         std::vector<aether::GenPerson> people;
         for (const Json& chunk : in.at("chunks")) {
-            for (const aether::GenPerson& person : aether::generate_chunk(seed, *params, chunk.at(0).get<int>(), chunk.at(1).get<int>()).people) {
+            for (const aether::GenPerson& person :
+                 aether::generate_chunk(seed, *params, chunk.at(0).get<int>(), chunk.at(1).get<int>()).people) {
                 people.push_back(person);
             }
         }
@@ -705,7 +702,8 @@ TEST_CASE("conformance: fauna", "[conformance]") {
             INFO("spawner " << x << "," << y);
             REQUIRE(aether::region_at(*params, x, y) == want.at(i).at(2).get<int>());
             REQUIRE(aether::spawner_enemy_at(seed, *params, x, y) == want.at(i).at(3).get<std::string>());
-            const std::string drop = aether::stamp_spawner_at(seed, *params, x, y) ? "" : aether::fauna_at(seed, *params, x, y).drop;
+            const std::string drop =
+                aether::stamp_spawner_at(seed, *params, x, y) ? "" : aether::fauna_at(seed, *params, x, y).drop;
             REQUIRE(drop == want.at(i).at(4).get<std::string>());
         }
     }
@@ -732,7 +730,8 @@ TEST_CASE("conformance: guild", "[conformance]") {
             const auto settlement = aether::settlement_site(seed, *params, sx, sy);
             REQUIRE(settlement.has_value());
             for (const Json& day : in.at("days")) {
-                for (const aether::Offer& offer : aether::offers_for(seed, *params, *settlement, day.get<std::int64_t>())) {
+                for (const aether::Offer& offer :
+                     aether::offers_for(seed, *params, *settlement, day.get<std::int64_t>())) {
                     const Json& e = want.at("offers").at(index);
                     INFO("offer " << index);
                     REQUIRE(offer.id == e.at(0).get<std::string>());
@@ -783,8 +782,8 @@ TEST_CASE("conformance: settlements", "[conformance]") {
         REQUIRE(params.has_value());
         const std::uint64_t seed = hex(in.at("seed"));
         const Json& block = in.at("block");
-        const auto found = aether::settlements_in(seed, *params, block.at(0).get<int>(), block.at(1).get<int>(), block.at(2).get<int>(),
-                                                  block.at(3).get<int>());
+        const auto found = aether::settlements_in(seed, *params, block.at(0).get<int>(), block.at(1).get<int>(),
+                                                  block.at(2).get<int>(), block.at(3).get<int>());
         REQUIRE(found.size() == want.at("count").get<std::size_t>());
         for (std::size_t i = 0; i < found.size(); ++i) {
             const Json& s = want.at("settlements").at(i);
@@ -799,7 +798,8 @@ TEST_CASE("conformance: settlements", "[conformance]") {
             REQUIRE(found[i].region == s.at(7).get<int>());
         }
         for (const Json& sample : want.at("regions")) {
-            REQUIRE(aether::region_at(*params, sample.at(0).get<int>(), sample.at(1).get<int>()) == sample.at(2).get<int>());
+            REQUIRE(aether::region_at(*params, sample.at(0).get<int>(), sample.at(1).get<int>()) ==
+                    sample.at(2).get<int>());
         }
         for (const Json& marker : want.at("markers")) {
             const auto s = aether::settlement_marker(seed, *params, marker.at(0).get<int>(), marker.at(1).get<int>());
@@ -829,7 +829,8 @@ TEST_CASE("conformance: worldmap", "[conformance]") {
         const std::uint64_t seed = hex(in.at("seed"));
         for (const Json& sample : want.at("biomes")) {
             INFO("cell " << sample.at(0).get<int>() << "," << sample.at(1).get<int>());
-            REQUIRE(aether::biome_code(seed, *params, sample.at(0).get<int>(), sample.at(1).get<int>()) == sample.at(2).get<int>());
+            REQUIRE(aether::biome_code(seed, *params, sample.at(0).get<int>(), sample.at(1).get<int>()) ==
+                    sample.at(2).get<int>());
         }
     }
 }
@@ -869,7 +870,8 @@ TEST_CASE("conformance: worldtime", "[conformance]") {
             REQUIRE(s.rain_pm == want.at("rain_pm").get<int>());
             REQUIRE(s.dim_pm == want.at("dim_pm").get<int>());
             REQUIRE(s.effective_light_pm == want.at("effective_light_pm").get<int>());
-            const std::string got_season = s.season_index >= 0 ? params->time.seasons[static_cast<std::size_t>(s.season_index)].id : "";
+            const std::string got_season =
+                s.season_index >= 0 ? params->time.seasons[static_cast<std::size_t>(s.season_index)].id : "";
             REQUIRE(got_season == want.at("season").get<std::string>());
         }
     }
@@ -1036,7 +1038,8 @@ TEST_CASE("worldgen: chunks are the restriction of the world", "[worldgen]") {
                 const int x = cx * aether::kChunkSize + i % aether::kChunkSize;
                 const int y = cy * aether::kChunkSize + i / aether::kChunkSize;
                 const bool inside = x >= 0 && y >= 0 && x < params->width && y < params->height;
-                const int expected = inside ? world.tiles[static_cast<std::size_t>(y * params->width + x)] : params->tile_water;
+                const int expected =
+                    inside ? world.tiles[static_cast<std::size_t>(y * params->width + x)] : params->tile_water;
                 REQUIRE(chunk.tiles[static_cast<std::size_t>(i)] == expected);
             }
             props += chunk.props.size();
@@ -1064,8 +1067,8 @@ TEST_CASE("conformance: worldgen", "[conformance]") {
             const int x = probe.at(0).get<int>();
             const int y = probe.at(1).get<int>();
             INFO("probe " << x << "," << y);
-            REQUIRE(world.tiles[static_cast<std::size_t>(y) * static_cast<std::size_t>(world.width) + static_cast<std::size_t>(x)] ==
-                    probe.at(2).get<int>());
+            REQUIRE(world.tiles[static_cast<std::size_t>(y) * static_cast<std::size_t>(world.width) +
+                                static_cast<std::size_t>(x)] == probe.at(2).get<int>());
         }
         for (const Json& row : want.at("row_digests")) {
             INFO("row " << row.at(0).get<int>());

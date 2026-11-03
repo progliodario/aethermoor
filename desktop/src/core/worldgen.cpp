@@ -45,9 +45,11 @@ bool in_clearing(const WorldParams& p, int x, int y) {
     return dx * dx + dy * dy < static_cast<std::int64_t>(p.spawn_clear_radius) * p.spawn_clear_radius;
 }
 
-// The pull of the regions on the fields of the terrain (spec 09, "Regions"): a weighted mean of their biases, the weight of a region falling to zero
-// at `region_blend` tiles from its center. Integer math only; the biases are shifted to be positive before the division, so that it rounds the same everywhere.
-void region_bias(const WorldParams& p, int x, int y, std::int64_t& elevation, std::int64_t& temperature, std::int64_t& moisture) {
+// The pull of the regions on the fields of the terrain (spec 09, "Regions"): a weighted mean of their biases, the
+// weight of a region falling to zero at `region_blend` tiles from its center. Integer math only; the biases are shifted
+// to be positive before the division, so that it rounds the same everywhere.
+void region_bias(const WorldParams& p, int x, int y, std::int64_t& elevation, std::int64_t& temperature,
+                 std::int64_t& moisture) {
     elevation = 0;
     temperature = 0;
     moisture = 0;
@@ -106,8 +108,8 @@ Biome natural_biome_at(std::uint64_t seed, const WorldParams& p, int x, int y);
 
 Biome biome_at(std::uint64_t seed, const WorldParams& p, int x, int y) {
     const Biome biome = natural_biome_at(seed, p, x, y);
-    if ((biome == Biome::Water || biome == Biome::Mountain) && x >= p.border && y >= p.border && x < p.width - p.border &&
-        y < p.height - p.border && in_landmark_clearing(p, x, y)) {
+    if ((biome == Biome::Water || biome == Biome::Mountain) && x >= p.border && y >= p.border &&
+        x < p.width - p.border && y < p.height - p.border && in_landmark_clearing(p, x, y)) {
         return Biome::Plains;
     }
     return biome;
@@ -191,7 +193,8 @@ int gid_for(std::uint64_t seed, const WorldParams& p, Biome biome, int x, int y,
         case Overlay::None:
             break;
     }
-    const auto& ground = p.regions[static_cast<std::size_t>(region_at(p, x, y))].ground;  // the ground of the region (spec 09, "Regions")
+    const auto& ground = p.regions[static_cast<std::size_t>(region_at(p, x, y))]
+                             .ground;  // the ground of the region (spec 09, "Regions")
     const auto regional = ground.find(biome_name(biome));
     if (regional != ground.end() && !regional->second.empty()) {
         return regional->second[(hash64(seed, x, y, 5) >> 40) % regional->second.size()];
@@ -339,11 +342,8 @@ private:
         if (dx * dx + dy * dy < keep_out * keep_out) {
             return std::nullopt;
         }
-        const int points[5][2] = {{px, py},
-                                  {ox, oy},
-                                  {ox + stamp.w - 1, oy},
-                                  {ox, oy + stamp.h - 1},
-                                  {ox + stamp.w - 1, oy + stamp.h - 1}};
+        const int points[5][2] = {
+            {px, py}, {ox, oy}, {ox + stamp.w - 1, oy}, {ox, oy + stamp.h - 1}, {ox + stamp.w - 1, oy + stamp.h - 1}};
         for (const auto& point : points) {
             const Biome biome = biome_at(m_seed_, p, point[0], point[1]);
             if (biome != Biome::Plains && biome != Biome::Forest) {
@@ -419,7 +419,8 @@ private:
         const Stamp& stamp = m_params_.stamps.at(s.stamp);
         for (int ly = 0; ly < stamp.h; ++ly) {
             for (int lx = 0; lx < stamp.w; ++lx) {
-                const auto entry = stamp.legend.find(stamp.rows[static_cast<std::size_t>(ly)][static_cast<std::size_t>(lx)]);
+                const auto entry =
+                    stamp.legend.find(stamp.rows[static_cast<std::size_t>(ly)][static_cast<std::size_t>(lx)]);
                 if (entry != stamp.legend.end() && !entry->second.npc.empty()) {
                     const int index = static_cast<int>(s.slots.size());
                     s.slots[{s.x + lx, s.y + ly}] = {index, entry->second.npc};
@@ -438,12 +439,14 @@ private:
 
 // Appends tile (x, y): its gid, and its prop or spawner. Settlements replace everything under their footprint.
 void emit_tile(std::uint64_t seed, const WorldParams& p, Sites& sites, int x, int y, std::vector<int>& tiles,
-               std::vector<GenProp>& props, std::vector<std::pair<int, int>>& spawners, std::vector<GenPerson>& people) {
+               std::vector<GenProp>& props, std::vector<std::pair<int, int>>& spawners,
+               std::vector<GenPerson>& people) {
     const Biome biome = biome_at(seed, p, x, y);
     const StampEntry* entry = nullptr;
     const Settlement* settlement = nullptr;
     if (sites.at(x, y, entry, &settlement)) {
-        tiles.push_back(entry != nullptr && entry->tile != 0 ? entry->tile : gid_for(seed, p, biome, x, y, Overlay::None));
+        tiles.push_back(entry != nullptr && entry->tile != 0 ? entry->tile
+                                                             : gid_for(seed, p, biome, x, y, Overlay::None));
         if (entry != nullptr && !entry->prop.empty()) {
             props.push_back({entry->prop, entry->radius_x100, x * 256 + 128, y * 256 + 192});
         }
@@ -484,7 +487,8 @@ GenPerson person_at(std::uint64_t seed, const WorldParams& p, const Settlement& 
     person.tone = region.tone;
     person.dialogue = p.settlement_dialogue;
     const auto replace_all = [&person](const std::string& token, const std::string& value) {
-        for (std::size_t at = person.dialogue.find(token); at != std::string::npos; at = person.dialogue.find(token, at + value.size())) {
+        for (std::size_t at = person.dialogue.find(token); at != std::string::npos;
+             at = person.dialogue.find(token, at + value.size())) {
             person.dialogue.replace(at, token.size(), value);
         }
     };
@@ -583,7 +587,8 @@ int rank_index(const GuildParams& guild, std::int64_t points) {
     return index;
 }
 
-std::vector<Offer> offers_for(std::uint64_t seed, const WorldParams& p, const Settlement& settlement, std::int64_t day) {
+std::vector<Offer> offers_for(std::uint64_t seed, const WorldParams& p, const Settlement& settlement,
+                              std::int64_t day) {
     std::vector<Offer> offers;
     for (int slot = 0; slot < p.guild.offers_per_day; ++slot) {
         const std::uint64_t h = hash64(hash64(seed, settlement.sx, settlement.sy, 200 + slot), day, slot);
@@ -591,8 +596,8 @@ std::vector<Offer> offers_for(std::uint64_t seed, const WorldParams& p, const Se
         const std::uint64_t span = static_cast<std::uint64_t>(t.count_max - t.count_min + 1);
         Offer offer;
         offer.slot = slot;
-        offer.id = "board:" + std::to_string(settlement.sx) + ":" + std::to_string(settlement.sy) + ":" + std::to_string(day) + ":" +
-                   std::to_string(slot);
+        offer.id = "board:" + std::to_string(settlement.sx) + ":" + std::to_string(settlement.sy) + ":" +
+                   std::to_string(day) + ":" + std::to_string(slot);
         offer.min_rank = std::min(slot, static_cast<int>(p.guild.ranks.size()) - 1);
         offer.template_id = t.id;
         offer.type = t.type;
@@ -726,7 +731,8 @@ GeneratedWorld generate_world(std::uint64_t seed, const WorldParams& p) {
     world.spawn_x256 = cx * 256 + 128;
     world.spawn_y256 = cy * 256 + 128;
     for (const WorldNpc& npc : p.npcs) {
-        world.npcs.push_back({npc.key, npc.dialogue, npc.variant, (cx + npc.dx) * 256 + 128, (cy + npc.dy) * 256 + 128});
+        world.npcs.push_back(
+            {npc.key, npc.dialogue, npc.variant, (cx + npc.dx) * 256 + 128, (cy + npc.dy) * 256 + 128});
     }
     return world;
 }
@@ -784,7 +790,8 @@ std::uint64_t digest_tiles(const std::vector<int>& tiles) {
 std::uint64_t digest_tile_row(const std::vector<int>& tiles, int width, int row) {
     std::uint64_t h = 0;
     for (int x = 0; x < width; ++x) {
-        h = hash64(h, tiles[static_cast<std::size_t>(row) * static_cast<std::size_t>(width) + static_cast<std::size_t>(x)]);
+        h = hash64(
+            h, tiles[static_cast<std::size_t>(row) * static_cast<std::size_t>(width) + static_cast<std::size_t>(x)]);
     }
     return h;
 }

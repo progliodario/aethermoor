@@ -84,7 +84,8 @@ void ChunkStore::for_each_prop_near(float x, float y, const std::function<void(c
     }
 }
 
-void ChunkStore::for_each_prop_in(float x0, float y0, float x1, float y1, const std::function<void(const Prop&)>& fn) const {
+void ChunkStore::for_each_prop_in(float x0, float y0, float x1, float y1,
+                                  const std::function<void(const Prop&)>& fn) const {
     const int cx0 = chunk_of(static_cast<int>(std::floor(x0)));
     const int cx1 = chunk_of(static_cast<int>(std::floor(x1)));
     const int cy0 = chunk_of(static_cast<int>(std::floor(y0)));
