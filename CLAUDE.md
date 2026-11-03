@@ -7,8 +7,8 @@ Guide for Claude (and humans) working in this repo. The project owner mostly cha
 **Aethermoor** (working title): top-down real-time isekai fantasy action RPG, 2D vector graphics, open world, 8+ playable protagonists, single player, offline.
 Two native clients with **separate code** and **shared data and specs**:
 
-- `desktop/`: C++20, SDL3, ThorVG. Windows and Linux.
-- `android/`: Kotlin, libGDX. Android 11+ (minSdk 30).
+- `desktop/`: C++20, SDL3, with the in-house vector rasterizer (ADR 0012; ThorVG was dropped). Windows and Linux.
+- `android/`: Kotlin, libGDX, the same rasterizer in Kotlin. Android 11+ (minSdk 30).
 
 Full plan: `docs/plan/README.md` (Italian). Decisions: `docs/adr/`.
 
@@ -87,12 +87,14 @@ cd android && gradle :core:test :app:assembleDebug
 
 - If a request is ambiguous about game design, **ask** instead of guessing; the owner decides story, tone and balance.
 - Before a multi-file change, state the plan and the list of files.
-- Report honestly what was run and what was not (e.g. "desktop not built locally").
+- Report honestly what was run and what was not (e.g. "desktop not built locally"). This machine has no C++ or Kotlin compiler: CI is the only build, and the Android client has never run on a device.
+- Tests of both clients count what the data holds (stamps, static people, tiles of the tileset, the gids of the start tile): grep `desktop/tests/` and `android/core/src/test/` and update them in the same change as the data, or CI fails.
+- A script whose strings hold a backslash (such as `\n`): create it with the Write tool, not with a shell heredoc (it loses the backslash).
 - Prefer small PRs, one concern each. Spec/format changes go alone.
 
 ## Common tasks
 
-- **Add enemy / item / skill / quest:** copy the closest file in `data/base/`, follow its schema in `schemas/`, add i18n keys (it+en), run the validator.
+- **Add enemy / item / skill / quest / place / region:** follow [`docs/guides/add-content.md`](docs/guides/add-content.md): copy the closest file in `data/base/`, follow its schema in `schemas/`, add i18n keys (it+en), run the validator, regenerate the vectors and the catalog (`tools/gen_conformance.py`, `tools/make_stamps.py`, `tools/make_catalog.py`).
 - **Add protagonist:** use the content template in `docs/plan/03-game-design.md` section 16.
 - **Change a rule:** `docs/spec` → `tools/reference` → `tools/gen_conformance.py` → desktop → android.
 - **Add a language:** new folder `data/base/i18n/<lang>/`, add it to `pack.json` languages.
@@ -100,3 +102,7 @@ cd android && gradle :core:test :app:assembleDebug
 ## Slash commands (`.claude/commands/`)
 
 `/validate`, `/spec-change`, `/parity-check`. More are planned (`/add-enemy`, `/add-quest`, `/add-protagonist`, `/release`).
+
+## Where things stand
+
+One protagonist (Ren), a streamed 16384 x 16384 world with eight regions, 35 hand-made sites, 60 creatures, 110 items, 94 quests, guild, shops, inns, stones, seasons, three save slots, Italian and English (see `docs/design/catalog.md` and the status of `docs/plan/06-roadmap-rischi-backlog.md`, section 8). Feature gating exists (ADR 0009) but is not used yet: `supported_features` is empty in `project.json` and in both clients, and parity is kept by the shared specs and vectors. Combat balance and the other protagonists are the owner's to decide.

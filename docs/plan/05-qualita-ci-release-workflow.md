@@ -1,5 +1,16 @@
 # 05. Qualità, CI/CD, release e modo di lavorare
 
+> **Stato (novembre 2026).** Questo documento è il piano; ecco che cosa esiste davvero.
+>
+> | Area | Esiste | Non ancora |
+> |---|---|---|
+> | Test | validazione dati (`tools/validate_data.py`), test del riferimento e dei contenuti (`pytest`, `ruff`), 23 file di vettori di conformità eseguiti da entrambi i client, test di scenari di combattimento e di storia, smoke test del client desktop con fotogrammi | golden visivi (`tests/golden`), scenari headless a parte (`tests/scenarios`), fuzz, performance, test strumentati Android, regola di copertura |
+> | Qualità del codice | `pre-commit` (file grandi, fine riga, ruff, gitleaks, validazione dati), `clang-format` (`desktop/.clang-format`, anche in `tools/ship.py`), `-Werror` nel C++, `ruff`, Dependabot mensile (le salite di Kotlin, libGDX e AGP si fanno a mano) | `clang-tidy`, sanitizzatori, `ktlint`, `detekt`, Android Lint, CodeQL |
+> | CI | `ci-data` (ruff, validazione, pytest), `ci-desktop` (Windows MSVC e Linux GCC: configure, build, ctest, pacchetto giocabile, fotogrammi, cache di vcpkg), `ci-android` (`:core:test`, `assembleDebug`, APK come artifact), `labeler`, `release` (solo una bozza di Release) | `nightly`, `codeql`, `docs`, il job `parity-check`, `gen_conformance.py --check` in CI (lo esegue `tools/ship.py` in locale), clang e sanitizzatori su Linux |
+> | GitHub | modelli di issue (5) e di PR, label, CODEOWNERS, Dependabot | branch protection e revisione obbligatoria (decisione del proprietario), Discussions (disattivate), sito di documentazione. La wiki del repository è attiva, il piano la voleva spenta |
+> | Release | nessun tag e nessuna release pubblicata; la CI produce lo zip Windows e il tar.gz Linux di prova | installer, AppImage, APK firmato, `SHA256SUMS`, SBOM, firma del codice |
+> | Come si lavora | `CLAUDE.md`, i comandi in `.claude/commands/` (`/validate`, `/spec-change`, `/parity-check`), `tools/ship.py` per commit, PR e merge in un colpo | gli altri comandi (`/add-enemy`, ... `/release`) |
+
 ## 1. Strategia di test
 
 | Livello | Cosa | Dove | Quando |

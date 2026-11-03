@@ -41,7 +41,33 @@ Set `ANDROID_HOME` or create `android/local.properties` with `sdk.dir=...`.
 
 ## Verification
 
-CI builds and tests the desktop client on Windows (MSVC) and Linux (GCC) and the Android client (JVM unit tests and `assembleDebug`). Local builds need the tools above; the project was developed on a machine without them, so CI is the reference.
+CI (`.github/workflows/`) runs on every pull request and on pushes to `main`:
+
+| Workflow | What it does |
+|---|---|
+| `ci-data` | `ruff check tools`, `tools/validate_data.py`, `pytest tools/tests` |
+| `ci-desktop` | on Windows (MSVC) and Linux (GCC): vcpkg (binary cache), configure, build, `ctest` (unit tests, every conformance suite, three smoke tests), then packages the playable build and uploads it with the smoke-test frames |
+| `ci-android` | JDK 17, Gradle 8.10.2, `:core:test` (JVM tests, including every conformance suite), `:app:assembleDebug`, uploads the debug APK |
+| `labeler` | labels the pull request from the paths it touches |
+| `release` | on a `v*` tag: validates the data and creates a draft release (no artifacts yet) |
+
+Local builds need the tools above; the project is developed on a machine without a C++ or Kotlin compiler, so for those two clients CI is the only build and a change to C++ or Kotlin is checked by pushing it. `python tools/gen_conformance.py --check` (are the committed vectors the ones the reference generates?) is not a CI job: `tools/ship.py` runs it before it commits, so run it yourself if you do not use `ship.py`.
+
+## Before you open a pull request
+
+```bash
+python tools/validate_data.py
+python -m ruff check tools
+python -m pytest tools/tests -q
+python tools/gen_conformance.py --check      # regenerate with the same command, without --check, after a rule or world-data change
+```
+
+If you changed data, also look at the tests that count it (`desktop/tests/combat_test.cpp`, `desktop/tests/sim_test.cpp`, `android/core/src/test/.../WorldGenTest.kt` and `WorldTest.kt`: number of stamps, static people, tiles of the tileset, the gid of the start tile), because they fail in CI only.
+
+## Notes for Windows
+
+- The working tree may show `CRLF will be replaced by LF` warnings: the repository stores LF (`.gitattributes`), Git converts on commit.
+- A Python script with a backslash escape in a string, written through a shell heredoc, may lose the backslash: put such a script in a file.
 
 ## Tools
 

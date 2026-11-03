@@ -9,7 +9,7 @@ Status: **v1** (spec_version 1). Normative for both clients.
 | Space | **tile** | 1 tile = 1.0 world unit = 32 logical render units |
 | Origin / axes | top-left, **y points down** | |
 | Time | **tick** = 1/60 s | durations in data are in ticks unless named `_s` |
-| Game day | 86 400 ticks | 24 real minutes; 1 real minute = 1 game hour |
+| Game day | `time.day_ticks` of the world data: 72 000 ticks in the base world | 20 real minutes; 1 real minute = 1.2 game hours (spec 08) |
 | Fractions in data | integers | `_x100` (hundredths), `_pm` (per mille), `_pct` (percent) |
 
 Positions and velocities are `float` in code (not specified bit by bit) but **never** in data files: data uses integers.

@@ -19,7 +19,7 @@ Consegne:
 - `.github/` con workflow (CI vuote ma verdi), template, label, CODEOWNERS, dependabot.
 - `.claude/` con i comandi base.
 - `tools/` con `validate_data.py` minimale e `requirements.txt`; pre-commit.
-- Scheletri: `desktop/` (CMake + SDL3 apre una finestra e disegna un colore, ThorVG linkato), `android/` (Gradle + libGDX avvia un'activity con schermata di colore).
+- Scheletri: `desktop/` (CMake + SDL3 apre una finestra e disegna un colore; ThorVG non è stato usato, vedi ADR 0012), `android/` (Gradle + libGDX avvia un'activity con schermata di colore).
 
 Accettazione: CI verde su tutte le piattaforme; i tre eseguibili si avviano e mostrano nome e versione del gioco; docs pubblicate; primo tag `v0.0.1`.
 
@@ -44,7 +44,7 @@ Consegne:
 
 - Loop a passo fisso, ECS, eventi, input astratto (tastiera, gamepad, touch con stick virtuale).
 - Camera, mappa TMJ, collisioni, stream di chunk fissi (senza worldgen).
-- Rasterizzatore ricette (ThorVG / `android.graphics`), atlanti, cache, ribake al cambio di scala e alla perdita del contesto GL.
+- Rasterizzatore ricette: fatto un rasterizzatore proprio, uguale nei due client (ADR 0012, al posto di ThorVG / `android.graphics`), con atlanti, cache e ribake al cambio di scala. La perdita del contesto GL su Android non è stata provata.
 - Rig/clip, personaggio base con camminata e idle, ombre, ordinamento per `y`, particelle di base.
 - Overlay di debug, logger, profiler. Gestione orientamento Android.
 
@@ -187,9 +187,9 @@ Rimangono fissi: i quattro vincoli (spec-first, data-driven, due client, parità
 
 | # | Rischio | Prob. | Impatto | Mitigazione |
 |---|---|---|---|---|
-| R1 | Due motori separati divergono nel tempo | Alta | Alto | Spec scritta, riferimento Python, conformità, feature gating, `parity-check` in CI, moduli corrispondenti |
+| R1 | Due motori separati divergono nel tempo | Alta | Alto | Spec scritta, riferimento Python, conformità, feature gating, `parity-check` in CI, moduli corrispondenti. **Oggi:** spec, riferimento e 23 suite di vettori eseguite dai due client in CI; feature gating e `parity-check` esistono ma non sono usati (ADR 0009) |
 | R2 | Portata eccessiva (8 protagonisti, mondo aperto, molti sistemi) | Alta | Alto | Fetta verticale prima (M3-M4), template di contenuto, valvole di portata, release incrementali |
-| R3 | Differenze di rasterizzazione ThorVG/Skia rovinano la coerenza visiva | Media | Medio | Subset SVG ben definito, golden con tolleranza, test per ogni funzionalità di ricetta, possibilità di sostituire con rasterizzatore unico (ThorVG su Android via JNI) con ADR |
+| R3 | Differenze di rasterizzazione ThorVG/Skia rovinano la coerenza visiva | Media | Medio | **Ridotto:** ADR 0012 ha scelto un rasterizzatore unico, scritto due volte e verificato con le stesse sonde (suite `raster`). Resta il rischio delle prestazioni su mobile (R4), non misurato |
 | R4 | Prestazioni scarse su mobile (rasterizzazione, GC) | Media | Alto | Bake in background e cache, atlanti, pool di oggetti, niente allocazioni nel tick, profiling da M2 |
 | R5 | Mondo procedurale non identico tra piattaforme | Media | Alto | Punto fisso, flag del compilatore, vettori di hash dei chunk, test su CI di entrambi i client |
 | R6 | Perdita del contesto GL su Android rompe l'arte | Media | Medio | Cache CPU degli atlanti, test strumentato di pausa/ripresa, gestione esplicita in `game` |
@@ -224,7 +224,7 @@ Rimangono fissi: i quattro vincoli (spec-first, data-driven, due client, parità
 6. `ci(android)`: workflow `ci-android`
 7. `ci(release)`: skeleton di `release.yml`
 8. `chore(github)`: label, template, CODEOWNERS, dependabot, branch protection
-9. `feat(desktop)`: finestra SDL3 + versione + ThorVG linkato
+9. `feat(desktop)`: finestra SDL3 + versione (ThorVG non linkato, ADR 0012)
 10. `feat(android)`: activity libGDX + versione
 11. `feat(tools)`: `validate_data.py` minimale, pre-commit
 12. `docs(dev)`: guide di setup Windows, Linux, Android
@@ -246,7 +246,7 @@ Rimangono fissi: i quattro vincoli (spec-first, data-driven, due client, parità
 ### M2
 
 24. `spec`: 13-vector-art
-25. `feat(gfx)`: rasterizzatore ricette (ThorVG)
+25. `feat(gfx)`: rasterizzatore ricette (proprio, ADR 0012)
 26. `feat(gfx)`: rasterizzatore ricette (android.graphics)
 27. `feat(gfx)`: atlanti, cache, ribake
 28. `feat(sim)`: ECS + loop a passo fisso nei due client
@@ -284,11 +284,11 @@ Il primo test in gioco ha confermato che le basi funzionano, e che il gioco deve
 
 Conseguenze sull'ordine del lavoro (tutte le tappe sono spec-first, in entrambi i client, con vettori di conformità):
 
-1. **Regioni e insediamenti (M5f).** Il mondo si divide in regioni con nome, tema e livello di pericolo (dati); villaggi e città sono posti dal seme su una griglia di siti e disegnati da **stamp** (case, strade, piazza, mura) con **ruoli** di PNG (gilda, bottega, locanda, abitanti). Sulla mappa del mondo compaiono come punti di interesse.
-2. **PNG di insediamento e dialoghi a ruoli (M5g).** I PNG compaiono e scompaiono con la finestra di chunk; hanno nome e aspetto generati; i dialoghi sono modelli con parametri (nome, insediamento, regione).
-3. **Gilda, bacheca e quest a modelli (M4c).** Ranghi F-S, punti gilda, bacheca con missioni generate (sconfiggi, raccogli, consegna, scorta), catene di quest scritte a mano che usano gli stessi meccanismi, reputazione con le fazioni.
-4. **Negozi, equipaggiamento, diario (M4d).** Monete e prezzi, comprare e vendere, slot di equipaggiamento (più armi e armature), diario delle quest, impostazioni e slot di salvataggio.
-5. **Alpha 0.1** con un villaggio scritto a mano (Fenwick) e la gilda di Aldermere dentro il sistema generale. Poi M5 (Pietre della Soglia, routine dei PNG, stagioni, Verdalis con dungeon) e M6-M9 come da roadmap.
+1. **Regioni e insediamenti (M5f, fatto).** Il mondo si divide in regioni con nome, tema e livello di pericolo (dati); villaggi e città sono posti dal seme su una griglia di siti e disegnati da **stamp** (case, strade, piazza, mura) con **ruoli** di PNG (gilda, bottega, locanda, abitanti). Sulla mappa del mondo compaiono come punti di interesse.
+2. **PNG di insediamento e dialoghi a ruoli (M5g, fatto).** I PNG compaiono e scompaiono con la finestra di chunk; hanno nome e aspetto generati; i dialoghi sono modelli con parametri (nome, insediamento, regione).
+3. **Gilda, bacheca e quest a modelli (M4c, fatto; manca la reputazione con le fazioni).** Ranghi F-S, punti gilda, bacheca con missioni generate (sconfiggi, raccogli, consegna, scorta), catene di quest scritte a mano che usano gli stessi meccanismi, reputazione con le fazioni.
+4. **Negozi, equipaggiamento, diario (M4d, fatto; mancano le impostazioni oltre alla lingua).** Monete e prezzi, comprare e vendere, slot di equipaggiamento (più armi e armature), diario delle quest, impostazioni e slot di salvataggio.
+5. **Alpha 0.1** con un villaggio scritto a mano (Fenwick) e la gilda di Aldermere dentro il sistema generale (da fare). M5 (Pietre della Soglia, routine dei PNG, stagioni, dungeon in ogni regione) è fatto; restano M6-M9 come da roadmap.
 
 Da decidere con il proprietario: il bilanciamento (il modello dice che i combattimenti sono facili; c'è una manopola `difficulty` nei dati del mondo), gli altri protagonisti e i loro doni, e quando fare una prima release pubblica. Per i contenuti, in generale: tono dei villaggi, nomi, fazioni e prime catene di storie (regola di progetto: il design lo decide il proprietario).
 
