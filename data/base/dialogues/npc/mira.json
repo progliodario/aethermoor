@@ -6,10 +6,40 @@
     "start": {
       "type": "condition",
       "when": {
-        "quest_done": "base:quest/guild/vault"
+        "all": [
+          {
+            "quest_done": "base:quest/side/way_tamsin_3"
+          },
+          {
+            "quest_done": "base:quest/side/way_elowen_3"
+          },
+          {
+            "quest_done": "base:quest/side/way_dorn_3"
+          },
+          {
+            "quest_done": "base:quest/side/way_zahra_3"
+          },
+          {
+            "quest_done": "base:quest/side/way_ilvi_3"
+          },
+          {
+            "quest_done": "base:quest/side/way_marlo_3"
+          },
+          {
+            "quest_done": "base:quest/side/way_kessa_3"
+          },
+          {
+            "quest_done": "base:quest/side/way_ottavio_3"
+          },
+          {
+            "not": {
+              "flag": "mira_ring_paid"
+            }
+          }
+        ]
       },
-      "then": "vault_thanks",
-      "else": "vault_active_check"
+      "then": "ring_offer",
+      "else": "chain_start"
     },
     "active_check": {
       "type": "condition",
@@ -1074,6 +1104,54 @@
       "type": "say",
       "speaker": "guild_clerk_mira",
       "text": "$i18n:dlg.mira.vault_thanks",
+      "next": "end"
+    },
+    "chain_start": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/guild/vault"
+      },
+      "then": "vault_thanks",
+      "else": "vault_active_check"
+    },
+    "ring_offer": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.ring",
+      "next": "ring_paid"
+    },
+    "ring_paid": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "mira_ring_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 2500
+        },
+        {
+          "effect": "add_gold",
+          "amount": 6000
+        },
+        {
+          "effect": "add_guild_points",
+          "amount": 600
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/ring_mantle",
+          "qty": 1
+        }
+      ],
+      "next": "ring_thanks"
+    },
+    "ring_thanks": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.mira.ring_thanks",
       "next": "end"
     }
   }

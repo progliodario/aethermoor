@@ -184,6 +184,8 @@ Each tells a story in three quests (`base:quest/side/way_<name>_1..3`), offered 
    a line about the letter once (flag `letter_<sender>_read`);
 3. a **big hunt**: a `kill` and a `collect` objective with larger counts, then a `talk` to report. Its rewards include a unique rare or epic piece of equipment.
 
+When the third quest of all eight wayfarers is done, Mira's dialogue starts with a closing line instead of the chain of letters (a `condition` of eight `quest_done`, once: flag `mira_ring_paid`) and pays 2500 XP, 6000 gold, 600 guild points and the epic Ring-walker's mantle (defense 15, magic defense 15).
+
 Rewards are `add_xp`, `add_gold` and `add_guild_points` of the quest, scaled by the region (100 to 250 percent). Their names are `speaker.wayfarer_<name>` in the texts.
 
 ## Journal

@@ -790,3 +790,30 @@ def test_every_elder_has_a_seasonal_job_only_in_its_season():
         s.advance()
         s.choose([c["next"] for c in s.visible_choices()].index("seasonal_paid"))
         assert s.gold > 0 and host.inventory["base:item/potion_large"] == 2
+
+
+def test_mira_closes_the_ring_when_the_eight_stories_are_done():
+    import json
+
+    from reference import story
+
+    data = TOOLS.parent / "data" / "base"
+    mira = json.loads((data / "dialogues" / "npc" / "mira.json").read_text(encoding="utf-8"))
+    host = _InnHost()
+    s = story.Story(host, {"quests": {}, "dialogues": {mira["id"]: mira}, "npcs": []})
+    s.start_dialogue(mira["id"])
+    assert s.dialogue[1] != "ring_offer"  # the ordinary chain of letters
+    s.dialogue = None
+    for w in ("tamsin", "elowen", "dorn", "zahra", "ilvi", "marlo", "kessa"):
+        s.quests[f"base:quest/side/way_{w}_3"] = {"stage": "report", "progress": [], "done": True}
+    s.start_dialogue(mira["id"])
+    assert s.dialogue[1] != "ring_offer"  # seven of eight are not enough
+    s.dialogue = None
+    s.quests["base:quest/side/way_ottavio_3"] = {"stage": "report", "progress": [], "done": True}
+    s.start_dialogue(mira["id"])
+    assert s.dialogue[1] == "ring_offer"
+    s.advance()
+    s.advance()
+    assert s.flags["mira_ring_paid"] and host.inventory["base:item/ring_mantle"] == 1 and s.gold == 6000
+    s.start_dialogue(mira["id"])
+    assert s.dialogue[1] != "ring_offer"  # paid once
