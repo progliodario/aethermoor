@@ -89,3 +89,24 @@ def test_every_region_item_in_a_shop_exists():
         assert set(region["shop"]["stock"]) <= set(items), region["id"]
         for fauna in region["fauna"]:
             assert fauna["drop"] in items, (region["id"], fauna)
+
+
+def test_the_people_of_the_overworld_stand_on_open_floor():
+    """Mira, Pip and the wayfarers must not stand on a wall, a prop or another person of a stamp."""
+    import sys
+
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+    from reference import worldgen
+
+    params = worldgen.load_params()
+    world = json.loads((DATA / "worlds" / "overworld.json").read_text(encoding="utf-8"))
+    cx, cy = params["width"] // 2, params["height"] // 2
+    for npc in world["npcs"]:
+        x, y = cx + npc["dx"], cy + npc["dy"]
+        for landmark in params["landmarks"]:
+            stamp = params["stamp_defs"][landmark["stamp"]]
+            x0 = cx + landmark["dx"] - stamp["anchor"][0]
+            y0 = cy + landmark["dy"] - stamp["anchor"][1]
+            if x0 <= x < x0 + stamp["w"] and y0 <= y < y0 + stamp["h"]:
+                entry = stamp["legend"].get(stamp["rows"][y - y0][x - x0])
+                assert entry is not None and entry.get("tile") == 14 and not {"prop", "spawner", "npc"} & set(entry), (npc["key"], entry)
