@@ -1,0 +1,45 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/guild/ziggurat",
+  "name": "$i18n:quest.ziggurat.name",
+  "kind": "guild",
+  "stages": [
+    {
+      "id": "kill",
+      "journal": "$i18n:quest.ziggurat.kill",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/sand_sentinel",
+          "count": 1
+        }
+      ],
+      "next": "report"
+    },
+    {
+      "id": "report",
+      "journal": "$i18n:quest.ziggurat.report",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "guild_clerk_mira"
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 480
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1200
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 270
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/crate",
+  "canvas": {
+    "w": 28,
+    "h": 26,
+    "origin": [
+      14,
+      23
+    ]
+  },
+  "palette": {
+    "wood": "#B07C44",
+    "light": "#D8A468",
+    "dark": "#6E4824",
+    "outline": "#2E1C0A"
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          14,
+          24,
+          11,
+          2
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "rect": [
+          3,
+          6,
+          22,
+          17
+        ]
+      },
+      "fill": {
+        "color": "$p.wood"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.5
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          3,
+          6,
+          22,
+          4
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          3,
+          19,
+          22,
+          4
+        ]
+      },
+      "fill": {
+        "color": "$p.dark"
+      }
+    },
+    {
+      "shape": {
+        "path": "M 3 6 L 25 23 M 25 6 L 3 23"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 1.6
+      }
+    }
+  ]
+}

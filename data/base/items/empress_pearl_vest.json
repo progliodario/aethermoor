@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/empress_pearl_vest",
+  "name": "$i18n:item.empress_pearl_vest.name",
+  "description": "$i18n:item.empress_pearl_vest.desc",
+  "kind": "armor",
+  "rarity": "epic",
+  "price": 1600,
+  "armor": {
+    "def": 8,
+    "mdef": 12
+  }
+}

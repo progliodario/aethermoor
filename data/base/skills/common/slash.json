@@ -4,9 +4,27 @@
   "name": "$i18n:skill.common.slash.name",
   "description": "$i18n:skill.common.slash.desc",
   "type": "active",
-  "cost": { "mp": 0 },
+  "cost": {
+    "mp": 0
+  },
   "cooldown_ticks": 24,
-  "timing": { "startup": 6, "active": 4, "recovery": 10 },
-  "damage": { "kind": "physical", "element": "none", "power_pct": 100 },
-  "tags": ["melee", "basic"]
+  "timing": {
+    "startup": 6,
+    "active": 4,
+    "recovery": 10
+  },
+  "damage": {
+    "kind": "physical",
+    "element": "none",
+    "power_pct": 100
+  },
+  "tags": [
+    "melee",
+    "basic"
+  ],
+  "hitbox": {
+    "shape": "arc",
+    "radius_x100": 160,
+    "angle_deg": 110
+  }
 }

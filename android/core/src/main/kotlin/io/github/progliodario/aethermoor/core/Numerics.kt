@@ -54,8 +54,16 @@ fun hash64(seed: ULong, a: Long, b: Long = 0, c: Long = 0): ULong {
 
 /** PCG32 (XSH-RR). Values are returned as non-negative [Long]s in 0..2^32-1. */
 class Pcg32(initState: ULong, initSeq: ULong) {
-    private var state: ULong = 0uL
-    private val inc: ULong = (initSeq shl 1) or 1uL
+    /** State and increment, for saves: the generator continues exactly where it stopped. */
+    var state: ULong = 0uL
+        private set
+    var inc: ULong = (initSeq shl 1) or 1uL
+        private set
+
+    fun setState(newState: ULong, newInc: ULong) {
+        state = newState
+        inc = newInc
+    }
 
     init {
         nextU32()

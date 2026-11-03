@@ -150,7 +150,7 @@ def check_pack(pack_dir: Path, errors: list[str]) -> None:
     defined: dict[str, Path] = {}
     id_refs: dict[str, Path] = {}
     pack_id = manifest.get("id", "")
-    for path in sorted(pack_dir.rglob("*.json")):
+    for path in sorted([*pack_dir.rglob("*.json"), *pack_dir.rglob("*.tmj")]):
         data = load_json(path, errors)
         if data is None:
             continue

@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/spore_cap",
+  "name": "$i18n:item.spore_cap.name",
+  "description": "$i18n:item.spore_cap.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 8,
+  "stack_max": 99
+}

@@ -1,0 +1,131 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/role/shopkeeper_mystic",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.shopkeeper.mystic.hello",
+      "next": "menu"
+    },
+    "menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.wares",
+          "next": "shop"
+        },
+        {
+          "text": "$i18n:dlg.role.craft.ask",
+          "when": {
+            "not": {
+              "flag": "craft_wisp_mantle_done"
+            }
+          },
+          "next": "craft_info"
+        },
+        {
+          "text": "$i18n:dlg.role.rumor",
+          "next": "rumor"
+        },
+        {
+          "text": "$i18n:dlg.role.road",
+          "next": "road"
+        },
+        {
+          "text": "$i18n:dlg.role.bye",
+          "next": "end"
+        }
+      ]
+    },
+    "shop": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "open_shop"
+        }
+      ],
+      "next": "end"
+    },
+    "rumor": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.mystic.rumor",
+      "next": "end"
+    },
+    "road": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.mystic.road",
+      "next": "end"
+    },
+    "craft_info": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.craft.mystic.info",
+      "next": "craft_menu"
+    },
+    "craft_menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.craft.make",
+          "when": {
+            "all": [
+              {
+                "has_item": {
+                  "item": "base:item/shade_wisp",
+                  "qty": 6
+                }
+              },
+              {
+                "has_item": {
+                  "item": "base:item/dire_fang",
+                  "qty": 3
+                }
+              }
+            ]
+          },
+          "next": "craft_do"
+        },
+        {
+          "text": "$i18n:dlg.role.craft.later",
+          "next": "end"
+        }
+      ]
+    },
+    "craft_do": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "remove_item",
+          "item": "base:item/shade_wisp",
+          "qty": 6
+        },
+        {
+          "effect": "remove_item",
+          "item": "base:item/dire_fang",
+          "qty": 3
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/wisp_mantle",
+          "qty": 1
+        },
+        {
+          "effect": "set_flag",
+          "flag": "craft_wisp_mantle_done",
+          "value": true
+        }
+      ],
+      "next": "craft_done"
+    },
+    "craft_done": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.craft.mystic.done",
+      "next": "end"
+    }
+  }
+}

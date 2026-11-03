@@ -1,0 +1,45 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/guild/mine",
+  "name": "$i18n:quest.mine.name",
+  "kind": "guild",
+  "stages": [
+    {
+      "id": "kill",
+      "journal": "$i18n:quest.mine.kill",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/iron_foreman",
+          "count": 1
+        }
+      ],
+      "next": "report"
+    },
+    {
+      "id": "report",
+      "journal": "$i18n:quest.mine.report",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "guild_clerk_mira"
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 260
+    },
+    {
+      "effect": "add_gold",
+      "amount": 600
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 150
+    }
+  ]
+}

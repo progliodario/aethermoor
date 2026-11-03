@@ -1,0 +1,373 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/role/guild_clerk_stoic",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.guild_clerk.stoic.hello",
+      "next": "menu"
+    },
+    "menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.work",
+          "next": "board"
+        },
+        {
+          "text": "$i18n:dlg.role.comm.hub",
+          "next": "comm_hub"
+        },
+        {
+          "text": "$i18n:dlg.role.rumor",
+          "next": "rumor"
+        },
+        {
+          "text": "$i18n:dlg.role.bye",
+          "next": "end"
+        }
+      ]
+    },
+    "board": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "open_board"
+        }
+      ],
+      "next": "end"
+    },
+    "rumor": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.stoic.rumor",
+      "next": "end"
+    },
+    "comm_offer_1": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.comm.stoic.offer1",
+      "next": "comm_choice_1"
+    },
+    "comm_choice_1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/clerk_stoic_1"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "comm_paid_1": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "comm_clerk_stoic_1_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 120
+        },
+        {
+          "effect": "add_gold",
+          "amount": 280
+        },
+        {
+          "effect": "add_guild_points",
+          "amount": 10
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_medium",
+          "qty": 1
+        }
+      ],
+      "next": "comm_thanks"
+    },
+    "comm_offer_2": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.comm.stoic.offer2",
+      "next": "comm_choice_2"
+    },
+    "comm_choice_2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/clerk_stoic_2"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "comm_paid_2": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "comm_clerk_stoic_2_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 240
+        },
+        {
+          "effect": "add_gold",
+          "amount": 560
+        },
+        {
+          "effect": "add_guild_points",
+          "amount": 20
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_medium",
+          "qty": 2
+        }
+      ],
+      "next": "comm_thanks"
+    },
+    "comm_offer_3": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.comm.stoic.offer3",
+      "next": "comm_choice_3"
+    },
+    "comm_choice_3": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/clerk_stoic_3"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "comm_paid_3": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "comm_clerk_stoic_3_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 440
+        },
+        {
+          "effect": "add_gold",
+          "amount": 1040
+        },
+        {
+          "effect": "add_guild_points",
+          "amount": 35
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_large",
+          "qty": 1
+        }
+      ],
+      "next": "comm_thanks"
+    },
+    "comm_hub": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:quest.clerk_stoic_1.name",
+          "when": {
+            "all": [
+              {
+                "level_at_least": 5
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/clerk_stoic_1"
+                    },
+                    {
+                      "quest_done": "base:quest/side/clerk_stoic_1"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "comm_offer_1"
+        },
+        {
+          "text": "$i18n:dlg.role.comm.status",
+          "when": {
+            "quest_active": "base:quest/side/clerk_stoic_1"
+          },
+          "next": "comm_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.comm.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/clerk_stoic_1"
+              },
+              {
+                "not": {
+                  "flag": "comm_clerk_stoic_1_paid"
+                }
+              }
+            ]
+          },
+          "next": "comm_paid_1"
+        },
+        {
+          "text": "$i18n:quest.clerk_stoic_2.name",
+          "when": {
+            "all": [
+              {
+                "level_at_least": 9
+              },
+              {
+                "flag": "comm_clerk_stoic_1_paid"
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/clerk_stoic_2"
+                    },
+                    {
+                      "quest_done": "base:quest/side/clerk_stoic_2"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "comm_offer_2"
+        },
+        {
+          "text": "$i18n:dlg.role.comm.status",
+          "when": {
+            "quest_active": "base:quest/side/clerk_stoic_2"
+          },
+          "next": "comm_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.comm.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/clerk_stoic_2"
+              },
+              {
+                "not": {
+                  "flag": "comm_clerk_stoic_2_paid"
+                }
+              }
+            ]
+          },
+          "next": "comm_paid_2"
+        },
+        {
+          "text": "$i18n:quest.clerk_stoic_3.name",
+          "when": {
+            "all": [
+              {
+                "level_at_least": 12
+              },
+              {
+                "flag": "comm_clerk_stoic_2_paid"
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/clerk_stoic_3"
+                    },
+                    {
+                      "quest_done": "base:quest/side/clerk_stoic_3"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "comm_offer_3"
+        },
+        {
+          "text": "$i18n:dlg.role.comm.status",
+          "when": {
+            "quest_active": "base:quest/side/clerk_stoic_3"
+          },
+          "next": "comm_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.comm.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/clerk_stoic_3"
+              },
+              {
+                "not": {
+                  "flag": "comm_clerk_stoic_3_paid"
+                }
+              }
+            ]
+          },
+          "next": "comm_paid_3"
+        },
+        {
+          "text": "$i18n:dlg.role.comm.none",
+          "next": "end"
+        }
+      ]
+    },
+    "comm_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.comm.stoic.busy",
+      "next": "end"
+    },
+    "comm_thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.comm.stoic.thanks",
+      "next": "end"
+    }
+  }
+}

@@ -3,7 +3,7 @@
 > Working title. A top-down, real-time isekai fantasy action RPG with vector graphics. Free and open source.
 > Versione italiana: [README.md](README.md)
 
-**Status:** M0, foundations. The game is not playable yet. See the [roadmap](docs/plan/06-roadmap-rischi-backlog.md) (Italian).
+**Status:** M2 (engine base). A vector character walks around a map on Windows, Linux and Android; there is no combat or story yet. See the [roadmap](docs/plan/06-roadmap-rischi-backlog.md) (Italian).
 
 ## What it is
 

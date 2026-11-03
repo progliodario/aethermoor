@@ -1,0 +1,96 @@
+{
+  "$schema": "../../../schemas/tileset.schema.json",
+  "id": "base:tileset/overworld",
+  "tiles": [
+    {
+      "gid": 1,
+      "art": "base:art/tile/grass_a",
+      "solid": false
+    },
+    {
+      "gid": 2,
+      "art": "base:art/tile/grass_b",
+      "solid": false
+    },
+    {
+      "gid": 3,
+      "art": "base:art/tile/path_dirt",
+      "solid": false
+    },
+    {
+      "gid": 4,
+      "art": "base:art/tile/water",
+      "solid": true
+    },
+    {
+      "gid": 5,
+      "art": "base:art/tile/wall_stone",
+      "solid": true
+    },
+    {
+      "gid": 6,
+      "art": "base:art/tile/sand",
+      "solid": false
+    },
+    {
+      "gid": 7,
+      "art": "base:art/tile/snow",
+      "solid": false
+    },
+    {
+      "gid": 8,
+      "art": "base:art/tile/mountain",
+      "solid": true
+    },
+    {
+      "gid": 9,
+      "art": "base:art/tile/forest_floor",
+      "solid": false
+    },
+    {
+      "gid": 10,
+      "art": "base:art/tile/shallows",
+      "solid": false
+    },
+    {
+      "gid": 11,
+      "art": "base:art/tile/road",
+      "solid": false
+    },
+    {
+      "gid": 12,
+      "art": "base:art/tile/bridge",
+      "solid": false
+    },
+    {
+      "gid": 13,
+      "art": "base:art/tile/plank_floor",
+      "solid": false
+    },
+    {
+      "gid": 14,
+      "art": "base:art/tile/cobble",
+      "solid": false
+    },
+    {
+      "gid": 15,
+      "art": "base:art/tile/grass_c",
+      "solid": false
+    },
+    {
+      "gid": 16,
+      "art": "base:art/tile/grass_d",
+      "solid": false
+    },
+    {
+      "gid": 17,
+      "art": "base:art/tile/grass_e",
+      "solid": false
+    },
+    {
+      "gid": 18,
+      "art": "base:art/tile/grass_f",
+      "solid": false
+    }
+  ]
+}

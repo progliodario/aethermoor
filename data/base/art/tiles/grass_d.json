@@ -1,0 +1,145 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/tile/grass_d",
+  "canvas": {
+    "w": 32,
+    "h": 32,
+    "origin": [
+      0,
+      0
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          32
+        ]
+      },
+      "fill": {
+        "color": "$p.base"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          8,
+          10,
+          2.4,
+          2
+        ]
+      },
+      "fill": {
+        "color": "$p.clover"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          11,
+          8,
+          2.4,
+          2
+        ]
+      },
+      "fill": {
+        "color": "$p.clover"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          11,
+          12,
+          2.4,
+          2
+        ]
+      },
+      "fill": {
+        "color": "$p.clover"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          23,
+          23,
+          2.2,
+          1.8
+        ]
+      },
+      "fill": {
+        "color": "$p.clover"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          26,
+          21,
+          2.2,
+          1.8
+        ]
+      },
+      "fill": {
+        "color": "$p.clover"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          19,
+          9,
+          1.8,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "$p.pebble"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          6,
+          25,
+          1.4,
+          1
+        ]
+      },
+      "fill": {
+        "color": "$p.pebble"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            24,
+            10
+          ],
+          [
+            26,
+            4
+          ],
+          [
+            28,
+            10
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.tuft"
+      }
+    }
+  ],
+  "palette": {
+    "base": "#64AE5E",
+    "tuft": "#4C9450",
+    "clover": "#3F8A4A",
+    "pebble": "#A6A99E"
+  }
+}

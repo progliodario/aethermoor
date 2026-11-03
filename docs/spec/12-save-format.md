@@ -1,29 +1,80 @@
 # 12. Save format
 
-Status: **draft v1**. The load/save implementation arrives in M4. This document fixes the layout so the clients can be built against it.
+Status: **v1 (M4b; M5b additions)**. Reference: `CombatSim.save_state` / `load_state` in `tools/reference/combat.py`.
+Schema: `schemas/save.schema.json`. Conformance suite: `save` (resume scenarios).
 
-## Layout
+## Files
 
+One JSON file per save, `<user data>/saves/slot<N>/<name>.json`, with the games (slots) `slot1`, `slot2` and `slot3` and, in each,
+the saves `auto` (written every 30 s, when the app pauses or quits) and `quick` (manual, desktop). The user data folder is
+`SDL_GetPrefPath` on desktop and the app-private folder on Android. A save can be copied by hand between devices and platforms.
+The inventory-level profile (`profile.json`) and per-chunk deltas described in the plan arrive with reincarnation.
+
+## Slots
+
+A game is a slot: its own world (its own seed), progress and saves. Three slots exist.
+
+- **Title screen.** At launch the client lists the slots before it builds any world: a used slot shows `level` and `story.gold` of its
+  `auto` save, read without building the world (`save_peek`: `seed`, `map`, `player.level`, `story.gold`), an empty slot says it is a new game.
+  Choosing a used slot continues it; choosing an empty one starts a new world with a new random seed. The seed is written
+  into the saves of the slot, so the same world comes back.
+- **Delete.** A used slot can be deleted after a second confirmation (desktop: `D` twice; Android: the cross, then the cross again). Deleting removes
+  the files of that slot only.
+- **Migration.** A save written before slots (`saves/auto.json`, `saves/quick.json`) is moved to `slot1` the first time a client starts.
+- **Dev options.** Desktop `--slot=N` skips the title screen; `--smoke-test` uses its own folder and never touches the three slots.
+- **Back to the title.** Leaving a game (desktop: `Esc` with no panel open; Android: the Back key with no panel open, `Esc` on a keyboard) writes the `auto` save and returns to the title screen, where another game can be chosen; the world of the next game is built when it is chosen, from its own seed, and nothing of the previous world is kept (the map cells already seen are forgotten with it). With a panel open, Back closes the panel. On the title screen `Esc` or Back quits, and so does closing the window in a game. `--slot=N` and `--smoke-test` on desktop keep their one game and quit on `Esc`.
+
+## Document
+
+```json
+{
+  "save_version": 1,
+  "game_version": "0.0.1",
+  "data_format_version": 1,
+  "protagonist": "base:protagonist/ren",
+  "seed": "0x00000000DEADBEEF",
+  "map": "demo",
+  "player": { "x": 5.5, "y": 15.5, "facing": [1.0, 0.0], "facing_left": false, "moving": false, "clip_tick": 0,
+              "hp": 142, "level": 1, "xp": 0, "deaths": 0, "kills": 0, "iframes": 0, "cooldown": 0,
+              "phase": "none", "phase_tick": 0, "hit_set": [false, false] },
+  "rng": { "combat": {"state": "0x...", "inc": "0x..."}, "loot": {"state": "0x...", "inc": "0x..."} },
+  "enemies": [ { "x": 4.9, "y": 4.5, "hp": 5, "state": "idle", "state_tick": 0 } ],
+  "inventory": { "base:item/bread": 3 },
+  "story": { "flags": {}, "gold": 0,
+             "quests": { "base:quest/guild/slime_extermination": { "stage": "kill", "progress": [2], "done": false } },
+             "dialogue": { "id": "base:dialogue/npc/mira", "node": "offer_choice" } }
+}
 ```
-saves/
-  profile.json        meta-progression shared by all lives (echoes, unlocked protagonists, titles, bestiary)
-  slot_1/ ... slot_5/
-    run.json          protagonist, world seed, world time, player, party, inventory, quests, flags, variables, RNG streams
-    deltas/{cx}_{cy}.json   per-chunk differences against the generated world
-    thumbnail.pam
-  auto/               three rotating autosaves with the same layout as a slot
-```
 
-## Common fields
-
-`save_version` (integer), `game_version`, `data_format_version`, `pack_list` (`id` and `version` per loaded pack), `created_at` (ISO 8601 UTC), `play_time_s`, `crc32` (of the file with this field set to 0).
+- `map` is `demo` (the hand-made map), `world` (the streamed world generated from `seed`, spec 09) or empty (old saves). A client
+  rebuilds the same map from it before loading; a save of another map is not restored.
+- `enemies` is in the order of the map spawners; only changed state is stored (definitions and home positions come from data).
+- **Streamed world** (`map` is `world`): `enemies` lists only the enemies of the active window, in the order of the live game, and each one has
+  `"spawner": [x, y]` (its spawner tile, which also gives its home); `cleared_spawners` lists the spawners whose enemy was killed as `[x, y, died_tick]` (spec 08, the world tick of the death). On load the
+  window is rebuilt around the saved player position; every enemy must belong to a spawner of the window (the enemy of a cleared spawner is dead), and every
+  uncleared spawner of the window must have its enemy, otherwise the save is invalid for this build. `cleared_spawners` and `spawner` are absent on fixed maps.
+- `explored` (streamed world) is the list of explored world map cells `[x, y]`, ordered by row then column (spec 09); absent in old saves.
+- `stones` (streamed world) is the list of the tiles `[x, y]` of the Threshold Stones that were used, in the order they were woken (spec 09); absent in old saves.
+- `story.guild_points` is the guild points of the player (spec 07); absent in old saves (0). Quests whose id starts with `board:` are generated quests: only their progress is saved.
+- `equipped` is `{weapon, armor}`: the item ids worn (spec 06); absent in old saves (the starting weapon, no armor).
+- `world_ticks` is the world clock (spec 08); a save without it starts at the world's `time.start_tick`.
+- `story` is null when the world has no story. `dialogue` is null when no dialogue is open; otherwise it has `id`, `node` and, when the NPC had arguments (spec 07), `args` (a map of strings).
+- 64-bit values are hex strings. Positions are floats (a client reads them as 32-bit floats).
+- Random stream states are the PCG32 `state` and `inc` after the last draw: resuming a save continues the same random sequence.
+- Derived stats are not stored; they are recomputed from the level, the protagonist data and the equipment.
 
 ## Rules
 
-- Writes are atomic: write `file.tmp`, flush, rename; keep three `.bak` copies.
-- Only differences against the generated world are stored (never whole chunks).
-- Every format change bumps `save_version` and adds a migration `migrate_N_to_N+1`, tested with sample files in `tests/conformance/saves/`.
-- A save with an unknown newer `save_version` is refused with a clear message.
-- Missing mod content is replaced by placeholders and reported; the save still loads.
-- Export/import uses one `.aethersave` zip (profile + one slot). Desktop: file copy or button. Android: Storage Access Framework.
-- Numbers are integers wherever the rules are integers. Positions may be stored as floats.
+- **Loading** builds the world from data (the same map and seed-independent setup), then overwrites the mutable state. A save whose
+  `save_version` is higher than the client supports is refused with a clear message; the world is left unchanged.
+- **Entities that no longer exist** in data (enemy count mismatch) make the save invalid for this build; the client reports it and keeps
+  the current world.
+- **Writing is atomic**: write `<slot>.json.tmp`, then rename over `<slot>.json`.
+- **Resume equivalence** (tested): running part of a scenario, saving, loading into a fresh world and finishing gives the same
+  checkpoints as running it without interruption, on both clients, also when loading a save written by the Python reference.
+- Every incompatible format change bumps `save_version` and adds a migration `migrate_N_to_N+1` with a fixture in `tests/conformance`. Optional
+  fields that older readers can ignore (`map`, `cleared_spawners`, `spawner`) do not.
+
+## Not yet in v1
+
+CRC of the file, `profile.json` (meta-progression), other changes of the streamed world (arrive with the world systems), thumbnails, `.aethersave` export.

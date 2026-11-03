@@ -1,0 +1,210 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/creature/shore_crab",
+  "canvas": {
+    "w": 44,
+    "h": 32,
+    "origin": [
+      22,
+      28
+    ]
+  },
+  "palette": {
+    "body": "#D8603A",
+    "light": "#FFA882",
+    "dark": "#8A2E18",
+    "outline": "#3A0E06",
+    "eye": "#1E1B28",
+    "claw": "#E8744A"
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          29,
+          12,
+          2.5
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "path": "M 12 21 Q 5 22 3 27"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 2.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 13 24 Q 7 27 6 31"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 2.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 15 26 Q 12 30 11 32"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 2.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 32 21 Q 39 22 41 27"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 2.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 31 24 Q 37 27 38 31"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 2.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 29 26 Q 32 30 33 32"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 2.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 11 18 Q 3 14 4 7 Q 10 5 13 11 Q 11 12 12 15 Z"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "color": "$p.body"
+      }
+    },
+    {
+      "shape": {
+        "path": "M 33 18 Q 41 14 40 7 Q 34 5 31 11 Q 33 12 32 15 Z"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "color": "$p.body"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          21,
+          12,
+          7.5
+        ]
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      },
+      "fill": {
+        "radial": {
+          "cx": 18,
+          "cy": 17,
+          "r": 20,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.5,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          17.5,
+          12.5,
+          1.9,
+          1.9
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.8
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          26.5,
+          12.5,
+          1.9,
+          1.9
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.8
+      }
+    },
+    {
+      "shape": {
+        "path": "M 17.5 14 L 17.5 17"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.2
+      }
+    },
+    {
+      "shape": {
+        "path": "M 26.5 14 L 26.5 17"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.2
+      }
+    },
+    {
+      "shape": {
+        "path": "M 19 24 Q 22 26 25 24"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.0
+      }
+    }
+  ]
+}

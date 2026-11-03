@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/way_kessa_2",
+  "name": "$i18n:quest.way_kessa_2.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "deliver",
+      "journal": "$i18n:quest.way_kessa_2.deliver",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "wayfarer_zahra"
+        }
+      ],
+      "next": "report"
+    },
+    {
+      "id": "report",
+      "journal": "$i18n:quest.way_kessa_2.report",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "wayfarer_kessa"
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 450
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1000
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 25
+    }
+  ]
+}

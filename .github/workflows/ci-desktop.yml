@@ -13,6 +13,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   build:
     name: ${{ matrix.name }}
@@ -29,8 +33,9 @@ jobs:
             preset: linux-release
     env:
       VCPKG_ROOT: ${{ matrix.os == 'windows-2022' && 'C:\vcpkg' || '/usr/local/share/vcpkg' }}
+      VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-cache
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Linux system packages (SDL3 build prerequisites)
         if: runner.os == 'Linux'
@@ -41,6 +46,18 @@ jobs:
             libxi-dev libxss-dev libxkbcommon-dev libwayland-dev wayland-protocols libdecor-0-dev \
             libasound2-dev libpulse-dev libpipewire-0.3-dev libudev-dev libdbus-1-dev libibus-1.0-dev \
             libgl-dev libegl1-mesa-dev libgles-dev libdrm-dev libgbm-dev libsndio-dev
+
+      # The dependencies (SDL3 above all) take minutes to build; vcpkg keeps the binaries of a build here.
+      - name: Create the vcpkg cache folder
+        shell: bash
+        run: mkdir -p .vcpkg-cache
+
+      - name: Restore the vcpkg binaries
+        uses: actions/cache@v4
+        with:
+          path: .vcpkg-cache
+          key: vcpkg-${{ matrix.name }}-${{ hashFiles('desktop/vcpkg.json', 'desktop/CMakePresets.json') }}
+          restore-keys: vcpkg-${{ matrix.name }}-
 
       - name: Configure
         working-directory: desktop
@@ -53,3 +70,45 @@ jobs:
       - name: Test
         working-directory: desktop
         run: ctest --preset ${{ matrix.preset }}
+
+      - name: Package the playable build
+        shell: bash
+        run: |
+          set -e
+          mkdir -p package
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            build=desktop/build/windows-release/Release
+            ls "$build"
+            cp "$build/aethermoor.exe" package/
+            cp "$build"/*.dll package/
+            cp -r "$build/data" package/
+            cp desktop/PLAY.txt package/
+            (cd package && 7z a -tzip "$GITHUB_WORKSPACE/aethermoor-windows-x64.zip" . > /dev/null)
+          else
+            build=desktop/build/linux-release
+            cp "$build/aethermoor" package/
+            cp -r "$build/data" package/
+            cp desktop/PLAY.txt package/
+            tar -czf aethermoor-linux-x64.tar.gz -C package .
+          fi
+
+      - name: Upload the playable build
+        uses: actions/upload-artifact@v7
+        with:
+          name: aethermoor-${{ matrix.name }}
+          path: |
+            aethermoor-windows-x64.zip
+            aethermoor-linux-x64.tar.gz
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: Upload smoke-test screenshots
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: screenshots-${{ matrix.name }}
+          path: |
+            desktop/build/${{ matrix.preset }}/screenshots/*.png
+            desktop/build/${{ matrix.preset }}/screenshots_world/*.png
+            desktop/build/${{ matrix.preset }}/screenshots_settlement/*.png
+          if-no-files-found: warn

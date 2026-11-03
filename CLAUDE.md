@@ -43,6 +43,16 @@ android/            Kotlin client (Gradle): core (pure JVM), game (libGDX), app 
 # Data validation (always before committing data/schema changes)
 python tools/validate_data.py
 
+# Regenerate the conformance vectors (parallel, about 20 s) and the stamps (quiet; --show draws them)
+python tools/gen_conformance.py
+python tools/make_stamps.py
+
+# A catalog of the pack in tables (creatures, items, quests, sites), for reviewing the content
+python tools/make_catalog.py   # writes docs/design/catalog.md
+
+# Ship a change in one go: checks, signed-off commit, push, PR, wait for CI, squash merge, refresh the play build
+python tools/ship.py "feat: title" --body-file body.md --play <play folder>
+
 # Desktop (needs CMake >= 3.28, Ninja, vcpkg; see docs/dev/setup.md)
 cmake --preset windows-release     # or linux-release
 cmake --build --preset windows-release

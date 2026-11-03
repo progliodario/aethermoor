@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/slime_mint",
+  "name": "$i18n:enemy.slime_mint.name",
+  "level": 2,
+  "stats": {
+    "hp": 28,
+    "atk": 7,
+    "def": 1,
+    "mdef": 1,
+    "speed_x100": 230
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "fire": 1500
+  },
+  "xp": 6,
+  "drops": [
+    {
+      "item": "base:item/mint_leaf",
+      "qty_min": 1,
+      "qty_max": 2,
+      "weight_pm": 600
+    }
+  ],
+  "radius_x100": 34,
+  "behavior": "base:behavior/skittish",
+  "art": "base:art/creature/slime_mint"
+}

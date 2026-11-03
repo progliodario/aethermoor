@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/season_winter_stores",
+  "name": "$i18n:quest.season_winter_stores.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "bring",
+      "journal": "$i18n:quest.season_winter_stores.bring",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/slate_shard",
+          "count": 10
+        },
+        {
+          "type": "collect",
+          "item": "base:item/rust_flake",
+          "count": 6
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

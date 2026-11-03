@@ -1,0 +1,85 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/barrel",
+  "canvas": {
+    "w": 24,
+    "h": 28,
+    "origin": [
+      12,
+      24
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          12,
+          24,
+          9,
+          3
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "rect": [
+          4,
+          8,
+          16,
+          16
+        ]
+      },
+      "fill": {
+        "color": "$p.wood"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          12,
+          8,
+          8,
+          3
+        ]
+      },
+      "fill": {
+        "color": "$p.top"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          4,
+          12,
+          16,
+          2
+        ]
+      },
+      "fill": {
+        "color": "$p.band"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          4,
+          19,
+          16,
+          2
+        ]
+      },
+      "fill": {
+        "color": "$p.band"
+      }
+    }
+  ],
+  "palette": {
+    "wood": "#9A6A38",
+    "top": "#B88650",
+    "band": "#4A4A52"
+  }
+}

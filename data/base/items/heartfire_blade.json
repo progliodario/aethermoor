@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/heartfire_blade",
+  "name": "$i18n:item.heartfire_blade.name",
+  "description": "$i18n:item.heartfire_blade.desc",
+  "kind": "weapon",
+  "rarity": "epic",
+  "price": 1500,
+  "weapon": {
+    "atk": 27,
+    "matk": 0
+  }
+}

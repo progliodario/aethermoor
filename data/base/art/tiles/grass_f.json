@@ -1,0 +1,135 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/tile/grass_f",
+  "canvas": {
+    "w": 32,
+    "h": 32,
+    "origin": [
+      0,
+      0
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          32
+        ]
+      },
+      "fill": {
+        "color": "$p.base"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          10,
+          20,
+          8,
+          5
+        ]
+      },
+      "fill": {
+        "color": "$p.patch"
+      },
+      "alpha": 0.55
+    },
+    {
+      "shape": {
+        "ellipse": [
+          23,
+          8,
+          5,
+          3.5
+        ]
+      },
+      "fill": {
+        "color": "$p.patch"
+      },
+      "alpha": 0.45
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            4,
+            10
+          ],
+          [
+            6,
+            4
+          ],
+          [
+            8,
+            10
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.tuft"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          9.2,
+          19,
+          1.6,
+          3
+        ]
+      },
+      "fill": {
+        "color": "$p.stem"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          10,
+          18.6,
+          2.6,
+          1.8
+        ]
+      },
+      "fill": {
+        "color": "$p.cap"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          9,
+          18.2,
+          0.6,
+          0.6
+        ]
+      },
+      "fill": {
+        "color": "$p.stem"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          11.4,
+          18.6,
+          0.6,
+          0.6
+        ]
+      },
+      "fill": {
+        "color": "$p.stem"
+      }
+    }
+  ],
+  "palette": {
+    "base": "#58A056",
+    "tuft": "#478F4C",
+    "patch": "#3E8444",
+    "cap": "#D8402A",
+    "stem": "#F0E6D2"
+  }
+}

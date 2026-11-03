@@ -3,38 +3,431 @@
   "$id": "https://aethermoor.invalid/schemas/dialogue.schema.json",
   "title": "Dialogue graph",
   "type": "object",
-  "required": ["id", "start", "nodes"],
+  "required": [
+    "id",
+    "start",
+    "nodes"
+  ],
   "additionalProperties": false,
   "properties": {
-    "$schema": { "type": "string" },
-    "id": { "$ref": "#/$defs/id" },
-    "start": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "$ref": "#/$defs/id"
+    },
+    "start": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
     "nodes": {
       "type": "object",
       "minProperties": 1,
-      "propertyNames": { "pattern": "^[a-z][a-z0-9_]*$" },
-      "additionalProperties": { "$ref": "#/$defs/node" }
+      "propertyNames": {
+        "pattern": "^[a-z][a-z0-9_]*$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/node"
+      }
     }
   },
   "$defs": {
-    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$" },
-    "i18n_ref": { "type": "string", "pattern": "^\\$i18n:[a-z0-9_]+(\\.[a-z0-9_]+)*$" },
-    "node_name": { "type": "string", "pattern": "^([a-z][a-z0-9_]*|end)$" },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+    },
+    "i18n_ref": {
+      "type": "string",
+      "pattern": "^\\$i18n:[a-z0-9_]+(\\.[a-z0-9_]+)*$"
+    },
+    "node_name": {
+      "type": "string",
+      "pattern": "^([a-z][a-z0-9_]*|end)$"
+    },
+    "condition": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 1,
+      "additionalProperties": false,
+      "properties": {
+        "flag": {
+          "type": "string"
+        },
+        "not": {
+          "$ref": "#/$defs/condition"
+        },
+        "all": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/condition"
+          }
+        },
+        "any": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/condition"
+          }
+        },
+        "quest_active": {
+          "$ref": "#/$defs/id"
+        },
+        "quest_done": {
+          "$ref": "#/$defs/id"
+        },
+        "quest_stage": {
+          "type": "object",
+          "required": [
+            "quest",
+            "stage"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "quest": {
+              "$ref": "#/$defs/id"
+            },
+            "stage": {
+              "type": "string"
+            }
+          }
+        },
+        "has_item": {
+          "type": "object",
+          "required": [
+            "item",
+            "qty"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "item": {
+              "$ref": "#/$defs/id"
+            },
+            "qty": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "level_at_least": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "gold_at_least": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "season": {
+          "type": "string"
+        },
+        "tod_between": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000
+          },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      }
+    },
+    "effect": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "effect",
+            "amount"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "enum": [
+                "add_xp",
+                "add_gold",
+                "spend_gold"
+              ]
+            },
+            "amount": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect",
+            "item",
+            "qty"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "const": "add_item"
+            },
+            "item": {
+              "$ref": "#/$defs/id"
+            },
+            "qty": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect",
+            "item",
+            "qty"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "const": "remove_item"
+            },
+            "item": {
+              "$ref": "#/$defs/id"
+            },
+            "qty": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect",
+            "flag",
+            "value"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "const": "set_flag"
+            },
+            "flag": {
+              "type": "string"
+            },
+            "value": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect",
+            "quest"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "const": "start_quest"
+            },
+            "quest": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "const": "open_shop"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect",
+            "amount"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "const": "add_guild_points"
+            },
+            "amount": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "const": "open_board"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "const": "heal_full"
+            }
+          }
+        }
+      ]
+    },
     "node": {
       "oneOf": [
-        { "type": "object", "required": ["type", "speaker", "text", "next"], "additionalProperties": false,
-          "properties": { "type": { "const": "say" }, "speaker": { "type": "string" },
-                          "expression": { "type": "string" }, "text": { "$ref": "#/$defs/i18n_ref" },
-                          "next": { "$ref": "#/$defs/node_name" } } },
-        { "type": "object", "required": ["type", "choices"], "additionalProperties": false,
-          "properties": { "type": { "const": "choice" },
-                          "choices": { "type": "array", "minItems": 1, "items": {
-                            "type": "object", "required": ["text", "next"], "additionalProperties": false,
-                            "properties": { "text": { "$ref": "#/$defs/i18n_ref" },
-                                            "next": { "$ref": "#/$defs/node_name" } } } } } },
-        { "type": "object", "required": ["type", "flag", "value", "next"], "additionalProperties": false,
-          "properties": { "type": { "const": "set_flag" }, "flag": { "type": "string" },
-                          "value": { "type": "boolean" }, "next": { "$ref": "#/$defs/node_name" } } }
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "speaker",
+            "text",
+            "next"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "say"
+            },
+            "speaker": {
+              "type": "string"
+            },
+            "expression": {
+              "type": "string"
+            },
+            "text": {
+              "$ref": "#/$defs/i18n_ref"
+            },
+            "next": {
+              "$ref": "#/$defs/node_name"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "choices"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "choice"
+            },
+            "choices": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": [
+                  "text",
+                  "next"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "$ref": "#/$defs/i18n_ref"
+                  },
+                  "when": {
+                    "$ref": "#/$defs/condition"
+                  },
+                  "effects": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/effect"
+                    }
+                  },
+                  "next": {
+                    "$ref": "#/$defs/node_name"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "flag",
+            "value",
+            "next"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "set_flag"
+            },
+            "flag": {
+              "type": "string"
+            },
+            "value": {
+              "type": "boolean"
+            },
+            "next": {
+              "$ref": "#/$defs/node_name"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "effects",
+            "next"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "effects"
+            },
+            "effects": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/effect"
+              }
+            },
+            "next": {
+              "$ref": "#/$defs/node_name"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "when",
+            "then",
+            "else"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "condition"
+            },
+            "when": {
+              "$ref": "#/$defs/condition"
+            },
+            "then": {
+              "$ref": "#/$defs/node_name"
+            },
+            "else": {
+              "$ref": "#/$defs/node_name"
+            }
+          }
+        }
       ]
     }
   }

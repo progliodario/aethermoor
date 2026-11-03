@@ -1,0 +1,126 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/campfire",
+  "canvas": {
+    "w": 28,
+    "h": 26,
+    "origin": [
+      14,
+      22
+    ]
+  },
+  "palette": {
+    "log": "#7A5232",
+    "dark": "#3E2814",
+    "flame": "#F2862A",
+    "core": "#FFE066",
+    "outline": "#2A1608",
+    "ash": "#5A5550"
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          14,
+          23,
+          11,
+          2.2
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "ellipse": [
+          14,
+          20,
+          9,
+          2.8
+        ]
+      },
+      "fill": {
+        "color": "$p.ash"
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "path": "M 14 3 Q 22 11 20 17 Q 18 21 14 21 Q 10 21 8 17 Q 6 11 14 3 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 14,
+          "y0": 3,
+          "x1": 14,
+          "y1": 21,
+          "stops": [
+            [
+              0,
+              "$p.core"
+            ],
+            [
+              0.5,
+              "$p.flame"
+            ],
+            [
+              1,
+              "#C23A1A"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 14 10 Q 18 14 17 18 Q 16 20 14 20 Q 12 20 11 18 Q 10 14 14 10 Z"
+      },
+      "fill": {
+        "color": "$p.core"
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "path": "M 4 21 L 19 17"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 5.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 4 21 L 19 17"
+      },
+      "stroke": {
+        "color": "$p.log",
+        "width": 3.2
+      }
+    },
+    {
+      "shape": {
+        "path": "M 24 21 L 9 17"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 5.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 24 21 L 9 17"
+      },
+      "stroke": {
+        "color": "$p.log",
+        "width": 3.2
+      }
+    }
+  ]
+}

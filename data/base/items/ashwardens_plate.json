@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/ashwardens_plate",
+  "name": "$i18n:item.ashwardens_plate.name",
+  "description": "$i18n:item.ashwardens_plate.desc",
+  "kind": "armor",
+  "rarity": "epic",
+  "price": 1800,
+  "armor": {
+    "def": 12,
+    "mdef": 9
+  }
+}

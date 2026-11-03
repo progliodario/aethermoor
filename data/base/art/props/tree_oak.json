@@ -1,0 +1,178 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/tree_oak",
+  "canvas": {
+    "w": 64,
+    "h": 96,
+    "origin": [
+      32,
+      88
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          32,
+          88,
+          20,
+          6
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            28,
+            88
+          ],
+          [
+            29,
+            58
+          ],
+          [
+            35,
+            58
+          ],
+          [
+            36,
+            88
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.trunk"
+      },
+      "stroke": {
+        "color": "$p.trunk_dark",
+        "width": 1.5
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          32,
+          44,
+          26,
+          24
+        ]
+      },
+      "fill": {
+        "radial": {
+          "cx": 26,
+          "cy": 34,
+          "r": 34,
+          "stops": [
+            [
+              0,
+              "$p.leaf_light"
+            ],
+            [
+              1,
+              "$p.leaf"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.leaf_dark",
+        "width": 2
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20,
+          54,
+          15,
+          13
+        ]
+      },
+      "fill": {
+        "radial": {
+          "cx": 16,
+          "cy": 48,
+          "r": 20,
+          "stops": [
+            [
+              0,
+              "$p.leaf_light"
+            ],
+            [
+              1,
+              "$p.leaf"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.leaf_dark",
+        "width": 2
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          45,
+          53,
+          15,
+          13
+        ]
+      },
+      "fill": {
+        "radial": {
+          "cx": 41,
+          "cy": 47,
+          "r": 20,
+          "stops": [
+            [
+              0,
+              "$p.leaf_light"
+            ],
+            [
+              1,
+              "$p.leaf"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.leaf_dark",
+        "width": 2
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          30,
+          36,
+          8,
+          5
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.12
+    }
+  ],
+  "palette": {
+    "trunk": "#8B5E3C",
+    "trunk_dark": "#5E3F27",
+    "leaf": "#3E8E45",
+    "leaf_light": "#6CBF63",
+    "leaf_dark": "#2B6A34"
+  },
+  "variants": {
+    "autumn": {
+      "leaf": "#D2813A",
+      "leaf_light": "#EDB05B",
+      "leaf_dark": "#9C5524"
+    }
+  }
+}

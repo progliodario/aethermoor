@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/knight_plate",
+  "name": "$i18n:item.knight_plate.name",
+  "description": "$i18n:item.knight_plate.desc",
+  "kind": "armor",
+  "rarity": "rare",
+  "price": 1300,
+  "armor": {
+    "def": 12,
+    "mdef": 5
+  }
+}

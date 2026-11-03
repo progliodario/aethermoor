@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/magma_heart",
+  "name": "$i18n:enemy.magma_heart.name",
+  "level": 13,
+  "stats": {
+    "hp": 420,
+    "atk": 36,
+    "def": 15,
+    "mdef": 8,
+    "speed_x100": 250
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "water": 1500
+  },
+  "xp": 160,
+  "drops": [
+    {
+      "item": "base:item/heartfire_blade",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 1000
+    }
+  ],
+  "radius_x100": 55,
+  "behavior": "base:behavior/guardian",
+  "art": "base:art/creature/magma_heart"
+}

@@ -1,0 +1,45 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/guild/hollow",
+  "name": "$i18n:quest.hollow.name",
+  "kind": "guild",
+  "stages": [
+    {
+      "id": "kill",
+      "journal": "$i18n:quest.hollow.kill",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/moonshade_alpha",
+          "count": 1
+        }
+      ],
+      "next": "report"
+    },
+    {
+      "id": "report",
+      "journal": "$i18n:quest.hollow.report",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "guild_clerk_mira"
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 420
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1000
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 240
+    }
+  ]
+}

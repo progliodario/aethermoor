@@ -1,0 +1,32 @@
+# 16. Input
+
+Status: **v1 (M2 subset)**.
+
+## Abstract actions
+
+The simulation never sees devices, only a movement vector in `[-1, 1]^2` (screen axes, y down) that is passed through
+`normalize_input` (see `02-entities-and-movement.md`). More actions (attack, skills, dodge, interact...) are added with
+combat in M3.
+
+## Devices
+
+| Device | M2 mapping |
+|---|---|
+| Keyboard | `W A S D` and arrows move; `J`, `Space` or the mouse button attack; `E`/`Enter` talk and confirm; `I` opens the bag; `E` also wakes and uses a Threshold Stone; `Q` opens the journal (`W`/`S` scroll); `F2` switches the language; `F5` quick save, `F9` quick load, `F7` new game; `F3` debug overlay; `Esc` quits (desktop) |
+| Gamepad | Left stick (SDL gamepad on desktop). Android controller support arrives later |
+| Touch (Android) | **Floating stick**: the first touch on the left half of the screen is the stick origin; dragging up to 64 dp from the origin gives the vector, scaled to length 1 at 64 dp |
+
+Android has buttons for the bag, the map, the journal and the language (tap the journal panel above or below its middle to scroll, outside it to close).
+
+The last used device decides which hints are shown (later milestones).
+
+## Settings
+
+The language chosen by the player is kept in `<user data>/settings.json` as `{"language": "it"}` (desktop: next to the `saves` folder; Android: the app-private
+folder). Without it the language of the system is used (`it` if it is Italian, else `en`). The language can be changed at any time: texts are resolved when they are drawn (spec 17).
+
+## Orientation (Android)
+
+The app allows portrait and landscape (`fullUser`) and handles configuration changes itself (no activity restart).
+The camera adapts: the visible area in tiles is `screen_px / tile_px`, with `tile_px` derived from the screen density
+(`tile_px = round(48 * density)`, bucketed).

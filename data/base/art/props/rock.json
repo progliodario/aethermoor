@@ -1,0 +1,78 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/rock",
+  "canvas": {
+    "w": 32,
+    "h": 28,
+    "origin": [
+      16,
+      24
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          16,
+          24,
+          12,
+          4
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "ellipse": [
+          16,
+          16,
+          12,
+          9
+        ]
+      },
+      "fill": {
+        "radial": {
+          "cx": 12,
+          "cy": 11,
+          "r": 16,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              1,
+              "$p.base"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 1.5
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          11,
+          12,
+          4,
+          2.2
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.18
+    }
+  ],
+  "palette": {
+    "base": "#8D949F",
+    "light": "#BCC2CB",
+    "dark": "#5A606A"
+  }
+}

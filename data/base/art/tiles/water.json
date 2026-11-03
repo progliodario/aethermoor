@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/tile/water",
+  "canvas": {
+    "w": 32,
+    "h": 32,
+    "origin": [
+      0,
+      0
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          32
+        ]
+      },
+      "fill": {
+        "linear": {
+          "x0": 0,
+          "y0": 0,
+          "x1": 0,
+          "y1": 32,
+          "stops": [
+            [
+              0,
+              "$p.top"
+            ],
+            [
+              1,
+              "$p.bottom"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "shape": {
+        "path": "M 3 10 Q 8 7 13 10"
+      },
+      "stroke": {
+        "color": "$p.wave",
+        "width": 1.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 18 22 Q 23 19 28 22"
+      },
+      "stroke": {
+        "color": "$p.wave",
+        "width": 1.4
+      }
+    }
+  ],
+  "palette": {
+    "top": "#4C8DE0",
+    "bottom": "#3470C4",
+    "wave": "#9CC7F7"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/forge_tyrant",
+  "name": "$i18n:enemy.forge_tyrant.name",
+  "level": 16,
+  "stats": {
+    "hp": 900,
+    "atk": 41,
+    "def": 19,
+    "mdef": 9,
+    "speed_x100": 280
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "water": 1500
+  },
+  "xp": 520,
+  "drops": [
+    {
+      "item": "base:item/tyrants_hammer",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 1000
+    }
+  ],
+  "radius_x100": 60,
+  "behavior": "base:behavior/guardian",
+  "art": "base:art/creature/forge_tyrant"
+}

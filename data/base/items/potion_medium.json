@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/potion_medium",
+  "name": "$i18n:item.potion_medium.name",
+  "description": "$i18n:item.potion_medium.desc",
+  "kind": "consumable",
+  "rarity": "common",
+  "price": 80,
+  "stack_max": 99,
+  "use": {
+    "effects": [
+      {
+        "effect": "heal",
+        "amount": 150
+      }
+    ]
+  }
+}

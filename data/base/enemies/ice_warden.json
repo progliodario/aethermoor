@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/ice_warden",
+  "name": "$i18n:enemy.ice_warden.name",
+  "level": 11,
+  "stats": {
+    "hp": 340,
+    "atk": 30,
+    "def": 13,
+    "mdef": 9,
+    "speed_x100": 250
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "fire": 1500
+  },
+  "xp": 125,
+  "drops": [
+    {
+      "item": "base:item/glacier_plate",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 1000
+    }
+  ],
+  "radius_x100": 52,
+  "behavior": "base:behavior/guardian",
+  "art": "base:art/creature/ice_warden"
+}

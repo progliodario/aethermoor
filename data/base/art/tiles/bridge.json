@@ -1,0 +1,137 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/tile/bridge",
+  "canvas": {
+    "w": 32,
+    "h": 32,
+    "origin": [
+      0,
+      0
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          32
+        ]
+      },
+      "fill": {
+        "color": "$p.water"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          2,
+          32,
+          6
+        ]
+      },
+      "fill": {
+        "color": "$p.plank"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          9,
+          32,
+          6
+        ]
+      },
+      "fill": {
+        "color": "$p.plank2"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          16,
+          32,
+          6
+        ]
+      },
+      "fill": {
+        "color": "$p.plank"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          23,
+          32,
+          6
+        ]
+      },
+      "fill": {
+        "color": "$p.plank2"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          7,
+          32,
+          1
+        ]
+      },
+      "fill": {
+        "color": "$p.gap"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          14,
+          32,
+          1
+        ]
+      },
+      "fill": {
+        "color": "$p.gap"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          21,
+          32,
+          1
+        ]
+      },
+      "fill": {
+        "color": "$p.gap"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          28,
+          32,
+          1
+        ]
+      },
+      "fill": {
+        "color": "$p.gap"
+      }
+    }
+  ],
+  "palette": {
+    "water": "#4A90C8",
+    "plank": "#A7753F",
+    "plank2": "#926530",
+    "gap": "#5E3F1E"
+  }
+}

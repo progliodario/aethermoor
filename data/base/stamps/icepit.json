@@ -1,0 +1,62 @@
+{
+  "$schema": "../../../schemas/stamp.schema.json",
+  "id": "base:stamp/icepit",
+  "w": 25,
+  "h": 21,
+  "anchor": [
+    24,
+    10
+  ],
+  "rows": [
+    ".........................",
+    ".#######################.",
+    ".#ccccccccccccccccccccc#.",
+    ".#clccccccccccccccccccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#ccccHcccHcccHcccfcccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#ccccccccc#ccccccccccc#.",
+    ".#ccccccccccccccccccccc#.",
+    "==ccccccHcccjcccHcccccc==",
+    "==ccccccccccccccccccccc==",
+    "==ccccccccccc#ccccccccc==",
+    ".#ccccccccccccccccccccc#.",
+    ".#ccccHcccfcccHcccHcccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#ccccccccccccccccccclc#.",
+    ".#ccccccccccccccccccccc#.",
+    ".#######################.",
+    "........................."
+  ],
+  "legend": {
+    "#": {
+      "tile": 5
+    },
+    "=": {
+      "tile": 11
+    },
+    "H": {
+      "tile": 14,
+      "spawner": "base:enemy/slime_ice"
+    },
+    "c": {
+      "tile": 14
+    },
+    "f": {
+      "tile": 14,
+      "spawner": "base:enemy/wolf_frost"
+    },
+    "j": {
+      "tile": 14,
+      "spawner": "base:enemy/ice_warden"
+    },
+    "l": {
+      "tile": 14,
+      "prop": "base:art/prop/lamp",
+      "radius_x100": 15
+    }
+  },
+  "spots": []
+}

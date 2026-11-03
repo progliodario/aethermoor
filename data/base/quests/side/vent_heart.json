@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/vent_heart",
+  "name": "$i18n:quest.vent_heart.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "hunt",
+      "journal": "$i18n:quest.vent_heart.hunt",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/magma_heart",
+          "count": 1
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

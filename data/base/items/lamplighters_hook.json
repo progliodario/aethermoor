@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/lamplighters_hook",
+  "name": "$i18n:item.lamplighters_hook.name",
+  "description": "$i18n:item.lamplighters_hook.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 800,
+  "weapon": {
+    "atk": 15,
+    "matk": 0
+  }
+}

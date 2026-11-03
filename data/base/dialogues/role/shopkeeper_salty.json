@@ -1,0 +1,131 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/role/shopkeeper_salty",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.shopkeeper.salty.hello",
+      "next": "menu"
+    },
+    "menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.wares",
+          "next": "shop"
+        },
+        {
+          "text": "$i18n:dlg.role.craft.ask",
+          "when": {
+            "not": {
+              "flag": "craft_pearl_rapier_done"
+            }
+          },
+          "next": "craft_info"
+        },
+        {
+          "text": "$i18n:dlg.role.rumor",
+          "next": "rumor"
+        },
+        {
+          "text": "$i18n:dlg.role.road",
+          "next": "road"
+        },
+        {
+          "text": "$i18n:dlg.role.bye",
+          "next": "end"
+        }
+      ]
+    },
+    "shop": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "open_shop"
+        }
+      ],
+      "next": "end"
+    },
+    "rumor": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.salty.rumor",
+      "next": "end"
+    },
+    "road": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.salty.road",
+      "next": "end"
+    },
+    "craft_info": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.craft.salty.info",
+      "next": "craft_menu"
+    },
+    "craft_menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.craft.make",
+          "when": {
+            "all": [
+              {
+                "has_item": {
+                  "item": "base:item/tide_pearl",
+                  "qty": 6
+                }
+              },
+              {
+                "has_item": {
+                  "item": "base:item/coral_fragment",
+                  "qty": 8
+                }
+              }
+            ]
+          },
+          "next": "craft_do"
+        },
+        {
+          "text": "$i18n:dlg.role.craft.later",
+          "next": "end"
+        }
+      ]
+    },
+    "craft_do": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "remove_item",
+          "item": "base:item/tide_pearl",
+          "qty": 6
+        },
+        {
+          "effect": "remove_item",
+          "item": "base:item/coral_fragment",
+          "qty": 8
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/pearl_rapier",
+          "qty": 1
+        },
+        {
+          "effect": "set_flag",
+          "flag": "craft_pearl_rapier_done",
+          "value": true
+        }
+      ],
+      "next": "craft_done"
+    },
+    "craft_done": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.craft.salty.done",
+      "next": "end"
+    }
+  }
+}

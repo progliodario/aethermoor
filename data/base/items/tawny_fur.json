@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/tawny_fur",
+  "name": "$i18n:item.tawny_fur.name",
+  "description": "$i18n:item.tawny_fur.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 7,
+  "stack_max": 99
+}

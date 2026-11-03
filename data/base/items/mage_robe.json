@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/mage_robe",
+  "name": "$i18n:item.mage_robe.name",
+  "description": "$i18n:item.mage_robe.desc",
+  "kind": "armor",
+  "rarity": "uncommon",
+  "price": 500,
+  "armor": {
+    "def": 4,
+    "mdef": 9
+  }
+}

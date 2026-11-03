@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/glacier_plate",
+  "name": "$i18n:item.glacier_plate.name",
+  "description": "$i18n:item.glacier_plate.desc",
+  "kind": "armor",
+  "rarity": "rare",
+  "price": 1300,
+  "armor": {
+    "def": 11,
+    "mdef": 8
+  }
+}

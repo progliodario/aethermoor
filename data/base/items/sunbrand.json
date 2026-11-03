@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/sunbrand",
+  "name": "$i18n:item.sunbrand.name",
+  "description": "$i18n:item.sunbrand.desc",
+  "kind": "weapon",
+  "rarity": "epic",
+  "price": 2300,
+  "weapon": {
+    "atk": 33,
+    "matk": 0
+  }
+}

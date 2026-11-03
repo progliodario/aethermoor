@@ -1,0 +1,381 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/role/elder_salty",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.elder.salty.hello",
+      "next": "menu"
+    },
+    "menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.ask",
+          "when": {
+            "not": {
+              "any": [
+                {
+                  "quest_active": "base:quest/side/tide_pearls"
+                },
+                {
+                  "quest_done": "base:quest/side/tide_pearls"
+                }
+              ]
+            }
+          },
+          "next": "errand_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.status",
+          "when": {
+            "quest_active": "base:quest/side/tide_pearls"
+          },
+          "next": "errand_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/tide_pearls"
+              },
+              {
+                "not": {
+                  "flag": "errand_tide_pearls_paid"
+                }
+              }
+            ]
+          },
+          "next": "errand_paid"
+        },
+        {
+          "text": "$i18n:dlg.role.hunt.ask",
+          "when": {
+            "all": [
+              {
+                "flag": "errand_tide_pearls_paid"
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/grotto_matron"
+                    },
+                    {
+                      "quest_done": "base:quest/side/grotto_matron"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "hunt_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.hunt.status",
+          "when": {
+            "quest_active": "base:quest/side/grotto_matron"
+          },
+          "next": "hunt_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.hunt.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/grotto_matron"
+              },
+              {
+                "not": {
+                  "flag": "hunt_grotto_matron_paid"
+                }
+              }
+            ]
+          },
+          "next": "hunt_paid"
+        },
+        {
+          "text": "$i18n:dlg.role.rumor",
+          "next": "rumor"
+        },
+        {
+          "text": "$i18n:dlg.role.seasonal.ask",
+          "when": {
+            "all": [
+              {
+                "season": "autumn"
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/season_storm_season"
+                    },
+                    {
+                      "quest_done": "base:quest/side/season_storm_season"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "seasonal_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.seasonal.ask",
+          "when": {
+            "all": [
+              {
+                "not": {
+                  "season": "autumn"
+                }
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/season_storm_season"
+                    },
+                    {
+                      "quest_done": "base:quest/side/season_storm_season"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "seasonal_wait"
+        },
+        {
+          "text": "$i18n:dlg.role.seasonal.status",
+          "when": {
+            "quest_active": "base:quest/side/season_storm_season"
+          },
+          "next": "seasonal_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.seasonal.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/season_storm_season"
+              },
+              {
+                "not": {
+                  "flag": "season_storm_season_paid"
+                }
+              }
+            ]
+          },
+          "next": "seasonal_paid"
+        },
+        {
+          "text": "$i18n:dlg.role.bye",
+          "next": "end"
+        }
+      ]
+    },
+    "rumor": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.salty.rumor",
+      "next": "end"
+    },
+    "errand_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.errand.salty.offer",
+      "next": "errand_choice"
+    },
+    "errand_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/tide_pearls"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "errand_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.errand.salty.busy",
+      "next": "end"
+    },
+    "errand_paid": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "errand_tide_pearls_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 170
+        },
+        {
+          "effect": "add_gold",
+          "amount": 360
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_small",
+          "qty": 3
+        }
+      ],
+      "next": "errand_thanks"
+    },
+    "errand_thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.errand.salty.thanks",
+      "next": "end"
+    },
+    "hunt_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.hunt.salty.offer",
+      "next": "hunt_choice"
+    },
+    "hunt_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/grotto_matron"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "hunt_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.hunt.salty.busy",
+      "next": "end"
+    },
+    "hunt_paid": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "hunt_grotto_matron_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 240
+        },
+        {
+          "effect": "add_gold",
+          "amount": 560
+        },
+        {
+          "effect": "add_guild_points",
+          "amount": 30
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_large",
+          "qty": 2
+        }
+      ],
+      "next": "hunt_thanks"
+    },
+    "hunt_thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.hunt.salty.thanks",
+      "next": "end"
+    },
+    "seasonal_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.seasonal.salty.offer",
+      "next": "seasonal_choice"
+    },
+    "seasonal_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/season_storm_season"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "seasonal_wait": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.seasonal.salty.wait",
+      "next": "end"
+    },
+    "seasonal_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.seasonal.salty.busy",
+      "next": "end"
+    },
+    "seasonal_paid": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "season_storm_season_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 260
+        },
+        {
+          "effect": "add_gold",
+          "amount": 520
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_large",
+          "qty": 2
+        }
+      ],
+      "next": "seasonal_thanks"
+    },
+    "seasonal_thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.seasonal.salty.thanks",
+      "next": "end"
+    }
+  }
+}

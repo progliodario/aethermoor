@@ -1,0 +1,227 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/role/innkeeper_scholarly",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.innkeeper.scholarly.hello",
+      "next": "menu"
+    },
+    "menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.pantry.ask",
+          "when": {
+            "not": {
+              "any": [
+                {
+                  "quest_active": "base:quest/side/pantry_feathers"
+                },
+                {
+                  "quest_done": "base:quest/side/pantry_feathers"
+                }
+              ]
+            }
+          },
+          "next": "pantry_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.pantry.status",
+          "when": {
+            "quest_active": "base:quest/side/pantry_feathers"
+          },
+          "next": "pantry_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.pantry.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/pantry_feathers"
+              },
+              {
+                "not": {
+                  "flag": "pantry_pantry_feathers_paid"
+                }
+              }
+            ]
+          },
+          "next": "pantry_paid"
+        },
+        {
+          "text": "$i18n:dlg.role.rumor",
+          "next": "rumor"
+        },
+        {
+          "text": "$i18n:dlg.role.legend",
+          "next": "legend"
+        },
+        {
+          "text": "$i18n:dlg.inn.scholarly.bed",
+          "when": {
+            "gold_at_least": 18
+          },
+          "next": "inn_rest"
+        },
+        {
+          "text": "$i18n:dlg.inn.scholarly.bed",
+          "when": {
+            "not": {
+              "gold_at_least": 18
+            }
+          },
+          "next": "inn_poor"
+        },
+        {
+          "text": "$i18n:dlg.inn.scholarly.meal",
+          "when": {
+            "gold_at_least": 44
+          },
+          "next": "inn_meal"
+        },
+        {
+          "text": "$i18n:dlg.role.night",
+          "when": {
+            "tod_between": [
+              800,
+              250
+            ]
+          },
+          "next": "night_tale"
+        },
+        {
+          "text": "$i18n:dlg.role.bye",
+          "next": "end"
+        }
+      ]
+    },
+    "rumor": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.scholarly.rumor",
+      "next": "end"
+    },
+    "legend": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.scholarly.legend",
+      "next": "end"
+    },
+    "pantry_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.pantry.scholarly.offer",
+      "next": "pantry_choice"
+    },
+    "pantry_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/pantry_feathers"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "pantry_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.pantry.scholarly.busy",
+      "next": "end"
+    },
+    "pantry_paid": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "pantry_pantry_feathers_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 200
+        },
+        {
+          "effect": "add_gold",
+          "amount": 440
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_medium",
+          "qty": 2
+        }
+      ],
+      "next": "pantry_thanks"
+    },
+    "pantry_thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.pantry.scholarly.thanks",
+      "next": "end"
+    },
+    "inn_rest": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "spend_gold",
+          "amount": 18
+        },
+        {
+          "effect": "heal_full"
+        }
+      ],
+      "next": "inn_slept"
+    },
+    "inn_slept": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.inn.scholarly.slept",
+      "next": "end"
+    },
+    "inn_poor": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.inn.scholarly.poor",
+      "next": "end"
+    },
+    "inn_meal": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "spend_gold",
+          "amount": 44
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/honey_cake",
+          "qty": 4
+        }
+      ],
+      "next": "inn_fed"
+    },
+    "inn_fed": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.inn.scholarly.fed",
+      "next": "end"
+    },
+    "night_tale": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.night.scholarly",
+      "next": "end"
+    }
+  }
+}

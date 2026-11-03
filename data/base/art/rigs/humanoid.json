@@ -1,0 +1,76 @@
+{
+  "$schema": "../../../../schemas/rig.schema.json",
+  "id": "base:art/rig/humanoid",
+  "parts": [
+    {
+      "id": "shadow",
+      "parent": null,
+      "offset": [
+        0,
+        0
+      ],
+      "z": 0,
+      "art": "base:art/char/ren/shadow"
+    },
+    {
+      "id": "leg_l",
+      "parent": "shadow",
+      "offset": [
+        -4,
+        -14
+      ],
+      "z": 1,
+      "art": "base:art/char/ren/leg"
+    },
+    {
+      "id": "leg_r",
+      "parent": "shadow",
+      "offset": [
+        4,
+        -14
+      ],
+      "z": 1,
+      "art": "base:art/char/ren/leg"
+    },
+    {
+      "id": "arm_l",
+      "parent": "shadow",
+      "offset": [
+        -10,
+        -28
+      ],
+      "z": 2,
+      "art": "base:art/char/ren/arm"
+    },
+    {
+      "id": "torso",
+      "parent": "shadow",
+      "offset": [
+        0,
+        -24
+      ],
+      "z": 3,
+      "art": "base:art/char/ren/torso"
+    },
+    {
+      "id": "head",
+      "parent": "torso",
+      "offset": [
+        0,
+        -12
+      ],
+      "z": 5,
+      "art": "base:art/char/ren/head"
+    },
+    {
+      "id": "arm_r",
+      "parent": "shadow",
+      "offset": [
+        10,
+        -28
+      ],
+      "z": 4,
+      "art": "base:art/char/ren/arm"
+    }
+  ]
+}

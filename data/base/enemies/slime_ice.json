@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/slime_ice",
+  "name": "$i18n:enemy.slime_ice.name",
+  "level": 8,
+  "stats": {
+    "hp": 125,
+    "atk": 21,
+    "def": 9,
+    "mdef": 6,
+    "speed_x100": 250
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "fire": 1500
+  },
+  "xp": 48,
+  "drops": [
+    {
+      "item": "base:item/ice_crystal",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 500
+    }
+  ],
+  "radius_x100": 38,
+  "behavior": "base:behavior/melee_chaser_basic",
+  "art": "base:art/creature/slime_ice"
+}

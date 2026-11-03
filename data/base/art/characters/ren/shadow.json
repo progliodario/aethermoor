@@ -1,0 +1,28 @@
+{
+  "$schema": "../../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/char/ren/shadow",
+  "canvas": {
+    "w": 28,
+    "h": 12,
+    "origin": [
+      14,
+      6
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          14,
+          6,
+          11,
+          4
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.28
+    }
+  ]
+}

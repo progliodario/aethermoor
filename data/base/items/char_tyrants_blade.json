@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/char_tyrants_blade",
+  "name": "$i18n:item.char_tyrants_blade.name",
+  "description": "$i18n:item.char_tyrants_blade.desc",
+  "kind": "weapon",
+  "rarity": "epic",
+  "price": 2200,
+  "weapon": {
+    "atk": 30,
+    "matk": 0
+  }
+}
