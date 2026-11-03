@@ -222,7 +222,8 @@ TEST_CASE("the overworld is streamed from the content pack and is playable", "[w
     // The spawn clearing is walkable plains, and Mira stands next to it.
     const int cx = map.width / 2;
     const int cy = map.height / 2;
-    REQUIRE((sim.gid_at(cx, cy) == 1 || sim.gid_at(cx, cy) == 2));
+    const int start_gid = sim.gid_at(cx, cy);
+    REQUIRE((start_gid == 1 || start_gid == 2 || (start_gid >= 15 && start_gid <= 18)));  // a meadow tile
     for (int i = 0; i < 120; ++i) {
         sim.tick(0.0F, 0.0F, false);
     }

@@ -435,7 +435,7 @@ class WorldGenTest {
 
         // The spawn clearing is walkable plains, and Mira stands next to it.
         val gid = sim.gidAt(map.width / 2, map.height / 2)
-        assertTrue(gid == 1 || gid == 2)
+        assertTrue(gid == 1 || gid == 2 || gid in 15..18) // a meadow tile
         repeat(120) { sim.tick(0f, 0f, false) }
         assertTrue(sim.story.npcInRange() != null)
         assertEquals(params.time.startTick + 120, sim.worldTicks) // the world clock runs with the ticks
