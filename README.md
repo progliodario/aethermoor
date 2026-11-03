@@ -3,7 +3,7 @@
 > Titolo provvisorio. Action RPG isekai fantasy, top-down e in tempo reale, in grafica vettoriale. Gratuito e open source.
 > English version: [README.en.md](README.en.md)
 
-**Stato:** M5c (mondo procedurale in streaming, con giorno e notte). Su Windows, Linux e Android c'è un personaggio vettoriale che esplora un mondo generato da un seme, combatte contro slime, parla con una PNG e accetta una quest, con salvataggi; mancano ancora gli altri protagonisti, i dungeon e la vita di villaggio. Vedi la [roadmap](docs/plan/06-roadmap-rischi-backlog.md).
+**Stato:** versione di prova giocabile (un protagonista, Ren). Su Windows, Linux e Android si esplora un mondo di 16384 x 16384 tile generato da un seme (otto regioni, giorno e notte, stagioni, meteo), con ~130 insediamenti, 35 siti a mano (sotterranei con boss, tane, nidi, avamposti con viandanti e storie), 60 creature, 110 oggetti, gilda con bacheca e commissioni, negozi, locande, Pietre della Soglia per viaggiare, diario, tre partite e italiano e inglese. Mancano ancora gli altri protagonisti con i loro doni, i compagni e la base. Il catalogo dei contenuti è in [`docs/design/catalog.md`](docs/design/catalog.md). Vedi la [roadmap](docs/plan/06-roadmap-rischi-backlog.md).
 
 ## Di che cosa si tratta
 
