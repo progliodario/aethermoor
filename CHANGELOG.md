@@ -11,6 +11,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- `tools/balance_report.py` and `docs/design/balance.md`: a rough model of every fight (Ren with the gear of a typical shop at each level against each creature, from the formulas of spec 04), to find outliers when tuning. Its finding: by the formulas every creature is comfortable far below its level and the bosses of the dungeons die in 2 to 4 seconds, so combat is probably too easy; the numbers are the owner's to tune.
 - Four more meadow tiles (daisies, clover and pebbles, dry grass, a mushroom in a dark patch), so the plains do not repeat every two tiles. The plains pick among six tiles now (spec 09).
 - Pip, a lad of the home village who answers six questions of a new player (how to fight, heal and earn money, what the stones are, where to go first, how not to get lost), in Italian and English.
 - Mira closes the ring of the wayfarers: when all eight stories are finished she pays 2500 XP, 6000 gold and the epic Ring-walker's mantle.
