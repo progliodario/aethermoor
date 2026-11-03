@@ -817,3 +817,24 @@ def test_mira_closes_the_ring_when_the_eight_stories_are_done():
     assert s.flags["mira_ring_paid"] and host.inventory["base:item/ring_mantle"] == 1 and s.gold == 6000
     s.start_dialogue(mira["id"])
     assert s.dialogue[1] != "ring_offer"  # paid once
+
+
+def test_pip_answers_every_question_and_comes_back_to_the_menu():
+    import json
+
+    from reference import story
+
+    data = TOOLS.parent / "data" / "base"
+    pip = json.loads((data / "dialogues" / "npc" / "pip.json").read_text(encoding="utf-8"))
+    s = story.Story(_InnHost(), {"quests": {}, "dialogues": {pip["id"]: pip}, "npcs": []})
+    s.start_dialogue(pip["id"])
+    s.advance()
+    topics = [c for c in s.visible_choices() if c["next"] != "end"]
+    assert len(topics) == 6
+    for index in range(len(topics)):
+        s.choose(index)
+        assert s._node()["type"] == "say" and s.dialogue[1].startswith("a_")
+        s.advance()
+        assert s._node()["type"] == "choice"  # back to the questions
+    s.choose(len(topics))  # the thanks
+    assert s.dialogue is None

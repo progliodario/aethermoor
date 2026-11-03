@@ -167,6 +167,7 @@
   },
   "npcs": [
     { "key": "guild_clerk_mira", "dialogue": "base:dialogue/npc/mira", "variant": "red", "dx": 1, "dy": -1 },
+    { "key": "tutor_pip", "dialogue": "base:dialogue/npc/pip", "variant": "cream", "dx": -2, "dy": 2 },
     { "key": "wayfarer_tamsin", "dialogue": "base:dialogue/npc/tamsin", "variant": "green", "dx": 384, "dy": 129 },
     { "key": "wayfarer_elowen", "dialogue": "base:dialogue/npc/elowen", "variant": "purple", "dx": -4224, "dy": -2687 },
     { "key": "wayfarer_dorn", "dialogue": "base:dialogue/npc/dorn", "variant": "brown", "dx": 4224, "dy": -4735 },

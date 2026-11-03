@@ -1128,6 +1128,13 @@
               "dy": -1
             },
             {
+              "key": "tutor_pip",
+              "dialogue": "base:dialogue/npc/pip",
+              "variant": "cream",
+              "dx": -2,
+              "dy": 2
+            },
+            {
               "key": "wayfarer_tamsin",
               "dialogue": "base:dialogue/npc/tamsin",
               "variant": "green",
@@ -5569,6 +5576,11 @@
             10112
           ],
           [
+            "tutor_pip",
+            11904,
+            10880
+          ],
+          [
             "wayfarer_tamsin",
             110720,
             43392
@@ -6743,6 +6755,13 @@
               "variant": "red",
               "dx": 1,
               "dy": -1
+            },
+            {
+              "key": "tutor_pip",
+              "dialogue": "base:dialogue/npc/pip",
+              "variant": "cream",
+              "dx": -2,
+              "dy": 2
             },
             {
               "key": "wayfarer_tamsin",
@@ -11182,6 +11201,11 @@
             9088
           ],
           [
+            "tutor_pip",
+            9856,
+            9856
+          ],
+          [
             "wayfarer_tamsin",
             108672,
             42368
@@ -12356,6 +12380,13 @@
               "variant": "red",
               "dx": 1,
               "dy": -1
+            },
+            {
+              "key": "tutor_pip",
+              "dialogue": "base:dialogue/npc/pip",
+              "variant": "cream",
+              "dx": -2,
+              "dy": 2
             },
             {
               "key": "wayfarer_tamsin",
@@ -16805,6 +16836,11 @@
             "guild_clerk_mira",
             11648,
             12160
+          ],
+          [
+            "tutor_pip",
+            10880,
+            12928
           ],
           [
             "wayfarer_tamsin",

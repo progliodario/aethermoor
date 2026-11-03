@@ -203,7 +203,7 @@ TEST_CASE("the overworld is streamed from the content pack and is playable", "[w
 
     const aether::TileMap map = aether::make_stream_map(*params);
     REQUIRE(map.ground.empty());
-    REQUIRE(map.npcs.size() == 9);  // Mira and the eight wayfarers of the outposts
+    REQUIRE(map.npcs.size() == 10);  // Mira, Pip and the eight wayfarers of the outposts
     REQUIRE(map.npcs[0].key == "guild_clerk_mira");
 
     auto setup = aether::load_combat_setup(demo.pack, map, "base:protagonist/ren", 42, error);

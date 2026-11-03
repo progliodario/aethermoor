@@ -173,6 +173,10 @@ Villagers and shopkeepers also answer "How is the road around here?" with a text
   "Any tales for a dark night?" only at night (`tod_between` `[800, 250]`, from 19:12 to 6:00), with one tale per tone.
 - **Gossip.** Villagers answer "Any gossip?" with three lines of their tone in a row (`dlg.gossip.<tone>.<n>`).
 
+## Pip
+
+Pip (`tutor_pip`, `base:dialogue/npc/pip`) stands in the meadow next to the start, two tiles from Mira. His dialogue is a menu of six questions of a new player (fighting, healing, money, the Threshold Stones, where to go first, not getting lost), each answered by one line that leads back to the menu.
+
 ## Wayfarers
 
 Eight **wayfarers**, named people with a dialogue each (`base:dialogue/npc/<name>`, key `wayfarer_<name>`), stand in the squares of the outposts (spec 09), one tile below the site point of the landmark (`npcs` of the world data).

@@ -228,5 +228,20 @@
   "dlg.way.ottavio.busy": "I dati aspettano. Tu no, se hai fretta.",
   "dlg.way.ottavio.incoming": "Da Zahra del Caravanserraglio? Scrive come tratta: in breve, e con un numero sorprendente di numeri. Sono deliziato.",
   "dlg.mira.ring": "Otto lettere hanno girato il mondo, e ognuna è tornata. Tamsin, Elowen, Dorn, Zahra, Ilvi, Marlo, Kessa, Ottavio: ora scrivono tutti a me, e dicono tutti la stessa cosa. Qualcuno ha percorso l'anello. La gilda ha un mantello per questo, cucito con la polvere di strada di ogni avamposto.",
-  "dlg.mira.ring_thanks": "Indossalo dove la strada è lunga. E se incontri un forestiero al fuoco di un avamposto, digli che l'anello è chiuso. Capirà cosa intendi."
+  "dlg.mira.ring_thanks": "Indossalo dove la strada è lunga. E se incontri un forestiero al fuoco di un avamposto, digli che l'anello è chiuso. Capirà cosa intendi.",
+  "speaker.tutor_pip": "Pip, un ragazzo del villaggio",
+  "dlg.pip.hello": "Oh! Un viaggiatore da lontano, dice Mira. Io sono Pip. Conosco i prati meglio delle melme. Chiedimi quello che vuoi.",
+  "dlg.pip.q.fight": "Come si combatte?",
+  "dlg.pip.q.heal": "Come mi rimetto quando sono ferito?",
+  "dlg.pip.q.money": "Come si guadagna?",
+  "dlg.pip.q.stones": "Cosa sono le pietre luminose?",
+  "dlg.pip.q.first": "Dove dovrei andare per prima cosa?",
+  "dlg.pip.q.map": "Come faccio a non perdermi?",
+  "dlg.pip.q.bye": "Grazie, Pip.",
+  "dlg.pip.a.fight": "Avvicinati a una melma e colpiscila: J o Spazio, o il pulsante d'attacco se sei su un telefono. Le melme sono lente, i lupi no. Combatti prima le verdi, poi le grigie. Occhio alla salute, e mangia pane quando è bassa (apri lo zaino con I).",
+  "dlg.pip.a.heal": "Pane e pozioni nello zaino, ma la miglior cura è una Pietra della Soglia: toccala e sei di nuovo intero. Ogni villaggio ne ha una in piazza, e c'è anche un letto alla locanda, se hai le monete.",
+  "dlg.pip.a.money": "L'impiegato della gilda in una città dà lavoro ogni giorno: caccia qualche creatura, riporta ciò che lascia. Anche anziani e locandieri hanno lavori, e i negozi comprano ciò che trovi (la scheda Vendi).",
+  "dlg.pip.a.stones": "Risvegliane una toccandola, e potrai tornarci da qualunque altra pietra risvegliata: scegli un posto dall'elenco ed eccoti là. Risveglia tutte quelle che incontri. Mira dice che le strade lunghe sono fatte di pietre.",
+  "dlg.pip.a.first": "Parla con Mira, in piazza. Ha lettere dai sotterranei lontani, ma comincia con le melme del prato, il tumulo a nord-ovest e la cantina a nord-est. Poi gli avamposti, coi viandanti: hanno tutti una storia.",
+  "dlg.pip.a.map": "M apre la mappa di ciò che hai visto. Le regioni hanno un nome in alto sullo schermo, e ogni avamposto ha un cartello. Se ti perdi davvero, cerca una pietra o un villaggio. Ce n'è sempre uno, da qualche parte."
 }
