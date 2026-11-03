@@ -41,6 +41,12 @@ LEGEND = {
     "J": {"tile": 14, "spawner": "base:enemy/astral_curator"},
     "N": {"tile": 14, "spawner": "base:enemy/cinder_colossus"},
     "o": {"prop": "base:art/prop/rock", "radius_x100": 30},
+    "D": {"tile": 14, "spawner": "base:enemy/wolf_dire"},
+    "M": {"tile": 14, "spawner": "base:enemy/slime_magma"},
+    "Z": {"tile": 14, "spawner": "base:enemy/slime_coral"},
+    "P": {"tile": 14, "spawner": "base:enemy/slime_amber"},
+    "H": {"tile": 14, "spawner": "base:enemy/slime_ice"},
+    "O": {"tile": 14, "spawner": "base:enemy/wolf_storm"},
     "T": {"tile": 14, "prop": "base:art/prop/threshold_stone", "radius_x100": 35},  # Threshold Stone (fast travel)
     "V": {"tile": 13, "npc": "villager"},
     "G": {"tile": 13, "npc": "guild_clerk"},
@@ -428,9 +434,60 @@ def citadel() -> dict:
     return stamp("base:stamp/citadel", c, (23, 39), [])
 
 
+def lair(stamp_id: str, wall: str, thickness: int, floor: str, gaps: str, mob: str, other: str, extras: list[tuple[str, int, int]]) -> dict:
+    """A lair: a ring of `wall` around an open floor full of one kind of creature, with a few of another (spec 09, "Landmarks")."""
+    c = Canvas(25, 21)
+    c.rect(1, 1, 23, 19, wall)
+    c.rect(1 + thickness, 1 + thickness, 23 - 2 * thickness, 19 - 2 * thickness, floor)
+    anchor = (12, 10)
+    for side in gaps:  # the ways in: a road three tiles wide through the ring
+        for lane in (11, 12, 13) if side in "ns" else (9, 10, 11):
+            for depth in range(thickness + 1):
+                x, y = {"n": (lane, depth), "s": (lane, 20 - depth), "w": (depth, lane), "e": (24 - depth, lane)}[side]
+                c.put(x, y, "=")
+        if anchor == (12, 10):
+            anchor = {"n": (12, 0), "s": (12, 20), "w": (0, 10), "e": (24, 10)}[side]
+    points = [(x, y) for y in (5, 9, 13) for x in ((6, 10, 14, 18) if y != 9 else (8, 12, 16))]
+    for i, (x, y) in enumerate(points):
+        c.put(x, y, other if i in (3, 5, 8) else mob)
+    for ch, x, y in extras:
+        c.put(x, y, ch)
+    return stamp(stamp_id, c, anchor, [])
+
+
+def den() -> dict:
+    """Ironspine: a den of dire wolves inside a ring of trees."""
+    return lair("base:stamp/den", "t", 2, ".", "e", "D", "W", [("o", 6, 7), ("o", 18, 11), ("o", 10, 15)])
+
+
+def vent() -> dict:
+    """The Ashen Wastes: a ring of stone around a vent of magma slimes."""
+    return lair("base:stamp/vent", "#", 1, "c", "w", "M", "e", [("l", 3, 3), ("l", 21, 3), ("l", 3, 17), ("l", 21, 17)])
+
+
+def grotto() -> dict:
+    """Tidehaven: a coral grotto open to the north and the south."""
+    return lair("base:stamp/grotto", "#", 1, "c", "ns", "Z", "i", [("#", 8, 7), ("#", 16, 7), ("#", 8, 11), ("#", 16, 11)])
+
+
+def amber() -> dict:
+    """Sunscar: a hollow of rocks full of amber slimes."""
+    return lair("base:stamp/amber", "o", 2, ".", "n", "P", "a", [("t", 5, 7), ("t", 19, 7), ("t", 12, 15)])
+
+
+def icepit() -> dict:
+    """Frostveil: a pit of ice slimes with a way in on each side."""
+    return lair("base:stamp/icepit", "#", 1, "c", "ew", "H", "f", [("#", 11, 7), ("#", 13, 11), ("l", 3, 3), ("l", 21, 17)])
+
+
+def roost() -> dict:
+    """Lumeria: a roost of storm wolves inside a ring of trees."""
+    return lair("base:stamp/roost", "t", 2, ".", "s", "O", "d", [("o", 6, 7), ("o", 18, 7), ("o", 12, 11)])
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    for build in (hamlet, village, town, barrow, cellar, mine, cavern, temple, hollow, ziggurat, observatory, citadel):
+    for build in (hamlet, village, town, barrow, cellar, mine, cavern, temple, hollow, ziggurat, observatory, citadel, den, vent, grotto, amber, icepit, roost):
         data = build()
         name = data["id"].split("/")[-1]
         (OUT / f"{name}.json").write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

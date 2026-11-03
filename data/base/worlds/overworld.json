@@ -37,7 +37,13 @@
     { "id": "whisperwood_hollow", "name": "Whisperwood Hollow", "stamp": "base:stamp/hollow", "kind": "dungeon", "dx": -4480, "dy": -2688 },
     { "id": "sunscar_ziggurat", "name": "Sunken Ziggurat", "stamp": "base:stamp/ziggurat", "kind": "dungeon", "dx": 5248, "dy": 3712 },
     { "id": "lumeria_observatory", "name": "Starfall Observatory", "stamp": "base:stamp/observatory", "kind": "dungeon", "dx": -384, "dy": 6528 },
-    { "id": "ashen_citadel", "name": "Cinder Citadel", "stamp": "base:stamp/citadel", "kind": "dungeon", "dx": 7040, "dy": -384 }
+    { "id": "ashen_citadel", "name": "Cinder Citadel", "stamp": "base:stamp/citadel", "kind": "dungeon", "dx": 7040, "dy": -384 },
+    { "id": "ironspine_den", "name": "Dire Den", "stamp": "base:stamp/den", "kind": "dungeon", "dx": 4736, "dy": -4736 },
+    { "id": "ashen_vent", "name": "Magma Vent", "stamp": "base:stamp/vent", "kind": "dungeon", "dx": 6784, "dy": -128 },
+    { "id": "tidehaven_grotto", "name": "Coral Grotto", "stamp": "base:stamp/grotto", "kind": "dungeon", "dx": -5760, "dy": 4224 },
+    { "id": "sunscar_amber", "name": "Amber Hollow", "stamp": "base:stamp/amber", "kind": "dungeon", "dx": 4992, "dy": 3968 },
+    { "id": "frostveil_pit", "name": "Ice Pit", "stamp": "base:stamp/icepit", "kind": "dungeon", "dx": -640, "dy": -6528 },
+    { "id": "lumeria_roost", "name": "Storm Roost", "stamp": "base:stamp/roost", "kind": "dungeon", "dx": -128, "dy": 6272 }
   ],
   "guild": {
     "offers_per_day": 4,

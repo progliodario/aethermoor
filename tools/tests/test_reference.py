@@ -323,3 +323,53 @@ def test_every_elder_offers_a_local_errand_that_pays_once():
         s.start_dialogue(dialogue["id"])
         s.advance()
         assert all(c["next"] not in ("errand_offer", "errand_paid") for c in s.visible_choices())
+
+
+def test_every_innkeeper_has_a_favor_and_every_villager_a_legend():
+    import json
+
+    from reference import story, worldgen
+
+    class Host:
+        x = y = 0.0
+        level = 1
+
+        def __init__(self) -> None:
+            self.inventory: dict[str, int] = {}
+            self.xp = 0
+
+        def grant_xp(self, amount: int) -> None:
+            self.xp += amount
+
+    data = TOOLS.parent / "data" / "base"
+    params = worldgen.load_params()
+    texts = json.loads((data / "i18n" / "en" / "roles.json").read_text(encoding="utf-8"))
+    quests = {}
+    for path in (data / "quests" / "side").glob("*.json"):
+        quest = json.loads(path.read_text(encoding="utf-8"))
+        quests[quest["id"]] = quest
+    for tone in sorted({region["tone"] for region in params["regions"]}):
+        villager = json.loads((data / "dialogues" / "role" / f"villager_{tone}.json").read_text(encoding="utf-8"))
+        assert texts[villager["nodes"]["legend"]["text"].removeprefix("$i18n:")]
+        dialogue = json.loads((data / "dialogues" / "role" / f"innkeeper_{tone}.json").read_text(encoding="utf-8"))
+        host = Host()
+        s = story.Story(host, {"quests": quests, "dialogues": {dialogue["id"]: dialogue}, "npcs": []})
+        s.start_dialogue(dialogue["id"])
+        s.advance()
+        s.choose(next(i for i, c in enumerate(s.visible_choices()) if c["next"] == "pantry_offer"))
+        s.advance()
+        s.choose(0)
+        (quest_id,) = s.quests
+        (objective,) = quests[quest_id]["stages"][0]["objectives"]
+        assert not s.quests[quest_id]["done"]
+        host.inventory[objective["item"]] = objective["count"]
+        s.on_kill("base:enemy/none")
+        assert s.quests[quest_id]["done"]
+        s.start_dialogue(dialogue["id"])
+        s.advance()
+        s.choose(next(i for i, c in enumerate(s.visible_choices()) if c["next"] == "pantry_paid"))
+        assert s.gold > 0 and host.xp > 0 and host.inventory["base:item/potion_medium"] > 0
+        s.advance()
+        s.start_dialogue(dialogue["id"])
+        s.advance()
+        assert all(c["next"] not in ("pantry_offer", "pantry_paid") for c in s.visible_choices())

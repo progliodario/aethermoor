@@ -130,7 +130,8 @@
                   "base:item/bread",
                   "base:item/potion_small",
                   "base:item/iron_sword",
-                  "base:item/leather_vest"
+                  "base:item/leather_vest",
+                  "base:item/honey_cake"
                 ]
               }
             },
@@ -156,6 +157,11 @@
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wolf_dire",
+                  "drop": "base:item/dire_fang",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -163,7 +169,9 @@
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
-                  "base:item/leather_vest"
+                  "base:item/leather_vest",
+                  "base:item/potion_medium",
+                  "base:item/mage_robe"
                 ]
               }
             },
@@ -189,6 +197,11 @@
                   "enemy": "base:enemy/slime_blue",
                   "drop": "base:item/slime_gel",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/wolf_dire",
+                  "drop": "base:item/dire_fang",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -197,7 +210,9 @@
                   "base:item/iron_sword",
                   "base:item/steel_sword",
                   "base:item/chain_mail",
-                  "base:item/leather_vest"
+                  "base:item/leather_vest",
+                  "base:item/knight_sword",
+                  "base:item/brigandine"
                 ]
               }
             },
@@ -218,6 +233,11 @@
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_amber",
+                  "drop": "base:item/amber_drop",
+                  "weight": 3
                 }
               ],
               "shop": {
@@ -226,7 +246,9 @@
                   "base:item/bread",
                   "base:item/potion_small",
                   "base:item/iron_sword",
-                  "base:item/leather_vest"
+                  "base:item/leather_vest",
+                  "base:item/potion_medium",
+                  "base:item/honey_cake"
                 ]
               }
             },
@@ -247,6 +269,11 @@
                   "enemy": "base:enemy/slime_blue",
                   "drop": "base:item/slime_gel",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_ice",
+                  "drop": "base:item/ice_crystal",
+                  "weight": 3
                 }
               ],
               "shop": {
@@ -254,7 +281,10 @@
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
-                  "base:item/chain_mail"
+                  "base:item/chain_mail",
+                  "base:item/potion_medium",
+                  "base:item/hearty_stew",
+                  "base:item/brigandine"
                 ]
               }
             },
@@ -280,6 +310,11 @@
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_coral",
+                  "drop": "base:item/coral_fragment",
+                  "weight": 3
                 }
               ],
               "shop": {
@@ -288,7 +323,10 @@
                   "base:item/bread",
                   "base:item/potion_small",
                   "base:item/iron_sword",
-                  "base:item/steel_sword"
+                  "base:item/steel_sword",
+                  "base:item/grilled_fish",
+                  "base:item/potion_medium",
+                  "base:item/knight_sword"
                 ]
               }
             },
@@ -309,6 +347,16 @@
                   "enemy": "base:enemy/wolf_grey",
                   "drop": "base:item/wolf_fang",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_magma",
+                  "drop": "base:item/magma_shard",
+                  "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/wolf_dire",
+                  "drop": "base:item/dire_fang",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -316,7 +364,10 @@
                 "stock": [
                   "base:item/potion_small",
                   "base:item/steel_sword",
-                  "base:item/chain_mail"
+                  "base:item/chain_mail",
+                  "base:item/potion_large",
+                  "base:item/runed_blade",
+                  "base:item/plate_cuirass"
                 ]
               }
             },
@@ -342,6 +393,11 @@
                   "enemy": "base:enemy/wolf_grey",
                   "drop": "base:item/wolf_fang",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/wolf_storm",
+                  "drop": "base:item/storm_feather",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -349,7 +405,10 @@
                 "stock": [
                   "base:item/potion_small",
                   "base:item/iron_sword",
-                  "base:item/chain_mail"
+                  "base:item/chain_mail",
+                  "base:item/potion_medium",
+                  "base:item/mage_robe",
+                  "base:item/runed_blade"
                 ]
               }
             }
@@ -432,6 +491,54 @@
               "kind": "dungeon",
               "dx": 7040,
               "dy": -384
+            },
+            {
+              "id": "ironspine_den",
+              "name": "Dire Den",
+              "stamp": "base:stamp/den",
+              "kind": "dungeon",
+              "dx": 4736,
+              "dy": -4736
+            },
+            {
+              "id": "ashen_vent",
+              "name": "Magma Vent",
+              "stamp": "base:stamp/vent",
+              "kind": "dungeon",
+              "dx": 6784,
+              "dy": -128
+            },
+            {
+              "id": "tidehaven_grotto",
+              "name": "Coral Grotto",
+              "stamp": "base:stamp/grotto",
+              "kind": "dungeon",
+              "dx": -5760,
+              "dy": 4224
+            },
+            {
+              "id": "sunscar_amber",
+              "name": "Amber Hollow",
+              "stamp": "base:stamp/amber",
+              "kind": "dungeon",
+              "dx": 4992,
+              "dy": 3968
+            },
+            {
+              "id": "frostveil_pit",
+              "name": "Ice Pit",
+              "stamp": "base:stamp/icepit",
+              "kind": "dungeon",
+              "dx": -640,
+              "dy": -6528
+            },
+            {
+              "id": "lumeria_roost",
+              "name": "Storm Roost",
+              "stamp": "base:stamp/roost",
+              "kind": "dungeon",
+              "dx": -128,
+              "dy": 6272
             }
           ],
           "guild": {
@@ -491,6 +598,32 @@
                 "xp_base": 8,
                 "xp_per": 4,
                 "points_base": 3,
+                "points_per": 2
+              },
+              {
+                "id": "purge",
+                "type": "kill",
+                "target": "$fauna",
+                "count_min": 8,
+                "count_max": 12,
+                "gold_base": 20,
+                "gold_per": 14,
+                "xp_base": 20,
+                "xp_per": 7,
+                "points_base": 8,
+                "points_per": 3
+              },
+              {
+                "id": "stockpile",
+                "type": "collect",
+                "target": "$drop",
+                "count_min": 9,
+                "count_max": 15,
+                "gold_base": 14,
+                "gold_per": 10,
+                "xp_base": 14,
+                "xp_per": 5,
+                "points_base": 6,
                 "points_per": 2
               }
             ]
@@ -1952,6 +2085,340 @@
                   "tile": 14,
                   "prop": "base:art/prop/lamp",
                   "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/den": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/den",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                24,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".ttttttttttttttttttttttt.",
+                ".ttttttttttttttttttttttt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tt...D...D...D...W...tt.",
+                ".tt...................tt.",
+                ".tt...o...............tt.",
+                ".tt...................tt.",
+                ".tt.....D...W...D.....===",
+                ".tt...................===",
+                ".tt...............o...===",
+                ".tt...................tt.",
+                ".tt...D...W...D...D...tt.",
+                ".tt...................tt.",
+                ".tt.......o...........tt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".ttttttttttttttttttttttt.",
+                ".ttttttttttttttttttttttt.",
+                "........................."
+              ],
+              "legend": {
+                "=": {
+                  "tile": 11
+                },
+                "D": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_dire"
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/vent": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/vent",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                0,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".#######################.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccMcccMcccMcccecccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                "==ccccccMcccecccMcccccc#.",
+                "==ccccccccccccccccccccc#.",
+                "==ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccMcccecccMcccMcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#######################.",
+                "........................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "M": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_magma"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "e": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ember"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/grotto": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/grotto",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                0
+              ],
+              "rows": [
+                "...........===...........",
+                ".##########===##########.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccZcccZcccZcccicccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccccc#ccccccc#cccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccZcccicccZcccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccccc#ccccccc#cccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccZcccicccZcccZcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".##########===##########.",
+                "...........===..........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "Z": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_coral"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "i": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_tide"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/amber": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/amber",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                0
+              ],
+              "rows": [
+                "...........===...........",
+                ".oooooooooo===oooooooooo.",
+                ".oooooooooo===oooooooooo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...P...P...P...a...oo.",
+                ".oo...................oo.",
+                ".oo..t.............t..oo.",
+                ".oo...................oo.",
+                ".oo.....P...a...P.....oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...P...a...P...P...oo.",
+                ".oo...................oo.",
+                ".oo.........t.........oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".ooooooooooooooooooooooo.",
+                ".ooooooooooooooooooooooo.",
+                "........................."
+              ],
+              "legend": {
+                "=": {
+                  "tile": 11
+                },
+                "P": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_amber"
+                },
+                "a": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_sand"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/icepit": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/icepit",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                24,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".#######################.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccHcccHcccHcccfcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccc#ccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                "==ccccccHcccfcccHcccccc==",
+                "==ccccccccccccccccccccc==",
+                "==ccccccccccc#ccccccccc==",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccHcccfcccHcccHcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#######################.",
+                "........................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "H": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ice"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "f": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_frost"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/roost": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/roost",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                20
+              ],
+              "rows": [
+                ".........................",
+                ".ttttttttttttttttttttttt.",
+                ".ttttttttttttttttttttttt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tt...O...O...O...d...tt.",
+                ".tt...................tt.",
+                ".tt...o...........o...tt.",
+                ".tt...................tt.",
+                ".tt.....O...d...O.....tt.",
+                ".tt...................tt.",
+                ".tt.........o.........tt.",
+                ".tt...................tt.",
+                ".tt...O...d...O...O...tt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tttttttttt===tttttttttt.",
+                ".tttttttttt===tttttttttt.",
+                "...........===..........."
+              ],
+              "legend": {
+                "=": {
+                  "tile": 11
+                },
+                "O": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_storm"
+                },
+                "d": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_shade"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
                 }
               },
               "spots": []
@@ -3421,7 +3888,8 @@
                   "base:item/bread",
                   "base:item/potion_small",
                   "base:item/iron_sword",
-                  "base:item/leather_vest"
+                  "base:item/leather_vest",
+                  "base:item/honey_cake"
                 ]
               }
             },
@@ -3447,6 +3915,11 @@
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wolf_dire",
+                  "drop": "base:item/dire_fang",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -3454,7 +3927,9 @@
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
-                  "base:item/leather_vest"
+                  "base:item/leather_vest",
+                  "base:item/potion_medium",
+                  "base:item/mage_robe"
                 ]
               }
             },
@@ -3480,6 +3955,11 @@
                   "enemy": "base:enemy/slime_blue",
                   "drop": "base:item/slime_gel",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/wolf_dire",
+                  "drop": "base:item/dire_fang",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -3488,7 +3968,9 @@
                   "base:item/iron_sword",
                   "base:item/steel_sword",
                   "base:item/chain_mail",
-                  "base:item/leather_vest"
+                  "base:item/leather_vest",
+                  "base:item/knight_sword",
+                  "base:item/brigandine"
                 ]
               }
             },
@@ -3509,6 +3991,11 @@
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_amber",
+                  "drop": "base:item/amber_drop",
+                  "weight": 3
                 }
               ],
               "shop": {
@@ -3517,7 +4004,9 @@
                   "base:item/bread",
                   "base:item/potion_small",
                   "base:item/iron_sword",
-                  "base:item/leather_vest"
+                  "base:item/leather_vest",
+                  "base:item/potion_medium",
+                  "base:item/honey_cake"
                 ]
               }
             },
@@ -3538,6 +4027,11 @@
                   "enemy": "base:enemy/slime_blue",
                   "drop": "base:item/slime_gel",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_ice",
+                  "drop": "base:item/ice_crystal",
+                  "weight": 3
                 }
               ],
               "shop": {
@@ -3545,7 +4039,10 @@
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
-                  "base:item/chain_mail"
+                  "base:item/chain_mail",
+                  "base:item/potion_medium",
+                  "base:item/hearty_stew",
+                  "base:item/brigandine"
                 ]
               }
             },
@@ -3571,6 +4068,11 @@
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_coral",
+                  "drop": "base:item/coral_fragment",
+                  "weight": 3
                 }
               ],
               "shop": {
@@ -3579,7 +4081,10 @@
                   "base:item/bread",
                   "base:item/potion_small",
                   "base:item/iron_sword",
-                  "base:item/steel_sword"
+                  "base:item/steel_sword",
+                  "base:item/grilled_fish",
+                  "base:item/potion_medium",
+                  "base:item/knight_sword"
                 ]
               }
             },
@@ -3600,6 +4105,16 @@
                   "enemy": "base:enemy/wolf_grey",
                   "drop": "base:item/wolf_fang",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_magma",
+                  "drop": "base:item/magma_shard",
+                  "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/wolf_dire",
+                  "drop": "base:item/dire_fang",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -3607,7 +4122,10 @@
                 "stock": [
                   "base:item/potion_small",
                   "base:item/steel_sword",
-                  "base:item/chain_mail"
+                  "base:item/chain_mail",
+                  "base:item/potion_large",
+                  "base:item/runed_blade",
+                  "base:item/plate_cuirass"
                 ]
               }
             },
@@ -3633,6 +4151,11 @@
                   "enemy": "base:enemy/wolf_grey",
                   "drop": "base:item/wolf_fang",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/wolf_storm",
+                  "drop": "base:item/storm_feather",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -3640,7 +4163,10 @@
                 "stock": [
                   "base:item/potion_small",
                   "base:item/iron_sword",
-                  "base:item/chain_mail"
+                  "base:item/chain_mail",
+                  "base:item/potion_medium",
+                  "base:item/mage_robe",
+                  "base:item/runed_blade"
                 ]
               }
             }
@@ -3723,6 +4249,54 @@
               "kind": "dungeon",
               "dx": 7040,
               "dy": -384
+            },
+            {
+              "id": "ironspine_den",
+              "name": "Dire Den",
+              "stamp": "base:stamp/den",
+              "kind": "dungeon",
+              "dx": 4736,
+              "dy": -4736
+            },
+            {
+              "id": "ashen_vent",
+              "name": "Magma Vent",
+              "stamp": "base:stamp/vent",
+              "kind": "dungeon",
+              "dx": 6784,
+              "dy": -128
+            },
+            {
+              "id": "tidehaven_grotto",
+              "name": "Coral Grotto",
+              "stamp": "base:stamp/grotto",
+              "kind": "dungeon",
+              "dx": -5760,
+              "dy": 4224
+            },
+            {
+              "id": "sunscar_amber",
+              "name": "Amber Hollow",
+              "stamp": "base:stamp/amber",
+              "kind": "dungeon",
+              "dx": 4992,
+              "dy": 3968
+            },
+            {
+              "id": "frostveil_pit",
+              "name": "Ice Pit",
+              "stamp": "base:stamp/icepit",
+              "kind": "dungeon",
+              "dx": -640,
+              "dy": -6528
+            },
+            {
+              "id": "lumeria_roost",
+              "name": "Storm Roost",
+              "stamp": "base:stamp/roost",
+              "kind": "dungeon",
+              "dx": -128,
+              "dy": 6272
             }
           ],
           "guild": {
@@ -3782,6 +4356,32 @@
                 "xp_base": 8,
                 "xp_per": 4,
                 "points_base": 3,
+                "points_per": 2
+              },
+              {
+                "id": "purge",
+                "type": "kill",
+                "target": "$fauna",
+                "count_min": 8,
+                "count_max": 12,
+                "gold_base": 20,
+                "gold_per": 14,
+                "xp_base": 20,
+                "xp_per": 7,
+                "points_base": 8,
+                "points_per": 3
+              },
+              {
+                "id": "stockpile",
+                "type": "collect",
+                "target": "$drop",
+                "count_min": 9,
+                "count_max": 15,
+                "gold_base": 14,
+                "gold_per": 10,
+                "xp_base": 14,
+                "xp_per": 5,
+                "points_base": 6,
                 "points_per": 2
               }
             ]
@@ -5243,6 +5843,340 @@
                   "tile": 14,
                   "prop": "base:art/prop/lamp",
                   "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/den": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/den",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                24,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".ttttttttttttttttttttttt.",
+                ".ttttttttttttttttttttttt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tt...D...D...D...W...tt.",
+                ".tt...................tt.",
+                ".tt...o...............tt.",
+                ".tt...................tt.",
+                ".tt.....D...W...D.....===",
+                ".tt...................===",
+                ".tt...............o...===",
+                ".tt...................tt.",
+                ".tt...D...W...D...D...tt.",
+                ".tt...................tt.",
+                ".tt.......o...........tt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".ttttttttttttttttttttttt.",
+                ".ttttttttttttttttttttttt.",
+                "........................."
+              ],
+              "legend": {
+                "=": {
+                  "tile": 11
+                },
+                "D": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_dire"
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/vent": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/vent",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                0,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".#######################.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccMcccMcccMcccecccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                "==ccccccMcccecccMcccccc#.",
+                "==ccccccccccccccccccccc#.",
+                "==ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccMcccecccMcccMcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#######################.",
+                "........................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "M": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_magma"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "e": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ember"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/grotto": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/grotto",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                0
+              ],
+              "rows": [
+                "...........===...........",
+                ".##########===##########.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccZcccZcccZcccicccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccccc#ccccccc#cccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccZcccicccZcccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccccc#ccccccc#cccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccZcccicccZcccZcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".##########===##########.",
+                "...........===..........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "Z": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_coral"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "i": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_tide"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/amber": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/amber",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                0
+              ],
+              "rows": [
+                "...........===...........",
+                ".oooooooooo===oooooooooo.",
+                ".oooooooooo===oooooooooo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...P...P...P...a...oo.",
+                ".oo...................oo.",
+                ".oo..t.............t..oo.",
+                ".oo...................oo.",
+                ".oo.....P...a...P.....oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...P...a...P...P...oo.",
+                ".oo...................oo.",
+                ".oo.........t.........oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".ooooooooooooooooooooooo.",
+                ".ooooooooooooooooooooooo.",
+                "........................."
+              ],
+              "legend": {
+                "=": {
+                  "tile": 11
+                },
+                "P": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_amber"
+                },
+                "a": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_sand"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/icepit": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/icepit",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                24,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".#######################.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccHcccHcccHcccfcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccc#ccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                "==ccccccHcccfcccHcccccc==",
+                "==ccccccccccccccccccccc==",
+                "==ccccccccccc#ccccccccc==",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccHcccfcccHcccHcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#######################.",
+                "........................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "H": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ice"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "f": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_frost"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/roost": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/roost",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                20
+              ],
+              "rows": [
+                ".........................",
+                ".ttttttttttttttttttttttt.",
+                ".ttttttttttttttttttttttt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tt...O...O...O...d...tt.",
+                ".tt...................tt.",
+                ".tt...o...........o...tt.",
+                ".tt...................tt.",
+                ".tt.....O...d...O.....tt.",
+                ".tt...................tt.",
+                ".tt.........o.........tt.",
+                ".tt...................tt.",
+                ".tt...O...d...O...O...tt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tttttttttt===tttttttttt.",
+                ".tttttttttt===tttttttttt.",
+                "...........===..........."
+              ],
+              "legend": {
+                "=": {
+                  "tile": 11
+                },
+                "O": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_storm"
+                },
+                "d": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_shade"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
                 }
               },
               "spots": []
