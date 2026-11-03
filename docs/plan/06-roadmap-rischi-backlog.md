@@ -260,7 +260,7 @@ Rimangono fissi: i quattro vincoli (spec-first, data-driven, due client, parità
 
 Dopo l'approvazione, ogni voce diventerà un issue con descrizione, criteri di accettazione e label.
 
-## 8. Stato e prossimi passi (aggiornato a M6a)
+## 8. Stato e prossimi passi (aggiornato a novembre 2026)
 
 ### 8.1 Dove siamo
 
@@ -269,12 +269,12 @@ Dopo l'approvazione, ogni voce diventerà un issue con descrizione, criteri di a
 | M0 Fondazioni | fatto | Repo, CI, ADR, schemi, scheletri dei due client |
 | M1 Spec core e conformità | fatto | Numerica intera, RNG, hash, rumore, formule, i18n, loader dei pack |
 | M2 Motore base e arte vettoriale | fatto | Rasterizzatore proprio (ADR 0012), rig/clip, mappa, collisioni, camera |
-| M3 Combattimento | in parte | Fendente, slime, XP, livelli, bottino. Mancano schivata/parata, mana e skill, altri nemici, boss, suoni |
-| M4 Dialoghi, quest, inventario, salvataggi | in parte | Dialoghi, quest, PNG, salvataggi v1, zaino con uso oggetti. **Mancano:** villaggi, negozi, equipaggiamento, diario, impostazioni/slot, export, profilo, 8 quest e 40 dialoghi, Alpha 0.1 |
-| M5 Mondo aperto | in parte | Mondo 16384² in streaming, biomi, fiumi, strade, giorno/notte, meteo, respawn, mappa del mondo. **Mancano:** regioni, insediamenti/stamp/POI, risorse, routine dei PNG, stagioni, Pietre della Soglia (viaggio rapido), Verdalis con 2 dungeon |
+| M3 Combattimento | in parte | Fendente, 60 creature con comportamenti diversi (timide, cacciatrici, pesanti, di guardia), boss ed élite con bottino unico, XP, livelli, difficoltà nei dati. Mancano schivata/parata, mana e skill oltre al fendente, elementi e debolezze (sono nei dati ma non hanno effetto), suoni |
+| M4 Dialoghi, quest, inventario, salvataggi | quasi fatto | Dialoghi e quest con condizioni ed effetti, PNG, salvataggi v1 con tre partite, zaino, negozi, equipaggiamento, diario, lingua, gilda con bacheca e commissioni, lavori degli anziani e dei locandieri, laboratori, locande, 94 quest. **Mancano:** profilo/export, altre impostazioni, Alpha 0.1 |
+| M5 Mondo aperto | quasi fatto | Mondo 16384² in streaming, biomi, fiumi, strade, giorno/notte, stagioni, meteo, respawn, mappa del mondo, otto regioni che modellano il terreno, insediamenti con 11 aspetti, 35 siti a mano (sotterranei con boss, tane, nidi, avamposti con viandanti), routine dei PNG, Pietre della Soglia. **Mancano:** risorse da raccogliere e mestieri, città chiave scritte a mano (Fenwick, Aldermere) |
 | M6-M12 | da fare | Vita lenta, compagni, progressione profonda, contenuti per 8 protagonisti, rifinitura, 1.0 |
 
-Verificato finora: la CI (Windows, Linux, Android) e un primo test a mano della build desktop. Non è stata provata su dispositivi Android.
+Verificato finora: la CI (Windows, Linux, Android), un primo test a mano della build desktop e fotogrammi reali del client desktop (`aethermoor --smoke-test --screenshot-dir=...`) in molti punti del mondo. Non è stata provata su dispositivi Android e non c'è stata ancora una lunga sessione di gioco a mano: il bilanciamento è da provare (`docs/design/balance.md`).
 
 ### 8.2 Direzione scelta: un mondo da isekai con molte storie
 
@@ -290,7 +290,7 @@ Conseguenze sull'ordine del lavoro (tutte le tappe sono spec-first, in entrambi 
 4. **Negozi, equipaggiamento, diario (M4d).** Monete e prezzi, comprare e vendere, slot di equipaggiamento (più armi e armature), diario delle quest, impostazioni e slot di salvataggio.
 5. **Alpha 0.1** con un villaggio scritto a mano (Fenwick) e la gilda di Aldermere dentro il sistema generale. Poi M5 (Pietre della Soglia, routine dei PNG, stagioni, Verdalis con dungeon) e M6-M9 come da roadmap.
 
-Da decidere insieme prima di scrivere contenuti: tono dei villaggi, nomi, fazioni e prime catene di storie (regola di progetto: il design lo decide il proprietario).
+Da decidere con il proprietario: il bilanciamento (il modello dice che i combattimenti sono facili; c'è una manopola `difficulty` nei dati del mondo), gli altri protagonisti e i loro doni, e quando fare una prima release pubblica. Per i contenuti, in generale: tono dei villaggi, nomi, fazioni e prime catene di storie (regola di progetto: il design lo decide il proprietario).
 
 ### 8.3 Come si lavora
 
