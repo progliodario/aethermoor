@@ -152,7 +152,8 @@ def main() -> int:
     commit(args.title, trailers)
     run(["git", "push", "--quiet", "-u", "origin", branch])
     print("3. pull request")
-    existing = run(["gh", "pr", "view", branch, "--json", "url", "-q", ".url"], check=False, capture=True)
+    # only an open pull request counts: a branch name that was used before may have a merged one
+    existing = run(["gh", "pr", "list", "--head", branch, "--state", "open", "--json", "url", "-q", ".[0].url"], check=False, capture=True)
     if existing.returncode == 0 and existing.stdout.strip().startswith("http"):
         url = existing.stdout.strip()
     else:
