@@ -24,6 +24,6 @@
     }
   ],
   "radius_x100": 44,
-  "behavior": "base:behavior/melee_chaser_basic",
+  "behavior": "base:behavior/stalker",
   "art": "base:art/creature/wolf_polar"
 }

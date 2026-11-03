@@ -24,6 +24,6 @@
     }
   ],
   "radius_x100": 34,
-  "behavior": "base:behavior/melee_chaser_basic",
+  "behavior": "base:behavior/skittish",
   "art": "base:art/creature/slime_mint"
 }

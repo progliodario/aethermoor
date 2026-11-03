@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/nebula_staff",
+  "name": "$i18n:item.nebula_staff.name",
+  "description": "$i18n:item.nebula_staff.desc",
+  "kind": "weapon",
+  "rarity": "epic",
+  "price": 1800,
+  "weapon": {
+    "atk": 23,
+    "matk": 0
+  }
+}

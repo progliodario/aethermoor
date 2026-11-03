@@ -1,0 +1,55 @@
+{
+  "$schema": "../../../schemas/stamp.schema.json",
+  "id": "base:stamp/dune",
+  "w": 25,
+  "h": 21,
+  "anchor": [
+    24,
+    10
+  ],
+  "rows": [
+    ".........................",
+    ".ooooooooooooooooooooooo.",
+    ".ooooooooooooooooooooooo.",
+    ".oo...................oo.",
+    ".oo...................oo.",
+    ".oo...7...7...7...a...oo.",
+    ".oo...................oo.",
+    ".oo...o...............oo.",
+    ".oo...................oo.",
+    ".oo.....7...u...7.....===",
+    ".oo...................===",
+    ".oo...............o...===",
+    ".oo...................oo.",
+    ".oo...7...a...7...7...oo.",
+    ".oo...................oo.",
+    ".oo.......o...........oo.",
+    ".oo...................oo.",
+    ".oo...................oo.",
+    ".ooooooooooooooooooooooo.",
+    ".ooooooooooooooooooooooo.",
+    "........................."
+  ],
+  "legend": {
+    "7": {
+      "tile": 14,
+      "spawner": "base:enemy/wolf_dune"
+    },
+    "=": {
+      "tile": 11
+    },
+    "a": {
+      "tile": 14,
+      "spawner": "base:enemy/slime_sand"
+    },
+    "o": {
+      "prop": "base:art/prop/rock",
+      "radius_x100": 30
+    },
+    "u": {
+      "tile": 14,
+      "spawner": "base:enemy/dune_mother"
+    }
+  },
+  "spots": []
+}

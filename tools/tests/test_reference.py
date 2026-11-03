@@ -576,3 +576,88 @@ def test_every_guild_clerk_offers_three_commissions_in_order():
             s.choose(options.index(f"comm_paid_{n}"))
             s.advance()
             assert s.flags[f"comm_clerk_{tone}_{n}_paid"] and s.gold > 0
+
+
+def test_the_wayfarers_tell_three_stories_and_pass_letters_around_a_ring():
+    import json
+
+    from reference import story, worldgen
+
+    data = TOOLS.parent / "data" / "base"
+    world = json.loads((data / "worlds" / "overworld.json").read_text(encoding="utf-8"))
+    people = {n["key"]: n for n in world["npcs"] if n["key"].startswith("wayfarer_")}
+    assert len(people) == 8
+    params = worldgen.load_params()
+    outposts = {landmark["id"].replace("_outpost", ""): landmark for landmark in params["landmarks"] if landmark["id"].endswith("_outpost")}
+    assert len(outposts) == 8
+    quests = {}
+    for path in (data / "quests" / "side").glob("way_*.json"):
+        quest = json.loads(path.read_text(encoding="utf-8"))
+        quests[quest["id"]] = quest
+    dialogues = {}
+    for npc in people.values():
+        doc = json.loads((data / "dialogues" / "npc" / f"{npc['dialogue'].split('/')[-1]}.json").read_text(encoding="utf-8"))
+        dialogues[doc["id"]] = doc
+        # every wayfarer stands in the square of an outpost: one tile below its site point
+        assert any((landmark["dx"], landmark["dy"] + 1) == (npc["dx"], npc["dy"]) for landmark in outposts.values()), npc["key"]
+
+    class Host:
+        x = y = 0.0
+        level = 1
+
+        def __init__(self) -> None:
+            self.inventory: dict[str, int] = {}
+            self.xp = 0
+
+        def grant_xp(self, amount: int) -> None:
+            self.xp += amount
+
+    host = Host()
+    s = story.Story(host, {"quests": quests, "dialogues": dialogues, "npcs": []})
+
+    def talk(key: str) -> None:
+        s.on_talk(key)
+        s.start_dialogue(people[key]["dialogue"])
+
+    def finish(stage_objectives: list) -> None:
+        for objective in stage_objectives:
+            if objective["type"] == "kill":
+                for _ in range(objective["count"]):
+                    s.on_kill(objective["enemy"])
+            elif objective["type"] == "collect":
+                host.inventory[objective["item"]] = objective["count"]
+        s.on_kill("base:enemy/none")
+
+    for key in people:
+        w = key.removeprefix("wayfarer_")
+        q = [f"base:quest/side/way_{w}_{n}" for n in (1, 2, 3)]
+        for n in (1, 2, 3):
+            talk(key)
+            if s.dialogue is not None and s.dialogue[1] in ("q1_thanks", "q2_thanks"):
+                s.advance()  # the thanks of the previous story, then the next offer
+            while s.dialogue is not None and s._node()["type"] == "say" and s.dialogue[1].endswith("_offer") is False:
+                s.advance()
+            assert s.dialogue is not None and s.dialogue[1] == f"q{n}_offer", (key, n, s.dialogue)
+            s.advance()
+            s.choose(0)
+            assert q[n - 1] in s.quests and not s.quests[q[n - 1]]["done"]
+            stages = quests[q[n - 1]]["stages"]
+            if n == 2:
+                (letter,) = stages[0]["objectives"]
+                receiver = letter["npc_key"]
+                talk(receiver)  # the letter arrives: the receiver reads it first, then the player goes back
+                assert s.quests[q[1]]["stage"] == "report"
+                assert s.dialogue is not None and s.dialogue[1] == "letter", receiver
+                while s.dialogue is not None:
+                    s.advance() if s._node()["type"] == "say" else s.choose(len(s.visible_choices()) - 1)
+                talk(key)  # back to the sender: the quest ends on this talk
+                assert s.quests[q[1]]["done"]
+            else:
+                finish(stages[0]["objectives"])
+                if len(stages) > 1:
+                    talk(key)
+                assert s.quests[q[n - 1]]["done"]
+            while s.dialogue is not None:
+                s.advance() if s._node()["type"] == "say" else s.choose(len(s.visible_choices()) - 1)
+        reward = next(e["item"] for e in quests[q[2]]["rewards"] if e["effect"] == "add_item")
+        assert host.inventory.get(reward) == 1, key

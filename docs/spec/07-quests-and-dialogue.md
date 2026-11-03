@@ -165,6 +165,19 @@ Villagers and shopkeepers also answer "How is the road around here?" with a text
   (scaled by the danger of the region), guild points and potions (medium for the first two, a large one for the third).
 - **Gossip.** Villagers answer "Any gossip?" with three lines of their tone in a row (`dlg.gossip.<tone>.<n>`).
 
+## Wayfarers
+
+Eight **wayfarers**, named people with a dialogue each (`base:dialogue/npc/<name>`, key `wayfarer_<name>`), stand in the squares of the outposts (spec 09), one tile below the site point of the landmark (`npcs` of the world data).
+Each tells a story in three quests (`base:quest/side/way_<name>_1..3`), offered in order by a chain of `quest_done`, `quest_active` and `flag` conditions like Mira's:
+
+1. a **task**: one stage with a `kill` and a `collect` objective on the creatures and materials of the region;
+2. a **letter**: stage `deliver` (`talk` to the next wayfarer of the ring), then `report` (`talk` to the sender again). The ring is Tamsin (Verdalis) to Dorn (Ironspine) to Kessa (Ashen Wastes) to Zahra (Sunscar) to Ottavio (Lumeria)
+   to Marlo (Tidehaven) to Ilvi (Frostveil) to Elowen (Whisperwood) and back to Tamsin. A talk satisfies the objective before the dialogue starts, so the receiver finds the quest of its sender in stage `report` and shows
+   a line about the letter once (flag `letter_<sender>_read`);
+3. a **big hunt**: a `kill` and a `collect` objective with larger counts, then a `talk` to report. Its rewards include a unique rare or epic piece of equipment.
+
+Rewards are `add_xp`, `add_gold` and `add_guild_points` of the quest, scaled by the region (100 to 250 percent). Their names are `speaker.wayfarer_<name>` in the texts.
+
 ## Journal
 
 The journal lists every quest of the story state: first those in progress (name, the journal text of the current stage with the quest arguments, and the

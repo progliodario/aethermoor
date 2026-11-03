@@ -58,6 +58,23 @@ LEGEND = {
     "r": {"tile": 14, "spawner": "base:enemy/drowned_captain"},
     "z": {"tile": 14, "spawner": "base:enemy/frost_sovereign"},
     "y": {"tile": 14, "spawner": "base:enemy/vault_warden"},
+    "3": {"tile": 14, "spawner": "base:enemy/slime_mint"},
+    "4": {"tile": 14, "spawner": "base:enemy/wolf_tawny"},
+    "5": {"tile": 14, "spawner": "base:enemy/slime_moss"},
+    "6": {"tile": 14, "spawner": "base:enemy/slime_rust"},
+    "7": {"tile": 14, "spawner": "base:enemy/wolf_dune"},
+    "8": {"tile": 14, "spawner": "base:enemy/wolf_polar"},
+    "9": {"tile": 14, "spawner": "base:enemy/slime_pearl"},
+    "%": {"tile": 14, "spawner": "base:enemy/slime_nebula"},
+    "&": {"tile": 14, "spawner": "base:enemy/slime_char"},
+    "n": {"tile": 14, "spawner": "base:enemy/mint_matron"},
+    "p": {"tile": 14, "spawner": "base:enemy/moss_elder"},
+    "h": {"tile": 14, "spawner": "base:enemy/rust_baron"},
+    "u": {"tile": 14, "spawner": "base:enemy/dune_mother"},
+    "v": {"tile": 14, "spawner": "base:enemy/polar_king"},
+    "0": {"tile": 14, "spawner": "base:enemy/pearl_empress"},
+    "1": {"tile": 14, "spawner": "base:enemy/nebula_heart"},
+    "2": {"tile": 14, "spawner": "base:enemy/char_tyrant"},
     "T": {"tile": 14, "prop": "base:art/prop/threshold_stone", "radius_x100": 35},  # Threshold Stone (fast travel)
     "V": {"tile": 13, "npc": "villager"},
     "G": {"tile": 13, "npc": "guild_clerk"},
@@ -830,11 +847,52 @@ def vault() -> dict:
     return stamp("base:stamp/vault", c, (22, 32), [])
 
 
+def nest_mint() -> dict:
+    """Mint Hollow: a nest of slime mints guarded by an elite."""
+    return lair("base:stamp/mint", "o", 2, ".", "s", "3", "4", "n", [("o", 6, 7), ("o", 18, 11), ("o", 10, 15)])
+
+
+def nest_moss() -> dict:
+    """Mossy Den: a nest of slime mosss guarded by an elite."""
+    return lair("base:stamp/moss", "t", 2, ".", "n", "5", "d", "p", [("o", 6, 7), ("o", 18, 11), ("o", 10, 15)])
+
+
+def nest_rust() -> dict:
+    """Rust Pit: a nest of slime rusts guarded by an elite."""
+    return lair("base:stamp/rust", "#", 1, "c", "ns", "6", "m", "h", [("l", 3, 3), ("l", 21, 3), ("l", 3, 17), ("l", 21, 17)])
+
+
+def nest_dune() -> dict:
+    """Dune Den: a nest of wolf dunes guarded by an elite."""
+    return lair("base:stamp/dune", "o", 2, ".", "e", "7", "a", "u", [("o", 6, 7), ("o", 18, 11), ("o", 10, 15)])
+
+
+def nest_rookery() -> dict:
+    """Polar Rookery: a nest of wolf polars guarded by an elite."""
+    return lair("base:stamp/rookery", "#", 1, "c", "w", "8", "f", "v", [("l", 3, 3), ("l", 21, 3), ("l", 3, 17), ("l", 21, 17)])
+
+
+def nest_shoal() -> dict:
+    """Pearl Shoal: a nest of slime pearls guarded by an elite."""
+    return lair("base:stamp/shoal", "#", 1, "c", "ns", "9", "i", "0", [("l", 3, 3), ("l", 21, 3), ("l", 3, 17), ("l", 21, 17)])
+
+
+def nest_pool() -> dict:
+    """Nebula Pool: a nest of slime nebulas guarded by an elite."""
+    return lair("base:stamp/pool", "o", 2, ".", "s", "%", "g", "1", [("o", 6, 7), ("o", 18, 11), ("o", 10, 15)])
+
+
+def nest_charpit() -> dict:
+    """Char Pit: a nest of slime chars guarded by an elite."""
+    return lair("base:stamp/charpit", "#", 1, "c", "e", "&", "e", "2", [("l", 3, 3), ("l", 21, 3), ("l", 3, 17), ("l", 21, 17)])
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     for build in (hamlet, village, town, barrow, cellar, mine, cavern, temple, hollow, ziggurat, observatory, citadel, den, vent, grotto, amber, icepit, roost, hamlet_b, hamlet_c, village_b, village_c, town_b,
                   outpost_ironspine, outpost_tidehaven, outpost_frostveil, outpost_whisperwood, outpost_sunscar, outpost_lumeria,
-                  outpost_ashen, outpost_verdalis, forge, galleon, keep, vault, hamlet_d, village_d, town_c):
+                  outpost_ashen, outpost_verdalis, forge, galleon, keep, vault, hamlet_d, village_d, town_c,
+                  nest_mint, nest_moss, nest_rust, nest_dune, nest_rookery, nest_shoal, nest_pool, nest_charpit):
         data = build()
         name = data["id"].split("/")[-1]
         path = OUT / f"{name}.json"

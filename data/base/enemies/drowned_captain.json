@@ -24,6 +24,6 @@
     }
   ],
   "radius_x100": 58,
-  "behavior": "base:behavior/melee_chaser_basic",
+  "behavior": "base:behavior/guardian",
   "art": "base:art/creature/drowned_captain"
 }

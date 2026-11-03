@@ -6,6 +6,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- Eight nests, one per region (Mint Hollow close to the start, then Mossy Den, Rust Pit, Dune Den, Polar Rookery, Pearl Shoal, Nebula Pool and Char Pit): rings of the newer creatures with an elite in the middle, level 5 to 16, each dropping a unique rare or epic piece of equipment.
+- Wayfarers (spec 07): eight named people, one in each outpost, each with a story in three quests (a task, a letter carried to another wayfarer across the map and back, and a big hunt) and a unique rare or epic reward. The letters form a ring through the eight regions. Italian and English.
+- Enemy behaviors: five new sets of numbers for the melee chaser (skittish, stalker, brute, lunger, guardian), given to 35 creatures: bosses and elites stay near their posts, wolves hunt from afar or lunge, slate and rust slimes hit hard and slowly, mint and sand slimes are shy.
 - Dialogue engine (spec 07): new condition `gold_at_least` and new effects `spend_gold` and `heal_full` (schemas, reference, both clients, two conformance scenarios), used by the inns.
 - Inns: every innkeeper rents a bed (full health for 8 to 18 gold) and sells food to take along.
 - Guild commissions: each guild clerk gives three two-stage commissions per region (hunt, then gather), unlocked by level and in order, paid in XP, gold, guild points and potions.

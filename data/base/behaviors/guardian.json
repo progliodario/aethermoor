@@ -1,0 +1,11 @@
+{
+  "$schema": "../../../schemas/behavior.schema.json",
+  "id": "base:behavior/guardian",
+  "kind": "melee_chaser",
+  "aggro_x100": 450,
+  "leash_x100": 550,
+  "attack_range_x100": 140,
+  "hit_range_x100": 170,
+  "windup_ticks": 20,
+  "recovery_ticks": 26
+}

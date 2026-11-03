@@ -198,12 +198,12 @@ TEST_CASE("the overworld is streamed from the content pack and is playable", "[w
     REQUIRE(params.has_value());
     REQUIRE(params->width == 16384);
     REQUIRE(params->regions.size() == 8);
-    REQUIRE(params->stamps.size() == 38);
+    REQUIRE(params->stamps.size() == 46);
     REQUIRE(params->home_radius == 72);
 
     const aether::TileMap map = aether::make_stream_map(*params);
     REQUIRE(map.ground.empty());
-    REQUIRE(map.npcs.size() == 1);
+    REQUIRE(map.npcs.size() == 9);  // Mira and the eight wayfarers of the outposts
     REQUIRE(map.npcs[0].key == "guild_clerk_mira");
 
     auto setup = aether::load_combat_setup(demo.pack, map, "base:protagonist/ren", 42, error);

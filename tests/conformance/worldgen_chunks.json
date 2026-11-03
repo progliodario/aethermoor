@@ -637,6 +637,70 @@
               "kind": "dungeon",
               "dx": 6528,
               "dy": 128
+            },
+            {
+              "id": "verdalis_mint",
+              "name": "Mint Hollow",
+              "stamp": "base:stamp/mint",
+              "kind": "dungeon",
+              "dx": -128,
+              "dy": 128
+            },
+            {
+              "id": "whisperwood_moss",
+              "name": "Mossy Den",
+              "stamp": "base:stamp/moss",
+              "kind": "dungeon",
+              "dx": -4736,
+              "dy": -2944
+            },
+            {
+              "id": "ironspine_rust",
+              "name": "Rust Pit",
+              "stamp": "base:stamp/rust",
+              "kind": "dungeon",
+              "dx": 4224,
+              "dy": -4480
+            },
+            {
+              "id": "sunscar_dune",
+              "name": "Dune Den",
+              "stamp": "base:stamp/dune",
+              "kind": "dungeon",
+              "dx": 4736,
+              "dy": 3456
+            },
+            {
+              "id": "frostveil_rookery",
+              "name": "Polar Rookery",
+              "stamp": "base:stamp/rookery",
+              "kind": "dungeon",
+              "dx": -1152,
+              "dy": -7040
+            },
+            {
+              "id": "tidehaven_shoal",
+              "name": "Pearl Shoal",
+              "stamp": "base:stamp/shoal",
+              "kind": "dungeon",
+              "dx": -6272,
+              "dy": 4480
+            },
+            {
+              "id": "lumeria_pool",
+              "name": "Nebula Pool",
+              "stamp": "base:stamp/pool",
+              "kind": "dungeon",
+              "dx": -640,
+              "dy": 6528
+            },
+            {
+              "id": "ashen_wastes_charpit",
+              "name": "Char Pit",
+              "stamp": "base:stamp/charpit",
+              "kind": "dungeon",
+              "dx": 6528,
+              "dy": -640
             }
           ],
           "guild": {
@@ -1210,6 +1274,62 @@
               "variant": "red",
               "dx": 1,
               "dy": -1
+            },
+            {
+              "key": "wayfarer_tamsin",
+              "dialogue": "base:dialogue/npc/tamsin",
+              "variant": "green",
+              "dx": 384,
+              "dy": 129
+            },
+            {
+              "key": "wayfarer_elowen",
+              "dialogue": "base:dialogue/npc/elowen",
+              "variant": "purple",
+              "dx": -4224,
+              "dy": -2687
+            },
+            {
+              "key": "wayfarer_dorn",
+              "dialogue": "base:dialogue/npc/dorn",
+              "variant": "brown",
+              "dx": 4224,
+              "dy": -4735
+            },
+            {
+              "key": "wayfarer_zahra",
+              "dialogue": "base:dialogue/npc/zahra",
+              "variant": "ochre",
+              "dx": 5504,
+              "dy": 3969
+            },
+            {
+              "key": "wayfarer_ilvi",
+              "dialogue": "base:dialogue/npc/ilvi",
+              "variant": "cream",
+              "dx": -1152,
+              "dy": -6527
+            },
+            {
+              "key": "wayfarer_marlo",
+              "dialogue": "base:dialogue/npc/marlo",
+              "variant": "teal",
+              "dx": -6272,
+              "dy": 4225
+            },
+            {
+              "key": "wayfarer_kessa",
+              "dialogue": "base:dialogue/npc/kessa",
+              "variant": "red",
+              "dx": 6784,
+              "dy": -383
+            },
+            {
+              "key": "wayfarer_ottavio",
+              "dialogue": "base:dialogue/npc/ottavio",
+              "variant": "",
+              "dx": -640,
+              "dy": 6273
             }
           ],
           "stamp_defs": {
@@ -4265,6 +4385,478 @@
                 "y": {
                   "tile": 14,
                   "spawner": "base:enemy/vault_warden"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/mint": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/mint",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                20
+              ],
+              "rows": [
+                ".........................",
+                ".ooooooooooooooooooooooo.",
+                ".ooooooooooooooooooooooo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...3...3...3...4...oo.",
+                ".oo...................oo.",
+                ".oo...o...............oo.",
+                ".oo...................oo.",
+                ".oo.....3...n...3.....oo.",
+                ".oo...................oo.",
+                ".oo...............o...oo.",
+                ".oo...................oo.",
+                ".oo...3...4...3...3...oo.",
+                ".oo...................oo.",
+                ".oo.......o...........oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oooooooooo===oooooooooo.",
+                ".oooooooooo===oooooooooo.",
+                "...........===..........."
+              ],
+              "legend": {
+                "3": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_mint"
+                },
+                "4": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_tawny"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "n": {
+                  "tile": 14,
+                  "spawner": "base:enemy/mint_matron"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/moss": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/moss",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                0
+              ],
+              "rows": [
+                "...........===...........",
+                ".tttttttttt===tttttttttt.",
+                ".tttttttttt===tttttttttt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tt...5...5...5...d...tt.",
+                ".tt...................tt.",
+                ".tt...o...............tt.",
+                ".tt...................tt.",
+                ".tt.....5...p...5.....tt.",
+                ".tt...................tt.",
+                ".tt...............o...tt.",
+                ".tt...................tt.",
+                ".tt...5...d...5...5...tt.",
+                ".tt...................tt.",
+                ".tt.......o...........tt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".ttttttttttttttttttttttt.",
+                ".ttttttttttttttttttttttt.",
+                "........................."
+              ],
+              "legend": {
+                "5": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_moss"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "d": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_shade"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "p": {
+                  "tile": 14,
+                  "spawner": "base:enemy/moss_elder"
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/rust": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/rust",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                0
+              ],
+              "rows": [
+                "...........===...........",
+                ".##########===##########.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc6ccc6ccc6cccmcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccccc6ccchccc6cccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc6cccmccc6ccc6cccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".##########===##########.",
+                "...........===..........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "6": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_rust"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "c": {
+                  "tile": 14
+                },
+                "h": {
+                  "tile": 14,
+                  "spawner": "base:enemy/rust_baron"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "m": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_slate"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/dune": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/dune",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                24,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".ooooooooooooooooooooooo.",
+                ".ooooooooooooooooooooooo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...7...7...7...a...oo.",
+                ".oo...................oo.",
+                ".oo...o...............oo.",
+                ".oo...................oo.",
+                ".oo.....7...u...7.....===",
+                ".oo...................===",
+                ".oo...............o...===",
+                ".oo...................oo.",
+                ".oo...7...a...7...7...oo.",
+                ".oo...................oo.",
+                ".oo.......o...........oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".ooooooooooooooooooooooo.",
+                ".ooooooooooooooooooooooo.",
+                "........................."
+              ],
+              "legend": {
+                "7": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_dune"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "a": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_sand"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "u": {
+                  "tile": 14,
+                  "spawner": "base:enemy/dune_mother"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/rookery": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/rookery",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                0,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".#######################.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc8ccc8ccc8cccfcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                "==cccccc8cccvccc8cccccc#.",
+                "==ccccccccccccccccccccc#.",
+                "==ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc8cccfccc8ccc8cccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#######################.",
+                "........................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "8": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_polar"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "c": {
+                  "tile": 14
+                },
+                "f": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_frost"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "v": {
+                  "tile": 14,
+                  "spawner": "base:enemy/polar_king"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/shoal": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/shoal",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                0
+              ],
+              "rows": [
+                "...........===...........",
+                ".##########===##########.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc9ccc9ccc9cccicccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccccc9ccc0ccc9cccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc9ccciccc9ccc9cccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".##########===##########.",
+                "...........===..........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "0": {
+                  "tile": 14,
+                  "spawner": "base:enemy/pearl_empress"
+                },
+                "9": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_pearl"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "c": {
+                  "tile": 14
+                },
+                "i": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_tide"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/pool": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/pool",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                20
+              ],
+              "rows": [
+                ".........................",
+                ".ooooooooooooooooooooooo.",
+                ".ooooooooooooooooooooooo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...%...%...%...g...oo.",
+                ".oo...................oo.",
+                ".oo...o...............oo.",
+                ".oo...................oo.",
+                ".oo.....%...1...%.....oo.",
+                ".oo...................oo.",
+                ".oo...............o...oo.",
+                ".oo...................oo.",
+                ".oo...%...g...%...%...oo.",
+                ".oo...................oo.",
+                ".oo.......o...........oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oooooooooo===oooooooooo.",
+                ".oooooooooo===oooooooooo.",
+                "...........===..........."
+              ],
+              "legend": {
+                "%": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_nebula"
+                },
+                "1": {
+                  "tile": 14,
+                  "spawner": "base:enemy/nebula_heart"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "g": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_glow"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/charpit": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/charpit",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                24,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".#######################.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc&ccc&ccc&cccecccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccccc&ccc2ccc&cccccc==",
+                ".#ccccccccccccccccccccc==",
+                ".#ccccccccccccccccccccc==",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc&ccceccc&ccc&cccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#######################.",
+                "........................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "&": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_char"
+                },
+                "2": {
+                  "tile": 14,
+                  "spawner": "base:enemy/char_tyrant"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "c": {
+                  "tile": 14
+                },
+                "e": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ember"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
                 }
               },
               "spots": []
@@ -5465,6 +6057,70 @@
               "kind": "dungeon",
               "dx": 6528,
               "dy": 128
+            },
+            {
+              "id": "verdalis_mint",
+              "name": "Mint Hollow",
+              "stamp": "base:stamp/mint",
+              "kind": "dungeon",
+              "dx": -128,
+              "dy": 128
+            },
+            {
+              "id": "whisperwood_moss",
+              "name": "Mossy Den",
+              "stamp": "base:stamp/moss",
+              "kind": "dungeon",
+              "dx": -4736,
+              "dy": -2944
+            },
+            {
+              "id": "ironspine_rust",
+              "name": "Rust Pit",
+              "stamp": "base:stamp/rust",
+              "kind": "dungeon",
+              "dx": 4224,
+              "dy": -4480
+            },
+            {
+              "id": "sunscar_dune",
+              "name": "Dune Den",
+              "stamp": "base:stamp/dune",
+              "kind": "dungeon",
+              "dx": 4736,
+              "dy": 3456
+            },
+            {
+              "id": "frostveil_rookery",
+              "name": "Polar Rookery",
+              "stamp": "base:stamp/rookery",
+              "kind": "dungeon",
+              "dx": -1152,
+              "dy": -7040
+            },
+            {
+              "id": "tidehaven_shoal",
+              "name": "Pearl Shoal",
+              "stamp": "base:stamp/shoal",
+              "kind": "dungeon",
+              "dx": -6272,
+              "dy": 4480
+            },
+            {
+              "id": "lumeria_pool",
+              "name": "Nebula Pool",
+              "stamp": "base:stamp/pool",
+              "kind": "dungeon",
+              "dx": -640,
+              "dy": 6528
+            },
+            {
+              "id": "ashen_wastes_charpit",
+              "name": "Char Pit",
+              "stamp": "base:stamp/charpit",
+              "kind": "dungeon",
+              "dx": 6528,
+              "dy": -640
             }
           ],
           "guild": {
@@ -6038,6 +6694,62 @@
               "variant": "red",
               "dx": 1,
               "dy": -1
+            },
+            {
+              "key": "wayfarer_tamsin",
+              "dialogue": "base:dialogue/npc/tamsin",
+              "variant": "green",
+              "dx": 384,
+              "dy": 129
+            },
+            {
+              "key": "wayfarer_elowen",
+              "dialogue": "base:dialogue/npc/elowen",
+              "variant": "purple",
+              "dx": -4224,
+              "dy": -2687
+            },
+            {
+              "key": "wayfarer_dorn",
+              "dialogue": "base:dialogue/npc/dorn",
+              "variant": "brown",
+              "dx": 4224,
+              "dy": -4735
+            },
+            {
+              "key": "wayfarer_zahra",
+              "dialogue": "base:dialogue/npc/zahra",
+              "variant": "ochre",
+              "dx": 5504,
+              "dy": 3969
+            },
+            {
+              "key": "wayfarer_ilvi",
+              "dialogue": "base:dialogue/npc/ilvi",
+              "variant": "cream",
+              "dx": -1152,
+              "dy": -6527
+            },
+            {
+              "key": "wayfarer_marlo",
+              "dialogue": "base:dialogue/npc/marlo",
+              "variant": "teal",
+              "dx": -6272,
+              "dy": 4225
+            },
+            {
+              "key": "wayfarer_kessa",
+              "dialogue": "base:dialogue/npc/kessa",
+              "variant": "red",
+              "dx": 6784,
+              "dy": -383
+            },
+            {
+              "key": "wayfarer_ottavio",
+              "dialogue": "base:dialogue/npc/ottavio",
+              "variant": "",
+              "dx": -640,
+              "dy": 6273
             }
           ],
           "stamp_defs": {
@@ -9093,6 +9805,478 @@
                 "y": {
                   "tile": 14,
                   "spawner": "base:enemy/vault_warden"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/mint": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/mint",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                20
+              ],
+              "rows": [
+                ".........................",
+                ".ooooooooooooooooooooooo.",
+                ".ooooooooooooooooooooooo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...3...3...3...4...oo.",
+                ".oo...................oo.",
+                ".oo...o...............oo.",
+                ".oo...................oo.",
+                ".oo.....3...n...3.....oo.",
+                ".oo...................oo.",
+                ".oo...............o...oo.",
+                ".oo...................oo.",
+                ".oo...3...4...3...3...oo.",
+                ".oo...................oo.",
+                ".oo.......o...........oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oooooooooo===oooooooooo.",
+                ".oooooooooo===oooooooooo.",
+                "...........===..........."
+              ],
+              "legend": {
+                "3": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_mint"
+                },
+                "4": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_tawny"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "n": {
+                  "tile": 14,
+                  "spawner": "base:enemy/mint_matron"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/moss": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/moss",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                0
+              ],
+              "rows": [
+                "...........===...........",
+                ".tttttttttt===tttttttttt.",
+                ".tttttttttt===tttttttttt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tt...5...5...5...d...tt.",
+                ".tt...................tt.",
+                ".tt...o...............tt.",
+                ".tt...................tt.",
+                ".tt.....5...p...5.....tt.",
+                ".tt...................tt.",
+                ".tt...............o...tt.",
+                ".tt...................tt.",
+                ".tt...5...d...5...5...tt.",
+                ".tt...................tt.",
+                ".tt.......o...........tt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".ttttttttttttttttttttttt.",
+                ".ttttttttttttttttttttttt.",
+                "........................."
+              ],
+              "legend": {
+                "5": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_moss"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "d": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_shade"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "p": {
+                  "tile": 14,
+                  "spawner": "base:enemy/moss_elder"
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/rust": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/rust",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                0
+              ],
+              "rows": [
+                "...........===...........",
+                ".##########===##########.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc6ccc6ccc6cccmcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccccc6ccchccc6cccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc6cccmccc6ccc6cccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".##########===##########.",
+                "...........===..........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "6": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_rust"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "c": {
+                  "tile": 14
+                },
+                "h": {
+                  "tile": 14,
+                  "spawner": "base:enemy/rust_baron"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "m": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_slate"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/dune": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/dune",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                24,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".ooooooooooooooooooooooo.",
+                ".ooooooooooooooooooooooo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...7...7...7...a...oo.",
+                ".oo...................oo.",
+                ".oo...o...............oo.",
+                ".oo...................oo.",
+                ".oo.....7...u...7.....===",
+                ".oo...................===",
+                ".oo...............o...===",
+                ".oo...................oo.",
+                ".oo...7...a...7...7...oo.",
+                ".oo...................oo.",
+                ".oo.......o...........oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".ooooooooooooooooooooooo.",
+                ".ooooooooooooooooooooooo.",
+                "........................."
+              ],
+              "legend": {
+                "7": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_dune"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "a": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_sand"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "u": {
+                  "tile": 14,
+                  "spawner": "base:enemy/dune_mother"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/rookery": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/rookery",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                0,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".#######################.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc8ccc8ccc8cccfcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                "==cccccc8cccvccc8cccccc#.",
+                "==ccccccccccccccccccccc#.",
+                "==ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc8cccfccc8ccc8cccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#######################.",
+                "........................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "8": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_polar"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "c": {
+                  "tile": 14
+                },
+                "f": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_frost"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "v": {
+                  "tile": 14,
+                  "spawner": "base:enemy/polar_king"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/shoal": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/shoal",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                0
+              ],
+              "rows": [
+                "...........===...........",
+                ".##########===##########.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc9ccc9ccc9cccicccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccccc9ccc0ccc9cccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc9ccciccc9ccc9cccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".##########===##########.",
+                "...........===..........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "0": {
+                  "tile": 14,
+                  "spawner": "base:enemy/pearl_empress"
+                },
+                "9": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_pearl"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "c": {
+                  "tile": 14
+                },
+                "i": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_tide"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/pool": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/pool",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                20
+              ],
+              "rows": [
+                ".........................",
+                ".ooooooooooooooooooooooo.",
+                ".ooooooooooooooooooooooo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...%...%...%...g...oo.",
+                ".oo...................oo.",
+                ".oo...o...............oo.",
+                ".oo...................oo.",
+                ".oo.....%...1...%.....oo.",
+                ".oo...................oo.",
+                ".oo...............o...oo.",
+                ".oo...................oo.",
+                ".oo...%...g...%...%...oo.",
+                ".oo...................oo.",
+                ".oo.......o...........oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oooooooooo===oooooooooo.",
+                ".oooooooooo===oooooooooo.",
+                "...........===..........."
+              ],
+              "legend": {
+                "%": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_nebula"
+                },
+                "1": {
+                  "tile": 14,
+                  "spawner": "base:enemy/nebula_heart"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "g": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_glow"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/charpit": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/charpit",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                24,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".#######################.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc&ccc&ccc&cccecccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccccc&ccc2ccc&cccccc==",
+                ".#ccccccccccccccccccccc==",
+                ".#ccccccccccccccccccccc==",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc&ccceccc&ccc&cccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#######################.",
+                "........................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "&": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_char"
+                },
+                "2": {
+                  "tile": 14,
+                  "spawner": "base:enemy/char_tyrant"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "c": {
+                  "tile": 14
+                },
+                "e": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ember"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
                 }
               },
               "spots": []
@@ -10060,6 +11244,70 @@
               "kind": "dungeon",
               "dx": 6528,
               "dy": 128
+            },
+            {
+              "id": "verdalis_mint",
+              "name": "Mint Hollow",
+              "stamp": "base:stamp/mint",
+              "kind": "dungeon",
+              "dx": -128,
+              "dy": 128
+            },
+            {
+              "id": "whisperwood_moss",
+              "name": "Mossy Den",
+              "stamp": "base:stamp/moss",
+              "kind": "dungeon",
+              "dx": -4736,
+              "dy": -2944
+            },
+            {
+              "id": "ironspine_rust",
+              "name": "Rust Pit",
+              "stamp": "base:stamp/rust",
+              "kind": "dungeon",
+              "dx": 4224,
+              "dy": -4480
+            },
+            {
+              "id": "sunscar_dune",
+              "name": "Dune Den",
+              "stamp": "base:stamp/dune",
+              "kind": "dungeon",
+              "dx": 4736,
+              "dy": 3456
+            },
+            {
+              "id": "frostveil_rookery",
+              "name": "Polar Rookery",
+              "stamp": "base:stamp/rookery",
+              "kind": "dungeon",
+              "dx": -1152,
+              "dy": -7040
+            },
+            {
+              "id": "tidehaven_shoal",
+              "name": "Pearl Shoal",
+              "stamp": "base:stamp/shoal",
+              "kind": "dungeon",
+              "dx": -6272,
+              "dy": 4480
+            },
+            {
+              "id": "lumeria_pool",
+              "name": "Nebula Pool",
+              "stamp": "base:stamp/pool",
+              "kind": "dungeon",
+              "dx": -640,
+              "dy": 6528
+            },
+            {
+              "id": "ashen_wastes_charpit",
+              "name": "Char Pit",
+              "stamp": "base:stamp/charpit",
+              "kind": "dungeon",
+              "dx": 6528,
+              "dy": -640
             }
           ],
           "guild": {
@@ -10633,6 +11881,62 @@
               "variant": "red",
               "dx": 1,
               "dy": -1
+            },
+            {
+              "key": "wayfarer_tamsin",
+              "dialogue": "base:dialogue/npc/tamsin",
+              "variant": "green",
+              "dx": 384,
+              "dy": 129
+            },
+            {
+              "key": "wayfarer_elowen",
+              "dialogue": "base:dialogue/npc/elowen",
+              "variant": "purple",
+              "dx": -4224,
+              "dy": -2687
+            },
+            {
+              "key": "wayfarer_dorn",
+              "dialogue": "base:dialogue/npc/dorn",
+              "variant": "brown",
+              "dx": 4224,
+              "dy": -4735
+            },
+            {
+              "key": "wayfarer_zahra",
+              "dialogue": "base:dialogue/npc/zahra",
+              "variant": "ochre",
+              "dx": 5504,
+              "dy": 3969
+            },
+            {
+              "key": "wayfarer_ilvi",
+              "dialogue": "base:dialogue/npc/ilvi",
+              "variant": "cream",
+              "dx": -1152,
+              "dy": -6527
+            },
+            {
+              "key": "wayfarer_marlo",
+              "dialogue": "base:dialogue/npc/marlo",
+              "variant": "teal",
+              "dx": -6272,
+              "dy": 4225
+            },
+            {
+              "key": "wayfarer_kessa",
+              "dialogue": "base:dialogue/npc/kessa",
+              "variant": "red",
+              "dx": 6784,
+              "dy": -383
+            },
+            {
+              "key": "wayfarer_ottavio",
+              "dialogue": "base:dialogue/npc/ottavio",
+              "variant": "",
+              "dx": -640,
+              "dy": 6273
             }
           ],
           "stamp_defs": {
@@ -13691,6 +14995,478 @@
                 }
               },
               "spots": []
+            },
+            "base:stamp/mint": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/mint",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                20
+              ],
+              "rows": [
+                ".........................",
+                ".ooooooooooooooooooooooo.",
+                ".ooooooooooooooooooooooo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...3...3...3...4...oo.",
+                ".oo...................oo.",
+                ".oo...o...............oo.",
+                ".oo...................oo.",
+                ".oo.....3...n...3.....oo.",
+                ".oo...................oo.",
+                ".oo...............o...oo.",
+                ".oo...................oo.",
+                ".oo...3...4...3...3...oo.",
+                ".oo...................oo.",
+                ".oo.......o...........oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oooooooooo===oooooooooo.",
+                ".oooooooooo===oooooooooo.",
+                "...........===..........."
+              ],
+              "legend": {
+                "3": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_mint"
+                },
+                "4": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_tawny"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "n": {
+                  "tile": 14,
+                  "spawner": "base:enemy/mint_matron"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/moss": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/moss",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                0
+              ],
+              "rows": [
+                "...........===...........",
+                ".tttttttttt===tttttttttt.",
+                ".tttttttttt===tttttttttt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tt...5...5...5...d...tt.",
+                ".tt...................tt.",
+                ".tt...o...............tt.",
+                ".tt...................tt.",
+                ".tt.....5...p...5.....tt.",
+                ".tt...................tt.",
+                ".tt...............o...tt.",
+                ".tt...................tt.",
+                ".tt...5...d...5...5...tt.",
+                ".tt...................tt.",
+                ".tt.......o...........tt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".ttttttttttttttttttttttt.",
+                ".ttttttttttttttttttttttt.",
+                "........................."
+              ],
+              "legend": {
+                "5": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_moss"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "d": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_shade"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "p": {
+                  "tile": 14,
+                  "spawner": "base:enemy/moss_elder"
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/rust": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/rust",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                0
+              ],
+              "rows": [
+                "...........===...........",
+                ".##########===##########.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc6ccc6ccc6cccmcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccccc6ccchccc6cccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc6cccmccc6ccc6cccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".##########===##########.",
+                "...........===..........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "6": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_rust"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "c": {
+                  "tile": 14
+                },
+                "h": {
+                  "tile": 14,
+                  "spawner": "base:enemy/rust_baron"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "m": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_slate"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/dune": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/dune",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                24,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".ooooooooooooooooooooooo.",
+                ".ooooooooooooooooooooooo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...7...7...7...a...oo.",
+                ".oo...................oo.",
+                ".oo...o...............oo.",
+                ".oo...................oo.",
+                ".oo.....7...u...7.....===",
+                ".oo...................===",
+                ".oo...............o...===",
+                ".oo...................oo.",
+                ".oo...7...a...7...7...oo.",
+                ".oo...................oo.",
+                ".oo.......o...........oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".ooooooooooooooooooooooo.",
+                ".ooooooooooooooooooooooo.",
+                "........................."
+              ],
+              "legend": {
+                "7": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_dune"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "a": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_sand"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "u": {
+                  "tile": 14,
+                  "spawner": "base:enemy/dune_mother"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/rookery": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/rookery",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                0,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".#######################.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc8ccc8ccc8cccfcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                "==cccccc8cccvccc8cccccc#.",
+                "==ccccccccccccccccccccc#.",
+                "==ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc8cccfccc8ccc8cccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#######################.",
+                "........................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "8": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_polar"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "c": {
+                  "tile": 14
+                },
+                "f": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_frost"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "v": {
+                  "tile": 14,
+                  "spawner": "base:enemy/polar_king"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/shoal": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/shoal",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                0
+              ],
+              "rows": [
+                "...........===...........",
+                ".##########===##########.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc9ccc9ccc9cccicccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccccc9ccc0ccc9cccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc9ccciccc9ccc9cccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".##########===##########.",
+                "...........===..........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "0": {
+                  "tile": 14,
+                  "spawner": "base:enemy/pearl_empress"
+                },
+                "9": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_pearl"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "c": {
+                  "tile": 14
+                },
+                "i": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_tide"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/pool": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/pool",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                20
+              ],
+              "rows": [
+                ".........................",
+                ".ooooooooooooooooooooooo.",
+                ".ooooooooooooooooooooooo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...%...%...%...g...oo.",
+                ".oo...................oo.",
+                ".oo...o...............oo.",
+                ".oo...................oo.",
+                ".oo.....%...1...%.....oo.",
+                ".oo...................oo.",
+                ".oo...............o...oo.",
+                ".oo...................oo.",
+                ".oo...%...g...%...%...oo.",
+                ".oo...................oo.",
+                ".oo.......o...........oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oooooooooo===oooooooooo.",
+                ".oooooooooo===oooooooooo.",
+                "...........===..........."
+              ],
+              "legend": {
+                "%": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_nebula"
+                },
+                "1": {
+                  "tile": 14,
+                  "spawner": "base:enemy/nebula_heart"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "g": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_glow"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/charpit": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/charpit",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                24,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".#######################.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc&ccc&ccc&cccecccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccccc&ccc2ccc&cccccc==",
+                ".#ccccccccccccccccccccc==",
+                ".#ccccccccccccccccccccc==",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc&ccceccc&ccc&cccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#######################.",
+                "........................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "&": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_char"
+                },
+                "2": {
+                  "tile": 14,
+                  "spawner": "base:enemy/char_tyrant"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "c": {
+                  "tile": 14
+                },
+                "e": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ember"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
             }
           }
         }
@@ -14569,166 +16345,168 @@
           },
           {
             "chunk": [
-              228,
-              44
+              220,
+              36
             ],
             "probes": [
               [
-                14,
-                19,
-                4
-              ],
-              [
-                26,
-                25,
-                6
-              ],
-              [
-                29,
-                12,
-                2
-              ],
-              [
-                10,
-                10,
-                4
-              ],
-              [
-                25,
-                28,
-                6
-              ],
-              [
-                15,
+                7,
                 21,
-                4
+                6
               ],
               [
-                28,
-                22,
-                6
+                1,
+                23,
+                8
               ],
               [
                 30,
-                5,
-                1
+                17,
+                2
               ],
               [
-                22,
-                27,
+                2,
+                26,
+                8
+              ],
+              [
+                4,
+                24,
+                8
+              ],
+              [
+                17,
+                18,
                 6
               ],
               [
-                11,
-                14,
-                4
+                7,
+                26,
+                6
               ],
               [
-                27,
+                25,
+                22,
+                6
+              ],
+              [
+                9,
                 24,
                 6
               ],
               [
-                30,
-                16,
-                2
+                3,
+                0,
+                14
+              ],
+              [
+                7,
+                1,
+                14
+              ],
+              [
+                10,
+                31,
+                6
               ]
             ],
-            "tile_digest": "0xb055ec796b312107",
-            "prop_count": 11,
-            "prop_digest": "0x2fa1b8287b47f026",
-            "spawner_count": 0,
-            "spawner_digest": "0x0000000000000000",
+            "tile_digest": "0x9cf52dc76ed06ecb",
+            "prop_count": 25,
+            "prop_digest": "0x99c0318abbd07a60",
+            "spawner_count": 4,
+            "spawner_digest": "0x1785cbea68dcfc16",
             "people": [],
             "gid_histogram": {
-              "1": 86,
-              "2": 81,
-              "4": 573,
-              "6": 278,
-              "10": 5,
-              "14": 1
+              "1": 100,
+              "2": 115,
+              "5": 39,
+              "6": 459,
+              "8": 118,
+              "11": 4,
+              "14": 189
             }
           },
           {
             "chunk": [
-              228,
-              44
+              220,
+              36
             ],
             "probes": [
               [
-                14,
-                19,
-                4
-              ],
-              [
-                26,
-                25,
-                6
-              ],
-              [
-                29,
-                12,
-                2
-              ],
-              [
-                10,
-                10,
-                4
-              ],
-              [
-                25,
-                28,
-                6
-              ],
-              [
-                15,
+                7,
                 21,
-                4
+                6
               ],
               [
-                28,
-                22,
-                6
+                1,
+                23,
+                8
               ],
               [
                 30,
-                5,
-                1
+                17,
+                2
               ],
               [
-                22,
-                27,
+                2,
+                26,
+                8
+              ],
+              [
+                4,
+                24,
+                8
+              ],
+              [
+                17,
+                18,
                 6
               ],
               [
-                11,
-                14,
-                4
+                7,
+                26,
+                6
               ],
               [
-                27,
+                25,
+                22,
+                6
+              ],
+              [
+                9,
                 24,
                 6
               ],
               [
-                30,
-                16,
-                2
+                3,
+                0,
+                14
+              ],
+              [
+                7,
+                1,
+                14
+              ],
+              [
+                10,
+                31,
+                6
               ]
             ],
-            "tile_digest": "0xb055ec796b312107",
-            "prop_count": 11,
-            "prop_digest": "0x2fa1b8287b47f026",
-            "spawner_count": 0,
-            "spawner_digest": "0x0000000000000000",
+            "tile_digest": "0x9cf52dc76ed06ecb",
+            "prop_count": 25,
+            "prop_digest": "0x99c0318abbd07a60",
+            "spawner_count": 4,
+            "spawner_digest": "0x1785cbea68dcfc16",
             "people": [],
             "gid_histogram": {
-              "1": 86,
-              "2": 81,
-              "4": 573,
-              "6": 278,
-              "10": 5,
-              "14": 1
+              "1": 100,
+              "2": 115,
+              "5": 39,
+              "6": 459,
+              "8": 118,
+              "11": 4,
+              "14": 189
             }
           }
         ]
@@ -15368,6 +17146,70 @@
               "kind": "dungeon",
               "dx": 6528,
               "dy": 128
+            },
+            {
+              "id": "verdalis_mint",
+              "name": "Mint Hollow",
+              "stamp": "base:stamp/mint",
+              "kind": "dungeon",
+              "dx": -128,
+              "dy": 128
+            },
+            {
+              "id": "whisperwood_moss",
+              "name": "Mossy Den",
+              "stamp": "base:stamp/moss",
+              "kind": "dungeon",
+              "dx": -4736,
+              "dy": -2944
+            },
+            {
+              "id": "ironspine_rust",
+              "name": "Rust Pit",
+              "stamp": "base:stamp/rust",
+              "kind": "dungeon",
+              "dx": 4224,
+              "dy": -4480
+            },
+            {
+              "id": "sunscar_dune",
+              "name": "Dune Den",
+              "stamp": "base:stamp/dune",
+              "kind": "dungeon",
+              "dx": 4736,
+              "dy": 3456
+            },
+            {
+              "id": "frostveil_rookery",
+              "name": "Polar Rookery",
+              "stamp": "base:stamp/rookery",
+              "kind": "dungeon",
+              "dx": -1152,
+              "dy": -7040
+            },
+            {
+              "id": "tidehaven_shoal",
+              "name": "Pearl Shoal",
+              "stamp": "base:stamp/shoal",
+              "kind": "dungeon",
+              "dx": -6272,
+              "dy": 4480
+            },
+            {
+              "id": "lumeria_pool",
+              "name": "Nebula Pool",
+              "stamp": "base:stamp/pool",
+              "kind": "dungeon",
+              "dx": -640,
+              "dy": 6528
+            },
+            {
+              "id": "ashen_wastes_charpit",
+              "name": "Char Pit",
+              "stamp": "base:stamp/charpit",
+              "kind": "dungeon",
+              "dx": 6528,
+              "dy": -640
             }
           ],
           "guild": {
@@ -15941,6 +17783,62 @@
               "variant": "red",
               "dx": 1,
               "dy": -1
+            },
+            {
+              "key": "wayfarer_tamsin",
+              "dialogue": "base:dialogue/npc/tamsin",
+              "variant": "green",
+              "dx": 384,
+              "dy": 129
+            },
+            {
+              "key": "wayfarer_elowen",
+              "dialogue": "base:dialogue/npc/elowen",
+              "variant": "purple",
+              "dx": -4224,
+              "dy": -2687
+            },
+            {
+              "key": "wayfarer_dorn",
+              "dialogue": "base:dialogue/npc/dorn",
+              "variant": "brown",
+              "dx": 4224,
+              "dy": -4735
+            },
+            {
+              "key": "wayfarer_zahra",
+              "dialogue": "base:dialogue/npc/zahra",
+              "variant": "ochre",
+              "dx": 5504,
+              "dy": 3969
+            },
+            {
+              "key": "wayfarer_ilvi",
+              "dialogue": "base:dialogue/npc/ilvi",
+              "variant": "cream",
+              "dx": -1152,
+              "dy": -6527
+            },
+            {
+              "key": "wayfarer_marlo",
+              "dialogue": "base:dialogue/npc/marlo",
+              "variant": "teal",
+              "dx": -6272,
+              "dy": 4225
+            },
+            {
+              "key": "wayfarer_kessa",
+              "dialogue": "base:dialogue/npc/kessa",
+              "variant": "red",
+              "dx": 6784,
+              "dy": -383
+            },
+            {
+              "key": "wayfarer_ottavio",
+              "dialogue": "base:dialogue/npc/ottavio",
+              "variant": "",
+              "dx": -640,
+              "dy": 6273
             }
           ],
           "stamp_defs": {
@@ -18999,6 +20897,478 @@
                 }
               },
               "spots": []
+            },
+            "base:stamp/mint": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/mint",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                20
+              ],
+              "rows": [
+                ".........................",
+                ".ooooooooooooooooooooooo.",
+                ".ooooooooooooooooooooooo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...3...3...3...4...oo.",
+                ".oo...................oo.",
+                ".oo...o...............oo.",
+                ".oo...................oo.",
+                ".oo.....3...n...3.....oo.",
+                ".oo...................oo.",
+                ".oo...............o...oo.",
+                ".oo...................oo.",
+                ".oo...3...4...3...3...oo.",
+                ".oo...................oo.",
+                ".oo.......o...........oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oooooooooo===oooooooooo.",
+                ".oooooooooo===oooooooooo.",
+                "...........===..........."
+              ],
+              "legend": {
+                "3": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_mint"
+                },
+                "4": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_tawny"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "n": {
+                  "tile": 14,
+                  "spawner": "base:enemy/mint_matron"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/moss": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/moss",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                0
+              ],
+              "rows": [
+                "...........===...........",
+                ".tttttttttt===tttttttttt.",
+                ".tttttttttt===tttttttttt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tt...5...5...5...d...tt.",
+                ".tt...................tt.",
+                ".tt...o...............tt.",
+                ".tt...................tt.",
+                ".tt.....5...p...5.....tt.",
+                ".tt...................tt.",
+                ".tt...............o...tt.",
+                ".tt...................tt.",
+                ".tt...5...d...5...5...tt.",
+                ".tt...................tt.",
+                ".tt.......o...........tt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".ttttttttttttttttttttttt.",
+                ".ttttttttttttttttttttttt.",
+                "........................."
+              ],
+              "legend": {
+                "5": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_moss"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "d": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_shade"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "p": {
+                  "tile": 14,
+                  "spawner": "base:enemy/moss_elder"
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/rust": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/rust",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                0
+              ],
+              "rows": [
+                "...........===...........",
+                ".##########===##########.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc6ccc6ccc6cccmcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccccc6ccchccc6cccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc6cccmccc6ccc6cccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".##########===##########.",
+                "...........===..........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "6": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_rust"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "c": {
+                  "tile": 14
+                },
+                "h": {
+                  "tile": 14,
+                  "spawner": "base:enemy/rust_baron"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "m": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_slate"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/dune": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/dune",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                24,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".ooooooooooooooooooooooo.",
+                ".ooooooooooooooooooooooo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...7...7...7...a...oo.",
+                ".oo...................oo.",
+                ".oo...o...............oo.",
+                ".oo...................oo.",
+                ".oo.....7...u...7.....===",
+                ".oo...................===",
+                ".oo...............o...===",
+                ".oo...................oo.",
+                ".oo...7...a...7...7...oo.",
+                ".oo...................oo.",
+                ".oo.......o...........oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".ooooooooooooooooooooooo.",
+                ".ooooooooooooooooooooooo.",
+                "........................."
+              ],
+              "legend": {
+                "7": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_dune"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "a": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_sand"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "u": {
+                  "tile": 14,
+                  "spawner": "base:enemy/dune_mother"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/rookery": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/rookery",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                0,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".#######################.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc8ccc8ccc8cccfcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                "==cccccc8cccvccc8cccccc#.",
+                "==ccccccccccccccccccccc#.",
+                "==ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc8cccfccc8ccc8cccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#######################.",
+                "........................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "8": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_polar"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "c": {
+                  "tile": 14
+                },
+                "f": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_frost"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "v": {
+                  "tile": 14,
+                  "spawner": "base:enemy/polar_king"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/shoal": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/shoal",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                0
+              ],
+              "rows": [
+                "...........===...........",
+                ".##########===##########.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc9ccc9ccc9cccicccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccccc9ccc0ccc9cccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc9ccciccc9ccc9cccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".##########===##########.",
+                "...........===..........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "0": {
+                  "tile": 14,
+                  "spawner": "base:enemy/pearl_empress"
+                },
+                "9": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_pearl"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "c": {
+                  "tile": 14
+                },
+                "i": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_tide"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/pool": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/pool",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                20
+              ],
+              "rows": [
+                ".........................",
+                ".ooooooooooooooooooooooo.",
+                ".ooooooooooooooooooooooo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...%...%...%...g...oo.",
+                ".oo...................oo.",
+                ".oo...o...............oo.",
+                ".oo...................oo.",
+                ".oo.....%...1...%.....oo.",
+                ".oo...................oo.",
+                ".oo...............o...oo.",
+                ".oo...................oo.",
+                ".oo...%...g...%...%...oo.",
+                ".oo...................oo.",
+                ".oo.......o...........oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oooooooooo===oooooooooo.",
+                ".oooooooooo===oooooooooo.",
+                "...........===..........."
+              ],
+              "legend": {
+                "%": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_nebula"
+                },
+                "1": {
+                  "tile": 14,
+                  "spawner": "base:enemy/nebula_heart"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "g": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_glow"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/charpit": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/charpit",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                24,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".#######################.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc&ccc&ccc&cccecccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccccc&ccc2ccc&cccccc==",
+                ".#ccccccccccccccccccccc==",
+                ".#ccccccccccccccccccccc==",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccc&ccceccc&ccc&cccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#######################.",
+                "........................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "&": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_char"
+                },
+                "2": {
+                  "tile": 14,
+                  "spawner": "base:enemy/char_tyrant"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "c": {
+                  "tile": 14
+                },
+                "e": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ember"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
             }
           }
         }
@@ -19420,166 +21790,168 @@
           },
           {
             "chunk": [
-              228,
-              44
+              220,
+              36
             ],
             "probes": [
               [
-                6,
-                30,
+                9,
+                8,
+                14
+              ],
+              [
+                29,
+                19,
+                8
+              ],
+              [
+                25,
+                3,
+                8
+              ],
+              [
+                4,
+                7,
+                14
+              ],
+              [
+                27,
+                25,
+                8
+              ],
+              [
+                13,
+                11,
                 7
               ],
               [
-                28,
-                29,
-                4
+                15,
+                25,
+                9
+              ],
+              [
+                18,
+                2,
+                14
+              ],
+              [
+                2,
+                22,
+                8
+              ],
+              [
+                8,
+                7,
+                14
               ],
               [
                 1,
-                15,
-                7
-              ],
-              [
-                13,
-                13,
-                7
-              ],
-              [
-                15,
-                23,
-                6
-              ],
-              [
-                26,
-                17,
-                4
-              ],
-              [
-                0,
-                12,
-                7
-              ],
-              [
-                16,
-                4,
-                7
-              ],
-              [
-                4,
-                14,
-                7
-              ],
-              [
-                0,
-                18,
-                7
-              ],
-              [
-                5,
                 31,
-                7
+                9
               ],
               [
-                21,
-                13,
-                6
+                30,
+                22,
+                8
               ]
             ],
-            "tile_digest": "0x3048f0515dea6baa",
-            "prop_count": 43,
-            "prop_digest": "0x3760a6beaa5185a8",
-            "spawner_count": 0,
-            "spawner_digest": "0x0000000000000000",
+            "tile_digest": "0x8a881613fd8eded3",
+            "prop_count": 108,
+            "prop_digest": "0x0fd4bc8123feab66",
+            "spawner_count": 4,
+            "spawner_digest": "0x1785cbea68dcfc16",
             "people": [],
             "gid_histogram": {
-              "1": 24,
-              "2": 25,
-              "4": 279,
-              "6": 153,
-              "7": 542,
-              "14": 1
+              "4": 40,
+              "5": 39,
+              "7": 142,
+              "8": 248,
+              "9": 362,
+              "11": 4,
+              "14": 189
             }
           },
           {
             "chunk": [
-              228,
-              44
+              220,
+              36
             ],
             "probes": [
               [
-                6,
-                30,
+                9,
+                8,
+                14
+              ],
+              [
+                29,
+                19,
+                8
+              ],
+              [
+                25,
+                3,
+                8
+              ],
+              [
+                4,
+                7,
+                14
+              ],
+              [
+                27,
+                25,
+                8
+              ],
+              [
+                13,
+                11,
                 7
               ],
               [
-                28,
-                29,
-                4
+                15,
+                25,
+                9
+              ],
+              [
+                18,
+                2,
+                14
+              ],
+              [
+                2,
+                22,
+                8
+              ],
+              [
+                8,
+                7,
+                14
               ],
               [
                 1,
-                15,
-                7
-              ],
-              [
-                13,
-                13,
-                7
-              ],
-              [
-                15,
-                23,
-                6
-              ],
-              [
-                26,
-                17,
-                4
-              ],
-              [
-                0,
-                12,
-                7
-              ],
-              [
-                16,
-                4,
-                7
-              ],
-              [
-                4,
-                14,
-                7
-              ],
-              [
-                0,
-                18,
-                7
-              ],
-              [
-                5,
                 31,
-                7
+                9
               ],
               [
-                21,
-                13,
-                6
+                30,
+                22,
+                8
               ]
             ],
-            "tile_digest": "0x3048f0515dea6baa",
-            "prop_count": 43,
-            "prop_digest": "0x3760a6beaa5185a8",
-            "spawner_count": 0,
-            "spawner_digest": "0x0000000000000000",
+            "tile_digest": "0x8a881613fd8eded3",
+            "prop_count": 108,
+            "prop_digest": "0x0fd4bc8123feab66",
+            "spawner_count": 4,
+            "spawner_digest": "0x1785cbea68dcfc16",
             "people": [],
             "gid_histogram": {
-              "1": 24,
-              "2": 25,
-              "4": 279,
-              "6": 153,
-              "7": 542,
-              "14": 1
+              "4": 40,
+              "5": 39,
+              "7": 142,
+              "8": 248,
+              "9": 362,
+              "11": 4,
+              "14": 189
             }
           },
           {

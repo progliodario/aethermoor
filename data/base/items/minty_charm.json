@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/minty_charm",
+  "name": "$i18n:item.minty_charm.name",
+  "description": "$i18n:item.minty_charm.desc",
+  "kind": "armor",
+  "rarity": "rare",
+  "price": 300,
+  "armor": {
+    "def": 3,
+    "mdef": 3
+  }
+}

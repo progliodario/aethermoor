@@ -24,6 +24,6 @@
     }
   ],
   "radius_x100": 52,
-  "behavior": "base:behavior/melee_chaser_basic",
+  "behavior": "base:behavior/guardian",
   "art": "base:art/creature/coral_matron"
 }

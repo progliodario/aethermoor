@@ -89,6 +89,10 @@ Eight **outposts** (landmarks of `kind` `hamlet`) stand near the dungeons of eac
 a curtain wall, four towers and the Frost Sovereign in the keep) and the Obsidian Vault (`vault`, the Ashen Wastes: a cross of four arms and the Vault Warden at the end of the north arm). Each has a Threshold Stone at its entrance.
 Nine more creatures live in the fauna of the regions (levels 2 to 12: mint slimes, tawny wolves, moss slimes, rust slimes, dune wolves, polar wolves, pearl slimes, nebula slimes and char slimes), each with a material for the guild's commissions.
 
+Eight **nests** complete the map: small lairs of the creatures that came with the commissions, one in each region, in the free site cell nearest to its center: the Mint Hollow (`mint`, Verdalis, only about 180 tiles from the start),
+the Mossy Den (`moss`), the Rust Pit (`rust`), the Dune Den (`dune`), the Polar Rookery (`rookery`), the Pearl Shoal (`shoal`), the Nebula Pool (`pool`) and the Char Pit (`charpit`). They are built like the lairs (ring, eight spawners of the creature and three of
+a second one) with an elite in the middle that stays near its post (behavior `guardian`) and drops a unique rare or epic piece: from the Minty charm vest (defense 3) of the Mint Matron, level 5, to the Char tyrant's blade (attack 30), level 16.
+
 Settlements have more than one look: `settlements.kinds[].stamps` lists the stamps of a kind and the site picks one of them (step 3 above). Hamlets have four (`hamlet`, `hamlet_b` with two houses, `hamlet_c` with a barn and `hamlet_d` a crossroads), villages four (`village`, `village_b` four houses around a square, `village_c` a main street and `village_d` a long street) and towns three (`town` walled, `town_b` open around a big plaza and `town_c` with the guild hall on the square). All of a kind keep the same roles.
 
 ## Settlement people
