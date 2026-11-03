@@ -18,6 +18,7 @@ A condition is a JSON object with exactly one key:
 | `quest_stage` | `{quest, stage}` | the quest is active and its current stage is `stage` |
 | `has_item` | `{item, qty}` | the inventory holds at least `qty` of the item |
 | `level_at_least` | integer | the player level is at least that value |
+| `gold_at_least` | integer | the gold is at least that value |
 
 ## Effects (closed catalog, v1)
 
@@ -28,6 +29,8 @@ An effect is an object with `effect` plus parameters, applied in list order:
 | `add_xp` | `amount` | `xp += amount`, then the level-up loop of spec 05 |
 | `add_gold` | `amount` | `gold += amount` |
 | `add_item` | `item`, `qty` | inventory `item += qty` |
+| `spend_gold` | `amount` | `gold = max(0, gold - amount)` (guard it with `gold_at_least`) |
+| `heal_full` | none | the health of the player becomes the maximum |
 | `remove_item` | `item`, `qty` | inventory `item -= min(qty, held)`; the entry disappears at 0 (guard it with `has_item`) |
 | `set_flag` | `flag`, `value` | sets the flag to the boolean |
 | `start_quest` | `quest` | starts the quest (ignored when it already exists) |

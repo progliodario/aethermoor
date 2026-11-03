@@ -183,6 +183,9 @@ class CombatSim:
         if self.story is not None:
             self.story.on_kill(enemy.d.get("id", ""))
 
+    def heal_full(self) -> None:
+        self.hp = self.derived["max_hp"]
+
     def grant_xp(self, amount: int) -> None:
         self.xp += amount
         while self.level < MAX_LEVEL and self.level - 1 < len(self.xp_table) and self.xp >= self.xp_table[self.level - 1]:

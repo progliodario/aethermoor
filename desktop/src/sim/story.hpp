@@ -14,7 +14,7 @@
 namespace aether {
 
 struct Condition {
-    enum class Kind { Flag, Not, All, Any, QuestActive, QuestDone, QuestStage, HasItem, LevelAtLeast };
+    enum class Kind { Flag, Not, All, Any, QuestActive, QuestDone, QuestStage, HasItem, LevelAtLeast, GoldAtLeast };
     Kind kind = Kind::Flag;
     std::string a;  // flag / quest / item
     std::string b;  // stage
@@ -23,7 +23,7 @@ struct Condition {
 };
 
 struct Effect {
-    enum class Kind { AddXp, AddGold, AddItem, RemoveItem, SetFlag, StartQuest, OpenShop, AddGuildPoints, OpenBoard };
+    enum class Kind { AddXp, AddGold, AddItem, RemoveItem, SpendGold, HealFull, SetFlag, StartQuest, OpenShop, AddGuildPoints, OpenBoard };
     Kind kind = Kind::AddXp;
     std::string a;  // item / flag / quest
     std::int64_t n = 0;  // amount / quantity
@@ -146,6 +146,7 @@ public:
     virtual float player_y() const = 0;
     virtual void open_shop() = 0;
     virtual void open_board() = 0;
+    virtual void heal_full() = 0;
 };
 
 class Story {

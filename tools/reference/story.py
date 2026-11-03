@@ -46,6 +46,8 @@ class Story:
             return self.host.inventory.get(value["item"], 0) >= value["qty"]
         if key == "level_at_least":
             return self.host.level >= value
+        if key == "gold_at_least":
+            return self.gold >= value
         raise ValueError(f"unknown condition {key}")
 
     # --------------------------------------------------------------------------------- effects
@@ -65,6 +67,10 @@ class Story:
         elif kind == "add_item":
             self.host.inventory[effect["item"]] = self.host.inventory.get(effect["item"], 0) + effect["qty"]
             self._refresh_all()
+        elif kind == "spend_gold":
+            self.gold = max(0, self.gold - effect["amount"])
+        elif kind == "heal_full":
+            self.host.heal_full()
         elif kind == "remove_item":
             held = self.host.inventory.get(effect["item"], 0)
             left = held - min(held, effect["qty"])
