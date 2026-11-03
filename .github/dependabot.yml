@@ -8,6 +8,14 @@ updates:
     directory: /android
     schedule:
       interval: monthly
+    # Kotlin, libGDX and the Android Gradle plugin change APIs between versions: upgrade them by hand (a branch with the code changes),
+    # not with a pull request that only changes the number and fails CI.
+    ignore:
+      - dependency-name: "org.jetbrains.kotlin*"
+      - dependency-name: "com.badlogicgames.gdx*"
+      - dependency-name: "com.android.application"
+      - dependency-name: "com.android.library"
+      - dependency-name: "com.android.tools.build:gradle"
   - package-ecosystem: pip
     directory: /tools
     schedule:
