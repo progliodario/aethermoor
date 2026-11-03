@@ -1,0 +1,110 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/tile/moss_a",
+  "canvas": {
+    "w": 32,
+    "h": 32,
+    "origin": [
+      0,
+      0
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          32
+        ]
+      },
+      "fill": {
+        "color": "#3F7A48"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            6,
+            12
+          ],
+          [
+            8,
+            6
+          ],
+          [
+            10,
+            12
+          ]
+        ]
+      },
+      "fill": {
+        "color": "#2F6A3C"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            22,
+            26
+          ],
+          [
+            24,
+            20
+          ],
+          [
+            26,
+            26
+          ]
+        ]
+      },
+      "fill": {
+        "color": "#2F6A3C"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          12,
+          22,
+          1.4,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "#F0E6D2"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          12,
+          20.8,
+          2.2,
+          1.4
+        ]
+      },
+      "fill": {
+        "color": "#B58AE0"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          25,
+          9,
+          1.2,
+          1
+        ]
+      },
+      "fill": {
+        "color": "#9ADF8A"
+      },
+      "alpha": 0.8
+    }
+  ],
+  "palette": {}
+}

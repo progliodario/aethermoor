@@ -132,8 +132,14 @@ class Canvas:
         return ["".join(row) for row in self.cells]
 
 
-def stamp(stamp_id: str, canvas: Canvas, anchor: tuple[int, int], spots: list[tuple[int, int]]) -> dict:
+def stamp(stamp_id: str, canvas: Canvas, anchor: tuple[int, int], spots: list[tuple[int, int]], open_air: bool = False) -> dict:
+    """The stamp document. In an `open_air` stamp (a glade, a ring of trees) the creatures, lamps and props keep the ground of the terrain instead of a cobblestone."""
     used = {ch for row in canvas.rows() for ch in row if ch != "."}
+    legend = {ch: LEGEND[ch] for ch in sorted(used)}
+    if open_air:
+        for ch, entry in legend.items():
+            if ch != "T" and "tile" in entry and ("spawner" in entry or "prop" in entry):
+                legend[ch] = {key: value for key, value in entry.items() if key != "tile"}
     return {
         "$schema": "../../../schemas/stamp.schema.json",
         "id": stamp_id,
@@ -141,7 +147,7 @@ def stamp(stamp_id: str, canvas: Canvas, anchor: tuple[int, int], spots: list[tu
         "h": canvas.h,
         "anchor": list(anchor),
         "rows": canvas.rows(),
-        "legend": {ch: LEGEND[ch] for ch in sorted(used)},
+        "legend": legend,
         "spots": [list(spot) for spot in spots],  # where the people gather in the evening (plaza tiles)
     }
 
@@ -510,7 +516,7 @@ def hollow() -> dict:
     for x, y in ((16, 30), (18, 30)):
         c.put(x, y, "l")
     c.put(14, 30, "T")
-    return stamp("base:stamp/hollow", c, (17, 30), [])
+    return stamp("base:stamp/hollow", c, (17, 30), [], open_air=True)
 
 
 def ziggurat() -> dict:
@@ -637,7 +643,7 @@ def lair(stamp_id: str, wall: str, thickness: int, floor: str, gaps: str, mob: s
     if floor == ".":
         for x, y in ((4, 16), (20, 4)):
             c.put(x, y, "$")
-    return stamp(stamp_id, c, anchor, [])
+    return stamp(stamp_id, c, anchor, [], open_air=(floor == "."))
 
 
 def den() -> dict:

@@ -6,6 +6,8 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Fixed
 
+- Regions look like their names (spec 09, "Regions look like their names"): Sunscar was snow with pines, Frostveil a meadow with oaks, the Ashen Wastes a green field. Each region now bends the terrain (a blend of biases over 4500 tiles), has ground tiles of its own (sixteen new ones) and its own random props (a new dead tree for the ash).
+- In the glade, the lairs and the nests of grass, creatures and lamps no longer stand on gray cobblestone squares.
 - The shop, the bag and the list of Threshold Stones scroll with the cursor when they have more rows than the screen can show (desktop and Android); before, the lowest entries were out of reach.
 - Dungeons, lairs, nests and outposts no longer end up under a lake or inside a mountain range for some world seeds: around every landmark (spec 09, "Clearings") water and mountains become plains for 24 tiles beyond its footprint.
 

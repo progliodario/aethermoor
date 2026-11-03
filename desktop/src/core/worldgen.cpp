@@ -45,6 +45,41 @@ bool in_clearing(const WorldParams& p, int x, int y) {
     return dx * dx + dy * dy < static_cast<std::int64_t>(p.spawn_clear_radius) * p.spawn_clear_radius;
 }
 
+// The pull of the regions on the fields of the terrain (spec 09, "Regions"): a weighted mean of their biases, the weight of a region falling to zero
+// at `region_blend` tiles from its center. Integer math only; the biases are shifted to be positive before the division, so that it rounds the same everywhere.
+void region_bias(const WorldParams& p, int x, int y, std::int64_t& elevation, std::int64_t& temperature, std::int64_t& moisture) {
+    elevation = 0;
+    temperature = 0;
+    moisture = 0;
+    if (p.region_blend <= 0) {
+        return;
+    }
+    constexpr std::int64_t kShift = 32768;
+    const std::int64_t reach2 = static_cast<std::int64_t>(p.region_blend) * p.region_blend;
+    std::int64_t total = 0;
+    std::int64_t sum_e = 0;
+    std::int64_t sum_t = 0;
+    std::int64_t sum_m = 0;
+    for (const Region& r : p.regions) {
+        const std::int64_t dx = x - static_cast<std::int64_t>(r.x_pm) * p.width / 1000;
+        const std::int64_t dy = y - static_cast<std::int64_t>(r.y_pm) * p.height / 1000;
+        const std::int64_t weight = reach2 - (dx * dx + dy * dy);
+        if (weight <= 0) {
+            continue;
+        }
+        total += weight;
+        sum_e += (r.bias_elevation + kShift) * weight;
+        sum_t += (r.bias_temperature + kShift) * weight;
+        sum_m += (r.bias_moisture + kShift) * weight;
+    }
+    if (total == 0) {
+        return;
+    }
+    elevation = sum_e / total - kShift;
+    temperature = sum_t / total - kShift;
+    moisture = sum_m / total - kShift;
+}
+
 // Inside the clearing of a landmark: its footprint grown by `landmark_clearing` tiles (spec 09, "Landmarks").
 bool in_landmark_clearing(const WorldParams& p, int x, int y) {
     const int r = p.landmark_clearing;
@@ -92,7 +127,11 @@ Biome natural_biome_at(std::uint64_t seed, const WorldParams& p, int x, int y) {
             return Biome::Plains;  // the home meadow
         }
     }
-    const std::int64_t e = field(seed, p.elevation, x, y);
+    std::int64_t bias_e = 0;
+    std::int64_t bias_t = 0;
+    std::int64_t bias_m = 0;
+    region_bias(p, x, y, bias_e, bias_t, bias_m);
+    const std::int64_t e = field(seed, p.elevation, x, y) + bias_e;
     if (e < p.water) {
         return Biome::Water;
     }
@@ -102,11 +141,11 @@ Biome natural_biome_at(std::uint64_t seed, const WorldParams& p, int x, int y) {
     if (e >= p.mountain) {
         return Biome::Mountain;
     }
-    const std::int64_t temperature = field(seed, p.temperature, x, y);
+    const std::int64_t temperature = field(seed, p.temperature, x, y) + bias_t;
     if (temperature < p.snow) {
         return Biome::Snow;
     }
-    const std::int64_t moisture = field(seed, p.moisture, x, y);
+    const std::int64_t moisture = field(seed, p.moisture, x, y) + bias_m;
     if (temperature >= p.desert_heat && moisture < p.desert_dry) {
         return Biome::Desert;
     }
@@ -152,6 +191,11 @@ int gid_for(std::uint64_t seed, const WorldParams& p, Biome biome, int x, int y,
         case Overlay::None:
             break;
     }
+    const auto& ground = p.regions[static_cast<std::size_t>(region_at(p, x, y))].ground;  // the ground of the region (spec 09, "Regions")
+    const auto regional = ground.find(biome_name(biome));
+    if (regional != ground.end() && !regional->second.empty()) {
+        return regional->second[(hash64(seed, x, y, 5) >> 40) % regional->second.size()];
+    }
     switch (biome) {
         case Biome::Water:
             return p.tile_water;
@@ -172,9 +216,14 @@ int gid_for(std::uint64_t seed, const WorldParams& p, Biome biome, int x, int y,
 }
 
 bool prop_at(std::uint64_t seed, const WorldParams& p, Biome biome, int x, int y, GenProp& out) {
-    const auto options = p.props.find(biome_name(biome));
-    if (options == p.props.end() || options->second.empty()) {
-        return false;
+    const std::string name = biome_name(biome);
+    const auto& regional = p.regions[static_cast<std::size_t>(region_at(p, x, y))].props;
+    auto options = regional.find(name);
+    if (options == regional.end() || options->second.empty()) {
+        options = p.props.find(name);
+        if (options == p.props.end() || options->second.empty()) {
+            return false;
+        }
     }
     const std::uint64_t h = hash64(seed, x, y, 7);
     const std::uint64_t roll = (h >> 20) % 1000;

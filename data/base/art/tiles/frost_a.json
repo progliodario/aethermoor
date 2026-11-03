@@ -1,0 +1,77 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/tile/frost_a",
+  "canvas": {
+    "w": 32,
+    "h": 32,
+    "origin": [
+      0,
+      0
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          32
+        ]
+      },
+      "fill": {
+        "color": "#A9C8B8"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          10,
+          10,
+          6,
+          3.4
+        ]
+      },
+      "fill": {
+        "color": "#EAF4F2"
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "ellipse": [
+          23,
+          22,
+          5,
+          2.8
+        ]
+      },
+      "fill": {
+        "color": "#EAF4F2"
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            4,
+            26
+          ],
+          [
+            6,
+            20
+          ],
+          [
+            8,
+            26
+          ]
+        ]
+      },
+      "fill": {
+        "color": "#8DB0A0"
+      }
+    }
+  ],
+  "palette": {}
+}

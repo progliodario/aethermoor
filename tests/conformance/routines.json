@@ -10,12 +10,8 @@
         "seed": "0x0000000000000007",
         "chunks": [
           [
-            410,
-            4
-          ],
-          [
-            438,
-            4
+            396,
+            1
           ],
           [
             74,
@@ -32,6 +28,14 @@
           [
             220,
             36
+          ],
+          [
+            466,
+            54
+          ],
+          [
+            467,
+            54
           ],
           [
             256,
@@ -70,6 +74,7 @@
           "border": 4,
           "spawn_clear_radius": 7,
           "landmark_clearing": 24,
+          "region_blend": 4500,
           "difficulty": {
             "enemy_hp_pct": 100,
             "enemy_atk_pct": 100
@@ -213,6 +218,34 @@
                   "base:item/silk_robe",
                   "base:item/travel_ration"
                 ]
+              },
+              "bias": {
+                "moisture": 9000
+              },
+              "ground": {
+                "plains": [
+                  27,
+                  28
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 70
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 40
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 8
+                  }
+                ]
               }
             },
             {
@@ -277,6 +310,35 @@
                   "base:item/scale_mail",
                   "base:item/splint_mail"
                 ]
+              },
+              "bias": {
+                "elevation": 5000,
+                "temperature": -4000
+              },
+              "ground": {
+                "plains": [
+                  33,
+                  34
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 40
+                  },
+                  {
+                    "art": "base:art/prop/pine",
+                    "radius_x100": 30,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 8
+                  }
+                ]
               }
             },
             {
@@ -336,6 +398,47 @@
                   "base:item/studded_leather",
                   "base:item/fish_stew"
                 ]
+              },
+              "bias": {
+                "temperature": 14000,
+                "moisture": -12000
+              },
+              "ground": {
+                "plains": [
+                  23,
+                  24
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/cactus",
+                    "radius_x100": 28,
+                    "per_mille": 16
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  }
+                ],
+                "desert": [
+                  {
+                    "art": "base:art/prop/cactus",
+                    "radius_x100": 28,
+                    "per_mille": 30
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 12
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 5
+                  }
+                ]
               }
             },
             {
@@ -389,6 +492,29 @@
                   "base:item/claymore",
                   "base:item/splint_mail",
                   "base:item/fish_stew"
+                ]
+              },
+              "bias": {
+                "temperature": -16000
+              },
+              "ground": {
+                "plains": [
+                  25,
+                  26
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/pine",
+                    "radius_x100": 30,
+                    "per_mille": 60
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 10
+                  }
                 ]
               }
             },
@@ -444,6 +570,35 @@
                   "base:item/saber",
                   "base:item/scale_mail",
                   "base:item/travel_ration"
+                ]
+              },
+              "bias": {
+                "elevation": -2000,
+                "moisture": 4000
+              },
+              "ground": {
+                "plains": [
+                  29,
+                  30
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 18
+                  },
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 12
+                  }
                 ]
               }
             },
@@ -509,6 +664,66 @@
                   "base:item/knight_plate",
                   "base:item/royal_feast",
                   "base:item/dragon_scale_vest"
+                ]
+              },
+              "bias": {
+                "temperature": 12000,
+                "moisture": -10000
+              },
+              "ground": {
+                "plains": [
+                  19,
+                  20,
+                  21
+                ],
+                "desert": [
+                  22
+                ],
+                "forest": [
+                  21
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 12
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 3
+                  }
+                ],
+                "desert": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 30
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 6
+                  }
+                ],
+                "forest": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 140
+                  }
                 ]
               }
             },
@@ -579,6 +794,34 @@
                   "base:item/warding_robe",
                   "base:item/silk_robe",
                   "base:item/travel_ration"
+                ]
+              },
+              "bias": {
+                "moisture": 4000
+              },
+              "ground": {
+                "plains": [
+                  31,
+                  32
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 20
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 8
+                  }
                 ]
               }
             }
@@ -2970,7 +3213,6 @@
                   "tile": 11
                 },
                 "A": {
-                  "tile": 14,
                   "spawner": "base:enemy/moonshade_alpha"
                 },
                 "T": {
@@ -2979,15 +3221,12 @@
                   "radius_x100": 35
                 },
                 "W": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_grey"
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "l": {
-                  "tile": 14,
                   "prop": "base:art/prop/lamp",
                   "radius_x100": 15
                 },
@@ -2996,7 +3235,6 @@
                   "radius_x100": 30
                 },
                 "s": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_green"
                 },
                 "t": {
@@ -3316,15 +3554,12 @@
                   "tile": 11
                 },
                 "D": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_dire"
                 },
                 "U": {
-                  "tile": 14,
                   "spawner": "base:enemy/dire_alpha"
                 },
                 "W": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_grey"
                 },
                 "o": {
@@ -3498,15 +3733,12 @@
                   "tile": 11
                 },
                 "L": {
-                  "tile": 14,
                   "spawner": "base:enemy/amber_queen"
                 },
                 "P": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_amber"
                 },
                 "a": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_sand"
                 },
                 "o": {
@@ -3623,15 +3855,12 @@
                   "tile": 11
                 },
                 "O": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_storm"
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "k": {
-                  "tile": 14,
                   "spawner": "base:enemy/storm_sovereign"
                 },
                 "o": {
@@ -4812,18 +5041,15 @@
                   "radius_x100": 10
                 },
                 "3": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_mint"
                 },
                 "4": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_tawny"
                 },
                 "=": {
                   "tile": 11
                 },
                 "n": {
-                  "tile": 14,
                   "spawner": "base:enemy/mint_matron"
                 },
                 "o": {
@@ -4871,14 +5097,12 @@
                   "radius_x100": 10
                 },
                 "5": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_moss"
                 },
                 "=": {
                   "tile": 11
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "o": {
@@ -4886,7 +5110,6 @@
                   "radius_x100": 30
                 },
                 "p": {
-                  "tile": 14,
                   "spawner": "base:enemy/moss_elder"
                 },
                 "t": {
@@ -4996,14 +5219,12 @@
                   "radius_x100": 10
                 },
                 "7": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_dune"
                 },
                 "=": {
                   "tile": 11
                 },
                 "a": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_sand"
                 },
                 "o": {
@@ -5011,7 +5232,6 @@
                   "radius_x100": 30
                 },
                 "u": {
-                  "tile": 14,
                   "spawner": "base:enemy/dune_mother"
                 }
               },
@@ -5179,18 +5399,15 @@
                   "radius_x100": 10
                 },
                 "%": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_nebula"
                 },
                 "1": {
-                  "tile": 14,
                   "spawner": "base:enemy/nebula_heart"
                 },
                 "=": {
                   "tile": 11
                 },
                 "g": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_glow"
                 },
                 "o": {
@@ -5293,34 +5510,10 @@
           ],
           [
             [
-              "settle:51:0:0",
+              "settle:49:0:0",
               "work",
-              3362176,
-              35744
-            ],
-            [
-              "settle:54:0:0",
-              "work",
-              3589760,
-              38048
-            ],
-            [
-              "settle:54:0:2",
-              "work",
-              3591808,
-              39328
-            ],
-            [
-              "settle:54:0:3",
-              "work",
-              3589760,
-              39840
-            ],
-            [
-              "settle:54:0:4",
-              "work",
-              3593600,
-              40096
+              3247744,
+              10144
             ],
             [
               "settle:9:3:2",
@@ -5345,6 +5538,30 @@
               "work",
               620672,
               220064
+            ],
+            [
+              "settle:58:6:0",
+              "work",
+              3820928,
+              446880
+            ],
+            [
+              "settle:58:6:2",
+              "work",
+              3822976,
+              448160
+            ],
+            [
+              "settle:58:6:3",
+              "work",
+              3820928,
+              448672
+            ],
+            [
+              "settle:58:6:4",
+              "work",
+              3824768,
+              448928
             ],
             [
               "settle:32:32:0",
@@ -5373,34 +5590,10 @@
           ],
           [
             [
-              "settle:51:0:0",
+              "settle:49:0:0",
               "work",
-              3362176,
-              35744
-            ],
-            [
-              "settle:54:0:0",
-              "work",
-              3589760,
-              38048
-            ],
-            [
-              "settle:54:0:2",
-              "work",
-              3591808,
-              39328
-            ],
-            [
-              "settle:54:0:3",
-              "work",
-              3589760,
-              39840
-            ],
-            [
-              "settle:54:0:4",
-              "work",
-              3593600,
-              40096
+              3247744,
+              10144
             ],
             [
               "settle:9:3:2",
@@ -5425,6 +5618,30 @@
               "work",
               620672,
               220064
+            ],
+            [
+              "settle:58:6:0",
+              "work",
+              3820928,
+              446880
+            ],
+            [
+              "settle:58:6:2",
+              "work",
+              3822976,
+              448160
+            ],
+            [
+              "settle:58:6:3",
+              "work",
+              3820928,
+              448672
+            ],
+            [
+              "settle:58:6:4",
+              "work",
+              3824768,
+              448928
             ],
             [
               "settle:32:32:0",
@@ -5453,40 +5670,10 @@
           ],
           [
             [
-              "settle:51:0:0",
+              "settle:49:0:0",
               "work",
-              3362176,
-              35744
-            ],
-            [
-              "settle:54:0:0",
-              "work",
-              3589760,
-              38048
-            ],
-            [
-              "settle:54:0:1",
-              "work",
-              3593856,
-              38304
-            ],
-            [
-              "settle:54:0:2",
-              "work",
-              3591808,
-              39328
-            ],
-            [
-              "settle:54:0:3",
-              "work",
-              3589760,
-              39840
-            ],
-            [
-              "settle:54:0:4",
-              "work",
-              3593600,
-              40096
+              3247744,
+              10144
             ],
             [
               "settle:9:3:1",
@@ -5517,6 +5704,36 @@
               "work",
               620672,
               220064
+            ],
+            [
+              "settle:58:6:0",
+              "work",
+              3820928,
+              446880
+            ],
+            [
+              "settle:58:6:1",
+              "work",
+              3825024,
+              447136
+            ],
+            [
+              "settle:58:6:2",
+              "work",
+              3822976,
+              448160
+            ],
+            [
+              "settle:58:6:3",
+              "work",
+              3820928,
+              448672
+            ],
+            [
+              "settle:58:6:4",
+              "work",
+              3824768,
+              448928
             ],
             [
               "settle:32:32:0",
@@ -5551,40 +5768,10 @@
           ],
           [
             [
-              "settle:51:0:0",
+              "settle:49:0:0",
               "work",
-              3362176,
-              35744
-            ],
-            [
-              "settle:54:0:0",
-              "work",
-              3589760,
-              38048
-            ],
-            [
-              "settle:54:0:1",
-              "work",
-              3593856,
-              38304
-            ],
-            [
-              "settle:54:0:2",
-              "work",
-              3591808,
-              39328
-            ],
-            [
-              "settle:54:0:3",
-              "work",
-              3589760,
-              39840
-            ],
-            [
-              "settle:54:0:4",
-              "work",
-              3593600,
-              40096
+              3247744,
+              10144
             ],
             [
               "settle:9:3:1",
@@ -5615,6 +5802,36 @@
               "work",
               620672,
               220064
+            ],
+            [
+              "settle:58:6:0",
+              "work",
+              3820928,
+              446880
+            ],
+            [
+              "settle:58:6:1",
+              "work",
+              3825024,
+              447136
+            ],
+            [
+              "settle:58:6:2",
+              "work",
+              3822976,
+              448160
+            ],
+            [
+              "settle:58:6:3",
+              "work",
+              3820928,
+              448672
+            ],
+            [
+              "settle:58:6:4",
+              "work",
+              3824768,
+              448928
             ],
             [
               "settle:32:32:0",
@@ -5649,40 +5866,10 @@
           ],
           [
             [
-              "settle:51:0:0",
+              "settle:49:0:0",
               "work",
-              3362176,
-              35744
-            ],
-            [
-              "settle:54:0:0",
-              "work",
-              3589760,
-              38048
-            ],
-            [
-              "settle:54:0:1",
-              "work",
-              3593856,
-              38304
-            ],
-            [
-              "settle:54:0:2",
-              "work",
-              3591808,
-              39328
-            ],
-            [
-              "settle:54:0:3",
-              "work",
-              3589760,
-              39840
-            ],
-            [
-              "settle:54:0:4",
-              "work",
-              3593600,
-              40096
+              3247744,
+              10144
             ],
             [
               "settle:9:3:0",
@@ -5721,6 +5908,36 @@
               220064
             ],
             [
+              "settle:58:6:0",
+              "work",
+              3820928,
+              446880
+            ],
+            [
+              "settle:58:6:1",
+              "work",
+              3825024,
+              447136
+            ],
+            [
+              "settle:58:6:2",
+              "work",
+              3822976,
+              448160
+            ],
+            [
+              "settle:58:6:3",
+              "work",
+              3820928,
+              448672
+            ],
+            [
+              "settle:58:6:4",
+              "work",
+              3824768,
+              448928
+            ],
+            [
               "settle:32:32:0",
               "work",
               2104960,
@@ -5753,40 +5970,10 @@
           ],
           [
             [
-              "settle:51:0:0",
+              "settle:49:0:0",
               "work",
-              3362176,
-              35744
-            ],
-            [
-              "settle:54:0:0",
-              "work",
-              3589760,
-              38048
-            ],
-            [
-              "settle:54:0:1",
-              "work",
-              3593856,
-              38304
-            ],
-            [
-              "settle:54:0:2",
-              "work",
-              3591808,
-              39328
-            ],
-            [
-              "settle:54:0:3",
-              "work",
-              3589760,
-              39840
-            ],
-            [
-              "settle:54:0:4",
-              "work",
-              3593600,
-              40096
+              3247744,
+              10144
             ],
             [
               "settle:9:3:0",
@@ -5825,6 +6012,36 @@
               220064
             ],
             [
+              "settle:58:6:0",
+              "work",
+              3820928,
+              446880
+            ],
+            [
+              "settle:58:6:1",
+              "work",
+              3825024,
+              447136
+            ],
+            [
+              "settle:58:6:2",
+              "work",
+              3822976,
+              448160
+            ],
+            [
+              "settle:58:6:3",
+              "work",
+              3820928,
+              448672
+            ],
+            [
+              "settle:58:6:4",
+              "work",
+              3824768,
+              448928
+            ],
+            [
               "settle:32:32:0",
               "work",
               2104960,
@@ -5857,40 +6074,10 @@
           ],
           [
             [
-              "settle:51:0:0",
+              "settle:49:0:0",
               "work",
-              3362176,
-              35744
-            ],
-            [
-              "settle:54:0:0",
-              "work",
-              3589760,
-              38048
-            ],
-            [
-              "settle:54:0:1",
-              "work",
-              3593856,
-              38304
-            ],
-            [
-              "settle:54:0:2",
-              "work",
-              3591808,
-              39328
-            ],
-            [
-              "settle:54:0:3",
-              "work",
-              3589760,
-              39840
-            ],
-            [
-              "settle:54:0:4",
-              "work",
-              3593600,
-              40096
+              3247744,
+              10144
             ],
             [
               "settle:9:3:0",
@@ -5929,6 +6116,36 @@
               220064
             ],
             [
+              "settle:58:6:0",
+              "work",
+              3820928,
+              446880
+            ],
+            [
+              "settle:58:6:1",
+              "work",
+              3825024,
+              447136
+            ],
+            [
+              "settle:58:6:2",
+              "work",
+              3822976,
+              448160
+            ],
+            [
+              "settle:58:6:3",
+              "work",
+              3820928,
+              448672
+            ],
+            [
+              "settle:58:6:4",
+              "work",
+              3824768,
+              448928
+            ],
+            [
               "settle:32:32:0",
               "work",
               2104960,
@@ -5961,40 +6178,10 @@
           ],
           [
             [
-              "settle:51:0:0",
+              "settle:49:0:0",
               "plaza",
-              3361920,
-              36768
-            ],
-            [
-              "settle:54:0:0",
-              "plaza",
-              3591552,
-              39072
-            ],
-            [
-              "settle:54:0:1",
-              "work",
-              3593856,
-              38304
-            ],
-            [
-              "settle:54:0:2",
-              "plaza",
-              3591552,
-              39328
-            ],
-            [
-              "settle:54:0:3",
-              "plaza",
-              3592064,
-              39328
-            ],
-            [
-              "settle:54:0:4",
-              "plaza",
-              3591552,
-              39072
+              3248256,
+              10912
             ],
             [
               "settle:9:3:0",
@@ -6031,6 +6218,36 @@
               "plaza",
               617600,
               219552
+            ],
+            [
+              "settle:58:6:0",
+              "plaza",
+              3822720,
+              447904
+            ],
+            [
+              "settle:58:6:1",
+              "work",
+              3825024,
+              447136
+            ],
+            [
+              "settle:58:6:2",
+              "plaza",
+              3822720,
+              448160
+            ],
+            [
+              "settle:58:6:3",
+              "plaza",
+              3823232,
+              448160
+            ],
+            [
+              "settle:58:6:4",
+              "plaza",
+              3822720,
+              447904
             ],
             [
               "settle:32:32:0",
@@ -6065,40 +6282,10 @@
           ],
           [
             [
-              "settle:51:0:0",
+              "settle:49:0:0",
               "plaza",
-              3361920,
-              36768
-            ],
-            [
-              "settle:54:0:0",
-              "plaza",
-              3591552,
-              39072
-            ],
-            [
-              "settle:54:0:1",
-              "work",
-              3593856,
-              38304
-            ],
-            [
-              "settle:54:0:2",
-              "plaza",
-              3591552,
-              39328
-            ],
-            [
-              "settle:54:0:3",
-              "plaza",
-              3592064,
-              39328
-            ],
-            [
-              "settle:54:0:4",
-              "plaza",
-              3591552,
-              39072
+              3248256,
+              10912
             ],
             [
               "settle:9:3:0",
@@ -6137,6 +6324,36 @@
               219552
             ],
             [
+              "settle:58:6:0",
+              "plaza",
+              3822720,
+              447904
+            ],
+            [
+              "settle:58:6:1",
+              "work",
+              3825024,
+              447136
+            ],
+            [
+              "settle:58:6:2",
+              "plaza",
+              3822720,
+              448160
+            ],
+            [
+              "settle:58:6:3",
+              "plaza",
+              3823232,
+              448160
+            ],
+            [
+              "settle:58:6:4",
+              "plaza",
+              3822720,
+              447904
+            ],
+            [
               "settle:32:32:0",
               "plaza",
               2106240,
@@ -6169,34 +6386,10 @@
           ],
           [
             [
-              "settle:51:0:0",
+              "settle:49:0:0",
               "plaza",
-              3361920,
-              36768
-            ],
-            [
-              "settle:54:0:0",
-              "plaza",
-              3591552,
-              39072
-            ],
-            [
-              "settle:54:0:2",
-              "plaza",
-              3591552,
-              39328
-            ],
-            [
-              "settle:54:0:3",
-              "plaza",
-              3592064,
-              39328
-            ],
-            [
-              "settle:54:0:4",
-              "plaza",
-              3591552,
-              39072
+              3248256,
+              10912
             ],
             [
               "settle:9:3:0",
@@ -6229,6 +6422,30 @@
               219552
             ],
             [
+              "settle:58:6:0",
+              "plaza",
+              3822720,
+              447904
+            ],
+            [
+              "settle:58:6:2",
+              "plaza",
+              3822720,
+              448160
+            ],
+            [
+              "settle:58:6:3",
+              "plaza",
+              3823232,
+              448160
+            ],
+            [
+              "settle:58:6:4",
+              "plaza",
+              3822720,
+              447904
+            ],
+            [
               "settle:32:32:0",
               "plaza",
               2106240,
@@ -6255,34 +6472,10 @@
           ],
           [
             [
-              "settle:51:0:0",
+              "settle:49:0:0",
               "plaza",
-              3361920,
-              36768
-            ],
-            [
-              "settle:54:0:0",
-              "plaza",
-              3591552,
-              39072
-            ],
-            [
-              "settle:54:0:2",
-              "plaza",
-              3591552,
-              39328
-            ],
-            [
-              "settle:54:0:3",
-              "plaza",
-              3592064,
-              39328
-            ],
-            [
-              "settle:54:0:4",
-              "plaza",
-              3591552,
-              39072
+              3248256,
+              10912
             ],
             [
               "settle:9:3:0",
@@ -6315,84 +6508,28 @@
               219552
             ],
             [
-              "settle:32:32:0",
+              "settle:58:6:0",
               "plaza",
-              2106240,
-              2107296
+              3822720,
+              447904
             ],
             [
-              "settle:32:32:3",
+              "settle:58:6:2",
               "plaza",
-              2106752,
-              2107808
+              3822720,
+              448160
             ],
             [
-              "settle:32:32:2",
+              "settle:58:6:3",
               "plaza",
-              2106240,
-              2107808
+              3823232,
+              448160
             ],
             [
-              "settle:32:32:4",
+              "settle:58:6:4",
               "plaza",
-              2106240,
-              2107296
-            ]
-          ],
-          [
-            [
-              "settle:51:0:0",
-              "plaza",
-              3361920,
-              36768
-            ],
-            [
-              "settle:54:0:0",
-              "plaza",
-              3591552,
-              39072
-            ],
-            [
-              "settle:54:0:2",
-              "plaza",
-              3591552,
-              39328
-            ],
-            [
-              "settle:54:0:3",
-              "plaza",
-              3592064,
-              39328
-            ],
-            [
-              "settle:54:0:4",
-              "plaza",
-              3591552,
-              39072
-            ],
-            [
-              "settle:9:3:2",
-              "work",
-              621184,
-              218016
-            ],
-            [
-              "settle:9:3:3",
-              "plaza",
-              617088,
-              219552
-            ],
-            [
-              "settle:9:3:4",
-              "plaza",
-              618112,
-              219552
-            ],
-            [
-              "settle:9:3:5",
-              "plaza",
-              617600,
-              219552
+              3822720,
+              447904
             ],
             [
               "settle:32:32:0",
@@ -6421,34 +6558,10 @@
           ],
           [
             [
-              "settle:51:0:0",
+              "settle:49:0:0",
               "plaza",
-              3361920,
-              36768
-            ],
-            [
-              "settle:54:0:0",
-              "plaza",
-              3591552,
-              39072
-            ],
-            [
-              "settle:54:0:2",
-              "plaza",
-              3591552,
-              39328
-            ],
-            [
-              "settle:54:0:3",
-              "plaza",
-              3592064,
-              39328
-            ],
-            [
-              "settle:54:0:4",
-              "plaza",
-              3591552,
-              39072
+              3248256,
+              10912
             ],
             [
               "settle:9:3:2",
@@ -6473,6 +6586,110 @@
               "plaza",
               617600,
               219552
+            ],
+            [
+              "settle:58:6:0",
+              "plaza",
+              3822720,
+              447904
+            ],
+            [
+              "settle:58:6:2",
+              "plaza",
+              3822720,
+              448160
+            ],
+            [
+              "settle:58:6:3",
+              "plaza",
+              3823232,
+              448160
+            ],
+            [
+              "settle:58:6:4",
+              "plaza",
+              3822720,
+              447904
+            ],
+            [
+              "settle:32:32:0",
+              "plaza",
+              2106240,
+              2107296
+            ],
+            [
+              "settle:32:32:3",
+              "plaza",
+              2106752,
+              2107808
+            ],
+            [
+              "settle:32:32:2",
+              "plaza",
+              2106240,
+              2107808
+            ],
+            [
+              "settle:32:32:4",
+              "plaza",
+              2106240,
+              2107296
+            ]
+          ],
+          [
+            [
+              "settle:49:0:0",
+              "plaza",
+              3248256,
+              10912
+            ],
+            [
+              "settle:9:3:2",
+              "work",
+              621184,
+              218016
+            ],
+            [
+              "settle:9:3:3",
+              "plaza",
+              617088,
+              219552
+            ],
+            [
+              "settle:9:3:4",
+              "plaza",
+              618112,
+              219552
+            ],
+            [
+              "settle:9:3:5",
+              "plaza",
+              617600,
+              219552
+            ],
+            [
+              "settle:58:6:0",
+              "plaza",
+              3822720,
+              447904
+            ],
+            [
+              "settle:58:6:2",
+              "plaza",
+              3822720,
+              448160
+            ],
+            [
+              "settle:58:6:3",
+              "plaza",
+              3823232,
+              448160
+            ],
+            [
+              "settle:58:6:4",
+              "plaza",
+              3822720,
+              447904
             ],
             [
               "settle:32:32:0",
@@ -6525,23 +6742,15 @@
         "seed": "0x0000000000c0ffee",
         "chunks": [
           [
-            267,
-            2
-          ],
-          [
-            108,
+            434,
             4
           ],
           [
-            109,
+            435,
             4
           ],
           [
-            108,
-            5
-          ],
-          [
-            109,
+            396,
             5
           ],
           [
@@ -6553,20 +6762,20 @@
             36
           ],
           [
-            260,
-            172
+            17,
+            129
           ],
           [
-            261,
-            172
+            18,
+            129
           ],
           [
-            260,
-            173
+            17,
+            130
           ],
           [
-            261,
-            173
+            18,
+            130
           ],
           [
             256,
@@ -6605,6 +6814,7 @@
           "border": 4,
           "spawn_clear_radius": 7,
           "landmark_clearing": 24,
+          "region_blend": 4500,
           "difficulty": {
             "enemy_hp_pct": 100,
             "enemy_atk_pct": 100
@@ -6748,6 +6958,34 @@
                   "base:item/silk_robe",
                   "base:item/travel_ration"
                 ]
+              },
+              "bias": {
+                "moisture": 9000
+              },
+              "ground": {
+                "plains": [
+                  27,
+                  28
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 70
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 40
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 8
+                  }
+                ]
               }
             },
             {
@@ -6812,6 +7050,35 @@
                   "base:item/scale_mail",
                   "base:item/splint_mail"
                 ]
+              },
+              "bias": {
+                "elevation": 5000,
+                "temperature": -4000
+              },
+              "ground": {
+                "plains": [
+                  33,
+                  34
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 40
+                  },
+                  {
+                    "art": "base:art/prop/pine",
+                    "radius_x100": 30,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 8
+                  }
+                ]
               }
             },
             {
@@ -6871,6 +7138,47 @@
                   "base:item/studded_leather",
                   "base:item/fish_stew"
                 ]
+              },
+              "bias": {
+                "temperature": 14000,
+                "moisture": -12000
+              },
+              "ground": {
+                "plains": [
+                  23,
+                  24
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/cactus",
+                    "radius_x100": 28,
+                    "per_mille": 16
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  }
+                ],
+                "desert": [
+                  {
+                    "art": "base:art/prop/cactus",
+                    "radius_x100": 28,
+                    "per_mille": 30
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 12
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 5
+                  }
+                ]
               }
             },
             {
@@ -6924,6 +7232,29 @@
                   "base:item/claymore",
                   "base:item/splint_mail",
                   "base:item/fish_stew"
+                ]
+              },
+              "bias": {
+                "temperature": -16000
+              },
+              "ground": {
+                "plains": [
+                  25,
+                  26
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/pine",
+                    "radius_x100": 30,
+                    "per_mille": 60
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 10
+                  }
                 ]
               }
             },
@@ -6979,6 +7310,35 @@
                   "base:item/saber",
                   "base:item/scale_mail",
                   "base:item/travel_ration"
+                ]
+              },
+              "bias": {
+                "elevation": -2000,
+                "moisture": 4000
+              },
+              "ground": {
+                "plains": [
+                  29,
+                  30
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 18
+                  },
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 12
+                  }
                 ]
               }
             },
@@ -7044,6 +7404,66 @@
                   "base:item/knight_plate",
                   "base:item/royal_feast",
                   "base:item/dragon_scale_vest"
+                ]
+              },
+              "bias": {
+                "temperature": 12000,
+                "moisture": -10000
+              },
+              "ground": {
+                "plains": [
+                  19,
+                  20,
+                  21
+                ],
+                "desert": [
+                  22
+                ],
+                "forest": [
+                  21
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 12
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 3
+                  }
+                ],
+                "desert": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 30
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 6
+                  }
+                ],
+                "forest": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 140
+                  }
                 ]
               }
             },
@@ -7114,6 +7534,34 @@
                   "base:item/warding_robe",
                   "base:item/silk_robe",
                   "base:item/travel_ration"
+                ]
+              },
+              "bias": {
+                "moisture": 4000
+              },
+              "ground": {
+                "plains": [
+                  31,
+                  32
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 20
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 8
+                  }
                 ]
               }
             }
@@ -9505,7 +9953,6 @@
                   "tile": 11
                 },
                 "A": {
-                  "tile": 14,
                   "spawner": "base:enemy/moonshade_alpha"
                 },
                 "T": {
@@ -9514,15 +9961,12 @@
                   "radius_x100": 35
                 },
                 "W": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_grey"
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "l": {
-                  "tile": 14,
                   "prop": "base:art/prop/lamp",
                   "radius_x100": 15
                 },
@@ -9531,7 +9975,6 @@
                   "radius_x100": 30
                 },
                 "s": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_green"
                 },
                 "t": {
@@ -9851,15 +10294,12 @@
                   "tile": 11
                 },
                 "D": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_dire"
                 },
                 "U": {
-                  "tile": 14,
                   "spawner": "base:enemy/dire_alpha"
                 },
                 "W": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_grey"
                 },
                 "o": {
@@ -10033,15 +10473,12 @@
                   "tile": 11
                 },
                 "L": {
-                  "tile": 14,
                   "spawner": "base:enemy/amber_queen"
                 },
                 "P": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_amber"
                 },
                 "a": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_sand"
                 },
                 "o": {
@@ -10158,15 +10595,12 @@
                   "tile": 11
                 },
                 "O": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_storm"
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "k": {
-                  "tile": 14,
                   "spawner": "base:enemy/storm_sovereign"
                 },
                 "o": {
@@ -11347,18 +11781,15 @@
                   "radius_x100": 10
                 },
                 "3": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_mint"
                 },
                 "4": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_tawny"
                 },
                 "=": {
                   "tile": 11
                 },
                 "n": {
-                  "tile": 14,
                   "spawner": "base:enemy/mint_matron"
                 },
                 "o": {
@@ -11406,14 +11837,12 @@
                   "radius_x100": 10
                 },
                 "5": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_moss"
                 },
                 "=": {
                   "tile": 11
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "o": {
@@ -11421,7 +11850,6 @@
                   "radius_x100": 30
                 },
                 "p": {
-                  "tile": 14,
                   "spawner": "base:enemy/moss_elder"
                 },
                 "t": {
@@ -11531,14 +11959,12 @@
                   "radius_x100": 10
                 },
                 "7": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_dune"
                 },
                 "=": {
                   "tile": 11
                 },
                 "a": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_sand"
                 },
                 "o": {
@@ -11546,7 +11972,6 @@
                   "radius_x100": 30
                 },
                 "u": {
-                  "tile": 14,
                   "spawner": "base:enemy/dune_mother"
                 }
               },
@@ -11714,18 +12139,15 @@
                   "radius_x100": 10
                 },
                 "%": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_nebula"
                 },
                 "1": {
-                  "tile": 14,
                   "spawner": "base:enemy/nebula_heart"
                 },
                 "=": {
                   "tile": 11
                 },
                 "g": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_glow"
                 },
                 "o": {
@@ -11804,88 +12226,88 @@
         "present": [
           [
             [
-              "settle:32:21:6",
+              "settle:2:16:6",
               "work",
-              2135424,
-              1419168
+              144256,
+              1063840
             ]
           ],
           [
             [
-              "settle:32:21:6",
+              "settle:2:16:6",
               "work",
-              2135424,
-              1419168
+              144256,
+              1063840
             ]
           ],
           [
             [
-              "settle:32:21:6",
+              "settle:2:16:6",
               "work",
-              2135424,
-              1419168
+              144256,
+              1063840
             ]
           ],
           [
             [
-              "settle:33:0:0",
+              "settle:54:0:0",
               "work",
-              2191744,
-              21664
+              3560576,
+              34208
             ],
             [
-              "settle:13:0:0",
+              "settle:54:0:2",
               "work",
-              889728,
-              37792
+              3562112,
+              35744
             ],
             [
-              "settle:13:0:2",
+              "settle:54:0:3",
               "work",
-              891264,
-              39328
+              3560320,
+              36256
             ],
             [
-              "settle:13:0:3",
+              "settle:54:0:4",
               "work",
-              889728,
-              40352
+              3563904,
+              36768
             ],
             [
-              "settle:13:0:4",
+              "settle:49:0:0",
               "work",
-              893312,
-              40352
+              3249536,
+              45472
             ],
             [
-              "settle:32:21:2",
+              "settle:2:16:2",
               "work",
-              2134400,
-              1417376
+              143232,
+              1062048
             ],
             [
-              "settle:32:21:4",
+              "settle:2:16:4",
               "work",
-              2136704,
-              1417888
+              145536,
+              1062560
             ],
             [
-              "settle:32:21:6",
+              "settle:2:16:5",
               "work",
-              2135424,
-              1419168
+              147072,
+              1063584
             ],
             [
-              "settle:32:21:3",
+              "settle:2:16:6",
               "work",
-              2139008,
-              1417376
+              144256,
+              1063840
             ],
             [
-              "settle:32:21:5",
+              "settle:2:16:3",
               "work",
-              2138240,
-              1418912
+              147840,
+              1062048
             ],
             [
               "settle:32:32:0",
@@ -11914,64 +12336,64 @@
           ],
           [
             [
-              "settle:33:0:0",
+              "settle:54:0:0",
               "work",
-              2191744,
-              21664
+              3560576,
+              34208
             ],
             [
-              "settle:13:0:0",
+              "settle:54:0:2",
               "work",
-              889728,
-              37792
+              3562112,
+              35744
             ],
             [
-              "settle:13:0:2",
+              "settle:54:0:3",
               "work",
-              891264,
-              39328
+              3560320,
+              36256
             ],
             [
-              "settle:13:0:3",
+              "settle:54:0:4",
               "work",
-              889728,
-              40352
+              3563904,
+              36768
             ],
             [
-              "settle:13:0:4",
+              "settle:49:0:0",
               "work",
-              893312,
-              40352
+              3249536,
+              45472
             ],
             [
-              "settle:32:21:2",
+              "settle:2:16:2",
               "work",
-              2134400,
-              1417376
+              143232,
+              1062048
             ],
             [
-              "settle:32:21:4",
+              "settle:2:16:4",
               "work",
-              2136704,
-              1417888
+              145536,
+              1062560
             ],
             [
-              "settle:32:21:6",
+              "settle:2:16:5",
               "work",
-              2135424,
-              1419168
+              147072,
+              1063584
             ],
             [
-              "settle:32:21:3",
+              "settle:2:16:6",
               "work",
-              2139008,
-              1417376
+              144256,
+              1063840
             ],
             [
-              "settle:32:21:5",
+              "settle:2:16:3",
               "work",
-              2138240,
-              1418912
+              147840,
+              1062048
             ],
             [
               "settle:32:32:0",
@@ -12000,180 +12422,76 @@
           ],
           [
             [
-              "settle:33:0:0",
+              "settle:54:0:0",
               "work",
-              2191744,
-              21664
+              3560576,
+              34208
             ],
             [
-              "settle:13:0:0",
+              "settle:54:0:2",
               "work",
-              889728,
-              37792
+              3562112,
+              35744
             ],
             [
-              "settle:13:0:2",
+              "settle:54:0:3",
               "work",
-              891264,
-              39328
+              3560320,
+              36256
             ],
             [
-              "settle:13:0:3",
+              "settle:54:0:1",
               "work",
-              889728,
-              40352
+              3564160,
+              34464
             ],
             [
-              "settle:13:0:1",
+              "settle:54:0:4",
               "work",
-              893312,
-              37792
+              3563904,
+              36768
             ],
             [
-              "settle:13:0:4",
+              "settle:49:0:0",
               "work",
-              893312,
-              40352
+              3249536,
+              45472
             ],
             [
-              "settle:32:21:1",
+              "settle:2:16:2",
               "work",
-              2138752,
-              1416096
+              143232,
+              1062048
             ],
             [
-              "settle:32:21:2",
+              "settle:2:16:4",
               "work",
-              2134400,
-              1417376
+              145536,
+              1062560
             ],
             [
-              "settle:32:21:4",
+              "settle:2:16:5",
               "work",
-              2136704,
-              1417888
+              147072,
+              1063584
             ],
             [
-              "settle:32:21:6",
+              "settle:2:16:6",
               "work",
-              2135424,
-              1419168
+              144256,
+              1063840
             ],
             [
-              "settle:32:21:3",
+              "settle:2:16:1",
               "work",
-              2139008,
-              1417376
+              147584,
+              1060768
             ],
             [
-              "settle:32:21:5",
+              "settle:2:16:3",
               "work",
-              2138240,
-              1418912
-            ],
-            [
-              "settle:32:32:0",
-              "work",
-              2104960,
-              2106272
-            ],
-            [
-              "settle:32:32:3",
-              "work",
-              2104704,
-              2108320
-            ],
-            [
-              "settle:32:32:1",
-              "work",
-              2108544,
-              2106528
-            ],
-            [
-              "settle:32:32:2",
-              "work",
-              2106496,
-              2107808
-            ],
-            [
-              "settle:32:32:4",
-              "work",
-              2108288,
-              2108832
-            ]
-          ],
-          [
-            [
-              "settle:33:0:0",
-              "work",
-              2191744,
-              21664
-            ],
-            [
-              "settle:13:0:0",
-              "work",
-              889728,
-              37792
-            ],
-            [
-              "settle:13:0:2",
-              "work",
-              891264,
-              39328
-            ],
-            [
-              "settle:13:0:3",
-              "work",
-              889728,
-              40352
-            ],
-            [
-              "settle:13:0:1",
-              "work",
-              893312,
-              37792
-            ],
-            [
-              "settle:13:0:4",
-              "work",
-              893312,
-              40352
-            ],
-            [
-              "settle:32:21:1",
-              "work",
-              2138752,
-              1416096
-            ],
-            [
-              "settle:32:21:2",
-              "work",
-              2134400,
-              1417376
-            ],
-            [
-              "settle:32:21:4",
-              "work",
-              2136704,
-              1417888
-            ],
-            [
-              "settle:32:21:6",
-              "work",
-              2135424,
-              1419168
-            ],
-            [
-              "settle:32:21:3",
-              "work",
-              2139008,
-              1417376
-            ],
-            [
-              "settle:32:21:5",
-              "work",
-              2138240,
-              1418912
+              147840,
+              1062048
             ],
             [
               "settle:32:32:0",
@@ -12208,82 +12526,76 @@
           ],
           [
             [
-              "settle:33:0:0",
+              "settle:54:0:0",
               "work",
-              2191744,
-              21664
+              3560576,
+              34208
             ],
             [
-              "settle:13:0:0",
+              "settle:54:0:2",
               "work",
-              889728,
-              37792
+              3562112,
+              35744
             ],
             [
-              "settle:13:0:2",
+              "settle:54:0:3",
               "work",
-              891264,
-              39328
+              3560320,
+              36256
             ],
             [
-              "settle:13:0:3",
+              "settle:54:0:1",
               "work",
-              889728,
-              40352
+              3564160,
+              34464
             ],
             [
-              "settle:13:0:1",
+              "settle:54:0:4",
               "work",
-              893312,
-              37792
+              3563904,
+              36768
             ],
             [
-              "settle:13:0:4",
+              "settle:49:0:0",
               "work",
-              893312,
-              40352
+              3249536,
+              45472
             ],
             [
-              "settle:32:21:0",
+              "settle:2:16:2",
               "work",
-              2135424,
-              1416096
+              143232,
+              1062048
             ],
             [
-              "settle:32:21:1",
+              "settle:2:16:4",
               "work",
-              2138752,
-              1416096
+              145536,
+              1062560
             ],
             [
-              "settle:32:21:2",
+              "settle:2:16:5",
               "work",
-              2134400,
-              1417376
+              147072,
+              1063584
             ],
             [
-              "settle:32:21:4",
+              "settle:2:16:6",
               "work",
-              2136704,
-              1417888
+              144256,
+              1063840
             ],
             [
-              "settle:32:21:6",
+              "settle:2:16:1",
               "work",
-              2135424,
-              1419168
+              147584,
+              1060768
             ],
             [
-              "settle:32:21:3",
+              "settle:2:16:3",
               "work",
-              2139008,
-              1417376
-            ],
-            [
-              "settle:32:21:5",
-              "work",
-              2138240,
-              1418912
+              147840,
+              1062048
             ],
             [
               "settle:32:32:0",
@@ -12318,82 +12630,82 @@
           ],
           [
             [
-              "settle:33:0:0",
+              "settle:54:0:0",
               "work",
-              2191744,
-              21664
+              3560576,
+              34208
             ],
             [
-              "settle:13:0:0",
+              "settle:54:0:2",
               "work",
-              889728,
-              37792
+              3562112,
+              35744
             ],
             [
-              "settle:13:0:2",
+              "settle:54:0:3",
               "work",
-              891264,
-              39328
+              3560320,
+              36256
             ],
             [
-              "settle:13:0:3",
+              "settle:54:0:1",
               "work",
-              889728,
-              40352
+              3564160,
+              34464
             ],
             [
-              "settle:13:0:1",
+              "settle:54:0:4",
               "work",
-              893312,
-              37792
+              3563904,
+              36768
             ],
             [
-              "settle:13:0:4",
+              "settle:49:0:0",
               "work",
-              893312,
-              40352
+              3249536,
+              45472
             ],
             [
-              "settle:32:21:0",
+              "settle:2:16:0",
               "work",
-              2135424,
-              1416096
+              144256,
+              1060768
             ],
             [
-              "settle:32:21:1",
+              "settle:2:16:2",
               "work",
-              2138752,
-              1416096
+              143232,
+              1062048
             ],
             [
-              "settle:32:21:2",
+              "settle:2:16:4",
               "work",
-              2134400,
-              1417376
+              145536,
+              1062560
             ],
             [
-              "settle:32:21:4",
+              "settle:2:16:5",
               "work",
-              2136704,
-              1417888
+              147072,
+              1063584
             ],
             [
-              "settle:32:21:6",
+              "settle:2:16:6",
               "work",
-              2135424,
-              1419168
+              144256,
+              1063840
             ],
             [
-              "settle:32:21:3",
+              "settle:2:16:1",
               "work",
-              2139008,
-              1417376
+              147584,
+              1060768
             ],
             [
-              "settle:32:21:5",
+              "settle:2:16:3",
               "work",
-              2138240,
-              1418912
+              147840,
+              1062048
             ],
             [
               "settle:32:32:0",
@@ -12428,82 +12740,82 @@
           ],
           [
             [
-              "settle:33:0:0",
+              "settle:54:0:0",
               "work",
-              2191744,
-              21664
+              3560576,
+              34208
             ],
             [
-              "settle:13:0:0",
+              "settle:54:0:2",
               "work",
-              889728,
-              37792
+              3562112,
+              35744
             ],
             [
-              "settle:13:0:2",
+              "settle:54:0:3",
               "work",
-              891264,
-              39328
+              3560320,
+              36256
             ],
             [
-              "settle:13:0:3",
+              "settle:54:0:1",
               "work",
-              889728,
-              40352
+              3564160,
+              34464
             ],
             [
-              "settle:13:0:1",
+              "settle:54:0:4",
               "work",
-              893312,
-              37792
+              3563904,
+              36768
             ],
             [
-              "settle:13:0:4",
+              "settle:49:0:0",
               "work",
-              893312,
-              40352
+              3249536,
+              45472
             ],
             [
-              "settle:32:21:0",
+              "settle:2:16:0",
               "work",
-              2135424,
-              1416096
+              144256,
+              1060768
             ],
             [
-              "settle:32:21:1",
+              "settle:2:16:2",
               "work",
-              2138752,
-              1416096
+              143232,
+              1062048
             ],
             [
-              "settle:32:21:2",
+              "settle:2:16:4",
               "work",
-              2134400,
-              1417376
+              145536,
+              1062560
             ],
             [
-              "settle:32:21:4",
+              "settle:2:16:5",
               "work",
-              2136704,
-              1417888
+              147072,
+              1063584
             ],
             [
-              "settle:32:21:6",
+              "settle:2:16:6",
               "work",
-              2135424,
-              1419168
+              144256,
+              1063840
             ],
             [
-              "settle:32:21:3",
+              "settle:2:16:1",
               "work",
-              2139008,
-              1417376
+              147584,
+              1060768
             ],
             [
-              "settle:32:21:5",
+              "settle:2:16:3",
               "work",
-              2138240,
-              1418912
+              147840,
+              1062048
             ],
             [
               "settle:32:32:0",
@@ -12538,82 +12850,192 @@
           ],
           [
             [
-              "settle:33:0:0",
-              "plaza",
-              2190976,
-              22688
-            ],
-            [
-              "settle:13:0:0",
-              "plaza",
-              891008,
-              38816
-            ],
-            [
-              "settle:13:0:2",
-              "plaza",
-              891008,
-              39328
-            ],
-            [
-              "settle:13:0:3",
-              "plaza",
-              891520,
-              39328
-            ],
-            [
-              "settle:13:0:1",
+              "settle:54:0:0",
               "work",
-              893312,
-              37792
+              3560576,
+              34208
             ],
             [
-              "settle:13:0:4",
-              "plaza",
-              891008,
-              38816
-            ],
-            [
-              "settle:32:21:0",
+              "settle:54:0:2",
               "work",
-              2135424,
-              1416096
+              3562112,
+              35744
             ],
             [
-              "settle:32:21:1",
+              "settle:54:0:3",
               "work",
-              2138752,
-              1416096
+              3560320,
+              36256
             ],
             [
-              "settle:32:21:2",
-              "plaza",
-              2136960,
-              1417120
-            ],
-            [
-              "settle:32:21:4",
-              "plaza",
-              2137216,
-              1418144
-            ],
-            [
-              "settle:32:21:6",
+              "settle:54:0:1",
               "work",
-              2135424,
-              1419168
+              3564160,
+              34464
             ],
             [
-              "settle:32:21:3",
-              "plaza",
-              2136192,
-              1418144
+              "settle:54:0:4",
+              "work",
+              3563904,
+              36768
             ],
             [
-              "settle:32:21:5",
+              "settle:49:0:0",
+              "work",
+              3249536,
+              45472
+            ],
+            [
+              "settle:2:16:0",
+              "work",
+              144256,
+              1060768
+            ],
+            [
+              "settle:2:16:2",
+              "work",
+              143232,
+              1062048
+            ],
+            [
+              "settle:2:16:4",
+              "work",
+              145536,
+              1062560
+            ],
+            [
+              "settle:2:16:5",
+              "work",
+              147072,
+              1063584
+            ],
+            [
+              "settle:2:16:6",
+              "work",
+              144256,
+              1063840
+            ],
+            [
+              "settle:2:16:1",
+              "work",
+              147584,
+              1060768
+            ],
+            [
+              "settle:2:16:3",
+              "work",
+              147840,
+              1062048
+            ],
+            [
+              "settle:32:32:0",
+              "work",
+              2104960,
+              2106272
+            ],
+            [
+              "settle:32:32:3",
+              "work",
+              2104704,
+              2108320
+            ],
+            [
+              "settle:32:32:1",
+              "work",
+              2108544,
+              2106528
+            ],
+            [
+              "settle:32:32:2",
+              "work",
+              2106496,
+              2107808
+            ],
+            [
+              "settle:32:32:4",
+              "work",
+              2108288,
+              2108832
+            ]
+          ],
+          [
+            [
+              "settle:54:0:0",
               "plaza",
-              2136704,
-              1418144
+              3561856,
+              35232
+            ],
+            [
+              "settle:54:0:2",
+              "plaza",
+              3561856,
+              35744
+            ],
+            [
+              "settle:54:0:3",
+              "plaza",
+              3562368,
+              35744
+            ],
+            [
+              "settle:54:0:1",
+              "work",
+              3564160,
+              34464
+            ],
+            [
+              "settle:54:0:4",
+              "plaza",
+              3561856,
+              35232
+            ],
+            [
+              "settle:49:0:0",
+              "plaza",
+              3250048,
+              46240
+            ],
+            [
+              "settle:2:16:0",
+              "work",
+              144256,
+              1060768
+            ],
+            [
+              "settle:2:16:2",
+              "plaza",
+              145792,
+              1061792
+            ],
+            [
+              "settle:2:16:4",
+              "plaza",
+              146048,
+              1062816
+            ],
+            [
+              "settle:2:16:5",
+              "plaza",
+              145536,
+              1062816
+            ],
+            [
+              "settle:2:16:6",
+              "work",
+              144256,
+              1063840
+            ],
+            [
+              "settle:2:16:1",
+              "work",
+              147584,
+              1060768
+            ],
+            [
+              "settle:2:16:3",
+              "plaza",
+              145024,
+              1062816
             ],
             [
               "settle:32:32:0",
@@ -12648,82 +13070,82 @@
           ],
           [
             [
-              "settle:33:0:0",
+              "settle:54:0:0",
               "plaza",
-              2190976,
-              22688
+              3561856,
+              35232
             ],
             [
-              "settle:13:0:0",
+              "settle:54:0:2",
               "plaza",
-              891008,
-              38816
+              3561856,
+              35744
             ],
             [
-              "settle:13:0:2",
+              "settle:54:0:3",
               "plaza",
-              891008,
-              39328
+              3562368,
+              35744
             ],
             [
-              "settle:13:0:3",
-              "plaza",
-              891520,
-              39328
-            ],
-            [
-              "settle:13:0:1",
+              "settle:54:0:1",
               "work",
-              893312,
-              37792
+              3564160,
+              34464
             ],
             [
-              "settle:13:0:4",
+              "settle:54:0:4",
               "plaza",
-              891008,
-              38816
+              3561856,
+              35232
             ],
             [
-              "settle:32:21:0",
+              "settle:49:0:0",
+              "plaza",
+              3250048,
+              46240
+            ],
+            [
+              "settle:2:16:0",
               "work",
-              2135424,
-              1416096
+              144256,
+              1060768
             ],
             [
-              "settle:32:21:1",
+              "settle:2:16:2",
+              "plaza",
+              145792,
+              1061792
+            ],
+            [
+              "settle:2:16:4",
+              "plaza",
+              146048,
+              1062816
+            ],
+            [
+              "settle:2:16:5",
+              "plaza",
+              145536,
+              1062816
+            ],
+            [
+              "settle:2:16:6",
               "work",
-              2138752,
-              1416096
+              144256,
+              1063840
             ],
             [
-              "settle:32:21:2",
-              "plaza",
-              2136960,
-              1417120
-            ],
-            [
-              "settle:32:21:4",
-              "plaza",
-              2137216,
-              1418144
-            ],
-            [
-              "settle:32:21:6",
+              "settle:2:16:1",
               "work",
-              2135424,
-              1419168
+              147584,
+              1060768
             ],
             [
-              "settle:32:21:3",
+              "settle:2:16:3",
               "plaza",
-              2136192,
-              1418144
-            ],
-            [
-              "settle:32:21:5",
-              "plaza",
-              2136704,
-              1418144
+              145024,
+              1062816
             ],
             [
               "settle:32:32:0",
@@ -12758,70 +13180,70 @@
           ],
           [
             [
-              "settle:33:0:0",
+              "settle:54:0:0",
               "plaza",
-              2190976,
-              22688
+              3561856,
+              35232
             ],
             [
-              "settle:13:0:0",
+              "settle:54:0:2",
               "plaza",
-              891008,
-              38816
+              3561856,
+              35744
             ],
             [
-              "settle:13:0:2",
+              "settle:54:0:3",
               "plaza",
-              891008,
-              39328
+              3562368,
+              35744
             ],
             [
-              "settle:13:0:3",
+              "settle:54:0:4",
               "plaza",
-              891520,
-              39328
+              3561856,
+              35232
             ],
             [
-              "settle:13:0:4",
+              "settle:49:0:0",
               "plaza",
-              891008,
-              38816
+              3250048,
+              46240
             ],
             [
-              "settle:32:21:0",
+              "settle:2:16:0",
               "work",
-              2135424,
-              1416096
+              144256,
+              1060768
             ],
             [
-              "settle:32:21:2",
+              "settle:2:16:2",
               "plaza",
-              2136960,
-              1417120
+              145792,
+              1061792
             ],
             [
-              "settle:32:21:4",
+              "settle:2:16:4",
               "plaza",
-              2137216,
-              1418144
+              146048,
+              1062816
             ],
             [
-              "settle:32:21:6",
+              "settle:2:16:5",
+              "plaza",
+              145536,
+              1062816
+            ],
+            [
+              "settle:2:16:6",
               "work",
-              2135424,
-              1419168
+              144256,
+              1063840
             ],
             [
-              "settle:32:21:3",
+              "settle:2:16:3",
               "plaza",
-              2136192,
-              1418144
-            ],
-            [
-              "settle:32:21:5",
-              "plaza",
-              2136704,
-              1418144
+              145024,
+              1062816
             ],
             [
               "settle:32:32:0",
@@ -12850,70 +13272,70 @@
           ],
           [
             [
-              "settle:33:0:0",
+              "settle:54:0:0",
               "plaza",
-              2190976,
-              22688
+              3561856,
+              35232
             ],
             [
-              "settle:13:0:0",
+              "settle:54:0:2",
               "plaza",
-              891008,
-              38816
+              3561856,
+              35744
             ],
             [
-              "settle:13:0:2",
+              "settle:54:0:3",
               "plaza",
-              891008,
-              39328
+              3562368,
+              35744
             ],
             [
-              "settle:13:0:3",
+              "settle:54:0:4",
               "plaza",
-              891520,
-              39328
+              3561856,
+              35232
             ],
             [
-              "settle:13:0:4",
+              "settle:49:0:0",
               "plaza",
-              891008,
-              38816
+              3250048,
+              46240
             ],
             [
-              "settle:32:21:0",
+              "settle:2:16:0",
               "work",
-              2135424,
-              1416096
+              144256,
+              1060768
             ],
             [
-              "settle:32:21:2",
+              "settle:2:16:2",
               "plaza",
-              2136960,
-              1417120
+              145792,
+              1061792
             ],
             [
-              "settle:32:21:4",
+              "settle:2:16:4",
               "plaza",
-              2137216,
-              1418144
+              146048,
+              1062816
             ],
             [
-              "settle:32:21:6",
+              "settle:2:16:5",
+              "plaza",
+              145536,
+              1062816
+            ],
+            [
+              "settle:2:16:6",
               "work",
-              2135424,
-              1419168
+              144256,
+              1063840
             ],
             [
-              "settle:32:21:3",
+              "settle:2:16:3",
               "plaza",
-              2136192,
-              1418144
-            ],
-            [
-              "settle:32:21:5",
-              "plaza",
-              2136704,
-              1418144
+              145024,
+              1062816
             ],
             [
               "settle:32:32:0",
@@ -12942,64 +13364,64 @@
           ],
           [
             [
-              "settle:33:0:0",
+              "settle:54:0:0",
               "plaza",
-              2190976,
-              22688
+              3561856,
+              35232
             ],
             [
-              "settle:13:0:0",
+              "settle:54:0:2",
               "plaza",
-              891008,
-              38816
+              3561856,
+              35744
             ],
             [
-              "settle:13:0:2",
+              "settle:54:0:3",
               "plaza",
-              891008,
-              39328
+              3562368,
+              35744
             ],
             [
-              "settle:13:0:3",
+              "settle:54:0:4",
               "plaza",
-              891520,
-              39328
+              3561856,
+              35232
             ],
             [
-              "settle:13:0:4",
+              "settle:49:0:0",
               "plaza",
-              891008,
-              38816
+              3250048,
+              46240
             ],
             [
-              "settle:32:21:2",
+              "settle:2:16:2",
               "plaza",
-              2136960,
-              1417120
+              145792,
+              1061792
             ],
             [
-              "settle:32:21:4",
+              "settle:2:16:4",
               "plaza",
-              2137216,
-              1418144
+              146048,
+              1062816
             ],
             [
-              "settle:32:21:6",
+              "settle:2:16:5",
+              "plaza",
+              145536,
+              1062816
+            ],
+            [
+              "settle:2:16:6",
               "work",
-              2135424,
-              1419168
+              144256,
+              1063840
             ],
             [
-              "settle:32:21:3",
+              "settle:2:16:3",
               "plaza",
-              2136192,
-              1418144
-            ],
-            [
-              "settle:32:21:5",
-              "plaza",
-              2136704,
-              1418144
+              145024,
+              1062816
             ],
             [
               "settle:32:32:0",
@@ -13028,64 +13450,64 @@
           ],
           [
             [
-              "settle:33:0:0",
+              "settle:54:0:0",
               "plaza",
-              2190976,
-              22688
+              3561856,
+              35232
             ],
             [
-              "settle:13:0:0",
+              "settle:54:0:2",
               "plaza",
-              891008,
-              38816
+              3561856,
+              35744
             ],
             [
-              "settle:13:0:2",
+              "settle:54:0:3",
               "plaza",
-              891008,
-              39328
+              3562368,
+              35744
             ],
             [
-              "settle:13:0:3",
+              "settle:54:0:4",
               "plaza",
-              891520,
-              39328
+              3561856,
+              35232
             ],
             [
-              "settle:13:0:4",
+              "settle:49:0:0",
               "plaza",
-              891008,
-              38816
+              3250048,
+              46240
             ],
             [
-              "settle:32:21:2",
+              "settle:2:16:2",
               "plaza",
-              2136960,
-              1417120
+              145792,
+              1061792
             ],
             [
-              "settle:32:21:4",
+              "settle:2:16:4",
               "plaza",
-              2137216,
-              1418144
+              146048,
+              1062816
             ],
             [
-              "settle:32:21:6",
+              "settle:2:16:5",
+              "plaza",
+              145536,
+              1062816
+            ],
+            [
+              "settle:2:16:6",
               "work",
-              2135424,
-              1419168
+              144256,
+              1063840
             ],
             [
-              "settle:32:21:3",
+              "settle:2:16:3",
               "plaza",
-              2136192,
-              1418144
-            ],
-            [
-              "settle:32:21:5",
-              "plaza",
-              2136704,
-              1418144
+              145024,
+              1062816
             ],
             [
               "settle:32:32:0",
@@ -13114,18 +13536,18 @@
           ],
           [
             [
-              "settle:32:21:6",
+              "settle:2:16:6",
               "work",
-              2135424,
-              1419168
+              144256,
+              1063840
             ]
           ],
           [
             [
-              "settle:32:21:6",
+              "settle:2:16:6",
               "work",
-              2135424,
-              1419168
+              144256,
+              1063840
             ]
           ]
         ]

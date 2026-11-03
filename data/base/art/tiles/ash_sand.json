@@ -1,0 +1,70 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/tile/ash_sand",
+  "canvas": {
+    "w": 32,
+    "h": 32,
+    "origin": [
+      0,
+      0
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          32
+        ]
+      },
+      "fill": {
+        "color": "#5A5650"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          10,
+          10,
+          6,
+          2.2
+        ]
+      },
+      "fill": {
+        "color": "#6C6760"
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          22,
+          7,
+          2.4
+        ]
+      },
+      "fill": {
+        "color": "#4A4640"
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "ellipse": [
+          24,
+          8,
+          1,
+          1
+        ]
+      },
+      "fill": {
+        "color": "#E0662A"
+      },
+      "alpha": 0.7
+    }
+  ],
+  "palette": {}
+}

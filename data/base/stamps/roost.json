@@ -39,15 +39,12 @@
       "tile": 11
     },
     "O": {
-      "tile": 14,
       "spawner": "base:enemy/wolf_storm"
     },
     "d": {
-      "tile": 14,
       "spawner": "base:enemy/wolf_shade"
     },
     "k": {
-      "tile": 14,
       "spawner": "base:enemy/storm_sovereign"
     },
     "o": {

@@ -1,0 +1,155 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/dead_tree",
+  "canvas": {
+    "w": 64,
+    "h": 96,
+    "origin": [
+      32,
+      88
+    ]
+  },
+  "palette": {
+    "trunk": "#5A4A44",
+    "dark": "#2E2420",
+    "light": "#7A6A62"
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          32,
+          88,
+          18,
+          5
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            27,
+            88
+          ],
+          [
+            29,
+            50
+          ],
+          [
+            33,
+            18
+          ],
+          [
+            36,
+            50
+          ],
+          [
+            37,
+            88
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.trunk"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 1.6
+      }
+    },
+    {
+      "shape": {
+        "path": "M 31 44 Q 20 36 12 22"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 4.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 31 44 Q 20 36 12 22"
+      },
+      "stroke": {
+        "color": "$p.trunk",
+        "width": 2.6
+      }
+    },
+    {
+      "shape": {
+        "path": "M 34 36 Q 44 30 52 16"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 4.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 34 36 Q 44 30 52 16"
+      },
+      "stroke": {
+        "color": "$p.trunk",
+        "width": 2.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 30 60 Q 22 56 15 50"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 3.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 30 60 Q 22 56 15 50"
+      },
+      "stroke": {
+        "color": "$p.trunk",
+        "width": 2.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 12 22 L 8 14 M 12 22 L 17 15 M 52 16 L 56 9 M 52 16 L 47 10"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 2.4
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            30,
+            70
+          ],
+          [
+            31,
+            52
+          ],
+          [
+            33,
+            52
+          ],
+          [
+            33.5,
+            70
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.45
+    }
+  ]
+}

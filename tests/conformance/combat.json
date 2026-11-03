@@ -2475,23 +2475,23 @@
         "op": "combat",
         "story": {
           "quests": {
-            "board:51:0:1:1": {
-              "id": "board:51:0:1:1",
-              "name": "$i18n:quest.board.cull.gruff.name",
+            "board:9:3:1:0": {
+              "id": "board:9:3:1:0",
+              "name": "$i18n:quest.board.cull.mystic.name",
               "kind": "guild",
               "args": {
                 "count": "3",
-                "target": "$i18n:enemy.slime_slate.name",
-                "place": "Holomere"
+                "target": "$i18n:enemy.night_owl.name",
+                "place": "Wyninbrook"
               },
               "stages": [
                 {
                   "id": "work",
-                  "journal": "$i18n:quest.board.cull.gruff.journal",
+                  "journal": "$i18n:quest.board.cull.mystic.journal",
                   "objectives": [
                     {
                       "type": "kill",
-                      "enemy": "base:enemy/slime_slate",
+                      "enemy": "base:enemy/night_owl",
                       "count": 3
                     }
                   ],
@@ -2501,15 +2501,15 @@
               "rewards": [
                 {
                   "effect": "add_xp",
-                  "amount": 56
+                  "amount": 28
                 },
                 {
                   "effect": "add_gold",
-                  "amount": 92
+                  "amount": 46
                 },
                 {
                   "effect": "add_guild_points",
-                  "amount": 26
+                  "amount": 13
                 }
               ]
             }
@@ -2610,7 +2610,7 @@
                 "windup_ticks": 18,
                 "recovery_ticks": 30
               },
-              "id": "base:enemy/slime_slate"
+              "id": "base:enemy/night_owl"
             }
           },
           {
@@ -2642,7 +2642,7 @@
                 "windup_ticks": 18,
                 "recovery_ticks": 30
               },
-              "id": "base:enemy/slime_slate"
+              "id": "base:enemy/night_owl"
             }
           },
           {
@@ -2674,7 +2674,7 @@
                 "windup_ticks": 18,
                 "recovery_ticks": 30
               },
-              "id": "base:enemy/slime_slate"
+              "id": "base:enemy/night_owl"
             }
           }
         ],
@@ -2689,7 +2689,7 @@
             "do": [
               {
                 "cmd": "start_quest",
-                "quest": "board:51:0:1:1"
+                "quest": "board:9:3:1:0"
               }
             ]
           },
@@ -2753,7 +2753,7 @@
               "gold": 0,
               "guild_points": 0,
               "quests": {
-                "board:51:0:1:1": {
+                "board:9:3:1:0": {
                   "stage": "work",
                   "done": false,
                   "progress": [
@@ -2766,9 +2766,9 @@
           },
           {
             "player": {
-              "hp": 162,
-              "level": 2,
-              "xp": 24,
+              "hp": 142,
+              "level": 1,
+              "xp": 46,
               "deaths": 0,
               "x": 2.2,
               "y": 4.5
@@ -2803,10 +2803,10 @@
             },
             "story": {
               "flags": {},
-              "gold": 92,
-              "guild_points": 26,
+              "gold": 46,
+              "guild_points": 13,
               "quests": {
-                "board:51:0:1:1": {
+                "board:9:3:1:0": {
                   "stage": "work",
                   "done": true,
                   "progress": [
@@ -2819,9 +2819,9 @@
           },
           {
             "player": {
-              "hp": 162,
-              "level": 2,
-              "xp": 24,
+              "hp": 142,
+              "level": 1,
+              "xp": 46,
               "deaths": 0,
               "x": 2.2,
               "y": 4.5
@@ -2856,10 +2856,10 @@
             },
             "story": {
               "flags": {},
-              "gold": 92,
-              "guild_points": 26,
+              "gold": 46,
+              "guild_points": 13,
               "quests": {
-                "board:51:0:1:1": {
+                "board:9:3:1:0": {
                   "stage": "work",
                   "done": true,
                   "progress": [

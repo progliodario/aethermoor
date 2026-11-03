@@ -36,18 +36,15 @@
       "radius_x100": 10
     },
     "3": {
-      "tile": 14,
       "spawner": "base:enemy/slime_mint"
     },
     "4": {
-      "tile": 14,
       "spawner": "base:enemy/wolf_tawny"
     },
     "=": {
       "tile": 11
     },
     "n": {
-      "tile": 14,
       "spawner": "base:enemy/mint_matron"
     },
     "o": {

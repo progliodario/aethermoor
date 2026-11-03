@@ -36,14 +36,12 @@
       "radius_x100": 10
     },
     "7": {
-      "tile": 14,
       "spawner": "base:enemy/wolf_dune"
     },
     "=": {
       "tile": 11
     },
     "a": {
-      "tile": 14,
       "spawner": "base:enemy/slime_sand"
     },
     "o": {
@@ -51,7 +49,6 @@
       "radius_x100": 30
     },
     "u": {
-      "tile": 14,
       "spawner": "base:enemy/dune_mother"
     }
   },

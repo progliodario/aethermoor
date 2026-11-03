@@ -1,0 +1,112 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/tile/savanna_a",
+  "canvas": {
+    "w": 32,
+    "h": 32,
+    "origin": [
+      0,
+      0
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          32
+        ]
+      },
+      "fill": {
+        "color": "#BCAA55"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            5,
+            14
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            9,
+            14
+          ]
+        ]
+      },
+      "fill": {
+        "color": "#9C8A3A"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            21,
+            25
+          ],
+          [
+            23,
+            19
+          ],
+          [
+            25,
+            25
+          ]
+        ]
+      },
+      "fill": {
+        "color": "#9C8A3A"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            14,
+            28
+          ],
+          [
+            16,
+            22
+          ],
+          [
+            18,
+            28
+          ]
+        ]
+      },
+      "fill": {
+        "color": "#D8C870"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            25,
+            10
+          ],
+          [
+            27,
+            4
+          ],
+          [
+            29,
+            10
+          ]
+        ]
+      },
+      "fill": {
+        "color": "#D8C870"
+      }
+    }
+  ],
+  "palette": {}
+}

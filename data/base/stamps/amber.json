@@ -39,15 +39,12 @@
       "tile": 11
     },
     "L": {
-      "tile": 14,
       "spawner": "base:enemy/amber_queen"
     },
     "P": {
-      "tile": 14,
       "spawner": "base:enemy/slime_amber"
     },
     "a": {
-      "tile": 14,
       "spawner": "base:enemy/slime_sand"
     },
     "o": {

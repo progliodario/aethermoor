@@ -1,0 +1,92 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/tile/ash_b",
+  "canvas": {
+    "w": 32,
+    "h": 32,
+    "origin": [
+      0,
+      0
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          32
+        ]
+      },
+      "fill": {
+        "color": "#46434A"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            4,
+            14
+          ],
+          [
+            14,
+            17
+          ],
+          [
+            13,
+            18.2
+          ],
+          [
+            3,
+            15.2
+          ]
+        ]
+      },
+      "fill": {
+        "color": "#2A282E"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            18,
+            6
+          ],
+          [
+            27,
+            10
+          ],
+          [
+            26,
+            11.2
+          ],
+          [
+            17,
+            7.2
+          ]
+        ]
+      },
+      "fill": {
+        "color": "#2A282E"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          21,
+          24,
+          1,
+          1
+        ]
+      },
+      "fill": {
+        "color": "#E0662A"
+      },
+      "alpha": 0.85
+    }
+  ],
+  "palette": {}
+}

@@ -52,6 +52,11 @@ struct Region {
     int shop_price_pm = 1000;  // what the shops of the region sell (spec 06)
     std::vector<std::string> shop_stock;
     std::vector<FaunaEntry> fauna;  // the enemies of the spawners of the region, by weight
+    int bias_elevation = 0;  // pull on the fields of the terrain near its center (spec 09, "Regions")
+    int bias_temperature = 0;
+    int bias_moisture = 0;
+    std::map<std::string, std::vector<int>> ground;  // ground tiles by biome name, instead of the ones of the world
+    std::map<std::string, std::vector<PropOption>> props;  // random props by biome name, instead of the ones of the world
 };
 
 struct SettlementKind {
@@ -152,6 +157,7 @@ struct WorldParams {
 
     TimeParams time;
 
+    int region_blend = 0;     // tiles over which the biases of the regions are blended (spec 09); 0: no biases
     int enemy_hp_pct = 100;   // difficulty (spec 04): health of the creatures of the streamed world, in percent
     int enemy_atk_pct = 100;  // and their attack
     int landmark_clearing = 0;  // tiles of plains around the footprint of a landmark (spec 09); 0: none
