@@ -1,0 +1,39 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/way_ottavio_1",
+  "name": "$i18n:quest.way_ottavio_1.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.way_ottavio_1.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_glow",
+          "count": 8
+        },
+        {
+          "type": "collect",
+          "item": "base:item/star_dust",
+          "count": 6
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 220
+    },
+    {
+      "effect": "add_gold",
+      "amount": 484
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 15
+    }
+  ]
+}

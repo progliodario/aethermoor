@@ -55,7 +55,15 @@
     { "id": "ironspine_forge", "name": "Deep Forge", "stamp": "base:stamp/forge", "kind": "dungeon", "dx": 3968, "dy": -4224 },
     { "id": "tidehaven_galleon", "name": "Sunken Galleon", "stamp": "base:stamp/galleon", "kind": "dungeon", "dx": -5504, "dy": 4736 },
     { "id": "frostveil_keep", "name": "Glacier Keep", "stamp": "base:stamp/keep", "kind": "dungeon", "dx": -1408, "dy": -6272 },
-    { "id": "ashen_vault", "name": "Obsidian Vault", "stamp": "base:stamp/vault", "kind": "dungeon", "dx": 6528, "dy": 128 }
+    { "id": "ashen_vault", "name": "Obsidian Vault", "stamp": "base:stamp/vault", "kind": "dungeon", "dx": 6528, "dy": 128 },
+    { "id": "verdalis_mint", "name": "Mint Hollow", "stamp": "base:stamp/mint", "kind": "dungeon", "dx": -128, "dy": 128 },
+    { "id": "whisperwood_moss", "name": "Mossy Den", "stamp": "base:stamp/moss", "kind": "dungeon", "dx": -4736, "dy": -2944 },
+    { "id": "ironspine_rust", "name": "Rust Pit", "stamp": "base:stamp/rust", "kind": "dungeon", "dx": 4224, "dy": -4480 },
+    { "id": "sunscar_dune", "name": "Dune Den", "stamp": "base:stamp/dune", "kind": "dungeon", "dx": 4736, "dy": 3456 },
+    { "id": "frostveil_rookery", "name": "Polar Rookery", "stamp": "base:stamp/rookery", "kind": "dungeon", "dx": -1152, "dy": -7040 },
+    { "id": "tidehaven_shoal", "name": "Pearl Shoal", "stamp": "base:stamp/shoal", "kind": "dungeon", "dx": -6272, "dy": 4480 },
+    { "id": "lumeria_pool", "name": "Nebula Pool", "stamp": "base:stamp/pool", "kind": "dungeon", "dx": -640, "dy": 6528 },
+    { "id": "ashen_wastes_charpit", "name": "Char Pit", "stamp": "base:stamp/charpit", "kind": "dungeon", "dx": 6528, "dy": -640 }
   ],
   "guild": {
     "offers_per_day": 4,
@@ -145,6 +153,14 @@
     }
   },
   "npcs": [
-    { "key": "guild_clerk_mira", "dialogue": "base:dialogue/npc/mira", "variant": "red", "dx": 1, "dy": -1 }
+    { "key": "guild_clerk_mira", "dialogue": "base:dialogue/npc/mira", "variant": "red", "dx": 1, "dy": -1 },
+    { "key": "wayfarer_tamsin", "dialogue": "base:dialogue/npc/tamsin", "variant": "green", "dx": 384, "dy": 129 },
+    { "key": "wayfarer_elowen", "dialogue": "base:dialogue/npc/elowen", "variant": "purple", "dx": -4224, "dy": -2687 },
+    { "key": "wayfarer_dorn", "dialogue": "base:dialogue/npc/dorn", "variant": "brown", "dx": 4224, "dy": -4735 },
+    { "key": "wayfarer_zahra", "dialogue": "base:dialogue/npc/zahra", "variant": "ochre", "dx": 5504, "dy": 3969 },
+    { "key": "wayfarer_ilvi", "dialogue": "base:dialogue/npc/ilvi", "variant": "cream", "dx": -1152, "dy": -6527 },
+    { "key": "wayfarer_marlo", "dialogue": "base:dialogue/npc/marlo", "variant": "teal", "dx": -6272, "dy": 4225 },
+    { "key": "wayfarer_kessa", "dialogue": "base:dialogue/npc/kessa", "variant": "red", "dx": 6784, "dy": -383 },
+    { "key": "wayfarer_ottavio", "dialogue": "base:dialogue/npc/ottavio", "variant": "", "dx": -640, "dy": 6273 }
   ]
 }

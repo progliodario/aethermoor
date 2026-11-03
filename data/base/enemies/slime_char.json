@@ -24,6 +24,6 @@
     }
   ],
   "radius_x100": 40,
-  "behavior": "base:behavior/melee_chaser_basic",
+  "behavior": "base:behavior/brute",
   "art": "base:art/creature/slime_char"
 }

@@ -24,6 +24,6 @@
     }
   ],
   "radius_x100": 55,
-  "behavior": "base:behavior/melee_chaser_basic",
+  "behavior": "base:behavior/guardian",
   "art": "base:art/creature/magma_heart"
 }

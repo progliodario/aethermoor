@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/polar_kings_mantle",
+  "name": "$i18n:item.polar_kings_mantle.name",
+  "description": "$i18n:item.polar_kings_mantle.desc",
+  "kind": "armor",
+  "rarity": "epic",
+  "price": 1700,
+  "armor": {
+    "def": 11,
+    "mdef": 8
+  }
+}

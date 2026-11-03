@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/nebula_heart",
+  "name": "$i18n:enemy.nebula_heart.name",
+  "level": 14,
+  "stats": {
+    "hp": 420,
+    "atk": 33,
+    "def": 12,
+    "mdef": 15,
+    "speed_x100": 250
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "fire": 1500
+  },
+  "xp": 150,
+  "drops": [
+    {
+      "item": "base:item/nebula_staff",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 1000
+    }
+  ],
+  "radius_x100": 54,
+  "behavior": "base:behavior/guardian",
+  "art": "base:art/creature/nebula_heart"
+}

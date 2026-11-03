@@ -1,0 +1,55 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/way_zahra_3",
+  "name": "$i18n:quest.way_zahra_3.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "hunt",
+      "journal": "$i18n:quest.way_zahra_3.hunt",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/wolf_dune",
+          "count": 12
+        },
+        {
+          "type": "collect",
+          "item": "base:item/dune_pelt",
+          "count": 8
+        }
+      ],
+      "next": "report"
+    },
+    {
+      "id": "report",
+      "journal": "$i18n:quest.way_zahra_3.report",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "wayfarer_zahra"
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 480
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1050
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 45
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/caravan_mantle",
+      "qty": 1
+    }
+  ]
+}

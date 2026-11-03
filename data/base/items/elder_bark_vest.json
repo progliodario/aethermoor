@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/elder_bark_vest",
+  "name": "$i18n:item.elder_bark_vest.name",
+  "description": "$i18n:item.elder_bark_vest.desc",
+  "kind": "armor",
+  "rarity": "rare",
+  "price": 700,
+  "armor": {
+    "def": 6,
+    "mdef": 5
+  }
+}

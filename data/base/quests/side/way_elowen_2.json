@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/way_elowen_2",
+  "name": "$i18n:quest.way_elowen_2.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "deliver",
+      "journal": "$i18n:quest.way_elowen_2.deliver",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "wayfarer_tamsin"
+        }
+      ],
+      "next": "report"
+    },
+    {
+      "id": "report",
+      "journal": "$i18n:quest.way_elowen_2.report",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "wayfarer_elowen"
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 270
+    },
+    {
+      "effect": "add_gold",
+      "amount": 600
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 25
+    }
+  ]
+}
