@@ -6,6 +6,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Fixed
 
+- The shop, the bag and the list of Threshold Stones scroll with the cursor when they have more rows than the screen can show (desktop and Android); before, the lowest entries were out of reach.
 - Dungeons, lairs, nests and outposts no longer end up under a lake or inside a mountain range for some world seeds: around every landmark (spec 09, "Clearings") water and mountains become plains for 24 tiles beyond its footprint.
 
 ### Added

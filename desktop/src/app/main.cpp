@@ -977,6 +977,11 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
+// The first row to draw of a long list: the rows that fit on the screen, with the cursor kept near the middle.
+int list_first(int total, int cursor, int max_rows) {
+    return total <= max_rows ? 0 : std::clamp(cursor - max_rows / 2, 0, total - max_rows);
+}
+
 void draw_shop(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w, int out_h,
                float density) {
     if (sim.shop() == nullptr) {
@@ -986,7 +991,11 @@ void draw_shop(SDL_Renderer* renderer, const Assets& assets, const aether::World
     const auto entries = shop_entries(sim, ui);
     const float row = 8.0F * kScale + 8.0F;
     const float w = std::min(static_cast<float>(out_w) - 40.0F, 560.0F * density);
-    const float h = 100.0F + row * static_cast<float>(std::max<std::size_t>(entries.size(), 1));
+    const int cursor = std::clamp(ui.shop_cursor, 0, std::max(static_cast<int>(entries.size()) - 1, 0));
+    const int max_rows = std::max(3, static_cast<int>((static_cast<float>(out_h) - 150.0F) / row));  // a long list scrolls with the cursor
+    const int visible = std::min(static_cast<int>(entries.size()), max_rows);
+    const int first = list_first(static_cast<int>(entries.size()), cursor, max_rows);
+    const float h = 100.0F + row * static_cast<float>(std::max(visible, 1));
     const float x = (static_cast<float>(out_w) - w) / 2.0F;
     const float y = (static_cast<float>(out_h) - h) / 2.0F;
     fill_rect(renderer, x, y, w, h, 11, 31, 58, 245);
@@ -999,12 +1008,11 @@ void draw_shop(SDL_Renderer* renderer, const Assets& assets, const aether::World
     const std::string gold = assets.pack.text(ui.lang, "$i18n:ui.gold", {{"gold", static_cast<std::int64_t>(sim.story().gold())}});
     SDL_RenderDebugText(renderer, (x + w - 16.0F) / kScale - static_cast<float>(gold.size()) * 8.0F, (y + 12.0F) / kScale, gold.c_str());
     float ty = y + 12.0F + row + 8.0F;
-    const int cursor = std::clamp(ui.shop_cursor, 0, std::max(static_cast<int>(entries.size()) - 1, 0));
     if (entries.empty()) {
         SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
         SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, ty / kScale, assets.pack.text(ui.lang, "$i18n:ui.shop_empty").c_str());
     }
-    for (std::size_t i = 0; i < entries.size(); ++i) {
+    for (std::size_t i = static_cast<std::size_t>(first); i < static_cast<std::size_t>(first + visible); ++i) {
         const std::string name = assets.pack.text(ui.lang, "$i18n:" + item_key(entries[i].first) + ".name", {{"count", std::int64_t{1}}});
         const std::string price = std::to_string(entries[i].second);
         if (static_cast<int>(i) == cursor) {
@@ -1203,7 +1211,11 @@ void draw_travel(SDL_Renderer* renderer, const Assets& assets, const aether::Wor
     constexpr float kScale = 2.0F;
     const float row = 8.0F * kScale + 8.0F;
     const float w = std::min(static_cast<float>(out_w) - 40.0F, 640.0F * density);
-    const float h = 120.0F + row * 2.0F * static_cast<float>(std::max<std::size_t>(travel->stops.size(), 1));
+    const int cursor = std::clamp(ui.travel_cursor, 0, std::max(static_cast<int>(travel->stops.size()) - 1, 0));
+    const int max_rows = std::max(2, static_cast<int>((static_cast<float>(out_h) - 170.0F) / (row * 2.0F)));  // a long list scrolls with the cursor
+    const int visible = std::min(static_cast<int>(travel->stops.size()), max_rows);
+    const int first = list_first(static_cast<int>(travel->stops.size()), cursor, max_rows);
+    const float h = 120.0F + row * 2.0F * static_cast<float>(std::max(visible, 1));
     const float x = (static_cast<float>(out_w) - w) / 2.0F;
     const float y = (static_cast<float>(out_h) - h) / 2.0F;
     fill_rect(renderer, x, y, w, h, 11, 31, 58, 245);
@@ -1214,9 +1226,8 @@ void draw_travel(SDL_Renderer* renderer, const Assets& assets, const aether::Wor
     SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
     SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + 12.0F + row) / kScale,
                         assets.pack.text(ui.lang, travel->fresh ? "$i18n:ui.stone_awake" : "$i18n:ui.stone_rest").c_str());
-    const int cursor = std::clamp(ui.travel_cursor, 0, std::max(static_cast<int>(travel->stops.size()) - 1, 0));
     float ty = y + 12.0F + row * 2.0F + 6.0F;
-    for (std::size_t i = 0; i < travel->stops.size(); ++i) {
+    for (std::size_t i = static_cast<std::size_t>(first); i < static_cast<std::size_t>(first + visible); ++i) {
         const aether::WorldSim::StoneStop& stop = travel->stops[i];
         const bool here = static_cast<int>(i) == travel->here;
         if (static_cast<int>(i) == cursor) {
@@ -1248,7 +1259,11 @@ void draw_inventory_and_notice(SDL_Renderer* renderer, const Assets& assets, con
         const float x = (static_cast<float>(out_w) - w) / 2.0F;
         const float row = 8.0F * kScale + 8.0F;
         const auto& items = sim.inventory();
-        const float h = 56.0F + row * static_cast<float>(std::max<std::size_t>(items.size(), 1)) + row * 2.0F;
+        const int bag_cursor = std::clamp(ui.bag_cursor, 0, std::max(static_cast<int>(items.size()) - 1, 0));
+        const int max_rows = std::max(3, static_cast<int>((static_cast<float>(out_h) - 140.0F) / row) - 2);  // a long list scrolls with the cursor
+        const int visible = std::min(static_cast<int>(items.size()), max_rows);
+        const int first = list_first(static_cast<int>(items.size()), bag_cursor, max_rows);
+        const float h = 56.0F + row * static_cast<float>(std::max(visible, 1)) + row * 2.0F;
         const float y = (static_cast<float>(out_h) - h) / 2.0F;
         fill_rect(renderer, x, y, w, h, 11, 31, 58, 240);
         fill_rect(renderer, x, y, w, 3.0F, 111, 227, 255, 255);
@@ -1266,6 +1281,10 @@ void draw_inventory_and_notice(SDL_Renderer* renderer, const Assets& assets, con
         int index = 0;
         std::string selected;
         for (const auto& [item_id, quantity] : items) {
+            if (index < first || index >= first + visible) {
+                ++index;
+                continue;
+            }
             const std::string key = item_key(item_id);
             const std::string name =
                 assets.pack.text(ui.lang, "$i18n:" + key + ".name", {{"count", static_cast<std::int64_t>(quantity)}});

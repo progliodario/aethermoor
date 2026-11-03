@@ -1145,6 +1145,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         drawTravel(world, data)
     }
 
+    /** The first row to draw of a long list: the rows that fit on the screen, with the cursor kept near the middle. */
+    private fun listWindow(total: Int, cursor: Int, maxRows: Int): Int = if (total <= maxRows) 0 else (cursor - maxRows / 2).coerceIn(0, total - maxRows)
+
     /** The shop (spec 06): buy / sell tabs, the entries with their price and the gold. */
     private fun drawShop(world: WorldSim, data: Assets) {
         if (world.shop == null) {
@@ -1157,7 +1160,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val entries = shopEntries(world)
         val rowH = font.lineHeight * 1.5f
         val panelW = min(width - 40f, 460f * density)
-        val panelH = 96f * density + rowH * max(entries.size, 1)
+        val cursor = shopCursor.coerceIn(0, max(entries.size - 1, 0))
+        val maxRows = max(3, ((height - 150f * density) / rowH).toInt()) // a long list scrolls with the cursor
+        val visible = min(entries.size, maxRows)
+        val first = listWindow(entries.size, cursor, maxRows)
+        val panelH = 96f * density + rowH * max(visible, 1)
         val panelX = (width - panelW) / 2f
         val panelY = (height - panelH) / 2f
         val tabY = panelY + 10f * density
@@ -1166,8 +1173,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         shopBuyTab = floatArrayOf(panelX + 12f * density, tabY, tabW, tabH)
         shopSellTab = floatArrayOf(panelX + 24f * density + tabW, tabY, tabW, tabH)
         val firstRowY = tabY + tabH + 12f * density
-        shopRowRects = entries.indices.map { floatArrayOf(panelX, firstRowY + it * rowH, panelW, rowH) }
-        val cursor = shopCursor.coerceIn(0, max(entries.size - 1, 0))
+        shopRowRects = entries.indices.map { if (it in first until first + visible) floatArrayOf(panelX, firstRowY + (it - first) * rowH, panelW, rowH) else OFF_SCREEN }
 
         shapes.projectionMatrix = camera.combined
         Gdx.gl.glEnable(GL20.GL_BLEND)
@@ -1183,7 +1189,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
         if (entries.isNotEmpty()) {
             shapes.color = Color(0.16f, 0.35f, 0.55f, 1f)
-            shapes.rect(panelX + 6f * density, firstRowY + cursor * rowH - 2f * density, panelW - 12f * density, rowH)
+            shapes.rect(panelX + 6f * density, firstRowY + (cursor - first) * rowH - 2f * density, panelW - 12f * density, rowH)
         }
         shapes.end()
 
@@ -1201,14 +1207,15 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             font.draw(batch, data.pack.text(language, "\$i18n:ui.shop_empty"), panelX + 16f * density, firstRowY)
         }
         for ((i, entry) in entries.withIndex()) {
+            if (i < first || i >= first + visible) continue
             val key = entry.first.substringAfter(':').replace('/', '.')
             val name = data.pack.text(language, "\$i18n:$key.name", mapOf("count" to 1L))
             font.color = if (i == cursor) Color.WHITE else Color(0.92f, 0.96f, 1f, 1f)
-            font.draw(batch, (if (i == cursor) "> " else "  ") + name, panelX + 14f * density, firstRowY + i * rowH)
+            font.draw(batch, (if (i == cursor) "> " else "  ") + name, panelX + 14f * density, firstRowY + (i - first) * rowH)
             font.color = Color(1f, 0.84f, 0.47f, 1f)
             val price = entry.second.toString()
             layout.setText(font, price)
-            font.draw(batch, price, panelX + panelW - layout.width - 14f * density, firstRowY + i * rowH)
+            font.draw(batch, price, panelX + panelW - layout.width - 14f * density, firstRowY + (i - first) * rowH)
         }
         batch.end()
     }
@@ -1225,12 +1232,15 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val height = Gdx.graphics.height.toFloat()
         val rowH = font.lineHeight * 2.6f
         val panelW = min(width - 40f, 560f * density)
-        val panelH = 96f * density + rowH * max(travel.stops.size, 1)
+        val cursor = travelCursor.coerceIn(0, max(travel.stops.size - 1, 0))
+        val maxRows = max(2, ((height - 170f * density) / rowH).toInt()) // a long list scrolls with the cursor
+        val visible = min(travel.stops.size, maxRows)
+        val first = listWindow(travel.stops.size, cursor, maxRows)
+        val panelH = 96f * density + rowH * max(visible, 1)
         val panelX = (width - panelW) / 2f
         val panelY = (height - panelH) / 2f
         val firstRowY = panelY + 64f * density
-        travelRowRects = travel.stops.indices.map { floatArrayOf(panelX, firstRowY + it * rowH, panelW, rowH) }
-        val cursor = travelCursor.coerceIn(0, max(travel.stops.size - 1, 0))
+        travelRowRects = travel.stops.indices.map { if (it in first until first + visible) floatArrayOf(panelX, firstRowY + (it - first) * rowH, panelW, rowH) else OFF_SCREEN }
 
         shapes.projectionMatrix = camera.combined
         Gdx.gl.glEnable(GL20.GL_BLEND)
@@ -1240,7 +1250,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         shapes.color = Color(0.435f, 0.89f, 1f, 1f)
         shapes.rect(panelX, panelY, panelW, 3f * density)
         shapes.color = Color(0.16f, 0.35f, 0.55f, 1f)
-        shapes.rect(panelX + 6f * density, firstRowY + cursor * rowH - 2f * density, panelW - 12f * density, rowH)
+        shapes.rect(panelX + 6f * density, firstRowY + (cursor - first) * rowH - 2f * density, panelW - 12f * density, rowH)
         shapes.end()
 
         batch.projectionMatrix = camera.combined
@@ -1253,8 +1263,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             panelX + 14f * density, panelY + 12f * density + font.lineHeight * 1.5f,
         )
         for ((i, stop) in travel.stops.withIndex()) {
+            if (i < first || i >= first + visible) continue
             val here = i == travel.here
-            val rowY = firstRowY + i * rowH
+            val rowY = firstRowY + (i - first) * rowH
             font.color = if (here) Color(0.51f, 0.55f, 0.63f, 1f) else Color.WHITE
             val tag = if (here) "  (" + data.pack.text(language, "\$i18n:ui.travel_here") + ")" else ""
             font.draw(batch, (if (i == cursor) "> " else "  ") + stop.place + tag, panelX + 14f * density, rowY)
@@ -1522,11 +1533,15 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val items = world.inventory.entries.toList()
         val rowH = font.lineHeight * 1.5f
         val panelW = min(width - 40f, 420f * density)
-        val panelH = 56f * density + rowH * max(items.size, 1) + rowH * 2f
+        val listCursor = bagCursor.coerceIn(0, max(items.size - 1, 0))
+        val maxRows = max(3, ((height - 140f * density) / rowH).toInt() - 2) // a long list scrolls with the cursor
+        val visible = min(items.size, maxRows)
+        val first = listWindow(items.size, listCursor, maxRows)
+        val panelH = 56f * density + rowH * max(visible, 1) + rowH * 2f
         val panelX = (width - panelW) / 2f
         val panelY = (height - panelH) / 2f
         val firstRowY = panelY + 14f * density + rowH + 6f * density
-        bagRowRects = if (showInventory) items.indices.map { floatArrayOf(panelX, firstRowY + it * rowH, panelW, rowH) } else emptyList()
+        bagRowRects = if (showInventory) items.indices.map { if (it in first until first + visible) floatArrayOf(panelX, firstRowY + (it - first) * rowH, panelW, rowH) else OFF_SCREEN } else emptyList()
 
         shapes.projectionMatrix = camera.combined
         Gdx.gl.glEnable(GL20.GL_BLEND)
@@ -1554,6 +1569,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             val cursor = bagCursor.coerceIn(0, max(items.size - 1, 0))
             var selectedKey = ""
             for ((index, entry) in items.withIndex()) {
+                if (index < first || index >= first + visible) continue
                 val (itemId, quantity) = entry
                 // "base:item/slime_gel" -> text key "item.slime_gel.name"
                 val key = itemId.substringAfter(':').replace('/', '.')
@@ -1741,6 +1757,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             Color(0.922f, 0.941f, 0.961f, 1f), Color(0.871f, 0.808f, 0.588f, 1f), Color(0.235f, 0.51f, 0.275f, 1f),
             Color(0.431f, 0.706f, 0.353f, 1f),
         )
+        /** The rectangle of a list row that is not on the screen: no tap can hit it. */
+        private val OFF_SCREEN = floatArrayOf(-1f, -1f, 0f, 0f)
         private const val MAX_TICKS_PER_FRAME = 5
         private const val MAX_FRAME_SECONDS = 0.25f
         private const val FLOATING_TEXT_FRAMES = 50
