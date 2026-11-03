@@ -131,6 +131,10 @@ A paid errand opens the elder's **second errand** ("Is there a harder job?"): a 
 with XP, gold, guild points and large potions. The targets are the Gel King (Verdalis), the Moonshade Alpha (Whisperwood), the Dire Alpha (Ironspine), the Amber Queen (Sunscar), the Ice Warden (Frostveil),
 the Coral Matron (Tidehaven), the Magma Heart (Ashen Wastes) and the Storm Sovereign (Lumeria).
 
+Each elder also has one **seasonal job** (a `side` quest with a `collect` objective on two materials of the region), offered only in its season: "Is there a seasonal job?" leads to the offer when the `season` of the day is the one of the
+region and to a line that says when to come back otherwise (the harvest cart in Verdalis, autumn; the wisp bloom in Whisperwood, spring; winter stores in Ironspine; the festival of petals in Sunscar, spring; the short summer in Frostveil;
+the storm season in Tidehaven, autumn; the cold ash in the Ashen Wastes, winter; the solstice survey in Lumeria, summer). It is paid by the dialogue (flag `season_<quest>_paid`: XP, gold and two large potions).
+
 ## Innkeepers' favors and legends
 
 Like the elders' errands, each region's **innkeeper** (`base:dialogue/role/innkeeper_<tone>`) asks one favor: a `side` quest with a single `collect` objective for a material that a creature of the region drops

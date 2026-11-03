@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/season_petal_festival",
+  "name": "$i18n:quest.season_petal_festival.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "bring",
+      "journal": "$i18n:quest.season_petal_festival.bring",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/amber_drop",
+          "count": 6
+        },
+        {
+          "type": "collect",
+          "item": "base:item/spore_cap",
+          "count": 3
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

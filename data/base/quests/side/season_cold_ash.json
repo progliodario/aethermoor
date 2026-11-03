@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/season_cold_ash",
+  "name": "$i18n:quest.season_cold_ash.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "bring",
+      "journal": "$i18n:quest.season_cold_ash.bring",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/ember_core",
+          "count": 6
+        },
+        {
+          "type": "collect",
+          "item": "base:item/char_chunk",
+          "count": 5
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

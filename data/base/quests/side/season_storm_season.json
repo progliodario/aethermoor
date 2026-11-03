@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/season_storm_season",
+  "name": "$i18n:quest.season_storm_season.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "bring",
+      "journal": "$i18n:quest.season_storm_season.bring",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/crab_shell",
+          "count": 8
+        },
+        {
+          "type": "collect",
+          "item": "base:item/tide_pearl",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

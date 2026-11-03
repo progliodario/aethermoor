@@ -750,3 +750,43 @@ def test_landmarks_are_never_buried_in_water_or_mountains():
             for x in range(x0, x0 + st["w"] + 2 * r, 5):
                 for y in range(y0, y0 + st["h"] + 2 * r, 5):
                     assert worldgen.biome_at(seed, params, x, y) not in ("water", "mountain"), (seed, lm["id"], x, y)
+
+
+def test_every_elder_has_a_seasonal_job_only_in_its_season():
+    import json
+
+    from reference import story
+
+    data = TOOLS.parent / "data" / "base"
+    quests = {}
+    for path in (data / "quests" / "side").glob("season_*.json"):
+        quest = json.loads(path.read_text(encoding="utf-8"))
+        quests[quest["id"]] = quest
+    assert len(quests) == 8
+    seasons = ("spring", "summer", "autumn", "winter")
+    for tone, dialogue in _regional_dialogues("elder").items():
+        offer = dialogue["nodes"]["menu"]["choices"]
+        wanted = next(c["when"]["all"][0]["season"] for c in offer if c["next"] == "seasonal_offer")
+        for season in seasons:
+            s = story.Story(_TimeHost(season, 500), {"quests": quests, "dialogues": {dialogue["id"]: dialogue}, "npcs": []})
+            s.start_dialogue(dialogue["id"])
+            s.advance()
+            options = [c["next"] for c in s.visible_choices()]
+            assert ("seasonal_offer" in options) == (season == wanted), (tone, season)
+            assert ("seasonal_wait" in options) == (season != wanted), (tone, season)
+        host = _TimeHost(wanted, 500)
+        s = story.Story(host, {"quests": quests, "dialogues": {dialogue["id"]: dialogue}, "npcs": []})
+        s.start_dialogue(dialogue["id"])
+        s.advance()
+        s.choose([c["next"] for c in s.visible_choices()].index("seasonal_offer"))
+        s.advance()
+        s.choose(0)
+        (qid,) = s.quests
+        for objective in quests[qid]["stages"][0]["objectives"]:
+            host.inventory[objective["item"]] = objective["count"]
+        s.on_kill("base:enemy/none")
+        assert s.quests[qid]["done"]
+        s.start_dialogue(dialogue["id"])
+        s.advance()
+        s.choose([c["next"] for c in s.visible_choices()].index("seasonal_paid"))
+        assert s.gold > 0 and host.inventory["base:item/potion_large"] == 2

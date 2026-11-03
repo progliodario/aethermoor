@@ -521,5 +521,21 @@
   "item.scorpion_sting.desc": "Hooked, hollow and not to be held by the wrong end.",
   "enemy.night_owl.name": "Night owl",
   "item.owl_feather.name": "Owl feather",
-  "item.owl_feather.desc": "Silent in the air, and soft in the hand."
+  "item.owl_feather.desc": "Silent in the air, and soft in the hand.",
+  "quest.season_harvest_cart.name": "The Harvest Cart",
+  "quest.season_harvest_cart.bring": "Bring mint leaves and tawny fur for the harvest cart.",
+  "quest.season_wisp_bloom.name": "The Wisp Bloom",
+  "quest.season_wisp_bloom.bring": "Bring shade wisps and spore caps for the spring blooming.",
+  "quest.season_winter_stores.name": "Winter Stores",
+  "quest.season_winter_stores.bring": "Bring slate shards and rust flakes to patch the stores before the worst of the snow.",
+  "quest.season_petal_festival.name": "The Festival of Petals",
+  "quest.season_petal_festival.bring": "Bring amber drops and spore caps to decorate the spring festival.",
+  "quest.season_short_summer.name": "The Short Summer",
+  "quest.season_short_summer.bring": "Bring frost pelts and polar fur to store before the summer ends.",
+  "quest.season_storm_season.name": "Storm Season",
+  "quest.season_storm_season.bring": "Bring crab shells and tide pearls to mend the boats before the storms.",
+  "quest.season_cold_ash.name": "The Cold Ash",
+  "quest.season_cold_ash.bring": "Bring ember cores and char chunks for the one cold season.",
+  "quest.season_solstice_survey.name": "The Solstice Survey",
+  "quest.season_solstice_survey.bring": "Bring star dust and nebula ash for the solstice observations."
 }

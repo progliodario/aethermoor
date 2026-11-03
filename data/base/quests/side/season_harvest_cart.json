@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/season_harvest_cart",
+  "name": "$i18n:quest.season_harvest_cart.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "bring",
+      "journal": "$i18n:quest.season_harvest_cart.bring",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/mint_leaf",
+          "count": 8
+        },
+        {
+          "type": "collect",
+          "item": "base:item/tawny_fur",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}
