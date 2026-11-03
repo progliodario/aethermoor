@@ -1,0 +1,88 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/tile/coast_a",
+  "canvas": {
+    "w": 32,
+    "h": 32,
+    "origin": [
+      0,
+      0
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          32
+        ]
+      },
+      "fill": {
+        "color": "#8FB878"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          8,
+          22,
+          1.8,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "#F4EEDC"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          9,
+          1.4,
+          1
+        ]
+      },
+      "fill": {
+        "color": "#F4EEDC"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          15,
+          15,
+          2,
+          1.4
+        ]
+      },
+      "fill": {
+        "color": "#B8B09A"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            24,
+            26
+          ],
+          [
+            26,
+            20
+          ],
+          [
+            28,
+            26
+          ]
+        ]
+      },
+      "fill": {
+        "color": "#76A064"
+      }
+    }
+  ],
+  "palette": {}
+}

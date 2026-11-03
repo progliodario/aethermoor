@@ -39,15 +39,12 @@
       "tile": 11
     },
     "D": {
-      "tile": 14,
       "spawner": "base:enemy/wolf_dire"
     },
     "U": {
-      "tile": 14,
       "spawner": "base:enemy/dire_alpha"
     },
     "W": {
-      "tile": 14,
       "spawner": "base:enemy/wolf_grey"
     },
     "o": {

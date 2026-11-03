@@ -93,6 +93,7 @@
           "border": 4,
           "spawn_clear_radius": 7,
           "landmark_clearing": 24,
+          "region_blend": 4500,
           "difficulty": {
             "enemy_hp_pct": 100,
             "enemy_atk_pct": 100
@@ -236,6 +237,34 @@
                   "base:item/silk_robe",
                   "base:item/travel_ration"
                 ]
+              },
+              "bias": {
+                "moisture": 9000
+              },
+              "ground": {
+                "plains": [
+                  27,
+                  28
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 70
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 40
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 8
+                  }
+                ]
               }
             },
             {
@@ -300,6 +329,35 @@
                   "base:item/scale_mail",
                   "base:item/splint_mail"
                 ]
+              },
+              "bias": {
+                "elevation": 5000,
+                "temperature": -4000
+              },
+              "ground": {
+                "plains": [
+                  33,
+                  34
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 40
+                  },
+                  {
+                    "art": "base:art/prop/pine",
+                    "radius_x100": 30,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 8
+                  }
+                ]
               }
             },
             {
@@ -359,6 +417,47 @@
                   "base:item/studded_leather",
                   "base:item/fish_stew"
                 ]
+              },
+              "bias": {
+                "temperature": 14000,
+                "moisture": -12000
+              },
+              "ground": {
+                "plains": [
+                  23,
+                  24
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/cactus",
+                    "radius_x100": 28,
+                    "per_mille": 16
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  }
+                ],
+                "desert": [
+                  {
+                    "art": "base:art/prop/cactus",
+                    "radius_x100": 28,
+                    "per_mille": 30
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 12
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 5
+                  }
+                ]
               }
             },
             {
@@ -412,6 +511,29 @@
                   "base:item/claymore",
                   "base:item/splint_mail",
                   "base:item/fish_stew"
+                ]
+              },
+              "bias": {
+                "temperature": -16000
+              },
+              "ground": {
+                "plains": [
+                  25,
+                  26
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/pine",
+                    "radius_x100": 30,
+                    "per_mille": 60
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 10
+                  }
                 ]
               }
             },
@@ -467,6 +589,35 @@
                   "base:item/saber",
                   "base:item/scale_mail",
                   "base:item/travel_ration"
+                ]
+              },
+              "bias": {
+                "elevation": -2000,
+                "moisture": 4000
+              },
+              "ground": {
+                "plains": [
+                  29,
+                  30
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 18
+                  },
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 12
+                  }
                 ]
               }
             },
@@ -532,6 +683,66 @@
                   "base:item/knight_plate",
                   "base:item/royal_feast",
                   "base:item/dragon_scale_vest"
+                ]
+              },
+              "bias": {
+                "temperature": 12000,
+                "moisture": -10000
+              },
+              "ground": {
+                "plains": [
+                  19,
+                  20,
+                  21
+                ],
+                "desert": [
+                  22
+                ],
+                "forest": [
+                  21
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 12
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 3
+                  }
+                ],
+                "desert": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 30
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 6
+                  }
+                ],
+                "forest": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 140
+                  }
                 ]
               }
             },
@@ -602,6 +813,34 @@
                   "base:item/warding_robe",
                   "base:item/silk_robe",
                   "base:item/travel_ration"
+                ]
+              },
+              "bias": {
+                "moisture": 4000
+              },
+              "ground": {
+                "plains": [
+                  31,
+                  32
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 20
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 8
+                  }
                 ]
               }
             }
@@ -2993,7 +3232,6 @@
                   "tile": 11
                 },
                 "A": {
-                  "tile": 14,
                   "spawner": "base:enemy/moonshade_alpha"
                 },
                 "T": {
@@ -3002,15 +3240,12 @@
                   "radius_x100": 35
                 },
                 "W": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_grey"
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "l": {
-                  "tile": 14,
                   "prop": "base:art/prop/lamp",
                   "radius_x100": 15
                 },
@@ -3019,7 +3254,6 @@
                   "radius_x100": 30
                 },
                 "s": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_green"
                 },
                 "t": {
@@ -3339,15 +3573,12 @@
                   "tile": 11
                 },
                 "D": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_dire"
                 },
                 "U": {
-                  "tile": 14,
                   "spawner": "base:enemy/dire_alpha"
                 },
                 "W": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_grey"
                 },
                 "o": {
@@ -3521,15 +3752,12 @@
                   "tile": 11
                 },
                 "L": {
-                  "tile": 14,
                   "spawner": "base:enemy/amber_queen"
                 },
                 "P": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_amber"
                 },
                 "a": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_sand"
                 },
                 "o": {
@@ -3646,15 +3874,12 @@
                   "tile": 11
                 },
                 "O": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_storm"
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "k": {
-                  "tile": 14,
                   "spawner": "base:enemy/storm_sovereign"
                 },
                 "o": {
@@ -4835,18 +5060,15 @@
                   "radius_x100": 10
                 },
                 "3": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_mint"
                 },
                 "4": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_tawny"
                 },
                 "=": {
                   "tile": 11
                 },
                 "n": {
-                  "tile": 14,
                   "spawner": "base:enemy/mint_matron"
                 },
                 "o": {
@@ -4894,14 +5116,12 @@
                   "radius_x100": 10
                 },
                 "5": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_moss"
                 },
                 "=": {
                   "tile": 11
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "o": {
@@ -4909,7 +5129,6 @@
                   "radius_x100": 30
                 },
                 "p": {
-                  "tile": 14,
                   "spawner": "base:enemy/moss_elder"
                 },
                 "t": {
@@ -5019,14 +5238,12 @@
                   "radius_x100": 10
                 },
                 "7": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_dune"
                 },
                 "=": {
                   "tile": 11
                 },
                 "a": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_sand"
                 },
                 "o": {
@@ -5034,7 +5251,6 @@
                   "radius_x100": 30
                 },
                 "u": {
-                  "tile": 14,
                   "spawner": "base:enemy/dune_mother"
                 }
               },
@@ -5202,18 +5418,15 @@
                   "radius_x100": 10
                 },
                 "%": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_nebula"
                 },
                 "1": {
-                  "tile": 14,
                   "spawner": "base:enemy/nebula_heart"
                 },
                 "=": {
                   "tile": 11
                 },
                 "g": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_glow"
                 },
                 "o": {
@@ -5322,13 +5535,13 @@
           },
           {
             "op": "move",
-            "count": 7,
-            "digest": "0x835dee0fdc9a3490"
+            "count": 6,
+            "digest": "0x3588fc3952421dac"
           },
           {
             "op": "move",
-            "count": 8,
-            "digest": "0x33eb1450d98a1c9f"
+            "count": 7,
+            "digest": "0x986fc7999be8c7c8"
           },
           {
             "op": "move",
@@ -5347,8 +5560,8 @@
           },
           {
             "op": "move",
-            "count": 7,
-            "digest": "0x835dee0fdc9a3490"
+            "count": 6,
+            "digest": "0x3588fc3952421dac"
           },
           {
             "op": "move",
@@ -5362,8 +5575,8 @@
           },
           {
             "op": "move",
-            "count": 7,
-            "digest": "0x835dee0fdc9a3490"
+            "count": 6,
+            "digest": "0x3588fc3952421dac"
           },
           {
             "op": "move",
@@ -5440,6 +5653,7 @@
           "border": 4,
           "spawn_clear_radius": 7,
           "landmark_clearing": 24,
+          "region_blend": 4500,
           "difficulty": {
             "enemy_hp_pct": 100,
             "enemy_atk_pct": 100
@@ -5583,6 +5797,34 @@
                   "base:item/silk_robe",
                   "base:item/travel_ration"
                 ]
+              },
+              "bias": {
+                "moisture": 9000
+              },
+              "ground": {
+                "plains": [
+                  27,
+                  28
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 70
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 40
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 8
+                  }
+                ]
               }
             },
             {
@@ -5647,6 +5889,35 @@
                   "base:item/scale_mail",
                   "base:item/splint_mail"
                 ]
+              },
+              "bias": {
+                "elevation": 5000,
+                "temperature": -4000
+              },
+              "ground": {
+                "plains": [
+                  33,
+                  34
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 40
+                  },
+                  {
+                    "art": "base:art/prop/pine",
+                    "radius_x100": 30,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 8
+                  }
+                ]
               }
             },
             {
@@ -5706,6 +5977,47 @@
                   "base:item/studded_leather",
                   "base:item/fish_stew"
                 ]
+              },
+              "bias": {
+                "temperature": 14000,
+                "moisture": -12000
+              },
+              "ground": {
+                "plains": [
+                  23,
+                  24
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/cactus",
+                    "radius_x100": 28,
+                    "per_mille": 16
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  }
+                ],
+                "desert": [
+                  {
+                    "art": "base:art/prop/cactus",
+                    "radius_x100": 28,
+                    "per_mille": 30
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 12
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 5
+                  }
+                ]
               }
             },
             {
@@ -5759,6 +6071,29 @@
                   "base:item/claymore",
                   "base:item/splint_mail",
                   "base:item/fish_stew"
+                ]
+              },
+              "bias": {
+                "temperature": -16000
+              },
+              "ground": {
+                "plains": [
+                  25,
+                  26
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/pine",
+                    "radius_x100": 30,
+                    "per_mille": 60
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 10
+                  }
                 ]
               }
             },
@@ -5814,6 +6149,35 @@
                   "base:item/saber",
                   "base:item/scale_mail",
                   "base:item/travel_ration"
+                ]
+              },
+              "bias": {
+                "elevation": -2000,
+                "moisture": 4000
+              },
+              "ground": {
+                "plains": [
+                  29,
+                  30
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 18
+                  },
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 12
+                  }
                 ]
               }
             },
@@ -5879,6 +6243,66 @@
                   "base:item/knight_plate",
                   "base:item/royal_feast",
                   "base:item/dragon_scale_vest"
+                ]
+              },
+              "bias": {
+                "temperature": 12000,
+                "moisture": -10000
+              },
+              "ground": {
+                "plains": [
+                  19,
+                  20,
+                  21
+                ],
+                "desert": [
+                  22
+                ],
+                "forest": [
+                  21
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 12
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 3
+                  }
+                ],
+                "desert": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 30
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 6
+                  }
+                ],
+                "forest": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 140
+                  }
                 ]
               }
             },
@@ -5949,6 +6373,34 @@
                   "base:item/warding_robe",
                   "base:item/silk_robe",
                   "base:item/travel_ration"
+                ]
+              },
+              "bias": {
+                "moisture": 4000
+              },
+              "ground": {
+                "plains": [
+                  31,
+                  32
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 20
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 8
+                  }
                 ]
               }
             }
@@ -8340,7 +8792,6 @@
                   "tile": 11
                 },
                 "A": {
-                  "tile": 14,
                   "spawner": "base:enemy/moonshade_alpha"
                 },
                 "T": {
@@ -8349,15 +8800,12 @@
                   "radius_x100": 35
                 },
                 "W": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_grey"
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "l": {
-                  "tile": 14,
                   "prop": "base:art/prop/lamp",
                   "radius_x100": 15
                 },
@@ -8366,7 +8814,6 @@
                   "radius_x100": 30
                 },
                 "s": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_green"
                 },
                 "t": {
@@ -8686,15 +9133,12 @@
                   "tile": 11
                 },
                 "D": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_dire"
                 },
                 "U": {
-                  "tile": 14,
                   "spawner": "base:enemy/dire_alpha"
                 },
                 "W": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_grey"
                 },
                 "o": {
@@ -8868,15 +9312,12 @@
                   "tile": 11
                 },
                 "L": {
-                  "tile": 14,
                   "spawner": "base:enemy/amber_queen"
                 },
                 "P": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_amber"
                 },
                 "a": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_sand"
                 },
                 "o": {
@@ -8993,15 +9434,12 @@
                   "tile": 11
                 },
                 "O": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_storm"
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "k": {
-                  "tile": 14,
                   "spawner": "base:enemy/storm_sovereign"
                 },
                 "o": {
@@ -10182,18 +10620,15 @@
                   "radius_x100": 10
                 },
                 "3": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_mint"
                 },
                 "4": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_tawny"
                 },
                 "=": {
                   "tile": 11
                 },
                 "n": {
-                  "tile": 14,
                   "spawner": "base:enemy/mint_matron"
                 },
                 "o": {
@@ -10241,14 +10676,12 @@
                   "radius_x100": 10
                 },
                 "5": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_moss"
                 },
                 "=": {
                   "tile": 11
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "o": {
@@ -10256,7 +10689,6 @@
                   "radius_x100": 30
                 },
                 "p": {
-                  "tile": 14,
                   "spawner": "base:enemy/moss_elder"
                 },
                 "t": {
@@ -10366,14 +10798,12 @@
                   "radius_x100": 10
                 },
                 "7": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_dune"
                 },
                 "=": {
                   "tile": 11
                 },
                 "a": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_sand"
                 },
                 "o": {
@@ -10381,7 +10811,6 @@
                   "radius_x100": 30
                 },
                 "u": {
-                  "tile": 14,
                   "spawner": "base:enemy/dune_mother"
                 }
               },
@@ -10549,18 +10978,15 @@
                   "radius_x100": 10
                 },
                 "%": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_nebula"
                 },
                 "1": {
-                  "tile": 14,
                   "spawner": "base:enemy/nebula_heart"
                 },
                 "=": {
                   "tile": 11
                 },
                 "g": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_glow"
                 },
                 "o": {
@@ -10639,23 +11065,23 @@
         "after": [
           {
             "op": "start",
+            "count": 10,
+            "digest": "0x26ef2524db6f58a2"
+          },
+          {
+            "op": "move",
             "count": 7,
-            "digest": "0xf4582244743f3946"
+            "digest": "0xe01726160472f448"
           },
           {
             "op": "move",
             "count": 5,
-            "digest": "0x1cf4e390f84a63d4"
-          },
-          {
-            "op": "move",
-            "count": 4,
-            "digest": "0xe35e24d47b8c2a89"
+            "digest": "0xd3235c7c12fff6c7"
           },
           {
             "op": "kill",
-            "count": 4,
-            "digest": "0x31cecb5d525436a8"
+            "count": 5,
+            "digest": "0xa08b8bd75656d623"
           },
           {
             "op": "move",
@@ -10669,18 +11095,18 @@
           },
           {
             "op": "move",
-            "count": 6,
-            "digest": "0xc65d5b5bdbef846c"
+            "count": 9,
+            "digest": "0x9a7c2827c0f35eb3"
           },
           {
             "op": "move",
-            "count": 3,
-            "digest": "0x985bf2eab9c10c2f"
+            "count": 4,
+            "digest": "0xe35e24d47b8c2a89"
           },
           {
             "op": "wait",
-            "count": 3,
-            "digest": "0x985bf2eab9c10c2f"
+            "count": 4,
+            "digest": "0xe35e24d47b8c2a89"
           },
           {
             "op": "move",
@@ -10689,8 +11115,8 @@
           },
           {
             "op": "move",
-            "count": 4,
-            "digest": "0x7921d5fa0a7ae29d"
+            "count": 5,
+            "digest": "0xacaa6b73da9e35e0"
           }
         ]
       }

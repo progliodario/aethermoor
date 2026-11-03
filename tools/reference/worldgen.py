@@ -212,6 +212,37 @@ def field(seed: int, spec: dict, x: int, y: int) -> int:
     return fbm2(salted, _coord(x, spec["scale"]), _coord(y, spec["scale"]), spec["octaves"])
 
 
+BIAS_SHIFT = 32768
+
+
+def region_bias(params: dict, x: int, y: int) -> tuple[int, int, int]:
+    """The pull of the regions on the elevation, temperature and moisture fields at tile (x, y) (spec 09, "Regions").
+
+    A weighted mean of the biases of all the regions; the weight of a region is `region_blend^2` minus the squared distance to its center, and zero beyond.
+    The biases are shifted to be positive before the division, so that it rounds the same on every platform.
+    """
+    reach = params.get("region_blend", 0)
+    if reach <= 0:
+        return 0, 0, 0
+    w, h = params["width"], params["height"]
+    reach2 = reach * reach
+    total = sum_e = sum_t = sum_m = 0
+    for region in params["regions"]:
+        dx = x - region["x_pm"] * w // 1000
+        dy = y - region["y_pm"] * h // 1000
+        weight = reach2 - (dx * dx + dy * dy)
+        if weight <= 0:
+            continue
+        bias = region.get("bias", {})
+        total += weight
+        sum_e += (bias.get("elevation", 0) + BIAS_SHIFT) * weight
+        sum_t += (bias.get("temperature", 0) + BIAS_SHIFT) * weight
+        sum_m += (bias.get("moisture", 0) + BIAS_SHIFT) * weight
+    if total == 0:
+        return 0, 0, 0
+    return sum_e // total - BIAS_SHIFT, sum_t // total - BIAS_SHIFT, sum_m // total - BIAS_SHIFT
+
+
 def in_landmark_clearing(params: dict, x: int, y: int) -> bool:
     """True inside the clearing of a landmark: its footprint grown by `landmark_clearing` tiles on every side (spec 09, "Landmarks")."""
     r = params.get("landmark_clearing", 0)
@@ -253,17 +284,18 @@ def natural_biome_at(seed: int, params: dict, x: int, y: int) -> str:
     if home is not None and (x - cx) ** 2 + (y - cy) ** 2 < home["radius"] ** 2:
         return "plains"  # the home meadow
     t = params["thresholds"]
-    e = field(seed, params["elevation"], x, y)
+    bias_e, bias_t, bias_m = region_bias(params, x, y)
+    e = field(seed, params["elevation"], x, y) + bias_e
     if e < t["water"]:
         return "water"
     if e < t["beach"]:
         return "beach"
     if e >= t["mountain"]:
         return "mountain"
-    temp = field(seed, params["temperature"], x, y)
+    temp = field(seed, params["temperature"], x, y) + bias_t
     if temp < t["snow"]:
         return "snow"
-    moist = field(seed, params["moisture"], x, y)
+    moist = field(seed, params["moisture"], x, y) + bias_m
     if temp >= t["desert_heat"] and moist < t["desert_dry"]:
         return "desert"
     if moist >= t["forest_wet"]:
@@ -304,6 +336,9 @@ def gid_for(seed: int, params: dict, biome: str, x: int, y: int, overlay: str | 
     tiles = params["tiles"]
     if overlay is not None:
         return tiles[overlay]
+    ground = params["regions"][region_at(params, x, y)].get("ground", {}).get(biome)
+    if ground:  # the ground of the region (spec 09, "Regions")
+        return ground[(hash64(seed, x, y, 5) >> 40) % len(ground)]
     if biome == "plains":
         variants = tiles["plains"]
         return variants[(hash64(seed, x, y, 5) >> 40) % len(variants)]
@@ -312,7 +347,7 @@ def gid_for(seed: int, params: dict, biome: str, x: int, y: int, overlay: str | 
 
 def prop_at(seed: int, params: dict, biome: str, x: int, y: int) -> dict | None:
     """The prop standing on tile (x, y), or None. Positions are in 1/256 tile units."""
-    options = params["props"].get(biome, [])
+    options = params["regions"][region_at(params, x, y)].get("props", {}).get(biome) or params["props"].get(biome, [])
     if not options:
         return None
     h = hash64(seed, x, y, 7)

@@ -48,6 +48,11 @@
       "type": "integer",
       "minimum": 0
     },
+    "region_blend": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 16384
+    },
     "difficulty": {
       "type": "object",
       "additionalProperties": false,
@@ -621,6 +626,42 @@
           "tone": {
             "type": "string",
             "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "bias": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Added to the elevation, temperature and moisture fields near the center of the region (spec 09, Regions).",
+            "properties": {
+              "elevation": { "type": "integer", "minimum": -30000, "maximum": 30000 },
+              "temperature": { "type": "integer", "minimum": -30000, "maximum": 30000 },
+              "moisture": { "type": "integer", "minimum": -30000, "maximum": 30000 }
+            }
+          },
+          "ground": {
+            "type": "object",
+            "description": "Ground tile gids of the region by biome, instead of the ones of `tiles`.",
+            "additionalProperties": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "integer", "minimum": 1 }
+            }
+          },
+          "props": {
+            "type": "object",
+            "description": "Random props of the region by biome, instead of the ones of `props`.",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["art", "radius_x100", "per_mille"],
+                "additionalProperties": false,
+                "properties": {
+                  "art": { "type": "string" },
+                  "radius_x100": { "type": "integer", "minimum": 1 },
+                  "per_mille": { "type": "integer", "minimum": 1, "maximum": 1000 }
+                }
+              }
+            }
           },
           "shop": {
             "type": "object",

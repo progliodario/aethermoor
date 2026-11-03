@@ -91,6 +91,86 @@
       "gid": 18,
       "art": "base:art/tile/grass_f",
       "solid": false
+    },
+    {
+      "gid": 19,
+      "art": "base:art/tile/ash_a",
+      "solid": false
+    },
+    {
+      "gid": 20,
+      "art": "base:art/tile/ash_b",
+      "solid": false
+    },
+    {
+      "gid": 21,
+      "art": "base:art/tile/ash_c",
+      "solid": false
+    },
+    {
+      "gid": 22,
+      "art": "base:art/tile/ash_sand",
+      "solid": false
+    },
+    {
+      "gid": 23,
+      "art": "base:art/tile/savanna_a",
+      "solid": false
+    },
+    {
+      "gid": 24,
+      "art": "base:art/tile/savanna_b",
+      "solid": false
+    },
+    {
+      "gid": 25,
+      "art": "base:art/tile/frost_a",
+      "solid": false
+    },
+    {
+      "gid": 26,
+      "art": "base:art/tile/frost_b",
+      "solid": false
+    },
+    {
+      "gid": 27,
+      "art": "base:art/tile/moss_a",
+      "solid": false
+    },
+    {
+      "gid": 28,
+      "art": "base:art/tile/moss_b",
+      "solid": false
+    },
+    {
+      "gid": 29,
+      "art": "base:art/tile/coast_a",
+      "solid": false
+    },
+    {
+      "gid": 30,
+      "art": "base:art/tile/coast_b",
+      "solid": false
+    },
+    {
+      "gid": 31,
+      "art": "base:art/tile/violet_a",
+      "solid": false
+    },
+    {
+      "gid": 32,
+      "art": "base:art/tile/violet_b",
+      "solid": false
+    },
+    {
+      "gid": 33,
+      "art": "base:art/tile/rocky_a",
+      "solid": false
+    },
+    {
+      "gid": 34,
+      "art": "base:art/tile/rocky_b",
+      "solid": false
     }
   ]
 }

@@ -45,7 +45,6 @@
       "tile": 11
     },
     "A": {
-      "tile": 14,
       "spawner": "base:enemy/moonshade_alpha"
     },
     "T": {
@@ -54,15 +53,12 @@
       "radius_x100": 35
     },
     "W": {
-      "tile": 14,
       "spawner": "base:enemy/wolf_grey"
     },
     "d": {
-      "tile": 14,
       "spawner": "base:enemy/wolf_shade"
     },
     "l": {
-      "tile": 14,
       "prop": "base:art/prop/lamp",
       "radius_x100": 15
     },
@@ -71,7 +67,6 @@
       "radius_x100": 30
     },
     "s": {
-      "tile": 14,
       "spawner": "base:enemy/slime_green"
     },
     "t": {

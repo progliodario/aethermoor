@@ -838,3 +838,39 @@ def test_pip_answers_every_question_and_comes_back_to_the_menu():
         assert s._node()["type"] == "choice"  # back to the questions
     s.choose(len(topics))  # the thanks
     assert s.dialogue is None
+
+
+def test_regions_look_like_their_names():
+    import collections
+
+    from reference import worldgen
+
+    params = worldgen.load_params()
+    expected = {"sunscar": ("desert", 35), "frostveil": ("snow", 30), "whisperwood": ("forest", 25), "ashen_wastes": ("desert", 30), "ironspine": ("mountain", 15)}
+    for index, region in enumerate(params["regions"]):
+        if region["id"] not in expected:
+            continue
+        biome, percent = expected[region["id"]]
+        count: collections.Counter = collections.Counter()
+        cx, cy = region["x_pm"] * params["width"] // 1000, region["y_pm"] * params["height"] // 1000
+        for seed in (3, 99999):
+            for dx in range(-600, 601, 150):
+                for dy in range(-600, 601, 150):
+                    if worldgen.region_at(params, cx + dx, cy + dy) == index:
+                        count[worldgen.biome_at(seed, params, cx + dx, cy + dy)] += 1
+        assert 100 * count[biome] // sum(count.values()) >= percent, (region["id"], count.most_common(3))
+
+
+def test_region_ground_and_props_exist():
+    import json
+
+    data = TOOLS.parent / "data" / "base"
+    world = json.loads((data / "worlds" / "overworld.json").read_text(encoding="utf-8"))
+    gids = {t["gid"] for t in json.loads((data / "tilesets" / "overworld.json").read_text(encoding="utf-8"))["tiles"]}
+    for region in world["regions"]:
+        for biome, tiles in region.get("ground", {}).items():
+            assert set(tiles) <= gids, (region["id"], biome)
+        for biome, options in region.get("props", {}).items():
+            assert sum(o["per_mille"] for o in options) <= 1000, (region["id"], biome)
+            for o in options:
+                assert (data / "art" / "props" / f"{o['art'].rsplit('/', 1)[-1]}.json").exists(), (region["id"], o["art"])

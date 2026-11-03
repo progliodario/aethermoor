@@ -36,18 +36,15 @@
       "radius_x100": 10
     },
     "%": {
-      "tile": 14,
       "spawner": "base:enemy/slime_nebula"
     },
     "1": {
-      "tile": 14,
       "spawner": "base:enemy/nebula_heart"
     },
     "=": {
       "tile": 11
     },
     "g": {
-      "tile": 14,
       "spawner": "base:enemy/slime_glow"
     },
     "o": {

@@ -1,0 +1,101 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/tile/violet_b",
+  "canvas": {
+    "w": 32,
+    "h": 32,
+    "origin": [
+      0,
+      0
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          32
+        ]
+      },
+      "fill": {
+        "color": "#5FA865"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            22,
+            11
+          ],
+          [
+            24,
+            5
+          ],
+          [
+            26,
+            11
+          ]
+        ]
+      },
+      "fill": {
+        "color": "#4C9450"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          8,
+          24,
+          1.6,
+          1.6
+        ]
+      },
+      "fill": {
+        "color": "#8A8AE8"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18,
+          14,
+          1.6,
+          1.6
+        ]
+      },
+      "fill": {
+        "color": "#8A8AE8"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          27,
+          22,
+          1.2,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "#E0A8F0"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          6,
+          8,
+          1.2,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "#E0A8F0"
+      }
+    }
+  ],
+  "palette": {}
+}

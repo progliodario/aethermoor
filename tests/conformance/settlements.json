@@ -22,6 +22,7 @@
           "border": 4,
           "spawn_clear_radius": 7,
           "landmark_clearing": 24,
+          "region_blend": 4500,
           "difficulty": {
             "enemy_hp_pct": 100,
             "enemy_atk_pct": 100
@@ -165,6 +166,34 @@
                   "base:item/silk_robe",
                   "base:item/travel_ration"
                 ]
+              },
+              "bias": {
+                "moisture": 9000
+              },
+              "ground": {
+                "plains": [
+                  27,
+                  28
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 70
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 40
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 8
+                  }
+                ]
               }
             },
             {
@@ -229,6 +258,35 @@
                   "base:item/scale_mail",
                   "base:item/splint_mail"
                 ]
+              },
+              "bias": {
+                "elevation": 5000,
+                "temperature": -4000
+              },
+              "ground": {
+                "plains": [
+                  33,
+                  34
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 40
+                  },
+                  {
+                    "art": "base:art/prop/pine",
+                    "radius_x100": 30,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 8
+                  }
+                ]
               }
             },
             {
@@ -288,6 +346,47 @@
                   "base:item/studded_leather",
                   "base:item/fish_stew"
                 ]
+              },
+              "bias": {
+                "temperature": 14000,
+                "moisture": -12000
+              },
+              "ground": {
+                "plains": [
+                  23,
+                  24
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/cactus",
+                    "radius_x100": 28,
+                    "per_mille": 16
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  }
+                ],
+                "desert": [
+                  {
+                    "art": "base:art/prop/cactus",
+                    "radius_x100": 28,
+                    "per_mille": 30
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 12
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 5
+                  }
+                ]
               }
             },
             {
@@ -341,6 +440,29 @@
                   "base:item/claymore",
                   "base:item/splint_mail",
                   "base:item/fish_stew"
+                ]
+              },
+              "bias": {
+                "temperature": -16000
+              },
+              "ground": {
+                "plains": [
+                  25,
+                  26
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/pine",
+                    "radius_x100": 30,
+                    "per_mille": 60
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 10
+                  }
                 ]
               }
             },
@@ -396,6 +518,35 @@
                   "base:item/saber",
                   "base:item/scale_mail",
                   "base:item/travel_ration"
+                ]
+              },
+              "bias": {
+                "elevation": -2000,
+                "moisture": 4000
+              },
+              "ground": {
+                "plains": [
+                  29,
+                  30
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 18
+                  },
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 12
+                  }
                 ]
               }
             },
@@ -461,6 +612,66 @@
                   "base:item/knight_plate",
                   "base:item/royal_feast",
                   "base:item/dragon_scale_vest"
+                ]
+              },
+              "bias": {
+                "temperature": 12000,
+                "moisture": -10000
+              },
+              "ground": {
+                "plains": [
+                  19,
+                  20,
+                  21
+                ],
+                "desert": [
+                  22
+                ],
+                "forest": [
+                  21
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 12
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 3
+                  }
+                ],
+                "desert": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 30
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 6
+                  }
+                ],
+                "forest": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 140
+                  }
                 ]
               }
             },
@@ -531,6 +742,34 @@
                   "base:item/warding_robe",
                   "base:item/silk_robe",
                   "base:item/travel_ration"
+                ]
+              },
+              "bias": {
+                "moisture": 4000
+              },
+              "ground": {
+                "plains": [
+                  31,
+                  32
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 20
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 8
+                  }
                 ]
               }
             }
@@ -2922,7 +3161,6 @@
                   "tile": 11
                 },
                 "A": {
-                  "tile": 14,
                   "spawner": "base:enemy/moonshade_alpha"
                 },
                 "T": {
@@ -2931,15 +3169,12 @@
                   "radius_x100": 35
                 },
                 "W": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_grey"
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "l": {
-                  "tile": 14,
                   "prop": "base:art/prop/lamp",
                   "radius_x100": 15
                 },
@@ -2948,7 +3183,6 @@
                   "radius_x100": 30
                 },
                 "s": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_green"
                 },
                 "t": {
@@ -3268,15 +3502,12 @@
                   "tile": 11
                 },
                 "D": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_dire"
                 },
                 "U": {
-                  "tile": 14,
                   "spawner": "base:enemy/dire_alpha"
                 },
                 "W": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_grey"
                 },
                 "o": {
@@ -3450,15 +3681,12 @@
                   "tile": 11
                 },
                 "L": {
-                  "tile": 14,
                   "spawner": "base:enemy/amber_queen"
                 },
                 "P": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_amber"
                 },
                 "a": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_sand"
                 },
                 "o": {
@@ -3575,15 +3803,12 @@
                   "tile": 11
                 },
                 "O": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_storm"
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "k": {
-                  "tile": 14,
                   "spawner": "base:enemy/storm_sovereign"
                 },
                 "o": {
@@ -4764,18 +4989,15 @@
                   "radius_x100": 10
                 },
                 "3": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_mint"
                 },
                 "4": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_tawny"
                 },
                 "=": {
                   "tile": 11
                 },
                 "n": {
-                  "tile": 14,
                   "spawner": "base:enemy/mint_matron"
                 },
                 "o": {
@@ -4823,14 +5045,12 @@
                   "radius_x100": 10
                 },
                 "5": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_moss"
                 },
                 "=": {
                   "tile": 11
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "o": {
@@ -4838,7 +5058,6 @@
                   "radius_x100": 30
                 },
                 "p": {
-                  "tile": 14,
                   "spawner": "base:enemy/moss_elder"
                 },
                 "t": {
@@ -4948,14 +5167,12 @@
                   "radius_x100": 10
                 },
                 "7": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_dune"
                 },
                 "=": {
                   "tile": 11
                 },
                 "a": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_sand"
                 },
                 "o": {
@@ -4963,7 +5180,6 @@
                   "radius_x100": 30
                 },
                 "u": {
-                  "tile": 14,
                   "spawner": "base:enemy/dune_mother"
                 }
               },
@@ -5131,18 +5347,15 @@
                   "radius_x100": 10
                 },
                 "%": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_nebula"
                 },
                 "1": {
-                  "tile": 14,
                   "spawner": "base:enemy/nebula_heart"
                 },
                 "=": {
                   "tile": 11
                 },
                 "g": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_glow"
                 },
                 "o": {
@@ -5218,26 +5431,16 @@
         }
       },
       "expect": {
-        "count": 154,
+        "count": 136,
         "settlements": [
           [
-            13128,
-            137,
-            13133,
-            141,
+            12683,
+            37,
+            12689,
+            42,
             "hamlet",
-            "base:stamp/hamlet",
-            "Holomere",
-            2
-          ],
-          [
-            14018,
-            146,
-            14030,
-            152,
-            "village",
-            "base:stamp/village_c",
-            "Ostohaven",
+            "base:stamp/hamlet_d",
+            "Ostaton",
             2
           ],
           [
@@ -5251,16 +5454,6 @@
             4
           ],
           [
-            6352,
-            343,
-            6359,
-            349,
-            "hamlet",
-            "base:stamp/hamlet_b",
-            "Dunovale",
-            4
-          ],
-          [
             13116,
             447,
             13121,
@@ -5271,14 +5464,14 @@
             2
           ],
           [
-            4538,
-            670,
-            4548,
-            679,
-            "village",
-            "base:stamp/village_d",
-            "Raveldale",
-            4
+            14638,
+            325,
+            14643,
+            329,
+            "hamlet",
+            "base:stamp/hamlet",
+            "Ostinmere",
+            2
           ],
           [
             2394,
@@ -5291,26 +5484,6 @@
             1
           ],
           [
-            3367,
-            937,
-            3378,
-            945,
-            "village",
-            "base:stamp/village_b",
-            "Calenmere",
-            4
-          ],
-          [
-            4965,
-            877,
-            4975,
-            884,
-            "village",
-            "base:stamp/village",
-            "Loridale",
-            4
-          ],
-          [
             7040,
             1142,
             7040,
@@ -5321,16 +5494,6 @@
             4
           ],
           [
-            8315,
-            1208,
-            8326,
-            1216,
-            "village",
-            "base:stamp/village_b",
-            "Galestead",
-            4
-          ],
-          [
             10164,
             1130,
             10169,
@@ -5338,16 +5501,6 @@
             "hamlet",
             "base:stamp/hamlet_c",
             "Alelmere",
-            4
-          ],
-          [
-            5224,
-            1443,
-            5235,
-            1451,
-            "village",
-            "base:stamp/village_b",
-            "Berendale",
             4
           ],
           [
@@ -5391,6 +5544,16 @@
             2
           ],
           [
+            14921,
+            1743,
+            14933,
+            1749,
+            "village",
+            "base:stamp/village_c",
+            "Kelanford",
+            2
+          ],
+          [
             6764,
             1880,
             6784,
@@ -5401,24 +5564,14 @@
             4
           ],
           [
-            7607,
-            1873,
-            7612,
-            1877,
-            "hamlet",
-            "base:stamp/hamlet",
-            "Duniwick",
+            7007,
+            1852,
+            7019,
+            1858,
+            "village",
+            "base:stamp/village_c",
+            "Pelaton",
             4
-          ],
-          [
-            14162,
-            1952,
-            14169,
-            1958,
-            "hamlet",
-            "base:stamp/hamlet_b",
-            "Fenistead",
-            2
           ],
           [
             16178,
@@ -5441,26 +5594,6 @@
             1
           ],
           [
-            9309,
-            2188,
-            9319,
-            2197,
-            "village",
-            "base:stamp/village_d",
-            "Wyninbrook",
-            4
-          ],
-          [
-            16202,
-            2113,
-            16208,
-            2118,
-            "hamlet",
-            "base:stamp/hamlet_d",
-            "Dunibrook",
-            2
-          ],
-          [
             5457,
             2460,
             5468,
@@ -5468,46 +5601,6 @@
             "village",
             "base:stamp/village_b",
             "Wynobrook",
-            4
-          ],
-          [
-            11691,
-            2486,
-            11701,
-            2493,
-            "village",
-            "base:stamp/village",
-            "Marorholm",
-            2
-          ],
-          [
-            16040,
-            2391,
-            16045,
-            2395,
-            "hamlet",
-            "base:stamp/hamlet",
-            "Noranhaven",
-            2
-          ],
-          [
-            4652,
-            2717,
-            4664,
-            2723,
-            "village",
-            "base:stamp/village_c",
-            "Fenarton",
-            4
-          ],
-          [
-            5452,
-            2770,
-            5457,
-            2774,
-            "hamlet",
-            "base:stamp/hamlet",
-            "Galelhaven",
             4
           ],
           [
@@ -5521,6 +5614,16 @@
             1
           ],
           [
+            13224,
+            2862,
+            13229,
+            2866,
+            "hamlet",
+            "base:stamp/hamlet",
+            "Nororstead",
+            2
+          ],
+          [
             4667,
             3190,
             4682,
@@ -5529,6 +5632,26 @@
             "base:stamp/town",
             "Silawick",
             1
+          ],
+          [
+            10663,
+            3205,
+            10669,
+            3210,
+            "hamlet",
+            "base:stamp/hamlet_d",
+            "Galenholm",
+            2
+          ],
+          [
+            13722,
+            3240,
+            13732,
+            3247,
+            "village",
+            "base:stamp/village",
+            "Kelarvale",
+            2
           ],
           [
             160,
@@ -5558,6 +5681,16 @@
             "dungeon",
             "base:stamp/den",
             "Dire Den",
+            2
+          ],
+          [
+            14963,
+            3446,
+            14968,
+            3453,
+            "hamlet",
+            "base:stamp/hamlet_c",
+            "Berivale",
             2
           ],
           [
@@ -5631,26 +5764,6 @@
             1
           ],
           [
-            6807,
-            3975,
-            6812,
-            3982,
-            "hamlet",
-            "base:stamp/hamlet_c",
-            "Berovale",
-            4
-          ],
-          [
-            9874,
-            3909,
-            9884,
-            3916,
-            "village",
-            "base:stamp/village",
-            "Keloholm",
-            2
-          ],
-          [
             12140,
             3932,
             12160,
@@ -5671,6 +5784,36 @@
             2
           ],
           [
+            13459,
+            4292,
+            13464,
+            4296,
+            "hamlet",
+            "base:stamp/hamlet",
+            "Maranwick",
+            2
+          ],
+          [
+            15732,
+            4161,
+            15738,
+            4166,
+            "hamlet",
+            "base:stamp/hamlet_d",
+            "Dunorford",
+            2
+          ],
+          [
+            7007,
+            4480,
+            7012,
+            4484,
+            "hamlet",
+            "base:stamp/hamlet",
+            "Calenford",
+            4
+          ],
+          [
             12158,
             4417,
             12163,
@@ -5678,6 +5821,36 @@
             "hamlet",
             "base:stamp/hamlet_c",
             "Wynelwick",
+            2
+          ],
+          [
+            12383,
+            4509,
+            12388,
+            4513,
+            "hamlet",
+            "base:stamp/hamlet",
+            "Wynahaven",
+            2
+          ],
+          [
+            6191,
+            4652,
+            6196,
+            4656,
+            "hamlet",
+            "base:stamp/hamlet",
+            "Dunihaven",
+            1
+          ],
+          [
+            12161,
+            4683,
+            12166,
+            4687,
+            "hamlet",
+            "base:stamp/hamlet",
+            "Maraton",
             2
           ],
           [
@@ -5691,16 +5864,6 @@
             1
           ],
           [
-            12452,
-            4907,
-            12464,
-            4913,
-            "village",
-            "base:stamp/village_c",
-            "Iramere",
-            2
-          ],
-          [
             3444,
             5248,
             3456,
@@ -5709,6 +5872,16 @@
             "base:stamp/moss",
             "Mossy Den",
             1
+          ],
+          [
+            11835,
+            5239,
+            11841,
+            5244,
+            "hamlet",
+            "base:stamp/hamlet_d",
+            "Fenidale",
+            2
           ],
           [
             959,
@@ -5761,6 +5934,16 @@
             0
           ],
           [
+            10307,
+            5927,
+            10312,
+            5931,
+            "hamlet",
+            "base:stamp/hamlet",
+            "Velinton",
+            0
+          ],
+          [
             3254,
             6294,
             3260,
@@ -5801,14 +5984,14 @@
             1
           ],
           [
-            13195,
-            6470,
-            13200,
-            6474,
-            "hamlet",
-            "base:stamp/hamlet",
-            "Wynardale",
-            6
+            9544,
+            6587,
+            9554,
+            6596,
+            "village",
+            "base:stamp/village_d",
+            "Galenstead",
+            0
           ],
           [
             5193,
@@ -5819,16 +6002,6 @@
             "base:stamp/town_c",
             "Beravale",
             1
-          ],
-          [
-            15260,
-            6711,
-            15272,
-            6717,
-            "village",
-            "base:stamp/village_c",
-            "Pelinwick",
-            6
           ],
           [
             4491,
@@ -5861,26 +6034,6 @@
             0
           ],
           [
-            15558,
-            7294,
-            15565,
-            7300,
-            "hamlet",
-            "base:stamp/hamlet_b",
-            "Alarbrook",
-            6
-          ],
-          [
-            14112,
-            7476,
-            14124,
-            7482,
-            "village",
-            "base:stamp/village_c",
-            "Torenmere",
-            6
-          ],
-          [
             14696,
             7542,
             14720,
@@ -5888,16 +6041,6 @@
             "dungeon",
             "base:stamp/charpit",
             "Char Pit",
-            6
-          ],
-          [
-            15726,
-            7612,
-            15731,
-            7616,
-            "hamlet",
-            "base:stamp/hamlet",
-            "Keliton",
             6
           ],
           [
@@ -5959,6 +6102,16 @@
             "base:stamp/vent",
             "Magma Vent",
             6
+          ],
+          [
+            1202,
+            8225,
+            1212,
+            8232,
+            "village",
+            "base:stamp/village",
+            "Pelardale",
+            1
           ],
           [
             2375,
@@ -6051,13 +6204,13 @@
             0
           ],
           [
-            13873,
-            8842,
-            13878,
-            8846,
-            "hamlet",
-            "base:stamp/hamlet",
-            "Holorhaven",
+            12436,
+            8748,
+            12446,
+            8757,
+            "village",
+            "base:stamp/village_d",
+            "Holelbrook",
             6
           ],
           [
@@ -6079,26 +6232,6 @@
             "base:stamp/village_d",
             "Ravedale",
             0
-          ],
-          [
-            13955,
-            9100,
-            13967,
-            9106,
-            "village",
-            "base:stamp/village_c",
-            "Wyniton",
-            6
-          ],
-          [
-            15040,
-            9058,
-            15045,
-            9065,
-            "hamlet",
-            "base:stamp/hamlet_c",
-            "Fenandale",
-            6
           ],
           [
             2626,
@@ -6131,36 +6264,6 @@
             0
           ],
           [
-            12334,
-            9336,
-            12349,
-            9348,
-            "town",
-            "base:stamp/town",
-            "Fenastead",
-            3
-          ],
-          [
-            14781,
-            9358,
-            14791,
-            9367,
-            "village",
-            "base:stamp/village_d",
-            "Bereholm",
-            6
-          ],
-          [
-            407,
-            9802,
-            413,
-            9807,
-            "hamlet",
-            "base:stamp/hamlet_d",
-            "Calamere",
-            5
-          ],
-          [
             4993,
             9861,
             5000,
@@ -6181,13 +6284,13 @@
             0
           ],
           [
-            3473,
-            10044,
-            3485,
-            10050,
-            "village",
-            "base:stamp/village_c",
-            "Galenholm",
+            2735,
+            10116,
+            2740,
+            10123,
+            "hamlet",
+            "base:stamp/hamlet_c",
+            "Pelarton",
             5
           ],
           [
@@ -6211,6 +6314,16 @@
             5
           ],
           [
+            15034,
+            10857,
+            15039,
+            10861,
+            "hamlet",
+            "base:stamp/hamlet",
+            "Ravinholm",
+            3
+          ],
+          [
             7106,
             11119,
             7111,
@@ -6219,16 +6332,6 @@
             "base:stamp/hamlet_c",
             "Ostelvale",
             0
-          ],
-          [
-            14976,
-            11145,
-            14982,
-            11150,
-            "hamlet",
-            "base:stamp/hamlet_d",
-            "Wynarbrook",
-            3
           ],
           [
             5047,
@@ -6261,16 +6364,6 @@
             5
           ],
           [
-            9935,
-            11726,
-            9942,
-            11732,
-            "hamlet",
-            "base:stamp/hamlet_b",
-            "Kelanton",
-            3
-          ],
-          [
             12904,
             11638,
             12928,
@@ -6279,26 +6372,6 @@
             "base:stamp/dune",
             "Dune Den",
             3
-          ],
-          [
-            14516,
-            11634,
-            14521,
-            11638,
-            "hamlet",
-            "base:stamp/hamlet",
-            "Norostead",
-            3
-          ],
-          [
-            4514,
-            11974,
-            4524,
-            11983,
-            "village",
-            "base:stamp/village_d",
-            "Fenorholm",
-            5
           ],
           [
             4698,
@@ -6371,6 +6444,16 @@
             7
           ],
           [
+            11819,
+            12365,
+            11825,
+            12370,
+            "hamlet",
+            "base:stamp/hamlet_d",
+            "Irarbrook",
+            3
+          ],
+          [
             1908,
             12672,
             1920,
@@ -6391,16 +6474,6 @@
             5
           ],
           [
-            12907,
-            12661,
-            12912,
-            12665,
-            "hamlet",
-            "base:stamp/hamlet",
-            "Wynoholm",
-            3
-          ],
-          [
             2688,
             12919,
             2688,
@@ -6411,23 +6484,33 @@
             5
           ],
           [
-            2906,
-            12846,
-            2918,
-            12852,
-            "village",
-            "base:stamp/village_c",
-            "Norestead",
+            13893,
+            12840,
+            13898,
+            12847,
+            "hamlet",
+            "base:stamp/hamlet_c",
+            "Torinholm",
+            3
+          ],
+          [
+            2962,
+            13387,
+            2969,
+            13393,
+            "hamlet",
+            "base:stamp/hamlet_b",
+            "Ravanbrook",
             5
           ],
           [
-            11340,
-            13468,
-            11345,
-            13475,
+            13231,
+            13348,
+            13238,
+            13354,
             "hamlet",
-            "base:stamp/hamlet_c",
-            "Dunardale",
+            "base:stamp/hamlet_b",
+            "Galenmere",
             3
           ],
           [
@@ -6461,34 +6544,14 @@
             7
           ],
           [
-            12111,
-            13735,
-            12123,
-            13741,
-            "village",
-            "base:stamp/village_c",
-            "Lororford",
-            3
-          ],
-          [
-            13619,
-            13742,
-            13629,
-            13751,
-            "village",
-            "base:stamp/village_d",
-            "Duniholm",
-            3
-          ],
-          [
-            3173,
-            13874,
-            3185,
-            13880,
-            "village",
-            "base:stamp/village_c",
-            "Maroton",
-            5
+            6505,
+            13989,
+            6510,
+            13996,
+            "hamlet",
+            "base:stamp/hamlet_c",
+            "Torenhaven",
+            7
           ],
           [
             98,
@@ -6519,6 +6582,16 @@
             "base:stamp/hamlet",
             "Norenmere",
             3
+          ],
+          [
+            6086,
+            14445,
+            6098,
+            14451,
+            "village",
+            "base:stamp/village_c",
+            "Pelorbrook",
+            7
           ],
           [
             7542,
@@ -6591,13 +6664,13 @@
             7
           ],
           [
-            16216,
-            14772,
-            16222,
-            14777,
+            11580,
+            14685,
+            11587,
+            14691,
             "hamlet",
-            "base:stamp/hamlet_d",
-            "Aloholm",
+            "base:stamp/hamlet_b",
+            "Berohaven",
             3
           ],
           [
@@ -6641,36 +6714,6 @@
             7
           ],
           [
-            11094,
-            15400,
-            11105,
-            15408,
-            "village",
-            "base:stamp/village_b",
-            "Ostiholm",
-            7
-          ],
-          [
-            14378,
-            15494,
-            14384,
-            15499,
-            "hamlet",
-            "base:stamp/hamlet_d",
-            "Loroton",
-            3
-          ],
-          [
-            75,
-            15655,
-            82,
-            15661,
-            "hamlet",
-            "base:stamp/hamlet_b",
-            "Elihaven",
-            5
-          ],
-          [
             939,
             15782,
             946,
@@ -6699,16 +6742,6 @@
             "base:stamp/hamlet",
             "Norarbrook",
             5
-          ],
-          [
-            14792,
-            15763,
-            14799,
-            15769,
-            "hamlet",
-            "base:stamp/hamlet_b",
-            "Ravelford",
-            3
           ],
           [
             15194,
@@ -6741,6 +6774,16 @@
             7
           ],
           [
+            12339,
+            15962,
+            12345,
+            15967,
+            "hamlet",
+            "base:stamp/hamlet_d",
+            "Mariholm",
+            3
+          ],
+          [
             102,
             16247,
             108,
@@ -6748,16 +6791,6 @@
             "hamlet",
             "base:stamp/hamlet_d",
             "Holenmere",
-            5
-          ],
-          [
-            691,
-            16234,
-            708,
-            16247,
-            "town",
-            "base:stamp/town_b",
-            "Ravahaven",
             5
           ]
         ],
@@ -6965,14 +6998,9 @@
         ],
         "markers": [
           [
-            102,
-            1,
-            "Holomere"
-          ],
-          [
-            109,
-            1,
-            "Ostohaven"
+            99,
+            0,
+            "Ostaton"
           ],
           [
             18,
@@ -6980,19 +7008,14 @@
             "Ostelholm"
           ],
           [
-            49,
-            2,
-            "Dunovale"
-          ],
-          [
             102,
             3,
             "Kelinford"
           ],
           [
-            35,
-            5,
-            "Raveldale"
+            114,
+            2,
+            "Ostinmere"
           ],
           [
             18,
@@ -7000,34 +7023,14 @@
             "Wyninbrook"
           ],
           [
-            26,
-            7,
-            "Calenmere"
-          ],
-          [
-            38,
-            6,
-            "Loridale"
-          ],
-          [
             55,
             9,
             "Polar Rookery"
           ],
           [
-            65,
-            9,
-            "Galestead"
-          ],
-          [
             79,
             8,
             "Alelmere"
-          ],
-          [
-            40,
-            11,
-            "Berendale"
           ],
           [
             57,
@@ -7050,19 +7053,19 @@
             "Ostanmere"
           ],
           [
+            116,
+            13,
+            "Kelanford"
+          ],
+          [
             53,
             15,
             "Glacier Keep"
           ],
           [
-            59,
+            54,
             14,
-            "Duniwick"
-          ],
-          [
-            110,
-            15,
-            "Fenistead"
+            "Pelaton"
           ],
           [
             126,
@@ -7075,44 +7078,74 @@
             "Feninton"
           ],
           [
-            72,
-            17,
-            "Wyninbrook"
-          ],
-          [
-            126,
-            16,
-            "Dunibrook"
-          ],
-          [
             42,
             19,
             "Wynobrook"
           ],
           [
-            91,
-            19,
-            "Marorholm"
-          ],
-          [
-            125,
-            18,
-            "Noranhaven"
-          ],
-          [
-            36,
-            21,
-            "Fenarton"
-          ],
-          [
-            42,
-            21,
-            "Galelhaven"
-          ],
-          [
             37,
             23,
             "Ostoford"
+          ],
+          [
+            103,
+            22,
+            "Nororstead"
+          ],
+          [
+            36,
+            25,
+            "Silawick"
+          ],
+          [
+            83,
+            25,
+            "Galenholm"
+          ],
+          [
+            107,
+            25,
+            "Kelarvale"
+          ],
+          [
+            1,
+            26,
+            "Wynovale"
+          ],
+          [
+            97,
+            27,
+            "Ironspine Waystation"
+          ],
+          [
+            101,
+            27,
+            "Dire Den"
+          ],
+          [
+            116,
+            26,
+            "Berivale"
+          ],
+          [
+            69,
+            28,
+            "Irestead"
+          ],
+          [
+            88,
+            28,
+            "Velevale"
+          ],
+          [
+            94,
+            29,
+            "Iramere"
+          ],
+          [
+            97,
+            29,
+            "Rust Pit"
           ]
         ]
       }
@@ -7136,6 +7169,7 @@
           "border": 4,
           "spawn_clear_radius": 7,
           "landmark_clearing": 24,
+          "region_blend": 4500,
           "difficulty": {
             "enemy_hp_pct": 100,
             "enemy_atk_pct": 100
@@ -7279,6 +7313,34 @@
                   "base:item/silk_robe",
                   "base:item/travel_ration"
                 ]
+              },
+              "bias": {
+                "moisture": 9000
+              },
+              "ground": {
+                "plains": [
+                  27,
+                  28
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 70
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 40
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 8
+                  }
+                ]
               }
             },
             {
@@ -7343,6 +7405,35 @@
                   "base:item/scale_mail",
                   "base:item/splint_mail"
                 ]
+              },
+              "bias": {
+                "elevation": 5000,
+                "temperature": -4000
+              },
+              "ground": {
+                "plains": [
+                  33,
+                  34
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 40
+                  },
+                  {
+                    "art": "base:art/prop/pine",
+                    "radius_x100": 30,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 8
+                  }
+                ]
               }
             },
             {
@@ -7402,6 +7493,47 @@
                   "base:item/studded_leather",
                   "base:item/fish_stew"
                 ]
+              },
+              "bias": {
+                "temperature": 14000,
+                "moisture": -12000
+              },
+              "ground": {
+                "plains": [
+                  23,
+                  24
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/cactus",
+                    "radius_x100": 28,
+                    "per_mille": 16
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  }
+                ],
+                "desert": [
+                  {
+                    "art": "base:art/prop/cactus",
+                    "radius_x100": 28,
+                    "per_mille": 30
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 12
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 5
+                  }
+                ]
               }
             },
             {
@@ -7455,6 +7587,29 @@
                   "base:item/claymore",
                   "base:item/splint_mail",
                   "base:item/fish_stew"
+                ]
+              },
+              "bias": {
+                "temperature": -16000
+              },
+              "ground": {
+                "plains": [
+                  25,
+                  26
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/pine",
+                    "radius_x100": 30,
+                    "per_mille": 60
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 10
+                  }
                 ]
               }
             },
@@ -7510,6 +7665,35 @@
                   "base:item/saber",
                   "base:item/scale_mail",
                   "base:item/travel_ration"
+                ]
+              },
+              "bias": {
+                "elevation": -2000,
+                "moisture": 4000
+              },
+              "ground": {
+                "plains": [
+                  29,
+                  30
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 18
+                  },
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 12
+                  }
                 ]
               }
             },
@@ -7575,6 +7759,66 @@
                   "base:item/knight_plate",
                   "base:item/royal_feast",
                   "base:item/dragon_scale_vest"
+                ]
+              },
+              "bias": {
+                "temperature": 12000,
+                "moisture": -10000
+              },
+              "ground": {
+                "plains": [
+                  19,
+                  20,
+                  21
+                ],
+                "desert": [
+                  22
+                ],
+                "forest": [
+                  21
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 12
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 3
+                  }
+                ],
+                "desert": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 30
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 6
+                  }
+                ],
+                "forest": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 140
+                  }
                 ]
               }
             },
@@ -7645,6 +7889,34 @@
                   "base:item/warding_robe",
                   "base:item/silk_robe",
                   "base:item/travel_ration"
+                ]
+              },
+              "bias": {
+                "moisture": 4000
+              },
+              "ground": {
+                "plains": [
+                  31,
+                  32
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 20
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 8
+                  }
                 ]
               }
             }
@@ -10036,7 +10308,6 @@
                   "tile": 11
                 },
                 "A": {
-                  "tile": 14,
                   "spawner": "base:enemy/moonshade_alpha"
                 },
                 "T": {
@@ -10045,15 +10316,12 @@
                   "radius_x100": 35
                 },
                 "W": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_grey"
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "l": {
-                  "tile": 14,
                   "prop": "base:art/prop/lamp",
                   "radius_x100": 15
                 },
@@ -10062,7 +10330,6 @@
                   "radius_x100": 30
                 },
                 "s": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_green"
                 },
                 "t": {
@@ -10382,15 +10649,12 @@
                   "tile": 11
                 },
                 "D": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_dire"
                 },
                 "U": {
-                  "tile": 14,
                   "spawner": "base:enemy/dire_alpha"
                 },
                 "W": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_grey"
                 },
                 "o": {
@@ -10564,15 +10828,12 @@
                   "tile": 11
                 },
                 "L": {
-                  "tile": 14,
                   "spawner": "base:enemy/amber_queen"
                 },
                 "P": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_amber"
                 },
                 "a": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_sand"
                 },
                 "o": {
@@ -10689,15 +10950,12 @@
                   "tile": 11
                 },
                 "O": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_storm"
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "k": {
-                  "tile": 14,
                   "spawner": "base:enemy/storm_sovereign"
                 },
                 "o": {
@@ -11878,18 +12136,15 @@
                   "radius_x100": 10
                 },
                 "3": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_mint"
                 },
                 "4": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_tawny"
                 },
                 "=": {
                   "tile": 11
                 },
                 "n": {
-                  "tile": 14,
                   "spawner": "base:enemy/mint_matron"
                 },
                 "o": {
@@ -11937,14 +12192,12 @@
                   "radius_x100": 10
                 },
                 "5": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_moss"
                 },
                 "=": {
                   "tile": 11
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "o": {
@@ -11952,7 +12205,6 @@
                   "radius_x100": 30
                 },
                 "p": {
-                  "tile": 14,
                   "spawner": "base:enemy/moss_elder"
                 },
                 "t": {
@@ -12062,14 +12314,12 @@
                   "radius_x100": 10
                 },
                 "7": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_dune"
                 },
                 "=": {
                   "tile": 11
                 },
                 "a": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_sand"
                 },
                 "o": {
@@ -12077,7 +12327,6 @@
                   "radius_x100": 30
                 },
                 "u": {
-                  "tile": 14,
                   "spawner": "base:enemy/dune_mother"
                 }
               },
@@ -12245,18 +12494,15 @@
                   "radius_x100": 10
                 },
                 "%": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_nebula"
                 },
                 "1": {
-                  "tile": 14,
                   "spawner": "base:enemy/nebula_heart"
                 },
                 "=": {
                   "tile": 11
                 },
                 "g": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_glow"
                 },
                 "o": {
@@ -12332,7 +12578,7 @@
         }
       },
       "expect": {
-        "count": 20,
+        "count": 19,
         "settlements": [
           [
             5722,
@@ -12345,14 +12591,14 @@
             4
           ],
           [
-            8102,
-            2767,
-            8109,
-            2773,
-            "hamlet",
-            "base:stamp/hamlet_b",
-            "Kelanwick",
-            4
+            4192,
+            2660,
+            4204,
+            2666,
+            "village",
+            "base:stamp/village_c",
+            "Marorholm",
+            1
           ],
           [
             4671,
@@ -12362,16 +12608,6 @@
             "hamlet",
             "base:stamp/hamlet_b",
             "Ravorstead",
-            1
-          ],
-          [
-            5037,
-            3217,
-            5042,
-            3224,
-            "hamlet",
-            "base:stamp/hamlet_c",
-            "Torelholm",
             1
           ],
           [
@@ -12385,24 +12621,14 @@
             1
           ],
           [
-            7510,
-            3730,
-            7515,
-            3737,
+            5410,
+            3703,
+            5417,
+            3709,
             "hamlet",
-            "base:stamp/hamlet_c",
-            "Maranbrook",
-            4
-          ],
-          [
-            7234,
-            4032,
-            7245,
-            4040,
-            "village",
-            "base:stamp/village_b",
-            "Berinford",
-            4
+            "base:stamp/hamlet_b",
+            "Elobrook",
+            1
           ],
           [
             3022,
@@ -12425,13 +12651,13 @@
             1
           ],
           [
-            5459,
-            4484,
-            5471,
-            4490,
+            2087,
+            4970,
+            2099,
+            4976,
             "village",
             "base:stamp/village_c",
-            "Silihaven",
+            "Loranhaven",
             1
           ],
           [
@@ -12452,6 +12678,16 @@
             "hamlet",
             "base:stamp/hamlet_d",
             "Lorarvale",
+            1
+          ],
+          [
+            6522,
+            5225,
+            6534,
+            5231,
+            "village",
+            "base:stamp/village_c",
+            "Calorwick",
             1
           ],
           [
@@ -12744,9 +12980,9 @@
             "Wynaholm"
           ],
           [
-            63,
-            21,
-            "Kelanwick"
+            32,
+            20,
+            "Marorholm"
           ],
           [
             36,
@@ -12754,24 +12990,14 @@
             "Ravorstead"
           ],
           [
-            39,
-            25,
-            "Torelholm"
-          ],
-          [
             16,
             28,
             "Eloton"
           ],
           [
-            58,
-            29,
-            "Maranbrook"
-          ],
-          [
-            56,
-            31,
-            "Berinford"
+            42,
+            28,
+            "Elobrook"
           ],
           [
             23,
@@ -12784,9 +13010,9 @@
             "Galelwick"
           ],
           [
-            42,
-            35,
-            "Silihaven"
+            16,
+            38,
+            "Loranhaven"
           ],
           [
             27,
@@ -12797,6 +13023,11 @@
             38,
             41,
             "Lorarvale"
+          ],
+          [
+            51,
+            40,
+            "Calorwick"
           ],
           [
             29,
@@ -12860,6 +13091,7 @@
           "border": 4,
           "spawn_clear_radius": 7,
           "landmark_clearing": 24,
+          "region_blend": 4500,
           "difficulty": {
             "enemy_hp_pct": 100,
             "enemy_atk_pct": 100
@@ -13003,6 +13235,34 @@
                   "base:item/silk_robe",
                   "base:item/travel_ration"
                 ]
+              },
+              "bias": {
+                "moisture": 9000
+              },
+              "ground": {
+                "plains": [
+                  27,
+                  28
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 70
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 40
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 8
+                  }
+                ]
               }
             },
             {
@@ -13067,6 +13327,35 @@
                   "base:item/scale_mail",
                   "base:item/splint_mail"
                 ]
+              },
+              "bias": {
+                "elevation": 5000,
+                "temperature": -4000
+              },
+              "ground": {
+                "plains": [
+                  33,
+                  34
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 40
+                  },
+                  {
+                    "art": "base:art/prop/pine",
+                    "radius_x100": 30,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 8
+                  }
+                ]
               }
             },
             {
@@ -13126,6 +13415,47 @@
                   "base:item/studded_leather",
                   "base:item/fish_stew"
                 ]
+              },
+              "bias": {
+                "temperature": 14000,
+                "moisture": -12000
+              },
+              "ground": {
+                "plains": [
+                  23,
+                  24
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/cactus",
+                    "radius_x100": 28,
+                    "per_mille": 16
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  }
+                ],
+                "desert": [
+                  {
+                    "art": "base:art/prop/cactus",
+                    "radius_x100": 28,
+                    "per_mille": 30
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 12
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 5
+                  }
+                ]
               }
             },
             {
@@ -13179,6 +13509,29 @@
                   "base:item/claymore",
                   "base:item/splint_mail",
                   "base:item/fish_stew"
+                ]
+              },
+              "bias": {
+                "temperature": -16000
+              },
+              "ground": {
+                "plains": [
+                  25,
+                  26
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/pine",
+                    "radius_x100": 30,
+                    "per_mille": 60
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 10
+                  }
                 ]
               }
             },
@@ -13234,6 +13587,35 @@
                   "base:item/saber",
                   "base:item/scale_mail",
                   "base:item/travel_ration"
+                ]
+              },
+              "bias": {
+                "elevation": -2000,
+                "moisture": 4000
+              },
+              "ground": {
+                "plains": [
+                  29,
+                  30
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 18
+                  },
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 12
+                  }
                 ]
               }
             },
@@ -13299,6 +13681,66 @@
                   "base:item/knight_plate",
                   "base:item/royal_feast",
                   "base:item/dragon_scale_vest"
+                ]
+              },
+              "bias": {
+                "temperature": 12000,
+                "moisture": -10000
+              },
+              "ground": {
+                "plains": [
+                  19,
+                  20,
+                  21
+                ],
+                "desert": [
+                  22
+                ],
+                "forest": [
+                  21
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 12
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 3
+                  }
+                ],
+                "desert": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 30
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 6
+                  }
+                ],
+                "forest": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 140
+                  }
                 ]
               }
             },
@@ -13369,6 +13811,34 @@
                   "base:item/warding_robe",
                   "base:item/silk_robe",
                   "base:item/travel_ration"
+                ]
+              },
+              "bias": {
+                "moisture": 4000
+              },
+              "ground": {
+                "plains": [
+                  31,
+                  32
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 20
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 8
+                  }
                 ]
               }
             }
@@ -15760,7 +16230,6 @@
                   "tile": 11
                 },
                 "A": {
-                  "tile": 14,
                   "spawner": "base:enemy/moonshade_alpha"
                 },
                 "T": {
@@ -15769,15 +16238,12 @@
                   "radius_x100": 35
                 },
                 "W": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_grey"
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "l": {
-                  "tile": 14,
                   "prop": "base:art/prop/lamp",
                   "radius_x100": 15
                 },
@@ -15786,7 +16252,6 @@
                   "radius_x100": 30
                 },
                 "s": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_green"
                 },
                 "t": {
@@ -16106,15 +16571,12 @@
                   "tile": 11
                 },
                 "D": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_dire"
                 },
                 "U": {
-                  "tile": 14,
                   "spawner": "base:enemy/dire_alpha"
                 },
                 "W": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_grey"
                 },
                 "o": {
@@ -16288,15 +16750,12 @@
                   "tile": 11
                 },
                 "L": {
-                  "tile": 14,
                   "spawner": "base:enemy/amber_queen"
                 },
                 "P": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_amber"
                 },
                 "a": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_sand"
                 },
                 "o": {
@@ -16413,15 +16872,12 @@
                   "tile": 11
                 },
                 "O": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_storm"
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "k": {
-                  "tile": 14,
                   "spawner": "base:enemy/storm_sovereign"
                 },
                 "o": {
@@ -17602,18 +18058,15 @@
                   "radius_x100": 10
                 },
                 "3": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_mint"
                 },
                 "4": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_tawny"
                 },
                 "=": {
                   "tile": 11
                 },
                 "n": {
-                  "tile": 14,
                   "spawner": "base:enemy/mint_matron"
                 },
                 "o": {
@@ -17661,14 +18114,12 @@
                   "radius_x100": 10
                 },
                 "5": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_moss"
                 },
                 "=": {
                   "tile": 11
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "o": {
@@ -17676,7 +18127,6 @@
                   "radius_x100": 30
                 },
                 "p": {
-                  "tile": 14,
                   "spawner": "base:enemy/moss_elder"
                 },
                 "t": {
@@ -17786,14 +18236,12 @@
                   "radius_x100": 10
                 },
                 "7": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_dune"
                 },
                 "=": {
                   "tile": 11
                 },
                 "a": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_sand"
                 },
                 "o": {
@@ -17801,7 +18249,6 @@
                   "radius_x100": 30
                 },
                 "u": {
-                  "tile": 14,
                   "spawner": "base:enemy/dune_mother"
                 }
               },
@@ -17969,18 +18416,15 @@
                   "radius_x100": 10
                 },
                 "%": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_nebula"
                 },
                 "1": {
-                  "tile": 14,
                   "spawner": "base:enemy/nebula_heart"
                 },
                 "=": {
                   "tile": 11
                 },
                 "g": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_glow"
                 },
                 "o": {
@@ -18056,7 +18500,7 @@
         }
       },
       "expect": {
-        "count": 22,
+        "count": 20,
         "settlements": [
           [
             8032,
@@ -18066,16 +18510,6 @@
             "village",
             "base:stamp/village_d",
             "Fenanstead",
-            0
-          ],
-          [
-            8503,
-            5243,
-            8514,
-            5251,
-            "village",
-            "base:stamp/village_b",
-            "Fenemere",
             0
           ],
           [
@@ -18146,16 +18580,6 @@
             "village",
             "base:stamp/village_c",
             "Ravormere",
-            0
-          ],
-          [
-            11140,
-            8017,
-            11150,
-            8026,
-            "village",
-            "base:stamp/village_d",
-            "Silibrook",
             0
           ],
           [
@@ -18488,11 +18912,6 @@
             "Fenanstead"
           ],
           [
-            66,
-            41,
-            "Fenemere"
-          ],
-          [
             50,
             45,
             "Wynaford"
@@ -18526,11 +18945,6 @@
             67,
             62,
             "Ravormere"
-          ],
-          [
-            87,
-            62,
-            "Silibrook"
           ],
           [
             63,

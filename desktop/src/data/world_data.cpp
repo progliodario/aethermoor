@@ -171,6 +171,7 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
             return std::nullopt;
         }
         p.landmark_clearing = j.value("landmark_clearing", 0);
+        p.region_blend = j.value("region_blend", 0);
         if (j.contains("difficulty")) {
             p.enemy_hp_pct = j.at("difficulty").value("enemy_hp_pct", 100);
             p.enemy_atk_pct = j.at("difficulty").value("enemy_atk_pct", 100);
@@ -207,6 +208,25 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
             if (region.fauna.empty()) {
                 error = "a region needs fauna";
                 return std::nullopt;
+            }
+            if (r.contains("bias")) {
+                region.bias_elevation = r.at("bias").value("elevation", 0);
+                region.bias_temperature = r.at("bias").value("temperature", 0);
+                region.bias_moisture = r.at("bias").value("moisture", 0);
+            }
+            if (r.contains("ground")) {
+                for (const auto& [biome, gids] : r.at("ground").items()) {
+                    for (const Json& gid : gids) {
+                        region.ground[biome].push_back(gid.get<int>());
+                    }
+                }
+            }
+            if (r.contains("props")) {
+                for (const auto& [biome, options] : r.at("props").items()) {
+                    for (const Json& o : options) {
+                        region.props[biome].push_back({o.at("art").get<std::string>(), o.at("radius_x100").get<int>(), o.at("per_mille").get<int>()});
+                    }
+                }
             }
             p.regions.push_back(std::move(region));
         }

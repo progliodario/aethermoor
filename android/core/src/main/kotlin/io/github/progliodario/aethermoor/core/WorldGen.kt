@@ -28,6 +28,14 @@ class Region(val id: String, /** An $i18n: key. */ val name: String, val xPm: In
     val shopStock: List<String>,
     /** The enemies of the spawners of the region, by weight. */
     val fauna: List<FaunaEntry>,
+    /** Pull on the fields of the terrain near its center (spec 09, "Regions"). */
+    val biasElevation: Int = 0,
+    val biasTemperature: Int = 0,
+    val biasMoisture: Int = 0,
+    /** Ground tiles by biome, instead of the ones of the world. */
+    val ground: Map<String, List<Int>> = emptyMap(),
+    /** Random props by biome, instead of the ones of the world. */
+    val props: Map<String, List<PropOption>> = emptyMap(),
 )
 
 class SettlementKind(val id: String, val weight: Int, val stamps: List<String>)
@@ -176,6 +184,9 @@ class WorldParams(
     /** The prop that is a Threshold Stone and how near the player must be to use it, in 1/100 tile (spec 09). */
     val stoneArt: String,
     val stoneRangeX100: Int,
+    /** Tiles over which the biases of the regions are blended (spec 09, "Regions"); 0: no biases. */
+    val regionBlend: Int,
+
     /** Difficulty (spec 04): health and attack of the creatures of the streamed world, in percent. */
     val enemyHpPct: Int,
     val enemyAtkPct: Int,
@@ -261,6 +272,33 @@ private fun biomeAt(seed: ULong, p: WorldParams, x: Int, y: Int): Biome {
     return biome
 }
 
+/** The pull of the regions on the elevation, temperature and moisture fields at a tile (spec 09, "Regions"): a weighted mean of their biases, shifted to be positive before the division. */
+private fun regionBias(p: WorldParams, x: Int, y: Int): LongArray {
+    val bias = LongArray(3)
+    if (p.regionBlend <= 0) return bias
+    val shift = 32768L
+    val reach2 = p.regionBlend.toLong() * p.regionBlend
+    var total = 0L
+    var sumE = 0L
+    var sumT = 0L
+    var sumM = 0L
+    for (r in p.regions) {
+        val dx = x - r.xPm.toLong() * p.width / 1000
+        val dy = y - r.yPm.toLong() * p.height / 1000
+        val weight = reach2 - (dx * dx + dy * dy)
+        if (weight <= 0L) continue
+        total += weight
+        sumE += (r.biasElevation + shift) * weight
+        sumT += (r.biasTemperature + shift) * weight
+        sumM += (r.biasMoisture + shift) * weight
+    }
+    if (total == 0L) return bias
+    bias[0] = sumE / total - shift
+    bias[1] = sumT / total - shift
+    bias[2] = sumM / total - shift
+    return bias
+}
+
 private fun naturalBiomeAt(seed: ULong, p: WorldParams, x: Int, y: Int): Biome {
     if (x < p.border || y < p.border || x >= p.width - p.border || y >= p.height - p.border) return Biome.WATER
     if (inClearing(p, x, y)) return Biome.PLAINS
@@ -269,13 +307,14 @@ private fun naturalBiomeAt(seed: ULong, p: WorldParams, x: Int, y: Int): Biome {
         val dy = (y - p.height / 2).toLong()
         if (dx * dx + dy * dy < p.homeRadius.toLong() * p.homeRadius) return Biome.PLAINS // the home meadow
     }
-    val e = field(seed, p.elevation, x, y)
+    val bias = regionBias(p, x, y)
+    val e = field(seed, p.elevation, x, y) + bias[0]
     if (e < p.water) return Biome.WATER
     if (e < p.beach) return Biome.BEACH
     if (e >= p.mountain) return Biome.MOUNTAIN
-    val temperature = field(seed, p.temperature, x, y)
+    val temperature = field(seed, p.temperature, x, y) + bias[1]
     if (temperature < p.snow) return Biome.SNOW
-    val moisture = field(seed, p.moisture, x, y)
+    val moisture = field(seed, p.moisture, x, y) + bias[2]
     if (temperature >= p.desertHeat && moisture < p.desertDry) return Biome.DESERT
     if (moisture >= p.forestWet) return Biome.FOREST
     return Biome.PLAINS
@@ -602,8 +641,10 @@ private fun gidFor(seed: ULong, p: WorldParams, biome: Biome, x: Int, y: Int, ov
         Overlay.NONE -> baseGid(seed, p, biome, x, y)
     }
 
-private fun baseGid(seed: ULong, p: WorldParams, biome: Biome, x: Int, y: Int): Int =
-    when (biome) {
+private fun baseGid(seed: ULong, p: WorldParams, biome: Biome, x: Int, y: Int): Int {
+    val ground = p.regions[regionAt(p, x, y)].ground[biome.id] // the ground of the region (spec 09, "Regions")
+    if (!ground.isNullOrEmpty()) return ground[((hash64(seed, x.toLong(), y.toLong(), 5) shr 40) % ground.size.toULong()).toInt()]
+    return when (biome) {
         Biome.WATER -> p.tileWater
         Biome.BEACH -> p.tileBeach
         Biome.MOUNTAIN -> p.tileMountain
@@ -612,9 +653,10 @@ private fun baseGid(seed: ULong, p: WorldParams, biome: Biome, x: Int, y: Int): 
         Biome.FOREST -> p.tileForest
         Biome.PLAINS -> p.tilesPlains[((hash64(seed, x.toLong(), y.toLong(), 5) shr 40) % p.tilesPlains.size.toULong()).toInt()]
     }
+}
 
 private fun propAt(seed: ULong, p: WorldParams, biome: Biome, x: Int, y: Int): GenProp? {
-    val options = p.props[biome.id] ?: return null
+    val options = p.regions[regionAt(p, x, y)].props[biome.id]?.takeIf { it.isNotEmpty() } ?: p.props[biome.id] ?: return null
     if (options.isEmpty()) return null
     val h = hash64(seed, x.toLong(), y.toLong(), 7)
     val roll = ((h shr 20) % 1000uL).toLong()
@@ -859,6 +901,7 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
                     },
                 )
             },
+            regionBlend = j["region_blend"]?.jsonPrimitive?.int ?: 0,
             enemyHpPct = j["difficulty"]?.jsonObject?.get("enemy_hp_pct")?.jsonPrimitive?.int ?: 100,
             enemyAtkPct = j["difficulty"]?.jsonObject?.get("enemy_atk_pct")?.jsonPrimitive?.int ?: 100,
             landmarkClearing = j["landmark_clearing"]?.jsonPrimitive?.int ?: 0,
@@ -878,6 +921,16 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
                         val e = f.jsonObject
                         FaunaEntry(e.getValue("enemy").jsonPrimitive.content, e.getValue("drop").jsonPrimitive.content, e.getValue("weight").jsonPrimitive.int)
                     }.also { list -> require(list.isNotEmpty() && list.all { it.weight >= 1 }) { "a region needs fauna with positive weights" } },
+                    biasElevation = r["bias"]?.jsonObject?.get("elevation")?.jsonPrimitive?.int ?: 0,
+                    biasTemperature = r["bias"]?.jsonObject?.get("temperature")?.jsonPrimitive?.int ?: 0,
+                    biasMoisture = r["bias"]?.jsonObject?.get("moisture")?.jsonPrimitive?.int ?: 0,
+                    ground = r["ground"]?.jsonObject?.mapValues { (_, gids) -> gids.jsonArray.map { gid -> gid.jsonPrimitive.int } } ?: emptyMap(),
+                    props = r["props"]?.jsonObject?.mapValues { (_, options) ->
+                        options.jsonArray.map { o ->
+                            val option = o.jsonObject
+                            PropOption(option.getValue("art").jsonPrimitive.content, option.getValue("radius_x100").jsonPrimitive.int, option.getValue("per_mille").jsonPrimitive.int)
+                        }
+                    } ?: emptyMap(),
                 )
             },
             settlementPerMille = j.getValue("settlements").jsonObject.getValue("per_mille").jsonPrimitive.int,

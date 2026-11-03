@@ -1,0 +1,88 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/tile/rocky_a",
+  "canvas": {
+    "w": 32,
+    "h": 32,
+    "origin": [
+      0,
+      0
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          32
+        ]
+      },
+      "fill": {
+        "color": "#7A9A6A"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          10,
+          10,
+          3,
+          2.2
+        ]
+      },
+      "fill": {
+        "color": "#9A9A98"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          23,
+          21,
+          2.4,
+          1.8
+        ]
+      },
+      "fill": {
+        "color": "#8A8A88"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          26,
+          8,
+          1.4,
+          1
+        ]
+      },
+      "fill": {
+        "color": "#9A9A98"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            6,
+            28
+          ],
+          [
+            8,
+            22
+          ],
+          [
+            10,
+            28
+          ]
+        ]
+      },
+      "fill": {
+        "color": "#68885A"
+      }
+    }
+  ],
+  "palette": {}
+}

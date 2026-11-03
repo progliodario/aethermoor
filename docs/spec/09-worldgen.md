@@ -72,6 +72,19 @@ cell that contains the tile `(width / 2 + dx, height / 2 + dy)` has a settlement
 entry of `settlements.kinds` that lists that stamp, without the random roll and the biome conditions (the footprint must lie inside its site cell); its name is made like the others.
 A world with no `home` has neither the meadow nor the village.
 
+## Regions look like their names
+
+Found by looking at frames of the game: Sunscar was snow with pines and the Ashen Wastes a green meadow, because the biomes come from noise fields that did not know about the regions. Now each region may have:
+
+- `bias {elevation, temperature, moisture}`: added to the three fields near its center. The bias of a tile is a weighted mean of the biases of all the regions (`weight = region_blend^2 - squared distance to the center`, zero beyond; regions
+  without a bias count with 0, so Verdalis cools its neighbors); the biases are shifted by 32768 to be positive before the integer division, which rounds the same on every platform. `region_blend` (world data, 4500 tiles) is the reach.
+  The spawn clearing and the home meadow stay plains. In the base pack: Sunscar hot and dry (desert), Frostveil cold (snow), Ashen Wastes hot and dry (desert, with ash for ground), Whisperwood wet (forest), Ironspine higher and cooler (mountains and snow),
+  Tidehaven lower and a little wetter (coast), Lumeria a little wetter.
+- `ground {biome: [gids]}`: the ground tiles of the region instead of `tiles` (picked by the same hash). Sixteen new tiles: ash and ash sand, savanna, frosted grass, moss, coast grass, violet meadow, rocky meadow.
+- `props {biome: [options]}`: the random props of the region instead of `props` (dead trees in the Ashen Wastes, cacti in Sunscar, pines in Frostveil...).
+
+In a stamp marked as open air (the glade and the lairs and nests of grass), creatures, lamps and props keep the ground of the terrain instead of a cobblestone.
+
 ## Landmarks and dungeons
 
 **Clearings.** The world data may have `landmark_clearing` (tiles, base pack: 24). Around the footprint of every landmark, grown by that many tiles on every side, a tile whose biome is water or mountain becomes plains (the border of the world

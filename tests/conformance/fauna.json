@@ -90,6 +90,10 @@
             5628
           ],
           [
+            3714,
+            5621
+          ],
+          [
             3824,
             5607
           ],
@@ -102,8 +106,32 @@
             5647
           ],
           [
+            12736,
+            3543
+          ],
+          [
+            12789,
+            3524
+          ],
+          [
+            12791,
+            3525
+          ],
+          [
+            12769,
+            3558
+          ],
+          [
             12812,
             3559
+          ],
+          [
+            12723,
+            3589
+          ],
+          [
+            12721,
+            3595
           ],
           [
             12862,
@@ -114,48 +142,8 @@
             3648
           ],
           [
-            13216,
-            11910
-          ],
-          [
-            13241,
-            11914
-          ],
-          [
-            13268,
-            11912
-          ],
-          [
-            13290,
-            11910
-          ],
-          [
-            13281,
-            11929
-          ],
-          [
-            13308,
-            11998
-          ],
-          [
-            13309,
-            11998
-          ],
-          [
-            13318,
-            12006
-          ],
-          [
-            7350,
-            1446
-          ],
-          [
-            7350,
-            1458
-          ],
-          [
-            7447,
-            1480
+            7449,
+            1468
           ],
           [
             2255,
@@ -182,12 +170,12 @@
             12697
           ],
           [
-            2297,
-            12681
-          ],
-          [
             15022,
             7790
+          ],
+          [
+            15093,
+            7777
           ],
           [
             15162,
@@ -198,12 +186,28 @@
             7826
           ],
           [
-            15071,
-            7844
+            15094,
+            7847
           ],
           [
             15119,
             7854
+          ],
+          [
+            15098,
+            7889
+          ],
+          [
+            15098,
+            7921
+          ],
+          [
+            15085,
+            7922
+          ],
+          [
+            15160,
+            7933
           ],
           [
             7808,
@@ -336,6 +340,10 @@
           [
             12662,
             3701
+          ],
+          [
+            12651,
+            3704
           ],
           [
             12661,
@@ -658,6 +666,14 @@
             11899
           ],
           [
+            13430,
+            11919
+          ],
+          [
+            13464,
+            11905
+          ],
+          [
             13467,
             11931
           ],
@@ -704,10 +720,6 @@
           [
             15215,
             7775
-          ],
-          [
-            15255,
-            7750
           ],
           [
             15236,
@@ -786,8 +798,8 @@
             7798
           ],
           [
-            15240,
-            7821
+            12913,
+            3432
           ],
           [
             12910,
@@ -832,14 +844,6 @@
           [
             12922,
             3459
-          ],
-          [
-            14996,
-            8033
-          ],
-          [
-            14976,
-            8041
           ],
           [
             14982,
@@ -1070,16 +1074,12 @@
             3448
           ],
           [
-            7014,
-            1640
+            12438,
+            3463
           ],
           [
-            7036,
-            1649
-          ],
-          [
-            7026,
-            1674
+            1942,
+            12429
           ],
           [
             3942,
@@ -1088,18 +1088,6 @@
           [
             3995,
             5519
-          ],
-          [
-            13720,
-            12135
-          ],
-          [
-            13686,
-            12171
-          ],
-          [
-            13677,
-            12173
           ],
           [
             7533,
@@ -1112,14 +1100,6 @@
           [
             14952,
             7826
-          ],
-          [
-            14983,
-            7821
-          ],
-          [
-            14976,
-            7834
           ],
           [
             8574,
@@ -1310,10 +1290,6 @@
             12943
           ],
           [
-            6754,
-            1869
-          ],
-          [
             6770,
             1886
           ],
@@ -1476,10 +1452,6 @@
           [
             14720,
             8317
-          ],
-          [
-            14690,
-            8346
           ],
           [
             8054,
@@ -1718,6 +1690,10 @@
             1155
           ],
           [
+            7054,
+            1178
+          ],
+          [
             1914,
             12677
           ],
@@ -1760,6 +1736,10 @@
           [
             1926,
             12685
+          ],
+          [
+            1930,
+            12698
           ],
           [
             7546,
@@ -1814,10 +1794,6 @@
             14730
           ],
           [
-            14708,
-            7524
-          ],
-          [
             14702,
             7547
           ],
@@ -1870,6 +1846,7 @@
           "border": 4,
           "spawn_clear_radius": 7,
           "landmark_clearing": 24,
+          "region_blend": 4500,
           "difficulty": {
             "enemy_hp_pct": 100,
             "enemy_atk_pct": 100
@@ -2013,6 +1990,34 @@
                   "base:item/silk_robe",
                   "base:item/travel_ration"
                 ]
+              },
+              "bias": {
+                "moisture": 9000
+              },
+              "ground": {
+                "plains": [
+                  27,
+                  28
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 70
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 40
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 8
+                  }
+                ]
               }
             },
             {
@@ -2077,6 +2082,35 @@
                   "base:item/scale_mail",
                   "base:item/splint_mail"
                 ]
+              },
+              "bias": {
+                "elevation": 5000,
+                "temperature": -4000
+              },
+              "ground": {
+                "plains": [
+                  33,
+                  34
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 40
+                  },
+                  {
+                    "art": "base:art/prop/pine",
+                    "radius_x100": 30,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 8
+                  }
+                ]
               }
             },
             {
@@ -2136,6 +2170,47 @@
                   "base:item/studded_leather",
                   "base:item/fish_stew"
                 ]
+              },
+              "bias": {
+                "temperature": 14000,
+                "moisture": -12000
+              },
+              "ground": {
+                "plains": [
+                  23,
+                  24
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/cactus",
+                    "radius_x100": 28,
+                    "per_mille": 16
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  }
+                ],
+                "desert": [
+                  {
+                    "art": "base:art/prop/cactus",
+                    "radius_x100": 28,
+                    "per_mille": 30
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 12
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 5
+                  }
+                ]
               }
             },
             {
@@ -2189,6 +2264,29 @@
                   "base:item/claymore",
                   "base:item/splint_mail",
                   "base:item/fish_stew"
+                ]
+              },
+              "bias": {
+                "temperature": -16000
+              },
+              "ground": {
+                "plains": [
+                  25,
+                  26
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/pine",
+                    "radius_x100": 30,
+                    "per_mille": 60
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 10
+                  }
                 ]
               }
             },
@@ -2244,6 +2342,35 @@
                   "base:item/saber",
                   "base:item/scale_mail",
                   "base:item/travel_ration"
+                ]
+              },
+              "bias": {
+                "elevation": -2000,
+                "moisture": 4000
+              },
+              "ground": {
+                "plains": [
+                  29,
+                  30
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 18
+                  },
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 12
+                  }
                 ]
               }
             },
@@ -2309,6 +2436,66 @@
                   "base:item/knight_plate",
                   "base:item/royal_feast",
                   "base:item/dragon_scale_vest"
+                ]
+              },
+              "bias": {
+                "temperature": 12000,
+                "moisture": -10000
+              },
+              "ground": {
+                "plains": [
+                  19,
+                  20,
+                  21
+                ],
+                "desert": [
+                  22
+                ],
+                "forest": [
+                  21
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 12
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 3
+                  }
+                ],
+                "desert": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 30
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 6
+                  }
+                ],
+                "forest": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 140
+                  }
                 ]
               }
             },
@@ -2379,6 +2566,34 @@
                   "base:item/warding_robe",
                   "base:item/silk_robe",
                   "base:item/travel_ration"
+                ]
+              },
+              "bias": {
+                "moisture": 4000
+              },
+              "ground": {
+                "plains": [
+                  31,
+                  32
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 20
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 8
+                  }
                 ]
               }
             }
@@ -4770,7 +4985,6 @@
                   "tile": 11
                 },
                 "A": {
-                  "tile": 14,
                   "spawner": "base:enemy/moonshade_alpha"
                 },
                 "T": {
@@ -4779,15 +4993,12 @@
                   "radius_x100": 35
                 },
                 "W": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_grey"
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "l": {
-                  "tile": 14,
                   "prop": "base:art/prop/lamp",
                   "radius_x100": 15
                 },
@@ -4796,7 +5007,6 @@
                   "radius_x100": 30
                 },
                 "s": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_green"
                 },
                 "t": {
@@ -5116,15 +5326,12 @@
                   "tile": 11
                 },
                 "D": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_dire"
                 },
                 "U": {
-                  "tile": 14,
                   "spawner": "base:enemy/dire_alpha"
                 },
                 "W": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_grey"
                 },
                 "o": {
@@ -5298,15 +5505,12 @@
                   "tile": 11
                 },
                 "L": {
-                  "tile": 14,
                   "spawner": "base:enemy/amber_queen"
                 },
                 "P": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_amber"
                 },
                 "a": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_sand"
                 },
                 "o": {
@@ -5423,15 +5627,12 @@
                   "tile": 11
                 },
                 "O": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_storm"
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "k": {
-                  "tile": 14,
                   "spawner": "base:enemy/storm_sovereign"
                 },
                 "o": {
@@ -6612,18 +6813,15 @@
                   "radius_x100": 10
                 },
                 "3": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_mint"
                 },
                 "4": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_tawny"
                 },
                 "=": {
                   "tile": 11
                 },
                 "n": {
-                  "tile": 14,
                   "spawner": "base:enemy/mint_matron"
                 },
                 "o": {
@@ -6671,14 +6869,12 @@
                   "radius_x100": 10
                 },
                 "5": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_moss"
                 },
                 "=": {
                   "tile": 11
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "o": {
@@ -6686,7 +6882,6 @@
                   "radius_x100": 30
                 },
                 "p": {
-                  "tile": 14,
                   "spawner": "base:enemy/moss_elder"
                 },
                 "t": {
@@ -6796,14 +6991,12 @@
                   "radius_x100": 10
                 },
                 "7": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_dune"
                 },
                 "=": {
                   "tile": 11
                 },
                 "a": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_sand"
                 },
                 "o": {
@@ -6811,7 +7004,6 @@
                   "radius_x100": 30
                 },
                 "u": {
-                  "tile": 14,
                   "spawner": "base:enemy/dune_mother"
                 }
               },
@@ -6979,18 +7171,15 @@
                   "radius_x100": 10
                 },
                 "%": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_nebula"
                 },
                 "1": {
-                  "tile": 14,
                   "spawner": "base:enemy/nebula_heart"
                 },
                 "=": {
                   "tile": 11
                 },
                 "g": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_glow"
                 },
                 "o": {
@@ -7208,6 +7397,13 @@
             "base:item/shade_wisp"
           ],
           [
+            3714,
+            5621,
+            1,
+            "base:enemy/wisp",
+            "base:item/wisp_ember"
+          ],
+          [
             3824,
             5607,
             1,
@@ -7229,11 +7425,53 @@
             "base:item/dire_fang"
           ],
           [
+            12736,
+            3543,
+            2,
+            "base:enemy/cave_spider",
+            "base:item/spider_silk"
+          ],
+          [
+            12789,
+            3524,
+            2,
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
+          ],
+          [
+            12791,
+            3525,
+            2,
+            "base:enemy/slime_rust",
+            "base:item/rust_flake"
+          ],
+          [
+            12769,
+            3558,
+            2,
+            "base:enemy/slime_rust",
+            "base:item/rust_flake"
+          ],
+          [
             12812,
             3559,
             2,
             "base:enemy/wolf_dire",
             "base:item/dire_fang"
+          ],
+          [
+            12723,
+            3589,
+            2,
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
+          ],
+          [
+            12721,
+            3595,
+            2,
+            "base:enemy/stone_golem",
+            "base:item/golem_core"
           ],
           [
             12862,
@@ -7250,78 +7488,8 @@
             "base:item/bat_wing"
           ],
           [
-            13216,
-            11910,
-            3,
-            "base:enemy/wolf_dune",
-            "base:item/dune_pelt"
-          ],
-          [
-            13241,
-            11914,
-            3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
-          ],
-          [
-            13268,
-            11912,
-            3,
-            "base:enemy/slime_amber",
-            "base:item/amber_drop"
-          ],
-          [
-            13290,
-            11910,
-            3,
-            "base:enemy/slime_amber",
-            "base:item/amber_drop"
-          ],
-          [
-            13281,
-            11929,
-            3,
-            "base:enemy/stone_golem",
-            "base:item/golem_core"
-          ],
-          [
-            13308,
-            11998,
-            3,
-            "base:enemy/wolf_dune",
-            "base:item/dune_pelt"
-          ],
-          [
-            13309,
-            11998,
-            3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
-          ],
-          [
-            13318,
-            12006,
-            3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
-          ],
-          [
-            7350,
-            1446,
-            4,
-            "base:enemy/slime_ice",
-            "base:item/ice_crystal"
-          ],
-          [
-            7350,
-            1458,
-            4,
-            "base:enemy/slime_ice",
-            "base:item/ice_crystal"
-          ],
-          [
-            7447,
-            1480,
+            7449,
+            1468,
             4,
             "base:enemy/slime_blue",
             "base:item/slime_gel"
@@ -7369,18 +7537,18 @@
             "base:item/tide_pearl"
           ],
           [
-            2297,
-            12681,
-            5,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
-          ],
-          [
             15022,
             7790,
             6,
             "base:enemy/slime_ember",
             "base:item/ember_core"
+          ],
+          [
+            15093,
+            7777,
+            6,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             15162,
@@ -7397,11 +7565,11 @@
             "base:item/wisp_ember"
           ],
           [
-            15071,
-            7844,
+            15094,
+            7847,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/wisp",
+            "base:item/wisp_ember"
           ],
           [
             15119,
@@ -7409,6 +7577,34 @@
             6,
             "base:enemy/slime_ember",
             "base:item/ember_core"
+          ],
+          [
+            15098,
+            7889,
+            6,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            15098,
+            7921,
+            6,
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
+          ],
+          [
+            15085,
+            7922,
+            6,
+            "base:enemy/slime_char",
+            "base:item/char_chunk"
+          ],
+          [
+            15160,
+            7933,
+            6,
+            "base:enemy/wisp",
+            "base:item/wisp_ember"
           ],
           [
             7808,
@@ -7640,6 +7836,13 @@
             2,
             "base:enemy/wolf_grey",
             ""
+          ],
+          [
+            12651,
+            3704,
+            2,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             12661,
@@ -8202,6 +8405,20 @@
             ""
           ],
           [
+            13430,
+            11919,
+            3,
+            "base:enemy/dune_scorpion",
+            "base:item/scorpion_sting"
+          ],
+          [
+            13464,
+            11905,
+            3,
+            "base:enemy/slime_amber",
+            "base:item/amber_drop"
+          ],
+          [
             13467,
             11931,
             3,
@@ -8284,13 +8501,6 @@
             6,
             "base:enemy/slime_ember",
             ""
-          ],
-          [
-            15255,
-            7750,
-            6,
-            "base:enemy/wisp",
-            "base:item/wisp_ember"
           ],
           [
             15236,
@@ -8426,11 +8636,11 @@
             ""
           ],
           [
-            15240,
-            7821,
-            6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            12913,
+            3432,
+            2,
+            "base:enemy/cave_bat",
+            "base:item/bat_wing"
           ],
           [
             12910,
@@ -8508,20 +8718,6 @@
             2,
             "base:enemy/wolf_dire",
             ""
-          ],
-          [
-            14996,
-            8033,
-            6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
-          ],
-          [
-            14976,
-            8041,
-            6,
-            "base:enemy/slime_magma",
-            "base:item/magma_shard"
           ],
           [
             14982,
@@ -8923,25 +9119,18 @@
             "base:item/rust_flake"
           ],
           [
-            7014,
-            1640,
-            4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            12438,
+            3463,
+            2,
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
           ],
           [
-            7036,
-            1649,
-            4,
-            "base:enemy/wolf_polar",
-            "base:item/polar_fur"
-          ],
-          [
-            7026,
-            1674,
-            4,
-            "base:enemy/slime_ice",
-            "base:item/ice_crystal"
+            1942,
+            12429,
+            5,
+            "base:enemy/slime_pearl",
+            "base:item/pearl_dust"
           ],
           [
             3942,
@@ -8956,27 +9145,6 @@
             1,
             "base:enemy/cave_spider",
             "base:item/spider_silk"
-          ],
-          [
-            13720,
-            12135,
-            3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
-          ],
-          [
-            13686,
-            12171,
-            3,
-            "base:enemy/wolf_dune",
-            "base:item/dune_pelt"
-          ],
-          [
-            13677,
-            12173,
-            3,
-            "base:enemy/dune_scorpion",
-            "base:item/scorpion_sting"
           ],
           [
             7533,
@@ -8998,20 +9166,6 @@
             6,
             "base:enemy/slime_ember",
             "base:item/ember_core"
-          ],
-          [
-            14983,
-            7821,
-            6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
-          ],
-          [
-            14976,
-            7834,
-            6,
-            "base:enemy/slime_magma",
-            "base:item/magma_shard"
           ],
           [
             8574,
@@ -9343,13 +9497,6 @@
             "base:item/pearl_dust"
           ],
           [
-            6754,
-            1869,
-            4,
-            "base:enemy/cave_bat",
-            "base:item/bat_wing"
-          ],
-          [
             6770,
             1886,
             4,
@@ -9635,13 +9782,6 @@
             6,
             "base:enemy/wolf_dire",
             ""
-          ],
-          [
-            14690,
-            8346,
-            6,
-            "base:enemy/slime_magma",
-            "base:item/magma_shard"
           ],
           [
             8054,
@@ -10057,6 +10197,13 @@
             ""
           ],
           [
+            7054,
+            1178,
+            4,
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
+          ],
+          [
             1914,
             12677,
             5,
@@ -10132,6 +10279,13 @@
             5,
             "base:enemy/slime_pearl",
             ""
+          ],
+          [
+            1930,
+            12698,
+            5,
+            "base:enemy/slime_coral",
+            "base:item/coral_fragment"
           ],
           [
             7546,
@@ -10223,13 +10377,6 @@
             7,
             "base:enemy/slime_blue",
             "base:item/slime_gel"
-          ],
-          [
-            14708,
-            7524,
-            6,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
           ],
           [
             14702,
@@ -10410,100 +10557,60 @@
             5644
           ],
           [
-            12773,
-            3546
-          ],
-          [
-            12756,
-            3597
-          ],
-          [
-            12791,
-            3606
-          ],
-          [
-            12812,
-            3593
+            12747,
+            3528
           ],
           [
             12817,
             3595
           ],
           [
+            12715,
+            3619
+          ],
+          [
             12738,
             3622
+          ],
+          [
+            12747,
+            3629
           ],
           [
             12794,
             3621
           ],
           [
+            12781,
+            3645
+          ],
+          [
+            12833,
+            3625
+          ],
+          [
             12733,
             3663
           ],
           [
-            13290,
-            11897
+            12786,
+            3673
           ],
           [
-            13343,
-            11877
+            13189,
+            11873
           ],
           [
-            13342,
-            11885
+            13209,
+            11884
           ],
           [
-            13222,
-            11954
+            13237,
+            11895
           ],
           [
-            13197,
-            11980
-          ],
-          [
-            13201,
-            11991
-          ],
-          [
-            13244,
-            11999
-          ],
-          [
-            13340,
-            11972
-          ],
-          [
-            7383,
-            1444
-          ],
-          [
-            7371,
-            1450
-          ],
-          [
-            7378,
-            1456
-          ],
-          [
-            7381,
-            1467
-          ],
-          [
-            7404,
-            1445
-          ],
-          [
-            7413,
-            1477
-          ],
-          [
-            7451,
-            1475
-          ],
-          [
-            7454,
-            1489
+            13226,
+            11903
           ],
           [
             7309,
@@ -10570,24 +10677,8 @@
             7831
           ],
           [
-            15094,
-            7845
-          ],
-          [
-            15089,
-            7861
-          ],
-          [
-            15111,
-            7863
-          ],
-          [
-            15143,
-            7903
-          ],
-          [
-            15047,
-            7916
+            15008,
+            7864
           ],
           [
             15099,
@@ -10722,6 +10813,10 @@
             3706
           ],
           [
+            12686,
+            3682
+          ],
+          [
             12672,
             3688
           ],
@@ -10758,12 +10853,8 @@
             3707
           ],
           [
-            12659,
-            3726
-          ],
-          [
-            12658,
-            3730
+            12667,
+            3717
           ],
           [
             12686,
@@ -10832,10 +10923,6 @@
           [
             2200,
             12667
-          ],
-          [
-            7280,
-            1379
           ],
           [
             7288,
@@ -11286,14 +11373,6 @@
             8067
           ],
           [
-            14978,
-            8077
-          ],
-          [
-            14978,
-            8084
-          ],
-          [
             2426,
             12421
           ],
@@ -11390,10 +11469,6 @@
             12173
           ],
           [
-            13206,
-            12191
-          ],
-          [
             7534,
             1659
           ],
@@ -11420,14 +11495,6 @@
           [
             7544,
             1663
-          ],
-          [
-            7552,
-            1651
-          ],
-          [
-            7560,
-            1652
           ],
           [
             7534,
@@ -11506,28 +11573,12 @@
             3439
           ],
           [
-            12398,
-            3472
-          ],
-          [
             12420,
             3473
           ],
           [
-            1908,
-            12400
-          ],
-          [
             1928,
             12396
-          ],
-          [
-            7034,
-            1636
-          ],
-          [
-            7059,
-            1648
           ],
           [
             7035,
@@ -11536,22 +11587,6 @@
           [
             7063,
             1684
-          ],
-          [
-            13681,
-            12134
-          ],
-          [
-            13666,
-            12144
-          ],
-          [
-            13671,
-            12149
-          ],
-          [
-            13673,
-            12165
           ],
           [
             14952,
@@ -11738,6 +11773,10 @@
             12928
           ],
           [
+            2743,
+            12930
+          ],
+          [
             2725,
             12931
           ],
@@ -11810,12 +11849,20 @@
             1909
           ],
           [
+            6811,
+            1911
+          ],
+          [
             6784,
             1913
           ],
           [
             6798,
             1914
+          ],
+          [
+            6767,
+            1932
           ],
           [
             14717,
@@ -11954,6 +12001,10 @@
             5253
           ],
           [
+            3435,
+            5255
+          ],
+          [
             3452,
             5257
           ],
@@ -12034,8 +12085,16 @@
             3725
           ],
           [
+            12438,
+            3726
+          ],
+          [
             12442,
             3726
+          ],
+          [
+            12430,
+            3740
           ],
           [
             12910,
@@ -12080,10 +12139,6 @@
           [
             12922,
             11651
-          ],
-          [
-            12896,
-            11656
           ],
           [
             12936,
@@ -12270,10 +12325,6 @@
             7551
           ],
           [
-            14691,
-            7554
-          ],
-          [
             14702,
             7555
           ],
@@ -12298,6 +12349,7 @@
           "border": 4,
           "spawn_clear_radius": 7,
           "landmark_clearing": 24,
+          "region_blend": 4500,
           "difficulty": {
             "enemy_hp_pct": 100,
             "enemy_atk_pct": 100
@@ -12441,6 +12493,34 @@
                   "base:item/silk_robe",
                   "base:item/travel_ration"
                 ]
+              },
+              "bias": {
+                "moisture": 9000
+              },
+              "ground": {
+                "plains": [
+                  27,
+                  28
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 70
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 40
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 8
+                  }
+                ]
               }
             },
             {
@@ -12505,6 +12585,35 @@
                   "base:item/scale_mail",
                   "base:item/splint_mail"
                 ]
+              },
+              "bias": {
+                "elevation": 5000,
+                "temperature": -4000
+              },
+              "ground": {
+                "plains": [
+                  33,
+                  34
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 40
+                  },
+                  {
+                    "art": "base:art/prop/pine",
+                    "radius_x100": 30,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 8
+                  }
+                ]
               }
             },
             {
@@ -12564,6 +12673,47 @@
                   "base:item/studded_leather",
                   "base:item/fish_stew"
                 ]
+              },
+              "bias": {
+                "temperature": 14000,
+                "moisture": -12000
+              },
+              "ground": {
+                "plains": [
+                  23,
+                  24
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/cactus",
+                    "radius_x100": 28,
+                    "per_mille": 16
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  }
+                ],
+                "desert": [
+                  {
+                    "art": "base:art/prop/cactus",
+                    "radius_x100": 28,
+                    "per_mille": 30
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 12
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 5
+                  }
+                ]
               }
             },
             {
@@ -12617,6 +12767,29 @@
                   "base:item/claymore",
                   "base:item/splint_mail",
                   "base:item/fish_stew"
+                ]
+              },
+              "bias": {
+                "temperature": -16000
+              },
+              "ground": {
+                "plains": [
+                  25,
+                  26
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/pine",
+                    "radius_x100": 30,
+                    "per_mille": 60
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 10
+                  }
                 ]
               }
             },
@@ -12672,6 +12845,35 @@
                   "base:item/saber",
                   "base:item/scale_mail",
                   "base:item/travel_ration"
+                ]
+              },
+              "bias": {
+                "elevation": -2000,
+                "moisture": 4000
+              },
+              "ground": {
+                "plains": [
+                  29,
+                  30
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 18
+                  },
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 12
+                  }
                 ]
               }
             },
@@ -12737,6 +12939,66 @@
                   "base:item/knight_plate",
                   "base:item/royal_feast",
                   "base:item/dragon_scale_vest"
+                ]
+              },
+              "bias": {
+                "temperature": 12000,
+                "moisture": -10000
+              },
+              "ground": {
+                "plains": [
+                  19,
+                  20,
+                  21
+                ],
+                "desert": [
+                  22
+                ],
+                "forest": [
+                  21
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 12
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 3
+                  }
+                ],
+                "desert": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 30
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 14
+                  },
+                  {
+                    "art": "base:art/prop/bones",
+                    "radius_x100": 8,
+                    "per_mille": 6
+                  }
+                ],
+                "forest": [
+                  {
+                    "art": "base:art/prop/dead_tree",
+                    "radius_x100": 30,
+                    "per_mille": 140
+                  }
                 ]
               }
             },
@@ -12807,6 +13069,34 @@
                   "base:item/warding_robe",
                   "base:item/silk_robe",
                   "base:item/travel_ration"
+                ]
+              },
+              "bias": {
+                "moisture": 4000
+              },
+              "ground": {
+                "plains": [
+                  31,
+                  32
+                ]
+              },
+              "props": {
+                "plains": [
+                  {
+                    "art": "base:art/prop/tree_oak",
+                    "radius_x100": 30,
+                    "per_mille": 20
+                  },
+                  {
+                    "art": "base:art/prop/bush",
+                    "radius_x100": 28,
+                    "per_mille": 25
+                  },
+                  {
+                    "art": "base:art/prop/rock",
+                    "radius_x100": 35,
+                    "per_mille": 8
+                  }
                 ]
               }
             }
@@ -15198,7 +15488,6 @@
                   "tile": 11
                 },
                 "A": {
-                  "tile": 14,
                   "spawner": "base:enemy/moonshade_alpha"
                 },
                 "T": {
@@ -15207,15 +15496,12 @@
                   "radius_x100": 35
                 },
                 "W": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_grey"
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "l": {
-                  "tile": 14,
                   "prop": "base:art/prop/lamp",
                   "radius_x100": 15
                 },
@@ -15224,7 +15510,6 @@
                   "radius_x100": 30
                 },
                 "s": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_green"
                 },
                 "t": {
@@ -15544,15 +15829,12 @@
                   "tile": 11
                 },
                 "D": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_dire"
                 },
                 "U": {
-                  "tile": 14,
                   "spawner": "base:enemy/dire_alpha"
                 },
                 "W": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_grey"
                 },
                 "o": {
@@ -15726,15 +16008,12 @@
                   "tile": 11
                 },
                 "L": {
-                  "tile": 14,
                   "spawner": "base:enemy/amber_queen"
                 },
                 "P": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_amber"
                 },
                 "a": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_sand"
                 },
                 "o": {
@@ -15851,15 +16130,12 @@
                   "tile": 11
                 },
                 "O": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_storm"
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "k": {
-                  "tile": 14,
                   "spawner": "base:enemy/storm_sovereign"
                 },
                 "o": {
@@ -17040,18 +17316,15 @@
                   "radius_x100": 10
                 },
                 "3": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_mint"
                 },
                 "4": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_tawny"
                 },
                 "=": {
                   "tile": 11
                 },
                 "n": {
-                  "tile": 14,
                   "spawner": "base:enemy/mint_matron"
                 },
                 "o": {
@@ -17099,14 +17372,12 @@
                   "radius_x100": 10
                 },
                 "5": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_moss"
                 },
                 "=": {
                   "tile": 11
                 },
                 "d": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_shade"
                 },
                 "o": {
@@ -17114,7 +17385,6 @@
                   "radius_x100": 30
                 },
                 "p": {
-                  "tile": 14,
                   "spawner": "base:enemy/moss_elder"
                 },
                 "t": {
@@ -17224,14 +17494,12 @@
                   "radius_x100": 10
                 },
                 "7": {
-                  "tile": 14,
                   "spawner": "base:enemy/wolf_dune"
                 },
                 "=": {
                   "tile": 11
                 },
                 "a": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_sand"
                 },
                 "o": {
@@ -17239,7 +17507,6 @@
                   "radius_x100": 30
                 },
                 "u": {
-                  "tile": 14,
                   "spawner": "base:enemy/dune_mother"
                 }
               },
@@ -17407,18 +17674,15 @@
                   "radius_x100": 10
                 },
                 "%": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_nebula"
                 },
                 "1": {
-                  "tile": 14,
                   "spawner": "base:enemy/nebula_heart"
                 },
                 "=": {
                   "tile": 11
                 },
                 "g": {
-                  "tile": 14,
                   "spawner": "base:enemy/slime_glow"
                 },
                 "o": {
@@ -17657,32 +17921,11 @@
             "base:item/owl_feather"
           ],
           [
-            12773,
-            3546,
-            2,
-            "base:enemy/slime_rust",
-            "base:item/rust_flake"
-          ],
-          [
-            12756,
-            3597,
+            12747,
+            3528,
             2,
             "base:enemy/wolf_grey",
             "base:item/wolf_fang"
-          ],
-          [
-            12791,
-            3606,
-            2,
-            "base:enemy/cave_bat",
-            "base:item/bat_wing"
-          ],
-          [
-            12812,
-            3593,
-            2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
           ],
           [
             12817,
@@ -17692,11 +17935,25 @@
             "base:item/golem_core"
           ],
           [
+            12715,
+            3619,
+            2,
+            "base:enemy/slime_rust",
+            "base:item/rust_flake"
+          ],
+          [
             12738,
             3622,
             2,
             "base:enemy/cave_bat",
             "base:item/bat_wing"
+          ],
+          [
+            12747,
+            3629,
+            2,
+            "base:enemy/stone_golem",
+            "base:item/golem_core"
           ],
           [
             12794,
@@ -17706,6 +17963,20 @@
             "base:item/rust_flake"
           ],
           [
+            12781,
+            3645,
+            2,
+            "base:enemy/cave_bat",
+            "base:item/bat_wing"
+          ],
+          [
+            12833,
+            3625,
+            2,
+            "base:enemy/cave_bat",
+            "base:item/bat_wing"
+          ],
+          [
             12733,
             3663,
             2,
@@ -17713,116 +17984,39 @@
             "base:item/bat_wing"
           ],
           [
-            13290,
-            11897,
-            3,
-            "base:enemy/shore_crab",
-            "base:item/crab_shell"
+            12786,
+            3673,
+            2,
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
-            13343,
-            11877,
-            3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
-          ],
-          [
-            13342,
-            11885,
+            13189,
+            11873,
             3,
             "base:enemy/slime_sand",
             "base:item/slime_gel"
           ],
           [
-            13222,
-            11954,
+            13209,
+            11884,
             3,
             "base:enemy/wolf_dune",
             "base:item/dune_pelt"
           ],
           [
-            13197,
-            11980,
-            3,
-            "base:enemy/wolf_dune",
-            "base:item/dune_pelt"
-          ],
-          [
-            13201,
-            11991,
-            3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
-          ],
-          [
-            13244,
-            11999,
+            13237,
+            11895,
             3,
             "base:enemy/slime_amber",
             "base:item/amber_drop"
           ],
           [
-            13340,
-            11972,
+            13226,
+            11903,
             3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
-          ],
-          [
-            7383,
-            1444,
-            4,
-            "base:enemy/wolf_polar",
-            "base:item/polar_fur"
-          ],
-          [
-            7371,
-            1450,
-            4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
-          ],
-          [
-            7378,
-            1456,
-            4,
-            "base:enemy/cave_bat",
-            "base:item/bat_wing"
-          ],
-          [
-            7381,
-            1467,
-            4,
-            "base:enemy/night_owl",
-            "base:item/owl_feather"
-          ],
-          [
-            7404,
-            1445,
-            4,
-            "base:enemy/wolf_polar",
-            "base:item/polar_fur"
-          ],
-          [
-            7413,
-            1477,
-            4,
-            "base:enemy/cave_bat",
-            "base:item/bat_wing"
-          ],
-          [
-            7451,
-            1475,
-            4,
-            "base:enemy/slime_ice",
-            "base:item/ice_crystal"
-          ],
-          [
-            7454,
-            1489,
-            4,
-            "base:enemy/wolf_polar",
-            "base:item/polar_fur"
+            "base:enemy/dune_scorpion",
+            "base:item/scorpion_sting"
           ],
           [
             7309,
@@ -17937,36 +18131,8 @@
             "base:item/ember_core"
           ],
           [
-            15094,
-            7845,
-            6,
-            "base:enemy/wisp",
-            "base:item/wisp_ember"
-          ],
-          [
-            15089,
-            7861,
-            6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
-          ],
-          [
-            15111,
-            7863,
-            6,
-            "base:enemy/stone_golem",
-            "base:item/golem_core"
-          ],
-          [
-            15143,
-            7903,
-            6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
-          ],
-          [
-            15047,
-            7916,
+            15008,
+            7864,
             6,
             "base:enemy/wolf_grey",
             "base:item/wolf_fang"
@@ -18203,6 +18369,13 @@
             ""
           ],
           [
+            12686,
+            3682,
+            2,
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
+          ],
+          [
             12672,
             3688,
             2,
@@ -18266,18 +18439,11 @@
             ""
           ],
           [
-            12659,
-            3726,
+            12667,
+            3717,
             2,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
-          ],
-          [
-            12658,
-            3730,
-            2,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
           ],
           [
             12686,
@@ -18397,13 +18563,6 @@
             5,
             "base:enemy/slime_tide",
             "base:item/tide_pearl"
-          ],
-          [
-            7280,
-            1379,
-            4,
-            "base:enemy/slime_ice",
-            "base:item/ice_crystal"
           ],
           [
             7288,
@@ -19190,20 +19349,6 @@
             ""
           ],
           [
-            14978,
-            8077,
-            6,
-            "base:enemy/slime_magma",
-            "base:item/magma_shard"
-          ],
-          [
-            14978,
-            8084,
-            6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
-          ],
-          [
             2426,
             12421,
             5,
@@ -19372,13 +19517,6 @@
             ""
           ],
           [
-            13206,
-            12191,
-            3,
-            "base:enemy/stone_golem",
-            "base:item/golem_core"
-          ],
-          [
             7534,
             1659,
             4,
@@ -19426,20 +19564,6 @@
             4,
             "base:enemy/slime_ice",
             ""
-          ],
-          [
-            7552,
-            1651,
-            4,
-            "base:enemy/slime_ice",
-            "base:item/ice_crystal"
-          ],
-          [
-            7560,
-            1652,
-            4,
-            "base:enemy/slime_ice",
-            "base:item/ice_crystal"
           ],
           [
             7534,
@@ -19575,13 +19699,6 @@
             "base:item/wolf_fang"
           ],
           [
-            12398,
-            3472,
-            2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
-          ],
-          [
             12420,
             3473,
             2,
@@ -19589,32 +19706,11 @@
             "base:item/slate_shard"
           ],
           [
-            1908,
-            12400,
-            5,
-            "base:enemy/slime_coral",
-            "base:item/coral_fragment"
-          ],
-          [
             1928,
             12396,
             5,
             "base:enemy/slime_tide",
             "base:item/tide_pearl"
-          ],
-          [
-            7034,
-            1636,
-            4,
-            "base:enemy/night_owl",
-            "base:item/owl_feather"
-          ],
-          [
-            7059,
-            1648,
-            4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
           ],
           [
             7035,
@@ -19629,34 +19725,6 @@
             4,
             "base:enemy/wolf_frost",
             "base:item/frost_pelt"
-          ],
-          [
-            13681,
-            12134,
-            3,
-            "base:enemy/slime_amber",
-            "base:item/amber_drop"
-          ],
-          [
-            13666,
-            12144,
-            3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
-          ],
-          [
-            13671,
-            12149,
-            3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
-          ],
-          [
-            13673,
-            12165,
-            3,
-            "base:enemy/dune_scorpion",
-            "base:item/scorpion_sting"
           ],
           [
             14952,
@@ -19981,6 +20049,13 @@
             ""
           ],
           [
+            2743,
+            12930,
+            5,
+            "base:enemy/slime_coral",
+            "base:item/coral_fragment"
+          ],
+          [
             2725,
             12931,
             5,
@@ -20107,6 +20182,13 @@
             ""
           ],
           [
+            6811,
+            1911,
+            4,
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
+          ],
+          [
             6784,
             1913,
             4,
@@ -20119,6 +20201,13 @@
             4,
             "base:enemy/slime_ice",
             ""
+          ],
+          [
+            6767,
+            1932,
+            4,
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             14717,
@@ -20359,6 +20448,13 @@
             ""
           ],
           [
+            3435,
+            5255,
+            1,
+            "base:enemy/wolf_shade",
+            "base:item/shade_wisp"
+          ],
+          [
             3452,
             5257,
             1,
@@ -20499,11 +20595,25 @@
             ""
           ],
           [
+            12438,
+            3726,
+            2,
+            "base:enemy/cave_bat",
+            "base:item/bat_wing"
+          ],
+          [
             12442,
             3726,
             2,
             "base:enemy/stone_golem",
             "base:item/golem_core"
+          ],
+          [
+            12430,
+            3740,
+            2,
+            "base:enemy/slime_rust",
+            "base:item/rust_flake"
           ],
           [
             12910,
@@ -20581,13 +20691,6 @@
             3,
             "base:enemy/wolf_dune",
             ""
-          ],
-          [
-            12896,
-            11656,
-            3,
-            "base:enemy/wolf_dune",
-            "base:item/dune_pelt"
           ],
           [
             12936,
@@ -20910,13 +21013,6 @@
             6,
             "base:enemy/slime_char",
             ""
-          ],
-          [
-            14691,
-            7554,
-            6,
-            "base:enemy/slime_magma",
-            "base:item/magma_shard"
           ],
           [
             14702,
