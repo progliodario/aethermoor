@@ -1074,8 +1074,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
         batch.projectionMatrix = camera.combined
         batch.begin()
-        // Gold and the quest tracker, top right.
-        var y = 12f * density
+        // Gold and the quest tracker, top right, below the clock and the name of the region (which are right-aligned in the corner).
+        var y = 12f * density + font.lineHeight * 2.6f
         val x = width - 300f * density
         font.color = Color(1f, 0.84f, 0.47f, 1f)
         font.draw(batch, data.pack.text(language, "\$i18n:ui.gold", mapOf("gold" to story.gold)), x, y)

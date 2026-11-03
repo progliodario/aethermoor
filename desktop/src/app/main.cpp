@@ -924,7 +924,7 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
     const aether::Story& story = sim.story();
     constexpr float kScale = 2.0F;
     const float x = (static_cast<float>(out_w) - 410.0F * density) / kScale;
-    float y = 12.0F * density / kScale;
+    float y = 12.0F * density / kScale + 32.0F;  // below the clock and the name of the region, which are right-aligned in the corner
     SDL_SetRenderScale(renderer, kScale, kScale);
     char line[96];
     std::snprintf(line, sizeof(line), "%s", assets.pack.text(ui.lang, "$i18n:ui.gold", {{"gold", story.gold()}}).c_str());
