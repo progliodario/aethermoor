@@ -474,3 +474,105 @@ def test_every_elder_has_a_second_errand_after_the_first():
         s.start_dialogue(dialogue["id"])
         s.advance()
         assert all(c["next"] not in ("hunt_offer", "hunt_paid") for c in s.visible_choices())
+
+
+class _InnHost:
+    x = y = 0.0
+
+    def __init__(self) -> None:
+        self.inventory: dict[str, int] = {}
+        self.level = 1
+        self.xp = 0
+        self.healed = 0
+
+    def grant_xp(self, amount: int) -> None:
+        self.xp += amount
+
+    def heal_full(self) -> None:
+        self.healed += 1
+
+
+def _regional_dialogues(role: str) -> dict:
+    import json
+
+    from reference import worldgen
+
+    data = TOOLS.parent / "data" / "base"
+    params = worldgen.load_params()
+    tones = sorted({region["tone"] for region in params["regions"]})
+    return {tone: json.loads((data / "dialogues" / "role" / f"{role}_{tone}.json").read_text(encoding="utf-8")) for tone in tones}
+
+
+def test_every_innkeeper_rents_a_bed_and_sells_a_meal():
+    from reference import story
+
+    for tone, dialogue in _regional_dialogues("innkeeper").items():
+        bed = next(c for c in dialogue["nodes"]["menu"]["choices"] if c["next"] == "inn_rest")
+        price = bed["when"]["gold_at_least"]
+        meal_price = next(e["amount"] for e in dialogue["nodes"]["inn_meal"]["effects"] if e["effect"] == "spend_gold")
+        host = _InnHost()
+        s = story.Story(host, {"quests": {}, "dialogues": {dialogue["id"]: dialogue}, "npcs": []})
+
+        def visible(s=s, dialogue=dialogue):
+            s.start_dialogue(dialogue["id"])
+            s.advance()
+            return [c["next"] for c in s.visible_choices()]
+
+        assert "inn_poor" in visible() and "inn_rest" not in visible() and "inn_meal" not in visible(), tone
+        s.dialogue = None
+        s.gold = price + meal_price
+        assert "inn_rest" in visible() and "inn_poor" not in visible() and "inn_meal" in visible(), tone
+        s.choose(visible().index("inn_rest"))
+        s.advance()
+        assert s.gold == meal_price and host.healed == 1, tone
+        assert "inn_meal" in visible()
+        s.choose(visible().index("inn_meal"))
+        s.advance()
+        assert s.gold == 0 and sum(host.inventory.values()) >= 1, tone
+
+
+def test_every_guild_clerk_offers_three_commissions_in_order():
+    import json
+
+    from reference import story
+
+    data = TOOLS.parent / "data" / "base"
+    quests = {}
+    for path in (data / "quests" / "side").glob("*.json"):
+        quest = json.loads(path.read_text(encoding="utf-8"))
+        quests[quest["id"]] = quest
+    for tone, dialogue in _regional_dialogues("guild_clerk").items():
+        host = _InnHost()
+        s = story.Story(host, {"quests": quests, "dialogues": {dialogue["id"]: dialogue}, "npcs": []})
+
+        def hub(s=s, dialogue=dialogue):
+            s.start_dialogue(dialogue["id"])
+            s.advance()
+            s.choose(next(i for i, c in enumerate(s.visible_choices()) if c["next"] == "comm_hub"))
+            return [c["next"] for c in s.visible_choices()]
+
+        assert "comm_offer_2" not in hub() and "comm_offer_3" not in hub(), tone  # the chain starts with the first
+        s.dialogue = None
+        for n in (1, 2, 3):
+            host.level = 99
+            options = hub()
+            assert f"comm_offer_{n}" in options and all(f"comm_offer_{m}" not in options for m in (1, 2, 3) if m != n), (tone, n)
+            s.choose(options.index(f"comm_offer_{n}"))
+            s.advance()
+            s.choose(0)
+            qid = f"base:quest/side/clerk_{tone}_{n}"
+            hunt, gather = quests[qid]["stages"]
+            assert hunt["next"] == "gather" and gather["next"] == "end"
+            (kill,) = hunt["objectives"]
+            for _ in range(kill["count"]):
+                s.on_kill(kill["enemy"])
+            assert s.quests[qid]["stage"] == "gather" and not s.quests[qid]["done"]
+            (collect,) = gather["objectives"]
+            host.inventory[collect["item"]] = collect["count"]
+            s.on_kill("base:enemy/none")
+            assert s.quests[qid]["done"]
+            options = hub()
+            assert f"comm_paid_{n}" in options
+            s.choose(options.index(f"comm_paid_{n}"))
+            s.advance()
+            assert s.flags[f"comm_clerk_{tone}_{n}_paid"] and s.gold > 0

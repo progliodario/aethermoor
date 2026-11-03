@@ -269,6 +269,57 @@ def town_b() -> dict:
     return stamp("base:stamp/town_b", c, (17, 13), [(15, 11), (16, 11), (18, 11), (15, 15), (19, 15), (17, 15)])
 
 
+def hamlet_d() -> dict:
+    """A crossroads with a well at the crossing and a single house."""
+    c = Canvas(13, 11)
+    c.hline(0, 12, 5, "=")
+    c.vline(6, 0, 10, "=")
+    c.rect(5, 4, 3, 3, "c")
+    c.put(6, 5, "w")
+    c.put(7, 4, "T")
+    c.house(1, 1, 5, 4, {(1, 1): "b", (2, 1): "V"}, door=2)
+    for x, y in ((10, 1), (11, 9), (1, 8), (9, 8)):
+        c.put(x, y, "t")
+    return stamp("base:stamp/hamlet_d", c, (6, 5), [(5, 5), (7, 6)])
+
+
+def village_d() -> dict:
+    """A long street running north to south with houses on both sides and a square in the middle."""
+    c = Canvas(21, 19)
+    c.vline(10, 0, 18, "=")
+    c.rect(8, 8, 5, 3, "c")
+    c.put(10, 9, "w")
+    c.put(11, 10, "E")
+    c.put(12, 8, "T")
+    c.house(1, 1, 7, 5, {(1, 1): "b", (3, 2): "V"}, door=3)
+    c.house(1, 12, 7, 5, {(1, 1): "b", (3, 2): "V"}, door=3)
+    c.house(13, 1, 7, 5, {(1, 1): "b", (4, 2): "S"}, door=3)
+    c.house(13, 12, 7, 5, {(3, 2): "V"}, door=3)
+    for x, y in ((9, 1), (11, 17), (0, 8), (20, 9)):
+        c.put(x, y, "t")
+    return stamp("base:stamp/village_d", c, (10, 9), [(9, 9), (11, 9), (9, 10), (12, 10)])
+
+
+def town_c() -> dict:
+    """A town with its guild hall on the square, the shop and the inn on either side."""
+    c = Canvas(37, 25)
+    c.vline(18, 0, 24, "=")
+    c.hline(0, 36, 16, "=")
+    c.plaza(18, 16, 3)
+    for x, y in ((15, 13), (21, 13), (15, 19), (21, 19)):
+        c.put(x, y, "l")
+    c.put(18, 17, "E")
+    c.put(20, 14, "T")
+    c.house(11, 2, 15, 6, {(2, 1): "b", (3, 1): "b", (11, 3): "G"}, door=7)
+    c.house(2, 9, 9, 6, {(1, 1): "b", (2, 1): "b", (6, 3): "S"}, door=4)
+    c.house(26, 9, 9, 6, {(1, 1): "b", (6, 3): "I"}, door=4)
+    c.house(3, 19, 7, 4, {(3, 1): "V"}, door=3)
+    c.house(27, 19, 7, 4, {(3, 1): "V"}, door=3)
+    for x, y in ((0, 0), (36, 0), (0, 24), (36, 24), (13, 11), (23, 11)):
+        c.put(x, y, "t")
+    return stamp("base:stamp/town_c", c, (18, 16), [(16, 14), (17, 14), (19, 14), (16, 18), (20, 18), (18, 18)])
+
+
 def barrow() -> dict:
     """The dungeon of Verdalis: a walled barrow with a corridor, two side rooms, a north hall and a boss (spec 09, "Landmarks")."""
     c = Canvas(33, 26)
@@ -782,7 +833,7 @@ def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     for build in (hamlet, village, town, barrow, cellar, mine, cavern, temple, hollow, ziggurat, observatory, citadel, den, vent, grotto, amber, icepit, roost, hamlet_b, hamlet_c, village_b, village_c, town_b,
                   outpost_ironspine, outpost_tidehaven, outpost_frostveil, outpost_whisperwood, outpost_sunscar, outpost_lumeria,
-                  outpost_ashen, outpost_verdalis, forge, galleon, keep, vault):
+                  outpost_ashen, outpost_verdalis, forge, galleon, keep, vault, hamlet_d, village_d, town_c):
         data = build()
         name = data["id"].split("/")[-1]
         (OUT / f"{name}.json").write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

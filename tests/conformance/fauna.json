@@ -1044,6 +1044,398 @@
           [
             8070,
             14457
+          ],
+          [
+            12433,
+            3448
+          ],
+          [
+            7014,
+            1640
+          ],
+          [
+            7036,
+            1649
+          ],
+          [
+            7026,
+            1674
+          ],
+          [
+            3942,
+            5479
+          ],
+          [
+            3995,
+            5519
+          ],
+          [
+            13720,
+            12135
+          ],
+          [
+            13686,
+            12171
+          ],
+          [
+            13677,
+            12173
+          ],
+          [
+            7552,
+            14490
+          ],
+          [
+            14983,
+            7821
+          ],
+          [
+            14976,
+            7834
+          ],
+          [
+            8574,
+            8311
+          ],
+          [
+            8556,
+            8312
+          ],
+          [
+            8590,
+            8304
+          ],
+          [
+            8570,
+            8337
+          ],
+          [
+            12146,
+            3936
+          ],
+          [
+            12154,
+            3938
+          ],
+          [
+            12146,
+            3941
+          ],
+          [
+            12154,
+            3946
+          ],
+          [
+            12146,
+            3948
+          ],
+          [
+            12154,
+            3950
+          ],
+          [
+            12146,
+            3954
+          ],
+          [
+            12154,
+            3957
+          ],
+          [
+            12154,
+            3962
+          ],
+          [
+            12146,
+            3963
+          ],
+          [
+            12174,
+            3936
+          ],
+          [
+            12160,
+            3937
+          ],
+          [
+            12166,
+            3938
+          ],
+          [
+            12160,
+            3941
+          ],
+          [
+            12174,
+            3941
+          ],
+          [
+            12166,
+            3946
+          ],
+          [
+            12174,
+            3948
+          ],
+          [
+            12166,
+            3950
+          ],
+          [
+            12174,
+            3954
+          ],
+          [
+            12166,
+            3957
+          ],
+          [
+            12166,
+            3962
+          ],
+          [
+            12174,
+            3963
+          ],
+          [
+            2714,
+            12908
+          ],
+          [
+            2711,
+            12916
+          ],
+          [
+            2692,
+            12925
+          ],
+          [
+            2699,
+            12925
+          ],
+          [
+            2705,
+            12925
+          ],
+          [
+            2713,
+            12925
+          ],
+          [
+            2719,
+            12925
+          ],
+          [
+            2725,
+            12925
+          ],
+          [
+            2696,
+            12928
+          ],
+          [
+            2709,
+            12928
+          ],
+          [
+            2692,
+            12931
+          ],
+          [
+            2699,
+            12931
+          ],
+          [
+            2705,
+            12931
+          ],
+          [
+            2713,
+            12931
+          ],
+          [
+            2719,
+            12931
+          ],
+          [
+            2722,
+            12928
+          ],
+          [
+            2729,
+            12928
+          ],
+          [
+            2725,
+            12931
+          ],
+          [
+            2721,
+            12943
+          ],
+          [
+            6754,
+            1869
+          ],
+          [
+            6770,
+            1886
+          ],
+          [
+            6798,
+            1886
+          ],
+          [
+            6775,
+            1891
+          ],
+          [
+            6780,
+            1896
+          ],
+          [
+            6772,
+            1900
+          ],
+          [
+            6780,
+            1904
+          ],
+          [
+            6775,
+            1909
+          ],
+          [
+            6770,
+            1914
+          ],
+          [
+            6784,
+            1888
+          ],
+          [
+            6793,
+            1891
+          ],
+          [
+            6788,
+            1896
+          ],
+          [
+            6784,
+            1897
+          ],
+          [
+            6796,
+            1900
+          ],
+          [
+            6784,
+            1901
+          ],
+          [
+            6788,
+            1904
+          ],
+          [
+            6793,
+            1909
+          ],
+          [
+            6784,
+            1913
+          ],
+          [
+            6798,
+            1914
+          ],
+          [
+            14717,
+            8294
+          ],
+          [
+            14702,
+            8301
+          ],
+          [
+            14716,
+            8301
+          ],
+          [
+            14704,
+            8304
+          ],
+          [
+            14706,
+            8304
+          ],
+          [
+            14708,
+            8304
+          ],
+          [
+            14716,
+            8307
+          ],
+          [
+            14702,
+            8308
+          ],
+          [
+            14720,
+            8292
+          ],
+          [
+            14723,
+            8294
+          ],
+          [
+            14720,
+            8300
+          ],
+          [
+            14724,
+            8301
+          ],
+          [
+            14738,
+            8301
+          ],
+          [
+            14720,
+            8304
+          ],
+          [
+            14734,
+            8304
+          ],
+          [
+            14738,
+            8304
+          ],
+          [
+            14724,
+            8307
+          ],
+          [
+            14720,
+            8308
+          ],
+          [
+            14738,
+            8308
+          ],
+          [
+            14720,
+            8314
+          ],
+          [
+            14720,
+            8317
+          ],
+          [
+            14690,
+            8346
           ]
         ],
         "params": {
@@ -1090,6 +1482,16 @@
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_mint",
+                  "drop": "base:item/mint_leaf",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wolf_tawny",
+                  "drop": "base:item/tawny_fur",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -1099,7 +1501,10 @@
                   "base:item/potion_small",
                   "base:item/iron_sword",
                   "base:item/leather_vest",
-                  "base:item/honey_cake"
+                  "base:item/honey_cake",
+                  "base:item/studded_leather",
+                  "base:item/bronze_blade",
+                  "base:item/tonic"
                 ]
               }
             },
@@ -1130,6 +1535,11 @@
                   "enemy": "base:enemy/wolf_dire",
                   "drop": "base:item/dire_fang",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_moss",
+                  "drop": "base:item/moss_clump",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -1139,7 +1549,10 @@
                   "base:item/potion_small",
                   "base:item/leather_vest",
                   "base:item/potion_medium",
-                  "base:item/mage_robe"
+                  "base:item/mage_robe",
+                  "base:item/hand_axe",
+                  "base:item/silk_robe",
+                  "base:item/travel_ration"
                 ]
               }
             },
@@ -1170,6 +1583,11 @@
                   "enemy": "base:enemy/wolf_dire",
                   "drop": "base:item/dire_fang",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_rust",
+                  "drop": "base:item/rust_flake",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -1180,7 +1598,10 @@
                   "base:item/chain_mail",
                   "base:item/leather_vest",
                   "base:item/knight_sword",
-                  "base:item/brigandine"
+                  "base:item/brigandine",
+                  "base:item/pike",
+                  "base:item/scale_mail",
+                  "base:item/splint_mail"
                 ]
               }
             },
@@ -1206,6 +1627,11 @@
                   "enemy": "base:enemy/slime_amber",
                   "drop": "base:item/amber_drop",
                   "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/wolf_dune",
+                  "drop": "base:item/dune_pelt",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -1216,7 +1642,10 @@
                   "base:item/iron_sword",
                   "base:item/leather_vest",
                   "base:item/potion_medium",
-                  "base:item/honey_cake"
+                  "base:item/honey_cake",
+                  "base:item/saber",
+                  "base:item/studded_leather",
+                  "base:item/fish_stew"
                 ]
               }
             },
@@ -1242,6 +1671,11 @@
                   "enemy": "base:enemy/slime_ice",
                   "drop": "base:item/ice_crystal",
                   "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/wolf_polar",
+                  "drop": "base:item/polar_fur",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -1252,7 +1686,10 @@
                   "base:item/chain_mail",
                   "base:item/potion_medium",
                   "base:item/hearty_stew",
-                  "base:item/brigandine"
+                  "base:item/brigandine",
+                  "base:item/claymore",
+                  "base:item/splint_mail",
+                  "base:item/fish_stew"
                 ]
               }
             },
@@ -1283,6 +1720,11 @@
                   "enemy": "base:enemy/slime_coral",
                   "drop": "base:item/coral_fragment",
                   "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/slime_pearl",
+                  "drop": "base:item/pearl_dust",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -1294,7 +1736,10 @@
                   "base:item/steel_sword",
                   "base:item/grilled_fish",
                   "base:item/potion_medium",
-                  "base:item/knight_sword"
+                  "base:item/knight_sword",
+                  "base:item/saber",
+                  "base:item/scale_mail",
+                  "base:item/travel_ration"
                 ]
               }
             },
@@ -1325,6 +1770,11 @@
                   "enemy": "base:enemy/wolf_dire",
                   "drop": "base:item/dire_fang",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_char",
+                  "drop": "base:item/char_chunk",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -1335,7 +1785,11 @@
                   "base:item/chain_mail",
                   "base:item/potion_large",
                   "base:item/runed_blade",
-                  "base:item/plate_cuirass"
+                  "base:item/plate_cuirass",
+                  "base:item/war_axe",
+                  "base:item/knight_plate",
+                  "base:item/royal_feast",
+                  "base:item/dragon_scale_vest"
                 ]
               }
             },
@@ -1366,6 +1820,11 @@
                   "enemy": "base:enemy/wolf_storm",
                   "drop": "base:item/storm_feather",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_nebula",
+                  "drop": "base:item/nebula_ash",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -1376,7 +1835,11 @@
                   "base:item/chain_mail",
                   "base:item/potion_medium",
                   "base:item/mage_robe",
-                  "base:item/runed_blade"
+                  "base:item/runed_blade",
+                  "base:item/moon_blade",
+                  "base:item/warding_robe",
+                  "base:item/silk_robe",
+                  "base:item/travel_ration"
                 ]
               }
             }
@@ -1507,6 +1970,102 @@
               "kind": "dungeon",
               "dx": -128,
               "dy": 6272
+            },
+            {
+              "id": "ironspine_outpost",
+              "name": "Ironspine Waystation",
+              "stamp": "base:stamp/outpost_ironspine",
+              "kind": "hamlet",
+              "dx": 4224,
+              "dy": -4736
+            },
+            {
+              "id": "tidehaven_outpost",
+              "name": "Brinewatch Post",
+              "stamp": "base:stamp/outpost_tidehaven",
+              "kind": "hamlet",
+              "dx": -6272,
+              "dy": 4224
+            },
+            {
+              "id": "frostveil_outpost",
+              "name": "Rimewatch Hut",
+              "stamp": "base:stamp/outpost_frostveil",
+              "kind": "hamlet",
+              "dx": -1152,
+              "dy": -6528
+            },
+            {
+              "id": "whisperwood_outpost",
+              "name": "Hollow's Edge Camp",
+              "stamp": "base:stamp/outpost_whisperwood",
+              "kind": "hamlet",
+              "dx": -4224,
+              "dy": -2688
+            },
+            {
+              "id": "sunscar_outpost",
+              "name": "Dune Caravanserai",
+              "stamp": "base:stamp/outpost_sunscar",
+              "kind": "hamlet",
+              "dx": 5504,
+              "dy": 3968
+            },
+            {
+              "id": "lumeria_outpost",
+              "name": "Lantern Rest",
+              "stamp": "base:stamp/outpost_lumeria",
+              "kind": "hamlet",
+              "dx": -640,
+              "dy": 6272
+            },
+            {
+              "id": "ashen_outpost",
+              "name": "Ember Watch",
+              "stamp": "base:stamp/outpost_ashen",
+              "kind": "hamlet",
+              "dx": 6784,
+              "dy": -384
+            },
+            {
+              "id": "verdalis_outpost",
+              "name": "Crossroads Camp",
+              "stamp": "base:stamp/outpost_verdalis",
+              "kind": "hamlet",
+              "dx": 384,
+              "dy": 128
+            },
+            {
+              "id": "ironspine_forge",
+              "name": "Deep Forge",
+              "stamp": "base:stamp/forge",
+              "kind": "dungeon",
+              "dx": 3968,
+              "dy": -4224
+            },
+            {
+              "id": "tidehaven_galleon",
+              "name": "Sunken Galleon",
+              "stamp": "base:stamp/galleon",
+              "kind": "dungeon",
+              "dx": -5504,
+              "dy": 4736
+            },
+            {
+              "id": "frostveil_keep",
+              "name": "Glacier Keep",
+              "stamp": "base:stamp/keep",
+              "kind": "dungeon",
+              "dx": -1408,
+              "dy": -6272
+            },
+            {
+              "id": "ashen_vault",
+              "name": "Obsidian Vault",
+              "stamp": "base:stamp/vault",
+              "kind": "dungeon",
+              "dx": 6528,
+              "dy": 128
             }
           ],
           "guild": {
@@ -1679,7 +2238,8 @@
                 "stamps": [
                   "base:stamp/hamlet",
                   "base:stamp/hamlet_b",
-                  "base:stamp/hamlet_c"
+                  "base:stamp/hamlet_c",
+                  "base:stamp/hamlet_d"
                 ]
               },
               {
@@ -1688,7 +2248,8 @@
                 "stamps": [
                   "base:stamp/village",
                   "base:stamp/village_b",
-                  "base:stamp/village_c"
+                  "base:stamp/village_c",
+                  "base:stamp/village_d"
                 ]
               },
               {
@@ -1696,7 +2257,8 @@
                 "weight": 1,
                 "stamps": [
                   "base:stamp/town",
-                  "base:stamp/town_b"
+                  "base:stamp/town_b",
+                  "base:stamp/town_c"
                 ]
               }
             ],
@@ -2286,6 +2848,76 @@
                 ]
               ]
             },
+            "base:stamp/hamlet_d": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hamlet_d",
+              "w": 13,
+              "h": 11,
+              "anchor": [
+                6,
+                5
+              ],
+              "rows": [
+                "......=......",
+                ".#####=...t..",
+                ".#bV_#=......",
+                ".#___#=......",
+                ".##_##cT.....",
+                "=====cwc=====",
+                ".....ccc.....",
+                "......=......",
+                ".t....=..t...",
+                "......=....t.",
+                "......=......"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  5,
+                  5
+                ],
+                [
+                  7,
+                  6
+                ]
+              ]
+            },
             "base:stamp/village": {
               "$schema": "../../../schemas/stamp.schema.json",
               "id": "base:stamp/village",
@@ -2566,6 +3198,100 @@
                 ]
               ]
             },
+            "base:stamp/village_d": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/village_d",
+              "w": 21,
+              "h": 19,
+              "anchor": [
+                10,
+                9
+              ],
+              "rows": [
+                "..........=..........",
+                ".#######.t=..#######.",
+                ".#b____#..=..#b____#.",
+                ".#__V__#..=..#___S_#.",
+                ".#_____#..=..#_____#.",
+                ".###_###..=..###_###.",
+                "..........=..........",
+                "..........=..........",
+                "t.......ccccT........",
+                "........ccwcc.......t",
+                "........cccEc........",
+                "..........=..........",
+                ".#######..=..#######.",
+                ".#b____#..=..#_____#.",
+                ".#__V__#..=..#__V__#.",
+                ".#_____#..=..#_____#.",
+                ".###_###..=..###_###.",
+                "..........=t.........",
+                "..........=.........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  9,
+                  9
+                ],
+                [
+                  11,
+                  9
+                ],
+                [
+                  9,
+                  10
+                ],
+                [
+                  12,
+                  10
+                ]
+              ]
+            },
             "base:stamp/town": {
               "$schema": "../../../schemas/stamp.schema.json",
               "id": "base:stamp/town",
@@ -2807,6 +3533,127 @@
                 [
                   17,
                   15
+                ]
+              ]
+            },
+            "base:stamp/town_c": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/town_c",
+              "w": 37,
+              "h": 25,
+              "anchor": [
+                18,
+                16
+              ],
+              "rows": [
+                "t.................=.................t",
+                "..................=..................",
+                "...........###############...........",
+                "...........#_bb__________#...........",
+                "...........#_____________#...........",
+                "...........#__________G__#...........",
+                "...........#_____________#...........",
+                "...........#######_#######...........",
+                "..................=..................",
+                "..#########.......=.......#########..",
+                "..#bb_____#.......=.......#b______#..",
+                "..#_______#..t....=....t..#_______#..",
+                "..#_____S_#.......=.......#_____I_#..",
+                "..#_______#....lcccccl....#_______#..",
+                "..####_####....cccccTc....####_####..",
+                "...............ccccccc...............",
+                "===============cccwccc===============",
+                "...............cccEccc...............",
+                "...............ccccccc...............",
+                "...#######.....lcccccl.....#######...",
+                "...#__V__#........=........#__V__#...",
+                "...#_____#........=........#_____#...",
+                "...###_###........=........###_###...",
+                "..................=..................",
+                "t.................=.................t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "G": {
+                  "tile": 13,
+                  "npc": "guild_clerk"
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  16,
+                  14
+                ],
+                [
+                  17,
+                  14
+                ],
+                [
+                  19,
+                  14
+                ],
+                [
+                  16,
+                  18
+                ],
+                [
+                  20,
+                  18
+                ],
+                [
+                  18,
+                  18
                 ]
               ]
             },
@@ -3865,6 +4712,991 @@
                 }
               },
               "spots": []
+            },
+            "base:stamp/outpost_ironspine": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_ironspine",
+              "w": 23,
+              "h": 13,
+              "anchor": [
+                11,
+                7
+              ],
+              "rows": [
+                ".......................",
+                ".########.....########.",
+                ".#b_____#.....#b_____#.",
+                ".#____S_#.....#____I_#.",
+                ".#______#.....#______#.",
+                ".###_####.....####_###.",
+                ".........ccccc.........",
+                ".........ccwTc.........",
+                ".........cVccc.........",
+                ".....o.....=.....o.....",
+                "...........=...........",
+                "...........=...........",
+                "o..........=..........o"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  10,
+                  7
+                ],
+                [
+                  12,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/outpost_tidehaven": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_tidehaven",
+              "w": 19,
+              "h": 13,
+              "anchor": [
+                9,
+                8
+              ],
+              "rows": [
+                "...................",
+                "..###############..",
+                "..#_____b_b_____#..",
+                "..#_S_________I_#..",
+                "..#_____________#..",
+                "..#######_#######..",
+                "...................",
+                ".......ccccc.......",
+                "...o...VcwcT...o...",
+                ".......ccccc.......",
+                ".........=.........",
+                ".........=.........",
+                "o........=........o"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  8,
+                  8
+                ],
+                [
+                  10,
+                  9
+                ]
+              ]
+            },
+            "base:stamp/outpost_frostveil": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_frostveil",
+              "w": 21,
+              "h": 13,
+              "anchor": [
+                10,
+                7
+              ],
+              "rows": [
+                ".....................",
+                ".#######.....#######.",
+                ".#b_S__#.....#b_I__#.",
+                ".#_____#.....#_____#.",
+                ".###_###.....###_###.",
+                ".....................",
+                "........lcccc........",
+                "........ccwcT........",
+                "....t...cVccl...t....",
+                "..........=..........",
+                "..........=..........",
+                "..........=..........",
+                "t.........=.........t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  9,
+                  7
+                ],
+                [
+                  11,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/outpost_whisperwood": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_whisperwood",
+              "w": 23,
+              "h": 13,
+              "anchor": [
+                11,
+                7
+              ],
+              "rows": [
+                ".......................",
+                ".########.....########.",
+                ".#b_____#.....#b_____#.",
+                ".#____S_#.....#____I_#.",
+                ".#______#.....#______#.",
+                ".###_####.....####_###.",
+                ".........ccccc.........",
+                ".........ccwTc.........",
+                ".........cVccc.........",
+                ".....t.....=.....t.....",
+                "...........=...........",
+                "...........=...........",
+                "t..........=..........t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  10,
+                  7
+                ],
+                [
+                  12,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/outpost_sunscar": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_sunscar",
+              "w": 19,
+              "h": 13,
+              "anchor": [
+                9,
+                8
+              ],
+              "rows": [
+                "...................",
+                "..###############..",
+                "..#_____b_b_____#..",
+                "..#_S_________I_#..",
+                "..#_____________#..",
+                "..#######_#######..",
+                "...................",
+                ".......ccccc.......",
+                "...o...VcwcT...o...",
+                ".......ccccc.......",
+                ".........=.........",
+                ".........=.........",
+                "o........=........o"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  8,
+                  8
+                ],
+                [
+                  10,
+                  9
+                ]
+              ]
+            },
+            "base:stamp/outpost_lumeria": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_lumeria",
+              "w": 21,
+              "h": 13,
+              "anchor": [
+                10,
+                7
+              ],
+              "rows": [
+                ".....................",
+                ".#######.....#######.",
+                ".#b_S__#.....#b_I__#.",
+                ".#_____#.....#_____#.",
+                ".###_###.....###_###.",
+                ".....................",
+                "........lcccc........",
+                "........ccwcT........",
+                "....t...cVccl...t....",
+                "..........=..........",
+                "..........=..........",
+                "..........=..........",
+                "t.........=.........t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  9,
+                  7
+                ],
+                [
+                  11,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/outpost_ashen": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_ashen",
+              "w": 23,
+              "h": 13,
+              "anchor": [
+                11,
+                7
+              ],
+              "rows": [
+                ".......................",
+                ".########.....########.",
+                ".#b_____#.....#b_____#.",
+                ".#____S_#.....#____I_#.",
+                ".#______#.....#______#.",
+                ".###_####.....####_###.",
+                ".........ccccc.........",
+                ".........ccwTc.........",
+                ".........cVccc.........",
+                ".....o.....=.....o.....",
+                "...........=...........",
+                "...........=...........",
+                "o..........=..........o"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  10,
+                  7
+                ],
+                [
+                  12,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/outpost_verdalis": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_verdalis",
+              "w": 21,
+              "h": 13,
+              "anchor": [
+                10,
+                7
+              ],
+              "rows": [
+                ".....................",
+                ".#######.....#######.",
+                ".#b_S__#.....#b_I__#.",
+                ".#_____#.....#_____#.",
+                ".###_###.....###_###.",
+                ".....................",
+                "........lcccc........",
+                "........ccwcT........",
+                "....t...cVccl...t....",
+                "..........=..........",
+                "..........=..........",
+                "..........=..........",
+                "t.........=.........t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  9,
+                  7
+                ],
+                [
+                  11,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/forge": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/forge",
+              "w": 41,
+              "h": 37,
+              "anchor": [
+                20,
+                36
+              ],
+              "rows": [
+                ".........................................",
+                ".#######################################.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccccccccccccccclc#.",
+                ".#ccccDcccccccccccccccccccccccccccDcccc#.",
+                ".#ccccccccccccccccccqcccccccccccccccccc#.",
+                ".#ccccccccccccFcccccccccccFcccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccDcccccccccccccDcccccccccccccDcccc#.",
+                ".#clccccccccccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".##################################ccc##.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccmcccccccccccmcccccccccccc#.",
+                ".#ccccccc##ccccccccc##ccccccccc##cccccc#.",
+                ".#ccccmcc##ccccccccc##ccccccccc##cmcccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccmcccccccccccmcccccccccclc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".##ccc##################################.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccWcccccccccccccccccccccccccccWcccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccc##ccccccccc##ccccccccc##cccccc#.",
+                ".#ccccccc##cccWccccc##ccccWcccc##cccccc#.",
+                ".#clccccccccccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".##################################ccc##.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccmcccccccccccmcccccccccccc#.",
+                ".#ccccmcc##cccccccccccccccccccc##cmcccc#.",
+                ".#ccccccc##cccccccccccccccccccc##cccccc#.",
+                ".#ccccccccccccccclccccclccccccccccccccc#.",
+                ".##################ccc##################.",
+                "...................ccc...................",
+                "...............T...ccc..................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "D": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_dire"
+                },
+                "F": {
+                  "tile": 14,
+                  "spawner": "base:enemy/iron_foreman"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "m": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_slate"
+                },
+                "q": {
+                  "tile": 14,
+                  "spawner": "base:enemy/forge_tyrant"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/galleon": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/galleon",
+              "w": 47,
+              "h": 19,
+              "anchor": [
+                0,
+                9
+              ],
+              "rows": [
+                "...............................................",
+                "...............................................",
+                ".#############################################.",
+                ".#cccccccccccc#ccccccccccccc#cccccccccc#######.",
+                ".#clcccccccclc#clccccccccclc#clccccccccc######.",
+                ".#ccccccc##ccc#cccccc##ccccc#cccccc##cccc#####.",
+                ".#cciccccccicc#ccZcccccccZcc#ccicccccicccc####.",
+                ".#cccccccccccc#ccccccccccccc#cccccccccccccc###.",
+                "ccccccccccccccccccccccccccccccccccccccccccccc#.",
+                "cccccccciccccccccccccZccccccccccccQccccccrccc#.",
+                "ccccccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#cccccccccccc#ccccccccccccc#cccccccccccccc###.",
+                ".#cciccccccicc#ccZcccccccZcc#ccicccccicccc####.",
+                "T#ccccccc##ccc#cccccc##ccccc#cccccc##cccc#####.",
+                ".#clcccccccclc#ccccccccccccc#clccccccccc######.",
+                ".#cccccccccccc#ccccccccccccc#cccccccccc#######.",
+                ".#############################################.",
+                "...............................................",
+                "..............................................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "Q": {
+                  "tile": 14,
+                  "spawner": "base:enemy/tide_regent"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "Z": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_coral"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "i": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_tide"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "r": {
+                  "tile": 14,
+                  "spawner": "base:enemy/drowned_captain"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/keep": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/keep",
+              "w": 41,
+              "h": 41,
+              "anchor": [
+                20,
+                40
+              ],
+              "rows": [
+                ".........................................",
+                ".#######################################.",
+                ".##########ccccccccccccccccccc##########.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##cccHccc#ccccccccccccccccccc#cccHccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#cccccccccfccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".#####c####ccccccccccccccccccc####c#####.",
+                ".#cccccccccfcccccccccccccccccfccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccc###############ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccRcccccccRcc#ccccccccccc#.",
+                ".#ccccccccccc#cccccczcccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccfcccl#ccccccccccccc#lcccfcccccc#.",
+                ".#ccccccccccc#ccccccHcccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccHcccccccHcc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#######c#######ccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#cccccccccfcccccccccccccccccfccccccccc#.",
+                ".#####c####ccccccccccccccccccc####c#####.",
+                ".##ccccccc#ccccccccclccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#cccccccccfccccccccc#ccccccc##.",
+                ".##cccHccc#ccccccccccccccccccc#cccHccc##.",
+                ".##ccccccc#ccccclccccccclccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##########ccccccccccccccccccc##########.",
+                ".##################ccc##################.",
+                "...............T...ccc..................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "H": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ice"
+                },
+                "R": {
+                  "tile": 14,
+                  "spawner": "base:enemy/rime_revenant"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "f": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_frost"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "z": {
+                  "tile": 14,
+                  "spawner": "base:enemy/frost_sovereign"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/vault": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/vault",
+              "w": 45,
+              "h": 33,
+              "anchor": [
+                22,
+                32
+              ],
+              "rows": [
+                ".............................................",
+                ".###########################################.",
+                ".################ccccccccccc################.",
+                ".################clccccccclc################.",
+                ".################cccccyccccc################.",
+                ".################ccccccccccc################.",
+                ".################ccXcccccXcc################.",
+                ".################ccccccccccc################.",
+                ".###################ccccc###################.",
+                ".###################ccccc###################.",
+                ".##############ccccccccccccccc##############.",
+                ".#ccccc########clccccccccccclc########ccccc#.",
+                ".#clccc########ccccccceccccccc########ccclc#.",
+                ".#ccecc########cccMcccccccMccc########ccecc#.",
+                ".#ccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccecDcecccccccccccNcccccccccccccecccecc#.",
+                ".#ccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccc########cccMcccccccMccc########ccccc#.",
+                ".#ccecc########ccccccceccccccc########ccecc#.",
+                ".#ccccc########clccccccccccclc########ccccc#.",
+                ".##############ccccccccccccccc##############.",
+                ".###################ccccc###################.",
+                ".###################ccccc###################.",
+                ".###################ccccc###################.",
+                ".###################ccDcc###################.",
+                ".###################ccccc###################.",
+                ".###################ccccc###################.",
+                ".###################clDlc###################.",
+                ".###################ccccc###################.",
+                ".####################ccc####################.",
+                "..................T..ccc....................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "D": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_dire"
+                },
+                "M": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_magma"
+                },
+                "N": {
+                  "tile": 14,
+                  "spawner": "base:enemy/cinder_colossus"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "X": {
+                  "tile": 14,
+                  "spawner": "base:enemy/magma_heart"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "e": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ember"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "y": {
+                  "tile": 14,
+                  "spawner": "base:enemy/vault_warden"
+                }
+              },
+              "spots": []
             }
           }
         }
@@ -3931,8 +5763,8 @@
             8163,
             8159,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_tawny",
+            "base:item/tawny_fur"
           ],
           [
             8242,
@@ -3959,29 +5791,29 @@
             3773,
             5528,
             1,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/slime_moss",
+            "base:item/moss_clump"
           ],
           [
             3801,
             5516,
             1,
-            "base:enemy/wolf_shade",
-            "base:item/shade_wisp"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             3807,
             5528,
             1,
-            "base:enemy/wolf_shade",
-            "base:item/shade_wisp"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             3811,
             5509,
             1,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             3799,
@@ -3994,36 +5826,36 @@
             3684,
             5602,
             1,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             3700,
             5616,
             1,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_shade",
+            "base:item/shade_wisp"
           ],
           [
             3680,
             5628,
             1,
-            "base:enemy/wolf_shade",
-            "base:item/shade_wisp"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             3824,
             5607,
             1,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             3791,
             5644,
             1,
-            "base:enemy/wolf_shade",
-            "base:item/shade_wisp"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             3813,
@@ -4036,15 +5868,15 @@
             12812,
             3559,
             2,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             12862,
             3619,
             2,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             12800,
@@ -4057,14 +5889,14 @@
             13216,
             11910,
             3,
-            "base:enemy/slime_amber",
-            "base:item/amber_drop"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             13241,
             11914,
             3,
-            "base:enemy/slime_green",
+            "base:enemy/slime_sand",
             "base:item/slime_gel"
           ],
           [
@@ -4085,22 +5917,22 @@
             13281,
             11929,
             3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
+            "base:enemy/slime_amber",
+            "base:item/amber_drop"
           ],
           [
             13308,
             11998,
             3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
+            "base:enemy/wolf_dune",
+            "base:item/dune_pelt"
           ],
           [
             13309,
             11998,
             3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
+            "base:enemy/slime_amber",
+            "base:item/amber_drop"
           ],
           [
             13318,
@@ -4113,8 +5945,8 @@
             7350,
             1446,
             4,
-            "base:enemy/slime_ice",
-            "base:item/ice_crystal"
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
           ],
           [
             7350,
@@ -4127,8 +5959,8 @@
             7447,
             1480,
             4,
-            "base:enemy/slime_ice",
-            "base:item/ice_crystal"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             2255,
@@ -4141,8 +5973,8 @@
             2353,
             12581,
             5,
-            "base:enemy/slime_coral",
-            "base:item/coral_fragment"
+            "base:enemy/slime_tide",
+            "base:item/tide_pearl"
           ],
           [
             2243,
@@ -4162,43 +5994,43 @@
             2221,
             12701,
             5,
-            "base:enemy/slime_coral",
-            "base:item/coral_fragment"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             2255,
             12697,
             5,
-            "base:enemy/slime_tide",
-            "base:item/tide_pearl"
+            "base:enemy/slime_pearl",
+            "base:item/pearl_dust"
           ],
           [
             2297,
             12681,
             5,
-            "base:enemy/slime_tide",
-            "base:item/tide_pearl"
+            "base:enemy/slime_pearl",
+            "base:item/pearl_dust"
           ],
           [
             15022,
             7790,
             6,
-            "base:enemy/slime_magma",
-            "base:item/magma_shard"
+            "base:enemy/slime_char",
+            "base:item/char_chunk"
           ],
           [
             15162,
             7806,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
           ],
           [
             15039,
             7826,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
           ],
           [
             15071,
@@ -4211,8 +6043,8 @@
             15119,
             7854,
             6,
-            "base:enemy/slime_magma",
-            "base:item/magma_shard"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             7808,
@@ -4351,15 +6183,15 @@
             8250,
             8096,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_mint",
+            "base:item/mint_leaf"
           ],
           [
             8246,
             8120,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_mint",
+            "base:item/mint_leaf"
           ],
           [
             8242,
@@ -4841,8 +6673,8 @@
             13443,
             11847,
             3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
+            "base:enemy/wolf_dune",
+            "base:item/dune_pelt"
           ],
           [
             13448,
@@ -4995,15 +6827,15 @@
             13467,
             11931,
             3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
+            "base:enemy/wolf_dune",
+            "base:item/dune_pelt"
           ],
           [
             13440,
             11935,
             3,
-            "base:enemy/slime_amber",
-            "base:item/amber_drop"
+            "base:enemy/wolf_dune",
+            "base:item/dune_pelt"
           ],
           [
             7823,
@@ -5205,8 +7037,8 @@
             15240,
             7821,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
           ],
           [
             12910,
@@ -5683,6 +7515,692 @@
             7,
             "base:enemy/wolf_storm",
             ""
+          ],
+          [
+            12433,
+            3448,
+            2,
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
+          ],
+          [
+            7014,
+            1640,
+            4,
+            "base:enemy/wolf_polar",
+            "base:item/polar_fur"
+          ],
+          [
+            7036,
+            1649,
+            4,
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
+          ],
+          [
+            7026,
+            1674,
+            4,
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
+          ],
+          [
+            3942,
+            5479,
+            1,
+            "base:enemy/wolf_shade",
+            "base:item/shade_wisp"
+          ],
+          [
+            3995,
+            5519,
+            1,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            13720,
+            12135,
+            3,
+            "base:enemy/slime_sand",
+            "base:item/slime_gel"
+          ],
+          [
+            13686,
+            12171,
+            3,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            13677,
+            12173,
+            3,
+            "base:enemy/slime_sand",
+            "base:item/slime_gel"
+          ],
+          [
+            7552,
+            14490,
+            7,
+            "base:enemy/wolf_storm",
+            "base:item/storm_feather"
+          ],
+          [
+            14983,
+            7821,
+            6,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            14976,
+            7834,
+            6,
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
+          ],
+          [
+            8574,
+            8311,
+            0,
+            "base:enemy/slime_mint",
+            "base:item/mint_leaf"
+          ],
+          [
+            8556,
+            8312,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8590,
+            8304,
+            0,
+            "base:enemy/wolf_tawny",
+            "base:item/tawny_fur"
+          ],
+          [
+            8570,
+            8337,
+            0,
+            "base:enemy/slime_mint",
+            "base:item/mint_leaf"
+          ],
+          [
+            12146,
+            3936,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12154,
+            3938,
+            2,
+            "base:enemy/iron_foreman",
+            ""
+          ],
+          [
+            12146,
+            3941,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12154,
+            3946,
+            2,
+            "base:enemy/slime_slate",
+            ""
+          ],
+          [
+            12146,
+            3948,
+            2,
+            "base:enemy/slime_slate",
+            ""
+          ],
+          [
+            12154,
+            3950,
+            2,
+            "base:enemy/slime_slate",
+            ""
+          ],
+          [
+            12146,
+            3954,
+            2,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            12154,
+            3957,
+            2,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            12154,
+            3962,
+            2,
+            "base:enemy/slime_slate",
+            ""
+          ],
+          [
+            12146,
+            3963,
+            2,
+            "base:enemy/slime_slate",
+            ""
+          ],
+          [
+            12174,
+            3936,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12160,
+            3937,
+            2,
+            "base:enemy/forge_tyrant",
+            ""
+          ],
+          [
+            12166,
+            3938,
+            2,
+            "base:enemy/iron_foreman",
+            ""
+          ],
+          [
+            12160,
+            3941,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12174,
+            3941,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12166,
+            3946,
+            2,
+            "base:enemy/slime_slate",
+            ""
+          ],
+          [
+            12174,
+            3948,
+            2,
+            "base:enemy/slime_slate",
+            ""
+          ],
+          [
+            12166,
+            3950,
+            2,
+            "base:enemy/slime_slate",
+            ""
+          ],
+          [
+            12174,
+            3954,
+            2,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            12166,
+            3957,
+            2,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            12166,
+            3962,
+            2,
+            "base:enemy/slime_slate",
+            ""
+          ],
+          [
+            12174,
+            3963,
+            2,
+            "base:enemy/slime_slate",
+            ""
+          ],
+          [
+            2714,
+            12908,
+            5,
+            "base:enemy/slime_tide",
+            "base:item/tide_pearl"
+          ],
+          [
+            2711,
+            12916,
+            5,
+            "base:enemy/slime_pearl",
+            "base:item/pearl_dust"
+          ],
+          [
+            2692,
+            12925,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2699,
+            12925,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2705,
+            12925,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2713,
+            12925,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2719,
+            12925,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2725,
+            12925,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2696,
+            12928,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2709,
+            12928,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2692,
+            12931,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2699,
+            12931,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2705,
+            12931,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2713,
+            12931,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2719,
+            12931,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2722,
+            12928,
+            5,
+            "base:enemy/tide_regent",
+            ""
+          ],
+          [
+            2729,
+            12928,
+            5,
+            "base:enemy/drowned_captain",
+            ""
+          ],
+          [
+            2725,
+            12931,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2721,
+            12943,
+            5,
+            "base:enemy/slime_coral",
+            "base:item/coral_fragment"
+          ],
+          [
+            6754,
+            1869,
+            4,
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
+          ],
+          [
+            6770,
+            1886,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            6798,
+            1886,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            6775,
+            1891,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            6780,
+            1896,
+            4,
+            "base:enemy/rime_revenant",
+            ""
+          ],
+          [
+            6772,
+            1900,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            6780,
+            1904,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            6775,
+            1909,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            6770,
+            1914,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            6784,
+            1888,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            6793,
+            1891,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            6788,
+            1896,
+            4,
+            "base:enemy/rime_revenant",
+            ""
+          ],
+          [
+            6784,
+            1897,
+            4,
+            "base:enemy/frost_sovereign",
+            ""
+          ],
+          [
+            6796,
+            1900,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            6784,
+            1901,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            6788,
+            1904,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            6793,
+            1909,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            6784,
+            1913,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            6798,
+            1914,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            14717,
+            8294,
+            6,
+            "base:enemy/magma_heart",
+            ""
+          ],
+          [
+            14702,
+            8301,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14716,
+            8301,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            14704,
+            8304,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14706,
+            8304,
+            6,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            14708,
+            8304,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14716,
+            8307,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            14702,
+            8308,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14720,
+            8292,
+            6,
+            "base:enemy/vault_warden",
+            ""
+          ],
+          [
+            14723,
+            8294,
+            6,
+            "base:enemy/magma_heart",
+            ""
+          ],
+          [
+            14720,
+            8300,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14724,
+            8301,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            14738,
+            8301,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14720,
+            8304,
+            6,
+            "base:enemy/cinder_colossus",
+            ""
+          ],
+          [
+            14734,
+            8304,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14738,
+            8304,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14724,
+            8307,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            14720,
+            8308,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14738,
+            8308,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14720,
+            8314,
+            6,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            14720,
+            8317,
+            6,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            14690,
+            8346,
+            6,
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
           ]
         ]
       }
@@ -6824,6 +9342,366 @@
           [
             8043,
             14480
+          ],
+          [
+            12385,
+            3439
+          ],
+          [
+            12420,
+            3473
+          ],
+          [
+            1908,
+            12400
+          ],
+          [
+            1928,
+            12396
+          ],
+          [
+            7034,
+            1636
+          ],
+          [
+            7059,
+            1648
+          ],
+          [
+            13681,
+            12134
+          ],
+          [
+            13666,
+            12144
+          ],
+          [
+            13671,
+            12149
+          ],
+          [
+            13673,
+            12165
+          ],
+          [
+            8559,
+            8327
+          ],
+          [
+            12130,
+            3913
+          ],
+          [
+            12173,
+            3915
+          ],
+          [
+            12146,
+            3936
+          ],
+          [
+            12154,
+            3938
+          ],
+          [
+            12146,
+            3941
+          ],
+          [
+            12154,
+            3946
+          ],
+          [
+            12146,
+            3948
+          ],
+          [
+            12154,
+            3950
+          ],
+          [
+            12146,
+            3954
+          ],
+          [
+            12154,
+            3957
+          ],
+          [
+            12154,
+            3962
+          ],
+          [
+            12146,
+            3963
+          ],
+          [
+            12174,
+            3936
+          ],
+          [
+            12160,
+            3937
+          ],
+          [
+            12166,
+            3938
+          ],
+          [
+            12160,
+            3941
+          ],
+          [
+            12174,
+            3941
+          ],
+          [
+            12166,
+            3946
+          ],
+          [
+            12174,
+            3948
+          ],
+          [
+            12166,
+            3950
+          ],
+          [
+            12174,
+            3954
+          ],
+          [
+            12166,
+            3957
+          ],
+          [
+            12166,
+            3962
+          ],
+          [
+            12174,
+            3963
+          ],
+          [
+            2692,
+            12925
+          ],
+          [
+            2699,
+            12925
+          ],
+          [
+            2705,
+            12925
+          ],
+          [
+            2713,
+            12925
+          ],
+          [
+            2719,
+            12925
+          ],
+          [
+            2725,
+            12925
+          ],
+          [
+            2696,
+            12928
+          ],
+          [
+            2709,
+            12928
+          ],
+          [
+            2692,
+            12931
+          ],
+          [
+            2699,
+            12931
+          ],
+          [
+            2705,
+            12931
+          ],
+          [
+            2713,
+            12931
+          ],
+          [
+            2719,
+            12931
+          ],
+          [
+            2722,
+            12928
+          ],
+          [
+            2729,
+            12928
+          ],
+          [
+            2725,
+            12931
+          ],
+          [
+            6770,
+            1886
+          ],
+          [
+            6798,
+            1886
+          ],
+          [
+            6775,
+            1891
+          ],
+          [
+            6780,
+            1896
+          ],
+          [
+            6772,
+            1900
+          ],
+          [
+            6780,
+            1904
+          ],
+          [
+            6775,
+            1909
+          ],
+          [
+            6770,
+            1914
+          ],
+          [
+            6784,
+            1888
+          ],
+          [
+            6793,
+            1891
+          ],
+          [
+            6788,
+            1896
+          ],
+          [
+            6784,
+            1897
+          ],
+          [
+            6796,
+            1900
+          ],
+          [
+            6784,
+            1901
+          ],
+          [
+            6788,
+            1904
+          ],
+          [
+            6793,
+            1909
+          ],
+          [
+            6784,
+            1913
+          ],
+          [
+            6798,
+            1914
+          ],
+          [
+            14717,
+            8294
+          ],
+          [
+            14702,
+            8301
+          ],
+          [
+            14716,
+            8301
+          ],
+          [
+            14704,
+            8304
+          ],
+          [
+            14706,
+            8304
+          ],
+          [
+            14708,
+            8304
+          ],
+          [
+            14716,
+            8307
+          ],
+          [
+            14702,
+            8308
+          ],
+          [
+            14720,
+            8292
+          ],
+          [
+            14723,
+            8294
+          ],
+          [
+            14720,
+            8300
+          ],
+          [
+            14724,
+            8301
+          ],
+          [
+            14738,
+            8301
+          ],
+          [
+            14720,
+            8304
+          ],
+          [
+            14734,
+            8304
+          ],
+          [
+            14738,
+            8304
+          ],
+          [
+            14724,
+            8307
+          ],
+          [
+            14720,
+            8308
+          ],
+          [
+            14738,
+            8308
+          ],
+          [
+            14720,
+            8314
+          ],
+          [
+            14720,
+            8317
           ]
         ],
         "params": {
@@ -6870,6 +9748,16 @@
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_mint",
+                  "drop": "base:item/mint_leaf",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wolf_tawny",
+                  "drop": "base:item/tawny_fur",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -6879,7 +9767,10 @@
                   "base:item/potion_small",
                   "base:item/iron_sword",
                   "base:item/leather_vest",
-                  "base:item/honey_cake"
+                  "base:item/honey_cake",
+                  "base:item/studded_leather",
+                  "base:item/bronze_blade",
+                  "base:item/tonic"
                 ]
               }
             },
@@ -6910,6 +9801,11 @@
                   "enemy": "base:enemy/wolf_dire",
                   "drop": "base:item/dire_fang",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_moss",
+                  "drop": "base:item/moss_clump",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -6919,7 +9815,10 @@
                   "base:item/potion_small",
                   "base:item/leather_vest",
                   "base:item/potion_medium",
-                  "base:item/mage_robe"
+                  "base:item/mage_robe",
+                  "base:item/hand_axe",
+                  "base:item/silk_robe",
+                  "base:item/travel_ration"
                 ]
               }
             },
@@ -6950,6 +9849,11 @@
                   "enemy": "base:enemy/wolf_dire",
                   "drop": "base:item/dire_fang",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_rust",
+                  "drop": "base:item/rust_flake",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -6960,7 +9864,10 @@
                   "base:item/chain_mail",
                   "base:item/leather_vest",
                   "base:item/knight_sword",
-                  "base:item/brigandine"
+                  "base:item/brigandine",
+                  "base:item/pike",
+                  "base:item/scale_mail",
+                  "base:item/splint_mail"
                 ]
               }
             },
@@ -6986,6 +9893,11 @@
                   "enemy": "base:enemy/slime_amber",
                   "drop": "base:item/amber_drop",
                   "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/wolf_dune",
+                  "drop": "base:item/dune_pelt",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -6996,7 +9908,10 @@
                   "base:item/iron_sword",
                   "base:item/leather_vest",
                   "base:item/potion_medium",
-                  "base:item/honey_cake"
+                  "base:item/honey_cake",
+                  "base:item/saber",
+                  "base:item/studded_leather",
+                  "base:item/fish_stew"
                 ]
               }
             },
@@ -7022,6 +9937,11 @@
                   "enemy": "base:enemy/slime_ice",
                   "drop": "base:item/ice_crystal",
                   "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/wolf_polar",
+                  "drop": "base:item/polar_fur",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -7032,7 +9952,10 @@
                   "base:item/chain_mail",
                   "base:item/potion_medium",
                   "base:item/hearty_stew",
-                  "base:item/brigandine"
+                  "base:item/brigandine",
+                  "base:item/claymore",
+                  "base:item/splint_mail",
+                  "base:item/fish_stew"
                 ]
               }
             },
@@ -7063,6 +9986,11 @@
                   "enemy": "base:enemy/slime_coral",
                   "drop": "base:item/coral_fragment",
                   "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/slime_pearl",
+                  "drop": "base:item/pearl_dust",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -7074,7 +10002,10 @@
                   "base:item/steel_sword",
                   "base:item/grilled_fish",
                   "base:item/potion_medium",
-                  "base:item/knight_sword"
+                  "base:item/knight_sword",
+                  "base:item/saber",
+                  "base:item/scale_mail",
+                  "base:item/travel_ration"
                 ]
               }
             },
@@ -7105,6 +10036,11 @@
                   "enemy": "base:enemy/wolf_dire",
                   "drop": "base:item/dire_fang",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_char",
+                  "drop": "base:item/char_chunk",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -7115,7 +10051,11 @@
                   "base:item/chain_mail",
                   "base:item/potion_large",
                   "base:item/runed_blade",
-                  "base:item/plate_cuirass"
+                  "base:item/plate_cuirass",
+                  "base:item/war_axe",
+                  "base:item/knight_plate",
+                  "base:item/royal_feast",
+                  "base:item/dragon_scale_vest"
                 ]
               }
             },
@@ -7146,6 +10086,11 @@
                   "enemy": "base:enemy/wolf_storm",
                   "drop": "base:item/storm_feather",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_nebula",
+                  "drop": "base:item/nebula_ash",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -7156,7 +10101,11 @@
                   "base:item/chain_mail",
                   "base:item/potion_medium",
                   "base:item/mage_robe",
-                  "base:item/runed_blade"
+                  "base:item/runed_blade",
+                  "base:item/moon_blade",
+                  "base:item/warding_robe",
+                  "base:item/silk_robe",
+                  "base:item/travel_ration"
                 ]
               }
             }
@@ -7287,6 +10236,102 @@
               "kind": "dungeon",
               "dx": -128,
               "dy": 6272
+            },
+            {
+              "id": "ironspine_outpost",
+              "name": "Ironspine Waystation",
+              "stamp": "base:stamp/outpost_ironspine",
+              "kind": "hamlet",
+              "dx": 4224,
+              "dy": -4736
+            },
+            {
+              "id": "tidehaven_outpost",
+              "name": "Brinewatch Post",
+              "stamp": "base:stamp/outpost_tidehaven",
+              "kind": "hamlet",
+              "dx": -6272,
+              "dy": 4224
+            },
+            {
+              "id": "frostveil_outpost",
+              "name": "Rimewatch Hut",
+              "stamp": "base:stamp/outpost_frostveil",
+              "kind": "hamlet",
+              "dx": -1152,
+              "dy": -6528
+            },
+            {
+              "id": "whisperwood_outpost",
+              "name": "Hollow's Edge Camp",
+              "stamp": "base:stamp/outpost_whisperwood",
+              "kind": "hamlet",
+              "dx": -4224,
+              "dy": -2688
+            },
+            {
+              "id": "sunscar_outpost",
+              "name": "Dune Caravanserai",
+              "stamp": "base:stamp/outpost_sunscar",
+              "kind": "hamlet",
+              "dx": 5504,
+              "dy": 3968
+            },
+            {
+              "id": "lumeria_outpost",
+              "name": "Lantern Rest",
+              "stamp": "base:stamp/outpost_lumeria",
+              "kind": "hamlet",
+              "dx": -640,
+              "dy": 6272
+            },
+            {
+              "id": "ashen_outpost",
+              "name": "Ember Watch",
+              "stamp": "base:stamp/outpost_ashen",
+              "kind": "hamlet",
+              "dx": 6784,
+              "dy": -384
+            },
+            {
+              "id": "verdalis_outpost",
+              "name": "Crossroads Camp",
+              "stamp": "base:stamp/outpost_verdalis",
+              "kind": "hamlet",
+              "dx": 384,
+              "dy": 128
+            },
+            {
+              "id": "ironspine_forge",
+              "name": "Deep Forge",
+              "stamp": "base:stamp/forge",
+              "kind": "dungeon",
+              "dx": 3968,
+              "dy": -4224
+            },
+            {
+              "id": "tidehaven_galleon",
+              "name": "Sunken Galleon",
+              "stamp": "base:stamp/galleon",
+              "kind": "dungeon",
+              "dx": -5504,
+              "dy": 4736
+            },
+            {
+              "id": "frostveil_keep",
+              "name": "Glacier Keep",
+              "stamp": "base:stamp/keep",
+              "kind": "dungeon",
+              "dx": -1408,
+              "dy": -6272
+            },
+            {
+              "id": "ashen_vault",
+              "name": "Obsidian Vault",
+              "stamp": "base:stamp/vault",
+              "kind": "dungeon",
+              "dx": 6528,
+              "dy": 128
             }
           ],
           "guild": {
@@ -7459,7 +10504,8 @@
                 "stamps": [
                   "base:stamp/hamlet",
                   "base:stamp/hamlet_b",
-                  "base:stamp/hamlet_c"
+                  "base:stamp/hamlet_c",
+                  "base:stamp/hamlet_d"
                 ]
               },
               {
@@ -7468,7 +10514,8 @@
                 "stamps": [
                   "base:stamp/village",
                   "base:stamp/village_b",
-                  "base:stamp/village_c"
+                  "base:stamp/village_c",
+                  "base:stamp/village_d"
                 ]
               },
               {
@@ -7476,7 +10523,8 @@
                 "weight": 1,
                 "stamps": [
                   "base:stamp/town",
-                  "base:stamp/town_b"
+                  "base:stamp/town_b",
+                  "base:stamp/town_c"
                 ]
               }
             ],
@@ -8066,6 +11114,76 @@
                 ]
               ]
             },
+            "base:stamp/hamlet_d": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hamlet_d",
+              "w": 13,
+              "h": 11,
+              "anchor": [
+                6,
+                5
+              ],
+              "rows": [
+                "......=......",
+                ".#####=...t..",
+                ".#bV_#=......",
+                ".#___#=......",
+                ".##_##cT.....",
+                "=====cwc=====",
+                ".....ccc.....",
+                "......=......",
+                ".t....=..t...",
+                "......=....t.",
+                "......=......"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  5,
+                  5
+                ],
+                [
+                  7,
+                  6
+                ]
+              ]
+            },
             "base:stamp/village": {
               "$schema": "../../../schemas/stamp.schema.json",
               "id": "base:stamp/village",
@@ -8346,6 +11464,100 @@
                 ]
               ]
             },
+            "base:stamp/village_d": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/village_d",
+              "w": 21,
+              "h": 19,
+              "anchor": [
+                10,
+                9
+              ],
+              "rows": [
+                "..........=..........",
+                ".#######.t=..#######.",
+                ".#b____#..=..#b____#.",
+                ".#__V__#..=..#___S_#.",
+                ".#_____#..=..#_____#.",
+                ".###_###..=..###_###.",
+                "..........=..........",
+                "..........=..........",
+                "t.......ccccT........",
+                "........ccwcc.......t",
+                "........cccEc........",
+                "..........=..........",
+                ".#######..=..#######.",
+                ".#b____#..=..#_____#.",
+                ".#__V__#..=..#__V__#.",
+                ".#_____#..=..#_____#.",
+                ".###_###..=..###_###.",
+                "..........=t.........",
+                "..........=.........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  9,
+                  9
+                ],
+                [
+                  11,
+                  9
+                ],
+                [
+                  9,
+                  10
+                ],
+                [
+                  12,
+                  10
+                ]
+              ]
+            },
             "base:stamp/town": {
               "$schema": "../../../schemas/stamp.schema.json",
               "id": "base:stamp/town",
@@ -8587,6 +11799,127 @@
                 [
                   17,
                   15
+                ]
+              ]
+            },
+            "base:stamp/town_c": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/town_c",
+              "w": 37,
+              "h": 25,
+              "anchor": [
+                18,
+                16
+              ],
+              "rows": [
+                "t.................=.................t",
+                "..................=..................",
+                "...........###############...........",
+                "...........#_bb__________#...........",
+                "...........#_____________#...........",
+                "...........#__________G__#...........",
+                "...........#_____________#...........",
+                "...........#######_#######...........",
+                "..................=..................",
+                "..#########.......=.......#########..",
+                "..#bb_____#.......=.......#b______#..",
+                "..#_______#..t....=....t..#_______#..",
+                "..#_____S_#.......=.......#_____I_#..",
+                "..#_______#....lcccccl....#_______#..",
+                "..####_####....cccccTc....####_####..",
+                "...............ccccccc...............",
+                "===============cccwccc===============",
+                "...............cccEccc...............",
+                "...............ccccccc...............",
+                "...#######.....lcccccl.....#######...",
+                "...#__V__#........=........#__V__#...",
+                "...#_____#........=........#_____#...",
+                "...###_###........=........###_###...",
+                "..................=..................",
+                "t.................=.................t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "G": {
+                  "tile": 13,
+                  "npc": "guild_clerk"
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  16,
+                  14
+                ],
+                [
+                  17,
+                  14
+                ],
+                [
+                  19,
+                  14
+                ],
+                [
+                  16,
+                  18
+                ],
+                [
+                  20,
+                  18
+                ],
+                [
+                  18,
+                  18
                 ]
               ]
             },
@@ -9645,6 +12978,991 @@
                 }
               },
               "spots": []
+            },
+            "base:stamp/outpost_ironspine": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_ironspine",
+              "w": 23,
+              "h": 13,
+              "anchor": [
+                11,
+                7
+              ],
+              "rows": [
+                ".......................",
+                ".########.....########.",
+                ".#b_____#.....#b_____#.",
+                ".#____S_#.....#____I_#.",
+                ".#______#.....#______#.",
+                ".###_####.....####_###.",
+                ".........ccccc.........",
+                ".........ccwTc.........",
+                ".........cVccc.........",
+                ".....o.....=.....o.....",
+                "...........=...........",
+                "...........=...........",
+                "o..........=..........o"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  10,
+                  7
+                ],
+                [
+                  12,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/outpost_tidehaven": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_tidehaven",
+              "w": 19,
+              "h": 13,
+              "anchor": [
+                9,
+                8
+              ],
+              "rows": [
+                "...................",
+                "..###############..",
+                "..#_____b_b_____#..",
+                "..#_S_________I_#..",
+                "..#_____________#..",
+                "..#######_#######..",
+                "...................",
+                ".......ccccc.......",
+                "...o...VcwcT...o...",
+                ".......ccccc.......",
+                ".........=.........",
+                ".........=.........",
+                "o........=........o"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  8,
+                  8
+                ],
+                [
+                  10,
+                  9
+                ]
+              ]
+            },
+            "base:stamp/outpost_frostveil": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_frostveil",
+              "w": 21,
+              "h": 13,
+              "anchor": [
+                10,
+                7
+              ],
+              "rows": [
+                ".....................",
+                ".#######.....#######.",
+                ".#b_S__#.....#b_I__#.",
+                ".#_____#.....#_____#.",
+                ".###_###.....###_###.",
+                ".....................",
+                "........lcccc........",
+                "........ccwcT........",
+                "....t...cVccl...t....",
+                "..........=..........",
+                "..........=..........",
+                "..........=..........",
+                "t.........=.........t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  9,
+                  7
+                ],
+                [
+                  11,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/outpost_whisperwood": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_whisperwood",
+              "w": 23,
+              "h": 13,
+              "anchor": [
+                11,
+                7
+              ],
+              "rows": [
+                ".......................",
+                ".########.....########.",
+                ".#b_____#.....#b_____#.",
+                ".#____S_#.....#____I_#.",
+                ".#______#.....#______#.",
+                ".###_####.....####_###.",
+                ".........ccccc.........",
+                ".........ccwTc.........",
+                ".........cVccc.........",
+                ".....t.....=.....t.....",
+                "...........=...........",
+                "...........=...........",
+                "t..........=..........t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  10,
+                  7
+                ],
+                [
+                  12,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/outpost_sunscar": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_sunscar",
+              "w": 19,
+              "h": 13,
+              "anchor": [
+                9,
+                8
+              ],
+              "rows": [
+                "...................",
+                "..###############..",
+                "..#_____b_b_____#..",
+                "..#_S_________I_#..",
+                "..#_____________#..",
+                "..#######_#######..",
+                "...................",
+                ".......ccccc.......",
+                "...o...VcwcT...o...",
+                ".......ccccc.......",
+                ".........=.........",
+                ".........=.........",
+                "o........=........o"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  8,
+                  8
+                ],
+                [
+                  10,
+                  9
+                ]
+              ]
+            },
+            "base:stamp/outpost_lumeria": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_lumeria",
+              "w": 21,
+              "h": 13,
+              "anchor": [
+                10,
+                7
+              ],
+              "rows": [
+                ".....................",
+                ".#######.....#######.",
+                ".#b_S__#.....#b_I__#.",
+                ".#_____#.....#_____#.",
+                ".###_###.....###_###.",
+                ".....................",
+                "........lcccc........",
+                "........ccwcT........",
+                "....t...cVccl...t....",
+                "..........=..........",
+                "..........=..........",
+                "..........=..........",
+                "t.........=.........t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  9,
+                  7
+                ],
+                [
+                  11,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/outpost_ashen": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_ashen",
+              "w": 23,
+              "h": 13,
+              "anchor": [
+                11,
+                7
+              ],
+              "rows": [
+                ".......................",
+                ".########.....########.",
+                ".#b_____#.....#b_____#.",
+                ".#____S_#.....#____I_#.",
+                ".#______#.....#______#.",
+                ".###_####.....####_###.",
+                ".........ccccc.........",
+                ".........ccwTc.........",
+                ".........cVccc.........",
+                ".....o.....=.....o.....",
+                "...........=...........",
+                "...........=...........",
+                "o..........=..........o"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  10,
+                  7
+                ],
+                [
+                  12,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/outpost_verdalis": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_verdalis",
+              "w": 21,
+              "h": 13,
+              "anchor": [
+                10,
+                7
+              ],
+              "rows": [
+                ".....................",
+                ".#######.....#######.",
+                ".#b_S__#.....#b_I__#.",
+                ".#_____#.....#_____#.",
+                ".###_###.....###_###.",
+                ".....................",
+                "........lcccc........",
+                "........ccwcT........",
+                "....t...cVccl...t....",
+                "..........=..........",
+                "..........=..........",
+                "..........=..........",
+                "t.........=.........t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  9,
+                  7
+                ],
+                [
+                  11,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/forge": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/forge",
+              "w": 41,
+              "h": 37,
+              "anchor": [
+                20,
+                36
+              ],
+              "rows": [
+                ".........................................",
+                ".#######################################.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccccccccccccccclc#.",
+                ".#ccccDcccccccccccccccccccccccccccDcccc#.",
+                ".#ccccccccccccccccccqcccccccccccccccccc#.",
+                ".#ccccccccccccFcccccccccccFcccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccDcccccccccccccDcccccccccccccDcccc#.",
+                ".#clccccccccccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".##################################ccc##.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccmcccccccccccmcccccccccccc#.",
+                ".#ccccccc##ccccccccc##ccccccccc##cccccc#.",
+                ".#ccccmcc##ccccccccc##ccccccccc##cmcccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccmcccccccccccmcccccccccclc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".##ccc##################################.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccWcccccccccccccccccccccccccccWcccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccc##ccccccccc##ccccccccc##cccccc#.",
+                ".#ccccccc##cccWccccc##ccccWcccc##cccccc#.",
+                ".#clccccccccccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".##################################ccc##.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccmcccccccccccmcccccccccccc#.",
+                ".#ccccmcc##cccccccccccccccccccc##cmcccc#.",
+                ".#ccccccc##cccccccccccccccccccc##cccccc#.",
+                ".#ccccccccccccccclccccclccccccccccccccc#.",
+                ".##################ccc##################.",
+                "...................ccc...................",
+                "...............T...ccc..................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "D": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_dire"
+                },
+                "F": {
+                  "tile": 14,
+                  "spawner": "base:enemy/iron_foreman"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "m": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_slate"
+                },
+                "q": {
+                  "tile": 14,
+                  "spawner": "base:enemy/forge_tyrant"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/galleon": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/galleon",
+              "w": 47,
+              "h": 19,
+              "anchor": [
+                0,
+                9
+              ],
+              "rows": [
+                "...............................................",
+                "...............................................",
+                ".#############################################.",
+                ".#cccccccccccc#ccccccccccccc#cccccccccc#######.",
+                ".#clcccccccclc#clccccccccclc#clccccccccc######.",
+                ".#ccccccc##ccc#cccccc##ccccc#cccccc##cccc#####.",
+                ".#cciccccccicc#ccZcccccccZcc#ccicccccicccc####.",
+                ".#cccccccccccc#ccccccccccccc#cccccccccccccc###.",
+                "ccccccccccccccccccccccccccccccccccccccccccccc#.",
+                "cccccccciccccccccccccZccccccccccccQccccccrccc#.",
+                "ccccccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#cccccccccccc#ccccccccccccc#cccccccccccccc###.",
+                ".#cciccccccicc#ccZcccccccZcc#ccicccccicccc####.",
+                "T#ccccccc##ccc#cccccc##ccccc#cccccc##cccc#####.",
+                ".#clcccccccclc#ccccccccccccc#clccccccccc######.",
+                ".#cccccccccccc#ccccccccccccc#cccccccccc#######.",
+                ".#############################################.",
+                "...............................................",
+                "..............................................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "Q": {
+                  "tile": 14,
+                  "spawner": "base:enemy/tide_regent"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "Z": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_coral"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "i": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_tide"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "r": {
+                  "tile": 14,
+                  "spawner": "base:enemy/drowned_captain"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/keep": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/keep",
+              "w": 41,
+              "h": 41,
+              "anchor": [
+                20,
+                40
+              ],
+              "rows": [
+                ".........................................",
+                ".#######################################.",
+                ".##########ccccccccccccccccccc##########.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##cccHccc#ccccccccccccccccccc#cccHccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#cccccccccfccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".#####c####ccccccccccccccccccc####c#####.",
+                ".#cccccccccfcccccccccccccccccfccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccc###############ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccRcccccccRcc#ccccccccccc#.",
+                ".#ccccccccccc#cccccczcccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccfcccl#ccccccccccccc#lcccfcccccc#.",
+                ".#ccccccccccc#ccccccHcccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccHcccccccHcc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#######c#######ccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#cccccccccfcccccccccccccccccfccccccccc#.",
+                ".#####c####ccccccccccccccccccc####c#####.",
+                ".##ccccccc#ccccccccclccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#cccccccccfccccccccc#ccccccc##.",
+                ".##cccHccc#ccccccccccccccccccc#cccHccc##.",
+                ".##ccccccc#ccccclccccccclccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##########ccccccccccccccccccc##########.",
+                ".##################ccc##################.",
+                "...............T...ccc..................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "H": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ice"
+                },
+                "R": {
+                  "tile": 14,
+                  "spawner": "base:enemy/rime_revenant"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "f": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_frost"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "z": {
+                  "tile": 14,
+                  "spawner": "base:enemy/frost_sovereign"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/vault": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/vault",
+              "w": 45,
+              "h": 33,
+              "anchor": [
+                22,
+                32
+              ],
+              "rows": [
+                ".............................................",
+                ".###########################################.",
+                ".################ccccccccccc################.",
+                ".################clccccccclc################.",
+                ".################cccccyccccc################.",
+                ".################ccccccccccc################.",
+                ".################ccXcccccXcc################.",
+                ".################ccccccccccc################.",
+                ".###################ccccc###################.",
+                ".###################ccccc###################.",
+                ".##############ccccccccccccccc##############.",
+                ".#ccccc########clccccccccccclc########ccccc#.",
+                ".#clccc########ccccccceccccccc########ccclc#.",
+                ".#ccecc########cccMcccccccMccc########ccecc#.",
+                ".#ccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccecDcecccccccccccNcccccccccccccecccecc#.",
+                ".#ccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccc########cccMcccccccMccc########ccccc#.",
+                ".#ccecc########ccccccceccccccc########ccecc#.",
+                ".#ccccc########clccccccccccclc########ccccc#.",
+                ".##############ccccccccccccccc##############.",
+                ".###################ccccc###################.",
+                ".###################ccccc###################.",
+                ".###################ccccc###################.",
+                ".###################ccDcc###################.",
+                ".###################ccccc###################.",
+                ".###################ccccc###################.",
+                ".###################clDlc###################.",
+                ".###################ccccc###################.",
+                ".####################ccc####################.",
+                "..................T..ccc....................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "D": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_dire"
+                },
+                "M": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_magma"
+                },
+                "N": {
+                  "tile": 14,
+                  "spawner": "base:enemy/cinder_colossus"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "X": {
+                  "tile": 14,
+                  "spawner": "base:enemy/magma_heart"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "e": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ember"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "y": {
+                  "tile": 14,
+                  "spawner": "base:enemy/vault_warden"
+                }
+              },
+              "spots": []
             }
           }
         }
@@ -9704,8 +14022,8 @@
             8188,
             8136,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_tawny",
+            "base:item/tawny_fur"
           ],
           [
             8242,
@@ -9739,22 +14057,22 @@
             3739,
             5556,
             1,
-            "base:enemy/wolf_shade",
-            "base:item/shade_wisp"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             3695,
             5592,
             1,
-            "base:enemy/wolf_shade",
-            "base:item/shade_wisp"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             3820,
             5576,
             1,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             3832,
@@ -9774,22 +14092,22 @@
             3782,
             5607,
             1,
-            "base:enemy/wolf_shade",
-            "base:item/shade_wisp"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             3825,
             5623,
             1,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_shade",
+            "base:item/shade_wisp"
           ],
           [
             3813,
             5627,
             1,
-            "base:enemy/wolf_shade",
-            "base:item/shade_wisp"
+            "base:enemy/slime_moss",
+            "base:item/moss_clump"
           ],
           [
             3732,
@@ -9802,8 +14120,8 @@
             3744,
             5644,
             1,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_moss",
+            "base:item/moss_clump"
           ],
           [
             12773,
@@ -9816,50 +14134,50 @@
             12756,
             3597,
             2,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_rust",
+            "base:item/rust_flake"
           ],
           [
             12791,
             3606,
             2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
+            "base:enemy/slime_rust",
+            "base:item/rust_flake"
           ],
           [
             12812,
             3593,
             2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             12817,
             3595,
             2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
+            "base:enemy/slime_rust",
+            "base:item/rust_flake"
           ],
           [
             12738,
             3622,
             2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             12794,
             3621,
             2,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
           ],
           [
             12733,
             3663,
             2,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_rust",
+            "base:item/rust_flake"
           ],
           [
             13290,
@@ -9872,57 +14190,57 @@
             13343,
             11877,
             3,
-            "base:enemy/slime_amber",
-            "base:item/amber_drop"
+            "base:enemy/slime_sand",
+            "base:item/slime_gel"
           ],
           [
             13342,
             11885,
             3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
+            "base:enemy/wolf_dune",
+            "base:item/dune_pelt"
           ],
           [
             13222,
             11954,
             3,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_dune",
+            "base:item/dune_pelt"
           ],
           [
             13197,
             11980,
             3,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_dune",
+            "base:item/dune_pelt"
           ],
           [
             13201,
             11991,
             3,
-            "base:enemy/slime_amber",
-            "base:item/amber_drop"
+            "base:enemy/slime_sand",
+            "base:item/slime_gel"
           ],
           [
             13244,
             11999,
             3,
-            "base:enemy/slime_green",
+            "base:enemy/slime_sand",
             "base:item/slime_gel"
           ],
           [
             13340,
             11972,
             3,
-            "base:enemy/slime_amber",
-            "base:item/amber_drop"
+            "base:enemy/slime_sand",
+            "base:item/slime_gel"
           ],
           [
             7383,
             1444,
             4,
-            "base:enemy/slime_ice",
-            "base:item/ice_crystal"
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
           ],
           [
             7371,
@@ -9956,8 +14274,8 @@
             7413,
             1477,
             4,
-            "base:enemy/slime_ice",
-            "base:item/ice_crystal"
+            "base:enemy/wolf_polar",
+            "base:item/polar_fur"
           ],
           [
             7451,
@@ -9977,71 +14295,71 @@
             7309,
             1534,
             4,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_ice",
+            "base:item/ice_crystal"
           ],
           [
             7397,
             1541,
             4,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             7447,
             1548,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/slime_ice",
+            "base:item/ice_crystal"
           ],
           [
             2271,
             12569,
             5,
-            "base:enemy/slime_coral",
-            "base:item/coral_fragment"
+            "base:enemy/slime_tide",
+            "base:item/tide_pearl"
           ],
           [
             2297,
             12547,
             5,
-            "base:enemy/slime_coral",
-            "base:item/coral_fragment"
+            "base:enemy/slime_pearl",
+            "base:item/pearl_dust"
           ],
           [
             2302,
             12553,
             5,
-            "base:enemy/slime_tide",
-            "base:item/tide_pearl"
+            "base:enemy/slime_coral",
+            "base:item/coral_fragment"
           ],
           [
             2308,
             12557,
             5,
-            "base:enemy/slime_coral",
-            "base:item/coral_fragment"
+            "base:enemy/slime_tide",
+            "base:item/tide_pearl"
           ],
           [
             2310,
             12559,
             5,
-            "base:enemy/slime_tide",
-            "base:item/tide_pearl"
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
           ],
           [
             2330,
             12644,
             5,
-            "base:enemy/slime_coral",
-            "base:item/coral_fragment"
+            "base:enemy/slime_tide",
+            "base:item/tide_pearl"
           ],
           [
             2326,
             12647,
             5,
-            "base:enemy/slime_tide",
-            "base:item/tide_pearl"
+            "base:enemy/slime_pearl",
+            "base:item/pearl_dust"
           ],
           [
             2233,
@@ -10061,29 +14379,29 @@
             15012,
             7808,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             15121,
             7810,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
           ],
           [
             15118,
             7831,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             15094,
             7845,
             6,
-            "base:enemy/slime_magma",
-            "base:item/magma_shard"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             15089,
@@ -10096,22 +14414,22 @@
             15111,
             7863,
             6,
-            "base:enemy/slime_magma",
-            "base:item/magma_shard"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             15143,
             7903,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             15047,
             7916,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_char",
+            "base:item/char_chunk"
           ],
           [
             15099,
@@ -10124,8 +14442,8 @@
             15123,
             7911,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             7809,
@@ -10145,8 +14463,8 @@
             7885,
             14676,
             7,
-            "base:enemy/slime_glow",
-            "base:item/star_dust"
+            "base:enemy/wolf_storm",
+            "base:item/storm_feather"
           ],
           [
             7803,
@@ -10446,8 +14764,8 @@
             2150,
             12669,
             5,
-            "base:enemy/slime_coral",
-            "base:item/coral_fragment"
+            "base:enemy/slime_tide",
+            "base:item/tide_pearl"
           ],
           [
             2176,
@@ -10509,15 +14827,15 @@
             2200,
             12667,
             5,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_tide",
+            "base:item/tide_pearl"
           ],
           [
             7280,
             1379,
             4,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             7288,
@@ -11090,8 +15408,8 @@
             12904,
             3441,
             2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             12910,
@@ -11146,8 +15464,8 @@
             12939,
             3425,
             2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             12910,
@@ -11188,8 +15506,8 @@
             14982,
             8046,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             14982,
@@ -11272,15 +15590,15 @@
             14978,
             8077,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             14978,
             8084,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_char",
+            "base:item/char_chunk"
           ],
           [
             2426,
@@ -11307,8 +15625,8 @@
             2415,
             12428,
             5,
-            "base:enemy/slime_coral",
-            "base:item/coral_fragment"
+            "base:enemy/slime_pearl",
+            "base:item/pearl_dust"
           ],
           [
             2426,
@@ -11503,8 +15821,8 @@
             7552,
             1651,
             4,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             7560,
@@ -11608,8 +15926,8 @@
             8077,
             14453,
             7,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_glow",
+            "base:item/star_dust"
           ],
           [
             8066,
@@ -11629,8 +15947,638 @@
             8043,
             14480,
             7,
-            "base:enemy/wolf_storm",
-            "base:item/storm_feather"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            12385,
+            3439,
+            2,
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
+          ],
+          [
+            12420,
+            3473,
+            2,
+            "base:enemy/slime_rust",
+            "base:item/rust_flake"
+          ],
+          [
+            1908,
+            12400,
+            5,
+            "base:enemy/slime_tide",
+            "base:item/tide_pearl"
+          ],
+          [
+            1928,
+            12396,
+            5,
+            "base:enemy/slime_tide",
+            "base:item/tide_pearl"
+          ],
+          [
+            7034,
+            1636,
+            4,
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
+          ],
+          [
+            7059,
+            1648,
+            4,
+            "base:enemy/slime_ice",
+            "base:item/ice_crystal"
+          ],
+          [
+            13681,
+            12134,
+            3,
+            "base:enemy/slime_sand",
+            "base:item/slime_gel"
+          ],
+          [
+            13666,
+            12144,
+            3,
+            "base:enemy/slime_amber",
+            "base:item/amber_drop"
+          ],
+          [
+            13671,
+            12149,
+            3,
+            "base:enemy/slime_amber",
+            "base:item/amber_drop"
+          ],
+          [
+            13673,
+            12165,
+            3,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8559,
+            8327,
+            0,
+            "base:enemy/wolf_tawny",
+            "base:item/tawny_fur"
+          ],
+          [
+            12130,
+            3913,
+            2,
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
+          ],
+          [
+            12173,
+            3915,
+            2,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            12146,
+            3936,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12154,
+            3938,
+            2,
+            "base:enemy/iron_foreman",
+            ""
+          ],
+          [
+            12146,
+            3941,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12154,
+            3946,
+            2,
+            "base:enemy/slime_slate",
+            ""
+          ],
+          [
+            12146,
+            3948,
+            2,
+            "base:enemy/slime_slate",
+            ""
+          ],
+          [
+            12154,
+            3950,
+            2,
+            "base:enemy/slime_slate",
+            ""
+          ],
+          [
+            12146,
+            3954,
+            2,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            12154,
+            3957,
+            2,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            12154,
+            3962,
+            2,
+            "base:enemy/slime_slate",
+            ""
+          ],
+          [
+            12146,
+            3963,
+            2,
+            "base:enemy/slime_slate",
+            ""
+          ],
+          [
+            12174,
+            3936,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12160,
+            3937,
+            2,
+            "base:enemy/forge_tyrant",
+            ""
+          ],
+          [
+            12166,
+            3938,
+            2,
+            "base:enemy/iron_foreman",
+            ""
+          ],
+          [
+            12160,
+            3941,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12174,
+            3941,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12166,
+            3946,
+            2,
+            "base:enemy/slime_slate",
+            ""
+          ],
+          [
+            12174,
+            3948,
+            2,
+            "base:enemy/slime_slate",
+            ""
+          ],
+          [
+            12166,
+            3950,
+            2,
+            "base:enemy/slime_slate",
+            ""
+          ],
+          [
+            12174,
+            3954,
+            2,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            12166,
+            3957,
+            2,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            12166,
+            3962,
+            2,
+            "base:enemy/slime_slate",
+            ""
+          ],
+          [
+            12174,
+            3963,
+            2,
+            "base:enemy/slime_slate",
+            ""
+          ],
+          [
+            2692,
+            12925,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2699,
+            12925,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2705,
+            12925,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2713,
+            12925,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2719,
+            12925,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2725,
+            12925,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2696,
+            12928,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2709,
+            12928,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2692,
+            12931,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2699,
+            12931,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2705,
+            12931,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2713,
+            12931,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2719,
+            12931,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2722,
+            12928,
+            5,
+            "base:enemy/tide_regent",
+            ""
+          ],
+          [
+            2729,
+            12928,
+            5,
+            "base:enemy/drowned_captain",
+            ""
+          ],
+          [
+            2725,
+            12931,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            6770,
+            1886,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            6798,
+            1886,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            6775,
+            1891,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            6780,
+            1896,
+            4,
+            "base:enemy/rime_revenant",
+            ""
+          ],
+          [
+            6772,
+            1900,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            6780,
+            1904,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            6775,
+            1909,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            6770,
+            1914,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            6784,
+            1888,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            6793,
+            1891,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            6788,
+            1896,
+            4,
+            "base:enemy/rime_revenant",
+            ""
+          ],
+          [
+            6784,
+            1897,
+            4,
+            "base:enemy/frost_sovereign",
+            ""
+          ],
+          [
+            6796,
+            1900,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            6784,
+            1901,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            6788,
+            1904,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            6793,
+            1909,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            6784,
+            1913,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            6798,
+            1914,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            14717,
+            8294,
+            6,
+            "base:enemy/magma_heart",
+            ""
+          ],
+          [
+            14702,
+            8301,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14716,
+            8301,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            14704,
+            8304,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14706,
+            8304,
+            6,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            14708,
+            8304,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14716,
+            8307,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            14702,
+            8308,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14720,
+            8292,
+            6,
+            "base:enemy/vault_warden",
+            ""
+          ],
+          [
+            14723,
+            8294,
+            6,
+            "base:enemy/magma_heart",
+            ""
+          ],
+          [
+            14720,
+            8300,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14724,
+            8301,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            14738,
+            8301,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14720,
+            8304,
+            6,
+            "base:enemy/cinder_colossus",
+            ""
+          ],
+          [
+            14734,
+            8304,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14738,
+            8304,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14724,
+            8307,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            14720,
+            8308,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14738,
+            8308,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14720,
+            8314,
+            6,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            14720,
+            8317,
+            6,
+            "base:enemy/wolf_dire",
+            ""
           ]
         ]
       }

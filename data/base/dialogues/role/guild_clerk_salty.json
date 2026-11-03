@@ -17,6 +17,10 @@
           "next": "board"
         },
         {
+          "text": "$i18n:dlg.role.comm.hub",
+          "next": "comm_hub"
+        },
+        {
           "text": "$i18n:dlg.role.rumor",
           "next": "rumor"
         },
@@ -39,6 +43,330 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.tone.salty.rumor",
+      "next": "end"
+    },
+    "comm_offer_1": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.comm.salty.offer1",
+      "next": "comm_choice_1"
+    },
+    "comm_choice_1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/clerk_salty_1"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "comm_paid_1": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "comm_clerk_salty_1_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 102
+        },
+        {
+          "effect": "add_gold",
+          "amount": 238
+        },
+        {
+          "effect": "add_guild_points",
+          "amount": 10
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_medium",
+          "qty": 1
+        }
+      ],
+      "next": "comm_thanks"
+    },
+    "comm_offer_2": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.comm.salty.offer2",
+      "next": "comm_choice_2"
+    },
+    "comm_choice_2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/clerk_salty_2"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "comm_paid_2": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "comm_clerk_salty_2_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 204
+        },
+        {
+          "effect": "add_gold",
+          "amount": 476
+        },
+        {
+          "effect": "add_guild_points",
+          "amount": 20
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_medium",
+          "qty": 2
+        }
+      ],
+      "next": "comm_thanks"
+    },
+    "comm_offer_3": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.comm.salty.offer3",
+      "next": "comm_choice_3"
+    },
+    "comm_choice_3": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/clerk_salty_3"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "comm_paid_3": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "comm_clerk_salty_3_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 374
+        },
+        {
+          "effect": "add_gold",
+          "amount": 884
+        },
+        {
+          "effect": "add_guild_points",
+          "amount": 35
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_large",
+          "qty": 1
+        }
+      ],
+      "next": "comm_thanks"
+    },
+    "comm_hub": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:quest.clerk_salty_1.name",
+          "when": {
+            "all": [
+              {
+                "level_at_least": 4
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/clerk_salty_1"
+                    },
+                    {
+                      "quest_done": "base:quest/side/clerk_salty_1"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "comm_offer_1"
+        },
+        {
+          "text": "$i18n:dlg.role.comm.status",
+          "when": {
+            "quest_active": "base:quest/side/clerk_salty_1"
+          },
+          "next": "comm_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.comm.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/clerk_salty_1"
+              },
+              {
+                "not": {
+                  "flag": "comm_clerk_salty_1_paid"
+                }
+              }
+            ]
+          },
+          "next": "comm_paid_1"
+        },
+        {
+          "text": "$i18n:quest.clerk_salty_2.name",
+          "when": {
+            "all": [
+              {
+                "level_at_least": 8
+              },
+              {
+                "flag": "comm_clerk_salty_1_paid"
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/clerk_salty_2"
+                    },
+                    {
+                      "quest_done": "base:quest/side/clerk_salty_2"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "comm_offer_2"
+        },
+        {
+          "text": "$i18n:dlg.role.comm.status",
+          "when": {
+            "quest_active": "base:quest/side/clerk_salty_2"
+          },
+          "next": "comm_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.comm.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/clerk_salty_2"
+              },
+              {
+                "not": {
+                  "flag": "comm_clerk_salty_2_paid"
+                }
+              }
+            ]
+          },
+          "next": "comm_paid_2"
+        },
+        {
+          "text": "$i18n:quest.clerk_salty_3.name",
+          "when": {
+            "all": [
+              {
+                "level_at_least": 11
+              },
+              {
+                "flag": "comm_clerk_salty_2_paid"
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/clerk_salty_3"
+                    },
+                    {
+                      "quest_done": "base:quest/side/clerk_salty_3"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "comm_offer_3"
+        },
+        {
+          "text": "$i18n:dlg.role.comm.status",
+          "when": {
+            "quest_active": "base:quest/side/clerk_salty_3"
+          },
+          "next": "comm_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.comm.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/clerk_salty_3"
+              },
+              {
+                "not": {
+                  "flag": "comm_clerk_salty_3_paid"
+                }
+              }
+            ]
+          },
+          "next": "comm_paid_3"
+        },
+        {
+          "text": "$i18n:dlg.role.comm.none",
+          "next": "end"
+        }
+      ]
+    },
+    "comm_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.comm.salty.busy",
+      "next": "end"
+    },
+    "comm_thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.comm.salty.thanks",
       "next": "end"
     }
   }
