@@ -17,7 +17,7 @@
     ".#ccccccccccccccccccccc#.",
     ".#ccccccccc#ccccccccccc#.",
     ".#ccccccccccccccccccccc#.",
-    "==ccccccHcccfcccHcccccc==",
+    "==ccccccHcccjcccHcccccc==",
     "==ccccccccccccccccccccc==",
     "==ccccccccccc#ccccccccc==",
     ".#ccccccccccccccccccccc#.",
@@ -47,6 +47,10 @@
     "f": {
       "tile": 14,
       "spawner": "base:enemy/wolf_frost"
+    },
+    "j": {
+      "tile": 14,
+      "spawner": "base:enemy/ice_warden"
     },
     "l": {
       "tile": 14,

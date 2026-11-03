@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/wisp_mantle",
+  "name": "$i18n:item.wisp_mantle.name",
+  "description": "$i18n:item.wisp_mantle.desc",
+  "kind": "armor",
+  "rarity": "rare",
+  "price": 800,
+  "armor": {
+    "def": 7,
+    "mdef": 8
+  }
+}

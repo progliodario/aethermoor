@@ -17,8 +17,21 @@
           "next": "shop"
         },
         {
+          "text": "$i18n:dlg.role.craft.ask",
+          "when": {
+            "not": {
+              "flag": "craft_amber_plate_done"
+            }
+          },
+          "next": "craft_info"
+        },
+        {
           "text": "$i18n:dlg.role.rumor",
           "next": "rumor"
+        },
+        {
+          "text": "$i18n:dlg.role.road",
+          "next": "road"
         },
         {
           "text": "$i18n:dlg.role.bye",
@@ -39,6 +52,79 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.tone.flowery.rumor",
+      "next": "end"
+    },
+    "road": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.flowery.road",
+      "next": "end"
+    },
+    "craft_info": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.craft.flowery.info",
+      "next": "craft_menu"
+    },
+    "craft_menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.craft.make",
+          "when": {
+            "all": [
+              {
+                "has_item": {
+                  "item": "base:item/amber_drop",
+                  "qty": 8
+                }
+              },
+              {
+                "has_item": {
+                  "item": "base:item/slime_gel",
+                  "qty": 10
+                }
+              }
+            ]
+          },
+          "next": "craft_do"
+        },
+        {
+          "text": "$i18n:dlg.role.craft.later",
+          "next": "end"
+        }
+      ]
+    },
+    "craft_do": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "remove_item",
+          "item": "base:item/amber_drop",
+          "qty": 8
+        },
+        {
+          "effect": "remove_item",
+          "item": "base:item/slime_gel",
+          "qty": 10
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/amber_plate",
+          "qty": 1
+        },
+        {
+          "effect": "set_flag",
+          "flag": "craft_amber_plate_done",
+          "value": true
+        }
+      ],
+      "next": "craft_done"
+    },
+    "craft_done": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.craft.flowery.done",
       "next": "end"
     }
   }

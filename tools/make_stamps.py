@@ -47,6 +47,12 @@ LEGEND = {
     "P": {"tile": 14, "spawner": "base:enemy/slime_amber"},
     "H": {"tile": 14, "spawner": "base:enemy/slime_ice"},
     "O": {"tile": 14, "spawner": "base:enemy/wolf_storm"},
+    "U": {"tile": 14, "spawner": "base:enemy/dire_alpha"},
+    "X": {"tile": 14, "spawner": "base:enemy/magma_heart"},
+    "C": {"tile": 14, "spawner": "base:enemy/coral_matron"},
+    "L": {"tile": 14, "spawner": "base:enemy/amber_queen"},
+    "j": {"tile": 14, "spawner": "base:enemy/ice_warden"},
+    "k": {"tile": 14, "spawner": "base:enemy/storm_sovereign"},
     "T": {"tile": 14, "prop": "base:art/prop/threshold_stone", "radius_x100": 35},  # Threshold Stone (fast travel)
     "V": {"tile": 13, "npc": "villager"},
     "G": {"tile": 13, "npc": "guild_clerk"},
@@ -434,8 +440,8 @@ def citadel() -> dict:
     return stamp("base:stamp/citadel", c, (23, 39), [])
 
 
-def lair(stamp_id: str, wall: str, thickness: int, floor: str, gaps: str, mob: str, other: str, extras: list[tuple[str, int, int]]) -> dict:
-    """A lair: a ring of `wall` around an open floor full of one kind of creature, with a few of another (spec 09, "Landmarks")."""
+def lair(stamp_id: str, wall: str, thickness: int, floor: str, gaps: str, mob: str, other: str, elite: str, extras: list[tuple[str, int, int]]) -> dict:
+    """A lair: a ring of `wall` around an open floor full of one kind of creature, with a few of another and an elite in the middle (spec 09, "Landmarks")."""
     c = Canvas(25, 21)
     c.rect(1, 1, 23, 19, wall)
     c.rect(1 + thickness, 1 + thickness, 23 - 2 * thickness, 19 - 2 * thickness, floor)
@@ -449,7 +455,7 @@ def lair(stamp_id: str, wall: str, thickness: int, floor: str, gaps: str, mob: s
             anchor = {"n": (12, 0), "s": (12, 20), "w": (0, 10), "e": (24, 10)}[side]
     points = [(x, y) for y in (5, 9, 13) for x in ((6, 10, 14, 18) if y != 9 else (8, 12, 16))]
     for i, (x, y) in enumerate(points):
-        c.put(x, y, other if i in (3, 5, 8) else mob)
+        c.put(x, y, elite if i == 5 else other if i in (3, 8) else mob)
     for ch, x, y in extras:
         c.put(x, y, ch)
     return stamp(stamp_id, c, anchor, [])
@@ -457,32 +463,32 @@ def lair(stamp_id: str, wall: str, thickness: int, floor: str, gaps: str, mob: s
 
 def den() -> dict:
     """Ironspine: a den of dire wolves inside a ring of trees."""
-    return lair("base:stamp/den", "t", 2, ".", "e", "D", "W", [("o", 6, 7), ("o", 18, 11), ("o", 10, 15)])
+    return lair("base:stamp/den", "t", 2, ".", "e", "D", "W", "U", [("o", 6, 7), ("o", 18, 11), ("o", 10, 15)])
 
 
 def vent() -> dict:
     """The Ashen Wastes: a ring of stone around a vent of magma slimes."""
-    return lair("base:stamp/vent", "#", 1, "c", "w", "M", "e", [("l", 3, 3), ("l", 21, 3), ("l", 3, 17), ("l", 21, 17)])
+    return lair("base:stamp/vent", "#", 1, "c", "w", "M", "e", "X", [("l", 3, 3), ("l", 21, 3), ("l", 3, 17), ("l", 21, 17)])
 
 
 def grotto() -> dict:
     """Tidehaven: a coral grotto open to the north and the south."""
-    return lair("base:stamp/grotto", "#", 1, "c", "ns", "Z", "i", [("#", 8, 7), ("#", 16, 7), ("#", 8, 11), ("#", 16, 11)])
+    return lair("base:stamp/grotto", "#", 1, "c", "ns", "Z", "i", "C", [("#", 8, 7), ("#", 16, 7), ("#", 8, 11), ("#", 16, 11)])
 
 
 def amber() -> dict:
     """Sunscar: a hollow of rocks full of amber slimes."""
-    return lair("base:stamp/amber", "o", 2, ".", "n", "P", "a", [("t", 5, 7), ("t", 19, 7), ("t", 12, 15)])
+    return lair("base:stamp/amber", "o", 2, ".", "n", "P", "a", "L", [("t", 5, 7), ("t", 19, 7), ("t", 12, 15)])
 
 
 def icepit() -> dict:
     """Frostveil: a pit of ice slimes with a way in on each side."""
-    return lair("base:stamp/icepit", "#", 1, "c", "ew", "H", "f", [("#", 11, 7), ("#", 13, 11), ("l", 3, 3), ("l", 21, 17)])
+    return lair("base:stamp/icepit", "#", 1, "c", "ew", "H", "f", "j", [("#", 11, 7), ("#", 13, 11), ("l", 3, 3), ("l", 21, 17)])
 
 
 def roost() -> dict:
     """Lumeria: a roost of storm wolves inside a ring of trees."""
-    return lair("base:stamp/roost", "t", 2, ".", "s", "O", "d", [("o", 6, 7), ("o", 18, 7), ("o", 12, 11)])
+    return lair("base:stamp/roost", "t", 2, ".", "s", "O", "d", "k", [("o", 6, 7), ("o", 18, 7), ("o", 12, 11)])
 
 
 def main() -> None:

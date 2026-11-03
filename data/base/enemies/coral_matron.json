@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/coral_matron",
+  "name": "$i18n:enemy.coral_matron.name",
+  "level": 10,
+  "stats": {
+    "hp": 300,
+    "atk": 27,
+    "def": 11,
+    "mdef": 8,
+    "speed_x100": 250
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "wind": 1500
+  },
+  "xp": 110,
+  "drops": [
+    {
+      "item": "base:item/coralweave_vest",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 1000
+    }
+  ],
+  "radius_x100": 52,
+  "behavior": "base:behavior/melee_chaser_basic",
+  "art": "base:art/creature/coral_matron"
+}

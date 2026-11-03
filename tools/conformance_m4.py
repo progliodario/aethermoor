@@ -51,7 +51,10 @@ TRADER_DIALOGUE = {
              "effects": [{"effect": "set_flag", "flag": "seen", "value": True},
                          {"effect": "start_quest", "quest": "test:quest/gel"}], "next": "after"},
             {"text": "c.hidden", "when": {"flag": "seen"}, "next": "end"},
-            {"text": "c.gift", "next": "gift"}]},
+            {"text": "c.gift", "next": "gift"},
+            {"text": "c.barter", "when": {"has_item": {"item": "base:item/slime_gel", "qty": 2}}, "next": "barter"}]},
+        "barter": {"type": "effects", "effects": [{"effect": "remove_item", "item": "base:item/slime_gel", "qty": 2},
+                                                  {"effect": "add_gold", "amount": 7}], "next": "after"},
         "gift": {"type": "effects", "effects": [{"effect": "add_item", "item": "base:item/slime_gel", "qty": 2}],
                  "next": "after"},
         "after": {"type": "say", "speaker": "trader", "text": "t.after", "next": "mark"},
@@ -107,9 +110,14 @@ def build_scenarios() -> list[dict]:
         [], [do(interact), do(advance), do(choose(1)), do(advance), do(interact), do(advance), do(choose(0)),
              do(interact), do(advance)],
         player={"start": [3.4, 5.6]})
-    for sc in (flow, decline, frozen, trader):
+    barter = scenario(
+        "trader_barter",
+        [], [do(interact), do(advance), do(choose(1)), do(advance), do(interact), do(advance), do(choose(2)), do(advance),
+             do(interact), do(advance), do(choose(1)), do(advance), do(interact), do(advance), do(choose(2)), do(advance)],
+        player={"start": [3.4, 5.6]})
+    for sc in (flow, decline, frozen, trader, barter):
         with_story(sc)
-    return [flow, decline, frozen, trader]
+    return [flow, decline, frozen, trader, barter]
 
 
 def suite_story() -> list[dict]:

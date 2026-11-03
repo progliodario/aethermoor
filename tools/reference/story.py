@@ -65,6 +65,14 @@ class Story:
         elif kind == "add_item":
             self.host.inventory[effect["item"]] = self.host.inventory.get(effect["item"], 0) + effect["qty"]
             self._refresh_all()
+        elif kind == "remove_item":
+            held = self.host.inventory.get(effect["item"], 0)
+            left = held - min(held, effect["qty"])
+            if left > 0:
+                self.host.inventory[effect["item"]] = left
+            else:
+                self.host.inventory.pop(effect["item"], None)
+            self._refresh_all()
         elif kind == "set_flag":
             self.flags[effect["flag"]] = effect["value"]
         elif kind == "start_quest":

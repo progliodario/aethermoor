@@ -17,8 +17,21 @@
           "next": "shop"
         },
         {
+          "text": "$i18n:dlg.role.craft.ask",
+          "when": {
+            "not": {
+              "flag": "craft_starlit_vestment_done"
+            }
+          },
+          "next": "craft_info"
+        },
+        {
           "text": "$i18n:dlg.role.rumor",
           "next": "rumor"
+        },
+        {
+          "text": "$i18n:dlg.role.road",
+          "next": "road"
         },
         {
           "text": "$i18n:dlg.role.bye",
@@ -39,6 +52,79 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.tone.scholarly.rumor",
+      "next": "end"
+    },
+    "road": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.scholarly.road",
+      "next": "end"
+    },
+    "craft_info": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.craft.scholarly.info",
+      "next": "craft_menu"
+    },
+    "craft_menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.craft.make",
+          "when": {
+            "all": [
+              {
+                "has_item": {
+                  "item": "base:item/star_dust",
+                  "qty": 8
+                }
+              },
+              {
+                "has_item": {
+                  "item": "base:item/storm_feather",
+                  "qty": 4
+                }
+              }
+            ]
+          },
+          "next": "craft_do"
+        },
+        {
+          "text": "$i18n:dlg.role.craft.later",
+          "next": "end"
+        }
+      ]
+    },
+    "craft_do": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "remove_item",
+          "item": "base:item/star_dust",
+          "qty": 8
+        },
+        {
+          "effect": "remove_item",
+          "item": "base:item/storm_feather",
+          "qty": 4
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/starlit_vestment",
+          "qty": 1
+        },
+        {
+          "effect": "set_flag",
+          "flag": "craft_starlit_vestment_done",
+          "value": true
+        }
+      ],
+      "next": "craft_done"
+    },
+    "craft_done": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.craft.scholarly.done",
       "next": "end"
     }
   }

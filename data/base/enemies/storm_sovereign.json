@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/storm_sovereign",
+  "name": "$i18n:enemy.storm_sovereign.name",
+  "level": 13,
+  "stats": {
+    "hp": 380,
+    "atk": 36,
+    "def": 11,
+    "mdef": 11,
+    "speed_x100": 380
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "fire": 1500
+  },
+  "xp": 160,
+  "drops": [
+    {
+      "item": "base:item/thunderfang",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 1000
+    }
+  ],
+  "radius_x100": 52,
+  "behavior": "base:behavior/melee_chaser_basic",
+  "art": "base:art/creature/storm_sovereign"
+}

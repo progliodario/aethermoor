@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/alpha_pelt",
+  "name": "$i18n:item.alpha_pelt.name",
+  "description": "$i18n:item.alpha_pelt.desc",
+  "kind": "armor",
+  "rarity": "rare",
+  "price": 900,
+  "armor": {
+    "def": 9,
+    "mdef": 5
+  }
+}
