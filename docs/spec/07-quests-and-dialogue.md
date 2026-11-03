@@ -1,6 +1,6 @@
 # 07. Quests, dialogue, conditions and effects
 
-Status: **v1 (M4a)**. Reference: `tools/reference/combat.py` (class `CombatSim`, story part).
+Status: **v1.6 (M4a quests and dialogue, then the guild, the journal, jobs, workshops, inns, seasons and the people of the outposts; the conditions and effects are in the tables)**. Reference: `tools/reference/combat.py` (class `CombatSim`, story part).
 Conformance suite: `combat` scenarios that carry a `story` section. Schemas: `quest`, `dialogue`, map objects of type `npc`.
 
 ## Conditions (closed catalog, v1)

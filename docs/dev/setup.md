@@ -42,3 +42,20 @@ Set `ANDROID_HOME` or create `android/local.properties` with `sdk.dir=...`.
 ## Verification
 
 CI builds and tests the desktop client on Windows (MSVC) and Linux (GCC) and the Android client (JVM unit tests and `assembleDebug`). Local builds need the tools above; the project was developed on a machine without them, so CI is the reference.
+
+## Tools
+
+All of them are Python scripts in `tools/`; use the virtual environment of the "Common" section.
+
+| Command | What it does |
+|---|---|
+| `python tools/validate_data.py` | validates the data of the packs against the schemas and the texts of both languages |
+| `python tools/gen_conformance.py` (`--check`) | writes (checks) the conformance vectors of `tests/conformance/`, in parallel, about 20 s |
+| `python tools/make_stamps.py` (`--show`) | writes `data/base/stamps/` from the templates in the script, and draws them with `--show` |
+| `python tools/art_preview.py <pattern> --out sheet.html` | draws art recipes as an HTML sheet, to look at them without the game |
+| `python tools/make_catalog.py` | writes `docs/design/catalog.md` (regions, creatures, items, quests, sites) |
+| `python tools/balance_report.py` | writes `docs/design/balance.md`, a rough model of every fight |
+| `python tools/ship.py "<title>" --body-file <file> [--play <folder>]` | checks, commits, pushes, opens the pull request, waits for CI, merges, and refreshes a play folder |
+| `python -m pytest tools/tests` and `python -m ruff check tools` | the tests of the reference and of the data, and the linter |
+
+To see real frames of the game: `aethermoor --smoke-test --map=world --seed=7 --start=<x>,<y> --screenshot-dir=<folder>` writes PNG screenshots (walking, bag, map) at a place of the world.

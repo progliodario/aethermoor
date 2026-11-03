@@ -1,6 +1,6 @@
 # 12. Save format
 
-Status: **v1 (M4b; M5b additions)**. Reference: `CombatSim.save_state` / `load_state` in `tools/reference/combat.py`.
+Status: **v1 (M4b; M5b additions; the slots of the title screen)**. Reference: `CombatSim.save_state` / `load_state` in `tools/reference/combat.py`.
 Schema: `schemas/save.schema.json`. Conformance suite: `save` (resume scenarios).
 
 ## Files

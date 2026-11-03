@@ -1,6 +1,6 @@
 # 06. Items: selecting and using
 
-Status: **v1.1 (M6a: using items, M6b: equipment and shops)**. Reference: `CombatSim.use_item`, `equip`, `buy` and `sell` in `tools/reference/combat.py`.
+Status: **v1.1 (M6a: using items, M6b: equipment and shops; the ladder of weapons and armors is data)**. Reference: `CombatSim.use_item`, `equip`, `buy` and `sell` in `tools/reference/combat.py`.
 Conformance: the `combat` scenarios with the `use`, `equip`, `open_shop`, `buy`, `sell` and `close_shop` commands.
 Item data: `data/base/items/*.json` (`schemas/item.schema.json`). Accessories and more slots come with the progression systems.
 
