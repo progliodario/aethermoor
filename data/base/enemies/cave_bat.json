@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/cave_bat",
+  "name": "$i18n:enemy.cave_bat.name",
+  "level": 6,
+  "stats": {
+    "hp": 70,
+    "atk": 18,
+    "def": 4,
+    "mdef": 4,
+    "speed_x100": 380
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "light": 1500
+  },
+  "xp": 34,
+  "drops": [
+    {
+      "item": "base:item/bat_wing",
+      "qty_min": 1,
+      "qty_max": 2,
+      "weight_pm": 550
+    }
+  ],
+  "radius_x100": 34,
+  "behavior": "base:behavior/lunger",
+  "art": "base:art/creature/cave_bat"
+}

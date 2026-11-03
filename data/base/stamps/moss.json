@@ -12,7 +12,7 @@
     ".tttttttttt===tttttttttt.",
     ".tttttttttt===tttttttttt.",
     ".tt...................tt.",
-    ".tt...................tt.",
+    ".tt.................$.tt.",
     ".tt...5...5...5...d...tt.",
     ".tt...................tt.",
     ".tt...o...............tt.",
@@ -24,13 +24,17 @@
     ".tt...5...d...5...5...tt.",
     ".tt...................tt.",
     ".tt.......o...........tt.",
-    ".tt...................tt.",
+    ".tt.$.................tt.",
     ".tt...................tt.",
     ".ttttttttttttttttttttttt.",
     ".ttttttttttttttttttttttt.",
     "........................."
   ],
   "legend": {
+    "$": {
+      "prop": "base:art/prop/bones",
+      "radius_x100": 10
+    },
     "5": {
       "tile": 14,
       "spawner": "base:enemy/slime_moss"

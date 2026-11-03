@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/wisp",
+  "name": "$i18n:enemy.wisp.name",
+  "level": 9,
+  "stats": {
+    "hp": 90,
+    "atk": 26,
+    "def": 2,
+    "mdef": 14,
+    "speed_x100": 320
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "wind": 1500
+  },
+  "xp": 62,
+  "drops": [
+    {
+      "item": "base:item/wisp_ember",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 500
+    }
+  ],
+  "radius_x100": 32,
+  "behavior": "base:behavior/lunger",
+  "art": "base:art/creature/wisp"
+}

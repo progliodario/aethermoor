@@ -6,6 +6,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- Eight creatures with new silhouettes (cave bat, cave spider, myconid, stone golem, will-o'-the-wisp, shore crab, dune scorpion, night owl: levels 4 to 12) with their materials, in the fauna of the regions; the slime elites of the lairs and nests wear a crown.
+- Eight new props (tent, signpost, crate, statue, banner, bush, bones, campfire) placed in the outposts, lairs and dungeon entrances.
+- `tools/art_preview.py`: draws the art recipes as an HTML sheet to look at them without the game.
 - Eight nests, one per region (Mint Hollow close to the start, then Mossy Den, Rust Pit, Dune Den, Polar Rookery, Pearl Shoal, Nebula Pool and Char Pit): rings of the newer creatures with an elite in the middle, level 5 to 16, each dropping a unique rare or epic piece of equipment.
 - Wayfarers (spec 07): eight named people, one in each outpost, each with a story in three quests (a task, a letter carried to another wayfarer across the map and back, and a big hunt) and a unique rare or epic reward. The letters form a ring through the eight regions. Italian and English.
 - Enemy behaviors: five new sets of numbers for the melee chaser (skittish, stalker, brute, lunger, guardian), given to 35 creatures: bosses and elites stay near their posts, wolves hunt from afar or lunge, slate and rust slimes hit hard and slowly, mint and sand slimes are shy.

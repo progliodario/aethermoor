@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/wisp_ember",
+  "name": "$i18n:item.wisp_ember.name",
+  "description": "$i18n:item.wisp_ember.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 20,
+  "stack_max": 99
+}

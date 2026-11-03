@@ -35,7 +35,7 @@
     ".#ccccccccccccccccccccccccccccc#.",
     ".#ccccccccccccclclccccccccccccc#.",
     ".###############c###############.",
-    ".............T..c................"
+    ".............T.^c^..............."
   ],
   "legend": {
     "#": {
@@ -48,6 +48,10 @@
     "T": {
       "tile": 14,
       "prop": "base:art/prop/threshold_stone",
+      "radius_x100": 35
+    },
+    "^": {
+      "prop": "base:art/prop/statue",
       "radius_x100": 35
     },
     "c": {

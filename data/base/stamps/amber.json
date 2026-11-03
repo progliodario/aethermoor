@@ -12,7 +12,7 @@
     ".oooooooooo===oooooooooo.",
     ".oooooooooo===oooooooooo.",
     ".oo...................oo.",
-    ".oo...................oo.",
+    ".oo.................$.oo.",
     ".oo...P...P...P...a...oo.",
     ".oo...................oo.",
     ".oo..t.............t..oo.",
@@ -24,13 +24,17 @@
     ".oo...P...a...P...P...oo.",
     ".oo...................oo.",
     ".oo.........t.........oo.",
-    ".oo...................oo.",
+    ".oo.$.................oo.",
     ".oo...................oo.",
     ".ooooooooooooooooooooooo.",
     ".ooooooooooooooooooooooo.",
     "........................."
   ],
   "legend": {
+    "$": {
+      "prop": "base:art/prop/bones",
+      "radius_x100": 10
+    },
     "=": {
       "tile": 11
     },

@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/golem_core",
+  "name": "$i18n:item.golem_core.name",
+  "description": "$i18n:item.golem_core.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 40,
+  "stack_max": 99
+}
