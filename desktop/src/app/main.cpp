@@ -394,6 +394,14 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
     }
     // Settlements of the explored cells, and the names of the regions whose center is explored.
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+    struct MapLabel {
+        float x;
+        float y;
+        float w;
+        int priority;  // towns first, then villages, then the other sites
+        const std::string* text;
+    };
+    std::vector<MapLabel> labels;
     for (const auto& [x, y] : sim.explored()) {
         auto marker = ui.map_markers.find({x, y});
         if (marker == ui.map_markers.end()) {
@@ -408,8 +416,21 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
         fill_rect(renderer, mx - size * density / 2.0F - 1.0F, my - size * density / 2.0F - 1.0F, size * density + 2.0F, size * density + 2.0F, 20, 20, 30, 255);
         fill_rect(renderer, mx - size * density / 2.0F, my - size * density / 2.0F, size * density, size * density, 255, 235, 150, 255);
         if (marker->second->kind != "hamlet") {
-            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-            SDL_RenderDebugText(renderer, mx + (size * density) / 2.0F + 3.0F, my - 4.0F, marker->second->name.c_str());
+            const int priority = marker->second->kind == "town" ? 0 : (marker->second->kind == "village" ? 1 : 2);
+            labels.push_back({mx + (size * density) / 2.0F + 3.0F, my - 4.0F, static_cast<float>(marker->second->name.size()) * 8.0F, priority,
+                              &marker->second->name});
+        }
+    }
+    std::stable_sort(labels.begin(), labels.end(), [](const MapLabel& a, const MapLabel& b) { return a.priority < b.priority; });
+    std::vector<MapLabel> placed;  // a name that would be drawn over another one is left out
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    for (const MapLabel& label : labels) {
+        const bool clash = std::any_of(placed.begin(), placed.end(), [&label](const MapLabel& other) {
+            return label.x < other.x + other.w && other.x < label.x + label.w && label.y < other.y + 10.0F && other.y < label.y + 10.0F;
+        });
+        if (!clash) {
+            SDL_RenderDebugText(renderer, label.x, label.y, label.text->c_str());
+            placed.push_back(label);
         }
     }
     for (const aether::Region& region : params.regions) {
