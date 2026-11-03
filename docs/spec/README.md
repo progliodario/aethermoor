@@ -1,6 +1,6 @@
 # Specifications
 
-Normative rules shared by the desktop and Android clients. **Status:** 00, 01, 04 (formulas), 12 (draft) and 17 are written (M1); the others follow their milestone; the planned content is described in `docs/plan/02-dati-specifiche-e-formati.md`.
+Normative rules shared by the desktop and Android clients. **Status:** 00 to 09, 12, 13, 16 and 17 are written and have conformance suites; 10, 11, 14 and 15 are still to come with their milestones. The planned content is described in `docs/plan/02-dati-specifiche-e-formati.md`.
 
 | # | Document | Milestone |
 |---|---|---|
@@ -8,15 +8,15 @@ Normative rules shared by the desktop and Android clients. **Status:** 00, 01, 0
 | [01](01-numerics.md) | numerics (integers, fixed point, RNG, hash, noise) | M1, done |
 | [02](02-entities-and-movement.md) | entities, maps and movement (M2 subset) | M2, done |
 | [03](03-systems-order.md) | systems order and game loop (M2 subset) | M2, done |
-| [04](04-stats-and-combat.md) | stats and combat (formulas done; hitboxes in M3) | M1 / M3 |
-| [05](05-combat-v1.md) | combat v1: attack, enemies, XP, loot (status effects and elements later) | M3, done |
-| 06 | items (using them: M6a), crafting, economy | M6a / M6 |
-| [07](07-quests-and-dialogue.md) | quests, dialogue, conditions and effects | M4a, done |
-| 08 | world time, weather, respawn (NPC schedules later) | M5c |
-| 09 | world generation | M5 |
+| [04](04-stats-and-combat.md) | stats and combat (formulas, difficulty) | M1 / M3, done |
+| [05](05-combat-v1.md) | combat v1: attack, enemies, behaviors, XP, loot (status effects and elements later) | M3, done |
+| [06](06-items.md) | items, using them, equipment, shops (crafting is a workshop dialogue, spec 07) | M6a / M6b, done |
+| [07](07-quests-and-dialogue.md) | quests, dialogue, conditions and effects, the guild, jobs, workshops, inns, wayfarers | M4a, done |
+| [08](08-world-time.md) | world time, seasons, weather, respawn, the routines of the people | M5c, done |
+| [09](09-worldgen.md) | world generation: terrain, regions, settlements, landmarks, fauna, stones, the world map | M5, done |
 | 10 | companions and AI | M7 |
 | 11 | progression, titles, tags, reincarnation | M8 |
-| [12](12-save-format.md) | save format v1 | M4b, done |
+| [12](12-save-format.md) | save format v1 and the save slots | M4b / M5, done |
 | [13](13-vector-art.md) | vector art recipes, rasterizer, rigs | M2, done |
 | 14 | audio synthesis | M3 / M10 |
 | 15 | UI layout | M4 |

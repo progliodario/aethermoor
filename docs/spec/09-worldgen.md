@@ -1,6 +1,6 @@
 # 09. World generation
 
-Status: **v1.4 (M5a, M5b: chunks and streaming, M5d: rivers and roads, M5e: the world map, M5f: regions and settlements)**. Reference: `tools/reference/worldgen.py`. Conformance suite: `worldgen`.
+Status: **v1.9 (M5a, M5b: chunks and streaming, M5d: rivers and roads, M5e: the world map, M5f: regions and settlements, then landmarks, fauna, stones, clearings and regions that look like their names)**. Reference: `tools/reference/worldgen.py`. Conformance suite: `worldgen`.
 Parameters: `data/base/worlds/overworld.json` (`schemas/world.schema.json`). All math is integer, see `01-numerics.md`.
 
 The world is a **pure function** of `(seed, parameters)`: the content of a tile depends only on its own coordinates, never on the
@@ -266,4 +266,4 @@ Conformance suite `worldmap`: scripted positions through a 16384 x 16384 world (
 ## Scale and what comes next
 
 The shipped overworld is 16384 x 16384 tiles and is streamed (M5b); `generate_world` of the whole world remains for small worlds and tests. World time,
-weather and respawn are in spec 08 (M5c). Next come changes of the world kept in saves, rivers, roads, hand-made stamps and regions.
+weather, seasons and respawn are in spec 08.
