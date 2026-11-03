@@ -4,6 +4,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ## [Unreleased]
 
+### Fixed
+
+- Dungeons, lairs, nests and outposts no longer end up under a lake or inside a mountain range for some world seeds: around every landmark (spec 09, "Clearings") water and mountains become plains for 24 tiles beyond its footprint.
+
 ### Added
 
 - Two new dialogue conditions (spec 07): `season` and `tod_between` (a range of the time of day in permille, crossing midnight when it starts after it ends). Villagers now talk about the season (four lines per tone, in Italian and English) and innkeepers tell a tale about the night, only at night.

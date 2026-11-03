@@ -74,6 +74,10 @@ A world with no `home` has neither the meadow nor the village.
 
 ## Landmarks and dungeons
 
+**Clearings.** The world data may have `landmark_clearing` (tiles, base pack: 24). Around the footprint of every landmark, grown by that many tiles on every side, a tile whose biome is water or mountain becomes plains (the border of the world
+stays water). The test is made per site cell: a tile can be inside the clearing of the landmark of its own site cell only. Without it, a third of the random seeds would bury a dungeon in a lake or a range of mountains (measured on 12 seeds: on
+average 27 percent of the tiles around a landmark were solid, with a clearing none, and from every landmark land could be followed for at least 110 tiles in every seed tested).
+
 `landmarks` (world data, `{id, name, stamp, kind, dx, dy}`) places hand-made sites such as dungeons. The site cell that contains the tile `(width / 2 + dx, height / 2 + dy)` has a settlement of that `kind`
 at exactly that site point, with the stamp, the proper-noun `name` of the landmark and no random roll or biome condition (like the home village); each landmark lies in a site cell of its own. A footprint
 replaces everything under it, so a landmark is a **fully specified** picture (walls, floors, doors): its characters decide every tile.

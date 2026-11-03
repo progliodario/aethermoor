@@ -212,8 +212,35 @@ def field(seed: int, spec: dict, x: int, y: int) -> int:
     return fbm2(salted, _coord(x, spec["scale"]), _coord(y, spec["scale"]), spec["octaves"])
 
 
+def in_landmark_clearing(params: dict, x: int, y: int) -> bool:
+    """True inside the clearing of a landmark: its footprint grown by `landmark_clearing` tiles on every side (spec 09, "Landmarks")."""
+    r = params.get("landmark_clearing", 0)
+    if r <= 0:
+        return False
+    w, h = params["width"], params["height"]
+    for lm in params.get("landmarks", []):
+        px, py = w // 2 + lm["dx"], h // 2 + lm["dy"]
+        if px // SITE_CELL != x // SITE_CELL or py // SITE_CELL != y // SITE_CELL:
+            continue
+        st = params["stamp_defs"][lm["stamp"]]
+        x0, y0 = px - st["anchor"][0] - r, py - st["anchor"][1] - r
+        if x0 <= x < x0 + st["w"] + 2 * r and y0 <= y < y0 + st["h"] + 2 * r:
+            return True
+    return False
+
+
 def biome_at(seed: int, params: dict, x: int, y: int) -> str:
     """Biome of the tile: water, beach, mountain, snow, desert, forest or plains."""
+    biome = natural_biome_at(seed, params, x, y)
+    if biome in ("water", "mountain") and in_landmark_clearing(params, x, y):
+        border = params["border"]
+        if border <= x < params["width"] - border and border <= y < params["height"] - border:
+            return "plains"
+    return biome
+
+
+def natural_biome_at(seed: int, params: dict, x: int, y: int) -> str:
+    """Biome of the tile before the clearings of the landmarks."""
     w, h = params["width"], params["height"]
     border = params["border"]
     if x < border or y < border or x >= w - border or y >= h - border:

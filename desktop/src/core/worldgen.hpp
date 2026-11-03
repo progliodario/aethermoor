@@ -152,6 +152,7 @@ struct WorldParams {
 
     TimeParams time;
 
+    int landmark_clearing = 0;  // tiles of plains around the footprint of a landmark (spec 09); 0: none
     int home_radius = 0;  // the home meadow and village (spec 09); 0: none
     std::string home_stamp;
     int home_dx = 0;

@@ -170,6 +170,7 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
             error = "invalid guild parameters";
             return std::nullopt;
         }
+        p.landmark_clearing = j.value("landmark_clearing", 0);
         if (j.contains("home")) {
             p.home_radius = j.at("home").at("radius").get<int>();
             p.home_stamp = j.at("home").at("stamp").get<std::string>();

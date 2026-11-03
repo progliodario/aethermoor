@@ -734,3 +734,19 @@ def test_villagers_talk_about_the_season_and_innkeepers_tell_night_tales():
             s.start_dialogue(dialogue["id"])
             s.advance()
             assert any(c["next"] == "night_tale" for c in s.visible_choices()) is tale, (tone, tod)
+
+
+def test_landmarks_are_never_buried_in_water_or_mountains():
+    from reference import worldgen
+
+    params = worldgen.load_params()
+    assert params["landmark_clearing"] > 0
+    for seed in (1, 77, 90210):
+        for lm in params["landmarks"]:
+            px, py = params["width"] // 2 + lm["dx"], params["height"] // 2 + lm["dy"]
+            st = params["stamp_defs"][lm["stamp"]]
+            r = params["landmark_clearing"]
+            x0, y0 = px - st["anchor"][0] - r, py - st["anchor"][1] - r
+            for x in range(x0, x0 + st["w"] + 2 * r, 5):
+                for y in range(y0, y0 + st["h"] + 2 * r, 5):
+                    assert worldgen.biome_at(seed, params, x, y) not in ("water", "mountain"), (seed, lm["id"], x, y)
