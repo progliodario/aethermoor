@@ -1493,6 +1493,13 @@
               "dy": -1
             },
             {
+              "key": "tutor_pip",
+              "dialogue": "base:dialogue/npc/pip",
+              "variant": "cream",
+              "dx": -2,
+              "dy": 2
+            },
+            {
               "key": "wayfarer_tamsin",
               "dialogue": "base:dialogue/npc/tamsin",
               "variant": "green",
@@ -6823,6 +6830,13 @@
               "variant": "red",
               "dx": 1,
               "dy": -1
+            },
+            {
+              "key": "tutor_pip",
+              "dialogue": "base:dialogue/npc/pip",
+              "variant": "cream",
+              "dx": -2,
+              "dy": 2
             },
             {
               "key": "wayfarer_tamsin",

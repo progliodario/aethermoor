@@ -228,5 +228,20 @@
   "dlg.way.ottavio.busy": "The data will keep. You will not, if you rush.",
   "dlg.way.ottavio.incoming": "From Zahra of the Caravanserai? She writes the way she haggles: briefly, and with a surprising number of numbers. I am delighted.",
   "dlg.mira.ring": "Eight letters went round the world, and every one came back. Tamsin, Elowen, Dorn, Zahra, Ilvi, Marlo, Kessa, Ottavio: they all write to me now, and they all say the same thing. Someone walked the ring. The guild has a mantle for that, sewn from the road dust of every outpost.",
-  "dlg.mira.ring_thanks": "Wear it where the road is long. And if you meet a stranger at an outpost fire, tell them the ring is closed. They will know what you mean."
+  "dlg.mira.ring_thanks": "Wear it where the road is long. And if you meet a stranger at an outpost fire, tell them the ring is closed. They will know what you mean.",
+  "speaker.tutor_pip": "Pip, a lad of the village",
+  "dlg.pip.hello": "Oh! A traveler from far away, Mira says. I am Pip. I know the meadows better than the slimes do. Ask me anything.",
+  "dlg.pip.q.fight": "How do I fight?",
+  "dlg.pip.q.heal": "How do I get better when I am hurt?",
+  "dlg.pip.q.money": "How do I earn money?",
+  "dlg.pip.q.stones": "What are the glowing stones?",
+  "dlg.pip.q.first": "Where should I go first?",
+  "dlg.pip.q.map": "How do I not get lost?",
+  "dlg.pip.q.bye": "Thank you, Pip.",
+  "dlg.pip.a.fight": "Walk up to a slime and hit it: J or Space, or the attack button if you are on a phone. Slimes are slow, wolves are not. Fight the green ones first, then the grey. Watch your health, and eat bread when it is low (open the bag with I).",
+  "dlg.pip.a.heal": "Bread and potions in the bag, but the best cure is a Threshold Stone: touch one and you are whole again. Every village has one in its square, and there is one at an inn bed too, if you have the coins.",
+  "dlg.pip.a.money": "The guild clerk in a town gives work every day: hunt a few creatures, bring back what they drop. Elders and innkeepers have jobs too, and the shops buy what you find (the Sell tab).",
+  "dlg.pip.a.stones": "Wake one by touching it, and you can come back to it from any other stone you have woken: pick a place from the list, and you are there. Wake every one you pass. Mira says the long roads are made of them.",
+  "dlg.pip.a.first": "Talk to Mira, in the square. She has letters from the far dungeons, but start with the slimes in the meadow, and the barrow to the north-west, and the cellar to the north-east. Then the outposts, with the wayfarers; they all have stories.",
+  "dlg.pip.a.map": "M opens the map of what you have seen. The regions have names at the top of the screen, and every outpost has a signpost. When you are really lost, find a stone, or a village. There is always one, somewhere."
 }
