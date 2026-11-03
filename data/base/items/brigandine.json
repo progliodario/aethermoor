@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/brigandine",
+  "name": "$i18n:item.brigandine.name",
+  "description": "$i18n:item.brigandine.desc",
+  "kind": "armor",
+  "rarity": "rare",
+  "price": 600,
+  "armor": {
+    "def": 8,
+    "mdef": 3
+  }
+}

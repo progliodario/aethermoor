@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/wolf_dire",
+  "name": "$i18n:enemy.wolf_dire.name",
+  "level": 9,
+  "stats": {
+    "hp": 150,
+    "atk": 26,
+    "def": 9,
+    "mdef": 4,
+    "speed_x100": 340
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "fire": 1500
+  },
+  "xp": 60,
+  "drops": [
+    {
+      "item": "base:item/dire_fang",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 500
+    }
+  ],
+  "radius_x100": 45,
+  "behavior": "base:behavior/melee_chaser_basic",
+  "art": "base:art/creature/wolf_dire"
+}

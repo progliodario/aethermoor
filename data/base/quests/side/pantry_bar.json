@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/pantry_bar",
+  "name": "$i18n:quest.pantry_bar.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "bring",
+      "journal": "$i18n:quest.pantry_bar.bring",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/slate_shard",
+          "count": 10
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

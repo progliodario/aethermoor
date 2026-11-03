@@ -84,7 +84,7 @@ A template has a `type` (`kill` or `collect`), a `target` and the fields above. 
 board to everyone on the same day, and a new one the next day. The offer text depends on the **tone** of the region (spec 09): `quest.board.<template>.<tone>.name` and `.journal`.
 
 **Generated quests.** Accepting an offer starts a quest with the id `board:<sx>:<sy>:<day>:<slot>` and one stage `work` with one objective (`kill` or `collect`, the target and the count)
-that ends the quest; its rewards are `add_xp`, `add_gold` and `add_guild_points` with the amounts above, and its texts take the arguments `{count}`, `{target}` (an `$i18n:` key of the target's name)
+that ends the quest (there are four templates: `cull` and `gather`, and the larger `purge` and `stockpile` of 8 to 12 kills and 9 to 15 items); its rewards are `add_xp`, `add_gold` and `add_guild_points` with the amounts above, and its texts take the arguments `{count}`, `{target}` (an `$i18n:` key of the target's name)
 and `{place}` (the settlement). The quest document is rebuilt from its id, so only the progress is saved; a save that names a `board:` quest the world cannot rebuild is invalid.
 An accepted offer cannot be taken again (the quest exists, active or done). An offer can be accepted only when the board is open and the rank of the member is at least its minimum rank.
 
@@ -120,6 +120,14 @@ and the payment is made once, by the elder the player talks to, whichever settle
 | salty | Tidehaven | 6 tide slimes | 5 tide pearls | 170 XP, 360 gold, 3 potions |
 | grim | Ashen Wastes | 6 ember slimes | 4 ember cores | 380 XP, 800 gold, 4 potions |
 | scholarly | Lumeria | 5 glow slimes | 5 star dust | 280 XP, 560 gold, 3 potions |
+
+## Innkeepers' favors and legends
+
+Like the elders' errands, each region's **innkeeper** (`base:dialogue/role/innkeeper_<tone>`) asks one favor: a `side` quest with a single `collect` objective for a material that a creature of the region drops
+(wolf fangs in Verdalis, dire fangs in Whisperwood, slate shards in Ironspine, amber drops in Sunscar, ice crystals in Frostveil, coral fragments in Tidehaven, magma shards in the Ashen Wastes, storm feathers in Lumeria).
+The menu shows "Anything you need around the inn?", "About that favor..." and "I brought what you asked." under the same conditions as the elders' (flag `pantry_<quest>_paid`), and the payment is a
+dialogue effect list: XP, gold and one or two medium potions. Villagers and innkeepers also answer "Know any old legends?" with a text of the region's tone (`dlg.tone.<tone>.legend`) that says
+where its dungeon is. The texts are in `roles.json`.
 
 ## Journal
 

@@ -772,6 +772,278 @@
           [
             15240,
             7821
+          ],
+          [
+            12910,
+            3451
+          ],
+          [
+            12914,
+            3451
+          ],
+          [
+            12918,
+            3451
+          ],
+          [
+            12922,
+            3451
+          ],
+          [
+            12912,
+            3455
+          ],
+          [
+            12916,
+            3455
+          ],
+          [
+            12920,
+            3455
+          ],
+          [
+            12910,
+            3459
+          ],
+          [
+            12914,
+            3459
+          ],
+          [
+            12918,
+            3459
+          ],
+          [
+            12922,
+            3459
+          ],
+          [
+            14996,
+            8033
+          ],
+          [
+            14976,
+            8041
+          ],
+          [
+            14982,
+            8059
+          ],
+          [
+            14986,
+            8059
+          ],
+          [
+            14990,
+            8059
+          ],
+          [
+            14994,
+            8059
+          ],
+          [
+            14984,
+            8063
+          ],
+          [
+            14988,
+            8063
+          ],
+          [
+            14992,
+            8063
+          ],
+          [
+            14982,
+            8067
+          ],
+          [
+            14986,
+            8067
+          ],
+          [
+            14990,
+            8067
+          ],
+          [
+            14994,
+            8067
+          ],
+          [
+            2426,
+            12421
+          ],
+          [
+            2430,
+            12421
+          ],
+          [
+            2428,
+            12425
+          ],
+          [
+            2426,
+            12429
+          ],
+          [
+            2430,
+            12429
+          ],
+          [
+            2434,
+            12421
+          ],
+          [
+            2438,
+            12421
+          ],
+          [
+            2432,
+            12425
+          ],
+          [
+            2436,
+            12425
+          ],
+          [
+            2434,
+            12429
+          ],
+          [
+            2438,
+            12429
+          ],
+          [
+            13178,
+            12165
+          ],
+          [
+            13182,
+            12165
+          ],
+          [
+            13180,
+            12169
+          ],
+          [
+            13178,
+            12173
+          ],
+          [
+            13182,
+            12173
+          ],
+          [
+            13186,
+            12165
+          ],
+          [
+            13190,
+            12165
+          ],
+          [
+            13184,
+            12169
+          ],
+          [
+            13188,
+            12169
+          ],
+          [
+            13186,
+            12173
+          ],
+          [
+            13190,
+            12173
+          ],
+          [
+            7534,
+            1659
+          ],
+          [
+            7538,
+            1659
+          ],
+          [
+            7542,
+            1659
+          ],
+          [
+            7546,
+            1659
+          ],
+          [
+            7536,
+            1663
+          ],
+          [
+            7540,
+            1663
+          ],
+          [
+            7544,
+            1663
+          ],
+          [
+            7534,
+            1667
+          ],
+          [
+            7538,
+            1667
+          ],
+          [
+            7542,
+            1667
+          ],
+          [
+            7546,
+            1667
+          ],
+          [
+            8058,
+            14449
+          ],
+          [
+            8062,
+            14449
+          ],
+          [
+            8060,
+            14453
+          ],
+          [
+            8058,
+            14457
+          ],
+          [
+            8062,
+            14457
+          ],
+          [
+            8066,
+            14449
+          ],
+          [
+            8070,
+            14449
+          ],
+          [
+            8064,
+            14453
+          ],
+          [
+            8068,
+            14453
+          ],
+          [
+            8066,
+            14457
+          ],
+          [
+            8070,
+            14457
           ]
         ],
         "params": {
@@ -826,7 +1098,8 @@
                   "base:item/bread",
                   "base:item/potion_small",
                   "base:item/iron_sword",
-                  "base:item/leather_vest"
+                  "base:item/leather_vest",
+                  "base:item/honey_cake"
                 ]
               }
             },
@@ -852,6 +1125,11 @@
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wolf_dire",
+                  "drop": "base:item/dire_fang",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -859,7 +1137,9 @@
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
-                  "base:item/leather_vest"
+                  "base:item/leather_vest",
+                  "base:item/potion_medium",
+                  "base:item/mage_robe"
                 ]
               }
             },
@@ -885,6 +1165,11 @@
                   "enemy": "base:enemy/slime_blue",
                   "drop": "base:item/slime_gel",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/wolf_dire",
+                  "drop": "base:item/dire_fang",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -893,7 +1178,9 @@
                   "base:item/iron_sword",
                   "base:item/steel_sword",
                   "base:item/chain_mail",
-                  "base:item/leather_vest"
+                  "base:item/leather_vest",
+                  "base:item/knight_sword",
+                  "base:item/brigandine"
                 ]
               }
             },
@@ -914,6 +1201,11 @@
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_amber",
+                  "drop": "base:item/amber_drop",
+                  "weight": 3
                 }
               ],
               "shop": {
@@ -922,7 +1214,9 @@
                   "base:item/bread",
                   "base:item/potion_small",
                   "base:item/iron_sword",
-                  "base:item/leather_vest"
+                  "base:item/leather_vest",
+                  "base:item/potion_medium",
+                  "base:item/honey_cake"
                 ]
               }
             },
@@ -943,6 +1237,11 @@
                   "enemy": "base:enemy/slime_blue",
                   "drop": "base:item/slime_gel",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_ice",
+                  "drop": "base:item/ice_crystal",
+                  "weight": 3
                 }
               ],
               "shop": {
@@ -950,7 +1249,10 @@
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
-                  "base:item/chain_mail"
+                  "base:item/chain_mail",
+                  "base:item/potion_medium",
+                  "base:item/hearty_stew",
+                  "base:item/brigandine"
                 ]
               }
             },
@@ -976,6 +1278,11 @@
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_coral",
+                  "drop": "base:item/coral_fragment",
+                  "weight": 3
                 }
               ],
               "shop": {
@@ -984,7 +1291,10 @@
                   "base:item/bread",
                   "base:item/potion_small",
                   "base:item/iron_sword",
-                  "base:item/steel_sword"
+                  "base:item/steel_sword",
+                  "base:item/grilled_fish",
+                  "base:item/potion_medium",
+                  "base:item/knight_sword"
                 ]
               }
             },
@@ -1005,6 +1315,16 @@
                   "enemy": "base:enemy/wolf_grey",
                   "drop": "base:item/wolf_fang",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_magma",
+                  "drop": "base:item/magma_shard",
+                  "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/wolf_dire",
+                  "drop": "base:item/dire_fang",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -1012,7 +1332,10 @@
                 "stock": [
                   "base:item/potion_small",
                   "base:item/steel_sword",
-                  "base:item/chain_mail"
+                  "base:item/chain_mail",
+                  "base:item/potion_large",
+                  "base:item/runed_blade",
+                  "base:item/plate_cuirass"
                 ]
               }
             },
@@ -1038,6 +1361,11 @@
                   "enemy": "base:enemy/wolf_grey",
                   "drop": "base:item/wolf_fang",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/wolf_storm",
+                  "drop": "base:item/storm_feather",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -1045,7 +1373,10 @@
                 "stock": [
                   "base:item/potion_small",
                   "base:item/iron_sword",
-                  "base:item/chain_mail"
+                  "base:item/chain_mail",
+                  "base:item/potion_medium",
+                  "base:item/mage_robe",
+                  "base:item/runed_blade"
                 ]
               }
             }
@@ -1128,6 +1459,54 @@
               "kind": "dungeon",
               "dx": 7040,
               "dy": -384
+            },
+            {
+              "id": "ironspine_den",
+              "name": "Dire Den",
+              "stamp": "base:stamp/den",
+              "kind": "dungeon",
+              "dx": 4736,
+              "dy": -4736
+            },
+            {
+              "id": "ashen_vent",
+              "name": "Magma Vent",
+              "stamp": "base:stamp/vent",
+              "kind": "dungeon",
+              "dx": 6784,
+              "dy": -128
+            },
+            {
+              "id": "tidehaven_grotto",
+              "name": "Coral Grotto",
+              "stamp": "base:stamp/grotto",
+              "kind": "dungeon",
+              "dx": -5760,
+              "dy": 4224
+            },
+            {
+              "id": "sunscar_amber",
+              "name": "Amber Hollow",
+              "stamp": "base:stamp/amber",
+              "kind": "dungeon",
+              "dx": 4992,
+              "dy": 3968
+            },
+            {
+              "id": "frostveil_pit",
+              "name": "Ice Pit",
+              "stamp": "base:stamp/icepit",
+              "kind": "dungeon",
+              "dx": -640,
+              "dy": -6528
+            },
+            {
+              "id": "lumeria_roost",
+              "name": "Storm Roost",
+              "stamp": "base:stamp/roost",
+              "kind": "dungeon",
+              "dx": -128,
+              "dy": 6272
             }
           ],
           "guild": {
@@ -1187,6 +1566,32 @@
                 "xp_base": 8,
                 "xp_per": 4,
                 "points_base": 3,
+                "points_per": 2
+              },
+              {
+                "id": "purge",
+                "type": "kill",
+                "target": "$fauna",
+                "count_min": 8,
+                "count_max": 12,
+                "gold_base": 20,
+                "gold_per": 14,
+                "xp_base": 20,
+                "xp_per": 7,
+                "points_base": 8,
+                "points_per": 3
+              },
+              {
+                "id": "stockpile",
+                "type": "collect",
+                "target": "$drop",
+                "count_min": 9,
+                "count_max": 15,
+                "gold_base": 14,
+                "gold_per": 10,
+                "xp_base": 14,
+                "xp_per": 5,
+                "points_base": 6,
                 "points_per": 2
               }
             ]
@@ -2651,6 +3056,340 @@
                 }
               },
               "spots": []
+            },
+            "base:stamp/den": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/den",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                24,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".ttttttttttttttttttttttt.",
+                ".ttttttttttttttttttttttt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tt...D...D...D...W...tt.",
+                ".tt...................tt.",
+                ".tt...o...............tt.",
+                ".tt...................tt.",
+                ".tt.....D...W...D.....===",
+                ".tt...................===",
+                ".tt...............o...===",
+                ".tt...................tt.",
+                ".tt...D...W...D...D...tt.",
+                ".tt...................tt.",
+                ".tt.......o...........tt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".ttttttttttttttttttttttt.",
+                ".ttttttttttttttttttttttt.",
+                "........................."
+              ],
+              "legend": {
+                "=": {
+                  "tile": 11
+                },
+                "D": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_dire"
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/vent": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/vent",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                0,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".#######################.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccMcccMcccMcccecccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                "==ccccccMcccecccMcccccc#.",
+                "==ccccccccccccccccccccc#.",
+                "==ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccMcccecccMcccMcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#######################.",
+                "........................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "M": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_magma"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "e": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ember"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/grotto": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/grotto",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                0
+              ],
+              "rows": [
+                "...........===...........",
+                ".##########===##########.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccZcccZcccZcccicccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccccc#ccccccc#cccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccZcccicccZcccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccccc#ccccccc#cccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccZcccicccZcccZcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".##########===##########.",
+                "...........===..........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "Z": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_coral"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "i": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_tide"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/amber": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/amber",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                0
+              ],
+              "rows": [
+                "...........===...........",
+                ".oooooooooo===oooooooooo.",
+                ".oooooooooo===oooooooooo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...P...P...P...a...oo.",
+                ".oo...................oo.",
+                ".oo..t.............t..oo.",
+                ".oo...................oo.",
+                ".oo.....P...a...P.....oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...P...a...P...P...oo.",
+                ".oo...................oo.",
+                ".oo.........t.........oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".ooooooooooooooooooooooo.",
+                ".ooooooooooooooooooooooo.",
+                "........................."
+              ],
+              "legend": {
+                "=": {
+                  "tile": 11
+                },
+                "P": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_amber"
+                },
+                "a": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_sand"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/icepit": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/icepit",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                24,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".#######################.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccHcccHcccHcccfcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccc#ccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                "==ccccccHcccfcccHcccccc==",
+                "==ccccccccccccccccccccc==",
+                "==ccccccccccc#ccccccccc==",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccHcccfcccHcccHcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#######################.",
+                "........................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "H": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ice"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "f": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_frost"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/roost": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/roost",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                20
+              ],
+              "rows": [
+                ".........................",
+                ".ttttttttttttttttttttttt.",
+                ".ttttttttttttttttttttttt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tt...O...O...O...d...tt.",
+                ".tt...................tt.",
+                ".tt...o...........o...tt.",
+                ".tt...................tt.",
+                ".tt.....O...d...O.....tt.",
+                ".tt...................tt.",
+                ".tt.........o.........tt.",
+                ".tt...................tt.",
+                ".tt...O...d...O...O...tt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tttttttttt===tttttttttt.",
+                ".tttttttttt===tttttttttt.",
+                "...........===..........."
+              ],
+              "legend": {
+                "=": {
+                  "tile": 11
+                },
+                "O": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_storm"
+                },
+                "d": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_shade"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
             }
           }
         }
@@ -2745,8 +3484,8 @@
             3773,
             5528,
             1,
-            "base:enemy/wolf_shade",
-            "base:item/shade_wisp"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             3801,
@@ -2759,78 +3498,78 @@
             3807,
             5528,
             1,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_shade",
+            "base:item/shade_wisp"
           ],
           [
             3811,
             5509,
             1,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             3799,
             5577,
             1,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/wolf_shade",
+            "base:item/shade_wisp"
           ],
           [
             3684,
             5602,
             1,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             3700,
             5616,
             1,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             3680,
             5628,
             1,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/wolf_shade",
+            "base:item/shade_wisp"
           ],
           [
             3824,
             5607,
             1,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             3791,
             5644,
             1,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/wolf_shade",
+            "base:item/shade_wisp"
           ],
           [
             3813,
             5647,
             1,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             12812,
             3559,
             2,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             12862,
             3619,
             2,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             12800,
@@ -2843,22 +3582,22 @@
             13216,
             11910,
             3,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_amber",
+            "base:item/amber_drop"
           ],
           [
             13241,
             11914,
             3,
-            "base:enemy/slime_sand",
+            "base:enemy/slime_green",
             "base:item/slime_gel"
           ],
           [
             13268,
             11912,
             3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
+            "base:enemy/slime_amber",
+            "base:item/amber_drop"
           ],
           [
             13290,
@@ -2892,15 +3631,15 @@
             13318,
             12006,
             3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
+            "base:enemy/slime_amber",
+            "base:item/amber_drop"
           ],
           [
             7350,
             1446,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/slime_ice",
+            "base:item/ice_crystal"
           ],
           [
             7350,
@@ -2913,43 +3652,43 @@
             7447,
             1480,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/slime_ice",
+            "base:item/ice_crystal"
           ],
           [
             2255,
             12597,
             5,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_tide",
+            "base:item/tide_pearl"
           ],
           [
             2353,
             12581,
             5,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_coral",
+            "base:item/coral_fragment"
           ],
           [
             2243,
             12614,
             5,
-            "base:enemy/slime_tide",
-            "base:item/tide_pearl"
+            "base:enemy/slime_coral",
+            "base:item/coral_fragment"
           ],
           [
             2217,
             12693,
             5,
-            "base:enemy/slime_tide",
-            "base:item/tide_pearl"
+            "base:enemy/slime_coral",
+            "base:item/coral_fragment"
           ],
           [
             2221,
             12701,
             5,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_coral",
+            "base:item/coral_fragment"
           ],
           [
             2255,
@@ -2962,15 +3701,15 @@
             2297,
             12681,
             5,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_tide",
+            "base:item/tide_pearl"
           ],
           [
             15022,
             7790,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
           ],
           [
             15162,
@@ -2990,15 +3729,15 @@
             15071,
             7844,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
           ],
           [
             15119,
             7854,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
           ],
           [
             7808,
@@ -3011,8 +3750,8 @@
             7861,
             14657,
             7,
-            "base:enemy/slime_glow",
-            "base:item/star_dust"
+            "base:enemy/wolf_storm",
+            "base:item/storm_feather"
           ],
           [
             7803,
@@ -3788,8 +4527,8 @@
             13440,
             11935,
             3,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_amber",
+            "base:item/amber_drop"
           ],
           [
             7823,
@@ -3993,6 +4732,482 @@
             6,
             "base:enemy/slime_ember",
             "base:item/ember_core"
+          ],
+          [
+            12910,
+            3451,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12914,
+            3451,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12918,
+            3451,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12922,
+            3451,
+            2,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            12912,
+            3455,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12916,
+            3455,
+            2,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            12920,
+            3455,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12910,
+            3459,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12914,
+            3459,
+            2,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            12918,
+            3459,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12922,
+            3459,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            14996,
+            8033,
+            6,
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
+          ],
+          [
+            14976,
+            8041,
+            6,
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
+          ],
+          [
+            14982,
+            8059,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            14986,
+            8059,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            14990,
+            8059,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            14994,
+            8059,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14984,
+            8063,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            14988,
+            8063,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14992,
+            8063,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            14982,
+            8067,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            14986,
+            8067,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14990,
+            8067,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            14994,
+            8067,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            2426,
+            12421,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2430,
+            12421,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2428,
+            12425,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2426,
+            12429,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2430,
+            12429,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2434,
+            12421,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2438,
+            12421,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2432,
+            12425,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2436,
+            12425,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2434,
+            12429,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2438,
+            12429,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            13178,
+            12165,
+            3,
+            "base:enemy/slime_amber",
+            ""
+          ],
+          [
+            13182,
+            12165,
+            3,
+            "base:enemy/slime_amber",
+            ""
+          ],
+          [
+            13180,
+            12169,
+            3,
+            "base:enemy/slime_amber",
+            ""
+          ],
+          [
+            13178,
+            12173,
+            3,
+            "base:enemy/slime_amber",
+            ""
+          ],
+          [
+            13182,
+            12173,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13186,
+            12165,
+            3,
+            "base:enemy/slime_amber",
+            ""
+          ],
+          [
+            13190,
+            12165,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13184,
+            12169,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13188,
+            12169,
+            3,
+            "base:enemy/slime_amber",
+            ""
+          ],
+          [
+            13186,
+            12173,
+            3,
+            "base:enemy/slime_amber",
+            ""
+          ],
+          [
+            13190,
+            12173,
+            3,
+            "base:enemy/slime_amber",
+            ""
+          ],
+          [
+            7534,
+            1659,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            7538,
+            1659,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            7542,
+            1659,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            7546,
+            1659,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7536,
+            1663,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            7540,
+            1663,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7544,
+            1663,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            7534,
+            1667,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            7538,
+            1667,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7542,
+            1667,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            7546,
+            1667,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            8058,
+            14449,
+            7,
+            "base:enemy/wolf_storm",
+            ""
+          ],
+          [
+            8062,
+            14449,
+            7,
+            "base:enemy/wolf_storm",
+            ""
+          ],
+          [
+            8060,
+            14453,
+            7,
+            "base:enemy/wolf_storm",
+            ""
+          ],
+          [
+            8058,
+            14457,
+            7,
+            "base:enemy/wolf_storm",
+            ""
+          ],
+          [
+            8062,
+            14457,
+            7,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            8066,
+            14449,
+            7,
+            "base:enemy/wolf_storm",
+            ""
+          ],
+          [
+            8070,
+            14449,
+            7,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            8064,
+            14453,
+            7,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            8068,
+            14453,
+            7,
+            "base:enemy/wolf_storm",
+            ""
+          ],
+          [
+            8066,
+            14457,
+            7,
+            "base:enemy/wolf_storm",
+            ""
+          ],
+          [
+            8070,
+            14457,
+            7,
+            "base:enemy/wolf_storm",
+            ""
           ]
         ]
       }
@@ -4822,6 +6037,318 @@
           [
             15237,
             7798
+          ],
+          [
+            12904,
+            3441
+          ],
+          [
+            12910,
+            3451
+          ],
+          [
+            12914,
+            3451
+          ],
+          [
+            12918,
+            3451
+          ],
+          [
+            12922,
+            3451
+          ],
+          [
+            12912,
+            3455
+          ],
+          [
+            12916,
+            3455
+          ],
+          [
+            12920,
+            3455
+          ],
+          [
+            12939,
+            3425
+          ],
+          [
+            12910,
+            3459
+          ],
+          [
+            12914,
+            3459
+          ],
+          [
+            12918,
+            3459
+          ],
+          [
+            12922,
+            3459
+          ],
+          [
+            12943,
+            3462
+          ],
+          [
+            14982,
+            8046
+          ],
+          [
+            14982,
+            8059
+          ],
+          [
+            14986,
+            8059
+          ],
+          [
+            14990,
+            8059
+          ],
+          [
+            14994,
+            8059
+          ],
+          [
+            14984,
+            8063
+          ],
+          [
+            14988,
+            8063
+          ],
+          [
+            14992,
+            8063
+          ],
+          [
+            14982,
+            8067
+          ],
+          [
+            14986,
+            8067
+          ],
+          [
+            14990,
+            8067
+          ],
+          [
+            14994,
+            8067
+          ],
+          [
+            14978,
+            8077
+          ],
+          [
+            14978,
+            8084
+          ],
+          [
+            2426,
+            12421
+          ],
+          [
+            2430,
+            12421
+          ],
+          [
+            2428,
+            12425
+          ],
+          [
+            2415,
+            12428
+          ],
+          [
+            2426,
+            12429
+          ],
+          [
+            2430,
+            12429
+          ],
+          [
+            2434,
+            12421
+          ],
+          [
+            2438,
+            12421
+          ],
+          [
+            2432,
+            12425
+          ],
+          [
+            2436,
+            12425
+          ],
+          [
+            2434,
+            12429
+          ],
+          [
+            2438,
+            12429
+          ],
+          [
+            13178,
+            12165
+          ],
+          [
+            13182,
+            12165
+          ],
+          [
+            13180,
+            12169
+          ],
+          [
+            13178,
+            12173
+          ],
+          [
+            13182,
+            12173
+          ],
+          [
+            13186,
+            12165
+          ],
+          [
+            13190,
+            12165
+          ],
+          [
+            13184,
+            12169
+          ],
+          [
+            13188,
+            12169
+          ],
+          [
+            13186,
+            12173
+          ],
+          [
+            13190,
+            12173
+          ],
+          [
+            13206,
+            12191
+          ],
+          [
+            7534,
+            1659
+          ],
+          [
+            7538,
+            1659
+          ],
+          [
+            7542,
+            1659
+          ],
+          [
+            7546,
+            1659
+          ],
+          [
+            7536,
+            1663
+          ],
+          [
+            7540,
+            1663
+          ],
+          [
+            7544,
+            1663
+          ],
+          [
+            7552,
+            1651
+          ],
+          [
+            7560,
+            1652
+          ],
+          [
+            7534,
+            1667
+          ],
+          [
+            7538,
+            1667
+          ],
+          [
+            7542,
+            1667
+          ],
+          [
+            7546,
+            1667
+          ],
+          [
+            8058,
+            14449
+          ],
+          [
+            8062,
+            14449
+          ],
+          [
+            8060,
+            14453
+          ],
+          [
+            8058,
+            14457
+          ],
+          [
+            8062,
+            14457
+          ],
+          [
+            8066,
+            14449
+          ],
+          [
+            8070,
+            14449
+          ],
+          [
+            8064,
+            14453
+          ],
+          [
+            8068,
+            14453
+          ],
+          [
+            8077,
+            14453
+          ],
+          [
+            8066,
+            14457
+          ],
+          [
+            8070,
+            14457
+          ],
+          [
+            8043,
+            14480
           ]
         ],
         "params": {
@@ -4876,7 +6403,8 @@
                   "base:item/bread",
                   "base:item/potion_small",
                   "base:item/iron_sword",
-                  "base:item/leather_vest"
+                  "base:item/leather_vest",
+                  "base:item/honey_cake"
                 ]
               }
             },
@@ -4902,6 +6430,11 @@
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wolf_dire",
+                  "drop": "base:item/dire_fang",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -4909,7 +6442,9 @@
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
-                  "base:item/leather_vest"
+                  "base:item/leather_vest",
+                  "base:item/potion_medium",
+                  "base:item/mage_robe"
                 ]
               }
             },
@@ -4935,6 +6470,11 @@
                   "enemy": "base:enemy/slime_blue",
                   "drop": "base:item/slime_gel",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/wolf_dire",
+                  "drop": "base:item/dire_fang",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -4943,7 +6483,9 @@
                   "base:item/iron_sword",
                   "base:item/steel_sword",
                   "base:item/chain_mail",
-                  "base:item/leather_vest"
+                  "base:item/leather_vest",
+                  "base:item/knight_sword",
+                  "base:item/brigandine"
                 ]
               }
             },
@@ -4964,6 +6506,11 @@
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_amber",
+                  "drop": "base:item/amber_drop",
+                  "weight": 3
                 }
               ],
               "shop": {
@@ -4972,7 +6519,9 @@
                   "base:item/bread",
                   "base:item/potion_small",
                   "base:item/iron_sword",
-                  "base:item/leather_vest"
+                  "base:item/leather_vest",
+                  "base:item/potion_medium",
+                  "base:item/honey_cake"
                 ]
               }
             },
@@ -4993,6 +6542,11 @@
                   "enemy": "base:enemy/slime_blue",
                   "drop": "base:item/slime_gel",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_ice",
+                  "drop": "base:item/ice_crystal",
+                  "weight": 3
                 }
               ],
               "shop": {
@@ -5000,7 +6554,10 @@
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
-                  "base:item/chain_mail"
+                  "base:item/chain_mail",
+                  "base:item/potion_medium",
+                  "base:item/hearty_stew",
+                  "base:item/brigandine"
                 ]
               }
             },
@@ -5026,6 +6583,11 @@
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_coral",
+                  "drop": "base:item/coral_fragment",
+                  "weight": 3
                 }
               ],
               "shop": {
@@ -5034,7 +6596,10 @@
                   "base:item/bread",
                   "base:item/potion_small",
                   "base:item/iron_sword",
-                  "base:item/steel_sword"
+                  "base:item/steel_sword",
+                  "base:item/grilled_fish",
+                  "base:item/potion_medium",
+                  "base:item/knight_sword"
                 ]
               }
             },
@@ -5055,6 +6620,16 @@
                   "enemy": "base:enemy/wolf_grey",
                   "drop": "base:item/wolf_fang",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_magma",
+                  "drop": "base:item/magma_shard",
+                  "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/wolf_dire",
+                  "drop": "base:item/dire_fang",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -5062,7 +6637,10 @@
                 "stock": [
                   "base:item/potion_small",
                   "base:item/steel_sword",
-                  "base:item/chain_mail"
+                  "base:item/chain_mail",
+                  "base:item/potion_large",
+                  "base:item/runed_blade",
+                  "base:item/plate_cuirass"
                 ]
               }
             },
@@ -5088,6 +6666,11 @@
                   "enemy": "base:enemy/wolf_grey",
                   "drop": "base:item/wolf_fang",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/wolf_storm",
+                  "drop": "base:item/storm_feather",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -5095,7 +6678,10 @@
                 "stock": [
                   "base:item/potion_small",
                   "base:item/iron_sword",
-                  "base:item/chain_mail"
+                  "base:item/chain_mail",
+                  "base:item/potion_medium",
+                  "base:item/mage_robe",
+                  "base:item/runed_blade"
                 ]
               }
             }
@@ -5178,6 +6764,54 @@
               "kind": "dungeon",
               "dx": 7040,
               "dy": -384
+            },
+            {
+              "id": "ironspine_den",
+              "name": "Dire Den",
+              "stamp": "base:stamp/den",
+              "kind": "dungeon",
+              "dx": 4736,
+              "dy": -4736
+            },
+            {
+              "id": "ashen_vent",
+              "name": "Magma Vent",
+              "stamp": "base:stamp/vent",
+              "kind": "dungeon",
+              "dx": 6784,
+              "dy": -128
+            },
+            {
+              "id": "tidehaven_grotto",
+              "name": "Coral Grotto",
+              "stamp": "base:stamp/grotto",
+              "kind": "dungeon",
+              "dx": -5760,
+              "dy": 4224
+            },
+            {
+              "id": "sunscar_amber",
+              "name": "Amber Hollow",
+              "stamp": "base:stamp/amber",
+              "kind": "dungeon",
+              "dx": 4992,
+              "dy": 3968
+            },
+            {
+              "id": "frostveil_pit",
+              "name": "Ice Pit",
+              "stamp": "base:stamp/icepit",
+              "kind": "dungeon",
+              "dx": -640,
+              "dy": -6528
+            },
+            {
+              "id": "lumeria_roost",
+              "name": "Storm Roost",
+              "stamp": "base:stamp/roost",
+              "kind": "dungeon",
+              "dx": -128,
+              "dy": 6272
             }
           ],
           "guild": {
@@ -5237,6 +6871,32 @@
                 "xp_base": 8,
                 "xp_per": 4,
                 "points_base": 3,
+                "points_per": 2
+              },
+              {
+                "id": "purge",
+                "type": "kill",
+                "target": "$fauna",
+                "count_min": 8,
+                "count_max": 12,
+                "gold_base": 20,
+                "gold_per": 14,
+                "xp_base": 20,
+                "xp_per": 7,
+                "points_base": 8,
+                "points_per": 3
+              },
+              {
+                "id": "stockpile",
+                "type": "collect",
+                "target": "$drop",
+                "count_min": 9,
+                "count_max": 15,
+                "gold_base": 14,
+                "gold_per": 10,
+                "xp_base": 14,
+                "xp_per": 5,
+                "points_base": 6,
                 "points_per": 2
               }
             ]
@@ -6701,6 +8361,340 @@
                 }
               },
               "spots": []
+            },
+            "base:stamp/den": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/den",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                24,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".ttttttttttttttttttttttt.",
+                ".ttttttttttttttttttttttt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tt...D...D...D...W...tt.",
+                ".tt...................tt.",
+                ".tt...o...............tt.",
+                ".tt...................tt.",
+                ".tt.....D...W...D.....===",
+                ".tt...................===",
+                ".tt...............o...===",
+                ".tt...................tt.",
+                ".tt...D...W...D...D...tt.",
+                ".tt...................tt.",
+                ".tt.......o...........tt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".ttttttttttttttttttttttt.",
+                ".ttttttttttttttttttttttt.",
+                "........................."
+              ],
+              "legend": {
+                "=": {
+                  "tile": 11
+                },
+                "D": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_dire"
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/vent": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/vent",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                0,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".#######################.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccMcccMcccMcccecccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                "==ccccccMcccecccMcccccc#.",
+                "==ccccccccccccccccccccc#.",
+                "==ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccMcccecccMcccMcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#######################.",
+                "........................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "M": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_magma"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "e": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ember"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/grotto": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/grotto",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                0
+              ],
+              "rows": [
+                "...........===...........",
+                ".##########===##########.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccZcccZcccZcccicccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccccc#ccccccc#cccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccZcccicccZcccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#cccccc#ccccccc#cccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccZcccicccZcccZcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".##########===##########.",
+                "...........===..........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "Z": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_coral"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "i": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_tide"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/amber": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/amber",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                0
+              ],
+              "rows": [
+                "...........===...........",
+                ".oooooooooo===oooooooooo.",
+                ".oooooooooo===oooooooooo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...P...P...P...a...oo.",
+                ".oo...................oo.",
+                ".oo..t.............t..oo.",
+                ".oo...................oo.",
+                ".oo.....P...a...P.....oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".oo...P...a...P...P...oo.",
+                ".oo...................oo.",
+                ".oo.........t.........oo.",
+                ".oo...................oo.",
+                ".oo...................oo.",
+                ".ooooooooooooooooooooooo.",
+                ".ooooooooooooooooooooooo.",
+                "........................."
+              ],
+              "legend": {
+                "=": {
+                  "tile": 11
+                },
+                "P": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_amber"
+                },
+                "a": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_sand"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/icepit": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/icepit",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                24,
+                10
+              ],
+              "rows": [
+                ".........................",
+                ".#######################.",
+                ".#ccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccHcccHcccHcccfcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccc#ccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                "==ccccccHcccfcccHcccccc==",
+                "==ccccccccccccccccccccc==",
+                "==ccccccccccc#ccccccccc==",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccHcccfcccHcccHcccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccc#.",
+                ".#######################.",
+                "........................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "H": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ice"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "f": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_frost"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/roost": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/roost",
+              "w": 25,
+              "h": 21,
+              "anchor": [
+                12,
+                20
+              ],
+              "rows": [
+                ".........................",
+                ".ttttttttttttttttttttttt.",
+                ".ttttttttttttttttttttttt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tt...O...O...O...d...tt.",
+                ".tt...................tt.",
+                ".tt...o...........o...tt.",
+                ".tt...................tt.",
+                ".tt.....O...d...O.....tt.",
+                ".tt...................tt.",
+                ".tt.........o.........tt.",
+                ".tt...................tt.",
+                ".tt...O...d...O...O...tt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tt...................tt.",
+                ".tttttttttt===tttttttttt.",
+                ".tttttttttt===tttttttttt.",
+                "...........===..........."
+              ],
+              "legend": {
+                "=": {
+                  "tile": 11
+                },
+                "O": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_storm"
+                },
+                "d": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_shade"
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                }
+              },
+              "spots": []
             }
           }
         }
@@ -6802,15 +8796,15 @@
             3695,
             5592,
             1,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_shade",
+            "base:item/shade_wisp"
           ],
           [
             3820,
             5576,
             1,
-            "base:enemy/wolf_shade",
-            "base:item/shade_wisp"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             3832,
@@ -6823,15 +8817,15 @@
             3830,
             5594,
             1,
-            "base:enemy/wolf_shade",
-            "base:item/shade_wisp"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             3782,
             5607,
             1,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_shade",
+            "base:item/shade_wisp"
           ],
           [
             3825,
@@ -6844,15 +8838,15 @@
             3813,
             5627,
             1,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/wolf_shade",
+            "base:item/shade_wisp"
           ],
           [
             3732,
             5652,
             1,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             3744,
@@ -6865,8 +8859,8 @@
             12773,
             3546,
             2,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
           ],
           [
             12756,
@@ -6893,8 +8887,8 @@
             12817,
             3595,
             2,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
           ],
           [
             12738,
@@ -6907,15 +8901,15 @@
             12794,
             3621,
             2,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             12733,
             3663,
             2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
           ],
           [
             13290,
@@ -6928,8 +8922,8 @@
             13343,
             11877,
             3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
+            "base:enemy/slime_amber",
+            "base:item/amber_drop"
           ],
           [
             13342,
@@ -6942,50 +8936,50 @@
             13222,
             11954,
             3,
-            "base:enemy/slime_sand",
+            "base:enemy/slime_green",
             "base:item/slime_gel"
           ],
           [
             13197,
             11980,
             3,
-            "base:enemy/slime_sand",
+            "base:enemy/slime_green",
             "base:item/slime_gel"
           ],
           [
             13201,
             11991,
             3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
+            "base:enemy/slime_amber",
+            "base:item/amber_drop"
           ],
           [
             13244,
             11999,
             3,
-            "base:enemy/slime_sand",
+            "base:enemy/slime_green",
             "base:item/slime_gel"
           ],
           [
             13340,
             11972,
             3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
+            "base:enemy/slime_amber",
+            "base:item/amber_drop"
           ],
           [
             7383,
             1444,
             4,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_ice",
+            "base:item/ice_crystal"
           ],
           [
             7371,
             1450,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/slime_ice",
+            "base:item/ice_crystal"
           ],
           [
             7378,
@@ -7005,43 +8999,43 @@
             7404,
             1445,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/slime_ice",
+            "base:item/ice_crystal"
           ],
           [
             7413,
             1477,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/slime_ice",
+            "base:item/ice_crystal"
           ],
           [
             7451,
             1475,
             4,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_ice",
+            "base:item/ice_crystal"
           ],
           [
             7454,
             1489,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/slime_ice",
+            "base:item/ice_crystal"
           ],
           [
             7309,
             1534,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
           ],
           [
             7397,
             1541,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
           ],
           [
             7447,
@@ -7054,15 +9048,15 @@
             2271,
             12569,
             5,
-            "base:enemy/slime_tide",
-            "base:item/tide_pearl"
+            "base:enemy/slime_coral",
+            "base:item/coral_fragment"
           ],
           [
             2297,
             12547,
             5,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_coral",
+            "base:item/coral_fragment"
           ],
           [
             2302,
@@ -7075,8 +9069,8 @@
             2308,
             12557,
             5,
-            "base:enemy/slime_tide",
-            "base:item/tide_pearl"
+            "base:enemy/slime_coral",
+            "base:item/coral_fragment"
           ],
           [
             2310,
@@ -7089,8 +9083,8 @@
             2330,
             12644,
             5,
-            "base:enemy/slime_tide",
-            "base:item/tide_pearl"
+            "base:enemy/slime_coral",
+            "base:item/coral_fragment"
           ],
           [
             2326,
@@ -7110,36 +9104,36 @@
             2252,
             12675,
             5,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_coral",
+            "base:item/coral_fragment"
           ],
           [
             15012,
             7808,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             15121,
             7810,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             15118,
             7831,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             15094,
             7845,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
           ],
           [
             15089,
@@ -7152,15 +9146,15 @@
             15111,
             7863,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
           ],
           [
             15143,
             7903,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             15047,
@@ -7180,15 +9174,15 @@
             15123,
             7911,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             7809,
             14681,
             7,
-            "base:enemy/slime_glow",
-            "base:item/star_dust"
+            "base:enemy/wolf_storm",
+            "base:item/storm_feather"
           ],
           [
             7808,
@@ -7201,8 +9195,8 @@
             7885,
             14676,
             7,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_glow",
+            "base:item/star_dust"
           ],
           [
             7803,
@@ -7502,8 +9496,8 @@
             2150,
             12669,
             5,
-            "base:enemy/slime_tide",
-            "base:item/tide_pearl"
+            "base:enemy/slime_coral",
+            "base:item/coral_fragment"
           ],
           [
             2176,
@@ -7572,8 +9566,8 @@
             7280,
             1379,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
           ],
           [
             7288,
@@ -8141,6 +10135,552 @@
             6,
             "base:enemy/slime_ember",
             ""
+          ],
+          [
+            12904,
+            3441,
+            2,
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
+          ],
+          [
+            12910,
+            3451,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12914,
+            3451,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12918,
+            3451,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12922,
+            3451,
+            2,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            12912,
+            3455,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12916,
+            3455,
+            2,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            12920,
+            3455,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12939,
+            3425,
+            2,
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
+          ],
+          [
+            12910,
+            3459,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12914,
+            3459,
+            2,
+            "base:enemy/wolf_grey",
+            ""
+          ],
+          [
+            12918,
+            3459,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12922,
+            3459,
+            2,
+            "base:enemy/wolf_dire",
+            ""
+          ],
+          [
+            12943,
+            3462,
+            2,
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
+          ],
+          [
+            14982,
+            8046,
+            6,
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
+          ],
+          [
+            14982,
+            8059,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            14986,
+            8059,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            14990,
+            8059,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            14994,
+            8059,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14984,
+            8063,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            14988,
+            8063,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14992,
+            8063,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            14982,
+            8067,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            14986,
+            8067,
+            6,
+            "base:enemy/slime_ember",
+            ""
+          ],
+          [
+            14990,
+            8067,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            14994,
+            8067,
+            6,
+            "base:enemy/slime_magma",
+            ""
+          ],
+          [
+            14978,
+            8077,
+            6,
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
+          ],
+          [
+            14978,
+            8084,
+            6,
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
+          ],
+          [
+            2426,
+            12421,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2430,
+            12421,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2428,
+            12425,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2415,
+            12428,
+            5,
+            "base:enemy/slime_coral",
+            "base:item/coral_fragment"
+          ],
+          [
+            2426,
+            12429,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2430,
+            12429,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2434,
+            12421,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2438,
+            12421,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2432,
+            12425,
+            5,
+            "base:enemy/slime_tide",
+            ""
+          ],
+          [
+            2436,
+            12425,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2434,
+            12429,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            2438,
+            12429,
+            5,
+            "base:enemy/slime_coral",
+            ""
+          ],
+          [
+            13178,
+            12165,
+            3,
+            "base:enemy/slime_amber",
+            ""
+          ],
+          [
+            13182,
+            12165,
+            3,
+            "base:enemy/slime_amber",
+            ""
+          ],
+          [
+            13180,
+            12169,
+            3,
+            "base:enemy/slime_amber",
+            ""
+          ],
+          [
+            13178,
+            12173,
+            3,
+            "base:enemy/slime_amber",
+            ""
+          ],
+          [
+            13182,
+            12173,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13186,
+            12165,
+            3,
+            "base:enemy/slime_amber",
+            ""
+          ],
+          [
+            13190,
+            12165,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13184,
+            12169,
+            3,
+            "base:enemy/slime_sand",
+            ""
+          ],
+          [
+            13188,
+            12169,
+            3,
+            "base:enemy/slime_amber",
+            ""
+          ],
+          [
+            13186,
+            12173,
+            3,
+            "base:enemy/slime_amber",
+            ""
+          ],
+          [
+            13190,
+            12173,
+            3,
+            "base:enemy/slime_amber",
+            ""
+          ],
+          [
+            13206,
+            12191,
+            3,
+            "base:enemy/slime_amber",
+            "base:item/amber_drop"
+          ],
+          [
+            7534,
+            1659,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            7538,
+            1659,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            7542,
+            1659,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            7546,
+            1659,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7536,
+            1663,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            7540,
+            1663,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7544,
+            1663,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            7552,
+            1651,
+            4,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            7560,
+            1652,
+            4,
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
+          ],
+          [
+            7534,
+            1667,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            7538,
+            1667,
+            4,
+            "base:enemy/wolf_frost",
+            ""
+          ],
+          [
+            7542,
+            1667,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            7546,
+            1667,
+            4,
+            "base:enemy/slime_ice",
+            ""
+          ],
+          [
+            8058,
+            14449,
+            7,
+            "base:enemy/wolf_storm",
+            ""
+          ],
+          [
+            8062,
+            14449,
+            7,
+            "base:enemy/wolf_storm",
+            ""
+          ],
+          [
+            8060,
+            14453,
+            7,
+            "base:enemy/wolf_storm",
+            ""
+          ],
+          [
+            8058,
+            14457,
+            7,
+            "base:enemy/wolf_storm",
+            ""
+          ],
+          [
+            8062,
+            14457,
+            7,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            8066,
+            14449,
+            7,
+            "base:enemy/wolf_storm",
+            ""
+          ],
+          [
+            8070,
+            14449,
+            7,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            8064,
+            14453,
+            7,
+            "base:enemy/wolf_shade",
+            ""
+          ],
+          [
+            8068,
+            14453,
+            7,
+            "base:enemy/wolf_storm",
+            ""
+          ],
+          [
+            8077,
+            14453,
+            7,
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
+          ],
+          [
+            8066,
+            14457,
+            7,
+            "base:enemy/wolf_storm",
+            ""
+          ],
+          [
+            8070,
+            14457,
+            7,
+            "base:enemy/wolf_storm",
+            ""
+          ],
+          [
+            8043,
+            14480,
+            7,
+            "base:enemy/wolf_storm",
+            "base:item/storm_feather"
           ]
         ]
       }

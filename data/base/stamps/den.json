@@ -1,0 +1,55 @@
+{
+  "$schema": "../../../schemas/stamp.schema.json",
+  "id": "base:stamp/den",
+  "w": 25,
+  "h": 21,
+  "anchor": [
+    24,
+    10
+  ],
+  "rows": [
+    ".........................",
+    ".ttttttttttttttttttttttt.",
+    ".ttttttttttttttttttttttt.",
+    ".tt...................tt.",
+    ".tt...................tt.",
+    ".tt...D...D...D...W...tt.",
+    ".tt...................tt.",
+    ".tt...o...............tt.",
+    ".tt...................tt.",
+    ".tt.....D...W...D.....===",
+    ".tt...................===",
+    ".tt...............o...===",
+    ".tt...................tt.",
+    ".tt...D...W...D...D...tt.",
+    ".tt...................tt.",
+    ".tt.......o...........tt.",
+    ".tt...................tt.",
+    ".tt...................tt.",
+    ".ttttttttttttttttttttttt.",
+    ".ttttttttttttttttttttttt.",
+    "........................."
+  ],
+  "legend": {
+    "=": {
+      "tile": 11
+    },
+    "D": {
+      "tile": 14,
+      "spawner": "base:enemy/wolf_dire"
+    },
+    "W": {
+      "tile": 14,
+      "spawner": "base:enemy/wolf_grey"
+    },
+    "o": {
+      "prop": "base:art/prop/rock",
+      "radius_x100": 30
+    },
+    "t": {
+      "prop": "base:art/prop/tree_oak",
+      "radius_x100": 30
+    }
+  },
+  "spots": []
+}

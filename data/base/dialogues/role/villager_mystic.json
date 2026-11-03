@@ -17,6 +17,10 @@
           "next": "rumor"
         },
         {
+          "text": "$i18n:dlg.role.legend",
+          "next": "legend"
+        },
+        {
           "text": "$i18n:dlg.role.bye",
           "next": "end"
         }
@@ -26,6 +30,12 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.tone.mystic.rumor",
+      "next": "end"
+    },
+    "legend": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tone.mystic.legend",
       "next": "end"
     }
   }
