@@ -234,6 +234,16 @@ SUITES = {
 }
 
 
+# The suites that take the longest, started first so the pool finishes sooner.
+SLOW_SUITES = {"worldgen_chunks", "chunk_window", "worldgen", "settlements", "fauna", "combat", "story", "save", "worldmap"}
+
+
+def build_suite(name: str) -> tuple[str, str, int]:
+    """Builds one suite (a worker of the pool): its name, the text of the file and the number of cases."""
+    cases = SUITES[name]()
+    return name, render(name, cases), len(cases)
+
+
 def render(suite: str, cases: list[dict]) -> str:
     doc = {"suite": suite, "spec_version": SPEC_VERSION, "generated_by": "tools/gen_conformance.py",
            "cases": cases}
@@ -243,12 +253,21 @@ def render(suite: str, cases: list[dict]) -> str:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
+    parser.add_argument("--serial", action="store_true", help="build the suites one after the other (no worker processes)")
     args = parser.parse_args()
 
     OUT.mkdir(parents=True, exist_ok=True)
     stale = 0
-    for name, builder in SUITES.items():
-        text = render(name, builder())
+    if args.serial:
+        built = [build_suite(name) for name in SUITES]
+    else:  # the suites are independent: one worker process each, the slowest ones first
+        from concurrent.futures import ProcessPoolExecutor
+
+        order = sorted(SUITES, key=lambda name: name not in SLOW_SUITES)
+        with ProcessPoolExecutor() as pool:
+            done = {name: (name, text, count) for name, text, count in pool.map(build_suite, order)}
+        built = [done[name] for name in SUITES]
+    for name, text, count in built:
         path = OUT / f"{name}.json"
         if args.check:
             current = path.read_text(encoding="utf-8") if path.exists() else ""
@@ -256,8 +275,10 @@ def main() -> int:
                 print(f"OUT OF DATE: {path.relative_to(ROOT)}")
                 stale += 1
         else:
-            path.write_text(text, encoding="utf-8", newline="\n")
-            print(f"wrote {path.relative_to(ROOT)} ({len(builder())} cases)")
+            current = path.read_bytes().decode("utf-8") if path.exists() else ""
+            if current != text:
+                path.write_bytes(text.encode("utf-8"))
+            print(f"wrote {path.relative_to(ROOT)} ({count} cases{'' if current != text else ', unchanged'})")
     if args.check:
         if stale:
             print("run: python tools/gen_conformance.py")

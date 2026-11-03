@@ -7,6 +7,7 @@ Run it after changing a template, then run tools/gen_conformance.py (the vectors
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -836,10 +837,15 @@ def main() -> None:
                   outpost_ashen, outpost_verdalis, forge, galleon, keep, vault, hamlet_d, village_d, town_c):
         data = build()
         name = data["id"].split("/")[-1]
-        (OUT / f"{name}.json").write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-        print(f"wrote {name}: {data['w']}x{data['h']}")
-        for row in data["rows"]:
-            print("  " + row)
+        path = OUT / f"{name}.json"
+        text = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
+        current = path.read_bytes().decode("utf-8") if path.exists() else ""
+        if current != text:  # LF line endings, and a file that did not change is not touched
+            path.write_bytes(text.encode("utf-8"))
+        print(f"{'wrote' if current != text else 'same '} {name}: {data['w']}x{data['h']}")
+        if "--show" in sys.argv:
+            for row in data["rows"]:
+                print("  " + row)
 
 
 if __name__ == "__main__":
