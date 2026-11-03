@@ -64,6 +64,7 @@
           "height": 16384,
           "border": 4,
           "spawn_clear_radius": 7,
+          "landmark_clearing": 24,
           "elevation": {
             "salt": 1,
             "scale": 56,
@@ -10270,6 +10271,7 @@
           "height": 16384,
           "border": 4,
           "spawn_clear_radius": 7,
+          "landmark_clearing": 24,
           "elevation": {
             "salt": 1,
             "scale": 56,
@@ -20476,6 +20478,7 @@
           "height": 16384,
           "border": 4,
           "spawn_clear_radius": 7,
+          "landmark_clearing": 24,
           "elevation": {
             "salt": 1,
             "scale": 56,

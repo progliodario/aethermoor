@@ -45,7 +45,40 @@ bool in_clearing(const WorldParams& p, int x, int y) {
     return dx * dx + dy * dy < static_cast<std::int64_t>(p.spawn_clear_radius) * p.spawn_clear_radius;
 }
 
+// Inside the clearing of a landmark: its footprint grown by `landmark_clearing` tiles (spec 09, "Landmarks").
+bool in_landmark_clearing(const WorldParams& p, int x, int y) {
+    const int r = p.landmark_clearing;
+    if (r <= 0) {
+        return false;
+    }
+    for (const WorldParams::Landmark& landmark : p.landmarks) {
+        const int px = p.width / 2 + landmark.dx;
+        const int py = p.height / 2 + landmark.dy;
+        if ((px >> 8) != (x >> 8) || (py >> 8) != (y >> 8)) {
+            continue;
+        }
+        const Stamp& stamp = p.stamps.at(landmark.stamp);
+        const int x0 = px - stamp.anchor_x - r;
+        const int y0 = py - stamp.anchor_y - r;
+        if (x >= x0 && x < x0 + stamp.w + 2 * r && y >= y0 && y < y0 + stamp.h + 2 * r) {
+            return true;
+        }
+    }
+    return false;
+}
+
+Biome natural_biome_at(std::uint64_t seed, const WorldParams& p, int x, int y);
+
 Biome biome_at(std::uint64_t seed, const WorldParams& p, int x, int y) {
+    const Biome biome = natural_biome_at(seed, p, x, y);
+    if ((biome == Biome::Water || biome == Biome::Mountain) && x >= p.border && y >= p.border && x < p.width - p.border &&
+        y < p.height - p.border && in_landmark_clearing(p, x, y)) {
+        return Biome::Plains;
+    }
+    return biome;
+}
+
+Biome natural_biome_at(std::uint64_t seed, const WorldParams& p, int x, int y) {
     if (x < p.border || y < p.border || x >= p.width - p.border || y >= p.height - p.border) {
         return Biome::Water;
     }

@@ -176,6 +176,9 @@ class WorldParams(
     /** The prop that is a Threshold Stone and how near the player must be to use it, in 1/100 tile (spec 09). */
     val stoneArt: String,
     val stoneRangeX100: Int,
+    /** Tiles of plains around the footprint of a landmark (spec 09); 0: none. */
+    val landmarkClearing: Int,
+
     /** The home meadow and village (spec 09); [homeRadius] 0: none. */
     val homeRadius: Int,
     val homeStamp: String,
@@ -228,7 +231,33 @@ private fun inClearing(p: WorldParams, x: Int, y: Int): Boolean {
     return dx * dx + dy * dy < p.spawnClearRadius.toLong() * p.spawnClearRadius
 }
 
+/** Inside the clearing of a landmark: its footprint grown by `landmarkClearing` tiles (spec 09, "Landmarks"). */
+private fun inLandmarkClearing(p: WorldParams, x: Int, y: Int): Boolean {
+    val r = p.landmarkClearing
+    if (r <= 0) return false
+    for (landmark in p.landmarks) {
+        val px = p.width / 2 + landmark.dx
+        val py = p.height / 2 + landmark.dy
+        if ((px shr 8) != (x shr 8) || (py shr 8) != (y shr 8)) continue
+        val stamp = p.stamps.getValue(landmark.stamp)
+        val x0 = px - stamp.anchorX - r
+        val y0 = py - stamp.anchorY - r
+        if (x >= x0 && x < x0 + stamp.w + 2 * r && y >= y0 && y < y0 + stamp.h + 2 * r) return true
+    }
+    return false
+}
+
 private fun biomeAt(seed: ULong, p: WorldParams, x: Int, y: Int): Biome {
+    val biome = naturalBiomeAt(seed, p, x, y)
+    if ((biome == Biome.WATER || biome == Biome.MOUNTAIN) && x >= p.border && y >= p.border && x < p.width - p.border &&
+        y < p.height - p.border && inLandmarkClearing(p, x, y)
+    ) {
+        return Biome.PLAINS
+    }
+    return biome
+}
+
+private fun naturalBiomeAt(seed: ULong, p: WorldParams, x: Int, y: Int): Biome {
     if (x < p.border || y < p.border || x >= p.width - p.border || y >= p.height - p.border) return Biome.WATER
     if (inClearing(p, x, y)) return Biome.PLAINS
     if (p.homeRadius > 0) {
@@ -826,6 +855,7 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
                     },
                 )
             },
+            landmarkClearing = j["landmark_clearing"]?.jsonPrimitive?.int ?: 0,
             homeRadius = j["home"]?.jsonObject?.getValue("radius")?.jsonPrimitive?.int ?: 0,
             homeStamp = j["home"]?.jsonObject?.getValue("stamp")?.jsonPrimitive?.content ?: "",
             homeDx = j["home"]?.jsonObject?.getValue("dx")?.jsonPrimitive?.int ?: 0,

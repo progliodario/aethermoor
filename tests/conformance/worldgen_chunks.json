@@ -16,6 +16,7 @@
           "height": 16384,
           "border": 4,
           "spawn_clear_radius": 7,
+          "landmark_clearing": 24,
           "elevation": {
             "salt": 1,
             "scale": 56,
@@ -5768,6 +5769,7 @@
           "height": 16384,
           "border": 4,
           "spawn_clear_radius": 7,
+          "landmark_clearing": 24,
           "elevation": {
             "salt": 1,
             "scale": 56,
@@ -11287,6 +11289,7 @@
           "height": 16384,
           "border": 4,
           "spawn_clear_radius": 7,
+          "landmark_clearing": 24,
           "elevation": {
             "salt": 1,
             "scale": 56,
@@ -17353,7 +17356,7 @@
               [
                 1,
                 23,
-                8
+                1
               ],
               [
                 30,
@@ -17363,12 +17366,12 @@
               [
                 2,
                 26,
-                8
+                1
               ],
               [
                 4,
                 24,
-                8
+                2
               ],
               [
                 17,
@@ -17406,18 +17409,17 @@
                 6
               ]
             ],
-            "tile_digest": "0x9cf52dc76ed06ecb",
-            "prop_count": 38,
-            "prop_digest": "0xc997d9ec8da6f25e",
+            "tile_digest": "0x51797567ad29bc90",
+            "prop_count": 44,
+            "prop_digest": "0x85420d554d88e372",
             "spawner_count": 4,
             "spawner_digest": "0x1785cbea68dcfc16",
             "people": [],
             "gid_histogram": {
-              "1": 100,
-              "2": 115,
+              "1": 161,
+              "2": 172,
               "5": 39,
               "6": 459,
-              "8": 118,
               "11": 4,
               "14": 189
             }
@@ -17436,7 +17438,7 @@
               [
                 1,
                 23,
-                8
+                1
               ],
               [
                 30,
@@ -17446,12 +17448,12 @@
               [
                 2,
                 26,
-                8
+                1
               ],
               [
                 4,
                 24,
-                8
+                2
               ],
               [
                 17,
@@ -17489,18 +17491,17 @@
                 6
               ]
             ],
-            "tile_digest": "0x9cf52dc76ed06ecb",
-            "prop_count": 38,
-            "prop_digest": "0xc997d9ec8da6f25e",
+            "tile_digest": "0x51797567ad29bc90",
+            "prop_count": 44,
+            "prop_digest": "0x85420d554d88e372",
             "spawner_count": 4,
             "spawner_digest": "0x1785cbea68dcfc16",
             "people": [],
             "gid_histogram": {
-              "1": 100,
-              "2": 115,
+              "1": 161,
+              "2": 172,
               "5": 39,
               "6": 459,
-              "8": 118,
               "11": 4,
               "14": 189
             }
@@ -17521,6 +17522,7 @@
           "height": 16384,
           "border": 4,
           "spawn_clear_radius": 7,
+          "landmark_clearing": 24,
           "elevation": {
             "salt": 1,
             "scale": 56,
@@ -23130,12 +23132,12 @@
               [
                 29,
                 19,
-                8
+                2
               ],
               [
                 25,
                 3,
-                8
+                2
               ],
               [
                 4,
@@ -23145,7 +23147,7 @@
               [
                 27,
                 25,
-                8
+                2
               ],
               [
                 13,
@@ -23165,7 +23167,7 @@
               [
                 2,
                 22,
-                8
+                1
               ],
               [
                 8,
@@ -23180,21 +23182,23 @@
               [
                 30,
                 22,
-                8
+                2
               ]
             ],
-            "tile_digest": "0x8a881613fd8eded3",
-            "prop_count": 128,
-            "prop_digest": "0xb0b234f1ce372aab",
+            "tile_digest": "0x7b14fa1792c0c069",
+            "prop_count": 145,
+            "prop_digest": "0xcdb9c8a222dbf9c6",
             "spawner_count": 4,
             "spawner_digest": "0x1785cbea68dcfc16",
             "people": [],
             "gid_histogram": {
-              "4": 40,
+              "1": 108,
+              "2": 115,
+              "4": 53,
               "5": 39,
               "7": 142,
-              "8": 248,
               "9": 362,
+              "10": 12,
               "11": 4,
               "14": 189
             }
@@ -23213,12 +23217,12 @@
               [
                 29,
                 19,
-                8
+                2
               ],
               [
                 25,
                 3,
-                8
+                2
               ],
               [
                 4,
@@ -23228,7 +23232,7 @@
               [
                 27,
                 25,
-                8
+                2
               ],
               [
                 13,
@@ -23248,7 +23252,7 @@
               [
                 2,
                 22,
-                8
+                1
               ],
               [
                 8,
@@ -23263,21 +23267,23 @@
               [
                 30,
                 22,
-                8
+                2
               ]
             ],
-            "tile_digest": "0x8a881613fd8eded3",
-            "prop_count": 128,
-            "prop_digest": "0xb0b234f1ce372aab",
+            "tile_digest": "0x7b14fa1792c0c069",
+            "prop_count": 145,
+            "prop_digest": "0xcdb9c8a222dbf9c6",
             "spawner_count": 4,
             "spawner_digest": "0x1785cbea68dcfc16",
             "people": [],
             "gid_histogram": {
-              "4": 40,
+              "1": 108,
+              "2": 115,
+              "4": 53,
               "5": 39,
               "7": 142,
-              "8": 248,
               "9": 362,
+              "10": 12,
               "11": 4,
               "14": 189
             }
