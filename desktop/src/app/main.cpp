@@ -231,6 +231,79 @@ struct DrawItem {
     const aether::NpcDef* npc = nullptr;
 };
 
+// The debug font of SDL has the ASCII characters only (anything else is drawn as a block). The accented letters of the
+// Italian texts are drawn as the letter with a small accent, the quotation marks as ASCII ones, anything else as a
+// question mark. `text` is UTF-8.
+void debug_text(SDL_Renderer* renderer, float x, float y, const char* text) {
+    struct Accent {
+        int code;
+        char base;
+        bool acute;
+        bool upper;
+    };
+    static const Accent kAccents[] = {
+        {0xE0, 'a', false, false}, {0xE8, 'e', false, false}, {0xE9, 'e', true, false}, {0xEC, 'i', false, false},
+        {0xF2, 'o', false, false}, {0xF9, 'u', false, false}, {0xC0, 'A', false, true}, {0xC8, 'E', false, true},
+        {0xC9, 'E', true, true},   {0xCC, 'I', false, true},  {0xD2, 'O', false, true}, {0xD9, 'U', false, true},
+    };
+    std::string run;  // a stretch of ASCII characters, drawn in one call
+    float run_x = x;
+    float pen = x;
+    const auto flush = [&]() {
+        if (!run.empty()) {
+            SDL_RenderDebugText(renderer, run_x, y, run.c_str());
+            run.clear();
+        }
+    };
+    const auto* p = reinterpret_cast<const unsigned char*>(text);
+    while (*p != 0) {
+        int code = *p;
+        int length = 1;
+        if (code >= 0xC0 && code < 0xE0 && (p[1] & 0xC0) == 0x80) {
+            code = ((code & 0x1F) << 6) | (p[1] & 0x3F);
+            length = 2;
+        } else if (code >= 0xE0 && code < 0xF0 && (p[1] & 0xC0) == 0x80 && (p[2] & 0xC0) == 0x80) {
+            code = ((code & 0x0F) << 12) | ((p[1] & 0x3F) << 6) | (p[2] & 0x3F);
+            length = 3;
+        } else if (code >= 0x80 && code < 0xC0) {  // the rest of a character that is not drawn
+            ++p;
+            continue;
+        } else if (code >= 0x80) {
+            code = '?';
+        }
+        p += length;
+        if (code < 0x80) {
+            if (run.empty()) {
+                run_x = pen;
+            }
+            run.push_back(static_cast<char>(code));
+            pen += 8.0F;
+            continue;
+        }
+        flush();
+        const Accent* accent = nullptr;
+        for (const Accent& candidate : kAccents) {
+            if (candidate.code == code) {
+                accent = &candidate;
+            }
+        }
+        char glyph[2] = {'?', 0};
+        if (accent != nullptr) {
+            glyph[0] = accent->base;
+            const float top = y + (accent->upper ? -1.0F : 0.0F);
+            SDL_RenderPoint(renderer, pen + (accent->acute ? 4.0F : 2.0F), top);
+            SDL_RenderPoint(renderer, pen + 3.0F, top + 1.0F);
+        } else if (code == 0xAB || code == 0xBB || code == 0x201C || code == 0x201D) {
+            glyph[0] = '"';
+        } else if (code == 0x2018 || code == 0x2019) {
+            glyph[0] = '\'';
+        }
+        SDL_RenderDebugText(renderer, pen, y, glyph);
+        pen += 8.0F;
+    }
+    flush();
+}
+
 void fill_rect(SDL_Renderer* renderer, float x, float y, float w, float h, Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_SetRenderDrawColor(renderer, r, g, b, a);
@@ -352,18 +425,17 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
                   static_cast<long long>(p.hp), static_cast<long long>(sim.derived().max_hp));
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_SetRenderScale(renderer, 2.0F, 2.0F);
-    SDL_RenderDebugText(renderer, (x + 6.0F) / 2.0F, (y + 3.0F * density) / 2.0F, line);
+    debug_text(renderer, (x + 6.0F) / 2.0F, (y + 3.0F * density) / 2.0F, line);
     const std::string level =
         assets.pack.text(ui.lang, "$i18n:ui.level", {{"level", static_cast<std::int64_t>(p.level)}});
-    SDL_RenderDebugText(renderer, x / 2.0F, (y + bar_h + 16.0F * density) / 2.0F, level.c_str());
+    debug_text(renderer, x / 2.0F, (y + bar_h + 16.0F * density) / 2.0F, level.c_str());
     const std::string bag_hint = assets.pack.text(ui.lang, "$i18n:ui.bag_hint");
     const float hint_x = (x + 110.0F * density) / 2.0F;
-    SDL_RenderDebugText(renderer, hint_x, (y + bar_h + 16.0F * density) / 2.0F, bag_hint.c_str());
+    debug_text(renderer, hint_x, (y + bar_h + 16.0F * density) / 2.0F, bag_hint.c_str());
     if (sim.streamed()) {
         // The map hint follows the bag hint whatever the language: 8 units per character, two characters of gap.
-        SDL_RenderDebugText(renderer, hint_x + 8.0F * static_cast<float>(bag_hint.size() + 2),
-                            (y + bar_h + 16.0F * density) / 2.0F,
-                            assets.pack.text(ui.lang, "$i18n:ui.map_hint").c_str());
+        debug_text(renderer, hint_x + 8.0F * static_cast<float>(bag_hint.size() + 2),
+                   (y + bar_h + 16.0F * density) / 2.0F, assets.pack.text(ui.lang, "$i18n:ui.map_hint").c_str());
     }
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
@@ -440,7 +512,7 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
                    other.y < label.y + 10.0F;
         });
         if (!clash) {
-            SDL_RenderDebugText(renderer, label.x, label.y, label.text->c_str());
+            debug_text(renderer, label.x, label.y, label.text->c_str());
             placed.push_back(label);
         }
     }
@@ -454,16 +526,16 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
         }
         const std::string name = assets.pack.text(ui.lang, region.name);
         SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
-        SDL_RenderDebugText(renderer, left + cell * static_cast<float>(rx) - static_cast<float>(name.size()) * 4.0F,
-                            top + cell * static_cast<float>(ry) + 14.0F * density, name.c_str());
+        debug_text(renderer, left + cell * static_cast<float>(rx) - static_cast<float>(name.size()) * 4.0F,
+                   top + cell * static_cast<float>(ry) + 14.0F * density, name.c_str());
     }
     const float px = left + sim.player().position.x / static_cast<float>(aether::kMapCell) * cell;
     const float py = top + sim.player().position.y / static_cast<float>(aether::kMapCell) * cell;
     fill_rect(renderer, px - 3.0F * density, py - 3.0F * density, 6.0F * density, 6.0F * density, 255, 60, 60, 255);
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_SetRenderScale(renderer, 2.0F, 2.0F);
-    SDL_RenderDebugText(renderer, left / 2.0F, (top - 26.0F * density) / 2.0F,
-                        assets.pack.text(ui.lang, "$i18n:ui.map").c_str());
+    debug_text(renderer, left / 2.0F, (top - 26.0F * density) / 2.0F,
+               assets.pack.text(ui.lang, "$i18n:ui.map").c_str());
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
@@ -518,9 +590,8 @@ void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether:
         {{"day", static_cast<std::int64_t>(time->day)}, {"time", std::string(clock)}, {"season", season_name}});
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_SetRenderScale(renderer, 2.0F, 2.0F);
-    SDL_RenderDebugText(renderer,
-                        (static_cast<float>(out_w) - 12.0F * density) / 2.0F - static_cast<float>(line.size()) * 8.0F,
-                        12.0F * density / 2.0F, line.c_str());
+    debug_text(renderer, (static_cast<float>(out_w) - 12.0F * density) / 2.0F - static_cast<float>(line.size()) * 8.0F,
+               12.0F * density / 2.0F, line.c_str());
     if (const aether::ChunkStore* store = sim.chunks()) {
         const aether::WorldParams& params = store->params();
         const aether::Region& region = params.regions[static_cast<std::size_t>(
@@ -953,12 +1024,12 @@ void draw_dialogue(SDL_Renderer* renderer, const Assets& assets, const aether::W
     float y = (box_y + 12.0F) / kScale;
     if (!heading.empty()) {
         SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
-        SDL_RenderDebugText(renderer, (margin + 12.0F) / kScale, y, heading.c_str());
+        debug_text(renderer, (margin + 12.0F) / kScale, y, heading.c_str());
         y += line_h / kScale;
     }
     SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
     for (const std::string& line : lines) {
-        SDL_RenderDebugText(renderer, (margin + 12.0F) / kScale, y, line.c_str());
+        debug_text(renderer, (margin + 12.0F) / kScale, y, line.c_str());
         y += line_h / kScale;
     }
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
@@ -976,7 +1047,7 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
     std::snprintf(line, sizeof(line), "%s",
                   assets.pack.text(ui.lang, "$i18n:ui.gold", {{"gold", story.gold()}}).c_str());
     SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
-    SDL_RenderDebugText(renderer, x, y, line);
+    debug_text(renderer, x, y, line);
     if (sim.streamed()) {
         if (const aether::ChunkStore* store = sim.chunks()) {
             std::string letter = store->params().guild.ranks[static_cast<std::size_t>(sim.guild_rank())].id;
@@ -984,7 +1055,7 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
                 c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
             }
             const std::string text = assets.pack.text(ui.lang, "$i18n:ui.rank", {{"rank", letter}});
-            SDL_RenderDebugText(renderer, x - static_cast<float>(text.size()) * 8.0F - 8.0F, y, text.c_str());
+            debug_text(renderer, x - static_cast<float>(text.size()) * 8.0F - 8.0F, y, text.c_str());
         }
     }
     y += 16.0F;
@@ -1003,12 +1074,12 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
             continue;
         }
         SDL_SetRenderDrawColor(renderer, 111, 227, 255, 255);
-        SDL_RenderDebugText(renderer, x, y, dialogue_text(assets.pack, ui.lang, def.name, def.args).c_str());
+        debug_text(renderer, x, y, dialogue_text(assets.pack, ui.lang, def.name, def.args).c_str());
         y += 14.0F;
         SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
         for (const std::string& wrapped :
              wrap_text(dialogue_text(assets.pack, ui.lang, stage->journal, def.args), 24)) {
-            SDL_RenderDebugText(renderer, x, y, wrapped.c_str());
+            debug_text(renderer, x, y, wrapped.c_str());
             y += 12.0F;
         }
         for (std::size_t i = 0; i < stage->objectives.size(); ++i) {
@@ -1017,7 +1088,7 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
             }
             std::snprintf(line, sizeof(line), "  %lld/%lld", static_cast<long long>(progress.progress[i]),
                           static_cast<long long>(stage->objectives[i].count));
-            SDL_RenderDebugText(renderer, x, y, line);
+            debug_text(renderer, x, y, line);
             y += 12.0F;
         }
         y += 6.0F;
@@ -1053,16 +1124,16 @@ void draw_shop(SDL_Renderer* renderer, const Assets& assets, const aether::World
     SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
     const std::string title = assets.pack.text(ui.lang, "$i18n:ui.shop") + " - " +
                               assets.pack.text(ui.lang, ui.shop_sell ? "$i18n:ui.shop_sell" : "$i18n:ui.shop_buy");
-    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + 12.0F) / kScale, title.c_str());
+    debug_text(renderer, (x + 16.0F) / kScale, (y + 12.0F) / kScale, title.c_str());
     const std::string gold =
         assets.pack.text(ui.lang, "$i18n:ui.gold", {{"gold", static_cast<std::int64_t>(sim.story().gold())}});
-    SDL_RenderDebugText(renderer, (x + w - 16.0F) / kScale - static_cast<float>(gold.size()) * 8.0F,
-                        (y + 12.0F) / kScale, gold.c_str());
+    debug_text(renderer, (x + w - 16.0F) / kScale - static_cast<float>(gold.size()) * 8.0F, (y + 12.0F) / kScale,
+               gold.c_str());
     float ty = y + 12.0F + row + 8.0F;
     if (entries.empty()) {
         SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
-        SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, ty / kScale,
-                            assets.pack.text(ui.lang, "$i18n:ui.shop_empty").c_str());
+        debug_text(renderer, (x + 16.0F) / kScale, ty / kScale,
+                   assets.pack.text(ui.lang, "$i18n:ui.shop_empty").c_str());
     }
     for (std::size_t i = static_cast<std::size_t>(first); i < static_cast<std::size_t>(first + visible); ++i) {
         const std::string name =
@@ -1074,16 +1145,16 @@ void draw_shop(SDL_Renderer* renderer, const Assets& assets, const aether::World
             SDL_SetRenderScale(renderer, kScale, kScale);
         }
         SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
-        SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, ty / kScale,
-                            ((static_cast<int>(i) == cursor ? ">" : " ") + name).c_str());
+        debug_text(renderer, (x + 16.0F) / kScale, ty / kScale,
+                   ((static_cast<int>(i) == cursor ? ">" : " ") + name).c_str());
         SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
-        SDL_RenderDebugText(renderer, (x + w - 16.0F) / kScale - static_cast<float>(price.size()) * 8.0F, ty / kScale,
-                            price.c_str());
+        debug_text(renderer, (x + w - 16.0F) / kScale - static_cast<float>(price.size()) * 8.0F, ty / kScale,
+                   price.c_str());
         ty += row;
     }
     SDL_SetRenderDrawColor(renderer, 170, 200, 230, 255);
-    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + h - 28.0F) / kScale,
-                        assets.pack.text(ui.lang, "$i18n:ui.shop_hint").c_str());
+    debug_text(renderer, (x + 16.0F) / kScale, (y + h - 28.0F) / kScale,
+               assets.pack.text(ui.lang, "$i18n:ui.shop_hint").c_str());
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
@@ -1113,13 +1184,13 @@ void draw_board(SDL_Renderer* renderer, const Assets& assets, const aether::Worl
     SDL_SetRenderScale(renderer, kScale, kScale);
     SDL_SetRenderDrawColor(renderer, 111, 227, 255, 255);
     const std::string title = assets.pack.text(ui.lang, "$i18n:ui.board") + " - " + board->settlement.name;
-    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + 12.0F) / kScale, title.c_str());
+    debug_text(renderer, (x + 16.0F) / kScale, (y + 12.0F) / kScale, title.c_str());
     const std::string status = assets.pack.text(ui.lang, "$i18n:ui.rank", {{"rank", rank_letter(sim.guild_rank())}}) +
                                "  " +
                                assets.pack.text(ui.lang, "$i18n:ui.guild_points",
                                                 {{"points", static_cast<std::int64_t>(sim.story().guild_points())}});
     SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
-    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + 12.0F + row) / kScale, status.c_str());
+    debug_text(renderer, (x + 16.0F) / kScale, (y + 12.0F + row) / kScale, status.c_str());
     float ty = y + 12.0F + row * 2.0F + 6.0F;
     const int cursor = std::clamp(ui.board_cursor, 0, std::max(static_cast<int>(board->offers.size()) - 1, 0));
     for (std::size_t i = 0; i < board->offers.size(); ++i) {
@@ -1141,23 +1212,22 @@ void draw_board(SDL_Renderer* renderer, const Assets& assets, const aether::Worl
                   ")";
         }
         SDL_SetRenderDrawColor(renderer, locked ? 130 : 255, locked ? 140 : 255, locked ? 160 : 255, 255);
-        SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, ty / kScale,
-                            ((static_cast<int>(i) == cursor ? ">" : " ") + name + tag).c_str());
+        debug_text(renderer, (x + 16.0F) / kScale, ty / kScale,
+                   ((static_cast<int>(i) == cursor ? ">" : " ") + name + tag).c_str());
         SDL_SetRenderDrawColor(renderer, 170, 200, 230, 255);
         const std::string journal = dialogue_text(assets.pack, ui.lang, quest.stages.front().journal, quest.args);
-        SDL_RenderDebugText(renderer, (x + 16.0F + 8.0F * kScale) / kScale, (ty + row) / kScale,
-                            journal.substr(0, 80).c_str());
+        debug_text(renderer, (x + 16.0F + 8.0F * kScale) / kScale, (ty + row) / kScale, journal.substr(0, 80).c_str());
         SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
         const std::string reward = assets.pack.text(ui.lang, "$i18n:ui.board_reward",
                                                     {{"gold", static_cast<std::int64_t>(offer.gold)},
                                                      {"xp", static_cast<std::int64_t>(offer.xp)},
                                                      {"points", static_cast<std::int64_t>(offer.points)}});
-        SDL_RenderDebugText(renderer, (x + 16.0F + 8.0F * kScale) / kScale, (ty + row * 2.0F) / kScale, reward.c_str());
+        debug_text(renderer, (x + 16.0F + 8.0F * kScale) / kScale, (ty + row * 2.0F) / kScale, reward.c_str());
         ty += row * 3.0F;
     }
     SDL_SetRenderDrawColor(renderer, 170, 200, 230, 255);
-    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + h - 28.0F) / kScale,
-                        assets.pack.text(ui.lang, "$i18n:ui.board_hint").c_str());
+    debug_text(renderer, (x + 16.0F) / kScale, (y + h - 28.0F) / kScale,
+               assets.pack.text(ui.lang, "$i18n:ui.board_hint").c_str());
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
@@ -1242,8 +1312,8 @@ void draw_journal(SDL_Renderer* renderer, const Assets& assets, const aether::Wo
     fill_rect(renderer, x, y, w, 3.0F, 255, 215, 120, 255);
     SDL_SetRenderScale(renderer, kScale, kScale);
     SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
-    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + 14.0F) / kScale,
-                        assets.pack.text(ui.lang, "$i18n:ui.journal").c_str());
+    debug_text(renderer, (x + 16.0F) / kScale, (y + 14.0F) / kScale,
+               assets.pack.text(ui.lang, "$i18n:ui.journal").c_str());
     float ty = y + 14.0F + row * 1.5F;
     for (int i = first; i < std::min(first + visible, static_cast<int>(lines.size())); ++i) {
         const JournalLine& line = lines[static_cast<std::size_t>(i)];
@@ -1261,12 +1331,12 @@ void draw_journal(SDL_Renderer* renderer, const Assets& assets, const aether::Wo
                 SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
                 break;
         }
-        SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, ty / kScale, line.text.c_str());
+        debug_text(renderer, (x + 16.0F) / kScale, ty / kScale, line.text.c_str());
         ty += row;
     }
     SDL_SetRenderDrawColor(renderer, 170, 200, 230, 255);
-    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + h - 28.0F) / kScale,
-                        assets.pack.text(ui.lang, "$i18n:ui.journal_hint").c_str());
+    debug_text(renderer, (x + 16.0F) / kScale, (y + h - 28.0F) / kScale,
+               assets.pack.text(ui.lang, "$i18n:ui.journal_hint").c_str());
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
@@ -1291,8 +1361,8 @@ void draw_travel(SDL_Renderer* renderer, const Assets& assets, const aether::Wor
     fill_rect(renderer, x, y, w, 3.0F, 111, 227, 255, 255);
     SDL_SetRenderScale(renderer, kScale, kScale);
     SDL_SetRenderDrawColor(renderer, 111, 227, 255, 255);
-    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + 12.0F) / kScale,
-                        assets.pack.text(ui.lang, "$i18n:ui.travel").c_str());
+    debug_text(renderer, (x + 16.0F) / kScale, (y + 12.0F) / kScale,
+               assets.pack.text(ui.lang, "$i18n:ui.travel").c_str());
     SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
     SDL_RenderDebugText(
         renderer, (x + 16.0F) / kScale, (y + 12.0F + row) / kScale,
@@ -1311,15 +1381,15 @@ void draw_travel(SDL_Renderer* renderer, const Assets& assets, const aether::Wor
         if (here) {
             line += "  (" + assets.pack.text(ui.lang, "$i18n:ui.travel_here") + ")";
         }
-        SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, ty / kScale, line.c_str());
+        debug_text(renderer, (x + 16.0F) / kScale, ty / kScale, line.c_str());
         SDL_SetRenderDrawColor(renderer, 170, 200, 230, 255);
-        SDL_RenderDebugText(renderer, (x + 16.0F + 8.0F * kScale) / kScale, (ty + row) / kScale,
-                            assets.pack.text(ui.lang, stop.region).c_str());
+        debug_text(renderer, (x + 16.0F + 8.0F * kScale) / kScale, (ty + row) / kScale,
+                   assets.pack.text(ui.lang, stop.region).c_str());
         ty += row * 2.0F;
     }
     SDL_SetRenderDrawColor(renderer, 170, 200, 230, 255);
-    SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + h - 28.0F) / kScale,
-                        assets.pack.text(ui.lang, "$i18n:ui.travel_hint").c_str());
+    debug_text(renderer, (x + 16.0F) / kScale, (y + h - 28.0F) / kScale,
+               assets.pack.text(ui.lang, "$i18n:ui.travel_hint").c_str());
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
@@ -1342,13 +1412,13 @@ void draw_inventory_and_notice(SDL_Renderer* renderer, const Assets& assets, con
         fill_rect(renderer, x, y, w, 3.0F, 111, 227, 255, 255);
         SDL_SetRenderScale(renderer, kScale, kScale);
         SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
-        SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (y + 14.0F) / kScale,
-                            assets.pack.text(ui.lang, "$i18n:ui.inventory").c_str());
+        debug_text(renderer, (x + 16.0F) / kScale, (y + 14.0F) / kScale,
+                   assets.pack.text(ui.lang, "$i18n:ui.inventory").c_str());
         float ty = y + 14.0F + row + 6.0F;
         SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
         if (items.empty()) {
-            SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, ty / kScale,
-                                assets.pack.text(ui.lang, "$i18n:ui.empty_bag").c_str());
+            debug_text(renderer, (x + 16.0F) / kScale, ty / kScale,
+                       assets.pack.text(ui.lang, "$i18n:ui.empty_bag").c_str());
         }
         const int cursor = std::clamp(ui.bag_cursor, 0, std::max(static_cast<int>(items.size()) - 1, 0));
         int index = 0;
@@ -1371,28 +1441,28 @@ void draw_inventory_and_notice(SDL_Renderer* renderer, const Assets& assets, con
                 fill_rect(renderer, x + 8.0F, ty - 3.0F, w - 16.0F, row, 40, 90, 140, 255);
                 SDL_SetRenderScale(renderer, kScale, kScale);
                 SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-                SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, ty / kScale, (">" + line).c_str());
+                debug_text(renderer, (x + 16.0F) / kScale, ty / kScale, (">" + line).c_str());
                 SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
             } else {
-                SDL_RenderDebugText(renderer, (x + 16.0F + 8.0F * kScale) / kScale, ty / kScale, line.c_str());
+                debug_text(renderer, (x + 16.0F + 8.0F * kScale) / kScale, ty / kScale, line.c_str());
             }
             ty += row;
             ++index;
         }
         if (!selected.empty()) {
             SDL_SetRenderDrawColor(renderer, 170, 200, 230, 255);
-            SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (ty + 6.0F) / kScale,
-                                assets.pack.text(ui.lang, "$i18n:" + selected + ".desc").c_str());
-            SDL_RenderDebugText(renderer, (x + 16.0F) / kScale, (ty + 6.0F + row) / kScale,
-                                assets.pack.text(ui.lang, "$i18n:ui.bag_use_hint").c_str());
+            debug_text(renderer, (x + 16.0F) / kScale, (ty + 6.0F) / kScale,
+                       assets.pack.text(ui.lang, "$i18n:" + selected + ".desc").c_str());
+            debug_text(renderer, (x + 16.0F) / kScale, (ty + 6.0F + row) / kScale,
+                       assets.pack.text(ui.lang, "$i18n:ui.bag_use_hint").c_str());
         }
         SDL_SetRenderScale(renderer, 1.0F, 1.0F);
     }
     if (ui.message_frames > 0 && !ui.message.empty()) {
         SDL_SetRenderScale(renderer, kScale, kScale);
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-        SDL_RenderDebugText(renderer, 12.0F * density / kScale, (static_cast<float>(out_h) - 40.0F * density) / kScale,
-                            ui.message.c_str());
+        debug_text(renderer, 12.0F * density / kScale, (static_cast<float>(out_h) - 40.0F * density) / kScale,
+                   ui.message.c_str());
         SDL_SetRenderScale(renderer, 1.0F, 1.0F);
     }
 }
@@ -1487,7 +1557,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
         } else {
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         }
-        SDL_RenderDebugText(renderer, sx, sy, f.text.c_str());
+        debug_text(renderer, sx, sy, f.text.c_str());
     }
 
     draw_atmosphere(renderer, assets, sim, ui, out_w, out_h, density, now_ms);
@@ -1498,8 +1568,8 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
         if (const auto stone = sim.stone_near()) {
             const std::string hint = assets.pack.text(ui.lang, "$i18n:ui.interact");
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-            SDL_RenderDebugText(renderer, (stone->first - cam.x) * tile - static_cast<float>(hint.size()) * 4.0F,
-                                (stone->second - cam.y) * tile - 2.4F * tile, hint.c_str());
+            debug_text(renderer, (stone->first - cam.x) * tile - static_cast<float>(hint.size()) * 4.0F,
+                       (stone->second - cam.y) * tile - 2.4F * tile, hint.c_str());
         }
     }
     if (!sim.story().dialogue_active()) {
@@ -1508,11 +1578,11 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
             const float hx = (npc->x - cam.x) * tile - static_cast<float>(hint.size()) * 4.0F;
             const float hy = (npc->y - cam.y) * tile - 2.2F * tile;
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-            SDL_RenderDebugText(renderer, hx, hy, hint.c_str());
+            debug_text(renderer, hx, hy, hint.c_str());
             if (!npc->name.empty()) {
                 SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
-                SDL_RenderDebugText(renderer, (npc->x - cam.x) * tile - static_cast<float>(npc->name.size()) * 4.0F,
-                                    hy - 12.0F, npc->name.c_str());
+                debug_text(renderer, (npc->x - cam.x) * tile - static_cast<float>(npc->name.size()) * 4.0F, hy - 12.0F,
+                           npc->name.c_str());
             }
         }
     }
@@ -1530,7 +1600,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
                       aether::version_line().c_str(), fps, static_cast<double>(sim.player().position.x),
                       static_cast<double>(sim.player().position.y), tile_px, cache.size());
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-        SDL_RenderDebugText(renderer, 8.0F, static_cast<float>(out_h) - 16.0F, line);
+        debug_text(renderer, 8.0F, static_cast<float>(out_h) - 16.0F, line);
     }
     if (!capture_path.empty()) {
         if (SDL_Surface* surface = SDL_RenderReadPixels(renderer, nullptr)) {
@@ -1635,7 +1705,7 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
                                    Uint8 b) {
             SDL_SetRenderScale(renderer, scale, scale);
             SDL_SetRenderDrawColor(renderer, r, g, b, 255);
-            SDL_RenderDebugText(renderer, px / scale, py / scale, line.c_str());
+            debug_text(renderer, px / scale, py / scale, line.c_str());
             SDL_SetRenderScale(renderer, 1.0F, 1.0F);
         };
         SDL_SetRenderDrawColor(renderer, 11, 31, 58, 255);
