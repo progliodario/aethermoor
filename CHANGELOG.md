@@ -7,6 +7,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 ### Fixed
 
 - Italian accents on desktop: the font of SDL draws the ASCII characters only, so every è, à, ù, ò and ì (about 430 in the texts) and the « » of the recipes were drawn as a block. They are now drawn as the letter with a small accent (and the quotation marks as ASCII ones). Found by looking at a frame of a dialogue.
+- Texts with accents on desktop are aligned by characters, not by bytes: the clock, the gold, the prices, the ranks, the map names and the title were a little too far to the left; the name of the region at the top uses the same accented font.
 - The desktop code is formatted with clang-format (`desktop/.clang-format`, 120 columns; 5 percent of the lines were longer than the 100 it asked for): only whitespace and the line breaks of comments changed, checked file by file. `tools/ship.py` formats the C++ files it commits from now on.
 - On the world map a name that would be drawn over another one is left out (towns first, then villages, then dungeons), so the names near the start are readable; Lumeria is a little wetter, and the entrance of the Cinder Citadel has rocks instead of green bushes.
 - Regions look like their names (spec 09, "Regions look like their names"): Sunscar was snow with pines, Frostveil a meadow with oaks, the Ashen Wastes a green field. Each region now bends the terrain (a blend of biases over 4500 tiles), has ground tiles of its own (sixteen new ones) and its own random props (a new dead tree for the ash).
