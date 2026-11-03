@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/silk_robe",
+  "name": "$i18n:item.silk_robe.name",
+  "description": "$i18n:item.silk_robe.desc",
+  "kind": "armor",
+  "rarity": "uncommon",
+  "price": 350,
+  "armor": {
+    "def": 3,
+    "mdef": 7
+  }
+}

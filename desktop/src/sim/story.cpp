@@ -55,6 +55,9 @@ Condition parse_condition(const Json& j) {
     } else if (key == "level_at_least") {
         c.kind = Condition::Kind::LevelAtLeast;
         c.n = value.get<std::int64_t>();
+    } else if (key == "gold_at_least") {
+        c.kind = Condition::Kind::GoldAtLeast;
+        c.n = value.get<std::int64_t>();
     } else {
         throw std::runtime_error("unknown condition " + key);
     }
@@ -71,6 +74,11 @@ Effect parse_effect(const Json& j) {
         e.kind = Effect::Kind::AddItem;
         e.a = j.at("item").get<std::string>();
         e.n = j.at("qty").get<std::int64_t>();
+    } else if (kind == "spend_gold") {
+        e.kind = Effect::Kind::SpendGold;
+        e.n = j.at("amount").get<std::int64_t>();
+    } else if (kind == "heal_full") {
+        e.kind = Effect::Kind::HealFull;
     } else if (kind == "remove_item") {
         e.kind = Effect::Kind::RemoveItem;
         e.a = j.at("item").get<std::string>();
@@ -310,6 +318,8 @@ bool Story::holds(const Condition& c) const {
         }
         case Condition::Kind::LevelAtLeast:
             return m_host_.level() >= c.n;
+        case Condition::Kind::GoldAtLeast:
+            return m_gold_ >= c.n;
     }
     return false;
 }
@@ -325,6 +335,12 @@ void Story::apply(const Effect& effect) {
         case Effect::Kind::AddItem:
             m_host_.host_inventory()[effect.a] += effect.n;
             refresh_all();
+            break;
+        case Effect::Kind::SpendGold:
+            m_gold_ = std::max<std::int64_t>(0, m_gold_ - effect.n);
+            break;
+        case Effect::Kind::HealFull:
+            m_host_.heal_full();
             break;
         case Effect::Kind::RemoveItem: {
             auto& inventory = m_host_.host_inventory();

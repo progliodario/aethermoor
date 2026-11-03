@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/sovereigns_mantle",
+  "name": "$i18n:item.sovereigns_mantle.name",
+  "description": "$i18n:item.sovereigns_mantle.desc",
+  "kind": "armor",
+  "rarity": "epic",
+  "price": 3000,
+  "armor": {
+    "def": 14,
+    "mdef": 13
+  }
+}

@@ -60,6 +60,29 @@
           "next": "legend"
         },
         {
+          "text": "$i18n:dlg.inn.gruff.bed",
+          "when": {
+            "gold_at_least": 10
+          },
+          "next": "inn_rest"
+        },
+        {
+          "text": "$i18n:dlg.inn.gruff.bed",
+          "when": {
+            "not": {
+              "gold_at_least": 10
+            }
+          },
+          "next": "inn_poor"
+        },
+        {
+          "text": "$i18n:dlg.inn.gruff.meal",
+          "when": {
+            "gold_at_least": 48
+          },
+          "next": "inn_meal"
+        },
+        {
           "text": "$i18n:dlg.role.bye",
           "next": "end"
         }
@@ -136,6 +159,52 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.pantry.gruff.thanks",
+      "next": "end"
+    },
+    "inn_rest": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "spend_gold",
+          "amount": 10
+        },
+        {
+          "effect": "heal_full"
+        }
+      ],
+      "next": "inn_slept"
+    },
+    "inn_slept": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.inn.gruff.slept",
+      "next": "end"
+    },
+    "inn_poor": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.inn.gruff.poor",
+      "next": "end"
+    },
+    "inn_meal": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "spend_gold",
+          "amount": 48
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/hearty_stew",
+          "qty": 1
+        }
+      ],
+      "next": "inn_fed"
+    },
+    "inn_fed": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.inn.gruff.fed",
       "next": "end"
     }
   }

@@ -1,0 +1,106 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/creature/slime_nebula",
+  "canvas": {
+    "w": 36,
+    "h": 30,
+    "origin": [
+      18,
+      26
+    ]
+  },
+  "palette": {
+    "body": "#6A4AB8",
+    "light": "#C8B0FF",
+    "dark": "#32206A",
+    "outline": "#110A2A",
+    "eye": "#FFE9A3"
+  },
+  "variants": {},
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          18,
+          26,
+          15,
+          4
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "path": "M 3 25 Q 2 9 18 6 Q 34 9 33 25 Q 18 29 3 25 Z"
+      },
+      "fill": {
+        "radial": {
+          "cx": 14,
+          "cy": 11,
+          "r": 24,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.45,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          13,
+          12,
+          4,
+          2.2
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.35
+    },
+    {
+      "shape": {
+        "ellipse": [
+          13,
+          18,
+          1.8,
+          2.6
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          23,
+          18,
+          1.8,
+          2.6
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      }
+    }
+  ]
+}

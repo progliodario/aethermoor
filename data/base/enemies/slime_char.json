@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/slime_char",
+  "name": "$i18n:enemy.slime_char.name",
+  "level": 12,
+  "stats": {
+    "hp": 240,
+    "atk": 32,
+    "def": 13,
+    "mdef": 7,
+    "speed_x100": 260
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "water": 1500
+  },
+  "xp": 95,
+  "drops": [
+    {
+      "item": "base:item/char_chunk",
+      "qty_min": 1,
+      "qty_max": 2,
+      "weight_pm": 500
+    }
+  ],
+  "radius_x100": 40,
+  "behavior": "base:behavior/melee_chaser_basic",
+  "art": "base:art/creature/slime_char"
+}

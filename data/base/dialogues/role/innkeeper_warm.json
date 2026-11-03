@@ -60,6 +60,29 @@
           "next": "legend"
         },
         {
+          "text": "$i18n:dlg.inn.warm.bed",
+          "when": {
+            "gold_at_least": 8
+          },
+          "next": "inn_rest"
+        },
+        {
+          "text": "$i18n:dlg.inn.warm.bed",
+          "when": {
+            "not": {
+              "gold_at_least": 8
+            }
+          },
+          "next": "inn_poor"
+        },
+        {
+          "text": "$i18n:dlg.inn.warm.meal",
+          "when": {
+            "gold_at_least": 24
+          },
+          "next": "inn_meal"
+        },
+        {
           "text": "$i18n:dlg.role.bye",
           "next": "end"
         }
@@ -136,6 +159,52 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.pantry.warm.thanks",
+      "next": "end"
+    },
+    "inn_rest": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "spend_gold",
+          "amount": 8
+        },
+        {
+          "effect": "heal_full"
+        }
+      ],
+      "next": "inn_slept"
+    },
+    "inn_slept": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.inn.warm.slept",
+      "next": "end"
+    },
+    "inn_poor": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.inn.warm.poor",
+      "next": "end"
+    },
+    "inn_meal": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "spend_gold",
+          "amount": 24
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/honey_cake",
+          "qty": 3
+        }
+      ],
+      "next": "inn_fed"
+    },
+    "inn_fed": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.inn.warm.fed",
       "next": "end"
     }
   }

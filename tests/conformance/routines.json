@@ -18,8 +18,12 @@
             4
           ],
           [
-            438,
-            5
+            74,
+            26
+          ],
+          [
+            75,
+            26
           ],
           [
             227,
@@ -36,22 +40,6 @@
           [
             228,
             44
-          ],
-          [
-            145,
-            99
-          ],
-          [
-            146,
-            99
-          ],
-          [
-            145,
-            100
-          ],
-          [
-            146,
-            100
           ],
           [
             256,
@@ -126,6 +114,16 @@
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_mint",
+                  "drop": "base:item/mint_leaf",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wolf_tawny",
+                  "drop": "base:item/tawny_fur",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -135,7 +133,10 @@
                   "base:item/potion_small",
                   "base:item/iron_sword",
                   "base:item/leather_vest",
-                  "base:item/honey_cake"
+                  "base:item/honey_cake",
+                  "base:item/studded_leather",
+                  "base:item/bronze_blade",
+                  "base:item/tonic"
                 ]
               }
             },
@@ -166,6 +167,11 @@
                   "enemy": "base:enemy/wolf_dire",
                   "drop": "base:item/dire_fang",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_moss",
+                  "drop": "base:item/moss_clump",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -175,7 +181,10 @@
                   "base:item/potion_small",
                   "base:item/leather_vest",
                   "base:item/potion_medium",
-                  "base:item/mage_robe"
+                  "base:item/mage_robe",
+                  "base:item/hand_axe",
+                  "base:item/silk_robe",
+                  "base:item/travel_ration"
                 ]
               }
             },
@@ -206,6 +215,11 @@
                   "enemy": "base:enemy/wolf_dire",
                   "drop": "base:item/dire_fang",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_rust",
+                  "drop": "base:item/rust_flake",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -216,7 +230,10 @@
                   "base:item/chain_mail",
                   "base:item/leather_vest",
                   "base:item/knight_sword",
-                  "base:item/brigandine"
+                  "base:item/brigandine",
+                  "base:item/pike",
+                  "base:item/scale_mail",
+                  "base:item/splint_mail"
                 ]
               }
             },
@@ -242,6 +259,11 @@
                   "enemy": "base:enemy/slime_amber",
                   "drop": "base:item/amber_drop",
                   "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/wolf_dune",
+                  "drop": "base:item/dune_pelt",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -252,7 +274,10 @@
                   "base:item/iron_sword",
                   "base:item/leather_vest",
                   "base:item/potion_medium",
-                  "base:item/honey_cake"
+                  "base:item/honey_cake",
+                  "base:item/saber",
+                  "base:item/studded_leather",
+                  "base:item/fish_stew"
                 ]
               }
             },
@@ -278,6 +303,11 @@
                   "enemy": "base:enemy/slime_ice",
                   "drop": "base:item/ice_crystal",
                   "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/wolf_polar",
+                  "drop": "base:item/polar_fur",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -288,7 +318,10 @@
                   "base:item/chain_mail",
                   "base:item/potion_medium",
                   "base:item/hearty_stew",
-                  "base:item/brigandine"
+                  "base:item/brigandine",
+                  "base:item/claymore",
+                  "base:item/splint_mail",
+                  "base:item/fish_stew"
                 ]
               }
             },
@@ -319,6 +352,11 @@
                   "enemy": "base:enemy/slime_coral",
                   "drop": "base:item/coral_fragment",
                   "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/slime_pearl",
+                  "drop": "base:item/pearl_dust",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -330,7 +368,10 @@
                   "base:item/steel_sword",
                   "base:item/grilled_fish",
                   "base:item/potion_medium",
-                  "base:item/knight_sword"
+                  "base:item/knight_sword",
+                  "base:item/saber",
+                  "base:item/scale_mail",
+                  "base:item/travel_ration"
                 ]
               }
             },
@@ -361,6 +402,11 @@
                   "enemy": "base:enemy/wolf_dire",
                   "drop": "base:item/dire_fang",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_char",
+                  "drop": "base:item/char_chunk",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -371,7 +417,11 @@
                   "base:item/chain_mail",
                   "base:item/potion_large",
                   "base:item/runed_blade",
-                  "base:item/plate_cuirass"
+                  "base:item/plate_cuirass",
+                  "base:item/war_axe",
+                  "base:item/knight_plate",
+                  "base:item/royal_feast",
+                  "base:item/dragon_scale_vest"
                 ]
               }
             },
@@ -402,6 +452,11 @@
                   "enemy": "base:enemy/wolf_storm",
                   "drop": "base:item/storm_feather",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_nebula",
+                  "drop": "base:item/nebula_ash",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -412,7 +467,11 @@
                   "base:item/chain_mail",
                   "base:item/potion_medium",
                   "base:item/mage_robe",
-                  "base:item/runed_blade"
+                  "base:item/runed_blade",
+                  "base:item/moon_blade",
+                  "base:item/warding_robe",
+                  "base:item/silk_robe",
+                  "base:item/travel_ration"
                 ]
               }
             }
@@ -543,6 +602,102 @@
               "kind": "dungeon",
               "dx": -128,
               "dy": 6272
+            },
+            {
+              "id": "ironspine_outpost",
+              "name": "Ironspine Waystation",
+              "stamp": "base:stamp/outpost_ironspine",
+              "kind": "hamlet",
+              "dx": 4224,
+              "dy": -4736
+            },
+            {
+              "id": "tidehaven_outpost",
+              "name": "Brinewatch Post",
+              "stamp": "base:stamp/outpost_tidehaven",
+              "kind": "hamlet",
+              "dx": -6272,
+              "dy": 4224
+            },
+            {
+              "id": "frostveil_outpost",
+              "name": "Rimewatch Hut",
+              "stamp": "base:stamp/outpost_frostveil",
+              "kind": "hamlet",
+              "dx": -1152,
+              "dy": -6528
+            },
+            {
+              "id": "whisperwood_outpost",
+              "name": "Hollow's Edge Camp",
+              "stamp": "base:stamp/outpost_whisperwood",
+              "kind": "hamlet",
+              "dx": -4224,
+              "dy": -2688
+            },
+            {
+              "id": "sunscar_outpost",
+              "name": "Dune Caravanserai",
+              "stamp": "base:stamp/outpost_sunscar",
+              "kind": "hamlet",
+              "dx": 5504,
+              "dy": 3968
+            },
+            {
+              "id": "lumeria_outpost",
+              "name": "Lantern Rest",
+              "stamp": "base:stamp/outpost_lumeria",
+              "kind": "hamlet",
+              "dx": -640,
+              "dy": 6272
+            },
+            {
+              "id": "ashen_outpost",
+              "name": "Ember Watch",
+              "stamp": "base:stamp/outpost_ashen",
+              "kind": "hamlet",
+              "dx": 6784,
+              "dy": -384
+            },
+            {
+              "id": "verdalis_outpost",
+              "name": "Crossroads Camp",
+              "stamp": "base:stamp/outpost_verdalis",
+              "kind": "hamlet",
+              "dx": 384,
+              "dy": 128
+            },
+            {
+              "id": "ironspine_forge",
+              "name": "Deep Forge",
+              "stamp": "base:stamp/forge",
+              "kind": "dungeon",
+              "dx": 3968,
+              "dy": -4224
+            },
+            {
+              "id": "tidehaven_galleon",
+              "name": "Sunken Galleon",
+              "stamp": "base:stamp/galleon",
+              "kind": "dungeon",
+              "dx": -5504,
+              "dy": 4736
+            },
+            {
+              "id": "frostveil_keep",
+              "name": "Glacier Keep",
+              "stamp": "base:stamp/keep",
+              "kind": "dungeon",
+              "dx": -1408,
+              "dy": -6272
+            },
+            {
+              "id": "ashen_vault",
+              "name": "Obsidian Vault",
+              "stamp": "base:stamp/vault",
+              "kind": "dungeon",
+              "dx": 6528,
+              "dy": 128
             }
           ],
           "guild": {
@@ -715,7 +870,8 @@
                 "stamps": [
                   "base:stamp/hamlet",
                   "base:stamp/hamlet_b",
-                  "base:stamp/hamlet_c"
+                  "base:stamp/hamlet_c",
+                  "base:stamp/hamlet_d"
                 ]
               },
               {
@@ -724,7 +880,8 @@
                 "stamps": [
                   "base:stamp/village",
                   "base:stamp/village_b",
-                  "base:stamp/village_c"
+                  "base:stamp/village_c",
+                  "base:stamp/village_d"
                 ]
               },
               {
@@ -732,7 +889,8 @@
                 "weight": 1,
                 "stamps": [
                   "base:stamp/town",
-                  "base:stamp/town_b"
+                  "base:stamp/town_b",
+                  "base:stamp/town_c"
                 ]
               }
             ],
@@ -1322,6 +1480,76 @@
                 ]
               ]
             },
+            "base:stamp/hamlet_d": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hamlet_d",
+              "w": 13,
+              "h": 11,
+              "anchor": [
+                6,
+                5
+              ],
+              "rows": [
+                "......=......",
+                ".#####=...t..",
+                ".#bV_#=......",
+                ".#___#=......",
+                ".##_##cT.....",
+                "=====cwc=====",
+                ".....ccc.....",
+                "......=......",
+                ".t....=..t...",
+                "......=....t.",
+                "......=......"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  5,
+                  5
+                ],
+                [
+                  7,
+                  6
+                ]
+              ]
+            },
             "base:stamp/village": {
               "$schema": "../../../schemas/stamp.schema.json",
               "id": "base:stamp/village",
@@ -1602,6 +1830,100 @@
                 ]
               ]
             },
+            "base:stamp/village_d": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/village_d",
+              "w": 21,
+              "h": 19,
+              "anchor": [
+                10,
+                9
+              ],
+              "rows": [
+                "..........=..........",
+                ".#######.t=..#######.",
+                ".#b____#..=..#b____#.",
+                ".#__V__#..=..#___S_#.",
+                ".#_____#..=..#_____#.",
+                ".###_###..=..###_###.",
+                "..........=..........",
+                "..........=..........",
+                "t.......ccccT........",
+                "........ccwcc.......t",
+                "........cccEc........",
+                "..........=..........",
+                ".#######..=..#######.",
+                ".#b____#..=..#_____#.",
+                ".#__V__#..=..#__V__#.",
+                ".#_____#..=..#_____#.",
+                ".###_###..=..###_###.",
+                "..........=t.........",
+                "..........=.........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  9,
+                  9
+                ],
+                [
+                  11,
+                  9
+                ],
+                [
+                  9,
+                  10
+                ],
+                [
+                  12,
+                  10
+                ]
+              ]
+            },
             "base:stamp/town": {
               "$schema": "../../../schemas/stamp.schema.json",
               "id": "base:stamp/town",
@@ -1843,6 +2165,127 @@
                 [
                   17,
                   15
+                ]
+              ]
+            },
+            "base:stamp/town_c": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/town_c",
+              "w": 37,
+              "h": 25,
+              "anchor": [
+                18,
+                16
+              ],
+              "rows": [
+                "t.................=.................t",
+                "..................=..................",
+                "...........###############...........",
+                "...........#_bb__________#...........",
+                "...........#_____________#...........",
+                "...........#__________G__#...........",
+                "...........#_____________#...........",
+                "...........#######_#######...........",
+                "..................=..................",
+                "..#########.......=.......#########..",
+                "..#bb_____#.......=.......#b______#..",
+                "..#_______#..t....=....t..#_______#..",
+                "..#_____S_#.......=.......#_____I_#..",
+                "..#_______#....lcccccl....#_______#..",
+                "..####_####....cccccTc....####_####..",
+                "...............ccccccc...............",
+                "===============cccwccc===============",
+                "...............cccEccc...............",
+                "...............ccccccc...............",
+                "...#######.....lcccccl.....#######...",
+                "...#__V__#........=........#__V__#...",
+                "...#_____#........=........#_____#...",
+                "...###_###........=........###_###...",
+                "..................=..................",
+                "t.................=.................t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "G": {
+                  "tile": 13,
+                  "npc": "guild_clerk"
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  16,
+                  14
+                ],
+                [
+                  17,
+                  14
+                ],
+                [
+                  19,
+                  14
+                ],
+                [
+                  16,
+                  18
+                ],
+                [
+                  20,
+                  18
+                ],
+                [
+                  18,
+                  18
                 ]
               ]
             },
@@ -2901,6 +3344,991 @@
                 }
               },
               "spots": []
+            },
+            "base:stamp/outpost_ironspine": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_ironspine",
+              "w": 23,
+              "h": 13,
+              "anchor": [
+                11,
+                7
+              ],
+              "rows": [
+                ".......................",
+                ".########.....########.",
+                ".#b_____#.....#b_____#.",
+                ".#____S_#.....#____I_#.",
+                ".#______#.....#______#.",
+                ".###_####.....####_###.",
+                ".........ccccc.........",
+                ".........ccwTc.........",
+                ".........cVccc.........",
+                ".....o.....=.....o.....",
+                "...........=...........",
+                "...........=...........",
+                "o..........=..........o"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  10,
+                  7
+                ],
+                [
+                  12,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/outpost_tidehaven": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_tidehaven",
+              "w": 19,
+              "h": 13,
+              "anchor": [
+                9,
+                8
+              ],
+              "rows": [
+                "...................",
+                "..###############..",
+                "..#_____b_b_____#..",
+                "..#_S_________I_#..",
+                "..#_____________#..",
+                "..#######_#######..",
+                "...................",
+                ".......ccccc.......",
+                "...o...VcwcT...o...",
+                ".......ccccc.......",
+                ".........=.........",
+                ".........=.........",
+                "o........=........o"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  8,
+                  8
+                ],
+                [
+                  10,
+                  9
+                ]
+              ]
+            },
+            "base:stamp/outpost_frostveil": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_frostveil",
+              "w": 21,
+              "h": 13,
+              "anchor": [
+                10,
+                7
+              ],
+              "rows": [
+                ".....................",
+                ".#######.....#######.",
+                ".#b_S__#.....#b_I__#.",
+                ".#_____#.....#_____#.",
+                ".###_###.....###_###.",
+                ".....................",
+                "........lcccc........",
+                "........ccwcT........",
+                "....t...cVccl...t....",
+                "..........=..........",
+                "..........=..........",
+                "..........=..........",
+                "t.........=.........t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  9,
+                  7
+                ],
+                [
+                  11,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/outpost_whisperwood": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_whisperwood",
+              "w": 23,
+              "h": 13,
+              "anchor": [
+                11,
+                7
+              ],
+              "rows": [
+                ".......................",
+                ".########.....########.",
+                ".#b_____#.....#b_____#.",
+                ".#____S_#.....#____I_#.",
+                ".#______#.....#______#.",
+                ".###_####.....####_###.",
+                ".........ccccc.........",
+                ".........ccwTc.........",
+                ".........cVccc.........",
+                ".....t.....=.....t.....",
+                "...........=...........",
+                "...........=...........",
+                "t..........=..........t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  10,
+                  7
+                ],
+                [
+                  12,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/outpost_sunscar": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_sunscar",
+              "w": 19,
+              "h": 13,
+              "anchor": [
+                9,
+                8
+              ],
+              "rows": [
+                "...................",
+                "..###############..",
+                "..#_____b_b_____#..",
+                "..#_S_________I_#..",
+                "..#_____________#..",
+                "..#######_#######..",
+                "...................",
+                ".......ccccc.......",
+                "...o...VcwcT...o...",
+                ".......ccccc.......",
+                ".........=.........",
+                ".........=.........",
+                "o........=........o"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  8,
+                  8
+                ],
+                [
+                  10,
+                  9
+                ]
+              ]
+            },
+            "base:stamp/outpost_lumeria": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_lumeria",
+              "w": 21,
+              "h": 13,
+              "anchor": [
+                10,
+                7
+              ],
+              "rows": [
+                ".....................",
+                ".#######.....#######.",
+                ".#b_S__#.....#b_I__#.",
+                ".#_____#.....#_____#.",
+                ".###_###.....###_###.",
+                ".....................",
+                "........lcccc........",
+                "........ccwcT........",
+                "....t...cVccl...t....",
+                "..........=..........",
+                "..........=..........",
+                "..........=..........",
+                "t.........=.........t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  9,
+                  7
+                ],
+                [
+                  11,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/outpost_ashen": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_ashen",
+              "w": 23,
+              "h": 13,
+              "anchor": [
+                11,
+                7
+              ],
+              "rows": [
+                ".......................",
+                ".########.....########.",
+                ".#b_____#.....#b_____#.",
+                ".#____S_#.....#____I_#.",
+                ".#______#.....#______#.",
+                ".###_####.....####_###.",
+                ".........ccccc.........",
+                ".........ccwTc.........",
+                ".........cVccc.........",
+                ".....o.....=.....o.....",
+                "...........=...........",
+                "...........=...........",
+                "o..........=..........o"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  10,
+                  7
+                ],
+                [
+                  12,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/outpost_verdalis": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_verdalis",
+              "w": 21,
+              "h": 13,
+              "anchor": [
+                10,
+                7
+              ],
+              "rows": [
+                ".....................",
+                ".#######.....#######.",
+                ".#b_S__#.....#b_I__#.",
+                ".#_____#.....#_____#.",
+                ".###_###.....###_###.",
+                ".....................",
+                "........lcccc........",
+                "........ccwcT........",
+                "....t...cVccl...t....",
+                "..........=..........",
+                "..........=..........",
+                "..........=..........",
+                "t.........=.........t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  9,
+                  7
+                ],
+                [
+                  11,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/forge": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/forge",
+              "w": 41,
+              "h": 37,
+              "anchor": [
+                20,
+                36
+              ],
+              "rows": [
+                ".........................................",
+                ".#######################################.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccccccccccccccclc#.",
+                ".#ccccDcccccccccccccccccccccccccccDcccc#.",
+                ".#ccccccccccccccccccqcccccccccccccccccc#.",
+                ".#ccccccccccccFcccccccccccFcccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccDcccccccccccccDcccccccccccccDcccc#.",
+                ".#clccccccccccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".##################################ccc##.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccmcccccccccccmcccccccccccc#.",
+                ".#ccccccc##ccccccccc##ccccccccc##cccccc#.",
+                ".#ccccmcc##ccccccccc##ccccccccc##cmcccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccmcccccccccccmcccccccccclc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".##ccc##################################.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccWcccccccccccccccccccccccccccWcccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccc##ccccccccc##ccccccccc##cccccc#.",
+                ".#ccccccc##cccWccccc##ccccWcccc##cccccc#.",
+                ".#clccccccccccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".##################################ccc##.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccmcccccccccccmcccccccccccc#.",
+                ".#ccccmcc##cccccccccccccccccccc##cmcccc#.",
+                ".#ccccccc##cccccccccccccccccccc##cccccc#.",
+                ".#ccccccccccccccclccccclccccccccccccccc#.",
+                ".##################ccc##################.",
+                "...................ccc...................",
+                "...............T...ccc..................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "D": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_dire"
+                },
+                "F": {
+                  "tile": 14,
+                  "spawner": "base:enemy/iron_foreman"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "m": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_slate"
+                },
+                "q": {
+                  "tile": 14,
+                  "spawner": "base:enemy/forge_tyrant"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/galleon": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/galleon",
+              "w": 47,
+              "h": 19,
+              "anchor": [
+                0,
+                9
+              ],
+              "rows": [
+                "...............................................",
+                "...............................................",
+                ".#############################################.",
+                ".#cccccccccccc#ccccccccccccc#cccccccccc#######.",
+                ".#clcccccccclc#clccccccccclc#clccccccccc######.",
+                ".#ccccccc##ccc#cccccc##ccccc#cccccc##cccc#####.",
+                ".#cciccccccicc#ccZcccccccZcc#ccicccccicccc####.",
+                ".#cccccccccccc#ccccccccccccc#cccccccccccccc###.",
+                "ccccccccccccccccccccccccccccccccccccccccccccc#.",
+                "cccccccciccccccccccccZccccccccccccQccccccrccc#.",
+                "ccccccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#cccccccccccc#ccccccccccccc#cccccccccccccc###.",
+                ".#cciccccccicc#ccZcccccccZcc#ccicccccicccc####.",
+                "T#ccccccc##ccc#cccccc##ccccc#cccccc##cccc#####.",
+                ".#clcccccccclc#ccccccccccccc#clccccccccc######.",
+                ".#cccccccccccc#ccccccccccccc#cccccccccc#######.",
+                ".#############################################.",
+                "...............................................",
+                "..............................................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "Q": {
+                  "tile": 14,
+                  "spawner": "base:enemy/tide_regent"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "Z": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_coral"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "i": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_tide"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "r": {
+                  "tile": 14,
+                  "spawner": "base:enemy/drowned_captain"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/keep": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/keep",
+              "w": 41,
+              "h": 41,
+              "anchor": [
+                20,
+                40
+              ],
+              "rows": [
+                ".........................................",
+                ".#######################################.",
+                ".##########ccccccccccccccccccc##########.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##cccHccc#ccccccccccccccccccc#cccHccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#cccccccccfccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".#####c####ccccccccccccccccccc####c#####.",
+                ".#cccccccccfcccccccccccccccccfccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccc###############ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccRcccccccRcc#ccccccccccc#.",
+                ".#ccccccccccc#cccccczcccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccfcccl#ccccccccccccc#lcccfcccccc#.",
+                ".#ccccccccccc#ccccccHcccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccHcccccccHcc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#######c#######ccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#cccccccccfcccccccccccccccccfccccccccc#.",
+                ".#####c####ccccccccccccccccccc####c#####.",
+                ".##ccccccc#ccccccccclccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#cccccccccfccccccccc#ccccccc##.",
+                ".##cccHccc#ccccccccccccccccccc#cccHccc##.",
+                ".##ccccccc#ccccclccccccclccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##########ccccccccccccccccccc##########.",
+                ".##################ccc##################.",
+                "...............T...ccc..................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "H": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ice"
+                },
+                "R": {
+                  "tile": 14,
+                  "spawner": "base:enemy/rime_revenant"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "f": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_frost"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "z": {
+                  "tile": 14,
+                  "spawner": "base:enemy/frost_sovereign"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/vault": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/vault",
+              "w": 45,
+              "h": 33,
+              "anchor": [
+                22,
+                32
+              ],
+              "rows": [
+                ".............................................",
+                ".###########################################.",
+                ".################ccccccccccc################.",
+                ".################clccccccclc################.",
+                ".################cccccyccccc################.",
+                ".################ccccccccccc################.",
+                ".################ccXcccccXcc################.",
+                ".################ccccccccccc################.",
+                ".###################ccccc###################.",
+                ".###################ccccc###################.",
+                ".##############ccccccccccccccc##############.",
+                ".#ccccc########clccccccccccclc########ccccc#.",
+                ".#clccc########ccccccceccccccc########ccclc#.",
+                ".#ccecc########cccMcccccccMccc########ccecc#.",
+                ".#ccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccecDcecccccccccccNcccccccccccccecccecc#.",
+                ".#ccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccc########cccMcccccccMccc########ccccc#.",
+                ".#ccecc########ccccccceccccccc########ccecc#.",
+                ".#ccccc########clccccccccccclc########ccccc#.",
+                ".##############ccccccccccccccc##############.",
+                ".###################ccccc###################.",
+                ".###################ccccc###################.",
+                ".###################ccccc###################.",
+                ".###################ccDcc###################.",
+                ".###################ccccc###################.",
+                ".###################ccccc###################.",
+                ".###################clDlc###################.",
+                ".###################ccccc###################.",
+                ".####################ccc####################.",
+                "..................T..ccc....................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "D": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_dire"
+                },
+                "M": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_magma"
+                },
+                "N": {
+                  "tile": 14,
+                  "spawner": "base:enemy/cinder_colossus"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "X": {
+                  "tile": 14,
+                  "spawner": "base:enemy/magma_heart"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "e": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ember"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "y": {
+                  "tile": 14,
+                  "spawner": "base:enemy/vault_warden"
+                }
+              },
+              "spots": []
             }
           }
         }
@@ -2909,26 +4337,26 @@
         "present": [
           [
             [
-              "settle:18:12:6",
+              "settle:9:3:2",
               "work",
-              1197440,
-              821408
+              621184,
+              218016
             ]
           ],
           [
             [
-              "settle:18:12:6",
+              "settle:9:3:2",
               "work",
-              1197440,
-              821408
+              621184,
+              218016
             ]
           ],
           [
             [
-              "settle:18:12:6",
+              "settle:9:3:2",
               "work",
-              1197440,
-              821408
+              621184,
+              218016
             ]
           ],
           [
@@ -2941,8 +4369,8 @@
             [
               "settle:54:0:0",
               "work",
-              3590272,
-              37792
+              3589760,
+              38048
             ],
             [
               "settle:54:0:2",
@@ -2953,44 +4381,38 @@
             [
               "settle:54:0:3",
               "work",
-              3590272,
-              40352
+              3589760,
+              39840
             ],
             [
               "settle:54:0:4",
               "work",
-              3593856,
-              40352
+              3593600,
+              40096
             ],
             [
-              "settle:18:12:2",
+              "settle:9:3:2",
               "work",
-              1196416,
-              819616
+              621184,
+              218016
             ],
             [
-              "settle:18:12:3",
+              "settle:9:3:3",
               "work",
-              1201024,
-              819616
+              617600,
+              219296
             ],
             [
-              "settle:18:12:4",
+              "settle:9:3:4",
               "work",
-              1198720,
-              820128
+              614528,
+              220064
             ],
             [
-              "settle:18:12:5",
+              "settle:9:3:5",
               "work",
-              1200256,
-              821152
-            ],
-            [
-              "settle:18:12:6",
-              "work",
-              1197440,
-              821408
+              620672,
+              220064
             ],
             [
               "settle:32:32:0",
@@ -3027,8 +4449,8 @@
             [
               "settle:54:0:0",
               "work",
-              3590272,
-              37792
+              3589760,
+              38048
             ],
             [
               "settle:54:0:2",
@@ -3039,44 +4461,38 @@
             [
               "settle:54:0:3",
               "work",
-              3590272,
-              40352
+              3589760,
+              39840
             ],
             [
               "settle:54:0:4",
               "work",
-              3593856,
-              40352
+              3593600,
+              40096
             ],
             [
-              "settle:18:12:2",
+              "settle:9:3:2",
               "work",
-              1196416,
-              819616
+              621184,
+              218016
             ],
             [
-              "settle:18:12:3",
+              "settle:9:3:3",
               "work",
-              1201024,
-              819616
+              617600,
+              219296
             ],
             [
-              "settle:18:12:4",
+              "settle:9:3:4",
               "work",
-              1198720,
-              820128
+              614528,
+              220064
             ],
             [
-              "settle:18:12:5",
+              "settle:9:3:5",
               "work",
-              1200256,
-              821152
-            ],
-            [
-              "settle:18:12:6",
-              "work",
-              1197440,
-              821408
+              620672,
+              220064
             ],
             [
               "settle:32:32:0",
@@ -3113,14 +4529,14 @@
             [
               "settle:54:0:0",
               "work",
-              3590272,
-              37792
+              3589760,
+              38048
             ],
             [
               "settle:54:0:1",
               "work",
               3593856,
-              37792
+              38304
             ],
             [
               "settle:54:0:2",
@@ -3131,50 +4547,44 @@
             [
               "settle:54:0:3",
               "work",
-              3590272,
-              40352
+              3589760,
+              39840
             ],
             [
               "settle:54:0:4",
               "work",
-              3593856,
-              40352
+              3593600,
+              40096
             ],
             [
-              "settle:18:12:1",
+              "settle:9:3:1",
               "work",
-              1200768,
-              818336
+              615040,
+              218016
             ],
             [
-              "settle:18:12:2",
+              "settle:9:3:2",
               "work",
-              1196416,
-              819616
+              621184,
+              218016
             ],
             [
-              "settle:18:12:3",
+              "settle:9:3:3",
               "work",
-              1201024,
-              819616
+              617600,
+              219296
             ],
             [
-              "settle:18:12:4",
+              "settle:9:3:4",
               "work",
-              1198720,
-              820128
+              614528,
+              220064
             ],
             [
-              "settle:18:12:5",
+              "settle:9:3:5",
               "work",
-              1200256,
-              821152
-            ],
-            [
-              "settle:18:12:6",
-              "work",
-              1197440,
-              821408
+              620672,
+              220064
             ],
             [
               "settle:32:32:0",
@@ -3217,14 +4627,14 @@
             [
               "settle:54:0:0",
               "work",
-              3590272,
-              37792
+              3589760,
+              38048
             ],
             [
               "settle:54:0:1",
               "work",
               3593856,
-              37792
+              38304
             ],
             [
               "settle:54:0:2",
@@ -3235,50 +4645,44 @@
             [
               "settle:54:0:3",
               "work",
-              3590272,
-              40352
+              3589760,
+              39840
             ],
             [
               "settle:54:0:4",
               "work",
-              3593856,
-              40352
+              3593600,
+              40096
             ],
             [
-              "settle:18:12:1",
+              "settle:9:3:1",
               "work",
-              1200768,
-              818336
+              615040,
+              218016
             ],
             [
-              "settle:18:12:2",
+              "settle:9:3:2",
               "work",
-              1196416,
-              819616
+              621184,
+              218016
             ],
             [
-              "settle:18:12:3",
+              "settle:9:3:3",
               "work",
-              1201024,
-              819616
+              617600,
+              219296
             ],
             [
-              "settle:18:12:4",
+              "settle:9:3:4",
               "work",
-              1198720,
-              820128
+              614528,
+              220064
             ],
             [
-              "settle:18:12:5",
+              "settle:9:3:5",
               "work",
-              1200256,
-              821152
-            ],
-            [
-              "settle:18:12:6",
-              "work",
-              1197440,
-              821408
+              620672,
+              220064
             ],
             [
               "settle:32:32:0",
@@ -3321,14 +4725,14 @@
             [
               "settle:54:0:0",
               "work",
-              3590272,
-              37792
+              3589760,
+              38048
             ],
             [
               "settle:54:0:1",
               "work",
               3593856,
-              37792
+              38304
             ],
             [
               "settle:54:0:2",
@@ -3339,56 +4743,50 @@
             [
               "settle:54:0:3",
               "work",
-              3590272,
-              40352
+              3589760,
+              39840
             ],
             [
               "settle:54:0:4",
               "work",
-              3593856,
-              40352
+              3593600,
+              40096
             ],
             [
-              "settle:18:12:0",
+              "settle:9:3:0",
               "work",
-              1197440,
-              818336
+              618624,
+              216224
             ],
             [
-              "settle:18:12:1",
+              "settle:9:3:1",
               "work",
-              1200768,
-              818336
+              615040,
+              218016
             ],
             [
-              "settle:18:12:2",
+              "settle:9:3:2",
               "work",
-              1196416,
-              819616
+              621184,
+              218016
             ],
             [
-              "settle:18:12:3",
+              "settle:9:3:3",
               "work",
-              1201024,
-              819616
+              617600,
+              219296
             ],
             [
-              "settle:18:12:4",
+              "settle:9:3:4",
               "work",
-              1198720,
-              820128
+              614528,
+              220064
             ],
             [
-              "settle:18:12:5",
+              "settle:9:3:5",
               "work",
-              1200256,
-              821152
-            ],
-            [
-              "settle:18:12:6",
-              "work",
-              1197440,
-              821408
+              620672,
+              220064
             ],
             [
               "settle:32:32:0",
@@ -3431,14 +4829,14 @@
             [
               "settle:54:0:0",
               "work",
-              3590272,
-              37792
+              3589760,
+              38048
             ],
             [
               "settle:54:0:1",
               "work",
               3593856,
-              37792
+              38304
             ],
             [
               "settle:54:0:2",
@@ -3449,56 +4847,50 @@
             [
               "settle:54:0:3",
               "work",
-              3590272,
-              40352
+              3589760,
+              39840
             ],
             [
               "settle:54:0:4",
               "work",
-              3593856,
-              40352
+              3593600,
+              40096
             ],
             [
-              "settle:18:12:0",
+              "settle:9:3:0",
               "work",
-              1197440,
-              818336
+              618624,
+              216224
             ],
             [
-              "settle:18:12:1",
+              "settle:9:3:1",
               "work",
-              1200768,
-              818336
+              615040,
+              218016
             ],
             [
-              "settle:18:12:2",
+              "settle:9:3:2",
               "work",
-              1196416,
-              819616
+              621184,
+              218016
             ],
             [
-              "settle:18:12:3",
+              "settle:9:3:3",
               "work",
-              1201024,
-              819616
+              617600,
+              219296
             ],
             [
-              "settle:18:12:4",
+              "settle:9:3:4",
               "work",
-              1198720,
-              820128
+              614528,
+              220064
             ],
             [
-              "settle:18:12:5",
+              "settle:9:3:5",
               "work",
-              1200256,
-              821152
-            ],
-            [
-              "settle:18:12:6",
-              "work",
-              1197440,
-              821408
+              620672,
+              220064
             ],
             [
               "settle:32:32:0",
@@ -3541,14 +4933,14 @@
             [
               "settle:54:0:0",
               "work",
-              3590272,
-              37792
+              3589760,
+              38048
             ],
             [
               "settle:54:0:1",
               "work",
               3593856,
-              37792
+              38304
             ],
             [
               "settle:54:0:2",
@@ -3559,56 +4951,50 @@
             [
               "settle:54:0:3",
               "work",
-              3590272,
-              40352
+              3589760,
+              39840
             ],
             [
               "settle:54:0:4",
               "work",
-              3593856,
-              40352
+              3593600,
+              40096
             ],
             [
-              "settle:18:12:0",
+              "settle:9:3:0",
               "work",
-              1197440,
-              818336
+              618624,
+              216224
             ],
             [
-              "settle:18:12:1",
+              "settle:9:3:1",
               "work",
-              1200768,
-              818336
+              615040,
+              218016
             ],
             [
-              "settle:18:12:2",
+              "settle:9:3:2",
               "work",
-              1196416,
-              819616
+              621184,
+              218016
             ],
             [
-              "settle:18:12:3",
+              "settle:9:3:3",
               "work",
-              1201024,
-              819616
+              617600,
+              219296
             ],
             [
-              "settle:18:12:4",
+              "settle:9:3:4",
               "work",
-              1198720,
-              820128
+              614528,
+              220064
             ],
             [
-              "settle:18:12:5",
+              "settle:9:3:5",
               "work",
-              1200256,
-              821152
-            ],
-            [
-              "settle:18:12:6",
-              "work",
-              1197440,
-              821408
+              620672,
+              220064
             ],
             [
               "settle:32:32:0",
@@ -3652,13 +5038,13 @@
               "settle:54:0:0",
               "plaza",
               3591552,
-              38816
+              39072
             ],
             [
               "settle:54:0:1",
               "work",
               3593856,
-              37792
+              38304
             ],
             [
               "settle:54:0:2",
@@ -3676,49 +5062,43 @@
               "settle:54:0:4",
               "plaza",
               3591552,
-              38816
+              39072
             ],
             [
-              "settle:18:12:0",
+              "settle:9:3:0",
               "work",
-              1197440,
-              818336
+              618624,
+              216224
             ],
             [
-              "settle:18:12:1",
+              "settle:9:3:1",
               "work",
-              1200768,
-              818336
+              615040,
+              218016
             ],
             [
-              "settle:18:12:2",
-              "plaza",
-              1198976,
-              819360
-            ],
-            [
-              "settle:18:12:3",
-              "plaza",
-              1198208,
-              820384
-            ],
-            [
-              "settle:18:12:4",
-              "plaza",
-              1199232,
-              820384
-            ],
-            [
-              "settle:18:12:5",
-              "plaza",
-              1198720,
-              820384
-            ],
-            [
-              "settle:18:12:6",
+              "settle:9:3:2",
               "work",
-              1197440,
-              821408
+              621184,
+              218016
+            ],
+            [
+              "settle:9:3:3",
+              "plaza",
+              617088,
+              219552
+            ],
+            [
+              "settle:9:3:4",
+              "plaza",
+              618112,
+              219552
+            ],
+            [
+              "settle:9:3:5",
+              "plaza",
+              617600,
+              219552
             ],
             [
               "settle:32:32:0",
@@ -3762,13 +5142,13 @@
               "settle:54:0:0",
               "plaza",
               3591552,
-              38816
+              39072
             ],
             [
               "settle:54:0:1",
               "work",
               3593856,
-              37792
+              38304
             ],
             [
               "settle:54:0:2",
@@ -3786,49 +5166,43 @@
               "settle:54:0:4",
               "plaza",
               3591552,
-              38816
+              39072
             ],
             [
-              "settle:18:12:0",
+              "settle:9:3:0",
               "work",
-              1197440,
-              818336
+              618624,
+              216224
             ],
             [
-              "settle:18:12:1",
+              "settle:9:3:1",
               "work",
-              1200768,
-              818336
+              615040,
+              218016
             ],
             [
-              "settle:18:12:2",
-              "plaza",
-              1198976,
-              819360
-            ],
-            [
-              "settle:18:12:3",
-              "plaza",
-              1198208,
-              820384
-            ],
-            [
-              "settle:18:12:4",
-              "plaza",
-              1199232,
-              820384
-            ],
-            [
-              "settle:18:12:5",
-              "plaza",
-              1198720,
-              820384
-            ],
-            [
-              "settle:18:12:6",
+              "settle:9:3:2",
               "work",
-              1197440,
-              821408
+              621184,
+              218016
+            ],
+            [
+              "settle:9:3:3",
+              "plaza",
+              617088,
+              219552
+            ],
+            [
+              "settle:9:3:4",
+              "plaza",
+              618112,
+              219552
+            ],
+            [
+              "settle:9:3:5",
+              "plaza",
+              617600,
+              219552
             ],
             [
               "settle:32:32:0",
@@ -3872,7 +5246,7 @@
               "settle:54:0:0",
               "plaza",
               3591552,
-              38816
+              39072
             ],
             [
               "settle:54:0:2",
@@ -3890,43 +5264,37 @@
               "settle:54:0:4",
               "plaza",
               3591552,
-              38816
+              39072
             ],
             [
-              "settle:18:12:0",
+              "settle:9:3:0",
               "work",
-              1197440,
-              818336
+              618624,
+              216224
             ],
             [
-              "settle:18:12:2",
-              "plaza",
-              1198976,
-              819360
-            ],
-            [
-              "settle:18:12:3",
-              "plaza",
-              1198208,
-              820384
-            ],
-            [
-              "settle:18:12:4",
-              "plaza",
-              1199232,
-              820384
-            ],
-            [
-              "settle:18:12:5",
-              "plaza",
-              1198720,
-              820384
-            ],
-            [
-              "settle:18:12:6",
+              "settle:9:3:2",
               "work",
-              1197440,
-              821408
+              621184,
+              218016
+            ],
+            [
+              "settle:9:3:3",
+              "plaza",
+              617088,
+              219552
+            ],
+            [
+              "settle:9:3:4",
+              "plaza",
+              618112,
+              219552
+            ],
+            [
+              "settle:9:3:5",
+              "plaza",
+              617600,
+              219552
             ],
             [
               "settle:32:32:0",
@@ -3964,7 +5332,7 @@
               "settle:54:0:0",
               "plaza",
               3591552,
-              38816
+              39072
             ],
             [
               "settle:54:0:2",
@@ -3982,43 +5350,37 @@
               "settle:54:0:4",
               "plaza",
               3591552,
-              38816
+              39072
             ],
             [
-              "settle:18:12:0",
+              "settle:9:3:0",
               "work",
-              1197440,
-              818336
+              618624,
+              216224
             ],
             [
-              "settle:18:12:2",
-              "plaza",
-              1198976,
-              819360
-            ],
-            [
-              "settle:18:12:3",
-              "plaza",
-              1198208,
-              820384
-            ],
-            [
-              "settle:18:12:4",
-              "plaza",
-              1199232,
-              820384
-            ],
-            [
-              "settle:18:12:5",
-              "plaza",
-              1198720,
-              820384
-            ],
-            [
-              "settle:18:12:6",
+              "settle:9:3:2",
               "work",
-              1197440,
-              821408
+              621184,
+              218016
+            ],
+            [
+              "settle:9:3:3",
+              "plaza",
+              617088,
+              219552
+            ],
+            [
+              "settle:9:3:4",
+              "plaza",
+              618112,
+              219552
+            ],
+            [
+              "settle:9:3:5",
+              "plaza",
+              617600,
+              219552
             ],
             [
               "settle:32:32:0",
@@ -4056,7 +5418,7 @@
               "settle:54:0:0",
               "plaza",
               3591552,
-              38816
+              39072
             ],
             [
               "settle:54:0:2",
@@ -4074,37 +5436,31 @@
               "settle:54:0:4",
               "plaza",
               3591552,
-              38816
+              39072
             ],
             [
-              "settle:18:12:2",
-              "plaza",
-              1198976,
-              819360
-            ],
-            [
-              "settle:18:12:3",
-              "plaza",
-              1198208,
-              820384
-            ],
-            [
-              "settle:18:12:4",
-              "plaza",
-              1199232,
-              820384
-            ],
-            [
-              "settle:18:12:5",
-              "plaza",
-              1198720,
-              820384
-            ],
-            [
-              "settle:18:12:6",
+              "settle:9:3:2",
               "work",
-              1197440,
-              821408
+              621184,
+              218016
+            ],
+            [
+              "settle:9:3:3",
+              "plaza",
+              617088,
+              219552
+            ],
+            [
+              "settle:9:3:4",
+              "plaza",
+              618112,
+              219552
+            ],
+            [
+              "settle:9:3:5",
+              "plaza",
+              617600,
+              219552
             ],
             [
               "settle:32:32:0",
@@ -4142,7 +5498,7 @@
               "settle:54:0:0",
               "plaza",
               3591552,
-              38816
+              39072
             ],
             [
               "settle:54:0:2",
@@ -4160,37 +5516,31 @@
               "settle:54:0:4",
               "plaza",
               3591552,
-              38816
+              39072
             ],
             [
-              "settle:18:12:2",
-              "plaza",
-              1198976,
-              819360
-            ],
-            [
-              "settle:18:12:3",
-              "plaza",
-              1198208,
-              820384
-            ],
-            [
-              "settle:18:12:4",
-              "plaza",
-              1199232,
-              820384
-            ],
-            [
-              "settle:18:12:5",
-              "plaza",
-              1198720,
-              820384
-            ],
-            [
-              "settle:18:12:6",
+              "settle:9:3:2",
               "work",
-              1197440,
-              821408
+              621184,
+              218016
+            ],
+            [
+              "settle:9:3:3",
+              "plaza",
+              617088,
+              219552
+            ],
+            [
+              "settle:9:3:4",
+              "plaza",
+              618112,
+              219552
+            ],
+            [
+              "settle:9:3:5",
+              "plaza",
+              617600,
+              219552
             ],
             [
               "settle:32:32:0",
@@ -4219,18 +5569,18 @@
           ],
           [
             [
-              "settle:18:12:6",
+              "settle:9:3:2",
               "work",
-              1197440,
-              821408
+              621184,
+              218016
             ]
           ],
           [
             [
-              "settle:18:12:6",
+              "settle:9:3:2",
               "work",
-              1197440,
-              821408
+              621184,
+              218016
             ]
           ]
         ]
@@ -4367,6 +5717,16 @@
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_mint",
+                  "drop": "base:item/mint_leaf",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wolf_tawny",
+                  "drop": "base:item/tawny_fur",
+                  "weight": 1
                 }
               ],
               "shop": {
@@ -4376,7 +5736,10 @@
                   "base:item/potion_small",
                   "base:item/iron_sword",
                   "base:item/leather_vest",
-                  "base:item/honey_cake"
+                  "base:item/honey_cake",
+                  "base:item/studded_leather",
+                  "base:item/bronze_blade",
+                  "base:item/tonic"
                 ]
               }
             },
@@ -4407,6 +5770,11 @@
                   "enemy": "base:enemy/wolf_dire",
                   "drop": "base:item/dire_fang",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_moss",
+                  "drop": "base:item/moss_clump",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -4416,7 +5784,10 @@
                   "base:item/potion_small",
                   "base:item/leather_vest",
                   "base:item/potion_medium",
-                  "base:item/mage_robe"
+                  "base:item/mage_robe",
+                  "base:item/hand_axe",
+                  "base:item/silk_robe",
+                  "base:item/travel_ration"
                 ]
               }
             },
@@ -4447,6 +5818,11 @@
                   "enemy": "base:enemy/wolf_dire",
                   "drop": "base:item/dire_fang",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_rust",
+                  "drop": "base:item/rust_flake",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -4457,7 +5833,10 @@
                   "base:item/chain_mail",
                   "base:item/leather_vest",
                   "base:item/knight_sword",
-                  "base:item/brigandine"
+                  "base:item/brigandine",
+                  "base:item/pike",
+                  "base:item/scale_mail",
+                  "base:item/splint_mail"
                 ]
               }
             },
@@ -4483,6 +5862,11 @@
                   "enemy": "base:enemy/slime_amber",
                   "drop": "base:item/amber_drop",
                   "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/wolf_dune",
+                  "drop": "base:item/dune_pelt",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -4493,7 +5877,10 @@
                   "base:item/iron_sword",
                   "base:item/leather_vest",
                   "base:item/potion_medium",
-                  "base:item/honey_cake"
+                  "base:item/honey_cake",
+                  "base:item/saber",
+                  "base:item/studded_leather",
+                  "base:item/fish_stew"
                 ]
               }
             },
@@ -4519,6 +5906,11 @@
                   "enemy": "base:enemy/slime_ice",
                   "drop": "base:item/ice_crystal",
                   "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/wolf_polar",
+                  "drop": "base:item/polar_fur",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -4529,7 +5921,10 @@
                   "base:item/chain_mail",
                   "base:item/potion_medium",
                   "base:item/hearty_stew",
-                  "base:item/brigandine"
+                  "base:item/brigandine",
+                  "base:item/claymore",
+                  "base:item/splint_mail",
+                  "base:item/fish_stew"
                 ]
               }
             },
@@ -4560,6 +5955,11 @@
                   "enemy": "base:enemy/slime_coral",
                   "drop": "base:item/coral_fragment",
                   "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/slime_pearl",
+                  "drop": "base:item/pearl_dust",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -4571,7 +5971,10 @@
                   "base:item/steel_sword",
                   "base:item/grilled_fish",
                   "base:item/potion_medium",
-                  "base:item/knight_sword"
+                  "base:item/knight_sword",
+                  "base:item/saber",
+                  "base:item/scale_mail",
+                  "base:item/travel_ration"
                 ]
               }
             },
@@ -4602,6 +6005,11 @@
                   "enemy": "base:enemy/wolf_dire",
                   "drop": "base:item/dire_fang",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_char",
+                  "drop": "base:item/char_chunk",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -4612,7 +6020,11 @@
                   "base:item/chain_mail",
                   "base:item/potion_large",
                   "base:item/runed_blade",
-                  "base:item/plate_cuirass"
+                  "base:item/plate_cuirass",
+                  "base:item/war_axe",
+                  "base:item/knight_plate",
+                  "base:item/royal_feast",
+                  "base:item/dragon_scale_vest"
                 ]
               }
             },
@@ -4643,6 +6055,11 @@
                   "enemy": "base:enemy/wolf_storm",
                   "drop": "base:item/storm_feather",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_nebula",
+                  "drop": "base:item/nebula_ash",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -4653,7 +6070,11 @@
                   "base:item/chain_mail",
                   "base:item/potion_medium",
                   "base:item/mage_robe",
-                  "base:item/runed_blade"
+                  "base:item/runed_blade",
+                  "base:item/moon_blade",
+                  "base:item/warding_robe",
+                  "base:item/silk_robe",
+                  "base:item/travel_ration"
                 ]
               }
             }
@@ -4784,6 +6205,102 @@
               "kind": "dungeon",
               "dx": -128,
               "dy": 6272
+            },
+            {
+              "id": "ironspine_outpost",
+              "name": "Ironspine Waystation",
+              "stamp": "base:stamp/outpost_ironspine",
+              "kind": "hamlet",
+              "dx": 4224,
+              "dy": -4736
+            },
+            {
+              "id": "tidehaven_outpost",
+              "name": "Brinewatch Post",
+              "stamp": "base:stamp/outpost_tidehaven",
+              "kind": "hamlet",
+              "dx": -6272,
+              "dy": 4224
+            },
+            {
+              "id": "frostveil_outpost",
+              "name": "Rimewatch Hut",
+              "stamp": "base:stamp/outpost_frostveil",
+              "kind": "hamlet",
+              "dx": -1152,
+              "dy": -6528
+            },
+            {
+              "id": "whisperwood_outpost",
+              "name": "Hollow's Edge Camp",
+              "stamp": "base:stamp/outpost_whisperwood",
+              "kind": "hamlet",
+              "dx": -4224,
+              "dy": -2688
+            },
+            {
+              "id": "sunscar_outpost",
+              "name": "Dune Caravanserai",
+              "stamp": "base:stamp/outpost_sunscar",
+              "kind": "hamlet",
+              "dx": 5504,
+              "dy": 3968
+            },
+            {
+              "id": "lumeria_outpost",
+              "name": "Lantern Rest",
+              "stamp": "base:stamp/outpost_lumeria",
+              "kind": "hamlet",
+              "dx": -640,
+              "dy": 6272
+            },
+            {
+              "id": "ashen_outpost",
+              "name": "Ember Watch",
+              "stamp": "base:stamp/outpost_ashen",
+              "kind": "hamlet",
+              "dx": 6784,
+              "dy": -384
+            },
+            {
+              "id": "verdalis_outpost",
+              "name": "Crossroads Camp",
+              "stamp": "base:stamp/outpost_verdalis",
+              "kind": "hamlet",
+              "dx": 384,
+              "dy": 128
+            },
+            {
+              "id": "ironspine_forge",
+              "name": "Deep Forge",
+              "stamp": "base:stamp/forge",
+              "kind": "dungeon",
+              "dx": 3968,
+              "dy": -4224
+            },
+            {
+              "id": "tidehaven_galleon",
+              "name": "Sunken Galleon",
+              "stamp": "base:stamp/galleon",
+              "kind": "dungeon",
+              "dx": -5504,
+              "dy": 4736
+            },
+            {
+              "id": "frostveil_keep",
+              "name": "Glacier Keep",
+              "stamp": "base:stamp/keep",
+              "kind": "dungeon",
+              "dx": -1408,
+              "dy": -6272
+            },
+            {
+              "id": "ashen_vault",
+              "name": "Obsidian Vault",
+              "stamp": "base:stamp/vault",
+              "kind": "dungeon",
+              "dx": 6528,
+              "dy": 128
             }
           ],
           "guild": {
@@ -4956,7 +6473,8 @@
                 "stamps": [
                   "base:stamp/hamlet",
                   "base:stamp/hamlet_b",
-                  "base:stamp/hamlet_c"
+                  "base:stamp/hamlet_c",
+                  "base:stamp/hamlet_d"
                 ]
               },
               {
@@ -4965,7 +6483,8 @@
                 "stamps": [
                   "base:stamp/village",
                   "base:stamp/village_b",
-                  "base:stamp/village_c"
+                  "base:stamp/village_c",
+                  "base:stamp/village_d"
                 ]
               },
               {
@@ -4973,7 +6492,8 @@
                 "weight": 1,
                 "stamps": [
                   "base:stamp/town",
-                  "base:stamp/town_b"
+                  "base:stamp/town_b",
+                  "base:stamp/town_c"
                 ]
               }
             ],
@@ -5563,6 +7083,76 @@
                 ]
               ]
             },
+            "base:stamp/hamlet_d": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hamlet_d",
+              "w": 13,
+              "h": 11,
+              "anchor": [
+                6,
+                5
+              ],
+              "rows": [
+                "......=......",
+                ".#####=...t..",
+                ".#bV_#=......",
+                ".#___#=......",
+                ".##_##cT.....",
+                "=====cwc=====",
+                ".....ccc.....",
+                "......=......",
+                ".t....=..t...",
+                "......=....t.",
+                "......=......"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  5,
+                  5
+                ],
+                [
+                  7,
+                  6
+                ]
+              ]
+            },
             "base:stamp/village": {
               "$schema": "../../../schemas/stamp.schema.json",
               "id": "base:stamp/village",
@@ -5843,6 +7433,100 @@
                 ]
               ]
             },
+            "base:stamp/village_d": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/village_d",
+              "w": 21,
+              "h": 19,
+              "anchor": [
+                10,
+                9
+              ],
+              "rows": [
+                "..........=..........",
+                ".#######.t=..#######.",
+                ".#b____#..=..#b____#.",
+                ".#__V__#..=..#___S_#.",
+                ".#_____#..=..#_____#.",
+                ".###_###..=..###_###.",
+                "..........=..........",
+                "..........=..........",
+                "t.......ccccT........",
+                "........ccwcc.......t",
+                "........cccEc........",
+                "..........=..........",
+                ".#######..=..#######.",
+                ".#b____#..=..#_____#.",
+                ".#__V__#..=..#__V__#.",
+                ".#_____#..=..#_____#.",
+                ".###_###..=..###_###.",
+                "..........=t.........",
+                "..........=.........."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  9,
+                  9
+                ],
+                [
+                  11,
+                  9
+                ],
+                [
+                  9,
+                  10
+                ],
+                [
+                  12,
+                  10
+                ]
+              ]
+            },
             "base:stamp/town": {
               "$schema": "../../../schemas/stamp.schema.json",
               "id": "base:stamp/town",
@@ -6084,6 +7768,127 @@
                 [
                   17,
                   15
+                ]
+              ]
+            },
+            "base:stamp/town_c": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/town_c",
+              "w": 37,
+              "h": 25,
+              "anchor": [
+                18,
+                16
+              ],
+              "rows": [
+                "t.................=.................t",
+                "..................=..................",
+                "...........###############...........",
+                "...........#_bb__________#...........",
+                "...........#_____________#...........",
+                "...........#__________G__#...........",
+                "...........#_____________#...........",
+                "...........#######_#######...........",
+                "..................=..................",
+                "..#########.......=.......#########..",
+                "..#bb_____#.......=.......#b______#..",
+                "..#_______#..t....=....t..#_______#..",
+                "..#_____S_#.......=.......#_____I_#..",
+                "..#_______#....lcccccl....#_______#..",
+                "..####_####....cccccTc....####_####..",
+                "...............ccccccc...............",
+                "===============cccwccc===============",
+                "...............cccEccc...............",
+                "...............ccccccc...............",
+                "...#######.....lcccccl.....#######...",
+                "...#__V__#........=........#__V__#...",
+                "...#_____#........=........#_____#...",
+                "...###_###........=........###_###...",
+                "..................=..................",
+                "t.................=.................t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "E": {
+                  "tile": 14,
+                  "npc": "elder"
+                },
+                "G": {
+                  "tile": 13,
+                  "npc": "guild_clerk"
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  16,
+                  14
+                ],
+                [
+                  17,
+                  14
+                ],
+                [
+                  19,
+                  14
+                ],
+                [
+                  16,
+                  18
+                ],
+                [
+                  20,
+                  18
+                ],
+                [
+                  18,
+                  18
                 ]
               ]
             },
@@ -7142,6 +8947,991 @@
                 }
               },
               "spots": []
+            },
+            "base:stamp/outpost_ironspine": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_ironspine",
+              "w": 23,
+              "h": 13,
+              "anchor": [
+                11,
+                7
+              ],
+              "rows": [
+                ".......................",
+                ".########.....########.",
+                ".#b_____#.....#b_____#.",
+                ".#____S_#.....#____I_#.",
+                ".#______#.....#______#.",
+                ".###_####.....####_###.",
+                ".........ccccc.........",
+                ".........ccwTc.........",
+                ".........cVccc.........",
+                ".....o.....=.....o.....",
+                "...........=...........",
+                "...........=...........",
+                "o..........=..........o"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  10,
+                  7
+                ],
+                [
+                  12,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/outpost_tidehaven": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_tidehaven",
+              "w": 19,
+              "h": 13,
+              "anchor": [
+                9,
+                8
+              ],
+              "rows": [
+                "...................",
+                "..###############..",
+                "..#_____b_b_____#..",
+                "..#_S_________I_#..",
+                "..#_____________#..",
+                "..#######_#######..",
+                "...................",
+                ".......ccccc.......",
+                "...o...VcwcT...o...",
+                ".......ccccc.......",
+                ".........=.........",
+                ".........=.........",
+                "o........=........o"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  8,
+                  8
+                ],
+                [
+                  10,
+                  9
+                ]
+              ]
+            },
+            "base:stamp/outpost_frostveil": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_frostveil",
+              "w": 21,
+              "h": 13,
+              "anchor": [
+                10,
+                7
+              ],
+              "rows": [
+                ".....................",
+                ".#######.....#######.",
+                ".#b_S__#.....#b_I__#.",
+                ".#_____#.....#_____#.",
+                ".###_###.....###_###.",
+                ".....................",
+                "........lcccc........",
+                "........ccwcT........",
+                "....t...cVccl...t....",
+                "..........=..........",
+                "..........=..........",
+                "..........=..........",
+                "t.........=.........t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  9,
+                  7
+                ],
+                [
+                  11,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/outpost_whisperwood": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_whisperwood",
+              "w": 23,
+              "h": 13,
+              "anchor": [
+                11,
+                7
+              ],
+              "rows": [
+                ".......................",
+                ".########.....########.",
+                ".#b_____#.....#b_____#.",
+                ".#____S_#.....#____I_#.",
+                ".#______#.....#______#.",
+                ".###_####.....####_###.",
+                ".........ccccc.........",
+                ".........ccwTc.........",
+                ".........cVccc.........",
+                ".....t.....=.....t.....",
+                "...........=...........",
+                "...........=...........",
+                "t..........=..........t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  10,
+                  7
+                ],
+                [
+                  12,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/outpost_sunscar": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_sunscar",
+              "w": 19,
+              "h": 13,
+              "anchor": [
+                9,
+                8
+              ],
+              "rows": [
+                "...................",
+                "..###############..",
+                "..#_____b_b_____#..",
+                "..#_S_________I_#..",
+                "..#_____________#..",
+                "..#######_#######..",
+                "...................",
+                ".......ccccc.......",
+                "...o...VcwcT...o...",
+                ".......ccccc.......",
+                ".........=.........",
+                ".........=.........",
+                "o........=........o"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  8,
+                  8
+                ],
+                [
+                  10,
+                  9
+                ]
+              ]
+            },
+            "base:stamp/outpost_lumeria": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_lumeria",
+              "w": 21,
+              "h": 13,
+              "anchor": [
+                10,
+                7
+              ],
+              "rows": [
+                ".....................",
+                ".#######.....#######.",
+                ".#b_S__#.....#b_I__#.",
+                ".#_____#.....#_____#.",
+                ".###_###.....###_###.",
+                ".....................",
+                "........lcccc........",
+                "........ccwcT........",
+                "....t...cVccl...t....",
+                "..........=..........",
+                "..........=..........",
+                "..........=..........",
+                "t.........=.........t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  9,
+                  7
+                ],
+                [
+                  11,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/outpost_ashen": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_ashen",
+              "w": 23,
+              "h": 13,
+              "anchor": [
+                11,
+                7
+              ],
+              "rows": [
+                ".......................",
+                ".########.....########.",
+                ".#b_____#.....#b_____#.",
+                ".#____S_#.....#____I_#.",
+                ".#______#.....#______#.",
+                ".###_####.....####_###.",
+                ".........ccccc.........",
+                ".........ccwTc.........",
+                ".........cVccc.........",
+                ".....o.....=.....o.....",
+                "...........=...........",
+                "...........=...........",
+                "o..........=..........o"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "o": {
+                  "prop": "base:art/prop/rock",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  10,
+                  7
+                ],
+                [
+                  12,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/outpost_verdalis": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/outpost_verdalis",
+              "w": 21,
+              "h": 13,
+              "anchor": [
+                10,
+                7
+              ],
+              "rows": [
+                ".....................",
+                ".#######.....#######.",
+                ".#b_S__#.....#b_I__#.",
+                ".#_____#.....#_____#.",
+                ".###_###.....###_###.",
+                ".....................",
+                "........lcccc........",
+                "........ccwcT........",
+                "....t...cVccl...t....",
+                "..........=..........",
+                "..........=..........",
+                "..........=..........",
+                "t.........=.........t"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "I": {
+                  "tile": 13,
+                  "npc": "innkeeper"
+                },
+                "S": {
+                  "tile": 13,
+                  "npc": "shopkeeper"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "V": {
+                  "tile": 13,
+                  "npc": "villager"
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "w": {
+                  "tile": 14,
+                  "prop": "base:art/prop/well",
+                  "radius_x100": 40
+                }
+              },
+              "spots": [
+                [
+                  9,
+                  7
+                ],
+                [
+                  11,
+                  8
+                ]
+              ]
+            },
+            "base:stamp/forge": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/forge",
+              "w": 41,
+              "h": 37,
+              "anchor": [
+                20,
+                36
+              ],
+              "rows": [
+                ".........................................",
+                ".#######################################.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccccccccccccccccccccccccclc#.",
+                ".#ccccDcccccccccccccccccccccccccccDcccc#.",
+                ".#ccccccccccccccccccqcccccccccccccccccc#.",
+                ".#ccccccccccccFcccccccccccFcccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccDcccccccccccccDcccccccccccccDcccc#.",
+                ".#clccccccccccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".##################################ccc##.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccmcccccccccccmcccccccccccc#.",
+                ".#ccccccc##ccccccccc##ccccccccc##cccccc#.",
+                ".#ccccmcc##ccccccccc##ccccccccc##cmcccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#clccccccccccmcccccccccccmcccccccccclc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".##ccc##################################.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccWcccccccccccccccccccccccccccWcccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccc##ccccccccc##ccccccccc##cccccc#.",
+                ".#ccccccc##cccWccccc##ccccWcccc##cccccc#.",
+                ".#clccccccccccccccccccccccccccccccccclc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".##################################ccc##.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccmcccccccccccmcccccccccccc#.",
+                ".#ccccmcc##cccccccccccccccccccc##cmcccc#.",
+                ".#ccccccc##cccccccccccccccccccc##cccccc#.",
+                ".#ccccccccccccccclccccclccccccccccccccc#.",
+                ".##################ccc##################.",
+                "...................ccc...................",
+                "...............T...ccc..................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "D": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_dire"
+                },
+                "F": {
+                  "tile": 14,
+                  "spawner": "base:enemy/iron_foreman"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "W": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_grey"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "m": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_slate"
+                },
+                "q": {
+                  "tile": 14,
+                  "spawner": "base:enemy/forge_tyrant"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/galleon": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/galleon",
+              "w": 47,
+              "h": 19,
+              "anchor": [
+                0,
+                9
+              ],
+              "rows": [
+                "...............................................",
+                "...............................................",
+                ".#############################################.",
+                ".#cccccccccccc#ccccccccccccc#cccccccccc#######.",
+                ".#clcccccccclc#clccccccccclc#clccccccccc######.",
+                ".#ccccccc##ccc#cccccc##ccccc#cccccc##cccc#####.",
+                ".#cciccccccicc#ccZcccccccZcc#ccicccccicccc####.",
+                ".#cccccccccccc#ccccccccccccc#cccccccccccccc###.",
+                "ccccccccccccccccccccccccccccccccccccccccccccc#.",
+                "cccccccciccccccccccccZccccccccccccQccccccrccc#.",
+                "ccccccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#cccccccccccc#ccccccccccccc#cccccccccccccc###.",
+                ".#cciccccccicc#ccZcccccccZcc#ccicccccicccc####.",
+                "T#ccccccc##ccc#cccccc##ccccc#cccccc##cccc#####.",
+                ".#clcccccccclc#ccccccccccccc#clccccccccc######.",
+                ".#cccccccccccc#ccccccccccccc#cccccccccc#######.",
+                ".#############################################.",
+                "...............................................",
+                "..............................................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "Q": {
+                  "tile": 14,
+                  "spawner": "base:enemy/tide_regent"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "Z": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_coral"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "i": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_tide"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "r": {
+                  "tile": 14,
+                  "spawner": "base:enemy/drowned_captain"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/keep": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/keep",
+              "w": 41,
+              "h": 41,
+              "anchor": [
+                20,
+                40
+              ],
+              "rows": [
+                ".........................................",
+                ".#######################################.",
+                ".##########ccccccccccccccccccc##########.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##cccHccc#ccccccccccccccccccc#cccHccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#cccccccccfccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".#####c####ccccccccccccccccccc####c#####.",
+                ".#cccccccccfcccccccccccccccccfccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccc###############ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccRcccccccRcc#ccccccccccc#.",
+                ".#ccccccccccc#cccccczcccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccfcccl#ccccccccccccc#lcccfcccccc#.",
+                ".#ccccccccccc#ccccccHcccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccHcccccccHcc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#ccccccccccccc#ccccccccccc#.",
+                ".#ccccccccccc#######c#######ccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccc#.",
+                ".#cccccccccfcccccccccccccccccfccccccccc#.",
+                ".#####c####ccccccccccccccccccc####c#####.",
+                ".##ccccccc#ccccccccclccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#cccccccccfccccccccc#ccccccc##.",
+                ".##cccHccc#ccccccccccccccccccc#cccHccc##.",
+                ".##ccccccc#ccccclccccccclccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##ccccccc#ccccccccccccccccccc#ccccccc##.",
+                ".##########ccccccccccccccccccc##########.",
+                ".##################ccc##################.",
+                "...............T...ccc..................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "H": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ice"
+                },
+                "R": {
+                  "tile": 14,
+                  "spawner": "base:enemy/rime_revenant"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "f": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_frost"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "z": {
+                  "tile": 14,
+                  "spawner": "base:enemy/frost_sovereign"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/vault": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/vault",
+              "w": 45,
+              "h": 33,
+              "anchor": [
+                22,
+                32
+              ],
+              "rows": [
+                ".............................................",
+                ".###########################################.",
+                ".################ccccccccccc################.",
+                ".################clccccccclc################.",
+                ".################cccccyccccc################.",
+                ".################ccccccccccc################.",
+                ".################ccXcccccXcc################.",
+                ".################ccccccccccc################.",
+                ".###################ccccc###################.",
+                ".###################ccccc###################.",
+                ".##############ccccccccccccccc##############.",
+                ".#ccccc########clccccccccccclc########ccccc#.",
+                ".#clccc########ccccccceccccccc########ccclc#.",
+                ".#ccecc########cccMcccccccMccc########ccecc#.",
+                ".#ccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccecDcecccccccccccNcccccccccccccecccecc#.",
+                ".#ccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccccccccccccccccccccccccccccccccccccccc#.",
+                ".#ccccc########cccMcccccccMccc########ccccc#.",
+                ".#ccecc########ccccccceccccccc########ccecc#.",
+                ".#ccccc########clccccccccccclc########ccccc#.",
+                ".##############ccccccccccccccc##############.",
+                ".###################ccccc###################.",
+                ".###################ccccc###################.",
+                ".###################ccccc###################.",
+                ".###################ccDcc###################.",
+                ".###################ccccc###################.",
+                ".###################ccccc###################.",
+                ".###################clDlc###################.",
+                ".###################ccccc###################.",
+                ".####################ccc####################.",
+                "..................T..ccc....................."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "D": {
+                  "tile": 14,
+                  "spawner": "base:enemy/wolf_dire"
+                },
+                "M": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_magma"
+                },
+                "N": {
+                  "tile": 14,
+                  "spawner": "base:enemy/cinder_colossus"
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "X": {
+                  "tile": 14,
+                  "spawner": "base:enemy/magma_heart"
+                },
+                "c": {
+                  "tile": 14
+                },
+                "e": {
+                  "tile": 14,
+                  "spawner": "base:enemy/slime_ember"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "y": {
+                  "tile": 14,
+                  "spawner": "base:enemy/vault_warden"
+                }
+              },
+              "spots": []
             }
           }
         }
@@ -7176,8 +9966,8 @@
             [
               "settle:33:0:0",
               "work",
-              2191232,
-              22176
+              2191744,
+              21664
             ],
             [
               "settle:13:0:0",
@@ -7262,8 +10052,8 @@
             [
               "settle:33:0:0",
               "work",
-              2191232,
-              22176
+              2191744,
+              21664
             ],
             [
               "settle:13:0:0",
@@ -7348,112 +10138,8 @@
             [
               "settle:33:0:0",
               "work",
-              2191232,
-              22176
-            ],
-            [
-              "settle:13:0:0",
-              "work",
-              889728,
-              37792
-            ],
-            [
-              "settle:13:0:2",
-              "work",
-              891264,
-              39328
-            ],
-            [
-              "settle:13:0:3",
-              "work",
-              889728,
-              40352
-            ],
-            [
-              "settle:13:0:1",
-              "work",
-              893312,
-              37792
-            ],
-            [
-              "settle:13:0:4",
-              "work",
-              893312,
-              40352
-            ],
-            [
-              "settle:32:21:1",
-              "work",
-              2138752,
-              1416096
-            ],
-            [
-              "settle:32:21:2",
-              "work",
-              2134400,
-              1417376
-            ],
-            [
-              "settle:32:21:4",
-              "work",
-              2136704,
-              1417888
-            ],
-            [
-              "settle:32:21:6",
-              "work",
-              2135424,
-              1419168
-            ],
-            [
-              "settle:32:21:3",
-              "work",
-              2139008,
-              1417376
-            ],
-            [
-              "settle:32:21:5",
-              "work",
-              2138240,
-              1418912
-            ],
-            [
-              "settle:32:32:0",
-              "work",
-              2104960,
-              2106272
-            ],
-            [
-              "settle:32:32:3",
-              "work",
-              2104704,
-              2108320
-            ],
-            [
-              "settle:32:32:1",
-              "work",
-              2108544,
-              2106528
-            ],
-            [
-              "settle:32:32:2",
-              "work",
-              2106496,
-              2107808
-            ],
-            [
-              "settle:32:32:4",
-              "work",
-              2108288,
-              2108832
-            ]
-          ],
-          [
-            [
-              "settle:33:0:0",
-              "work",
-              2191232,
-              22176
+              2191744,
+              21664
             ],
             [
               "settle:13:0:0",
@@ -7556,8 +10242,8 @@
             [
               "settle:33:0:0",
               "work",
-              2191232,
-              22176
+              2191744,
+              21664
             ],
             [
               "settle:13:0:0",
@@ -7588,12 +10274,6 @@
               "work",
               893312,
               40352
-            ],
-            [
-              "settle:32:21:0",
-              "work",
-              2135424,
-              1416096
             ],
             [
               "settle:32:21:1",
@@ -7666,8 +10346,8 @@
             [
               "settle:33:0:0",
               "work",
-              2191232,
-              22176
+              2191744,
+              21664
             ],
             [
               "settle:13:0:0",
@@ -7776,8 +10456,118 @@
             [
               "settle:33:0:0",
               "work",
-              2191232,
-              22176
+              2191744,
+              21664
+            ],
+            [
+              "settle:13:0:0",
+              "work",
+              889728,
+              37792
+            ],
+            [
+              "settle:13:0:2",
+              "work",
+              891264,
+              39328
+            ],
+            [
+              "settle:13:0:3",
+              "work",
+              889728,
+              40352
+            ],
+            [
+              "settle:13:0:1",
+              "work",
+              893312,
+              37792
+            ],
+            [
+              "settle:13:0:4",
+              "work",
+              893312,
+              40352
+            ],
+            [
+              "settle:32:21:0",
+              "work",
+              2135424,
+              1416096
+            ],
+            [
+              "settle:32:21:1",
+              "work",
+              2138752,
+              1416096
+            ],
+            [
+              "settle:32:21:2",
+              "work",
+              2134400,
+              1417376
+            ],
+            [
+              "settle:32:21:4",
+              "work",
+              2136704,
+              1417888
+            ],
+            [
+              "settle:32:21:6",
+              "work",
+              2135424,
+              1419168
+            ],
+            [
+              "settle:32:21:3",
+              "work",
+              2139008,
+              1417376
+            ],
+            [
+              "settle:32:21:5",
+              "work",
+              2138240,
+              1418912
+            ],
+            [
+              "settle:32:32:0",
+              "work",
+              2104960,
+              2106272
+            ],
+            [
+              "settle:32:32:3",
+              "work",
+              2104704,
+              2108320
+            ],
+            [
+              "settle:32:32:1",
+              "work",
+              2108544,
+              2106528
+            ],
+            [
+              "settle:32:32:2",
+              "work",
+              2106496,
+              2107808
+            ],
+            [
+              "settle:32:32:4",
+              "work",
+              2108288,
+              2108832
+            ]
+          ],
+          [
+            [
+              "settle:33:0:0",
+              "work",
+              2191744,
+              21664
             ],
             [
               "settle:13:0:0",
@@ -7887,7 +10677,7 @@
               "settle:33:0:0",
               "plaza",
               2190976,
-              23200
+              22688
             ],
             [
               "settle:13:0:0",
@@ -7997,7 +10787,7 @@
               "settle:33:0:0",
               "plaza",
               2190976,
-              23200
+              22688
             ],
             [
               "settle:13:0:0",
@@ -8107,7 +10897,7 @@
               "settle:33:0:0",
               "plaza",
               2190976,
-              23200
+              22688
             ],
             [
               "settle:13:0:0",
@@ -8199,7 +10989,7 @@
               "settle:33:0:0",
               "plaza",
               2190976,
-              23200
+              22688
             ],
             [
               "settle:13:0:0",
@@ -8291,7 +11081,7 @@
               "settle:33:0:0",
               "plaza",
               2190976,
-              23200
+              22688
             ],
             [
               "settle:13:0:0",
@@ -8377,7 +11167,7 @@
               "settle:33:0:0",
               "plaza",
               2190976,
-              23200
+              22688
             ],
             [
               "settle:13:0:0",

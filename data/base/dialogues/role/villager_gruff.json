@@ -25,6 +25,10 @@
           "next": "road"
         },
         {
+          "text": "$i18n:dlg.role.gossip",
+          "next": "gossip1"
+        },
+        {
           "text": "$i18n:dlg.role.bye",
           "next": "end"
         }
@@ -46,6 +50,24 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.tone.gruff.road",
+      "next": "end"
+    },
+    "gossip1": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.gossip.gruff.1",
+      "next": "gossip2"
+    },
+    "gossip2": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.gossip.gruff.2",
+      "next": "gossip3"
+    },
+    "gossip3": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.gossip.gruff.3",
       "next": "end"
     }
   }

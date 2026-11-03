@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/slime_pearl",
+  "name": "$i18n:enemy.slime_pearl.name",
+  "level": 9,
+  "stats": {
+    "hp": 150,
+    "atk": 23,
+    "def": 10,
+    "mdef": 8,
+    "speed_x100": 250
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "wind": 1500
+  },
+  "xp": 58,
+  "drops": [
+    {
+      "item": "base:item/pearl_dust",
+      "qty_min": 1,
+      "qty_max": 2,
+      "weight_pm": 550
+    }
+  ],
+  "radius_x100": 38,
+  "behavior": "base:behavior/melee_chaser_basic",
+  "art": "base:art/creature/slime_pearl"
+}

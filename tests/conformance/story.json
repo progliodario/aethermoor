@@ -424,8 +424,28 @@
                         }
                       },
                       "next": "barter"
+                    },
+                    {
+                      "text": "c.rest",
+                      "when": {
+                        "gold_at_least": 5
+                      },
+                      "next": "rest"
                     }
                   ]
+                },
+                "rest": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "spend_gold",
+                      "amount": 5
+                    },
+                    {
+                      "effect": "heal_full"
+                    }
+                  ],
+                  "next": "after"
                 },
                 "barter": {
                   "type": "effects",
@@ -1248,8 +1268,28 @@
                         }
                       },
                       "next": "barter"
+                    },
+                    {
+                      "text": "c.rest",
+                      "when": {
+                        "gold_at_least": 5
+                      },
+                      "next": "rest"
                     }
                   ]
+                },
+                "rest": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "spend_gold",
+                      "amount": 5
+                    },
+                    {
+                      "effect": "heal_full"
+                    }
+                  ],
+                  "next": "after"
                 },
                 "barter": {
                   "type": "effects",
@@ -1960,8 +2000,28 @@
                         }
                       },
                       "next": "barter"
+                    },
+                    {
+                      "text": "c.rest",
+                      "when": {
+                        "gold_at_least": 5
+                      },
+                      "next": "rest"
                     }
                   ]
+                },
+                "rest": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "spend_gold",
+                      "amount": 5
+                    },
+                    {
+                      "effect": "heal_full"
+                    }
+                  ],
+                  "next": "after"
                 },
                 "barter": {
                   "type": "effects",
@@ -2554,8 +2614,28 @@
                         }
                       },
                       "next": "barter"
+                    },
+                    {
+                      "text": "c.rest",
+                      "when": {
+                        "gold_at_least": 5
+                      },
+                      "next": "rest"
                     }
                   ]
+                },
+                "rest": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "spend_gold",
+                      "amount": 5
+                    },
+                    {
+                      "effect": "heal_full"
+                    }
+                  ],
+                  "next": "after"
                 },
                 "barter": {
                   "type": "effects",
@@ -3401,8 +3481,28 @@
                         }
                       },
                       "next": "barter"
+                    },
+                    {
+                      "text": "c.rest",
+                      "when": {
+                        "gold_at_least": 5
+                      },
+                      "next": "rest"
                     }
                   ]
+                },
+                "rest": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "spend_gold",
+                      "amount": 5
+                    },
+                    {
+                      "effect": "heal_full"
+                    }
+                  ],
+                  "next": "after"
                 },
                 "barter": {
                   "type": "effects",
@@ -3769,7 +3869,8 @@
                 "type": "choice",
                 "choices": [
                   "c.start",
-                  "c.gift"
+                  "c.gift",
+                  "c.rest"
                 ]
               }
             }
@@ -3896,7 +3997,8 @@
                 "choices": [
                   "c.start",
                   "c.gift",
-                  "c.barter"
+                  "c.barter",
+                  "c.rest"
                 ]
               }
             }
@@ -3952,6 +4054,1036 @@
                 "visited": true
               },
               "gold": 14,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
+      "name": "story_trader_inn",
+      "input": {
+        "op": "combat",
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            3.4,
+            5.6
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              3.8,
+              5.6
+            ],
+            "def": {
+              "hp": 40,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 250,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 600,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              },
+              "id": "base:enemy/slime_green"
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 30,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "advance"
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "choose",
+                "index": 1
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "advance"
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "advance"
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "choose",
+                "index": 2
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "advance"
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "advance"
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "choose",
+                "index": 2
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "advance"
+              }
+            ]
+          }
+        ],
+        "story": {
+          "quests": {
+            "test:quest/slimes": {
+              "id": "test:quest/slimes",
+              "stages": [
+                {
+                  "id": "kill",
+                  "journal": "q.kill",
+                  "objectives": [
+                    {
+                      "type": "kill",
+                      "enemy": "base:enemy/slime_green",
+                      "count": 2
+                    }
+                  ],
+                  "next": "report"
+                },
+                {
+                  "id": "report",
+                  "journal": "q.report",
+                  "objectives": [
+                    {
+                      "type": "talk",
+                      "npc_key": "clerk"
+                    }
+                  ],
+                  "next": "end"
+                }
+              ],
+              "rewards": [
+                {
+                  "effect": "add_xp",
+                  "amount": 40
+                },
+                {
+                  "effect": "add_gold",
+                  "amount": 120
+                }
+              ]
+            },
+            "test:quest/gel": {
+              "id": "test:quest/gel",
+              "stages": [
+                {
+                  "id": "collect",
+                  "journal": "q.collect",
+                  "objectives": [
+                    {
+                      "type": "collect",
+                      "item": "base:item/slime_gel",
+                      "count": 2
+                    }
+                  ],
+                  "next": "end"
+                }
+              ],
+              "rewards": [
+                {
+                  "effect": "add_xp",
+                  "amount": 100
+                }
+              ]
+            }
+          },
+          "dialogues": {
+            "test:dialogue/clerk": {
+              "id": "test:dialogue/clerk",
+              "start": "start",
+              "nodes": {
+                "start": {
+                  "type": "condition",
+                  "when": {
+                    "quest_done": "test:quest/slimes"
+                  },
+                  "then": "thanks",
+                  "else": "active_check"
+                },
+                "active_check": {
+                  "type": "condition",
+                  "when": {
+                    "quest_active": "test:quest/slimes"
+                  },
+                  "then": "busy",
+                  "else": "offer"
+                },
+                "offer": {
+                  "type": "say",
+                  "speaker": "clerk",
+                  "text": "t.offer",
+                  "next": "offer_choice"
+                },
+                "offer_choice": {
+                  "type": "choice",
+                  "choices": [
+                    {
+                      "text": "c.accept",
+                      "effects": [
+                        {
+                          "effect": "start_quest",
+                          "quest": "test:quest/slimes"
+                        }
+                      ],
+                      "next": "accepted"
+                    },
+                    {
+                      "text": "c.decline",
+                      "next": "end"
+                    }
+                  ]
+                },
+                "accepted": {
+                  "type": "say",
+                  "speaker": "clerk",
+                  "text": "t.accepted",
+                  "next": "end"
+                },
+                "busy": {
+                  "type": "say",
+                  "speaker": "clerk",
+                  "text": "t.busy",
+                  "next": "end"
+                },
+                "thanks": {
+                  "type": "say",
+                  "speaker": "clerk",
+                  "text": "t.thanks",
+                  "next": "end"
+                }
+              }
+            },
+            "test:dialogue/trader": {
+              "id": "test:dialogue/trader",
+              "start": "start",
+              "nodes": {
+                "start": {
+                  "type": "condition",
+                  "when": {
+                    "flag": "seen"
+                  },
+                  "then": "return_visit",
+                  "else": "greet"
+                },
+                "greet": {
+                  "type": "say",
+                  "speaker": "trader",
+                  "text": "t.greet",
+                  "next": "menu"
+                },
+                "menu": {
+                  "type": "choice",
+                  "choices": [
+                    {
+                      "text": "c.start",
+                      "when": {
+                        "not": {
+                          "flag": "seen"
+                        }
+                      },
+                      "effects": [
+                        {
+                          "effect": "set_flag",
+                          "flag": "seen",
+                          "value": true
+                        },
+                        {
+                          "effect": "start_quest",
+                          "quest": "test:quest/gel"
+                        }
+                      ],
+                      "next": "after"
+                    },
+                    {
+                      "text": "c.hidden",
+                      "when": {
+                        "flag": "seen"
+                      },
+                      "next": "end"
+                    },
+                    {
+                      "text": "c.gift",
+                      "next": "gift"
+                    },
+                    {
+                      "text": "c.barter",
+                      "when": {
+                        "has_item": {
+                          "item": "base:item/slime_gel",
+                          "qty": 2
+                        }
+                      },
+                      "next": "barter"
+                    },
+                    {
+                      "text": "c.rest",
+                      "when": {
+                        "gold_at_least": 5
+                      },
+                      "next": "rest"
+                    }
+                  ]
+                },
+                "rest": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "spend_gold",
+                      "amount": 5
+                    },
+                    {
+                      "effect": "heal_full"
+                    }
+                  ],
+                  "next": "after"
+                },
+                "barter": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "remove_item",
+                      "item": "base:item/slime_gel",
+                      "qty": 2
+                    },
+                    {
+                      "effect": "add_gold",
+                      "amount": 7
+                    }
+                  ],
+                  "next": "after"
+                },
+                "gift": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "add_item",
+                      "item": "base:item/slime_gel",
+                      "qty": 2
+                    }
+                  ],
+                  "next": "after"
+                },
+                "after": {
+                  "type": "say",
+                  "speaker": "trader",
+                  "text": "t.after",
+                  "next": "mark"
+                },
+                "mark": {
+                  "type": "set_flag",
+                  "flag": "visited",
+                  "value": true,
+                  "next": "end"
+                },
+                "return_visit": {
+                  "type": "say",
+                  "speaker": "trader",
+                  "text": "t.return",
+                  "next": "end"
+                }
+              }
+            }
+          },
+          "npcs": [
+            {
+              "key": "clerk",
+              "pos": [
+                4.0,
+                4.5
+              ],
+              "dialogue": "test:dialogue/clerk"
+            },
+            {
+              "key": "trader",
+              "pos": [
+                4.0,
+                6.5
+              ],
+              "dialogue": "test:dialogue/trader"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 137,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 3.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 40,
+                "state": "attack",
+                "x": 3.8,
+                "y": 5.6
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 137,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 3.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 40,
+                "state": "attack",
+                "x": 3.8,
+                "y": 5.6
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": {
+                "type": "say",
+                "speaker": "trader",
+                "text": "t.greet"
+              }
+            }
+          },
+          {
+            "player": {
+              "hp": 137,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 3.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 40,
+                "state": "attack",
+                "x": 3.8,
+                "y": 5.6
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": {
+                "type": "choice",
+                "choices": [
+                  "c.start",
+                  "c.gift"
+                ]
+              }
+            }
+          },
+          {
+            "player": {
+              "hp": 137,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 3.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 40,
+                "state": "attack",
+                "x": 3.8,
+                "y": 5.6
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/slime_gel": 2
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": {
+                "type": "say",
+                "speaker": "trader",
+                "text": "t.after"
+              }
+            }
+          },
+          {
+            "player": {
+              "hp": 137,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 3.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 40,
+                "state": "attack",
+                "x": 3.8,
+                "y": 5.6
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/slime_gel": 2
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {
+                "visited": true
+              },
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 137,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 3.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 40,
+                "state": "attack",
+                "x": 3.8,
+                "y": 5.6
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/slime_gel": 2
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {
+                "visited": true
+              },
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": {
+                "type": "say",
+                "speaker": "trader",
+                "text": "t.greet"
+              }
+            }
+          },
+          {
+            "player": {
+              "hp": 137,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 3.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 40,
+                "state": "attack",
+                "x": 3.8,
+                "y": 5.6
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/slime_gel": 2
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {
+                "visited": true
+              },
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": {
+                "type": "choice",
+                "choices": [
+                  "c.start",
+                  "c.gift",
+                  "c.barter"
+                ]
+              }
+            }
+          },
+          {
+            "player": {
+              "hp": 137,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 3.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 40,
+                "state": "attack",
+                "x": 3.8,
+                "y": 5.6
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {
+                "visited": true
+              },
+              "gold": 7,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": {
+                "type": "say",
+                "speaker": "trader",
+                "text": "t.after"
+              }
+            }
+          },
+          {
+            "player": {
+              "hp": 137,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 3.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 40,
+                "state": "attack",
+                "x": 3.8,
+                "y": 5.6
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {
+                "visited": true
+              },
+              "gold": 7,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 137,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 3.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 40,
+                "state": "attack",
+                "x": 3.8,
+                "y": 5.6
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {
+                "visited": true
+              },
+              "gold": 7,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": {
+                "type": "say",
+                "speaker": "trader",
+                "text": "t.greet"
+              }
+            }
+          },
+          {
+            "player": {
+              "hp": 137,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 3.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 40,
+                "state": "attack",
+                "x": 3.8,
+                "y": 5.6
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {
+                "visited": true
+              },
+              "gold": 7,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": {
+                "type": "choice",
+                "choices": [
+                  "c.start",
+                  "c.gift",
+                  "c.rest"
+                ]
+              }
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 3.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 40,
+                "state": "attack",
+                "x": 3.8,
+                "y": 5.6
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {
+                "visited": true
+              },
+              "gold": 2,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": {
+                "type": "say",
+                "speaker": "trader",
+                "text": "t.after"
+              }
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 3.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 40,
+                "state": "attack",
+                "x": 3.8,
+                "y": 5.6
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {
+                "visited": true
+              },
+              "gold": 2,
               "guild_points": 0,
               "quests": {},
               "dialogue": null

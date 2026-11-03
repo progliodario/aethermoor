@@ -36,6 +36,8 @@ sealed interface Condition {
     data class HasItem(val item: String, val qty: Long) : Condition
 
     data class LevelAtLeast(val level: Long) : Condition
+
+    data class GoldAtLeast(val gold: Long) : Condition
 }
 
 sealed interface Effect {
@@ -46,6 +48,11 @@ sealed interface Effect {
     data class AddItem(val item: String, val qty: Long) : Effect
 
     data class RemoveItem(val item: String, val qty: Long) : Effect
+
+    data class SpendGold(val amount: Long) : Effect
+
+    /** The health of the player becomes the maximum. */
+    data object HealFull : Effect
 
     data class SetFlag(val flag: String, val value: Boolean) : Effect
 
@@ -165,6 +172,8 @@ interface StoryHost {
     fun openShop()
 
     fun openBoard()
+
+    fun healFull()
 }
 
 // ------------------------------------------------------------------------------------ parsing
@@ -187,6 +196,7 @@ private fun parseCondition(element: JsonElement): Condition {
         "quest_stage" -> Condition.QuestStage(value.jsonObject.str("quest"), value.jsonObject.str("stage"))
         "has_item" -> Condition.HasItem(value.jsonObject.str("item"), value.jsonObject.getValue("qty").jsonPrimitive.long)
         "level_at_least" -> Condition.LevelAtLeast(value.jsonPrimitive.long)
+        "gold_at_least" -> Condition.GoldAtLeast(value.jsonPrimitive.long)
         else -> throw IllegalArgumentException("unknown condition $key")
     }
 }
@@ -197,6 +207,8 @@ private fun parseEffect(element: JsonElement): Effect {
         "add_xp" -> Effect.AddXp(o.getValue("amount").jsonPrimitive.long)
         "add_gold" -> Effect.AddGold(o.getValue("amount").jsonPrimitive.long)
         "add_item" -> Effect.AddItem(o.str("item"), o.getValue("qty").jsonPrimitive.long)
+        "spend_gold" -> Effect.SpendGold(o.getValue("amount").jsonPrimitive.long)
+        "heal_full" -> Effect.HealFull
         "remove_item" -> Effect.RemoveItem(o.str("item"), o.getValue("qty").jsonPrimitive.long)
         "set_flag" -> Effect.SetFlag(o.str("flag"), o.getValue("value").jsonPrimitive.boolean)
         "start_quest" -> Effect.StartQuest(o.str("quest"))
@@ -314,6 +326,7 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
             is Condition.QuestStage -> quests[c.quest]?.let { !it.done && it.stage == c.stage } ?: false
             is Condition.HasItem -> (host.inventory[c.item] ?: 0L) >= c.qty
             is Condition.LevelAtLeast -> host.level >= c.level
+            is Condition.GoldAtLeast -> gold >= c.gold
         }
 
     fun apply(effect: Effect) {
@@ -324,6 +337,8 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
                 host.inventory[effect.item] = (host.inventory[effect.item] ?: 0L) + effect.qty
                 refreshAll()
             }
+            is Effect.SpendGold -> gold = maxOf(0L, gold - effect.amount)
+            is Effect.HealFull -> host.healFull()
             is Effect.RemoveItem -> {
                 val held = host.inventory[effect.item] ?: 0L
                 val left = held - minOf(held, effect.qty)

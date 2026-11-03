@@ -18,6 +18,7 @@ A condition is a JSON object with exactly one key:
 | `quest_stage` | `{quest, stage}` | the quest is active and its current stage is `stage` |
 | `has_item` | `{item, qty}` | the inventory holds at least `qty` of the item |
 | `level_at_least` | integer | the player level is at least that value |
+| `gold_at_least` | integer | the gold is at least that value |
 
 ## Effects (closed catalog, v1)
 
@@ -28,6 +29,8 @@ An effect is an object with `effect` plus parameters, applied in list order:
 | `add_xp` | `amount` | `xp += amount`, then the level-up loop of spec 05 |
 | `add_gold` | `amount` | `gold += amount` |
 | `add_item` | `item`, `qty` | inventory `item += qty` |
+| `spend_gold` | `amount` | `gold = max(0, gold - amount)` (guard it with `gold_at_least`) |
+| `heal_full` | none | the health of the player becomes the maximum |
 | `remove_item` | `item`, `qty` | inventory `item -= min(qty, held)`; the entry disappears at 0 (guard it with `has_item`) |
 | `set_flag` | `flag`, `value` | sets the flag to the boolean |
 | `start_quest` | `quest` | starts the quest (ignored when it already exists) |
@@ -152,6 +155,15 @@ result and `set_flag`. The parts are drops of the region's own creatures, so the
 | scholarly | Lumeria | 8 star dust, 4 storm feathers | Starlit vestment (def 8, mdef 14) |
 
 Villagers and shopkeepers also answer "How is the road around here?" with a text of the region's tone (`dlg.tone.<tone>.road`).
+
+## Inns, commissions and gossip
+
+- **Inns.** Every innkeeper rents a bed and sells food to take along. The bed choice is visible when `gold_at_least` the price (8 to 18 gold by tone); it runs `spend_gold` and `heal_full` and the innkeeper says the player slept.
+  Otherwise the same line leads to a polite refusal. The meal choice (honey cake, grilled fish or hearty stew, two to four of them) runs `spend_gold` and `add_item`.
+- **Commissions.** Every guild clerk has a `comm_hub` ("Do you have special commissions?") that offers three `side` quests of two stages each (`hunt`, a `kill` objective, then `gather`, a `collect` objective) with the creatures and materials of
+  the region. The first needs level 1 to 7 (by region), the second 3 to 11 more and the third up to level 14, and each needs the previous one paid (flag `comm_clerk_<tone>_<n>_paid`). Payment is a dialogue effect list: XP, gold
+  (scaled by the danger of the region), guild points and potions (medium for the first two, a large one for the third).
+- **Gossip.** Villagers answer "Any gossip?" with three lines of their tone in a row (`dlg.gossip.<tone>.<n>`).
 
 ## Journal
 

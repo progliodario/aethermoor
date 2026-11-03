@@ -110,6 +110,10 @@
         "level_at_least": {
           "type": "integer",
           "minimum": 1
+        },
+        "gold_at_least": {
+          "type": "integer",
+          "minimum": 1
         }
       }
     },
@@ -126,7 +130,8 @@
             "effect": {
               "enum": [
                 "add_xp",
-                "add_gold"
+                "add_gold",
+                "spend_gold"
               ]
             },
             "amount": {
@@ -251,6 +256,18 @@
           "properties": {
             "effect": {
               "const": "open_board"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "const": "heal_full"
             }
           }
         }

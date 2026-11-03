@@ -234,6 +234,7 @@ private:
     float player_y() const override { return m_player_.position.y; }
     void open_shop() override;
     void open_board() override;
+    void heal_full() override { m_player_.hp = m_derived_.max_hp; }
     // The enemy the spawner on a tile makes (spec 09, "Fauna").
     const EnemyDef& stream_enemy_at(int x, int y) const;
 

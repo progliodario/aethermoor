@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/pike",
+  "name": "$i18n:item.pike.name",
+  "description": "$i18n:item.pike.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 520,
+  "weapon": {
+    "atk": 14,
+    "matk": 0
+  }
+}

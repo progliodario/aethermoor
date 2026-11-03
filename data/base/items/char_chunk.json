@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/char_chunk",
+  "name": "$i18n:item.char_chunk.name",
+  "description": "$i18n:item.char_chunk.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 26,
+  "stack_max": 99
+}

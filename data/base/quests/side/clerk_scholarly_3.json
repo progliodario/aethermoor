@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/clerk_scholarly_3",
+  "name": "$i18n:quest.clerk_scholarly_3.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "hunt",
+      "journal": "$i18n:quest.clerk_scholarly_3.hunt",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_nebula",
+          "count": 8
+        }
+      ],
+      "next": "gather"
+    },
+    {
+      "id": "gather",
+      "journal": "$i18n:quest.clerk_scholarly_3.gather",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/nebula_ash",
+          "count": 6
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

@@ -385,6 +385,10 @@ class WorldSim(
         return true
     }
 
+    override fun healFull() {
+        player.hp = derived.maxHp
+    }
+
     override fun openBoard() {
         val store = chunks ?: return
         val settlement = settlementContaining(store.seed, store.params, floor(player.position.x).toInt(), floor(player.position.y).toInt()) ?: return

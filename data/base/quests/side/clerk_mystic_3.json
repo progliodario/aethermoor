@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/clerk_mystic_3",
+  "name": "$i18n:quest.clerk_mystic_3.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "hunt",
+      "journal": "$i18n:quest.clerk_mystic_3.hunt",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/wolf_dire",
+          "count": 6
+        }
+      ],
+      "next": "gather"
+    },
+    {
+      "id": "gather",
+      "journal": "$i18n:quest.clerk_mystic_3.gather",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/dire_fang",
+          "count": 5
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}
