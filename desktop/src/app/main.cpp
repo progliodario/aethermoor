@@ -231,6 +231,18 @@ struct DrawItem {
     const aether::NpcDef* npc = nullptr;
 };
 
+// The number of characters of a UTF-8 text (the debug font draws one character in 8 units, whatever its length in
+// bytes).
+float text_columns(const std::string& text) {
+    std::size_t columns = 0;
+    for (const char c : text) {
+        if ((static_cast<unsigned char>(c) & 0xC0) != 0x80) {
+            ++columns;
+        }
+    }
+    return static_cast<float>(columns);
+}
+
 // The debug font of SDL has the ASCII characters only (anything else is drawn as a block). The accented letters of the
 // Italian texts are drawn as the letter with a small accent, the quotation marks as ASCII ones, anything else as a
 // question mark. `text` is UTF-8.
@@ -434,8 +446,8 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
     debug_text(renderer, hint_x, (y + bar_h + 16.0F * density) / 2.0F, bag_hint.c_str());
     if (sim.streamed()) {
         // The map hint follows the bag hint whatever the language: 8 units per character, two characters of gap.
-        debug_text(renderer, hint_x + 8.0F * static_cast<float>(bag_hint.size() + 2),
-                   (y + bar_h + 16.0F * density) / 2.0F, assets.pack.text(ui.lang, "$i18n:ui.map_hint").c_str());
+        debug_text(renderer, hint_x + 8.0F * (text_columns(bag_hint) + 2.0F), (y + bar_h + 16.0F * density) / 2.0F,
+                   assets.pack.text(ui.lang, "$i18n:ui.map_hint").c_str());
     }
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
@@ -498,8 +510,8 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
                   235, 150, 255);
         if (marker->second->kind != "hamlet") {
             const int priority = marker->second->kind == "town" ? 0 : (marker->second->kind == "village" ? 1 : 2);
-            labels.push_back({mx + (size * density) / 2.0F + 3.0F, my - 4.0F,
-                              static_cast<float>(marker->second->name.size()) * 8.0F, priority, &marker->second->name});
+            labels.push_back({mx + (size * density) / 2.0F + 3.0F, my - 4.0F, text_columns(marker->second->name) * 8.0F,
+                              priority, &marker->second->name});
         }
     }
     std::stable_sort(labels.begin(), labels.end(),
@@ -590,7 +602,7 @@ void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether:
         {{"day", static_cast<std::int64_t>(time->day)}, {"time", std::string(clock)}, {"season", season_name}});
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_SetRenderScale(renderer, 2.0F, 2.0F);
-    debug_text(renderer, (static_cast<float>(out_w) - 12.0F * density) / 2.0F - static_cast<float>(line.size()) * 8.0F,
+    debug_text(renderer, (static_cast<float>(out_w) - 12.0F * density) / 2.0F - text_columns(line) * 8.0F,
                12.0F * density / 2.0F, line.c_str());
     if (const aether::ChunkStore* store = sim.chunks()) {
         const aether::WorldParams& params = store->params();
@@ -599,9 +611,8 @@ void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether:
                               static_cast<int>(std::floor(sim.player().position.y))))];
         const std::string name = assets.pack.text(ui.lang, region.name);
         SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
-        SDL_RenderDebugText(
-            renderer, (static_cast<float>(out_w) - 12.0F * density) / 2.0F - static_cast<float>(name.size()) * 8.0F,
-            12.0F * density / 2.0F + 12.0F, name.c_str());
+        debug_text(renderer, (static_cast<float>(out_w) - 12.0F * density) / 2.0F - text_columns(name) * 8.0F,
+                   12.0F * density / 2.0F + 12.0F, name.c_str());
     }
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
@@ -1055,7 +1066,7 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
                 c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
             }
             const std::string text = assets.pack.text(ui.lang, "$i18n:ui.rank", {{"rank", letter}});
-            debug_text(renderer, x - static_cast<float>(text.size()) * 8.0F - 8.0F, y, text.c_str());
+            debug_text(renderer, x - text_columns(text) * 8.0F - 8.0F, y, text.c_str());
         }
     }
     y += 16.0F;
@@ -1127,8 +1138,7 @@ void draw_shop(SDL_Renderer* renderer, const Assets& assets, const aether::World
     debug_text(renderer, (x + 16.0F) / kScale, (y + 12.0F) / kScale, title.c_str());
     const std::string gold =
         assets.pack.text(ui.lang, "$i18n:ui.gold", {{"gold", static_cast<std::int64_t>(sim.story().gold())}});
-    debug_text(renderer, (x + w - 16.0F) / kScale - static_cast<float>(gold.size()) * 8.0F, (y + 12.0F) / kScale,
-               gold.c_str());
+    debug_text(renderer, (x + w - 16.0F) / kScale - text_columns(gold) * 8.0F, (y + 12.0F) / kScale, gold.c_str());
     float ty = y + 12.0F + row + 8.0F;
     if (entries.empty()) {
         SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
@@ -1148,8 +1158,7 @@ void draw_shop(SDL_Renderer* renderer, const Assets& assets, const aether::World
         debug_text(renderer, (x + 16.0F) / kScale, ty / kScale,
                    ((static_cast<int>(i) == cursor ? ">" : " ") + name).c_str());
         SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
-        debug_text(renderer, (x + w - 16.0F) / kScale - static_cast<float>(price.size()) * 8.0F, ty / kScale,
-                   price.c_str());
+        debug_text(renderer, (x + w - 16.0F) / kScale - text_columns(price) * 8.0F, ty / kScale, price.c_str());
         ty += row;
     }
     SDL_SetRenderDrawColor(renderer, 170, 200, 230, 255);
@@ -1364,9 +1373,8 @@ void draw_travel(SDL_Renderer* renderer, const Assets& assets, const aether::Wor
     debug_text(renderer, (x + 16.0F) / kScale, (y + 12.0F) / kScale,
                assets.pack.text(ui.lang, "$i18n:ui.travel").c_str());
     SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
-    SDL_RenderDebugText(
-        renderer, (x + 16.0F) / kScale, (y + 12.0F + row) / kScale,
-        assets.pack.text(ui.lang, travel->fresh ? "$i18n:ui.stone_awake" : "$i18n:ui.stone_rest").c_str());
+    debug_text(renderer, (x + 16.0F) / kScale, (y + 12.0F + row) / kScale,
+               assets.pack.text(ui.lang, travel->fresh ? "$i18n:ui.stone_awake" : "$i18n:ui.stone_rest").c_str());
     float ty = y + 12.0F + row * 2.0F + 6.0F;
     for (std::size_t i = static_cast<std::size_t>(first); i < static_cast<std::size_t>(first + visible); ++i) {
         const aether::WorldSim::StoneStop& stop = travel->stops[i];
@@ -1712,13 +1720,11 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
         SDL_RenderClear(renderer);
         const std::string game_title = assets.pack.text(lang, "$i18n:game.title");
         const float title_scale = 3.0F * density;
-        draw_text(title_scale,
-                  (static_cast<float>(out_w) - static_cast<float>(game_title.size()) * 8.0F * title_scale) / 2.0F,
+        draw_text(title_scale, (static_cast<float>(out_w) - text_columns(game_title) * 8.0F * title_scale) / 2.0F,
                   static_cast<float>(out_h) * 0.12F, game_title, 255, 215, 120);
         const std::string choose = assets.pack.text(lang, "$i18n:ui.title_choose");
         const float choose_scale = 1.5F * density;
-        draw_text(choose_scale,
-                  (static_cast<float>(out_w) - static_cast<float>(choose.size()) * 8.0F * choose_scale) / 2.0F,
+        draw_text(choose_scale, (static_cast<float>(out_w) - text_columns(choose) * 8.0F * choose_scale) / 2.0F,
                   static_cast<float>(out_h) * 0.12F + 40.0F * density, choose, 170, 200, 230);
         for (int i = 0; i < kSlotCount; ++i) {
             const SlotInfo& info = slots[static_cast<std::size_t>(i)];
