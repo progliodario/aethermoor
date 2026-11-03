@@ -65,6 +65,9 @@ fun loadCombatSetup(
     seed: ULong,
     /** The enemies of the fauna of a streamed world, if the map is one. */
     streamEnemyIds: Collection<String> = emptyList(),
+    /** The difficulty of the world (spec 04): health and attack of the streamed creatures, in percent. */
+    enemyHpPct: Int = 100,
+    enemyAtkPct: Int = 100,
 ): Result<CombatSetup> =
     runCatching {
         val protagonist = parseProtagonist(requireNotNull(pack.readDocument(protagonistId)) { "missing $protagonistId" }).getOrThrow()
@@ -146,7 +149,10 @@ fun loadCombatSetup(
             seed = seed,
             story = StorySetup(quests, dialogues, npcs),
             startInventory = protagonist.startingInventory,
-            streamEnemies = streamEnemyIds.toSet().associateWith { loadEnemy(pack, it) },
+            streamEnemies = streamEnemyIds.toSet().associateWith {
+                val def = loadEnemy(pack, it)
+                def.copy(hp = maxOf(1L, def.hp * enemyHpPct / 100), atk = def.atk * enemyAtkPct / 100)
+            },
             items = items,
             startWeapon = startWeapon,
         )

@@ -1720,7 +1720,9 @@ int main(int argc, char** argv) {
             for (const std::string& enemy : aether::world_enemy_ids(stream->params)) {
                 if (combat && combat->stream_enemies.count(enemy) == 0) {
                     if (auto def = aether::load_enemy_def(assets.pack, enemy, combat_error)) {
-                        combat->stream_enemies.emplace(enemy, std::move(*def));
+                        def->hp = std::max<std::int64_t>(1, def->hp * stream->params.enemy_hp_pct / 100);  // the difficulty of the world (spec 04)
+                    def->atk = def->atk * stream->params.enemy_atk_pct / 100;
+                    combat->stream_enemies.emplace(enemy, std::move(*def));
                     } else {
                         combat.reset();
                     }

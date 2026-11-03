@@ -176,6 +176,10 @@ class WorldParams(
     /** The prop that is a Threshold Stone and how near the player must be to use it, in 1/100 tile (spec 09). */
     val stoneArt: String,
     val stoneRangeX100: Int,
+    /** Difficulty (spec 04): health and attack of the creatures of the streamed world, in percent. */
+    val enemyHpPct: Int,
+    val enemyAtkPct: Int,
+
     /** Tiles of plains around the footprint of a landmark (spec 09); 0: none. */
     val landmarkClearing: Int,
 
@@ -855,6 +859,8 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
                     },
                 )
             },
+            enemyHpPct = j["difficulty"]?.jsonObject?.get("enemy_hp_pct")?.jsonPrimitive?.int ?: 100,
+            enemyAtkPct = j["difficulty"]?.jsonObject?.get("enemy_atk_pct")?.jsonPrimitive?.int ?: 100,
             landmarkClearing = j["landmark_clearing"]?.jsonPrimitive?.int ?: 0,
             homeRadius = j["home"]?.jsonObject?.getValue("radius")?.jsonPrimitive?.int ?: 0,
             homeStamp = j["home"]?.jsonObject?.getValue("stamp")?.jsonPrimitive?.content ?: "",

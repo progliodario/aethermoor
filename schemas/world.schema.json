@@ -48,6 +48,22 @@
       "type": "integer",
       "minimum": 0
     },
+    "difficulty": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enemy_hp_pct": {
+          "type": "integer",
+          "minimum": 10,
+          "maximum": 2000
+        },
+        "enemy_atk_pct": {
+          "type": "integer",
+          "minimum": 10,
+          "maximum": 2000
+        }
+      }
+    },
     "landmark_clearing": {
       "type": "integer",
       "minimum": 0,

@@ -6,6 +6,7 @@
   "border": 4,
   "spawn_clear_radius": 7,
   "landmark_clearing": 24,
+  "difficulty": { "enemy_hp_pct": 100, "enemy_atk_pct": 100 },
   "elevation": { "salt": 1, "scale": 56, "octaves": 5 },
   "moisture": { "salt": 2, "scale": 80, "octaves": 4 },
   "temperature": { "salt": 3, "scale": 120, "octaves": 3 },
