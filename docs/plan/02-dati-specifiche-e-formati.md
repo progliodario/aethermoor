@@ -1,6 +1,8 @@
 # 02. Dati, specifiche numeriche e formati
 
 > Questo documento è il nucleo di `docs/spec/`. I numeri sono **valori iniziali di bilanciamento**: stanno in `data/base/tables/` e si possono cambiare senza toccare il codice.
+>
+> **Stato (novembre 2026).** Le specifiche normative sono in `docs/spec/` (00-09, 12, 13, 16, 17 scritte; 10, 11, 14 e 15 devono ancora nascere) e prevalgono su questo piano, dove i due divergono: per esempio il giorno dura 20 minuti (spec 08, non 24), il mondo è a chunk di 32 x 32 con regioni, stamp e siti (spec 09), il salvataggio ha tre partite (spec 12) e le condizioni e gli effetti dei dialoghi sono quelli della spec 07. Ciò che qui è descritto e non è ancora in spec (compagni, riincarnazione, titoli, tag, costruzione della base) è ancora un piano.
 
 ## 1. Pack, ID e manifest
 
@@ -319,7 +321,7 @@ Ogni elemento ha in `docs/spec` una definizione precisa (parametri, ordine di va
 ### Unità e tempo
 
 - 1 **tile** = 1,0 unità di mondo = 32 unità logiche di render. Origine in alto a sinistra, **y verso il basso**.
-- **Tick** = 1/60 s. Durate in tick o in secondi di gioco ×60. Giorno di gioco = 24 minuti reali = 86.400 tick; 1 minuto reale = 1 ora di gioco.
+- **Tick** = 1/60 s. Durate in tick o in secondi di gioco ×60. Giorno di gioco = 20 minuti reali = 72.000 tick (`time.day_ticks`, spec 08; il piano iniziale diceva 24 minuti e 86.400 tick); 1 minuto reale = 1,2 ore di gioco.
 - Posizioni e velocità: `float` nel codice (non specificate bit-a-bit). Nei dati: interi ×100 (`_x100`).
 
 ### Interi e punto fisso

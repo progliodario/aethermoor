@@ -1,5 +1,7 @@
 # 01. Architettura e repository
 
+> **Stato (novembre 2026).** Il principio di fondo è rispettato (spec-first, dati, due client, nucleo senza grafica). Differenze dall'originale: il vettoriale non usa ThorVG né `android.graphics` ma un rasterizzatore proprio (ADR 0012); non si usano SDL3_ttf né miniz (il testo desktop è il font di debug di SDL, vedi `desktop/README.md`); i moduli reali sono `aether_core`, `aether_data`, `aether_vector`, `aether_sim` (desktop) e `core`, `game`, `app` (Android), non l'albero di questo documento; ECS, Tracy e `tools/licenses.py` non esistono. Le dipendenze vere sono in `THIRD_PARTY_NOTICES.md`.
+
 ## 1. Principi architetturali
 
 1. **Spec-first.** Ogni regola di gioco è scritta in `docs/spec/` prima di essere implementata. Se codice e specifica divergono, si corregge uno dei due nello stesso PR.
@@ -135,11 +137,11 @@ Note:
 | Build | CMake ≥ 3.28 + Presets | BSD | Un solo sistema per entrambi |
 | Pacchetti | vcpkg manifest mode (versioni bloccate) | MIT | Riproducibilità |
 | Finestra/input/audio | **SDL3** | zlib | Finestra, gamepad, audio stream, tempo |
-| Testo | SDL3_ttf (con HarfBuzz/FreeType) | zlib | Font vettoriali |
-| Vettoriale | **ThorVG** (motore software) | MIT | Rasterizzazione delle ricette |
+| Testo | SDL3_ttf (con HarfBuzz/FreeType) | zlib | Font vettoriali. **Non usato:** si disegna con il font di debug di SDL (solo ASCII, gli accenti sono disegnati a mano) |
+| Vettoriale | ~~ThorVG~~ rasterizzatore proprio (ADR 0012) | GPL-3.0-or-later | Rasterizzazione delle ricette |
 | JSON | nlohmann/json | MIT | Lettura dati e salvataggi |
 | Test | Catch2 v3 | BSL-1.0 | Unit e conformità |
-| Compressione | miniz | MIT | Pack e export salvataggi |
+| Compressione | miniz | MIT | Pack e export salvataggi. **Non usato** (l'export non esiste ancora) |
 | Profiling | Tracy (opzionale) | BSD-3 | Analisi |
 | ECS | implementazione propria minimale | n/a | Deve rispecchiare la specifica; niente EnTT per evitare dipendenza dal modello |
 
@@ -231,7 +233,7 @@ Python 3.12 (con `jsonschema`, `pytest`), Tiled (mappe), un editor di testo con 
 
 ## 9. Licenze e legale
 
-- **Codice:** GPL-3.0-or-later. Compatibile con SDL (zlib), ThorVG (MIT), nlohmann (MIT), libGDX (Apache-2.0), kotlinx (Apache-2.0). Una libreria incompatibile con GPLv3 non può essere aggiunta: la CI verifica con `tools/licenses.py`.
+- **Codice:** GPL-3.0-or-later. Compatibile con SDL (zlib), nlohmann (MIT), libGDX (Apache-2.0), kotlinx (Apache-2.0). Una libreria incompatibile con GPLv3 non può essere aggiunta: la CI verifica con `tools/licenses.py`.
 - **Contenuti** (`data/`, testi, `docs/design/`): CC BY-SA 4.0 (decisione D13, da confermare). **Font:** solo OFL o equivalenti, con licenza copiata in `data/base/ui/fonts/LICENSES/`.
 - **Contributi:** **DCO** (`Signed-off-by`), nessun CLA.
 - **Distribuzione su Google Play:** consentita con GPL se il sorgente è pubblico; la keystore di firma non è mai nel repo.

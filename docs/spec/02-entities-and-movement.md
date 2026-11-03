@@ -1,7 +1,8 @@
 # 02. Entities, maps and movement
 
-Status: **v1 (M2 subset)**. Reference: `tools/reference/movement.py`. Conformance suites: `movement`.
-The full component model arrives with combat (M3); M2 uses plain structures.
+Status: **v1**. Reference: `tools/reference/movement.py`. Conformance suites: `movement` (this file), `combat` and `chunk_window` (the world around the player).
+There is no component model: the player, the enemies, the people and the props are plain structures in the simulation (`WorldSim` in C++ and Kotlin), and
+the rules about them are in the specs named below.
 
 ## Maps
 
@@ -16,6 +17,11 @@ Hand-made maps are **Tiled TMJ** files (`data/<pack>/maps/*.tmj`, JSON, no compr
   - `type: "prop"`: point object at the **feet** of the prop; properties `art` (recipe ID) and `radius` (float, tiles).
     A prop is a solid circle.
 - Cells outside the map are solid.
+
+A **streamed world** (spec 09) has no map file: the tiles, the props and the people come from the chunks around the player (the same rules apply: a solid tile or a
+prop circle pushes the player out). The tile gids come from `ChunkStore`, which answers for any tile of the world; a chunk that is not loaded is solid and empty (gid 0, not drawn), which the player never reaches because the window follows the player.
+People (spec 07, 09) are solid circles of radius 0.3 at their current position, added to the props while they are in the loaded window and moved when a routine
+changes it (spec 08). Enemies are pushed out of solid tiles and props with the same `resolve` and their own radius (spec 05), but they do not push the player or each other: they hurt the player through their attack, not by contact.
 
 ## Player and input
 

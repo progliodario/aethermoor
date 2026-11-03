@@ -1,6 +1,6 @@
 # ADR 0004: Vector art pipeline based on recipes
 
-- Status: accepted
+- Status: accepted; the rasterizer part is amended by [ADR 0012](0012-in-house-software-rasterizer.md) (both clients use an in-house rasterizer, not ThorVG and `android.graphics`)
 - Date: 2026-11-01
 
 ## Context

@@ -9,7 +9,7 @@ The owner works in Italian; contributors and tools work best in English.
 
 ## Decision
 
-Code, file names, commits, `docs/spec` and `docs/dev` in English. `docs/design` and the main README in Italian (with `README.en.md`). In-game text in Italian and English via i18n keys.
+Code, file names, commits, `docs/spec`, `docs/dev`, `docs/guides` and `docs/adr` in English. `docs/plan`, `docs/design` and the main README in Italian (with `README.en.md`). In-game text in Italian and English via i18n keys.
 
 ## Consequences
 

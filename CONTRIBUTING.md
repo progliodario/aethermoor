@@ -16,14 +16,21 @@ Thanks for helping. This project has **two native clients** (C++ desktop, Kotlin
 3. Commit with [Conventional Commits](https://www.conventionalcommits.org/): `feat(desktop): ...`, `fix(data): ...`.
    Scopes: `desktop`, `android`, `data`, `spec`, `docs`, `tools`, `ci`, `art`, `audio`, `ui`, `i18n`.
 4. Sign off every commit (`git commit -s`): this is the [DCO](https://developercertificate.org/). No CLA.
-5. Run `python tools/validate_data.py` and the tests of the area you touched.
-6. Open a PR using the template and tick the checklist. Squash merge.
+5. Run `python tools/validate_data.py` and the tests of the area you touched (`python -m pytest tools/tests`, `python -m ruff check tools`, `python tools/gen_conformance.py --check`; `ctest` and `gradle :core:test` need the compilers, which CI has). If you changed rules or world data, regenerate the vectors with `python tools/gen_conformance.py`; if you changed the stamps, `python tools/make_stamps.py`; for content, `python tools/make_catalog.py`.
+6. Open a PR using the template and tick the checklist. Squash merge. `python tools/ship.py "<title>" --body-file <file>` does steps 5 and 6 and waits for CI (see `docs/dev/setup.md`).
+
+Some tests of both clients count what the data holds (stamps, static people, tiles of the tileset): update them in the same PR as the data.
 
 ## Languages
 
-- Code, file names, commits, technical docs (`docs/spec`, `docs/dev`): **English**.
-- Design docs (`docs/design`) and the main README: **Italian**.
+- Code, file names, commits, technical docs (`docs/spec`, `docs/dev`, `docs/guides`, `docs/adr`): **English**.
+- The plan (`docs/plan`), the design docs (`docs/design`) and `README.md`: **Italian** (`README.en.md` is the English twin).
+- The changelog, `CLAUDE.md` and the contributor files: **English**.
 - In-game text: Italian and English, always together.
+
+## Adding content
+
+Follow [`docs/guides/add-content.md`](docs/guides/add-content.md): an item, a creature, a quest and its dialogue, a place, a region, a language. Every visible text goes in both `data/base/i18n/it/` and `en/`.
 
 ## Content rating
 

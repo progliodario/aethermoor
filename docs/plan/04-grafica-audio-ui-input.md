@@ -1,5 +1,7 @@
 # 04. Grafica, audio, UI e input
 
+> **Stato (novembre 2026).** Fatto: la pipeline a ricette (JSON, palette e varianti), il rasterizzatore proprio uguale nei due client al posto di ThorVG / `android.graphics` (ADR 0012, `docs/spec/13-vector-art.md`), rig e clip, gli atlanti per scala, il giorno e la notte con tinta stagionale, e l'input da tastiera, mouse, gamepad (desktop) e touch con stick fluttuante (`docs/spec/16-input.md`). **Non ancora:** luci puntiformi e ombre morbide, audio (nessun suono), UI dichiarativa (le schermate sono scritte nel codice dei due client, ADR 0008), gli override con SVG/PNG, input adattivo in base all'ultimo dispositivo, il controller su Android.
+
 ## 1. Pipeline dell'arte vettoriale (D1-D4)
 
 ### Idea
@@ -10,7 +12,7 @@ Nessuna immagine nel repo. L'arte è **descritta** in JSON (forme, gradienti, co
 data/art/*.json (ricette, rig, clip, palette)
         │ parse
         ▼
-  Ricetta in memoria ──► Rasterizzatore (ThorVG | android.graphics)
+  Ricetta in memoria ──► Rasterizzatore (proprio, ADR 0012; il piano diceva ThorVG | android.graphics)
         │                         │
         │ bake per scala          ▼
         ▼                   Bitmap/Surface
@@ -37,9 +39,9 @@ data/art/*.json (ricette, rig, clip, palette)
 
 | | Desktop | Android |
 |---|---|---|
-| Libreria | ThorVG (motore software) | `android.graphics.Path/Canvas/Paint/Shader` |
+| Libreria | ~~ThorVG~~ il rasterizzatore proprio di `desktop/src/vector` | ~~`android.graphics`~~ il rasterizzatore proprio di `core/vector` |
 | Output | `SDL_Surface` ARGB8888 | `Bitmap` ARGB_8888 |
-| Parsing path | ThorVG | `PathParser` di AndroidX |
+| Parsing path | parser proprio (comandi assoluti `M L H V C Q Z`) | lo stesso, in Kotlin |
 | Thread | Worker pool | Worker (HandlerThread) |
 | Upload GPU | `SDL_CreateTextureFromSurface` | `Texture(Pixmap)` / GL sul thread GL |
 

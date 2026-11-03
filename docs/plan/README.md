@@ -1,19 +1,18 @@
 # Piano di progetto: Aethermoor (titolo provvisorio)
 
-> Stato: **bozza v0.1 per approvazione**, 2026-11-01. Nessun codice è stato scritto.
-> Questi file diventeranno la cartella `docs/` del repository dopo la tua approvazione.
+> Stato: **piano approvato e in esecuzione.** Scritto il 2026-11-01 come bozza v0.1; questo file e gli altri della cartella sono il piano originale, mantenuto come riferimento. Dove l'esecuzione ha preso un'altra strada lo dice una nota ("Stato") in testa a ogni documento e la tabella D1-D15 qui sotto. Per sapere **dove siamo oggi** vedi [06-roadmap-rischi-backlog.md](06-roadmap-rischi-backlog.md), sezione 8, `CHANGELOG.md` e `docs/design/catalog.md`. Le specifiche che valgono sono quelle in `docs/spec/`.
 
 ## 1. Sintesi
 
 Un **action RPG top-down in tempo reale, open world, 2D vettoriale**, a tema **isekai fantasy**.
 Si sceglie tra **8 o più protagonisti**, ognuno con un "cheat" diverso, una trama, un tono e una regione di partenza propri.
-Il mondo è condiviso. Include gilda dei avventurieri con ranghi, status window, titoli, tag, legami con i compagni, reincarnazione come meta-progressione, vita in villaggio (agricoltura, cucina, costruzione), dungeon e boss.
+Il mondo è condiviso. Include gilda degli avventurieri con ranghi, status window, titoli, tag, legami con i compagni, reincarnazione come meta-progressione, vita in villaggio (agricoltura, cucina, costruzione), dungeon e boss.
 
 Esistono **due implementazioni native separate** che leggono gli **stessi dati**:
 
 | Client | Linguaggio | Tecnologia | Piattaforme |
 |---|---|---|---|
-| `desktop/` | C++20 | SDL3 + ThorVG | Windows e Linux |
+| `desktop/` | C++20 | SDL3 + rasterizzatore proprio (era: ThorVG, vedi D2) | Windows e Linux |
 | `android/` | Kotlin | libGDX | Android 11+ |
 
 Per tenerle allineate si usano quattro strumenti:
@@ -61,7 +60,7 @@ Il repo è un monorepo pubblico, con licenza GPL-3.0 e release automatiche trami
 | # | Decisione | Perché |
 |---|---|---|
 | D1 | **Pipeline vettoriale a "ricette"**: l'arte è descritta in JSON (forme, path SVG, gradienti, contorni, parti animabili). Ogni client la rasterizza in atlanti di texture all'avvio, alla scala del dispositivo. | Grafica ricca e nitida a qualsiasi risoluzione, nessun file immagine, sostituibile con SVG/PNG |
-| D2 | Rasterizzatore: **ThorVG su desktop** e **`android.graphics` (Skia) su Android** | Nessuna dipendenza nativa su Android, quindi codici davvero separati. Le differenze di antialiasing sono tollerate |
+| D2 | Rasterizzatore: **ThorVG su desktop** e **`android.graphics` (Skia) su Android**. **Cambiata dall'ADR 0012:** un rasterizzatore proprio, specificato in `docs/spec/13-vector-art.md` e scritto due volte (C++ e Kotlin) | Con due librerie diverse i client si potevano confrontare solo con immagini di riferimento e tolleranze larghe; con una specifica sola le sonde sono identiche e girano in test JVM. ThorVG può tornare come backend alternativo senza toccare i dati |
 | D3 | Animazione a **parti rigide con rig e clip** (stile cutout), senza ri-rasterizzare ogni frame | Veloce su mobile e identica nei due client |
 | D4 | **Illuminazione 2D** (giorno/notte, luci puntiformi, ombre morbide) con profili di qualità | Atmosfera senza costo alto |
 | D5 | **UI dichiarativa**: le schermate sono in JSON (layout, tema, binding), disegnate dai due client | Evita di scrivere due volte ogni schermata e la rende moddabile |
@@ -98,4 +97,4 @@ Il nome vive in **un solo file** (`data/base/pack.json` e `project.json`) e va c
 
 ## 7. Prossimo passo
 
-Quando approvi il piano (anche con modifiche), faccio **M0**: creo la cartella del progetto, il repo Git, la struttura, i documenti e la CI vuota, e ti propongo il primo commit. Prima di lavorare in un repository Git ti chiederò anche il nome del branch.
+Fatto: M0 (fondazioni), M1 (specifiche e conformità), M2 (motore e arte), M3 (combattimento, in parte), M4 (dialoghi, quest, salvataggi, quasi tutto), M5 (mondo aperto, quasi tutto) e metà di M6 (oggetti, negozi, equipaggiamento). Il prossimo passo e le decisioni che spettano al proprietario (bilanciamento, altri protagonisti e doni, prima release pubblica) sono in [06-roadmap-rischi-backlog.md](06-roadmap-rischi-backlog.md), sezione 8.

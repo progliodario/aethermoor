@@ -15,6 +15,14 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 - The shop, the bag and the list of Threshold Stones scroll with the cursor when they have more rows than the screen can show (desktop and Android); before, the lowest entries were out of reach.
 - Dungeons, lairs, nests and outposts no longer end up under a lake or inside a mountain range for some world seeds: around every landmark (spec 09, "Clearings") water and mountains become plains for 24 tiles beyond its footprint.
 
+### Changed
+
+- All the Markdown files were checked against the code and brought up to date (the details are in the pull request): `README` (how to try the build, honest status), `desktop/README` (flags, controls, layout, tests), `android/README`, spec 00 (the day lasts 20 minutes), 02, 03 and 16 (no longer "M2 subsets": what the engine does, the real order of a tick, every key, button and gamepad binding), `docs/dev/setup.md` (what CI runs and what it does not), the glossary, the modding notes, `THIRD_PARTY_NOTICES.md` (the real dependencies; ThorVG, SDL3_ttf and miniz are not used), notes on the ADRs that are only partly built (0004, 0007, 0008, 0009, 0011) and a status table at the top of every plan document.
+- `tools/ship.py` (checks, signed-off commit, push, pull request, wait for CI, squash merge, refresh the play build; formats the changed C++ with clang-format; reuses only an open pull request for a branch) and a faster `tools/gen_conformance.py` (the suites are built in parallel, about 20 s, and only changed files are written).
+- CI: the vcpkg binaries are cached (the desktop build is much faster), the playable Windows and Linux builds are uploaded on every run with `desktop/PLAY.txt`, and Dependabot no longer proposes Kotlin, libGDX and Android Gradle plugin upgrades, which need code changes (they are done by hand).
+- Desktop developer flags: `--start=X,Y` (put the player at a tile), `--slot=N` (open a game without the title screen), `--map=demo|world`, `--seed=N`, `--screenshot-dir=DIR`.
+- `docs/guides/add-content.md`: how to add an item, a creature, a quest and its dialogue, a place, a region and a language, with the checks to run.
+
 ### Added
 
 - A difficulty knob in the world data (spec 04, "Difficulty"): `difficulty {enemy_hp_pct, enemy_atk_pct}` scales the health and the attack of every creature of the streamed world, 100 percent by default. It is the one number to change to make fights longer or harder (see `docs/design/balance.md`).
