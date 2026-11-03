@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/slime_magma",
+  "name": "$i18n:enemy.slime_magma.name",
+  "level": 10,
+  "stats": {
+    "hp": 210,
+    "atk": 29,
+    "def": 12,
+    "mdef": 6,
+    "speed_x100": 260
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "water": 1500
+  },
+  "xp": 75,
+  "drops": [
+    {
+      "item": "base:item/magma_shard",
+      "qty_min": 1,
+      "qty_max": 2,
+      "weight_pm": 500
+    }
+  ],
+  "radius_x100": 40,
+  "behavior": "base:behavior/melee_chaser_basic",
+  "art": "base:art/creature/slime_magma"
+}

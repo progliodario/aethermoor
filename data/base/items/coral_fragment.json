@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/coral_fragment",
+  "name": "$i18n:item.coral_fragment.name",
+  "description": "$i18n:item.coral_fragment.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 13,
+  "stack_max": 99
+}

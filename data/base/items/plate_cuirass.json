@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/plate_cuirass",
+  "name": "$i18n:item.plate_cuirass.name",
+  "description": "$i18n:item.plate_cuirass.desc",
+  "kind": "armor",
+  "rarity": "rare",
+  "price": 1000,
+  "armor": {
+    "def": 10,
+    "mdef": 4
+  }
+}
