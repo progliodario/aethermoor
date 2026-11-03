@@ -617,8 +617,8 @@ def citadel() -> dict:
     c.put(19, 38, "T")
     c.put(21, 37, "@")
     c.put(25, 37, "@")
-    c.put(18, 36, "!")
-    c.put(28, 36, "!")
+    c.put(18, 36, "o")
+    c.put(28, 36, "o")
     return stamp("base:stamp/citadel", c, (23, 39), [])
 
 

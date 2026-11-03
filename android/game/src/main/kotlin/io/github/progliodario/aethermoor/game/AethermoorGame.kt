@@ -1505,9 +1505,18 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         font.draw(batch, data.pack.text(language, "\$i18n:ui.map_hint"), button[0] + 8f * density, button[1] + (button[3] - font.lineHeight) / 2f)
         if (showMap) {
             font.draw(batch, data.pack.text(language, "\$i18n:ui.map"), left, top - 26f * density)
-            for ((x, y) in world.explored) {
-                val marker = markerAt(store, x, y) ?: continue
-                if (marker.kind != "hamlet") font.draw(batch, marker.name, left + cell * (x + 0.5f) + 8f * density, top + cell * (y + 0.5f) - font.lineHeight / 2f)
+            // A name that would be drawn over another one is left out: towns first, then villages, then the other sites.
+            val labels = world.explored.mapNotNull { (x, y) -> markerAt(store, x, y)?.takeIf { it.kind != "hamlet" }?.let { Triple(it, x, y) } }
+                .sortedBy { (marker, _, _) -> if (marker.kind == "town") 0 else if (marker.kind == "village") 1 else 2 }
+            val placed = ArrayList<FloatArray>()
+            for ((marker, x, y) in labels) {
+                layout.setText(font, marker.name)
+                val lx = left + cell * (x + 0.5f) + 8f * density
+                val ly = top + cell * (y + 0.5f) - font.lineHeight / 2f
+                val w = layout.width
+                if (placed.any { lx < it[0] + it[2] && it[0] < lx + w && ly < it[1] + font.lineHeight && it[1] < ly + font.lineHeight }) continue
+                font.draw(batch, marker.name, lx, ly)
+                placed.add(floatArrayOf(lx, ly, w))
             }
             font.color = Color(1f, 0.84f, 0.47f, 1f)
             for (region in store.params.regions) {
