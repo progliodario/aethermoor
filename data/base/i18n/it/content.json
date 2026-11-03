@@ -218,5 +218,21 @@
   "enemy.ice_warden.name": "Custode del ghiaccio",
   "item.thunderfang.name": "Zanna del tuono",
   "item.thunderfang.desc": "La senti prima di vederla.",
-  "enemy.storm_sovereign.name": "Sovrano della tempesta"
+  "enemy.storm_sovereign.name": "Sovrano della tempesta",
+  "quest.crowned_one.name": "Il Coronato",
+  "quest.crowned_one.hunt": "Sconfiggi il Re Gel nella cantina allagata a nord-est del villaggio.",
+  "quest.silver_alpha.name": "L'alfa d'argento",
+  "quest.silver_alpha.hunt": "Sconfiggi l'Alfa dell'ombra lunare nell'anello di alberi nel profondo della Whisperwood.",
+  "quest.den_alpha.name": "L'alfa della tana",
+  "quest.den_alpha.hunt": "Sconfiggi l'Alfa atroce nella Tana atroce ai piedi di Ironspine.",
+  "quest.amber_queen_hunt.name": "La Regina d'ambra",
+  "quest.amber_queen_hunt.hunt": "Sconfiggi la Regina d'ambra nella Cavità d'ambra tra le dune di Sunscar.",
+  "quest.pit_warden.name": "Il custode del pozzo",
+  "quest.pit_warden.hunt": "Sconfiggi il Custode del ghiaccio nel Pozzo di ghiaccio tra i ghiacciai di Frostveil.",
+  "quest.grotto_matron.name": "La matrona della grotta",
+  "quest.grotto_matron.hunt": "Sconfiggi la Matrona di corallo nella Grotta di corallo sulla costa di Tidehaven.",
+  "quest.vent_heart.name": "Il cuore della bocca",
+  "quest.vent_heart.hunt": "Sconfiggi il Cuore di magma nella Bocca di magma nelle Terre Ceneri.",
+  "quest.roost_sovereign.name": "Il sovrano del covo",
+  "quest.roost_sovereign.hunt": "Sconfiggi il Sovrano della tempesta nel Covo della tempesta sulle pianure di Lumeria."
 }

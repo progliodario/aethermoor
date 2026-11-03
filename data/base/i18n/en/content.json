@@ -218,5 +218,21 @@
   "enemy.ice_warden.name": "Ice Warden",
   "item.thunderfang.name": "Thunderfang",
   "item.thunderfang.desc": "You hear it before you see it.",
-  "enemy.storm_sovereign.name": "Storm Sovereign"
+  "enemy.storm_sovereign.name": "Storm Sovereign",
+  "quest.crowned_one.name": "The Crowned One",
+  "quest.crowned_one.hunt": "Defeat the Gel King in the flooded cellar north-east of the village.",
+  "quest.silver_alpha.name": "The Silver Alpha",
+  "quest.silver_alpha.hunt": "Defeat the Moonshade Alpha in the ring of trees deep in the Whisperwood.",
+  "quest.den_alpha.name": "The Alpha of the Den",
+  "quest.den_alpha.hunt": "Defeat the Dire Alpha in the Dire Den in the foothills of Ironspine.",
+  "quest.amber_queen_hunt.name": "The Amber Queen",
+  "quest.amber_queen_hunt.hunt": "Defeat the Amber Queen in the Amber Hollow in the dunes of Sunscar.",
+  "quest.pit_warden.name": "The Warden of the Pit",
+  "quest.pit_warden.hunt": "Defeat the Ice Warden in the Ice Pit in the glaciers of Frostveil.",
+  "quest.grotto_matron.name": "The Matron of the Grotto",
+  "quest.grotto_matron.hunt": "Defeat the Coral Matron in the Coral Grotto on the coast of Tidehaven.",
+  "quest.vent_heart.name": "The Heart of the Vent",
+  "quest.vent_heart.hunt": "Defeat the Magma Heart in the Magma Vent in the Ashen Wastes.",
+  "quest.roost_sovereign.name": "The Sovereign of the Roost",
+  "quest.roost_sovereign.hunt": "Defeat the Storm Sovereign in the Storm Roost on the plains of Lumeria."
 }

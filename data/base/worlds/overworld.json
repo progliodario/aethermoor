@@ -74,9 +74,9 @@
     "quirks": ["quirk.cheese", "quirk.bells", "quirk.bad_luck", "quirk.bakers", "quirk.singing", "quirk.lanterns", "quirk.mushrooms", "quirk.kites", "quirk.honey", "quirk.riddles", "quirk.cats", "quirk.bridges"],
     "people": {"start": ["An", "Bri", "Cor", "Dar", "El", "Fia", "Gor", "Hel", "Ing", "Jor", "Kai", "Lis", "Mar", "Nia", "Ori", "Pip", "Quin", "Rod", "Sal", "Tam", "Ulf", "Vera", "Wil", "Yan", "Zed"], "end": ["a", "bert", "dric", "ela", "gar", "ina", "ik", "la", "mund", "na", "o", "rin", "sa", "thor", "us", "wen", "ya", "zo"]},
     "kinds": [
-      { "id": "hamlet", "weight": 5, "stamps": ["base:stamp/hamlet"] },
-      { "id": "village", "weight": 4, "stamps": ["base:stamp/village"] },
-      { "id": "town", "weight": 1, "stamps": ["base:stamp/town"] }
+      { "id": "hamlet", "weight": 5, "stamps": ["base:stamp/hamlet", "base:stamp/hamlet_b", "base:stamp/hamlet_c"] },
+      { "id": "village", "weight": 4, "stamps": ["base:stamp/village", "base:stamp/village_b", "base:stamp/village_c"] },
+      { "id": "town", "weight": 1, "stamps": ["base:stamp/town", "base:stamp/town_b"] }
     ],
     "names": {
       "start": ["Al", "Ber", "Cal", "Dun", "El", "Fen", "Gal", "Hol", "Ir", "Kel", "Lor", "Mar", "Nor", "Ost", "Pel", "Rav", "Sil", "Tor", "Vel", "Wyn"],

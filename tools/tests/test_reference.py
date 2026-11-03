@@ -373,3 +373,104 @@ def test_every_innkeeper_has_a_favor_and_every_villager_a_legend():
         s.start_dialogue(dialogue["id"])
         s.advance()
         assert all(c["next"] not in ("pantry_offer", "pantry_paid") for c in s.visible_choices())
+
+
+def test_every_shopkeeper_can_craft_a_unique_item_from_monster_parts():
+    import json
+
+    from reference import story, worldgen
+
+    class Host:
+        x = y = 0.0
+        level = 1
+
+        def __init__(self) -> None:
+            self.inventory: dict[str, int] = {}
+
+        def grant_xp(self, amount: int) -> None:
+            pass
+
+    data = TOOLS.parent / "data" / "base"
+    params = worldgen.load_params()
+    results = set()
+    for tone in sorted({region["tone"] for region in params["regions"]}):
+        dialogue = json.loads((data / "dialogues" / "role" / f"shopkeeper_{tone}.json").read_text(encoding="utf-8"))
+        craft = dialogue["nodes"]["craft_do"]["effects"]
+        parts = {e["item"]: e["qty"] for e in craft if e["effect"] == "remove_item"}
+        (result,) = [e["item"] for e in craft if e["effect"] == "add_item"]
+        assert result not in results and (data / "items" / f"{result.split('/')[-1]}.json").exists()
+        results.add(result)
+        host = Host()
+        s = story.Story(host, {"quests": {}, "dialogues": {dialogue["id"]: dialogue}, "npcs": []})
+        s.start_dialogue(dialogue["id"])
+        s.advance()
+        s.choose(next(i for i, c in enumerate(s.visible_choices()) if c["next"] == "craft_info"))
+        s.advance()
+        assert [c["next"] for c in s.visible_choices()] == ["end"]  # without the parts the shopkeeper only offers to wait
+        s.choose(0)
+        host.inventory = {item: qty + 1 for item, qty in parts.items()}  # one more of each than needed
+        s.start_dialogue(dialogue["id"])
+        s.advance()
+        s.choose(next(i for i, c in enumerate(s.visible_choices()) if c["next"] == "craft_info"))
+        s.advance()
+        s.choose(0)
+        assert host.inventory.pop(result) == 1
+        assert host.inventory == {item: 1 for item in parts}
+        s.advance()
+        s.start_dialogue(dialogue["id"])
+        s.advance()
+        assert all(c["next"] != "craft_info" for c in s.visible_choices())  # made once
+
+
+def test_every_elder_has_a_second_errand_after_the_first():
+    import json
+
+    from reference import story, worldgen
+
+    class Host:
+        x = y = 0.0
+        level = 1
+
+        def __init__(self) -> None:
+            self.inventory: dict[str, int] = {}
+            self.xp = 0
+
+        def grant_xp(self, amount: int) -> None:
+            self.xp += amount
+
+    data = TOOLS.parent / "data" / "base"
+    params = worldgen.load_params()
+    quests = {}
+    for path in (data / "quests" / "side").glob("*.json"):
+        quest = json.loads(path.read_text(encoding="utf-8"))
+        quests[quest["id"]] = quest
+    for tone in sorted({region["tone"] for region in params["regions"]}):
+        dialogue = json.loads((data / "dialogues" / "role" / f"elder_{tone}.json").read_text(encoding="utf-8"))
+        host = Host()
+        s = story.Story(host, {"quests": quests, "dialogues": {dialogue["id"]: dialogue}, "npcs": []})
+
+        def talk(target: str, s=s, dialogue=dialogue) -> None:
+            s.start_dialogue(dialogue["id"])
+            s.advance()
+            s.choose(next(i for i, c in enumerate(s.visible_choices()) if c["next"] == target))
+
+        s.start_dialogue(dialogue["id"])
+        s.advance()
+        assert all(c["next"] != "hunt_offer" for c in s.visible_choices())  # not before the first errand is paid
+        s.choose(len(s.visible_choices()) - 1)
+        paid_flag = next(e["flag"] for e in dialogue["nodes"]["errand_paid"]["effects"] if e["effect"] == "set_flag")
+        s.flags[paid_flag] = True
+        talk("hunt_offer")
+        s.advance()
+        s.choose(0)
+        (quest_id,) = s.quests
+        (objective,) = quests[quest_id]["stages"][0]["objectives"]
+        assert objective["type"] == "kill" and (data / "enemies" / f"{objective['enemy'].split('/')[-1]}.json").exists()
+        s.on_kill(objective["enemy"])
+        assert s.quests[quest_id]["done"]
+        talk("hunt_paid")
+        assert s.gold > 0 and host.xp > 0 and s.guild_points > 0 and host.inventory["base:item/potion_large"] > 0
+        s.advance()
+        s.start_dialogue(dialogue["id"])
+        s.advance()
+        assert all(c["next"] not in ("hunt_offer", "hunt_paid") for c in s.visible_choices())
