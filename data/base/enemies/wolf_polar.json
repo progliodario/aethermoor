@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/wolf_polar",
+  "name": "$i18n:enemy.wolf_polar.name",
+  "level": 10,
+  "stats": {
+    "hp": 175,
+    "atk": 27,
+    "def": 10,
+    "mdef": 8,
+    "speed_x100": 330
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "fire": 1500
+  },
+  "xp": 70,
+  "drops": [
+    {
+      "item": "base:item/polar_fur",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 500
+    }
+  ],
+  "radius_x100": 44,
+  "behavior": "base:behavior/melee_chaser_basic",
+  "art": "base:art/creature/wolf_polar"
+}

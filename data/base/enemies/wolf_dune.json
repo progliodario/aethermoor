@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/wolf_dune",
+  "name": "$i18n:enemy.wolf_dune.name",
+  "level": 8,
+  "stats": {
+    "hp": 135,
+    "atk": 24,
+    "def": 7,
+    "mdef": 5,
+    "speed_x100": 350
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "water": 1500
+  },
+  "xp": 52,
+  "drops": [
+    {
+      "item": "base:item/dune_pelt",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 500
+    }
+  ],
+  "radius_x100": 40,
+  "behavior": "base:behavior/melee_chaser_basic",
+  "art": "base:art/creature/wolf_dune"
+}

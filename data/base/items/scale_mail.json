@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/scale_mail",
+  "name": "$i18n:item.scale_mail.name",
+  "description": "$i18n:item.scale_mail.desc",
+  "kind": "armor",
+  "rarity": "rare",
+  "price": 450,
+  "armor": {
+    "def": 7,
+    "mdef": 3
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/rust_flake",
+  "name": "$i18n:item.rust_flake.name",
+  "description": "$i18n:item.rust_flake.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 10,
+  "stack_max": 99
+}

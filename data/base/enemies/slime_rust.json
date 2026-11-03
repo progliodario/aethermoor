@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/slime_rust",
+  "name": "$i18n:enemy.slime_rust.name",
+  "level": 7,
+  "stats": {
+    "hp": 125,
+    "atk": 21,
+    "def": 11,
+    "mdef": 4,
+    "speed_x100": 250
+  },
+  "element": "none",
+  "weaknesses_pm": {
+    "water": 1500
+  },
+  "xp": 44,
+  "drops": [
+    {
+      "item": "base:item/rust_flake",
+      "qty_min": 1,
+      "qty_max": 2,
+      "weight_pm": 550
+    }
+  ],
+  "radius_x100": 38,
+  "behavior": "base:behavior/melee_chaser_basic",
+  "art": "base:art/creature/slime_rust"
+}
