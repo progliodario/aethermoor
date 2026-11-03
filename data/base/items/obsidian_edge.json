@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/obsidian_edge",
+  "name": "$i18n:item.obsidian_edge.name",
+  "description": "$i18n:item.obsidian_edge.desc",
+  "kind": "weapon",
+  "rarity": "epic",
+  "price": 3600,
+  "weapon": {
+    "atk": 41,
+    "matk": 0
+  }
+}

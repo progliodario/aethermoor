@@ -420,7 +420,7 @@ class WorldGenTest {
         val pack = loadBasePack(repoRoot)
         val params = loadWorldParams(pack, "base:world/overworld").getOrThrow()
         assertEquals(8, params.regions.size)
-        assertEquals(23, params.stamps.size)
+        assertEquals(35, params.stamps.size)
         assertEquals(72, params.homeRadius)
         assertEquals(16384, params.width)
         val map = makeStreamMap(params)

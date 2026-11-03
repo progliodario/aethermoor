@@ -43,7 +43,19 @@
     { "id": "tidehaven_grotto", "name": "Coral Grotto", "stamp": "base:stamp/grotto", "kind": "dungeon", "dx": -5760, "dy": 4224 },
     { "id": "sunscar_amber", "name": "Amber Hollow", "stamp": "base:stamp/amber", "kind": "dungeon", "dx": 4992, "dy": 3968 },
     { "id": "frostveil_pit", "name": "Ice Pit", "stamp": "base:stamp/icepit", "kind": "dungeon", "dx": -640, "dy": -6528 },
-    { "id": "lumeria_roost", "name": "Storm Roost", "stamp": "base:stamp/roost", "kind": "dungeon", "dx": -128, "dy": 6272 }
+    { "id": "lumeria_roost", "name": "Storm Roost", "stamp": "base:stamp/roost", "kind": "dungeon", "dx": -128, "dy": 6272 },
+    { "id": "ironspine_outpost", "name": "Ironspine Waystation", "stamp": "base:stamp/outpost_ironspine", "kind": "hamlet", "dx": 4224, "dy": -4736 },
+    { "id": "tidehaven_outpost", "name": "Brinewatch Post", "stamp": "base:stamp/outpost_tidehaven", "kind": "hamlet", "dx": -6272, "dy": 4224 },
+    { "id": "frostveil_outpost", "name": "Rimewatch Hut", "stamp": "base:stamp/outpost_frostveil", "kind": "hamlet", "dx": -1152, "dy": -6528 },
+    { "id": "whisperwood_outpost", "name": "Hollow's Edge Camp", "stamp": "base:stamp/outpost_whisperwood", "kind": "hamlet", "dx": -4224, "dy": -2688 },
+    { "id": "sunscar_outpost", "name": "Dune Caravanserai", "stamp": "base:stamp/outpost_sunscar", "kind": "hamlet", "dx": 5504, "dy": 3968 },
+    { "id": "lumeria_outpost", "name": "Lantern Rest", "stamp": "base:stamp/outpost_lumeria", "kind": "hamlet", "dx": -640, "dy": 6272 },
+    { "id": "ashen_outpost", "name": "Ember Watch", "stamp": "base:stamp/outpost_ashen", "kind": "hamlet", "dx": 6784, "dy": -384 },
+    { "id": "verdalis_outpost", "name": "Crossroads Camp", "stamp": "base:stamp/outpost_verdalis", "kind": "hamlet", "dx": 384, "dy": 128 },
+    { "id": "ironspine_forge", "name": "Deep Forge", "stamp": "base:stamp/forge", "kind": "dungeon", "dx": 3968, "dy": -4224 },
+    { "id": "tidehaven_galleon", "name": "Sunken Galleon", "stamp": "base:stamp/galleon", "kind": "dungeon", "dx": -5504, "dy": 4736 },
+    { "id": "frostveil_keep", "name": "Glacier Keep", "stamp": "base:stamp/keep", "kind": "dungeon", "dx": -1408, "dy": -6272 },
+    { "id": "ashen_vault", "name": "Obsidian Vault", "stamp": "base:stamp/vault", "kind": "dungeon", "dx": 6528, "dy": 128 }
   ],
   "guild": {
     "offers_per_day": 4,

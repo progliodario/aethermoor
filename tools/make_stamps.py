@@ -53,6 +53,10 @@ LEGEND = {
     "L": {"tile": 14, "spawner": "base:enemy/amber_queen"},
     "j": {"tile": 14, "spawner": "base:enemy/ice_warden"},
     "k": {"tile": 14, "spawner": "base:enemy/storm_sovereign"},
+    "q": {"tile": 14, "spawner": "base:enemy/forge_tyrant"},
+    "r": {"tile": 14, "spawner": "base:enemy/drowned_captain"},
+    "z": {"tile": 14, "spawner": "base:enemy/frost_sovereign"},
+    "y": {"tile": 14, "spawner": "base:enemy/vault_warden"},
     "T": {"tile": 14, "prop": "base:art/prop/threshold_stone", "radius_x100": 35},  # Threshold Stone (fast travel)
     "V": {"tile": 13, "npc": "villager"},
     "G": {"tile": 13, "npc": "guild_clerk"},
@@ -576,9 +580,209 @@ def roost() -> dict:
     return lair("base:stamp/roost", "t", 2, ".", "s", "O", "d", "k", [("o", 6, 7), ("o", 18, 7), ("o", 12, 11)])
 
 
+def outpost(stamp_id: str, layout: str, deco: str) -> dict:
+    """A far camp with a shop, an inn, a well and a Threshold Stone (spec 09, "Landmarks")."""
+    if layout == "a":
+        c = Canvas(23, 13)
+        c.house(1, 1, 8, 5, {(1, 1): "b", (5, 2): "S"}, door=3)
+        c.house(14, 1, 8, 5, {(1, 1): "b", (5, 2): "I"}, door=4)
+        c.rect(9, 6, 5, 3, "c")
+        c.put(11, 7, "w")
+        c.put(12, 7, "T")
+        c.put(10, 8, "V")
+        c.vline(11, 9, 12, "=")
+        for x, y in ((0, 12), (22, 12), (5, 9), (17, 9)):
+            c.put(x, y, deco)
+        return stamp(stamp_id, c, (11, 7), [(10, 7), (12, 8)])
+    if layout == "b":
+        c = Canvas(19, 13)
+        c.house(2, 1, 15, 5, {(2, 2): "S", (12, 2): "I", (6, 1): "b", (8, 1): "b"}, door=7)
+        c.rect(7, 7, 5, 3, "c")
+        c.put(9, 8, "w")
+        c.put(11, 8, "T")
+        c.put(7, 8, "V")
+        c.vline(9, 10, 12, "=")
+        for x, y in ((0, 12), (18, 12), (3, 8), (15, 8)):
+            c.put(x, y, deco)
+        return stamp(stamp_id, c, (9, 8), [(8, 8), (10, 9)])
+    c = Canvas(21, 13)
+    c.house(1, 1, 7, 4, {(1, 1): "b", (3, 1): "S"}, door=3)
+    c.house(13, 1, 7, 4, {(1, 1): "b", (3, 1): "I"}, door=3)
+    c.rect(8, 6, 5, 3, "c")
+    c.put(10, 7, "w")
+    c.put(12, 7, "T")
+    c.put(9, 8, "V")
+    c.put(8, 6, "l")
+    c.put(12, 8, "l")
+    c.vline(10, 9, 12, "=")
+    for x, y in ((0, 12), (20, 12), (4, 8), (16, 8)):
+        c.put(x, y, deco)
+    return stamp(stamp_id, c, (10, 7), [(9, 7), (11, 8)])
+
+
+def outpost_ironspine() -> dict:
+    return outpost("base:stamp/outpost_ironspine", "a", "o")
+
+
+def outpost_tidehaven() -> dict:
+    return outpost("base:stamp/outpost_tidehaven", "b", "o")
+
+
+def outpost_frostveil() -> dict:
+    return outpost("base:stamp/outpost_frostveil", "c", "t")
+
+
+def outpost_whisperwood() -> dict:
+    return outpost("base:stamp/outpost_whisperwood", "a", "t")
+
+
+def outpost_sunscar() -> dict:
+    return outpost("base:stamp/outpost_sunscar", "b", "o")
+
+
+def outpost_lumeria() -> dict:
+    return outpost("base:stamp/outpost_lumeria", "c", "t")
+
+
+def outpost_ashen() -> dict:
+    return outpost("base:stamp/outpost_ashen", "a", "o")
+
+
+def outpost_verdalis() -> dict:
+    return outpost("base:stamp/outpost_verdalis", "c", "t")
+
+
+def forge() -> dict:
+    """The Deep Forge of Ironspine: a serpentine of furnace halls from the south door to the Forge Tyrant in the north hall."""
+    c = Canvas(41, 37)
+    c.rect(1, 1, 39, 34, "#")
+    c.rect(2, 2, 37, 32, "c")
+    for y, gap in ((12, 36), (20, 4), (28, 36)):  # the walls between the halls, each with its gap on alternate sides
+        c.hline(2, 38, y, "#")
+        for x in (gap - 1, gap, gap + 1):
+            c.put(x, y, "c")
+    for x, y in ((9, 15), (20, 15), (31, 15), (9, 24), (20, 24), (31, 24), (9, 31), (31, 31)):  # anvils
+        c.rect(x, y, 2, 2, "#")
+    for y in (34, 35, 36):  # the entrance and the path to it
+        for x in (19, 20, 21):
+            c.put(x, y, "c")
+    for x, y in ((3, 3), (37, 3), (3, 10), (37, 10), (3, 18), (37, 18), (3, 26), (37, 26), (17, 33), (23, 33)):
+        c.put(x, y, "l")
+    c.put(20, 5, "q")
+    for x, y in ((14, 6), (26, 6)):
+        c.put(x, y, "F")
+    for x, y in ((6, 4), (34, 4), (6, 9), (34, 9), (20, 9)):
+        c.put(x, y, "D")
+    for x, y in ((6, 16), (14, 18), (26, 18), (34, 16), (14, 14), (26, 14)):
+        c.put(x, y, "m")
+    for x, y in ((6, 22), (34, 22), (14, 25), (26, 25)):
+        c.put(x, y, "W")
+    for x, y in ((6, 31), (14, 30), (26, 30), (34, 31)):
+        c.put(x, y, "m")
+    c.put(15, 36, "T")
+    return stamp("base:stamp/forge", c, (20, 36), [])
+
+
+def galleon() -> dict:
+    """The Sunken Galleon of Tidehaven: a ship's hull with three holds, the Drowned Captain at the bow."""
+    c = Canvas(47, 19)
+    c.rect(1, 2, 45, 15, "#")
+    c.rect(2, 3, 43, 13, "c")
+    for j in range(5):  # the bow narrows
+        for x in range(39 + j, 45):
+            c.put(x, 3 + j, "#")
+            c.put(x, 15 - j, "#")
+    for x in (14, 28):  # the bulkheads, each with a door amidships
+        c.vline(x, 3, 15, "#")
+        for y in (8, 9, 10):
+            c.put(x, y, "c")
+    for y in (8, 9, 10):  # the way in at the stern
+        for x in (0, 1):
+            c.put(x, y, "c")
+    for x, y in ((9, 5), (9, 13), (21, 5), (21, 13), (35, 5), (35, 13)):  # masts and barrels
+        c.rect(x, y, 2, 1, "#")
+    for x, y in ((3, 4), (3, 14), (12, 4), (12, 14), (16, 4), (26, 4), (30, 4), (30, 14)):
+        c.put(x, y, "l")
+    c.put(41, 9, "r")
+    c.put(34, 9, "Q")
+    for x, y in ((4, 6), (4, 12), (8, 9), (11, 6), (11, 12)):
+        c.put(x, y, "i")
+    for x, y in ((17, 6), (17, 12), (21, 9), (25, 6), (25, 12)):
+        c.put(x, y, "Z")
+    for x, y in ((31, 6), (31, 12), (37, 6), (37, 12)):
+        c.put(x, y, "i")
+    c.put(0, 13, "T")
+    return stamp("base:stamp/galleon", c, (0, 9), [])
+
+
+def keep() -> dict:
+    """The Glacier Keep of Frostveil: a curtain wall, four towers and a central keep for the Frost Sovereign."""
+    c = Canvas(41, 41)
+    c.rect(1, 1, 39, 39, "#")
+    c.rect(2, 2, 37, 37, "c")
+    for x, y, dx, dy in ((2, 2, 6, 10), (30, 2, 34, 10), (2, 30, 6, 30), (30, 30, 34, 30)):  # the towers
+        c.rect(x, y, 9, 9, "#")
+        c.rect(x + 1, y + 1, 7, 7, "c")
+        c.put(dx, dy, "c")
+    c.rect(13, 13, 15, 15, "#")  # the keep
+    c.rect(14, 14, 13, 13, "c")
+    c.put(20, 27, "c")
+    for y in (39, 40):  # the gate
+        for x in (19, 20, 21):
+            c.put(x, y, "c")
+    for x, y in ((20, 31), (12, 20), (28, 20), (16, 35), (24, 35)):
+        c.put(x, y, "l")
+    c.put(20, 17, "z")
+    for x, y in ((16, 16), (24, 16)):
+        c.put(x, y, "R")
+    for x, y in ((16, 24), (24, 24), (20, 21)):
+        c.put(x, y, "H")
+    for x, y in ((6, 6), (34, 6), (6, 34), (34, 34)):
+        c.put(x, y, "H")
+    for x, y in ((8, 20), (32, 20), (20, 8), (11, 11), (29, 11), (11, 29), (29, 29), (20, 33)):
+        c.put(x, y, "f")
+    c.put(15, 40, "T")
+    return stamp("base:stamp/keep", c, (20, 40), [])
+
+
+def vault() -> dict:
+    """The Obsidian Vault of the Ashen Wastes: a cross of four arms around a central chamber, the Vault Warden at the end of the north arm."""
+    c = Canvas(45, 33)
+    c.rect(1, 1, 43, 31, "#")
+    c.rect(15, 10, 15, 13, "c")  # the central chamber
+    c.rect(17, 2, 11, 6, "c")  # the chamber of the Warden
+    c.rect(20, 8, 5, 2, "c")  # the north arm
+    c.rect(20, 23, 5, 8, "c")  # the south arm
+    c.rect(2, 14, 13, 5, "c")  # the west arm
+    c.rect(30, 14, 13, 5, "c")  # the east arm
+    c.rect(2, 11, 5, 11, "c")  # the west end
+    c.rect(38, 11, 5, 11, "c")  # the east end
+    for y in (31, 32):
+        for x in (21, 22, 23):
+            c.put(x, y, "c")
+    for x, y in ((18, 3), (26, 3), (16, 11), (28, 11), (16, 21), (28, 21), (21, 29), (23, 29), (3, 12), (41, 12)):
+        c.put(x, y, "l")
+    c.put(22, 4, "y")
+    for x, y in ((19, 6), (25, 6)):
+        c.put(x, y, "X")
+    c.put(22, 16, "N")
+    for x, y in ((18, 13), (26, 13), (18, 19), (26, 19)):
+        c.put(x, y, "M")
+    for x, y in ((22, 12), (22, 20)):
+        c.put(x, y, "e")
+    for x, y in ((6, 16), (10, 16), (36, 16), (40, 16), (4, 13), (4, 20), (40, 13), (40, 20)):
+        c.put(x, y, "e")
+    for x, y in ((22, 26), (22, 29), (8, 16)):
+        c.put(x, y, "D")
+    c.put(18, 32, "T")
+    return stamp("base:stamp/vault", c, (22, 32), [])
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    for build in (hamlet, village, town, barrow, cellar, mine, cavern, temple, hollow, ziggurat, observatory, citadel, den, vent, grotto, amber, icepit, roost, hamlet_b, hamlet_c, village_b, village_c, town_b):
+    for build in (hamlet, village, town, barrow, cellar, mine, cavern, temple, hollow, ziggurat, observatory, citadel, den, vent, grotto, amber, icepit, roost, hamlet_b, hamlet_c, village_b, village_c, town_b,
+                  outpost_ironspine, outpost_tidehaven, outpost_frostveil, outpost_whisperwood, outpost_sunscar, outpost_lumeria,
+                  outpost_ashen, outpost_verdalis, forge, galleon, keep, vault):
         data = build()
         name = data["id"].split("/")[-1]
         (OUT / f"{name}.json").write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
