@@ -1568,6 +1568,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
     }
 
+    /** Text on the map with a dark edge, so that it reads on pale cells too. */
+    private fun mapText(text: String, x: Float, y: Float, color: Color) {
+        font.color = Color(0f, 0f, 0f, 0.9f)
+        font.draw(batch, text, x + 1f, y + 1f)
+        font.color = color
+        font.draw(batch, text, x, y)
+    }
+
     private fun mapCenterOnPlayer(world: WorldSim) {
         mapCx = world.player.position.x / MAP_CELL
         mapCy = world.player.position.y / MAP_CELL
@@ -1641,7 +1649,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         shapes.begin(ShapeRenderer.ShapeType.Filled)
         shapes.color = Color(0.04f, 0.12f, 0.23f, 0.8f)
         shapes.rect(button[0], button[1], button[2], button[3])
-        val shown = ArrayList<Triple<io.github.progliodario.aethermoor.core.Settlement, Float, Float>>()
+        val shown = ArrayList<Pair<io.github.progliodario.aethermoor.core.Settlement, FloatArray>>() // each marker with its box (x, y, w, h)
         if (view != null) {
             val v = view
             fun clipped(x: Float, y: Float, w: Float, h: Float) {
@@ -1680,7 +1688,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 clipped(mx - size / 2f - 1f, my - size / 2f - 1f, size + 2f, size + 2f)
                 shapes.color = if (place) Color(1f, 0.92f, 0.59f, 1f) else Color(0.8f, 0.47f, 1f, 1f)
                 clipped(mx - size / 2f, my - size / 2f, size, size)
-                shown.add(Triple(marker, mx + size / 2f + 3f * density, my))
+                shown.add(Pair(marker, floatArrayOf(mx - size / 2f - 1f, my - size / 2f - 1f, size + 2f, size + 2f)))
             }
             // The player: a red square with a white edge, kept on the edge of the view when it is out of it.
             val px = v.toX(world.player.position.x / MAP_CELL)
@@ -1719,29 +1727,46 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (view != null) {
             val v = view
             font.draw(batch, data.pack.text(language, "\$i18n:ui.map"), v.x, v.y - 30f * density)
-            // A name that would be drawn over another one, or out of the view, is left out: towns first, then villages, the other sites, hamlets.
+            // A name goes to the first free side of its marker (right, left, below, above): in the view, over no other marker or name.
+            // Towns first, then villages, the other sites, hamlets (from level 3).
             val order = shown.filter { it.first.kind != "hamlet" || mapLevel >= 3 }
-                .sortedBy { (marker, _, _) -> when (marker.kind) { "town" -> 0; "village" -> 1; "hamlet" -> 3; else -> 2 } }
-            val placed = ArrayList<FloatArray>()
-            for ((marker, lx, my) in order) {
+                .sortedBy { (marker, _) -> when (marker.kind) { "town" -> 0; "village" -> 1; "hamlet" -> 3; else -> 2 } }
+            val obstacles = ArrayList<FloatArray>()
+            for ((_, box) in shown) obstacles.add(box)
+            val lineH = font.lineHeight
+            fun free(c: FloatArray, own: FloatArray?): Boolean =
+                c[0] >= v.x && c[0] + c[2] <= v.x + v.side && c[1] >= v.y && c[1] + c[3] <= v.y + v.side &&
+                    obstacles.none { it !== own && c[0] < it[0] + it[2] && it[0] < c[0] + c[2] && c[1] < it[1] + it[3] && it[1] < c[1] + c[3] }
+            for ((marker, m) in order) {
                 layout.setText(font, marker.name)
-                val ly = my - font.lineHeight / 2f
                 val w = layout.width
-                if (lx < v.x || lx + w > v.x + v.side || ly < v.y || ly + font.lineHeight > v.y + v.side) continue
-                if (placed.any { lx < it[0] + it[2] && it[0] < lx + w && ly < it[1] + font.lineHeight && it[1] < ly + font.lineHeight }) continue
-                font.draw(batch, marker.name, lx, ly)
-                placed.add(floatArrayOf(lx, ly, w))
+                val cx = m[0] + m[2] / 2f
+                val spot = listOf(
+                    floatArrayOf(m[0] + m[2] + 3f * density, m[1] + m[3] / 2f - lineH / 2f, w, lineH),
+                    floatArrayOf(m[0] - 3f * density - w, m[1] + m[3] / 2f - lineH / 2f, w, lineH),
+                    floatArrayOf(cx - w / 2f, m[1] + m[3] + 2f * density, w, lineH),
+                    floatArrayOf(cx - w / 2f, m[1] - 2f * density - lineH, w, lineH),
+                ).firstOrNull { free(it, m) } ?: continue
+                obstacles.add(spot)
+                mapText(marker.name, spot[0], spot[1], Color.WHITE)
             }
-            font.color = Color(1f, 0.84f, 0.47f, 1f)
             for (region in store.params.regions) {
                 val rx = (region.xPm.toLong() * store.params.width / 1000).toInt() / MAP_CELL
                 val ry = (region.yPm.toLong() * store.params.height / 1000).toInt() / MAP_CELL
                 if (Pair(rx, ry) !in world.explored) continue
                 val name = data.pack.text(language, region.name)
                 layout.setText(font, name)
-                val nx = v.toX(rx.toFloat()) - layout.width / 2f
-                val ny = v.toY(ry.toFloat()) + 14f * density
-                if (nx >= v.x && nx + layout.width <= v.x + v.side && ny >= v.y && ny + font.lineHeight <= v.y + v.side) font.draw(batch, name, nx, ny)
+                val w = layout.width
+                val cx = v.toX(rx.toFloat())
+                val cy = v.toY(ry.toFloat())
+                // In gold, below the center of the region, or above it, or on it.
+                val spot = listOf(
+                    floatArrayOf(cx - w / 2f, cy + 14f * density, w, lineH),
+                    floatArrayOf(cx - w / 2f, cy - 14f * density - lineH, w, lineH),
+                    floatArrayOf(cx - w / 2f, cy - lineH / 2f, w, lineH),
+                ).firstOrNull { free(it, null) } ?: continue
+                obstacles.add(spot)
+                mapText(name, spot[0], spot[1], Color(1f, 0.84f, 0.47f, 1f))
             }
             font.color = Color(0.59f, 0.78f, 1f, 1f)
             layout.setText(font, help, font.color, panelW, 0, true)

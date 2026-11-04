@@ -273,8 +273,8 @@ The view is presentation, not rules (no vectors): both clients draw the same thi
   explored cells again. Keys, drag, wheel, pinch and buttons are in spec 16.
 - From level 3 the explored cells are drawn with a thin gap between them (a grid). Cells and markers outside the view are not drawn.
 - Markers: settlements (hamlets, villages, towns) in yellow, the other sites (dungeons, lairs, nests) in violet; their size grows with the level.
-  Names are drawn when they fit entirely inside the view and do not overlap one already drawn, in this order of priority: towns, villages, other sites, then hamlets
-  (hamlets only from level 3). The names of the regions are drawn at the cell of their center when it is explored.
+  A name is drawn at the first free side of its marker (right, left, below, above) where it is entirely inside the view and over no marker and no name already drawn, in this order of priority:
+  towns, villages, other sites, then hamlets (hamlets only from level 3). The names of the regions follow (below their center, above it, or on it, the same way) when their center is explored. Text on the map has a dark edge.
 - The player is a red square with a white edge that pulses; when it is outside the view, it stays on the edge of the view, in orange, so the way back is always shown.
 - Under the view: the keys, the position in tiles and the zoom (`You are at x, y   zoom 4x`) and a legend of the three colors.
 
