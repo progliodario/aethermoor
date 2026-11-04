@@ -690,7 +690,7 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
     const std::string where = assets.pack.text(ui.lang, "$i18n:ui.map_pos",
                                                {{"x", static_cast<std::int64_t>(std::floor(sim.player().position.x))},
                                                 {"y", static_cast<std::int64_t>(std::floor(sim.player().position.y))},
-                                                {"zoom", static_cast<std::int64_t>(1 << ui.map_level)}});
+                                                {"zoom", std::int64_t{1} << ui.map_level}});
     text(g.x, ty, where, 255, 255, 255);
     ty += row;
     float pen = g.x;
