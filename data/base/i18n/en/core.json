@@ -86,6 +86,14 @@
   "season.winter": "Winter",
   "ui.map": "World map",
   "ui.map_hint": "[M] Map",
+  "ui.map_help": "[+/-] or wheel: zoom   [WASD] or drag: move   [C] where I am   [0] show all",
+  "ui.map_help_touch": "Drag to move, [+] [-] to zoom, [You] to find yourself, [All] to see everything",
+  "ui.map_pos": "You are at {x}, {y}   zoom {zoom}x",
+  "ui.map_key_you": "You",
+  "ui.map_key_place": "Hamlet, village, town",
+  "ui.map_key_site": "Dungeon or lair",
+  "ui.map_btn_you": "You",
+  "ui.map_btn_all": "All",
   "ui.bag_hint": "[I] Bag",
   "dlg.mira.mine_offer": "Word came from the guild hall of Ironspine, far to the north-east beyond the mountains. The old mine is sealed: an iron foreman that no one hired keeps working it. It is a long road. Will you go?",
   "dlg.mira.mine_accept": "I will go to Ironspine.",
@@ -243,5 +251,5 @@
   "dlg.pip.a.money": "The guild clerk in a town gives work every day: hunt a few creatures, bring back what they drop. Elders and innkeepers have jobs too, and the shops buy what you find (the Sell tab).",
   "dlg.pip.a.stones": "Wake one by touching it, and you can come back to it from any other stone you have woken: pick a place from the list, and you are there. Wake every one you pass. Mira says the long roads are made of them.",
   "dlg.pip.a.first": "Talk to Mira, in the square. She has letters from the far dungeons, but start with the slimes in the meadow, and the barrow to the north-west, and the cellar to the north-east. Then the outposts, with the wayfarers; they all have stories.",
-  "dlg.pip.a.map": "M opens the map of what you have seen. The regions have names at the top of the screen, and every outpost has a signpost. When you are really lost, find a stone, or a village. There is always one, somewhere."
+  "dlg.pip.a.map": "M opens the map of what you have seen: zoom with + and -, move it with W A S D or by dragging, and C brings you back to yourself. Villages are yellow, dungeons violet. The regions have names at the top of the screen, and every outpost has a signpost. When you are really lost, find a stone, or a village. There is always one, somewhere."
 }

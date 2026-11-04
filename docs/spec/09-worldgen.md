@@ -1,6 +1,6 @@
 # 09. World generation
 
-Status: **v1.9 (M5a, M5b: chunks and streaming, M5d: rivers and roads, M5e: the world map, M5f: regions and settlements, then landmarks, fauna, stones, clearings and regions that look like their names)**. Reference: `tools/reference/worldgen.py`. Conformance suite: `worldgen`.
+Status: **v1.10 (M5a, M5b: chunks and streaming, M5d: rivers and roads, M5e: the world map, M5f: regions and settlements, then landmarks, fauna, stones, clearings, regions that look like their names, and the map view)**. Reference: `tools/reference/worldgen.py`. Conformance suite: `worldgen`.
 Parameters: `data/base/worlds/overworld.json` (`schemas/world.schema.json`). All math is integer, see `01-numerics.md`.
 
 The world is a **pure function** of `(seed, parameters)`: the content of a tile depends only on its own coordinates, never on the
@@ -259,6 +259,24 @@ cells are never forgotten and are stored in the save (spec 12, `explored`).
 The map shows each explored cell with the biome of the tile at the center of the cell (`cell * 128 + 64`): code 0 water, 1 beach, 2 mountain, 3 snow, 4 desert,
 5 forest, 6 plains. Rivers and roads are not shown. A settlement is shown on the map cell that contains its site point as a marker, with its name, once the cell is explored. Unexplored cells are drawn dark. Clients open the map with the `M` key (and a button on touch screens);
 the game is paused while it is open. The player is drawn as a dot at its position.
+
+### The map view
+
+The view is presentation, not rules (no vectors): both clients draw the same thing from the same constants, and nothing of it is saved.
+
+- The map is shown in a square **view** onto the grid of cells. A **zoom level** `0..4` sets the size of a cell: level 0 fits the whole world in the view
+  (`cell_px = side / max(columns, rows)`), every level doubles it (`cell_px * 2^level`, so 16 times at level 4). The view has a **center**, a cell position
+  (fractional) kept inside `[0, columns] x [0, rows]`.
+- Opening the map **frames what was explored**: the center is the middle of the bounding box of the explored cells, and the level is the biggest at which the box plus a margin
+  of one cell on each side fits in the view. A new game, which has explored 3 x 3 cells, opens at level 4; a game that has crossed the world opens at level 0 or 1.
+- The player moves the view (a step is a sixth of the view), changes the level, goes back to the player (the view is centered on the player's position, same level) or frames the
+  explored cells again. Keys, drag, wheel, pinch and buttons are in spec 16.
+- From level 3 the explored cells are drawn with a thin gap between them (a grid). Cells and markers outside the view are not drawn.
+- Markers: settlements (hamlets, villages, towns) in yellow, the other sites (dungeons, lairs, nests) in violet; their size grows with the level.
+  Names are drawn when they fit entirely inside the view and do not overlap one already drawn, in this order of priority: towns, villages, other sites, then hamlets
+  (hamlets only from level 3). The names of the regions are drawn at the cell of their center when it is explored.
+- The player is a red square with a white edge that pulses; when it is outside the view, it stays on the edge of the view, in orange, so the way back is always shown.
+- Under the view: the keys, the position in tiles and the zoom (`You are at x, y   zoom 4x`) and a legend of the three colors.
 
 Conformance suite `worldmap`: scripted positions through a 16384 x 16384 world (also at the corners and edges): the number of explored cells and their digest
 (`fold hash64(h, x, y)` ordered by row, then column), and the biome codes of 40 cells.
