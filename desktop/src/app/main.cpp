@@ -566,6 +566,8 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
     const float ts = std::max(1.0F, std::floor(density));  // scale of the text: the debug font is 8 pixels
     const auto text = [&](float x, float y, const std::string& line, Uint8 r, Uint8 gr, Uint8 b) {
         SDL_SetRenderScale(renderer, ts, ts);
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 230);  // a dark edge, so that the text reads on pale cells too
+        debug_text(renderer, (x + 1.0F) / ts, (y + 1.0F) / ts, line.c_str());
         SDL_SetRenderDrawColor(renderer, r, gr, b, 255);
         debug_text(renderer, x / ts, y / ts, line.c_str());
         SDL_SetRenderScale(renderer, 1.0F, 1.0F);
@@ -594,14 +596,19 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
     }
 
     // The places found: settlements in yellow, dungeons and other sites in violet; their names when they fit.
-    struct MapLabel {
+    struct Box {
         float x;
         float y;
         float w;
+        float h;
+    };
+    struct MapLabel {
+        Box marker;    // the marker the name belongs to
         int priority;  // towns first, then villages, then the other sites, then hamlets
         const std::string* text;
     };
     std::vector<MapLabel> labels;
+    std::vector<Box> obstacles;  // every marker drawn, and then every name placed
     const float boost = 1.0F + 0.4F * static_cast<float>(ui.map_level);
     for (const auto& [x, y] : sim.explored()) {
         const float mx = g.to_x(static_cast<float>(x) + 0.5F);
@@ -628,26 +635,53 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
         } else {
             fill_map_rect(renderer, g, mx - size / 2.0F, my - size / 2.0F, size, size, 205, 120, 255, 255);
         }
+        const Box box{mx - size / 2.0F - 1.0F, my - size / 2.0F - 1.0F, size + 2.0F, size + 2.0F};
+        obstacles.push_back(box);
         if (kind != "hamlet" || ui.map_level >= 3) {
             const int priority = kind == "town" ? 0 : (kind == "village" ? 1 : (kind == "hamlet" ? 3 : 2));
-            labels.push_back({mx + size / 2.0F + 3.0F, my - 4.0F * ts, text_columns(marker->second->name) * 8.0F * ts,
-                              priority, &marker->second->name});
+            labels.push_back({box, priority, &marker->second->name});
         }
     }
+    const float line_h = 10.0F * ts;
+    const auto overlaps = [](const Box& a, const Box& b) {
+        return a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
+    };
+    const auto inside = [&](const Box& a) {
+        return a.x >= g.x && a.x + a.w <= g.x + g.side && a.y >= g.y && a.y + a.h <= g.y + g.side;
+    };
+    // Tries a box in turn at each candidate place and keeps the first that is in the view and over nothing; the
+    // marker of the name itself does not count.
+    const auto place_text = [&](const std::vector<Box>& candidates, const Box* own, const std::string& name) {
+        for (const Box& c : candidates) {
+            const bool free = inside(c) && std::none_of(obstacles.begin(), obstacles.end(), [&](const Box& o) {
+                                  return (own == nullptr || &o != own) && overlaps(c, o);
+                              });
+            if (free) {
+                obstacles.push_back(c);
+                text(c.x, c.y, name, 255, 255, 255);
+                return true;
+            }
+        }
+        return false;
+    };
     std::stable_sort(labels.begin(), labels.end(),
                      [](const MapLabel& a, const MapLabel& b) { return a.priority < b.priority; });
-    std::vector<MapLabel> placed;  // a name that would be drawn over another one, or out of the view, is left out
     for (const MapLabel& label : labels) {
-        const bool inside = label.x >= g.x && label.x + label.w <= g.x + g.side && label.y >= g.y &&
-                            label.y + 10.0F * ts <= g.y + g.side;
-        const bool clash = std::any_of(placed.begin(), placed.end(), [&](const MapLabel& other) {
-            return label.x < other.x + other.w && other.x < label.x + label.w && label.y < other.y + 10.0F * ts &&
-                   other.y < label.y + 10.0F * ts;
-        });
-        if (inside && !clash) {
-            text(label.x, label.y, *label.text, 255, 255, 255);
-            placed.push_back(label);
+        const float w = text_columns(*label.text) * 8.0F * ts;
+        const Box& m = label.marker;
+        const Box* own = nullptr;
+        for (const Box& o : obstacles) {  // the marker of this name, found again in the list
+            if (o.x == m.x && o.y == m.y && o.w == m.w) {
+                own = &o;
+                break;
+            }
         }
+        const float cx = m.x + m.w / 2.0F;
+        place_text({{m.x + m.w + 3.0F, m.y + m.h / 2.0F - line_h / 2.0F, w, line_h},
+                    {m.x - 3.0F - w, m.y + m.h / 2.0F - line_h / 2.0F, w, line_h},
+                    {cx - w / 2.0F, m.y + m.h + 2.0F, w, line_h},
+                    {cx - w / 2.0F, m.y - 2.0F - line_h, w, line_h}},
+                   own, *label.text);
     }
     for (const aether::Region& region : params.regions) {
         const int rx =
@@ -659,10 +693,20 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
         }
         const std::string name = assets.pack.text(ui.lang, region.name);
         const float width = text_columns(name) * 8.0F * ts;
-        const float nx = g.to_x(static_cast<float>(rx)) - width / 2.0F;
-        const float ny = g.to_y(static_cast<float>(ry)) + 14.0F * density;
-        if (nx >= g.x && nx + width <= g.x + g.side && ny >= g.y && ny + 10.0F * ts <= g.y + g.side) {
-            text(nx, ny, name, 255, 215, 120);
+        const float cx = g.to_x(static_cast<float>(rx));
+        const float cy = g.to_y(static_cast<float>(ry));
+        // In gold, below the center of the region, or above it, or on it.
+        const Box candidates[] = {{cx - width / 2.0F, cy + 14.0F * density, width, line_h},
+                                  {cx - width / 2.0F, cy - 14.0F * density - line_h, width, line_h},
+                                  {cx - width / 2.0F, cy - line_h / 2.0F, width, line_h}};
+        for (const Box& c : candidates) {
+            const bool free = inside(c) && std::none_of(obstacles.begin(), obstacles.end(),
+                                                        [&](const Box& o) { return overlaps(c, o); });
+            if (free) {
+                obstacles.push_back(c);
+                text(c.x, c.y, name, 255, 215, 120);
+                break;
+            }
         }
     }
 
