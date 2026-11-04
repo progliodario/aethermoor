@@ -14,7 +14,8 @@ The game picks Italian or English from your system language.
   Shop ............ talk to a shopkeeper and pick the wares; Tab buy/sell, E confirm
   Guild board ..... talk to a guild clerk in a town and choose the day's work; E accept
   Threshold Stone . E next to a glowing stone: heals you and lets you travel to stones you woke
-  World map ....... M        Close a panel ... Esc
+  World map ....... M (then + / - or the wheel to zoom, WASD or drag to move, C = where I am, 0 = all)
+  Close a panel ... Esc
   Quick save ...... F5       Quick load .. F9       New game ......... F7
   Debug info ...... F3       Title ........ Esc (with no panel open)
 
@@ -49,7 +50,8 @@ Il gioco sceglie italiano o inglese dalla lingua del sistema.
   Negozio ......... parla con il bottegaio e scegli la merce; Tab compra/vendi, E conferma
   Bacheca ......... parla con l'impiegato della gilda in una citta e scegli il lavoro; E accetta
   Pietra Soglia ... E vicino a una pietra luminosa: ti cura e viaggia verso le pietre risvegliate
-  Mappa del mondo . M        Chiudere un pannello  Esc
+  Mappa del mondo . M (poi + / - o la rotella per lo zoom, WASD o trascina per muoverti, C = dove sono, 0 = tutto)
+  Chiudere un pannello  Esc
   Salvataggio rapido  F5     Carica ...... F9          Nuova partita ........ F7
   Info di debug ... F3       Titolo ....... Esc (senza pannelli aperti)
 

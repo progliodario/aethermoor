@@ -86,6 +86,14 @@
   "season.winter": "Inverno",
   "ui.map": "Mappa del mondo",
   "ui.map_hint": "[M] Mappa",
+  "ui.map_help": "[+/-] o rotella: zoom   [WASD] o trascina: muovi   [C] dove sono   [0] mostra tutto",
+  "ui.map_help_touch": "Trascina per muovere, [+] [-] per lo zoom, [Tu] per ritrovarti, [Tutto] per vedere ogni cosa",
+  "ui.map_pos": "Sei in {x}, {y}   zoom {zoom}x",
+  "ui.map_key_you": "Tu",
+  "ui.map_key_place": "Borgo, villaggio, città",
+  "ui.map_key_site": "Sotterraneo o tana",
+  "ui.map_btn_you": "Tu",
+  "ui.map_btn_all": "Tutto",
   "ui.bag_hint": "[I] Zaino",
   "dlg.mira.mine_offer": "È arrivata notizia dalla sede della gilda di Ironspine, lontano a nord-est oltre le montagne. La vecchia miniera è sigillata: un caposquadra di ferro che nessuno ha assunto continua a lavorarci. È una lunga strada. Ci andrai?",
   "dlg.mira.mine_accept": "Andrò a Ironspine.",
@@ -243,5 +251,5 @@
   "dlg.pip.a.money": "L'impiegato della gilda in una città dà lavoro ogni giorno: caccia qualche creatura, riporta ciò che lascia. Anche anziani e locandieri hanno lavori, e i negozi comprano ciò che trovi (la scheda Vendi).",
   "dlg.pip.a.stones": "Risvegliane una toccandola, e potrai tornarci da qualunque altra pietra risvegliata: scegli un posto dall'elenco ed eccoti là. Risveglia tutte quelle che incontri. Mira dice che le strade lunghe sono fatte di pietre.",
   "dlg.pip.a.first": "Parla con Mira, in piazza. Ha lettere dai sotterranei lontani, ma comincia con le melme del prato, il tumulo a nord-ovest e la cantina a nord-est. Poi gli avamposti, coi viandanti: hanno tutti una storia.",
-  "dlg.pip.a.map": "M apre la mappa di ciò che hai visto. Le regioni hanno un nome in alto sullo schermo, e ogni avamposto ha un cartello. Se ti perdi davvero, cerca una pietra o un villaggio. Ce n'è sempre uno, da qualche parte."
+  "dlg.pip.a.map": "M apre la mappa di ciò che hai visto: ingrandisci con + e -, spostala con W A S D o trascinando, e con C torni a te. I villaggi sono gialli, i sotterranei viola. Le regioni hanno un nome in alto sullo schermo, e ogni avamposto ha un cartello. Se ti perdi davvero, cerca una pietra o un villaggio. Ce n'è sempre uno, da qualche parte."
 }

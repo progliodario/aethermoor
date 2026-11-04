@@ -115,6 +115,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var journalPanel: FloatArray? = null
     private var languageRect: FloatArray? = null
     private var mapRect: FloatArray? = null
+    private var mapLevel = -1 // the zoom of the world map; -1: frame what was explored when it is drawn next (spec 09, "The map view")
+    private var mapCx = 0f // the map cell at the center of the view
+    private var mapCy = 0f
+    private var mapCellPx = 1f // pixels per cell as drawn (to turn a drag into cells)
+    private var mapViewCells = 1f // cells across the view as drawn (the size of a key step)
+    private var mapPinch = 0f // distance between two fingers, 0 when not pinching
+    private var mapTouchOnButton = false
+    private var mapButtons: List<MapButton> = emptyList()
     private val mapCodes = HashMap<Pair<Int, Int>, Int>()
     private val mapMarkers = HashMap<Pair<Int, Int>, io.github.progliodario.aethermoor.core.Settlement?>()
     private var message = ""
@@ -894,7 +902,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             return
         }
         if (showMap) {
-            if (input.isKeyJustPressed(Input.Keys.M) || input.isKeyJustPressed(Input.Keys.ESCAPE) || input.justTouched()) showMap = false
+            handleMapInput(world)
             return
         }
         if (showInventory) {
@@ -924,6 +932,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
         if (input.isKeyJustPressed(Input.Keys.M) && world.chunks != null) {
             showMap = true
+            mapLevel = -1
             return
         }
         if (input.isKeyJustPressed(Input.Keys.I)) {
@@ -975,6 +984,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 val map = mapRect
                 if (map != null && world.chunks != null && x >= map[0] && x <= map[0] + map[2] && y >= map[1] && y <= map[1] + map[3]) {
                     showMap = true
+                    mapLevel = -1
+                    mapTouchOnButton = true // the touch that opened the map does not drag it
                     return
                 }
                 val journal = journalRect
@@ -1451,7 +1462,118 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         return mapMarkers[key]
     }
 
-    /** The map button and, when open, the world map: explored cells by biome and the player (spec 09). */
+    /** A square window onto the world map (spec 09, "The map view"): `cell` pixels per map cell, centered on cell (cx, cy). */
+    private class MapView(val x: Float, val y: Float, val side: Float, val cell: Float, val cx: Float, val cy: Float) {
+        fun toX(cellX: Float) = x + side / 2f + (cellX - cx) * cell
+        fun toY(cellY: Float) = y + side / 2f + (cellY - cy) * cell
+    }
+
+    /** A button of the map: its rectangle in pixels and what it does (0 zoom in, 1 zoom out, 2 find the player, 3 show all, 4 close). */
+    private class MapButton(val rect: FloatArray, val action: Int, val label: String)
+
+    /** Frames the explored cells with a margin of one cell: the biggest zoom at which they all fit, centered on them. */
+    private fun mapFit(world: WorldSim, columns: Int, rows: Int, side: Float) {
+        var minX = columns
+        var minY = rows
+        var maxX = 0
+        var maxY = 0
+        for ((x, y) in world.explored) {
+            minX = min(minX, x)
+            minY = min(minY, y)
+            maxX = max(maxX, x)
+            maxY = max(maxY, y)
+        }
+        if (minX > maxX) {
+            minX = (world.player.position.x / MAP_CELL).toInt()
+            maxX = minX
+            minY = (world.player.position.y / MAP_CELL).toInt()
+            maxY = minY
+        }
+        val span = (max(maxX - minX, maxY - minY) + 3).toFloat()
+        val base = side / max(columns, rows)
+        var level = 0
+        while (level < MAP_MAX_LEVEL && span * base * (1 shl (level + 1)) <= side) level++
+        mapLevel = level
+        mapCx = (minX + maxX + 1) / 2f
+        mapCy = (minY + maxY + 1) / 2f
+    }
+
+    private fun mapPan(store: io.github.progliodario.aethermoor.core.sim.ChunkStore, dxCells: Float, dyCells: Float) {
+        val columns = (store.params.width + MAP_CELL - 1) / MAP_CELL
+        val rows = (store.params.height + MAP_CELL - 1) / MAP_CELL
+        mapCx = (mapCx + dxCells).coerceIn(0f, columns.toFloat())
+        mapCy = (mapCy + dyCells).coerceIn(0f, rows.toFloat())
+    }
+
+    private fun mapZoom(delta: Int) {
+        if (mapLevel >= 0) mapLevel = (mapLevel + delta).coerceIn(0, MAP_MAX_LEVEL)
+    }
+
+    /** The keys, the buttons, the drag and the pinch of the open world map (spec 16). */
+    private fun handleMapInput(world: WorldSim) {
+        val store = world.chunks ?: return
+        val input = Gdx.input
+        if (input.isKeyJustPressed(Input.Keys.M) || input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            showMap = false
+            return
+        }
+        val step = mapViewCells / 6f
+        if (input.isKeyJustPressed(Input.Keys.PLUS) || input.isKeyJustPressed(Input.Keys.EQUALS)) mapZoom(1)
+        if (input.isKeyJustPressed(Input.Keys.MINUS)) mapZoom(-1)
+        if (input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W)) mapPan(store, 0f, -step)
+        if (input.isKeyJustPressed(Input.Keys.DOWN) || input.isKeyJustPressed(Input.Keys.S)) mapPan(store, 0f, step)
+        if (input.isKeyJustPressed(Input.Keys.LEFT) || input.isKeyJustPressed(Input.Keys.A)) mapPan(store, -step, 0f)
+        if (input.isKeyJustPressed(Input.Keys.RIGHT) || input.isKeyJustPressed(Input.Keys.D)) mapPan(store, step, 0f)
+        if (input.isKeyJustPressed(Input.Keys.C)) mapCenterOnPlayer(world)
+        if (input.isKeyJustPressed(Input.Keys.NUM_0) || input.isKeyJustPressed(Input.Keys.HOME)) mapLevel = -1
+
+        if (input.justTouched()) {
+            val x = input.x.toFloat()
+            val y = input.y.toFloat()
+            val button = mapButtons.firstOrNull { x >= it.rect[0] && x <= it.rect[0] + it.rect[2] && y >= it.rect[1] && y <= it.rect[1] + it.rect[3] }
+            mapTouchOnButton = button != null
+            mapPinch = 0f
+            when (button?.action) {
+                0 -> mapZoom(1)
+                1 -> mapZoom(-1)
+                2 -> mapCenterOnPlayer(world)
+                3 -> mapLevel = -1
+                4 -> showMap = false
+            }
+            return
+        }
+        if (mapTouchOnButton) {
+            if (!input.isTouched) mapTouchOnButton = false
+            return
+        }
+        if (input.isTouched(0) && input.isTouched(1)) {
+            // Pinch: the zoom goes up a level when the fingers spread by half, down a level when they close by a third.
+            val dx = (input.getX(0) - input.getX(1)).toFloat()
+            val dy = (input.getY(0) - input.getY(1)).toFloat()
+            val distance = kotlin.math.sqrt(dx * dx + dy * dy)
+            if (mapPinch <= 0f) {
+                mapPinch = distance
+            } else if (distance > mapPinch * 1.5f) {
+                mapZoom(1)
+                mapPinch = distance
+            } else if (distance < mapPinch * 0.67f) {
+                mapZoom(-1)
+                mapPinch = distance
+            }
+        } else if (input.isTouched(0)) {
+            mapPinch = 0f
+            mapPan(store, -input.deltaX / mapCellPx, -input.deltaY / mapCellPx) // dragging moves the map under the finger
+        } else {
+            mapPinch = 0f
+        }
+    }
+
+    private fun mapCenterOnPlayer(world: WorldSim) {
+        mapCx = world.player.position.x / MAP_CELL
+        mapCy = world.player.position.y / MAP_CELL
+    }
+
+    /** The map button and, when open, the world map: explored cells by biome, the places that were found and the player (spec 09). */
     private fun drawWorldMap(world: WorldSim, data: Assets) {
         val store = world.chunks ?: return
         val density = Gdx.graphics.density
@@ -1459,61 +1581,153 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val height = Gdx.graphics.height.toFloat()
         val button = floatArrayOf(12f * density + 104f * density, 74f * density, 96f * density, 34f * density)
         mapRect = button
+
+        // Geometry of the view: a square, with the keys, the position and the buttons beside it (wide screens) or under it.
+        val landscape = width > height
+        val columns = (store.params.width + MAP_CELL - 1) / MAP_CELL
+        val rows = (store.params.height + MAP_CELL - 1) / MAP_CELL
+        var view: MapView? = null
+        val buttons = ArrayList<MapButton>()
+        var panelX = 0f
+        var panelY = 0f
+        var panelW = 0f
+        if (showMap) {
+            val side = if (landscape) min(width * 0.55f, height * 0.8f) else min(width * 0.92f, height * 0.58f)
+            val vx = if (landscape) 24f * density else (width - side) / 2f
+            val vy = if (landscape) (height - side) / 2f + 10f * density else 64f * density
+            if (mapLevel < 0) mapFit(world, columns, rows, side)
+            val cell = side / max(columns, rows) * (1 shl mapLevel)
+            view = MapView(vx, vy, side, cell, mapCx, mapCy)
+            mapCellPx = cell
+            mapViewCells = side / cell
+            panelX = if (landscape) vx + side + 20f * density else vx
+            panelY = if (landscape) vy else vy + side + 8f * density
+            panelW = if (landscape) width - panelX - 16f * density else side
+        }
+
+        // The text under (or beside) the view, measured first because the buttons come after it.
+        val help = data.pack.text(language, "\$i18n:ui.map_help_touch")
+        val where = data.pack.text(
+            language, "\$i18n:ui.map_pos",
+            mapOf("x" to floor(world.player.position.x).toInt(), "y" to floor(world.player.position.y).toInt(), "zoom" to (1 shl max(mapLevel, 0))),
+        )
+        var buttonsY = 0f
+        if (view != null) {
+            layout.setText(font, help, Color.WHITE, panelW, 0, true)
+            val helpH = layout.height
+            val legendY = panelY + helpH + font.lineHeight * 2.2f
+            buttonsY = legendY + font.lineHeight * 1.8f
+            val size = 48f * density
+            val gap = 8f * density
+            val labels = listOf("+" to 0, "-" to 1, data.pack.text(language, "\$i18n:ui.map_btn_you") to 2, data.pack.text(language, "\$i18n:ui.map_btn_all") to 3, "X" to 4)
+            var bx = panelX
+            var by = buttonsY
+            for ((label, action) in labels) {
+                layout.setText(font, label)
+                val w = max(size, layout.width + 20f * density)
+                if (bx + w > panelX + panelW && bx > panelX) {
+                    bx = panelX
+                    by += size + gap
+                }
+                buttons.add(MapButton(floatArrayOf(bx, by, w, size), action, label))
+                bx += w + gap
+            }
+        }
+        mapButtons = buttons
+
         shapes.projectionMatrix = camera.combined
         Gdx.gl.glEnable(GL20.GL_BLEND)
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
         shapes.begin(ShapeRenderer.ShapeType.Filled)
         shapes.color = Color(0.04f, 0.12f, 0.23f, 0.8f)
         shapes.rect(button[0], button[1], button[2], button[3])
-        var left = 0f
-        var top = 0f
-        var cell = 0f
-        if (showMap) {
-            val columns = (store.params.width + MAP_CELL - 1) / MAP_CELL
-            val rows = (store.params.height + MAP_CELL - 1) / MAP_CELL
-            cell = min(width, height) * 0.8f / max(columns, rows)
-            left = (width - cell * columns) / 2f
-            top = (height - cell * rows) / 2f + 10f * density
-            shapes.color = Color(0.016f, 0.04f, 0.094f, 0.88f)
+        val shown = ArrayList<Triple<io.github.progliodario.aethermoor.core.Settlement, Float, Float>>()
+        if (view != null) {
+            val v = view
+            fun clipped(x: Float, y: Float, w: Float, h: Float) {
+                val x0 = max(x, v.x)
+                val y0 = max(y, v.y)
+                val x1 = min(x + w, v.x + v.side)
+                val y1 = min(y + h, v.y + v.side)
+                if (x1 > x0 && y1 > y0) shapes.rect(x0, y0, x1 - x0, y1 - y0)
+            }
+            shapes.color = Color(0.016f, 0.04f, 0.094f, 0.92f)
             shapes.rect(0f, 0f, width, height)
+            shapes.color = Color(0.16f, 0.27f, 0.43f, 1f)
+            shapes.rect(v.x - 3f, v.y - 3f, v.side + 6f, v.side + 6f)
+            shapes.color = Color(0.024f, 0.047f, 0.11f, 1f)
+            shapes.rect(v.x, v.y, v.side, v.side) // beyond the edge of the world
             shapes.color = Color(0.08f, 0.14f, 0.26f, 1f)
-            shapes.rect(left - 2f, top - 2f, cell * columns + 4f, cell * rows + 4f)
+            clipped(v.toX(0f), v.toY(0f), v.cell * columns, v.cell * rows) // the world, still unexplored
+            val gap = if (mapLevel >= 3) 1f else 0f // a thin grid when the cells are big
             for ((x, y) in world.explored) {
+                val sx = v.toX(x.toFloat())
+                val sy = v.toY(y.toFloat())
+                if (sx > v.x + v.side || sy > v.y + v.side || sx + v.cell < v.x || sy + v.cell < v.y) continue
                 val code = mapCodes.getOrPut(Pair(x, y)) { biomeCode(store.seed, store.params, x, y) }
                 shapes.color = MAP_COLORS[code]
-                shapes.rect(left + cell * x, top + cell * y, ceil(cell), ceil(cell))
+                clipped(sx, sy, ceil(v.cell) - gap, ceil(v.cell) - gap)
             }
+            val boost = 1f + 0.4f * mapLevel
             for ((x, y) in world.explored) {
+                val mx = v.toX(x + 0.5f)
+                val my = v.toY(y + 0.5f)
+                if (mx < v.x || my < v.y || mx > v.x + v.side || my > v.y + v.side) continue
                 val marker = markerAt(store, x, y) ?: continue
-                val size = (if (marker.kind == "town") 7f else if (marker.kind == "village") 5f else 3f) * density
-                val mx = left + cell * (x + 0.5f)
-                val my = top + cell * (y + 0.5f)
+                val place = marker.kind == "town" || marker.kind == "village" || marker.kind == "hamlet"
+                val size = (if (marker.kind == "town") 7f else if (marker.kind == "village") 5f else 4f) * density * boost
                 shapes.color = Color(0.08f, 0.08f, 0.12f, 1f)
-                shapes.rect(mx - size / 2f - 1f, my - size / 2f - 1f, size + 2f, size + 2f)
-                shapes.color = Color(1f, 0.92f, 0.59f, 1f)
-                shapes.rect(mx - size / 2f, my - size / 2f, size, size)
+                clipped(mx - size / 2f - 1f, my - size / 2f - 1f, size + 2f, size + 2f)
+                shapes.color = if (place) Color(1f, 0.92f, 0.59f, 1f) else Color(0.8f, 0.47f, 1f, 1f)
+                clipped(mx - size / 2f, my - size / 2f, size, size)
+                shown.add(Triple(marker, mx + size / 2f + 3f * density, my))
             }
-            shapes.color = Color(1f, 0.24f, 0.24f, 1f)
-            val px = left + world.player.position.x / MAP_CELL * cell
-            val py = top + world.player.position.y / MAP_CELL * cell
-            shapes.rect(px - 3f * density, py - 3f * density, 6f * density, 6f * density)
+            // The player: a red square with a white edge, kept on the edge of the view when it is out of it.
+            val px = v.toX(world.player.position.x / MAP_CELL)
+            val py = v.toY(world.player.position.y / MAP_CELL)
+            val margin = 8f * density
+            val off = px < v.x || py < v.y || px > v.x + v.side || py > v.y + v.side
+            val dx = px.coerceIn(v.x + margin, v.x + v.side - margin)
+            val dy = py.coerceIn(v.y + margin, v.y + v.side - margin)
+            val pulse = 1f + 0.25f * kotlin.math.sin(System.nanoTime() / 1.8e8f)
+            val ps = 7f * density * pulse
+            shapes.color = Color.WHITE
+            shapes.rect(dx - ps / 2f - 2f, dy - ps / 2f - 2f, ps + 4f, ps + 4f)
+            shapes.color = if (off) Color(1f, 0.59f, 0.16f, 1f) else Color(1f, 0.2f, 0.2f, 1f)
+            shapes.rect(dx - ps / 2f, dy - ps / 2f, ps, ps)
+            // The legend: what the colors mean.
+            var lx = panelX
+            for (b in buttons) {
+                shapes.color = Color(0.04f, 0.12f, 0.23f, 0.9f)
+                shapes.rect(b.rect[0], b.rect[1], b.rect[2], b.rect[3])
+            }
+            val legendY = buttonsY - font.lineHeight * 1.8f
+            val squares = listOf(Color(1f, 0.2f, 0.2f, 1f), Color(1f, 0.92f, 0.59f, 1f), Color(0.8f, 0.47f, 1f, 1f))
+            val keys = listOf("\$i18n:ui.map_key_you", "\$i18n:ui.map_key_place", "\$i18n:ui.map_key_site")
+            for (i in squares.indices) {
+                shapes.color = squares[i]
+                shapes.rect(lx, legendY + font.lineHeight * 0.15f, font.lineHeight * 0.7f, font.lineHeight * 0.7f)
+                layout.setText(font, data.pack.text(language, keys[i]))
+                lx += font.lineHeight + layout.width + 14f * density
+            }
         }
         shapes.end()
         batch.projectionMatrix = camera.combined
         batch.begin()
         font.color = Color.WHITE
         font.draw(batch, data.pack.text(language, "\$i18n:ui.map_hint"), button[0] + 8f * density, button[1] + (button[3] - font.lineHeight) / 2f)
-        if (showMap) {
-            font.draw(batch, data.pack.text(language, "\$i18n:ui.map"), left, top - 26f * density)
-            // A name that would be drawn over another one is left out: towns first, then villages, then the other sites.
-            val labels = world.explored.mapNotNull { (x, y) -> markerAt(store, x, y)?.takeIf { it.kind != "hamlet" }?.let { Triple(it, x, y) } }
-                .sortedBy { (marker, _, _) -> if (marker.kind == "town") 0 else if (marker.kind == "village") 1 else 2 }
+        if (view != null) {
+            val v = view
+            font.draw(batch, data.pack.text(language, "\$i18n:ui.map"), v.x, v.y - 30f * density)
+            // A name that would be drawn over another one, or out of the view, is left out: towns first, then villages, the other sites, hamlets.
+            val order = shown.filter { it.first.kind != "hamlet" || mapLevel >= 3 }
+                .sortedBy { (marker, _, _) -> when (marker.kind) { "town" -> 0; "village" -> 1; "hamlet" -> 3; else -> 2 } }
             val placed = ArrayList<FloatArray>()
-            for ((marker, x, y) in labels) {
+            for ((marker, lx, my) in order) {
                 layout.setText(font, marker.name)
-                val lx = left + cell * (x + 0.5f) + 8f * density
-                val ly = top + cell * (y + 0.5f) - font.lineHeight / 2f
+                val ly = my - font.lineHeight / 2f
                 val w = layout.width
+                if (lx < v.x || lx + w > v.x + v.side || ly < v.y || ly + font.lineHeight > v.y + v.side) continue
                 if (placed.any { lx < it[0] + it[2] && it[0] < lx + w && ly < it[1] + font.lineHeight && it[1] < ly + font.lineHeight }) continue
                 font.draw(batch, marker.name, lx, ly)
                 placed.add(floatArrayOf(lx, ly, w))
@@ -1525,9 +1739,31 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 if (Pair(rx, ry) !in world.explored) continue
                 val name = data.pack.text(language, region.name)
                 layout.setText(font, name)
-                font.draw(batch, name, left + cell * rx - layout.width / 2f, top + cell * ry + 14f * density)
+                val nx = v.toX(rx.toFloat()) - layout.width / 2f
+                val ny = v.toY(ry.toFloat()) + 14f * density
+                if (nx >= v.x && nx + layout.width <= v.x + v.side && ny >= v.y && ny + font.lineHeight <= v.y + v.side) font.draw(batch, name, nx, ny)
+            }
+            font.color = Color(0.59f, 0.78f, 1f, 1f)
+            layout.setText(font, help, font.color, panelW, 0, true)
+            font.draw(batch, layout, panelX, panelY)
+            font.color = Color.WHITE
+            font.draw(batch, where, panelX, panelY + layout.height + font.lineHeight * 0.6f)
+            // The words of the legend, after the squares drawn above.
+            var lx = panelX
+            val legendY = buttonsY - font.lineHeight * 1.8f
+            val keys = listOf("\$i18n:ui.map_key_you", "\$i18n:ui.map_key_place", "\$i18n:ui.map_key_site")
+            font.color = Color(0.86f, 0.86f, 0.9f, 1f)
+            for (key in keys) {
+                val label = data.pack.text(language, key)
+                layout.setText(font, label)
+                font.draw(batch, label, lx + font.lineHeight, legendY)
+                lx += font.lineHeight + layout.width + 14f * density
             }
             font.color = Color.WHITE
+            for (b in buttons) {
+                layout.setText(font, b.label)
+                font.draw(batch, b.label, b.rect[0] + (b.rect[2] - layout.width) / 2f, b.rect[1] + (b.rect[3] - font.lineHeight) / 2f)
+            }
         }
         batch.end()
     }
@@ -1769,6 +2005,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         /** The rectangle of a list row that is not on the screen: no tap can hit it. */
         private val OFF_SCREEN = floatArrayOf(-1f, -1f, 0f, 0f)
         private const val MAX_TICKS_PER_FRAME = 5
+        private const val MAP_MAX_LEVEL = 4
         private const val MAX_FRAME_SECONDS = 0.25f
         private const val FLOATING_TEXT_FRAMES = 50
         private const val AUTOSAVE_SECONDS = 30f

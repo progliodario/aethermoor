@@ -78,6 +78,12 @@ struct Ui {
     mutable std::map<std::pair<int, int>, std::optional<aether::Settlement>> map_markers;  // settlement shown on a cell
     mutable std::map<std::pair<int, int>, int>
         map_codes;  // biome code of the explored cells, filled when the map is drawn
+    // The view of the world map (spec 09, "The map view"): zoom level, the cell at its center, and what was drawn last.
+    mutable int map_level = -1;  // -1: frame what was explored when the map is drawn next
+    mutable float map_cx = 0.0F;
+    mutable float map_cy = 0.0F;
+    mutable float map_cell_px = 1.0F;     // pixels per cell, as drawn (to turn a mouse drag into cells)
+    mutable float map_view_cells = 1.0F;  // cells across the view, as drawn (the size of a key step)
 };
 
 std::string detect_language() {
@@ -452,7 +458,86 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
-// The world map: explored cells by biome and the player (spec 09).
+// The world map (spec 09, "The map view"): explored cells by biome, the places that were found, and the player. The
+// view is a square window onto the map with a zoom level (0 shows the whole world, each level doubles the size of a
+// cell) and a center that can be moved; opening the map frames everything explored so far.
+constexpr int kMapMaxLevel = 4;
+
+struct MapGeometry {
+    float x = 0.0F;  // the square viewport, in pixels
+    float y = 0.0F;
+    float side = 0.0F;
+    float cell = 0.0F;  // pixels per map cell at this zoom
+    float cx = 0.0F;    // the map cell (fractional) at the center of the viewport
+    float cy = 0.0F;
+    float to_x(float cell_x) const { return x + side / 2.0F + (cell_x - cx) * cell; }
+    float to_y(float cell_y) const { return y + side / 2.0F + (cell_y - cy) * cell; }
+};
+
+int map_columns(const aether::WorldParams& params) { return (params.width + aether::kMapCell - 1) / aether::kMapCell; }
+int map_rows(const aether::WorldParams& params) { return (params.height + aether::kMapCell - 1) / aether::kMapCell; }
+
+// Frames the explored cells (with a margin of one cell around): the biggest zoom at which they all fit, centered on
+// them.
+void map_fit(const aether::WorldSim& sim, const aether::WorldParams& params, const Ui& ui, float side) {
+    int min_x = map_columns(params);
+    int min_y = map_rows(params);
+    int max_x = 0;
+    int max_y = 0;
+    for (const auto& [x, y] : sim.explored()) {
+        min_x = std::min(min_x, x);
+        min_y = std::min(min_y, y);
+        max_x = std::max(max_x, x);
+        max_y = std::max(max_y, y);
+    }
+    if (min_x > max_x) {  // nothing explored: the player's cell
+        min_x = max_x = static_cast<int>(sim.player().position.x) / aether::kMapCell;
+        min_y = max_y = static_cast<int>(sim.player().position.y) / aether::kMapCell;
+    }
+    const float span = static_cast<float>(std::max(max_x - min_x, max_y - min_y) + 3);
+    const float base = side / static_cast<float>(std::max(map_columns(params), map_rows(params)));
+    int level = 0;
+    while (level < kMapMaxLevel && span * base * static_cast<float>(1 << (level + 1)) <= side) {
+        ++level;
+    }
+    ui.map_level = level;
+    ui.map_cx = static_cast<float>(min_x + max_x + 1) / 2.0F;
+    ui.map_cy = static_cast<float>(min_y + max_y + 1) / 2.0F;
+}
+
+// Moves the center of the view by a number of view widths, keeping it inside the world.
+void map_pan(const aether::WorldSim& sim, const Ui& ui, float dx_cells, float dy_cells) {
+    if (sim.chunks() == nullptr) {
+        return;
+    }
+    const aether::WorldParams& params = sim.chunks()->params();
+    ui.map_cx = std::clamp(ui.map_cx + dx_cells, 0.0F, static_cast<float>(map_columns(params)));
+    ui.map_cy = std::clamp(ui.map_cy + dy_cells, 0.0F, static_cast<float>(map_rows(params)));
+}
+
+void map_zoom(const Ui& ui, int delta) {
+    if (ui.map_level >= 0) {
+        ui.map_level = std::clamp(ui.map_level + delta, 0, kMapMaxLevel);
+    }
+}
+
+void map_center_on_player(const aether::WorldSim& sim, const Ui& ui) {
+    ui.map_cx = sim.player().position.x / static_cast<float>(aether::kMapCell);
+    ui.map_cy = sim.player().position.y / static_cast<float>(aether::kMapCell);
+}
+
+// A rectangle cut to the viewport of the map.
+void fill_map_rect(SDL_Renderer* renderer, const MapGeometry& g, float x, float y, float w, float h, Uint8 r, Uint8 gr,
+                   Uint8 b, Uint8 a) {
+    const float x0 = std::max(x, g.x);
+    const float y0 = std::max(y, g.y);
+    const float x1 = std::min(x + w, g.x + g.side);
+    const float y1 = std::min(y + h, g.y + g.side);
+    if (x1 > x0 && y1 > y0) {
+        fill_rect(renderer, x0, y0, x1 - x0, y1 - y0, r, gr, b, a);
+    }
+}
+
 void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w,
                     int out_h, float density) {
     const aether::ChunkStore* store = sim.chunks();
@@ -460,38 +545,70 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
         return;
     }
     const aether::WorldParams& params = store->params();
+    const int columns = map_columns(params);
+    const int rows = map_rows(params);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-    fill_rect(renderer, 0.0F, 0.0F, static_cast<float>(out_w), static_cast<float>(out_h), 4, 10, 24, 225);
-    const int columns = (params.width + aether::kMapCell - 1) / aether::kMapCell;
-    const int rows = (params.height + aether::kMapCell - 1) / aether::kMapCell;
-    const float side = std::min(static_cast<float>(out_w), static_cast<float>(out_h)) * 0.8F;
-    const float cell = side / static_cast<float>(std::max(columns, rows));
-    const float left = (static_cast<float>(out_w) - cell * static_cast<float>(columns)) / 2.0F;
-    const float top = (static_cast<float>(out_h) - cell * static_cast<float>(rows)) / 2.0F + 10.0F * density;
-    fill_rect(renderer, left - 2.0F, top - 2.0F, cell * static_cast<float>(columns) + 4.0F,
-              cell * static_cast<float>(rows) + 4.0F, 20, 36, 66, 255);
+    fill_rect(renderer, 0.0F, 0.0F, static_cast<float>(out_w), static_cast<float>(out_h), 4, 10, 24, 235);
+
+    MapGeometry g;
+    g.side = std::min(static_cast<float>(out_w), static_cast<float>(out_h)) * 0.8F;
+    g.x = (static_cast<float>(out_w) - g.side) / 2.0F;
+    g.y = (static_cast<float>(out_h) - g.side) / 2.0F + 10.0F * density;
+    if (ui.map_level < 0) {
+        map_fit(sim, params, ui, g.side);
+    }
+    g.cell = g.side / static_cast<float>(std::max(columns, rows)) * static_cast<float>(1 << ui.map_level);
+    g.cx = ui.map_cx;
+    g.cy = ui.map_cy;
+    ui.map_cell_px = g.cell;
+    ui.map_view_cells = g.side / g.cell;
+
+    const float ts = std::max(1.0F, std::floor(density));  // scale of the text: the debug font is 8 pixels
+    const auto text = [&](float x, float y, const std::string& line, Uint8 r, Uint8 gr, Uint8 b) {
+        SDL_SetRenderScale(renderer, ts, ts);
+        SDL_SetRenderDrawColor(renderer, r, gr, b, 255);
+        debug_text(renderer, x / ts, y / ts, line.c_str());
+        SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+    };
+
+    fill_rect(renderer, g.x - 3.0F, g.y - 3.0F, g.side + 6.0F, g.side + 6.0F, 40, 70, 110, 255);
+    fill_rect(renderer, g.x, g.y, g.side, g.side, 6, 12, 28, 255);  // beyond the edge of the world
+    fill_map_rect(renderer, g, g.to_x(0.0F), g.to_y(0.0F), g.cell * static_cast<float>(columns),
+                  g.cell * static_cast<float>(rows), 20, 36, 66, 255);  // the world, still unexplored
     static const Uint8 kColors[7][3] = {{60, 110, 190},  {222, 206, 150}, {130, 130, 140}, {235, 240, 245},
                                         {222, 206, 150}, {60, 130, 70},   {110, 180, 90}};
+    const float gap = ui.map_level >= 3 ? 1.0F : 0.0F;  // a thin grid when the cells are big
     for (const auto& [x, y] : sim.explored()) {
+        const float sx = g.to_x(static_cast<float>(x));
+        const float sy = g.to_y(static_cast<float>(y));
+        if (sx > g.x + g.side || sy > g.y + g.side || sx + g.cell < g.x || sy + g.cell < g.y) {
+            continue;
+        }
         auto code = ui.map_codes.find({x, y});
         if (code == ui.map_codes.end()) {
             code = ui.map_codes.emplace(std::make_pair(x, y), aether::biome_code(store->seed(), params, x, y)).first;
         }
         const Uint8* color = kColors[code->second];
-        fill_rect(renderer, left + cell * static_cast<float>(x), top + cell * static_cast<float>(y), std::ceil(cell),
-                  std::ceil(cell), color[0], color[1], color[2], 255);
+        fill_map_rect(renderer, g, sx, sy, std::ceil(g.cell) - gap, std::ceil(g.cell) - gap, color[0], color[1],
+                      color[2], 255);
     }
-    // Settlements of the explored cells, and the names of the regions whose center is explored.
-    SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+
+    // The places found: settlements in yellow, dungeons and other sites in violet; their names when they fit.
     struct MapLabel {
         float x;
         float y;
         float w;
-        int priority;  // towns first, then villages, then the other sites
+        int priority;  // towns first, then villages, then the other sites, then hamlets
         const std::string* text;
     };
     std::vector<MapLabel> labels;
+    const float boost = 1.0F + 0.4F * static_cast<float>(ui.map_level);
     for (const auto& [x, y] : sim.explored()) {
+        const float mx = g.to_x(static_cast<float>(x) + 0.5F);
+        const float my = g.to_y(static_cast<float>(y) + 0.5F);
+        if (mx < g.x || my < g.y || mx > g.x + g.side || my > g.y + g.side) {
+            continue;
+        }
         auto marker = ui.map_markers.find({x, y});
         if (marker == ui.map_markers.end()) {
             marker =
@@ -501,30 +618,34 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
         if (!marker->second) {
             continue;
         }
-        const float mx = left + cell * (static_cast<float>(x) + 0.5F);
-        const float my = top + cell * (static_cast<float>(y) + 0.5F);
-        const float size = marker->second->kind == "town" ? 7.0F : (marker->second->kind == "village" ? 5.0F : 3.0F);
-        fill_rect(renderer, mx - size * density / 2.0F - 1.0F, my - size * density / 2.0F - 1.0F, size * density + 2.0F,
-                  size * density + 2.0F, 20, 20, 30, 255);
-        fill_rect(renderer, mx - size * density / 2.0F, my - size * density / 2.0F, size * density, size * density, 255,
-                  235, 150, 255);
-        if (marker->second->kind != "hamlet") {
-            const int priority = marker->second->kind == "town" ? 0 : (marker->second->kind == "village" ? 1 : 2);
-            labels.push_back({mx + (size * density) / 2.0F + 3.0F, my - 4.0F, text_columns(marker->second->name) * 8.0F,
+        const std::string& kind = marker->second->kind;
+        const bool place = kind == "town" || kind == "village" || kind == "hamlet";
+        const float size = (kind == "town" ? 7.0F : (kind == "village" ? 5.0F : 4.0F)) * density * boost;
+        fill_map_rect(renderer, g, mx - size / 2.0F - 1.0F, my - size / 2.0F - 1.0F, size + 2.0F, size + 2.0F, 20, 20,
+                      30, 255);
+        if (place) {
+            fill_map_rect(renderer, g, mx - size / 2.0F, my - size / 2.0F, size, size, 255, 235, 150, 255);
+        } else {
+            fill_map_rect(renderer, g, mx - size / 2.0F, my - size / 2.0F, size, size, 205, 120, 255, 255);
+        }
+        if (kind != "hamlet" || ui.map_level >= 3) {
+            const int priority = kind == "town" ? 0 : (kind == "village" ? 1 : (kind == "hamlet" ? 3 : 2));
+            labels.push_back({mx + size / 2.0F + 3.0F, my - 4.0F * ts, text_columns(marker->second->name) * 8.0F * ts,
                               priority, &marker->second->name});
         }
     }
     std::stable_sort(labels.begin(), labels.end(),
                      [](const MapLabel& a, const MapLabel& b) { return a.priority < b.priority; });
-    std::vector<MapLabel> placed;  // a name that would be drawn over another one is left out
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    std::vector<MapLabel> placed;  // a name that would be drawn over another one, or out of the view, is left out
     for (const MapLabel& label : labels) {
-        const bool clash = std::any_of(placed.begin(), placed.end(), [&label](const MapLabel& other) {
-            return label.x < other.x + other.w && other.x < label.x + label.w && label.y < other.y + 10.0F &&
-                   other.y < label.y + 10.0F;
+        const bool inside = label.x >= g.x && label.x + label.w <= g.x + g.side && label.y >= g.y &&
+                            label.y + 10.0F * ts <= g.y + g.side;
+        const bool clash = std::any_of(placed.begin(), placed.end(), [&](const MapLabel& other) {
+            return label.x < other.x + other.w && other.x < label.x + label.w && label.y < other.y + 10.0F * ts &&
+                   other.y < label.y + 10.0F * ts;
         });
-        if (!clash) {
-            debug_text(renderer, label.x, label.y, label.text->c_str());
+        if (inside && !clash) {
+            text(label.x, label.y, *label.text, 255, 255, 255);
             placed.push_back(label);
         }
     }
@@ -537,18 +658,51 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
             continue;
         }
         const std::string name = assets.pack.text(ui.lang, region.name);
-        SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
-        debug_text(renderer, left + cell * static_cast<float>(rx) - static_cast<float>(name.size()) * 4.0F,
-                   top + cell * static_cast<float>(ry) + 14.0F * density, name.c_str());
+        const float width = text_columns(name) * 8.0F * ts;
+        const float nx = g.to_x(static_cast<float>(rx)) - width / 2.0F;
+        const float ny = g.to_y(static_cast<float>(ry)) + 14.0F * density;
+        if (nx >= g.x && nx + width <= g.x + g.side && ny >= g.y && ny + 10.0F * ts <= g.y + g.side) {
+            text(nx, ny, name, 255, 215, 120);
+        }
     }
-    const float px = left + sim.player().position.x / static_cast<float>(aether::kMapCell) * cell;
-    const float py = top + sim.player().position.y / static_cast<float>(aether::kMapCell) * cell;
-    fill_rect(renderer, px - 3.0F * density, py - 3.0F * density, 6.0F * density, 6.0F * density, 255, 60, 60, 255);
+
+    // The player: a red square with a white edge, kept on the edge of the view when it is out of it.
+    const float px = g.to_x(sim.player().position.x / static_cast<float>(aether::kMapCell));
+    const float py = g.to_y(sim.player().position.y / static_cast<float>(aether::kMapCell));
+    const float margin = 8.0F * density;
+    const bool off = px < g.x || py < g.y || px > g.x + g.side || py > g.y + g.side;
+    const float dx = std::clamp(px, g.x + margin, g.x + g.side - margin);
+    const float dy = std::clamp(py, g.y + margin, g.y + g.side - margin);
+    const float pulse = 1.0F + 0.25F * std::sin(static_cast<float>(SDL_GetTicks()) / 180.0F);
+    const float ps = 7.0F * density * pulse;
+    fill_rect(renderer, dx - ps / 2.0F - 2.0F, dy - ps / 2.0F - 2.0F, ps + 4.0F, ps + 4.0F, 255, 255, 255, 255);
+    fill_rect(renderer, dx - ps / 2.0F, dy - ps / 2.0F, ps, ps, 255, off ? 150 : 50, off ? 40 : 50, 255);
+
+    // The title, then the keys, the position and what the colors mean, under the view.
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_SetRenderScale(renderer, 2.0F, 2.0F);
-    debug_text(renderer, left / 2.0F, (top - 26.0F * density) / 2.0F,
-               assets.pack.text(ui.lang, "$i18n:ui.map").c_str());
+    debug_text(renderer, g.x / 2.0F, (g.y - 28.0F * density) / 2.0F, assets.pack.text(ui.lang, "$i18n:ui.map").c_str());
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+    const float row = 12.0F * ts;
+    float ty = g.y + g.side + 8.0F * density;
+    text(g.x, ty, assets.pack.text(ui.lang, "$i18n:ui.map_help"), 150, 200, 255);
+    ty += row;
+    const std::string where = assets.pack.text(ui.lang, "$i18n:ui.map_pos",
+                                               {{"x", static_cast<std::int64_t>(std::floor(sim.player().position.x))},
+                                                {"y", static_cast<std::int64_t>(std::floor(sim.player().position.y))},
+                                                {"zoom", static_cast<std::int64_t>(1 << ui.map_level)}});
+    text(g.x, ty, where, 255, 255, 255);
+    ty += row;
+    float pen = g.x;
+    const auto key = [&](Uint8 r, Uint8 gr, Uint8 b, const char* id) {
+        fill_rect(renderer, pen, ty + 1.0F, 8.0F * ts, 8.0F * ts, r, gr, b, 255);
+        const std::string label = assets.pack.text(ui.lang, id);
+        text(pen + 12.0F * ts, ty, label, 220, 220, 230);
+        pen += (12.0F + 8.0F + text_columns(label) * 8.0F) * ts;
+    };
+    key(255, 50, 50, "$i18n:ui.map_key_you");
+    key(255, 235, 150, "$i18n:ui.map_key_place");
+    key(205, 120, 255, "$i18n:ui.map_key_site");
 }
 
 // Night and weather over the world, and the clock (spec 08). Presentation only.
@@ -936,6 +1090,28 @@ void handle_travel_key(aether::WorldSim& sim, const Assets& assets, Ui& ui, SDL_
         travel_move(sim, ui, 1);
     } else if (key == SDLK_E || key == SDLK_RETURN || key == SDLK_SPACE) {
         travel_go(sim, assets, ui);
+    }
+}
+
+// The keys of the world map (spec 16): zoom, move the view, back to the player, frame everything explored.
+void handle_map_key(const aether::WorldSim& sim, const Ui& ui, SDL_Keycode key) {
+    const float step = ui.map_view_cells / 6.0F;
+    if (key == SDLK_PLUS || key == SDLK_EQUALS || key == SDLK_KP_PLUS) {
+        map_zoom(ui, 1);
+    } else if (key == SDLK_MINUS || key == SDLK_KP_MINUS) {
+        map_zoom(ui, -1);
+    } else if (key == SDLK_UP || key == SDLK_W) {
+        map_pan(sim, ui, 0.0F, -step);
+    } else if (key == SDLK_DOWN || key == SDLK_S) {
+        map_pan(sim, ui, 0.0F, step);
+    } else if (key == SDLK_LEFT || key == SDLK_A) {
+        map_pan(sim, ui, -step, 0.0F);
+    } else if (key == SDLK_RIGHT || key == SDLK_D) {
+        map_pan(sim, ui, step, 0.0F);
+    } else if (key == SDLK_C) {
+        map_center_on_player(sim, ui);
+    } else if (key == SDLK_0 || key == SDLK_KP_0 || key == SDLK_HOME) {
+        ui.map_level = -1;
     }
 }
 
@@ -1967,6 +2143,7 @@ int main(int argc, char** argv) {
                             ui.show_journal = false;
                         } else if (event.key.key == SDLK_M) {
                             ui.show_map = !ui.show_map && sim.streamed();
+                            ui.map_level = -1;  // framed on what was explored, when it is drawn
                             ui.show_inventory = false;
                             ui.show_journal = false;
                         } else if (event.key.key == SDLK_Q) {
@@ -1999,6 +2176,8 @@ int main(int argc, char** argv) {
                             handle_board_key(sim, assets, ui, event.key.key);
                         } else if (sim.shop() != nullptr) {
                             handle_shop_key(sim, assets, ui, event.key.key);
+                        } else if (ui.show_map) {
+                            handle_map_key(sim, ui, event.key.key);
                         } else if (ui.show_journal) {
                             if (event.key.key == SDLK_UP || event.key.key == SDLK_W) {
                                 ui.journal_scroll = std::max(ui.journal_scroll - 1, 0);
@@ -2017,6 +2196,12 @@ int main(int argc, char** argv) {
                         } else {
                             handle_dialogue_key(sim, ui, event.key.key);
                         }
+                    } else if (event.type == SDL_EVENT_MOUSE_WHEEL && ui.show_map && !smoke_test) {
+                        map_zoom(ui, event.wheel.y > 0 ? 1 : (event.wheel.y < 0 ? -1 : 0));
+                    } else if (event.type == SDL_EVENT_MOUSE_MOTION && ui.show_map && !smoke_test &&
+                               (event.motion.state & SDL_BUTTON_LMASK) != 0) {
+                        const float pixels = std::max(SDL_GetWindowPixelDensity(window), 1.0F) / ui.map_cell_px;
+                        map_pan(sim, ui, -event.motion.xrel * pixels, -event.motion.yrel * pixels);  // drag the map
                     } else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN && !smoke_test &&
                                sim.story().dialogue_active()) {
                         activate_dialogue(sim, ui);
@@ -2118,6 +2303,10 @@ int main(int argc, char** argv) {
                         ui.show_inventory = false;
                         ui.show_map = sim.streamed();  // the last frames show the world map
                     }
+                    if (frames == kSmokeTestFrames - 1) {
+                        ui.map_level = 0;  // the very last frame shows the whole world
+                        ui.map_cx = ui.map_cy = 64.0F;
+                    }
                     sim.tick(input.x, input.y, input.attack);
                 } else if (ui.show_inventory || ui.show_map || ui.show_journal || sim.shop() != nullptr ||
                            sim.board() != nullptr || sim.travel() != nullptr) {
@@ -2182,8 +2371,10 @@ int main(int argc, char** argv) {
                         capture = (screenshot_dir / "walking.png").string();
                     } else if (frames == 82) {
                         capture = (screenshot_dir / "bag.png").string();
-                    } else if (frames == kSmokeTestFrames - 1 && ui.show_map) {
+                    } else if (frames == kSmokeTestFrames - 2 && ui.show_map) {
                         capture = (screenshot_dir / "map.png").string();
+                    } else if (frames == kSmokeTestFrames - 1 && ui.show_map) {
+                        capture = (screenshot_dir / "map_world.png").string();
                     }
                 }
                 render(renderer, cache, assets, sim, ui, floating, tile_px, density, debug, fps, capture);
