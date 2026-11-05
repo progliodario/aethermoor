@@ -3,6 +3,7 @@ package io.github.progliodario.aethermoor.core
 import io.github.progliodario.aethermoor.core.sim.ArmorStats
 import io.github.progliodario.aethermoor.core.sim.BehaviorDef
 import io.github.progliodario.aethermoor.core.sim.CombatSetup
+import io.github.progliodario.aethermoor.core.sim.DodgeDef
 import io.github.progliodario.aethermoor.core.sim.DropDef
 import io.github.progliodario.aethermoor.core.sim.EnemyDef
 import io.github.progliodario.aethermoor.core.sim.EnemySpawn

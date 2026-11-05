@@ -82,7 +82,6 @@ class CombatSetup(
     val enabled: Boolean = false,
     val player: PlayerSetup = PlayerSetup(),
     val skill: SkillDef = SkillDef(),
-    val dodge: DodgeDef = DodgeDef(),
     val spawns: List<EnemySpawn> = emptyList(),
     /** table[level - 1] = XP to go from `level` to `level + 1`. */
     val xpTable: List<Long> = emptyList(),
@@ -100,6 +99,8 @@ class CombatSetup(
     val startArmor: String = "",
     /** The shop of fixed maps and scenarios (streamed worlds use their regions). */
     val shop: ShopDef? = null,
+    /** The dodge roll of the protagonist (spec 05). */
+    val dodge: DodgeDef = DodgeDef(),
 )
 
 enum class AttackPhase { NONE, STARTUP, ACTIVE, RECOVERY }
