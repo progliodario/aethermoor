@@ -202,6 +202,7 @@ struct InputState {
     float x = 0.0F;
     float y = 0.0F;
     bool attack = false;
+    bool dodge = false;  // the dodge roll (spec 05): L, Left Shift or the east button of the gamepad
 };
 
 struct InputDevices {
@@ -237,7 +238,9 @@ struct InputDevices {
         }
         in.attack = keys[SDL_SCANCODE_J] || keys[SDL_SCANCODE_SPACE] ||
                     (SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON_LMASK) != 0;
+        in.dodge = keys[SDL_SCANCODE_L] || keys[SDL_SCANCODE_LSHIFT];
         if (gamepad != nullptr) {
+            in.dodge = in.dodge || SDL_GetGamepadButton(gamepad, SDL_GAMEPAD_BUTTON_EAST);
             if (in.x == 0.0F && in.y == 0.0F) {
                 in.x = static_cast<float>(SDL_GetGamepadAxis(gamepad, SDL_GAMEPAD_AXIS_LEFTX)) / 32767.0F;
                 in.y = static_cast<float>(SDL_GetGamepadAxis(gamepad, SDL_GAMEPAD_AXIS_LEFTY)) / 32767.0F;
@@ -2653,7 +2656,7 @@ int main(int argc, char** argv) {
                         ui.map_level = 0;  // the very last frame shows the whole world
                         ui.map_cx = ui.map_cy = 64.0F;
                     }
-                    sim.tick(input.x, input.y, input.attack);
+                    sim.tick(input.x, input.y, input.attack, input.dodge);
                 } else if (ui.show_inventory || ui.show_map || ui.show_journal || sim.shop() != nullptr ||
                            sim.board() != nullptr || sim.travel() != nullptr) {
                     accumulator = 0.0;  // the bag, the map, the journal, the shop and the board pause the game
@@ -2661,7 +2664,7 @@ int main(int argc, char** argv) {
                     accumulator += frame_seconds;
                     int ticks = 0;
                     while (accumulator >= static_cast<double>(aether::kTickDt) && ticks < kMaxTicksPerFrame) {
-                        sim.tick(input.x, input.y, input.attack);
+                        sim.tick(input.x, input.y, input.attack, input.dodge);
                         accumulator -= static_cast<double>(aether::kTickDt);
                         ++ticks;
                     }

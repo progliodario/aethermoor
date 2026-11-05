@@ -103,6 +103,19 @@ fun loadCombatSetup(
             break
         }
         requireNotNull(skill) { "the protagonist has no skill with a hitbox" }
+        var dodge = DodgeDef()
+        for (skillId in protagonist.startingSkills) { // the dodge roll: a skill with a `movement` block
+            val s = document(pack, skillId)
+            val movement = s["movement"]?.jsonObject ?: continue
+            dodge = DodgeDef(
+                enabled = true,
+                ticks = s.getValue("timing").jsonObject.getValue("active").jsonPrimitive.int,
+                speedMultX100 = movement.getValue("speed_mult_x100").jsonPrimitive.int,
+                iframes = movement.getValue("iframes").jsonPrimitive.int,
+                cooldown = s.getValue("cooldown_ticks").jsonPrimitive.int,
+            )
+            break
+        }
 
         val enemies = HashMap<String, EnemyDef>()
         val spawns = map.spawners.map { spawn ->
@@ -144,6 +157,7 @@ fun loadCombatSetup(
             enabled = true,
             player = PlayerSetup(protagonist.baseStats, protagonist.growthPm, weaponAtk, weaponMatk),
             skill = skill,
+            dodge = dodge,
             spawns = spawns,
             xpTable = pack.intTables["base:table/xp"]?.values ?: emptyList(),
             seed = seed,

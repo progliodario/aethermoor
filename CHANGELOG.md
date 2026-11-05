@@ -15,6 +15,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 - The shop, the bag and the list of Threshold Stones scroll with the cursor when they have more rows than the screen can show (desktop and Android); before, the lowest entries were out of reach.
 - Dungeons, lairs, nests and outposts no longer end up under a lake or inside a mountain range for some world seeds: around every landmark (spec 09, "Clearings") water and mountains become plains for 24 tiles beyond its footprint.
 
+### Added
+
+- The dodge roll (spec 05, "Dodge roll"; roadmap M3): `L` or `Left Shift` (gamepad `B`, the Dodge button on Android) rolls about two tiles in the direction you move (or the way you face), with 14 ticks of invulnerability, and can be used again 40 ticks later (not during a swing; with the attack input, the roll wins). It is a new skill of the base pack (`base:skill/common/dodge`, a skill of type `movement` with a `movement` block in the schema), part of Ren's starting skills. Reference, both clients and five new conformance scenarios (`dodge_roll`, `dodge_cooldown`, `dodge_iframes`, `dodge_without_skill`, `dodge_and_attack`).
+
 ### Changed
 
 - A small map in the top left corner shows the land around you (640 tiles across, only where you have been), with you, the Threshold Stones you woke and the goal; `N` hides it, a tap on it opens the world map on Android (spec 09, "The small map"). Both clients.

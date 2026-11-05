@@ -4,6 +4,8 @@
   "protagonist.ren.tagline": "A 27-year-old office worker, hit by a truck. It happens.",
   "skill.common.slash.name": "Slash",
   "skill.common.slash.desc": "A sword strike in an arc in front of you.",
+  "skill.common.dodge.name": "Dodge roll",
+  "skill.common.dodge.desc": "A quick roll in the direction you are moving: for a moment nothing can hurt you.",
   "skill.ren.analyze.name": "Analyze",
   "skill.ren.analyze.desc": "Observe a target to reveal its stats and weaknesses.",
   "item.practice_sword.name": "Practice sword",

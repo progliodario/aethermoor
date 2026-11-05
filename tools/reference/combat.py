@@ -54,6 +54,10 @@ class CombatSim:
         self.weapon_atk, self.weapon_matk = pl["weapon_atk"], pl["weapon_matk"]
         self.xp_table = scenario["xp_table"]
         self.skill = scenario["skill"]
+        self.dodge = scenario.get("dodge")  # {"ticks", "speed_mult_x100", "iframes", "cooldown"}, or None: no dodge (spec 05, "Dodge roll")
+        self.dodge_ticks = 0
+        self.dodge_cooldown = 0
+        self.dodge_dir = (1.0, 0.0)
         self.spawn = tuple(pl["start"])
         self.x, self.y = self.spawn
         self.facing = (1.0, 0.0)
@@ -100,31 +104,51 @@ class CombatSim:
 
     # --------------------------------------------------------------------------------- tick
 
-    def tick(self, raw_x: float, raw_y: float, attack: bool) -> None:
+    def tick(self, raw_x: float, raw_y: float, attack: bool, dodge: bool = False) -> None:
         if self.story is not None and self.story.dialogue_active:
-            raw_x, raw_y, attack = 0.0, 0.0, False
+            raw_x, raw_y, attack, dodge = 0.0, 0.0, False, False
         if self.iframes > 0:
             self.iframes -= 1
         if self.cooldown > 0:
             self.cooldown -= 1
+        if self.dodge_cooldown > 0:
+            self.dodge_cooldown -= 1
 
         vx, vy = mv.normalize_input(raw_x, raw_y)
-        if (vx != 0.0 or vy != 0.0) and self.phase in (NONE, STARTUP):
-            length = math.sqrt(vx * vx + vy * vy)
-            self.facing = (vx / length, vy / length)
-        mult = ATTACK_MOVE_MULT if self.phase != NONE else 1.0
-        moving_now = vx != 0.0 or vy != 0.0
-        if vx != 0.0:
-            self.facing_left = vx < 0.0
-        if moving_now != self.moving:
-            self.moving, self.clip_tick = moving_now, 0
+        if dodge and self.dodge is not None and self.dodge_ticks == 0 and self.dodge_cooldown == 0 and self.phase == NONE:
+            dx, dy = (vx, vy) if (vx != 0.0 or vy != 0.0) else self.facing
+            length = math.sqrt(dx * dx + dy * dy)
+            self.dodge_dir = (dx / length, dy / length)
+            self.facing = self.dodge_dir
+            if self.dodge_dir[0] != 0.0:
+                self.facing_left = self.dodge_dir[0] < 0.0
+            self.dodge_ticks, self.dodge_cooldown = self.dodge["ticks"], self.dodge["cooldown"]
+            self.iframes = max(self.iframes, self.dodge["iframes"])
+        if self.dodge_ticks > 0:
+            self.dodge_ticks -= 1
+            if not self.moving:
+                self.moving, self.clip_tick = True, 0
+            else:
+                self.clip_tick += 1
+            self.x, self.y = mv.step(self.x, self.y, self.dodge_dir[0], self.dodge_dir[1],
+                                     self.speed * self.dodge["speed_mult_x100"] / 100, self.grid, self.props)
         else:
-            self.clip_tick += 1
-        self.x, self.y = mv.step(self.x, self.y, vx, vy, self.speed * mult, self.grid, self.props)
+            if (vx != 0.0 or vy != 0.0) and self.phase in (NONE, STARTUP):
+                length = math.sqrt(vx * vx + vy * vy)
+                self.facing = (vx / length, vy / length)
+            mult = ATTACK_MOVE_MULT if self.phase != NONE else 1.0
+            moving_now = vx != 0.0 or vy != 0.0
+            if vx != 0.0:
+                self.facing_left = vx < 0.0
+            if moving_now != self.moving:
+                self.moving, self.clip_tick = moving_now, 0
+            else:
+                self.clip_tick += 1
+            self.x, self.y = mv.step(self.x, self.y, vx, vy, self.speed * mult, self.grid, self.props)
 
-        if attack and self.phase == NONE and self.cooldown == 0:
-            self.phase, self.phase_tick, self.cooldown = STARTUP, 0, self.skill["cooldown"]
-            self.hit_set = set()
+            if attack and self.phase == NONE and self.cooldown == 0:
+                self.phase, self.phase_tick, self.cooldown = STARTUP, 0, self.skill["cooldown"]
+                self.hit_set = set()
         self._advance_attack()
 
         for index, enemy in enumerate(self.enemies):
@@ -252,6 +276,7 @@ class CombatSim:
             self.hp = self.derived["max_hp"]
             self.x, self.y = self.spawn
             self.phase, self.phase_tick = NONE, 0
+            self.dodge_ticks, self.dodge_cooldown = 0, 0
             self.iframes = RESPAWN_IFRAMES
 
     # ---------------------------------------------------------------------------------- saves
@@ -363,6 +388,7 @@ class CombatSim:
         self.hp = p["hp"]
         self.iframes, self.cooldown, self.phase, self.phase_tick = p["iframes"], p["cooldown"], p["phase"], p["phase_tick"]
         self.hit_set = {i for i, hit in enumerate(p["hit_set"]) if hit}
+        self.dodge_ticks, self.dodge_cooldown = 0, 0  # a roll in progress is not saved (spec 05)
         for name, stream in (("combat", self.combat), ("loot", self.loot)):
             stream.state = int(save["rng"][name]["state"], 16)
             stream.inc = int(save["rng"][name]["inc"], 16)
@@ -416,7 +442,7 @@ def run_segment(sim: CombatSim, segment: dict) -> None:
         elif command["cmd"] == "choose":
             sim.story.choose(command["index"])
     for _ in range(segment["ticks"]):
-        sim.tick(move[0], move[1], segment["attack"])
+        sim.tick(move[0], move[1], segment["attack"], segment.get("dodge", False))
 
 
 def run_scenario(scenario: dict) -> list[dict]:

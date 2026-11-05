@@ -11,6 +11,7 @@ SLIME = {
 }
 SLASH = {"startup": 6, "active": 4, "recovery": 10, "cooldown": 24, "power_pct": 100, "radius_x100": 160,
          "angle_deg": 110}
+DODGE = {"ticks": 12, "speed_mult_x100": 260, "iframes": 14, "cooldown": 40}  # base:skill/common/dodge (spec 05, "Dodge roll")
 PLAYER = {
     "start": [2.2, 4.5], "level": 1,
     "base_stats": {"str": 6, "vit": 7, "dex": 8, "agi": 8, "int": 7, "wis": 7, "luk": 9},
@@ -61,8 +62,10 @@ def scenario(name: str, enemies: list[dict], script: list[dict], player: dict | 
     }
 
 
-def segment(ticks: int, move=(0, 0), attack=False, do=None) -> dict:
+def segment(ticks: int, move=(0, 0), attack=False, do=None, dodge=False) -> dict:
     result = {"ticks": ticks, "move": list(move), "attack": attack}
+    if dodge:
+        result["dodge"] = True
     if do:
         result["do"] = do
     return result
@@ -133,6 +136,24 @@ def build_scenarios() -> list[dict]:
                                          enemy(3.4, 4.3, id=target, **passive)],
                  [segment(1, do=[{"cmd": "start_quest", "quest": quest["id"]}]), segment(40, attack=True), segment(20)],
                  story={"quests": {quest["id"]: quest}, "dialogues": {}, "npcs": []}),
+        # The dodge roll (spec 05): a roll of 12 ticks at 2.6 times the speed in the direction of the input, a cooldown that refuses the second
+        # roll, then a third one (down) once the cooldown has run out; the roll is the same without input (the facing); against a wall it stops at the wall.
+        scenario("dodge_roll", [enemy(12.0, 7.5, **passive)],
+                 [segment(5, move=(1, 0)), segment(1, move=(1, 0), dodge=True), segment(20), segment(1, move=(0, 1), dodge=True),
+                  segment(30), segment(1, move=(0, 1), dodge=True), segment(45), segment(1, dodge=True), segment(30)],
+                 dodge=DODGE),
+        # Held down, the dodge starts again every time the cooldown ends (every 40 ticks), also against the east wall.
+        scenario("dodge_cooldown", [enemy(12.0, 7.5, **passive)], [segment(130, move=(1, 0), dodge=True)], dodge=DODGE),
+        # The slime of "chase_hurts_then_dies" lands its first blow at about tick 90 and the roll started at tick 75 is in the air: no damage
+        # for 14 ticks of invulnerability; the same moment without the skill (the dodge input is ignored) costs health.
+        scenario("dodge_iframes", [enemy(8.1, 4.5)],
+                 [segment(75), segment(1, move=(-1, 0), dodge=True), segment(60), segment(60)], dodge=DODGE),
+        scenario("dodge_without_skill", [enemy(8.1, 4.5)],
+                 [segment(75), segment(1, move=(-1, 0), dodge=True), segment(60), segment(60)]),
+        # Attack and dodge together: the dodge wins; an attack in the middle of a swing blocks the dodge.
+        scenario("dodge_and_attack", [enemy(3.5, 4.5, **passive)],
+                 [segment(3, attack=True), segment(1, move=(0, 1), attack=True, dodge=True), segment(40, attack=True),
+                  segment(1, move=(0, -1), attack=True, dodge=True), segment(20)], dodge=DODGE),
         scenario("leash_and_return", [enemy(4.0, 4.5, behavior_overrides={"leash_x100": 300})],
                  [segment(20, attack=True), segment(150, move=(1, 0)), segment(250)]),
     ]

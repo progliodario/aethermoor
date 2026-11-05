@@ -14,6 +14,15 @@ data class SkillDef(
     val angleDeg: Int = 110,
 )
 
+/** The dodge roll (spec 05, "Dodge roll"): from a skill of type "movement"; [enabled] is false when the protagonist has none. */
+data class DodgeDef(
+    val enabled: Boolean = false,
+    val ticks: Int = 12,
+    val speedMultX100: Int = 260,
+    val iframes: Int = 14,
+    val cooldown: Int = 40,
+)
+
 data class DropDef(val item: String, val qtyMin: Long, val qtyMax: Long, val weightPm: Long)
 
 data class BehaviorDef(
@@ -90,6 +99,8 @@ class CombatSetup(
     val startArmor: String = "",
     /** The shop of fixed maps and scenarios (streamed worlds use their regions). */
     val shop: ShopDef? = null,
+    /** The dodge roll of the protagonist (spec 05). */
+    val dodge: DodgeDef = DodgeDef(),
 )
 
 enum class AttackPhase { NONE, STARTUP, ACTIVE, RECOVERY }

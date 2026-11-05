@@ -38,6 +38,9 @@ struct Player {
     int cooldown = 0;
     AttackPhase phase = AttackPhase::None;
     int phase_tick = 0;
+    int dodge_ticks = 0;     // ticks of the dodge roll left (spec 05); not saved
+    int dodge_cooldown = 0;  // ticks until the next roll; not saved
+    Vec2 dodge_dir{1.0F, 0.0F};
 };
 
 struct Enemy {
@@ -129,7 +132,7 @@ public:
              std::optional<StreamConfig> stream = std::nullopt);
 
     // One fixed tick (1/60 s) with the raw movement input and the attack input of this tick.
-    void tick(float raw_x, float raw_y, bool attack = false);
+    void tick(float raw_x, float raw_y, bool attack = false, bool dodge = false);
 
     const Player& player() const { return m_player_; }
     const TileMap& map() const { return m_map_; }

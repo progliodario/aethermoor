@@ -1,13 +1,15 @@
 # 05. Combat v1
 
 Status: **v1 (M3 slice)**. Reference: `tools/reference/combat.py`. Conformance suite: `combat` (scenarios).
-Formulas are in `04-stats-and-combat.md`. Not in v1: mana skills, dodge, parry, status effects, stagger, projectiles,
-companions, bosses.
+Formulas are in `04-stats-and-combat.md`. The **dodge roll** (below) is in v1.1. Not yet: mana skills, parry, status effects, stagger, projectiles,
+companions.
 
 ## Data used
 
 - **Skill** (`schemas/skill.schema.json`): `timing {startup, active, recovery}` in ticks, `cooldown_ticks`,
   `damage {kind, element, power_pct}` and `hitbox {shape: "arc", radius_x100, angle_deg}`.
+- **Dodge skill** (a skill of `type: "movement"` with a `movement` block): `timing.active` is the length of the roll in ticks, `cooldown_ticks`, and
+  `movement {speed_mult_x100, iframes}`. A protagonist whose `starting_skills` hold none cannot dodge. In scenarios it is the object `dodge {ticks, speed_mult_x100, iframes, cooldown}`.
 - **Enemy** (`schemas/enemy.schema.json`): `level`, `stats {hp, atk, def, mdef, speed_x100}`, `xp`, `radius_x100`,
   `drops`, `behavior` and `art`.
 - **Behavior** (`schemas/behavior.schema.json`): v1 has one kind, `melee_chaser` (the base pack has six sets of numbers for it: `melee_chaser_basic`, the shy `skittish`, the far-seeing `stalker`, the heavy `brute`, the long-reaching `lunger` and the post-bound `guardian`), with `aggro_x100`, `leash_x100`,
@@ -29,7 +31,8 @@ companions, bosses.
 
 ## Player state per tick (in this order)
 
-1. `iframes` and `cooldown` decrease by 1 when positive.
+1. `iframes`, `cooldown` and `dodge_cooldown` decrease by 1 when positive.
+1b. **Dodge start** (see "Dodge roll"). While a dodge is in progress, steps 2 and 3 are replaced by the roll movement and the attack phase stays `none`.
 2. Movement input is normalized (spec 02). When it is non-zero and the attack phase is `none` or `startup`, `facing`
    becomes the unit vector of the input. Movement runs with the speed multiplied by 0.5 while the attack phase is not `none`.
 3. **Attack start**: if the attack input is held, the phase is `none` and `cooldown == 0`: phase `startup`,
@@ -39,6 +42,20 @@ companions, bosses.
    - `active`: first run the hit test, then `phase_tick++`; when `phase_tick >= active` the phase becomes `recovery`.
    - `recovery`: `phase_tick++`; when `phase_tick >= recovery` the phase becomes `none`.
 5. Enemies update in list order.
+
+## Dodge roll
+
+The dodge is a short roll in a direction, with invulnerability. State per player: `dodge_ticks` (ticks of the roll left), `dodge_cooldown` and `dodge_dir` (a unit vector). None of them is saved
+(spec 12): loading a game, or a death, ends a roll and clears the cooldown.
+
+- **Start**, in step 1b of the tick, when the `dodge` input is held, the player can dodge (the game has a dodge skill, no dialogue is open), `dodge_ticks == 0`, `dodge_cooldown == 0` and the attack phase is `none`:
+  `dodge_dir` is the normalized movement input when it is non-zero, else `facing`; `facing` becomes `dodge_dir` (and `facing_left` follows its horizontal sign);
+  `dodge_ticks = ticks` (`timing.active`), `dodge_cooldown = cooldown`, `iframes = max(iframes, iframes_of_the_dodge)`. The dodge wins over an attack input of the same tick.
+- **While `dodge_ticks > 0`** (including the start tick): movement and attack inputs are ignored; the player moves along `dodge_dir` with speed `move_speed * speed_mult_x100 / 100` (the usual step and
+  collision of spec 02); `dodge_ticks--`; the player counts as moving for the clip (`walk`). The attack phase does not advance (it is `none`). Enemies update as always: their hit needs `iframes == 0` (see "Hurting the player"), so the
+  roll avoids a blow that lands while `iframes` lasts. `iframes` counts down as usual.
+- **Base pack**: `base:skill/common/dodge`: a roll of 12 ticks (0.2 s) at 2.6 times the speed (about two tiles), 14 ticks of invulnerability, a cooldown of 40 ticks (counted from the start, so a new roll is possible 0.67 s later).
+- Not in v1.1: stamina or mana cost, rolling out of an attack recovery, a perfect-dodge bonus. The conformance scenarios are `dodge_roll`, `dodge_cooldown` and `dodge_iframes`.
 
 ## Hit test (active ticks)
 

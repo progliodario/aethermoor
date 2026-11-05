@@ -3,6 +3,7 @@ package io.github.progliodario.aethermoor.core
 import io.github.progliodario.aethermoor.core.sim.ArmorStats
 import io.github.progliodario.aethermoor.core.sim.BehaviorDef
 import io.github.progliodario.aethermoor.core.sim.CombatSetup
+import io.github.progliodario.aethermoor.core.sim.DodgeDef
 import io.github.progliodario.aethermoor.core.sim.DropDef
 import io.github.progliodario.aethermoor.core.sim.EnemyDef
 import io.github.progliodario.aethermoor.core.sim.EnemySpawn
@@ -84,6 +85,15 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
             s.getValue("recovery").jsonPrimitive.int, s.getValue("cooldown").jsonPrimitive.int,
             s.long("power_pct"), s.getValue("radius_x100").jsonPrimitive.int, s.getValue("angle_deg").jsonPrimitive.int,
         ),
+        dodge = input["dodge"]?.jsonObject?.let { d ->
+            DodgeDef(
+                enabled = true,
+                ticks = d.getValue("ticks").jsonPrimitive.int,
+                speedMultX100 = d.getValue("speed_mult_x100").jsonPrimitive.int,
+                iframes = d.getValue("iframes").jsonPrimitive.int,
+                cooldown = d.getValue("cooldown").jsonPrimitive.int,
+            )
+        } ?: DodgeDef(),
         spawns = input.getValue("enemies").jsonArray.map {
             val e = it.jsonObject
             val pos = e.getValue("pos").jsonArray
@@ -123,6 +133,7 @@ internal fun newSim(world: ScenarioWorld) =
 internal fun runSegment(sim: WorldSim, segment: JsonObject) {
     val move = segment.getValue("move").jsonArray
     val attack = segment.getValue("attack").jsonPrimitive.boolean
+    val dodge = segment["dodge"]?.jsonPrimitive?.boolean ?: false
     for (command in segment["do"]?.jsonArray ?: JsonArray(emptyList())) {
         val cmd = command.jsonObject
         when (cmd.getValue("cmd").jsonPrimitive.content) {
@@ -138,7 +149,7 @@ internal fun runSegment(sim: WorldSim, segment: JsonObject) {
             "choose" -> sim.story.choose(cmd.getValue("index").jsonPrimitive.int)
         }
     }
-    repeat(segment.getValue("ticks").jsonPrimitive.int) { sim.tick(move[0].num(), move[1].num(), attack) }
+    repeat(segment.getValue("ticks").jsonPrimitive.int) { sim.tick(move[0].num(), move[1].num(), attack, dodge) }
 }
 
 private fun assertNear(wanted: Float, actual: Float, tol: Float, message: String) {

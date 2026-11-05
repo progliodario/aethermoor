@@ -126,6 +126,21 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
             error = "the protagonist has no skill with a hitbox";
             return std::nullopt;
         }
+        for (const std::string& skill_id :
+             protagonist->starting_skills) {  // the dodge roll: a skill with a `movement` block
+            const auto skill = document(pack, skill_id, error);
+            if (!skill) {
+                return std::nullopt;
+            }
+            if (skill->contains("movement")) {
+                setup.dodge.enabled = true;
+                setup.dodge.ticks = skill->at("timing").at("active").get<int>();
+                setup.dodge.cooldown = skill->at("cooldown_ticks").get<int>();
+                setup.dodge.speed_mult_x100 = skill->at("movement").at("speed_mult_x100").get<int>();
+                setup.dodge.iframes = skill->at("movement").at("iframes").get<int>();
+                break;
+            }
+        }
     } catch (const Json::exception& e) {
         error = e.what();
         return std::nullopt;

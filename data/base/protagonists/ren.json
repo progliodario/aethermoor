@@ -12,6 +12,6 @@
     { "item": "base:item/practice_sword", "qty": 1 },
     { "item": "base:item/bread", "qty": 3 }
   ],
-  "starting_skills": ["base:skill/common/slash", "base:skill/ren/analyze"],
+  "starting_skills": ["base:skill/common/slash", "base:skill/common/dodge", "base:skill/ren/analyze"],
   "initially_available": true
 }
