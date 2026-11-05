@@ -5,7 +5,7 @@ import com.badlogic.gdx.Input
 import kotlin.math.sqrt
 
 /** Input of one frame: raw movement vector (the simulation normalizes it) and the attack button. */
-data class FrameInput(val x: Float, val y: Float, val attack: Boolean)
+data class FrameInput(val x: Float, val y: Float, val attack: Boolean, val dodge: Boolean = false)
 
 /**
  * Input (spec 16): WASD/arrow keys and J/Space to attack, and on touch screens a floating stick on the left half
@@ -17,6 +17,9 @@ class InputController {
 
     /** Screen rectangle (x, y, w, h in pixels, y down) whose touches never count as the attack button. */
     var attackExcludedRect: FloatArray? = null
+
+    /** Screen rectangle of the dodge button (x, y, w, h in pixels, y down); a touch on it is a dodge, never an attack. */
+    var dodgeRect: FloatArray? = null
     private var originX = 0f
     private var originY = 0f
 
@@ -45,11 +48,15 @@ class InputController {
             (0 until MAX_POINTERS).any {
                 input.isTouched(it) && input.getX(it) >= Gdx.graphics.width / 2 && !inExcludedRect(input.getX(it), input.getY(it))
             }
-        return FrameInput(x, y, attack)
+        val dodge = input.isKeyPressed(Input.Keys.L) || input.isKeyPressed(Input.Keys.SHIFT_LEFT) ||
+            (0 until MAX_POINTERS).any { input.isTouched(it) && inRect(dodgeRect, input.getX(it), input.getY(it)) }
+        return FrameInput(x, y, attack, dodge)
     }
 
-    private fun inExcludedRect(x: Int, y: Int): Boolean {
-        val r = attackExcludedRect ?: return false
+    private fun inExcludedRect(x: Int, y: Int): Boolean = inRect(attackExcludedRect, x, y) || inRect(dodgeRect, x, y)
+
+    private fun inRect(r: FloatArray?, x: Int, y: Int): Boolean {
+        if (r == null) return false
         return x >= r[0] && x <= r[0] + r[2] && y >= r[1] && y <= r[1] + r[3]
     }
 

@@ -428,7 +428,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             accumulator += min(Gdx.graphics.deltaTime, MAX_FRAME_SECONDS)
             var ticks = 0
             while (accumulator >= TICK_DT && ticks < MAX_TICKS_PER_FRAME) {
-                world.tick(frame.x, frame.y, frame.attack)
+                world.tick(frame.x, frame.y, frame.attack, frame.dodge)
                 accumulator -= TICK_DT
                 ticks++
             }
@@ -499,6 +499,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         drawMinimap(world)
         drawTexts(world, data, cam.x, cam.y, tile)
         drawStory(world, data)
+        drawDodgeButton(world, data)
         drawStick()
     }
 
@@ -1705,6 +1706,30 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (hasGoal) place(goalX, goalY, true, 5f * density, Color(0.35f, 1f, 0.47f, 1f))
         place(world.player.position.x, world.player.position.y, false, 5f * density, Color(1f, 0.2f, 0.2f, 1f))
         shapes.end()
+    }
+
+    /** The dodge button, bottom right: held, it rolls (spec 05, "Dodge roll"); a touch on it is never an attack. */
+    private fun drawDodgeButton(world: WorldSim, data: Assets) {
+        val density = Gdx.graphics.density
+        val size = 84f * density
+        val rect = floatArrayOf(Gdx.graphics.width - size - 24f * density, Gdx.graphics.height - size - 24f * density, size, size)
+        val visible = !world.story.dialogueActive && !showMap && !showInventory && !showJournal
+        input.dodgeRect = rect.takeIf { visible }
+        if (!visible) return
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        shapes.color = Color(0.04f, 0.12f, 0.23f, 0.7f)
+        shapes.rect(rect[0], rect[1], rect[2], rect[3])
+        shapes.end()
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        val label = data.pack.text(language, "\$i18n:ui.dodge")
+        layout.setText(font, label)
+        font.color = Color.WHITE
+        font.draw(batch, label, rect[0] + (size - layout.width) / 2f, rect[1] + (size - font.lineHeight) / 2f)
+        batch.end()
     }
 
     /** Text over the world with a dark edge, in the current color of the font. */

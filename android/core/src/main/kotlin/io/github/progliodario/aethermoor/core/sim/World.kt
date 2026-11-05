@@ -56,6 +56,11 @@ class Player(var position: Vec2) {
     var cooldown = 0
     var phase = AttackPhase.NONE
     var phaseTick = 0
+
+    /** The dodge roll (spec 05): ticks left, ticks until the next one, and the direction. Not saved. */
+    var dodgeTicks = 0
+    var dodgeCooldown = 0
+    var dodgeDir = Vec2(1f, 0f)
 }
 
 class Enemy(val def: EnemyDef, var position: Vec2) {
@@ -511,7 +516,7 @@ class WorldSim(
     }
 
     /** One fixed tick (1/60 s) with the raw movement input and the attack input of this tick. */
-    fun tick(rawXIn: Float, rawYIn: Float, attackIn: Boolean = false) {
+    fun tick(rawXIn: Float, rawYIn: Float, attackIn: Boolean = false, dodgeIn: Boolean = false) {
         worldTicks++
         syncWindow()
         if (chunks != null && windowValid && timeOfDayPm() != routineTod) refreshPeople(windowX, windowY) // somebody goes home or comes out (spec 08)
@@ -520,35 +525,60 @@ class WorldSim(
         val rawX = if (frozen) 0f else rawXIn
         val rawY = if (frozen) 0f else rawYIn
         val attack = attackIn && !frozen
+        val dodge = dodgeIn && !frozen
         val p = player
         val enabled = combat.enabled
         if (p.iframes > 0) p.iframes--
         if (p.cooldown > 0) p.cooldown--
+        if (p.dodgeCooldown > 0) p.dodgeCooldown--
 
         val direction = normalizeInput(rawX, rawY)
         val moving = direction.x != 0f || direction.y != 0f
-        if (enabled && moving && (p.phase == AttackPhase.NONE || p.phase == AttackPhase.STARTUP)) {
-            val length = sqrt(direction.x * direction.x + direction.y * direction.y)
-            p.facing = Vec2(direction.x / length, direction.y / length)
+        if (enabled && dodge && combat.dodge.enabled && p.dodgeTicks == 0 && p.dodgeCooldown == 0 && p.phase == AttackPhase.NONE) {
+            // The dodge roll starts (spec 05, "Dodge roll").
+            val way = if (moving) direction else p.facing
+            val length = sqrt(way.x * way.x + way.y * way.y)
+            p.dodgeDir = Vec2(way.x / length, way.y / length)
+            p.facing = p.dodgeDir
+            if (p.dodgeDir.x != 0f) p.facingLeft = p.dodgeDir.x < 0f
+            p.dodgeTicks = combat.dodge.ticks
+            p.dodgeCooldown = combat.dodge.cooldown
+            p.iframes = max(p.iframes, combat.dodge.iframes)
         }
-        var speed = if (enabled) derived.moveSpeedX100.toFloat() / 100f else speedTilesPerS
-        if (enabled && p.phase != AttackPhase.NONE) speed *= ATTACK_MOVE_MULT
-        p.position = collision.step(p.position, direction, speed)
-
-        if (direction.x != 0f) p.facingLeft = direction.x < 0f
-        if (moving != p.moving) {
-            p.moving = moving
-            p.clipTick = 0
+        if (p.dodgeTicks > 0) {
+            p.dodgeTicks--
+            if (!p.moving) {
+                p.moving = true
+                p.clipTick = 0
+            } else {
+                p.clipTick++
+            }
+            val rollSpeed = derived.moveSpeedX100.toFloat() / 100f * combat.dodge.speedMultX100.toFloat() / 100f
+            p.position = collision.step(p.position, p.dodgeDir, rollSpeed)
         } else {
-            p.clipTick++
-        }
+            if (enabled && moving && (p.phase == AttackPhase.NONE || p.phase == AttackPhase.STARTUP)) {
+                val length = sqrt(direction.x * direction.x + direction.y * direction.y)
+                p.facing = Vec2(direction.x / length, direction.y / length)
+            }
+            var speed = if (enabled) derived.moveSpeedX100.toFloat() / 100f else speedTilesPerS
+            if (enabled && p.phase != AttackPhase.NONE) speed *= ATTACK_MOVE_MULT
+            p.position = collision.step(p.position, direction, speed)
 
-        if (!enabled) return
-        if (attack && p.phase == AttackPhase.NONE && p.cooldown == 0) {
-            p.phase = AttackPhase.STARTUP
-            p.phaseTick = 0
-            p.cooldown = combat.skill.cooldown
-            hitSet.replaceAll { false }
+            if (direction.x != 0f) p.facingLeft = direction.x < 0f
+            if (moving != p.moving) {
+                p.moving = moving
+                p.clipTick = 0
+            } else {
+                p.clipTick++
+            }
+
+            if (!enabled) return
+            if (attack && p.phase == AttackPhase.NONE && p.cooldown == 0) {
+                p.phase = AttackPhase.STARTUP
+                p.phaseTick = 0
+                p.cooldown = combat.skill.cooldown
+                hitSet.replaceAll { false }
+            }
         }
         advanceAttack()
         for (enemy in enemies) {
@@ -726,6 +756,8 @@ class WorldSim(
             p.position = spawn
             p.phase = AttackPhase.NONE
             p.phaseTick = 0
+            p.dodgeTicks = 0
+            p.dodgeCooldown = 0
             p.iframes = RESPAWN_IFRAMES
         }
     }
@@ -795,6 +827,8 @@ class WorldSim(
         p.kills = s.kills
         p.iframes = s.iframes
         p.cooldown = s.cooldown
+        p.dodgeTicks = 0 // a roll in progress is not saved (spec 05)
+        p.dodgeCooldown = 0
         p.phase = s.phase
         p.phaseTick = s.phaseTick
         if (chunks != null) {

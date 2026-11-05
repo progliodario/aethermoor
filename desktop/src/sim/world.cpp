@@ -514,7 +514,7 @@ bool WorldSim::use_item(const std::string& item_id) {
 
 std::vector<DamageEvent> WorldSim::take_events() { return std::exchange(m_events_, {}); }
 
-void WorldSim::tick(float raw_x, float raw_y, bool attack) {
+void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge) {
     Player& p = m_player_;
     const bool combat = m_setup_.enabled;
     ++m_world_ticks_;
@@ -527,6 +527,7 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack) {
         raw_x = 0.0F;
         raw_y = 0.0F;
         attack = false;
+        dodge = false;
     }
     if (p.iframes > 0) {
         --p.iframes;
@@ -534,37 +535,66 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack) {
     if (p.cooldown > 0) {
         --p.cooldown;
     }
+    if (p.dodge_cooldown > 0) {
+        --p.dodge_cooldown;
+    }
 
     const Vec2 direction = normalize_input(raw_x, raw_y);
     const bool moving = direction.x != 0.0F || direction.y != 0.0F;
-    if (combat && moving && (p.phase == AttackPhase::None || p.phase == AttackPhase::Startup)) {
-        const float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
-        p.facing = {direction.x / length, direction.y / length};
+    if (combat && dodge && m_setup_.dodge.enabled && p.dodge_ticks == 0 && p.dodge_cooldown == 0 &&
+        p.phase == AttackPhase::None) {  // the dodge roll starts (spec 05, "Dodge roll")
+        const Vec2 way = moving ? direction : p.facing;
+        const float length = std::sqrt(way.x * way.x + way.y * way.y);
+        p.dodge_dir = {way.x / length, way.y / length};
+        p.facing = p.dodge_dir;
+        if (p.dodge_dir.x != 0.0F) {
+            p.facing_left = p.dodge_dir.x < 0.0F;
+        }
+        p.dodge_ticks = m_setup_.dodge.ticks;
+        p.dodge_cooldown = m_setup_.dodge.cooldown;
+        p.iframes = std::max(p.iframes, m_setup_.dodge.iframes);
     }
-    float speed = combat ? static_cast<float>(m_derived_.move_speed_x100) / 100.0F : m_speed_;
-    if (combat && p.phase != AttackPhase::None) {
-        speed *= kAttackMoveMult;
-    }
-    m_collision_.step(p.position, direction, speed);
-
-    if (direction.x != 0.0F) {
-        p.facing_left = direction.x < 0.0F;
-    }
-    if (moving != p.moving) {
-        p.moving = moving;
-        p.clip_tick = 0;
+    if (p.dodge_ticks > 0) {
+        --p.dodge_ticks;
+        if (!p.moving) {
+            p.moving = true;
+            p.clip_tick = 0;
+        } else {
+            ++p.clip_tick;
+        }
+        const float roll_speed = static_cast<float>(m_derived_.move_speed_x100) / 100.0F *
+                                 static_cast<float>(m_setup_.dodge.speed_mult_x100) / 100.0F;
+        m_collision_.step(p.position, p.dodge_dir, roll_speed);
     } else {
-        ++p.clip_tick;
-    }
+        if (combat && moving && (p.phase == AttackPhase::None || p.phase == AttackPhase::Startup)) {
+            const float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
+            p.facing = {direction.x / length, direction.y / length};
+        }
+        float speed = combat ? static_cast<float>(m_derived_.move_speed_x100) / 100.0F : m_speed_;
+        if (combat && p.phase != AttackPhase::None) {
+            speed *= kAttackMoveMult;
+        }
+        m_collision_.step(p.position, direction, speed);
 
-    if (!combat) {
-        return;
-    }
-    if (attack && p.phase == AttackPhase::None && p.cooldown == 0) {
-        p.phase = AttackPhase::Startup;
-        p.phase_tick = 0;
-        p.cooldown = m_setup_.skill.cooldown;
-        std::fill(m_hit_set_.begin(), m_hit_set_.end(), false);
+        if (direction.x != 0.0F) {
+            p.facing_left = direction.x < 0.0F;
+        }
+        if (moving != p.moving) {
+            p.moving = moving;
+            p.clip_tick = 0;
+        } else {
+            ++p.clip_tick;
+        }
+
+        if (!combat) {
+            return;
+        }
+        if (attack && p.phase == AttackPhase::None && p.cooldown == 0) {
+            p.phase = AttackPhase::Startup;
+            p.phase_tick = 0;
+            p.cooldown = m_setup_.skill.cooldown;
+            std::fill(m_hit_set_.begin(), m_hit_set_.end(), false);
+        }
     }
     advance_attack();
     for (Enemy& enemy : m_enemies_) {
@@ -763,6 +793,8 @@ void WorldSim::hurt_player(const Enemy& enemy) {
         p.position = m_spawn_;
         p.phase = AttackPhase::None;
         p.phase_tick = 0;
+        p.dodge_ticks = 0;
+        p.dodge_cooldown = 0;
         p.iframes = kRespawnIframes;
     }
 }
@@ -871,6 +903,8 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
     p.phase = s.phase;
     p.phase_tick = s.phase_tick;
     m_hit_set_ = s.hit_set;
+    m_player_.dodge_ticks = 0;  // a roll in progress is not saved (spec 05)
+    m_player_.dodge_cooldown = 0;
     m_combat_rng_.set_state(s.combat_state, s.combat_inc);
     m_loot_rng_.set_state(s.loot_state, s.loot_inc);
     if (m_store_) {

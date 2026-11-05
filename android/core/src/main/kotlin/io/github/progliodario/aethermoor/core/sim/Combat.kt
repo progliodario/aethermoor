@@ -14,6 +14,15 @@ data class SkillDef(
     val angleDeg: Int = 110,
 )
 
+/** The dodge roll (spec 05, "Dodge roll"): from a skill of type "movement"; [enabled] is false when the protagonist has none. */
+data class DodgeDef(
+    val enabled: Boolean = false,
+    val ticks: Int = 12,
+    val speedMultX100: Int = 260,
+    val iframes: Int = 14,
+    val cooldown: Int = 40,
+)
+
 data class DropDef(val item: String, val qtyMin: Long, val qtyMax: Long, val weightPm: Long)
 
 data class BehaviorDef(
@@ -73,6 +82,7 @@ class CombatSetup(
     val enabled: Boolean = false,
     val player: PlayerSetup = PlayerSetup(),
     val skill: SkillDef = SkillDef(),
+    val dodge: DodgeDef = DodgeDef(),
     val spawns: List<EnemySpawn> = emptyList(),
     /** table[level - 1] = XP to go from `level` to `level + 1`. */
     val xpTable: List<Long> = emptyList(),

@@ -874,3 +874,53 @@ def test_region_ground_and_props_exist():
             assert sum(o["per_mille"] for o in options) <= 1000, (region["id"], biome)
             for o in options:
                 assert (data / "art" / "props" / f"{o['art'].rsplit('/', 1)[-1]}.json").exists(), (region["id"], o["art"])
+
+
+# --------------------------------------------------------------------------------- dodge roll (spec 05)
+
+
+def _dodge_scenarios():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    import conformance_m3 as m3
+    from reference import combat
+
+    return m3, combat
+
+
+def test_dodge_avoids_the_blow_that_lands_during_the_roll():
+    m3, combat = _dodge_scenarios()
+    script = [m3.segment(75), m3.segment(1, move=(-1, 0), dodge=True), m3.segment(60)]
+    with_skill = combat.run_scenario(m3.scenario("a", [m3.enemy(8.1, 4.5)], script, dodge=m3.DODGE))[-1]["player"]
+    without = combat.run_scenario(m3.scenario("b", [m3.enemy(8.1, 4.5)], script))[-1]["player"]
+    assert with_skill["hp"] > without["hp"]
+    assert with_skill["x"] < 1.5  # the roll took the player to the west wall
+    assert without["x"] > 1.9  # no skill: the dodge input did nothing special
+
+
+def test_dodge_has_a_cooldown_and_a_fixed_length():
+    m3, combat = _dodge_scenarios()
+    sim = combat.CombatSim(m3.scenario("c", [m3.enemy(12.0, 7.5, speed_x100=0)], [], dodge=m3.DODGE))
+    x0 = sim.x
+    sim.tick(1.0, 0.0, False, True)
+    assert sim.dodge_ticks == m3.DODGE["ticks"] - 1 and sim.dodge_cooldown == m3.DODGE["cooldown"]
+    for _ in range(m3.DODGE["ticks"] - 1):
+        sim.tick(0.0, 1.0, True, True)  # input is ignored during the roll
+    assert sim.dodge_ticks == 0 and sim.y == 4.5 and sim.phase == combat.NONE
+    distance = sim.x - x0
+    assert abs(distance - sim.speed * 2.6 * 12 / 60) < 0.05
+    sim.tick(1.0, 0.0, False, True)  # the cooldown has not run out: a normal step
+    assert sim.dodge_ticks == 0
+    for _ in range(m3.DODGE["cooldown"]):
+        sim.tick(0.0, 0.0, False, False)
+    sim.tick(0.0, 0.0, False, True)  # without input, the roll goes the way the player faces
+    assert sim.dodge_ticks == m3.DODGE["ticks"] - 1
+
+
+def test_dodge_is_not_saved():
+    m3, combat = _dodge_scenarios()
+    sim = combat.CombatSim(m3.scenario("d", [m3.enemy(12.0, 7.5, speed_x100=0)], [], dodge=m3.DODGE))
+    sim.tick(1.0, 0.0, False, True)
+    save = sim.save_state()
+    other = combat.CombatSim(m3.scenario("d", [m3.enemy(12.0, 7.5, speed_x100=0)], [], dodge=m3.DODGE))
+    other.load_state(save)
+    assert other.dodge_ticks == 0 and other.dodge_cooldown == 0

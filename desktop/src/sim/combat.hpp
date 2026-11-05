@@ -23,6 +23,16 @@ struct SkillDef {
     int angle_deg = 110;
 };
 
+// The dodge roll (spec 05, "Dodge roll"): from a skill of type "movement"; `enabled` is false when the protagonist has
+// none.
+struct DodgeDef {
+    bool enabled = false;
+    int ticks = 12;
+    int speed_mult_x100 = 260;
+    int iframes = 14;
+    int cooldown = 40;
+};
+
 struct DropDef {
     std::string item;
     std::int64_t qty_min = 1;
@@ -95,6 +105,7 @@ struct CombatSetup {
     bool enabled = false;
     PlayerSetup player;
     SkillDef skill;
+    DodgeDef dodge;
     std::vector<EnemySpawn> spawns;
     std::vector<std::int64_t> xp_table;  // table[level - 1] = XP to go from `level` to `level + 1`
     std::uint64_t seed = 0;

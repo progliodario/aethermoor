@@ -416,6 +416,14 @@ Scenario scenario_from_json(const Json& in) {
     setup.skill.power_pct = integer(skill, "power_pct");
     setup.skill.radius_x100 = skill.at("radius_x100").get<int>();
     setup.skill.angle_deg = skill.at("angle_deg").get<int>();
+    if (in.contains("dodge")) {
+        const Json& dodge = in.at("dodge");
+        setup.dodge.enabled = true;
+        setup.dodge.ticks = dodge.at("ticks").get<int>();
+        setup.dodge.speed_mult_x100 = dodge.at("speed_mult_x100").get<int>();
+        setup.dodge.iframes = dodge.at("iframes").get<int>();
+        setup.dodge.cooldown = dodge.at("cooldown").get<int>();
+    }
     for (const Json& v : in.at("xp_table")) {
         setup.xp_table.push_back(v.get<std::int64_t>());
     }
@@ -479,6 +487,7 @@ void run_segment(aether::WorldSim& sim, const Json& segment) {
     const float mx = segment.at("move").at(0).get<float>();
     const float my = segment.at("move").at(1).get<float>();
     const bool attack = segment.at("attack").get<bool>();
+    const bool dodge = segment.contains("dodge") && segment.at("dodge").get<bool>();
     if (segment.contains("do")) {
         for (const Json& command : segment.at("do")) {
             const std::string cmd = command.at("cmd").get<std::string>();
@@ -506,7 +515,7 @@ void run_segment(aether::WorldSim& sim, const Json& segment) {
         }
     }
     for (int tick = 0; tick < segment.at("ticks").get<int>(); ++tick) {
-        sim.tick(mx, my, attack);
+        sim.tick(mx, my, attack, dodge);
     }
 }
 

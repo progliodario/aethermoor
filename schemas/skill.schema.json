@@ -133,6 +133,25 @@
         "type": "string"
       }
     },
+    "movement": {
+      "type": "object",
+      "required": [
+        "speed_mult_x100",
+        "iframes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "speed_mult_x100": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 1000
+        },
+        "iframes": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
     "hitbox": {
       "type": "object",
       "required": [

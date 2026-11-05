@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/skill.schema.json",
+  "id": "base:skill/common/dodge",
+  "name": "$i18n:skill.common.dodge.name",
+  "description": "$i18n:skill.common.dodge.desc",
+  "type": "movement",
+  "cost": {
+    "mp": 0
+  },
+  "cooldown_ticks": 40,
+  "timing": {
+    "startup": 0,
+    "active": 12,
+    "recovery": 0
+  },
+  "tags": [
+    "movement",
+    "basic"
+  ],
+  "movement": {
+    "speed_mult_x100": 260,
+    "iframes": 14
+  }
+}
