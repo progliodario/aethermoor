@@ -271,7 +271,8 @@ The view is presentation, not rules (no vectors): both clients draw the same thi
   of one cell on each side fits in the view. A new game, which has explored 3 x 3 cells, opens at level 4; a game that has crossed the world opens at level 0 or 1.
 - The player moves the view (a step is a sixth of the view), changes the level, goes back to the player (the view is centered on the player's position, same level) or frames the
   explored cells again. Keys, drag, wheel, pinch and buttons are in spec 16.
-- From level 3 the explored cells are drawn with a thin gap between them (a grid). Cells and markers outside the view are not drawn.
+- **Detail.** What is explored stays whole cells of 128 x 128 tiles, but a cell is drawn as a grid of `n x n` squares, `n = 1` at level 0 and `n = 2^level` from level 1 (2, 4, 8, 16), so that a square stays about 4 or 5 pixels at every zoom. The square `(i, j)` (column, row, from the top left) has the
+  biome code of the tile at `(cell_x * 128 + (2i + 1) * 128 / (2n), cell_y * 128 + (2j + 1) * 128 / (2n))` (`biome_code_at`, integer division): at `n = 1` the center of the cell, as before; at `n = 16` one square is 8 x 8 tiles. Coasts, mountain ranges, deserts and snow are visible as shapes when zoomed in. Cells and markers outside the view are not drawn.
 - Markers: settlements (hamlets, villages, towns) in yellow, the other sites (dungeons, lairs, nests) in violet; their size grows with the level.
   A name is drawn at the first free side of its marker (right, left, below, above) where it is entirely inside the view and over no marker and no name already drawn, in this order of priority:
   towns, villages, other sites, then hamlets (hamlets only from level 3). The names of the regions follow (below their center, above it, or on it, the same way) when their center is explored. Text on the map has a dark edge.
@@ -279,7 +280,7 @@ The view is presentation, not rules (no vectors): both clients draw the same thi
 - Under the view: the keys, the position in tiles and the zoom (`You are at x, y   zoom 4x`) and a legend of the three colors.
 
 Conformance suite `worldmap`: scripted positions through a 16384 x 16384 world (also at the corners and edges): the number of explored cells and their digest
-(`fold hash64(h, x, y)` ordered by row, then column), and the biome codes of 40 cells.
+(`fold hash64(h, x, y)` ordered by row, then column), the biome codes of 40 cells (`biome_code`) and of 60 tiles (`biome_code_at`).
 
 ## Scale and what comes next
 

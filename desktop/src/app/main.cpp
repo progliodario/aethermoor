@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <cctype>
 #include <cmath>
+#include <array>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
@@ -79,6 +80,8 @@ struct Ui {
     mutable std::map<std::pair<int, int>, int>
         map_codes;  // biome code of the explored cells, filled when the map is drawn
     // The view of the world map (spec 09, "The map view"): zoom level, the cell at its center, and what was drawn last.
+    // The biome codes of the sampled tiles of a cell {x, y, n}: n x n of them, row by row (see draw_world_map).
+    mutable std::map<std::array<int, 3>, std::vector<std::uint8_t>> map_detail;
     mutable int map_level = -1;  // -1: frame what was explored when the map is drawn next
     mutable float map_cx = 0.0F;
     mutable float map_cy = 0.0F;
@@ -579,20 +582,49 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
                   g.cell * static_cast<float>(rows), 20, 36, 66, 255);  // the world, still unexplored
     static const Uint8 kColors[7][3] = {{60, 110, 190},  {222, 206, 150}, {130, 130, 140}, {235, 240, 245},
                                         {222, 206, 150}, {60, 130, 70},   {110, 180, 90}};
-    const float gap = ui.map_level >= 3 ? 1.0F : 0.0F;  // a thin grid when the cells are big
+    // A cell is drawn as a grid of n x n sampled tiles (n = 1, 2, 4, 8, 16 from level 1), so that the squares stay
+    // about 4 or 5 pixels whatever the zoom: the shape of coasts, mountains and deserts shows when the map is zoomed
+    // in.
+    const int n = ui.map_level <= 0 ? 1 : 1 << ui.map_level;
+    if (ui.map_detail.size() > 6000) {
+        ui.map_detail.clear();
+    }
     for (const auto& [x, y] : sim.explored()) {
         const float sx = g.to_x(static_cast<float>(x));
         const float sy = g.to_y(static_cast<float>(y));
         if (sx > g.x + g.side || sy > g.y + g.side || sx + g.cell < g.x || sy + g.cell < g.y) {
             continue;
         }
-        auto code = ui.map_codes.find({x, y});
-        if (code == ui.map_codes.end()) {
-            code = ui.map_codes.emplace(std::make_pair(x, y), aether::biome_code(store->seed(), params, x, y)).first;
+        if (n == 1) {
+            auto code = ui.map_codes.find({x, y});
+            if (code == ui.map_codes.end()) {
+                code =
+                    ui.map_codes.emplace(std::make_pair(x, y), aether::biome_code(store->seed(), params, x, y)).first;
+            }
+            const Uint8* color = kColors[code->second];
+            fill_map_rect(renderer, g, sx, sy, std::ceil(g.cell), std::ceil(g.cell), color[0], color[1], color[2], 255);
+            continue;
         }
-        const Uint8* color = kColors[code->second];
-        fill_map_rect(renderer, g, sx, sy, std::ceil(g.cell) - gap, std::ceil(g.cell) - gap, color[0], color[1],
-                      color[2], 255);
+        auto detail = ui.map_detail.find({x, y, n});
+        if (detail == ui.map_detail.end()) {
+            std::vector<std::uint8_t> codes(static_cast<std::size_t>(n) * static_cast<std::size_t>(n));
+            for (int j = 0; j < n; ++j) {
+                for (int i = 0; i < n; ++i) {
+                    codes[static_cast<std::size_t>(j * n + i)] = static_cast<std::uint8_t>(aether::biome_code_at(
+                        store->seed(), params, x * aether::kMapCell + (2 * i + 1) * aether::kMapCell / (2 * n),
+                        y * aether::kMapCell + (2 * j + 1) * aether::kMapCell / (2 * n)));
+                }
+            }
+            detail = ui.map_detail.emplace(std::array<int, 3>{x, y, n}, std::move(codes)).first;
+        }
+        const float sub = g.cell / static_cast<float>(n);
+        for (int j = 0; j < n; ++j) {
+            for (int i = 0; i < n; ++i) {
+                const Uint8* color = kColors[detail->second[static_cast<std::size_t>(j * n + i)]];
+                fill_map_rect(renderer, g, sx + sub * static_cast<float>(i), sy + sub * static_cast<float>(j),
+                              std::ceil(sub), std::ceil(sub), color[0], color[1], color[2], 255);
+            }
+        }
     }
 
     // The places found: settlements in yellow, dungeons and other sites in violet; their names when they fit.

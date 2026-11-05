@@ -734,7 +734,10 @@ const val MAP_CELL = 128
 
 /** Biome code of a cell: 0 water, 1 beach, 2 mountain, 3 snow, 4 desert, 5 forest, 6 plains. */
 fun biomeCode(seed: ULong, p: WorldParams, cellX: Int, cellY: Int): Int =
-    biomeAt(seed, p, cellX * MAP_CELL + MAP_CELL / 2, cellY * MAP_CELL + MAP_CELL / 2).ordinal
+    biomeCodeAt(seed, p, cellX * MAP_CELL + MAP_CELL / 2, cellY * MAP_CELL + MAP_CELL / 2)
+
+/** The same code for one tile: the map draws a zoomed cell as a grid of these (spec 09, "The map view"). */
+fun biomeCodeAt(seed: ULong, p: WorldParams, tileX: Int, tileY: Int): Int = biomeAt(seed, p, tileX, tileY).ordinal
 
 /** Marks the cell of the tile and its eight neighbours inside the world as explored. */
 fun explore(cells: MutableSet<Pair<Int, Int>>, p: WorldParams, tileX: Int, tileY: Int) {

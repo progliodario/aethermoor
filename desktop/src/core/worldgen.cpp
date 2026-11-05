@@ -749,8 +749,12 @@ GeneratedChunk generate_chunk(std::uint64_t seed, const WorldParams& p, int chun
     return chunk;
 }
 
+int biome_code_at(std::uint64_t seed, const WorldParams& p, int tile_x, int tile_y) {
+    return static_cast<int>(biome_at(seed, p, tile_x, tile_y));
+}
+
 int biome_code(std::uint64_t seed, const WorldParams& p, int cell_x, int cell_y) {
-    return static_cast<int>(biome_at(seed, p, cell_x * kMapCell + kMapCell / 2, cell_y * kMapCell + kMapCell / 2));
+    return biome_code_at(seed, p, cell_x * kMapCell + kMapCell / 2, cell_y * kMapCell + kMapCell / 2);
 }
 
 void explore(std::set<std::pair<int, int>>& cells, const WorldParams& p, int tile_x, int tile_y) {

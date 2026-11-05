@@ -474,10 +474,14 @@ MAP_CELL = 128  # tiles per side of a world map cell
 BIOME_CODES = ("water", "beach", "mountain", "snow", "desert", "forest", "plains")
 
 
+def biome_code_at(seed: int, params: dict, tile_x: int, tile_y: int) -> int:
+    """Biome code of one tile (the map draws the cells zoomed in as a grid of these, spec 09, "The map view")."""
+    return BIOME_CODES.index(biome_at(seed, params, tile_x, tile_y))
+
+
 def biome_code(seed: int, params: dict, cell_x: int, cell_y: int) -> int:
     """Biome shown on the world map for a cell: the biome of the tile at the center of the cell."""
-    biome = biome_at(seed, params, cell_x * MAP_CELL + MAP_CELL // 2, cell_y * MAP_CELL + MAP_CELL // 2)
-    return BIOME_CODES.index(biome)
+    return biome_code_at(seed, params, cell_x * MAP_CELL + MAP_CELL // 2, cell_y * MAP_CELL + MAP_CELL // 2)
 
 
 def explore(cells: set, params: dict, tile_x: int, tile_y: int) -> None:

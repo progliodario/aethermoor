@@ -94,10 +94,10 @@ def main() -> int:
         reward = ", ".join(f"{r['effect']} {r.get('amount', r.get('item', ''))}" for r in q.get("rewards", [])) or "paid by the dialogue"
         out.append(f"| {name(q['name'])} | {q['kind']} | {len(q['stages'])} | {reward} |")
 
-    out += ["", f"## Sites ({len(params['landmarks'])} landmarks)", "", "| Site | Kind | Region | Offset from the start (tiles) | Stamp |", "|---|---|---|---|---|"]
+    out += ["", f"## Sites ({len(params['landmarks'])} landmarks)", "", "| Site | Kind | Region | Offset from the start (tiles) | World position (x, y: what the map shows) | Stamp |", "|---|---|---|---|---|---|"]
     for lm in params["landmarks"]:
         region = regions[worldgen.region_at(params, params["width"] // 2 + lm["dx"], params["height"] // 2 + lm["dy"])]
-        out.append(f"| {lm['name']} | {lm['kind']} | {name(region['name'])} | ({lm['dx']}, {lm['dy']}) | {short(lm['stamp'])} |")
+        out.append(f"| {lm['name']} | {lm['kind']} | {name(region['name'])} | ({lm['dx']}, {lm['dy']}) | ({params['width'] // 2 + lm['dx']}, {params['height'] // 2 + lm['dy']}) | {short(lm['stamp'])} |")
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_bytes(("\n".join(out) + "\n").encode("utf-8"))
