@@ -58,7 +58,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 6
                 },
                 {
                   "enemy": "base:enemy/slime_mint",
@@ -111,7 +111,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 5
                 },
                 {
                   "enemy": "base:enemy/wolf_dire",
@@ -238,6 +238,11 @@
                   "enemy": "base:enemy/stone_golem",
                   "drop": "base:item/golem_core",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -300,7 +305,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_amber",
@@ -421,6 +426,11 @@
                   "enemy": "base:enemy/night_owl",
                   "drop": "base:item/owl_feather",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -482,7 +492,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_coral",
@@ -592,6 +602,11 @@
                   "enemy": "base:enemy/dune_scorpion",
                   "drop": "base:item/scorpion_sting",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -722,6 +737,11 @@
                   "enemy": "base:enemy/night_owl",
                   "drop": "base:item/owl_feather",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -1484,7 +1504,7 @@
               "forest"
             ],
             "min_distance": 14,
-            "per_10000": 8,
+            "per_10000": 11,
             "respawn_ticks": 36000
           },
           "time": {
@@ -5579,8 +5599,8 @@
             "tile_digest": "0xa95cee1fc085e456",
             "prop_count": 50,
             "prop_digest": "0xddb20f293b6a4eb1",
-            "spawner_count": 2,
-            "spawner_digest": "0x6ee84afcdca4df83",
+            "spawner_count": 3,
+            "spawner_digest": "0x7633426da01bdf7c",
             "people": [],
             "gid_histogram": {
               "1": 188,
@@ -5661,8 +5681,8 @@
             "tile_digest": "0x26aa16b2f1bc9bb2",
             "prop_count": 49,
             "prop_digest": "0x4b01c86adb10616d",
-            "spawner_count": 0,
-            "spawner_digest": "0x0000000000000000",
+            "spawner_count": 2,
+            "spawner_digest": "0x3c68879ea765f95f",
             "people": [],
             "gid_histogram": {
               "1": 177,
@@ -6048,7 +6068,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 6
                 },
                 {
                   "enemy": "base:enemy/slime_mint",
@@ -6101,7 +6121,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 5
                 },
                 {
                   "enemy": "base:enemy/wolf_dire",
@@ -6228,6 +6248,11 @@
                   "enemy": "base:enemy/stone_golem",
                   "drop": "base:item/golem_core",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -6290,7 +6315,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_amber",
@@ -6411,6 +6436,11 @@
                   "enemy": "base:enemy/night_owl",
                   "drop": "base:item/owl_feather",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -6472,7 +6502,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_coral",
@@ -6582,6 +6612,11 @@
                   "enemy": "base:enemy/dune_scorpion",
                   "drop": "base:item/scorpion_sting",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -6712,6 +6747,11 @@
                   "enemy": "base:enemy/night_owl",
                   "drop": "base:item/owl_feather",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -7474,7 +7514,7 @@
               "forest"
             ],
             "min_distance": 14,
-            "per_10000": 8,
+            "per_10000": 11,
             "respawn_ticks": 36000
           },
           "time": {
@@ -11798,7 +11838,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 6
                 },
                 {
                   "enemy": "base:enemy/slime_mint",
@@ -11851,7 +11891,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 5
                 },
                 {
                   "enemy": "base:enemy/wolf_dire",
@@ -11978,6 +12018,11 @@
                   "enemy": "base:enemy/stone_golem",
                   "drop": "base:item/golem_core",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -12040,7 +12085,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_amber",
@@ -12161,6 +12206,11 @@
                   "enemy": "base:enemy/night_owl",
                   "drop": "base:item/owl_feather",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -12222,7 +12272,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_coral",
@@ -12332,6 +12382,11 @@
                   "enemy": "base:enemy/dune_scorpion",
                   "drop": "base:item/scorpion_sting",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -12462,6 +12517,11 @@
                   "enemy": "base:enemy/night_owl",
                   "drop": "base:item/owl_feather",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -13224,7 +13284,7 @@
               "forest"
             ],
             "min_distance": 14,
-            "per_10000": 8,
+            "per_10000": 11,
             "respawn_ticks": 36000
           },
           "time": {
@@ -17787,8 +17847,8 @@
             "tile_digest": "0xdc6828add449df03",
             "prop_count": 68,
             "prop_digest": "0x58ffe87600dd7457",
-            "spawner_count": 5,
-            "spawner_digest": "0xb192745e92ae8cd6",
+            "spawner_count": 6,
+            "spawner_digest": "0x7fada75404cb86c2",
             "people": [],
             "gid_histogram": {
               "5": 39,
@@ -17869,8 +17929,8 @@
             "tile_digest": "0xdc6828add449df03",
             "prop_count": 68,
             "prop_digest": "0x58ffe87600dd7457",
-            "spawner_count": 5,
-            "spawner_digest": "0xb192745e92ae8cd6",
+            "spawner_count": 6,
+            "spawner_digest": "0x7fada75404cb86c2",
             "people": [],
             "gid_histogram": {
               "5": 39,
@@ -17951,8 +18011,8 @@
             "tile_digest": "0xfc7b9f60a41673ad",
             "prop_count": 61,
             "prop_digest": "0x26f0f3eb6f8e65d3",
-            "spawner_count": 0,
-            "spawner_digest": "0x0000000000000000",
+            "spawner_count": 2,
+            "spawner_digest": "0x213e901ea3cf663c",
             "people": [
               [
                 "settle:58:6:0",
@@ -18180,7 +18240,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 6
                 },
                 {
                   "enemy": "base:enemy/slime_mint",
@@ -18233,7 +18293,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 5
                 },
                 {
                   "enemy": "base:enemy/wolf_dire",
@@ -18360,6 +18420,11 @@
                   "enemy": "base:enemy/stone_golem",
                   "drop": "base:item/golem_core",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -18422,7 +18487,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_amber",
@@ -18543,6 +18608,11 @@
                   "enemy": "base:enemy/night_owl",
                   "drop": "base:item/owl_feather",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -18604,7 +18674,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_coral",
@@ -18714,6 +18784,11 @@
                   "enemy": "base:enemy/dune_scorpion",
                   "drop": "base:item/scorpion_sting",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -18844,6 +18919,11 @@
                   "enemy": "base:enemy/night_owl",
                   "drop": "base:item/owl_feather",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -19606,7 +19686,7 @@
               "forest"
             ],
             "min_distance": 14,
-            "per_10000": 8,
+            "per_10000": 11,
             "respawn_ticks": 36000
           },
           "time": {
@@ -23823,8 +23903,8 @@
             "tile_digest": "0x8dabb4905f2e8977",
             "prop_count": 159,
             "prop_digest": "0x43a3007995e8eaa1",
-            "spawner_count": 2,
-            "spawner_digest": "0xa48df1c984794b6b",
+            "spawner_count": 3,
+            "spawner_digest": "0xbf27ab71711c0680",
             "people": [
               [
                 "settle:54:0:0",
