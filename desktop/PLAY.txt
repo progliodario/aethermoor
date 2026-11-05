@@ -17,6 +17,7 @@ The game picks Italian or English from your system language.
   World map ....... M (then + / - or the wheel to zoom, WASD or drag to move, C = where I am, 0 = all, P or right click = mark a goal, X = remove it, Tab = next place found)
   Close a panel ... Esc
   Quick save ...... F5       Quick load .. F9       New game ......... F7
+  Small map ....... N (shows or hides the map in the corner)
   Debug info ...... F3       Title ........ Esc (with no panel open)
 
 The game opens on a list of three games, each with its own world: pick one
@@ -53,6 +54,7 @@ Il gioco sceglie italiano o inglese dalla lingua del sistema.
   Mappa del mondo . M (poi + / - o la rotella per lo zoom, WASD o trascina per muoverti, C = dove sono, 0 = tutto, P o clic destro = segna una meta, X = toglila, Tab = prossimo luogo scoperto)
   Chiudere un pannello  Esc
   Salvataggio rapido  F5     Carica ...... F9          Nuova partita ........ F7
+  Mini mappa ...... N (mostra o nasconde la mappa nell'angolo)
   Info di debug ... F3       Titolo ....... Esc (senza pannelli aperti)
 
 All'avvio vedi un elenco di tre partite, ognuna con il suo mondo: scegline una

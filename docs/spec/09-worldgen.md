@@ -282,6 +282,9 @@ The view is presentation, not rules (no vectors): both clients draw the same thi
   the view when they are outside it. On the HUD, in a streamed world, the player always sees `Position x, y` (in tiles) and, with a goal, `Goal: <direction>, <distance> tiles` where
   the direction is one of eight points of the compass (`atan2(dy, dx)` rounded to the nearest eighth of a turn, y pointing down) and the distance is the rounded Euclidean distance; under 6 tiles it says the player is there.
 - The Threshold Stones that were woken are shown as small pale squares.
+- **The small map.** In a streamed world a small square map of the land around the player stays in the top left corner (hidden while a dialogue or the world map is open; `N` shows or hides it;
+  a tap on it opens the world map on touch screens): 40 x 40 samples 16 tiles apart (640 tiles across) with the biome code of the tile at the middle of each sample (`biome_code_at`), drawn only where the cell
+  (128 x 128 tiles) is explored, sampled again whenever the player has walked into another 16-tile square. On it: the player in red, the woken stones in pale green, and the goal in green (kept on its edge when far).
 - **Jumping between places.** `Tab` (a button on touch screens) moves the view to the next place found (every settlement, dungeon, lair or nest of an explored cell), nearest to the player
   first (ties by name), at the exact point of the site, and says its name; opening the map starts the cycle again. With `P` the place becomes the goal.
 - **In the world.** With a goal more than 12 tiles away, a green arrow with a dark edge circles the player (about 2 tiles from them) and points toward it. Entering another region shows

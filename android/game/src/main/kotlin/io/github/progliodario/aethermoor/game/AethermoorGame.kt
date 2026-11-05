@@ -116,6 +116,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var journalPanel: FloatArray? = null
     private var languageRect: FloatArray? = null
     private var mapRect: FloatArray? = null
+    private var showMinimap = true // N shows or hides the small map in the corner; a tap on it opens the world map
+    private var miniRect: FloatArray? = null
+    private var miniCodes = ByteArray(0) // biome codes of the sampled tiles around the player, -1 where unexplored
+    private var miniOx = 0
+    private var miniOy = 0
     private var mapPick = -1 // the place the view last jumped to (Next), in order of distance
     private var lastRegion = -1 // the region the player was in, to say the name when it changes
     private var hasGoal = false // a place of the world marked on the map (not saved); the HUD shows its direction and distance
@@ -181,6 +186,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         mapDetail.clear()
         hasGoal = false
         lastRegion = -1
+        miniCodes = ByteArray(0)
         mapMarkers.clear()
         titleSlots = readSlots()
     }
@@ -490,6 +496,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         drawAtmosphere(world)
         drawOverlays(world, cam.x, cam.y, tile, k)
         drawGoalArrow(world, cam.x, cam.y, tile)
+        drawMinimap(world)
         drawTexts(world, data, cam.x, cam.y, tile)
         drawStory(world, data)
         drawStick()
@@ -949,6 +956,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             mapPick = -1
             return
         }
+        if (input.isKeyJustPressed(Input.Keys.N)) {
+            showMinimap = !showMinimap
+            return
+        }
         if (input.isKeyJustPressed(Input.Keys.I)) {
             showInventory = true
             return
@@ -995,6 +1006,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 }
                 choiceIndex = 0
             } else {
+                val mini = miniRect
+                if (mini != null && world.chunks != null && x >= mini[0] && x <= mini[0] + mini[2] && y >= mini[1] && y <= mini[1] + mini[3]) {
+                    showMap = true // a tap on the small map opens the world map
+                    mapLevel = -1
+                    mapPick = -1
+                    mapTouchOnButton = true
+                    return
+                }
                 val map = mapRect
                 if (map != null && world.chunks != null && x >= map[0] && x <= map[0] + map[2] && y >= map[1] && y <= map[1] + map[3]) {
                     showMap = true
@@ -1619,6 +1638,73 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         goalY = (cellY * MAP_CELL).coerceIn(0f, (params.height - 1).toFloat())
         hasGoal = true
         showNotice(assets?.pack?.text(language, "\$i18n:ui.goal_set") ?: "")
+    }
+
+    /**
+     * A small map of the land around the player in a corner (spec 09, "The map view"): 40 x 40 samples 16 tiles apart (640 tiles across),
+     * only where the land was explored, with the player in the middle, the woken stones and the goal.
+     */
+    private fun drawMinimap(world: WorldSim) {
+        val store = world.chunks ?: return
+        miniRect = null
+        if (!showMinimap || showMap || world.story.dialogueActive) return
+        val n = 40
+        val step = 16
+        val params = store.params
+        val playerX = floor(world.player.position.x).toInt()
+        val playerY = floor(world.player.position.y).toInt()
+        val ox = (playerX / step) * step - n / 2 * step
+        val oy = (playerY / step) * step - n / 2 * step
+        if (miniCodes.size != n * n || miniOx != ox || miniOy != oy) { // sampled again every 16 tiles walked
+            miniCodes = ByteArray(n * n) { k ->
+                val tx = ox + (k % n) * step + step / 2
+                val ty = oy + (k / n) * step + step / 2
+                if (tx < 0 || ty < 0 || tx >= params.width || ty >= params.height || Pair(tx / MAP_CELL, ty / MAP_CELL) !in world.explored) {
+                    (-1).toByte()
+                } else {
+                    biomeCodeAt(store.seed, params, tx, ty).toByte()
+                }
+            }
+            miniOx = ox
+            miniOy = oy
+        }
+        val density = Gdx.graphics.density
+        val cell = 3f * density
+        val side = cell * n
+        val x0 = 12f * density
+        val y0 = 156f * density
+        miniRect = floatArrayOf(x0, y0, side, side)
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        shapes.color = Color(0.08f, 0.14f, 0.26f, 0.9f)
+        shapes.rect(x0 - 2f, y0 - 2f, side + 4f, side + 4f)
+        shapes.color = Color(0.03f, 0.06f, 0.13f, 0.8f)
+        shapes.rect(x0, y0, side, side)
+        for (k in 0 until n * n) {
+            val code = miniCodes[k].toInt()
+            if (code < 0) continue
+            val c = MAP_COLORS[code]
+            shapes.color = Color(c.r, c.g, c.b, 0.92f)
+            shapes.rect(x0 + (k % n) * cell, y0 + (k / n) * cell, ceil(cell), ceil(cell))
+        }
+        fun place(tileX: Float, tileY: Float, clamp: Boolean, size: Float, color: Color) {
+            var sx = x0 + (tileX - ox) / step * cell
+            var sy = y0 + (tileY - oy) / step * cell
+            val inside = sx >= x0 && sy >= y0 && sx <= x0 + side && sy <= y0 + side
+            if (!inside && !clamp) return
+            sx = sx.coerceIn(x0 + size, x0 + side - size)
+            sy = sy.coerceIn(y0 + size, y0 + side - size)
+            shapes.color = Color(0.08f, 0.08f, 0.12f, 1f)
+            shapes.rect(sx - size / 2f - 1f, sy - size / 2f - 1f, size + 2f, size + 2f)
+            shapes.color = color
+            shapes.rect(sx - size / 2f, sy - size / 2f, size, size)
+        }
+        for ((stoneX, stoneY) in world.stones) place(stoneX.toFloat(), stoneY.toFloat(), false, 4f * density, Color(0.55f, 1f, 0.92f, 1f))
+        if (hasGoal) place(goalX, goalY, true, 5f * density, Color(0.35f, 1f, 0.47f, 1f))
+        place(world.player.position.x, world.player.position.y, false, 5f * density, Color(1f, 0.2f, 0.2f, 1f))
+        shapes.end()
     }
 
     /** Text over the world with a dark edge, in the current color of the font. */
