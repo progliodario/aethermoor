@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/rescue_axe",
+  "name": "$i18n:item.rescue_axe.name",
+  "description": "$i18n:item.rescue_axe.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 400,
+  "weapon": {
+    "atk": 13,
+    "matk": 0
+  }
+}

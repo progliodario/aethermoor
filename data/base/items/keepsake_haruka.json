@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/keepsake_haruka",
+  "name": "$i18n:item.keepsake_haruka.name",
+  "description": "$i18n:item.keepsake_haruka.desc",
+  "kind": "key",
+  "rarity": "common",
+  "price": 0,
+  "stack_max": 1
+}

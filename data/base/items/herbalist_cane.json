@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/herbalist_cane",
+  "name": "$i18n:item.herbalist_cane.name",
+  "description": "$i18n:item.herbalist_cane.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 400,
+  "weapon": {
+    "atk": 6,
+    "matk": 6
+  }
+}

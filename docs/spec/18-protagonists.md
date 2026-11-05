@@ -23,6 +23,13 @@ Desktop: `--protagonist=<name>` plays that protagonist in a new game or the smok
 
 The choice screen takes `W`/`S` or the arrows, `E`/`Enter`/`Space` or a click to confirm, `1` to `9` to choose directly and `Esc` to go back to the title screen; on touch screens a tap selects a name and a second tap on it confirms, and Back returns to the games.
 
+## Personal stories
+
+Every protagonist starts with a **keepsake** (`base:item/keepsake_<name>`, kind `key`, price 0 so it cannot be sold, quantity 1) and Pip, the lad of the home village (spec 07), has for each of them a question in his menu that is shown only when the player holds that keepsake
+(the condition `has_item`): "I keep seeing numbers. Is that normal?" for Ren, "Do you know anything about mana?" for Sakura, "Is there anyone here who needs help?" for Daichi, "Are there animals around here that need care?" for Haruka. It opens a short chain of **two quests**
+(`base:quest/side/personal_<name>_1` and `_2`, offered in order, with Pip saying what he needs, what is still to do, and a farewell when it is done): the first pays 90 XP, 120 gold and two small potions, the second 170 XP, 240 gold and a **unique rare weapon**
+(the Ledger blade, the Focus staff, the Rescue axe, the Herbalist cane). The objectives use only what lives around the home village (green and mint slimes, tawny wolves, myconids and their gel, leaves, furs and spore caps). No new rule is involved: it is data and texts.
+
 ## Texts
 
 For a protagonist with the ID `base:protagonist/<name>`: `protagonist.<name>.name`, `.tagline`, `.gift` and `.story` in **both** languages (`content.json`). The story is a short paragraph about who they were and how they arrived (the Threshold of Lyra drops every guest in Verdalis, where the home village is).

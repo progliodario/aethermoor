@@ -37,6 +37,10 @@
     {
       "item": "base:item/potion_small",
       "qty": 2
+    },
+    {
+      "item": "base:item/keepsake_daichi",
+      "qty": 1
     }
   ],
   "starting_skills": [
