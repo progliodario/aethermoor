@@ -198,7 +198,8 @@ class CombatSim:
             self.hit_set.add(index)
             variance = 950 + self.combat.next_bounded(101)
             crit = self.combat.next_bounded(1000) < self.derived["crit_chance_pm"]
-            damage = rules.damage(self.derived["atk"], s["power_pct"], enemy.d["def"], 1000, 0, self.level,
+            attack = self.derived["matk"] if s.get("kind") == "magical" else self.derived["atk"]
+            damage = rules.damage(attack, s["power_pct"], enemy.d["def"], 1000, 0, self.level,
                                   enemy.d["level"], variance, crit, self.derived["crit_mult_pm"], 1000)
             enemy.hp -= damage
             if enemy.hp <= 0:

@@ -14,6 +14,7 @@ SLASH = {"startup": 6, "active": 4, "recovery": 10, "cooldown": 24, "power_pct":
 DODGE = {"ticks": 12, "speed_mult_x100": 260, "iframes": 14, "cooldown": 40}  # base:skill/common/dodge (spec 05, "Dodge roll")
 STRIKE = {"startup": 10, "active": 4, "recovery": 16, "cooldown": 90, "power_pct": 230, "radius_x100": 190, "angle_deg": 140,
           "mp": 10}  # base:skill/ren/power_strike (spec 05, "Mana")
+MAGE = {"str": 3, "vit": 6, "dex": 6, "agi": 7, "int": 30, "wis": 20, "luk": 8}
 PLAYER = {
     "start": [2.2, 4.5], "level": 1,
     "base_stats": {"str": 6, "vit": 7, "dex": 8, "agi": 8, "int": 7, "wis": 7, "luk": 9},
@@ -51,13 +52,13 @@ EMPTY_STORY = {"quests": {}, "dialogues": {}, "npcs": []}
 
 
 def scenario(name: str, enemies: list[dict], script: list[dict], player: dict | None = None,
-             seed: str = "0x0000000000C0FFEE", inventory: dict | None = None, **extra) -> dict:
+             seed: str = "0x0000000000C0FFEE", inventory: dict | None = None, skill: dict | None = None, **extra) -> dict:
     return {
         **extra,
         "name": name,
         "grid": arena(), "props": [], "seed": seed,
         "player": {**PLAYER, **(player or {})},
-        "skill": SLASH,
+        "skill": skill or SLASH,
         "xp_table": rules.generate_xp_table()[:12],
         "enemies": enemies,
         "script": script,
@@ -177,6 +178,13 @@ def build_scenarios() -> list[dict]:
                  strike={**STRIKE, "mp": 60}),
         # Both inputs at once: the strike wins.
         scenario("strike_wins_over_attack", [enemy(3.5, 4.5, hp=400, **passive)], [segment(60, strike=True, attack=True)], strike=STRIKE),
+        # Damage kind (spec 05): a mage (intelligence 30, wisdom 20) hits with MATK when the skill is magical and with ATK when it is not.
+        scenario("magical_attack", [enemy(3.5, 4.5, hp=400, **passive)], [segment(60, attack=True), segment(60, attack=True)],
+                 player={"base_stats": MAGE}, skill={**SLASH, "kind": "magical"}),
+        scenario("physical_attack_of_a_mage", [enemy(3.5, 4.5, hp=400, **passive)], [segment(60, attack=True), segment(60, attack=True)],
+                 player={"base_stats": MAGE}),
+        scenario("magical_strike", [enemy(3.5, 4.5, hp=400, **passive)], [segment(60, strike=True), segment(100, strike=True)],
+                 player={"base_stats": MAGE, "weapon_matk": 6}, strike={**STRIKE, "kind": "magical", "mp": 6}),
         scenario("leash_and_return", [enemy(4.0, 4.5, behavior_overrides={"leash_x100": 300})],
                  [segment(20, attack=True), segment(150, move=(1, 0)), segment(250)]),
     ]

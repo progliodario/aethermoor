@@ -683,7 +683,7 @@ void WorldSim::do_hits() {
         const std::int64_t variance = 950 + static_cast<std::int64_t>(m_combat_rng_.next_bounded(101));
         const bool crit = static_cast<std::int64_t>(m_combat_rng_.next_bounded(1000)) < m_derived_.crit_chance_pm;
         DamageInput in;
-        in.atk = m_derived_.atk;
+        in.atk = s.magical ? m_derived_.matk : m_derived_.atk;
         in.power_pct = s.power_pct;
         in.def_target = enemy.def.def;
         in.lvl_attacker = p.level;
