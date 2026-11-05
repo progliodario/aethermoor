@@ -279,7 +279,7 @@ The view is presentation, not rules (no vectors): both clients draw the same thi
 - The player is a red square with a white edge that pulses; when it is outside the view, it stays on the edge of the view, in orange, so the way back is always shown.
 - **The goal.** The player can mark a place of the world as the goal (not saved, one at a time, cleared when returning to the title screen): `P` marks the center of the view,
   a right click marks the pointer's position, `X` removes it (on touch screens a button marks the center of the view and, pressed again, removes it). The map shows it as a green square joined to the player by a green line, both kept inside
-  the view when they are outside it. On the HUD, in a streamed world, the player always sees `Position x, y` (in tiles) and, with a goal, `Goal: <direction>, <distance> tiles` where
+  the view when they are outside it. The goal is kept with the game (a file `goal.txt`, `x y` in tiles, in the folder of the slot; removed with the goal), not in the save document. On the HUD, in a streamed world, the player always sees `Position x, y` (in tiles) and, with a goal, `Goal: <direction>, <distance> tiles` where
   the direction is one of eight points of the compass (`atan2(dy, dx)` rounded to the nearest eighth of a turn, y pointing down) and the distance is the rounded Euclidean distance; under 6 tiles it says the player is there.
 - The Threshold Stones that were woken are shown as small pale squares.
 - **The small map.** In a streamed world a small square map of the land around the player stays in the top left corner (hidden while a dialogue or the world map is open; `N` shows or hides it;

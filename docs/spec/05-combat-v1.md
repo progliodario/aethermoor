@@ -106,5 +106,7 @@ and `iframes = 45`. If `hp <= 0`: `deaths++`, `hp = max_hp`, position = spawn, a
 
 ## Presentation (not in the contract)
 
+Two small squares next to the bars show the abilities: they fill while the cooldown of the dodge (`dodge_cooldown`) or of the power strike (`cooldown`, shared with the attack) runs and light up when the ability can be used (the strike also needs its mana).
+
 Damage numbers, enemy health bars, a squash animation for slimes and the HUD (HP, level, XP) are drawn by each client
 from the simulation state and from the events it emits.

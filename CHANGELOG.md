@@ -17,6 +17,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- Two small squares next to the bars show the cooldowns of the dodge roll (green, `L`) and the power strike (blue, `K`, lit only with enough mana). Both clients.
 - Mana and a second attack (spec 05, "Mana"; roadmap M3): the mana pool of the stats (spec 04: `max_mp` and `mp_regen_x100`, until now unused) is now kept, shown as a blue bar under the health bar, regenerates exactly (in 1/6000 points per tick), and is spent by the power strike (`K`, gamepad `RB`, the Strike button on Android; skill `base:skill/ren/power_strike`): a wide heavy blow, power 230 percent, 10 mana, cooldown of 90 ticks. A death, a Threshold Stone and a bed at an inn refill it; it is not saved (a loaded game starts full). Reference, both clients and four new conformance scenarios (`power_strike`, `power_strike_without_skill`, `strike_without_mana`, `strike_wins_over_attack`).
 - More green slimes: they are now the most common creature of Verdalis (weight 6 of 10 instead of 1 of 5), commoner in the Whisperwood, Sunscar and Tidehaven (weights 5, 3 and 3) and they live in every region (weight 2 in Ironspine, Frostveil, the Ashen Wastes and Lumeria); and there are about a third more enemy spawners everywhere (`spawners.per_10000` from 8 to 11). The world vectors change (fauna, chunks, window, settlements, guild); data only, no code change.
 - Ren's Analyze, the eye of the system (roadmap M3, skill `base:skill/ren/analyze`): `Z` (a button on Android) shows, for six seconds, the nearest living creature within 10 tiles with its level, health, attack, defense and what it drops with the chance, in a panel at the top center. Presentation only (no rules, no vectors); the weaknesses are not shown because elements have no effect yet. Both clients.
@@ -24,6 +25,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Changed
 
+- The goal marked on the map is kept with the game (a file `goal.txt` in the folder of the slot): it is still there after quitting or switching games. Both clients.
 - A small map in the top left corner shows the land around you (640 tiles across, only where you have been), with you, the Threshold Stones you woke and the goal; `N` hides it, a tap on it opens the world map on Android (spec 09, "The small map"). Both clients.
 - More help to find the way (spec 09, "The map view"): a green arrow around the player points toward the goal when it is far; entering a region says its name; on the map `Tab` (the Next button on Android) jumps to the next place found, nearest first, and `P` then makes it the goal; the HUD text has a dark edge so that it reads on grass and snow. Both clients.
 - Never get lost again (spec 09, "The map view"): the HUD shows your position in tiles, you can mark a goal on the map (`P`, a right click, or the Goal button on Android) and the HUD then shows its direction and distance (`Goal: north-east, 6300 tiles`), and the map shows the goal with a line from you and the Threshold Stones you woke. Both clients.

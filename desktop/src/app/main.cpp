@@ -483,6 +483,29 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
     fill_rect(renderer, x, y + bar_h + 6.0F + below, bar_w, 6.0F * density, 10, 20, 40, 200);
     fill_rect(renderer, x, y + bar_h + 6.0F + below, bar_w * xp_ratio, 6.0F * density, 90, 200, 120, 255);
 
+    // The two abilities next to the bars: a square that fills while the cooldown runs and is lit when the ability is ready
+    // (green: the dodge roll, `L`; blue: the power strike, `K`, and enough mana for it).
+    const aether::CombatSetup& setup = sim.combat();
+    const float pip = 15.0F * density;
+    float pip_x = x + bar_w + 8.0F * density;
+    const auto draw_pip = [&](float ready, bool lit, Uint8 r, Uint8 g, Uint8 b, const char* key) {
+        fill_rect(renderer, pip_x - 1.0F, y - 1.0F, pip + 2.0F, pip + 2.0F, 10, 20, 40, 220);
+        const float filled = std::clamp(ready, 0.0F, 1.0F);
+        fill_rect(renderer, pip_x, y + pip * (1.0F - filled), pip, pip * filled, lit ? r : 90, lit ? g : 100, lit ? b : 120, 255);
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        outlined_text(renderer, pip_x + (pip - 8.0F) / 2.0F, y + (pip - 8.0F) / 2.0F, key);
+        pip_x += pip + 6.0F * density;
+    };
+    if (setup.dodge.enabled) {
+        const float ready = 1.0F - static_cast<float>(p.dodge_cooldown) / static_cast<float>(std::max(setup.dodge.cooldown, 1));
+        draw_pip(ready, p.dodge_cooldown == 0, 90, 220, 120, "L");
+    }
+    if (setup.strike.enabled) {
+        const float ready = 1.0F - static_cast<float>(std::min(p.cooldown, setup.strike.skill.cooldown)) /
+                                       static_cast<float>(std::max(setup.strike.skill.cooldown, 1));
+        draw_pip(ready, p.cooldown == 0 && sim.mp() >= setup.strike.mp, 100, 160, 255, "K");
+    }
+
     char line[96];
     std::snprintf(line, sizeof(line), "%s %lld/%lld", assets.pack.text(ui.lang, "$i18n:ui.hp").c_str(),
                   static_cast<long long>(p.hp), static_cast<long long>(sim.derived().max_hp));
@@ -1382,6 +1405,31 @@ void handle_travel_key(aether::WorldSim& sim, const Assets& assets, Ui& ui, SDL_
     }
 }
 
+// The goal is kept with the game: a file `goal.txt` ("x y" in tiles) in the folder of the slot, removed when the goal is.
+void save_goal(const Ui& ui) {
+    const fs::path file = g_slot_dir / "goal.txt";
+    std::error_code ec;
+    if (!ui.has_goal) {
+        fs::remove(file, ec);
+        return;
+    }
+    std::ofstream out(file, std::ios::trunc);
+    out << static_cast<long long>(ui.goal_x) << " " << static_cast<long long>(ui.goal_y) << "\n";
+}
+
+void load_goal(Ui& ui) {
+    ui.has_goal = false;
+    if (const auto text = read_text_file(g_slot_dir / "goal.txt")) {
+        long long gx = 0;
+        long long gy = 0;
+        if (std::sscanf(text->c_str(), "%lld %lld", &gx, &gy) == 2) {
+            ui.goal_x = static_cast<float>(gx);
+            ui.goal_y = static_cast<float>(gy);
+            ui.has_goal = true;
+        }
+    }
+}
+
 // Marks the goal at a map position given in cells (fractional), inside the world.
 void set_goal(const aether::WorldSim& sim, const Assets& assets, Ui& ui, float cell_x, float cell_y) {
     if (sim.chunks() == nullptr) {
@@ -1391,6 +1439,7 @@ void set_goal(const aether::WorldSim& sim, const Assets& assets, Ui& ui, float c
     ui.goal_x = std::clamp(cell_x * static_cast<float>(aether::kMapCell), 0.0F, static_cast<float>(params.width - 1));
     ui.goal_y = std::clamp(cell_y * static_cast<float>(aether::kMapCell), 0.0F, static_cast<float>(params.height - 1));
     ui.has_goal = true;
+    save_goal(ui);
     notify(ui, assets.pack.text(ui.lang, "$i18n:ui.goal_set"));
 }
 
@@ -1458,6 +1507,7 @@ void handle_map_key(const aether::WorldSim& sim, const Assets& assets, Ui& ui, S
         set_goal(sim, assets, ui, ui.map_cx, ui.map_cy);
     } else if (key == SDLK_X) {
         ui.has_goal = false;
+        save_goal(ui);
         notify(ui, assets.pack.text(ui.lang, "$i18n:ui.goal_cleared"));
     } else if (key == SDLK_C) {
         map_center_on_player(sim, ui);
@@ -2501,6 +2551,9 @@ int main(int argc, char** argv) {
             std::vector<FloatingText> floating;
             Ui ui;
             ui.lang = saved_language().value_or(detect_language());
+            if (!smoke_test) {
+                load_goal(ui);  // the goal marked in this game
+            }
 
             if (!smoke_test) {  // continue the last session, if there is one
                 std::string ignored;

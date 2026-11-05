@@ -218,6 +218,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private fun startGame(slot: Int) {
         val loaded = assets ?: return
         currentSlot = slot
+        loadGoal() // the goal marked in this game
         titleSlots = null
         seed = chooseSeed()
         val combat = loadCombatSetup(loaded.pack, loaded.map, PROTAGONIST_ID, seed, worldEnemyIds(loaded.worldParams), loaded.worldParams.enemyHpPct, loaded.worldParams.enemyAtkPct)
@@ -277,6 +278,30 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private fun saveFile() = slotFile(currentSlot)
 
     private fun slotFile(slot: Int) = Gdx.files.local("saves/slot$slot/auto.json")
+
+    /** The goal is kept with the game: a file `goal.txt` ("x y" in tiles) in the folder of the slot, removed when the goal is. */
+    private fun goalFile() = Gdx.files.local("saves/slot$currentSlot/goal.txt")
+
+    private fun saveGoal() {
+        runCatching {
+            if (hasGoal) goalFile().writeString("${goalX.toLong()} ${goalY.toLong()}\n", false) else goalFile().delete()
+        }
+    }
+
+    private fun loadGoal() {
+        hasGoal = false
+        runCatching {
+            val file = goalFile()
+            if (file.exists()) {
+                val parts = file.readString().trim().split(' ')
+                if (parts.size == 2) {
+                    goalX = parts[0].toLong().toFloat()
+                    goalY = parts[1].toLong().toFloat()
+                    hasGoal = true
+                }
+            }
+        }
+    }
 
     /** Saves written before slots existed become the first game. */
     private fun migrateLegacySaves() {
@@ -685,6 +710,24 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         shapes.rect(x, y + barH + 6f + below, barW, 6f * density)
         shapes.color = Color(0.35f, 0.78f, 0.47f, 1f)
         shapes.rect(x, y + barH + 6f + below, barW * xpRatio, 6f * density)
+        // The two abilities next to the bars: a square that fills while the cooldown runs and is lit when the ability is ready
+        // (green: the dodge roll, blue: the power strike, which also needs enough mana).
+        val pip = 15f * density
+        var pipX = x + barW + 8f * density
+        fun drawPip(ready: Float, lit: Boolean, color: Color) {
+            shapes.color = Color(0.04f, 0.08f, 0.16f, 0.85f)
+            shapes.rect(pipX - 1f, y - 1f, pip + 2f, pip + 2f)
+            val filled = ready.coerceIn(0f, 1f)
+            shapes.color = if (lit) color else Color(0.35f, 0.39f, 0.47f, 1f)
+            shapes.rect(pipX, y + pip * (1f - filled), pip, pip * filled)
+            pipX += pip + 6f * density
+        }
+        val combatSetup = world.combat
+        if (combatSetup.dodge.enabled) drawPip(1f - p.dodgeCooldown.toFloat() / maxOf(combatSetup.dodge.cooldown, 1), p.dodgeCooldown == 0, Color(0.35f, 0.86f, 0.47f, 1f))
+        if (combatSetup.strike.enabled) {
+            val strikeCooldown = combatSetup.strike.skill.cooldown
+            drawPip(1f - minOf(p.cooldown, strikeCooldown).toFloat() / maxOf(strikeCooldown, 1), p.cooldown == 0 && world.mp >= combatSetup.strike.mp, Color(0.39f, 0.63f, 1f, 1f))
+        }
         shapes.end()
     }
 
@@ -1594,7 +1637,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (input.isKeyJustPressed(Input.Keys.C)) mapCenterOnPlayer(world)
         if (input.isKeyJustPressed(Input.Keys.TAB)) mapNextPlace(world)
         if (input.isKeyJustPressed(Input.Keys.P)) setGoal(world, mapCx, mapCy)
-        if (input.isKeyJustPressed(Input.Keys.X)) hasGoal = false
+        if (input.isKeyJustPressed(Input.Keys.X)) {
+            hasGoal = false
+            saveGoal()
+        }
         if (input.isKeyJustPressed(Input.Keys.NUM_0) || input.isKeyJustPressed(Input.Keys.HOME)) mapLevel = -1
 
         if (input.justTouched()) {
@@ -1609,7 +1655,12 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 2 -> mapCenterOnPlayer(world)
                 3 -> mapLevel = -1
                 4 -> showMap = false
-                5 -> if (hasGoal) hasGoal = false else setGoal(world, mapCx, mapCy)
+                5 -> if (hasGoal) {
+                    hasGoal = false
+                    saveGoal()
+                } else {
+                    setGoal(world, mapCx, mapCy)
+                }
                 6 -> mapNextPlace(world)
             }
             return
@@ -1657,6 +1708,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         goalX = (cellX * MAP_CELL).coerceIn(0f, (params.width - 1).toFloat())
         goalY = (cellY * MAP_CELL).coerceIn(0f, (params.height - 1).toFloat())
         hasGoal = true
+        saveGoal()
         showNotice(assets?.pack?.text(language, "\$i18n:ui.goal_set") ?: "")
     }
 
