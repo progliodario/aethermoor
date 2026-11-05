@@ -37,6 +37,46 @@
           "next": "a_map"
         },
         {
+          "text": "$i18n:dlg.pip.story.ren.ask",
+          "when": {
+            "has_item": {
+              "item": "base:item/keepsake_ren",
+              "qty": 1
+            }
+          },
+          "next": "ren_s0"
+        },
+        {
+          "text": "$i18n:dlg.pip.story.sakura.ask",
+          "when": {
+            "has_item": {
+              "item": "base:item/keepsake_sakura",
+              "qty": 1
+            }
+          },
+          "next": "sakura_s0"
+        },
+        {
+          "text": "$i18n:dlg.pip.story.daichi.ask",
+          "when": {
+            "has_item": {
+              "item": "base:item/keepsake_daichi",
+              "qty": 1
+            }
+          },
+          "next": "daichi_s0"
+        },
+        {
+          "text": "$i18n:dlg.pip.story.haruka.ask",
+          "when": {
+            "has_item": {
+              "item": "base:item/keepsake_haruka",
+              "qty": 1
+            }
+          },
+          "next": "haruka_s0"
+        },
+        {
           "text": "$i18n:dlg.pip.q.bye",
           "next": "end"
         }
@@ -77,6 +117,406 @@
       "speaker": "tutor_pip",
       "text": "$i18n:dlg.pip.a.map",
       "next": "menu"
+    },
+    "ren_s0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/personal_ren_2"
+      },
+      "then": "ren_done",
+      "else": "ren_s1"
+    },
+    "ren_s1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/personal_ren_2"
+      },
+      "then": "ren_busy2",
+      "else": "ren_s2"
+    },
+    "ren_s2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/personal_ren_1"
+      },
+      "then": "ren_o2",
+      "else": "ren_s3"
+    },
+    "ren_s3": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/personal_ren_1"
+      },
+      "then": "ren_busy1",
+      "else": "ren_o1"
+    },
+    "ren_done": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.ren.done",
+      "next": "menu"
+    },
+    "ren_busy1": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.ren.busy1",
+      "next": "menu"
+    },
+    "ren_busy2": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.ren.busy2",
+      "next": "menu"
+    },
+    "ren_o1": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.ren.o1",
+      "next": "ren_c1"
+    },
+    "ren_o2": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.ren.o2",
+      "next": "ren_c2"
+    },
+    "ren_c1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/personal_ren_1"
+            }
+          ],
+          "next": "menu"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "menu"
+        }
+      ]
+    },
+    "ren_c2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/personal_ren_2"
+            }
+          ],
+          "next": "menu"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "menu"
+        }
+      ]
+    },
+    "sakura_s0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/personal_sakura_2"
+      },
+      "then": "sakura_done",
+      "else": "sakura_s1"
+    },
+    "sakura_s1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/personal_sakura_2"
+      },
+      "then": "sakura_busy2",
+      "else": "sakura_s2"
+    },
+    "sakura_s2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/personal_sakura_1"
+      },
+      "then": "sakura_o2",
+      "else": "sakura_s3"
+    },
+    "sakura_s3": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/personal_sakura_1"
+      },
+      "then": "sakura_busy1",
+      "else": "sakura_o1"
+    },
+    "sakura_done": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.sakura.done",
+      "next": "menu"
+    },
+    "sakura_busy1": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.sakura.busy1",
+      "next": "menu"
+    },
+    "sakura_busy2": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.sakura.busy2",
+      "next": "menu"
+    },
+    "sakura_o1": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.sakura.o1",
+      "next": "sakura_c1"
+    },
+    "sakura_o2": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.sakura.o2",
+      "next": "sakura_c2"
+    },
+    "sakura_c1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/personal_sakura_1"
+            }
+          ],
+          "next": "menu"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "menu"
+        }
+      ]
+    },
+    "sakura_c2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/personal_sakura_2"
+            }
+          ],
+          "next": "menu"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "menu"
+        }
+      ]
+    },
+    "daichi_s0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/personal_daichi_2"
+      },
+      "then": "daichi_done",
+      "else": "daichi_s1"
+    },
+    "daichi_s1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/personal_daichi_2"
+      },
+      "then": "daichi_busy2",
+      "else": "daichi_s2"
+    },
+    "daichi_s2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/personal_daichi_1"
+      },
+      "then": "daichi_o2",
+      "else": "daichi_s3"
+    },
+    "daichi_s3": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/personal_daichi_1"
+      },
+      "then": "daichi_busy1",
+      "else": "daichi_o1"
+    },
+    "daichi_done": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.daichi.done",
+      "next": "menu"
+    },
+    "daichi_busy1": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.daichi.busy1",
+      "next": "menu"
+    },
+    "daichi_busy2": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.daichi.busy2",
+      "next": "menu"
+    },
+    "daichi_o1": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.daichi.o1",
+      "next": "daichi_c1"
+    },
+    "daichi_o2": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.daichi.o2",
+      "next": "daichi_c2"
+    },
+    "daichi_c1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/personal_daichi_1"
+            }
+          ],
+          "next": "menu"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "menu"
+        }
+      ]
+    },
+    "daichi_c2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/personal_daichi_2"
+            }
+          ],
+          "next": "menu"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "menu"
+        }
+      ]
+    },
+    "haruka_s0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/personal_haruka_2"
+      },
+      "then": "haruka_done",
+      "else": "haruka_s1"
+    },
+    "haruka_s1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/personal_haruka_2"
+      },
+      "then": "haruka_busy2",
+      "else": "haruka_s2"
+    },
+    "haruka_s2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/personal_haruka_1"
+      },
+      "then": "haruka_o2",
+      "else": "haruka_s3"
+    },
+    "haruka_s3": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/personal_haruka_1"
+      },
+      "then": "haruka_busy1",
+      "else": "haruka_o1"
+    },
+    "haruka_done": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.haruka.done",
+      "next": "menu"
+    },
+    "haruka_busy1": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.haruka.busy1",
+      "next": "menu"
+    },
+    "haruka_busy2": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.haruka.busy2",
+      "next": "menu"
+    },
+    "haruka_o1": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.haruka.o1",
+      "next": "haruka_c1"
+    },
+    "haruka_o2": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.haruka.o2",
+      "next": "haruka_c2"
+    },
+    "haruka_c1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/personal_haruka_1"
+            }
+          ],
+          "next": "menu"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "menu"
+        }
+      ]
+    },
+    "haruka_c2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/personal_haruka_2"
+            }
+          ],
+          "next": "menu"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "menu"
+        }
+      ]
     }
   }
 }

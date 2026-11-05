@@ -1,0 +1,35 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/personal_sakura_2",
+  "name": "$i18n:quest.personal_sakura_2.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.personal_sakura_2.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_green",
+          "count": 8
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 170
+    },
+    {
+      "effect": "add_gold",
+      "amount": 240
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/focus_staff",
+      "qty": 1
+    }
+  ]
+}

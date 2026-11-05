@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/focus_staff",
+  "name": "$i18n:item.focus_staff.name",
+  "description": "$i18n:item.focus_staff.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 400,
+  "weapon": {
+    "atk": 2,
+    "matk": 12
+  }
+}

@@ -37,6 +37,10 @@
     {
       "item": "base:item/potion_mana_small",
       "qty": 3
+    },
+    {
+      "item": "base:item/keepsake_sakura",
+      "qty": 1
     }
   ],
   "starting_skills": [
