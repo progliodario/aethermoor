@@ -28,6 +28,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Changed
 
+- **Balance pass** (the owner left the numbers to Claude): the creatures of the streamed world now have 200 percent health and 175 percent attack (`difficulty` of the world data, spec 04). Until now every fight was too easy (a first-level hero beat creatures of level 8 to 12 without effort). With the new numbers the model of `docs/design/balance.md`, which now applies the difficulty, finds no outlier: each creature is comfortable at about its own level; fights of the same level last about 2.5 seconds and cost about a fifth of the health, bosses up to 8 seconds. Data only; the vectors of the world change.
 - The goal marked on the map is kept with the game (a file `goal.txt` in the folder of the slot): it is still there after quitting or switching games. Both clients.
 - A small map in the top left corner shows the land around you (640 tiles across, only where you have been), with you, the Threshold Stones you woke and the goal; `N` hides it, a tap on it opens the world map on Android (spec 09, "The small map"). Both clients.
 - More help to find the way (spec 09, "The map view"): a green arrow around the player points toward the goal when it is far; entering a region says its name; on the map `Tab` (the Next button on Android) jumps to the next place found, nearest first, and `P` then makes it the goal; the HUD text has a dark edge so that it reads on grass and snow. Both clients.

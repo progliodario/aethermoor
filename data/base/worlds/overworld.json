@@ -7,7 +7,7 @@
   "spawn_clear_radius": 7,
   "landmark_clearing": 24,
   "region_blend": 4500,
-  "difficulty": { "enemy_hp_pct": 100, "enemy_atk_pct": 100 },
+  "difficulty": { "enemy_hp_pct": 200, "enemy_atk_pct": 175 },
   "elevation": { "salt": 1, "scale": 56, "octaves": 5 },
   "moisture": { "salt": 2, "scale": 80, "octaves": 4 },
   "temperature": { "salt": 3, "scale": 120, "octaves": 3 },
