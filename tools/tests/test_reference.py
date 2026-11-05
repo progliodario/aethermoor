@@ -955,3 +955,12 @@ def test_strike_is_refused_without_mana_or_cooldown():
     assert sim.phase == combat.NONE and sim.mp_u >= low
     sim.tick(0.0, 0.0, True, False, True)  # refused, the attack of the same tick takes over
     assert sim.phase == combat.STARTUP and sim.cur_skill is sim.skill
+
+
+def test_a_magical_skill_hits_with_matk():
+    m3, combat = _dodge_scenarios()
+    script = [m3.segment(60, attack=True)]
+    magic = combat.run_scenario(m3.scenario("g", [m3.enemy(3.5, 4.5, hp=400, speed_x100=0)], script, player={"base_stats": m3.MAGE},
+                                            skill={**m3.SLASH, "kind": "magical"}))[-1]["enemies"][0]["hp"]
+    physical = combat.run_scenario(m3.scenario("p", [m3.enemy(3.5, 4.5, hp=400, speed_x100=0)], script, player={"base_stats": m3.MAGE}))[-1]["enemies"][0]["hp"]
+    assert magic < physical - 100  # a mage's intelligence counts for far more than her strength

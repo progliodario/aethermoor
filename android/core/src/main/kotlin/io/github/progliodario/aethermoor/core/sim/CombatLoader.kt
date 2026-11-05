@@ -99,6 +99,7 @@ fun loadCombatSetup(
                 powerPct = s.getValue("damage").jsonObject.getValue("power_pct").jsonPrimitive.long,
                 radiusX100 = hitbox.getValue("radius_x100").jsonPrimitive.int,
                 angleDeg = hitbox.getValue("angle_deg").jsonPrimitive.int,
+                magical = s.getValue("damage").jsonObject.getValue("kind").jsonPrimitive.content == "magical",
             )
             break
         }
@@ -121,6 +122,7 @@ fun loadCombatSetup(
                     powerPct = s.getValue("damage").jsonObject.getValue("power_pct").jsonPrimitive.long,
                     radiusX100 = hitbox.getValue("radius_x100").jsonPrimitive.int,
                     angleDeg = hitbox.getValue("angle_deg").jsonPrimitive.int,
+                    magical = s.getValue("damage").jsonObject.getValue("kind").jsonPrimitive.content == "magical",
                 ),
             )
             break

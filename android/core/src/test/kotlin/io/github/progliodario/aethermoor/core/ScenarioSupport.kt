@@ -85,6 +85,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
             s.getValue("startup").jsonPrimitive.int, s.getValue("active").jsonPrimitive.int,
             s.getValue("recovery").jsonPrimitive.int, s.getValue("cooldown").jsonPrimitive.int,
             s.long("power_pct"), s.getValue("radius_x100").jsonPrimitive.int, s.getValue("angle_deg").jsonPrimitive.int,
+            s["kind"]?.jsonPrimitive?.content == "magical",
         ),
         strike = input["strike"]?.jsonObject?.let { d ->
             StrikeDef(
@@ -94,6 +95,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
                     d.getValue("startup").jsonPrimitive.int, d.getValue("active").jsonPrimitive.int,
                     d.getValue("recovery").jsonPrimitive.int, d.getValue("cooldown").jsonPrimitive.int,
                     d.long("power_pct"), d.getValue("radius_x100").jsonPrimitive.int, d.getValue("angle_deg").jsonPrimitive.int,
+                    d["kind"]?.jsonPrimitive?.content == "magical",
                 ),
             )
         } ?: StrikeDef(),

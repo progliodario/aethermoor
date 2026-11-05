@@ -654,7 +654,7 @@ class WorldSim(
             val crit = combatRng.nextBounded(1000) < derived.critChancePm
             val amount = damage(
                 DamageInput(
-                    atk = derived.atk,
+                    atk = if (s.magical) derived.matk else derived.atk,
                     powerPct = s.powerPct,
                     defTarget = enemy.def.def,
                     lvlAttacker = p.level,

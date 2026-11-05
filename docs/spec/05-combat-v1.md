@@ -8,6 +8,8 @@ companions, mana for items and equipment.
 
 - **Skill** (`schemas/skill.schema.json`): `timing {startup, active, recovery}` in ticks, `cooldown_ticks`,
   `damage {kind, element, power_pct}` and `hitbox {shape: "arc", radius_x100, angle_deg}`.
+- **Damage kind**: `damage.kind` of an attack skill is `physical` (the default) or `magical`. A magical skill hits with `matk` (spec 04) instead of `atk`; the target's defense is `def` in both cases
+  (the `mdef` of creatures is not read yet). In scenarios, the skill objects take `"kind": "magical"`.
 - **Second attack skill**: the second skill of `starting_skills` that has a `hitbox` is the **power strike**, with the same fields as the first (`timing`, `cooldown_ticks`, `damage.power_pct`, `hitbox`) and a `cost.mp`. In scenarios it is the object
   `strike {startup, active, recovery, cooldown, power_pct, radius_x100, angle_deg, mp}`; without it the game has no power strike.
 - **Dodge skill** (a skill of `type: "movement"` with a `movement` block): `timing.active` is the length of the roll in ticks, `cooldown_ticks`, and

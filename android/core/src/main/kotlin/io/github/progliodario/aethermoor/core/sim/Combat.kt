@@ -12,6 +12,8 @@ data class SkillDef(
     val powerPct: Long = 100,
     val radiusX100: Int = 160,
     val angleDeg: Int = 110,
+    /** Hits with matk instead of atk (spec 05, "Damage kind"). */
+    val magical: Boolean = false,
 )
 
 /** The dodge roll (spec 05, "Dodge roll"): from a skill of type "movement"; [enabled] is false when the protagonist has none. */

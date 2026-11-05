@@ -416,6 +416,7 @@ Scenario scenario_from_json(const Json& in) {
     setup.skill.power_pct = integer(skill, "power_pct");
     setup.skill.radius_x100 = skill.at("radius_x100").get<int>();
     setup.skill.angle_deg = skill.at("angle_deg").get<int>();
+    setup.skill.magical = skill.value("kind", "physical") == "magical";
     if (in.contains("strike")) {
         const Json& strike = in.at("strike");
         setup.strike.enabled = true;
@@ -427,6 +428,7 @@ Scenario scenario_from_json(const Json& in) {
         setup.strike.skill.power_pct = integer(strike, "power_pct");
         setup.strike.skill.radius_x100 = strike.at("radius_x100").get<int>();
         setup.strike.skill.angle_deg = strike.at("angle_deg").get<int>();
+        setup.strike.skill.magical = strike.value("kind", "physical") == "magical";
     }
     if (in.contains("dodge")) {
         const Json& dodge = in.at("dodge");
