@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/potion_mana_small",
+  "name": "$i18n:item.potion_mana_small.name",
+  "description": "$i18n:item.potion_mana_small.desc",
+  "kind": "consumable",
+  "rarity": "common",
+  "price": 40,
+  "stack_max": 99,
+  "use": {
+    "effects": [
+      {
+        "effect": "restore_mp",
+        "amount": 30
+      }
+    ]
+  }
+}

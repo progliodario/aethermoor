@@ -39,6 +39,7 @@ def enemy(x: float, y: float, **overrides) -> dict:
 
 ITEMS = {
     "base:item/bread": {"kind": "food", "price": 5, "effects": [{"effect": "heal", "amount": 30}]},
+    "base:item/potion_mana_small": {"kind": "consumable", "price": 40, "effects": [{"effect": "restore_mp", "amount": 30}]},
     "base:item/slime_gel": {"kind": "material", "price": 3, "effects": []},
     "base:item/practice_sword": {"kind": "weapon", "price": 20, "weapon": {"atk": 3, "matk": 0}},
     "base:item/iron_sword": {"kind": "weapon", "price": 150, "weapon": {"atk": 7, "matk": 0}},
@@ -107,6 +108,12 @@ def build_scenarios() -> list[dict]:
                   segment(300, attack=True),
                   segment(1, do=[{"cmd": "use", "item": "base:item/bread"}, {"cmd": "use", "item": "base:item/bread"}])],
                  inventory={"base:item/bread": 3, "base:item/slime_gel": 2}),
+        # Mana potions (spec 06): two power strikes cost twenty points, the potion gives them back (and a second one at full mana is refused).
+        scenario("use_mana_potion", [enemy(3.5, 4.5, hp=400, **{"behavior_overrides": {"aggro_x100": 0}, "speed_x100": 0})],
+                 [segment(1, do=[{"cmd": "use", "item": "base:item/potion_mana_small"}]), segment(60, strike=True),
+                  segment(100, strike=True), segment(1, do=[{"cmd": "use", "item": "base:item/potion_mana_small"}]),
+                  segment(1, do=[{"cmd": "use", "item": "base:item/potion_mana_small"}])],
+                 inventory={"base:item/potion_mana_small": 3}, strike=STRIKE),
         scenario("use_refused_at_full_health", [enemy(12.0, 7.5, **passive)],
                  [segment(10, do=[{"cmd": "use", "item": "base:item/bread"}])],
                  inventory={"base:item/bread": 1}),

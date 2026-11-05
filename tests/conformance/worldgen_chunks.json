@@ -86,7 +86,8 @@
                   "base:item/honey_cake",
                   "base:item/studded_leather",
                   "base:item/bronze_blade",
-                  "base:item/tonic"
+                  "base:item/tonic",
+                  "base:item/potion_mana_small"
                 ]
               }
             },
@@ -159,7 +160,9 @@
                   "base:item/mage_robe",
                   "base:item/hand_axe",
                   "base:item/silk_robe",
-                  "base:item/travel_ration"
+                  "base:item/travel_ration",
+                  "base:item/potion_mana_small",
+                  "base:item/potion_mana_medium"
                 ]
               },
               "bias": {
@@ -256,7 +259,8 @@
                   "base:item/brigandine",
                   "base:item/pike",
                   "base:item/scale_mail",
-                  "base:item/splint_mail"
+                  "base:item/splint_mail",
+                  "base:item/potion_mana_small"
                 ]
               },
               "bias": {
@@ -444,7 +448,8 @@
                   "base:item/brigandine",
                   "base:item/claymore",
                   "base:item/splint_mail",
-                  "base:item/fish_stew"
+                  "base:item/fish_stew",
+                  "base:item/potion_mana_small"
                 ]
               },
               "bias": {
@@ -756,7 +761,9 @@
                   "base:item/moon_blade",
                   "base:item/warding_robe",
                   "base:item/silk_robe",
-                  "base:item/travel_ration"
+                  "base:item/travel_ration",
+                  "base:item/potion_mana_small",
+                  "base:item/potion_mana_medium"
                 ]
               },
               "bias": {
@@ -6096,7 +6103,8 @@
                   "base:item/honey_cake",
                   "base:item/studded_leather",
                   "base:item/bronze_blade",
-                  "base:item/tonic"
+                  "base:item/tonic",
+                  "base:item/potion_mana_small"
                 ]
               }
             },
@@ -6169,7 +6177,9 @@
                   "base:item/mage_robe",
                   "base:item/hand_axe",
                   "base:item/silk_robe",
-                  "base:item/travel_ration"
+                  "base:item/travel_ration",
+                  "base:item/potion_mana_small",
+                  "base:item/potion_mana_medium"
                 ]
               },
               "bias": {
@@ -6266,7 +6276,8 @@
                   "base:item/brigandine",
                   "base:item/pike",
                   "base:item/scale_mail",
-                  "base:item/splint_mail"
+                  "base:item/splint_mail",
+                  "base:item/potion_mana_small"
                 ]
               },
               "bias": {
@@ -6454,7 +6465,8 @@
                   "base:item/brigandine",
                   "base:item/claymore",
                   "base:item/splint_mail",
-                  "base:item/fish_stew"
+                  "base:item/fish_stew",
+                  "base:item/potion_mana_small"
                 ]
               },
               "bias": {
@@ -6766,7 +6778,9 @@
                   "base:item/moon_blade",
                   "base:item/warding_robe",
                   "base:item/silk_robe",
-                  "base:item/travel_ration"
+                  "base:item/travel_ration",
+                  "base:item/potion_mana_small",
+                  "base:item/potion_mana_medium"
                 ]
               },
               "bias": {
@@ -11866,7 +11880,8 @@
                   "base:item/honey_cake",
                   "base:item/studded_leather",
                   "base:item/bronze_blade",
-                  "base:item/tonic"
+                  "base:item/tonic",
+                  "base:item/potion_mana_small"
                 ]
               }
             },
@@ -11939,7 +11954,9 @@
                   "base:item/mage_robe",
                   "base:item/hand_axe",
                   "base:item/silk_robe",
-                  "base:item/travel_ration"
+                  "base:item/travel_ration",
+                  "base:item/potion_mana_small",
+                  "base:item/potion_mana_medium"
                 ]
               },
               "bias": {
@@ -12036,7 +12053,8 @@
                   "base:item/brigandine",
                   "base:item/pike",
                   "base:item/scale_mail",
-                  "base:item/splint_mail"
+                  "base:item/splint_mail",
+                  "base:item/potion_mana_small"
                 ]
               },
               "bias": {
@@ -12224,7 +12242,8 @@
                   "base:item/brigandine",
                   "base:item/claymore",
                   "base:item/splint_mail",
-                  "base:item/fish_stew"
+                  "base:item/fish_stew",
+                  "base:item/potion_mana_small"
                 ]
               },
               "bias": {
@@ -12536,7 +12555,9 @@
                   "base:item/moon_blade",
                   "base:item/warding_robe",
                   "base:item/silk_robe",
-                  "base:item/travel_ration"
+                  "base:item/travel_ration",
+                  "base:item/potion_mana_small",
+                  "base:item/potion_mana_medium"
                 ]
               },
               "bias": {
@@ -18268,7 +18289,8 @@
                   "base:item/honey_cake",
                   "base:item/studded_leather",
                   "base:item/bronze_blade",
-                  "base:item/tonic"
+                  "base:item/tonic",
+                  "base:item/potion_mana_small"
                 ]
               }
             },
@@ -18341,7 +18363,9 @@
                   "base:item/mage_robe",
                   "base:item/hand_axe",
                   "base:item/silk_robe",
-                  "base:item/travel_ration"
+                  "base:item/travel_ration",
+                  "base:item/potion_mana_small",
+                  "base:item/potion_mana_medium"
                 ]
               },
               "bias": {
@@ -18438,7 +18462,8 @@
                   "base:item/brigandine",
                   "base:item/pike",
                   "base:item/scale_mail",
-                  "base:item/splint_mail"
+                  "base:item/splint_mail",
+                  "base:item/potion_mana_small"
                 ]
               },
               "bias": {
@@ -18626,7 +18651,8 @@
                   "base:item/brigandine",
                   "base:item/claymore",
                   "base:item/splint_mail",
-                  "base:item/fish_stew"
+                  "base:item/fish_stew",
+                  "base:item/potion_mana_small"
                 ]
               },
               "bias": {
@@ -18938,7 +18964,9 @@
                   "base:item/moon_blade",
                   "base:item/warding_robe",
                   "base:item/silk_robe",
-                  "base:item/travel_ration"
+                  "base:item/travel_ration",
+                  "base:item/potion_mana_small",
+                  "base:item/potion_mana_medium"
                 ]
               },
               "bias": {

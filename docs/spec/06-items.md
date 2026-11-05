@@ -14,13 +14,14 @@ The inventory is a map from item ID to a positive quantity (spec 12); an item wh
 
 - a dialogue is open;
 - the inventory does not hold the item, or the item has no `use` effects;
-- none of its effects would change anything right now (for example, healing at full health).
+- none of its effects would change anything right now: no `heal` (or one at full health) and no `restore_mp` (or one at full mana). An item with both effects is used when either one would change something.
 
 Otherwise the effects are applied in order and the quantity of the item drops by one. Supported effects:
 
 | Effect | Fields | Result |
 |---|---|---|
 | `heal` | `amount` | `hp = min(max_hp, hp + amount)` |
+| `restore_mp` | `amount` (points) | `mp_u = min(max_mp * 6000, mp_u + amount * 6000)` (spec 05, "Mana") |
 
 Using an item is instant: it takes no time, has no cooldown and does not interrupt an attack. An unknown effect counts as an effect that changes nothing.
 
