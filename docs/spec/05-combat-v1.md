@@ -36,7 +36,7 @@ companions, mana for items and equipment.
 ## Player state per tick (in this order)
 
 1. `iframes`, `cooldown` and `dodge_cooldown` decrease by 1 when positive.
-1a. **Mana**: `mp_u = min(max_mp * 6000, mp_u + mp_regen_x100)` (see "Mana"). 
+1a. **Mana**: `mp_u = min(max_mp * 6000, mp_u + mp_regen_x100)` (see "Mana").
 1b. **Dodge start** (see "Dodge roll"). While a dodge is in progress, steps 2 and 3 are replaced by the roll movement and the attack phase stays `none`.
 2. Movement input is normalized (spec 02). When it is non-zero and the attack phase is `none` or `startup`, `facing`
    becomes the unit vector of the input. Movement runs with the speed multiplied by 0.5 while the attack phase is not `none`.

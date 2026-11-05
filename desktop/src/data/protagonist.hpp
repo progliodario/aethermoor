@@ -21,6 +21,8 @@ struct ProtagonistDef {
     std::vector<std::string> starting_items;  // item IDs, in data order
     std::vector<std::string> starting_skills;
     std::map<std::string, std::int64_t> starting_inventory;  // item ID -> quantity
+    std::string art_variant;  // palette variant of the character art ("" for the default)
+    bool initially_available = true;
 };
 
 std::optional<ProtagonistDef> parse_protagonist(std::string_view json_text, std::string& error);

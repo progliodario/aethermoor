@@ -277,5 +277,10 @@
   "dlg.pip.a.money": "The guild clerk in a town gives work every day: hunt a few creatures, bring back what they drop. Elders and innkeepers have jobs too, and the shops buy what you find (the Sell tab).",
   "dlg.pip.a.stones": "Wake one by touching it, and you can come back to it from any other stone you have woken: pick a place from the list, and you are there. Wake every one you pass. Mira says the long roads are made of them.",
   "dlg.pip.a.first": "Talk to Mira, in the square. She has letters from the far dungeons, but start with the slimes in the meadow, and the barrow to the north-west, and the cellar to the north-east. Then the outposts, with the wayfarers; they all have stories.",
-  "dlg.pip.a.map": "M opens the map of what you have seen: zoom with + and -, move it with W A S D or by dragging, and C brings you back to yourself. Villages are yellow, dungeons violet. The regions have names at the top of the screen, and every outpost has a signpost. When you are really lost, find a stone, or a village. There is always one, somewhere."
+  "dlg.pip.a.map": "M opens the map of what you have seen: zoom with + and -, move it with W A S D or by dragging, and C brings you back to yourself. Villages are yellow, dungeons violet. The regions have names at the top of the screen, and every outpost has a signpost. When you are really lost, find a stone, or a village. There is always one, somewhere.",
+  "ui.protagonist_choose": "Choose who you will be",
+  "ui.protagonist_gift": "Gift",
+  "ui.protagonist_story": "Story",
+  "ui.protagonist_hint": "[W/S] choose   [E] confirm   [1-4] pick   [Esc] back",
+  "ui.protagonist_hint_touch": "Tap a name to see it, tap it again to choose it"
 }

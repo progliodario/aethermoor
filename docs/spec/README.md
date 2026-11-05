@@ -1,6 +1,6 @@
 # Specifications
 
-Normative rules shared by the desktop and Android clients. **Status:** 00 to 09, 12, 13, 16 and 17 are written and have conformance suites; 10, 11, 14 and 15 are still to come with their milestones. The planned content is described in `docs/plan/02-dati-specifiche-e-formati.md`.
+Normative rules shared by the desktop and Android clients. **Status:** 00 to 09, 12, 13, 16, 17 and 18 are written and have conformance suites; 10, 11, 14 and 15 are still to come with their milestones. The planned content is described in `docs/plan/02-dati-specifiche-e-formati.md`.
 
 | # | Document | Milestone |
 |---|---|---|
@@ -14,6 +14,7 @@ Normative rules shared by the desktop and Android clients. **Status:** 00 to 09,
 | [07](07-quests-and-dialogue.md) | quests, dialogue, conditions and effects, the guild, jobs, workshops, inns, wayfarers | M4a, done |
 | [08](08-world-time.md) | world time, seasons, weather, respawn, the routines of the people | M5c, done |
 | [09](09-worldgen.md) | world generation: terrain, regions, settlements, landmarks, fauna, stones, the world map | M5, done |
+| [18](18-protagonists.md) | protagonists: data, choosing one for a new game, the base roster | M3 / M8, done for four |
 | 10 | companions and AI | M7 |
 | 11 | progression, titles, tags, reincarnation | M8 |
 | [12](12-save-format.md) | save format v1 and the save slots | M4b / M5, done |

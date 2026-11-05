@@ -1,0 +1,48 @@
+{
+  "$schema": "../../../schemas/protagonist.schema.json",
+  "id": "base:protagonist/sakura",
+  "name": "$i18n:protagonist.sakura.name",
+  "tagline": "$i18n:protagonist.sakura.tagline",
+  "tone": "slapstick",
+  "base_stats": {
+    "str": 3,
+    "vit": 6,
+    "dex": 7,
+    "agi": 8,
+    "int": 11,
+    "wis": 12,
+    "luk": 8
+  },
+  "growth_pm": {
+    "str": 700,
+    "vit": 900,
+    "dex": 1000,
+    "agi": 1100,
+    "int": 1500,
+    "wis": 1500,
+    "luk": 1000
+  },
+  "free_points_per_level": 2,
+  "cheat": "unbound_mana",
+  "art_variant": "sakura",
+  "starting_items": [
+    {
+      "item": "base:item/apprentice_staff",
+      "qty": 1
+    },
+    {
+      "item": "base:item/bread",
+      "qty": 3
+    },
+    {
+      "item": "base:item/potion_mana_small",
+      "qty": 3
+    }
+  ],
+  "starting_skills": [
+    "base:skill/sakura/spark",
+    "base:skill/common/dodge",
+    "base:skill/sakura/arcane_burst"
+  ],
+  "initially_available": true
+}

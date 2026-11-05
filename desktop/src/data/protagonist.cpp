@@ -30,6 +30,8 @@ std::optional<ProtagonistDef> parse_protagonist(std::string_view json_text, std:
         for (const Json& skill : j.at("starting_skills")) {
             def.starting_skills.push_back(skill.get<std::string>());
         }
+        def.art_variant = j.value("art_variant", "");
+        def.initially_available = j.value("initially_available", true);
         return def;
     } catch (const Json::exception& e) {
         error = e.what();

@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../../schemas/skill.schema.json",
+  "id": "base:skill/sakura/arcane_burst",
+  "name": "$i18n:skill.sakura.arcane_burst.name",
+  "description": "$i18n:skill.sakura.arcane_burst.desc",
+  "type": "active",
+  "cost": {
+    "mp": 9
+  },
+  "cooldown_ticks": 80,
+  "timing": {
+    "startup": 12,
+    "active": 4,
+    "recovery": 18
+  },
+  "damage": {
+    "kind": "magical",
+    "element": "none",
+    "power_pct": 150
+  },
+  "tags": [
+    "magic",
+    "area"
+  ],
+  "hitbox": {
+    "shape": "arc",
+    "radius_x100": 260,
+    "angle_deg": 360
+  }
+}

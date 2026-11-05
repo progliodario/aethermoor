@@ -4,12 +4,13 @@ Terms of the game (from the plan; the ones marked "planned" are not in the game 
 
 | Italian | English | Meaning |
 |---|---|---|
-| Dono | Gift | The protagonist's "cheat" (planned: Ren, the only protagonist so far, has none yet) |
+| Dono | Gift | The protagonist's "cheat": Ren's System Eye is Analyze, the others' gifts are flavor and stats for now (spec 18) |
 | Soglia | Threshold | Place/force of Lyra between worlds; checkpoint stones |
 | Pietra della Soglia | Threshold Stone | A glowing stone in the plaza of every hamlet, village, town and outpost: wake it with `E` to heal and to travel to the stones you woke (spec 09) |
 | Echi (dell'anima) | Echoes | Meta-currency earned on reincarnation (planned) |
 | Albero dell'Eredità | Legacy Tree | Meta-progression tree kept across lives (planned) |
-| Ospite | Guest / Wanderer | Soul summoned from another world |
+| Ospite | Guest / Wanderer | Soul summoned from another world; the protagonists are Guests (Ren, Sakura, Daichi, Haruka) |
+| Mana | Mana | The pool spent by the power strike and the other skills with a cost; regenerates over time (spec 05) |
 | Marea Oscura | Dark Tide | Cyclic threat that the Demon King leads (planned) |
 | Finestra di stato | Status window | In-game system window with stats (planned) |
 | Titolo | Title | Earned honorific with small bonuses (planned) |

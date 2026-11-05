@@ -1,0 +1,48 @@
+{
+  "$schema": "../../../schemas/protagonist.schema.json",
+  "id": "base:protagonist/daichi",
+  "name": "$i18n:protagonist.daichi.name",
+  "tagline": "$i18n:protagonist.daichi.tagline",
+  "tone": "drama",
+  "base_stats": {
+    "str": 8,
+    "vit": 11,
+    "dex": 6,
+    "agi": 5,
+    "int": 4,
+    "wis": 6,
+    "luk": 7
+  },
+  "growth_pm": {
+    "str": 1200,
+    "vit": 1500,
+    "dex": 900,
+    "agi": 800,
+    "int": 700,
+    "wis": 900,
+    "luk": 900
+  },
+  "free_points_per_level": 2,
+  "cheat": "eternal_aegis",
+  "art_variant": "daichi",
+  "starting_items": [
+    {
+      "item": "base:item/fire_axe",
+      "qty": 1
+    },
+    {
+      "item": "base:item/bread",
+      "qty": 3
+    },
+    {
+      "item": "base:item/potion_small",
+      "qty": 2
+    }
+  ],
+  "starting_skills": [
+    "base:skill/daichi/axe_chop",
+    "base:skill/daichi/shield_roll",
+    "base:skill/daichi/guard_slam"
+  ],
+  "initially_available": true
+}

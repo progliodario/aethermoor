@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../../schemas/skill.schema.json",
+  "id": "base:skill/daichi/shield_roll",
+  "name": "$i18n:skill.daichi.shield_roll.name",
+  "description": "$i18n:skill.daichi.shield_roll.desc",
+  "type": "movement",
+  "cost": {
+    "mp": 0
+  },
+  "cooldown_ticks": 50,
+  "timing": {
+    "startup": 0,
+    "active": 10,
+    "recovery": 0
+  },
+  "tags": [
+    "movement"
+  ],
+  "movement": {
+    "speed_mult_x100": 220,
+    "iframes": 16
+  }
+}
