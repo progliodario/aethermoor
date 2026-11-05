@@ -88,7 +88,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 6
                 },
                 {
                   "enemy": "base:enemy/slime_mint",
@@ -141,7 +141,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 5
                 },
                 {
                   "enemy": "base:enemy/wolf_dire",
@@ -268,6 +268,11 @@
                   "enemy": "base:enemy/stone_golem",
                   "drop": "base:item/golem_core",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -330,7 +335,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_amber",
@@ -451,6 +456,11 @@
                   "enemy": "base:enemy/night_owl",
                   "drop": "base:item/owl_feather",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -512,7 +522,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_coral",
@@ -622,6 +632,11 @@
                   "enemy": "base:enemy/dune_scorpion",
                   "drop": "base:item/scorpion_sting",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -752,6 +767,11 @@
                   "enemy": "base:enemy/night_owl",
                   "drop": "base:item/owl_feather",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -1514,7 +1534,7 @@
               "forest"
             ],
             "min_distance": 14,
-            "per_10000": 8,
+            "per_10000": 11,
             "respawn_ticks": 36000
           },
           "time": {
@@ -6049,7 +6069,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 6
                 },
                 {
                   "enemy": "base:enemy/slime_mint",
@@ -6102,7 +6122,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 5
                 },
                 {
                   "enemy": "base:enemy/wolf_dire",
@@ -6229,6 +6249,11 @@
                   "enemy": "base:enemy/stone_golem",
                   "drop": "base:item/golem_core",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -6291,7 +6316,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_amber",
@@ -6412,6 +6437,11 @@
                   "enemy": "base:enemy/night_owl",
                   "drop": "base:item/owl_feather",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -6473,7 +6503,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_coral",
@@ -6583,6 +6613,11 @@
                   "enemy": "base:enemy/dune_scorpion",
                   "drop": "base:item/scorpion_sting",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -6713,6 +6748,11 @@
                   "enemy": "base:enemy/night_owl",
                   "drop": "base:item/owl_feather",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -7475,7 +7515,7 @@
               "forest"
             ],
             "min_distance": 14,
-            "per_10000": 8,
+            "per_10000": 11,
             "respawn_ticks": 36000
           },
           "time": {

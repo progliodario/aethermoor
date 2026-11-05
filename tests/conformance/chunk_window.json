@@ -134,7 +134,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 6
                 },
                 {
                   "enemy": "base:enemy/slime_mint",
@@ -187,7 +187,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 5
                 },
                 {
                   "enemy": "base:enemy/wolf_dire",
@@ -314,6 +314,11 @@
                   "enemy": "base:enemy/stone_golem",
                   "drop": "base:item/golem_core",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -376,7 +381,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_amber",
@@ -497,6 +502,11 @@
                   "enemy": "base:enemy/night_owl",
                   "drop": "base:item/owl_feather",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -558,7 +568,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_coral",
@@ -668,6 +678,11 @@
                   "enemy": "base:enemy/dune_scorpion",
                   "drop": "base:item/scorpion_sting",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -798,6 +813,11 @@
                   "enemy": "base:enemy/night_owl",
                   "drop": "base:item/owl_feather",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -1560,7 +1580,7 @@
               "forest"
             ],
             "min_distance": 14,
-            "per_10000": 8,
+            "per_10000": 11,
             "respawn_ticks": 36000
           },
           "time": {
@@ -5505,83 +5525,83 @@
         "after": [
           {
             "op": "start",
-            "count": 36,
-            "digest": "0xbec6d0dc7b2e2a49"
+            "count": 47,
+            "digest": "0x3f7e026fec09dc46"
+          },
+          {
+            "op": "move",
+            "count": 37,
+            "digest": "0x73cf7b2acce725cc"
+          },
+          {
+            "op": "move",
+            "count": 30,
+            "digest": "0x9d9cb5888dc0c64b"
+          },
+          {
+            "op": "kill",
+            "count": 30,
+            "digest": "0x606c6291ef9d0003"
+          },
+          {
+            "op": "kill",
+            "count": 30,
+            "digest": "0x161b08fec808444c"
+          },
+          {
+            "op": "move",
+            "count": 47,
+            "digest": "0x46fab8def752ccec"
+          },
+          {
+            "op": "move",
+            "count": 12,
+            "digest": "0x049a51625b2106a9"
+          },
+          {
+            "op": "move",
+            "count": 16,
+            "digest": "0x594b9f959e51106d"
           },
           {
             "op": "move",
             "count": 28,
-            "digest": "0x9680730b0f0a9359"
+            "digest": "0x0b93ce749cd19843"
           },
           {
             "op": "move",
-            "count": 24,
-            "digest": "0x8580a67d7cc0356a"
-          },
-          {
-            "op": "kill",
-            "count": 24,
-            "digest": "0x68a7019d4dd84394"
-          },
-          {
-            "op": "kill",
-            "count": 24,
-            "digest": "0x134f8dccc6760eef"
-          },
-          {
-            "op": "move",
-            "count": 36,
-            "digest": "0x6ff64ad3ff50e97a"
-          },
-          {
-            "op": "move",
-            "count": 6,
-            "digest": "0x3588fc3952421dac"
-          },
-          {
-            "op": "move",
-            "count": 7,
-            "digest": "0x986fc7999be8c7c8"
-          },
-          {
-            "op": "move",
-            "count": 22,
-            "digest": "0x1c64547f41ed4991"
-          },
-          {
-            "op": "move",
-            "count": 34,
-            "digest": "0x2fcba1c395fa1dec"
+            "count": 45,
+            "digest": "0xf079786c42b11e0f"
           },
           {
             "op": "wait",
-            "count": 34,
-            "digest": "0x2fcba1c395fa1dec"
+            "count": 45,
+            "digest": "0xf079786c42b11e0f"
           },
           {
             "op": "move",
-            "count": 6,
-            "digest": "0x3588fc3952421dac"
+            "count": 12,
+            "digest": "0x049a51625b2106a9"
           },
           {
             "op": "move",
-            "count": 22,
-            "digest": "0x1c64547f41ed4991"
+            "count": 28,
+            "digest": "0x0b93ce749cd19843"
           },
           {
             "op": "wait",
-            "count": 22,
-            "digest": "0x1c64547f41ed4991"
+            "count": 28,
+            "digest": "0x0b93ce749cd19843"
           },
           {
             "op": "move",
-            "count": 6,
-            "digest": "0x3588fc3952421dac"
+            "count": 12,
+            "digest": "0x049a51625b2106a9"
           },
           {
             "op": "move",
-            "count": 24,
-            "digest": "0x13c419a4cad45e70"
+            "count": 30,
+            "digest": "0xdf840dba01bceb3c"
           }
         ]
       }
@@ -5694,7 +5714,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 6
                 },
                 {
                   "enemy": "base:enemy/slime_mint",
@@ -5747,7 +5767,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 5
                 },
                 {
                   "enemy": "base:enemy/wolf_dire",
@@ -5874,6 +5894,11 @@
                   "enemy": "base:enemy/stone_golem",
                   "drop": "base:item/golem_core",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -5936,7 +5961,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_amber",
@@ -6057,6 +6082,11 @@
                   "enemy": "base:enemy/night_owl",
                   "drop": "base:item/owl_feather",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -6118,7 +6148,7 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 3
                 },
                 {
                   "enemy": "base:enemy/slime_coral",
@@ -6228,6 +6258,11 @@
                   "enemy": "base:enemy/dune_scorpion",
                   "drop": "base:item/scorpion_sting",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -6358,6 +6393,11 @@
                   "enemy": "base:enemy/night_owl",
                   "drop": "base:item/owl_feather",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/slime_green",
+                  "drop": "base:item/slime_gel",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -7120,7 +7160,7 @@
               "forest"
             ],
             "min_distance": 14,
-            "per_10000": 8,
+            "per_10000": 11,
             "respawn_ticks": 36000
           },
           "time": {
@@ -11065,23 +11105,23 @@
         "after": [
           {
             "op": "start",
-            "count": 10,
-            "digest": "0x26ef2524db6f58a2"
+            "count": 15,
+            "digest": "0xa315647aadcd0fdc"
           },
           {
             "op": "move",
-            "count": 7,
-            "digest": "0xe01726160472f448"
+            "count": 11,
+            "digest": "0xab85cefe11064b4e"
           },
           {
             "op": "move",
-            "count": 5,
-            "digest": "0xd3235c7c12fff6c7"
+            "count": 6,
+            "digest": "0x784d2621e05d5947"
           },
           {
             "op": "kill",
-            "count": 5,
-            "digest": "0xa08b8bd75656d623"
+            "count": 6,
+            "digest": "0x0fbe0b185d7ee59d"
           },
           {
             "op": "move",
@@ -11090,23 +11130,23 @@
           },
           {
             "op": "move",
-            "count": 3,
-            "digest": "0x385080817743cec5"
-          },
-          {
-            "op": "move",
-            "count": 9,
-            "digest": "0x9a7c2827c0f35eb3"
-          },
-          {
-            "op": "move",
             "count": 4,
-            "digest": "0xe35e24d47b8c2a89"
+            "digest": "0xe32a0163afe14e4a"
+          },
+          {
+            "op": "move",
+            "count": 14,
+            "digest": "0x6bf29f3a94c0931e"
+          },
+          {
+            "op": "move",
+            "count": 5,
+            "digest": "0xb185aea024fad560"
           },
           {
             "op": "wait",
-            "count": 4,
-            "digest": "0xe35e24d47b8c2a89"
+            "count": 5,
+            "digest": "0xb185aea024fad560"
           },
           {
             "op": "move",
@@ -11115,8 +11155,8 @@
           },
           {
             "op": "move",
-            "count": 5,
-            "digest": "0xacaa6b73da9e35e0"
+            "count": 6,
+            "digest": "0x2db73a78ee43d169"
           }
         ]
       }
