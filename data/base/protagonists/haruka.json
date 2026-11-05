@@ -1,0 +1,48 @@
+{
+  "$schema": "../../../schemas/protagonist.schema.json",
+  "id": "base:protagonist/haruka",
+  "name": "$i18n:protagonist.haruka.name",
+  "tagline": "$i18n:protagonist.haruka.tagline",
+  "tone": "cozy",
+  "base_stats": {
+    "str": 5,
+    "vit": 7,
+    "dex": 8,
+    "agi": 9,
+    "int": 6,
+    "wis": 9,
+    "luk": 10
+  },
+  "growth_pm": {
+    "str": 1000,
+    "vit": 1100,
+    "dex": 1100,
+    "agi": 1200,
+    "int": 1100,
+    "wis": 1300,
+    "luk": 1400
+  },
+  "free_points_per_level": 2,
+  "cheat": "universal_tamer",
+  "art_variant": "haruka",
+  "starting_items": [
+    {
+      "item": "base:item/vet_staff",
+      "qty": 1
+    },
+    {
+      "item": "base:item/bread",
+      "qty": 5
+    },
+    {
+      "item": "base:item/potion_small",
+      "qty": 3
+    }
+  ],
+  "starting_skills": [
+    "base:skill/haruka/staff_tap",
+    "base:skill/common/dodge",
+    "base:skill/haruka/gale_strike"
+  ],
+  "initially_available": true
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../../schemas/skill.schema.json",
+  "id": "base:skill/haruka/gale_strike",
+  "name": "$i18n:skill.haruka.gale_strike.name",
+  "description": "$i18n:skill.haruka.gale_strike.desc",
+  "type": "active",
+  "cost": {
+    "mp": 9
+  },
+  "cooldown_ticks": 80,
+  "timing": {
+    "startup": 8,
+    "active": 4,
+    "recovery": 12
+  },
+  "damage": {
+    "kind": "physical",
+    "element": "none",
+    "power_pct": 190
+  },
+  "tags": [
+    "melee",
+    "heavy"
+  ],
+  "hitbox": {
+    "shape": "arc",
+    "radius_x100": 240,
+    "angle_deg": 120
+  }
+}

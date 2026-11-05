@@ -20,6 +20,7 @@ import io.github.progliodario.aethermoor.core.regionAt
 import io.github.progliodario.aethermoor.core.settlementMarker
 import io.github.progliodario.aethermoor.core.worldEnemyIds
 import io.github.progliodario.aethermoor.core.loadPack
+import io.github.progliodario.aethermoor.core.parseProtagonist
 import io.github.progliodario.aethermoor.core.loadWorldParams
 import io.github.progliodario.aethermoor.core.sim.AttackPhase
 import io.github.progliodario.aethermoor.core.sim.Enemy
@@ -116,6 +117,13 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var journalPanel: FloatArray? = null
     private var languageRect: FloatArray? = null
     private var mapRect: FloatArray? = null
+    private var protagonistId = PROTAGONIST_ID // who is played in this game (spec 18), kept in the folder of the slot
+    private var playerVariant: String? = null // palette variant of the player's art
+    private var hasAnalyze = true // the protagonist has Ren's Analyze
+    private var chooserSlot = 0 // the game being started on the screen where a protagonist is chosen, 0: not choosing
+    private var chooserCursor = 0
+    private var chooserIds: List<String> = emptyList()
+    private var chooserRowRects: List<FloatArray> = emptyList()
     private var analyzeFrames = 0 // frames left of the Analyze panel (Z or its button), 0: hidden
     private var analyzeRect: FloatArray? = null
     private var showMinimap = true // N shows or hides the small map in the corner; a tap on it opens the world map
@@ -218,10 +226,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private fun startGame(slot: Int) {
         val loaded = assets ?: return
         currentSlot = slot
+        protagonistId = keptProtagonist(slot) ?: PROTAGONIST_ID
+        val protagonistDef = loaded.pack.readDocument(protagonistId)?.let { parseProtagonist(it).getOrNull() }
+        playerVariant = protagonistDef?.artVariant?.ifEmpty { null }
+        hasAnalyze = protagonistDef?.startingSkills?.contains("base:skill/ren/analyze") ?: true
         loadGoal() // the goal marked in this game
         titleSlots = null
         seed = chooseSeed()
-        val combat = loadCombatSetup(loaded.pack, loaded.map, PROTAGONIST_ID, seed, worldEnemyIds(loaded.worldParams), loaded.worldParams.enemyHpPct, loaded.worldParams.enemyAtkPct)
+        val combat = loadCombatSetup(loaded.pack, loaded.map, protagonistId, seed, worldEnemyIds(loaded.worldParams), loaded.worldParams.enemyHpPct, loaded.worldParams.enemyAtkPct)
             .getOrElse {
                 error = it.message
                 Gdx.app.error(TAG, "Cannot build the combat setup: ${it.message}")
@@ -344,7 +356,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private fun saveGame(world: WorldSim) {
         try {
             val temp = Gdx.files.local("saves/slot$currentSlot/auto.json.tmp")
-            temp.writeString(saveToJson(world.capture(), SaveMeta(info.version, 1, PROTAGONIST_ID, seed, MAP_WORLD)), false, "UTF-8")
+            temp.writeString(saveToJson(world.capture(), SaveMeta(info.version, 1, protagonistId, seed, MAP_WORLD)), false, "UTF-8")
             temp.moveTo(saveFile())
         } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
             Gdx.app.error(TAG, "Cannot write the save: ${e.message}")
@@ -433,6 +445,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val data = assets
         val slots = titleSlots
         if (world == null && data != null && slots != null) {
+            if (chooserSlot > 0) {
+                handleChooserInput(data)
+                if (chooserSlot > 0) drawChooser(data)
+                return
+            }
             if (Gdx.input.isKeyJustPressed(Input.Keys.BACK) || Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
                 Gdx.app.exit() // Back on the title screen closes the game
                 return
@@ -560,7 +577,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val player = world.player
         val blink = player.iframes > 0 && (player.iframes / 4) % 2 == 0
         drawCharacter(
-            data, player.moving, player.facingLeft, player.clipTick, blink, null,
+            data, player.moving, player.facingLeft, player.clipTick, blink, playerVariant,
             (player.position.x - camX) * tile, (player.position.y - camY) * tile, tilePx, k,
         )
     }
@@ -1014,7 +1031,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             showMinimap = !showMinimap
             return
         }
-        if (input.isKeyJustPressed(Input.Keys.Z)) {
+        if (input.isKeyJustPressed(Input.Keys.Z) && hasAnalyze) {
             analyzeFrames = if (analyzeFrames > 0) 0 else 360
             return
         }
@@ -1838,7 +1855,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val density = Gdx.graphics.density
         val size = 64f * density
         val button = floatArrayOf(Gdx.graphics.width - 84f * density - 24f * density - size - 12f * density, Gdx.graphics.height - size - 24f * density, size, size)
-        val buttonVisible = !world.story.dialogueActive && !showMap && !showInventory && !showJournal
+        val buttonVisible = hasAnalyze && !world.story.dialogueActive && !showMap && !showInventory && !showJournal
         analyzeRect = button.takeIf { buttonVisible }
         input.analyzeRect = analyzeRect
         shapes.projectionMatrix = camera.combined
@@ -2319,7 +2336,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             titlePendingDelete = -1
             titleNotice = ""
         } else if (input.isKeyJustPressed(Input.Keys.ENTER) || input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.SPACE)) {
-            startGame(titleCursor + 1)
+            selectSlot(titleCursor + 1)
         } else if (input.isKeyJustPressed(Input.Keys.D) || input.isKeyJustPressed(Input.Keys.FORWARD_DEL)) {
             deleteOrAsk(data, slots, titleCursor)
         } else if (input.justTouched()) {
@@ -2332,9 +2349,127 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 titleCursor = cross
                 deleteOrAsk(data, slots, cross)
             } else if (row >= 0) {
-                startGame(row + 1)
+                selectSlot(row + 1)
             }
         }
+    }
+
+    private fun protagonistFile(slot: Int) = Gdx.files.local("saves/slot$slot/protagonist.txt")
+
+    /** The protagonist kept in the folder of a game, if it still exists in the pack. */
+    private fun keptProtagonist(slot: Int): String? {
+        val file = protagonistFile(slot)
+        if (!file.exists()) return null
+        val id = file.readString("UTF-8").trim()
+        return id.takeIf { assets?.pack?.documentPaths?.containsKey(it) == true }
+    }
+
+    /** The protagonists that can be chosen: Ren first, the others in the order of their IDs. */
+    private fun availableProtagonists(pack: Pack): List<String> =
+        pack.documentPaths.keys.filter { it.startsWith("base:protagonist/") }
+            .filter { id -> pack.readDocument(id)?.let { parseProtagonist(it).getOrNull()?.initiallyAvailable } ?: false }
+            .sortedWith(compareBy({ it != PROTAGONIST_ID }, { it }))
+
+    /** A tap on a game: a game that exists (or has a protagonist) is played; a new one first asks who to be (spec 18). */
+    private fun selectSlot(slot: Int) {
+        val loaded = assets ?: return
+        if (protagonistFile(slot).exists() || slotFile(slot).exists()) {
+            startGame(slot)
+            return
+        }
+        val ids = availableProtagonists(loaded.pack)
+        if (ids.size <= 1) {
+            startGame(slot)
+            return
+        }
+        chooserIds = ids
+        chooserCursor = 0
+        chooserSlot = slot
+    }
+
+    /** The screen where a protagonist is chosen: a tap on a name selects it, a tap on the selected one (or Enter) confirms, Back returns to the games. */
+    private fun handleChooserInput(data: Assets) {
+        val input = Gdx.input
+        if (input.isKeyJustPressed(Input.Keys.BACK) || input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            chooserSlot = 0
+            return
+        }
+        val count = chooserIds.size
+        if (input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W)) {
+            chooserCursor = (chooserCursor + count - 1) % count
+        } else if (input.isKeyJustPressed(Input.Keys.DOWN) || input.isKeyJustPressed(Input.Keys.S)) {
+            chooserCursor = (chooserCursor + 1) % count
+        } else if (input.isKeyJustPressed(Input.Keys.ENTER) || input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.SPACE)) {
+            confirmProtagonist()
+        } else if (input.justTouched()) {
+            val x = input.x.toFloat()
+            val y = input.y.toFloat()
+            val row = chooserRowRects.indexOfFirst { x >= it[0] && x <= it[0] + it[2] && y >= it[1] && y <= it[1] + it[3] }
+            if (row == chooserCursor) confirmProtagonist() else if (row >= 0) chooserCursor = row
+        }
+    }
+
+    private fun confirmProtagonist() {
+        val slot = chooserSlot
+        val id = chooserIds.getOrNull(chooserCursor) ?: return
+        runCatching { protagonistFile(slot).writeString(id + "\n", false, "UTF-8") }
+        chooserSlot = 0
+        startGame(slot)
+    }
+
+    private fun protagonistKey(id: String, what: String) = "\$i18n:protagonist.${id.substringAfterLast('/')}.$what"
+
+    private fun drawChooser(data: Assets) {
+        val density = Gdx.graphics.density
+        val width = Gdx.graphics.width.toFloat()
+        val height = Gdx.graphics.height.toFloat()
+        val rowH = 44f * density
+        val gap = 6f * density
+        val rowsTop = 64f * density
+        val rects = ArrayList<FloatArray>()
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        shapes.color = Color(0.043f, 0.122f, 0.227f, 1f)
+        shapes.rect(0f, 0f, width, height)
+        for (i in chooserIds.indices) {
+            val rowY = rowsTop + i * (rowH + gap)
+            rects.add(floatArrayOf(20f * density, rowY, width - 40f * density, rowH))
+            shapes.color = if (i == chooserCursor) Color(0.118f, 0.275f, 0.47f, 1f) else Color(0.078f, 0.196f, 0.353f, 1f)
+            shapes.rect(20f * density, rowY, width - 40f * density, rowH)
+            if (i == chooserCursor) {
+                shapes.color = Color(1f, 0.84f, 0.47f, 1f)
+                shapes.rect(20f * density, rowY, width - 40f * density, 3f)
+            }
+        }
+        chooserRowRects = rects
+        shapes.end()
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        font.color = Color(1f, 0.84f, 0.47f, 1f)
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.protagonist_choose"), 20f * density, 20f * density)
+        for (i in chooserIds.indices) {
+            font.color = if (i == chooserCursor) Color.WHITE else Color(0.78f, 0.84f, 0.9f, 1f)
+            font.draw(batch, "${i + 1}. " + data.pack.text(language, protagonistKey(chooserIds[i], "name")), 32f * density, rowsTop + i * (rowH + gap) + (rowH - font.lineHeight) / 2f)
+        }
+        var ty = rowsTop + chooserIds.size * (rowH + gap) + 14f * density
+        val id = chooserIds[chooserCursor]
+        val textW = width - 40f * density
+        fun paragraph(text: String, color: Color) {
+            font.color = color
+            layout.setText(font, text, color, textW, 0, true)
+            font.draw(batch, layout, 20f * density, ty)
+            ty += layout.height + 8f * density
+        }
+        paragraph(data.pack.text(language, protagonistKey(id, "tagline")), Color(0.67f, 0.78f, 0.9f, 1f))
+        paragraph(data.pack.text(language, "\$i18n:ui.protagonist_gift"), Color(1f, 0.84f, 0.47f, 1f))
+        paragraph(data.pack.text(language, protagonistKey(id, "gift")), Color(0.92f, 0.96f, 1f, 1f))
+        paragraph(data.pack.text(language, "\$i18n:ui.protagonist_story"), Color(1f, 0.84f, 0.47f, 1f))
+        paragraph(data.pack.text(language, protagonistKey(id, "story")), Color(0.92f, 0.96f, 1f, 1f))
+        font.color = Color(0.67f, 0.78f, 0.9f, 1f)
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.protagonist_hint_touch"), 20f * density, height - 36f * density)
+        font.color = Color.WHITE
+        batch.end()
     }
 
     /** First call on a used game asks to confirm; a second call on the same game deletes its files. */

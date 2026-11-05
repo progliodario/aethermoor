@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../../schemas/skill.schema.json",
+  "id": "base:skill/sakura/spark",
+  "name": "$i18n:skill.sakura.spark.name",
+  "description": "$i18n:skill.sakura.spark.desc",
+  "type": "active",
+  "cost": {
+    "mp": 0
+  },
+  "cooldown_ticks": 26,
+  "timing": {
+    "startup": 6,
+    "active": 4,
+    "recovery": 10
+  },
+  "damage": {
+    "kind": "magical",
+    "element": "none",
+    "power_pct": 85
+  },
+  "tags": [
+    "magic",
+    "basic"
+  ],
+  "hitbox": {
+    "shape": "arc",
+    "radius_x100": 210,
+    "angle_deg": 100
+  }
+}

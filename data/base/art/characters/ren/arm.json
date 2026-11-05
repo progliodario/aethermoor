@@ -87,6 +87,30 @@
       "shirt_dark": "#6A4E32",
       "skin": "#C98E66",
       "hair": "#2A1E16"
+    },
+    "sakura": {
+      "skin": "#F6D5BA",
+      "hair": "#C86AA8",
+      "shirt": "#8A5FD0",
+      "shirt_dark": "#6A45A8",
+      "pants": "#3C3A5C",
+      "boots": "#2A2230"
+    },
+    "daichi": {
+      "skin": "#D9A878",
+      "hair": "#1E1A18",
+      "shirt": "#D6532B",
+      "shirt_dark": "#A33E1E",
+      "pants": "#2E3238",
+      "boots": "#1E1E1E"
+    },
+    "haruka": {
+      "skin": "#F0C8A8",
+      "hair": "#6A4A2E",
+      "shirt": "#4FA87A",
+      "shirt_dark": "#3A8260",
+      "pants": "#6A5A44",
+      "boots": "#4A3A2A"
     }
   }
 }

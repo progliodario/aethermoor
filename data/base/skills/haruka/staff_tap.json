@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../../schemas/skill.schema.json",
+  "id": "base:skill/haruka/staff_tap",
+  "name": "$i18n:skill.haruka.staff_tap.name",
+  "description": "$i18n:skill.haruka.staff_tap.desc",
+  "type": "active",
+  "cost": {
+    "mp": 0
+  },
+  "cooldown_ticks": 22,
+  "timing": {
+    "startup": 5,
+    "active": 4,
+    "recovery": 9
+  },
+  "damage": {
+    "kind": "physical",
+    "element": "none",
+    "power_pct": 95
+  },
+  "tags": [
+    "melee",
+    "basic"
+  ],
+  "hitbox": {
+    "shape": "arc",
+    "radius_x100": 175,
+    "angle_deg": 120
+  }
+}

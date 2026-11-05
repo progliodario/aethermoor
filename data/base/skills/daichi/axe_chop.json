@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../../schemas/skill.schema.json",
+  "id": "base:skill/daichi/axe_chop",
+  "name": "$i18n:skill.daichi.axe_chop.name",
+  "description": "$i18n:skill.daichi.axe_chop.desc",
+  "type": "active",
+  "cost": {
+    "mp": 0
+  },
+  "cooldown_ticks": 32,
+  "timing": {
+    "startup": 8,
+    "active": 4,
+    "recovery": 12
+  },
+  "damage": {
+    "kind": "physical",
+    "element": "none",
+    "power_pct": 125
+  },
+  "tags": [
+    "melee",
+    "basic"
+  ],
+  "hitbox": {
+    "shape": "arc",
+    "radius_x100": 150,
+    "angle_deg": 100
+  }
+}

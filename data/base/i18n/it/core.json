@@ -277,5 +277,10 @@
   "dlg.pip.a.money": "L'impiegato della gilda in una città dà lavoro ogni giorno: caccia qualche creatura, riporta ciò che lascia. Anche anziani e locandieri hanno lavori, e i negozi comprano ciò che trovi (la scheda Vendi).",
   "dlg.pip.a.stones": "Risvegliane una toccandola, e potrai tornarci da qualunque altra pietra risvegliata: scegli un posto dall'elenco ed eccoti là. Risveglia tutte quelle che incontri. Mira dice che le strade lunghe sono fatte di pietre.",
   "dlg.pip.a.first": "Parla con Mira, in piazza. Ha lettere dai sotterranei lontani, ma comincia con le melme del prato, il tumulo a nord-ovest e la cantina a nord-est. Poi gli avamposti, coi viandanti: hanno tutti una storia.",
-  "dlg.pip.a.map": "M apre la mappa di ciò che hai visto: ingrandisci con + e -, spostala con W A S D o trascinando, e con C torni a te. I villaggi sono gialli, i sotterranei viola. Le regioni hanno un nome in alto sullo schermo, e ogni avamposto ha un cartello. Se ti perdi davvero, cerca una pietra o un villaggio. Ce n'è sempre uno, da qualche parte."
+  "dlg.pip.a.map": "M apre la mappa di ciò che hai visto: ingrandisci con + e -, spostala con W A S D o trascinando, e con C torni a te. I villaggi sono gialli, i sotterranei viola. Le regioni hanno un nome in alto sullo schermo, e ogni avamposto ha un cartello. Se ti perdi davvero, cerca una pietra o un villaggio. Ce n'è sempre uno, da qualche parte.",
+  "ui.protagonist_choose": "Scegli chi sarai",
+  "ui.protagonist_gift": "Dono",
+  "ui.protagonist_story": "Storia",
+  "ui.protagonist_hint": "[W/S] scegli   [E] conferma   [1-4] scegli subito   [Esc] indietro",
+  "ui.protagonist_hint_touch": "Tocca un nome per vederlo, toccalo di nuovo per sceglierlo"
 }

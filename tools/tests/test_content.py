@@ -110,3 +110,40 @@ def test_the_people_of_the_overworld_stand_on_open_floor():
             if x0 <= x < x0 + stamp["w"] and y0 <= y < y0 + stamp["h"]:
                 entry = stamp["legend"].get(stamp["rows"][y - y0][x - x0])
                 assert entry is not None and entry.get("tile") == 14 and not {"prop", "spawner", "npc"} & set(entry), (npc["key"], entry)
+
+
+# --------------------------------------------------------------------------------- protagonists (spec 18)
+
+
+def _protagonists():
+    import json
+    root = Path(__file__).resolve().parents[2] / "data" / "base"
+    return root, [json.loads(p.read_text(encoding="utf-8")) for p in sorted((root / "protagonists").glob("*.json"))]
+
+
+def test_every_protagonist_is_complete():
+    import json
+    root, protagonists = _protagonists()
+    assert len(protagonists) >= 4
+    texts = {}
+    for lang in ("en", "it"):
+        texts[lang] = {}
+        for f in (root / "i18n" / lang).glob("*.json"):
+            texts[lang].update(json.loads(f.read_text(encoding="utf-8")))
+    skills = {json.loads(p.read_text(encoding="utf-8"))["id"]: json.loads(p.read_text(encoding="utf-8")) for p in (root / "skills").rglob("*.json")}
+    items = {json.loads(p.read_text(encoding="utf-8"))["id"] for p in (root / "items").glob("*.json")}
+    variants = [json.loads((root / "art/characters/ren" / f"{part}.json").read_text(encoding="utf-8"))["variants"] for part in ("head", "torso", "arm", "leg")]
+    for pr in protagonists:
+        name = pr["id"].rsplit("/", 1)[1]
+        for what in ("name", "tagline", "gift", "story"):
+            for lang in ("en", "it"):
+                assert f"protagonist.{name}.{what}" in texts[lang], (name, what, lang)
+        assert all(i["item"] in items for i in pr["starting_items"]), name
+        assert all(s in skills for s in pr["starting_skills"]), name
+        chosen = [skills[s] for s in pr["starting_skills"]]
+        assert sum("hitbox" in s for s in chosen) >= 2, name  # the attack and the power strike
+        assert sum("movement" in s for s in chosen) == 1, name  # one dodge
+        assert any(i["item"] for i in pr["starting_items"] if skills and items) and any(
+            json.loads((root / "items" / (i["item"].rsplit("/", 1)[1] + ".json")).read_text(encoding="utf-8"))["kind"] == "weapon" for i in pr["starting_items"]), name
+        if pr.get("art_variant"):
+            assert all(pr["art_variant"] in v for v in variants), name

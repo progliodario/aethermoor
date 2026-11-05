@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../../schemas/skill.schema.json",
+  "id": "base:skill/daichi/guard_slam",
+  "name": "$i18n:skill.daichi.guard_slam.name",
+  "description": "$i18n:skill.daichi.guard_slam.desc",
+  "type": "active",
+  "cost": {
+    "mp": 8
+  },
+  "cooldown_ticks": 100,
+  "timing": {
+    "startup": 10,
+    "active": 5,
+    "recovery": 18
+  },
+  "damage": {
+    "kind": "physical",
+    "element": "none",
+    "power_pct": 190
+  },
+  "tags": [
+    "melee",
+    "heavy"
+  ],
+  "hitbox": {
+    "shape": "arc",
+    "radius_x100": 210,
+    "angle_deg": 170
+  }
+}

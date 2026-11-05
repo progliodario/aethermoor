@@ -45,6 +45,10 @@ constexpr int kMaxTicksPerFrame = 5;
 constexpr double kMaxFrameSeconds = 0.25;
 constexpr float kBaseTilePx = 48.0F;
 constexpr const char* kProtagonistId = "base:protagonist/ren";
+// Who is played in this run (spec 18), chosen for a new game and kept in the folder of the slot.
+std::string g_protagonist_id = kProtagonistId;
+std::string g_art_variant;  // palette variant of the player's art
+bool g_has_analyze = true;  // the protagonist has Ren's Analyze
 constexpr const char* kMapPath = "maps/demo.tmj";
 constexpr int kFloatingTextFrames = 50;
 constexpr double kAutosaveSeconds = 30.0;
@@ -483,21 +487,23 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
     fill_rect(renderer, x, y + bar_h + 6.0F + below, bar_w, 6.0F * density, 10, 20, 40, 200);
     fill_rect(renderer, x, y + bar_h + 6.0F + below, bar_w * xp_ratio, 6.0F * density, 90, 200, 120, 255);
 
-    // The two abilities next to the bars: a square that fills while the cooldown runs and is lit when the ability is ready
-    // (green: the dodge roll, `L`; blue: the power strike, `K`, and enough mana for it).
+    // The two abilities next to the bars: a square that fills while the cooldown runs and is lit when the ability is
+    // ready (green: the dodge roll, `L`; blue: the power strike, `K`, and enough mana for it).
     const aether::CombatSetup& setup = sim.combat();
     const float pip = 15.0F * density;
     float pip_x = x + bar_w + 8.0F * density;
     const auto draw_pip = [&](float ready, bool lit, Uint8 r, Uint8 g, Uint8 b, const char* key) {
         fill_rect(renderer, pip_x - 1.0F, y - 1.0F, pip + 2.0F, pip + 2.0F, 10, 20, 40, 220);
         const float filled = std::clamp(ready, 0.0F, 1.0F);
-        fill_rect(renderer, pip_x, y + pip * (1.0F - filled), pip, pip * filled, lit ? r : 90, lit ? g : 100, lit ? b : 120, 255);
+        fill_rect(renderer, pip_x, y + pip * (1.0F - filled), pip, pip * filled, lit ? r : 90, lit ? g : 100,
+                  lit ? b : 120, 255);
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         outlined_text(renderer, pip_x + (pip - 8.0F) / 2.0F, y + (pip - 8.0F) / 2.0F, key);
         pip_x += pip + 6.0F * density;
     };
     if (setup.dodge.enabled) {
-        const float ready = 1.0F - static_cast<float>(p.dodge_cooldown) / static_cast<float>(std::max(setup.dodge.cooldown, 1));
+        const float ready =
+            1.0F - static_cast<float>(p.dodge_cooldown) / static_cast<float>(std::max(setup.dodge.cooldown, 1));
         draw_pip(ready, p.dodge_cooldown == 0, 90, 220, 120, "L");
     }
     if (setup.strike.enabled) {
@@ -1198,7 +1204,7 @@ aether::SaveMeta save_meta(const aether::WorldSim& sim) {
     aether::SaveMeta meta;
     meta.map = g_map_name;
     meta.game_version = std::string(aether::game_version());
-    meta.protagonist = kProtagonistId;
+    meta.protagonist = g_protagonist_id;
     meta.seed = sim.combat().seed;
     return meta;
 }
@@ -1405,7 +1411,8 @@ void handle_travel_key(aether::WorldSim& sim, const Assets& assets, Ui& ui, SDL_
     }
 }
 
-// The goal is kept with the game: a file `goal.txt` ("x y" in tiles) in the folder of the slot, removed when the goal is.
+// The goal is kept with the game: a file `goal.txt` ("x y" in tiles) in the folder of the slot, removed when the goal
+// is.
 void save_goal(const Ui& ui) {
     const fs::path file = g_slot_dir / "goal.txt";
     std::error_code ec;
@@ -2150,8 +2157,8 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
             const float fy = (sim.player().position.y - cam.y) * tile;
             const aether::Player& player = sim.player();
             const bool blink = player.iframes > 0 && (player.iframes / 4) % 2 == 0;
-            draw_character(renderer, cache, assets, player.moving, player.facing_left, player.clip_tick, blink, {}, fx,
-                           fy, k, tile_px);
+            draw_character(renderer, cache, assets, player.moving, player.facing_left, player.clip_tick, blink,
+                           g_art_variant, fx, fy, k, tile_px);
             draw_swing(renderer, sim, fx, fy, tile);
         } else if (item.kind == 3) {
             const float fx = (item.npc->x - cam.x) * tile;
@@ -2403,12 +2410,137 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
     }
 }
 
+// Choosing who to be (spec 18), for a new game: the protagonists that are available, with their story and gift. Returns
+// the ID of the one chosen, or "" when the player goes back to the title screen (Esc) or closes the window.
+std::string choose_protagonist(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets,
+                               const std::string& lang) {
+    std::vector<std::string> ids;
+    for (const auto& entry : assets.pack.document_paths) {
+        const std::string& id = entry.first;
+        if (id.rfind("base:protagonist/", 0) != 0) {
+            continue;
+        }
+        std::string error;
+        const auto text = assets.pack.read_document(id);
+        const auto def = text ? aether::parse_protagonist(*text, error) : std::nullopt;
+        if (def && def->initially_available) {
+            ids.push_back(id);
+        }
+    }
+    std::stable_sort(ids.begin(), ids.end(), [](const std::string& a, const std::string& b) {
+        const bool ren_a = a == kProtagonistId;
+        const bool ren_b = b == kProtagonistId;
+        return ren_a != ren_b ? ren_a : a < b;  // Ren first, the others in the order of their IDs
+    });
+    if (ids.empty()) {
+        return kProtagonistId;
+    }
+    const auto key_of = [](const std::string& id, const char* what) {
+        return std::string("$i18n:protagonist.") + id.substr(id.rfind('/') + 1) + "." + what;
+    };
+    int cursor = 0;
+    for (;;) {
+        SDL_Event event;
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_EVENT_QUIT) {
+                return "";
+            }
+            if (event.type == SDL_EVENT_KEY_DOWN && !event.key.repeat) {
+                const SDL_Keycode key = event.key.key;
+                const int digit = static_cast<int>(key) - static_cast<int>(SDLK_1);
+                if (key == SDLK_ESCAPE) {
+                    return "";
+                }
+                if (key == SDLK_UP || key == SDLK_W) {
+                    cursor = (cursor + static_cast<int>(ids.size()) - 1) % static_cast<int>(ids.size());
+                } else if (key == SDLK_DOWN || key == SDLK_S) {
+                    cursor = (cursor + 1) % static_cast<int>(ids.size());
+                } else if (key == SDLK_E || key == SDLK_RETURN || key == SDLK_KP_ENTER || key == SDLK_SPACE) {
+                    return ids[static_cast<std::size_t>(cursor)];
+                } else if (digit >= 0 && digit < static_cast<int>(ids.size())) {
+                    return ids[static_cast<std::size_t>(digit)];
+                }
+            } else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN && event.button.button == SDL_BUTTON_LEFT) {
+                SDL_ConvertEventToRenderCoordinates(renderer, &event);
+                float density = SDL_GetWindowPixelDensity(window);
+                density = density <= 0.0F ? 1.0F : density;
+                const float row_h = 40.0F * density;
+                for (std::size_t i = 0; i < ids.size(); ++i) {
+                    const float ry = 120.0F * density + static_cast<float>(i) * (row_h + 6.0F * density);
+                    if (event.button.x >= 30.0F * density && event.button.x <= 330.0F * density &&
+                        event.button.y >= ry && event.button.y <= ry + row_h) {
+                        return ids[i];
+                    }
+                }
+            }
+        }
+        float density = SDL_GetWindowPixelDensity(window);
+        density = density <= 0.0F ? 1.0F : density;
+        int out_w = 0;
+        int out_h = 0;
+        SDL_GetCurrentRenderOutputSize(renderer, &out_w, &out_h);
+        const auto draw_text = [&](float scale, float px, float py, const std::string& line, Uint8 r, Uint8 g,
+                                   Uint8 b) {
+            SDL_SetRenderScale(renderer, scale, scale);
+            SDL_SetRenderDrawColor(renderer, r, g, b, 255);
+            debug_text(renderer, px / scale, py / scale, line.c_str());
+            SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+        };
+        SDL_SetRenderDrawColor(renderer, 11, 31, 58, 255);
+        SDL_RenderClear(renderer);
+        draw_text(2.0F * density, 30.0F * density, 30.0F * density,
+                  assets.pack.text(lang, "$i18n:ui.protagonist_choose"), 255, 215, 120);
+        const float row_h = 40.0F * density;
+        for (std::size_t i = 0; i < ids.size(); ++i) {
+            const float ry = 120.0F * density + static_cast<float>(i) * (row_h + 6.0F * density);
+            const bool selected = static_cast<int>(i) == cursor;
+            fill_rect(renderer, 30.0F * density, ry, 300.0F * density, row_h, selected ? 30 : 20, selected ? 70 : 50,
+                      selected ? 120 : 90, 255);
+            if (selected) {
+                fill_rect(renderer, 30.0F * density, ry, 300.0F * density, 3.0F, 255, 215, 120, 255);
+            }
+            draw_text(1.5F * density, 42.0F * density, ry + (row_h - 12.0F * density) / 2.0F,
+                      std::to_string(i + 1) + ". " + assets.pack.text(lang, key_of(ids[i], "name")),
+                      selected ? 255 : 200, selected ? 255 : 215, selected ? 255 : 230);
+        }
+        const std::string& id = ids[static_cast<std::size_t>(cursor)];
+        const float text_x = 360.0F * density;
+        const float text_w = static_cast<float>(out_w) - text_x - 30.0F * density;
+        const float scale = 1.25F * density;
+        const std::size_t columns = std::max<std::size_t>(20, static_cast<std::size_t>(text_w / (8.0F * scale)));
+        float ty = 120.0F * density;
+        draw_text(1.75F * density, text_x, ty, assets.pack.text(lang, key_of(id, "name")), 255, 255, 255);
+        ty += 24.0F * density;
+        draw_text(scale, text_x, ty, assets.pack.text(lang, key_of(id, "tagline")), 170, 200, 230);
+        ty += 24.0F * density;
+        draw_text(scale, text_x, ty, assets.pack.text(lang, "$i18n:ui.protagonist_gift"), 255, 215, 120);
+        ty += 14.0F * density;
+        for (const std::string& line : wrap_text(assets.pack.text(lang, key_of(id, "gift")), columns)) {
+            draw_text(scale, text_x, ty, line, 235, 245, 255);
+            ty += 14.0F * density;
+        }
+        ty += 12.0F * density;
+        draw_text(scale, text_x, ty, assets.pack.text(lang, "$i18n:ui.protagonist_story"), 255, 215, 120);
+        ty += 14.0F * density;
+        for (const std::string& line : wrap_text(assets.pack.text(lang, key_of(id, "story")), columns)) {
+            draw_text(scale, text_x, ty, line, 235, 245, 255);
+            ty += 14.0F * density;
+        }
+        draw_text(1.25F * density, 30.0F * density, static_cast<float>(out_h) - 36.0F * density,
+                  assets.pack.text(lang, "$i18n:ui.protagonist_hint"), 170, 200, 230);
+        SDL_RenderPresent(renderer);
+        SDL_Delay(16);
+    }
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {
     bool smoke_test = false;
     int forced_slot = 0;     // developer option: --slot=N skips the title screen
     std::string map_choice;  // "demo" or "world"; the default depends on the mode
+    std::string
+        forced_protagonist;  // developer option: --protagonist=sakura plays that one (a new game, the smoke test)
     std::optional<std::uint64_t> forced_seed;
     std::optional<std::pair<float, float>> start_at;  // developer option: --start=X,Y in tiles
     fs::path screenshot_dir;
@@ -2435,6 +2567,9 @@ int main(int argc, char** argv) {
         }
         if (std::strncmp(argv[i], "--seed=", 7) == 0) {
             forced_seed = std::strtoull(argv[i] + 7, nullptr, 0);
+        }
+        if (std::strncmp(argv[i], "--protagonist=", 14) == 0) {
+            forced_protagonist = argv[i] + 14;
         }
         if (std::strncmp(argv[i], "--slot=", 7) == 0) {
             forced_slot = std::atoi(argv[i] + 7);
@@ -2493,6 +2628,50 @@ int main(int argc, char** argv) {
             g_slot_dir = slot_dir(slot);
         }
 
+        // Who is played: forced, else the one kept in the folder of the slot, else (a new game) the one the player
+        // chooses (spec 18).
+        g_protagonist_id = kProtagonistId;
+        if (!forced_protagonist.empty()) {
+            g_protagonist_id = "base:protagonist/" + forced_protagonist;
+        } else if (!smoke_test) {
+            const fs::path kept = g_slot_dir / "protagonist.txt";
+            if (const auto text = read_text_file(kept)) {
+                std::string id = *text;
+                while (!id.empty() && (id.back() == '\n' || id.back() == '\r' || id.back() == ' ')) {
+                    id.pop_back();
+                }
+                if (!id.empty() && assets.pack.document_paths.count(id) != 0) {
+                    g_protagonist_id = id;
+                }
+            } else if (!fs::exists(g_slot_dir / "auto.json")) {  // a new game: choose
+                const std::string chosen =
+                    choose_protagonist(window, renderer, assets, saved_language().value_or(detect_language()));
+                if (chosen.empty()) {
+                    if (forced_slot != 0) {
+                        break;  // no title screen to go back to
+                    }
+                    continue;  // back to the title screen
+                }
+                g_protagonist_id = chosen;
+                std::error_code folder_error;
+                fs::create_directories(g_slot_dir, folder_error);
+                std::ofstream out(kept, std::ios::trunc);
+                out << g_protagonist_id << "\n";
+            }
+        }
+        g_art_variant.clear();
+        g_has_analyze = true;
+        {
+            std::string protagonist_error;
+            if (const auto document = assets.pack.read_document(g_protagonist_id)) {
+                if (const auto def = aether::parse_protagonist(*document, protagonist_error)) {
+                    g_art_variant = def->art_variant;
+                    g_has_analyze = std::find(def->starting_skills.begin(), def->starting_skills.end(),
+                                              "base:skill/ren/analyze") != def->starting_skills.end();
+                }
+            }
+        }
+
         // The seed: forced, else the one of the last session on this map (so the same world comes back), else a new
         // one.
         std::uint64_t seed = smoke_test ? 1234U : SDL_GetTicksNS();
@@ -2518,7 +2697,7 @@ int main(int argc, char** argv) {
             stream = aether::StreamConfig{*params, seed};
         }
         std::string combat_error;
-        auto combat = aether::load_combat_setup(assets.pack, assets.map, kProtagonistId, seed, combat_error);
+        auto combat = aether::load_combat_setup(assets.pack, assets.map, g_protagonist_id, seed, combat_error);
         if (combat && stream) {
             for (const std::string& enemy : aether::world_enemy_ids(stream->params)) {
                 if (combat && combat->stream_enemies.count(enemy) == 0) {
@@ -2605,7 +2784,7 @@ int main(int argc, char** argv) {
                     } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_F3) {
                         debug = !debug;
                     } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_Z && !smoke_test &&
-                               !ui.show_map && !sim.story().dialogue_active()) {
+                               g_has_analyze && !ui.show_map && !sim.story().dialogue_active()) {
                         ui.analyze_frames = ui.analyze_frames > 0 ? 0 : 360;  // Analyze: six seconds, or again to hide
                     } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_N && !smoke_test &&
                                !ui.show_map) {

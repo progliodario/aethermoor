@@ -23,7 +23,8 @@ The game picks Italian or English from your system language.
   Small map ....... N (shows or hides the map in the corner)
   Debug info ...... F3       Title ........ Esc (with no panel open)
 
-The game opens on a list of three games, each with its own world: pick one
+The game opens on a list of three games, each with its own world and its own hero: a new game asks who to be
+(Ren, Sakura, Daichi or Haruka; W/S, E or the number keys). Pick one
 (W/S and E, the number keys 1-3 or the mouse); D twice deletes the selected game.
 Esc in a game saves it and comes back to this list; Esc here (or closing the window) quits.
 The game saves by itself every 30 seconds and when you quit; it continues
@@ -63,7 +64,8 @@ Il gioco sceglie italiano o inglese dalla lingua del sistema.
   Mini mappa ...... N (mostra o nasconde la mappa nell'angolo)
   Info di debug ... F3       Titolo ....... Esc (senza pannelli aperti)
 
-All'avvio vedi un elenco di tre partite, ognuna con il suo mondo: scegline una
+All'avvio vedi un elenco di tre partite, ognuna con il suo mondo e il suo eroe: una nuova partita chiede chi vuoi essere
+(Ren, Sakura, Daichi o Haruka; W/S, E o i tasti numerici). Scegline una
 (W/S ed E, i tasti 1-3 o il mouse); D due volte cancella la partita selezionata.
 Esc in una partita la salva e torna a questo elenco; Esc qui (o chiudere la finestra) esce.
 Il gioco salva da solo ogni 30 secondi e quando esci, e riprende da dove avevi

@@ -18,6 +18,9 @@ data class ProtagonistDef(
     val startingItems: List<String>,
     val startingSkills: List<String>,
     val startingInventory: Map<String, Long> = emptyMap(),
+    /** Palette variant of the character art ("" for the default). */
+    val artVariant: String = "",
+    val initiallyAvailable: Boolean = true,
 )
 
 fun parseProtagonist(jsonText: String): Result<ProtagonistDef> =
@@ -37,5 +40,7 @@ fun parseProtagonist(jsonText: String): Result<ProtagonistDef> =
             startingInventory = j["starting_items"]?.jsonArray?.associate {
                 it.jsonObject.getValue("item").jsonPrimitive.content to it.jsonObject.getValue("qty").jsonPrimitive.long
             } ?: emptyMap(),
+            artVariant = (j["art_variant"] as? JsonPrimitive)?.contentOrNull ?: "",
+            initiallyAvailable = (j["initially_available"] as? JsonPrimitive)?.contentOrNull?.toBooleanStrictOrNull() ?: true,
         )
     }
