@@ -246,10 +246,15 @@ def suite_worldmap() -> list[dict]:
             cx = nm.hash64(seed, i, 31) % 128
             cy = nm.hash64(seed, i, 32) % 128
             samples.append([cx, cy, worldgen.biome_code(seed, params, cx, cy)])
+        tiles = []
+        for i in range(60):
+            tx = nm.hash64(seed, i, 33) % 16384
+            ty = nm.hash64(seed, i, 34) % 16384
+            tiles.append([tx, ty, worldgen.biome_code_at(seed, params, tx, ty)])
         cases.append({
             "name": f"worldmap_{name}",
             "input": {"op": "worldmap", "seed": h64(seed), "cell": worldgen.MAP_CELL, "positions": positions, "params": params},
-            "expect": {"explored_count": len(cells), "explored_digest": h64(worldgen.digest_cells(cells)), "biomes": samples},
+            "expect": {"explored_count": len(cells), "explored_digest": h64(worldgen.digest_cells(cells)), "biomes": samples, "tile_biomes": tiles},
         })
     return cases
 

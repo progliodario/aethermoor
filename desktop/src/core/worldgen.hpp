@@ -346,6 +346,8 @@ std::optional<Settlement> settlement_marker(std::uint64_t seed, const WorldParam
 constexpr int kMapCell = 128;
 // Biome code of a cell: 0 water, 1 beach, 2 mountain, 3 snow, 4 desert, 5 forest, 6 plains.
 int biome_code(std::uint64_t seed, const WorldParams& params, int cell_x, int cell_y);
+// The same code for one tile: the map draws a zoomed cell as a grid of these (spec 09, "The map view").
+int biome_code_at(std::uint64_t seed, const WorldParams& params, int tile_x, int tile_y);
 // Marks the cell of the tile and its eight neighbours inside the world as explored.
 void explore(std::set<std::pair<int, int>>& cells, const WorldParams& params, int tile_x, int tile_y);
 std::uint64_t digest_cells(const std::set<std::pair<int, int>>& cells);

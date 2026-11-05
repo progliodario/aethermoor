@@ -386,6 +386,12 @@ class WorldGenTest {
                 val cy = s[1].jsonPrimitive.int
                 assertEquals(s[2].jsonPrimitive.int, biomeCode(seed, params, cx, cy), "$label cell $cx,$cy")
             }
+            for (sample in want.getValue("tile_biomes").jsonArray) {
+                val s = sample.jsonArray
+                val tx = s[0].jsonPrimitive.int
+                val ty = s[1].jsonPrimitive.int
+                assertEquals(s[2].jsonPrimitive.int, biomeCodeAt(seed, params, tx, ty), "$label tile $tx,$ty")
+            }
         }
     }
 

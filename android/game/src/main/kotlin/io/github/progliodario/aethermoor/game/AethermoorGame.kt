@@ -15,6 +15,7 @@ import io.github.progliodario.aethermoor.core.MAP_CELL
 import io.github.progliodario.aethermoor.core.Pack
 import io.github.progliodario.aethermoor.core.WorldParams
 import io.github.progliodario.aethermoor.core.biomeCode
+import io.github.progliodario.aethermoor.core.biomeCodeAt
 import io.github.progliodario.aethermoor.core.regionAt
 import io.github.progliodario.aethermoor.core.settlementMarker
 import io.github.progliodario.aethermoor.core.worldEnemyIds
@@ -124,6 +125,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var mapTouchOnButton = false
     private var mapButtons: List<MapButton> = emptyList()
     private val mapCodes = HashMap<Pair<Int, Int>, Int>()
+    private val mapDetail = HashMap<Triple<Int, Int, Int>, ByteArray>() // biome codes of the sampled tiles of a cell (x, y, n): n x n, row by row
     private val mapMarkers = HashMap<Pair<Int, Int>, io.github.progliodario.aethermoor.core.Settlement?>()
     private var message = ""
     private var messageFrames = 0
@@ -171,6 +173,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         messageFrames = 0
         floating.clear()
         mapCodes.clear()
+        mapDetail.clear()
         mapMarkers.clear()
         titleSlots = readSlots()
     }
@@ -1667,14 +1670,34 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             shapes.rect(v.x, v.y, v.side, v.side) // beyond the edge of the world
             shapes.color = Color(0.08f, 0.14f, 0.26f, 1f)
             clipped(v.toX(0f), v.toY(0f), v.cell * columns, v.cell * rows) // the world, still unexplored
-            val gap = if (mapLevel >= 3) 1f else 0f // a thin grid when the cells are big
+            // A cell is drawn as a grid of n x n sampled tiles (n = 1, 2, 4, 8, 16 from level 1), so that the squares stay about
+            // 4 or 5 pixels whatever the zoom: the shape of coasts, mountains and deserts shows when the map is zoomed in.
+            val n = if (mapLevel <= 0) 1 else 1 shl mapLevel
+            if (mapDetail.size > 6000) mapDetail.clear()
             for ((x, y) in world.explored) {
                 val sx = v.toX(x.toFloat())
                 val sy = v.toY(y.toFloat())
                 if (sx > v.x + v.side || sy > v.y + v.side || sx + v.cell < v.x || sy + v.cell < v.y) continue
-                val code = mapCodes.getOrPut(Pair(x, y)) { biomeCode(store.seed, store.params, x, y) }
-                shapes.color = MAP_COLORS[code]
-                clipped(sx, sy, ceil(v.cell) - gap, ceil(v.cell) - gap)
+                if (n == 1) {
+                    val code = mapCodes.getOrPut(Pair(x, y)) { biomeCode(store.seed, store.params, x, y) }
+                    shapes.color = MAP_COLORS[code]
+                    clipped(sx, sy, ceil(v.cell), ceil(v.cell))
+                    continue
+                }
+                val codes = mapDetail.getOrPut(Triple(x, y, n)) {
+                    ByteArray(n * n) { k ->
+                        val i = k % n
+                        val j = k / n
+                        biomeCodeAt(store.seed, store.params, x * MAP_CELL + (2 * i + 1) * MAP_CELL / (2 * n), y * MAP_CELL + (2 * j + 1) * MAP_CELL / (2 * n)).toByte()
+                    }
+                }
+                val sub = v.cell / n
+                for (j in 0 until n) {
+                    for (i in 0 until n) {
+                        shapes.color = MAP_COLORS[codes[j * n + i].toInt()]
+                        clipped(sx + sub * i, sy + sub * j, ceil(sub), ceil(sub))
+                    }
+                }
             }
             val boost = 1f + 0.4f * mapLevel
             for ((x, y) in world.explored) {
