@@ -12,6 +12,18 @@ All visible text is an `$i18n:` key with a text in **both** `data/base/i18n/it/`
 
 Copy the closest file in `data/base/items/` (a weapon, an armor, a consumable or a material), change the ID (`base:item/<name>`, snake_case, stable: renaming needs a save migration), give it a `rarity` and a `price`, and add `item.<name>.name` and `.desc` in both languages. Weapons have `weapon {atk, matk}`, armors `armor {def, mdef}`, consumables `use.effects` (`heal`). To sell it, add it to the `shop.stock` of a region in `data/base/worlds/overworld.json`.
 
+A consumable's `use.effects` are applied by the engine: `heal` (`amount` of health) and `restore_mp` (`amount` of mana points), both listed in [spec 06](../spec/06-items.md); a new kind of effect is a rule change (spec, reference, vectors, both clients). Mana potions are `data/base/items/potion_mana_*.json`.
+
+## A skill
+
+Skills are `data/base/skills/<owner>/<name>.json` (`schemas/skill.schema.json`) and are listed in the `starting_skills` of a protagonist (`data/base/protagonists/`). The engine knows three kinds today, picked by the content of the file, and nothing else is interpreted yet:
+
+- the first skill with a `hitbox` is the basic **attack** (`base:skill/common/slash`);
+- the second skill with a `hitbox` is the **power strike**: it needs `cost.mp` (spec 05, "Mana");
+- a skill with a `movement` block (`speed_mult_x100`, `iframes`) is the **dodge roll** (`timing.active` is its length in ticks, `cooldown_ticks` its cooldown).
+
+So changing the numbers of these skills is a data change (run `python tools/gen_conformance.py` only if a scenario copies them; the conformance scenarios carry their own numbers), but a new kind of skill (a third attack, a spell, a buff) is a rule change that starts in [spec 05](../spec/05-combat-v1.md). `base:skill/ren/analyze` is a presentation feature (the Analyze panel) and has no rules.
+
 ## A creature
 
 1. Art: copy a recipe from `data/base/art/creatures/` and change its `palette` (same keys) for a recolor, or draw a new one (`schemas/art_recipe.schema.json`: layers of `rect`, `ellipse`, `polygon` and `path` with flat, linear or radial fills). Look at it with `python tools/art_preview.py <name> --out sheet.html` and open the sheet in a browser.
