@@ -1236,7 +1236,7 @@ void set_goal(const aether::WorldSim& sim, const Assets& assets, Ui& ui, float c
 
 // Moves the view to the next place found (settlements, dungeons, lairs), nearest to the player first, and says its
 // name.
-void map_next_place(const aether::WorldSim& sim, const Assets& assets, Ui& ui) {
+void map_next_place(const aether::WorldSim& sim, Ui& ui) {
     const aether::ChunkStore* store = sim.chunks();
     if (store == nullptr) {
         return;
@@ -1293,7 +1293,7 @@ void handle_map_key(const aether::WorldSim& sim, const Assets& assets, Ui& ui, S
     } else if (key == SDLK_RIGHT || key == SDLK_D) {
         map_pan(sim, ui, step, 0.0F);
     } else if (key == SDLK_TAB) {
-        map_next_place(sim, assets, ui);
+        map_next_place(sim, ui);
     } else if (key == SDLK_P) {
         set_goal(sim, assets, ui, ui.map_cx, ui.map_cy);
     } else if (key == SDLK_X) {
