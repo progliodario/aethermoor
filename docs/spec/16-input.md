@@ -22,7 +22,7 @@ open a panel, save, load. While a dialogue is open the movement and the attack o
 | Guild board | opened by the dialogue with a guild clerk; `W`/`S` move, `E`/`Enter` accept the work, `Esc` closes |
 | Threshold Stones | `E` next to a stone: wakes it and heals; the list of woken stones opens: `W`/`S` move, `E`/`Enter` travel, `Esc` closes |
 | Journal | `Q` opens and closes it; `W`/`S` scroll |
-| World map | `M` opens and closes it; open: `+`/`-` (or `=`) and the mouse wheel zoom, `W A S D` or the arrows and dragging with the left button move the view, `P` marks the goal at the center of the view (a right click at the pointer), `X` removes it, `C` goes back to the player, `0` or `Home` frames all that was explored (spec 09, "The map view") |
+| World map | `M` opens and closes it; open: `+`/`-` (or `=`) and the mouse wheel zoom, `W A S D` or the arrows and dragging with the left button move the view, `P` marks the goal at the center of the view (a right click at the pointer), `X` removes it, `Tab` jumps to the next place found, `C` goes back to the player, `0` or `Home` frames all that was explored (spec 09, "The map view") |
 | Language | `F2` switches between Italian and English at any time |
 | Saves | `F5` quick save, `F9` quick load, `F7` new game (a new world in the same game) |
 | Debug | `F3` toggles the debug overlay |
@@ -39,7 +39,7 @@ Several things share a key because they never happen together: `E` talks next to
 | Touch, move | **Floating stick**: the first touch on the left half of the screen is the origin of the stick; dragging up to 64 dp from it gives the vector, scaled to length 1 at 64 dp |
 | Touch, attack | any touch on the right half of the screen, except on a button or a panel |
 | Buttons | bag and world map (first row) and journal and the language (`IT`/`EN`, second row) in the top left corner; a talk button on the right edge, shown next to a person or a stone |
-| World map | drag to move, pinch (or the `+` and `-` buttons) to zoom, `Goal` marks the center of the view as the goal (again to remove it), `You` to go back to the player, `All` to frame what was explored, `X` to close; the Back key closes it too |
+| World map | drag to move, pinch (or the `+` and `-` buttons) to zoom, `Goal` marks the center of the view as the goal (again to remove it), `Next` jumps to the next place found, `You` to go back to the player, `All` to frame what was explored, `X` to close; the Back key closes it too |
 | Lists | a tap on a row chooses it, a second tap on the chosen row confirms (use an item, buy, accept, travel); the journal scrolls with a tap above or below its middle; a tap outside a panel closes it |
 | Title screen | a tap chooses a game, the cross twice deletes it |
 | Back key | closes the open panel; with none open it saves the game and returns to the list of games; on the list it leaves the app |
