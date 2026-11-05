@@ -91,6 +91,8 @@ struct Ui {
         0.0F;  // where the square view of the map was drawn, in pixels (to place a goal with the mouse)
     mutable float map_view_y = 0.0F;
     mutable float map_view_side = 1.0F;
+    mutable int map_pick = -1;   // the place the view last jumped to (Tab), in order of distance
+    int last_region = -1;        // the region the player was in, to say the name when it changes
     mutable int map_level = -1;  // -1: frame what was explored when the map is drawn next
     mutable float map_cx = 0.0F;
     mutable float map_cy = 0.0F;
@@ -432,6 +434,20 @@ void draw_swing(SDL_Renderer* renderer, const aether::WorldSim& sim, float feet_
                        static_cast<int>(indices.size()));
 }
 
+// Text with a dark edge, for what is drawn over the world (the HUD): it reads on grass and snow alike. Uses the current
+// color.
+void outlined_text(SDL_Renderer* renderer, float x, float y, const char* text) {
+    Uint8 r = 255;
+    Uint8 g = 255;
+    Uint8 b = 255;
+    Uint8 a = 255;
+    SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 230);
+    debug_text(renderer, x + 0.5F, y + 0.5F, text);
+    SDL_SetRenderDrawColor(renderer, r, g, b, a);
+    debug_text(renderer, x, y, text);
+}
+
 void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, float density) {
     const aether::Player& p = sim.player();
     const float bar_w = 220.0F * density;
@@ -455,17 +471,17 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
                   static_cast<long long>(p.hp), static_cast<long long>(sim.derived().max_hp));
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_SetRenderScale(renderer, 2.0F, 2.0F);
-    debug_text(renderer, (x + 6.0F) / 2.0F, (y + 3.0F * density) / 2.0F, line);
+    outlined_text(renderer, (x + 6.0F) / 2.0F, (y + 3.0F * density) / 2.0F, line);
     const std::string level =
         assets.pack.text(ui.lang, "$i18n:ui.level", {{"level", static_cast<std::int64_t>(p.level)}});
-    debug_text(renderer, x / 2.0F, (y + bar_h + 16.0F * density) / 2.0F, level.c_str());
+    outlined_text(renderer, x / 2.0F, (y + bar_h + 16.0F * density) / 2.0F, level.c_str());
     const std::string bag_hint = assets.pack.text(ui.lang, "$i18n:ui.bag_hint");
     const float hint_x = (x + 110.0F * density) / 2.0F;
-    debug_text(renderer, hint_x, (y + bar_h + 16.0F * density) / 2.0F, bag_hint.c_str());
+    outlined_text(renderer, hint_x, (y + bar_h + 16.0F * density) / 2.0F, bag_hint.c_str());
     if (sim.streamed()) {
         // The map hint follows the bag hint whatever the language: 8 units per character, two characters of gap.
-        debug_text(renderer, hint_x + 8.0F * (text_columns(bag_hint) + 2.0F), (y + bar_h + 16.0F * density) / 2.0F,
-                   assets.pack.text(ui.lang, "$i18n:ui.map_hint").c_str());
+        outlined_text(renderer, hint_x + 8.0F * (text_columns(bag_hint) + 2.0F), (y + bar_h + 16.0F * density) / 2.0F,
+                      assets.pack.text(ui.lang, "$i18n:ui.map_hint").c_str());
     }
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
@@ -796,6 +812,8 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
     float ty = g.y + g.side + 8.0F * density;
     text(g.x, ty, assets.pack.text(ui.lang, "$i18n:ui.map_help"), 150, 200, 255);
     ty += row;
+    text(g.x, ty, assets.pack.text(ui.lang, "$i18n:ui.map_help2"), 150, 200, 255);
+    ty += row;
     const std::string where = assets.pack.text(ui.lang, "$i18n:ui.map_pos",
                                                {{"x", static_cast<std::int64_t>(std::floor(sim.player().position.x))},
                                                 {"y", static_cast<std::int64_t>(std::floor(sim.player().position.y))},
@@ -867,8 +885,8 @@ void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether:
         {{"day", static_cast<std::int64_t>(time->day)}, {"time", std::string(clock)}, {"season", season_name}});
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_SetRenderScale(renderer, 2.0F, 2.0F);
-    debug_text(renderer, (static_cast<float>(out_w) - 12.0F * density) / 2.0F - text_columns(line) * 8.0F,
-               12.0F * density / 2.0F, line.c_str());
+    outlined_text(renderer, (static_cast<float>(out_w) - 12.0F * density) / 2.0F - text_columns(line) * 8.0F,
+                  12.0F * density / 2.0F, line.c_str());
     if (const aether::ChunkStore* store = sim.chunks()) {
         const aether::WorldParams& params = store->params();
         const aether::Region& region = params.regions[static_cast<std::size_t>(
@@ -876,8 +894,8 @@ void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether:
                               static_cast<int>(std::floor(sim.player().position.y))))];
         const std::string name = assets.pack.text(ui.lang, region.name);
         SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
-        debug_text(renderer, (static_cast<float>(out_w) - 12.0F * density) / 2.0F - text_columns(name) * 8.0F,
-                   12.0F * density / 2.0F + 12.0F, name.c_str());
+        outlined_text(renderer, (static_cast<float>(out_w) - 12.0F * density) / 2.0F - text_columns(name) * 8.0F,
+                      12.0F * density / 2.0F + 12.0F, name.c_str());
     }
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
@@ -1216,6 +1234,49 @@ void set_goal(const aether::WorldSim& sim, const Assets& assets, Ui& ui, float c
     notify(ui, assets.pack.text(ui.lang, "$i18n:ui.goal_set"));
 }
 
+// Moves the view to the next place found (settlements, dungeons, lairs), nearest to the player first, and says its
+// name.
+void map_next_place(const aether::WorldSim& sim, Ui& ui) {
+    const aether::ChunkStore* store = sim.chunks();
+    if (store == nullptr) {
+        return;
+    }
+    struct Place {
+        float x;
+        float y;
+        float distance;
+        const std::string* name;
+    };
+    std::vector<Place> places;
+    for (const auto& [cx, cy] : sim.explored()) {
+        auto marker = ui.map_markers.find({cx, cy});
+        if (marker == ui.map_markers.end()) {
+            marker =
+                ui.map_markers
+                    .emplace(std::make_pair(cx, cy), aether::settlement_marker(store->seed(), store->params(), cx, cy))
+                    .first;
+        }
+        if (marker->second) {
+            const float mx = static_cast<float>(marker->second->px);
+            const float my = static_cast<float>(marker->second->py);
+            const float dx = mx - sim.player().position.x;
+            const float dy = my - sim.player().position.y;
+            places.push_back({mx, my, dx * dx + dy * dy, &marker->second->name});
+        }
+    }
+    if (places.empty()) {
+        return;
+    }
+    std::stable_sort(places.begin(), places.end(), [](const Place& a, const Place& b) {
+        return a.distance != b.distance ? a.distance < b.distance : *a.name < *b.name;
+    });
+    ui.map_pick = (ui.map_pick + 1) % static_cast<int>(places.size());
+    const Place& place = places[static_cast<std::size_t>(ui.map_pick)];
+    ui.map_cx = place.x / static_cast<float>(aether::kMapCell);
+    ui.map_cy = place.y / static_cast<float>(aether::kMapCell);
+    notify(ui, *place.name);
+}
+
 // The keys of the world map (spec 16): zoom, move the view, back to the player, frame everything explored.
 void handle_map_key(const aether::WorldSim& sim, const Assets& assets, Ui& ui, SDL_Keycode key) {
     const float step = ui.map_view_cells / 6.0F;
@@ -1231,6 +1292,8 @@ void handle_map_key(const aether::WorldSim& sim, const Assets& assets, Ui& ui, S
         map_pan(sim, ui, -step, 0.0F);
     } else if (key == SDLK_RIGHT || key == SDLK_D) {
         map_pan(sim, ui, step, 0.0F);
+    } else if (key == SDLK_TAB) {
+        map_next_place(sim, ui);
     } else if (key == SDLK_P) {
         set_goal(sim, assets, ui, ui.map_cx, ui.map_cy);
     } else if (key == SDLK_X) {
@@ -1362,7 +1425,7 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
     std::snprintf(line, sizeof(line), "%s",
                   assets.pack.text(ui.lang, "$i18n:ui.gold", {{"gold", story.gold()}}).c_str());
     SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
-    debug_text(renderer, x, y, line);
+    outlined_text(renderer, x, y, line);
     if (sim.streamed()) {
         if (const aether::ChunkStore* store = sim.chunks()) {
             std::string letter = store->params().guild.ranks[static_cast<std::size_t>(sim.guild_rank())].id;
@@ -1370,7 +1433,7 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
                 c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
             }
             const std::string text = assets.pack.text(ui.lang, "$i18n:ui.rank", {{"rank", letter}});
-            debug_text(renderer, x - text_columns(text) * 8.0F - 8.0F, y, text.c_str());
+            outlined_text(renderer, x - text_columns(text) * 8.0F - 8.0F, y, text.c_str());
         }
     }
     y += 14.0F;
@@ -1378,12 +1441,12 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
         const float px = sim.player().position.x;
         const float py = sim.player().position.y;
         SDL_SetRenderDrawColor(renderer, 170, 190, 210, 255);
-        debug_text(renderer, x, y,
-                   assets.pack
-                       .text(ui.lang, "$i18n:ui.coords",
-                             {{"x", static_cast<std::int64_t>(std::floor(px))},
-                              {"y", static_cast<std::int64_t>(std::floor(py))}})
-                       .c_str());
+        outlined_text(renderer, x, y,
+                      assets.pack
+                          .text(ui.lang, "$i18n:ui.coords",
+                                {{"x", static_cast<std::int64_t>(std::floor(px))},
+                                 {"y", static_cast<std::int64_t>(std::floor(py))}})
+                          .c_str());
         y += 12.0F;
         if (ui.has_goal) {
             const float dx = ui.goal_x - px;
@@ -1402,7 +1465,7 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
                      {"dist", static_cast<std::int64_t>(distance)}});
             }
             SDL_SetRenderDrawColor(renderer, 90, 255, 120, 255);
-            debug_text(renderer, x, y, goal.c_str());
+            outlined_text(renderer, x, y, goal.c_str());
             y += 12.0F;
         }
         y += 4.0F;
@@ -1422,12 +1485,12 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
             continue;
         }
         SDL_SetRenderDrawColor(renderer, 111, 227, 255, 255);
-        debug_text(renderer, x, y, dialogue_text(assets.pack, ui.lang, def.name, def.args).c_str());
+        outlined_text(renderer, x, y, dialogue_text(assets.pack, ui.lang, def.name, def.args).c_str());
         y += 14.0F;
         SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
         for (const std::string& wrapped :
              wrap_text(dialogue_text(assets.pack, ui.lang, stage->journal, def.args), 24)) {
-            debug_text(renderer, x, y, wrapped.c_str());
+            outlined_text(renderer, x, y, wrapped.c_str());
             y += 12.0F;
         }
         for (std::size_t i = 0; i < stage->objectives.size(); ++i) {
@@ -1436,7 +1499,7 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
             }
             std::snprintf(line, sizeof(line), "  %lld/%lld", static_cast<long long>(progress.progress[i]),
                           static_cast<long long>(stage->objectives[i].count));
-            debug_text(renderer, x, y, line);
+            outlined_text(renderer, x, y, line);
             y += 12.0F;
         }
         y += 6.0F;
@@ -1908,6 +1971,36 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     draw_atmosphere(renderer, assets, sim, ui, out_w, out_h, density, now_ms);
     draw_hud(renderer, assets, sim, ui, density);
     draw_quest_tracker(renderer, assets, sim, ui, out_w, density);
+    if (ui.has_goal && sim.streamed() && !ui.show_map) {  // an arrow around the player, toward the goal, when it is far
+        const float ddx = ui.goal_x - sim.player().position.x;
+        const float ddy = ui.goal_y - sim.player().position.y;
+        const float dist = std::sqrt(ddx * ddx + ddy * ddy);
+        if (dist > 12.0F) {
+            const float ux = ddx / dist;
+            const float uy = ddy / dist;
+            const float ox = (sim.player().position.x - cam.x) * tile;
+            const float oy = (sim.player().position.y - cam.y) * tile - 0.6F * tile;
+            const float tip_x = ox + ux * 2.7F * tile;
+            const float tip_y = oy + uy * 2.7F * tile;
+            const float base_x = ox + ux * 1.9F * tile;
+            const float base_y = oy + uy * 1.9F * tile;
+            const float barb = 0.4F * tile;
+            SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+            for (int pass = 0; pass < 2; ++pass) {  // a dark edge first, then the arrow
+                const float shift = pass == 0 ? 1.5F : 0.0F;
+                SDL_SetRenderDrawColor(renderer, pass == 0 ? 0 : 90, pass == 0 ? 0 : 255, pass == 0 ? 0 : 120, 230);
+                for (int thick = 0; thick < 3; ++thick) {
+                    const float o = static_cast<float>(thick) - 1.0F + shift;
+                    SDL_RenderLine(renderer, base_x + o, base_y + o, tip_x + o, tip_y + o);
+                    for (const float angle : {2.6F, -2.6F}) {
+                        const float bx = (ux * std::cos(angle) - uy * std::sin(angle)) * barb;
+                        const float by = (ux * std::sin(angle) + uy * std::cos(angle)) * barb;
+                        SDL_RenderLine(renderer, tip_x + o, tip_y + o, tip_x + bx + o, tip_y + by + o);
+                    }
+                }
+            }
+        }
+    }
 
     if (!sim.story().dialogue_active() && sim.story().npc_in_range() == nullptr) {
         if (const auto stone = sim.stone_near()) {
@@ -2305,6 +2398,7 @@ int main(int argc, char** argv) {
                         } else if (event.key.key == SDLK_M) {
                             ui.show_map = !ui.show_map && sim.streamed();
                             ui.map_level = -1;  // framed on what was explored, when it is drawn
+                            ui.map_pick = -1;
                             ui.show_inventory = false;
                             ui.show_journal = false;
                         } else if (event.key.key == SDLK_Q) {
@@ -2495,6 +2589,20 @@ int main(int argc, char** argv) {
                     }
                 }
 
+                if (sim.chunks() != nullptr) {  // entering a region: its name, for a moment
+                    const aether::WorldParams& world_params = sim.chunks()->params();
+                    const int region =
+                        aether::region_at(world_params, static_cast<int>(std::floor(sim.player().position.x)),
+                                          static_cast<int>(std::floor(sim.player().position.y)));
+                    if (ui.last_region >= 0 && region != ui.last_region && !smoke_test) {
+                        notify(ui, assets.pack.text(
+                                       ui.lang, "$i18n:ui.region_enter",
+                                       {{"region",
+                                         assets.pack.text(
+                                             ui.lang, world_params.regions[static_cast<std::size_t>(region)].name)}}));
+                    }
+                    ui.last_region = region;
+                }
                 {
                     const aether::DialogueView spoken = sim.story().dialogue_view();
                     if (spoken.active && !spoken.is_choice) {

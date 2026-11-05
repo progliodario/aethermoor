@@ -17,6 +17,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Changed
 
+- More help to find the way (spec 09, "The map view"): a green arrow around the player points toward the goal when it is far; entering a region says its name; on the map `Tab` (the Next button on Android) jumps to the next place found, nearest first, and `P` then makes it the goal; the HUD text has a dark edge so that it reads on grass and snow. Both clients.
 - Never get lost again (spec 09, "The map view"): the HUD shows your position in tiles, you can mark a goal on the map (`P`, a right click, or the Goal button on Android) and the HUD then shows its direction and distance (`Goal: north-east, 6300 tiles`), and the map shows the goal with a line from you and the Threshold Stones you woke. Both clients.
 - `docs/design/catalog.md` lists the world position (x, y, as the map shows it) of every site, next to its offset from the start.
 - The world map shows the land in detail: a cell of 128 x 128 tiles used to be one color (the biome of its center), so coasts and ranges were lost; zoomed in, a cell is now a grid of up to 16 x 16 squares (8 x 8 tiles each), each with the biome of its own tile (spec 09, "The map view", `biome_code_at`, new vectors of the `worldmap` suite checked by both clients).

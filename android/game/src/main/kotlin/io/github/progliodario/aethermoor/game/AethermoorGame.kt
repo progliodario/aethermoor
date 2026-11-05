@@ -116,6 +116,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var journalPanel: FloatArray? = null
     private var languageRect: FloatArray? = null
     private var mapRect: FloatArray? = null
+    private var mapPick = -1 // the place the view last jumped to (Next), in order of distance
+    private var lastRegion = -1 // the region the player was in, to say the name when it changes
     private var hasGoal = false // a place of the world marked on the map (not saved); the HUD shows its direction and distance
     private var goalX = 0f // in tiles
     private var goalY = 0f
@@ -178,6 +180,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         mapCodes.clear()
         mapDetail.clear()
         hasGoal = false
+        lastRegion = -1
         mapMarkers.clear()
         titleSlots = readSlots()
     }
@@ -486,6 +489,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
         drawAtmosphere(world)
         drawOverlays(world, cam.x, cam.y, tile, k)
+        drawGoalArrow(world, cam.x, cam.y, tile)
         drawTexts(world, data, cam.x, cam.y, tile)
         drawStory(world, data)
         drawStick()
@@ -689,13 +693,15 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 mapOf("day" to time.day, "time" to "%02d:%02d".format(hour, minute), "season" to seasonName(world, time)),
             )
             layout.setText(font, clock)
-            font.draw(batch, clock, Gdx.graphics.width - layout.width - 12f * density, 12f * density + 2f)
+            hudText(clock, Gdx.graphics.width - layout.width - 12f * density, 12f * density + 2f)
             world.chunks?.let { store ->
-                val region = store.params.regions[regionAt(store.params, floor(p.position.x).toInt(), floor(p.position.y).toInt())]
-                val name = data.pack.text(language, region.name)
+                val regionIndex = regionAt(store.params, floor(p.position.x).toInt(), floor(p.position.y).toInt())
+                val name = data.pack.text(language, store.params.regions[regionIndex].name)
+                if (lastRegion >= 0 && regionIndex != lastRegion) showNotice(data.pack.text(language, "\$i18n:ui.region_enter", mapOf("region" to name)))
+                lastRegion = regionIndex
                 font.color = Color(1f, 0.84f, 0.47f, 1f)
                 layout.setText(font, name)
-                font.draw(batch, name, Gdx.graphics.width - layout.width - 12f * density, 12f * density + 2f + font.lineHeight * 1.2f)
+                hudText(name, Gdx.graphics.width - layout.width - 12f * density, 12f * density + 2f + font.lineHeight * 1.2f)
                 font.color = Color.WHITE
             }
         }
@@ -940,6 +946,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (input.isKeyJustPressed(Input.Keys.M) && world.chunks != null) {
             showMap = true
             mapLevel = -1
+            mapPick = -1
             return
         }
         if (input.isKeyJustPressed(Input.Keys.I)) {
@@ -992,6 +999,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 if (map != null && world.chunks != null && x >= map[0] && x <= map[0] + map[2] && y >= map[1] && y <= map[1] + map[3]) {
                     showMap = true
                     mapLevel = -1
+                    mapPick = -1
                     mapTouchOnButton = true // the touch that opened the map does not drag it
                     return
                 }
@@ -1096,17 +1104,17 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         var y = 12f * density + font.lineHeight * 2.6f
         val x = width - 300f * density
         font.color = Color(1f, 0.84f, 0.47f, 1f)
-        font.draw(batch, data.pack.text(language, "\$i18n:ui.gold", mapOf("gold" to story.gold)), x, y)
+        hudText(data.pack.text(language, "\$i18n:ui.gold", mapOf("gold" to story.gold)), x, y)
         y += font.lineHeight * 1.3f
         if (world.chunks != null) {
             val px = world.player.position.x
             val py = world.player.position.y
             font.color = Color(0.67f, 0.75f, 0.82f, 1f)
-            font.draw(batch, data.pack.text(language, "\$i18n:ui.coords", mapOf("x" to floor(px).toInt(), "y" to floor(py).toInt())), x, y)
+            hudText(data.pack.text(language, "\$i18n:ui.coords", mapOf("x" to floor(px).toInt(), "y" to floor(py).toInt())), x, y)
             y += font.lineHeight * 1.2f
             if (hasGoal) {
                 font.color = Color(0.35f, 1f, 0.47f, 1f)
-                font.draw(batch, goalText(px, py, data), x, y)
+                hudText(goalText(px, py, data), x, y)
                 y += font.lineHeight * 1.2f
             }
             y += 4f * density
@@ -1116,7 +1124,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             val def = story.questDef(questId) ?: continue
             val stage: QuestStage = def.stages.firstOrNull { it.id == progress.stage } ?: continue
             font.color = Color(0.435f, 0.89f, 1f, 1f)
-            font.draw(batch, dialogueText(data.pack, def.name, def.args), x, y)
+            hudText(dialogueText(data.pack, def.name, def.args), x, y)
             y += font.lineHeight * 1.2f
             font.color = Color(0.92f, 0.96f, 1f, 1f)
             layout.setText(font, dialogueText(data.pack, stage.journal, def.args), font.color, 280f * density, 0, true)
@@ -1124,7 +1132,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             y += layout.height + 4f * density
             for ((i, objective) in stage.objectives.withIndex()) {
                 if (objective.kind == ObjectiveKind.TALK) continue
-                font.draw(batch, "  ${progress.progress[i]}/${objective.count}", x, y)
+                hudText("  ${progress.progress[i]}/${objective.count}", x, y)
                 y += font.lineHeight * 1.2f
             }
             y += 6f * density
@@ -1545,6 +1553,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (input.isKeyJustPressed(Input.Keys.LEFT) || input.isKeyJustPressed(Input.Keys.A)) mapPan(store, -step, 0f)
         if (input.isKeyJustPressed(Input.Keys.RIGHT) || input.isKeyJustPressed(Input.Keys.D)) mapPan(store, step, 0f)
         if (input.isKeyJustPressed(Input.Keys.C)) mapCenterOnPlayer(world)
+        if (input.isKeyJustPressed(Input.Keys.TAB)) mapNextPlace(world)
         if (input.isKeyJustPressed(Input.Keys.P)) setGoal(world, mapCx, mapCy)
         if (input.isKeyJustPressed(Input.Keys.X)) hasGoal = false
         if (input.isKeyJustPressed(Input.Keys.NUM_0) || input.isKeyJustPressed(Input.Keys.HOME)) mapLevel = -1
@@ -1562,6 +1571,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 3 -> mapLevel = -1
                 4 -> showMap = false
                 5 -> if (hasGoal) hasGoal = false else setGoal(world, mapCx, mapCy)
+                6 -> mapNextPlace(world)
             }
             return
         }
@@ -1609,6 +1619,57 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         goalY = (cellY * MAP_CELL).coerceIn(0f, (params.height - 1).toFloat())
         hasGoal = true
         showNotice(assets?.pack?.text(language, "\$i18n:ui.goal_set") ?: "")
+    }
+
+    /** Text over the world with a dark edge, in the current color of the font. */
+    private fun hudText(text: String, x: Float, y: Float) = mapText(text, x, y, Color(font.color))
+
+    /** An arrow around the player, toward the goal, when it is far (spec 09, "The map view"). */
+    private fun drawGoalArrow(world: WorldSim, camX: Float, camY: Float, tile: Float) {
+        if (!hasGoal || world.chunks == null || showMap) return
+        val ddx = goalX - world.player.position.x
+        val ddy = goalY - world.player.position.y
+        val dist = kotlin.math.sqrt(ddx * ddx + ddy * ddy)
+        if (dist <= 12f) return
+        val ux = ddx / dist
+        val uy = ddy / dist
+        val ox = (world.player.position.x - camX) * tile
+        val oy = (world.player.position.y - camY) * tile - 0.6f * tile
+        val tipX = ox + ux * 2.7f * tile
+        val tipY = oy + uy * 2.7f * tile
+        val baseX = ox + ux * 1.9f * tile
+        val baseY = oy + uy * 1.9f * tile
+        val barb = 0.4f * tile
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        for (pass in 0..1) { // a dark edge first, then the arrow
+            shapes.color = if (pass == 0) Color(0f, 0f, 0f, 0.9f) else Color(0.35f, 1f, 0.47f, 0.95f)
+            val width = (if (pass == 0) 4f else 2.5f) * Gdx.graphics.density
+            shapes.rectLine(baseX, baseY, tipX, tipY, width)
+            for (angle in floatArrayOf(2.6f, -2.6f)) {
+                val bx = (ux * kotlin.math.cos(angle) - uy * kotlin.math.sin(angle)) * barb
+                val by = (ux * kotlin.math.sin(angle) + uy * kotlin.math.cos(angle)) * barb
+                shapes.rectLine(tipX, tipY, tipX + bx, tipY + by, width)
+            }
+        }
+        shapes.end()
+    }
+
+    /** Moves the view to the next place found (settlements, dungeons, lairs), nearest to the player first, and says its name. */
+    private fun mapNextPlace(world: WorldSim) {
+        val store = world.chunks ?: return
+        val px = world.player.position.x
+        val py = world.player.position.y
+        val places = world.explored.mapNotNull { (x, y) -> markerAt(store, x, y) }
+            .sortedWith(compareBy({ (it.px - px) * (it.px - px) + (it.py - py) * (it.py - py) }, { it.name }))
+        if (places.isEmpty()) return
+        mapPick = (mapPick + 1) % places.size
+        val place = places[mapPick]
+        mapCx = place.px.toFloat() / MAP_CELL
+        mapCy = place.py.toFloat() / MAP_CELL
+        showNotice(place.name)
     }
 
     /** Text on the map with a dark edge, so that it reads on pale cells too. */
@@ -1670,7 +1731,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             buttonsY = legendY + font.lineHeight * 1.8f
             val size = 48f * density
             val gap = 8f * density
-            val labels = listOf("+" to 0, "-" to 1, data.pack.text(language, "\$i18n:ui.map_btn_you") to 2, data.pack.text(language, "\$i18n:ui.map_btn_all") to 3, data.pack.text(language, "\$i18n:ui.map_btn_goal") to 5, "X" to 4)
+            val labels = listOf("+" to 0, "-" to 1, data.pack.text(language, "\$i18n:ui.map_btn_you") to 2, data.pack.text(language, "\$i18n:ui.map_btn_all") to 3, data.pack.text(language, "\$i18n:ui.map_btn_goal") to 5, data.pack.text(language, "\$i18n:ui.map_btn_next") to 6, "X" to 4)
             var bx = panelX
             var by = buttonsY
             for ((label, action) in labels) {
