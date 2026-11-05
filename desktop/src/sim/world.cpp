@@ -92,6 +92,7 @@ WorldSim::WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, Combat
         m_equipped_armor_ = m_setup_.start_armor;
         recompute_derived();
         m_player_.hp = m_derived_.max_hp;
+        m_player_.mp_u = m_derived_.max_mp * 6000;
         for (const EnemySpawn& spawn : m_setup_.spawns) {
             Enemy enemy;
             enemy.def = spawn.def;
@@ -333,6 +334,7 @@ bool WorldSim::use_stone() {
         travel.fresh = true;
     }
     m_player_.hp = m_derived_.max_hp;
+    m_player_.mp_u = m_derived_.max_mp * 6000;  // a stone restores the mana too
     for (std::size_t i = 0; i < m_stones_.size(); ++i) {
         StoneStop stop;
         stop.x = m_stones_[i].first;
@@ -514,7 +516,7 @@ bool WorldSim::use_item(const std::string& item_id) {
 
 std::vector<DamageEvent> WorldSim::take_events() { return std::exchange(m_events_, {}); }
 
-void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge) {
+void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool strike) {
     Player& p = m_player_;
     const bool combat = m_setup_.enabled;
     ++m_world_ticks_;
@@ -528,6 +530,7 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge) {
         raw_y = 0.0F;
         attack = false;
         dodge = false;
+        strike = false;
     }
     if (p.iframes > 0) {
         --p.iframes;
@@ -538,6 +541,7 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge) {
     if (p.dodge_cooldown > 0) {
         --p.dodge_cooldown;
     }
+    p.mp_u = std::min(m_derived_.max_mp * 6000, p.mp_u + m_derived_.mp_regen_x100);
 
     const Vec2 direction = normalize_input(raw_x, raw_y);
     const bool moving = direction.x != 0.0F || direction.y != 0.0F;
@@ -589,11 +593,21 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge) {
         if (!combat) {
             return;
         }
-        if (attack && p.phase == AttackPhase::None && p.cooldown == 0) {
-            p.phase = AttackPhase::Startup;
-            p.phase_tick = 0;
-            p.cooldown = m_setup_.skill.cooldown;
-            std::fill(m_hit_set_.begin(), m_hit_set_.end(), false);
+        if (p.phase == AttackPhase::None && p.cooldown == 0) {
+            if (strike && m_setup_.strike.enabled && p.mp_u >= m_setup_.strike.mp * 6000) {
+                p.mp_u -= m_setup_.strike.mp * 6000;
+                p.using_strike = true;
+                p.phase = AttackPhase::Startup;
+                p.phase_tick = 0;
+                p.cooldown = m_setup_.strike.skill.cooldown;
+                std::fill(m_hit_set_.begin(), m_hit_set_.end(), false);
+            } else if (attack) {
+                p.using_strike = false;
+                p.phase = AttackPhase::Startup;
+                p.phase_tick = 0;
+                p.cooldown = m_setup_.skill.cooldown;
+                std::fill(m_hit_set_.begin(), m_hit_set_.end(), false);
+            }
         }
     }
     advance_attack();
@@ -607,7 +621,7 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge) {
 
 void WorldSim::advance_attack() {
     Player& p = m_player_;
-    const SkillDef& s = m_setup_.skill;
+    const SkillDef& s = m_player_.using_strike ? m_setup_.strike.skill : m_setup_.skill;
     switch (p.phase) {
         case AttackPhase::Startup:
             if (++p.phase_tick >= s.startup) {
@@ -634,7 +648,7 @@ void WorldSim::advance_attack() {
 
 void WorldSim::do_hits() {
     Player& p = m_player_;
-    const SkillDef& s = m_setup_.skill;
+    const SkillDef& s = m_player_.using_strike ? m_setup_.strike.skill : m_setup_.skill;
     const auto cos_half = static_cast<float>(std::cos(static_cast<double>(s.angle_deg) / 2.0 * kPi / 180.0));
     for (std::size_t index = 0; index < m_enemies_.size(); ++index) {
         Enemy& enemy = m_enemies_[index];
@@ -795,6 +809,7 @@ void WorldSim::hurt_player(const Enemy& enemy) {
         p.phase_tick = 0;
         p.dodge_ticks = 0;
         p.dodge_cooldown = 0;
+        p.mp_u = m_derived_.max_mp * 6000;
         p.iframes = kRespawnIframes;
     }
 }
@@ -905,6 +920,8 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
     m_hit_set_ = s.hit_set;
     m_player_.dodge_ticks = 0;  // a roll in progress is not saved (spec 05)
     m_player_.dodge_cooldown = 0;
+    m_player_.mp_u = m_derived_.max_mp * 6000;  // nor is the mana: a loaded game starts full
+    m_player_.using_strike = false;
     m_combat_rng_.set_state(s.combat_state, s.combat_inc);
     m_loot_rng_.set_state(s.loot_state, s.loot_inc);
     if (m_store_) {

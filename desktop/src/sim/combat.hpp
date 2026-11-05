@@ -33,6 +33,13 @@ struct DodgeDef {
     int cooldown = 40;
 };
 
+// The power strike (spec 05, "Mana"): the second skill with a hitbox; `enabled` is false when the protagonist has none.
+struct StrikeDef {
+    bool enabled = false;
+    SkillDef skill;
+    std::int64_t mp = 10;
+};
+
 struct DropDef {
     std::string item;
     std::int64_t qty_min = 1;
@@ -106,6 +113,7 @@ struct CombatSetup {
     PlayerSetup player;
     SkillDef skill;
     DodgeDef dodge;
+    StrikeDef strike;
     std::vector<EnemySpawn> spawns;
     std::vector<std::int64_t> xp_table;  // table[level - 1] = XP to go from `level` to `level + 1`
     std::uint64_t seed = 0;

@@ -1,13 +1,15 @@
 # 05. Combat v1
 
-Status: **v1 (M3 slice)**. Reference: `tools/reference/combat.py`. Conformance suite: `combat` (scenarios).
-Formulas are in `04-stats-and-combat.md`. The **dodge roll** (below) is in v1.1. Not yet: mana skills, parry, status effects, stagger, projectiles,
-companions.
+Status: **v1.2 (M3 slice: attack, dodge roll, mana and the power strike)**. Reference: `tools/reference/combat.py`. Conformance suite: `combat` (scenarios).
+Formulas are in `04-stats-and-combat.md`. The **dodge roll** (below) is in v1.1, **mana and a second attack skill** in v1.2. Not yet: parry, status effects, stagger, projectiles,
+companions, mana for items and equipment.
 
 ## Data used
 
 - **Skill** (`schemas/skill.schema.json`): `timing {startup, active, recovery}` in ticks, `cooldown_ticks`,
   `damage {kind, element, power_pct}` and `hitbox {shape: "arc", radius_x100, angle_deg}`.
+- **Second attack skill**: the second skill of `starting_skills` that has a `hitbox` is the **power strike**, with the same fields as the first (`timing`, `cooldown_ticks`, `damage.power_pct`, `hitbox`) and a `cost.mp`. In scenarios it is the object
+  `strike {startup, active, recovery, cooldown, power_pct, radius_x100, angle_deg, mp}`; without it the game has no power strike.
 - **Dodge skill** (a skill of `type: "movement"` with a `movement` block): `timing.active` is the length of the roll in ticks, `cooldown_ticks`, and
   `movement {speed_mult_x100, iframes}`. A protagonist whose `starting_skills` hold none cannot dodge. In scenarios it is the object `dodge {ticks, speed_mult_x100, iframes, cooldown}`.
 - **Enemy** (`schemas/enemy.schema.json`): `level`, `stats {hp, atk, def, mdef, speed_x100}`, `xp`, `radius_x100`,
@@ -32,16 +34,27 @@ companions.
 ## Player state per tick (in this order)
 
 1. `iframes`, `cooldown` and `dodge_cooldown` decrease by 1 when positive.
+1a. **Mana**: `mp_u = min(max_mp * 6000, mp_u + mp_regen_x100)` (see "Mana"). 
 1b. **Dodge start** (see "Dodge roll"). While a dodge is in progress, steps 2 and 3 are replaced by the roll movement and the attack phase stays `none`.
 2. Movement input is normalized (spec 02). When it is non-zero and the attack phase is `none` or `startup`, `facing`
    becomes the unit vector of the input. Movement runs with the speed multiplied by 0.5 while the attack phase is not `none`.
-3. **Attack start**: if the attack input is held, the phase is `none` and `cooldown == 0`: phase `startup`,
-   `phase_tick = 0`, `cooldown = cooldown_ticks`, the set of enemies already hit is cleared.
-4. **Attack phases**, in the same tick:
+3. **Attack start**: first, if the strike input is held, the game has a power strike, the phase is `none`, `cooldown == 0` and `mp_u >= mp * 6000`: `mp_u -= mp * 6000`,
+   the current skill becomes the strike, phase `startup`, `phase_tick = 0`, `cooldown = cooldown` of the strike, the set of enemies already hit is cleared. Otherwise, if the attack input is held, the phase is `none` and `cooldown == 0`:
+   the current skill becomes the basic attack, phase `startup`, `phase_tick = 0`, `cooldown = cooldown_ticks`, the set is cleared (a strike that is refused falls through to the attack of the same tick).
+4. **Attack phases**, in the same tick (with the timing, radius, angle and power of the current skill):
    - `startup`: `phase_tick++`; when `phase_tick >= startup` the phase becomes `active` (tick 0).
    - `active`: first run the hit test, then `phase_tick++`; when `phase_tick >= active` the phase becomes `recovery`.
    - `recovery`: `phase_tick++`; when `phase_tick >= recovery` the phase becomes `none`.
 5. Enemies update in list order.
+
+## Mana
+
+`mp_u` is the mana in units of 1/6000 of a point (so that the regeneration is exact in integers at 60 ticks per second): `mp_regen_x100` units are added every tick, which is `mp_regen_x100 / 100` points per second.
+It is capped at `max_mp * 6000` (spec 04) and starts full in a new game; the points shown are `mp_u / 6000` (floor). Equipment or a level-up that change `max_mp` do not refill it; a death, a Threshold Stone and a bed at an inn (the dialogue effect `heal_full`) fill it. Using an item never costs mana
+(no item has a mana cost yet). **Not saved** (spec 12): a loaded game starts with full mana, and a swing in progress when it is saved continues as a basic attack.
+
+The **power strike** (`base:skill/ren/power_strike`): the same arc as the slash but wider and longer, power 230 percent, a startup of 10, an active window of 4 and a recovery of 16 ticks, a cooldown of 90 ticks (shared with the
+attack: both wait for the same `cooldown`) and a cost of 10 mana. With the starting stats Ren has 100 mana and regenerates about 0.85 per second, so a strike is possible about ten times in a row and then once every twelve seconds.
 
 ## Dodge roll
 

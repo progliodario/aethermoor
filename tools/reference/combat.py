@@ -54,6 +54,8 @@ class CombatSim:
         self.weapon_atk, self.weapon_matk = pl["weapon_atk"], pl["weapon_matk"]
         self.xp_table = scenario["xp_table"]
         self.skill = scenario["skill"]
+        self.strike = scenario.get("strike")  # the power strike: a skill dict like `skill` plus "mp"; None: none (spec 05, "Mana")
+        self.cur_skill = self.skill  # the skill of the swing in progress
         self.dodge = scenario.get("dodge")  # {"ticks", "speed_mult_x100", "iframes", "cooldown"}, or None: no dodge (spec 05, "Dodge roll")
         self.dodge_ticks = 0
         self.dodge_cooldown = 0
@@ -74,6 +76,7 @@ class CombatSim:
         self.shop_def: dict | None = scenario.get("shop")  # what the shop of this place sells
         self.derived = self._derive()
         self.hp = self.derived["max_hp"]
+        self.mp_u = self.derived["max_mp"] * 6000  # mana in units of 1/6000 of a point
         self.iframes = 0
         self.cooldown = 0
         self.phase = NONE
@@ -104,15 +107,16 @@ class CombatSim:
 
     # --------------------------------------------------------------------------------- tick
 
-    def tick(self, raw_x: float, raw_y: float, attack: bool, dodge: bool = False) -> None:
+    def tick(self, raw_x: float, raw_y: float, attack: bool, dodge: bool = False, strike: bool = False) -> None:
         if self.story is not None and self.story.dialogue_active:
-            raw_x, raw_y, attack, dodge = 0.0, 0.0, False, False
+            raw_x, raw_y, attack, dodge, strike = 0.0, 0.0, False, False, False
         if self.iframes > 0:
             self.iframes -= 1
         if self.cooldown > 0:
             self.cooldown -= 1
         if self.dodge_cooldown > 0:
             self.dodge_cooldown -= 1
+        self.mp_u = min(self.derived["max_mp"] * 6000, self.mp_u + self.derived["mp_regen_x100"])
 
         vx, vy = mv.normalize_input(raw_x, raw_y)
         if dodge and self.dodge is not None and self.dodge_ticks == 0 and self.dodge_cooldown == 0 and self.phase == NONE:
@@ -146,16 +150,23 @@ class CombatSim:
                 self.clip_tick += 1
             self.x, self.y = mv.step(self.x, self.y, vx, vy, self.speed * mult, self.grid, self.props)
 
-            if attack and self.phase == NONE and self.cooldown == 0:
-                self.phase, self.phase_tick, self.cooldown = STARTUP, 0, self.skill["cooldown"]
-                self.hit_set = set()
+            if self.phase == NONE and self.cooldown == 0:
+                if strike and self.strike is not None and self.mp_u >= self.strike["mp"] * 6000:
+                    self.mp_u -= self.strike["mp"] * 6000
+                    self.cur_skill = self.strike
+                    self.phase, self.phase_tick, self.cooldown = STARTUP, 0, self.strike["cooldown"]
+                    self.hit_set = set()
+                elif attack:
+                    self.cur_skill = self.skill
+                    self.phase, self.phase_tick, self.cooldown = STARTUP, 0, self.skill["cooldown"]
+                    self.hit_set = set()
         self._advance_attack()
 
         for index, enemy in enumerate(self.enemies):
             self._update_enemy(index, enemy)
 
     def _advance_attack(self) -> None:
-        s = self.skill
+        s = self.cur_skill
         if self.phase == STARTUP:
             self.phase_tick += 1
             if self.phase_tick >= s["startup"]:
@@ -171,7 +182,7 @@ class CombatSim:
                 self.phase = NONE
 
     def _do_hits(self) -> None:
-        s = self.skill
+        s = self.cur_skill
         cos_half = math.cos(math.radians(s["angle_deg"] / 2))
         for index, enemy in enumerate(self.enemies):
             if enemy.state == DEAD or index in self.hit_set:
@@ -215,6 +226,7 @@ class CombatSim:
 
     def heal_full(self) -> None:
         self.hp = self.derived["max_hp"]
+        self.mp_u = self.derived["max_mp"] * 6000
 
     def grant_xp(self, amount: int) -> None:
         self.xp += amount
@@ -277,6 +289,7 @@ class CombatSim:
             self.x, self.y = self.spawn
             self.phase, self.phase_tick = NONE, 0
             self.dodge_ticks, self.dodge_cooldown = 0, 0
+            self.mp_u = self.derived["max_mp"] * 6000
             self.iframes = RESPAWN_IFRAMES
 
     # ---------------------------------------------------------------------------------- saves
@@ -389,6 +402,7 @@ class CombatSim:
         self.iframes, self.cooldown, self.phase, self.phase_tick = p["iframes"], p["cooldown"], p["phase"], p["phase_tick"]
         self.hit_set = {i for i, hit in enumerate(p["hit_set"]) if hit}
         self.dodge_ticks, self.dodge_cooldown = 0, 0  # a roll in progress is not saved (spec 05)
+        self.mp_u, self.cur_skill = self.derived["max_mp"] * 6000, self.skill  # nor is the mana: a loaded game starts full
         for name, stream in (("combat", self.combat), ("loot", self.loot)):
             stream.state = int(save["rng"][name]["state"], 16)
             stream.inc = int(save["rng"][name]["inc"], 16)
@@ -442,7 +456,7 @@ def run_segment(sim: CombatSim, segment: dict) -> None:
         elif command["cmd"] == "choose":
             sim.story.choose(command["index"])
     for _ in range(segment["ticks"]):
-        sim.tick(move[0], move[1], segment["attack"], segment.get("dodge", False))
+        sim.tick(move[0], move[1], segment["attack"], segment.get("dodge", False), segment.get("strike", False))
 
 
 def run_scenario(scenario: dict) -> list[dict]:

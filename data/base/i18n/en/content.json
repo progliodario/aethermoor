@@ -6,6 +6,8 @@
   "skill.common.slash.desc": "A sword strike in an arc in front of you.",
   "skill.common.dodge.name": "Dodge roll",
   "skill.common.dodge.desc": "A quick roll in the direction you are moving: for a moment nothing can hurt you.",
+  "skill.ren.power_strike.name": "Power strike",
+  "skill.ren.power_strike.desc": "A heavy, wide sword blow that costs 10 mana and needs a moment to recover.",
   "skill.ren.analyze.name": "Analyze",
   "skill.ren.analyze.desc": "Observe a target to reveal its stats and weaknesses.",
   "item.practice_sword.name": "Practice sword",

@@ -924,3 +924,34 @@ def test_dodge_is_not_saved():
     other = combat.CombatSim(m3.scenario("d", [m3.enemy(12.0, 7.5, speed_x100=0)], [], dodge=m3.DODGE))
     other.load_state(save)
     assert other.dodge_ticks == 0 and other.dodge_cooldown == 0
+
+
+# --------------------------------------------------------------------------------- mana and the power strike (spec 05)
+
+
+def test_strike_costs_mana_and_regenerates_exactly():
+    m3, combat = _dodge_scenarios()
+    sim = combat.CombatSim(m3.scenario("m", [m3.enemy(12.0, 7.5, speed_x100=0)], [], strike=m3.STRIKE))
+    full = sim.derived["max_mp"] * 6000
+    assert sim.mp_u == full
+    sim.tick(0.0, 0.0, False, False, True)  # a strike: ten points
+    assert sim.mp_u == full - 10 * 6000 + 0 or sim.mp_u == full - 10 * 6000  # regeneration is capped at the maximum
+    spent = sim.mp_u
+    for _ in range(59):
+        sim.tick(0.0, 0.0, False)
+    assert sim.mp_u == spent + 59 * sim.derived["mp_regen_x100"]  # one second: mp_regen_x100 / 100 points
+
+
+def test_strike_is_refused_without_mana_or_cooldown():
+    m3, combat = _dodge_scenarios()
+    expensive = {**m3.STRIKE, "mp": 60}
+    sim = combat.CombatSim(m3.scenario("m", [m3.enemy(12.0, 7.5, speed_x100=0)], [], strike=expensive))
+    sim.tick(0.0, 0.0, False, False, True)
+    assert sim.phase == combat.STARTUP and sim.cur_skill is sim.strike
+    for _ in range(100):  # the swing and its cooldown pass
+        sim.tick(0.0, 0.0, False)
+    low = sim.mp_u
+    sim.tick(0.0, 0.0, False, False, True)  # 40 points left: refused, and nothing else was asked
+    assert sim.phase == combat.NONE and sim.mp_u >= low
+    sim.tick(0.0, 0.0, True, False, True)  # refused, the attack of the same tick takes over
+    assert sim.phase == combat.STARTUP and sim.cur_skill is sim.skill

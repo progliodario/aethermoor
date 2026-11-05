@@ -38,8 +38,10 @@ struct Player {
     int cooldown = 0;
     AttackPhase phase = AttackPhase::None;
     int phase_tick = 0;
-    int dodge_ticks = 0;     // ticks of the dodge roll left (spec 05); not saved
-    int dodge_cooldown = 0;  // ticks until the next roll; not saved
+    std::int64_t mp_u = 0;      // mana in units of 1/6000 of a point (spec 05, "Mana"); not saved
+    bool using_strike = false;  // the swing in progress is the power strike; not saved
+    int dodge_ticks = 0;        // ticks of the dodge roll left (spec 05); not saved
+    int dodge_cooldown = 0;     // ticks until the next roll; not saved
     Vec2 dodge_dir{1.0F, 0.0F};
 };
 
@@ -132,7 +134,10 @@ public:
              std::optional<StreamConfig> stream = std::nullopt);
 
     // One fixed tick (1/60 s) with the raw movement input and the attack input of this tick.
-    void tick(float raw_x, float raw_y, bool attack = false, bool dodge = false);
+    void tick(float raw_x, float raw_y, bool attack = false, bool dodge = false, bool strike = false);
+    // The mana in points (the floor of mp_u / 6000), and whether the protagonist has a power strike.
+    std::int64_t mp() const { return m_player_.mp_u / 6000; }
+    bool has_strike() const { return m_setup_.strike.enabled; }
 
     const Player& player() const { return m_player_; }
     const TileMap& map() const { return m_map_; }

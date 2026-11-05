@@ -203,7 +203,8 @@ struct InputState {
     float x = 0.0F;
     float y = 0.0F;
     bool attack = false;
-    bool dodge = false;  // the dodge roll (spec 05): L, Left Shift or the east button of the gamepad
+    bool dodge = false;   // the dodge roll (spec 05): L, Left Shift or the east button of the gamepad
+    bool strike = false;  // the power strike (spec 05, "Mana"): K or the right shoulder button of the gamepad
 };
 
 struct InputDevices {
@@ -240,8 +241,10 @@ struct InputDevices {
         in.attack = keys[SDL_SCANCODE_J] || keys[SDL_SCANCODE_SPACE] ||
                     (SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON_LMASK) != 0;
         in.dodge = keys[SDL_SCANCODE_L] || keys[SDL_SCANCODE_LSHIFT];
+        in.strike = keys[SDL_SCANCODE_K];
         if (gamepad != nullptr) {
             in.dodge = in.dodge || SDL_GetGamepadButton(gamepad, SDL_GAMEPAD_BUTTON_EAST);
+            in.strike = in.strike || SDL_GetGamepadButton(gamepad, SDL_GAMEPAD_BUTTON_RIGHT_SHOULDER);
             if (in.x == 0.0F && in.y == 0.0F) {
                 in.x = static_cast<float>(SDL_GetGamepadAxis(gamepad, SDL_GAMEPAD_AXIS_LEFTX)) / 32767.0F;
                 in.y = static_cast<float>(SDL_GetGamepadAxis(gamepad, SDL_GAMEPAD_AXIS_LEFTY)) / 32767.0F;
@@ -465,6 +468,11 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
     const float y = 12.0F * density;
     const float hp_ratio = std::clamp(static_cast<float>(p.hp) / static_cast<float>(sim.derived().max_hp), 0.0F, 1.0F);
     fill_rect(renderer, x - 2.0F, y - 2.0F, bar_w + 4.0F, bar_h + 4.0F, 10, 20, 40, 200);
+    const float below = 10.0F * density;  // the mana bar, between the health bar and the experience bar
+    const float mp_ratio = std::clamp(
+        static_cast<float>(sim.mp()) / static_cast<float>(std::max<std::int64_t>(sim.derived().max_mp, 1)), 0.0F, 1.0F);
+    fill_rect(renderer, x, y + bar_h + 4.0F, bar_w, 7.0F * density, 10, 20, 40, 200);
+    fill_rect(renderer, x, y + bar_h + 4.0F, bar_w * mp_ratio, 7.0F * density, 80, 140, 255, 255);
     fill_rect(renderer, x, y, bar_w * hp_ratio, bar_h, 210, 60, 60, 255);
     const std::int64_t need =
         sim.combat().xp_table.empty() || p.level - 1 >= static_cast<std::int64_t>(sim.combat().xp_table.size())
@@ -472,8 +480,8 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
             : sim.combat().xp_table[static_cast<std::size_t>(p.level - 1)];
     const float xp_ratio =
         need > 0 ? std::clamp(static_cast<float>(p.xp) / static_cast<float>(need), 0.0F, 1.0F) : 0.0F;
-    fill_rect(renderer, x, y + bar_h + 6.0F, bar_w, 6.0F * density, 10, 20, 40, 200);
-    fill_rect(renderer, x, y + bar_h + 6.0F, bar_w * xp_ratio, 6.0F * density, 90, 200, 120, 255);
+    fill_rect(renderer, x, y + bar_h + 6.0F + below, bar_w, 6.0F * density, 10, 20, 40, 200);
+    fill_rect(renderer, x, y + bar_h + 6.0F + below, bar_w * xp_ratio, 6.0F * density, 90, 200, 120, 255);
 
     char line[96];
     std::snprintf(line, sizeof(line), "%s %lld/%lld", assets.pack.text(ui.lang, "$i18n:ui.hp").c_str(),
@@ -483,13 +491,14 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
     outlined_text(renderer, (x + 6.0F) / 2.0F, (y + 3.0F * density) / 2.0F, line);
     const std::string level =
         assets.pack.text(ui.lang, "$i18n:ui.level", {{"level", static_cast<std::int64_t>(p.level)}});
-    outlined_text(renderer, x / 2.0F, (y + bar_h + 16.0F * density) / 2.0F, level.c_str());
+    outlined_text(renderer, x / 2.0F, (y + bar_h + 16.0F * density + below) / 2.0F, level.c_str());
     const std::string bag_hint = assets.pack.text(ui.lang, "$i18n:ui.bag_hint");
     const float hint_x = (x + 110.0F * density) / 2.0F;
-    outlined_text(renderer, hint_x, (y + bar_h + 16.0F * density) / 2.0F, bag_hint.c_str());
+    outlined_text(renderer, hint_x, (y + bar_h + 16.0F * density + below) / 2.0F, bag_hint.c_str());
     if (sim.streamed()) {
         // The map hint follows the bag hint whatever the language: 8 units per character, two characters of gap.
-        outlined_text(renderer, hint_x + 8.0F * (text_columns(bag_hint) + 2.0F), (y + bar_h + 16.0F * density) / 2.0F,
+        outlined_text(renderer, hint_x + 8.0F * (text_columns(bag_hint) + 2.0F),
+                      (y + bar_h + 16.0F * density + below) / 2.0F,
                       assets.pack.text(ui.lang, "$i18n:ui.map_hint").c_str());
     }
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
@@ -602,7 +611,7 @@ void draw_minimap(SDL_Renderer* renderer, const aether::WorldSim& sim, const Ui&
     const float cell = 3.0F * density;
     const float side = cell * static_cast<float>(kN);
     const float x0 = 10.0F * density;
-    const float y0 = 72.0F * density;
+    const float y0 = 84.0F * density;
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     fill_rect(renderer, x0 - 2.0F, y0 - 2.0F, side + 4.0F, side + 4.0F, 20, 36, 66, 230);
     fill_rect(renderer, x0, y0, side, side, 8, 16, 34, 200);
@@ -2734,7 +2743,7 @@ int main(int argc, char** argv) {
                         ui.map_level = 0;  // the very last frame shows the whole world
                         ui.map_cx = ui.map_cy = 64.0F;
                     }
-                    sim.tick(input.x, input.y, input.attack, input.dodge);
+                    sim.tick(input.x, input.y, input.attack, input.dodge, input.strike);
                 } else if (ui.show_inventory || ui.show_map || ui.show_journal || sim.shop() != nullptr ||
                            sim.board() != nullptr || sim.travel() != nullptr) {
                     accumulator = 0.0;  // the bag, the map, the journal, the shop and the board pause the game
@@ -2742,7 +2751,7 @@ int main(int argc, char** argv) {
                     accumulator += frame_seconds;
                     int ticks = 0;
                     while (accumulator >= static_cast<double>(aether::kTickDt) && ticks < kMaxTicksPerFrame) {
-                        sim.tick(input.x, input.y, input.attack, input.dodge);
+                        sim.tick(input.x, input.y, input.attack, input.dodge, input.strike);
                         accumulator -= static_cast<double>(aether::kTickDt);
                         ++ticks;
                     }

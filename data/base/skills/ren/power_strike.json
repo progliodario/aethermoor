@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../../schemas/skill.schema.json",
+  "id": "base:skill/ren/power_strike",
+  "name": "$i18n:skill.ren.power_strike.name",
+  "description": "$i18n:skill.ren.power_strike.desc",
+  "type": "active",
+  "cost": {
+    "mp": 10
+  },
+  "cooldown_ticks": 90,
+  "timing": {
+    "startup": 10,
+    "active": 4,
+    "recovery": 16
+  },
+  "damage": {
+    "kind": "physical",
+    "element": "none",
+    "power_pct": 230
+  },
+  "tags": [
+    "melee",
+    "heavy"
+  ],
+  "hitbox": {
+    "shape": "arc",
+    "radius_x100": 190,
+    "angle_deg": 140
+  }
+}
