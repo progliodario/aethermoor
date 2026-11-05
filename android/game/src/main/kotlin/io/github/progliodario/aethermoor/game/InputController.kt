@@ -20,6 +20,9 @@ class InputController {
 
     /** Screen rectangle of the dodge button (x, y, w, h in pixels, y down); a touch on it is a dodge, never an attack. */
     var dodgeRect: FloatArray? = null
+
+    /** Screen rectangle of the Analyze button; a touch on it is never an attack. */
+    var analyzeRect: FloatArray? = null
     private var originX = 0f
     private var originY = 0f
 
@@ -53,7 +56,7 @@ class InputController {
         return FrameInput(x, y, attack, dodge)
     }
 
-    private fun inExcludedRect(x: Int, y: Int): Boolean = inRect(attackExcludedRect, x, y) || inRect(dodgeRect, x, y)
+    private fun inExcludedRect(x: Int, y: Int): Boolean = inRect(attackExcludedRect, x, y) || inRect(dodgeRect, x, y) || inRect(analyzeRect, x, y)
 
     private fun inRect(r: FloatArray?, x: Int, y: Int): Boolean {
         if (r == null) return false

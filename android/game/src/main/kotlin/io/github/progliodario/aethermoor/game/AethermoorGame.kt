@@ -116,6 +116,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var journalPanel: FloatArray? = null
     private var languageRect: FloatArray? = null
     private var mapRect: FloatArray? = null
+    private var analyzeFrames = 0 // frames left of the Analyze panel (Z or its button), 0: hidden
+    private var analyzeRect: FloatArray? = null
     private var showMinimap = true // N shows or hides the small map in the corner; a tap on it opens the world map
     private var miniRect: FloatArray? = null
     private var miniCodes = ByteArray(0) // biome codes of the sampled tiles around the player, -1 where unexplored
@@ -500,6 +502,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         drawTexts(world, data, cam.x, cam.y, tile)
         drawStory(world, data)
         drawDodgeButton(world, data)
+        drawAnalyze(world, data)
         drawStick()
     }
 
@@ -961,6 +964,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             showMinimap = !showMinimap
             return
         }
+        if (input.isKeyJustPressed(Input.Keys.Z)) {
+            analyzeFrames = if (analyzeFrames > 0) 0 else 360
+            return
+        }
         if (input.isKeyJustPressed(Input.Keys.I)) {
             showInventory = true
             return
@@ -1007,6 +1014,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 }
                 choiceIndex = 0
             } else {
+                val analyze = analyzeRect
+                if (analyze != null && x >= analyze[0] && x <= analyze[0] + analyze[2] && y >= analyze[1] && y <= analyze[1] + analyze[3]) {
+                    analyzeFrames = if (analyzeFrames > 0) 0 else 360 // Analyze: six seconds, or again to hide
+                    return
+                }
                 val mini = miniRect
                 if (mini != null && world.chunks != null && x >= mini[0] && x <= mini[0] + mini[2] && y >= mini[1] && y <= mini[1] + mini[3]) {
                     showMap = true // a tap on the small map opens the world map
@@ -1729,6 +1741,78 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         layout.setText(font, label)
         font.color = Color.WHITE
         font.draw(batch, label, rect[0] + (size - layout.width) / 2f, rect[1] + (size - font.lineHeight) / 2f)
+        batch.end()
+    }
+
+    /**
+     * Ren's Analyze, the eye of the system (key Z, or its button next to the dodge button): the nearest living creature within 10 tiles, with its
+     * level, health, attack, defense and what it can drop (with the chance), in a panel at the top center for a few seconds. Presentation only.
+     */
+    private fun drawAnalyze(world: WorldSim, data: Assets) {
+        val density = Gdx.graphics.density
+        val size = 64f * density
+        val button = floatArrayOf(Gdx.graphics.width - 84f * density - 24f * density - size - 12f * density, Gdx.graphics.height - size - 24f * density, size, size)
+        val buttonVisible = !world.story.dialogueActive && !showMap && !showInventory && !showJournal
+        analyzeRect = button.takeIf { buttonVisible }
+        input.analyzeRect = analyzeRect
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
+        val lines = ArrayList<String>()
+        if (analyzeFrames > 0 && buttonVisible) {
+            analyzeFrames--
+            val px = world.player.position.x
+            val py = world.player.position.y
+            val target = world.enemies.filter { it.state != EnemyState.DEAD }
+                .filter { (it.position.x - px) * (it.position.x - px) + (it.position.y - py) * (it.position.y - py) < 100f }
+                .minByOrNull { (it.position.x - px) * (it.position.x - px) + (it.position.y - py) * (it.position.y - py) }
+            if (target == null) {
+                lines.add(data.pack.text(language, "\$i18n:ui.analyze_none"))
+            } else {
+                val def = target.def
+                val last = def.id.substringAfterLast('/')
+                lines.add(data.pack.text(language, "\$i18n:ui.analyze_title", mapOf("name" to data.pack.text(language, "\$i18n:enemy.$last.name"), "level" to def.level)))
+                lines.add(data.pack.text(language, "\$i18n:ui.analyze_stats", mapOf("hp" to target.hp, "max" to def.hp, "atk" to def.atk, "def" to def.def)))
+                val items = def.drops.joinToString(", ") {
+                    data.pack.text(language, "\$i18n:item.${it.item.substringAfterLast('/')}.name", mapOf("count" to 1)) + " " + (it.weightPm / 10) + "%"
+                }
+                if (items.isNotEmpty()) lines.add(data.pack.text(language, "\$i18n:ui.analyze_drops", mapOf("items" to items)))
+            }
+        }
+        var panelW = 0f
+        for (line in lines) {
+            layout.setText(font, line)
+            panelW = max(panelW, layout.width)
+        }
+        panelW += 24f * density
+        val panelH = lines.size * font.lineHeight * 1.3f + 16f * density
+        val panelX = (Gdx.graphics.width - panelW) / 2f
+        val panelY = 12f * density
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        if (buttonVisible) {
+            shapes.color = Color(0.04f, 0.12f, 0.23f, 0.7f)
+            shapes.rect(button[0], button[1], button[2], button[3])
+        }
+        if (lines.isNotEmpty()) {
+            shapes.color = Color(0.435f, 0.89f, 1f, 1f)
+            shapes.rect(panelX - 2f, panelY - 2f, panelW + 4f, panelH + 4f)
+            shapes.color = Color(0.043f, 0.12f, 0.227f, 0.92f)
+            shapes.rect(panelX, panelY, panelW, panelH)
+        }
+        shapes.end()
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        if (buttonVisible) {
+            val label = data.pack.text(language, "\$i18n:ui.analyze_btn")
+            layout.setText(font, label)
+            font.color = Color.WHITE
+            font.draw(batch, label, button[0] + (size - layout.width) / 2f, button[1] + (size - font.lineHeight) / 2f)
+        }
+        for ((i, line) in lines.withIndex()) {
+            font.color = if (i == 0) Color(1f, 0.84f, 0.47f, 1f) else Color(0.92f, 0.96f, 1f, 1f)
+            font.draw(batch, line, panelX + 12f * density, panelY + 8f * density + i * font.lineHeight * 1.3f)
+        }
+        font.color = Color.WHITE
         batch.end()
     }
 

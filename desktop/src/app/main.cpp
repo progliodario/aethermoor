@@ -91,7 +91,8 @@ struct Ui {
         0.0F;  // where the square view of the map was drawn, in pixels (to place a goal with the mouse)
     mutable float map_view_y = 0.0F;
     mutable float map_view_side = 1.0F;
-    bool show_minimap = true;  // N shows or hides the small map in the corner
+    mutable int analyze_frames = 0;  // frames left of the Analyze panel (Z), 0: hidden
+    bool show_minimap = true;        // N shows or hides the small map in the corner
     mutable std::vector<std::uint8_t>
         mini_codes;           // biome codes of the sampled tiles around the player, 255 where unexplored
     mutable int mini_ox = 0;  // the tile of the top left sample
@@ -497,6 +498,76 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
 // A small map of the land around the player in a corner of the screen (spec 09, "The map view"): 40 x 40 samples 16
 // tiles apart (640 tiles across), only where the land was explored, with the player in the middle, the woken stones and
 // the goal.
+// Ren's Analyze, the eye of the system (key Z): the nearest living creature within 10 tiles, with its level, health,
+// attack, defense and what it can drop (with the chance), in a panel at the top center for a few seconds. Presentation
+// only.
+void draw_analyze(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w,
+                  float density) {
+    if (ui.analyze_frames <= 0 || sim.story().dialogue_active() || ui.show_map) {
+        return;
+    }
+    --ui.analyze_frames;
+    const aether::Enemy* target = nullptr;
+    float best = 100.0F;  // 10 tiles, squared
+    for (const aether::Enemy& e : sim.enemies()) {
+        if (e.state == aether::EnemyState::Dead) {
+            continue;
+        }
+        const float dx = e.position.x - sim.player().position.x;
+        const float dy = e.position.y - sim.player().position.y;
+        if (dx * dx + dy * dy < best) {
+            best = dx * dx + dy * dy;
+            target = &e;
+        }
+    }
+    const auto last_segment = [](const std::string& id) { return id.substr(id.rfind('/') + 1); };
+    std::vector<std::string> lines;
+    if (target == nullptr) {
+        lines.push_back(assets.pack.text(ui.lang, "$i18n:ui.analyze_none"));
+    } else {
+        const aether::EnemyDef& def = target->def;
+        lines.push_back(
+            assets.pack.text(ui.lang, "$i18n:ui.analyze_title",
+                             {{"name", assets.pack.text(ui.lang, "$i18n:enemy." + last_segment(def.id) + ".name")},
+                              {"level", static_cast<std::int64_t>(def.level)}}));
+        lines.push_back(assets.pack.text(ui.lang, "$i18n:ui.analyze_stats",
+                                         {{"hp", static_cast<std::int64_t>(target->hp)},
+                                          {"max", static_cast<std::int64_t>(def.hp)},
+                                          {"atk", static_cast<std::int64_t>(def.atk)},
+                                          {"def", static_cast<std::int64_t>(def.def)}}));
+        std::string items;
+        for (const aether::DropDef& drop : def.drops) {
+            items += (items.empty() ? "" : ", ") +
+                     assets.pack.text(ui.lang, "$i18n:item." + last_segment(drop.item) + ".name",
+                                      {{"count", static_cast<std::int64_t>(1)}}) +
+                     " " + std::to_string(drop.weight_pm / 10) + "%";
+        }
+        if (!items.empty()) {
+            lines.push_back(assets.pack.text(ui.lang, "$i18n:ui.analyze_drops", {{"items", items}}));
+        }
+    }
+    float columns = 0.0F;
+    for (const std::string& line : lines) {
+        columns = std::max(columns, text_columns(line));
+    }
+    constexpr float kScale = 2.0F;
+    const float width = (columns * 8.0F + 12.0F) * kScale;
+    const float height = (static_cast<float>(lines.size()) * 12.0F + 8.0F) * kScale;
+    const float x = (static_cast<float>(out_w) - width) / 2.0F;
+    const float y = 12.0F * density;
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    fill_rect(renderer, x - 2.0F, y - 2.0F, width + 4.0F, height + 4.0F, 111, 227, 255, 255);
+    fill_rect(renderer, x, y, width, height, 11, 31, 58, 235);
+    SDL_SetRenderScale(renderer, kScale, kScale);
+    float ty = y / kScale + 4.0F;
+    for (std::size_t i = 0; i < lines.size(); ++i) {
+        SDL_SetRenderDrawColor(renderer, i == 0 ? 255 : 235, i == 0 ? 215 : 245, i == 0 ? 120 : 255, 255);
+        debug_text(renderer, x / kScale + 6.0F, ty, lines[i].c_str());
+        ty += 12.0F;
+    }
+    SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+}
+
 void draw_minimap(SDL_Renderer* renderer, const aether::WorldSim& sim, const Ui& ui, float density) {
     const aether::ChunkStore* store = sim.chunks();
     if (store == nullptr || !ui.show_minimap || ui.show_map || sim.story().dialogue_active()) {
@@ -2052,6 +2123,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     draw_hud(renderer, assets, sim, ui, density);
     draw_quest_tracker(renderer, assets, sim, ui, out_w, density);
     draw_minimap(renderer, sim, ui, density);
+    draw_analyze(renderer, assets, sim, ui, out_w, density);
     if (ui.has_goal && sim.streamed() && !ui.show_map) {  // an arrow around the player, toward the goal, when it is far
         const float ddx = ui.goal_x - sim.player().position.x;
         const float ddy = ui.goal_y - sim.player().position.y;
@@ -2468,6 +2540,9 @@ int main(int argc, char** argv) {
                             forced_slot == 0;  // Esc leaves the game for the title screen (spec 12, "Slots")
                     } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_F3) {
                         debug = !debug;
+                    } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_Z && !smoke_test &&
+                               !ui.show_map && !sim.story().dialogue_active()) {
+                        ui.analyze_frames = ui.analyze_frames > 0 ? 0 : 360;  // Analyze: six seconds, or again to hide
                     } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_N && !smoke_test &&
                                !ui.show_map) {
                         ui.show_minimap = !ui.show_minimap;
