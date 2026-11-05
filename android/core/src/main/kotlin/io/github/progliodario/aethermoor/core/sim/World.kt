@@ -508,8 +508,11 @@ class WorldSim(
         val item = combat.items[itemId] ?: return false
         if ((inventory[itemId] ?: 0L) < 1L) return false
         val heal = item.effects.filter { it.effect == "heal" }.sumOf { it.amount }
-        if (heal <= 0L || player.hp >= derived.maxHp) return false
-        player.hp = minOf(derived.maxHp, player.hp + heal)
+        val mana = item.effects.filter { it.effect == "restore_mp" }.sumOf { it.amount }
+        val fullMp = derived.maxMp * 6000L
+        if (!((heal > 0L && player.hp < derived.maxHp) || (mana > 0L && player.mpU < fullMp))) return false
+        if (heal > 0L) player.hp = minOf(derived.maxHp, player.hp + heal)
+        if (mana > 0L) player.mpU = minOf(fullMp, player.mpU + mana * 6000L)
         val left = (inventory[itemId] ?: 0L) - 1L
         if (left == 0L) inventory.remove(itemId) else inventory[itemId] = left
         return true

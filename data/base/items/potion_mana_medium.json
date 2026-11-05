@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/potion_mana_medium",
+  "name": "$i18n:item.potion_mana_medium.name",
+  "description": "$i18n:item.potion_mana_medium.desc",
+  "kind": "consumable",
+  "rarity": "uncommon",
+  "price": 110,
+  "stack_max": 99,
+  "use": {
+    "effects": [
+      {
+        "effect": "restore_mp",
+        "amount": 80
+      }
+    ]
+  }
+}
