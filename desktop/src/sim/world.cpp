@@ -504,10 +504,22 @@ bool WorldSim::use_item(const std::string& item_id) {
             heal += effect.amount;
         }
     }
-    if (heal <= 0 || m_player_.hp >= m_derived_.max_hp) {
+    std::int64_t mana = 0;
+    for (const ItemEffect& effect : item->second.effects) {
+        if (effect.effect == "restore_mp") {
+            mana += effect.amount;
+        }
+    }
+    const std::int64_t full_mp = m_derived_.max_mp * 6000;
+    if (!((heal > 0 && m_player_.hp < m_derived_.max_hp) || (mana > 0 && m_player_.mp_u < full_mp))) {
         return false;
     }
-    m_player_.hp = std::min(m_derived_.max_hp, m_player_.hp + heal);
+    if (heal > 0) {
+        m_player_.hp = std::min(m_derived_.max_hp, m_player_.hp + heal);
+    }
+    if (mana > 0) {
+        m_player_.mp_u = std::min(full_mp, m_player_.mp_u + mana * 6000);
+    }
     if (--owned->second == 0) {
         m_inventory_.erase(owned);
     }

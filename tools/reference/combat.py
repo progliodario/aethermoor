@@ -302,9 +302,14 @@ class CombatSim:
         if item is None or self.inventory.get(item_id, 0) < 1:
             return False
         heal = sum(e["amount"] for e in item["effects"] if e["effect"] == "heal")
-        if heal <= 0 or self.hp >= self.derived["max_hp"]:
+        mana = sum(e["amount"] for e in item["effects"] if e["effect"] == "restore_mp")
+        full_mp = self.derived["max_mp"] * 6000
+        if not ((heal > 0 and self.hp < self.derived["max_hp"]) or (mana > 0 and self.mp_u < full_mp)):
             return False
-        self.hp = min(self.derived["max_hp"], self.hp + heal)
+        if heal > 0:
+            self.hp = min(self.derived["max_hp"], self.hp + heal)
+        if mana > 0:
+            self.mp_u = min(full_mp, self.mp_u + mana * 6000)
         self.inventory[item_id] -= 1
         if self.inventory[item_id] == 0:
             del self.inventory[item_id]
