@@ -18,8 +18,8 @@
           "landmark_clearing": 24,
           "region_blend": 4500,
           "difficulty": {
-            "enemy_hp_pct": 100,
-            "enemy_atk_pct": 100
+            "enemy_hp_pct": 200,
+            "enemy_atk_pct": 175
           },
           "elevation": {
             "salt": 1,
@@ -5912,8 +5912,8 @@
           "landmark_clearing": 24,
           "region_blend": 4500,
           "difficulty": {
-            "enemy_hp_pct": 100,
-            "enemy_atk_pct": 100
+            "enemy_hp_pct": 200,
+            "enemy_atk_pct": 175
           },
           "elevation": {
             "salt": 1,
@@ -11802,8 +11802,8 @@
           "landmark_clearing": 24,
           "region_blend": 4500,
           "difficulty": {
-            "enemy_hp_pct": 100,
-            "enemy_atk_pct": 100
+            "enemy_hp_pct": 200,
+            "enemy_atk_pct": 175
           },
           "elevation": {
             "salt": 1,

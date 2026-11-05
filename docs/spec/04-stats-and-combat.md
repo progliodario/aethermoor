@@ -57,5 +57,5 @@ Every `/` is a floor division, applied at each step (the order matters and is pa
 ## Difficulty
 
 The world data may have `difficulty {enemy_hp_pct, enemy_atk_pct}` (percent, default 100 each, 10 to 2000). The clients scale the `hp` (at least 1) and the `atk` of every creature of the streamed world when they load its
-definition (integer division by 100); nothing else changes, and maps without a world (the demo, the conformance scenarios) are not affected. It is the one number to change to make every fight longer or harder,
+definition (integer division by 100); nothing else changes, and maps without a world (the demo, the conformance scenarios) are not affected. The base pack sets 200 percent health and 175 percent attack (a balance pass of 2026-11-06: with it the model of `docs/design/balance.md` finds every creature comfortable at about its own level, a fight of the same level takes about two and a half seconds and costs a fifth of the health, and the bosses last up to eight seconds). It is the one number to change to make every fight longer or harder,
 until the numbers of the creatures themselves are tuned (`docs/design/balance.md`).
