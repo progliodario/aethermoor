@@ -1420,9 +1420,11 @@ void save_goal(const Ui& ui) {
 void load_goal(Ui& ui) {
     ui.has_goal = false;
     if (const auto text = read_text_file(g_slot_dir / "goal.txt")) {
-        long long gx = 0;
-        long long gy = 0;
-        if (std::sscanf(text->c_str(), "%lld %lld", &gx, &gy) == 2) {
+        char* end = nullptr;
+        const long long gx = std::strtoll(text->c_str(), &end, 10);
+        char* end_y = nullptr;
+        const long long gy = std::strtoll(end, &end_y, 10);
+        if (end != text->c_str() && end_y != end) {
             ui.goal_x = static_cast<float>(gx);
             ui.goal_y = static_cast<float>(gy);
             ui.has_goal = true;
