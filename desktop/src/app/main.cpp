@@ -2720,6 +2720,9 @@ int main(int argc, char** argv) {
                             SDL_Log("smoke: save/load failed: %s", load_error.c_str());
                         }
                     }
+                    if (frames == 30) {
+                        ui.analyze_frames = 12;  // frames 30 to 41 show the Analyze panel
+                    }
                     if (frames == 80) {
                         ui.show_inventory = true;  // frames 80 to 83 show the bag
                     }
@@ -2807,6 +2810,8 @@ int main(int argc, char** argv) {
                         captured_choice = true;
                     } else if (frames == 20) {
                         capture = (screenshot_dir / "walking.png").string();
+                    } else if (frames == 35) {
+                        capture = (screenshot_dir / "analyze.png").string();
                     } else if (frames == 82) {
                         capture = (screenshot_dir / "bag.png").string();
                     } else if (frames == kSmokeTestFrames - 2 && ui.show_map) {
