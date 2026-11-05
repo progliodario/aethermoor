@@ -199,6 +199,7 @@ class WorldSim(
             player.level = combat.startLevel.toLong()
             recomputeDerived()
             player.hp = derived.maxHp
+            player.mpU = derived.maxMp * 6000L
             for (s in combat.spawns) enemies.add(Enemy(s.def, Vec2(s.x, s.y)))
             inventory.putAll(combat.startInventory)
             syncWindow()
