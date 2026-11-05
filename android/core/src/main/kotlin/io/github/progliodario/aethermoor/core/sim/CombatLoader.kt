@@ -103,6 +103,28 @@ fun loadCombatSetup(
             break
         }
         requireNotNull(skill) { "the protagonist has no skill with a hitbox" }
+        var strike = StrikeDef()
+        var hitboxSkills = 0
+        for (skillId in protagonist.startingSkills) { // the power strike: the second skill with a hitbox
+            val s = document(pack, skillId)
+            val hitbox = s["hitbox"]?.jsonObject ?: continue
+            if (++hitboxSkills != 2) continue
+            val timing = s.getValue("timing").jsonObject
+            strike = StrikeDef(
+                enabled = true,
+                mp = s.getValue("cost").jsonObject.getValue("mp").jsonPrimitive.long,
+                skill = SkillDef(
+                    startup = timing.getValue("startup").jsonPrimitive.int,
+                    active = timing.getValue("active").jsonPrimitive.int,
+                    recovery = timing.getValue("recovery").jsonPrimitive.int,
+                    cooldown = s.getValue("cooldown_ticks").jsonPrimitive.int,
+                    powerPct = s.getValue("damage").jsonObject.getValue("power_pct").jsonPrimitive.long,
+                    radiusX100 = hitbox.getValue("radius_x100").jsonPrimitive.int,
+                    angleDeg = hitbox.getValue("angle_deg").jsonPrimitive.int,
+                ),
+            )
+            break
+        }
         var dodge = DodgeDef()
         for (skillId in protagonist.startingSkills) { // the dodge roll: a skill with a `movement` block
             val s = document(pack, skillId)
@@ -158,6 +180,7 @@ fun loadCombatSetup(
             player = PlayerSetup(protagonist.baseStats, protagonist.growthPm, weaponAtk, weaponMatk),
             skill = skill,
             dodge = dodge,
+            strike = strike,
             spawns = spawns,
             xpTable = pack.intTables["base:table/xp"]?.values ?: emptyList(),
             seed = seed,

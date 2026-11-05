@@ -6,6 +6,8 @@
   "skill.common.slash.desc": "Un colpo di spada ad arco davanti a te.",
   "skill.common.dodge.name": "Capriola",
   "skill.common.dodge.desc": "Una rapida capriola nella direzione in cui ti muovi: per un attimo nulla può ferirti.",
+  "skill.ren.power_strike.name": "Colpo potente",
+  "skill.ren.power_strike.desc": "Un colpo di spada pesante e ampio che costa 10 mana e richiede un attimo per riprendersi.",
   "skill.ren.analyze.name": "Analizza",
   "skill.ren.analyze.desc": "Osserva un bersaglio e ne rivela statistiche e debolezze.",
   "item.practice_sword.name": "Spada da allenamento",

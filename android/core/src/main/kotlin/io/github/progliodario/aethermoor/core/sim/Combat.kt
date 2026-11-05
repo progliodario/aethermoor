@@ -23,6 +23,9 @@ data class DodgeDef(
     val cooldown: Int = 40,
 )
 
+/** The power strike (spec 05, "Mana"): the second skill with a hitbox; [enabled] is false when the protagonist has none. */
+data class StrikeDef(val enabled: Boolean = false, val skill: SkillDef = SkillDef(), val mp: Long = 10)
+
 data class DropDef(val item: String, val qtyMin: Long, val qtyMax: Long, val weightPm: Long)
 
 data class BehaviorDef(
@@ -101,6 +104,8 @@ class CombatSetup(
     val shop: ShopDef? = null,
     /** The dodge roll of the protagonist (spec 05). */
     val dodge: DodgeDef = DodgeDef(),
+    /** The power strike of the protagonist (spec 05). */
+    val strike: StrikeDef = StrikeDef(),
 )
 
 enum class AttackPhase { NONE, STARTUP, ACTIVE, RECOVERY }

@@ -12,6 +12,8 @@ SLIME = {
 SLASH = {"startup": 6, "active": 4, "recovery": 10, "cooldown": 24, "power_pct": 100, "radius_x100": 160,
          "angle_deg": 110}
 DODGE = {"ticks": 12, "speed_mult_x100": 260, "iframes": 14, "cooldown": 40}  # base:skill/common/dodge (spec 05, "Dodge roll")
+STRIKE = {"startup": 10, "active": 4, "recovery": 16, "cooldown": 90, "power_pct": 230, "radius_x100": 190, "angle_deg": 140,
+          "mp": 10}  # base:skill/ren/power_strike (spec 05, "Mana")
 PLAYER = {
     "start": [2.2, 4.5], "level": 1,
     "base_stats": {"str": 6, "vit": 7, "dex": 8, "agi": 8, "int": 7, "wis": 7, "luk": 9},
@@ -62,8 +64,10 @@ def scenario(name: str, enemies: list[dict], script: list[dict], player: dict | 
     }
 
 
-def segment(ticks: int, move=(0, 0), attack=False, do=None, dodge=False) -> dict:
+def segment(ticks: int, move=(0, 0), attack=False, do=None, dodge=False, strike=False) -> dict:
     result = {"ticks": ticks, "move": list(move), "attack": attack}
+    if strike:
+        result["strike"] = True
     if dodge:
         result["dodge"] = True
     if do:
@@ -154,6 +158,18 @@ def build_scenarios() -> list[dict]:
         scenario("dodge_and_attack", [enemy(3.5, 4.5, **passive)],
                  [segment(3, attack=True), segment(1, move=(0, 1), attack=True, dodge=True), segment(40, attack=True),
                   segment(1, move=(0, -1), attack=True, dodge=True), segment(20)], dodge=DODGE),
+        # The power strike (spec 05, "Mana"): it hits harder than the slash on a tough passive target, a second strike while the cooldown runs is refused
+        # (and the attack input of the same tick takes over), and the same moments without the skill only slash.
+        scenario("power_strike", [enemy(3.5, 4.5, hp=400, **passive)],
+                 [segment(40, strike=True), segment(100, strike=True), segment(100, attack=True)], strike=STRIKE),
+        scenario("power_strike_without_skill", [enemy(3.5, 4.5, hp=400, **passive)],
+                 [segment(40, strike=True), segment(100, strike=True), segment(100, attack=True)]),
+        # Too little mana: the first strike costs 60 of the hundred points, the second is refused and the attack input of the same tick slashes instead.
+        scenario("strike_without_mana", [enemy(3.5, 4.5, hp=400, **passive)],
+                 [segment(40, strike=True), segment(120, strike=True, attack=True), segment(120, strike=True, attack=True)],
+                 strike={**STRIKE, "mp": 60}),
+        # Both inputs at once: the strike wins.
+        scenario("strike_wins_over_attack", [enemy(3.5, 4.5, hp=400, **passive)], [segment(60, strike=True, attack=True)], strike=STRIKE),
         scenario("leash_and_return", [enemy(4.0, 4.5, behavior_overrides={"leash_x100": 300})],
                  [segment(20, attack=True), segment(150, move=(1, 0)), segment(250)]),
     ]

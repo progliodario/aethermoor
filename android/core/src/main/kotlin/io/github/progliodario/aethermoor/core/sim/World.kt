@@ -57,6 +57,10 @@ class Player(var position: Vec2) {
     var phase = AttackPhase.NONE
     var phaseTick = 0
 
+    /** Mana in units of 1/6000 of a point (spec 05, "Mana"), and whether the swing in progress is the power strike. Not saved. */
+    var mpU = 0L
+    var usingStrike = false
+
     /** The dodge roll (spec 05): ticks left, ticks until the next one, and the direction. Not saved. */
     var dodgeTicks = 0
     var dodgeCooldown = 0
@@ -369,6 +373,7 @@ class WorldSim(
         val fresh = tile !in stones
         if (fresh) stones.add(tile)
         player.hp = derived.maxHp
+        player.mpU = derived.maxMp * 6000L // a stone restores the mana too
         val stops = stones.map { (x, y) ->
             val settlement = settlementContaining(store.seed, store.params, x, y)
             StoneStop(x, y, settlement?.name ?: "", settlement?.let { store.params.regions[it.region].name } ?: "")
@@ -401,6 +406,7 @@ class WorldSim(
 
     override fun healFull() {
         player.hp = derived.maxHp
+        player.mpU = derived.maxMp * 6000L
     }
 
     override fun openBoard() {
@@ -516,7 +522,13 @@ class WorldSim(
     }
 
     /** One fixed tick (1/60 s) with the raw movement input and the attack input of this tick. */
-    fun tick(rawXIn: Float, rawYIn: Float, attackIn: Boolean = false, dodgeIn: Boolean = false) {
+    /** The mana in points (the floor of mpU / 6000). */
+    val mp: Long get() = player.mpU / 6000L
+
+    /** Whether the protagonist has a power strike. */
+    val hasStrike: Boolean get() = combat.strike.enabled
+
+    fun tick(rawXIn: Float, rawYIn: Float, attackIn: Boolean = false, dodgeIn: Boolean = false, strikeIn: Boolean = false) {
         worldTicks++
         syncWindow()
         if (chunks != null && windowValid && timeOfDayPm() != routineTod) refreshPeople(windowX, windowY) // somebody goes home or comes out (spec 08)
@@ -526,11 +538,13 @@ class WorldSim(
         val rawY = if (frozen) 0f else rawYIn
         val attack = attackIn && !frozen
         val dodge = dodgeIn && !frozen
+        val strike = strikeIn && !frozen
         val p = player
         val enabled = combat.enabled
         if (p.iframes > 0) p.iframes--
         if (p.cooldown > 0) p.cooldown--
         if (p.dodgeCooldown > 0) p.dodgeCooldown--
+        p.mpU = minOf(derived.maxMp * 6000L, p.mpU + derived.mpRegenX100)
 
         val direction = normalizeInput(rawX, rawY)
         val moving = direction.x != 0f || direction.y != 0f
@@ -573,11 +587,21 @@ class WorldSim(
             }
 
             if (!enabled) return
-            if (attack && p.phase == AttackPhase.NONE && p.cooldown == 0) {
-                p.phase = AttackPhase.STARTUP
-                p.phaseTick = 0
-                p.cooldown = combat.skill.cooldown
-                hitSet.replaceAll { false }
+            if (p.phase == AttackPhase.NONE && p.cooldown == 0) {
+                if (strike && combat.strike.enabled && p.mpU >= combat.strike.mp * 6000L) {
+                    p.mpU -= combat.strike.mp * 6000L
+                    p.usingStrike = true
+                    p.phase = AttackPhase.STARTUP
+                    p.phaseTick = 0
+                    p.cooldown = combat.strike.skill.cooldown
+                    hitSet.replaceAll { false }
+                } else if (attack) {
+                    p.usingStrike = false
+                    p.phase = AttackPhase.STARTUP
+                    p.phaseTick = 0
+                    p.cooldown = combat.skill.cooldown
+                    hitSet.replaceAll { false }
+                }
             }
         }
         advanceAttack()
@@ -589,7 +613,7 @@ class WorldSim(
 
     private fun advanceAttack() {
         val p = player
-        val s = combat.skill
+        val s = if (p.usingStrike) combat.strike.skill else combat.skill
         when (p.phase) {
             AttackPhase.STARTUP -> if (++p.phaseTick >= s.startup) {
                 p.phase = AttackPhase.ACTIVE
@@ -609,7 +633,7 @@ class WorldSim(
 
     private fun doHits() {
         val p = player
-        val s = combat.skill
+        val s = if (p.usingStrike) combat.strike.skill else combat.skill
         val cosHalf = cos(s.angleDeg.toDouble() / 2.0 * PI / 180.0).toFloat()
         for ((index, enemy) in enemies.withIndex()) {
             if (enemy.state == EnemyState.DEAD || hitSet[index]) continue
@@ -758,6 +782,7 @@ class WorldSim(
             p.phaseTick = 0
             p.dodgeTicks = 0
             p.dodgeCooldown = 0
+            p.mpU = derived.maxMp * 6000L
             p.iframes = RESPAWN_IFRAMES
         }
     }
@@ -829,6 +854,8 @@ class WorldSim(
         p.cooldown = s.cooldown
         p.dodgeTicks = 0 // a roll in progress is not saved (spec 05)
         p.dodgeCooldown = 0
+        p.mpU = derived.maxMp * 6000L // nor is the mana: a loaded game starts full
+        p.usingStrike = false
         p.phase = s.phase
         p.phaseTick = s.phaseTick
         if (chunks != null) {

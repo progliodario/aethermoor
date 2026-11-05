@@ -126,6 +126,26 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
             error = "the protagonist has no skill with a hitbox";
             return std::nullopt;
         }
+        int hitbox_skills = 0;
+        for (const std::string& skill_id :
+             protagonist->starting_skills) {  // the power strike: the second skill with a hitbox
+            const auto skill = document(pack, skill_id, error);
+            if (!skill) {
+                return std::nullopt;
+            }
+            if (skill->contains("hitbox") && ++hitbox_skills == 2) {
+                setup.strike.enabled = true;
+                setup.strike.mp = skill->at("cost").at("mp").get<std::int64_t>();
+                setup.strike.skill.startup = skill->at("timing").at("startup").get<int>();
+                setup.strike.skill.active = skill->at("timing").at("active").get<int>();
+                setup.strike.skill.recovery = skill->at("timing").at("recovery").get<int>();
+                setup.strike.skill.cooldown = skill->at("cooldown_ticks").get<int>();
+                setup.strike.skill.power_pct = skill->at("damage").at("power_pct").get<std::int64_t>();
+                setup.strike.skill.radius_x100 = skill->at("hitbox").at("radius_x100").get<int>();
+                setup.strike.skill.angle_deg = skill->at("hitbox").at("angle_deg").get<int>();
+                break;
+            }
+        }
         for (const std::string& skill_id :
              protagonist->starting_skills) {  // the dodge roll: a skill with a `movement` block
             const auto skill = document(pack, skill_id, error);

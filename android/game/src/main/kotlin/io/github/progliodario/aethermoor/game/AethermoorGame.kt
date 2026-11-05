@@ -430,7 +430,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             accumulator += min(Gdx.graphics.deltaTime, MAX_FRAME_SECONDS)
             var ticks = 0
             while (accumulator >= TICK_DT && ticks < MAX_TICKS_PER_FRAME) {
-                world.tick(frame.x, frame.y, frame.attack, frame.dodge)
+                world.tick(frame.x, frame.y, frame.attack, frame.dodge, frame.strike)
                 accumulator -= TICK_DT
                 ticks++
             }
@@ -502,6 +502,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         drawTexts(world, data, cam.x, cam.y, tile)
         drawStory(world, data)
         drawDodgeButton(world, data)
+        drawStrikeButton(world, data)
         drawAnalyze(world, data)
         drawStick()
     }
@@ -674,10 +675,16 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         shapes.rect(x - 2f, y - 2f, barW + 4f, barH + 4f)
         shapes.color = Color(0.82f, 0.24f, 0.24f, 1f)
         shapes.rect(x, y, barW * hpRatio, barH)
+        val mpRatio = (world.mp.toFloat() / maxOf(world.derived.maxMp, 1L).toFloat()).coerceIn(0f, 1f)
+        val below = 10f * density // the mana bar sits between the health bar and the experience bar
         shapes.color = Color(0.04f, 0.08f, 0.16f, 0.8f)
-        shapes.rect(x, y + barH + 6f, barW, 6f * density)
+        shapes.rect(x, y + barH + 4f, barW, 7f * density)
+        shapes.color = Color(0.31f, 0.55f, 1f, 1f)
+        shapes.rect(x, y + barH + 4f, barW * mpRatio, 7f * density)
+        shapes.color = Color(0.04f, 0.08f, 0.16f, 0.8f)
+        shapes.rect(x, y + barH + 6f + below, barW, 6f * density)
         shapes.color = Color(0.35f, 0.78f, 0.47f, 1f)
-        shapes.rect(x, y + barH + 6f, barW * xpRatio, 6f * density)
+        shapes.rect(x, y + barH + 6f + below, barW * xpRatio, 6f * density)
         shapes.end()
     }
 
@@ -695,7 +702,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val p = world.player
         font.color = Color.WHITE
         font.draw(batch, "${data.pack.text(language, "\$i18n:ui.hp")} ${p.hp}/${world.derived.maxHp}", 12f * density + 4f, 12f * density + 2f)
-        font.draw(batch, data.pack.text(language, "\$i18n:ui.level", mapOf("level" to p.level)), 12f * density, 12f * density + 16f * density + 20f)
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.level", mapOf("level" to p.level)), 12f * density, 12f * density + 16f * density + 20f + 10f * density)
         world.time()?.let { time ->
             val hour = time.todPm * 24 / 1000
             val minute = time.todPm * 1440 / 1000 % 60
@@ -1718,6 +1725,33 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (hasGoal) place(goalX, goalY, true, 5f * density, Color(0.35f, 1f, 0.47f, 1f))
         place(world.player.position.x, world.player.position.y, false, 5f * density, Color(1f, 0.2f, 0.2f, 1f))
         shapes.end()
+    }
+
+    /** The power strike button, above the dodge button: held, it strikes while there is mana (spec 05, "Mana"); a touch on it is never an attack. */
+    private fun drawStrikeButton(world: WorldSim, data: Assets) {
+        val density = Gdx.graphics.density
+        val size = 72f * density
+        val rect = floatArrayOf(
+            Gdx.graphics.width - 84f * density - 24f * density + (84f * density - size) / 2f,
+            Gdx.graphics.height - 84f * density - 24f * density - 12f * density - size, size, size,
+        )
+        val visible = world.hasStrike && !world.story.dialogueActive && !showMap && !showInventory && !showJournal
+        input.strikeRect = rect.takeIf { visible }
+        if (!visible) return
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        shapes.color = Color(0.04f, 0.12f, 0.23f, 0.7f)
+        shapes.rect(rect[0], rect[1], rect[2], rect[3])
+        shapes.end()
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        val label = data.pack.text(language, "\$i18n:ui.strike")
+        layout.setText(font, label)
+        font.color = Color.WHITE
+        font.draw(batch, label, rect[0] + (size - layout.width) / 2f, rect[1] + (size - font.lineHeight) / 2f)
+        batch.end()
     }
 
     /** The dodge button, bottom right: held, it rolls (spec 05, "Dodge roll"); a touch on it is never an attack. */
