@@ -25,6 +25,7 @@ open a panel, save, load. While a dialogue is open the movement and the attack o
 | World map | `M` opens and closes it; open: `+`/`-` (or `=`) and the mouse wheel zoom, `W A S D` or the arrows and dragging with the left button move the view, `P` marks the goal at the center of the view (a right click at the pointer), `X` removes it, `Tab` jumps to the next place found, `C` goes back to the player, `0` or `Home` frames all that was explored (spec 09, "The map view") |
 | Language | `F2` switches between Italian and English at any time |
 | Saves | `F5` quick save, `F9` quick load, `F7` new game (a new world in the same game) |
+| Small map | `N` shows or hides the small map in the corner |
 | Debug | `F3` toggles the debug overlay |
 | `Esc` | closes the open panel (map, bag, journal, shop, board, stones); with none open it saves the game and returns to the list of games; on the list it quits |
 | Title screen | `W`/`S` or the arrows move, `E`/`Enter`/`Space`, the number keys `1` to `3` or a mouse click choose a game, `D` or `Delete` twice deletes the selected one |

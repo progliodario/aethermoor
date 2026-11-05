@@ -91,6 +91,11 @@ struct Ui {
         0.0F;  // where the square view of the map was drawn, in pixels (to place a goal with the mouse)
     mutable float map_view_y = 0.0F;
     mutable float map_view_side = 1.0F;
+    bool show_minimap = true;  // N shows or hides the small map in the corner
+    mutable std::vector<std::uint8_t>
+        mini_codes;           // biome codes of the sampled tiles around the player, 255 where unexplored
+    mutable int mini_ox = 0;  // the tile of the top left sample
+    mutable int mini_oy = 0;
     mutable int map_pick = -1;   // the place the view last jumped to (Tab), in order of distance
     int last_region = -1;        // the region the player was in, to say the name when it changes
     mutable int map_level = -1;  // -1: frame what was explored when the map is drawn next
@@ -484,6 +489,78 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
                       assets.pack.text(ui.lang, "$i18n:ui.map_hint").c_str());
     }
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+}
+
+// A small map of the land around the player in a corner of the screen (spec 09, "The map view"): 40 x 40 samples 16
+// tiles apart (640 tiles across), only where the land was explored, with the player in the middle, the woken stones and
+// the goal.
+void draw_minimap(SDL_Renderer* renderer, const aether::WorldSim& sim, const Ui& ui, float density) {
+    const aether::ChunkStore* store = sim.chunks();
+    if (store == nullptr || !ui.show_minimap || ui.show_map || sim.story().dialogue_active()) {
+        return;
+    }
+    constexpr int kN = 40;
+    constexpr int kStep = 16;
+    const aether::WorldParams& params = store->params();
+    const int player_x = static_cast<int>(std::floor(sim.player().position.x));
+    const int player_y = static_cast<int>(std::floor(sim.player().position.y));
+    const int ox = (player_x / kStep) * kStep - kN / 2 * kStep;
+    const int oy = (player_y / kStep) * kStep - kN / 2 * kStep;
+    if (ui.mini_codes.empty() || ui.mini_ox != ox || ui.mini_oy != oy) {  // sampled again every 16 tiles walked
+        ui.mini_codes.assign(static_cast<std::size_t>(kN * kN), 255);
+        for (int j = 0; j < kN; ++j) {
+            for (int i = 0; i < kN; ++i) {
+                const int tx = ox + i * kStep + kStep / 2;
+                const int ty = oy + j * kStep + kStep / 2;
+                if (tx < 0 || ty < 0 || tx >= params.width || ty >= params.height ||
+                    sim.explored().count({tx / aether::kMapCell, ty / aether::kMapCell}) == 0) {
+                    continue;
+                }
+                ui.mini_codes[static_cast<std::size_t>(j * kN + i)] =
+                    static_cast<std::uint8_t>(aether::biome_code_at(store->seed(), params, tx, ty));
+            }
+        }
+        ui.mini_ox = ox;
+        ui.mini_oy = oy;
+    }
+    static const Uint8 kColors[7][3] = {{60, 110, 190},  {222, 206, 150}, {130, 130, 140}, {235, 240, 245},
+                                        {222, 206, 150}, {60, 130, 70},   {110, 180, 90}};
+    const float cell = 3.0F * density;
+    const float side = cell * static_cast<float>(kN);
+    const float x0 = 10.0F * density;
+    const float y0 = 72.0F * density;
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    fill_rect(renderer, x0 - 2.0F, y0 - 2.0F, side + 4.0F, side + 4.0F, 20, 36, 66, 230);
+    fill_rect(renderer, x0, y0, side, side, 8, 16, 34, 200);
+    for (int j = 0; j < kN; ++j) {
+        for (int i = 0; i < kN; ++i) {
+            const std::uint8_t code = ui.mini_codes[static_cast<std::size_t>(j * kN + i)];
+            if (code < 7) {
+                fill_rect(renderer, x0 + cell * static_cast<float>(i), y0 + cell * static_cast<float>(j),
+                          std::ceil(cell), std::ceil(cell), kColors[code][0], kColors[code][1], kColors[code][2], 235);
+            }
+        }
+    }
+    const auto place = [&](float tile_x, float tile_y, bool clamp, float size, Uint8 r, Uint8 g, Uint8 b) {
+        float sx = x0 + (tile_x - static_cast<float>(ox)) / static_cast<float>(kStep) * cell;
+        float sy = y0 + (tile_y - static_cast<float>(oy)) / static_cast<float>(kStep) * cell;
+        const bool inside = sx >= x0 && sy >= y0 && sx <= x0 + side && sy <= y0 + side;
+        if (!inside && !clamp) {
+            return;
+        }
+        sx = std::clamp(sx, x0 + size, x0 + side - size);
+        sy = std::clamp(sy, y0 + size, y0 + side - size);
+        fill_rect(renderer, sx - size / 2.0F - 1.0F, sy - size / 2.0F - 1.0F, size + 2.0F, size + 2.0F, 20, 20, 30,
+                  255);
+        fill_rect(renderer, sx - size / 2.0F, sy - size / 2.0F, size, size, r, g, b, 255);
+    };
+    for (const auto& [stone_x, stone_y] : sim.stones()) {
+        place(static_cast<float>(stone_x), static_cast<float>(stone_y), false, 4.0F * density, 140, 255, 235);
+    }
+    if (ui.has_goal) {
+        place(ui.goal_x, ui.goal_y, true, 5.0F * density, 90, 255, 120);
+    }
+    place(sim.player().position.x, sim.player().position.y, false, 5.0F * density, 255, 50, 50);
 }
 
 // The world map (spec 09, "The map view"): explored cells by biome, the places that were found, and the player. The
@@ -1971,6 +2048,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     draw_atmosphere(renderer, assets, sim, ui, out_w, out_h, density, now_ms);
     draw_hud(renderer, assets, sim, ui, density);
     draw_quest_tracker(renderer, assets, sim, ui, out_w, density);
+    draw_minimap(renderer, sim, ui, density);
     if (ui.has_goal && sim.streamed() && !ui.show_map) {  // an arrow around the player, toward the goal, when it is far
         const float ddx = ui.goal_x - sim.player().position.x;
         const float ddy = ui.goal_y - sim.player().position.y;
@@ -2387,6 +2465,9 @@ int main(int argc, char** argv) {
                             forced_slot == 0;  // Esc leaves the game for the title screen (spec 12, "Slots")
                     } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_F3) {
                         debug = !debug;
+                    } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_N && !smoke_test &&
+                               !ui.show_map) {
+                        ui.show_minimap = !ui.show_minimap;
                     } else if (event.type == SDL_EVENT_KEY_DOWN && !smoke_test &&
                                (event.key.key == SDLK_F5 || event.key.key == SDLK_F9 || event.key.key == SDLK_F7 ||
                                 event.key.key == SDLK_I || event.key.key == SDLK_M || event.key.key == SDLK_Q ||
