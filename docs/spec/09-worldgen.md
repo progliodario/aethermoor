@@ -277,6 +277,11 @@ The view is presentation, not rules (no vectors): both clients draw the same thi
   A name is drawn at the first free side of its marker (right, left, below, above) where it is entirely inside the view and over no marker and no name already drawn, in this order of priority:
   towns, villages, other sites, then hamlets (hamlets only from level 3). The names of the regions follow (below their center, above it, or on it, the same way) when their center is explored. Text on the map has a dark edge.
 - The player is a red square with a white edge that pulses; when it is outside the view, it stays on the edge of the view, in orange, so the way back is always shown.
+- **The goal.** The player can mark a place of the world as the goal (not saved, one at a time, cleared when returning to the title screen): `P` marks the center of the view,
+  a right click marks the pointer's position, `X` removes it (on touch screens a button marks the center of the view and, pressed again, removes it). The map shows it as a green square joined to the player by a green line, both kept inside
+  the view when they are outside it. On the HUD, in a streamed world, the player always sees `Position x, y` (in tiles) and, with a goal, `Goal: <direction>, <distance> tiles` where
+  the direction is one of eight points of the compass (`atan2(dy, dx)` rounded to the nearest eighth of a turn, y pointing down) and the distance is the rounded Euclidean distance; under 6 tiles it says the player is there.
+- The Threshold Stones that were woken are shown as small pale squares.
 - Under the view: the keys, the position in tiles and the zoom (`You are at x, y   zoom 4x`) and a legend of the three colors.
 
 Conformance suite `worldmap`: scripted positions through a 16384 x 16384 world (also at the corners and edges): the number of explored cells and their digest

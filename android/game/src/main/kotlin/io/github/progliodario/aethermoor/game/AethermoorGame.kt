@@ -116,6 +116,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var journalPanel: FloatArray? = null
     private var languageRect: FloatArray? = null
     private var mapRect: FloatArray? = null
+    private var hasGoal = false // a place of the world marked on the map (not saved); the HUD shows its direction and distance
+    private var goalX = 0f // in tiles
+    private var goalY = 0f
     private var mapLevel = -1 // the zoom of the world map; -1: frame what was explored when it is drawn next (spec 09, "The map view")
     private var mapCx = 0f // the map cell at the center of the view
     private var mapCy = 0f
@@ -174,6 +177,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         floating.clear()
         mapCodes.clear()
         mapDetail.clear()
+        hasGoal = false
         mapMarkers.clear()
         titleSlots = readSlots()
     }
@@ -1094,6 +1098,19 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         font.color = Color(1f, 0.84f, 0.47f, 1f)
         font.draw(batch, data.pack.text(language, "\$i18n:ui.gold", mapOf("gold" to story.gold)), x, y)
         y += font.lineHeight * 1.3f
+        if (world.chunks != null) {
+            val px = world.player.position.x
+            val py = world.player.position.y
+            font.color = Color(0.67f, 0.75f, 0.82f, 1f)
+            font.draw(batch, data.pack.text(language, "\$i18n:ui.coords", mapOf("x" to floor(px).toInt(), "y" to floor(py).toInt())), x, y)
+            y += font.lineHeight * 1.2f
+            if (hasGoal) {
+                font.color = Color(0.35f, 1f, 0.47f, 1f)
+                font.draw(batch, goalText(px, py, data), x, y)
+                y += font.lineHeight * 1.2f
+            }
+            y += 4f * density
+        }
         for ((questId, progress) in story.quests) {
             if (progress.done) continue
             val def = story.questDef(questId) ?: continue
@@ -1528,6 +1545,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (input.isKeyJustPressed(Input.Keys.LEFT) || input.isKeyJustPressed(Input.Keys.A)) mapPan(store, -step, 0f)
         if (input.isKeyJustPressed(Input.Keys.RIGHT) || input.isKeyJustPressed(Input.Keys.D)) mapPan(store, step, 0f)
         if (input.isKeyJustPressed(Input.Keys.C)) mapCenterOnPlayer(world)
+        if (input.isKeyJustPressed(Input.Keys.P)) setGoal(world, mapCx, mapCy)
+        if (input.isKeyJustPressed(Input.Keys.X)) hasGoal = false
         if (input.isKeyJustPressed(Input.Keys.NUM_0) || input.isKeyJustPressed(Input.Keys.HOME)) mapLevel = -1
 
         if (input.justTouched()) {
@@ -1542,6 +1561,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 2 -> mapCenterOnPlayer(world)
                 3 -> mapLevel = -1
                 4 -> showMap = false
+                5 -> if (hasGoal) hasGoal = false else setGoal(world, mapCx, mapCy)
             }
             return
         }
@@ -1569,6 +1589,26 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         } else {
             mapPinch = 0f
         }
+    }
+
+    /** The direction (eight points of the compass) and the distance in tiles to the goal. */
+    private fun goalText(px: Float, py: Float, data: Assets): String {
+        val dx = goalX - px
+        val dy = goalY - py
+        val distance = kotlin.math.sqrt(dx * dx + dy * dy).roundToInt()
+        if (distance < 6) return data.pack.text(language, "\$i18n:ui.goal_here")
+        val index = ((atan2(dy, dx) / (PI.toFloat() / 4f)).roundToInt() + 8) % 8 // 0 east, 2 south: y points down
+        val dir = data.pack.text(language, "\$i18n:ui.dir_" + GOAL_DIRECTIONS[index])
+        return data.pack.text(language, "\$i18n:ui.goal", mapOf("dir" to dir, "dist" to distance))
+    }
+
+    /** Marks the goal at a map position (in cells), inside the world. */
+    private fun setGoal(world: WorldSim, cellX: Float, cellY: Float) {
+        val params = world.chunks?.params ?: return
+        goalX = (cellX * MAP_CELL).coerceIn(0f, (params.width - 1).toFloat())
+        goalY = (cellY * MAP_CELL).coerceIn(0f, (params.height - 1).toFloat())
+        hasGoal = true
+        showNotice(assets?.pack?.text(language, "\$i18n:ui.goal_set") ?: "")
     }
 
     /** Text on the map with a dark edge, so that it reads on pale cells too. */
@@ -1630,7 +1670,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             buttonsY = legendY + font.lineHeight * 1.8f
             val size = 48f * density
             val gap = 8f * density
-            val labels = listOf("+" to 0, "-" to 1, data.pack.text(language, "\$i18n:ui.map_btn_you") to 2, data.pack.text(language, "\$i18n:ui.map_btn_all") to 3, "X" to 4)
+            val labels = listOf("+" to 0, "-" to 1, data.pack.text(language, "\$i18n:ui.map_btn_you") to 2, data.pack.text(language, "\$i18n:ui.map_btn_all") to 3, data.pack.text(language, "\$i18n:ui.map_btn_goal") to 5, "X" to 4)
             var bx = panelX
             var by = buttonsY
             for ((label, action) in labels) {
@@ -1713,6 +1753,16 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 clipped(mx - size / 2f, my - size / 2f, size, size)
                 shown.add(Pair(marker, floatArrayOf(mx - size / 2f - 1f, my - size / 2f - 1f, size + 2f, size + 2f)))
             }
+            // The Threshold Stones that were woken: small pale squares.
+            for ((stoneX, stoneY) in world.stones) {
+                val sx = v.toX(stoneX.toFloat() / MAP_CELL)
+                val sy = v.toY(stoneY.toFloat() / MAP_CELL)
+                val ss = 5f * density
+                shapes.color = Color(0.08f, 0.08f, 0.12f, 1f)
+                clipped(sx - ss / 2f - 1f, sy - ss / 2f - 1f, ss + 2f, ss + 2f)
+                shapes.color = Color(0.55f, 1f, 0.92f, 1f)
+                clipped(sx - ss / 2f, sy - ss / 2f, ss, ss)
+            }
             // The player: a red square with a white edge, kept on the edge of the view when it is out of it.
             val px = v.toX(world.player.position.x / MAP_CELL)
             val py = v.toY(world.player.position.y / MAP_CELL)
@@ -1726,6 +1776,16 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             shapes.rect(dx - ps / 2f - 2f, dy - ps / 2f - 2f, ps + 4f, ps + 4f)
             shapes.color = if (off) Color(1f, 0.59f, 0.16f, 1f) else Color(1f, 0.2f, 0.2f, 1f)
             shapes.rect(dx - ps / 2f, dy - ps / 2f, ps, ps)
+            if (hasGoal) { // the goal: a green square, and a line from the player, both kept inside the view
+                val gx = v.toX(goalX / MAP_CELL).coerceIn(v.x + margin, v.x + v.side - margin)
+                val gy = v.toY(goalY / MAP_CELL).coerceIn(v.y + margin, v.y + v.side - margin)
+                shapes.color = Color(0.35f, 1f, 0.47f, 0.8f)
+                shapes.rectLine(dx, dy, gx, gy, 2f * density)
+                shapes.color = Color(0.08f, 0.08f, 0.12f, 1f)
+                shapes.rect(gx - 5f * density - 2f, gy - 5f * density - 2f, 10f * density + 4f, 10f * density + 4f)
+                shapes.color = Color(0.35f, 1f, 0.47f, 1f)
+                shapes.rect(gx - 5f * density, gy - 5f * density, 10f * density, 10f * density)
+            }
             // The legend: what the colors mean.
             var lx = panelX
             for (b in buttons) {
@@ -1733,8 +1793,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 shapes.rect(b.rect[0], b.rect[1], b.rect[2], b.rect[3])
             }
             val legendY = buttonsY - font.lineHeight * 1.8f
-            val squares = listOf(Color(1f, 0.2f, 0.2f, 1f), Color(1f, 0.92f, 0.59f, 1f), Color(0.8f, 0.47f, 1f, 1f))
-            val keys = listOf("\$i18n:ui.map_key_you", "\$i18n:ui.map_key_place", "\$i18n:ui.map_key_site")
+            val squares = listOf(Color(1f, 0.2f, 0.2f, 1f), Color(1f, 0.92f, 0.59f, 1f), Color(0.8f, 0.47f, 1f, 1f), Color(0.55f, 1f, 0.92f, 1f), Color(0.35f, 1f, 0.47f, 1f))
+            val keys = listOf("\$i18n:ui.map_key_you", "\$i18n:ui.map_key_place", "\$i18n:ui.map_key_site", "\$i18n:ui.map_key_stone", "\$i18n:ui.map_key_goal")
             for (i in squares.indices) {
                 shapes.color = squares[i]
                 shapes.rect(lx, legendY + font.lineHeight * 0.15f, font.lineHeight * 0.7f, font.lineHeight * 0.7f)
@@ -1799,7 +1859,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             // The words of the legend, after the squares drawn above.
             var lx = panelX
             val legendY = buttonsY - font.lineHeight * 1.8f
-            val keys = listOf("\$i18n:ui.map_key_you", "\$i18n:ui.map_key_place", "\$i18n:ui.map_key_site")
+            val keys = listOf("\$i18n:ui.map_key_you", "\$i18n:ui.map_key_place", "\$i18n:ui.map_key_site", "\$i18n:ui.map_key_stone", "\$i18n:ui.map_key_goal")
             font.color = Color(0.86f, 0.86f, 0.9f, 1f)
             for (key in keys) {
                 val label = data.pack.text(language, key)
@@ -2054,6 +2114,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         private val OFF_SCREEN = floatArrayOf(-1f, -1f, 0f, 0f)
         private const val MAX_TICKS_PER_FRAME = 5
         private const val MAP_MAX_LEVEL = 4
+        private val GOAL_DIRECTIONS = arrayOf("e", "se", "s", "sw", "w", "nw", "n", "ne")
         private const val MAX_FRAME_SECONDS = 0.25f
         private const val FLOATING_TEXT_FRAMES = 50
         private const val AUTOSAVE_SECONDS = 30f

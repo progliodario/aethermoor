@@ -82,6 +82,15 @@ struct Ui {
     // The view of the world map (spec 09, "The map view"): zoom level, the cell at its center, and what was drawn last.
     // The biome codes of the sampled tiles of a cell {x, y, n}: n x n of them, row by row (see draw_world_map).
     mutable std::map<std::array<int, 3>, std::vector<std::uint8_t>> map_detail;
+    // The goal: a place of the world the player marked on the map (not saved); the HUD shows its direction and
+    // distance.
+    mutable bool has_goal = false;
+    mutable float goal_x = 0.0F;  // in tiles
+    mutable float goal_y = 0.0F;
+    mutable float map_view_x =
+        0.0F;  // where the square view of the map was drawn, in pixels (to place a goal with the mouse)
+    mutable float map_view_y = 0.0F;
+    mutable float map_view_side = 1.0F;
     mutable int map_level = -1;  // -1: frame what was explored when the map is drawn next
     mutable float map_cx = 0.0F;
     mutable float map_cy = 0.0F;
@@ -564,6 +573,9 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
     g.cx = ui.map_cx;
     g.cy = ui.map_cy;
     ui.map_cell_px = g.cell;
+    ui.map_view_x = g.x;
+    ui.map_view_y = g.y;
+    ui.map_view_side = g.side;
     ui.map_view_cells = g.side / g.cell;
 
     const float ts = std::max(1.0F, std::floor(density));  // scale of the text: the debug font is 8 pixels
@@ -742,6 +754,14 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
         }
     }
 
+    // The Threshold Stones that were woken: small pale squares.
+    for (const auto& [stone_x, stone_y] : sim.stones()) {
+        const float sx = g.to_x(static_cast<float>(stone_x) / static_cast<float>(aether::kMapCell));
+        const float sy = g.to_y(static_cast<float>(stone_y) / static_cast<float>(aether::kMapCell));
+        const float ss = 5.0F * density;
+        fill_map_rect(renderer, g, sx - ss / 2.0F - 1.0F, sy - ss / 2.0F - 1.0F, ss + 2.0F, ss + 2.0F, 20, 20, 30, 255);
+        fill_map_rect(renderer, g, sx - ss / 2.0F, sy - ss / 2.0F, ss, ss, 140, 255, 235, 255);
+    }
     // The player: a red square with a white edge, kept on the edge of the view when it is out of it.
     const float px = g.to_x(sim.player().position.x / static_cast<float>(aether::kMapCell));
     const float py = g.to_y(sim.player().position.y / static_cast<float>(aether::kMapCell));
@@ -753,6 +773,19 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
     const float ps = 7.0F * density * pulse;
     fill_rect(renderer, dx - ps / 2.0F - 2.0F, dy - ps / 2.0F - 2.0F, ps + 4.0F, ps + 4.0F, 255, 255, 255, 255);
     fill_rect(renderer, dx - ps / 2.0F, dy - ps / 2.0F, ps, ps, 255, off ? 150 : 50, off ? 40 : 50, 255);
+
+    if (ui.has_goal) {  // the goal: a green square, and a line from the player, both kept inside the view
+        const float gx =
+            std::clamp(g.to_x(ui.goal_x / static_cast<float>(aether::kMapCell)), g.x + margin, g.x + g.side - margin);
+        const float gy =
+            std::clamp(g.to_y(ui.goal_y / static_cast<float>(aether::kMapCell)), g.y + margin, g.y + g.side - margin);
+        SDL_SetRenderDrawColor(renderer, 90, 255, 120, 200);
+        SDL_RenderLine(renderer, dx, dy, gx, gy);
+        fill_rect(renderer, gx - 5.0F * density - 2.0F, gy - 5.0F * density - 2.0F, 10.0F * density + 4.0F,
+                  10.0F * density + 4.0F, 20, 20, 30, 255);
+        fill_rect(renderer, gx - 5.0F * density, gy - 5.0F * density, 10.0F * density, 10.0F * density, 90, 255, 120,
+                  255);
+    }
 
     // The title, then the keys, the position and what the colors mean, under the view.
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
@@ -779,6 +812,8 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
     key(255, 50, 50, "$i18n:ui.map_key_you");
     key(255, 235, 150, "$i18n:ui.map_key_place");
     key(205, 120, 255, "$i18n:ui.map_key_site");
+    key(140, 255, 235, "$i18n:ui.map_key_stone");
+    key(90, 255, 120, "$i18n:ui.map_key_goal");
 }
 
 // Night and weather over the world, and the clock (spec 08). Presentation only.
@@ -1169,8 +1204,20 @@ void handle_travel_key(aether::WorldSim& sim, const Assets& assets, Ui& ui, SDL_
     }
 }
 
+// Marks the goal at a map position given in cells (fractional), inside the world.
+void set_goal(const aether::WorldSim& sim, const Assets& assets, Ui& ui, float cell_x, float cell_y) {
+    if (sim.chunks() == nullptr) {
+        return;
+    }
+    const aether::WorldParams& params = sim.chunks()->params();
+    ui.goal_x = std::clamp(cell_x * static_cast<float>(aether::kMapCell), 0.0F, static_cast<float>(params.width - 1));
+    ui.goal_y = std::clamp(cell_y * static_cast<float>(aether::kMapCell), 0.0F, static_cast<float>(params.height - 1));
+    ui.has_goal = true;
+    notify(ui, assets.pack.text(ui.lang, "$i18n:ui.goal_set"));
+}
+
 // The keys of the world map (spec 16): zoom, move the view, back to the player, frame everything explored.
-void handle_map_key(const aether::WorldSim& sim, const Ui& ui, SDL_Keycode key) {
+void handle_map_key(const aether::WorldSim& sim, const Assets& assets, Ui& ui, SDL_Keycode key) {
     const float step = ui.map_view_cells / 6.0F;
     if (key == SDLK_PLUS || key == SDLK_EQUALS || key == SDLK_KP_PLUS) {
         map_zoom(ui, 1);
@@ -1184,6 +1231,11 @@ void handle_map_key(const aether::WorldSim& sim, const Ui& ui, SDL_Keycode key) 
         map_pan(sim, ui, -step, 0.0F);
     } else if (key == SDLK_RIGHT || key == SDLK_D) {
         map_pan(sim, ui, step, 0.0F);
+    } else if (key == SDLK_P) {
+        set_goal(sim, assets, ui, ui.map_cx, ui.map_cy);
+    } else if (key == SDLK_X) {
+        ui.has_goal = false;
+        notify(ui, assets.pack.text(ui.lang, "$i18n:ui.goal_cleared"));
     } else if (key == SDLK_C) {
         map_center_on_player(sim, ui);
     } else if (key == SDLK_0 || key == SDLK_KP_0 || key == SDLK_HOME) {
@@ -1321,7 +1373,40 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
             debug_text(renderer, x - text_columns(text) * 8.0F - 8.0F, y, text.c_str());
         }
     }
-    y += 16.0F;
+    y += 14.0F;
+    if (sim.streamed()) {
+        const float px = sim.player().position.x;
+        const float py = sim.player().position.y;
+        SDL_SetRenderDrawColor(renderer, 170, 190, 210, 255);
+        debug_text(renderer, x, y,
+                   assets.pack
+                       .text(ui.lang, "$i18n:ui.coords",
+                             {{"x", static_cast<std::int64_t>(std::floor(px))},
+                              {"y", static_cast<std::int64_t>(std::floor(py))}})
+                       .c_str());
+        y += 12.0F;
+        if (ui.has_goal) {
+            const float dx = ui.goal_x - px;
+            const float dy = ui.goal_y - py;
+            const int distance = static_cast<int>(std::lround(std::sqrt(dx * dx + dy * dy)));
+            std::string goal;
+            if (distance < 6) {
+                goal = assets.pack.text(ui.lang, "$i18n:ui.goal_here");
+            } else {
+                static const char* kDirections[8] = {"e", "se", "s", "sw", "w", "nw", "n", "ne"};
+                const float sector = std::atan2(dy, dx) / (3.14159265F / 4.0F);  // 0 east, 2 south: y points down
+                const int index = (static_cast<int>(std::lround(sector)) + 8) % 8;
+                goal = assets.pack.text(
+                    ui.lang, "$i18n:ui.goal",
+                    {{"dir", assets.pack.text(ui.lang, std::string("$i18n:ui.dir_") + kDirections[index])},
+                     {"dist", static_cast<std::int64_t>(distance)}});
+            }
+            SDL_SetRenderDrawColor(renderer, 90, 255, 120, 255);
+            debug_text(renderer, x, y, goal.c_str());
+            y += 12.0F;
+        }
+        y += 4.0F;
+    }
     for (const auto& [quest_id, progress] : story.quests()) {
         if (progress.done) {
             continue;
@@ -2253,7 +2338,7 @@ int main(int argc, char** argv) {
                         } else if (sim.shop() != nullptr) {
                             handle_shop_key(sim, assets, ui, event.key.key);
                         } else if (ui.show_map) {
-                            handle_map_key(sim, ui, event.key.key);
+                            handle_map_key(sim, assets, ui, event.key.key);
                         } else if (ui.show_journal) {
                             if (event.key.key == SDLK_UP || event.key.key == SDLK_W) {
                                 ui.journal_scroll = std::max(ui.journal_scroll - 1, 0);
@@ -2278,6 +2363,16 @@ int main(int argc, char** argv) {
                                (event.motion.state & SDL_BUTTON_LMASK) != 0) {
                         const float pixels = std::max(SDL_GetWindowPixelDensity(window), 1.0F) / ui.map_cell_px;
                         map_pan(sim, ui, -event.motion.xrel * pixels, -event.motion.yrel * pixels);  // drag the map
+                    } else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN && ui.show_map && !smoke_test &&
+                               event.button.button == SDL_BUTTON_RIGHT) {
+                        const float density_now = std::max(SDL_GetWindowPixelDensity(window), 1.0F);
+                        const float cell_x =
+                            ui.map_cx +
+                            (event.button.x * density_now - (ui.map_view_x + ui.map_view_side / 2.0F)) / ui.map_cell_px;
+                        const float cell_y =
+                            ui.map_cy +
+                            (event.button.y * density_now - (ui.map_view_y + ui.map_view_side / 2.0F)) / ui.map_cell_px;
+                        set_goal(sim, assets, ui, cell_x, cell_y);
                     } else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN && !smoke_test &&
                                sim.story().dialogue_active()) {
                         activate_dialogue(sim, ui);
