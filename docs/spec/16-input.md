@@ -16,6 +16,7 @@ open a panel, save, load. While a dialogue is open the movement and the attack o
 | Keyboard, move | `W A S D` and the arrows (diagonals are normalized) |
 | Keyboard, attack | `J`, `Space` or the left mouse button |
 | Keyboard, dodge | `L` or `Left Shift`: the dodge roll (spec 05), in the direction of the movement keys, or the way you face when none is held; held, it repeats when the cooldown ends |
+| Keyboard, analyze | `Z`: Ren's Analyze, a panel for six seconds (again to hide it) |
 | Keyboard, interact | `E` or `Enter`: talk to the person in front of you, wake and use a Threshold Stone, confirm |
 | Dialogue | `W`/`S` or the arrows choose, `E`/`Enter`/`Space` or a mouse click confirm, `1` to `9` pick a choice directly |
 | Bag | `I` opens and closes it; `W`/`S` move the cursor; `E`/`Enter`/`Space` use or wear the item; `Esc` closes it |
@@ -41,6 +42,7 @@ Several things share a key because they never happen together: `E` talks next to
 | Touch, move | **Floating stick**: the first touch on the left half of the screen is the origin of the stick; dragging up to 64 dp from it gives the vector, scaled to length 1 at 64 dp |
 | Touch, attack | any touch on the right half of the screen, except on a button or a panel |
 | Dodge | a round button in the bottom right corner (`Dodge`): held, it rolls in the direction of the stick; a touch on it is never an attack; `L` or `Left Shift` on a keyboard |
+| Analyze | a button left of the Dodge button: a tap shows the panel of Analyze for six seconds (again to hide it) |
 | Buttons | bag and world map (first row) and journal and the language (`IT`/`EN`, second row) in the top left corner; a talk button on the right edge, shown next to a person or a stone |
 | World map | drag to move, pinch (or the `+` and `-` buttons) to zoom, `Goal` marks the center of the view as the goal (again to remove it), `Next` jumps to the next place found, `You` to go back to the player, `All` to frame what was explored, `X` to close; the Back key closes it too |
 | Lists | a tap on a row chooses it, a second tap on the chosen row confirms (use an item, buy, accept, travel); the journal scrolls with a tap above or below its middle; a tap outside a panel closes it |

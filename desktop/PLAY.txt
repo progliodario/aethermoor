@@ -8,6 +8,7 @@ The game picks Italian or English from your system language.
 
   Move ............ WASD or arrow keys, or the left stick of a gamepad
   Attack .......... J or Space (gamepad: A)
+  Analyze ......... Z: level, health, attack, defense and drops of the nearest creature
   Dodge roll ...... L or Left Shift (gamepad: B): a quick roll, you cannot be hurt for a moment
   Talk / confirm .. E or Enter (gamepad: X), choices with W/S or 1-9
   Bag ............. I (W/S to choose, E to use or wear)
@@ -46,6 +47,7 @@ Il gioco sceglie italiano o inglese dalla lingua del sistema.
 
   Muoversi ........ WASD o frecce, o stick sinistro del gamepad
   Attaccare ....... J o Spazio (gamepad: A)
+  Analizza ........ Z: livello, salute, attacco, difesa e bottino della creatura più vicina
   Capriola ........ L o Maiusc sinistro (gamepad: B): una rapida capriola, per un attimo nulla ti ferisce
   Parlare/confermare  E o Invio (gamepad: X), scelte con W/S o 1-9
   Zaino ........... I (W/S per scegliere, E per usare o indossare)

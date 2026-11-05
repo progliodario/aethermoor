@@ -17,6 +17,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- Ren's Analyze, the eye of the system (roadmap M3, skill `base:skill/ren/analyze`): `Z` (a button on Android) shows, for six seconds, the nearest living creature within 10 tiles with its level, health, attack, defense and what it drops with the chance, in a panel at the top center. Presentation only (no rules, no vectors); the weaknesses are not shown because elements have no effect yet. Both clients.
 - The dodge roll (spec 05, "Dodge roll"; roadmap M3): `L` or `Left Shift` (gamepad `B`, the Dodge button on Android) rolls about two tiles in the direction you move (or the way you face), with 14 ticks of invulnerability, and can be used again 40 ticks later (not during a swing; with the attack input, the roll wins). It is a new skill of the base pack (`base:skill/common/dodge`, a skill of type `movement` with a `movement` block in the schema), part of Ren's starting skills. Reference, both clients and five new conformance scenarios (`dodge_roll`, `dodge_cooldown`, `dodge_iframes`, `dodge_without_skill`, `dodge_and_attack`).
 
 ### Changed
