@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/shadow_dagger",
+  "name": "$i18n:item.shadow_dagger.name",
+  "description": "$i18n:item.shadow_dagger.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 400,
+  "weapon": {
+    "atk": 11,
+    "matk": 2
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/personal_yuki_1",
+  "name": "$i18n:quest.personal_yuki_1.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.personal_yuki_1.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/mint_leaf",
+          "count": 3
+        },
+        {
+          "type": "kill",
+          "enemy": "base:enemy/wolf_tawny",
+          "count": 3
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 90
+    },
+    {
+      "effect": "add_gold",
+      "amount": 120
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/potion_small",
+      "qty": 2
+    }
+  ]
+}

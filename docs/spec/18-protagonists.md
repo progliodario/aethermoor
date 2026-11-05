@@ -13,7 +13,22 @@ chosen in a new game. Nothing about a protagonist is in the code except what the
 - the starting items that are not equipment fill the inventory of a new game;
 - `base:skill/ren/analyze` in the skills turns on the Analyze panel (a presentation feature: without it the key `Z` and its button do nothing).
 
-The gift is flavor and the mechanics above: **no gift has a rule of its own yet** (taming, the second life of the aegis, the mana that never runs out). The text of each gift says what it is today and what is still to come.
+## Gift rules
+
+A protagonist may have `gift_rules`, an object of integers with these keys (all optional; a missing key is the neutral value):
+
+| Key | Neutral | Effect |
+|---|---|---|
+| `mp_regen_pct` | 100 | the mana regeneration per tick is `mp_regen_x100 * mp_regen_pct / 100` (integer division; spec 05, "Mana") |
+| `aggro_pct` | 100 | the aggro distance of every creature is `aggro_x100 * aggro_pct / 100` (integer division): below 100 creatures notice the player later (spec 05) |
+| `heal_pct` | 100 | the health that an item restores (`heal`, spec 06) is `amount * heal_pct / 100` (integer division, applied to the sum of the `heal` effects) |
+| `dodge_cooldown_pct` | 100 | the cooldown of the dodge roll is `cooldown * dodge_cooldown_pct / 100` (integer division, spec 05) |
+| `death_save_ticks` | 0 | when a blow would bring the health to 0 or less and the **death save** is ready, the health becomes 1 instead and the death save is not ready for `death_save_ticks` ticks; 0 disables it |
+
+The death save is not saved (a loaded game has it ready). In scenarios the object is `gift`. The conformance scenarios are `gift_death_save`, `gift_mp_regen`, `gift_heal`, `gift_aggro` and `gift_dodge_cooldown`.
+
+The base roster uses them: Sakura `mp_regen_pct` 300; Daichi `death_save_ticks` 1800 (the Eternal Aegis: one blow survived every thirty seconds); Haruka `aggro_pct` 50 (the creatures notice her late); Marco `heal_pct` 200 (food and potions work twice as well); Yuki `dodge_cooldown_pct` 50. Ren's gift is the Analyze panel (a presentation feature). Gifts that are not in these knobs (the pocket that never fills, taming, a second life per dungeon) are not implemented; their texts say what each gift is today.
+
 
 ## Choosing and keeping
 
@@ -43,4 +58,7 @@ For a protagonist with the ID `base:protagonist/<name>`: `protagonist.<name>.nam
 | Daichi Okabe | drama | Eternal Aegis: health and defense | 8 11 6 5 4 6 7 | Axe chop, Guard slam (170 degrees, 8 mana), Shield roll (10 ticks, 16 of invulnerability, speed x2.2) | Fire axe (atk 6) |
 | Haruka Aizawa | cozy | Universal Tamer: speed and luck | 5 7 8 9 6 9 10 | Staff tap, Gale strike (9 mana), Dodge roll | Walking stick (atk 3, matk 2) |
 
-The other protagonists of the plan (Marco, Yuki, Lena, Gideon) and the rules of the gifts come with the progression systems (spec 11).
+| Marco Ferri | adventure | Modern Knowledge: food and potions heal twice as much (`heal_pct` 200) | 6 8 8 6 9 7 7 | Spanner swing, Pressure blast (220 range, 9 mana), Dodge roll | Wrench (atk 5) |
+| Yuki Shirogane | noir | Pocket Dimension: the dodge recovers twice as fast (`dodge_cooldown_pct` 50) | 4 5 11 12 7 6 10 | Dagger flick (fast), Shadow cut (70 degrees, 8 mana), Shadow step (8 ticks, speed x3.2, 12 of invulnerability) | Thin dagger (atk 5) |
+
+The other protagonists of the plan (Lena, Gideon) and the deeper rules of the gifts (taming, the pocket, the Dark Tide) come with the progression systems (spec 11).

@@ -1,0 +1,55 @@
+{
+  "$schema": "../../../schemas/protagonist.schema.json",
+  "id": "base:protagonist/yuki",
+  "name": "$i18n:protagonist.yuki.name",
+  "tagline": "$i18n:protagonist.yuki.tagline",
+  "tone": "noir",
+  "base_stats": {
+    "str": 4,
+    "vit": 5,
+    "dex": 11,
+    "agi": 12,
+    "int": 7,
+    "wis": 6,
+    "luk": 10
+  },
+  "growth_pm": {
+    "str": 800,
+    "vit": 900,
+    "dex": 1400,
+    "agi": 1400,
+    "int": 1000,
+    "wis": 900,
+    "luk": 1300
+  },
+  "free_points_per_level": 2,
+  "cheat": "pocket_dimension",
+  "art_variant": "yuki",
+  "gift_rules": {
+    "dodge_cooldown_pct": 50
+  },
+  "starting_items": [
+    {
+      "item": "base:item/thief_dagger",
+      "qty": 1
+    },
+    {
+      "item": "base:item/bread",
+      "qty": 3
+    },
+    {
+      "item": "base:item/potion_small",
+      "qty": 2
+    },
+    {
+      "item": "base:item/keepsake_yuki",
+      "qty": 1
+    }
+  ],
+  "starting_skills": [
+    "base:skill/yuki/dagger_flick",
+    "base:skill/yuki/shadow_step",
+    "base:skill/yuki/shadow_cut"
+  ],
+  "initially_available": true
+}

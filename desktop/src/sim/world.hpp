@@ -40,6 +40,7 @@ struct Player {
     int phase_tick = 0;
     std::int64_t mp_u = 0;      // mana in units of 1/6000 of a point (spec 05, "Mana"); not saved
     bool using_strike = false;  // the swing in progress is the power strike; not saved
+    int death_save_cd = 0;      // ticks until the death save is ready again (spec 18); not saved
     int dodge_ticks = 0;        // ticks of the dodge roll left (spec 05); not saved
     int dodge_cooldown = 0;     // ticks until the next roll; not saved
     Vec2 dodge_dir{1.0F, 0.0F};

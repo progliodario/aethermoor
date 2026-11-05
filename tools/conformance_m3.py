@@ -185,6 +185,17 @@ def build_scenarios() -> list[dict]:
                  player={"base_stats": MAGE}),
         scenario("magical_strike", [enemy(3.5, 4.5, hp=400, **passive)], [segment(60, strike=True), segment(100, strike=True)],
                  player={"base_stats": MAGE, "weapon_matk": 6}, strike={**STRIKE, "kind": "magical", "mp": 6}),
+        # Gift rules (spec 18): each knob against the same script without it.
+        scenario("gift_death_save", [enemy(6.7, 4.5, atk=400)], [segment(100), segment(100), segment(100), segment(200)],
+                 gift={"death_save_ticks": 150}),
+        scenario("gift_mp_regen", [enemy(3.5, 4.5, hp=900, **passive)], [segment(40, strike=True), segment(200, strike=True), segment(200, strike=True)],
+                 strike={**STRIKE, "mp": 60}, gift={"mp_regen_pct": 1000}),
+        scenario("gift_heal", [enemy(8.1, 4.5, atk=40)],
+                 [segment(150), segment(1, do=[{"cmd": "use", "item": "base:item/bread"}]), segment(10)],
+                 inventory={"base:item/bread": 2}, gift={"heal_pct": 200}),
+        scenario("gift_aggro", [enemy(6.2, 4.5)], [segment(200)], gift={"aggro_pct": 50}),
+        scenario("gift_dodge_cooldown", [enemy(12.0, 7.5, **passive)], [segment(70, move=(1, 0), dodge=True)], dodge=DODGE,
+                 gift={"dodge_cooldown_pct": 50}),
         scenario("leash_and_return", [enemy(4.0, 4.5, behavior_overrides={"leash_x100": 300})],
                  [segment(20, attack=True), segment(150, move=(1, 0)), segment(250)]),
     ]

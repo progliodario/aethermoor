@@ -30,6 +30,14 @@ std::optional<ProtagonistDef> parse_protagonist(std::string_view json_text, std:
         for (const Json& skill : j.at("starting_skills")) {
             def.starting_skills.push_back(skill.get<std::string>());
         }
+        if (j.contains("gift_rules")) {
+            const Json& rules = j.at("gift_rules");
+            def.mp_regen_pct = rules.value("mp_regen_pct", 100);
+            def.aggro_pct = rules.value("aggro_pct", 100);
+            def.heal_pct = rules.value("heal_pct", 100);
+            def.dodge_cooldown_pct = rules.value("dodge_cooldown_pct", 100);
+            def.death_save_ticks = rules.value("death_save_ticks", 0);
+        }
         def.art_variant = j.value("art_variant", "");
         def.initially_available = j.value("initially_available", true);
         return def;

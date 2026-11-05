@@ -183,6 +183,7 @@ fun loadCombatSetup(
             skill = skill,
             dodge = dodge,
             strike = strike,
+            gift = protagonist.gift,
             spawns = spawns,
             xpTable = pack.intTables["base:table/xp"]?.values ?: emptyList(),
             seed = seed,

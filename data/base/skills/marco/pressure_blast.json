@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../../schemas/skill.schema.json",
+  "id": "base:skill/marco/pressure_blast",
+  "name": "$i18n:skill.marco.pressure_blast.name",
+  "description": "$i18n:skill.marco.pressure_blast.desc",
+  "type": "active",
+  "cost": {
+    "mp": 9
+  },
+  "cooldown_ticks": 85,
+  "timing": {
+    "startup": 10,
+    "active": 4,
+    "recovery": 16
+  },
+  "damage": {
+    "kind": "physical",
+    "element": "none",
+    "power_pct": 200
+  },
+  "tags": [
+    "melee",
+    "heavy"
+  ],
+  "hitbox": {
+    "shape": "arc",
+    "radius_x100": 220,
+    "angle_deg": 150
+  }
+}

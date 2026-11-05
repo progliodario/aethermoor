@@ -48,5 +48,8 @@
     "base:skill/daichi/shield_roll",
     "base:skill/daichi/guard_slam"
   ],
-  "initially_available": true
+  "initially_available": true,
+  "gift_rules": {
+    "death_save_ticks": 1800
+  }
 }

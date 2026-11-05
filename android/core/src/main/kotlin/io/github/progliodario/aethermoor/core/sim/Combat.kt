@@ -28,6 +28,15 @@ data class DodgeDef(
 /** The power strike (spec 05, "Mana"): the second skill with a hitbox; [enabled] is false when the protagonist has none. */
 data class StrikeDef(val enabled: Boolean = false, val skill: SkillDef = SkillDef(), val mp: Long = 10)
 
+/** The rules of a gift (spec 18, "Gift rules"): percentages (100 is neutral) and the ticks of the death save (0: none). */
+data class GiftDef(
+    val mpRegenPct: Int = 100,
+    val aggroPct: Int = 100,
+    val healPct: Int = 100,
+    val dodgeCooldownPct: Int = 100,
+    val deathSaveTicks: Int = 0,
+)
+
 data class DropDef(val item: String, val qtyMin: Long, val qtyMax: Long, val weightPm: Long)
 
 data class BehaviorDef(
@@ -108,6 +117,8 @@ class CombatSetup(
     val dodge: DodgeDef = DodgeDef(),
     /** The power strike of the protagonist (spec 05). */
     val strike: StrikeDef = StrikeDef(),
+    /** The gift rules of the protagonist (spec 18). */
+    val gift: GiftDef = GiftDef(),
 )
 
 enum class AttackPhase { NONE, STARTUP, ACTIVE, RECOVERY }

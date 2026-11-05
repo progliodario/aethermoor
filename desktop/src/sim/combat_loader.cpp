@@ -90,6 +90,11 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
     setup.player.base = protagonist->base_stats;
     setup.player.growth_pm = protagonist->growth_pm;
     setup.start_inventory = protagonist->starting_inventory;
+    setup.gift.mp_regen_pct = protagonist->mp_regen_pct;
+    setup.gift.aggro_pct = protagonist->aggro_pct;
+    setup.gift.heal_pct = protagonist->heal_pct;
+    setup.gift.dodge_cooldown_pct = protagonist->dodge_cooldown_pct;
+    setup.gift.death_save_ticks = protagonist->death_save_ticks;
 
     try {
         for (const std::string& item_id : protagonist->starting_items) {

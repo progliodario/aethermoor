@@ -281,7 +281,7 @@
   "ui.protagonist_choose": "Choose who you will be",
   "ui.protagonist_gift": "Gift",
   "ui.protagonist_story": "Story",
-  "ui.protagonist_hint": "[W/S] choose   [E] confirm   [1-4] pick   [Esc] back",
+  "ui.protagonist_hint": "[W/S] choose   [E] confirm   [1-6] pick   [Esc] back",
   "ui.protagonist_hint_touch": "Tap a name to see it, tap it again to choose it",
   "dlg.pip.story.ren.ask": "I keep seeing numbers. Is that normal?",
   "dlg.pip.story.ren.o1": "Numbers? Over the slimes? Ha. Well, my mother says the meadow is a mess and the roof leaks. Six slimes and four gel, and you will see if your numbers are any good.",
@@ -306,5 +306,17 @@
   "dlg.pip.story.haruka.busy1": "Five mint leaves, two tawny furs. The poultice does not make itself, you know.",
   "dlg.pip.story.haruka.o2": "The animals sleep better already. But three myconids and four green slimes keep frightening them. Calmly, but firmly.",
   "dlg.pip.story.haruka.busy2": "Three myconids, four slimes. And do not worry about them: they get over it.",
-  "dlg.pip.story.haruka.done": "Even the slimes are quiet. I think they like you. Take the cane: the herbalist made it for someone who listens."
+  "dlg.pip.story.haruka.done": "Even the slimes are quiet. I think they like you. Take the cane: the herbalist made it for someone who listens.",
+  "dlg.pip.story.marco.ask": "Is there any way to cook something in this village?",
+  "dlg.pip.story.marco.o1": "Cook? My mother cooks, and she says no one has ever added slime gel to a sauce. Three gel and four mint leaves, if you want to be the first.",
+  "dlg.pip.story.marco.busy1": "Three slime gel, four mint leaves. And please, do not tell my mother what it is for.",
+  "dlg.pip.story.marco.o2": "My mother tasted it and she is still talking about it. Now the valve you want to try: five green slimes and two myconids, out where nobody lives.",
+  "dlg.pip.story.marco.busy2": "Five slimes, two myconids. Stand a bit away from whatever you are making, I would.",
+  "dlg.pip.story.marco.done": "The whole village smelled it and we all liked it. Take the cleaver: it is for someone who knows what to do with a kitchen.",
+  "dlg.pip.story.yuki.ask": "Is there anything here worth stealing?",
+  "dlg.pip.story.yuki.o1": "Steal? Here? Nobody locks anything. But the herbalist needs mint, three leaves, and some tawny wolves are scaring her off. You could be useful in the dark.",
+  "dlg.pip.story.yuki.busy1": "Three mint leaves, three tawny wolves. Not a word to anyone about how you got them.",
+  "dlg.pip.story.yuki.o2": "The herbalist is happy and she does not know why. Now the lane to the east: five mint slimes and two myconids block it. A quiet exit, if you like.",
+  "dlg.pip.story.yuki.busy2": "Five mint slimes, two myconids. Quiet, remember.",
+  "dlg.pip.story.yuki.done": "The lane is open and nobody saw anything. Take the dagger: it was left to someone who knows what to do with it."
 }

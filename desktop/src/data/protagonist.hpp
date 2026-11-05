@@ -21,6 +21,11 @@ struct ProtagonistDef {
     std::vector<std::string> starting_items;  // item IDs, in data order
     std::vector<std::string> starting_skills;
     std::map<std::string, std::int64_t> starting_inventory;  // item ID -> quantity
+    int mp_regen_pct = 100;                                  // the gift rules (spec 18)
+    int aggro_pct = 100;
+    int heal_pct = 100;
+    int dodge_cooldown_pct = 100;
+    int death_save_ticks = 0;
     std::string art_variant;  // palette variant of the character art ("" for the default)
     bool initially_available = true;
 };

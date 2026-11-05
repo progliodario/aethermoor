@@ -1,0 +1,55 @@
+{
+  "$schema": "../../../schemas/protagonist.schema.json",
+  "id": "base:protagonist/marco",
+  "name": "$i18n:protagonist.marco.name",
+  "tagline": "$i18n:protagonist.marco.tagline",
+  "tone": "adventure",
+  "base_stats": {
+    "str": 6,
+    "vit": 8,
+    "dex": 8,
+    "agi": 6,
+    "int": 9,
+    "wis": 7,
+    "luk": 7
+  },
+  "growth_pm": {
+    "str": 1000,
+    "vit": 1200,
+    "dex": 1100,
+    "agi": 900,
+    "int": 1300,
+    "wis": 1100,
+    "luk": 1000
+  },
+  "free_points_per_level": 2,
+  "cheat": "modern_knowledge",
+  "art_variant": "marco",
+  "gift_rules": {
+    "heal_pct": 200
+  },
+  "starting_items": [
+    {
+      "item": "base:item/wrench",
+      "qty": 1
+    },
+    {
+      "item": "base:item/bread",
+      "qty": 6
+    },
+    {
+      "item": "base:item/potion_small",
+      "qty": 3
+    },
+    {
+      "item": "base:item/keepsake_marco",
+      "qty": 1
+    }
+  ],
+  "starting_skills": [
+    "base:skill/marco/spanner_swing",
+    "base:skill/common/dodge",
+    "base:skill/marco/pressure_blast"
+  ],
+  "initially_available": true
+}

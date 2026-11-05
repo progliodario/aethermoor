@@ -56,6 +56,8 @@ class CombatSim:
         self.skill = scenario["skill"]
         self.strike = scenario.get("strike")  # the power strike: a skill dict like `skill` plus "mp"; None: none (spec 05, "Mana")
         self.cur_skill = self.skill  # the skill of the swing in progress
+        self.gift = scenario.get("gift", {})  # percentages and the death save of the protagonist (spec 18, "Gift rules")
+        self.death_save_cd = 0
         self.dodge = scenario.get("dodge")  # {"ticks", "speed_mult_x100", "iframes", "cooldown"}, or None: no dodge (spec 05, "Dodge roll")
         self.dodge_ticks = 0
         self.dodge_cooldown = 0
@@ -116,7 +118,9 @@ class CombatSim:
             self.cooldown -= 1
         if self.dodge_cooldown > 0:
             self.dodge_cooldown -= 1
-        self.mp_u = min(self.derived["max_mp"] * 6000, self.mp_u + self.derived["mp_regen_x100"])
+        if self.death_save_cd > 0:
+            self.death_save_cd -= 1
+        self.mp_u = min(self.derived["max_mp"] * 6000, self.mp_u + self.derived["mp_regen_x100"] * self.gift.get("mp_regen_pct", 100) // 100)
 
         vx, vy = mv.normalize_input(raw_x, raw_y)
         if dodge and self.dodge is not None and self.dodge_ticks == 0 and self.dodge_cooldown == 0 and self.phase == NONE:
@@ -126,7 +130,7 @@ class CombatSim:
             self.facing = self.dodge_dir
             if self.dodge_dir[0] != 0.0:
                 self.facing_left = self.dodge_dir[0] < 0.0
-            self.dodge_ticks, self.dodge_cooldown = self.dodge["ticks"], self.dodge["cooldown"]
+            self.dodge_ticks, self.dodge_cooldown = self.dodge["ticks"], self.dodge["cooldown"] * self.gift.get("dodge_cooldown_pct", 100) // 100
             self.iframes = max(self.iframes, self.dodge["iframes"])
         if self.dodge_ticks > 0:
             self.dodge_ticks -= 1
@@ -244,7 +248,7 @@ class CombatSim:
         dx, dy = self.x - e.x, self.y - e.y
         dist = math.sqrt(dx * dx + dy * dy)
         if e.state == IDLE:
-            if dist <= b["aggro_x100"] / 100:
+            if dist <= b["aggro_x100"] * self.gift.get("aggro_pct", 100) // 100 / 100:
                 e.state, e.t = CHASE, 0
         elif e.state == CHASE:
             if dist > b["leash_x100"] / 100:
@@ -284,6 +288,8 @@ class CombatSim:
                               variance, False, 1500, 1000)
         self.hp -= damage
         self.iframes = PLAYER_HIT_IFRAMES
+        if self.hp <= 0 and self.gift.get("death_save_ticks", 0) > 0 and self.death_save_cd == 0:
+            self.hp, self.death_save_cd = 1, self.gift["death_save_ticks"]  # the death save (spec 18)
         if self.hp <= 0:
             self.deaths += 1
             self.hp = self.derived["max_hp"]
@@ -302,7 +308,7 @@ class CombatSim:
         item = self.items.get(item_id)
         if item is None or self.inventory.get(item_id, 0) < 1:
             return False
-        heal = sum(e["amount"] for e in item["effects"] if e["effect"] == "heal")
+        heal = sum(e["amount"] for e in item["effects"] if e["effect"] == "heal") * self.gift.get("heal_pct", 100) // 100
         mana = sum(e["amount"] for e in item["effects"] if e["effect"] == "restore_mp")
         full_mp = self.derived["max_mp"] * 6000
         if not ((heal > 0 and self.hp < self.derived["max_hp"]) or (mana > 0 and self.mp_u < full_mp)):
@@ -408,6 +414,7 @@ class CombatSim:
         self.iframes, self.cooldown, self.phase, self.phase_tick = p["iframes"], p["cooldown"], p["phase"], p["phase_tick"]
         self.hit_set = {i for i, hit in enumerate(p["hit_set"]) if hit}
         self.dodge_ticks, self.dodge_cooldown = 0, 0  # a roll in progress is not saved (spec 05)
+        self.death_save_cd = 0
         self.mp_u, self.cur_skill = self.derived["max_mp"] * 6000, self.skill  # nor is the mana: a loaded game starts full
         for name, stream in (("combat", self.combat), ("loot", self.loot)):
             stream.state = int(save["rng"][name]["state"], 16)

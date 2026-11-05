@@ -123,6 +123,22 @@
       "shirt_dark": "#3A8260",
       "pants": "#6A5A44",
       "boots": "#4A3A2A"
+    },
+    "marco": {
+      "skin": "#E6BE9A",
+      "hair": "#1E1814",
+      "shirt": "#ECECEC",
+      "shirt_dark": "#BDBDC8",
+      "pants": "#3A4A5A",
+      "boots": "#2A2A30"
+    },
+    "yuki": {
+      "skin": "#F0D2B8",
+      "hair": "#D8D8E8",
+      "shirt": "#3A3A58",
+      "shirt_dark": "#2A2A42",
+      "pants": "#26263A",
+      "boots": "#14141E"
     }
   }
 }
