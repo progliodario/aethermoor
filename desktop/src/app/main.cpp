@@ -3192,8 +3192,8 @@ int main(int argc, char** argv) {
                     } else {
                         snap.tod_pm = 500;
                     }
-                    for (const aether::SoundEvent& event : g_sound_director.update(snap)) {
-                        g_sound.play_event(event.event, event.volume_pm);
+                    for (const aether::SoundEvent& heard : g_sound_director.update(snap)) {
+                        g_sound.play_event(heard.event, heard.volume_pm);
                     }
                     g_sound.set_ambience(
                         aether::ambience_gains(snap.region, snap.tod_pm, snap.rain_pm, g_sound.ambience_rules()));
