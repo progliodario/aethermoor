@@ -39,17 +39,133 @@
     },
     {
       "shape": {
-        "rect": [
-          2,
-          19,
-          18,
-          4
-        ]
+        "path": "M 3 3 Q 11 0 19 3 L 18.6 6 Q 11 3.6 3.4 6 Z"
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.18
+    },
+    {
+      "shape": {
+        "path": "M 15 6 L 19 5 L 20 24 L 16 24.5 Z"
       },
       "fill": {
         "color": "#000000"
       },
-      "alpha": 0.15
+      "alpha": 0.14
+    },
+    {
+      "shape": {
+        "path": "M 7.5 2.2 Q 11 6.5 14.5 2.2 L 13.5 1.4 Q 11 4.2 8.5 1.4 Z"
+      },
+      "fill": {
+        "color": "$p.skin"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.9
+      }
+    },
+    {
+      "shape": {
+        "path": "M 6.5 2.4 L 11 8.5 L 15.5 2.4"
+      },
+      "stroke": {
+        "color": "$p.shirt_dark",
+        "width": 1.3
+      }
+    },
+    {
+      "shape": {
+        "path": "M 11 8.5 L 11 21"
+      },
+      "stroke": {
+        "color": "#000000",
+        "width": 0.7
+      },
+      "alpha": 0.18
+    },
+    {
+      "shape": {
+        "path": "M 6 11 Q 7 15 5.5 19"
+      },
+      "stroke": {
+        "color": "#000000",
+        "width": 0.6
+      },
+      "alpha": 0.16
+    },
+    {
+      "shape": {
+        "path": "M 16 11 Q 15 15 16.5 19"
+      },
+      "stroke": {
+        "color": "#000000",
+        "width": 0.6
+      },
+      "alpha": 0.16
+    },
+    {
+      "shape": {
+        "rect": [
+          2.2,
+          19.5,
+          17.6,
+          3.6
+        ]
+      },
+      "fill": {
+        "color": "#4A3426"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.9
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          2.6,
+          19.9,
+          16.8,
+          1
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.14
+    },
+    {
+      "shape": {
+        "rect": [
+          9.6,
+          19.3,
+          2.8,
+          4
+        ]
+      },
+      "fill": {
+        "color": "#D8B65A"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.7
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          10.4,
+          20.4,
+          1.2,
+          1.8
+        ]
+      },
+      "fill": {
+        "color": "#7A5A1E"
+      }
     }
   ],
   "palette": {
