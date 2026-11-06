@@ -24,6 +24,19 @@ Skills are `data/base/skills/<owner>/<name>.json` (`schemas/skill.schema.json`) 
 
 So changing the numbers of these skills is a data change (run `python tools/gen_conformance.py` only if a scenario copies them; the conformance scenarios carry their own numbers), but a new kind of skill (a third attack, a spell, a buff) is a rule change that starts in [spec 05](../spec/05-combat-v1.md). `base:skill/ren/analyze` is a presentation feature (the Analyze panel) and has no rules.
 
+## A protagonist
+
+The eight base protagonists are the examples: `data/base/protagonists/<name>.json` (`schemas/protagonist.schema.json`) and, for each one, the files that its data names. A new one needs, in this order:
+
+1. **Look**: a palette variant of the same name in the four recipes of `data/base/art/characters/ren/` (`head`, `torso`, `arm`, `leg`: `skin`, `hair`, `shirt`, `shirt_dark`, `pants`, `boots`), given as `art_variant`.
+2. **Weapon and keepsake**: `data/base/items/<weapon>.json` (kind `weapon`, `atk` and `matk`) and `keepsake_<name>.json` (kind `key`, price 0, so that it cannot be sold).
+3. **Skills**: `data/base/skills/<name>/`: a basic attack and a power strike (two skills with a `hitbox`, the second with a `cost.mp`; `damage.kind` is `physical` or `magical`) and, optionally, an own dodge (a skill of type `movement` with a `movement` block); `base:skill/common/dodge` is the default. Rules in [spec 05](../spec/05-combat-v1.md).
+4. **The protagonist file**: base stats and growth (the stat screen of the chooser shows what they give at level 1), `starting_items` (weapon, bread, potions, the keepsake), `starting_skills` in that order, `art_variant`, and `gift_rules` if the gift has numbers (the five knobs of [spec 18](../spec/18-protagonists.md)). `python tools/balance_report.py` does not model other protagonists than Ren.
+5. **Texts** in both languages (`content.json`): `protagonist.<name>.name`, `.tagline`, `.gift`, `.story`; the names and descriptions of the skills and items.
+6. **A personal story** (optional but expected): two quests `quests/side/personal_<name>_1.json` and `_2.json` and a question in the menu of Pip (`data/base/dialogues/npc/pip.json`) shown with the condition `has_item` on the keepsake; the rewards of the second quest include a unique weapon.
+
+`python tools/validate_data.py`, `python tools/make_catalog.py` and the tests (`python -m pytest tools/tests`: `test_every_protagonist_is_complete`) check the rest.
+
 ## A creature
 
 1. Art: copy a recipe from `data/base/art/creatures/` and change its `palette` (same keys) for a recolor, or draw a new one (`schemas/art_recipe.schema.json`: layers of `rect`, `ellipse`, `polygon` and `path` with flat, linear or radial fills). Look at it with `python tools/art_preview.py <name> --out sheet.html` and open the sheet in a browser.

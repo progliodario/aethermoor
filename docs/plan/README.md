@@ -97,4 +97,4 @@ Il nome vive in **un solo file** (`data/base/pack.json` e `project.json`) e va c
 
 ## 7. Prossimo passo
 
-Fatto: M0 (fondazioni), M1 (specifiche e conformità), M2 (motore e arte), M3 (combattimento, in parte), M4 (dialoghi, quest, salvataggi, quasi tutto), M5 (mondo aperto, quasi tutto) e metà di M6 (oggetti, negozi, equipaggiamento). Il prossimo passo e le decisioni che spettano al proprietario (bilanciamento, altri protagonisti e doni, prima release pubblica) sono in [06-roadmap-rischi-backlog.md](06-roadmap-rischi-backlog.md), sezione 8.
+Fatto: M0 (fondazioni), M1 (specifiche e conformità), M2 (motore e arte), M3 (combattimento, quasi tutto: schivata, mana, magie), M4 (dialoghi, quest, salvataggi, otto protagonisti con la scelta all'inizio, quasi tutto), M5 (mondo aperto, quasi tutto) e l'inizio di M6 (oggetti, negozi, equipaggiamento, mana). Lo stato aggiornato, i prossimi passi in ordine e ciò che resta al proprietario (governance e pubblicazione) sono in [06-roadmap-rischi-backlog.md](06-roadmap-rischi-backlog.md), sezione 8.

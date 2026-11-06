@@ -264,17 +264,23 @@ Dopo l'approvazione, ogni voce diventerà un issue con descrizione, criteri di a
 
 ### 8.1 Dove siamo
 
+Aggiornato al 6 novembre 2026 (versione `0.0.1`, nessuna release pubblicata). Il gioco è giocabile su desktop con **otto protagonisti** (Ren, Sakura, Daichi, Haruka, Marco, Yuki, Lena, Gideon), un mondo di 16384² tile in streaming con otto regioni, 35 siti a mano, 60 creature, 135 oggetti e 110 missioni (`docs/design/catalog.md`).
+
 | Milestone | Stato | Note |
 |---|---|---|
 | M0 Fondazioni | fatto | Repo, CI, ADR, schemi, scheletri dei due client |
-| M1 Spec core e conformità | fatto | Numerica intera, RNG, hash, rumore, formule, i18n, loader dei pack |
+| M1 Spec core e conformità | fatto | Numerica intera, RNG, hash, rumore, formule, i18n, loader dei pack; 23 file di vettori |
 | M2 Motore base e arte vettoriale | fatto | Rasterizzatore proprio (ADR 0012), rig/clip, mappa, collisioni, camera |
-| M3 Combattimento | in parte | Fendente, 60 creature con comportamenti diversi (timide, cacciatrici, pesanti, di guardia), boss ed élite con bottino unico, XP, livelli, difficoltà nei dati. C'è la schivata (capriola con invulnerabilità, spec 05). C'è il mana con un secondo colpo (colpo potente, spec 05). Mancano la parata, altre skill e abilità, elementi e debolezze (sono nei dati ma non hanno effetto), suoni |
-| M4 Dialoghi, quest, inventario, salvataggi | quasi fatto | Dialoghi e quest con condizioni ed effetti, PNG, salvataggi v1 con tre partite, zaino, negozi, equipaggiamento, diario, lingua, gilda con bacheca e commissioni, lavori degli anziani e dei locandieri, laboratori, locande, 94 quest. **Mancano:** profilo/export, altre impostazioni, Alpha 0.1 |
-| M5 Mondo aperto | quasi fatto | Mondo 16384² in streaming, biomi, fiumi, strade, giorno/notte, stagioni, meteo, respawn, mappa del mondo, otto regioni che modellano il terreno, insediamenti con 11 aspetti, 35 siti a mano (sotterranei con boss, tane, nidi, avamposti con viandanti), routine dei PNG, Pietre della Soglia. **Mancano:** risorse da raccogliere e mestieri, città chiave scritte a mano (Fenwick, Aldermere) |
-| M6-M12 | da fare | Vita lenta, compagni, progressione profonda, contenuti per 8 protagonisti, rifinitura, 1.0 |
+| M3 Combattimento | quasi fatto | Fendente, colpo potente con mana, **schivata** con invulnerabilità, abilità magiche (matk), regole dei doni (rigenerazione di mana, salvezza dalla morte, cure, aggro), Analizza di Ren, 60 creature con comportamenti diversi, boss ed élite, XP, livelli, difficoltà bilanciata dal modello (`docs/design/balance.md`). **Mancano:** parata, stati alterati, elementi e debolezze (sono nei dati ma senza effetto), stagger, **suoni** (non c'è audio) |
+| M4 Dialoghi, quest, inventario, salvataggi | quasi fatto | Dialoghi e quest con condizioni ed effetti, PNG, salvataggi v1 con tre partite e il protagonista per partita, zaino, negozi, equipaggiamento, diario, lingua, gilda con bacheca, lavori degli anziani e dei locandieri, laboratori, locande, **scelta del protagonista** con storia personale. **Mancano:** profilo condiviso ed export dei salvataggi, altre impostazioni, Alpha 0.1 con Fenwick e Aldermere a mano |
+| M5 Mondo aperto | quasi fatto | Streaming, otto regioni che modellano il terreno, insediamenti, siti, stagioni, meteo (solo grafica), routine dei PNG, Pietre della Soglia, **mappa del mondo** con zoom, dettaglio per tile, mini mappa, meta e frecce. **Mancano:** risorse da raccogliere, città chiave scritte a mano, fiumi e strade sulla mappa, luci 2D, effetti del meteo sul gioco |
+| M6 Sistemi di vita | iniziato | Oggetti usabili, mana e pozioni, negozi, equipaggiamento, locande. **Mancano:** agricoltura, cucina e qualità, crafting, pesca, caccia, base e residenti, economia dinamica, ricettario |
+| M7 Compagni | da fare | Nessun compagno; i doni dei protagonisti non ne hanno ancora (domare, tasca dimensionale, costruire un dungeon) |
+| M8 Progressione profonda | da fare | Alberi di abilità, titoli e tag, ranghi oltre la gilda, bestiario, reincarnazione e Albero dell'Eredità, profilo con sblocchi |
+| M9 Contenuti | iniziato | Per ogni protagonista: storia, dono, due missioni personali. Mancano i prologhi, le trame in tre atti, i boss personali |
+| M10-M12 | da fare | Rifinitura, audio, release 1.0 |
 
-Verificato finora: la CI (Windows, Linux, Android), un primo test a mano della build desktop e fotogrammi reali del client desktop (`aethermoor --smoke-test --screenshot-dir=...`) in molti punti del mondo. Non è stata provata su dispositivi Android e non c'è stata ancora una lunga sessione di gioco a mano: il bilanciamento è da provare (`docs/design/balance.md`).
+Verificato finora: la CI (Windows MSVC, Linux GCC, Android: test JVM e `assembleDebug`), 23 file di vettori eseguiti dai due client, e centinaia di fotogrammi reali del client desktop (`aethermoor --smoke-test --screenshot-dir=...`: gioco, mappa, pannelli, schermata di scelta). **Non verificato:** il client Android non è mai stato eseguito su un dispositivo o su un emulatore (si sa che compila e supera i test); non c'è stata una lunga sessione di gioco a mano, quindi il bilanciamento (200% di salute e 175% di attacco delle creature, scelto con il modello) e le regole dei doni sono da provare.
 
 ### 8.2 Direzione scelta: un mondo da isekai con molte storie
 
@@ -290,10 +296,26 @@ Conseguenze sull'ordine del lavoro (tutte le tappe sono spec-first, in entrambi 
 4. **Negozi, equipaggiamento, diario (M4d, fatto; mancano le impostazioni oltre alla lingua).** Monete e prezzi, comprare e vendere, slot di equipaggiamento (più armi e armature), diario delle quest, impostazioni e slot di salvataggio.
 5. **Alpha 0.1** con un villaggio scritto a mano (Fenwick) e la gilda di Aldermere dentro il sistema generale (da fare). M5 (Pietre della Soglia, routine dei PNG, stagioni, dungeon in ogni regione) è fatto; restano M6-M9 come da roadmap.
 
-Da decidere con il proprietario: il bilanciamento (il modello dice che i combattimenti sono facili; c'è una manopola `difficulty` nei dati del mondo), gli altri protagonisti e i loro doni, e quando fare una prima release pubblica. Per i contenuti, in generale: tono dei villaggi, nomi, fazioni e prime catene di storie (regola di progetto: il design lo decide il proprietario).
+Il 5 novembre 2026 il proprietario ha affidato a Claude le decisioni di design (protagonisti, bilanciamento, storia): i protagonisti sono otto, la difficoltà è tarata con il modello e le storie personali sono scritte (vedi 8.1). Restano al proprietario governance e pubblicazione (8.4).
 
 ### 8.3 Come si lavora
 
 1. Una tappa alla volta, con PR piccole e CI verde prima del merge.
 2. A ogni tappa si prepara una build da provare (artefatto della CI) e si raccolgono le impressioni.
 3. Aggiornare questa sezione a ogni milestone chiusa.
+
+### 8.4 Prossimi passi (decisi il 6 novembre 2026)
+
+L'ordine tiene conto di quanto ogni pezzo cambia l'esperienza di chi gioca, di quanto è indipendente dagli altri e del rischio (si può compilare e provare solo in CI). Ogni passo segue il flusso del progetto: spec, riferimento, vettori, desktop, Android, dati e testi in italiano e inglese.
+
+1. **Audio sintetizzato** (spec 14, M3/M10). È la mancanza più grande: il gioco è muto. Una piccola sintesi in codice (onde, rumore, inviluppi) descritta nei dati: colpo, danno, schivata, mana, oggetto, passi, UI, e una musica d'ambiente per regione. Desktop con SDL audio, Android con libGDX. Prima si scrive la spec dei suoni come ricette (come le ricette d'arte); non si possono fare vettori di ascolto, quindi si controllano forma d'onda e durata.
+2. **Completare il combattimento** (M3): parata (finestra, riflesso, stordimento), stati alterati e debolezze elementali (i dati ci sono: `weaknesses_pm`, `element`), stagger dei boss. Poi riprovare il bilanciamento con il modello esteso a tutti i protagonisti.
+3. **Profilo e impostazioni** (M4): `profile.json` condiviso fra le partite, export e import dei salvataggi (`.aethersave`), volume e tasti. Prerequisito della reincarnazione.
+4. **Alpha 0.1** (M4): Fenwick e Aldermere scritti a mano nel sistema dei siti, prologo breve per protagonista, tag `v0.1.0` e artefatti di release (zip Windows, tar.gz Linux, APK di debug firmato in modo semplice). **Decisione del proprietario:** quando pubblicare (una release pubblica, la protezione del ramo `main`).
+5. **Verifica su dispositivo Android** (rischio R4/R6): provare un APK su un telefono o un emulatore, controllare tocco, bottoni, orientamento e prestazioni, e correggere ciò che si vede. Serve una macchina con l'Android SDK: non si può fare da qui.
+6. **Raccolta e mestieri** (M5/M6): risorse da raccogliere nel mondo (erbe, minerali), crafting con qualità, cucina; il laboratorio degli anziani esiste già come base.
+7. **Compagni** (M7): un compagno per protagonista (spec 10), IA, comandi, legame; i doni di Haruka (domare) e Gideon (comandare) ne dipendono.
+8. **Progressione** (M8): titoli, tag, bestiario, reincarnazione.
+9. **Qualità continua** (`gen_conformance.py --check` è ora in CI): CodeQL, ktlint e detekt, golden visivi dei fotogrammi del test di fumo, fiumi e strade sulla mappa, luci 2D.
+
+Le decisioni di design (storia, tono, bilanciamento, protagonisti) sono state affidate a Claude dal proprietario il 5 novembre 2026; restano **al proprietario** le decisioni su governance e pubblicazione (release pubblica, protezione del ramo, impostazioni del repository, licenze di materiale esterno, firma del codice).

@@ -17,17 +17,18 @@ The build copies `../data` next to the executable (`data/base/pack.json` is look
 |---|---|
 | `--version` | prints the name and version and exits |
 | `--smoke-test` | opens a window (with `SDL_VIDEODRIVER=dummy` in CI), bakes the art, walks the player for a few frames and exits with an error if something is wrong |
-| `--screenshot-dir=DIR` | with the smoke test: writes PNG frames (walking, bag, map; a dialogue on the demo map) into `DIR` |
+| `--screenshot-dir=DIR` | with the smoke test: writes PNG frames into `DIR`: walking, the bag, the Analyze panel, the world map framed and whole, the title screen, the protagonist screen of each protagonist (`chooser_0.png`...), and a dialogue on the demo map |
 | `--map=demo\|world` | the hand-made demo map or the streamed 16384 x 16384 world (default: `world`, and `demo` for the smoke test) |
 | `--seed=N` | the seed of a new world (a saved game keeps its own) |
 | `--start=X,Y` | puts the player at a tile, to look at a place (a village, a dungeon) in a smoke test |
 | `--slot=N` | developer option: opens game 1 to 3 without the title screen |
+| `--protagonist=<name>` | developer option: plays that protagonist (`ren`, `sakura`, `daichi`, `haruka`, `marco`, `yuki`, `lena`, `gideon`) in a new game or the smoke test |
 
 To see real frames of a place of the world: `aethermoor --smoke-test --map=world --seed=7 --start=<x>,<y> --screenshot-dir=<folder>`.
 
 ## Controls
 
-The full list is in [`PLAY.txt`](PLAY.txt) and in [spec 16](../docs/spec/16-input.md). In short: `WASD` or arrows to move, `J`, `Space` or the left mouse button to attack, `E` or `Enter` to talk and confirm, `I` the bag, `Q` the journal, `M` the world map, `F2` the language, `F5`/`F9`/`F7` quick save, quick load, new game, `F3` the debug overlay, `Esc` closes a panel, then goes back to the title screen, and quits from there. A gamepad moves with the left stick (`A`/south attacks and confirms, `X`/west talks, `B`/east closes).
+The full list is in [`PLAY.txt`](PLAY.txt) and in [spec 16](../docs/spec/16-input.md). In short: `WASD` or arrows to move, `J`, `Space` or the left mouse button to attack, `E` or `Enter` to talk and confirm, `I` the bag, `Q` the journal, `M` the world map, `F2` the language, `F5`/`F9`/`F7` quick save, quick load, new game, `F3` the debug overlay, `K` the power strike, `L` or `Left Shift` the dodge roll, `Z` Analyze (Ren), `N` the small map, `P`/`X` on the map to mark and remove a goal, `Esc` closes a panel, then goes back to the title screen, and quits from there. A gamepad moves with the left stick (`A`/south attacks and confirms, `X`/west talks, `B`/east closes a panel or rolls out of the way, `RB` is the power strike).
 
 ## Layout
 

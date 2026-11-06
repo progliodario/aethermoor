@@ -21,6 +21,8 @@ A game is a slot: its own world (its own seed), progress and saves. Three slots 
 - **Delete.** A used slot can be deleted after a second confirmation (desktop: `D` twice; Android: the cross, then the cross again). Deleting removes
   the files of that slot only.
 - **Migration.** A save written before slots (`saves/auto.json`, `saves/quick.json`) is moved to `slot1` the first time a client starts.
+- **Files of a slot** (`saves/slot<N>/`): `auto.json` and `quick.json` (the saves, spec above), `protagonist.txt` (the ID of the protagonist chosen for the game, spec 18; absent in older games, which are played as Ren) and `goal.txt` (the goal marked on the
+  map, `x y` in tiles, spec 09, "The map view"; removed with the goal). The last two are not part of the save document. `settings.json` (the language, spec 16) is next to the `saves` folder, not in a slot.
 - **Dev options.** Desktop `--slot=N` skips the title screen; `--smoke-test` uses its own folder and never touches the three slots.
 - **Back to the title.** Leaving a game (desktop: `Esc` with no panel open; Android: the Back key with no panel open, `Esc` on a keyboard) writes the `auto` save and returns to the title screen, where another game can be chosen; the world of the next game is built when it is chosen, from its own seed, and nothing of the previous world is kept (the map cells already seen are forgotten with it). With a panel open, Back closes the panel. On the title screen `Esc` or Back quits, and so does closing the window in a game. `--slot=N` and `--smoke-test` on desktop keep their one game and quit on `Esc`.
 

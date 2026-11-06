@@ -175,7 +175,7 @@ Villagers and shopkeepers also answer "How is the road around here?" with a text
 
 ## Pip
 
-Pip (`tutor_pip`, `base:dialogue/npc/pip`) stands in the meadow next to the start, two tiles from Mira. His dialogue is a menu of six questions of a new player (fighting, healing, money, the Threshold Stones, where to go first, not getting lost), each answered by one line that leads back to the menu.
+Pip (`tutor_pip`, `base:dialogue/npc/pip`) stands in the meadow next to the start, two tiles from Mira. His dialogue is a menu of six questions of a new player (fighting, healing, money, the Threshold Stones, where to go first, not getting lost), each answered by one line that leads back to the menu. Besides them, a question per protagonist that is shown only to the one who holds that protagonist's keepsake (`has_item`) opens its two personal quests in order (spec 18, "Personal stories").
 
 ## Wayfarers
 
