@@ -25,3 +25,9 @@ Le ricette dei terreni e degli oggetti sono scritte con `python tools/make_art.p
 - `tools/art_chars.py` riscrive le quattro parti del rig umanoide (testa, busto, braccio, gamba) tenendo canvas, palette e varianti; le ombre sono nero o bianco con alpha, così funzionano con ogni palette.
 - `tools/art_creatures.py` aggiunge strati di dettaglio sopra le ricette delle creature (non le riscrive): si esegue una volta sola per ricetta, riconosce le originali dal numero di strati. Per cambiare una creatura già rifinita, si modifica il file a mano o si rigenera dal git.
 - Interfaccia: `draw_panel` e `draw_bar` in `desktop/src/app/main.cpp` e `drawPanel` e `drawBar` in `AethermoorGame.kt` disegnano pannelli e barre con lo stesso aspetto; ogni pannello nuovo usa questi.
+
+## Differenze tra le varianti
+
+- Una variante non cambia solo i colori: con `only` e `except` (spec 13) uno strato appartiene a certe varianti. Ren è la figura di base (occhiali e cravatta con `except`), ogni altro protagonista e ogni gente ha i propri strati davanti o dietro le parti del rig (`tools/art_looks.py`). Le parti hanno un canvas più grande per lasciare spazio a corna, cappelli e mantelli.
+- Ogni creatura ha un tratto suo (`tools/art_creature_looks.py`): quando si aggiunge una creatura nuova serve un tratto che la distingua dalle sorelle della famiglia, non solo una palette.
+- `python tools/art_preview.py --figures` disegna ogni persona intera; `python tools/art_preview.py creatures/slime` le creature.

@@ -429,6 +429,7 @@ fun rasterize(recipe: Recipe, scale: Float, variant: String? = null): Bitmap {
     val acc = FloatArray(pixels * 4)
 
     for (layer in recipe.layers) {
+        if ((layer.only.isNotEmpty() && variant !in layer.only) || (variant != null && variant in layer.except)) continue
         val subpaths = shapeSubpaths(layer.shape, scale)
         resolvePaint(layer.fill, palette)?.let { paint ->
             val polys = subpaths.filter { it.pts.size >= 3 }.map { it.pts as List<Pt> }

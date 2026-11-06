@@ -648,6 +648,110 @@
         "width": 0.8
       },
       "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 6 30 Q 9 25 6 21 Q 5 26 3 27 Z"
+      },
+      "fill": {
+        "color": "#2A1A40"
+      },
+      "alpha": 0.45
+    },
+    {
+      "shape": {
+        "path": "M 34 28 Q 37 23 34 19 Q 33 24 31 25 Z"
+      },
+      "fill": {
+        "color": "#2A1A40"
+      },
+      "alpha": 0.4
+    },
+    {
+      "shape": {
+        "path": "M 10 36 Q 13 31 10 27 Q 9 32 7 33 Z"
+      },
+      "fill": {
+        "color": "#2A1A40"
+      },
+      "alpha": 0.35
+    },
+    {
+      "shape": {
+        "path": "M 30 36 Q 33 31 30 27 Q 29 32 27 33 Z"
+      },
+      "fill": {
+        "color": "#2A1A40"
+      },
+      "alpha": 0.35
+    },
+    {
+      "shape": {
+        "ellipse": [
+          14.5,
+          15,
+          3.4,
+          2.6
+        ]
+      },
+      "fill": {
+        "color": "#B47CFF"
+      },
+      "alpha": 0.3
+    },
+    {
+      "shape": {
+        "ellipse": [
+          25.5,
+          15,
+          3.4,
+          2.6
+        ]
+      },
+      "fill": {
+        "color": "#B47CFF"
+      },
+      "alpha": 0.3
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20,
+          9.6,
+          2.9,
+          2.9
+        ]
+      },
+      "fill": {
+        "color": "#F4F0FF"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          21.3,
+          9.1,
+          2.6,
+          2.6
+        ]
+      },
+      "fill": {
+        "color": "$p.fur"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20,
+          9.6,
+          4.6,
+          4.6
+        ]
+      },
+      "fill": {
+        "color": "#B47CFF"
+      },
+      "alpha": 0.2
     }
   ]
 }

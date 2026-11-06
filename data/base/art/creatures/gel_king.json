@@ -377,6 +377,62 @@
         "color": "#FFFFFF"
       },
       "alpha": 0.45
+    },
+    {
+      "shape": {
+        "path": "M 30.6 12.68 Q 35.7 18.8 35.7 21.52 Q 35.7 25.6 30.6 25.6 Q 25.5 25.6 25.5 21.52 Q 25.5 18.8 30.6 12.68 Z"
+      },
+      "fill": {
+        "color": "#7FD0FF"
+      },
+      "stroke": {
+        "color": "#1E5A9A",
+        "width": 1.36
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          28.9,
+          21.18,
+          1.36,
+          2.04
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "ellipse": [
+          30.6,
+          50.25,
+          13.6,
+          5.44
+        ]
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 1.19
+      },
+      "alpha": 0.5
+    },
+    {
+      "shape": {
+        "ellipse": [
+          30.6,
+          50.25,
+          19.55,
+          7.82
+        ]
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 1.19
+      },
+      "alpha": 0.3
     }
   ]
 }

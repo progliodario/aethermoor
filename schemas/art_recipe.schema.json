@@ -104,7 +104,9 @@
         "shape": { "$ref": "#/$defs/shape" },
         "fill": { "$ref": "#/$defs/fill" },
         "stroke": { "$ref": "#/$defs/stroke" },
-        "alpha": { "type": "number", "minimum": 0, "maximum": 1 }
+        "alpha": { "type": "number", "minimum": 0, "maximum": 1 },
+        "only": { "type": "array", "items": { "type": "string" }, "description": "draw the layer only with one of these variants" },
+        "except": { "type": "array", "items": { "type": "string" }, "description": "do not draw the layer with one of these variants" }
       }
     }
   }

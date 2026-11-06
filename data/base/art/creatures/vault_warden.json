@@ -551,6 +551,138 @@
         "color": "#000000"
       },
       "alpha": 0.25
+    },
+    {
+      "shape": {
+        "ellipse": [
+          17,
+          54,
+          4.4,
+          4.4
+        ]
+      },
+      "stroke": {
+        "color": "#F2C94C",
+        "width": 1.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 14 57 L 14 64"
+      },
+      "stroke": {
+        "color": "#F2C94C",
+        "width": 1.2
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          13,
+          62,
+          2.4,
+          1.6
+        ]
+      },
+      "fill": {
+        "color": "#F2C94C"
+      }
+    },
+    {
+      "shape": {
+        "path": "M 17 57 L 17 62"
+      },
+      "stroke": {
+        "color": "#F2C94C",
+        "width": 1.2
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          16,
+          61,
+          2.4,
+          1.6
+        ]
+      },
+      "fill": {
+        "color": "#F2C94C"
+      }
+    },
+    {
+      "shape": {
+        "path": "M 20 57 L 20 64"
+      },
+      "stroke": {
+        "color": "#F2C94C",
+        "width": 1.2
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          19,
+          60,
+          2.4,
+          1.6
+        ]
+      },
+      "fill": {
+        "color": "#F2C94C"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          24,
+          42,
+          8,
+          7
+        ]
+      },
+      "fill": {
+        "color": "#F2C94C"
+      },
+      "stroke": {
+        "color": "#7A5A10",
+        "width": 0.9
+      }
+    },
+    {
+      "shape": {
+        "path": "M 25.6 42 Q 25.6 37.6 28 37.6 Q 30.4 37.6 30.4 42"
+      },
+      "stroke": {
+        "color": "#C8CCD4",
+        "width": 1.6
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          28,
+          45.2,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "#14161C"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          27.4,
+          45.6,
+          1.2,
+          2.2
+        ]
+      },
+      "fill": {
+        "color": "#14161C"
+      }
     }
   ]
 }

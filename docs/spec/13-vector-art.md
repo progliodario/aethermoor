@@ -21,6 +21,9 @@ image (feet of a character, joint of a limb, base of a tree).
   `stops` are `[[t, color], ...]` with `t` in 0..1, increasing. Outside the first/last stop the end color is kept.
 - **Stroke** (optional): `{"color": c, "width": w}` in art units, round joins and round caps.
 - **alpha** (optional, default 1): layer opacity.
+- **only** / **except** (optional, lists of variant names): a layer with `only` is drawn just when the chosen variant is
+  one of the names; a layer with `except` is skipped when it is. With no variant (the base look) a layer with `only`
+  is skipped. This gives a variant its own shapes (a hairstyle, a horn, a scarf), not only its own colors.
 - **Colors**: `#RRGGBB`, `#RRGGBBAA` or `$p.name`. `$p.name` is looked up in the recipe palette, overridden by the
   chosen variant. An unknown name renders transparent black.
 - Layers are drawn in order; each layer paints its fill, then its stroke.

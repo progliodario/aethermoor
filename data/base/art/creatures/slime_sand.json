@@ -322,6 +322,126 @@
         "color": "#FFFFFF"
       },
       "alpha": 0.45
+    },
+    {
+      "shape": {
+        "path": "M 7 13 Q 13 11 18 13 Q 24 15 29 13"
+      },
+      "stroke": {
+        "color": "#C8A25A",
+        "width": 0.8
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 8 17 Q 13 15 18 17 Q 24 19 28 17"
+      },
+      "stroke": {
+        "color": "#C8A25A",
+        "width": 0.8
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 9 21 Q 13 19 18 21 Q 24 23 27 21"
+      },
+      "stroke": {
+        "color": "#C8A25A",
+        "width": 0.8
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "ellipse": [
+          9,
+          10,
+          0.5,
+          0.5
+        ]
+      },
+      "fill": {
+        "color": "#E8CC8A"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          23,
+          9,
+          0.5,
+          0.5
+        ]
+      },
+      "fill": {
+        "color": "#E8CC8A"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          27,
+          16,
+          0.5,
+          0.5
+        ]
+      },
+      "fill": {
+        "color": "#E8CC8A"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          12,
+          24,
+          0.5,
+          0.5
+        ]
+      },
+      "fill": {
+        "color": "#E8CC8A"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          25,
+          0.5,
+          0.5
+        ]
+      },
+      "fill": {
+        "color": "#E8CC8A"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            15,
+            7.4
+          ],
+          [
+            18,
+            2
+          ],
+          [
+            21,
+            7.4
+          ]
+        ]
+      },
+      "fill": {
+        "color": "#D8B46A"
+      },
+      "stroke": {
+        "color": "#8A6A2A",
+        "width": 0.7
+      }
     }
   ]
 }

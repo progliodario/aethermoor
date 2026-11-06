@@ -8,7 +8,8 @@ from __future__ import annotations
 
 import json
 
-from artkit import ART, Recipe, linear, radial
+from art_looks import arm_looks, head_looks, leg_looks, torso_looks
+from artkit import ART, Recipe, linear, radial, transform_layers
 
 OUT = "$p.outline"
 CHAR = ART / "characters" / "ren"
@@ -90,11 +91,22 @@ def leg() -> Recipe:
     return r
 
 
+# the new canvas of every part: (width, height, shift x, shift y), so that the looks can reach outside the old one
+GROW = {"head": (30, 32, 4, 10), "torso": (30, 30, 4, 0), "arm": (10, 20, 1, 0), "leg": (9, 16, 0, 0)}
+
+
 def main() -> None:
+    looks = {"head": head_looks, "torso": torso_looks, "arm": arm_looks, "leg": leg_looks}
     for recipe in (head(), torso(), arm(), leg()):
         name = recipe.id.rsplit("/", 1)[1]
         path = CHAR / f"{name}.json"
         old = json.loads(path.read_text(encoding="utf-8"))
+        looks[name](recipe)
+        w, h, dx, dy = GROW[name]
+        if (dx, dy) != (0, 0):
+            recipe.layers = transform_layers(recipe.layers, 1.0, dx, dy)
+            recipe.origin = [recipe.origin[0] + dx, recipe.origin[1] + dy]
+        recipe.w, recipe.h = w, h
         recipe.palette = old["palette"]
         recipe.variants = old.get("variants", {})
         recipe.write(path)

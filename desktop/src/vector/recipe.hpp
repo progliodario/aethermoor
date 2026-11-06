@@ -55,6 +55,8 @@ struct Layer {
     Paint fill;
     StrokeStyle stroke;
     float alpha = 1.0F;
+    std::vector<std::string> only;    // drawn only with one of these variants (empty: always)
+    std::vector<std::string> except;  // not drawn with one of these variants
 };
 
 using Palette = std::map<std::string, std::string, std::less<>>;

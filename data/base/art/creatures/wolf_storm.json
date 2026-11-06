@@ -648,6 +648,33 @@
         "width": 0.8
       },
       "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 10 24 L 13.4 27 L 11 29 L 14.6 33"
+      },
+      "stroke": {
+        "color": "#FFD84A",
+        "width": 1.2
+      }
+    },
+    {
+      "shape": {
+        "path": "M 30 24 L 26.6 27 L 29 29 L 25.4 33"
+      },
+      "stroke": {
+        "color": "#FFD84A",
+        "width": 1.2
+      }
+    },
+    {
+      "shape": {
+        "path": "M 20 8.6 L 18.4 12 L 20.6 13 L 19.2 16.6"
+      },
+      "stroke": {
+        "color": "#FFD84A",
+        "width": 1.0
+      }
     }
   ]
 }

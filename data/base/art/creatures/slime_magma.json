@@ -322,6 +322,73 @@
         "color": "#FFFFFF"
       },
       "alpha": 0.45
+    },
+    {
+      "shape": {
+        "path": "M 8 11 L 11 15 L 9 19 L 12 23"
+      },
+      "stroke": {
+        "color": "#FFD84A",
+        "width": 1.1
+      }
+    },
+    {
+      "shape": {
+        "path": "M 26 10 L 24 14 L 27 18 L 25 22"
+      },
+      "stroke": {
+        "color": "#FFD84A",
+        "width": 1.1
+      }
+    },
+    {
+      "shape": {
+        "path": "M 15 8 L 17 11 L 15.6 14"
+      },
+      "stroke": {
+        "color": "#FF8A2A",
+        "width": 0.9
+      }
+    },
+    {
+      "shape": {
+        "path": "M 8 11 L 11 15 L 9 19 L 12 23 M 26 10 L 24 14 L 27 18 L 25 22"
+      },
+      "stroke": {
+        "color": "#FF8A2A",
+        "width": 2.2
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "ellipse": [
+          30.4,
+          26.4,
+          1,
+          1.5
+        ]
+      },
+      "fill": {
+        "color": "#FF8A2A"
+      },
+      "stroke": {
+        "color": "#8A2A0A",
+        "width": 0.5
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          7,
+          26.8,
+          0.8,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "#FFD84A"
+      }
     }
   ]
 }

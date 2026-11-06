@@ -648,6 +648,133 @@
         "width": 0.8
       },
       "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 10 25.6 Q 20 31 30 25.6 L 30.4 29 Q 20 34.4 9.6 29 Z"
+      },
+      "fill": {
+        "color": "#E3C27A"
+      },
+      "stroke": {
+        "color": "#7A5A2A",
+        "width": 0.9
+      }
+    },
+    {
+      "shape": {
+        "path": "M 28 29 L 31 36 L 27.4 34.6 Z"
+      },
+      "fill": {
+        "color": "#E3C27A"
+      },
+      "stroke": {
+        "color": "#7A5A2A",
+        "width": 0.8
+      }
+    },
+    {
+      "shape": {
+        "path": "M 9.4 19.4 L 12.6 20"
+      },
+      "stroke": {
+        "color": "#7A5A2A",
+        "width": 0.7
+      }
+    },
+    {
+      "shape": {
+        "path": "M 30.6 19.4 L 27.4 20"
+      },
+      "stroke": {
+        "color": "#7A5A2A",
+        "width": 0.7
+      }
+    },
+    {
+      "shape": {
+        "path": "M 9.4 21 L 12.6 21.6"
+      },
+      "stroke": {
+        "color": "#7A5A2A",
+        "width": 0.7
+      }
+    },
+    {
+      "shape": {
+        "path": "M 30.6 21 L 27.4 21.6"
+      },
+      "stroke": {
+        "color": "#7A5A2A",
+        "width": 0.7
+      }
+    },
+    {
+      "shape": {
+        "path": "M 11 9 Q 20 4.4 29 9 L 28 11 Q 20 7.4 12 11 Z"
+      },
+      "fill": {
+        "color": "#F2C94C"
+      },
+      "stroke": {
+        "color": "#7A5A10",
+        "width": 0.8
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            20,
+            4.4
+          ],
+          [
+            22,
+            8
+          ],
+          [
+            20,
+            10.4
+          ],
+          [
+            18,
+            8
+          ]
+        ]
+      },
+      "fill": {
+        "color": "#D8402A"
+      },
+      "stroke": {
+        "color": "#7A1A10",
+        "width": 0.6
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          13.4,
+          10.6,
+          0.9,
+          0.9
+        ]
+      },
+      "fill": {
+        "color": "#4FC0A0"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          26.6,
+          10.6,
+          0.9,
+          0.9
+        ]
+      },
+      "fill": {
+        "color": "#4FC0A0"
+      }
     }
   ]
 }

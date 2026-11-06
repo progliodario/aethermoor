@@ -322,6 +322,62 @@
         "color": "#FFFFFF"
       },
       "alpha": 0.45
+    },
+    {
+      "shape": {
+        "path": "M 18 0.4 Q 21 4 21 5.6 Q 21 8 18 8 Q 15 8 15 5.6 Q 15 4 18 0.4 Z"
+      },
+      "fill": {
+        "color": "#7FD0FF"
+      },
+      "stroke": {
+        "color": "#1E5A9A",
+        "width": 0.8
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          17,
+          5.4,
+          0.8,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18,
+          22.5,
+          8,
+          3.2
+        ]
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 0.7
+      },
+      "alpha": 0.5
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18,
+          22.5,
+          11.5,
+          4.6
+        ]
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 0.7
+      },
+      "alpha": 0.3
     }
   ]
 }
