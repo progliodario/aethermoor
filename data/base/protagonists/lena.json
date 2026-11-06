@@ -1,0 +1,55 @@
+{
+  "$schema": "../../../schemas/protagonist.schema.json",
+  "id": "base:protagonist/lena",
+  "name": "$i18n:protagonist.lena.name",
+  "tagline": "$i18n:protagonist.lena.tagline",
+  "tone": "dark",
+  "base_stats": {
+    "str": 4,
+    "vit": 6,
+    "dex": 9,
+    "agi": 8,
+    "int": 10,
+    "wis": 9,
+    "luk": 6
+  },
+  "growth_pm": {
+    "str": 800,
+    "vit": 1000,
+    "dex": 1200,
+    "agi": 1100,
+    "int": 1400,
+    "wis": 1300,
+    "luk": 900
+  },
+  "free_points_per_level": 2,
+  "cheat": "return_to_death",
+  "art_variant": "lena",
+  "gift_rules": {
+    "death_save_ticks": 2400
+  },
+  "starting_items": [
+    {
+      "item": "base:item/scalpel",
+      "qty": 1
+    },
+    {
+      "item": "base:item/bread",
+      "qty": 3
+    },
+    {
+      "item": "base:item/potion_small",
+      "qty": 3
+    },
+    {
+      "item": "base:item/keepsake_lena",
+      "qty": 1
+    }
+  ],
+  "starting_skills": [
+    "base:skill/lena/incision",
+    "base:skill/common/dodge",
+    "base:skill/lena/autopsy_strike"
+  ],
+  "initially_available": true
+}

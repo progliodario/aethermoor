@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../../schemas/skill.schema.json",
+  "id": "base:skill/gideon/dark_slash",
+  "name": "$i18n:skill.gideon.dark_slash.name",
+  "description": "$i18n:skill.gideon.dark_slash.desc",
+  "type": "active",
+  "cost": {
+    "mp": 0
+  },
+  "cooldown_ticks": 30,
+  "timing": {
+    "startup": 8,
+    "active": 4,
+    "recovery": 12
+  },
+  "damage": {
+    "kind": "physical",
+    "element": "none",
+    "power_pct": 130
+  },
+  "tags": [
+    "melee",
+    "basic"
+  ],
+  "hitbox": {
+    "shape": "arc",
+    "radius_x100": 170,
+    "angle_deg": 120
+  }
+}

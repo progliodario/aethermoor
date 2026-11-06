@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../../schemas/skill.schema.json",
+  "id": "base:skill/lena/autopsy_strike",
+  "name": "$i18n:skill.lena.autopsy_strike.name",
+  "description": "$i18n:skill.lena.autopsy_strike.desc",
+  "type": "active",
+  "cost": {
+    "mp": 8
+  },
+  "cooldown_ticks": 85,
+  "timing": {
+    "startup": 10,
+    "active": 4,
+    "recovery": 16
+  },
+  "damage": {
+    "kind": "magical",
+    "element": "none",
+    "power_pct": 190
+  },
+  "tags": [
+    "magic",
+    "heavy"
+  ],
+  "hitbox": {
+    "shape": "arc",
+    "radius_x100": 200,
+    "angle_deg": 90
+  }
+}

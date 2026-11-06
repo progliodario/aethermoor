@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/scalpel",
+  "name": "$i18n:item.scalpel.name",
+  "description": "$i18n:item.scalpel.desc",
+  "kind": "weapon",
+  "rarity": "common",
+  "price": 30,
+  "weapon": {
+    "atk": 4,
+    "matk": 3
+  }
+}

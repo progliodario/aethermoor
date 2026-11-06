@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/dominion_blade",
+  "name": "$i18n:item.dominion_blade.name",
+  "description": "$i18n:item.dominion_blade.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 400,
+  "weapon": {
+    "atk": 14,
+    "matk": 0
+  }
+}

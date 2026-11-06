@@ -139,6 +139,22 @@
       "shirt_dark": "#2A2A42",
       "pants": "#26263A",
       "boots": "#14141E"
+    },
+    "lena": {
+      "skin": "#EBCFBE",
+      "hair": "#3A2A2A",
+      "shirt": "#D8DCE6",
+      "shirt_dark": "#AEB4C4",
+      "pants": "#4A4F66",
+      "boots": "#262630"
+    },
+    "gideon": {
+      "skin": "#CFA58A",
+      "hair": "#8A2A2A",
+      "shirt": "#3A2E48",
+      "shirt_dark": "#261E32",
+      "pants": "#1E1A28",
+      "boots": "#120E18"
     }
   }
 }

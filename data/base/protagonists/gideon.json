@@ -1,0 +1,56 @@
+{
+  "$schema": "../../../schemas/protagonist.schema.json",
+  "id": "base:protagonist/gideon",
+  "name": "$i18n:protagonist.gideon.name",
+  "tagline": "$i18n:protagonist.gideon.tagline",
+  "tone": "dark_comedy",
+  "base_stats": {
+    "str": 9,
+    "vit": 9,
+    "dex": 6,
+    "agi": 6,
+    "int": 8,
+    "wis": 7,
+    "luk": 5
+  },
+  "growth_pm": {
+    "str": 1300,
+    "vit": 1300,
+    "dex": 900,
+    "agi": 900,
+    "int": 1100,
+    "wis": 1000,
+    "luk": 800
+  },
+  "free_points_per_level": 2,
+  "cheat": "lord_of_darkness",
+  "art_variant": "gideon",
+  "gift_rules": {
+    "aggro_pct": 30,
+    "heal_pct": 60
+  },
+  "starting_items": [
+    {
+      "item": "base:item/black_blade",
+      "qty": 1
+    },
+    {
+      "item": "base:item/bread",
+      "qty": 3
+    },
+    {
+      "item": "base:item/potion_small",
+      "qty": 2
+    },
+    {
+      "item": "base:item/keepsake_gideon",
+      "qty": 1
+    }
+  ],
+  "starting_skills": [
+    "base:skill/gideon/dark_slash",
+    "base:skill/common/dodge",
+    "base:skill/gideon/dominion"
+  ],
+  "initially_available": true
+}

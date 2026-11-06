@@ -61,4 +61,7 @@ For a protagonist with the ID `base:protagonist/<name>`: `protagonist.<name>.nam
 | Marco Ferri | adventure | Modern Knowledge: food and potions heal twice as much (`heal_pct` 200) | 6 8 8 6 9 7 7 | Spanner swing, Pressure blast (220 range, 9 mana), Dodge roll | Wrench (atk 5) |
 | Yuki Shirogane | noir | Pocket Dimension: the dodge recovers twice as fast (`dodge_cooldown_pct` 50) | 4 5 11 12 7 6 10 | Dagger flick (fast), Shadow cut (70 degrees, 8 mana), Shadow step (8 ticks, speed x3.2, 12 of invulnerability) | Thin dagger (atk 5) |
 
-The other protagonists of the plan (Lena, Gideon) and the deeper rules of the gifts (taming, the pocket, the Dark Tide) come with the progression systems (spec 11).
+| Lena Voss | dark | Return to Death: a death save every 40 s (`death_save_ticks` 2400) | 4 6 9 8 10 9 6 | Incision, Autopsy strike (magical, 8 mana), Dodge roll | Scalpel (atk 4, matk 3) |
+| Gideon Valmor | dark_comedy | Lord of Darkness: creatures notice him at 30 percent of the distance, healing works at 60 percent (`aggro_pct` 30, `heal_pct` 60) | 9 9 6 6 8 7 5 | Dark slash, Dominion (360 degrees, 10 mana), Dodge roll | Black blade (atk 8) |
+
+All eight protagonists of the plan are playable. The deeper rules of the gifts (taming, the pocket, the Dark Tide) come with the progression systems (spec 11).

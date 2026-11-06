@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/keepsake_gideon",
+  "name": "$i18n:item.keepsake_gideon.name",
+  "description": "$i18n:item.keepsake_gideon.desc",
+  "kind": "key",
+  "rarity": "common",
+  "price": 0,
+  "stack_max": 1
+}
