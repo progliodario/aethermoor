@@ -2272,10 +2272,20 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     SDL_RenderPresent(renderer);
 }
 
+// Saves what is on the renderer as a PNG (the smoke test looks at the screens this way).
+void save_frame(SDL_Renderer* renderer, const std::string& path) {
+    if (SDL_Surface* surface = SDL_RenderReadPixels(renderer, nullptr)) {
+        if (!SDL_SavePNG(surface, path.c_str())) {
+            SDL_Log("cannot save %s: %s", path.c_str(), SDL_GetError());
+        }
+        SDL_DestroySurface(surface);
+    }
+}
+
 // The title screen (spec 12, "Slots"): the games to pick from. Returns the game (1..kSlotCount), or 0 when the player
 // quits.
-int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, const std::string& lang,
-              int first_slot) {
+int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, const std::string& lang, int first_slot,
+              const std::string& capture_path = {}) {
     std::vector<SlotInfo> slots;
     for (int slot = 1; slot <= kSlotCount; ++slot) {
         slots.push_back(read_slot(slot));
@@ -2406,6 +2416,10 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
         }
         draw_text(hint_scale, panel_x, static_cast<float>(out_h) - 36.0F * density,
                   assets.pack.text(lang, "$i18n:ui.title_hint"), 170, 200, 230);
+        if (!capture_path.empty()) {
+            save_frame(renderer, capture_path);
+            return 0;
+        }
         SDL_RenderPresent(renderer);
     }
 }
@@ -2413,7 +2427,7 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
 // Choosing who to be (spec 18), for a new game: the protagonists that are available, with their story and gift. Returns
 // the ID of the one chosen, or "" when the player goes back to the title screen (Esc) or closes the window.
 std::string choose_protagonist(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets,
-                               const std::string& lang) {
+                               const std::string& lang, const std::string& capture_path = {}, int capture_cursor = 0) {
     std::vector<std::string> ids;
     for (const auto& entry : assets.pack.document_paths) {
         const std::string& id = entry.first;
@@ -2438,7 +2452,7 @@ std::string choose_protagonist(SDL_Window* window, SDL_Renderer* renderer, const
     const auto key_of = [](const std::string& id, const char* what) {
         return std::string("$i18n:protagonist.") + id.substr(id.rfind('/') + 1) + "." + what;
     };
-    int cursor = 0;
+    int cursor = std::clamp(capture_cursor, 0, static_cast<int>(ids.size()) - 1);
     for (;;) {
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
@@ -2528,6 +2542,10 @@ std::string choose_protagonist(SDL_Window* window, SDL_Renderer* renderer, const
         }
         draw_text(1.25F * density, 30.0F * density, static_cast<float>(out_h) - 36.0F * density,
                   assets.pack.text(lang, "$i18n:ui.protagonist_hint"), 170, 200, 230);
+        if (!capture_path.empty()) {
+            save_frame(renderer, capture_path);
+            return ids[static_cast<std::size_t>(cursor)];
+        }
         SDL_RenderPresent(renderer);
         SDL_Delay(16);
     }
@@ -2601,6 +2619,17 @@ int main(int argc, char** argv) {
         return 1;
     }
     SDL_SetRenderVSync(renderer, 1);
+
+    if (smoke_test && !screenshot_dir.empty()) {  // the screens before the game, saved for a look
+        std::error_code folder_error;
+        fs::create_directories(screenshot_dir, folder_error);
+        const std::string shots_lang = saved_language().value_or(detect_language());
+        run_title(window, renderer, assets, shots_lang, 1, (screenshot_dir / "title.png").string());
+        for (int i = 0; i < 6; ++i) {
+            choose_protagonist(window, renderer, assets, shots_lang,
+                               (screenshot_dir / ("chooser_" + std::to_string(i) + ".png")).string(), i);
+        }
+    }
 
     // One game after another: Esc in a game comes back to the title screen, where another slot can be chosen.
     int exit_code = 0;
