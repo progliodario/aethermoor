@@ -86,7 +86,8 @@ class Enemy(val def: EnemyDef, var position: Vec2) {
 }
 
 /** Something a client may want to show (numbers floating up from a hit); not part of the contract. */
-data class DamageEvent(val position: Vec2, val amount: Long, val crit: Boolean, val onPlayer: Boolean)
+/** [weak]: the element multiplier of the hit was above 1000 (spec 05, "Elements"). */
+data class DamageEvent(val position: Vec2, val amount: Long, val crit: Boolean, val onPlayer: Boolean, val weak: Boolean = false)
 
 /** Top-left of the view, in tiles. */
 data class Camera(val x: Float, val y: Float)
@@ -661,6 +662,7 @@ class WorldSim(
                     atk = if (s.magical) derived.matk else derived.atk,
                     powerPct = s.powerPct,
                     defTarget = enemy.def.def,
+                    elemMultPm = elementMultiplier(enemy.def),
                     lvlAttacker = p.level,
                     lvlTarget = enemy.def.level,
                     variancePm = variance,
@@ -670,13 +672,21 @@ class WorldSim(
             )
             enemy.hp -= amount
             enemy.hitFlash = HIT_FLASH_TICKS
-            events.add(DamageEvent(enemy.position, amount, crit, false))
+            events.add(DamageEvent(enemy.position, amount, crit, false, weak = elementMultiplier(enemy.def) > 1000))
             if (enemy.hp <= 0) {
                 enemy.hp = 0
                 enemy.state = EnemyState.DEAD
                 onKill(enemy)
             }
         }
+    }
+
+    /** The element multiplier of a hit of the equipped weapon against [target] (spec 05, "Elements"). */
+    private fun elementMultiplier(target: EnemyDef): Long {
+        val element = combat.items[equippedWeapon]?.weapon?.element ?: "none"
+        if (element == "none") return 1000L
+        target.weaknessesPm[element]?.let { return it }
+        return if (target.element == element) 500L else 1000L
     }
 
     private fun onKill(enemy: Enemy) {

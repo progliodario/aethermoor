@@ -43,6 +43,12 @@ std::optional<EnemyDef> load_enemy_impl(const Pack& pack, const std::string& id,
         def.speed_x100 = stats.at("speed_x100").get<int>();
         def.xp = enemy->at("xp").get<std::int64_t>();
         def.radius_x100 = enemy->at("radius_x100").get<int>();
+        def.element = enemy->value("element", "none");
+        if (enemy->contains("weaknesses_pm")) {
+            for (const auto& [element, multiplier] : enemy->at("weaknesses_pm").items()) {
+                def.weaknesses_pm[element] = multiplier.get<std::int64_t>();
+            }
+        }
         if (enemy->contains("drops")) {
             for (const Json& drop : enemy->at("drops")) {
                 def.drops.push_back({drop.at("item").get<std::string>(), drop.at("qty_min").get<std::int64_t>(),
@@ -238,6 +244,7 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
                 def.is_weapon = true;
                 def.weapon_atk = item->at("weapon").at("atk").get<std::int64_t>();
                 def.weapon_matk = item->at("weapon").at("matk").get<std::int64_t>();
+                def.weapon_element = item->at("weapon").value("element", "none");
             }
             if (item->contains("armor")) {
                 def.is_armor = true;

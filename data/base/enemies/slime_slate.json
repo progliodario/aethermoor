@@ -10,7 +10,7 @@
     "mdef": 3,
     "speed_x100": 240
   },
-  "element": "none",
+  "element": "earth",
   "weaknesses_pm": {
     "wind": 1500
   },

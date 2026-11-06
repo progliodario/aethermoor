@@ -3141,7 +3141,8 @@ int main(int argc, char** argv) {
                     }
                 }
                 for (const aether::DamageEvent& e : sim.take_events()) {
-                    floating.push_back({e.position.x, e.position.y, 0, std::to_string(e.amount), e.on_player, e.crit});
+                    floating.push_back({e.position.x, e.position.y, 0, std::to_string(e.amount) + (e.weak ? "!" : ""),
+                                        e.on_player, e.crit});
                     g_sound.play(e.on_player ? "hurt" : (e.crit ? "crit" : "hit"));
                 }
                 {  // the sounds that follow from what changed: an attack, a roll, a level, something in the bag...

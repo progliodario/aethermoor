@@ -44,6 +44,7 @@ ITEMS = {
     "base:item/slime_gel": {"kind": "material", "price": 3, "effects": []},
     "base:item/practice_sword": {"kind": "weapon", "price": 20, "weapon": {"atk": 3, "matk": 0}},
     "base:item/iron_sword": {"kind": "weapon", "price": 150, "weapon": {"atk": 7, "matk": 0}},
+    "base:item/ember_blade": {"kind": "weapon", "price": 400, "weapon": {"atk": 7, "matk": 0, "element": "fire"}},
     "base:item/leather_vest": {"kind": "armor", "price": 80, "armor": {"def": 2, "mdef": 1}},
     "base:item/chain_mail": {"kind": "armor", "price": 300, "armor": {"def": 5, "mdef": 2}},
 }
@@ -119,6 +120,14 @@ def build_scenarios() -> list[dict]:
                  [segment(10, do=[{"cmd": "use", "item": "base:item/bread"}])],
                  inventory={"base:item/bread": 1}),
         # Equipment (spec 06): the iron sword hits harder, armor makes the slime's hits weaker; refused: not owned, not equipment, already worn.
+        # Elements (spec 05): an ember blade (fire) hits a creature weak to fire harder, one of fire softer, a plain one as usual,
+        # and one immune to it not at all (a hit always does at least 1).
+        scenario("element_hits", [enemy(3.5, 4.5, hp=400, weaknesses_pm={"fire": 1500}, **passive),
+                                  enemy(3.4, 4.1, hp=400, element="fire", **passive),
+                                  enemy(3.4, 4.9, hp=400, **passive),
+                                  enemy(3.7, 4.5, hp=400, weaknesses_pm={"fire": 0}, **passive)],
+                 [segment(1, do=[{"cmd": "equip", "item": "base:item/ember_blade"}]), segment(40, attack=True)],
+                 inventory={"base:item/ember_blade": 1}),
         scenario("equip_changes_stats", [enemy(8.1, 4.5, atk=40)],
                  [segment(200), segment(1, do=[{"cmd": "equip", "item": "base:item/iron_sword"},
                                                {"cmd": "equip", "item": "base:item/iron_sword"},

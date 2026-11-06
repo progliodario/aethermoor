@@ -185,6 +185,17 @@ class CombatSim:
             if self.phase_tick >= s["recovery"]:
                 self.phase = NONE
 
+    def _elem_mult(self, enemy: _Enemy) -> int:
+        """The element multiplier of a hit of the equipped weapon against an enemy (spec 05, "Elements")."""
+        weapon = self.items.get(self.equipped["weapon"], {}).get("weapon") or {}
+        element = weapon.get("element", "none")
+        if element == "none":
+            return 1000
+        weaknesses = enemy.d.get("weaknesses_pm", {})
+        if element in weaknesses:
+            return weaknesses[element]
+        return 500 if enemy.d.get("element", "none") == element else 1000
+
     def _do_hits(self) -> None:
         s = self.cur_skill
         cos_half = math.cos(math.radians(s["angle_deg"] / 2))
@@ -203,7 +214,7 @@ class CombatSim:
             variance = 950 + self.combat.next_bounded(101)
             crit = self.combat.next_bounded(1000) < self.derived["crit_chance_pm"]
             attack = self.derived["matk"] if s.get("kind") == "magical" else self.derived["atk"]
-            damage = rules.damage(attack, s["power_pct"], enemy.d["def"], 1000, 0, self.level,
+            damage = rules.damage(attack, s["power_pct"], enemy.d["def"], self._elem_mult(enemy), 0, self.level,
                                   enemy.d["level"], variance, crit, self.derived["crit_mult_pm"], 1000)
             enemy.hp -= damage
             if enemy.hp <= 0:

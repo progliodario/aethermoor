@@ -388,6 +388,12 @@ aether::EnemyDef enemy_def_from_json(const Json& d) {
     def.xp = d.at("xp").get<std::int64_t>();
     def.radius_x100 = d.at("radius_x100").get<int>();
     def.speed_x100 = d.at("speed_x100").get<int>();
+    def.element = d.value("element", "none");
+    if (d.contains("weaknesses_pm")) {
+        for (const auto& [element, multiplier] : d.at("weaknesses_pm").items()) {
+            def.weaknesses_pm[element] = multiplier.get<std::int64_t>();
+        }
+    }
     for (const Json& drop : d.at("drops")) {
         def.drops.push_back({drop.at("item").get<std::string>(), drop.at("qty_min").get<std::int64_t>(),
                              drop.at("qty_max").get<std::int64_t>(), drop.at("weight_pm").get<std::int64_t>()});
@@ -503,6 +509,7 @@ Scenario scenario_from_json(const Json& in) {
                 parsed.is_weapon = true;
                 parsed.weapon_atk = integer(def.at("weapon"), "atk");
                 parsed.weapon_matk = integer(def.at("weapon"), "matk");
+                parsed.weapon_element = def.at("weapon").value("element", "none");
             }
             if (def.contains("armor")) {
                 parsed.is_armor = true;

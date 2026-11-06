@@ -8,6 +8,7 @@
   "price": 2600,
   "weapon": {
     "atk": 35,
-    "matk": 0
+    "matk": 0,
+    "element": "earth"
   }
 }

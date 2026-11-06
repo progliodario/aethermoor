@@ -10,7 +10,7 @@
     "mdef": 8,
     "speed_x100": 270
   },
-  "element": "none",
+  "element": "light",
   "weaknesses_pm": {
     "dark": 1500
   },

@@ -60,6 +60,9 @@ data class EnemyDef(
     val speedX100: Int = 250,
     val drops: List<DropDef> = emptyList(),
     val behavior: BehaviorDef = BehaviorDef(),
+    /** The elements (spec 05, "Elements"): the creature's own, and its weaknesses and resistances in permille. */
+    val element: String = "none",
+    val weaknessesPm: Map<String, Long> = emptyMap(),
 )
 
 data class EnemySpawn(val def: EnemyDef, val x: Float, val y: Float)
@@ -85,7 +88,7 @@ class ItemDef(
     val armor: ArmorStats? = null,
 )
 
-class WeaponStats(val atk: Long, val matk: Long)
+class WeaponStats(val atk: Long, val matk: Long, val element: String = "none")
 
 class ArmorStats(val def: Long, val mdef: Long)
 

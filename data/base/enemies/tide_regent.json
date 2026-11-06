@@ -10,7 +10,7 @@
     "mdef": 12,
     "speed_x100": 260
   },
-  "element": "none",
+  "element": "water",
   "weaknesses_pm": {
     "wind": 1500
   },

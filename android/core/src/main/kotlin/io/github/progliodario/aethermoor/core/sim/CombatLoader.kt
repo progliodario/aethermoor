@@ -34,6 +34,8 @@ private fun loadEnemy(pack: Pack, id: String): EnemyDef {
         xp = enemy.getValue("xp").jsonPrimitive.long,
         radiusX100 = enemy.getValue("radius_x100").jsonPrimitive.int,
         speedX100 = stats.getValue("speed_x100").jsonPrimitive.int,
+        element = enemy["element"]?.jsonPrimitive?.content ?: "none",
+        weaknessesPm = enemy["weaknesses_pm"]?.jsonObject?.mapValues { it.value.jsonPrimitive.long } ?: emptyMap(),
         drops = enemy["drops"]?.jsonArray?.map {
             val d = it.jsonObject
             DropDef(
@@ -172,7 +174,9 @@ fun loadCombatSetup(
                 kind = doc.getValue("kind").jsonPrimitive.content,
                 price = doc.getValue("price").jsonPrimitive.long,
                 stackMax = doc["stack_max"]?.jsonPrimitive?.int ?: 0,
-                weapon = doc["weapon"]?.jsonObject?.let { WeaponStats(it.getValue("atk").jsonPrimitive.long, it.getValue("matk").jsonPrimitive.long) },
+                weapon = doc["weapon"]?.jsonObject?.let {
+                    WeaponStats(it.getValue("atk").jsonPrimitive.long, it.getValue("matk").jsonPrimitive.long, it["element"]?.jsonPrimitive?.content ?: "none")
+                },
                 armor = doc["armor"]?.jsonObject?.let { ArmorStats(it.getValue("def").jsonPrimitive.long, it.getValue("mdef").jsonPrimitive.long) },
             )
         }

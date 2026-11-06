@@ -8,6 +8,7 @@
   "price": 1000,
   "weapon": {
     "atk": 19,
-    "matk": 0
+    "matk": 0,
+    "element": "water"
   }
 }

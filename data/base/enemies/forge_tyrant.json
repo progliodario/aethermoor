@@ -10,7 +10,7 @@
     "mdef": 9,
     "speed_x100": 280
   },
-  "element": "none",
+  "element": "fire",
   "weaknesses_pm": {
     "water": 1500
   },

@@ -76,6 +76,8 @@ struct EnemyDef {
     std::int64_t xp = 0;
     int radius_x100 = 35;
     int speed_x100 = 250;
+    std::string element = "none";                       // spec 05, "Elements"
+    std::map<std::string, std::int64_t> weaknesses_pm;  // element -> multiplier in permille
     std::vector<DropDef> drops;
     BehaviorDef behavior;
 };
@@ -107,6 +109,7 @@ struct ItemDef {
     bool is_weapon = false;
     std::int64_t weapon_atk = 0;
     std::int64_t weapon_matk = 0;
+    std::string weapon_element = "none";  // spec 05, "Elements"
     bool is_armor = false;
     std::int64_t armor_def = 0;
     std::int64_t armor_mdef = 0;

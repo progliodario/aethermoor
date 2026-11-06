@@ -65,6 +65,7 @@ struct DamageEvent {
     std::int64_t amount = 0;
     bool crit = false;
     bool on_player = false;
+    bool weak = false;  // the element multiplier of the hit was above 1000 (spec 05, "Elements")
 };
 
 // Everything that changes while playing; see docs/spec/12-save-format.md.
@@ -225,6 +226,8 @@ private:
     void advance_attack();
     void do_hits();
     void on_kill(Enemy& enemy);
+    // The element multiplier of a hit of the equipped weapon against `target` (spec 05, "Elements").
+    std::int64_t element_multiplier(const EnemyDef& target) const;
     void update_enemy(Enemy& enemy);
     void move_enemy(Enemy& enemy, float target_x, float target_y);
     void hurt_player(const Enemy& enemy);
