@@ -320,6 +320,64 @@ def build_tiles() -> list[Recipe]:
     bridge.rect(0, 0, TILE, 2, "#2C62B0", alpha=0.7)
     bridge.rect(0, 30, TILE, 2, "#2C62B0", alpha=0.7)
     out.append(bridge)
+
+    def timber_frame(r: Recipe) -> None:
+        """The timber frame shared by the house walls: posts at the edges, a beam on the top, a sill at the bottom, a brace."""
+        beam = "#6A4426"
+        r.rect(0, 0, TILE, 4.5, linear(0, 0, 0, 4.5, (0, lighten(beam, 0.2)), (1, beam)))
+        r.rect(0, 27.5, TILE, 4.5, beam)
+        r.rect(0, 27.5, TILE, 1.2, lighten(beam, 0.25), alpha=0.7)
+        for px in (0, 29):
+            r.rect(px, 0, 3, TILE, beam)
+            r.rect(px, 0, 1, TILE, lighten(beam, 0.25), alpha=0.6)
+        r.rect(0, 4.5, TILE, 2, "#000000", alpha=0.16)  # the shadow of the eaves
+        for gy in (9, 15, 22):
+            r.path(f"M 4 {gy} Q 16 {gy - 1} 28 {gy + 0.6}", None, stroke="#C9B890", width=0.5, alpha=0.7)
+
+    timber = Recipe("base:art/tile/wall_timber", TILE, TILE, (0, 0), {"plaster": "#E6D9B8", "beam": "#6A4426"}, seed="v1")
+    timber.rect(0, 0, TILE, TILE, linear(0, 0, 0, TILE, (0, "#EFE4C6"), (1, "#D8C9A2")))
+    timber.blotches(5, "#B8A47A", 3, 6, alpha=0.12)
+    timber.speckles(14, "#A89468", 0.3, 0.7, alpha=0.6)
+    timber.path("M 3 27.5 L 29 6", None, stroke="#6A4426", width=2.2)
+    timber.path("M 3 27.5 L 29 6", None, stroke="#9A6C40", width=0.7, alpha=0.7)
+    timber_frame(timber)
+    out.append(timber)
+
+    window = Recipe("base:art/tile/wall_window", TILE, TILE, (0, 0), {"plaster": "#E6D9B8", "beam": "#6A4426"}, seed="v1")
+    window.rect(0, 0, TILE, TILE, linear(0, 0, 0, TILE, (0, "#EFE4C6"), (1, "#D8C9A2")))
+    window.blotches(5, "#B8A47A", 3, 6, alpha=0.12)
+    window.speckles(10, "#A89468", 0.3, 0.7, alpha=0.6)
+    window.rect(8, 9, 16, 15, "#4A2E18")
+    window.rect(9.5, 10.5, 13, 12, linear(0, 10, 0, 23, (0, "#BFE6FF"), (1, "#6FA8D8")))
+    window.path("M 11 21 L 17 12 L 19.5 12 L 13.5 21 Z", "#FFFFFF", alpha=0.35)
+    window.rect(15.4, 10.5, 1.2, 12, "#4A2E18")
+    window.rect(9.5, 15.8, 13, 1.2, "#4A2E18")
+    window.rect(7, 23.5, 18, 2.2, "#8A5A30")  # the sill and a pot with a flower
+    window.rect(7, 23.5, 18, 0.8, lighten("#8A5A30", 0.3), alpha=0.8)
+    window.ellipse(12, 22.2, 2.2, 1.4, "#B8553A")
+    window.ellipse(12, 20.6, 1.6, 1.4, "#E85A7A")
+    window.ellipse(12, 20.6, 0.5, 0.5, "#FFE88A")
+    timber_frame(window)
+    out.append(window)
+
+    door = Recipe("base:art/tile/door", TILE, TILE, (0, 0), {"wood": "#B07A44", "frame": "#6A4426"}, seed="v1")
+    door.rect(0, 0, TILE, TILE, "#7A4F2A")
+    for i in range(4):
+        y = i * 8
+        tone = ["#B07A44", "#A87040", "#B88450", "#AC7644"][i]
+        door.rect(0, y + 0.5, TILE, 7, tone)
+        door.rect(0, y + 0.5, TILE, 1.4, lighten(tone, 0.28), alpha=0.7)
+        door.rect(0, y + 6.0, TILE, 1.5, darken(tone, 0.25), alpha=0.6)
+    door.rect(0, 22, TILE, 10, "#B8B0A0")  # the stone threshold
+    door.rect(0, 22, TILE, 1.5, "#8A8478")
+    door.rect(2, 24, 28, 6, "#CFC8B8")
+    door.path("M 6 27 L 26 27", None, stroke="#9A9488", width=0.6)
+    for px in (0, 29):
+        door.rect(px, 0, 3, TILE, "#6A4426")
+        door.rect(px, 0, 1, TILE, lighten("#6A4426", 0.25), alpha=0.6)
+    door.rect(0, 0, TILE, 5, linear(0, 0, 0, 5, (0, "#8A5A32"), (1, "#5A381C")))
+    door.rect(0, 5, TILE, 3, "#000000", alpha=0.22)
+    out.append(door)
     return out
 
 

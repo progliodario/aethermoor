@@ -15,6 +15,9 @@ OUT = ROOT / "data" / "base" / "stamps"
 
 LEGEND = {
     "#": {"tile": 5},  # stone wall (solid)
+    ":": {"tile": 35},  # timber-framed wall of a house (solid)
+    ";": {"tile": 37},  # a door: a doorway with a stone threshold
+    "'": {"tile": 36},  # a house wall with a window (solid)
     "_": {"tile": 13},  # plank floor
     "=": {"tile": 11},  # dirt road
     "c": {"tile": 14},  # cobblestones
@@ -108,9 +111,14 @@ class Canvas:
 
     def house(self, x: int, y: int, w: int, h: int, inside: dict[tuple[int, int], str], door: int | None = None) -> None:
         """A walled room with plank floor; the door is a floor tile in the bottom wall (column `door`, default the middle)."""
-        self.rect(x, y, w, h, "#")
+        self.rect(x, y, w, h, ":")
         self.rect(x + 1, y + 1, w - 2, h - 2, "_")
-        self.put(x + (w // 2 if door is None else door), y + h - 1, "_")
+        door_x = x + (w // 2 if door is None else door)
+        self.put(door_x, y + h - 1, ";")
+        for wx in range(x + 1, x + w - 1, 2):  # a window in the top wall, every other tile
+            self.put(wx, y, "'")
+        if w >= 5:
+            self.put(x, y + h // 2, "'")  # and one in the side
         for (dx, dy), ch in inside.items():
             self.put(x + dx, y + dy, ch)
 
@@ -134,6 +142,9 @@ class Canvas:
 
 def stamp(stamp_id: str, canvas: Canvas, anchor: tuple[int, int], spots: list[tuple[int, int]], open_air: bool = False) -> dict:
     """The stamp document. In an `open_air` stamp (a glade, a ring of trees) the creatures, lamps and props keep the ground of the terrain instead of a cobblestone."""
+    if not stamp_id.startswith(("base:stamp/hamlet", "base:stamp/village", "base:stamp/town", "base:stamp/outpost")):
+        # the houses of a settlement are timber and plaster; elsewhere the same rooms are built of stone
+        canvas.cells = [["#" if ch in ":'" else "_" if ch == ";" else ch for ch in row] for row in canvas.cells]
     used = {ch for row in canvas.rows() for ch in row if ch != "."}
     legend = {ch: LEGEND[ch] for ch in sorted(used)}
     if open_air:
