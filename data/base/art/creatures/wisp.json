@@ -114,31 +114,242 @@
     },
     {
       "shape": {
-        "ellipse": [
-          12.55,
-          23.16,
-          0.45,
-          0.72
-        ]
+        "path": "M 16 9 Q 22 16 21.6 24 Q 20.6 30 16 30 Q 11.4 30 10.4 24 Q 10 16 16 9 Z"
       },
       "fill": {
-        "color": "#FFFFFF"
+        "color": "$p.light"
       },
-      "alpha": 0.85
+      "alpha": 0.5
     },
     {
       "shape": {
         "ellipse": [
-          18.55,
-          23.16,
-          0.45,
-          0.72
+          6,
+          14,
+          0.9,
+          0.9
         ]
       },
       "fill": {
-        "color": "#FFFFFF"
+        "color": "$p.light"
       },
-      "alpha": 0.85
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          6,
+          14,
+          1.98,
+          1.98
+        ]
+      },
+      "fill": {
+        "color": "$p.halo"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "ellipse": [
+          26.6,
+          11,
+          0.8,
+          0.8
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          26.6,
+          11,
+          1.76,
+          1.76
+        ]
+      },
+      "fill": {
+        "color": "$p.halo"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "ellipse": [
+          4.6,
+          24,
+          0.7,
+          0.7
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          4.6,
+          24,
+          1.54,
+          1.54
+        ]
+      },
+      "fill": {
+        "color": "$p.halo"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "ellipse": [
+          28,
+          22,
+          0.9,
+          0.9
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          28,
+          22,
+          1.98,
+          1.98
+        ]
+      },
+      "fill": {
+        "color": "$p.halo"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "ellipse": [
+          9,
+          6,
+          0.6,
+          0.6
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          9,
+          6,
+          1.32,
+          1.32
+        ]
+      },
+      "fill": {
+        "color": "$p.halo"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "ellipse": [
+          23.4,
+          5,
+          0.7,
+          0.7
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          23.4,
+          5,
+          1.54,
+          1.54
+        ]
+      },
+      "fill": {
+        "color": "$p.halo"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "ellipse": [
+          13,
+          36.4,
+          0.7,
+          0.5
+        ]
+      },
+      "fill": {
+        "color": "$p.halo"
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "ellipse": [
+          19,
+          37,
+          0.7,
+          0.5
+        ]
+      },
+      "fill": {
+        "color": "$p.halo"
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "ellipse": [
+          16,
+          38.4,
+          0.7,
+          0.5
+        ]
+      },
+      "fill": {
+        "color": "$p.halo"
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 13 15 Q 14 12 16 10.6"
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 1.0
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 12.4 27 Q 16 29.6 19.6 27"
+      },
+      "stroke": {
+        "color": "$p.eye",
+        "width": 0.8
+      },
+      "alpha": 0.7
     }
   ]
 }

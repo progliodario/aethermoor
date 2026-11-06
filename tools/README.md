@@ -26,7 +26,7 @@ Python scripts (3.12 or newer; the virtual environment of [`docs/dev/setup.md`](
 | `balance_report.py` | `docs/design/balance.md`: a rough model of every fight, with the difficulty of the world data |
 | `make_art.py` (`tiles`, `props`) | writes the recipes of the terrain tiles and the props with `artkit.py` and `art_props.py` (style: [`docs/design/art-style.md`](../docs/design/art-style.md)) |
 | `art_chars.py` (`art_looks.py`) | rewrites the parts of the humanoid rig (head, torso, arm, leg) with shading, details and the look of each protagonist and villager (`only`/`except` layers), keeping palettes and variants |
-| `art_creatures.py` (`art_creature_looks.py`) | rebuilds the detail layers over the creature recipes (jelly, fur, plates, glints) and the feature of each slime, wolf and knight; safe to run again |
+| `art_creatures.py` (`art_creature_looks.py`, `art_single_looks.py`) | rebuilds the detail layers over the creature recipes (jelly, fur, plates, glints) and the feature of each slime, wolf and knight; safe to run again |
 | `art_preview.py` (`--figures`) | an HTML sheet with art recipes, or with every person assembled, to look at them without the game |
 
 ## Working with GitHub
