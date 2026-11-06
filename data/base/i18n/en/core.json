@@ -318,5 +318,7 @@
   "dlg.pip.story.yuki.busy1": "Three mint leaves, three tawny wolves. Not a word to anyone about how you got them.",
   "dlg.pip.story.yuki.o2": "The herbalist is happy and she does not know why. Now the lane to the east: five mint slimes and two myconids block it. A quiet exit, if you like.",
   "dlg.pip.story.yuki.busy2": "Five mint slimes, two myconids. Quiet, remember.",
-  "dlg.pip.story.yuki.done": "The lane is open and nobody saw anything. Take the dagger: it was left to someone who knows what to do with it."
+  "dlg.pip.story.yuki.done": "The lane is open and nobody saw anything. Take the dagger: it was left to someone who knows what to do with it.",
+  "ui.mp": "MP",
+  "ui.mp_regen": "regen"
 }

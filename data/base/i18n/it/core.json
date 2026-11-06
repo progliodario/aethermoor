@@ -318,5 +318,7 @@
   "dlg.pip.story.yuki.busy1": "Tre foglie di menta, tre lupi fulvi. Non una parola a nessuno su come li hai avuti.",
   "dlg.pip.story.yuki.o2": "L'erborista è contenta e non sa perché. Ora la strada a est: cinque slime di menta e due miconidi la bloccano. Un'uscita silenziosa, se ti va.",
   "dlg.pip.story.yuki.busy2": "Cinque slime di menta, due miconidi. In silenzio, ricordalo.",
-  "dlg.pip.story.yuki.done": "La strada è libera e nessuno ha visto niente. Prendi il pugnale: è stato lasciato a chi sa che cosa farne."
+  "dlg.pip.story.yuki.done": "La strada è libera e nessuno ha visto niente. Prendi il pugnale: è stato lasciato a chi sa che cosa farne.",
+  "ui.mp": "PM",
+  "ui.mp_regen": "rigen."
 }

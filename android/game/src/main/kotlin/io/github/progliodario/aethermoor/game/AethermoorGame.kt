@@ -741,6 +741,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
         val combatSetup = world.combat
         if (combatSetup.dodge.enabled) drawPip(1f - p.dodgeCooldown.toFloat() / maxOf(combatSetup.dodge.cooldown, 1), p.dodgeCooldown == 0, Color(0.35f, 0.86f, 0.47f, 1f))
+        if (combatSetup.gift.deathSaveTicks > 0) { // the Eternal Aegis: lit when the death save is ready
+            drawPip(1f - p.deathSaveCd.toFloat() / combatSetup.gift.deathSaveTicks, p.deathSaveCd == 0, Color(1f, 0.84f, 0.35f, 1f))
+        }
         if (combatSetup.strike.enabled) {
             val strikeCooldown = combatSetup.strike.skill.cooldown
             drawPip(1f - minOf(p.cooldown, strikeCooldown).toFloat() / maxOf(strikeCooldown, 1), p.cooldown == 0 && world.mp >= combatSetup.strike.mp, Color(0.39f, 0.63f, 1f, 1f))
