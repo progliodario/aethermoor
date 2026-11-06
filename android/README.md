@@ -20,7 +20,7 @@ The Gradle wrapper is not committed (it was never generated on the machine the p
 
 ## Controls
 
-A floating stick on the left half of the screen moves (the first touch is its origin, 64 dp gives full speed); any touch on the right half attacks. Buttons on the screen open the bag, the world map, the journal and switch the language; a talk button appears next to people; lists (bag, shop, board, stones, journal) are scrolled and chosen by touch. The Back key saves the game and returns to the list of games. A physical keyboard works as on desktop (`WASD`, `J`, `E`, `I`, `Q`, `M`, `F2`). The full list is in [spec 16](../docs/spec/16-input.md).
+A floating stick on the left half of the screen moves (the first touch is its origin, 64 dp gives full speed); any touch on the right half attacks. Buttons on the screen open the bag, the world map, the journal and switch the language; a talk button appears next to people; in the bottom right corner, a Dodge button, a Strike button (the power strike, while there is mana) and an Analyze button (only for Ren); a tap on the small map in the corner opens the world map; a new game first asks who to be (a tap selects, a second tap confirms); lists (bag, shop, board, stones, journal) are scrolled and chosen by touch. The Back key saves the game and returns to the list of games. A physical keyboard works as on desktop (`WASD`, `J`, `E`, `I`, `Q`, `M`, `F2`). The full list is in [spec 16](../docs/spec/16-input.md).
 
 ## State
 

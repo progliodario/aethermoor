@@ -11,7 +11,7 @@ class GameInfoTest {
     }
 
     @Test
-    fun noFeaturesAreSupportedAtM0() {
+    fun noFeatureIsGatedYet() {
         assertTrue(supportedFeatures.isEmpty())
     }
 

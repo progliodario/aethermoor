@@ -45,13 +45,13 @@ CI (`.github/workflows/`) runs on every pull request and on pushes to `main`:
 
 | Workflow | What it does |
 |---|---|
-| `ci-data` | `ruff check tools`, `tools/validate_data.py`, `pytest tools/tests` |
+| `ci-data` | `ruff check tools`, `tools/validate_data.py`, `pytest tools/tests`, `gen_conformance.py --check` |
 | `ci-desktop` | on Windows (MSVC) and Linux (GCC): vcpkg (binary cache), configure, build, `ctest` (unit tests, every conformance suite, three smoke tests), then packages the playable build and uploads it with the smoke-test frames |
 | `ci-android` | JDK 17, Gradle 8.10.2, `:core:test` (JVM tests, including every conformance suite), `:app:assembleDebug`, uploads the debug APK |
 | `labeler` | labels the pull request from the paths it touches |
 | `release` | on a `v*` tag: validates the data and creates a draft release (no artifacts yet) |
 
-Local builds need the tools above; the project is developed on a machine without a C++ or Kotlin compiler, so for those two clients CI is the only build and a change to C++ or Kotlin is checked by pushing it. `python tools/gen_conformance.py --check` (are the committed vectors the ones the reference generates?) is not a CI job: `tools/ship.py` runs it before it commits, so run it yourself if you do not use `ship.py`.
+Local builds need the tools above; the project is developed on a machine without a C++ or Kotlin compiler, so for those two clients CI is the only build and a change to C++ or Kotlin is checked by pushing it. `python tools/gen_conformance.py --check` (are the committed vectors the ones the reference generates?) also runs in CI (`ci-data`), and in `tools/ship.py` before it commits.
 
 ## Before you open a pull request
 

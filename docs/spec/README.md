@@ -1,6 +1,6 @@
 # Specifications
 
-Normative rules shared by the desktop and Android clients. **Status:** 00 to 09, 12, 13, 16, 17 and 18 are written and have conformance suites; 10, 11, 14 and 15 are still to come with their milestones. The planned content is described in `docs/plan/02-dati-specifiche-e-formati.md`.
+Normative rules shared by the desktop and Android clients. **Status:** 00 to 09, 12, 13, 16, 17 and 18 are written (all but 16 and 18 have conformance suites; the protagonists are covered by the `stats` and `combat` suites and by a content test); 10, 11, 14 and 15 are still to come with their milestones. The planned content is described in `docs/plan/02-dati-specifiche-e-formati.md`.
 
 | # | Document | Milestone |
 |---|---|---|

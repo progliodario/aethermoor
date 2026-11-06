@@ -10,3 +10,4 @@
 | [guides/](guides/README.md) | English | How to add content ([adding content](guides/add-content.md)) |
 | [modding/](modding/README.md) | English | Mod authoring |
 | [glossary](glossary.md) | IT/EN | Shared terminology |
+| [tools](../tools/README.md) | English | What every script of `tools/` does |
