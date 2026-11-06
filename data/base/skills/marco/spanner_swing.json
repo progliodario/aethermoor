@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../../schemas/skill.schema.json",
+  "id": "base:skill/marco/spanner_swing",
+  "name": "$i18n:skill.marco.spanner_swing.name",
+  "description": "$i18n:skill.marco.spanner_swing.desc",
+  "type": "active",
+  "cost": {
+    "mp": 0
+  },
+  "cooldown_ticks": 26,
+  "timing": {
+    "startup": 6,
+    "active": 4,
+    "recovery": 10
+  },
+  "damage": {
+    "kind": "physical",
+    "element": "none",
+    "power_pct": 105
+  },
+  "tags": [
+    "melee",
+    "basic"
+  ],
+  "hitbox": {
+    "shape": "arc",
+    "radius_x100": 160,
+    "angle_deg": 110
+  }
+}

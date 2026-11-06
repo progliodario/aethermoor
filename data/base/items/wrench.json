@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/wrench",
+  "name": "$i18n:item.wrench.name",
+  "description": "$i18n:item.wrench.desc",
+  "kind": "weapon",
+  "rarity": "common",
+  "price": 25,
+  "weapon": {
+    "atk": 5,
+    "matk": 0
+  }
+}

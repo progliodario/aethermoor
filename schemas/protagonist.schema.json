@@ -17,6 +17,17 @@
     "free_points_per_level": { "type": "integer", "minimum": 0, "maximum": 10 },
     "cheat": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
     "art_variant": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "gift_rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mp_regen_pct": { "type": "integer", "minimum": 0, "maximum": 1000 },
+        "aggro_pct": { "type": "integer", "minimum": 0, "maximum": 1000 },
+        "heal_pct": { "type": "integer", "minimum": 0, "maximum": 1000 },
+        "dodge_cooldown_pct": { "type": "integer", "minimum": 0, "maximum": 1000 },
+        "death_save_ticks": { "type": "integer", "minimum": 0, "maximum": 100000 }
+      }
+    },
     "starting_items": {
       "type": "array",
       "items": {

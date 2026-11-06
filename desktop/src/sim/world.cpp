@@ -510,6 +510,7 @@ bool WorldSim::use_item(const std::string& item_id) {
             mana += effect.amount;
         }
     }
+    heal = heal * m_setup_.gift.heal_pct / 100;
     const std::int64_t full_mp = m_derived_.max_mp * 6000;
     if (!((heal > 0 && m_player_.hp < m_derived_.max_hp) || (mana > 0 && m_player_.mp_u < full_mp))) {
         return false;
@@ -553,7 +554,10 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
     if (p.dodge_cooldown > 0) {
         --p.dodge_cooldown;
     }
-    p.mp_u = std::min(m_derived_.max_mp * 6000, p.mp_u + m_derived_.mp_regen_x100);
+    if (p.death_save_cd > 0) {
+        --p.death_save_cd;
+    }
+    p.mp_u = std::min(m_derived_.max_mp * 6000, p.mp_u + m_derived_.mp_regen_x100 * m_setup_.gift.mp_regen_pct / 100);
 
     const Vec2 direction = normalize_input(raw_x, raw_y);
     const bool moving = direction.x != 0.0F || direction.y != 0.0F;
@@ -567,7 +571,7 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
             p.facing_left = p.dodge_dir.x < 0.0F;
         }
         p.dodge_ticks = m_setup_.dodge.ticks;
-        p.dodge_cooldown = m_setup_.dodge.cooldown;
+        p.dodge_cooldown = m_setup_.dodge.cooldown * m_setup_.gift.dodge_cooldown_pct / 100;
         p.iframes = std::max(p.iframes, m_setup_.dodge.iframes);
     }
     if (p.dodge_ticks > 0) {
@@ -744,7 +748,7 @@ void WorldSim::update_enemy(Enemy& enemy) {
     const float dist = distance(enemy.position.x, enemy.position.y, p.position.x, p.position.y);
     switch (enemy.state) {
         case EnemyState::Idle:
-            if (dist <= static_cast<float>(b.aggro_x100) / 100.0F) {
+            if (dist <= static_cast<float>(b.aggro_x100 * m_setup_.gift.aggro_pct / 100) / 100.0F) {
                 enemy.state = EnemyState::Chase;
                 enemy.state_tick = 0;
             }
@@ -813,6 +817,10 @@ void WorldSim::hurt_player(const Enemy& enemy) {
     p.hp -= amount;
     p.iframes = kPlayerHitIframes;
     m_events_.push_back({p.position, amount, false, true});
+    if (p.hp <= 0 && m_setup_.gift.death_save_ticks > 0 && p.death_save_cd == 0) {  // the death save (spec 18)
+        p.hp = 1;
+        p.death_save_cd = m_setup_.gift.death_save_ticks;
+    }
     if (p.hp <= 0) {
         ++p.deaths;
         p.hp = m_derived_.max_hp;
@@ -930,6 +938,7 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
     p.phase = s.phase;
     p.phase_tick = s.phase_tick;
     m_hit_set_ = s.hit_set;
+    m_player_.death_save_cd = 0;
     m_player_.dodge_ticks = 0;  // a roll in progress is not saved (spec 05)
     m_player_.dodge_cooldown = 0;
     m_player_.mp_u = m_derived_.max_mp * 6000;  // nor is the mana: a loaded game starts full

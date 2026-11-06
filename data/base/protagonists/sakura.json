@@ -48,5 +48,8 @@
     "base:skill/common/dodge",
     "base:skill/sakura/arcane_burst"
   ],
-  "initially_available": true
+  "initially_available": true,
+  "gift_rules": {
+    "mp_regen_pct": 300
+  }
 }

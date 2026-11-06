@@ -48,5 +48,8 @@
     "base:skill/common/dodge",
     "base:skill/haruka/gale_strike"
   ],
-  "initially_available": true
+  "initially_available": true,
+  "gift_rules": {
+    "aggro_pct": 50
+  }
 }

@@ -4,6 +4,7 @@ import io.github.progliodario.aethermoor.core.sim.ArmorStats
 import io.github.progliodario.aethermoor.core.sim.BehaviorDef
 import io.github.progliodario.aethermoor.core.sim.CombatSetup
 import io.github.progliodario.aethermoor.core.sim.DodgeDef
+import io.github.progliodario.aethermoor.core.sim.GiftDef
 import io.github.progliodario.aethermoor.core.sim.StrikeDef
 import io.github.progliodario.aethermoor.core.sim.DropDef
 import io.github.progliodario.aethermoor.core.sim.EnemyDef
@@ -87,6 +88,10 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
             s.long("power_pct"), s.getValue("radius_x100").jsonPrimitive.int, s.getValue("angle_deg").jsonPrimitive.int,
             s["kind"]?.jsonPrimitive?.content == "magical",
         ),
+        gift = input["gift"]?.jsonObject?.let { g ->
+            fun pct(key: String, neutral: Int) = g[key]?.jsonPrimitive?.int ?: neutral
+            GiftDef(pct("mp_regen_pct", 100), pct("aggro_pct", 100), pct("heal_pct", 100), pct("dodge_cooldown_pct", 100), pct("death_save_ticks", 0))
+        } ?: GiftDef(),
         strike = input["strike"]?.jsonObject?.let { d ->
             StrikeDef(
                 enabled = true,

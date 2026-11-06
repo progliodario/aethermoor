@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../../schemas/skill.schema.json",
+  "id": "base:skill/yuki/dagger_flick",
+  "name": "$i18n:skill.yuki.dagger_flick.name",
+  "description": "$i18n:skill.yuki.dagger_flick.desc",
+  "type": "active",
+  "cost": {
+    "mp": 0
+  },
+  "cooldown_ticks": 18,
+  "timing": {
+    "startup": 4,
+    "active": 3,
+    "recovery": 7
+  },
+  "damage": {
+    "kind": "physical",
+    "element": "none",
+    "power_pct": 80
+  },
+  "tags": [
+    "melee",
+    "basic"
+  ],
+  "hitbox": {
+    "shape": "arc",
+    "radius_x100": 140,
+    "angle_deg": 90
+  }
+}

@@ -77,6 +77,26 @@
           "next": "haruka_s0"
         },
         {
+          "text": "$i18n:dlg.pip.story.marco.ask",
+          "when": {
+            "has_item": {
+              "item": "base:item/keepsake_marco",
+              "qty": 1
+            }
+          },
+          "next": "marco_s0"
+        },
+        {
+          "text": "$i18n:dlg.pip.story.yuki.ask",
+          "when": {
+            "has_item": {
+              "item": "base:item/keepsake_yuki",
+              "qty": 1
+            }
+          },
+          "next": "yuki_s0"
+        },
+        {
           "text": "$i18n:dlg.pip.q.bye",
           "next": "end"
         }
@@ -508,6 +528,206 @@
             {
               "effect": "start_quest",
               "quest": "base:quest/side/personal_haruka_2"
+            }
+          ],
+          "next": "menu"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "menu"
+        }
+      ]
+    },
+    "marco_s0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/personal_marco_2"
+      },
+      "then": "marco_done",
+      "else": "marco_s1"
+    },
+    "marco_s1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/personal_marco_2"
+      },
+      "then": "marco_busy2",
+      "else": "marco_s2"
+    },
+    "marco_s2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/personal_marco_1"
+      },
+      "then": "marco_o2",
+      "else": "marco_s3"
+    },
+    "marco_s3": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/personal_marco_1"
+      },
+      "then": "marco_busy1",
+      "else": "marco_o1"
+    },
+    "marco_done": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.marco.done",
+      "next": "menu"
+    },
+    "marco_busy1": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.marco.busy1",
+      "next": "menu"
+    },
+    "marco_busy2": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.marco.busy2",
+      "next": "menu"
+    },
+    "marco_o1": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.marco.o1",
+      "next": "marco_c1"
+    },
+    "marco_o2": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.marco.o2",
+      "next": "marco_c2"
+    },
+    "marco_c1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/personal_marco_1"
+            }
+          ],
+          "next": "menu"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "menu"
+        }
+      ]
+    },
+    "marco_c2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/personal_marco_2"
+            }
+          ],
+          "next": "menu"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "menu"
+        }
+      ]
+    },
+    "yuki_s0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/personal_yuki_2"
+      },
+      "then": "yuki_done",
+      "else": "yuki_s1"
+    },
+    "yuki_s1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/personal_yuki_2"
+      },
+      "then": "yuki_busy2",
+      "else": "yuki_s2"
+    },
+    "yuki_s2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/personal_yuki_1"
+      },
+      "then": "yuki_o2",
+      "else": "yuki_s3"
+    },
+    "yuki_s3": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/personal_yuki_1"
+      },
+      "then": "yuki_busy1",
+      "else": "yuki_o1"
+    },
+    "yuki_done": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.yuki.done",
+      "next": "menu"
+    },
+    "yuki_busy1": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.yuki.busy1",
+      "next": "menu"
+    },
+    "yuki_busy2": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.yuki.busy2",
+      "next": "menu"
+    },
+    "yuki_o1": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.yuki.o1",
+      "next": "yuki_c1"
+    },
+    "yuki_o2": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.yuki.o2",
+      "next": "yuki_c2"
+    },
+    "yuki_c1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/personal_yuki_1"
+            }
+          ],
+          "next": "menu"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "menu"
+        }
+      ]
+    },
+    "yuki_c2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/personal_yuki_2"
             }
           ],
           "next": "menu"

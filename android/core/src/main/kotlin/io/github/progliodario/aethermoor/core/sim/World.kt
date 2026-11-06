@@ -64,6 +64,9 @@ class Player(var position: Vec2) {
     /** The dodge roll (spec 05): ticks left, ticks until the next one, and the direction. Not saved. */
     var dodgeTicks = 0
     var dodgeCooldown = 0
+
+    /** Ticks until the death save is ready again (spec 18). Not saved. */
+    var deathSaveCd = 0
     var dodgeDir = Vec2(1f, 0f)
 }
 
@@ -507,7 +510,7 @@ class WorldSim(
         if (story.dialogueActive) return false
         val item = combat.items[itemId] ?: return false
         if ((inventory[itemId] ?: 0L) < 1L) return false
-        val heal = item.effects.filter { it.effect == "heal" }.sumOf { it.amount }
+        val heal = item.effects.filter { it.effect == "heal" }.sumOf { it.amount } * combat.gift.healPct / 100
         val mana = item.effects.filter { it.effect == "restore_mp" }.sumOf { it.amount }
         val fullMp = derived.maxMp * 6000L
         if (!((heal > 0L && player.hp < derived.maxHp) || (mana > 0L && player.mpU < fullMp))) return false
@@ -548,7 +551,8 @@ class WorldSim(
         if (p.iframes > 0) p.iframes--
         if (p.cooldown > 0) p.cooldown--
         if (p.dodgeCooldown > 0) p.dodgeCooldown--
-        p.mpU = minOf(derived.maxMp * 6000L, p.mpU + derived.mpRegenX100)
+        if (p.deathSaveCd > 0) p.deathSaveCd--
+        p.mpU = minOf(derived.maxMp * 6000L, p.mpU + derived.mpRegenX100 * combat.gift.mpRegenPct / 100)
 
         val direction = normalizeInput(rawX, rawY)
         val moving = direction.x != 0f || direction.y != 0f
@@ -560,7 +564,7 @@ class WorldSim(
             p.facing = p.dodgeDir
             if (p.dodgeDir.x != 0f) p.facingLeft = p.dodgeDir.x < 0f
             p.dodgeTicks = combat.dodge.ticks
-            p.dodgeCooldown = combat.dodge.cooldown
+            p.dodgeCooldown = combat.dodge.cooldown * combat.gift.dodgeCooldownPct / 100
             p.iframes = max(p.iframes, combat.dodge.iframes)
         }
         if (p.dodgeTicks > 0) {
@@ -707,7 +711,7 @@ class WorldSim(
         val p = player
         val dist = distance(enemy.position.x, enemy.position.y, p.position.x, p.position.y)
         when (enemy.state) {
-            EnemyState.IDLE -> if (dist <= b.aggroX100.toFloat() / 100f) {
+            EnemyState.IDLE -> if (dist <= (b.aggroX100 * combat.gift.aggroPct / 100).toFloat() / 100f) {
                 enemy.state = EnemyState.CHASE
                 enemy.stateTick = 0
             }
@@ -778,6 +782,10 @@ class WorldSim(
         p.hp -= amount
         p.iframes = PLAYER_HIT_IFRAMES
         events.add(DamageEvent(p.position, amount, false, true))
+        if (p.hp <= 0 && combat.gift.deathSaveTicks > 0 && p.deathSaveCd == 0) { // the death save (spec 18)
+            p.hp = 1
+            p.deathSaveCd = combat.gift.deathSaveTicks
+        }
         if (p.hp <= 0) {
             p.deaths++
             p.hp = derived.maxHp
@@ -856,6 +864,7 @@ class WorldSim(
         p.kills = s.kills
         p.iframes = s.iframes
         p.cooldown = s.cooldown
+        p.deathSaveCd = 0
         p.dodgeTicks = 0 // a roll in progress is not saved (spec 05)
         p.dodgeCooldown = 0
         p.mpU = derived.maxMp * 6000L // nor is the mana: a loaded game starts full

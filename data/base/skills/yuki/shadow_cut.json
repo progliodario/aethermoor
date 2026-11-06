@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../../schemas/skill.schema.json",
+  "id": "base:skill/yuki/shadow_cut",
+  "name": "$i18n:skill.yuki.shadow_cut.name",
+  "description": "$i18n:skill.yuki.shadow_cut.desc",
+  "type": "active",
+  "cost": {
+    "mp": 8
+  },
+  "cooldown_ticks": 70,
+  "timing": {
+    "startup": 8,
+    "active": 3,
+    "recovery": 12
+  },
+  "damage": {
+    "kind": "physical",
+    "element": "none",
+    "power_pct": 210
+  },
+  "tags": [
+    "melee",
+    "heavy"
+  ],
+  "hitbox": {
+    "shape": "arc",
+    "radius_x100": 200,
+    "angle_deg": 70
+  }
+}

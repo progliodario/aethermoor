@@ -281,7 +281,7 @@
   "ui.protagonist_choose": "Scegli chi sarai",
   "ui.protagonist_gift": "Dono",
   "ui.protagonist_story": "Storia",
-  "ui.protagonist_hint": "[W/S] scegli   [E] conferma   [1-4] scegli subito   [Esc] indietro",
+  "ui.protagonist_hint": "[W/S] scegli   [E] conferma   [1-6] scegli subito   [Esc] indietro",
   "ui.protagonist_hint_touch": "Tocca un nome per vederlo, toccalo di nuovo per sceglierlo",
   "dlg.pip.story.ren.ask": "Continuo a vedere dei numeri. È normale?",
   "dlg.pip.story.ren.o1": "Numeri? Sopra gli slime? Ah! Be', mia madre dice che il prato è un disastro e il tetto perde. Sei slime e quattro gel, e vedrai se i tuoi numeri servono a qualcosa.",
@@ -306,5 +306,17 @@
   "dlg.pip.story.haruka.busy1": "Cinque foglie di menta, due pellicce fulve. L'impacco non si fa da solo, sai.",
   "dlg.pip.story.haruka.o2": "Gli animali dormono già meglio. Ma tre miconidi e quattro slime verdi li spaventano ancora. Con calma, ma con fermezza.",
   "dlg.pip.story.haruka.busy2": "Tre miconidi, quattro slime. E non preoccuparti per loro: se ne fanno una ragione.",
-  "dlg.pip.story.haruka.done": "Anche gli slime sono tranquilli. Credo che tu gli piaccia. Prendi il bastone: l'erborista lo ha fatto per chi ascolta."
+  "dlg.pip.story.haruka.done": "Anche gli slime sono tranquilli. Credo che tu gli piaccia. Prendi il bastone: l'erborista lo ha fatto per chi ascolta.",
+  "dlg.pip.story.marco.ask": "C'è un modo di cucinare qualcosa in questo villaggio?",
+  "dlg.pip.story.marco.o1": "Cucinare? Mia madre cucina, e dice che nessuno ha mai messo gel di slime in una salsa. Tre gel e quattro foglie di menta, se vuoi essere il primo.",
+  "dlg.pip.story.marco.busy1": "Tre gel di slime, quattro foglie di menta. E ti prego, non dire a mia madre a che cosa servono.",
+  "dlg.pip.story.marco.o2": "Mia madre l'ha assaggiata e ne parla ancora. Ora la valvola che vuoi provare: cinque slime verdi e due miconidi, lontano da dove abita qualcuno.",
+  "dlg.pip.story.marco.busy2": "Cinque slime, due miconidi. Io starei un po' lontano da quello che stai preparando.",
+  "dlg.pip.story.marco.done": "Tutto il villaggio l'ha sentita e ci è piaciuta. Prendi la mannaia: è per chi sa che cosa fare con una cucina.",
+  "dlg.pip.story.yuki.ask": "C'è qualcosa da rubare, qui?",
+  "dlg.pip.story.yuki.o1": "Rubare? Qui? Nessuno chiude niente. Ma l'erborista ha bisogno di menta, tre foglie, e dei lupi fulvi la spaventano. Al buio potresti servire.",
+  "dlg.pip.story.yuki.busy1": "Tre foglie di menta, tre lupi fulvi. Non una parola a nessuno su come li hai avuti.",
+  "dlg.pip.story.yuki.o2": "L'erborista è contenta e non sa perché. Ora la strada a est: cinque slime di menta e due miconidi la bloccano. Un'uscita silenziosa, se ti va.",
+  "dlg.pip.story.yuki.busy2": "Cinque slime di menta, due miconidi. In silenzio, ricordalo.",
+  "dlg.pip.story.yuki.done": "La strada è libera e nessuno ha visto niente. Prendi il pugnale: è stato lasciato a chi sa che cosa farne."
 }

@@ -417,6 +417,14 @@ Scenario scenario_from_json(const Json& in) {
     setup.skill.radius_x100 = skill.at("radius_x100").get<int>();
     setup.skill.angle_deg = skill.at("angle_deg").get<int>();
     setup.skill.magical = skill.value("kind", "physical") == "magical";
+    if (in.contains("gift")) {
+        const Json& gift = in.at("gift");
+        setup.gift.mp_regen_pct = gift.value("mp_regen_pct", 100);
+        setup.gift.aggro_pct = gift.value("aggro_pct", 100);
+        setup.gift.heal_pct = gift.value("heal_pct", 100);
+        setup.gift.dodge_cooldown_pct = gift.value("dodge_cooldown_pct", 100);
+        setup.gift.death_save_ticks = gift.value("death_save_ticks", 0);
+    }
     if (in.contains("strike")) {
         const Json& strike = in.at("strike");
         setup.strike.enabled = true;

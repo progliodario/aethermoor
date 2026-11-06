@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../../schemas/skill.schema.json",
+  "id": "base:skill/yuki/shadow_step",
+  "name": "$i18n:skill.yuki.shadow_step.name",
+  "description": "$i18n:skill.yuki.shadow_step.desc",
+  "type": "movement",
+  "cost": {
+    "mp": 0
+  },
+  "cooldown_ticks": 40,
+  "timing": {
+    "startup": 0,
+    "active": 8,
+    "recovery": 0
+  },
+  "tags": [
+    "movement"
+  ],
+  "movement": {
+    "speed_mult_x100": 320,
+    "iframes": 12
+  }
+}

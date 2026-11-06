@@ -41,6 +41,15 @@ struct StrikeDef {
     std::int64_t mp = 10;
 };
 
+// The rules of a gift (spec 18, "Gift rules"): percentages (100 is neutral) and the ticks of the death save (0: none).
+struct GiftDef {
+    int mp_regen_pct = 100;
+    int aggro_pct = 100;
+    int heal_pct = 100;
+    int dodge_cooldown_pct = 100;
+    int death_save_ticks = 0;
+};
+
 struct DropDef {
     std::string item;
     std::int64_t qty_min = 1;
@@ -115,6 +124,7 @@ struct CombatSetup {
     SkillDef skill;
     DodgeDef dodge;
     StrikeDef strike;
+    GiftDef gift;
     std::vector<EnemySpawn> spawns;
     std::vector<std::int64_t> xp_table;  // table[level - 1] = XP to go from `level` to `level + 1`
     std::uint64_t seed = 0;
