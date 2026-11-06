@@ -5,7 +5,7 @@
 
 The patterns match the ID of the recipe (`creatures/wolf` shows every recipe whose path contains it); no pattern shows all of them.
 It follows the format of `schemas/art_recipe.schema.json` (layers of rect, ellipse, polygon and path with flat, linear or radial fills,
-strokes, alpha and `$p.` palette colors); the game draws the same recipes with ThorVG.
+strokes, alpha and `$p.` palette colors); the game draws the same recipes with its own rasterizer (docs/spec/13-vector-art.md).
 """
 from __future__ import annotations
 

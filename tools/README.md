@@ -24,6 +24,7 @@ Python scripts (3.12 or newer; the virtual environment of [`docs/dev/setup.md`](
 | `make_demo_map.py` (`--check`) | `data/base/maps/demo.tmj`, the demo map |
 | `make_catalog.py` | `docs/design/catalog.md`: regions, creatures, items, quests, sites and their world positions |
 | `balance_report.py` | `docs/design/balance.md`: a rough model of every fight, with the difficulty of the world data |
+| `make_art.py` (`tiles`, `props`) | writes the recipes of the terrain tiles and the props with `artkit.py` and `art_props.py` (style: [`docs/design/art-style.md`](../docs/design/art-style.md)) |
 | `art_preview.py` | an HTML sheet with art recipes, to look at them without the game |
 
 ## Working with GitHub

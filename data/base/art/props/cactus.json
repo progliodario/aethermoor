@@ -13,87 +13,298 @@
     {
       "shape": {
         "ellipse": [
-          16,
-          44,
-          9,
+          17,
+          45,
+          11,
           3
         ]
       },
       "fill": {
         "color": "#000000"
       },
-      "alpha": 0.25
+      "alpha": 0.3
     },
     {
       "shape": {
-        "path": "M 11 44 L 11 12 Q 16 4 21 12 L 21 44 Z"
-      },
-      "fill": {
-        "color": "$p.body"
-      },
-      "stroke": {
-        "color": "$p.outline",
-        "width": 1.4
-      }
-    },
-    {
-      "shape": {
-        "path": "M 11 30 L 5 30 Q 3 30 3 28 L 3 20 Q 5 18 7 20 L 7 26 L 11 26 Z"
-      },
-      "fill": {
-        "color": "$p.body"
-      },
-      "stroke": {
-        "color": "$p.outline",
-        "width": 1.2
-      }
-    },
-    {
-      "shape": {
-        "path": "M 21 24 L 26 24 Q 29 24 29 22 L 29 15 Q 27 13 25 15 L 25 20 L 21 20 Z"
-      },
-      "fill": {
-        "color": "$p.body"
-      },
-      "stroke": {
-        "color": "$p.outline",
-        "width": 1.2
-      }
-    },
-    {
-      "shape": {
-        "polygon": [
-          [
-            14,
-            14
-          ],
-          [
-            14,
-            40
-          ]
+        "ellipse": [
+          17,
+          45,
+          7.92,
+          2.1
         ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.18
+    },
+    {
+      "shape": {
+        "path": "M 12 34 L 7 34 Q 5 34 5 31 L 5 21"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 7.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 12 34 L 7 34 Q 5 34 5 31 L 5 21"
+      },
+      "stroke": {
+        "color": "$p.body",
+        "width": 5.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 12 34 L 7 34 Q 5 34 5 31 L 5 21"
+      },
+      "stroke": {
+        "color": "#8FC293",
+        "width": 1.25
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "path": "M 20 28 L 25 28 Q 27 28 27 25 L 27 15"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 7.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 20 28 L 25 28 Q 27 28 27 25 L 27 15"
+      },
+      "stroke": {
+        "color": "$p.body",
+        "width": 5.0
+      }
+    },
+    {
+      "shape": {
+        "path": "M 20 28 L 25 28 Q 27 28 27 25 L 27 15"
+      },
+      "stroke": {
+        "color": "#8FC293",
+        "width": 1.25
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "path": "M 11 44 Q 9 44 9 40 L 9 10 Q 9 3 16 3 Q 23 3 23 10 L 23 40 Q 23 44 21 44 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 9,
+          "y0": 0,
+          "x1": 23,
+          "y1": 0,
+          "stops": [
+            [
+              0,
+              "#8CC090"
+            ],
+            [
+              0.45,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.rib"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.5
+      }
+    },
+    {
+      "shape": {
+        "path": "M 13 6 Q 13.4 24 13 43"
       },
       "stroke": {
         "color": "$p.rib",
-        "width": 1
+        "width": 0.8
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 16 6 Q 16.4 24 16 43"
+      },
+      "stroke": {
+        "color": "$p.rib",
+        "width": 0.8
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 19 6 Q 19.4 24 19 43"
+      },
+      "stroke": {
+        "color": "$p.rib",
+        "width": 0.8
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 11 12 L 13 12"
+      },
+      "stroke": {
+        "color": "#F2EBC8",
+        "width": 0.6
       }
     },
     {
       "shape": {
-        "polygon": [
-          [
-            18,
-            14
-          ],
-          [
-            18,
-            40
-          ]
-        ]
+        "path": "M 12 11 L 12 13"
       },
       "stroke": {
-        "color": "$p.rib",
-        "width": 1
+        "color": "#F2EBC8",
+        "width": 0.6
+      }
+    },
+    {
+      "shape": {
+        "path": "M 19 17 L 21 17"
+      },
+      "stroke": {
+        "color": "#F2EBC8",
+        "width": 0.6
+      }
+    },
+    {
+      "shape": {
+        "path": "M 20 16 L 20 18"
+      },
+      "stroke": {
+        "color": "#F2EBC8",
+        "width": 0.6
+      }
+    },
+    {
+      "shape": {
+        "path": "M 11 26 L 13 26"
+      },
+      "stroke": {
+        "color": "#F2EBC8",
+        "width": 0.6
+      }
+    },
+    {
+      "shape": {
+        "path": "M 12 25 L 12 27"
+      },
+      "stroke": {
+        "color": "#F2EBC8",
+        "width": 0.6
+      }
+    },
+    {
+      "shape": {
+        "path": "M 19 33 L 21 33"
+      },
+      "stroke": {
+        "color": "#F2EBC8",
+        "width": 0.6
+      }
+    },
+    {
+      "shape": {
+        "path": "M 20 32 L 20 34"
+      },
+      "stroke": {
+        "color": "#F2EBC8",
+        "width": 0.6
+      }
+    },
+    {
+      "shape": {
+        "path": "M 11 38 L 13 38"
+      },
+      "stroke": {
+        "color": "#F2EBC8",
+        "width": 0.6
+      }
+    },
+    {
+      "shape": {
+        "path": "M 12 37 L 12 39"
+      },
+      "stroke": {
+        "color": "#F2EBC8",
+        "width": 0.6
+      }
+    },
+    {
+      "shape": {
+        "path": "M 5 24 L 7 24"
+      },
+      "stroke": {
+        "color": "#F2EBC8",
+        "width": 0.6
+      }
+    },
+    {
+      "shape": {
+        "path": "M 6 23 L 6 25"
+      },
+      "stroke": {
+        "color": "#F2EBC8",
+        "width": 0.6
+      }
+    },
+    {
+      "shape": {
+        "path": "M 25 18 L 27 18"
+      },
+      "stroke": {
+        "color": "#F2EBC8",
+        "width": 0.6
+      }
+    },
+    {
+      "shape": {
+        "path": "M 26 17 L 26 19"
+      },
+      "stroke": {
+        "color": "#F2EBC8",
+        "width": 0.6
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          16,
+          3.5,
+          2.2,
+          1.5
+        ]
+      },
+      "fill": {
+        "color": "#E8628A"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          16,
+          3.5,
+          0.9,
+          0.7
+        ]
+      },
+      "fill": {
+        "color": "#FFE07A"
       }
     }
   ],
