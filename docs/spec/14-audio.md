@@ -1,8 +1,8 @@
-# 14. Audio (sound effects)
+# 14. Audio (sounds, ambience and music)
 
 Sounds are not recorded: they are **synthesized** from small recipes in the pack, the same way the art is drawn from recipes. Both
-clients run the same algorithm, so a sound is the same everywhere. This first version covers sound effects; music, ambience and
-the mixer settings come later (plan `docs/plan/04-grafica-audio-ui-input.md`, section 2).
+clients run the same algorithm, so a sound is the same everywhere. It covers sound effects, ambience, music and the directors
+that choose them; the volume settings come later (plan `docs/plan/04-grafica-audio-ui-input.md`, section 2).
 
 Audio is presentation only: nothing in the simulation depends on it, so it has no effect on saves or on the vectors of the
 rules. The synthesizer is headless (no device code) and is tested with the conformance suite `audio`.
@@ -108,3 +108,71 @@ The `ambience` section of the table says, for each region, which loops belong to
 (the largest gain when a loop is listed twice); then, when `rain_pm > 0`, the light rain loop at `min(1000, rain_pm)` and the heavy
 rain loop at `min(1000, max(0, rain_pm - 500) * 2)` when above zero, and the loops in `rain.silences` (the birds, the crickets) go to 0.
 Loops at 0 are left out. The client sets these as the targets of its loops every frame.
+
+## Music
+
+A **piece** (`schemas/music.schema.json`, `data/base/audio/music/<name>.json`, ID `base:audio/music/<name>`) is a loop of `bars` bars
+of 16 steps (four beats of four steps) at `tempo_bpm`, with a `volume_pm`, made of **tracks**. A track has a `layer` (`base`,
+`tension`, `combat` or `boss`), a `patch` (the instrument), a `volume_pm` and `bars`: one string of 16 space-separated steps per bar;
+a list shorter than the piece repeats. A step is a note (`C4`, `F#3`, `Bb2`: letter, sharps or flats, octave, A4 = 440 Hz), a chord of
+notes joined with `+`, `.` (a rest) or `-` (hold the previous note).
+
+A **patch** is `wave` (as for the sound effects), `attack_ms`, `decay_ms`, `sustain_pm`, `release_ms`, and optionally `duty_pm`,
+`detune_cents` (two oscillators, one that many cents above and one below, each at half volume: a chorus), `glide_pm` (over the held
+note the pitch goes to that share of itself: a drum) and `am_dhz` / `am_depth_pm` (a slow swell or a vibrato of loudness).
+
+### Rendering (normative)
+
+All arithmetic is in double precision at 22050 Hz. `step_samples = 22050 * 60 / (tempo_bpm * 4)` and the loop has
+`n = floor(bars * 16 * step_samples)` samples. For every track, the **notes** are found by reading its steps over the `bars` of the piece:
+a note starts on a step with a note or a chord, and lasts through the `-` steps that follow it without a gap; a rest ends it. A note
+that starts on step `s` and lasts `k` steps begins at sample `start = floor(s * step_samples)`, is **held** for
+`held = floor((s + k) * step_samples) - start` samples and then **released** for `floor(release_ms * 22050 / 1000)` more.
+
+Each pitch of a note (the notes of a chord are each rendered, at `volume / sqrt(number of notes)`) is rendered for `held + release`
+samples; sample `i` of it is `wave * level * modulation / oscillators`, with `t = i / 22050`, `ms = i * 1000 / 22050`:
+
+- The **phase** is `f * t` for a note without glide. With a glide, `g = glide_pm / 1000`, `T = held / 22050`: for `i <= held`
+  `f * T / ln g * (g^(i / held) - 1)`, and after it `f * T / ln g * (g - 1) + f * g * (t - T)`. Its fractional part gives the wave as for the
+  sound effects (`sine`, `square` with `duty_pm`, `saw`, `triangle`); `noise` renews its held value whenever the whole part of the phase
+  changes (and at the first sample). Its xorshift starts at `(2463534242 + 2654435761 * k) mod 2^32`, with `k` the position of the note in its
+  track (counting from 0), or 1 if that is 0.
+- The **level** is, with `held_ms = min(ms, held * 1000 / 22050)`, `a = max(1, attack_ms)`, `d = max(1, decay_ms)`, `s = sustain_pm / 1000`:
+  `held_ms / a` while `held_ms < a`; then `1 - (1 - s) * (held_ms - a) / d` while `held_ms < a + d`; then `s`. After the note is released
+  (`i >= held`) the level is multiplied by `max(0, 1 - (ms - held_ms_end) / r)`, with `held_ms_end = held * 1000 / 22050` and `r = max(1, release_ms)`.
+- The **modulation** is `1 - depth * (0.5 - 0.5 cos(2 pi * (am_dhz / 10) * t))` (1 without `am_depth_pm`).
+- With `detune_cents` there are two oscillators, at `f * 2^(c / 1200)` and `f * 2^(-c / 1200)` (each noise with the same seed); without, one.
+
+The samples of a note are **added** to the layer's buffer at `(start + i) mod n`: the release of the last notes wraps around to the start, so
+the loop is seamless. The result of a layer is `floor(clamp(sum * volume_pm / 1000, -1, 1) * 32767 + 0.5)` (`volume_pm` of the piece). The renderer
+returns one buffer per layer, all of the same length. Clients compare with a tolerance of 3 in the 16 bit value and 1 percent in loudness
+(conformance suite `music`).
+
+### Layers
+
+`base` always plays. `tension` is the weight of being hurt, `combat` the drums and pulse of a fight, `boss` the extra weight against the
+big ones. The game mixes the layers of the piece that is playing, each with a gain that fades in and out over a second and a half.
+
+### The music director (normative)
+
+The **music director** says, every frame, which piece plays and which layers are on. It is tested with the conformance suite
+`music_director`. Its input is a **context**: `frame`, `screen` (`title`, `game` or `dead`), `region`, `tod_pm`, `place` (`wild`, `settlement` or
+`dungeon`), `quests` (the IDs of the quests under way), `low_hp` (health under a quarter), the creature `cues` of the frame (as for the sound director)
+and the position of the player. Its rules are `data/base/audio/music_rules.json` (schema `music_rules`).
+
+- **Layers**: `base`; `tension` when `low_hp`; `combat` while a fight is on; `boss` while a boss fight is on (which also turns `combat` on). A fight starts
+  with a cue of kind `hit` or `hurt`, or any cue within 10 tiles, and lasts 420 frames from the last such cue. A boss fight is the same with a cue (other
+  than `die`) of the family `king`, `matron`, `alpha` or `knight`, and lasts 600 frames.
+- **Piece**, the first rule that fits: the `title` piece on the title screen; the `dead` piece when `screen` is `dead`; the piece of the first quest in
+  the rules' `quests` list that is under way (not in a dungeon); the piece of the `place` in `places` (its `night` piece from 751 to 249 of the time of
+  day, when it has one); else the piece of the region in `regions` (`default_region` if unknown), `day` from 250 to 750 and `night` otherwise.
+
+### Playing it
+
+When the wanted piece changes, a client renders the new one **in the background** (a piece is a few seconds of work), keeps playing the old one
+meanwhile, and then crossfades to the new one over two and a half seconds; the old one is dropped when silent. The music is mixed at half of the
+loudness of the effects. The title screen and the protagonist screen play the `title` piece with no ambience. Muting silences the music too.
+
+The base pack has 33 pieces, composed by `tools/compose.py` (a mood, a mode, a key, a progression and instruments for each place, with a night
+version of every region, a piece for the towns, the dungeons, the title and the end, one for each personal quest of the protagonists and four for
+kinds of quests). `tools/audio_wav.py` writes a sound or a piece to a WAV file to listen to it.

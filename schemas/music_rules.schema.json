@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aethermoor.invalid/schemas/music_rules.schema.json",
+  "title": "Which piece plays where, when and during which quest",
+  "type": "object",
+  "required": ["id", "title", "dead", "default_region", "quests", "places", "regions"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:audio/[a-z0-9_]+$" },
+    "title": { "type": "string" },
+    "dead": { "type": "string" },
+    "default_region": { "type": "string" },
+    "quests": {
+      "type": "array",
+      "description": "the first active quest listed wins",
+      "items": {
+        "type": "object",
+        "required": ["quest", "piece"],
+        "additionalProperties": false,
+        "properties": { "quest": { "type": "string" }, "piece": { "type": "string" } }
+      }
+    },
+    "places": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["day"],
+        "additionalProperties": false,
+        "properties": { "day": { "type": "string" }, "night": { "type": "string" } }
+      }
+    },
+    "regions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["day", "night"],
+        "additionalProperties": false,
+        "properties": { "day": { "type": "string" }, "night": { "type": "string" } }
+      }
+    }
+  }
+}

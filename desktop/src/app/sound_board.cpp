@@ -1,6 +1,7 @@
 #include "app/sound_board.hpp"
 
 #include <algorithm>
+#include <chrono>
 
 #include "audio/synth.hpp"
 
@@ -9,7 +10,9 @@ namespace aether {
 namespace {
 constexpr int kChunk = 512;          // samples mixed per step
 constexpr int kTargetQueued = 2048;  // samples we try to keep queued (about 90 ms)
-constexpr float kFadeStep = 1.0F / (1.5F * static_cast<float>(kSampleRate));  // a loop fades in or out in 1.5 s
+constexpr float kFadeStep = 1.0F / (1.5F * static_cast<float>(kSampleRate));       // a loop fades in or out in 1.5 s
+constexpr float kMusicFadeStep = 1.0F / (2.5F * static_cast<float>(kSampleRate));  // a piece takes over in 2.5 s
+constexpr float kMusicBus = 0.5F;  // the music is quieter than the effects
 }  // namespace
 
 SoundBoard::~SoundBoard() {
@@ -29,6 +32,10 @@ bool SoundBoard::open(const Pack& pack) {
         return false;
     }
     m_table_ = std::move(*table);
+    m_pack_ = &pack;
+    if (const auto rules_text = pack.read_document("base:audio/music_rules")) {
+        m_music_rules_ = parse_music_rules(*rules_text, error);
+    }
     for (const std::string& name : m_table_.all_sounds()) {
         const auto sound = pack.read_document("base:audio/sfx/" + name);
         if (!sound) {
@@ -61,6 +68,10 @@ void SoundBoard::set_muted(bool muted) {
         for (auto& [name, loop] : m_loops_) {
             loop.target = 0.0F;
         }
+        for (MusicLoop& music : m_music_) {
+            music.target = 0.0F;
+        }
+        m_music_wanted_.clear();
     }
 }
 
@@ -115,7 +126,66 @@ void SoundBoard::set_ambience(const std::map<std::string, int>& gains) {
     }
 }
 
+void SoundBoard::set_music(const std::string& piece, const std::vector<std::string>& layers) {
+    m_music_layers_ = layers;
+    if (m_stream_ == nullptr || m_pack_ == nullptr) {
+        return;
+    }
+    if (m_muted_) {
+        m_music_wanted_.clear();
+        for (MusicLoop& loop : m_music_) {
+            loop.target = 0.0F;
+        }
+        return;
+    }
+    if (piece == m_music_wanted_ || piece.empty()) {
+        return;
+    }
+    m_music_wanted_ = piece;
+}
+
+void SoundBoard::update_music() {
+    // A finished render becomes the newest piece; the others fade out.
+    if (m_music_job_.valid() && m_music_job_.wait_for(std::chrono::seconds(0)) == std::future_status::ready) {
+        const std::shared_ptr<Layers> layers = m_music_job_.get();
+        if (layers && !layers->empty()) {
+            for (MusicLoop& loop : m_music_) {
+                loop.target = 0.0F;
+            }
+            MusicLoop loop;
+            loop.piece = m_music_rendering_;
+            loop.layers = layers;
+            m_music_.push_back(std::move(loop));
+        }
+        m_music_rendering_.clear();
+    }
+    // Start rendering the piece that is wanted, when it is not the one being heard or rendered.
+    const std::string newest = m_music_.empty() ? std::string() : m_music_.back().piece;
+    if (!m_music_wanted_.empty() && m_music_wanted_ != newest && m_music_wanted_ != m_music_rendering_ &&
+        !m_music_job_.valid()) {
+        const auto text = m_pack_->read_document("base:audio/music/" + m_music_wanted_);
+        if (text) {
+            m_music_rendering_ = m_music_wanted_;
+            m_music_job_ = std::async(std::launch::async, [json = *text]() -> std::shared_ptr<Layers> {
+                std::string error;
+                const auto piece = parse_music(json, error);
+                if (!piece) {
+                    return nullptr;
+                }
+                return std::make_shared<Layers>(render_music(*piece));
+            });
+        } else {
+            m_music_wanted_.clear();
+        }
+    }
+    // The old pieces are gone when they are silent.
+    m_music_.erase(std::remove_if(m_music_.begin(), m_music_.end(),
+                                  [](const MusicLoop& l) { return l.target == 0.0F && l.gain <= 0.0F; }),
+                   m_music_.end());
+}
+
 void SoundBoard::frame() {
+    update_music();
     for (auto& [event, frames] : m_cooldown_) {
         frames = std::max(0, frames - 1);
     }
@@ -146,6 +216,21 @@ void SoundBoard::pump() {
                 loop.gain += std::clamp(loop.target - loop.gain, -kFadeStep, kFadeStep);
                 sum += static_cast<float>((*loop.samples)[loop.position]) * loop.gain;
                 loop.position = (loop.position + 1) % loop.samples->size();
+            }
+            for (MusicLoop& music : m_music_) {
+                music.gain += std::clamp(music.target - music.gain, -kMusicFadeStep, kMusicFadeStep);
+                for (const auto& [layer, samples] : *music.layers) {
+                    float& layer_gain = music.layer_gain[layer];
+                    const bool on =
+                        &music == &m_music_.back() &&
+                        std::find(m_music_layers_.begin(), m_music_layers_.end(), layer) != m_music_layers_.end();
+                    layer_gain += std::clamp((on ? 1.0F : 0.0F) - layer_gain, -kFadeStep, kFadeStep);
+                    if (layer_gain > 0.0F && music.gain > 0.0F) {
+                        sum += static_cast<float>(samples[music.position % samples.size()]) * music.gain * layer_gain *
+                               kMusicBus;
+                    }
+                }
+                ++music.position;
             }
             chunk[i] = static_cast<std::int16_t>(std::clamp(sum, -32767.0F, 32767.0F));
         }
