@@ -82,6 +82,8 @@ LEGEND = {
     "*": {"prop": "base:art/prop/tent", "radius_x100": 60},
     "+": {"prop": "base:art/prop/signpost", "radius_x100": 15},
     "~": {"prop": "base:art/prop/crate", "radius_x100": 30},
+    ")": {"tile": 14, "prop": "base:art/prop/stall", "radius_x100": 45},
+    "(": {"prop": "base:art/prop/haybale", "radius_x100": 30},
     "^": {"prop": "base:art/prop/statue", "radius_x100": 35},
     "@": {"prop": "base:art/prop/banner", "radius_x100": 15},
     "!": {"prop": "base:art/prop/bush", "radius_x100": 30},
@@ -250,6 +252,8 @@ def hamlet_c() -> dict:
     c.hline(3, 7, 7, "c")
     c.put(5, 7, "w")
     c.put(7, 7, "T")
+    c.put(1, 7, "(")
+    c.put(9, 8, "(")
     for x, y in ((1, 9), (9, 9), (1, 6), (9, 5)):
         c.put(x, y, "t")
     return stamp("base:stamp/hamlet_c", c, (5, 7), [(4, 7), (6, 7)])
@@ -301,6 +305,8 @@ def town_b() -> dict:
         c.put(x, y, "l")
     c.put(17, 14, "E")
     c.put(20, 10, "T")
+    for x, y in ((14, 12), (20, 12), (14, 16), (20, 16)):
+        c.put(x, y, ")")
     c.house(3, 3, 10, 6, {(1, 1): "b", (2, 1): "b", (7, 3): "G"}, door=5)
     c.house(22, 3, 9, 6, {(1, 1): "b", (2, 1): "b", (6, 3): "S"}, door=4)
     c.house(3, 18, 10, 6, {(1, 1): "b", (7, 3): "I"}, door=5)
@@ -358,6 +364,8 @@ def town_c() -> dict:
     c.house(26, 9, 9, 6, {(1, 1): "b", (6, 3): "I"}, door=4)
     c.house(3, 19, 7, 4, {(3, 1): "V"}, door=3)
     c.house(27, 19, 7, 4, {(3, 1): "V"}, door=3)
+    for x, y in ((16, 16), (20, 16)):
+        c.put(x, y, ")")
     for x, y in ((0, 0), (36, 0), (0, 24), (36, 24), (13, 11), (23, 11)):
         c.put(x, y, "t")
     return stamp("base:stamp/town_c", c, (18, 16), [(16, 14), (17, 14), (19, 14), (16, 18), (20, 18), (18, 18)])

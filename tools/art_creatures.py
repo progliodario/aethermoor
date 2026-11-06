@@ -6,9 +6,9 @@ The palettes and the variants of every file stay as they are: only layers are ap
 from __future__ import annotations
 
 import json
-import random
 
 from art_creature_looks import KNIGHTS, NECKLACE, SLIMES, WOLVES, necklace
+from art_single_looks import SINGLE_LOOKS
 from artkit import ART, Recipe, transform_layers
 
 DIR = ART / "creatures"
@@ -105,33 +105,6 @@ def knight_overlay(name: str) -> list[dict]:
     return r.layers
 
 
-def gloss(layers: list[dict], palette: dict, name: str) -> list[dict]:
-    """Generic detail for the single creatures: a highlight and a shade on the biggest shape, a glint in every eye."""
-    r = Recipe("x", 1, 1, seed=name)
-    best, best_area = None, 0.0
-    for layer in layers:
-        shape = layer["shape"]
-        fill = layer.get("fill", {})
-        if "ellipse" in shape and fill.get("color", "") != "#000000" and "linear" not in fill:
-            cx, cy, rx, ry = shape["ellipse"]
-            if rx * ry > best_area and "radial" in fill:
-                best, best_area = (cx, cy, rx, ry), rx * ry
-    if best:
-        cx, cy, rx, ry = best
-        r.ellipse(cx - rx * 0.28, cy - ry * 0.45, rx * 0.34, ry * 0.2, "#FFFFFF", alpha=0.3)
-        r.ellipse(cx + rx * 0.2, cy + ry * 0.55, rx * 0.7, ry * 0.28, "#000000", alpha=0.12)
-        rng = random.Random(name)
-        for _ in range(4):
-            a = rng.uniform(0, 6.28)
-            px, py = cx + rx * 0.5 * rng.uniform(-1, 1), cy + ry * 0.5 * rng.uniform(-1, 1)
-            r.line(px, py, px + 1.6 * (1 if a < 3.14 else -1), py + 1.2, "$p.dark", width=0.6, alpha=0.4)
-    for layer in layers:
-        if layer.get("fill", {}).get("color") == "$p.eye" and "ellipse" in layer["shape"]:
-            ex, ey, erx, ery = layer["shape"]["ellipse"]
-            r.ellipse(ex - erx * 0.3, ey - ery * 0.35, erx * 0.3, ery * 0.3, "#FFFFFF", alpha=0.85)
-    return r.layers
-
-
 def _crowned(layers: list[dict]) -> bool:
     return len(layers) > 5 and layers[5].get("fill", {}).get("color") == "#F2C94C"
 
@@ -170,7 +143,7 @@ def main() -> None:
             extra = knight_overlay(name) + _features(KNIGHTS[name])
         elif name in SINGLES:
             layers = layers[: SINGLES[name]]
-            extra = gloss(layers, d["palette"], name)
+            extra = _features(SINGLE_LOOKS[name])
         if extra is None:
             continue
         d["layers"] = layers + extra

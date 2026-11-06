@@ -344,5 +344,37 @@ def threshold_stone() -> Recipe:
     return r
 
 
+def stall() -> Recipe:
+    r = prop("stall", 40, 34, (20, 30), {"wood": "#9A6A38", "cloth": "#C9302C", "cloth2": "#F4EFE0", "outline": "#2E1C0A"})
+    r.shadow(21, 31, 17, 3, 0.28)
+    r.rect(4, 17, 32, 11, linear(0, 17, 0, 28, (0, "#B88650"), (1, "#7A4F2A")), stroke="$p.outline", width=1.3)
+    r.rect(4, 17, 32, 2.4, "#D8A468", alpha=0.7)
+    for fx, color in ((9, "#E85A3A"), (14, "#F2C94C"), (19, "#7AC24A"), (25, "#E85A3A"), (30, "#B8553A")):
+        r.ellipse(fx, 20, 2.3, 1.7, color, stroke="#3A2010", width=0.5)
+    for px in (5, 34):
+        r.rect(px, 6, 2, 22, "$p.wood", stroke="$p.outline", width=1.0)
+    r.path("M 2 4 L 38 4 L 40 14 L 0 14 Z", "$p.cloth", stroke="$p.outline", width=1.3)
+    for k in range(5):
+        x0 = 2 + k * 7.2
+        r.poly([(x0, 4), (x0 + 3.6, 4), (x0 + 3.2 + 0.4 * k * 0, 14), (x0 - 0.4, 14)], "$p.cloth2", alpha=0.95)
+    r.path("M 0 14 Q 3.3 17.5 6.6 14 Q 10 17.5 13.4 14 Q 16.8 17.5 20 14 Q 23.2 17.5 26.6 14 Q 30 17.5 33.4 14 Q 36.8 17.5 40 14", None, stroke="$p.outline", width=1.0)
+    r.rect(2, 4, 36, 1.8, "#FFFFFF", alpha=0.25)
+    return r
+
+
+def haybale() -> Recipe:
+    r = prop("haybale", 30, 24, (15, 21), {"hay": "#E0C060", "dark": "#A8862A", "light": "#F4DC8A", "outline": "#4A3410"})
+    r.shadow(16, 22, 13, 2.6, 0.28)
+    r.rect(3, 6, 24, 15, linear(0, 6, 0, 21, (0, "$p.light"), (0.45, "$p.hay"), (1, "$p.dark")), stroke="$p.outline", width=1.3)
+    for y in (10, 14, 18):
+        r.path(f"M 4 {y} Q 15 {y + 1.2} 26 {y}", None, stroke="$p.dark", width=0.6, alpha=0.7)
+    for x in (9.5, 20.5):
+        r.rect(x, 6, 1.6, 15, "#7A5A2A", alpha=0.85)
+    for x, y, a in ((6, 8, 0.8), (13, 12, -0.6), (22, 9, 0.6), (17, 17, -0.8), (8, 18, 0.5)):
+        r.line(x, y, x + 3 * a, y - 1.2, "$p.light", width=0.6, alpha=0.9)
+    r.path("M 3 6 Q 15 2 27 6", None, stroke="$p.light", width=1.0, alpha=0.6)
+    return r
+
+
 def build_props() -> list[Recipe]:
-    return [tree_oak(), pine(), dead_tree(), bush(), rock(), cactus(), campfire(), crate(), barrel(), bones(), lamp(), signpost(), statue(), tent(), banner(), well(), threshold_stone()]
+    return [tree_oak(), pine(), dead_tree(), bush(), rock(), cactus(), campfire(), crate(), barrel(), bones(), lamp(), signpost(), statue(), tent(), banner(), well(), threshold_stone(), stall(), haybale()]
