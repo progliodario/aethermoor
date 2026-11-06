@@ -29,6 +29,7 @@
 #include "sim/combat_loader.hpp"
 #include "sim/chunk_store.hpp"
 #include "app/sound_board.hpp"
+#include "audio/director.hpp"
 #include "data/world_data.hpp"
 #include "sim/save.hpp"
 #include "sim/world_map.hpp"
@@ -48,9 +49,10 @@ constexpr float kBaseTilePx = 48.0F;
 constexpr const char* kProtagonistId = "base:protagonist/ren";
 // Who is played in this run (spec 18), chosen for a new game and kept in the folder of the slot.
 std::string g_protagonist_id = kProtagonistId;
-aether::SoundBoard g_sound;  // the sound effects (spec 14); silent in the smoke tests
-std::string g_art_variant;   // palette variant of the player's art
-bool g_has_analyze = true;   // the protagonist has Ren's Analyze
+aether::SoundBoard g_sound;              // the sounds (spec 14); silent in the smoke tests
+aether::SoundDirector g_sound_director;  // decides what to play from what happens
+std::string g_art_variant;               // palette variant of the player's art
+bool g_has_analyze = true;               // the protagonist has Ren's Analyze
 constexpr const char* kMapPath = "maps/demo.tmj";
 constexpr int kFloatingTextFrames = 50;
 constexpr double kAutosaveSeconds = 30.0;
@@ -146,18 +148,6 @@ std::vector<std::string> wrap_text(const std::string& text, std::size_t width) {
     }
     return lines;
 }
-
-// What the sounds were last frame, to hear what changed (see the sound block of the main loop).
-struct SoundWatch {
-    bool valid = false;
-    bool attacking = false;
-    int dodge_ticks = 0;
-    std::int64_t level = 0;
-    std::int64_t items = 0;
-    std::int64_t gold = 0;
-    bool panel = false;
-    std::int64_t hp = 0;
-};
 
 struct FloatingText {
     float x = 0.0F;  // world position in tiles
@@ -2694,8 +2684,7 @@ int main(int argc, char** argv) {
     }
     g_map_name = map_choice;
     if (!smoke_test) {
-        g_sound.open(assets.pack, {"swing", "hit", "crit", "hurt", "dodge", "level_up", "pickup", "coin", "open",
-                                   "close", "confirm", "power", "death", "enemy_die"});
+        g_sound.open(assets.pack);
     }
 
     const std::string title(aether::game_name());
@@ -3143,49 +3132,72 @@ int main(int argc, char** argv) {
                 for (const aether::DamageEvent& e : sim.take_events()) {
                     floating.push_back({e.position.x, e.position.y, 0, std::to_string(e.amount) + (e.weak ? "!" : ""),
                                         e.on_player, e.crit});
-                    g_sound.play(e.on_player ? "hurt" : (e.crit ? "crit" : "hit"));
                 }
-                {  // the sounds that follow from what changed: an attack, a roll, a level, something in the bag...
-                    static SoundWatch watch;
+                {  // the sounds: a snapshot of the game for the director (spec 14, "What plays when")
+                    static std::int64_t sound_frame = 0;
+                    static std::int64_t dialogue_lines = 0;
+                    static std::string last_line;
                     const aether::Player& hero = sim.player();
-                    std::int64_t items = 0;
+                    aether::SoundSnapshot snap;
+                    snap.frame = ++sound_frame;
+                    snap.player.hp = hero.hp;
+                    snap.player.max_hp = sim.derived().max_hp;
+                    snap.player.level = hero.level;
+                    snap.player.phase = hero.phase == aether::AttackPhase::None ? 0 : 1;
+                    snap.player.strike = hero.using_strike;
+                    snap.player.dodge = hero.dodge_ticks > 0;
+                    snap.player.moving = hero.moving;
+                    snap.player.x = static_cast<double>(hero.position.x);
+                    snap.player.y = static_cast<double>(hero.position.y);
+                    const auto ground = assets.tileset.tiles.find(sim.gid_at(
+                        static_cast<int>(std::floor(hero.position.x)), static_cast<int>(std::floor(hero.position.y))));
+                    snap.player.surface = ground != assets.tileset.tiles.end() ? ground->second.surface : "grass";
+                    snap.player.save_cd = hero.death_save_cd;
+                    for (const aether::SimCue& cue : sim.take_cues()) {
+                        snap.cues.push_back({cue.kind, cue.family, static_cast<double>(cue.position.x),
+                                             static_cast<double>(cue.position.y), cue.crit, cue.weak});
+                    }
                     for (const auto& entry : sim.inventory()) {
-                        items += entry.second;
+                        snap.items += entry.second;
                     }
-                    const std::int64_t gold = static_cast<std::int64_t>(sim.story().gold());
-                    const bool panel = ui.show_inventory || ui.show_map || ui.show_journal;
-                    if (watch.valid) {
-                        if (hero.phase != aether::AttackPhase::None && !watch.attacking) {
-                            g_sound.play(hero.using_strike ? "power" : "swing");
-                        }
-                        if (hero.dodge_ticks > 0 && watch.dodge_ticks == 0) {
-                            g_sound.play("dodge");
-                        }
-                        if (hero.level > watch.level) {
-                            g_sound.play("level_up");
-                        }
-                        if (items > watch.items) {
-                            g_sound.play("pickup");
-                        }
-                        if (gold > watch.gold) {
-                            g_sound.play("coin");
-                        }
-                        if (panel != watch.panel) {
-                            g_sound.play(panel ? "open" : "close");
-                        }
-                        if (hero.hp <= 0 && watch.hp > 0) {
-                            g_sound.play("death");
-                        }
+                    snap.gold = static_cast<std::int64_t>(sim.story().gold());
+                    snap.mp = hero.mp_u;
+                    snap.weapon = sim.equipped_weapon();
+                    snap.armor = sim.equipped_armor();
+                    snap.panels.bag = ui.show_inventory;
+                    snap.panels.map = ui.show_map;
+                    snap.panels.journal = ui.show_journal;
+                    snap.panels.shop = sim.shop() != nullptr;
+                    snap.panels.board = sim.board() != nullptr;
+                    snap.panels.travel = sim.travel() != nullptr;
+                    const aether::DialogueView talk = sim.story().dialogue_view();
+                    snap.dialogue = talk.active;
+                    if (talk.active && !talk.is_choice && talk.text != last_line) {
+                        ++dialogue_lines;
                     }
-                    watch = {true,
-                             hero.phase != aether::AttackPhase::None,
-                             hero.dodge_ticks,
-                             hero.level,
-                             items,
-                             gold,
-                             panel,
-                             hero.hp};
-                    g_sound.pump();
+                    last_line = talk.active ? talk.text : std::string();
+                    snap.line = dialogue_lines;
+                    snap.cursor = ui.bag_cursor + ui.shop_cursor + ui.board_cursor + ui.travel_cursor + ui.choice_index;
+                    for (const auto& quest : sim.story().quests()) {
+                        ++snap.quests_started;
+                        snap.quests_done += quest.second.done ? 1 : 0;
+                    }
+                    snap.stones = static_cast<std::int64_t>(sim.stones().size());
+                    snap.region = ui.last_region >= 0 && sim.chunks() != nullptr
+                                      ? sim.chunks()->params().regions[static_cast<std::size_t>(ui.last_region)].id
+                                      : std::string();
+                    if (const auto moment = sim.time()) {
+                        snap.tod_pm = moment->tod_pm;
+                        snap.rain_pm = moment->rain_pm;
+                    } else {
+                        snap.tod_pm = 500;
+                    }
+                    for (const aether::SoundEvent& event : g_sound_director.update(snap)) {
+                        g_sound.play_event(event.event, event.volume_pm);
+                    }
+                    g_sound.set_ambience(
+                        aether::ambience_gains(snap.region, snap.tod_pm, snap.rain_pm, g_sound.ambience_rules()));
+                    g_sound.frame();
                 }
                 for (FloatingText& f : floating) {
                     ++f.age;

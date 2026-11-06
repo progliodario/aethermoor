@@ -1,0 +1,28 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/use_mana",
+  "duration_ms": 560,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "sine",
+      "freq_start": 1200,
+      "freq_end": 2000,
+      "volume_pm": 350,
+      "attack_ms": 20,
+      "decay_ms": 500,
+      "am_dhz": 90,
+      "am_depth_pm": 700
+    },
+    {
+      "wave": "sine",
+      "freq_start": 1800,
+      "freq_end": 2600,
+      "volume_pm": 200,
+      "attack_ms": 60,
+      "decay_ms": 480,
+      "am_dhz": 130,
+      "am_depth_pm": 700
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/matron_attack",
+  "duration_ms": 260,
+  "volume_pm": 700,
+  "layers": [
+    {
+      "wave": "sine",
+      "freq_start": 160,
+      "freq_end": 60,
+      "volume_pm": 750,
+      "attack_ms": 5,
+      "decay_ms": 240
+    },
+    {
+      "wave": "noise",
+      "freq_start": 900,
+      "freq_end": 250,
+      "volume_pm": 350,
+      "attack_ms": 0,
+      "decay_ms": 160
+    }
+  ]
+}

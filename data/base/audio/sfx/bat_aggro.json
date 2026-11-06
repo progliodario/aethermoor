@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/bat_aggro",
+  "duration_ms": 200,
+  "volume_pm": 450,
+  "layers": [
+    {
+      "wave": "sine",
+      "freq_start": 3500,
+      "freq_end": 4800,
+      "volume_pm": 500,
+      "attack_ms": 5,
+      "decay_ms": 170,
+      "am_dhz": 180,
+      "am_depth_pm": 600
+    }
+  ]
+}

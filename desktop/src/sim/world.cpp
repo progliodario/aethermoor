@@ -529,6 +529,8 @@ bool WorldSim::use_item(const std::string& item_id) {
 
 std::vector<DamageEvent> WorldSim::take_events() { return std::exchange(m_events_, {}); }
 
+std::vector<SimCue> WorldSim::take_cues() { return std::exchange(m_cues_, {}); }
+
 void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool strike) {
     Player& p = m_player_;
     const bool combat = m_setup_.enabled;
@@ -700,9 +702,11 @@ void WorldSim::do_hits() {
         enemy.hp -= amount;
         enemy.hit_flash = kHitFlashTicks;
         m_events_.push_back({enemy.position, amount, crit, false, in.elem_mult_pm > 1000});
+        m_cues_.push_back({"hit", enemy.def.sound, enemy.position, crit, in.elem_mult_pm > 1000});
         if (enemy.hp <= 0) {
             enemy.hp = 0;
             enemy.state = EnemyState::Dead;
+            m_cues_.push_back({"die", enemy.def.sound, enemy.position});
             on_kill(enemy);
         }
     }
@@ -765,6 +769,7 @@ void WorldSim::update_enemy(Enemy& enemy) {
             if (dist <= static_cast<float>(b.aggro_x100 * m_setup_.gift.aggro_pct / 100) / 100.0F) {
                 enemy.state = EnemyState::Chase;
                 enemy.state_tick = 0;
+                m_cues_.push_back({"aggro", enemy.def.sound, enemy.position});
             }
             break;
         case EnemyState::Chase:
@@ -773,6 +778,7 @@ void WorldSim::update_enemy(Enemy& enemy) {
             } else if (dist <= static_cast<float>(b.attack_range_x100) / 100.0F) {
                 enemy.state = EnemyState::Attack;
                 enemy.state_tick = 0;
+                m_cues_.push_back({"attack", enemy.def.sound, enemy.position});
             } else {
                 move_enemy(enemy, p.position.x, p.position.y);
             }
@@ -831,6 +837,7 @@ void WorldSim::hurt_player(const Enemy& enemy) {
     p.hp -= amount;
     p.iframes = kPlayerHitIframes;
     m_events_.push_back({p.position, amount, false, true});
+    m_cues_.push_back({"hurt", enemy.def.sound, p.position});
     if (p.hp <= 0 && m_setup_.gift.death_save_ticks > 0 && p.death_save_cd == 0) {  // the death save (spec 18)
         p.hp = 1;
         p.death_save_cd = m_setup_.gift.death_save_ticks;

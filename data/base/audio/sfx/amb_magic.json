@@ -1,0 +1,39 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/amb_magic",
+  "duration_ms": 8000,
+  "volume_pm": 400,
+  "loop": true,
+  "layers": [
+    {
+      "wave": "sine",
+      "freq_start": 330,
+      "freq_end": 330,
+      "volume_pm": 400,
+      "attack_ms": 0,
+      "decay_ms": 1,
+      "am_dhz": 25,
+      "am_depth_pm": 600
+    },
+    {
+      "wave": "sine",
+      "freq_start": 495,
+      "freq_end": 495,
+      "volume_pm": 300,
+      "attack_ms": 0,
+      "decay_ms": 1,
+      "am_dhz": 15,
+      "am_depth_pm": 700
+    },
+    {
+      "wave": "sine",
+      "freq_start": 660,
+      "freq_end": 660,
+      "volume_pm": 200,
+      "attack_ms": 0,
+      "decay_ms": 1,
+      "am_dhz": 35,
+      "am_depth_pm": 700
+    }
+  ]
+}

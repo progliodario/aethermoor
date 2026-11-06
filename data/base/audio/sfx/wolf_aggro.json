@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/wolf_aggro",
+  "duration_ms": 420,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "saw",
+      "freq_start": 110,
+      "freq_end": 85,
+      "volume_pm": 600,
+      "attack_ms": 60,
+      "decay_ms": 360,
+      "am_dhz": 70,
+      "am_depth_pm": 500
+    },
+    {
+      "wave": "noise",
+      "freq_start": 400,
+      "freq_end": 300,
+      "volume_pm": 160,
+      "attack_ms": 50,
+      "decay_ms": 330
+    }
+  ]
+}

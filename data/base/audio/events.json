@@ -1,0 +1,821 @@
+{
+  "$schema": "../../../schemas/audio_events.schema.json",
+  "id": "base:audio/events",
+  "events": {
+    "swing": {
+      "sounds": [
+        "swing_a",
+        "swing_b",
+        "swing_c"
+      ],
+      "volume_pm": 900,
+      "cooldown": 6
+    },
+    "power": {
+      "sounds": [
+        "power"
+      ],
+      "volume_pm": 1000
+    },
+    "dodge": {
+      "sounds": [
+        "dodge"
+      ],
+      "volume_pm": 900
+    },
+    "player.hurt": {
+      "sounds": [
+        "hurt_a",
+        "hurt_b",
+        "hurt_c"
+      ],
+      "volume_pm": 1000,
+      "cooldown": 8
+    },
+    "player.death": {
+      "sounds": [
+        "death"
+      ],
+      "volume_pm": 1000
+    },
+    "crit": {
+      "sounds": [
+        "crit"
+      ],
+      "volume_pm": 900
+    },
+    "weak": {
+      "sounds": [
+        "weak"
+      ],
+      "volume_pm": 800
+    },
+    "level_up": {
+      "sounds": [
+        "level_up"
+      ],
+      "volume_pm": 1000
+    },
+    "heartbeat": {
+      "sounds": [
+        "heartbeat"
+      ],
+      "volume_pm": 800
+    },
+    "death_save": {
+      "sounds": [
+        "death_save"
+      ],
+      "volume_pm": 1000
+    },
+    "pickup": {
+      "sounds": [
+        "pickup"
+      ],
+      "volume_pm": 900
+    },
+    "coin": {
+      "sounds": [
+        "coin"
+      ],
+      "volume_pm": 900
+    },
+    "shop.buy": {
+      "sounds": [
+        "buy"
+      ],
+      "volume_pm": 900
+    },
+    "shop.sell": {
+      "sounds": [
+        "sell"
+      ],
+      "volume_pm": 900
+    },
+    "equip.weapon": {
+      "sounds": [
+        "equip_weapon"
+      ],
+      "volume_pm": 900
+    },
+    "equip.armor": {
+      "sounds": [
+        "equip_armor"
+      ],
+      "volume_pm": 900
+    },
+    "use.heal": {
+      "sounds": [
+        "use_heal"
+      ],
+      "volume_pm": 900
+    },
+    "use.mana": {
+      "sounds": [
+        "use_mana"
+      ],
+      "volume_pm": 900
+    },
+    "use.other": {
+      "sounds": [
+        "use_other"
+      ],
+      "volume_pm": 800
+    },
+    "ui.move": {
+      "sounds": [
+        "ui_move"
+      ],
+      "volume_pm": 700,
+      "cooldown": 2
+    },
+    "dialogue.open": {
+      "sounds": [
+        "dialogue_open"
+      ],
+      "volume_pm": 800
+    },
+    "dialogue.close": {
+      "sounds": [
+        "dialogue_close"
+      ],
+      "volume_pm": 800
+    },
+    "dialogue.next": {
+      "sounds": [
+        "dialogue_next_a",
+        "dialogue_next_b",
+        "dialogue_next_c"
+      ],
+      "volume_pm": 700
+    },
+    "quest.accept": {
+      "sounds": [
+        "quest_accept"
+      ],
+      "volume_pm": 1000
+    },
+    "quest.complete": {
+      "sounds": [
+        "quest_complete"
+      ],
+      "volume_pm": 1000
+    },
+    "stone.wake": {
+      "sounds": [
+        "stone_wake"
+      ],
+      "volume_pm": 1000
+    },
+    "region.enter": {
+      "sounds": [
+        "region_enter"
+      ],
+      "volume_pm": 700
+    },
+    "rain.start": {
+      "sounds": [
+        "rain_start"
+      ],
+      "volume_pm": 700
+    },
+    "rain.stop": {
+      "sounds": [
+        "rain_stop"
+      ],
+      "volume_pm": 700
+    },
+    "thunder": {
+      "sounds": [
+        "thunder_a",
+        "thunder_b"
+      ],
+      "volume_pm": 900
+    },
+    "dawn": {
+      "sounds": [
+        "dawn"
+      ],
+      "volume_pm": 700
+    },
+    "nightfall": {
+      "sounds": [
+        "nightfall"
+      ],
+      "volume_pm": 700
+    },
+    "step.grass": {
+      "sounds": [
+        "step_grass_a",
+        "step_grass_b",
+        "step_grass_c"
+      ],
+      "volume_pm": 700
+    },
+    "step.dirt": {
+      "sounds": [
+        "step_dirt_a",
+        "step_dirt_b",
+        "step_dirt_c"
+      ],
+      "volume_pm": 700
+    },
+    "step.sand": {
+      "sounds": [
+        "step_sand_a",
+        "step_sand_b",
+        "step_sand_c"
+      ],
+      "volume_pm": 700
+    },
+    "step.snow": {
+      "sounds": [
+        "step_snow_a",
+        "step_snow_b",
+        "step_snow_c"
+      ],
+      "volume_pm": 700
+    },
+    "step.stone": {
+      "sounds": [
+        "step_stone_a",
+        "step_stone_b",
+        "step_stone_c"
+      ],
+      "volume_pm": 700
+    },
+    "step.wood": {
+      "sounds": [
+        "step_wood_a",
+        "step_wood_b",
+        "step_wood_c"
+      ],
+      "volume_pm": 700
+    },
+    "step.water": {
+      "sounds": [
+        "step_water_a",
+        "step_water_b",
+        "step_water_c"
+      ],
+      "volume_pm": 700
+    },
+    "step.moss": {
+      "sounds": [
+        "step_moss_a",
+        "step_moss_b",
+        "step_moss_c"
+      ],
+      "volume_pm": 700
+    },
+    "step.ash": {
+      "sounds": [
+        "step_ash_a",
+        "step_ash_b",
+        "step_ash_c"
+      ],
+      "volume_pm": 700
+    },
+    "enemy.slime.aggro": {
+      "sounds": [
+        "slime_aggro"
+      ],
+      "volume_pm": 1000,
+      "cooldown": 20
+    },
+    "enemy.slime.attack": {
+      "sounds": [
+        "slime_attack"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.slime.hit": {
+      "sounds": [
+        "slime_hit"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.slime.die": {
+      "sounds": [
+        "slime_die"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.matron.aggro": {
+      "sounds": [
+        "matron_aggro"
+      ],
+      "volume_pm": 1000,
+      "cooldown": 20
+    },
+    "enemy.matron.attack": {
+      "sounds": [
+        "matron_attack"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.matron.hit": {
+      "sounds": [
+        "matron_hit"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.matron.die": {
+      "sounds": [
+        "matron_die"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.king.aggro": {
+      "sounds": [
+        "king_aggro"
+      ],
+      "volume_pm": 1000,
+      "cooldown": 20
+    },
+    "enemy.king.attack": {
+      "sounds": [
+        "king_attack"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.king.hit": {
+      "sounds": [
+        "king_hit"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.king.die": {
+      "sounds": [
+        "king_die"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.wolf.aggro": {
+      "sounds": [
+        "wolf_aggro"
+      ],
+      "volume_pm": 1000,
+      "cooldown": 20
+    },
+    "enemy.wolf.attack": {
+      "sounds": [
+        "wolf_attack"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.wolf.hit": {
+      "sounds": [
+        "wolf_hit"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.wolf.die": {
+      "sounds": [
+        "wolf_die"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.alpha.aggro": {
+      "sounds": [
+        "alpha_aggro"
+      ],
+      "volume_pm": 1000,
+      "cooldown": 20
+    },
+    "enemy.alpha.attack": {
+      "sounds": [
+        "alpha_attack"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.alpha.hit": {
+      "sounds": [
+        "alpha_hit"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.alpha.die": {
+      "sounds": [
+        "alpha_die"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.knight.aggro": {
+      "sounds": [
+        "knight_aggro"
+      ],
+      "volume_pm": 1000,
+      "cooldown": 20
+    },
+    "enemy.knight.attack": {
+      "sounds": [
+        "knight_attack"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.knight.hit": {
+      "sounds": [
+        "knight_hit"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.knight.die": {
+      "sounds": [
+        "knight_die"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.bat.aggro": {
+      "sounds": [
+        "bat_aggro"
+      ],
+      "volume_pm": 1000,
+      "cooldown": 20
+    },
+    "enemy.bat.attack": {
+      "sounds": [
+        "bat_attack"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.bat.hit": {
+      "sounds": [
+        "bat_hit"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.bat.die": {
+      "sounds": [
+        "bat_die"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.spider.aggro": {
+      "sounds": [
+        "spider_aggro"
+      ],
+      "volume_pm": 1000,
+      "cooldown": 20
+    },
+    "enemy.spider.attack": {
+      "sounds": [
+        "spider_attack"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.spider.hit": {
+      "sounds": [
+        "spider_hit"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.spider.die": {
+      "sounds": [
+        "spider_die"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.scorpion.aggro": {
+      "sounds": [
+        "scorpion_aggro"
+      ],
+      "volume_pm": 1000,
+      "cooldown": 20
+    },
+    "enemy.scorpion.attack": {
+      "sounds": [
+        "scorpion_attack"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.scorpion.hit": {
+      "sounds": [
+        "scorpion_hit"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.scorpion.die": {
+      "sounds": [
+        "scorpion_die"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.crab.aggro": {
+      "sounds": [
+        "crab_aggro"
+      ],
+      "volume_pm": 1000,
+      "cooldown": 20
+    },
+    "enemy.crab.attack": {
+      "sounds": [
+        "crab_attack"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.crab.hit": {
+      "sounds": [
+        "crab_hit"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.crab.die": {
+      "sounds": [
+        "crab_die"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.owl.aggro": {
+      "sounds": [
+        "owl_aggro"
+      ],
+      "volume_pm": 1000,
+      "cooldown": 20
+    },
+    "enemy.owl.attack": {
+      "sounds": [
+        "owl_attack"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.owl.hit": {
+      "sounds": [
+        "owl_hit"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.owl.die": {
+      "sounds": [
+        "owl_die"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.myconid.aggro": {
+      "sounds": [
+        "myconid_aggro"
+      ],
+      "volume_pm": 1000,
+      "cooldown": 20
+    },
+    "enemy.myconid.attack": {
+      "sounds": [
+        "myconid_attack"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.myconid.hit": {
+      "sounds": [
+        "myconid_hit"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.myconid.die": {
+      "sounds": [
+        "myconid_die"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.golem.aggro": {
+      "sounds": [
+        "golem_aggro"
+      ],
+      "volume_pm": 1000,
+      "cooldown": 20
+    },
+    "enemy.golem.attack": {
+      "sounds": [
+        "golem_attack"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.golem.hit": {
+      "sounds": [
+        "golem_hit"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.golem.die": {
+      "sounds": [
+        "golem_die"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.wisp.aggro": {
+      "sounds": [
+        "wisp_aggro"
+      ],
+      "volume_pm": 1000,
+      "cooldown": 20
+    },
+    "enemy.wisp.attack": {
+      "sounds": [
+        "wisp_attack"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.wisp.hit": {
+      "sounds": [
+        "wisp_hit"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.wisp.die": {
+      "sounds": [
+        "wisp_die"
+      ],
+      "volume_pm": 1000
+    },
+    "ui.open.bag": {
+      "sounds": [
+        "open_bag"
+      ],
+      "volume_pm": 800
+    },
+    "ui.close.bag": {
+      "sounds": [
+        "close_bag"
+      ],
+      "volume_pm": 800
+    },
+    "ui.open.map": {
+      "sounds": [
+        "open_map"
+      ],
+      "volume_pm": 800
+    },
+    "ui.close.map": {
+      "sounds": [
+        "close_map"
+      ],
+      "volume_pm": 800
+    },
+    "ui.open.journal": {
+      "sounds": [
+        "open_journal"
+      ],
+      "volume_pm": 800
+    },
+    "ui.close.journal": {
+      "sounds": [
+        "close_journal"
+      ],
+      "volume_pm": 800
+    },
+    "ui.open.shop": {
+      "sounds": [
+        "open_shop"
+      ],
+      "volume_pm": 800
+    },
+    "ui.close.shop": {
+      "sounds": [
+        "close_shop"
+      ],
+      "volume_pm": 800
+    },
+    "ui.open.board": {
+      "sounds": [
+        "open_board"
+      ],
+      "volume_pm": 800
+    },
+    "ui.close.board": {
+      "sounds": [
+        "close_board"
+      ],
+      "volume_pm": 800
+    },
+    "ui.open.travel": {
+      "sounds": [
+        "open_travel"
+      ],
+      "volume_pm": 800
+    },
+    "ui.close.travel": {
+      "sounds": [
+        "close_travel"
+      ],
+      "volume_pm": 800
+    }
+  },
+  "ambience": {
+    "rain": {
+      "light": "amb_rain_light",
+      "heavy": "amb_rain_heavy",
+      "silences": [
+        "amb_birds",
+        "amb_crickets"
+      ]
+    },
+    "regions": {
+      "verdalis": [
+        {
+          "sound": "amb_birds",
+          "when": "day",
+          "gain_pm": 600
+        },
+        {
+          "sound": "amb_leaves",
+          "gain_pm": 350
+        },
+        {
+          "sound": "amb_wind_soft",
+          "gain_pm": 300
+        },
+        {
+          "sound": "amb_crickets",
+          "when": "night",
+          "gain_pm": 500
+        }
+      ],
+      "whisperwood": [
+        {
+          "sound": "amb_leaves",
+          "gain_pm": 600
+        },
+        {
+          "sound": "amb_magic",
+          "gain_pm": 250
+        },
+        {
+          "sound": "amb_crickets",
+          "when": "night",
+          "gain_pm": 650
+        },
+        {
+          "sound": "amb_birds",
+          "when": "day",
+          "gain_pm": 400
+        }
+      ],
+      "ironspine": [
+        {
+          "sound": "amb_wind_strong",
+          "gain_pm": 650
+        },
+        {
+          "sound": "amb_cave",
+          "gain_pm": 200
+        }
+      ],
+      "sunscar": [
+        {
+          "sound": "amb_wind_desert",
+          "gain_pm": 650
+        },
+        {
+          "sound": "amb_crickets",
+          "when": "night",
+          "gain_pm": 350
+        }
+      ],
+      "frostveil": [
+        {
+          "sound": "amb_wind_snow",
+          "gain_pm": 700
+        }
+      ],
+      "tidehaven": [
+        {
+          "sound": "amb_waves",
+          "gain_pm": 700
+        },
+        {
+          "sound": "amb_wind_soft",
+          "gain_pm": 350
+        },
+        {
+          "sound": "amb_birds",
+          "when": "day",
+          "gain_pm": 300
+        }
+      ],
+      "ashen_wastes": [
+        {
+          "sound": "amb_ash",
+          "gain_pm": 650
+        },
+        {
+          "sound": "amb_fire",
+          "gain_pm": 250
+        }
+      ],
+      "lumeria": [
+        {
+          "sound": "amb_magic",
+          "gain_pm": 600
+        },
+        {
+          "sound": "amb_wind_soft",
+          "gain_pm": 300
+        },
+        {
+          "sound": "amb_crickets",
+          "when": "night",
+          "gain_pm": 400
+        }
+      ]
+    }
+  }
+}

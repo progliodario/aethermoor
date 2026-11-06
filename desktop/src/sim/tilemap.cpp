@@ -38,6 +38,7 @@ std::optional<Tileset> parse_tileset(std::string_view json_text, std::string& er
             TileDef def;
             def.art = tile.at("art").get<std::string>();
             def.solid = tile.at("solid").get<bool>();
+            def.surface = tile.value("surface", "grass");
             tileset.tiles[tile.at("gid").get<int>()] = std::move(def);
         }
         return tileset;

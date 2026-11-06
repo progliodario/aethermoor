@@ -11,6 +11,7 @@
     "speed_x100": 200
   },
   "element": "none",
+  "sound": "myconid",
   "weaknesses_pm": {
     "fire": 1500
   },

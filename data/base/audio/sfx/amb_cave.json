@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/amb_cave",
+  "duration_ms": 8000,
+  "volume_pm": 500,
+  "loop": true,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 120,
+      "freq_end": 120,
+      "volume_pm": 600,
+      "attack_ms": 0,
+      "decay_ms": 1,
+      "am_dhz": 25,
+      "am_depth_pm": 400
+    },
+    {
+      "wave": "sine",
+      "freq_start": 80,
+      "freq_end": 80,
+      "volume_pm": 350,
+      "attack_ms": 0,
+      "decay_ms": 1,
+      "am_dhz": 25,
+      "am_depth_pm": 300
+    }
+  ]
+}

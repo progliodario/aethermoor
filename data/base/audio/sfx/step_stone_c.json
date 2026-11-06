@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/step_stone_c",
+  "duration_ms": 110,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 2024,
+      "freq_end": 644,
+      "volume_pm": 420,
+      "attack_ms": 1,
+      "decay_ms": 40
+    },
+    {
+      "wave": "triangle",
+      "freq_start": 174,
+      "freq_end": 110,
+      "volume_pm": 380,
+      "attack_ms": 0,
+      "decay_ms": 55
+    }
+  ]
+}

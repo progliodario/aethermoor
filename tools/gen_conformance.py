@@ -221,6 +221,8 @@ SUITES = {
     "movement": conformance_m2.suite_movement,
     "raster": conformance_m2.suite_raster,
     "audio": conformance_audio.suite_audio,
+    "audio_director": conformance_audio.suite_audio_director,
+    "audio_ambience": conformance_audio.suite_audio_ambience,
     "combat": conformance_m3.suite_combat,
     "story": conformance_m4.suite_story,
     "save": conformance_m4.suite_save,

@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/matron_die",
+  "duration_ms": 620,
+  "volume_pm": 750,
+  "layers": [
+    {
+      "wave": "sine",
+      "freq_start": 260,
+      "freq_end": 40,
+      "volume_pm": 700,
+      "attack_ms": 0,
+      "decay_ms": 600
+    },
+    {
+      "wave": "triangle",
+      "freq_start": 520,
+      "freq_end": 80,
+      "volume_pm": 300,
+      "attack_ms": 0,
+      "decay_ms": 550
+    },
+    {
+      "wave": "noise",
+      "freq_start": 1200,
+      "freq_end": 150,
+      "volume_pm": 300,
+      "attack_ms": 0,
+      "decay_ms": 350
+    }
+  ]
+}

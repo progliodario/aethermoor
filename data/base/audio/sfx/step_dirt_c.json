@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/step_dirt_c",
+  "duration_ms": 110,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 828,
+      "freq_end": 349,
+      "volume_pm": 500,
+      "attack_ms": 3,
+      "decay_ms": 65
+    },
+    {
+      "wave": "sine",
+      "freq_start": 101,
+      "freq_end": 69,
+      "volume_pm": 350,
+      "attack_ms": 0,
+      "decay_ms": 60
+    }
+  ]
+}

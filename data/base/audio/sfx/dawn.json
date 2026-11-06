@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/dawn",
+  "duration_ms": 1400,
+  "volume_pm": 450,
+  "layers": [
+    {
+      "wave": "sine",
+      "freq_start": 2400,
+      "freq_end": 3000,
+      "volume_pm": 250,
+      "attack_ms": 0,
+      "decay_ms": 160
+    },
+    {
+      "wave": "sine",
+      "freq_start": 2800,
+      "freq_end": 2200,
+      "volume_pm": 250,
+      "attack_ms": 300,
+      "decay_ms": 160
+    },
+    {
+      "wave": "sine",
+      "freq_start": 3200,
+      "freq_end": 3600,
+      "volume_pm": 250,
+      "attack_ms": 650,
+      "decay_ms": 160
+    },
+    {
+      "wave": "sine",
+      "freq_start": 2600,
+      "freq_end": 3100,
+      "volume_pm": 250,
+      "attack_ms": 950,
+      "decay_ms": 160
+    }
+  ]
+}

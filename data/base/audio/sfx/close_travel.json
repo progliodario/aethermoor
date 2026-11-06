@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/close_travel",
+  "duration_ms": 300,
+  "volume_pm": 500,
+  "layers": [
+    {
+      "wave": "sine",
+      "freq_start": 523,
+      "freq_end": 392,
+      "volume_pm": 350,
+      "attack_ms": 0,
+      "decay_ms": 280
+    }
+  ]
+}

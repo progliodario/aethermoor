@@ -17,6 +17,12 @@ import io.github.progliodario.aethermoor.core.WorldParams
 import io.github.progliodario.aethermoor.core.biomeCode
 import io.github.progliodario.aethermoor.core.biomeCodeAt
 import io.github.progliodario.aethermoor.core.regionAt
+import io.github.progliodario.aethermoor.core.audio.PanelsOpen
+import io.github.progliodario.aethermoor.core.audio.PlayerSound
+import io.github.progliodario.aethermoor.core.audio.SoundCue
+import io.github.progliodario.aethermoor.core.audio.SoundDirector
+import io.github.progliodario.aethermoor.core.audio.SoundSnapshot
+import io.github.progliodario.aethermoor.core.audio.ambienceGains
 import io.github.progliodario.aethermoor.core.settlementMarker
 import io.github.progliodario.aethermoor.core.worldEnemyIds
 import io.github.progliodario.aethermoor.core.loadPack
@@ -81,7 +87,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private lateinit var shapes: ShapeRenderer
     private lateinit var font: BitmapFont
     private val sound = SoundBoard()
-    private var soundWatch: SoundWatch? = null
+    private val soundDirector = SoundDirector()
+    private var soundFrame = 0L
+    private var dialogueLines = 0L
+    private var lastLine = ""
     private lateinit var camera: OrthographicCamera
     private lateinit var cache: TextureCache
     private val input = InputController()
@@ -174,7 +183,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val loaded = loadAssets() ?: return
         assets = loaded
         cache = TextureCache(loaded.pack)
-        sound.open(loaded.pack, listOf("swing", "hit", "crit", "hurt", "dodge", "level_up", "pickup", "coin", "open", "close", "confirm", "power", "death", "enemy_die"))
+        sound.open(loaded.pack)
         migrateLegacySaves()
         titleSlots = readSlots()
         Gdx.input.setCatchKey(Input.Keys.BACK, true) // Back leaves a game for the title screen (spec 12, "Slots")
@@ -490,7 +499,6 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
         for (e in world.takeEvents()) {
             floating.add(FloatingText(e.position.x, e.position.y, e.amount.toString() + if (e.weak) "!" else "", e.onPlayer, e.crit))
-            sound.play(if (e.onPlayer) "hurt" else if (e.crit) "crit" else "hit")
         }
         playChangeSounds(world)
         floating.forEach { it.age++ }
@@ -501,38 +509,48 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         draw(world, data, tilePx)
     }
 
-    /** What the sounds were last frame, to hear what changed: an attack, a roll, a level, something in the bag... */
-    private class SoundWatch(
-        val attacking: Boolean,
-        val dodging: Boolean,
-        val level: Long,
-        val items: Long,
-        val gold: Long,
-        val panel: Boolean,
-        val hp: Long,
-    )
-
+    /** The sounds: a snapshot of the game for the director (spec 14, "What plays when"). */
     private fun playChangeSounds(world: WorldSim) {
         val hero = world.player
-        val now = SoundWatch(
-            attacking = hero.phase != AttackPhase.NONE,
-            dodging = hero.dodgeTicks > 0,
-            level = hero.level,
+        val view = world.story.dialogueView()
+        if (view.active && !view.isChoice && view.text != lastLine) dialogueLines++
+        lastLine = if (view.active) view.text else ""
+        val ground = world.tileset.tiles[world.gidAt(floor(hero.position.x).toInt(), floor(hero.position.y).toInt())]
+        val store = world.chunks
+        val moment = world.time()
+        val region = if (store != null) store.params.regions[regionAt(store.params, floor(hero.position.x).toInt(), floor(hero.position.y).toInt())].id else ""
+        val snapshot = SoundSnapshot(
+            frame = ++soundFrame,
+            player = PlayerSound(
+                hp = hero.hp, maxHp = world.derived.maxHp, level = hero.level,
+                phase = if (hero.phase == AttackPhase.NONE) 0 else 1, strike = hero.usingStrike,
+                dodge = hero.dodgeTicks > 0, moving = hero.moving,
+                x = hero.position.x.toDouble(), y = hero.position.y.toDouble(),
+                surface = ground?.surface ?: "grass", saveCd = hero.deathSaveCd.toLong(),
+            ),
+            cues = world.takeCues().map { SoundCue(it.kind, it.family, it.position.x.toDouble(), it.position.y.toDouble(), it.crit, it.weak) },
             items = world.inventory.values.sum(),
             gold = world.story.gold,
-            panel = showInventory || showMap || showJournal,
-            hp = hero.hp,
+            mp = hero.mpU,
+            weapon = world.equippedWeapon,
+            armor = world.equippedArmor,
+            panels = PanelsOpen(
+                bag = showInventory, map = showMap, journal = showJournal,
+                shop = world.shop != null, board = world.board != null, travel = world.travel != null,
+            ),
+            dialogue = view.active,
+            line = dialogueLines,
+            cursor = (bagCursor + shopCursor + boardCursor + travelCursor + choiceIndex).toLong(),
+            questsStarted = world.story.quests.size.toLong(),
+            questsDone = world.story.quests.values.count { it.done }.toLong(),
+            stones = world.stones.size.toLong(),
+            region = region,
+            todPm = moment?.todPm ?: 500,
+            rainPm = moment?.rainPm ?: 0,
         )
-        soundWatch?.let { before ->
-            if (now.attacking && !before.attacking) sound.play(if (hero.usingStrike) "power" else "swing")
-            if (now.dodging && !before.dodging) sound.play("dodge")
-            if (now.level > before.level) sound.play("level_up")
-            if (now.items > before.items) sound.play("pickup")
-            if (now.gold > before.gold) sound.play("coin")
-            if (now.panel != before.panel) sound.play(if (now.panel) "open" else "close")
-            if (now.hp <= 0 && before.hp > 0) sound.play("death")
-        }
-        soundWatch = now
+        for (event in soundDirector.update(snapshot)) sound.playEvent(event.event, event.volumePm)
+        sound.ambienceRules?.let { sound.setAmbience(ambienceGains(snapshot.region, snapshot.todPm, snapshot.rainPm, it)) }
+        sound.frame()
     }
 
     private fun draw(world: WorldSim, data: Assets, tilePx: Int) {

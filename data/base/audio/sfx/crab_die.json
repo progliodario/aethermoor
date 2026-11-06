@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/crab_die",
+  "duration_ms": 360,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "triangle",
+      "freq_start": 600,
+      "freq_end": 120,
+      "volume_pm": 450,
+      "attack_ms": 0,
+      "decay_ms": 340
+    },
+    {
+      "wave": "noise",
+      "freq_start": 2000,
+      "freq_end": 300,
+      "volume_pm": 300,
+      "attack_ms": 0,
+      "decay_ms": 250
+    }
+  ]
+}

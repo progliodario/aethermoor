@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/alpha_hit",
+  "duration_ms": 260,
+  "volume_pm": 800,
+  "layers": [
+    {
+      "wave": "saw",
+      "freq_start": 400,
+      "freq_end": 150,
+      "volume_pm": 700,
+      "attack_ms": 0,
+      "decay_ms": 240
+    },
+    {
+      "wave": "sine",
+      "freq_start": 600,
+      "freq_end": 200,
+      "volume_pm": 300,
+      "attack_ms": 0,
+      "decay_ms": 200
+    }
+  ]
+}

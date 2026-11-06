@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/step_snow_c",
+  "duration_ms": 110,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 3312,
+      "freq_end": 1104,
+      "volume_pm": 380,
+      "attack_ms": 6,
+      "decay_ms": 105
+    },
+    {
+      "wave": "noise",
+      "freq_start": 1380,
+      "freq_end": 644,
+      "volume_pm": 250,
+      "attack_ms": 20,
+      "decay_ms": 100
+    }
+  ]
+}

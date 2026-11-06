@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/amb_ash",
+  "duration_ms": 8000,
+  "volume_pm": 500,
+  "loop": true,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 220,
+      "freq_end": 220,
+      "volume_pm": 700,
+      "attack_ms": 0,
+      "decay_ms": 1,
+      "am_dhz": 25,
+      "am_depth_pm": 500
+    },
+    {
+      "wave": "sine",
+      "freq_start": 55,
+      "freq_end": 55,
+      "volume_pm": 450,
+      "attack_ms": 0,
+      "decay_ms": 1,
+      "am_dhz": 25,
+      "am_depth_pm": 400
+    }
+  ]
+}

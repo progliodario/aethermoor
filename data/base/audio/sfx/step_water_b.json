@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/step_water_b",
+  "duration_ms": 110,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 981,
+      "freq_end": 2616,
+      "volume_pm": 400,
+      "attack_ms": 12,
+      "decay_ms": 130
+    },
+    {
+      "wave": "sine",
+      "freq_start": 675,
+      "freq_end": 305,
+      "volume_pm": 260,
+      "attack_ms": 0,
+      "decay_ms": 120
+    }
+  ]
+}

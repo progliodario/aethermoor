@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/king_attack",
+  "duration_ms": 360,
+  "volume_pm": 800,
+  "layers": [
+    {
+      "wave": "saw",
+      "freq_start": 110,
+      "freq_end": 45,
+      "volume_pm": 700,
+      "attack_ms": 5,
+      "decay_ms": 320
+    },
+    {
+      "wave": "noise",
+      "freq_start": 700,
+      "freq_end": 150,
+      "volume_pm": 400,
+      "attack_ms": 0,
+      "decay_ms": 250
+    }
+  ]
+}

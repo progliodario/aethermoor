@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aethermoor.invalid/schemas/audio_events.schema.json",
+  "title": "Which sound plays for which event, and what loops where",
+  "type": "object",
+  "required": ["id", "events", "ambience"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:audio/[a-z0-9_]+$" },
+    "events": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["sounds", "volume_pm"],
+        "additionalProperties": false,
+        "properties": {
+          "sounds": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^[a-z0-9_]+$" } },
+          "volume_pm": { "type": "integer", "minimum": 0, "maximum": 1000 },
+          "cooldown": { "type": "integer", "minimum": 0, "description": "frames during which the event does not play again" }
+        }
+      }
+    },
+    "ambience": {
+      "type": "object",
+      "required": ["rain", "regions"],
+      "additionalProperties": false,
+      "properties": {
+        "rain": {
+          "type": "object",
+          "required": ["light", "heavy"],
+          "additionalProperties": false,
+          "properties": {
+            "light": { "type": "string" },
+            "heavy": { "type": "string" },
+            "silences": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "regions": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["sound", "gain_pm"],
+              "additionalProperties": false,
+              "properties": {
+                "sound": { "type": "string" },
+                "when": { "enum": ["always", "day", "night"] },
+                "gain_pm": { "type": "integer", "minimum": 0, "maximum": 1000 }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

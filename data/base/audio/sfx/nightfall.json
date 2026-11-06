@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/nightfall",
+  "duration_ms": 1600,
+  "volume_pm": 450,
+  "layers": [
+    {
+      "wave": "sine",
+      "freq_start": 196,
+      "freq_end": 196,
+      "volume_pm": 400,
+      "attack_ms": 0,
+      "decay_ms": 1500
+    },
+    {
+      "wave": "sine",
+      "freq_start": 294,
+      "freq_end": 294,
+      "volume_pm": 250,
+      "attack_ms": 0,
+      "decay_ms": 1400
+    },
+    {
+      "wave": "sine",
+      "freq_start": 392,
+      "freq_end": 392,
+      "volume_pm": 150,
+      "attack_ms": 0,
+      "decay_ms": 1300
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/amb_leaves",
+  "duration_ms": 8000,
+  "volume_pm": 400,
+  "loop": true,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 3500,
+      "freq_end": 3500,
+      "volume_pm": 500,
+      "attack_ms": 0,
+      "decay_ms": 1,
+      "am_dhz": 25,
+      "am_depth_pm": 600
+    },
+    {
+      "wave": "noise",
+      "freq_start": 5000,
+      "freq_end": 5000,
+      "volume_pm": 250,
+      "attack_ms": 0,
+      "decay_ms": 1,
+      "am_dhz": 35,
+      "am_depth_pm": 700
+    }
+  ]
+}

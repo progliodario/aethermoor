@@ -5,187 +5,224 @@
     {
       "gid": 1,
       "art": "base:art/tile/grass_a",
-      "solid": false
+      "solid": false,
+      "surface": "grass"
     },
     {
       "gid": 2,
       "art": "base:art/tile/grass_b",
-      "solid": false
+      "solid": false,
+      "surface": "grass"
     },
     {
       "gid": 3,
       "art": "base:art/tile/path_dirt",
-      "solid": false
+      "solid": false,
+      "surface": "dirt"
     },
     {
       "gid": 4,
       "art": "base:art/tile/water",
-      "solid": true
+      "solid": true,
+      "surface": "water"
     },
     {
       "gid": 5,
       "art": "base:art/tile/wall_stone",
-      "solid": true
+      "solid": true,
+      "surface": "stone"
     },
     {
       "gid": 6,
       "art": "base:art/tile/sand",
-      "solid": false
+      "solid": false,
+      "surface": "sand"
     },
     {
       "gid": 7,
       "art": "base:art/tile/snow",
-      "solid": false
+      "solid": false,
+      "surface": "snow"
     },
     {
       "gid": 8,
       "art": "base:art/tile/mountain",
-      "solid": true
+      "solid": true,
+      "surface": "stone"
     },
     {
       "gid": 9,
       "art": "base:art/tile/forest_floor",
-      "solid": false
+      "solid": false,
+      "surface": "moss"
     },
     {
       "gid": 10,
       "art": "base:art/tile/shallows",
-      "solid": false
+      "solid": false,
+      "surface": "water"
     },
     {
       "gid": 11,
       "art": "base:art/tile/road",
-      "solid": false
+      "solid": false,
+      "surface": "dirt"
     },
     {
       "gid": 12,
       "art": "base:art/tile/bridge",
-      "solid": false
+      "solid": false,
+      "surface": "wood"
     },
     {
       "gid": 13,
       "art": "base:art/tile/plank_floor",
-      "solid": false
+      "solid": false,
+      "surface": "wood"
     },
     {
       "gid": 14,
       "art": "base:art/tile/cobble",
-      "solid": false
+      "solid": false,
+      "surface": "stone"
     },
     {
       "gid": 15,
       "art": "base:art/tile/grass_c",
-      "solid": false
+      "solid": false,
+      "surface": "grass"
     },
     {
       "gid": 16,
       "art": "base:art/tile/grass_d",
-      "solid": false
+      "solid": false,
+      "surface": "grass"
     },
     {
       "gid": 17,
       "art": "base:art/tile/grass_e",
-      "solid": false
+      "solid": false,
+      "surface": "grass"
     },
     {
       "gid": 18,
       "art": "base:art/tile/grass_f",
-      "solid": false
+      "solid": false,
+      "surface": "grass"
     },
     {
       "gid": 19,
       "art": "base:art/tile/ash_a",
-      "solid": false
+      "solid": false,
+      "surface": "ash"
     },
     {
       "gid": 20,
       "art": "base:art/tile/ash_b",
-      "solid": false
+      "solid": false,
+      "surface": "ash"
     },
     {
       "gid": 21,
       "art": "base:art/tile/ash_c",
-      "solid": false
+      "solid": false,
+      "surface": "ash"
     },
     {
       "gid": 22,
       "art": "base:art/tile/ash_sand",
-      "solid": false
+      "solid": false,
+      "surface": "ash"
     },
     {
       "gid": 23,
       "art": "base:art/tile/savanna_a",
-      "solid": false
+      "solid": false,
+      "surface": "grass"
     },
     {
       "gid": 24,
       "art": "base:art/tile/savanna_b",
-      "solid": false
+      "solid": false,
+      "surface": "dirt"
     },
     {
       "gid": 25,
       "art": "base:art/tile/frost_a",
-      "solid": false
+      "solid": false,
+      "surface": "snow"
     },
     {
       "gid": 26,
       "art": "base:art/tile/frost_b",
-      "solid": false
+      "solid": false,
+      "surface": "snow"
     },
     {
       "gid": 27,
       "art": "base:art/tile/moss_a",
-      "solid": false
+      "solid": false,
+      "surface": "moss"
     },
     {
       "gid": 28,
       "art": "base:art/tile/moss_b",
-      "solid": false
+      "solid": false,
+      "surface": "moss"
     },
     {
       "gid": 29,
       "art": "base:art/tile/coast_a",
-      "solid": false
+      "solid": false,
+      "surface": "sand"
     },
     {
       "gid": 30,
       "art": "base:art/tile/coast_b",
-      "solid": false
+      "solid": false,
+      "surface": "sand"
     },
     {
       "gid": 31,
       "art": "base:art/tile/violet_a",
-      "solid": false
+      "solid": false,
+      "surface": "grass"
     },
     {
       "gid": 32,
       "art": "base:art/tile/violet_b",
-      "solid": false
+      "solid": false,
+      "surface": "grass"
     },
     {
       "gid": 33,
       "art": "base:art/tile/rocky_a",
-      "solid": false
+      "solid": false,
+      "surface": "stone"
     },
     {
       "gid": 34,
       "art": "base:art/tile/rocky_b",
-      "solid": false
+      "solid": false,
+      "surface": "stone"
     },
     {
       "gid": 35,
       "art": "base:art/tile/wall_timber",
-      "solid": true
+      "solid": true,
+      "surface": "wood"
     },
     {
       "gid": 36,
       "art": "base:art/tile/wall_window",
-      "solid": true
+      "solid": true,
+      "surface": "wood"
     },
     {
       "gid": 37,
       "art": "base:art/tile/door",
-      "solid": false
+      "solid": false,
+      "surface": "wood"
     }
   ]
 }

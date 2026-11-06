@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/buy",
+  "duration_ms": 420,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "square",
+      "freq_start": 1318,
+      "freq_end": 1318,
+      "volume_pm": 450,
+      "attack_ms": 0,
+      "decay_ms": 60,
+      "duty_pm": 250
+    },
+    {
+      "wave": "square",
+      "freq_start": 1976,
+      "freq_end": 1976,
+      "volume_pm": 450,
+      "attack_ms": 60,
+      "decay_ms": 80,
+      "duty_pm": 250
+    },
+    {
+      "wave": "square",
+      "freq_start": 1318,
+      "freq_end": 1318,
+      "volume_pm": 400,
+      "attack_ms": 160,
+      "decay_ms": 60,
+      "duty_pm": 250
+    },
+    {
+      "wave": "square",
+      "freq_start": 1976,
+      "freq_end": 1976,
+      "volume_pm": 450,
+      "attack_ms": 220,
+      "decay_ms": 190,
+      "duty_pm": 250
+    }
+  ]
+}

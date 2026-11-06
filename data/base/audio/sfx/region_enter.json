@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/region_enter",
+  "duration_ms": 900,
+  "volume_pm": 500,
+  "layers": [
+    {
+      "wave": "sine",
+      "freq_start": 392,
+      "freq_end": 392,
+      "volume_pm": 300,
+      "attack_ms": 100,
+      "decay_ms": 780
+    },
+    {
+      "wave": "sine",
+      "freq_start": 494,
+      "freq_end": 494,
+      "volume_pm": 250,
+      "attack_ms": 200,
+      "decay_ms": 680
+    },
+    {
+      "wave": "sine",
+      "freq_start": 587,
+      "freq_end": 587,
+      "volume_pm": 250,
+      "attack_ms": 300,
+      "decay_ms": 580
+    }
+  ]
+}

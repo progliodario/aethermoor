@@ -11,6 +11,7 @@
     "speed_x100": 280
   },
   "element": "water",
+  "sound": "slime",
   "weaknesses_pm": {
     "earth": 1500
   },

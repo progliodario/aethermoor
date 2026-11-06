@@ -63,6 +63,8 @@ data class EnemyDef(
     /** The elements (spec 05, "Elements"): the creature's own, and its weaknesses and resistances in permille. */
     val element: String = "none",
     val weaknessesPm: Map<String, Long> = emptyMap(),
+    /** The family of voices of the creature (spec 14). */
+    val sound: String = "",
 )
 
 data class EnemySpawn(val def: EnemyDef, val x: Float, val y: Float)

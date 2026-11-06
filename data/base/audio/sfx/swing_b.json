@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/swing_b",
+  "duration_ms": 130,
+  "volume_pm": 500,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 5668,
+      "freq_end": 1526,
+      "volume_pm": 800,
+      "attack_ms": 12,
+      "decay_ms": 110
+    },
+    {
+      "wave": "triangle",
+      "freq_start": 566,
+      "freq_end": 196,
+      "volume_pm": 250,
+      "attack_ms": 4,
+      "decay_ms": 100
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/slime_aggro",
+  "duration_ms": 260,
+  "volume_pm": 500,
+  "layers": [
+    {
+      "wave": "sine",
+      "freq_start": 260,
+      "freq_end": 420,
+      "volume_pm": 600,
+      "attack_ms": 40,
+      "decay_ms": 220,
+      "am_dhz": 60,
+      "am_depth_pm": 500
+    },
+    {
+      "wave": "noise",
+      "freq_start": 700,
+      "freq_end": 1200,
+      "volume_pm": 150,
+      "attack_ms": 40,
+      "decay_ms": 200
+    }
+  ]
+}

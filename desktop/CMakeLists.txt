@@ -53,7 +53,7 @@ target_link_libraries(aether_vector PUBLIC aether_core PRIVATE nlohmann_json::nl
 aether_target_options(aether_vector)
 
 # Sound: the synthesizer of the sound effects (spec 14). Headless (produces 16 bit samples).
-add_library(aether_audio STATIC src/audio/synth.cpp)
+add_library(aether_audio STATIC src/audio/synth.cpp src/audio/director.cpp src/audio/events.cpp)
 target_link_libraries(aether_audio PUBLIC aether_core PRIVATE nlohmann_json::nlohmann_json)
 aether_target_options(aether_audio)
 

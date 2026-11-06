@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/close_journal",
+  "duration_ms": 220,
+  "volume_pm": 500,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 2600,
+      "freq_end": 1000,
+      "volume_pm": 400,
+      "attack_ms": 5,
+      "decay_ms": 160
+    },
+    {
+      "wave": "triangle",
+      "freq_start": 480,
+      "freq_end": 300,
+      "volume_pm": 250,
+      "attack_ms": 0,
+      "decay_ms": 150
+    }
+  ]
+}

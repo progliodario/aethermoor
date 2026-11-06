@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/heartbeat",
+  "duration_ms": 420,
+  "volume_pm": 800,
+  "layers": [
+    {
+      "wave": "sine",
+      "freq_start": 70,
+      "freq_end": 45,
+      "volume_pm": 900,
+      "attack_ms": 2,
+      "decay_ms": 110
+    },
+    {
+      "wave": "sine",
+      "freq_start": 62,
+      "freq_end": 40,
+      "volume_pm": 700,
+      "attack_ms": 190,
+      "decay_ms": 140
+    }
+  ]
+}

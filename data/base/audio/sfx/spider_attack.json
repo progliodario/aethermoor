@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/spider_attack",
+  "duration_ms": 150,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 5000,
+      "freq_end": 1500,
+      "volume_pm": 500,
+      "attack_ms": 0,
+      "decay_ms": 110
+    },
+    {
+      "wave": "square",
+      "freq_start": 1800,
+      "freq_end": 900,
+      "volume_pm": 250,
+      "attack_ms": 0,
+      "decay_ms": 90,
+      "duty_pm": 300
+    }
+  ]
+}

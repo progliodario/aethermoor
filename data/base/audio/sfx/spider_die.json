@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/spider_die",
+  "duration_ms": 360,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 4200,
+      "freq_end": 500,
+      "volume_pm": 450,
+      "attack_ms": 0,
+      "decay_ms": 340
+    },
+    {
+      "wave": "square",
+      "freq_start": 900,
+      "freq_end": 200,
+      "volume_pm": 200,
+      "attack_ms": 0,
+      "decay_ms": 260,
+      "duty_pm": 250
+    }
+  ]
+}

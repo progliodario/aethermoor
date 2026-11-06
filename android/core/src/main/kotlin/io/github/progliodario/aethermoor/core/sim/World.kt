@@ -87,6 +87,9 @@ class Enemy(val def: EnemyDef, var position: Vec2) {
 
 /** Something a client may want to show (numbers floating up from a hit); not part of the contract. */
 /** [weak]: the element multiplier of the hit was above 1000 (spec 05, "Elements"). */
+/** Something that made a sound (presentation only): [kind] is aggro, attack, hit, hurt or die; [family] the voices of the creature (spec 14). */
+data class SimCue(val kind: String, val family: String, val position: Vec2, val crit: Boolean = false, val weak: Boolean = false)
+
 data class DamageEvent(val position: Vec2, val amount: Long, val crit: Boolean, val onPlayer: Boolean, val weak: Boolean = false)
 
 /** Top-left of the view, in tiles. */
@@ -185,6 +188,7 @@ class WorldSim(
     private var windowX = 0
     private var windowY = 0
     private val events = ArrayList<DamageEvent>()
+    private val cues = ArrayList<SimCue>()
 
     val story = Story(combat.story, this)
 
@@ -523,6 +527,12 @@ class WorldSim(
     }
 
     /** Events produced since the last call (damage numbers). */
+    fun takeCues(): List<SimCue> {
+        val copy = ArrayList(cues)
+        cues.clear()
+        return copy
+    }
+
     fun takeEvents(): List<DamageEvent> {
         val copy = ArrayList(events)
         events.clear()
@@ -673,9 +683,11 @@ class WorldSim(
             enemy.hp -= amount
             enemy.hitFlash = HIT_FLASH_TICKS
             events.add(DamageEvent(enemy.position, amount, crit, false, weak = elementMultiplier(enemy.def) > 1000))
+            cues.add(SimCue("hit", enemy.def.sound, enemy.position, crit, elementMultiplier(enemy.def) > 1000))
             if (enemy.hp <= 0) {
                 enemy.hp = 0
                 enemy.state = EnemyState.DEAD
+                cues.add(SimCue("die", enemy.def.sound, enemy.position))
                 onKill(enemy)
             }
         }
@@ -724,6 +736,7 @@ class WorldSim(
             EnemyState.IDLE -> if (dist <= (b.aggroX100 * combat.gift.aggroPct / 100).toFloat() / 100f) {
                 enemy.state = EnemyState.CHASE
                 enemy.stateTick = 0
+                cues.add(SimCue("aggro", enemy.def.sound, enemy.position))
             }
             EnemyState.CHASE -> {
                 if (dist > b.leashX100.toFloat() / 100f) {
@@ -731,6 +744,7 @@ class WorldSim(
                 } else if (dist <= b.attackRangeX100.toFloat() / 100f) {
                     enemy.state = EnemyState.ATTACK
                     enemy.stateTick = 0
+                    cues.add(SimCue("attack", enemy.def.sound, enemy.position))
                 } else {
                     moveEnemy(enemy, p.position.x, p.position.y)
                 }
@@ -792,6 +806,7 @@ class WorldSim(
         p.hp -= amount
         p.iframes = PLAYER_HIT_IFRAMES
         events.add(DamageEvent(p.position, amount, false, true))
+        cues.add(SimCue("hurt", enemy.def.sound, p.position))
         if (p.hp <= 0 && combat.gift.deathSaveTicks > 0 && p.deathSaveCd == 0) { // the death save (spec 18)
             p.hp = 1
             p.deathSaveCd = combat.gift.deathSaveTicks

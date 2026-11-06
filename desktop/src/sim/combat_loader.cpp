@@ -44,6 +44,7 @@ std::optional<EnemyDef> load_enemy_impl(const Pack& pack, const std::string& id,
         def.xp = enemy->at("xp").get<std::int64_t>();
         def.radius_x100 = enemy->at("radius_x100").get<int>();
         def.element = enemy->value("element", "none");
+        def.sound = enemy->value("sound", "");
         if (enemy->contains("weaknesses_pm")) {
             for (const auto& [element, multiplier] : enemy->at("weaknesses_pm").items()) {
                 def.weaknesses_pm[element] = multiplier.get<std::int64_t>();

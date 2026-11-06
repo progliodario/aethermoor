@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/amb_wind_strong",
+  "duration_ms": 8000,
+  "volume_pm": 700,
+  "loop": true,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 450,
+      "freq_end": 450,
+      "volume_pm": 800,
+      "attack_ms": 0,
+      "decay_ms": 1,
+      "am_dhz": 25,
+      "am_depth_pm": 700
+    },
+    {
+      "wave": "noise",
+      "freq_start": 900,
+      "freq_end": 900,
+      "volume_pm": 400,
+      "attack_ms": 0,
+      "decay_ms": 1,
+      "am_dhz": 35,
+      "am_depth_pm": 800
+    }
+  ]
+}

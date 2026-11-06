@@ -14,7 +14,8 @@ import kotlinx.serialization.json.jsonPrimitive
 
 // Tile maps (Tiled TMJ subset) and tilesets. Spec: docs/spec/02-entities-and-movement.md.
 
-data class TileDef(val art: String, val solid: Boolean)
+/** [surface]: what the ground sounds like under the feet (spec 14). */
+data class TileDef(val art: String, val solid: Boolean, val surface: String = "grass")
 
 data class Tileset(val id: String, val tiles: Map<Int, TileDef>)
 
@@ -54,7 +55,7 @@ fun parseTileset(jsonText: String): Result<Tileset> =
         for (tile in j.getValue("tiles").jsonArray) {
             val t = tile.jsonObject
             tiles[t.getValue("gid").jsonPrimitive.int] =
-                TileDef(t.getValue("art").jsonPrimitive.content, t.getValue("solid").jsonPrimitive.boolean)
+                TileDef(t.getValue("art").jsonPrimitive.content, t.getValue("solid").jsonPrimitive.boolean, t["surface"]?.jsonPrimitive?.content ?: "grass")
         }
         Tileset((j["id"] as? JsonPrimitive)?.contentOrNull ?: "", tiles)
     }

@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/step_wood_c",
+  "duration_ms": 110,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "triangle",
+      "freq_start": 193,
+      "freq_end": 138,
+      "volume_pm": 480,
+      "attack_ms": 0,
+      "decay_ms": 70
+    },
+    {
+      "wave": "noise",
+      "freq_start": 1380,
+      "freq_end": 552,
+      "volume_pm": 300,
+      "attack_ms": 1,
+      "decay_ms": 45
+    }
+  ]
+}

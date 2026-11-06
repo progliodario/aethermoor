@@ -11,6 +11,7 @@
     "speed_x100": 250
   },
   "element": "none",
+  "sound": "slime",
   "weaknesses_pm": {
     "wind": 1500
   },

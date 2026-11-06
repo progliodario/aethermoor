@@ -8,8 +8,9 @@
   "properties": {
     "$schema": { "type": "string" },
     "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:audio/sfx/[a-z0-9_]+$" },
-    "duration_ms": { "type": "integer", "minimum": 1, "maximum": 4000 },
+    "duration_ms": { "type": "integer", "minimum": 1, "maximum": 12000 },
     "volume_pm": { "type": "integer", "minimum": 0, "maximum": 1000 },
+    "loop": { "type": "boolean" },
     "layers": { "type": "array", "minItems": 1, "maxItems": 8, "items": { "$ref": "#/$defs/layer" } }
   },
   "$defs": {
@@ -24,7 +25,9 @@
         "volume_pm": { "type": "integer", "minimum": 0, "maximum": 1000 },
         "duty_pm": { "type": "integer", "minimum": 50, "maximum": 950 },
         "attack_ms": { "type": "integer", "minimum": 0, "maximum": 4000 },
-        "decay_ms": { "type": "integer", "minimum": 1, "maximum": 4000 }
+        "decay_ms": { "type": "integer", "minimum": 1, "maximum": 4000 },
+        "am_dhz": { "type": "integer", "minimum": 0, "maximum": 2000 },
+        "am_depth_pm": { "type": "integer", "minimum": 0, "maximum": 1000 }
       }
     }
   }

@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/open_travel",
+  "duration_ms": 600,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "sine",
+      "freq_start": 392,
+      "freq_end": 392,
+      "volume_pm": 350,
+      "attack_ms": 40,
+      "decay_ms": 560
+    },
+    {
+      "wave": "sine",
+      "freq_start": 523,
+      "freq_end": 523,
+      "volume_pm": 300,
+      "attack_ms": 80,
+      "decay_ms": 520
+    },
+    {
+      "wave": "sine",
+      "freq_start": 784,
+      "freq_end": 784,
+      "volume_pm": 250,
+      "attack_ms": 120,
+      "decay_ms": 480,
+      "am_dhz": 60,
+      "am_depth_pm": 500
+    }
+  ]
+}

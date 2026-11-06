@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/step_grass_c",
+  "duration_ms": 110,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 1196,
+      "freq_end": 552,
+      "volume_pm": 450,
+      "attack_ms": 4,
+      "decay_ms": 70
+    },
+    {
+      "wave": "sine",
+      "freq_start": 87,
+      "freq_end": 64,
+      "volume_pm": 300,
+      "attack_ms": 0,
+      "decay_ms": 60
+    }
+  ]
+}

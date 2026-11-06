@@ -1,7 +1,8 @@
 #pragma once
 
-// Plays the sound effects of the pack: synthesizes them once (spec 14), mixes up to 16 voices and feeds an SDL audio
-// stream. The only audio code that links SDL3. If there is no audio device the board stays silent.
+// Plays the sounds of the pack: renders them once (spec 14), mixes the sound effects (up to 16 voices) and the looping
+// ambience, and feeds an SDL audio stream. The only audio code that links SDL3. If there is no audio device the board
+// stays silent.
 
 #include <SDL3/SDL.h>
 
@@ -11,6 +12,7 @@
 #include <string_view>
 #include <vector>
 
+#include "audio/events.hpp"
 #include "data/pack.hpp"
 
 namespace aether {
@@ -22,26 +24,46 @@ public:
     SoundBoard(const SoundBoard&) = delete;
     SoundBoard& operator=(const SoundBoard&) = delete;
 
-    // Opens the default playback device and renders the sounds of the pack. Returns false when there is no device.
-    bool open(const Pack& pack, const std::vector<std::string>& names);
-    // Starts a sound by its short name (`hit` is `base:audio/sfx/hit`). Does nothing when muted or unknown.
-    void play(std::string_view name);
-    // Keeps the audio stream filled; call it once per frame.
-    void pump();
+    // Reads the event table of the pack, renders its sounds and opens the default playback device. Returns false when
+    // there is no table or no device.
+    bool open(const Pack& pack);
+    // Plays the sound of an event (`swing`, `step.grass`, `enemy.wolf.hit`...), `volume_pm` loud. Does nothing when
+    // muted.
+    void play_event(const std::string& event, int volume_pm = 1000);
+    // The loops that should be heard, with their gain in permille; the others fade out.
+    void set_ambience(const std::map<std::string, int>& gains);
+    // The rules of the ambience of the pack.
+    const AmbienceRules& ambience_rules() const { return m_table_.ambience; }
+    // Call once per frame: counts down the cooldowns and keeps the audio stream filled.
+    void frame();
     void set_muted(bool muted);
     bool muted() const { return m_muted_; }
+    bool ready() const { return m_stream_ != nullptr; }
 
 private:
     struct Voice {
         const std::vector<std::int16_t>* samples = nullptr;
         std::size_t position = 0;
+        float gain = 1.0F;
         std::uint64_t started = 0;
     };
+    struct Loop {
+        const std::vector<std::int16_t>* samples = nullptr;
+        std::size_t position = 0;
+        float gain = 0.0F;
+        float target = 0.0F;
+    };
+
+    void pump();
 
     static constexpr std::size_t kMaxVoices = 16;
     SDL_AudioStream* m_stream_ = nullptr;
+    EventTable m_table_;
     std::map<std::string, std::vector<std::int16_t>, std::less<>> m_sounds_;
+    std::map<std::string, int, std::less<>> m_played_;    // how many times each event played (to rotate its variants)
+    std::map<std::string, int, std::less<>> m_cooldown_;  // frames left before an event may play again
     std::vector<Voice> m_voices_;
+    std::map<std::string, Loop, std::less<>> m_loops_;
     std::uint64_t m_counter_ = 0;
     bool m_muted_ = false;
 };

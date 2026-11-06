@@ -23,12 +23,15 @@ struct SfxLayer {
     int duty_pm = 500;
     int attack_ms = 0;
     int decay_ms = 1;
+    int am_dhz = 0;       // amplitude modulation rate in tenths of a hertz
+    int am_depth_pm = 0;  // and its depth
 };
 
 struct SfxRecipe {
     std::string id;
     int duration_ms = 0;
     int volume_pm = 1000;
+    bool loop = false;  // an ambience: no envelope, meant to repeat
     std::vector<SfxLayer> layers;
 };
 

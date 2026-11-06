@@ -1,0 +1,17 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/tab",
+  "duration_ms": 80,
+  "volume_pm": 400,
+  "layers": [
+    {
+      "wave": "square",
+      "freq_start": 900,
+      "freq_end": 1100,
+      "volume_pm": 400,
+      "attack_ms": 0,
+      "decay_ms": 70,
+      "duty_pm": 400
+    }
+  ]
+}

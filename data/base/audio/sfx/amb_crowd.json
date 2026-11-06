@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/amb_crowd",
+  "duration_ms": 8000,
+  "volume_pm": 400,
+  "loop": true,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 380,
+      "freq_end": 380,
+      "volume_pm": 600,
+      "attack_ms": 0,
+      "decay_ms": 1,
+      "am_dhz": 35,
+      "am_depth_pm": 500
+    },
+    {
+      "wave": "noise",
+      "freq_start": 520,
+      "freq_end": 520,
+      "volume_pm": 350,
+      "attack_ms": 0,
+      "decay_ms": 1,
+      "am_dhz": 15,
+      "am_depth_pm": 600
+    }
+  ]
+}

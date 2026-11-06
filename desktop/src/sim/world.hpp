@@ -68,6 +68,16 @@ struct DamageEvent {
     bool weak = false;  // the element multiplier of the hit was above 1000 (spec 05, "Elements")
 };
 
+// Something that made a sound (presentation only, like DamageEvent): `kind` is aggro, attack, hit, hurt or die,
+// `family` the voices of the creature (spec 14).
+struct SimCue {
+    std::string kind;
+    std::string family;
+    Vec2 position;
+    bool crit = false;
+    bool weak = false;
+};
+
 // Everything that changes while playing; see docs/spec/12-save-format.md.
 struct SaveEnemy {
     Vec2 position;
@@ -218,6 +228,7 @@ public:
 
     // Events produced since the last call (damage numbers).
     std::vector<DamageEvent> take_events();
+    std::vector<SimCue> take_cues();
 
     // View of `view_w` x `view_h` tiles centered on the player and clamped to the map.
     Camera camera(float view_w, float view_h) const;
@@ -270,6 +281,7 @@ private:
     std::vector<bool> m_hit_set_;
     std::map<std::string, std::int64_t> m_inventory_;
     std::vector<DamageEvent> m_events_;
+    std::vector<SimCue> m_cues_;
     Story m_story_;
     bool m_window_valid_ = false;
     int m_window_x_ = 0;  // chunk of the player the enemies were synchronized for

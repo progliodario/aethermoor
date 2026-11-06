@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/matron_hit",
+  "duration_ms": 220,
+  "volume_pm": 700,
+  "layers": [
+    {
+      "wave": "sine",
+      "freq_start": 330,
+      "freq_end": 130,
+      "volume_pm": 650,
+      "attack_ms": 0,
+      "decay_ms": 200
+    },
+    {
+      "wave": "triangle",
+      "freq_start": 660,
+      "freq_end": 260,
+      "volume_pm": 250,
+      "attack_ms": 0,
+      "decay_ms": 160
+    }
+  ]
+}

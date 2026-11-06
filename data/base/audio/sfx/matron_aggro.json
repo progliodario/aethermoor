@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/matron_aggro",
+  "duration_ms": 340,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "sine",
+      "freq_start": 150,
+      "freq_end": 210,
+      "volume_pm": 650,
+      "attack_ms": 60,
+      "decay_ms": 280,
+      "am_dhz": 50,
+      "am_depth_pm": 400
+    },
+    {
+      "wave": "triangle",
+      "freq_start": 300,
+      "freq_end": 420,
+      "volume_pm": 250,
+      "attack_ms": 60,
+      "decay_ms": 270
+    }
+  ]
+}
