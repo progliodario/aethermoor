@@ -294,6 +294,102 @@
         "color": "$p.beak",
         "width": 1.4
       }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          15.2,
+          18.38,
+          3.4,
+          2.5
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.3
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20,
+          30.88,
+          7,
+          3.5
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.12
+    },
+    {
+      "shape": {
+        "path": "M 14.17 22.06 L 12.57 23.26"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 0.6
+      },
+      "alpha": 0.4
+    },
+    {
+      "shape": {
+        "path": "M 17.64 22.37 L 16.04 23.57"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 0.6
+      },
+      "alpha": 0.4
+    },
+    {
+      "shape": {
+        "path": "M 16.02 19.44 L 14.42 20.64"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 0.6
+      },
+      "alpha": 0.4
+    },
+    {
+      "shape": {
+        "path": "M 22.83 27.76 L 24.43 28.96"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 0.6
+      },
+      "alpha": 0.4
+    },
+    {
+      "shape": {
+        "ellipse": [
+          12.92,
+          10.74,
+          1.08,
+          1.08
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.85
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20.92,
+          10.74,
+          1.08,
+          1.08
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.85
     }
   ]
 }

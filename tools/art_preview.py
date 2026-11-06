@@ -24,7 +24,7 @@ def color(value: str, palette: dict) -> str:
 
 
 def svg_of(recipe: dict, uid: str) -> str:
-    canvas, palette = recipe["canvas"], recipe["palette"]
+    canvas, palette = recipe["canvas"], recipe.get("palette", {})
     defs, body = [], []
     for i, layer in enumerate(recipe["layers"]):
         shape = layer["shape"]

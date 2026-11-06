@@ -359,6 +359,51 @@ void fill_rect(SDL_Renderer* renderer, float x, float y, float w, float h, Uint8
     SDL_RenderFillRect(renderer, &rect);
 }
 
+// A panel with a soft shadow, a border in the accent color, a body that fades from lighter to darker, a thin light line
+// under the top edge and a stripe of the accent color on the top.
+void draw_panel(SDL_Renderer* renderer, float x, float y, float w, float h, Uint8 ar, Uint8 ag, Uint8 ab, Uint8 alpha) {
+    fill_rect(renderer, x + 3.0F, y + 4.0F, w, h, 0, 0, 0, 90);
+    fill_rect(renderer, x - 2.0F, y - 2.0F, w + 4.0F, h + 4.0F, 4, 10, 24, 255);
+    fill_rect(renderer, x - 1.0F, y - 1.0F, w + 2.0F, h + 2.0F, static_cast<Uint8>(ar / 2), static_cast<Uint8>(ag / 2),
+              static_cast<Uint8>(ab / 2), 255);
+    const int strips = std::max(1, static_cast<int>(h / 4.0F));
+    for (int i = 0; i < strips; ++i) {
+        const float t = static_cast<float>(i) / static_cast<float>(strips);
+        const auto shade = [&](int top, int bottom) { return static_cast<Uint8>(top + (bottom - top) * t); };
+        const float sy = y + h * t;
+        fill_rect(renderer, x, sy, w, h / static_cast<float>(strips) + 0.5F, shade(22, 8), shade(48, 20), shade(88, 44),
+                  alpha);
+    }
+    fill_rect(renderer, x, y + 3.0F, w, 1.0F, 255, 255, 255, 40);
+    fill_rect(renderer, x, y, w, 3.0F, ar, ag, ab, 255);
+    // little studs in the corners
+    for (const float cx : {x + 5.0F, x + w - 8.0F}) {
+        for (const float cy : {y + 6.0F, y + h - 9.0F}) {
+            fill_rect(renderer, cx, cy, 3.0F, 3.0F, static_cast<Uint8>(ar / 2 + 40), static_cast<Uint8>(ag / 2 + 40),
+                      static_cast<Uint8>(ab / 2 + 40), 200);
+        }
+    }
+}
+
+// A bar with a dark frame, a fill that is lighter on the top half and darker on the bottom, a gloss line and ticks.
+void draw_bar(SDL_Renderer* renderer, float x, float y, float w, float h, float ratio, Uint8 r, Uint8 g, Uint8 b) {
+    fill_rect(renderer, x - 2.0F, y - 2.0F, w + 4.0F, h + 4.0F, 4, 10, 24, 235);
+    fill_rect(renderer, x - 1.0F, y - 1.0F, w + 2.0F, h + 2.0F, 70, 90, 120, 200);
+    fill_rect(renderer, x, y, w, h, 12, 22, 40, 255);
+    const float fw = w * std::clamp(ratio, 0.0F, 1.0F);
+    if (fw > 0.0F) {
+        const auto lighter = [](Uint8 c, int k) { return static_cast<Uint8>(std::min(255, c + k)); };
+        const auto darker = [](Uint8 c, int k) { return static_cast<Uint8>(std::max(0, c - k)); };
+        fill_rect(renderer, x, y, fw, h * 0.55F, lighter(r, 40), lighter(g, 40), lighter(b, 40), 255);
+        fill_rect(renderer, x, y + h * 0.55F, fw, h * 0.45F, darker(r, 45), darker(g, 45), darker(b, 45), 255);
+        fill_rect(renderer, x, y + 1.0F, fw, std::max(1.0F, h * 0.14F), 255, 255, 255, 70);
+        fill_rect(renderer, x + fw - 1.0F, y, 1.0F, h, 255, 255, 255, 90);
+    }
+    for (int i = 1; i < 10; ++i) {
+        fill_rect(renderer, x + w * static_cast<float>(i) / 10.0F, y + h * 0.7F, 1.0F, h * 0.3F, 0, 0, 0, 70);
+    }
+}
+
 void draw_sprite(SDL_Renderer* renderer, const aether::Sprite& sprite, float feet_x, float feet_y, float k,
                  float squash = 1.0F) {
     const float w = sprite.width * k * (2.0F - squash);
@@ -471,21 +516,18 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
     const float x = 12.0F * density;
     const float y = 12.0F * density;
     const float hp_ratio = std::clamp(static_cast<float>(p.hp) / static_cast<float>(sim.derived().max_hp), 0.0F, 1.0F);
-    fill_rect(renderer, x - 2.0F, y - 2.0F, bar_w + 4.0F, bar_h + 4.0F, 10, 20, 40, 200);
     const float below = 10.0F * density;  // the mana bar, between the health bar and the experience bar
     const float mp_ratio = std::clamp(
         static_cast<float>(sim.mp()) / static_cast<float>(std::max<std::int64_t>(sim.derived().max_mp, 1)), 0.0F, 1.0F);
-    fill_rect(renderer, x, y + bar_h + 4.0F, bar_w, 7.0F * density, 10, 20, 40, 200);
-    fill_rect(renderer, x, y + bar_h + 4.0F, bar_w * mp_ratio, 7.0F * density, 80, 140, 255, 255);
-    fill_rect(renderer, x, y, bar_w * hp_ratio, bar_h, 210, 60, 60, 255);
+    draw_bar(renderer, x, y + bar_h + 4.0F, bar_w, 7.0F * density, mp_ratio, 80, 140, 255);
+    draw_bar(renderer, x, y, bar_w, bar_h, hp_ratio, 210, 60, 60);
     const std::int64_t need =
         sim.combat().xp_table.empty() || p.level - 1 >= static_cast<std::int64_t>(sim.combat().xp_table.size())
             ? 0
             : sim.combat().xp_table[static_cast<std::size_t>(p.level - 1)];
     const float xp_ratio =
         need > 0 ? std::clamp(static_cast<float>(p.xp) / static_cast<float>(need), 0.0F, 1.0F) : 0.0F;
-    fill_rect(renderer, x, y + bar_h + 6.0F + below, bar_w, 6.0F * density, 10, 20, 40, 200);
-    fill_rect(renderer, x, y + bar_h + 6.0F + below, bar_w * xp_ratio, 6.0F * density, 90, 200, 120, 255);
+    draw_bar(renderer, x, y + bar_h + 6.0F + below, bar_w, 6.0F * density, xp_ratio, 90, 200, 120);
 
     // The two abilities next to the bars: a square that fills while the cooldown runs and is lit when the ability is
     // ready (green: the dodge roll, `L`; blue: the power strike, `K`, and enough mana for it).
@@ -599,8 +641,7 @@ void draw_analyze(SDL_Renderer* renderer, const Assets& assets, const aether::Wo
     const float x = (static_cast<float>(out_w) - width) / 2.0F;
     const float y = 12.0F * density;
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-    fill_rect(renderer, x - 2.0F, y - 2.0F, width + 4.0F, height + 4.0F, 111, 227, 255, 255);
-    fill_rect(renderer, x, y, width, height, 11, 31, 58, 235);
+    draw_panel(renderer, x, y, width, height, 111, 227, 255, 235);
     SDL_SetRenderScale(renderer, kScale, kScale);
     float ty = y / kScale + 4.0F;
     for (std::size_t i = 0; i < lines.size(); ++i) {
@@ -1620,8 +1661,7 @@ void draw_dialogue(SDL_Renderer* renderer, const Assets& assets, const aether::W
     const float line_h = 8.0F * kScale + 6.0F;
     const float box_h = (static_cast<float>(lines.size()) + (heading.empty() ? 0.0F : 1.0F)) * line_h + 24.0F;
     const float box_y = static_cast<float>(out_h) - box_h - margin;
-    fill_rect(renderer, margin, box_y, static_cast<float>(out_w) - 2.0F * margin, box_h, 11, 31, 58, 235);
-    fill_rect(renderer, margin, box_y, static_cast<float>(out_w) - 2.0F * margin, 3.0F, 111, 227, 255, 255);
+    draw_panel(renderer, margin, box_y, static_cast<float>(out_w) - 2.0F * margin, box_h, 111, 227, 255, 235);
     SDL_SetRenderScale(renderer, kScale, kScale);
     float y = (box_y + 12.0F) / kScale;
     if (!heading.empty()) {
@@ -1753,8 +1793,7 @@ void draw_shop(SDL_Renderer* renderer, const Assets& assets, const aether::World
     const float h = 100.0F + row * static_cast<float>(std::max(visible, 1));
     const float x = (static_cast<float>(out_w) - w) / 2.0F;
     const float y = (static_cast<float>(out_h) - h) / 2.0F;
-    fill_rect(renderer, x, y, w, h, 11, 31, 58, 245);
-    fill_rect(renderer, x, y, w, 3.0F, 255, 215, 120, 255);
+    draw_panel(renderer, x, y, w, h, 255, 215, 120, 245);
     SDL_SetRenderScale(renderer, kScale, kScale);
     SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
     const std::string title = assets.pack.text(ui.lang, "$i18n:ui.shop") + " - " +
@@ -1812,8 +1851,7 @@ void draw_board(SDL_Renderer* renderer, const Assets& assets, const aether::Worl
         }
         return letter;
     };
-    fill_rect(renderer, x, y, w, h, 11, 31, 58, 245);
-    fill_rect(renderer, x, y, w, 3.0F, 111, 227, 255, 255);
+    draw_panel(renderer, x, y, w, h, 111, 227, 255, 245);
     SDL_SetRenderScale(renderer, kScale, kScale);
     SDL_SetRenderDrawColor(renderer, 111, 227, 255, 255);
     const std::string title = assets.pack.text(ui.lang, "$i18n:ui.board") + " - " + board->settlement.name;
@@ -1941,8 +1979,7 @@ void draw_journal(SDL_Renderer* renderer, const Assets& assets, const aether::Wo
     const std::vector<JournalLine> lines = journal_lines(assets, sim, ui, columns);
     const int visible = std::max(static_cast<int>((h - 90.0F) / row), 1);
     const int first = std::clamp(ui.journal_scroll, 0, std::max(static_cast<int>(lines.size()) - visible, 0));
-    fill_rect(renderer, x, y, w, h, 11, 31, 58, 245);
-    fill_rect(renderer, x, y, w, 3.0F, 255, 215, 120, 255);
+    draw_panel(renderer, x, y, w, h, 255, 215, 120, 245);
     SDL_SetRenderScale(renderer, kScale, kScale);
     SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
     debug_text(renderer, (x + 16.0F) / kScale, (y + 14.0F) / kScale,
@@ -1990,8 +2027,7 @@ void draw_travel(SDL_Renderer* renderer, const Assets& assets, const aether::Wor
     const float h = 120.0F + row * 2.0F * static_cast<float>(std::max(visible, 1));
     const float x = (static_cast<float>(out_w) - w) / 2.0F;
     const float y = (static_cast<float>(out_h) - h) / 2.0F;
-    fill_rect(renderer, x, y, w, h, 11, 31, 58, 245);
-    fill_rect(renderer, x, y, w, 3.0F, 111, 227, 255, 255);
+    draw_panel(renderer, x, y, w, h, 111, 227, 255, 245);
     SDL_SetRenderScale(renderer, kScale, kScale);
     SDL_SetRenderDrawColor(renderer, 111, 227, 255, 255);
     debug_text(renderer, (x + 16.0F) / kScale, (y + 12.0F) / kScale,
@@ -2040,8 +2076,7 @@ void draw_inventory_and_notice(SDL_Renderer* renderer, const Assets& assets, con
         const int first = list_first(static_cast<int>(items.size()), bag_cursor, max_rows);
         const float h = 56.0F + row * static_cast<float>(std::max(visible, 1)) + row * 2.0F;
         const float y = (static_cast<float>(out_h) - h) / 2.0F;
-        fill_rect(renderer, x, y, w, h, 11, 31, 58, 240);
-        fill_rect(renderer, x, y, w, 3.0F, 111, 227, 255, 255);
+        draw_panel(renderer, x, y, w, h, 111, 227, 255, 240);
         SDL_SetRenderScale(renderer, kScale, kScale);
         SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
         debug_text(renderer, (x + 16.0F) / kScale, (y + 14.0F) / kScale,

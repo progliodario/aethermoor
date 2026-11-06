@@ -676,6 +676,55 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
     }
 
+
+    /** A panel with a soft shadow, a border in the accent color, a body that fades from lighter to darker, a light line under the top edge and a stripe of the accent color on top. Call it inside a Filled batch. */
+    private fun drawPanel(x: Float, y: Float, w: Float, h: Float, accent: Color, alpha: Float) {
+        val density = Gdx.graphics.density
+        shapes.color = Color(0f, 0f, 0f, 0.35f)
+        shapes.rect(x + 3f * density, y + 4f * density, w, h)
+        shapes.color = Color(0.016f, 0.04f, 0.094f, 1f)
+        shapes.rect(x - 2f * density, y - 2f * density, w + 4f * density, h + 4f * density)
+        shapes.color = Color(accent.r / 2f, accent.g / 2f, accent.b / 2f, 1f)
+        shapes.rect(x - density, y - density, w + 2f * density, h + 2f * density)
+        val strips = maxOf(1, (h / (4f * density)).toInt())
+        for (i in 0 until strips) {
+            val t = i.toFloat() / strips.toFloat()
+            shapes.color = Color(0.086f + (0.031f - 0.086f) * t, 0.188f + (0.078f - 0.188f) * t, 0.345f + (0.172f - 0.345f) * t, alpha)
+            shapes.rect(x, y + h * t, w, h / strips + 0.5f)
+        }
+        shapes.color = Color(1f, 1f, 1f, 0.16f)
+        shapes.rect(x, y + 3f * density, w, density)
+        shapes.color = accent
+        shapes.rect(x, y, w, 3f * density)
+        shapes.color = Color(accent.r / 2f + 0.16f, accent.g / 2f + 0.16f, accent.b / 2f + 0.16f, 0.8f)
+        for (cx in floatArrayOf(x + 5f * density, x + w - 8f * density)) {
+            for (cy in floatArrayOf(y + 6f * density, y + h - 9f * density)) shapes.rect(cx, cy, 3f * density, 3f * density)
+        }
+    }
+
+    /** A bar with a dark frame, a fill that is lighter on the top half and darker on the bottom, a gloss line and ticks. Call it inside a Filled batch. */
+    private fun drawBar(x: Float, y: Float, w: Float, h: Float, ratio: Float, color: Color) {
+        shapes.color = Color(0.016f, 0.04f, 0.094f, 0.92f)
+        shapes.rect(x - 2f, y - 2f, w + 4f, h + 4f)
+        shapes.color = Color(0.27f, 0.35f, 0.47f, 0.8f)
+        shapes.rect(x - 1f, y - 1f, w + 2f, h + 2f)
+        shapes.color = Color(0.047f, 0.086f, 0.157f, 1f)
+        shapes.rect(x, y, w, h)
+        val fw = w * ratio.coerceIn(0f, 1f)
+        if (fw > 0f) {
+            shapes.color = Color((color.r + 0.16f).coerceAtMost(1f), (color.g + 0.16f).coerceAtMost(1f), (color.b + 0.16f).coerceAtMost(1f), 1f)
+            shapes.rect(x, y, fw, h * 0.55f)
+            shapes.color = Color((color.r - 0.18f).coerceAtLeast(0f), (color.g - 0.18f).coerceAtLeast(0f), (color.b - 0.18f).coerceAtLeast(0f), 1f)
+            shapes.rect(x, y + h * 0.55f, fw, h * 0.45f)
+            shapes.color = Color(1f, 1f, 1f, 0.27f)
+            shapes.rect(x, y + 1f, fw, maxOf(1f, h * 0.14f))
+            shapes.color = Color(1f, 1f, 1f, 0.35f)
+            shapes.rect(x + fw - 1f, y, 1f, h)
+        }
+        shapes.color = Color(0f, 0f, 0f, 0.27f)
+        for (i in 1..9) shapes.rect(x + w * i / 10f, y + h * 0.7f, 1f, h * 0.3f)
+    }
+
     private fun drawOverlays(world: WorldSim, camX: Float, camY: Float, tile: Float, k: Float) {
         shapes.projectionMatrix = camera.combined
         Gdx.gl.glEnable(GL20.GL_BLEND)
@@ -713,20 +762,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val hpRatio = (p.hp.toFloat() / world.derived.maxHp.toFloat()).coerceIn(0f, 1f)
         val need = world.combat.xpTable.getOrNull((p.level - 1).toInt()) ?: 0L
         val xpRatio = if (need > 0) (p.xp.toFloat() / need.toFloat()).coerceIn(0f, 1f) else 0f
-        shapes.color = Color(0.04f, 0.08f, 0.16f, 0.8f)
-        shapes.rect(x - 2f, y - 2f, barW + 4f, barH + 4f)
-        shapes.color = Color(0.82f, 0.24f, 0.24f, 1f)
-        shapes.rect(x, y, barW * hpRatio, barH)
         val mpRatio = (world.mp.toFloat() / maxOf(world.derived.maxMp, 1L).toFloat()).coerceIn(0f, 1f)
         val below = 10f * density // the mana bar sits between the health bar and the experience bar
-        shapes.color = Color(0.04f, 0.08f, 0.16f, 0.8f)
-        shapes.rect(x, y + barH + 4f, barW, 7f * density)
-        shapes.color = Color(0.31f, 0.55f, 1f, 1f)
-        shapes.rect(x, y + barH + 4f, barW * mpRatio, 7f * density)
-        shapes.color = Color(0.04f, 0.08f, 0.16f, 0.8f)
-        shapes.rect(x, y + barH + 6f + below, barW, 6f * density)
-        shapes.color = Color(0.35f, 0.78f, 0.47f, 1f)
-        shapes.rect(x, y + barH + 6f + below, barW * xpRatio, 6f * density)
+        drawBar(x, y + barH + 4f, barW, 7f * density, mpRatio, Color(0.31f, 0.55f, 1f, 1f))
+        drawBar(x, y, barW, barH, hpRatio, Color(0.82f, 0.24f, 0.24f, 1f))
+        drawBar(x, y + barH + 6f + below, barW, 6f * density, xpRatio, Color(0.35f, 0.78f, 0.47f, 1f))
         // The two abilities next to the bars: a square that fills while the cooldown runs and is lit when the ability is ready
         // (green: the dodge roll, blue: the power strike, which also needs enough mana).
         val pip = 15f * density
@@ -1184,10 +1224,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             shapes.rect(button[0], button[1], button[2], button[3])
         }
         if (view.active) {
-            shapes.color = Color(0.04f, 0.12f, 0.23f, 0.92f)
-            shapes.rect(margin, boxY, boxW, boxH)
-            shapes.color = Color(0.435f, 0.89f, 1f, 1f)
-            shapes.rect(margin, boxY, boxW, 3f * density)
+            drawPanel(margin, boxY, boxW, boxH, Color(0.435f, 0.89f, 1f, 1f), 0.92f)
             if (view.isChoice) {
                 val rowH = font.lineHeight * 1.5f
                 choiceRects = view.choices.indices.map { i -> floatArrayOf(margin, boxY + 12f * density + questionHeight + i * rowH, boxW, rowH) }
@@ -1319,10 +1356,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         shapes.projectionMatrix = camera.combined
         Gdx.gl.glEnable(GL20.GL_BLEND)
         shapes.begin(ShapeRenderer.ShapeType.Filled)
-        shapes.color = Color(0.04f, 0.12f, 0.23f, 0.96f)
-        shapes.rect(panelX, panelY, panelW, panelH)
-        shapes.color = Color(1f, 0.84f, 0.47f, 1f)
-        shapes.rect(panelX, panelY, panelW, 3f * density)
+        drawPanel(panelX, panelY, panelW, panelH, Color(1f, 0.84f, 0.47f, 1f), 0.96f)
         for ((i, tab) in listOf(shopBuyTab, shopSellTab).withIndex()) {
             val active = (i == 1) == shopSell
             shapes.color = if (active) Color(0.16f, 0.35f, 0.55f, 1f) else Color(0.08f, 0.16f, 0.28f, 1f)
@@ -1386,10 +1420,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         shapes.projectionMatrix = camera.combined
         Gdx.gl.glEnable(GL20.GL_BLEND)
         shapes.begin(ShapeRenderer.ShapeType.Filled)
-        shapes.color = Color(0.04f, 0.12f, 0.23f, 0.96f)
-        shapes.rect(panelX, panelY, panelW, panelH)
-        shapes.color = Color(0.435f, 0.89f, 1f, 1f)
-        shapes.rect(panelX, panelY, panelW, 3f * density)
+        drawPanel(panelX, panelY, panelW, panelH, Color(0.435f, 0.89f, 1f, 1f), 0.96f)
         shapes.color = Color(0.16f, 0.35f, 0.55f, 1f)
         shapes.rect(panelX + 6f * density, firstRowY + (cursor - first) * rowH - 2f * density, panelW - 12f * density, rowH)
         shapes.end()

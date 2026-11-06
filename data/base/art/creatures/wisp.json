@@ -111,6 +111,34 @@
       "fill": {
         "color": "$p.eye"
       }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          12.55,
+          23.16,
+          0.45,
+          0.72
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.85
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18.55,
+          23.16,
+          0.45,
+          0.72
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.85
     }
   ]
 }

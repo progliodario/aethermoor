@@ -294,6 +294,130 @@
       "fill": {
         "color": "$p.fang"
       }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          19.62,
+          19.62,
+          2.89,
+          1.5
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.3
+    },
+    {
+      "shape": {
+        "ellipse": [
+          23.7,
+          27.12,
+          5.95,
+          2.1
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.12
+    },
+    {
+      "shape": {
+        "path": "M 23.45 22.25 L 25.05 23.45"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 0.6
+      },
+      "alpha": 0.4
+    },
+    {
+      "shape": {
+        "path": "M 22.52 20.73 L 20.92 21.93"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 0.6
+      },
+      "alpha": 0.4
+    },
+    {
+      "shape": {
+        "path": "M 21.83 24.78 L 23.43 25.98"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 0.6
+      },
+      "alpha": 0.4
+    },
+    {
+      "shape": {
+        "path": "M 22 19.78 L 20.4 20.98"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 0.6
+      },
+      "alpha": 0.4
+    },
+    {
+      "shape": {
+        "ellipse": [
+          19.17,
+          12.62,
+          0.33,
+          0.33
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.85
+    },
+    {
+      "shape": {
+        "ellipse": [
+          24.17,
+          12.62,
+          0.33,
+          0.33
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.85
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20.76,
+          11.32,
+          0.24,
+          0.24
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.85
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22.76,
+          11.32,
+          0.24,
+          0.24
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.85
     }
   ]
 }

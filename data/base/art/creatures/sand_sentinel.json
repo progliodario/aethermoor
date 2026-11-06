@@ -242,6 +242,315 @@
       "fill": {
         "color": "$p.glow"
       }
+    },
+    {
+      "shape": {
+        "path": "M 14 56 Q 12 38 28 33 Q 44 38 42 56"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 1.0
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 15 46 Q 28 50 41 46"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 1.2
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 14 40 Q 28 44 42 40"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.8
+      },
+      "alpha": 0.4
+    },
+    {
+      "shape": {
+        "ellipse": [
+          17,
+          42,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.5
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          39,
+          42,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.5
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          19,
+          53,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.5
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          37,
+          53,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.5
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          28,
+          56,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.5
+      }
+    },
+    {
+      "shape": {
+        "path": "M 28 52 L 26 57 L 28.4 55.6 L 27 60"
+      },
+      "stroke": {
+        "color": "$p.glow",
+        "width": 0.9
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "path": "M 20 36 L 22 40 L 21 43"
+      },
+      "stroke": {
+        "color": "$p.glow",
+        "width": 0.7
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "ellipse": [
+          12,
+          35.5,
+          6.6,
+          5.4
+        ]
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.8
+      },
+      "alpha": 0.5
+    },
+    {
+      "shape": {
+        "ellipse": [
+          10.4,
+          34,
+          2.4,
+          1.5
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.3
+    },
+    {
+      "shape": {
+        "path": "M 7 38.5 Q 12 41.5 17 38.5"
+      },
+      "stroke": {
+        "color": "#000000",
+        "width": 0.9
+      },
+      "alpha": 0.3
+    },
+    {
+      "shape": {
+        "ellipse": [
+          44,
+          35.5,
+          6.6,
+          5.4
+        ]
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.8
+      },
+      "alpha": 0.5
+    },
+    {
+      "shape": {
+        "ellipse": [
+          42.4,
+          34,
+          2.4,
+          1.5
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.3
+    },
+    {
+      "shape": {
+        "path": "M 39 38.5 Q 44 41.5 49 38.5"
+      },
+      "stroke": {
+        "color": "#000000",
+        "width": 0.9
+      },
+      "alpha": 0.3
+    },
+    {
+      "shape": {
+        "path": "M 28 8.4 L 28 18"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 1.0
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 20 12 Q 22 9.5 26 9"
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 1.0
+      },
+      "alpha": 0.4
+    },
+    {
+      "shape": {
+        "rect": [
+          20,
+          18.5,
+          16,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.35
+    },
+    {
+      "shape": {
+        "ellipse": [
+          24.5,
+          20.5,
+          3.2,
+          2.2
+        ]
+      },
+      "fill": {
+        "color": "$p.glow"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "ellipse": [
+          31.5,
+          20.5,
+          3.2,
+          2.2
+        ]
+      },
+      "fill": {
+        "color": "$p.glow"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "path": "M 13 5.5 L 19 12.5"
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 0.6
+      },
+      "alpha": 0.55
+    },
+    {
+      "shape": {
+        "path": "M 43 5.5 L 37 12.5"
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 0.6
+      },
+      "alpha": 0.55
+    },
+    {
+      "shape": {
+        "ellipse": [
+          28,
+          30,
+          9,
+          1.6
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.25
     }
   ]
 }

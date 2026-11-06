@@ -205,6 +205,102 @@
         "color": "$p.outline",
         "width": 1.0
       }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18.64,
+          17.62,
+          4.08,
+          1.5
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.3
+    },
+    {
+      "shape": {
+        "ellipse": [
+          24.4,
+          25.12,
+          8.4,
+          2.1
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.12
+    },
+    {
+      "shape": {
+        "path": "M 22.82 21.58 L 21.22 22.78"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 0.6
+      },
+      "alpha": 0.4
+    },
+    {
+      "shape": {
+        "path": "M 21.08 20.21 L 22.68 21.41"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 0.6
+      },
+      "alpha": 0.4
+    },
+    {
+      "shape": {
+        "path": "M 20.85 20.79 L 19.25 21.99"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 0.6
+      },
+      "alpha": 0.4
+    },
+    {
+      "shape": {
+        "path": "M 18.32 17.78 L 16.72 18.98"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 0.6
+      },
+      "alpha": 0.4
+    },
+    {
+      "shape": {
+        "ellipse": [
+          16.93,
+          11.84,
+          0.57,
+          0.57
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.85
+    },
+    {
+      "shape": {
+        "ellipse": [
+          25.93,
+          11.84,
+          0.57,
+          0.57
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.85
     }
   ]
 }

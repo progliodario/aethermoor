@@ -19,3 +19,9 @@ Regole per tutta l'arte del gioco (ricette vettoriali in `data/base/art/`, forma
 ## Come si fa
 
 Le ricette dei terreni e degli oggetti sono scritte con `python tools/make_art.py` (`tools/artkit.py` ha i pezzi: colori, ellissi, ciuffi, sassolini, gradienti; `tools/art_props.py` ha gli oggetti): si cambia il codice e si rigenerano i JSON, che restano il formato che il gioco legge. `python tools/art_preview.py <schema>` disegna una pagina HTML con le ricette (`tiles`, `props`, `creatures`...), e `aethermoor --smoke-test --screenshot-dir=...` mostra come stanno nel gioco.
+
+## Persone, creature e interfaccia
+
+- `tools/art_chars.py` riscrive le quattro parti del rig umanoide (testa, busto, braccio, gamba) tenendo canvas, palette e varianti; le ombre sono nero o bianco con alpha, così funzionano con ogni palette.
+- `tools/art_creatures.py` aggiunge strati di dettaglio sopra le ricette delle creature (non le riscrive): si esegue una volta sola per ricetta, riconosce le originali dal numero di strati. Per cambiare una creatura già rifinita, si modifica il file a mano o si rigenera dal git.
+- Interfaccia: `draw_panel` e `draw_bar` in `desktop/src/app/main.cpp` e `drawPanel` e `drawBar` in `AethermoorGame.kt` disegnano pannelli e barre con lo stesso aspetto; ogni pannello nuovo usa questi.

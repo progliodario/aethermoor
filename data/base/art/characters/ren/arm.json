@@ -15,7 +15,22 @@
         "path": "M 1 1 Q 4 0 7 1 L 7 11 Q 4 13 1 11 Z"
       },
       "fill": {
-        "color": "$p.shirt"
+        "linear": {
+          "x0": 0,
+          "y0": 0,
+          "x1": 8,
+          "y1": 0,
+          "stops": [
+            [
+              0,
+              "$p.shirt"
+            ],
+            [
+              1,
+              "$p.shirt_dark"
+            ]
+          ]
+        }
       },
       "stroke": {
         "color": "$p.outline",
@@ -24,20 +39,84 @@
     },
     {
       "shape": {
-        "ellipse": [
-          4,
-          13,
-          3,
-          3
+        "path": "M 1.6 1.4 Q 4 0.6 6.4 1.4 L 6.4 3.4 Q 4 2.6 1.6 3.4 Z"
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.2
+    },
+    {
+      "shape": {
+        "rect": [
+          1,
+          9,
+          6,
+          2.4
         ]
       },
       "fill": {
-        "color": "$p.skin"
+        "color": "$p.shirt_dark"
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 1.4
+        "width": 0.8
       }
+    },
+    {
+      "shape": {
+        "rect": [
+          1.4,
+          9.3,
+          5.2,
+          0.7
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.18
+    },
+    {
+      "shape": {
+        "ellipse": [
+          4,
+          13.3,
+          3,
+          2.9
+        ]
+      },
+      "fill": {
+        "radial": {
+          "cx": 3,
+          "cy": 12,
+          "r": 5,
+          "stops": [
+            [
+              0,
+              "#FFE0BD"
+            ],
+            [
+              1,
+              "$p.skin"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.2
+      }
+    },
+    {
+      "shape": {
+        "path": "M 3 14.5 L 3 15.5 M 5 14.5 L 5 15.5"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.5
+      },
+      "alpha": 0.6
     }
   ],
   "palette": {
