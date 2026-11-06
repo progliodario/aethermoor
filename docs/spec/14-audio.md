@@ -169,6 +169,8 @@ and the position of the player. Its rules are `data/base/audio/music_rules.json`
 
 ### Playing it
 
+**Switched off for now:** the pack ships no `music_rules.json`, so the clients play no music. `python tools/compose.py --rules` writes it (and the pieces) again.
+
 When the wanted piece changes, a client renders the new one **in the background** (a piece is a few seconds of work), keeps playing the old one
 meanwhile, and then crossfades to the new one over two and a half seconds; the old one is dropped when silent. The music is mixed at half of the
 loudness of the effects. The title screen and the protagonist screen play the `title` piece with no ambience. Muting silences the music too.
