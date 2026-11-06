@@ -506,6 +506,11 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
             1.0F - static_cast<float>(p.dodge_cooldown) / static_cast<float>(std::max(setup.dodge.cooldown, 1));
         draw_pip(ready, p.dodge_cooldown == 0, 90, 220, 120, "L");
     }
+    if (setup.gift.death_save_ticks > 0) {  // the Eternal Aegis: lit when the death save is ready
+        const float ready =
+            1.0F - static_cast<float>(p.death_save_cd) / static_cast<float>(setup.gift.death_save_ticks);
+        draw_pip(ready, p.death_save_cd == 0, 255, 215, 90, "A");
+    }
     if (setup.strike.enabled) {
         const float ready = 1.0F - static_cast<float>(std::min(p.cooldown, setup.strike.skill.cooldown)) /
                                        static_cast<float>(std::max(setup.strike.skill.cooldown, 1));
@@ -2519,17 +2524,30 @@ std::string choose_protagonist(SDL_Window* window, SDL_Renderer* renderer, const
                       selected ? 255 : 200, selected ? 255 : 215, selected ? 255 : 230);
         }
         const std::string& id = ids[static_cast<std::size_t>(cursor)];
+        std::string stats_line;
+        std::string stats_line2;
         {  // the character, as it will look, under the list
             std::string variant;
             std::string parse_error;
             if (const auto document = assets.pack.read_document(id)) {
                 if (const auto def = aether::parse_protagonist(*document, parse_error)) {
                     variant = def->art_variant;
+                    const aether::Primary& p = def->base_stats;
+                    const aether::DerivedStats stats = aether::derived_stats(1, p, aether::Equipment{});
+                    stats_line = "STR " + std::to_string(p.str) + "  VIT " + std::to_string(p.vit) + "  DEX " +
+                                 std::to_string(p.dex) + "  AGI " + std::to_string(p.agi) + "  INT " +
+                                 std::to_string(p.int_) + "  WIS " + std::to_string(p.wis) + "  LUK " +
+                                 std::to_string(p.luk);
+                    stats_line2 = assets.pack.text(lang, "$i18n:ui.hp") + " " + std::to_string(stats.max_hp) + "   " +
+                                  assets.pack.text(lang, "$i18n:ui.mp") + " " + std::to_string(stats.max_mp) + "   " +
+                                  assets.pack.text(lang, "$i18n:ui.mp_regen") + " " +
+                                  std::to_string(stats.mp_regen_x100 / 100) + "." +
+                                  std::to_string(stats.mp_regen_x100 % 100 / 10);
                 }
             }
-            const int preview_px = static_cast<int>(128.0F * density);
+            const int preview_px = static_cast<int>(116.0F * density);
             draw_character(renderer, preview_cache, assets, false, false, static_cast<int>(SDL_GetTicks() / 16), false,
-                           variant, 180.0F * density, 610.0F * density, static_cast<float>(preview_px) / 32.0F,
+                           variant, 180.0F * density, 630.0F * density, static_cast<float>(preview_px) / 32.0F,
                            preview_px);
         }
         const float text_x = 360.0F * density;
@@ -2554,6 +2572,10 @@ std::string choose_protagonist(SDL_Window* window, SDL_Renderer* renderer, const
             draw_text(scale, text_x, ty, line, 235, 245, 255);
             ty += 14.0F * density;
         }
+        ty += 16.0F * density;
+        draw_text(scale, text_x, ty, stats_line, 150, 200, 255);
+        ty += 14.0F * density;
+        draw_text(scale, text_x, ty, stats_line2, 150, 200, 255);
         draw_text(1.25F * density, 30.0F * density, static_cast<float>(out_h) - 36.0F * density,
                   assets.pack.text(lang, "$i18n:ui.protagonist_hint"), 170, 200, 230);
         if (!capture_path.empty()) {
