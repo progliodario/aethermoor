@@ -349,7 +349,7 @@ def rules(quest_pieces: list[tuple[str, str]]) -> dict:
     }
 
 
-def main(quest_pieces: list[tuple[str, str]] | None = None) -> None:
+def main(quest_pieces: list[tuple[str, str]] | None = None, write_rules: bool = False) -> None:
     music = OUT / "music"
     music.mkdir(parents=True, exist_ok=True)
     for old in music.glob("*.json"):
@@ -357,8 +357,9 @@ def main(quest_pieces: list[tuple[str, str]] | None = None) -> None:
     for piece_id, kwargs in PIECES.items():
         doc = compose(piece_id, **kwargs)
         (music / f"{piece_id}.json").write_text(json.dumps(doc, indent=1) + "\n", encoding="utf-8")
-    (OUT / "music_rules.json").write_text(json.dumps(rules(quest_pieces if quest_pieces is not None else QUEST_PIECES), indent=2) + "\n", encoding="utf-8")
-    print(f"composed {len(PIECES)} pieces")
+    if write_rules:  # without the rules the game plays no music (the pieces stay in the pack)
+        (OUT / "music_rules.json").write_text(json.dumps(rules(quest_pieces if quest_pieces is not None else QUEST_PIECES), indent=2) + "\n", encoding="utf-8")
+    print(f"composed {len(PIECES)} pieces" + (" and the rules" if write_rules else ""))
 
 
 def _q(name: str) -> str:
@@ -374,4 +375,6 @@ QUEST_PIECES: list[tuple[str, str]] = (
 )
 
 if __name__ == "__main__":
-    main()
+    import sys
+
+    main(write_rules="--rules" in sys.argv)

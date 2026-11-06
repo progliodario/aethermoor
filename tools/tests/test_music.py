@@ -32,7 +32,10 @@ def test_every_piece_has_sixteen_step_bars_and_known_notes():
 
 
 def test_rules_name_existing_pieces():
-    rules = json.loads((AUDIO / "music_rules.json").read_text(encoding="utf-8"))
+    path = AUDIO / "music_rules.json"
+    if not path.exists():  # the music is switched off: the game plays none
+        return
+    rules = json.loads(path.read_text(encoding="utf-8"))
     wanted = {rules["title"], rules["dead"]}
     wanted |= {q["piece"] for q in rules["quests"]}
     for table in (rules["places"], rules["regions"]):
