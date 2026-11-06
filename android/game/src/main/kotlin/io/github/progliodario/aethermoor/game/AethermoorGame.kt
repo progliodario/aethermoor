@@ -80,6 +80,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private lateinit var batch: SpriteBatch
     private lateinit var shapes: ShapeRenderer
     private lateinit var font: BitmapFont
+    private val sound = SoundBoard()
+    private var soundWatch: SoundWatch? = null
     private lateinit var camera: OrthographicCamera
     private lateinit var cache: TextureCache
     private val input = InputController()
@@ -172,6 +174,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val loaded = loadAssets() ?: return
         assets = loaded
         cache = TextureCache(loaded.pack)
+        sound.open(loaded.pack, listOf("swing", "hit", "crit", "hurt", "dodge", "level_up", "pickup", "coin", "open", "close", "confirm", "power", "death", "enemy_die"))
         migrateLegacySaves()
         titleSlots = readSlots()
         Gdx.input.setCatchKey(Input.Keys.BACK, true) // Back leaves a game for the title screen (spec 12, "Slots")
@@ -485,13 +488,51 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             saveGame(world)
         }
 
-        for (e in world.takeEvents()) floating.add(FloatingText(e.position.x, e.position.y, e.amount.toString(), e.onPlayer, e.crit))
+        for (e in world.takeEvents()) {
+            floating.add(FloatingText(e.position.x, e.position.y, e.amount.toString(), e.onPlayer, e.crit))
+            sound.play(if (e.onPlayer) "hurt" else if (e.crit) "crit" else "hit")
+        }
+        playChangeSounds(world)
         floating.forEach { it.age++ }
         floating.removeAll { it.age > FLOATING_TEXT_FRAMES }
 
         val tilePx = max(16, (BASE_TILE_PX * Gdx.graphics.density).roundToInt())
         cache.releaseOtherBuckets(tilePx)
         draw(world, data, tilePx)
+    }
+
+    /** What the sounds were last frame, to hear what changed: an attack, a roll, a level, something in the bag... */
+    private class SoundWatch(
+        val attacking: Boolean,
+        val dodging: Boolean,
+        val level: Long,
+        val items: Long,
+        val gold: Long,
+        val panel: Boolean,
+        val hp: Long,
+    )
+
+    private fun playChangeSounds(world: WorldSim) {
+        val hero = world.player
+        val now = SoundWatch(
+            attacking = hero.phase != AttackPhase.NONE,
+            dodging = hero.dodgeTicks > 0,
+            level = hero.level,
+            items = world.inventory.values.sum(),
+            gold = world.story.gold,
+            panel = showInventory || showMap || showJournal,
+            hp = hero.hp,
+        )
+        soundWatch?.let { before ->
+            if (now.attacking && !before.attacking) sound.play(if (hero.usingStrike) "power" else "swing")
+            if (now.dodging && !before.dodging) sound.play("dodge")
+            if (now.level > before.level) sound.play("level_up")
+            if (now.items > before.items) sound.play("pickup")
+            if (now.gold > before.gold) sound.play("coin")
+            if (now.panel != before.panel) sound.play(if (now.panel) "open" else "close")
+            if (now.hp <= 0 && before.hp > 0) sound.play("death")
+        }
+        soundWatch = now
     }
 
     private fun draw(world: WorldSim, data: Assets, tilePx: Int) {
@@ -2606,6 +2647,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         shapes.dispose()
         font.dispose()
         if (::cache.isInitialized) cache.dispose()
+        sound.dispose()
     }
 
     companion object {

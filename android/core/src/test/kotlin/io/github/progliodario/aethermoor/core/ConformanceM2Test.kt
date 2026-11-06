@@ -1,5 +1,7 @@
 package io.github.progliodario.aethermoor.core
 
+import io.github.progliodario.aethermoor.core.audio.parseSfx
+import io.github.progliodario.aethermoor.core.audio.synthesize
 import io.github.progliodario.aethermoor.core.sim.CollisionWorld
 import io.github.progliodario.aethermoor.core.sim.Circle
 import io.github.progliodario.aethermoor.core.sim.Vec2
@@ -93,6 +95,29 @@ class ConformanceM2Test {
                 val wanted = expect.getValue("positions").jsonArray[segment].jsonArray
                 assertNear(wanted[0].num(), position.x, tol, "$label seg $segment x")
                 assertNear(wanted[1].num(), position.y, tol, "$label seg $segment y")
+            }
+        }
+    }
+
+    @Test
+    fun audioSuite() {
+        for (case in suite("audio")) {
+            val c = case.jsonObject
+            val label = c.getValue("name").jsonPrimitive.content
+            val expect = c.getValue("expect").jsonObject
+            val recipe = parseSfx(c.getValue("input").jsonObject.getValue("recipe").toString()).getOrThrow()
+            val samples = synthesize(recipe)
+            assertEquals(expect.getValue("samples").jsonPrimitive.int, samples.size, "$label samples")
+            val peak = samples.maxOf { abs(it.toInt()) }
+            assertTrue(abs(peak - expect.getValue("peak").jsonPrimitive.int) <= 2, "$label peak $peak")
+            val mean = samples.sumOf { abs(it.toInt()).toDouble() } / samples.size
+            val wanted = expect.getValue("mean_abs").jsonPrimitive.double
+            assertTrue(abs(mean - wanted) <= maxOf(2.0, wanted * 0.01), "$label mean $mean expected $wanted")
+            for (probeElement in expect.getValue("probes").jsonArray) {
+                val probe = probeElement.jsonObject
+                val i = probe.getValue("i").jsonPrimitive.int
+                val value = probe.getValue("value").jsonPrimitive.int
+                assertTrue(abs(samples[i].toInt() - value) <= 2, "$label sample $i: expected $value, got ${samples[i]}")
             }
         }
     }

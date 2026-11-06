@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/level_up",
+  "duration_ms": 700,
+  "volume_pm": 700,
+  "layers": [
+    {
+      "wave": "square",
+      "freq_start": 523,
+      "freq_end": 523,
+      "volume_pm": 450,
+      "attack_ms": 0,
+      "decay_ms": 160,
+      "duty_pm": 250
+    },
+    {
+      "wave": "square",
+      "freq_start": 659,
+      "freq_end": 659,
+      "volume_pm": 450,
+      "attack_ms": 160,
+      "decay_ms": 160,
+      "duty_pm": 250
+    },
+    {
+      "wave": "square",
+      "freq_start": 784,
+      "freq_end": 784,
+      "volume_pm": 450,
+      "attack_ms": 320,
+      "decay_ms": 160,
+      "duty_pm": 250
+    },
+    {
+      "wave": "square",
+      "freq_start": 1047,
+      "freq_end": 1047,
+      "volume_pm": 500,
+      "attack_ms": 480,
+      "decay_ms": 220,
+      "duty_pm": 250
+    }
+  ]
+}

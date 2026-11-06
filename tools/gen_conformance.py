@@ -17,6 +17,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import conformance_audio  # noqa: E402
 import conformance_m2  # noqa: E402
 import conformance_m3  # noqa: E402
 import conformance_m4  # noqa: E402
@@ -219,6 +220,7 @@ SUITES = {
     "rig_pose": conformance_m2.suite_rig_pose,
     "movement": conformance_m2.suite_movement,
     "raster": conformance_m2.suite_raster,
+    "audio": conformance_audio.suite_audio,
     "combat": conformance_m3.suite_combat,
     "story": conformance_m4.suite_story,
     "save": conformance_m4.suite_save,

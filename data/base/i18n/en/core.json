@@ -107,6 +107,8 @@
   "ui.map_key_goal": "Goal",
   "ui.map_btn_goal": "Goal",
   "ui.region_enter": "You enter {region}",
+  "ui.sound_on": "Sound on",
+  "ui.sound_off": "Sound off",
   "ui.map_btn_next": "Next",
   "ui.dodge": "Dodge",
   "ui.strike": "Strike",

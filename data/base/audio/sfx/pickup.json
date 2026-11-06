@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/pickup",
+  "duration_ms": 180,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "square",
+      "freq_start": 880,
+      "freq_end": 1320,
+      "volume_pm": 500,
+      "attack_ms": 0,
+      "decay_ms": 150,
+      "duty_pm": 300
+    },
+    {
+      "wave": "sine",
+      "freq_start": 1760,
+      "freq_end": 1760,
+      "volume_pm": 250,
+      "attack_ms": 0,
+      "decay_ms": 120
+    }
+  ]
+}
