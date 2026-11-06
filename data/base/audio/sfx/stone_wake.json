@@ -1,0 +1,42 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/stone_wake",
+  "duration_ms": 1400,
+  "volume_pm": 700,
+  "layers": [
+    {
+      "wave": "sine",
+      "freq_start": 220,
+      "freq_end": 220,
+      "volume_pm": 400,
+      "attack_ms": 100,
+      "decay_ms": 1300
+    },
+    {
+      "wave": "sine",
+      "freq_start": 330,
+      "freq_end": 330,
+      "volume_pm": 350,
+      "attack_ms": 150,
+      "decay_ms": 1250
+    },
+    {
+      "wave": "sine",
+      "freq_start": 440,
+      "freq_end": 440,
+      "volume_pm": 300,
+      "attack_ms": 200,
+      "decay_ms": 1200,
+      "am_dhz": 40,
+      "am_depth_pm": 400
+    },
+    {
+      "wave": "sine",
+      "freq_start": 660,
+      "freq_end": 660,
+      "volume_pm": 250,
+      "attack_ms": 300,
+      "decay_ms": 1100
+    }
+  ]
+}

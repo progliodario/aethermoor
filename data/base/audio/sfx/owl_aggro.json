@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/owl_aggro",
+  "duration_ms": 520,
+  "volume_pm": 550,
+  "layers": [
+    {
+      "wave": "sine",
+      "freq_start": 420,
+      "freq_end": 380,
+      "volume_pm": 600,
+      "attack_ms": 30,
+      "decay_ms": 200
+    },
+    {
+      "wave": "sine",
+      "freq_start": 400,
+      "freq_end": 340,
+      "volume_pm": 600,
+      "attack_ms": 280,
+      "decay_ms": 220
+    }
+  ]
+}

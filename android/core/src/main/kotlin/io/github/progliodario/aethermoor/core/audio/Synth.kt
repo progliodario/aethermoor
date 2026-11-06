@@ -1,6 +1,7 @@
 package io.github.progliodario.aethermoor.core.audio
 
 import kotlin.math.abs
+import kotlin.math.cos
 import kotlin.math.exp
 import kotlin.math.floor
 import kotlin.math.ln
@@ -8,6 +9,7 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sin
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
@@ -28,9 +30,13 @@ data class SfxLayer(
     val dutyPm: Int,
     val attackMs: Int,
     val decayMs: Int,
+    /** Amplitude modulation rate in tenths of a hertz, and its depth in permille. */
+    val amDhz: Int = 0,
+    val amDepthPm: Int = 0,
 )
 
-data class SfxRecipe(val id: String, val durationMs: Int, val volumePm: Int, val layers: List<SfxLayer>)
+/** [loop]: an ambience, with no envelope, meant to repeat. */
+data class SfxRecipe(val id: String, val durationMs: Int, val volumePm: Int, val layers: List<SfxLayer>, val loop: Boolean = false)
 
 private fun parseWave(name: String): Wave =
     when (name) {
@@ -56,6 +62,8 @@ fun parseSfx(jsonText: String): Result<SfxRecipe> =
                 dutyPm = l["duty_pm"]?.jsonPrimitive?.int ?: 500,
                 attackMs = l.getValue("attack_ms").jsonPrimitive.int,
                 decayMs = max(1, l.getValue("decay_ms").jsonPrimitive.int),
+                amDhz = l["am_dhz"]?.jsonPrimitive?.int ?: 0,
+                amDepthPm = l["am_depth_pm"]?.jsonPrimitive?.int ?: 0,
             )
         }
         SfxRecipe(
@@ -63,6 +71,7 @@ fun parseSfx(jsonText: String): Result<SfxRecipe> =
             durationMs = j.getValue("duration_ms").jsonPrimitive.int,
             volumePm = j.getValue("volume_pm").jsonPrimitive.int,
             layers = layers,
+            loop = j["loop"]?.jsonPrimitive?.boolean ?: false,
         )
     }
 
@@ -86,6 +95,8 @@ fun synthesize(recipe: SfxRecipe): ShortArray {
         val attack = layer.attackMs.toDouble()
         val decay = layer.decayMs.toDouble()
         val volume = layer.volumePm / 1000.0
+        val amHz = layer.amDhz / 10.0
+        val amDepth = layer.amDepthPm / 1000.0
         var phase = 0.0
         var state = 2463534242L.toInt()
         var held = 0.0
@@ -111,8 +122,9 @@ fun synthesize(recipe: SfxRecipe): ShortArray {
             wrapped = phase >= 1.0
             if (wrapped) phase -= 1.0
             val ms = i.toDouble() * 1000.0 / SAMPLE_RATE.toDouble()
-            val env = if (ms < attack) ms / attack else max(0.0, 1.0 - (ms - attack) / decay)
-            mix[i] += w * env * volume
+            val env = if (recipe.loop) 1.0 else if (ms < attack) ms / attack else max(0.0, 1.0 - (ms - attack) / decay)
+            val gain = if (amDepth > 0.0) 1.0 - amDepth * (0.5 - 0.5 * cos(2.0 * Math.PI * amHz * (i.toDouble() / SAMPLE_RATE.toDouble()))) else 1.0
+            mix[i] += w * env * volume * gain
         }
     }
     return ShortArray(n) { i ->

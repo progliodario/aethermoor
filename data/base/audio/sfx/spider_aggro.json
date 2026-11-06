@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/spider_aggro",
+  "duration_ms": 260,
+  "volume_pm": 450,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 6000,
+      "freq_end": 4200,
+      "volume_pm": 400,
+      "attack_ms": 40,
+      "decay_ms": 210
+    }
+  ]
+}

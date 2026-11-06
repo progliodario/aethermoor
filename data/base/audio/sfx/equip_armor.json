@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/equip_armor",
+  "duration_ms": 280,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 1500,
+      "freq_end": 500,
+      "volume_pm": 500,
+      "attack_ms": 20,
+      "decay_ms": 220
+    },
+    {
+      "wave": "triangle",
+      "freq_start": 260,
+      "freq_end": 180,
+      "volume_pm": 350,
+      "attack_ms": 0,
+      "decay_ms": 150
+    },
+    {
+      "wave": "noise",
+      "freq_start": 3000,
+      "freq_end": 1500,
+      "volume_pm": 150,
+      "attack_ms": 150,
+      "decay_ms": 100
+    }
+  ]
+}

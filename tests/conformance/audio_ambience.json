@@ -1,0 +1,294 @@
+{
+  "suite": "audio_ambience",
+  "spec_version": 1,
+  "generated_by": "tools/gen_conformance.py",
+  "cases": [
+    {
+      "name": "verdalis_day",
+      "input": {
+        "op": "ambience",
+        "region": "verdalis",
+        "tod_pm": 500,
+        "rain_pm": 0,
+        "rules": {
+          "rain": {
+            "light": "amb_rain_light",
+            "heavy": "amb_rain_heavy",
+            "silences": [
+              "amb_birds"
+            ]
+          },
+          "regions": {
+            "verdalis": [
+              {
+                "sound": "amb_birds",
+                "when": "day",
+                "gain_pm": 600
+              },
+              {
+                "sound": "amb_wind_soft",
+                "gain_pm": 300
+              },
+              {
+                "sound": "amb_crickets",
+                "when": "night",
+                "gain_pm": 500
+              }
+            ],
+            "frostveil": [
+              {
+                "sound": "amb_wind_snow",
+                "gain_pm": 700
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "gains": {
+          "amb_birds": 600,
+          "amb_wind_soft": 300
+        }
+      }
+    },
+    {
+      "name": "verdalis_night",
+      "input": {
+        "op": "ambience",
+        "region": "verdalis",
+        "tod_pm": 0,
+        "rain_pm": 0,
+        "rules": {
+          "rain": {
+            "light": "amb_rain_light",
+            "heavy": "amb_rain_heavy",
+            "silences": [
+              "amb_birds"
+            ]
+          },
+          "regions": {
+            "verdalis": [
+              {
+                "sound": "amb_birds",
+                "when": "day",
+                "gain_pm": 600
+              },
+              {
+                "sound": "amb_wind_soft",
+                "gain_pm": 300
+              },
+              {
+                "sound": "amb_crickets",
+                "when": "night",
+                "gain_pm": 500
+              }
+            ],
+            "frostveil": [
+              {
+                "sound": "amb_wind_snow",
+                "gain_pm": 700
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "gains": {
+          "amb_wind_soft": 300,
+          "amb_crickets": 500
+        }
+      }
+    },
+    {
+      "name": "verdalis_light_rain",
+      "input": {
+        "op": "ambience",
+        "region": "verdalis",
+        "tod_pm": 500,
+        "rain_pm": 300,
+        "rules": {
+          "rain": {
+            "light": "amb_rain_light",
+            "heavy": "amb_rain_heavy",
+            "silences": [
+              "amb_birds"
+            ]
+          },
+          "regions": {
+            "verdalis": [
+              {
+                "sound": "amb_birds",
+                "when": "day",
+                "gain_pm": 600
+              },
+              {
+                "sound": "amb_wind_soft",
+                "gain_pm": 300
+              },
+              {
+                "sound": "amb_crickets",
+                "when": "night",
+                "gain_pm": 500
+              }
+            ],
+            "frostveil": [
+              {
+                "sound": "amb_wind_snow",
+                "gain_pm": 700
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "gains": {
+          "amb_wind_soft": 300,
+          "amb_rain_light": 300
+        }
+      }
+    },
+    {
+      "name": "verdalis_storm",
+      "input": {
+        "op": "ambience",
+        "region": "verdalis",
+        "tod_pm": 500,
+        "rain_pm": 900,
+        "rules": {
+          "rain": {
+            "light": "amb_rain_light",
+            "heavy": "amb_rain_heavy",
+            "silences": [
+              "amb_birds"
+            ]
+          },
+          "regions": {
+            "verdalis": [
+              {
+                "sound": "amb_birds",
+                "when": "day",
+                "gain_pm": 600
+              },
+              {
+                "sound": "amb_wind_soft",
+                "gain_pm": 300
+              },
+              {
+                "sound": "amb_crickets",
+                "when": "night",
+                "gain_pm": 500
+              }
+            ],
+            "frostveil": [
+              {
+                "sound": "amb_wind_snow",
+                "gain_pm": 700
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "gains": {
+          "amb_wind_soft": 300,
+          "amb_rain_light": 900,
+          "amb_rain_heavy": 800
+        }
+      }
+    },
+    {
+      "name": "frostveil_storm",
+      "input": {
+        "op": "ambience",
+        "region": "frostveil",
+        "tod_pm": 100,
+        "rain_pm": 600,
+        "rules": {
+          "rain": {
+            "light": "amb_rain_light",
+            "heavy": "amb_rain_heavy",
+            "silences": [
+              "amb_birds"
+            ]
+          },
+          "regions": {
+            "verdalis": [
+              {
+                "sound": "amb_birds",
+                "when": "day",
+                "gain_pm": 600
+              },
+              {
+                "sound": "amb_wind_soft",
+                "gain_pm": 300
+              },
+              {
+                "sound": "amb_crickets",
+                "when": "night",
+                "gain_pm": 500
+              }
+            ],
+            "frostveil": [
+              {
+                "sound": "amb_wind_snow",
+                "gain_pm": 700
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "gains": {
+          "amb_wind_snow": 700,
+          "amb_rain_light": 600,
+          "amb_rain_heavy": 200
+        }
+      }
+    },
+    {
+      "name": "unknown_region",
+      "input": {
+        "op": "ambience",
+        "region": "nowhere",
+        "tod_pm": 500,
+        "rain_pm": 0,
+        "rules": {
+          "rain": {
+            "light": "amb_rain_light",
+            "heavy": "amb_rain_heavy",
+            "silences": [
+              "amb_birds"
+            ]
+          },
+          "regions": {
+            "verdalis": [
+              {
+                "sound": "amb_birds",
+                "when": "day",
+                "gain_pm": 600
+              },
+              {
+                "sound": "amb_wind_soft",
+                "gain_pm": 300
+              },
+              {
+                "sound": "amb_crickets",
+                "when": "night",
+                "gain_pm": 500
+              }
+            ],
+            "frostveil": [
+              {
+                "sound": "amb_wind_snow",
+                "gain_pm": 700
+              }
+            ]
+          }
+        }
+      },
+      "expect": {
+        "gains": {}
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/ui_confirm",
+  "duration_ms": 110,
+  "volume_pm": 500,
+  "layers": [
+    {
+      "wave": "square",
+      "freq_start": 740,
+      "freq_end": 988,
+      "volume_pm": 500,
+      "attack_ms": 0,
+      "decay_ms": 95,
+      "duty_pm": 400
+    }
+  ]
+}

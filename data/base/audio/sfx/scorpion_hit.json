@@ -1,0 +1,17 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/scorpion_hit",
+  "duration_ms": 140,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "square",
+      "freq_start": 1100,
+      "freq_end": 600,
+      "volume_pm": 450,
+      "attack_ms": 0,
+      "decay_ms": 120,
+      "duty_pm": 300
+    }
+  ]
+}

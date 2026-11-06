@@ -11,6 +11,7 @@
     "speed_x100": 290
   },
   "element": "none",
+  "sound": "knight",
   "weaknesses_pm": {
     "fire": 1500
   },

@@ -1,0 +1,17 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/dialogue_next_a",
+  "duration_ms": 70,
+  "volume_pm": 400,
+  "layers": [
+    {
+      "wave": "square",
+      "freq_start": 520,
+      "freq_end": 520,
+      "volume_pm": 450,
+      "attack_ms": 0,
+      "decay_ms": 60,
+      "duty_pm": 500
+    }
+  ]
+}

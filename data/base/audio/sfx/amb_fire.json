@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/amb_fire",
+  "duration_ms": 4000,
+  "volume_pm": 450,
+  "loop": true,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 1800,
+      "freq_end": 1800,
+      "volume_pm": 500,
+      "attack_ms": 0,
+      "decay_ms": 1,
+      "am_dhz": 100,
+      "am_depth_pm": 900
+    },
+    {
+      "wave": "noise",
+      "freq_start": 6000,
+      "freq_end": 6000,
+      "volume_pm": 250,
+      "attack_ms": 0,
+      "decay_ms": 1,
+      "am_dhz": 175,
+      "am_depth_pm": 990
+    }
+  ]
+}

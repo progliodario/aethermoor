@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/knight_die",
+  "duration_ms": 700,
+  "volume_pm": 800,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 2600,
+      "freq_end": 200,
+      "volume_pm": 550,
+      "attack_ms": 0,
+      "decay_ms": 600
+    },
+    {
+      "wave": "square",
+      "freq_start": 160,
+      "freq_end": 40,
+      "volume_pm": 450,
+      "attack_ms": 0,
+      "decay_ms": 650,
+      "duty_pm": 500
+    },
+    {
+      "wave": "triangle",
+      "freq_start": 900,
+      "freq_end": 300,
+      "volume_pm": 250,
+      "attack_ms": 0,
+      "decay_ms": 300
+    }
+  ]
+}

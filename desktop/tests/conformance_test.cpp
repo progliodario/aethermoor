@@ -17,6 +17,7 @@
 
 #include <nlohmann/json.hpp>
 
+#include "audio/director.hpp"
 #include "audio/synth.hpp"
 #include "core/id.hpp"
 #include "core/message_format.hpp"
@@ -335,6 +336,123 @@ TEST_CASE("conformance: audio", "[conformance]") {
     }
 }
 
+aether::SoundSnapshot sound_snapshot_from_json(const Json& j) {
+    aether::SoundSnapshot s;
+    s.frame = j.at("frame").get<std::int64_t>();
+    const Json& p = j.at("player");
+    s.player.hp = p.at("hp").get<std::int64_t>();
+    s.player.max_hp = p.at("max_hp").get<std::int64_t>();
+    s.player.level = p.at("level").get<std::int64_t>();
+    s.player.phase = p.at("phase").get<int>();
+    s.player.strike = p.at("strike").get<bool>();
+    s.player.dodge = p.at("dodge").get<bool>();
+    s.player.moving = p.at("moving").get<bool>();
+    s.player.x = p.at("x").get<double>();
+    s.player.y = p.at("y").get<double>();
+    s.player.surface = p.at("surface").get<std::string>();
+    s.player.save_cd = p.at("save_cd").get<std::int64_t>();
+    for (const Json& c : j.at("cues")) {
+        aether::SoundCue cue;
+        cue.kind = c.at("kind").get<std::string>();
+        cue.family = c.at("family").get<std::string>();
+        cue.x = c.at("x").get<double>();
+        cue.y = c.at("y").get<double>();
+        cue.crit = c.value("crit", false);
+        cue.weak = c.value("weak", false);
+        s.cues.push_back(cue);
+    }
+    s.items = j.at("items").get<std::int64_t>();
+    s.gold = j.at("gold").get<std::int64_t>();
+    s.mp = j.at("mp").get<std::int64_t>();
+    s.weapon = j.at("weapon").get<std::string>();
+    s.armor = j.at("armor").get<std::string>();
+    const Json& panels = j.at("panels");
+    s.panels.bag = panels.at("bag").get<bool>();
+    s.panels.map = panels.at("map").get<bool>();
+    s.panels.journal = panels.at("journal").get<bool>();
+    s.panels.shop = panels.at("shop").get<bool>();
+    s.panels.board = panels.at("board").get<bool>();
+    s.panels.travel = panels.at("travel").get<bool>();
+    s.dialogue = j.at("dialogue").get<bool>();
+    s.line = j.at("line").get<std::int64_t>();
+    s.cursor = j.at("cursor").get<std::int64_t>();
+    s.quests_started = j.at("quests_started").get<std::int64_t>();
+    s.quests_done = j.at("quests_done").get<std::int64_t>();
+    s.stones = j.at("stones").get<std::int64_t>();
+    s.region = j.at("region").get<std::string>();
+    s.tod_pm = j.at("tod_pm").get<int>();
+    s.rain_pm = j.at("rain_pm").get<int>();
+    return s;
+}
+
+// A patch over the previous snapshot (see tools/conformance_audio.py): the cues of a frame are not kept.
+Json apply_sound_patch(const Json& previous, const Json& patch, int index) {
+    Json out = previous;
+    out["cues"] = Json::array();
+    out["frame"] = index;
+    for (const auto& [key, value] : patch.items()) {
+        if ((key == "player" || key == "panels") && value.is_object()) {
+            for (const auto& [inner, inner_value] : value.items()) {
+                out[key][inner] = inner_value;
+            }
+        } else {
+            out[key] = value;
+        }
+    }
+    return out;
+}
+
+TEST_CASE("conformance: audio director", "[conformance]") {
+    const Json doc = load_suite("audio_director");
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        aether::SoundDirector director;
+        Json snapshot = c.at("input").at("base");
+        int index = 0;
+        for (const Json& patch : c.at("input").at("patches")) {
+            snapshot = apply_sound_patch(snapshot, patch, index);
+            const std::vector<aether::SoundEvent> got = director.update(sound_snapshot_from_json(snapshot));
+            const Json& wanted = c.at("expect").at("events").at(static_cast<std::size_t>(index));
+            INFO("frame " << index);
+            REQUIRE(got.size() == wanted.size());
+            for (std::size_t i = 0; i < got.size(); ++i) {
+                REQUIRE(got[i].event == wanted.at(i).at("event").get<std::string>());
+                REQUIRE(got[i].volume_pm == wanted.at(i).at("volume_pm").get<int>());
+            }
+            ++index;
+        }
+    }
+}
+
+TEST_CASE("conformance: audio ambience", "[conformance]") {
+    const Json doc = load_suite("audio_ambience");
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        const Json& in = c.at("input");
+        aether::AmbienceRules rules;
+        const Json& r = in.at("rules");
+        rules.rain_light = r.at("rain").at("light").get<std::string>();
+        rules.rain_heavy = r.at("rain").at("heavy").get<std::string>();
+        for (const Json& s : r.at("rain").at("silences")) {
+            rules.silences.push_back(s.get<std::string>());
+        }
+        for (const auto& [region, entries] : r.at("regions").items()) {
+            for (const Json& e : entries) {
+                rules.regions[region].push_back(
+                    {e.at("sound").get<std::string>(), e.value("when", "always"), e.at("gain_pm").get<int>()});
+            }
+        }
+        const auto got = aether::ambience_gains(in.at("region").get<std::string>(), in.at("tod_pm").get<int>(),
+                                                in.at("rain_pm").get<int>(), rules);
+        const Json& wanted = c.at("expect").at("gains");
+        REQUIRE(got.size() == wanted.size());
+        for (const auto& [sound, gain] : wanted.items()) {
+            REQUIRE(got.count(sound) == 1);
+            REQUIRE(got.at(sound) == gain.get<int>());
+        }
+    }
+}
+
 TEST_CASE("conformance: raster", "[conformance]") {
     const Json doc = load_suite("raster");
     for (const Json& c : doc.at("cases")) {
@@ -389,6 +507,7 @@ aether::EnemyDef enemy_def_from_json(const Json& d) {
     def.radius_x100 = d.at("radius_x100").get<int>();
     def.speed_x100 = d.at("speed_x100").get<int>();
     def.element = d.value("element", "none");
+    def.sound = d.value("sound", "");
     if (d.contains("weaknesses_pm")) {
         for (const auto& [element, multiplier] : d.at("weaknesses_pm").items()) {
             def.weaknesses_pm[element] = multiplier.get<std::int64_t>();

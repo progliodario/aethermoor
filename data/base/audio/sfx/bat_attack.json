@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/bat_attack",
+  "duration_ms": 180,
+  "volume_pm": 550,
+  "layers": [
+    {
+      "wave": "saw",
+      "freq_start": 2600,
+      "freq_end": 1500,
+      "volume_pm": 450,
+      "attack_ms": 0,
+      "decay_ms": 160
+    },
+    {
+      "wave": "noise",
+      "freq_start": 4500,
+      "freq_end": 2500,
+      "volume_pm": 200,
+      "attack_ms": 0,
+      "decay_ms": 100
+    }
+  ]
+}

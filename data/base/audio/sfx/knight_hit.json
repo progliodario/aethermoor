@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/knight_hit",
+  "duration_ms": 220,
+  "volume_pm": 750,
+  "layers": [
+    {
+      "wave": "sine",
+      "freq_start": 1250,
+      "freq_end": 980,
+      "volume_pm": 500,
+      "attack_ms": 0,
+      "decay_ms": 220
+    },
+    {
+      "wave": "noise",
+      "freq_start": 3500,
+      "freq_end": 900,
+      "volume_pm": 350,
+      "attack_ms": 0,
+      "decay_ms": 100
+    },
+    {
+      "wave": "triangle",
+      "freq_start": 625,
+      "freq_end": 490,
+      "volume_pm": 300,
+      "attack_ms": 0,
+      "decay_ms": 200
+    }
+  ]
+}

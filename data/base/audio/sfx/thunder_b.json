@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/thunder_b",
+  "duration_ms": 1700,
+  "volume_pm": 800,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 300,
+      "freq_end": 80,
+      "volume_pm": 800,
+      "attack_ms": 40,
+      "decay_ms": 1600,
+      "am_dhz": 35,
+      "am_depth_pm": 700
+    },
+    {
+      "wave": "saw",
+      "freq_start": 60,
+      "freq_end": 35,
+      "volume_pm": 350,
+      "attack_ms": 0,
+      "decay_ms": 1500
+    }
+  ]
+}

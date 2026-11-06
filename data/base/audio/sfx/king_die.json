@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/king_die",
+  "duration_ms": 1000,
+  "volume_pm": 850,
+  "layers": [
+    {
+      "wave": "sine",
+      "freq_start": 180,
+      "freq_end": 30,
+      "volume_pm": 700,
+      "attack_ms": 0,
+      "decay_ms": 960
+    },
+    {
+      "wave": "saw",
+      "freq_start": 90,
+      "freq_end": 30,
+      "volume_pm": 400,
+      "attack_ms": 0,
+      "decay_ms": 900
+    },
+    {
+      "wave": "noise",
+      "freq_start": 800,
+      "freq_end": 100,
+      "volume_pm": 350,
+      "attack_ms": 0,
+      "decay_ms": 700
+    }
+  ]
+}

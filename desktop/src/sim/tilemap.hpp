@@ -13,6 +13,7 @@ namespace aether {
 struct TileDef {
     std::string art;
     bool solid = false;
+    std::string surface = "grass";  // what the ground sounds like under the feet (spec 14)
 };
 
 struct Tileset {

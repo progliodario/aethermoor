@@ -11,6 +11,7 @@
     "speed_x100": 320
   },
   "element": "light",
+  "sound": "wisp",
   "weaknesses_pm": {
     "wind": 1500
   },

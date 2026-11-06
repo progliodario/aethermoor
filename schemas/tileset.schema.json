@@ -18,7 +18,8 @@
         "properties": {
           "gid": { "type": "integer", "minimum": 1 },
           "art": { "$ref": "#/$defs/id" },
-          "solid": { "type": "boolean" }
+          "solid": { "type": "boolean" },
+          "surface": { "enum": ["grass", "dirt", "sand", "snow", "stone", "wood", "water", "moss", "ash"] }
         }
       }
     }

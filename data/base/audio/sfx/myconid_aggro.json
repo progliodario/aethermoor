@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/myconid_aggro",
+  "duration_ms": 280,
+  "volume_pm": 450,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 700,
+      "freq_end": 500,
+      "volume_pm": 350,
+      "attack_ms": 80,
+      "decay_ms": 190
+    },
+    {
+      "wave": "sine",
+      "freq_start": 140,
+      "freq_end": 170,
+      "volume_pm": 350,
+      "attack_ms": 60,
+      "decay_ms": 200
+    }
+  ]
+}

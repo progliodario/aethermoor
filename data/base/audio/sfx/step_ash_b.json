@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/step_ash_b",
+  "duration_ms": 110,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 1635,
+      "freq_end": 566,
+      "volume_pm": 400,
+      "attack_ms": 3,
+      "decay_ms": 75
+    },
+    {
+      "wave": "square",
+      "freq_start": 98,
+      "freq_end": 65,
+      "volume_pm": 160,
+      "attack_ms": 0,
+      "decay_ms": 50,
+      "duty_pm": 500
+    }
+  ]
+}

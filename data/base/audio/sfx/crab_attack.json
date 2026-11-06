@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/crab_attack",
+  "duration_ms": 140,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "square",
+      "freq_start": 700,
+      "freq_end": 350,
+      "volume_pm": 550,
+      "attack_ms": 0,
+      "decay_ms": 120,
+      "duty_pm": 200
+    },
+    {
+      "wave": "noise",
+      "freq_start": 3000,
+      "freq_end": 1500,
+      "volume_pm": 250,
+      "attack_ms": 0,
+      "decay_ms": 80
+    }
+  ]
+}

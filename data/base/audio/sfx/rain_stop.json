@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/rain_stop",
+  "duration_ms": 700,
+  "volume_pm": 400,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 4000,
+      "freq_end": 2000,
+      "volume_pm": 350,
+      "attack_ms": 20,
+      "decay_ms": 650
+    }
+  ]
+}

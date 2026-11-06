@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/open_map",
+  "duration_ms": 380,
+  "volume_pm": 500,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 2200,
+      "freq_end": 900,
+      "volume_pm": 350,
+      "attack_ms": 40,
+      "decay_ms": 320,
+      "am_dhz": 60,
+      "am_depth_pm": 600
+    },
+    {
+      "wave": "triangle",
+      "freq_start": 400,
+      "freq_end": 600,
+      "volume_pm": 150,
+      "attack_ms": 40,
+      "decay_ms": 300
+    }
+  ]
+}

@@ -563,6 +563,131 @@
       }
     },
     {
+      "name": "am_swell",
+      "input": {
+        "op": "sfx",
+        "recipe": {
+          "id": "test:audio/sfx/am_swell",
+          "duration_ms": 200,
+          "volume_pm": 900,
+          "layers": [
+            {
+              "wave": "sine",
+              "freq_start": 300,
+              "freq_end": 300,
+              "volume_pm": 1000,
+              "attack_ms": 0,
+              "decay_ms": 200,
+              "am_dhz": 50,
+              "am_depth_pm": 800
+            }
+          ]
+        }
+      },
+      "expect": {
+        "samples": 4410,
+        "peak": 29351,
+        "mean_abs": 5632.017913832199,
+        "probes": [
+          {
+            "i": 0,
+            "value": 0
+          },
+          {
+            "i": 630,
+            "value": -9316
+          },
+          {
+            "i": 1102,
+            "value": -567
+          },
+          {
+            "i": 1470,
+            "value": 0
+          },
+          {
+            "i": 2205,
+            "value": 0
+          },
+          {
+            "i": 2940,
+            "value": 0
+          },
+          {
+            "i": 3307,
+            "value": -189
+          },
+          {
+            "i": 4409,
+            "value": -1
+          }
+        ]
+      }
+    },
+    {
+      "name": "loop_wind",
+      "input": {
+        "op": "sfx",
+        "recipe": {
+          "id": "test:audio/sfx/loop_wind",
+          "duration_ms": 400,
+          "volume_pm": 800,
+          "layers": [
+            {
+              "wave": "noise",
+              "freq_start": 300,
+              "freq_end": 300,
+              "volume_pm": 1000,
+              "attack_ms": 0,
+              "decay_ms": 1,
+              "am_dhz": 25,
+              "am_depth_pm": 600
+            }
+          ],
+          "loop": true
+        }
+      },
+      "expect": {
+        "samples": 8820,
+        "peak": 25155,
+        "mean_abs": 8695.08537414966,
+        "probes": [
+          {
+            "i": 0,
+            "value": 8831
+          },
+          {
+            "i": 1260,
+            "value": 18044
+          },
+          {
+            "i": 2205,
+            "value": 13173
+          },
+          {
+            "i": 2940,
+            "value": 8763
+          },
+          {
+            "i": 4410,
+            "value": 1103
+          },
+          {
+            "i": 5880,
+            "value": -2608
+          },
+          {
+            "i": 6615,
+            "value": -15840
+          },
+          {
+            "i": 8819,
+            "value": 3926
+          }
+        ]
+      }
+    },
+    {
       "name": "silent",
       "input": {
         "op": "sfx",

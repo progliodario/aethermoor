@@ -24,6 +24,9 @@ def render(recipe: dict) -> list[int]:
         duty = layer.get("duty_pm", 500)
         attack, decay = float(layer["attack_ms"]), float(layer["decay_ms"])
         volume = layer["volume_pm"] / 1000.0
+        am_hz = layer.get("am_dhz", 0) / 10.0
+        am_depth = layer.get("am_depth_pm", 0) / 1000.0
+        looped = bool(recipe.get("loop", False))
         phase = 0.0
         state = 2463534242
         held = 0.0
@@ -49,8 +52,12 @@ def render(recipe: dict) -> list[int]:
             if wrapped:
                 phase -= 1.0
             ms = i * 1000.0 / SAMPLE_RATE
-            env = ms / attack if ms < attack else max(0.0, 1.0 - (ms - attack) / decay)
-            mix[i] += w * env * volume
+            if looped:
+                env = 1.0
+            else:
+                env = ms / attack if ms < attack else max(0.0, 1.0 - (ms - attack) / decay)
+            gain = 1.0 - am_depth * (0.5 - 0.5 * math.cos(2.0 * math.pi * am_hz * (i / SAMPLE_RATE))) if am_depth > 0.0 else 1.0
+            mix[i] += w * env * volume * gain
     out = []
     for v in mix:
         x = max(-1.0, min(1.0, v * master))

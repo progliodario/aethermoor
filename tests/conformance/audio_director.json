@@ -1,0 +1,1281 @@
+{
+  "suite": "audio_director",
+  "spec_version": 1,
+  "generated_by": "tools/gen_conformance.py",
+  "cases": [
+    {
+      "name": "combat",
+      "input": {
+        "op": "director",
+        "base": {
+          "frame": 0,
+          "player": {
+            "hp": 100,
+            "max_hp": 100,
+            "level": 1,
+            "phase": 0,
+            "strike": false,
+            "dodge": false,
+            "moving": false,
+            "x": 10.0,
+            "y": 10.0,
+            "surface": "grass",
+            "save_cd": 0
+          },
+          "cues": [],
+          "items": 5,
+          "gold": 100,
+          "mp": 50,
+          "weapon": "w0",
+          "armor": "a0",
+          "panels": {
+            "bag": false,
+            "map": false,
+            "journal": false,
+            "shop": false,
+            "board": false,
+            "travel": false
+          },
+          "dialogue": false,
+          "line": 0,
+          "cursor": 0,
+          "quests_started": 0,
+          "quests_done": 0,
+          "stones": 0,
+          "region": "verdalis",
+          "tod_pm": 500,
+          "rain_pm": 0
+        },
+        "patches": [
+          {},
+          {
+            "player": {
+              "phase": 1
+            }
+          },
+          {
+            "player": {
+              "phase": 2
+            }
+          },
+          {
+            "player": {
+              "phase": 3
+            }
+          },
+          {
+            "player": {
+              "phase": 0
+            }
+          },
+          {
+            "player": {
+              "phase": 1,
+              "strike": true
+            }
+          },
+          {
+            "cues": [
+              {
+                "kind": "hit",
+                "family": "slime",
+                "x": 12.0,
+                "y": 10.0,
+                "crit": true,
+                "weak": true
+              },
+              {
+                "kind": "die",
+                "family": "wolf",
+                "x": 12.0,
+                "y": 10.0
+              },
+              {
+                "kind": "aggro",
+                "family": "knight",
+                "x": 30.0,
+                "y": 10.0
+              },
+              {
+                "kind": "attack",
+                "family": "bat",
+                "x": 15.0,
+                "y": 10.0
+              }
+            ]
+          },
+          {
+            "cues": [
+              {
+                "kind": "hurt",
+                "family": "slime",
+                "x": 12.0,
+                "y": 10.0
+              }
+            ]
+          },
+          {
+            "player": {
+              "dodge": true
+            }
+          },
+          {
+            "player": {
+              "dodge": true
+            }
+          },
+          {
+            "player": {
+              "dodge": false
+            }
+          },
+          {
+            "player": {
+              "level": 2
+            }
+          },
+          {
+            "player": {
+              "save_cd": 1800
+            }
+          },
+          {
+            "player": {
+              "hp": 0
+            }
+          }
+        ]
+      },
+      "expect": {
+        "events": [
+          [],
+          [
+            {
+              "event": "swing",
+              "volume_pm": 1000
+            }
+          ],
+          [],
+          [],
+          [],
+          [
+            {
+              "event": "power",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "enemy.slime.hit",
+              "volume_pm": 860
+            },
+            {
+              "event": "crit",
+              "volume_pm": 1000
+            },
+            {
+              "event": "weak",
+              "volume_pm": 1000
+            },
+            {
+              "event": "enemy.wolf.die",
+              "volume_pm": 860
+            },
+            {
+              "event": "enemy.bat.attack",
+              "volume_pm": 650
+            }
+          ],
+          [
+            {
+              "event": "player.hurt",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "dodge",
+              "volume_pm": 1000
+            }
+          ],
+          [],
+          [],
+          [
+            {
+              "event": "level_up",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "death_save",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "player.death",
+              "volume_pm": 1000
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "name": "steps",
+      "input": {
+        "op": "director",
+        "base": {
+          "frame": 0,
+          "player": {
+            "hp": 100,
+            "max_hp": 100,
+            "level": 1,
+            "phase": 0,
+            "strike": false,
+            "dodge": false,
+            "moving": false,
+            "x": 10.0,
+            "y": 10.0,
+            "surface": "grass",
+            "save_cd": 0
+          },
+          "cues": [],
+          "items": 5,
+          "gold": 100,
+          "mp": 50,
+          "weapon": "w0",
+          "armor": "a0",
+          "panels": {
+            "bag": false,
+            "map": false,
+            "journal": false,
+            "shop": false,
+            "board": false,
+            "travel": false
+          },
+          "dialogue": false,
+          "line": 0,
+          "cursor": 0,
+          "quests_started": 0,
+          "quests_done": 0,
+          "stones": 0,
+          "region": "verdalis",
+          "tod_pm": 500,
+          "rain_pm": 0
+        },
+        "patches": [
+          {},
+          {
+            "player": {
+              "moving": true,
+              "x": 10.3
+            }
+          },
+          {
+            "player": {
+              "moving": true,
+              "x": 10.6
+            }
+          },
+          {
+            "player": {
+              "moving": true,
+              "x": 10.9
+            }
+          },
+          {
+            "player": {
+              "moving": true,
+              "x": 11.2
+            }
+          },
+          {
+            "player": {
+              "moving": true,
+              "x": 11.5
+            }
+          },
+          {
+            "player": {
+              "moving": true,
+              "x": 11.8
+            }
+          },
+          {
+            "player": {
+              "moving": true,
+              "x": 12.1
+            }
+          },
+          {
+            "player": {
+              "moving": true,
+              "x": 12.4
+            }
+          },
+          {
+            "player": {
+              "moving": true,
+              "x": 12.7
+            }
+          },
+          {
+            "player": {
+              "moving": false
+            }
+          },
+          {
+            "player": {
+              "moving": true,
+              "surface": "stone",
+              "x": 20.0
+            }
+          },
+          {
+            "player": {
+              "x": 21.0
+            }
+          },
+          {
+            "player": {
+              "surface": "sand",
+              "x": 22.0
+            }
+          }
+        ]
+      },
+      "expect": {
+        "events": [
+          [],
+          [],
+          [],
+          [
+            {
+              "event": "step.grass",
+              "volume_pm": 700
+            }
+          ],
+          [],
+          [],
+          [
+            {
+              "event": "step.grass",
+              "volume_pm": 700
+            }
+          ],
+          [],
+          [],
+          [
+            {
+              "event": "step.grass",
+              "volume_pm": 700
+            }
+          ],
+          [],
+          [
+            {
+              "event": "step.stone",
+              "volume_pm": 700
+            }
+          ],
+          [
+            {
+              "event": "step.stone",
+              "volume_pm": 700
+            }
+          ],
+          [
+            {
+              "event": "step.sand",
+              "volume_pm": 700
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "name": "heartbeat",
+      "input": {
+        "op": "director",
+        "base": {
+          "frame": 0,
+          "player": {
+            "hp": 100,
+            "max_hp": 100,
+            "level": 1,
+            "phase": 0,
+            "strike": false,
+            "dodge": false,
+            "moving": false,
+            "x": 10.0,
+            "y": 10.0,
+            "surface": "grass",
+            "save_cd": 0
+          },
+          "cues": [],
+          "items": 5,
+          "gold": 100,
+          "mp": 50,
+          "weapon": "w0",
+          "armor": "a0",
+          "panels": {
+            "bag": false,
+            "map": false,
+            "journal": false,
+            "shop": false,
+            "board": false,
+            "travel": false
+          },
+          "dialogue": false,
+          "line": 0,
+          "cursor": 0,
+          "quests_started": 0,
+          "quests_done": 0,
+          "stones": 0,
+          "region": "verdalis",
+          "tod_pm": 500,
+          "rain_pm": 0
+        },
+        "patches": [
+          {},
+          {
+            "player": {
+              "hp": 20
+            }
+          },
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {
+            "player": {
+              "hp": 90
+            }
+          },
+          {}
+        ]
+      },
+      "expect": {
+        "events": [
+          [],
+          [
+            {
+              "event": "heartbeat",
+              "volume_pm": 800
+            }
+          ],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [
+            {
+              "event": "heartbeat",
+              "volume_pm": 800
+            }
+          ],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          []
+        ]
+      }
+    },
+    {
+      "name": "bag_and_shop",
+      "input": {
+        "op": "director",
+        "base": {
+          "frame": 0,
+          "player": {
+            "hp": 100,
+            "max_hp": 100,
+            "level": 1,
+            "phase": 0,
+            "strike": false,
+            "dodge": false,
+            "moving": false,
+            "x": 10.0,
+            "y": 10.0,
+            "surface": "grass",
+            "save_cd": 0
+          },
+          "cues": [],
+          "items": 5,
+          "gold": 100,
+          "mp": 50,
+          "weapon": "w0",
+          "armor": "a0",
+          "panels": {
+            "bag": false,
+            "map": false,
+            "journal": false,
+            "shop": false,
+            "board": false,
+            "travel": false
+          },
+          "dialogue": false,
+          "line": 0,
+          "cursor": 0,
+          "quests_started": 0,
+          "quests_done": 0,
+          "stones": 0,
+          "region": "verdalis",
+          "tod_pm": 500,
+          "rain_pm": 0
+        },
+        "patches": [
+          {},
+          {
+            "items": 6
+          },
+          {
+            "gold": 130
+          },
+          {
+            "gold": 100,
+            "items": 7
+          },
+          {
+            "panels": {
+              "shop": true
+            }
+          },
+          {
+            "items": 6,
+            "gold": 150
+          },
+          {
+            "items": 7,
+            "gold": 110
+          },
+          {
+            "panels": {
+              "shop": false
+            }
+          },
+          {
+            "items": 6,
+            "player": {
+              "hp": 90
+            }
+          },
+          {
+            "items": 5,
+            "mp": 80
+          },
+          {
+            "items": 4
+          },
+          {
+            "weapon": "w1"
+          },
+          {
+            "armor": "a1"
+          }
+        ]
+      },
+      "expect": {
+        "events": [
+          [],
+          [
+            {
+              "event": "pickup",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "coin",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "shop.buy",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "ui.open.shop",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "shop.sell",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "shop.buy",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "ui.close.shop",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "use.other",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "use.mana",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "use.other",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "equip.weapon",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "equip.armor",
+              "volume_pm": 1000
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "name": "panels_and_dialogue",
+      "input": {
+        "op": "director",
+        "base": {
+          "frame": 0,
+          "player": {
+            "hp": 100,
+            "max_hp": 100,
+            "level": 1,
+            "phase": 0,
+            "strike": false,
+            "dodge": false,
+            "moving": false,
+            "x": 10.0,
+            "y": 10.0,
+            "surface": "grass",
+            "save_cd": 0
+          },
+          "cues": [],
+          "items": 5,
+          "gold": 100,
+          "mp": 50,
+          "weapon": "w0",
+          "armor": "a0",
+          "panels": {
+            "bag": false,
+            "map": false,
+            "journal": false,
+            "shop": false,
+            "board": false,
+            "travel": false
+          },
+          "dialogue": false,
+          "line": 0,
+          "cursor": 0,
+          "quests_started": 0,
+          "quests_done": 0,
+          "stones": 0,
+          "region": "verdalis",
+          "tod_pm": 500,
+          "rain_pm": 0
+        },
+        "patches": [
+          {},
+          {
+            "panels": {
+              "bag": true
+            }
+          },
+          {
+            "cursor": 1
+          },
+          {
+            "cursor": 2
+          },
+          {
+            "panels": {
+              "bag": false
+            }
+          },
+          {
+            "cursor": 3
+          },
+          {
+            "panels": {
+              "map": true
+            }
+          },
+          {
+            "panels": {
+              "map": false,
+              "journal": true
+            }
+          },
+          {
+            "panels": {
+              "journal": false,
+              "board": true,
+              "travel": true
+            }
+          },
+          {
+            "panels": {
+              "board": false,
+              "travel": false
+            }
+          },
+          {
+            "dialogue": true
+          },
+          {
+            "line": 1
+          },
+          {
+            "line": 1,
+            "cursor": 4
+          },
+          {
+            "line": 2
+          },
+          {
+            "dialogue": false
+          }
+        ]
+      },
+      "expect": {
+        "events": [
+          [],
+          [
+            {
+              "event": "ui.open.bag",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "ui.move",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "ui.move",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "ui.close.bag",
+              "volume_pm": 1000
+            }
+          ],
+          [],
+          [
+            {
+              "event": "ui.open.map",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "ui.close.map",
+              "volume_pm": 1000
+            },
+            {
+              "event": "ui.open.journal",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "ui.close.journal",
+              "volume_pm": 1000
+            },
+            {
+              "event": "ui.open.board",
+              "volume_pm": 1000
+            },
+            {
+              "event": "ui.open.travel",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "ui.close.board",
+              "volume_pm": 1000
+            },
+            {
+              "event": "ui.close.travel",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "dialogue.open",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "dialogue.next",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "ui.move",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "dialogue.next",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "dialogue.close",
+              "volume_pm": 1000
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "name": "world",
+      "input": {
+        "op": "director",
+        "base": {
+          "frame": 0,
+          "player": {
+            "hp": 100,
+            "max_hp": 100,
+            "level": 1,
+            "phase": 0,
+            "strike": false,
+            "dodge": false,
+            "moving": false,
+            "x": 10.0,
+            "y": 10.0,
+            "surface": "grass",
+            "save_cd": 0
+          },
+          "cues": [],
+          "items": 5,
+          "gold": 100,
+          "mp": 50,
+          "weapon": "w0",
+          "armor": "a0",
+          "panels": {
+            "bag": false,
+            "map": false,
+            "journal": false,
+            "shop": false,
+            "board": false,
+            "travel": false
+          },
+          "dialogue": false,
+          "line": 0,
+          "cursor": 0,
+          "quests_started": 0,
+          "quests_done": 0,
+          "stones": 0,
+          "region": "verdalis",
+          "tod_pm": 500,
+          "rain_pm": 0
+        },
+        "patches": [
+          {
+            "tod_pm": 240
+          },
+          {
+            "tod_pm": 260
+          },
+          {
+            "tod_pm": 700
+          },
+          {
+            "tod_pm": 760
+          },
+          {
+            "region": "frostveil"
+          },
+          {
+            "region": "frostveil"
+          },
+          {
+            "quests_started": 1
+          },
+          {
+            "quests_done": 1
+          },
+          {
+            "stones": 1
+          },
+          {
+            "rain_pm": 300
+          },
+          {
+            "rain_pm": 800
+          },
+          {
+            "frame": 1800,
+            "rain_pm": 800
+          },
+          {
+            "rain_pm": 0
+          }
+        ]
+      },
+      "expect": {
+        "events": [
+          [],
+          [
+            {
+              "event": "dawn",
+              "volume_pm": 1000
+            }
+          ],
+          [],
+          [
+            {
+              "event": "nightfall",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "region.enter",
+              "volume_pm": 1000
+            }
+          ],
+          [],
+          [
+            {
+              "event": "quest.accept",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "quest.complete",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "stone.wake",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "rain.start",
+              "volume_pm": 1000
+            }
+          ],
+          [],
+          [
+            {
+              "event": "thunder",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "rain.stop",
+              "volume_pm": 1000
+            }
+          ]
+        ]
+      }
+    }
+  ]
+}

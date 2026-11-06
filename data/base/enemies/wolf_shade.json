@@ -11,6 +11,7 @@
     "speed_x100": 350
   },
   "element": "dark",
+  "sound": "wolf",
   "weaknesses_pm": {
     "light": 1500
   },

@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/amb_wind_desert",
+  "duration_ms": 8000,
+  "volume_pm": 600,
+  "loop": true,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 1100,
+      "freq_end": 1100,
+      "volume_pm": 600,
+      "attack_ms": 0,
+      "decay_ms": 1,
+      "am_dhz": 25,
+      "am_depth_pm": 750
+    },
+    {
+      "wave": "noise",
+      "freq_start": 600,
+      "freq_end": 600,
+      "volume_pm": 300,
+      "attack_ms": 0,
+      "decay_ms": 1,
+      "am_dhz": 15,
+      "am_depth_pm": 600
+    }
+  ]
+}

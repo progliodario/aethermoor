@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/wolf_hit",
+  "duration_ms": 230,
+  "volume_pm": 700,
+  "layers": [
+    {
+      "wave": "saw",
+      "freq_start": 520,
+      "freq_end": 220,
+      "volume_pm": 650,
+      "attack_ms": 0,
+      "decay_ms": 210
+    },
+    {
+      "wave": "sine",
+      "freq_start": 780,
+      "freq_end": 300,
+      "volume_pm": 300,
+      "attack_ms": 0,
+      "decay_ms": 160
+    }
+  ]
+}

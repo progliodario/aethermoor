@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/king_hit",
+  "duration_ms": 260,
+  "volume_pm": 800,
+  "layers": [
+    {
+      "wave": "sine",
+      "freq_start": 220,
+      "freq_end": 90,
+      "volume_pm": 700,
+      "attack_ms": 0,
+      "decay_ms": 240
+    },
+    {
+      "wave": "saw",
+      "freq_start": 140,
+      "freq_end": 70,
+      "volume_pm": 350,
+      "attack_ms": 0,
+      "decay_ms": 220
+    }
+  ]
+}

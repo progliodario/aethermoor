@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/open_shop",
+  "duration_ms": 400,
+  "volume_pm": 550,
+  "layers": [
+    {
+      "wave": "triangle",
+      "freq_start": 1568,
+      "freq_end": 1568,
+      "volume_pm": 300,
+      "attack_ms": 0,
+      "decay_ms": 300
+    },
+    {
+      "wave": "triangle",
+      "freq_start": 2093,
+      "freq_end": 2093,
+      "volume_pm": 300,
+      "attack_ms": 80,
+      "decay_ms": 300
+    },
+    {
+      "wave": "noise",
+      "freq_start": 3500,
+      "freq_end": 2500,
+      "volume_pm": 150,
+      "attack_ms": 0,
+      "decay_ms": 200
+    }
+  ]
+}

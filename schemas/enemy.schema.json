@@ -74,6 +74,9 @@
         "dark"
       ]
     },
+    "sound": {
+      "enum": ["slime", "matron", "king", "wolf", "alpha", "knight", "bat", "spider", "scorpion", "crab", "owl", "myconid", "golem", "wisp"]
+    },
     "weaknesses_pm": {
       "type": "object",
       "propertyNames": {

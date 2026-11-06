@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/weak",
+  "duration_ms": 380,
+  "volume_pm": 700,
+  "layers": [
+    {
+      "wave": "sine",
+      "freq_start": 1568,
+      "freq_end": 1568,
+      "volume_pm": 500,
+      "attack_ms": 0,
+      "decay_ms": 300
+    },
+    {
+      "wave": "sine",
+      "freq_start": 2093,
+      "freq_end": 2093,
+      "volume_pm": 400,
+      "attack_ms": 40,
+      "decay_ms": 330
+    },
+    {
+      "wave": "triangle",
+      "freq_start": 784,
+      "freq_end": 784,
+      "volume_pm": 300,
+      "attack_ms": 0,
+      "decay_ms": 260
+    }
+  ]
+}

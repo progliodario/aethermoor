@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/ui_error",
+  "duration_ms": 200,
+  "volume_pm": 450,
+  "layers": [
+    {
+      "wave": "square",
+      "freq_start": 150,
+      "freq_end": 150,
+      "volume_pm": 500,
+      "attack_ms": 0,
+      "decay_ms": 180,
+      "duty_pm": 500
+    },
+    {
+      "wave": "square",
+      "freq_start": 155,
+      "freq_end": 155,
+      "volume_pm": 400,
+      "attack_ms": 0,
+      "decay_ms": 180,
+      "duty_pm": 500
+    }
+  ]
+}

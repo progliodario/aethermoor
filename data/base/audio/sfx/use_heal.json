@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/use_heal",
+  "duration_ms": 520,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "sine",
+      "freq_start": 523,
+      "freq_end": 523,
+      "volume_pm": 350,
+      "attack_ms": 0,
+      "decay_ms": 200
+    },
+    {
+      "wave": "sine",
+      "freq_start": 659,
+      "freq_end": 659,
+      "volume_pm": 350,
+      "attack_ms": 100,
+      "decay_ms": 200
+    },
+    {
+      "wave": "sine",
+      "freq_start": 784,
+      "freq_end": 784,
+      "volume_pm": 350,
+      "attack_ms": 200,
+      "decay_ms": 200
+    },
+    {
+      "wave": "sine",
+      "freq_start": 1047,
+      "freq_end": 1047,
+      "volume_pm": 350,
+      "attack_ms": 300,
+      "decay_ms": 220
+    }
+  ]
+}

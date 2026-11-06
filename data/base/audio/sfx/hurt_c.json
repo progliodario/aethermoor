@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/hurt_c",
+  "duration_ms": 260,
+  "volume_pm": 800,
+  "layers": [
+    {
+      "wave": "saw",
+      "freq_start": 303,
+      "freq_end": 82,
+      "volume_pm": 700,
+      "attack_ms": 0,
+      "decay_ms": 230
+    },
+    {
+      "wave": "noise",
+      "freq_start": 1656,
+      "freq_end": 276,
+      "volume_pm": 450,
+      "attack_ms": 1,
+      "decay_ms": 160
+    }
+  ]
+}

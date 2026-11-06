@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/amb_rain_light",
+  "duration_ms": 4000,
+  "volume_pm": 600,
+  "loop": true,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 4200,
+      "freq_end": 4200,
+      "volume_pm": 600,
+      "attack_ms": 0,
+      "decay_ms": 1,
+      "am_dhz": 50,
+      "am_depth_pm": 200
+    },
+    {
+      "wave": "noise",
+      "freq_start": 2600,
+      "freq_end": 2600,
+      "volume_pm": 350,
+      "attack_ms": 0,
+      "decay_ms": 1,
+      "am_dhz": 75,
+      "am_depth_pm": 300
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/step_moss_c",
+  "duration_ms": 110,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 644,
+      "freq_end": 322,
+      "volume_pm": 400,
+      "attack_ms": 6,
+      "decay_ms": 85
+    },
+    {
+      "wave": "sine",
+      "freq_start": 78,
+      "freq_end": 55,
+      "volume_pm": 280,
+      "attack_ms": 0,
+      "decay_ms": 70
+    }
+  ]
+}

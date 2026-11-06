@@ -46,6 +46,7 @@ std::optional<SfxRecipe> parse_sfx(std::string_view json_text, std::string& erro
         recipe.id = j.value("id", "");
         recipe.duration_ms = j.at("duration_ms").get<int>();
         recipe.volume_pm = j.at("volume_pm").get<int>();
+        recipe.loop = j.value("loop", false);
         for (const Json& l : j.at("layers")) {
             SfxLayer layer;
             const auto wave = parse_wave(l.at("wave").get<std::string>());
@@ -60,6 +61,8 @@ std::optional<SfxRecipe> parse_sfx(std::string_view json_text, std::string& erro
             layer.duty_pm = l.value("duty_pm", 500);
             layer.attack_ms = l.at("attack_ms").get<int>();
             layer.decay_ms = std::max(1, l.at("decay_ms").get<int>());
+            layer.am_dhz = l.value("am_dhz", 0);
+            layer.am_depth_pm = l.value("am_depth_pm", 0);
             recipe.layers.push_back(layer);
         }
         return recipe;
@@ -81,6 +84,8 @@ std::vector<std::int16_t> synthesize(const SfxRecipe& recipe) {
         const double attack = static_cast<double>(layer.attack_ms);
         const double decay = static_cast<double>(layer.decay_ms);
         const double volume = static_cast<double>(layer.volume_pm) / 1000.0;
+        const double am_hz = static_cast<double>(layer.am_dhz) / 10.0;
+        const double am_depth = static_cast<double>(layer.am_depth_pm) / 1000.0;
         double phase = 0.0;
         std::uint32_t state = 2463534242U;
         double held = 0.0;
@@ -116,8 +121,15 @@ std::vector<std::int16_t> synthesize(const SfxRecipe& recipe) {
                 phase -= 1.0;
             }
             const double ms = static_cast<double>(i) * 1000.0 / static_cast<double>(kSampleRate);
-            const double env = ms < attack ? ms / attack : std::max(0.0, 1.0 - (ms - attack) / decay);
-            mix[static_cast<std::size_t>(i)] += w * env * volume;
+            const double env =
+                recipe.loop ? 1.0 : (ms < attack ? ms / attack : std::max(0.0, 1.0 - (ms - attack) / decay));
+            const double gain =
+                am_depth > 0.0
+                    ? 1.0 -
+                          am_depth * (0.5 - 0.5 * std::cos(2.0 * kPi * am_hz *
+                                                           (static_cast<double>(i) / static_cast<double>(kSampleRate))))
+                    : 1.0;
+            mix[static_cast<std::size_t>(i)] += w * env * volume * gain;
         }
     }
     std::vector<std::int16_t> out(mix.size());
