@@ -1,0 +1,21 @@
+# Stile grafico
+
+Regole per tutta l'arte del gioco (ricette vettoriali in `data/base/art/`, formato in [spec 13](../spec/13-vector-art.md)). Servono a tenere insieme l'aspetto di cose scritte in momenti diversi.
+
+## Principi
+
+- **Luce da in alto a sinistra.** Ogni forma ha tre toni: ombra (in basso a destra), base e luce (in alto a sinistra), di solito con un gradiente lineare o radiale. Un piccolo riflesso bianco (alpha 0,4-0,8) sulle superfici lucide.
+- **Contorno scuro sugli oggetti, nessuno sui terreni.** Gli oggetti (alberi, casse, creature, personaggi) hanno un contorno di 1,2-1,5 unità in un colore scuro del loro stesso colore (non nero puro: `#1E1B28` per i personaggi, il verde più scuro per le foglie). I tasselli del terreno non hanno contorno, così si uniscono senza cuciture.
+- **Ombra a terra.** Tutto ciò che sta sul terreno ha un'ellisse d'ombra (nero, alpha 0,25-0,3, con un secondo cerchio più piccolo e più scuro) ai piedi: `Recipe.shadow()`.
+- **Dettaglio piccolo e sparso.** Un tassello non è mai di un solo colore: ha chiazze morbide di toni vicini (alpha 0,12-0,14), pochi ciuffi, sassolini, fiori o venature. I dettagli stanno lontano dai bordi, il numero è basso (il terreno copre lo schermo: troppo dettaglio fa rumore).
+- **Colori:** terreni desaturati e leggermente scuri, oggetti e personaggi più saturi, luce calda sui punti importanti (fuochi, lampade, rune). Le creature di una stessa famiglia condividono la forma e cambiano la tavolozza (e le cose che le distinguono: corona, corna, cristalli).
+
+## Misure
+
+- 32 unità d'arte = 1 tile; il gioco disegna un tile a 48 pixel (scala 1,5) e più su schermi ad alta densità.
+- I tasselli sono 32 x 32 con origine (0, 0). Gli oggetti hanno l'origine ai piedi (per l'ordine di disegno e la collisione) e la stessa area di prima, così i raggi di collisione dei dati del mondo restano giusti.
+- Alberi: 64 x 96, origine (32, 88). Personaggi: parti del rig `humanoid` (testa, busto, braccio, gamba, ombra).
+
+## Come si fa
+
+Le ricette dei terreni e degli oggetti sono scritte con `python tools/make_art.py` (`tools/artkit.py` ha i pezzi: colori, ellissi, ciuffi, sassolini, gradienti; `tools/art_props.py` ha gli oggetti): si cambia il codice e si rigenerano i JSON, che restano il formato che il gioco legge. `python tools/art_preview.py <schema>` disegna una pagina HTML con le ricette (`tiles`, `props`, `creatures`...), e `aethermoor --smoke-test --screenshot-dir=...` mostra come stanno nel gioco.
