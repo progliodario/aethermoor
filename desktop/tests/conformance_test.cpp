@@ -17,6 +17,7 @@
 
 #include <nlohmann/json.hpp>
 
+#include "audio/synth.hpp"
 #include "core/id.hpp"
 #include "core/message_format.hpp"
 #include "core/numerics.hpp"
@@ -301,6 +302,35 @@ TEST_CASE("conformance: movement", "[conformance]") {
             REQUIRE(position.x == Catch::Approx(expect.at("positions").at(segment).at(0).get<float>()).margin(tol));
             REQUIRE(position.y == Catch::Approx(expect.at("positions").at(segment).at(1).get<float>()).margin(tol));
             ++segment;
+        }
+    }
+}
+
+TEST_CASE("conformance: audio", "[conformance]") {
+    const Json doc = load_suite("audio");
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        const Json& expect = c.at("expect");
+        std::string error;
+        const auto recipe = aether::parse_sfx(c.at("input").at("recipe").dump(), error);
+        INFO(error);
+        REQUIRE(recipe.has_value());
+        const std::vector<std::int16_t> samples = aether::synthesize(*recipe);
+        REQUIRE(samples.size() == expect.at("samples").get<std::size_t>());
+        int peak = 0;
+        double sum = 0.0;
+        for (const std::int16_t s : samples) {
+            peak = std::max(peak, std::abs(static_cast<int>(s)));
+            sum += std::abs(static_cast<double>(s));
+        }
+        REQUIRE(std::abs(peak - expect.at("peak").get<int>()) <= 2);
+        const double mean = sum / static_cast<double>(samples.size());
+        const double wanted = expect.at("mean_abs").get<double>();
+        REQUIRE(std::abs(mean - wanted) <= std::max(2.0, wanted * 0.01));
+        for (const Json& probe : expect.at("probes")) {
+            const std::size_t i = probe.at("i").get<std::size_t>();
+            INFO("sample " << i);
+            REQUIRE(std::abs(static_cast<int>(samples[i]) - probe.at("value").get<int>()) <= 2);
         }
     }
 }

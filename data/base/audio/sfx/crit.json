@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/crit",
+  "duration_ms": 300,
+  "volume_pm": 850,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 4200,
+      "freq_end": 500,
+      "volume_pm": 800,
+      "attack_ms": 1,
+      "decay_ms": 220
+    },
+    {
+      "wave": "square",
+      "freq_start": 330,
+      "freq_end": 80,
+      "volume_pm": 600,
+      "attack_ms": 0,
+      "decay_ms": 200,
+      "duty_pm": 250
+    },
+    {
+      "wave": "sine",
+      "freq_start": 1320,
+      "freq_end": 880,
+      "volume_pm": 400,
+      "attack_ms": 2,
+      "decay_ms": 260
+    }
+  ]
+}

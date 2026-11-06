@@ -1,0 +1,25 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/hit",
+  "duration_ms": 170,
+  "volume_pm": 800,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 3200,
+      "freq_end": 380,
+      "volume_pm": 800,
+      "attack_ms": 1,
+      "decay_ms": 150
+    },
+    {
+      "wave": "square",
+      "freq_start": 240,
+      "freq_end": 70,
+      "volume_pm": 550,
+      "attack_ms": 0,
+      "decay_ms": 140,
+      "duty_pm": 500
+    }
+  ]
+}

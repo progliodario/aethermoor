@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/open",
+  "duration_ms": 150,
+  "volume_pm": 500,
+  "layers": [
+    {
+      "wave": "triangle",
+      "freq_start": 330,
+      "freq_end": 660,
+      "volume_pm": 650,
+      "attack_ms": 5,
+      "decay_ms": 130
+    },
+    {
+      "wave": "noise",
+      "freq_start": 1500,
+      "freq_end": 600,
+      "volume_pm": 150,
+      "attack_ms": 2,
+      "decay_ms": 80
+    }
+  ]
+}

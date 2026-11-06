@@ -1,0 +1,626 @@
+{
+  "suite": "audio",
+  "spec_version": 1,
+  "generated_by": "tools/gen_conformance.py",
+  "cases": [
+    {
+      "name": "sine_flat",
+      "input": {
+        "op": "sfx",
+        "recipe": {
+          "id": "test:audio/sfx/sine_flat",
+          "duration_ms": 100,
+          "volume_pm": 1000,
+          "layers": [
+            {
+              "wave": "sine",
+              "freq_start": 440,
+              "freq_end": 440,
+              "volume_pm": 1000,
+              "attack_ms": 0,
+              "decay_ms": 100
+            }
+          ]
+        }
+      },
+      "expect": {
+        "samples": 2205,
+        "peak": 32517,
+        "mean_abs": 10430.040362811791,
+        "probes": [
+          {
+            "i": 0,
+            "value": 0
+          },
+          {
+            "i": 315,
+            "value": 27382
+          },
+          {
+            "i": 551,
+            "value": -770
+          },
+          {
+            "i": 735,
+            "value": -18918
+          },
+          {
+            "i": 1102,
+            "value": -1027
+          },
+          {
+            "i": 1470,
+            "value": 9459
+          },
+          {
+            "i": 1653,
+            "value": -770
+          },
+          {
+            "i": 2204,
+            "value": -2
+          }
+        ]
+      }
+    },
+    {
+      "name": "sine_glide",
+      "input": {
+        "op": "sfx",
+        "recipe": {
+          "id": "test:audio/sfx/sine_glide",
+          "duration_ms": 120,
+          "volume_pm": 800,
+          "layers": [
+            {
+              "wave": "sine",
+              "freq_start": 200,
+              "freq_end": 1600,
+              "volume_pm": 900,
+              "attack_ms": 10,
+              "decay_ms": 110
+            }
+          ]
+        }
+      },
+      "expect": {
+        "samples": 2646,
+        "peak": 23524,
+        "mean_abs": 7511.3994708994705,
+        "probes": [
+          {
+            "i": 0,
+            "value": 0
+          },
+          {
+            "i": 378,
+            "value": -1294
+          },
+          {
+            "i": 661,
+            "value": -15012
+          },
+          {
+            "i": 882,
+            "value": -3956
+          },
+          {
+            "i": 1323,
+            "value": 7207
+          },
+          {
+            "i": 1764,
+            "value": -5513
+          },
+          {
+            "i": 1984,
+            "value": 5808
+          },
+          {
+            "i": 2645,
+            "value": -9
+          }
+        ]
+      }
+    },
+    {
+      "name": "square_half",
+      "input": {
+        "op": "sfx",
+        "recipe": {
+          "id": "test:audio/sfx/square_half",
+          "duration_ms": 80,
+          "volume_pm": 1000,
+          "layers": [
+            {
+              "wave": "square",
+              "freq_start": 330,
+              "freq_end": 330,
+              "volume_pm": 800,
+              "attack_ms": 0,
+              "decay_ms": 80,
+              "duty_pm": 500
+            }
+          ]
+        }
+      },
+      "expect": {
+        "samples": 1764,
+        "peak": 26214,
+        "mean_abs": 13114.230725623584,
+        "probes": [
+          {
+            "i": 0,
+            "value": 26214
+          },
+          {
+            "i": 252,
+            "value": -22469
+          },
+          {
+            "i": 441,
+            "value": -19660
+          },
+          {
+            "i": 588,
+            "value": -17476
+          },
+          {
+            "i": 882,
+            "value": 13107
+          },
+          {
+            "i": 1176,
+            "value": -8738
+          },
+          {
+            "i": 1323,
+            "value": -6553
+          },
+          {
+            "i": 1763,
+            "value": 15
+          }
+        ]
+      }
+    },
+    {
+      "name": "square_thin",
+      "input": {
+        "op": "sfx",
+        "recipe": {
+          "id": "test:audio/sfx/square_thin",
+          "duration_ms": 80,
+          "volume_pm": 1000,
+          "layers": [
+            {
+              "wave": "square",
+              "freq_start": 330,
+              "freq_end": 330,
+              "volume_pm": 800,
+              "attack_ms": 0,
+              "decay_ms": 80,
+              "duty_pm": 250
+            }
+          ]
+        }
+      },
+      "expect": {
+        "samples": 1764,
+        "peak": 26214,
+        "mean_abs": 13114.230725623584,
+        "probes": [
+          {
+            "i": 0,
+            "value": 26214
+          },
+          {
+            "i": 252,
+            "value": -22469
+          },
+          {
+            "i": 441,
+            "value": -19660
+          },
+          {
+            "i": 588,
+            "value": -17476
+          },
+          {
+            "i": 882,
+            "value": 13107
+          },
+          {
+            "i": 1176,
+            "value": -8738
+          },
+          {
+            "i": 1323,
+            "value": -6553
+          },
+          {
+            "i": 1763,
+            "value": -15
+          }
+        ]
+      }
+    },
+    {
+      "name": "saw_fall",
+      "input": {
+        "op": "sfx",
+        "recipe": {
+          "id": "test:audio/sfx/saw_fall",
+          "duration_ms": 150,
+          "volume_pm": 700,
+          "layers": [
+            {
+              "wave": "saw",
+              "freq_start": 600,
+              "freq_end": 100,
+              "volume_pm": 1000,
+              "attack_ms": 5,
+              "decay_ms": 145
+            }
+          ]
+        }
+      },
+      "expect": {
+        "samples": 3307,
+        "peak": 22498,
+        "mean_abs": 5734.356516480194,
+        "probes": [
+          {
+            "i": 0,
+            "value": 0
+          },
+          {
+            "i": 472,
+            "value": -6679
+          },
+          {
+            "i": 826,
+            "value": -13352
+          },
+          {
+            "i": 1102,
+            "value": 2692
+          },
+          {
+            "i": 1653,
+            "value": 5262
+          },
+          {
+            "i": 2204,
+            "value": -7658
+          },
+          {
+            "i": 2480,
+            "value": -4390
+          },
+          {
+            "i": 3306,
+            "value": 8
+          }
+        ]
+      }
+    },
+    {
+      "name": "triangle_rise",
+      "input": {
+        "op": "sfx",
+        "recipe": {
+          "id": "test:audio/sfx/triangle_rise",
+          "duration_ms": 150,
+          "volume_pm": 700,
+          "layers": [
+            {
+              "wave": "triangle",
+              "freq_start": 100,
+              "freq_end": 900,
+              "volume_pm": 1000,
+              "attack_ms": 20,
+              "decay_ms": 130
+            }
+          ]
+        }
+      },
+      "expect": {
+        "samples": 3307,
+        "peak": 22612,
+        "mean_abs": 5732.44723314182,
+        "probes": [
+          {
+            "i": 0,
+            "value": 0
+          },
+          {
+            "i": 472,
+            "value": -21471
+          },
+          {
+            "i": 826,
+            "value": 19003
+          },
+          {
+            "i": 1102,
+            "value": -8245
+          },
+          {
+            "i": 1653,
+            "value": -5815
+          },
+          {
+            "i": 2204,
+            "value": -2226
+          },
+          {
+            "i": 2480,
+            "value": -3270
+          },
+          {
+            "i": 3306,
+            "value": -10
+          }
+        ]
+      }
+    },
+    {
+      "name": "noise_steps",
+      "input": {
+        "op": "sfx",
+        "recipe": {
+          "id": "test:audio/sfx/noise_steps",
+          "duration_ms": 100,
+          "volume_pm": 900,
+          "layers": [
+            {
+              "wave": "noise",
+              "freq_start": 2000,
+              "freq_end": 500,
+              "volume_pm": 1000,
+              "attack_ms": 0,
+              "decay_ms": 100
+            }
+          ]
+        }
+      },
+      "expect": {
+        "samples": 2205,
+        "peak": 28050,
+        "mean_abs": 7356.136961451247,
+        "probes": [
+          {
+            "i": 0,
+            "value": 9935
+          },
+          {
+            "i": 315,
+            "value": 14003
+          },
+          {
+            "i": 551,
+            "value": 19424
+          },
+          {
+            "i": 735,
+            "value": 1425
+          },
+          {
+            "i": 1102,
+            "value": -4785
+          },
+          {
+            "i": 1470,
+            "value": -7343
+          },
+          {
+            "i": 1653,
+            "value": 4099
+          },
+          {
+            "i": 2204,
+            "value": 2
+          }
+        ]
+      }
+    },
+    {
+      "name": "noise_slow",
+      "input": {
+        "op": "sfx",
+        "recipe": {
+          "id": "test:audio/sfx/noise_slow",
+          "duration_ms": 100,
+          "volume_pm": 900,
+          "layers": [
+            {
+              "wave": "noise",
+              "freq_start": 150,
+              "freq_end": 150,
+              "volume_pm": 1000,
+              "attack_ms": 5,
+              "decay_ms": 95
+            }
+          ]
+        }
+      },
+      "expect": {
+        "samples": 2205,
+        "peak": 25859,
+        "mean_abs": 8745.568707482993,
+        "probes": [
+          {
+            "i": 0,
+            "value": 0
+          },
+          {
+            "i": 315,
+            "value": 25575
+          },
+          {
+            "i": 551,
+            "value": 21773
+          },
+          {
+            "i": 735,
+            "value": 3605
+          },
+          {
+            "i": 1102,
+            "value": 4998
+          },
+          {
+            "i": 1470,
+            "value": 5572
+          },
+          {
+            "i": 1653,
+            "value": -4146
+          },
+          {
+            "i": 2204,
+            "value": 13
+          }
+        ]
+      }
+    },
+    {
+      "name": "mix_clip",
+      "input": {
+        "op": "sfx",
+        "recipe": {
+          "id": "test:audio/sfx/mix_clip",
+          "duration_ms": 90,
+          "volume_pm": 1000,
+          "layers": [
+            {
+              "wave": "sine",
+              "freq_start": 220,
+              "freq_end": 220,
+              "volume_pm": 1000,
+              "attack_ms": 0,
+              "decay_ms": 90
+            },
+            {
+              "wave": "square",
+              "freq_start": 220,
+              "freq_end": 220,
+              "volume_pm": 1000,
+              "attack_ms": 0,
+              "decay_ms": 90,
+              "duty_pm": 500
+            },
+            {
+              "wave": "saw",
+              "freq_start": 220,
+              "freq_end": 220,
+              "volume_pm": 1000,
+              "attack_ms": 0,
+              "decay_ms": 90
+            }
+          ]
+        }
+      },
+      "expect": {
+        "samples": 1984,
+        "peak": 32767,
+        "mean_abs": 17346.1345766129,
+        "probes": [
+          {
+            "i": 0,
+            "value": 0
+          },
+          {
+            "i": 283,
+            "value": -32767
+          },
+          {
+            "i": 496,
+            "value": -10297
+          },
+          {
+            "i": 661,
+            "value": -29985
+          },
+          {
+            "i": 992,
+            "value": -13198
+          },
+          {
+            "i": 1322,
+            "value": 14329
+          },
+          {
+            "i": 1488,
+            "value": -9264
+          },
+          {
+            "i": 1983,
+            "value": -35
+          }
+        ]
+      }
+    },
+    {
+      "name": "silent",
+      "input": {
+        "op": "sfx",
+        "recipe": {
+          "id": "test:audio/sfx/silent",
+          "duration_ms": 50,
+          "volume_pm": 0,
+          "layers": [
+            {
+              "wave": "sine",
+              "freq_start": 440,
+              "freq_end": 440,
+              "volume_pm": 1000,
+              "attack_ms": 0,
+              "decay_ms": 50
+            }
+          ]
+        }
+      },
+      "expect": {
+        "samples": 1102,
+        "peak": 0,
+        "mean_abs": 0.0,
+        "probes": [
+          {
+            "i": 0,
+            "value": 0
+          },
+          {
+            "i": 157,
+            "value": 0
+          },
+          {
+            "i": 275,
+            "value": 0
+          },
+          {
+            "i": 367,
+            "value": 0
+          },
+          {
+            "i": 551,
+            "value": 0
+          },
+          {
+            "i": 734,
+            "value": 0
+          },
+          {
+            "i": 826,
+            "value": 0
+          },
+          {
+            "i": 1101,
+            "value": 0
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/dodge",
+  "duration_ms": 190,
+  "volume_pm": 450,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 2200,
+      "freq_end": 700,
+      "volume_pm": 650,
+      "attack_ms": 20,
+      "decay_ms": 160
+    },
+    {
+      "wave": "sine",
+      "freq_start": 300,
+      "freq_end": 700,
+      "volume_pm": 250,
+      "attack_ms": 20,
+      "decay_ms": 160
+    }
+  ]
+}

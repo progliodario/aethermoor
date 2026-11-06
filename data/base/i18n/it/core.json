@@ -107,6 +107,8 @@
   "ui.map_key_goal": "Meta",
   "ui.map_btn_goal": "Meta",
   "ui.region_enter": "Entri in {region}",
+  "ui.sound_on": "Suoni attivi",
+  "ui.sound_off": "Suoni spenti",
   "ui.map_btn_next": "Avanti",
   "ui.dodge": "Schiva",
   "ui.strike": "Colpo",

@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/coin",
+  "duration_ms": 240,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "square",
+      "freq_start": 1318,
+      "freq_end": 1318,
+      "volume_pm": 500,
+      "attack_ms": 0,
+      "decay_ms": 70,
+      "duty_pm": 250
+    },
+    {
+      "wave": "square",
+      "freq_start": 1976,
+      "freq_end": 1976,
+      "volume_pm": 500,
+      "attack_ms": 70,
+      "decay_ms": 160,
+      "duty_pm": 250
+    }
+  ]
+}

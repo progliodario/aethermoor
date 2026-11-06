@@ -1,6 +1,6 @@
 # Specifications
 
-Normative rules shared by the desktop and Android clients. **Status:** 00 to 09, 12, 13, 16, 17 and 18 are written (all but 16 and 18 have conformance suites; the protagonists are covered by the `stats` and `combat` suites and by a content test); 10, 11, 14 and 15 are still to come with their milestones. The planned content is described in `docs/plan/02-dati-specifiche-e-formati.md`.
+Normative rules shared by the desktop and Android clients. **Status:** 00 to 09, 12, 13, 14, 16, 17 and 18 are written (all but 16 and 18 have conformance suites; the protagonists are covered by the `stats` and `combat` suites and by a content test); 10, 11 and 15 are still to come with their milestones. The planned content is described in `docs/plan/02-dati-specifiche-e-formati.md`.
 
 | # | Document | Milestone |
 |---|---|---|
@@ -19,7 +19,7 @@ Normative rules shared by the desktop and Android clients. **Status:** 00 to 09,
 | 11 | progression, titles, tags, reincarnation | M8 |
 | [12](12-save-format.md) | save format v1 and the save slots | M4b / M5, done |
 | [13](13-vector-art.md) | vector art recipes, rasterizer, rigs | M2, done |
-| 14 | audio synthesis | M3 / M10 |
+| [14](14-audio.md) | audio: synthesized sound effects (music and the mixer settings later) | M3 / M10, effects done |
 | 15 | UI layout | M4 |
 | [16](16-input.md) | input: keyboard, mouse, gamepad, touch, panels, settings | M2, done |
 | [17](17-localization.md) | localization | M1, done |

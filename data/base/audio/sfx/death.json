@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/death",
+  "duration_ms": 900,
+  "volume_pm": 800,
+  "layers": [
+    {
+      "wave": "saw",
+      "freq_start": 392,
+      "freq_end": 98,
+      "volume_pm": 600,
+      "attack_ms": 0,
+      "decay_ms": 880
+    },
+    {
+      "wave": "square",
+      "freq_start": 196,
+      "freq_end": 49,
+      "volume_pm": 450,
+      "attack_ms": 0,
+      "decay_ms": 880,
+      "duty_pm": 500
+    },
+    {
+      "wave": "noise",
+      "freq_start": 800,
+      "freq_end": 120,
+      "volume_pm": 200,
+      "attack_ms": 0,
+      "decay_ms": 700
+    }
+  ]
+}

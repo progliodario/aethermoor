@@ -52,14 +52,19 @@ add_library(aether_vector STATIC src/vector/recipe.cpp src/vector/raster.cpp src
 target_link_libraries(aether_vector PUBLIC aether_core PRIVATE nlohmann_json::nlohmann_json)
 aether_target_options(aether_vector)
 
+# Sound: the synthesizer of the sound effects (spec 14). Headless (produces 16 bit samples).
+add_library(aether_audio STATIC src/audio/synth.cpp)
+target_link_libraries(aether_audio PUBLIC aether_core PRIVATE nlohmann_json::nlohmann_json)
+aether_target_options(aether_audio)
+
 # Simulation: tile maps, movement, collisions, the M2 world. Headless.
 add_library(aether_sim STATIC
   src/sim/tilemap.cpp src/sim/movement.cpp src/sim/combat.cpp src/sim/story.cpp src/sim/save.cpp src/sim/combat_loader.cpp src/sim/world.cpp src/sim/world_map.cpp src/sim/chunk_store.cpp)
 target_link_libraries(aether_sim PUBLIC aether_core aether_data PRIVATE nlohmann_json::nlohmann_json)
 aether_target_options(aether_sim)
 
-add_executable(aethermoor src/app/main.cpp src/app/texture_cache.cpp)
-target_link_libraries(aethermoor PRIVATE aether_core aether_data aether_vector aether_sim SDL3::SDL3)
+add_executable(aethermoor src/app/main.cpp src/app/texture_cache.cpp src/app/sound_board.cpp)
+target_link_libraries(aethermoor PRIVATE aether_core aether_data aether_vector aether_audio aether_sim SDL3::SDL3)
 target_compile_definitions(aethermoor PRIVATE AETHER_REPO_ROOT="${AETHER_REPO_ROOT}")
 aether_target_options(aethermoor)
 
@@ -78,7 +83,7 @@ add_executable(aether_tests
   tests/pack_test.cpp
   tests/sim_test.cpp
   tests/combat_test.cpp)
-target_link_libraries(aether_tests PRIVATE aether_core aether_data aether_vector aether_sim
+target_link_libraries(aether_tests PRIVATE aether_core aether_data aether_vector aether_audio aether_sim
                                            nlohmann_json::nlohmann_json Catch2::Catch2WithMain)
 target_compile_definitions(aether_tests PRIVATE AETHER_REPO_ROOT="${AETHER_REPO_ROOT}")
 add_test(NAME unit COMMAND aether_tests)
