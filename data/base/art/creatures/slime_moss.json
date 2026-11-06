@@ -328,6 +328,163 @@
         "color": "#FFFFFF"
       },
       "alpha": 0.45
+    },
+    {
+      "shape": {
+        "ellipse": [
+          10,
+          11,
+          4.8,
+          3.2
+        ]
+      },
+      "fill": {
+        "color": "#4F8A3A"
+      },
+      "alpha": 0.85
+    },
+    {
+      "shape": {
+        "ellipse": [
+          8.8,
+          10.2,
+          2.4,
+          1.4
+        ]
+      },
+      "fill": {
+        "color": "#8FC24A"
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "ellipse": [
+          21,
+          9,
+          4.08,
+          2.72
+        ]
+      },
+      "fill": {
+        "color": "#4F8A3A"
+      },
+      "alpha": 0.85
+    },
+    {
+      "shape": {
+        "ellipse": [
+          19.98,
+          8.32,
+          2.04,
+          1.19
+        ]
+      },
+      "fill": {
+        "color": "#8FC24A"
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "ellipse": [
+          27,
+          15,
+          3.6,
+          2.4
+        ]
+      },
+      "fill": {
+        "color": "#4F8A3A"
+      },
+      "alpha": 0.85
+    },
+    {
+      "shape": {
+        "ellipse": [
+          26.1,
+          14.4,
+          1.8,
+          1.05
+        ]
+      },
+      "fill": {
+        "color": "#8FC24A"
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "rect": [
+          14.6,
+          3,
+          1.6,
+          4
+        ]
+      },
+      "fill": {
+        "color": "#EFE6C8"
+      },
+      "stroke": {
+        "color": "#6A5A38",
+        "width": 0.5
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          15.4,
+          3,
+          3.2,
+          2.1
+        ]
+      },
+      "fill": {
+        "color": "#C9302C"
+      },
+      "stroke": {
+        "color": "#6A1A18",
+        "width": 0.7
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          14.2,
+          2.6,
+          0.45,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          16,
+          2.6,
+          0.45,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          17.2,
+          2.6,
+          0.45,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      }
     }
   ]
 }

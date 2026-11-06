@@ -1,14 +1,15 @@
 """Adds detail layers (shading, highlights, bubbles, fur, armor plates, eye glints) over the recipes of data/base/art/creatures/.
 
-The palettes and the variants of every file stay as they are: only layers are appended on top. A recipe is enhanced once: the
-script recognizes the original ones by their number of layers and leaves the others alone. Run from tools/: `python art_creatures.py`.
+The palettes and the variants of every file stay as they are: only layers are appended on top. The script keeps the first layers of each recipe
+(the original body, by family) and rebuilds everything above them, so it can be run again and again. Run from tools/: `python art_creatures.py`.
 """
 from __future__ import annotations
 
 import json
 import random
 
-from artkit import ART, Recipe
+from art_creature_looks import KNIGHTS, NECKLACE, SLIMES, WOLVES, necklace
+from artkit import ART, Recipe, transform_layers
 
 DIR = ART / "creatures"
 # the number of layers of the original recipes, by family
@@ -131,31 +132,51 @@ def gloss(layers: list[dict], palette: dict, name: str) -> list[dict]:
     return r.layers
 
 
+def _crowned(layers: list[dict]) -> bool:
+    return len(layers) > 5 and layers[5].get("fill", {}).get("color") == "#F2C94C"
+
+
+def _features(fn, necklace_too: bool = False) -> list[dict]:
+    r = Recipe("x", 1, 1)
+    fn(r)
+    if necklace_too:
+        necklace(r)
+    return r.layers
+
+
 def main() -> None:
     changed = 0
     for path in sorted(DIR.glob("*.json")):
         d = json.loads(path.read_text(encoding="utf-8"))
-        n = len(d["layers"])
-        pal = set(d["palette"])
         name = path.stem
-        extra: list[dict] | None = None
+        pal = set(d["palette"])
         w = d["canvas"]["w"]
-        if w == 36 and d["canvas"]["h"] == 30 and "gold" not in pal and n in (5, 7):
+        layers = d["layers"]
+        extra: list[dict] | None = None
+        if w == 36 and d["canvas"]["h"] == 30 and "gold" not in pal:
+            layers = layers[: 7 if _crowned(layers) else 5]
             extra = slime_overlay(3, 33, 6, 27, [(13, 18), (23, 18)], 1.8, name)
-        elif w == 61 and n == ORIGINAL["giant"]:
+            if name in SLIMES:
+                extra += _features(SLIMES[name], name in NECKLACE)
+        elif w == 61:
+            layers = layers[: ORIGINAL["giant"]]
             extra = slime_overlay(5.1, 56.1, 22.2, 58, [(22.1, 42.6), (39.1, 42.6)], 3.1, name)
-        elif w == 40 and "fur" in pal and n == ORIGINAL["wolf"]:
-            extra = wolf_overlay(name)
-        elif w == 56 and "slit" in pal and n == ORIGINAL["knight"]:
-            extra = knight_overlay(name)
-        elif SINGLES.get(name) == n:
-            extra = gloss(d["layers"], d["palette"], name)
+            extra += transform_layers(_features(SLIMES[name]), 1.7, 0, 12)
+        elif w == 40 and "fur" in pal:
+            layers = layers[: ORIGINAL["wolf"]]
+            extra = wolf_overlay(name) + _features(WOLVES[name])
+        elif w == 56 and "slit" in pal:
+            layers = layers[: ORIGINAL["knight"]]
+            extra = knight_overlay(name) + _features(KNIGHTS[name])
+        elif name in SINGLES:
+            layers = layers[: SINGLES[name]]
+            extra = gloss(layers, d["palette"], name)
         if extra is None:
             continue
-        d["layers"] = d["layers"] + extra
+        d["layers"] = layers + extra
         path.write_text(json.dumps(d, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         changed += 1
-    print("enhanced", changed, "recipes")
+    print("rebuilt", changed, "recipes")
 
 
 if __name__ == "__main__":

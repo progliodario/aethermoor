@@ -63,7 +63,16 @@ sealed interface Shape {
 
 data class StrokeStyle(val color: String, val width: Float)
 
-data class Layer(val shape: Shape, val fill: Paint, val stroke: StrokeStyle?, val alpha: Float)
+data class Layer(
+    val shape: Shape,
+    val fill: Paint,
+    val stroke: StrokeStyle?,
+    val alpha: Float,
+    /** Drawn only with one of these variants (empty: always). */
+    val only: List<String> = emptyList(),
+    /** Not drawn with one of these variants. */
+    val except: List<String> = emptyList(),
+)
 
 typealias Palette = Map<String, String>
 
@@ -124,6 +133,8 @@ fun parseRecipe(jsonText: String): Result<Recipe> =
                 fill = l["fill"]?.let { parsePaint(it.jsonObject) } ?: Paint.None,
                 stroke = stroke,
                 alpha = l["alpha"]?.f() ?: 1f,
+                only = l["only"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
+                except = l["except"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
             )
         }
         Recipe(

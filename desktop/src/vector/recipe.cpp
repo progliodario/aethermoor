@@ -131,6 +131,12 @@ std::optional<Recipe> parse_recipe(std::string_view json_text, std::string& erro
                 layer.stroke.width = l.at("stroke").at("width").get<float>();
             }
             layer.alpha = l.value("alpha", 1.0F);
+            if (l.contains("only")) {
+                layer.only = l.at("only").get<std::vector<std::string>>();
+            }
+            if (l.contains("except")) {
+                layer.except = l.at("except").get<std::vector<std::string>>();
+            }
             recipe.layers.push_back(std::move(layer));
         }
         return recipe;

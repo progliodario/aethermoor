@@ -178,6 +178,15 @@ def suite_raster() -> list[dict]:
         {"width": 4, "height": 4, "probes": [_probe(1, 1, [255, 0, 0, 255], 0)]})
     add("palette_variant", _recipe(4, 4, layer, palette, variants), 1.0,
         {"width": 4, "height": 4, "probes": [_probe(1, 1, [0, 0, 255, 255], 0)]}, variant="blue")
+    # layers that belong to some variants only (spec 13: `only` and `except`)
+    filtered = [{"shape": {"rect": [0, 0, 4, 4]}, "fill": {"color": "#808080"}},
+                {"shape": {"rect": [0, 0, 2, 4]}, "fill": {"color": "#00FF00"}, "only": ["blue"]},
+                {"shape": {"rect": [2, 0, 2, 4]}, "fill": {"color": "#FF0000"}, "except": ["blue"]}]
+    grey, green, red_px = [128, 128, 128, 255], [0, 255, 0, 255], [255, 0, 0, 255]
+    add("layer_only_except_base", _recipe(4, 4, filtered, palette, variants), 1.0,
+        {"width": 4, "height": 4, "probes": [_probe(1, 1, grey, 0), _probe(3, 1, red_px, 0)]})
+    add("layer_only_except_variant", _recipe(4, 4, filtered, palette, variants), 1.0,
+        {"width": 4, "height": 4, "probes": [_probe(1, 1, green, 0), _probe(3, 1, grey, 0)]}, variant="blue")
     add("path_square", _recipe(8, 8, [{"shape": {"path": "M 2 2 L 6 2 L 6 6 L 2 6 Z"}, "fill": red}]), 1.0,
         {"width": 8, "height": 8,
          "probes": [_probe(3, 3, [255, 0, 0, 255]), _probe(1, 1, [0, 0, 0, 0]), _probe(6, 6, [0, 0, 0, 0])]})

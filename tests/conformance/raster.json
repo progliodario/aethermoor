@@ -899,6 +899,210 @@
       }
     },
     {
+      "name": "layer_only_except_base",
+      "input": {
+        "op": "raster",
+        "recipe": {
+          "id": "test:art/probe",
+          "canvas": {
+            "w": 4,
+            "h": 4,
+            "origin": [
+              0,
+              0
+            ]
+          },
+          "layers": [
+            {
+              "shape": {
+                "rect": [
+                  0,
+                  0,
+                  4,
+                  4
+                ]
+              },
+              "fill": {
+                "color": "#808080"
+              }
+            },
+            {
+              "shape": {
+                "rect": [
+                  0,
+                  0,
+                  2,
+                  4
+                ]
+              },
+              "fill": {
+                "color": "#00FF00"
+              },
+              "only": [
+                "blue"
+              ]
+            },
+            {
+              "shape": {
+                "rect": [
+                  2,
+                  0,
+                  2,
+                  4
+                ]
+              },
+              "fill": {
+                "color": "#FF0000"
+              },
+              "except": [
+                "blue"
+              ]
+            }
+          ],
+          "palette": {
+            "c": "#FF0000"
+          },
+          "variants": {
+            "blue": {
+              "c": "#0000FF"
+            }
+          }
+        },
+        "scale": 1.0,
+        "variant": null
+      },
+      "expect": {
+        "width": 4,
+        "height": 4,
+        "probes": [
+          {
+            "x": 1,
+            "y": 1,
+            "rgba": [
+              128,
+              128,
+              128,
+              255
+            ],
+            "tol": 0
+          },
+          {
+            "x": 3,
+            "y": 1,
+            "rgba": [
+              255,
+              0,
+              0,
+              255
+            ],
+            "tol": 0
+          }
+        ]
+      }
+    },
+    {
+      "name": "layer_only_except_variant",
+      "input": {
+        "op": "raster",
+        "recipe": {
+          "id": "test:art/probe",
+          "canvas": {
+            "w": 4,
+            "h": 4,
+            "origin": [
+              0,
+              0
+            ]
+          },
+          "layers": [
+            {
+              "shape": {
+                "rect": [
+                  0,
+                  0,
+                  4,
+                  4
+                ]
+              },
+              "fill": {
+                "color": "#808080"
+              }
+            },
+            {
+              "shape": {
+                "rect": [
+                  0,
+                  0,
+                  2,
+                  4
+                ]
+              },
+              "fill": {
+                "color": "#00FF00"
+              },
+              "only": [
+                "blue"
+              ]
+            },
+            {
+              "shape": {
+                "rect": [
+                  2,
+                  0,
+                  2,
+                  4
+                ]
+              },
+              "fill": {
+                "color": "#FF0000"
+              },
+              "except": [
+                "blue"
+              ]
+            }
+          ],
+          "palette": {
+            "c": "#FF0000"
+          },
+          "variants": {
+            "blue": {
+              "c": "#0000FF"
+            }
+          }
+        },
+        "scale": 1.0,
+        "variant": "blue"
+      },
+      "expect": {
+        "width": 4,
+        "height": 4,
+        "probes": [
+          {
+            "x": 1,
+            "y": 1,
+            "rgba": [
+              0,
+              255,
+              0,
+              255
+            ],
+            "tol": 0
+          },
+          {
+            "x": 3,
+            "y": 1,
+            "rgba": [
+              128,
+              128,
+              128,
+              255
+            ],
+            "tol": 0
+          }
+        ]
+      }
+    },
+    {
       "name": "path_square",
       "input": {
         "op": "raster",

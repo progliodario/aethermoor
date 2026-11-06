@@ -171,3 +171,60 @@ def linear(x0, y0, x1, y1, *stops):
 
 def radial(cx, cy, r, *stops):
     return {"radial": {"cx": _n(cx), "cy": _n(cy), "r": _n(r), "stops": [[t, c] for t, c in stops]}}
+
+
+# ------------------------------------------------------------------------------------------------ moving layers
+def _map_path(d: str, s: float, dx: float, dy: float) -> str:
+    """Scales and moves the points of a path made of the absolute commands M L Q C Z."""
+    out: list[str] = []
+    nums: list[float] = []
+
+    def flush() -> None:
+        for i in range(0, len(nums) - 1, 2):
+            out.append(f"{_n(nums[i] * s + dx)} {_n(nums[i + 1] * s + dy)}")
+        nums.clear()
+
+    for tok in d.replace(",", " ").split():
+        if tok.isalpha():
+            flush()
+            out.append(tok)
+        else:
+            nums.append(float(tok))
+    flush()
+    return " ".join(out)
+
+
+def _map_paint(fill: dict, s: float, dx: float, dy: float) -> dict:
+    if "linear" in fill:
+        g = dict(fill["linear"])
+        g.update(x0=_n(g["x0"] * s + dx), y0=_n(g["y0"] * s + dy), x1=_n(g["x1"] * s + dx), y1=_n(g["y1"] * s + dy))
+        return {"linear": g}
+    if "radial" in fill:
+        g = dict(fill["radial"])
+        g.update(cx=_n(g["cx"] * s + dx), cy=_n(g["cy"] * s + dy), r=_n(g["r"] * s))
+        return {"radial": g}
+    return fill
+
+
+def transform_layers(layers: list[dict], s: float = 1.0, dx: float = 0.0, dy: float = 0.0) -> list[dict]:
+    """Copies the layers scaled by s (the same on both axes) and moved by (dx, dy)."""
+    out = []
+    for layer in layers:
+        new = dict(layer)
+        shape = layer["shape"]
+        if "rect" in shape:
+            x, y, w, h = shape["rect"]
+            new["shape"] = {"rect": [_n(x * s + dx), _n(y * s + dy), _n(w * s), _n(h * s)]}
+        elif "ellipse" in shape:
+            x, y, rx, ry = shape["ellipse"]
+            new["shape"] = {"ellipse": [_n(x * s + dx), _n(y * s + dy), _n(rx * s), _n(ry * s)]}
+        elif "polygon" in shape:
+            new["shape"] = {"polygon": [[_n(x * s + dx), _n(y * s + dy)] for x, y in shape["polygon"]]}
+        else:
+            new["shape"] = {"path": _map_path(shape["path"], s, dx, dy)}
+        if "fill" in layer:
+            new["fill"] = _map_paint(layer["fill"], s, dx, dy)
+        if "stroke" in layer:
+            new["stroke"] = dict(layer["stroke"], width=_n(layer["stroke"]["width"] * s))
+        out.append(new)
+    return out

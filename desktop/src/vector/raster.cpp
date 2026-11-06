@@ -502,7 +502,13 @@ Bitmap rasterize(const Recipe& recipe, float scale, std::string_view variant) {
     const std::size_t pixels = static_cast<std::size_t>(bitmap.width) * static_cast<std::size_t>(bitmap.height);
     std::vector<float> acc(pixels * 4, 0.0F);
 
+    const auto listed = [&](const std::vector<std::string>& names) {
+        return std::find(names.begin(), names.end(), variant) != names.end();
+    };
     for (const Layer& layer : recipe.layers) {
+        if ((!layer.only.empty() && !listed(layer.only)) || listed(layer.except)) {
+            continue;
+        }
         const std::vector<Subpath> subpaths = shape_subpaths(layer.shape, scale);
         if (layer.fill.kind != Paint::Kind::None) {
             std::vector<Polygon> polys;

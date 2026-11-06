@@ -382,6 +382,275 @@
         "color": "#FFFFFF"
       },
       "alpha": 0.45
+    },
+    {
+      "shape": {
+        "ellipse": [
+          10,
+          11,
+          4.8,
+          3.2
+        ]
+      },
+      "fill": {
+        "color": "#4F8A3A"
+      },
+      "alpha": 0.85
+    },
+    {
+      "shape": {
+        "ellipse": [
+          8.8,
+          10.2,
+          2.4,
+          1.4
+        ]
+      },
+      "fill": {
+        "color": "#8FC24A"
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "ellipse": [
+          21,
+          9,
+          4.08,
+          2.72
+        ]
+      },
+      "fill": {
+        "color": "#4F8A3A"
+      },
+      "alpha": 0.85
+    },
+    {
+      "shape": {
+        "ellipse": [
+          19.98,
+          8.32,
+          2.04,
+          1.19
+        ]
+      },
+      "fill": {
+        "color": "#8FC24A"
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "ellipse": [
+          27,
+          15,
+          3.6,
+          2.4
+        ]
+      },
+      "fill": {
+        "color": "#4F8A3A"
+      },
+      "alpha": 0.85
+    },
+    {
+      "shape": {
+        "ellipse": [
+          26.1,
+          14.4,
+          1.8,
+          1.05
+        ]
+      },
+      "fill": {
+        "color": "#8FC24A"
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "rect": [
+          14.6,
+          3,
+          1.6,
+          4
+        ]
+      },
+      "fill": {
+        "color": "#EFE6C8"
+      },
+      "stroke": {
+        "color": "#6A5A38",
+        "width": 0.5
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          15.4,
+          3,
+          3.2,
+          2.1
+        ]
+      },
+      "fill": {
+        "color": "#C9302C"
+      },
+      "stroke": {
+        "color": "#6A1A18",
+        "width": 0.7
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          14.2,
+          2.6,
+          0.45,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          16,
+          2.6,
+          0.45,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          17.2,
+          2.6,
+          0.45,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "shape": {
+        "path": "M 6 21 Q 18 29 30 21"
+      },
+      "stroke": {
+        "color": "#F2C94C",
+        "width": 1.1
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          9,
+          23.4,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "#F2C94C"
+      },
+      "stroke": {
+        "color": "#7A5A10",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          13,
+          25.5,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "#F2C94C"
+      },
+      "stroke": {
+        "color": "#7A5A10",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18,
+          26.4,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "#F2C94C"
+      },
+      "stroke": {
+        "color": "#7A5A10",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          23,
+          25.5,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "#F2C94C"
+      },
+      "stroke": {
+        "color": "#7A5A10",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          27,
+          23.4,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "#F2C94C"
+      },
+      "stroke": {
+        "color": "#7A5A10",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18,
+          27.6,
+          1.5,
+          1.7
+        ]
+      },
+      "fill": {
+        "color": "#D8402A"
+      },
+      "stroke": {
+        "color": "#7A1A10",
+        "width": 0.5
+      }
     }
   ]
 }

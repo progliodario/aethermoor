@@ -23,10 +23,13 @@ def color(value: str, palette: dict) -> str:
     return palette[value[3:]] if value.startswith("$p.") else value
 
 
-def svg_of(recipe: dict, uid: str) -> str:
-    canvas, palette = recipe["canvas"], recipe.get("palette", {})
+def svg_of(recipe: dict, uid: str, variant: str | None = None, inner: bool = False) -> str:
+    canvas, palette = recipe["canvas"], dict(recipe.get("palette", {}))
+    palette.update(recipe.get("variants", {}).get(variant or "", {}))
     defs, body = [], []
     for i, layer in enumerate(recipe["layers"]):
+        if (layer.get("only") and variant not in layer["only"]) or variant in layer.get("except", []):
+            continue
         shape = layer["shape"]
         (kind, data), = shape.items()
         if kind == "rect":
@@ -61,8 +64,34 @@ def svg_of(recipe: dict, uid: str) -> str:
         if "alpha" in layer:
             attrs += f' opacity="{layer["alpha"]}"'
         body.append(element + attrs + "/>")
+    if inner:
+        return f'<defs>{"".join(defs)}</defs>{"".join(body)}'
     return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{canvas["w"]}" height="{canvas["h"]}" viewBox="0 0 {canvas["w"]} {canvas["h"]}">'
             f'<defs>{"".join(defs)}</defs>{"".join(body)}</svg>')
+
+
+def figure_svg(variant: str | None, uid: str, scale: float) -> str:
+    """The humanoid rig assembled in its rest pose, with the palette variant of a person."""
+    rig = json.loads((ART / "rigs" / "humanoid.json").read_text(encoding="utf-8"))
+    parts = {p["id"]: p for p in rig["parts"]}
+    pos: dict[str, tuple[float, float]] = {}
+
+    def where(pid: str) -> tuple[float, float]:
+        if pid not in pos:
+            part = parts[pid]
+            px, py = where(part["parent"]) if part["parent"] else (0.0, 0.0)
+            pos[pid] = (px + part["offset"][0], py + part["offset"][1])
+        return pos[pid]
+
+    by_id = {p.stem: json.loads(p.read_text(encoding="utf-8")) for p in (ART / "characters" / "ren").glob("*.json")}
+    out = []
+    for part in sorted(rig["parts"], key=lambda q: q["z"]):
+        recipe = by_id[part["art"].rsplit("/", 1)[1]]
+        x, y = where(part["id"])
+        ox, oy = recipe["canvas"]["origin"]
+        out.append(f'<g transform="translate({x + 40 - ox} {y + 62 - oy})">{svg_of(recipe, uid + part["id"], variant, inner=True)}</g>')
+    size = f"width:{80 * scale}px;height:{70 * scale}px"
+    return f'<svg xmlns="http://www.w3.org/2000/svg" style="{size}" viewBox="0 0 80 70">{"".join(out)}</svg>'
 
 
 def main() -> int:
@@ -70,8 +99,14 @@ def main() -> int:
     parser.add_argument("patterns", nargs="*")
     parser.add_argument("--out", default="art_sheet.html")
     parser.add_argument("--scale", type=float, default=4.0)
+    parser.add_argument("--figures", action="store_true", help="draw the assembled humanoid with every palette variant")
     args = parser.parse_args()
     cards = []
+    if args.figures:
+        head = json.loads((ART / "characters" / "ren" / "head.json").read_text(encoding="utf-8"))
+        for i, variant in enumerate([None, *head["variants"]]):
+            cards.append(f'<figure>{figure_svg(variant, f"f{i}", args.scale)}<figcaption>{variant or "ren (base)"}</figcaption></figure>')
+        args.patterns = ["__none__"]
     for path in sorted(ART.rglob("*.json")):
         rel = path.relative_to(ART).as_posix()
         if args.patterns and not any(p in rel for p in args.patterns):
