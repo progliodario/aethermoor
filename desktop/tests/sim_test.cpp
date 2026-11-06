@@ -54,7 +54,7 @@ TEST_CASE("demo map loads", "[sim]") {
     REQUIRE(demo.map.spawn_x == Catch::Approx(5.5F));
     REQUIRE(demo.map.spawn_y == Catch::Approx(15.5F));
     REQUIRE_FALSE(demo.map.props.empty());
-    REQUIRE(demo.tileset.tiles.size() == 34);
+    REQUIRE(demo.tileset.tiles.size() == 37);
     REQUIRE(demo.map.gid_at(0, 0) == 5);   // border wall
     REQUIRE(demo.map.gid_at(-1, 0) == 0);  // out of range
 }

@@ -31,3 +31,8 @@ Le ricette dei terreni e degli oggetti sono scritte con `python tools/make_art.p
 - Una variante non cambia solo i colori: con `only` e `except` (spec 13) uno strato appartiene a certe varianti. Ren è la figura di base (occhiali e cravatta con `except`), ogni altro protagonista e ogni gente ha i propri strati davanti o dietro le parti del rig (`tools/art_looks.py`). Le parti hanno un canvas più grande per lasciare spazio a corna, cappelli e mantelli.
 - Ogni creatura ha un tratto suo (`tools/art_creature_looks.py`): quando si aggiunge una creatura nuova serve un tratto che la distingua dalle sorelle della famiglia, non solo una palette.
 - `python tools/art_preview.py --figures` disegna ogni persona intera; `python tools/art_preview.py creatures/slime` le creature.
+
+## Strutture
+
+- Le case degli insediamenti (stamp `hamlet*`, `village*`, `town*`, `outpost*`) sono a graticcio: `wall_timber`, `wall_window` (ogni due tile sul lato alto, e uno sul fianco) e `door` con soglia di pietra. Fortezze, tombe e rovine restano di pietra (`wall_stone`): `make_stamps.py` converte da solo i caratteri `:` `'` `;` in `#` e `_` fuori dagli insediamenti.
+- Un edificio nuovo si disegna con `Canvas.house()`: porta e finestre arrivano da sole.

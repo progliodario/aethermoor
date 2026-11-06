@@ -40,7 +40,7 @@ class WorldTest {
         assertNear(5.5f, map.spawnX, 0.0001f)
         assertNear(15.5f, map.spawnY, 0.0001f)
         assertTrue(map.props.isNotEmpty())
-        assertEquals(34, tileset.tiles.size)
+        assertEquals(37, tileset.tiles.size)
         assertEquals(5, map.gidAt(0, 0))
         assertEquals(0, map.gidAt(-1, 0))
     }

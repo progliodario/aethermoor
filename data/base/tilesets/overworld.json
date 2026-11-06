@@ -171,6 +171,21 @@
       "gid": 34,
       "art": "base:art/tile/rocky_b",
       "solid": false
+    },
+    {
+      "gid": 35,
+      "art": "base:art/tile/wall_timber",
+      "solid": true
+    },
+    {
+      "gid": 36,
+      "art": "base:art/tile/wall_window",
+      "solid": true
+    },
+    {
+      "gid": 37,
+      "art": "base:art/tile/door",
+      "solid": false
     }
   ]
 }

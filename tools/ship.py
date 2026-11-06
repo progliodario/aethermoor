@@ -168,9 +168,16 @@ def main() -> int:
     if args.no_merge:
         return 0
     print("4. merge")
-    run(["gh", "pr", "merge", url, "--squash", "--delete-branch"])
-    run(["git", "checkout", "--quiet", "main"])
-    run(["git", "pull", "--quiet"])
+    # `--delete-branch` also deletes the local branch, which fails when the working tree holds unrelated changes: check the pull request, not the exit code
+    merged = run(["gh", "pr", "merge", url, "--squash", "--delete-branch"], check=False)
+    state = run(["gh", "pr", "view", url, "--json", "state", "--jq", ".state"], capture=True).stdout.strip()
+    if state != "MERGED":
+        print(f"the merge failed (exit code {merged.returncode}, state {state})")
+        return 1
+    if run(["git", "checkout", "--quiet", "main"], check=False).returncode == 0:
+        run(["git", "pull", "--quiet"], check=False)
+    else:
+        print("  merged; the working tree has other changes, so the branch stays checked out")
     print(f"  main is at {run(['git', 'log', '--oneline', '-1'], capture=True).stdout.strip()}")
     if args.play:
         print("5. play build")
