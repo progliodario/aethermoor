@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aethermoor.invalid/schemas/music.schema.json",
+  "title": "A piece of music: tracks on layers, played as a loop",
+  "type": "object",
+  "required": ["id", "tempo_bpm", "bars", "volume_pm", "tracks"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:audio/music/[a-z0-9_]+$" },
+    "tempo_bpm": { "type": "integer", "minimum": 30, "maximum": 240 },
+    "bars": { "type": "integer", "minimum": 1, "maximum": 64, "description": "length of the loop, in bars of 16 steps (4 beats)" },
+    "volume_pm": { "type": "integer", "minimum": 0, "maximum": 1000 },
+    "tracks": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/track" } }
+  },
+  "$defs": {
+    "track": {
+      "type": "object",
+      "required": ["layer", "patch", "volume_pm", "bars"],
+      "additionalProperties": false,
+      "properties": {
+        "layer": { "enum": ["base", "tension", "combat", "boss"] },
+        "name": { "type": "string" },
+        "patch": { "$ref": "#/$defs/patch" },
+        "volume_pm": { "type": "integer", "minimum": 0, "maximum": 1000 },
+        "bars": {
+          "type": "array",
+          "minItems": 1,
+          "description": "one string of 16 steps per bar; the list repeats if it is shorter than the piece. A step is a note (C4, F#3, Bb2), a chord (C3+E3+G3), . (rest) or - (hold)",
+          "items": { "type": "string", "pattern": "^[^ ]+( [^ ]+){15}$" }
+        }
+      }
+    },
+    "patch": {
+      "type": "object",
+      "required": ["wave", "attack_ms", "decay_ms", "sustain_pm", "release_ms"],
+      "additionalProperties": false,
+      "properties": {
+        "wave": { "enum": ["sine", "square", "saw", "triangle", "noise"] },
+        "attack_ms": { "type": "integer", "minimum": 0, "maximum": 4000 },
+        "decay_ms": { "type": "integer", "minimum": 0, "maximum": 4000 },
+        "sustain_pm": { "type": "integer", "minimum": 0, "maximum": 1000 },
+        "release_ms": { "type": "integer", "minimum": 0, "maximum": 4000 },
+        "duty_pm": { "type": "integer", "minimum": 50, "maximum": 950 },
+        "detune_cents": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "glide_pm": { "type": "integer", "minimum": 20, "maximum": 4000, "description": "the pitch goes to this share of itself over the held note" },
+        "am_dhz": { "type": "integer", "minimum": 0, "maximum": 2000 },
+        "am_depth_pm": { "type": "integer", "minimum": 0, "maximum": 1000 }
+      }
+    }
+  }
+}

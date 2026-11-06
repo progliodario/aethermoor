@@ -18,6 +18,7 @@
 #include <nlohmann/json.hpp>
 
 #include "audio/director.hpp"
+#include "audio/music.hpp"
 #include "audio/synth.hpp"
 #include "core/id.hpp"
 #include "core/message_format.hpp"
@@ -449,6 +450,87 @@ TEST_CASE("conformance: audio ambience", "[conformance]") {
         for (const auto& [sound, gain] : wanted.items()) {
             REQUIRE(got.count(sound) == 1);
             REQUIRE(got.at(sound) == gain.get<int>());
+        }
+    }
+}
+
+TEST_CASE("conformance: music", "[conformance]") {
+    const Json doc = load_suite("music");
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        std::string error;
+        const auto piece = aether::parse_music(c.at("input").at("piece").dump(), error);
+        INFO(error);
+        REQUIRE(piece.has_value());
+        const auto layers = aether::render_music(*piece);
+        const Json& wanted_layers = c.at("expect").at("layers");
+        REQUIRE(layers.size() == wanted_layers.size());
+        for (const auto& [layer, expect] : wanted_layers.items()) {
+            INFO("layer " << layer);
+            REQUIRE(layers.count(layer) == 1);
+            const std::vector<std::int16_t>& samples = layers.at(layer);
+            REQUIRE(samples.size() == expect.at("samples").get<std::size_t>());
+            int peak = 0;
+            double sum = 0.0;
+            for (const std::int16_t s : samples) {
+                peak = std::max(peak, std::abs(static_cast<int>(s)));
+                sum += std::abs(static_cast<double>(s));
+            }
+            REQUIRE(std::abs(peak - expect.at("peak").get<int>()) <= 3);
+            const double mean = sum / static_cast<double>(samples.size());
+            const double wanted = expect.at("mean_abs").get<double>();
+            REQUIRE(std::abs(mean - wanted) <= std::max(3.0, wanted * 0.01));
+            for (const Json& probe : expect.at("probes")) {
+                const std::size_t i = probe.at("i").get<std::size_t>();
+                INFO("sample " << i);
+                REQUIRE(std::abs(static_cast<int>(samples[i]) - probe.at("value").get<int>()) <= 3);
+            }
+        }
+    }
+}
+
+TEST_CASE("conformance: music director", "[conformance]") {
+    const Json doc = load_suite("music_director");
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        std::string error;
+        const auto rules = aether::parse_music_rules(c.at("input").at("rules").dump(), error);
+        INFO(error);
+        REQUIRE(rules.has_value());
+        aether::MusicDirector director(*rules);
+        Json ctx = c.at("input").at("base");
+        int index = 0;
+        for (const Json& patch : c.at("input").at("patches")) {
+            ctx["cues"] = Json::array();
+            ctx["frame"] = index;
+            for (const auto& [key, value] : patch.items()) {
+                ctx[key] = value;
+            }
+            aether::MusicContext in;
+            in.frame = ctx.at("frame").get<std::int64_t>();
+            in.screen = ctx.at("screen").get<std::string>();
+            in.region = ctx.at("region").get<std::string>();
+            in.tod_pm = ctx.at("tod_pm").get<int>();
+            in.place = ctx.at("place").get<std::string>();
+            for (const Json& q : ctx.at("quests")) {
+                in.quests.push_back(q.get<std::string>());
+            }
+            in.low_hp = ctx.at("low_hp").get<bool>();
+            in.x = ctx.at("x").get<double>();
+            in.y = ctx.at("y").get<double>();
+            for (const Json& cue : ctx.at("cues")) {
+                in.cues.push_back({cue.at("kind").get<std::string>(), cue.at("family").get<std::string>(),
+                                   cue.at("x").get<double>(), cue.at("y").get<double>()});
+            }
+            const aether::MusicChoice got = director.update(in);
+            const Json& wanted = c.at("expect").at("outputs").at(static_cast<std::size_t>(index));
+            INFO("frame " << index);
+            REQUIRE(got.piece == wanted.at("piece").get<std::string>());
+            REQUIRE(got.layers.size() == wanted.at("layers").size());
+            for (std::size_t i = 0; i < got.layers.size(); ++i) {
+                REQUIRE(got.layers[i] == wanted.at("layers").at(i).get<std::string>());
+            }
+            ++index;
         }
     }
 }

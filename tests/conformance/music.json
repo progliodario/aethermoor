@@ -1,0 +1,545 @@
+{
+  "suite": "music",
+  "spec_version": 1,
+  "generated_by": "tools/gen_conformance.py",
+  "cases": [
+    {
+      "name": "sine_notes",
+      "input": {
+        "op": "music",
+        "piece": {
+          "id": "test:audio/music/sine_notes",
+          "tempo_bpm": 240,
+          "bars": 1,
+          "volume_pm": 900,
+          "tracks": [
+            {
+              "layer": "base",
+              "patch": {
+                "wave": "sine",
+                "attack_ms": 20,
+                "decay_ms": 100,
+                "sustain_pm": 700,
+                "release_ms": 120
+              },
+              "volume_pm": 800,
+              "bars": [
+                "C4 - - - . . . . E4+G4 - - - - - . ."
+              ]
+            }
+          ]
+        }
+      },
+      "expect": {
+        "layers": {
+          "base": {
+            "samples": 22050,
+            "peak": 31956,
+            "mean_abs": 7687.287528344671,
+            "probes": [
+              {
+                "i": 0,
+                "value": 0
+              },
+              {
+                "i": 2450,
+                "value": 7251
+              },
+              {
+                "i": 4410,
+                "value": 14709
+              },
+              {
+                "i": 7350,
+                "value": 4873
+              },
+              {
+                "i": 11025,
+                "value": 0
+              },
+              {
+                "i": 14700,
+                "value": 5701
+              },
+              {
+                "i": 17640,
+                "value": -14323
+              },
+              {
+                "i": 22049,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "triangle_detuned_chord",
+      "input": {
+        "op": "music",
+        "piece": {
+          "id": "test:audio/music/chord",
+          "tempo_bpm": 240,
+          "bars": 1,
+          "volume_pm": 900,
+          "tracks": [
+            {
+              "layer": "base",
+              "patch": {
+                "wave": "triangle",
+                "attack_ms": 60,
+                "decay_ms": 200,
+                "sustain_pm": 800,
+                "release_ms": 300,
+                "detune_cents": 9
+              },
+              "volume_pm": 700,
+              "bars": [
+                "C3+E3+G3 - - - - - - - A2+C3+E3 - - - - - - -"
+              ]
+            }
+          ]
+        }
+      },
+      "expect": {
+        "layers": {
+          "base": {
+            "samples": 22050,
+            "peak": 32767,
+            "mean_abs": 6204.822857142857,
+            "probes": [
+              {
+                "i": 0,
+                "value": 8089
+              },
+              {
+                "i": 2450,
+                "value": -13400
+              },
+              {
+                "i": 4410,
+                "value": 10606
+              },
+              {
+                "i": 7350,
+                "value": 936
+              },
+              {
+                "i": 11025,
+                "value": 285
+              },
+              {
+                "i": 14700,
+                "value": -7535
+              },
+              {
+                "i": 17640,
+                "value": 3475
+              },
+              {
+                "i": 22049,
+                "value": 7804
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "square_duty_wrap",
+      "input": {
+        "op": "music",
+        "piece": {
+          "id": "test:audio/music/wrap",
+          "tempo_bpm": 240,
+          "bars": 1,
+          "volume_pm": 900,
+          "tracks": [
+            {
+              "layer": "base",
+              "patch": {
+                "wave": "square",
+                "attack_ms": 5,
+                "decay_ms": 60,
+                "sustain_pm": 500,
+                "release_ms": 400,
+                "duty_pm": 250
+              },
+              "volume_pm": 600,
+              "bars": [
+                ". . . . . . . . . . . . . . G4 -"
+              ]
+            }
+          ]
+        }
+      },
+      "expect": {
+        "layers": {
+          "base": {
+            "samples": 22050,
+            "peak": 17689,
+            "mean_abs": 3141.011655328798,
+            "probes": [
+              {
+                "i": 0,
+                "value": 8847
+              },
+              {
+                "i": 2450,
+                "value": -6390
+              },
+              {
+                "i": 4410,
+                "value": -4424
+              },
+              {
+                "i": 7350,
+                "value": -1475
+              },
+              {
+                "i": 11025,
+                "value": 0
+              },
+              {
+                "i": 14700,
+                "value": 0
+              },
+              {
+                "i": 17640,
+                "value": 0
+              },
+              {
+                "i": 22049,
+                "value": -8847
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "kick_glide",
+      "input": {
+        "op": "music",
+        "piece": {
+          "id": "test:audio/music/kick",
+          "tempo_bpm": 240,
+          "bars": 1,
+          "volume_pm": 900,
+          "tracks": [
+            {
+              "layer": "combat",
+              "patch": {
+                "wave": "sine",
+                "attack_ms": 2,
+                "decay_ms": 120,
+                "sustain_pm": 0,
+                "release_ms": 40,
+                "glide_pm": 250
+              },
+              "volume_pm": 900,
+              "bars": [
+                "C2 . . . C2 . . . C2 . . . C2 . . ."
+              ]
+            }
+          ]
+        }
+      },
+      "expect": {
+        "layers": {
+          "combat": {
+            "samples": 22050,
+            "peak": 26107,
+            "mean_abs": 3849.1020408163267,
+            "probes": [
+              {
+                "i": 0,
+                "value": 0
+              },
+              {
+                "i": 2450,
+                "value": 0
+              },
+              {
+                "i": 4410,
+                "value": 0
+              },
+              {
+                "i": 7350,
+                "value": -2040
+              },
+              {
+                "i": 11025,
+                "value": 0
+              },
+              {
+                "i": 14700,
+                "value": 0
+              },
+              {
+                "i": 17640,
+                "value": -2346
+              },
+              {
+                "i": 22049,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "noise_hats",
+      "input": {
+        "op": "music",
+        "piece": {
+          "id": "test:audio/music/hats",
+          "tempo_bpm": 240,
+          "bars": 1,
+          "volume_pm": 900,
+          "tracks": [
+            {
+              "layer": "combat",
+              "patch": {
+                "wave": "noise",
+                "attack_ms": 1,
+                "decay_ms": 35,
+                "sustain_pm": 0,
+                "release_ms": 25
+              },
+              "volume_pm": 700,
+              "bars": [
+                "C7 . C7 . C7 . C7 . C7 . C7 . C7 . C7 ."
+              ]
+            }
+          ]
+        }
+      },
+      "expect": {
+        "layers": {
+          "combat": {
+            "samples": 22050,
+            "peak": 19974,
+            "mean_abs": 1473.3951473922903,
+            "probes": [
+              {
+                "i": 0,
+                "value": 0
+              },
+              {
+                "i": 2450,
+                "value": 0
+              },
+              {
+                "i": 4410,
+                "value": 0
+              },
+              {
+                "i": 7350,
+                "value": 0
+              },
+              {
+                "i": 11025,
+                "value": 0
+              },
+              {
+                "i": 14700,
+                "value": 0
+              },
+              {
+                "i": 17640,
+                "value": 0
+              },
+              {
+                "i": 22049,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "layers_and_loops",
+      "input": {
+        "op": "music",
+        "piece": {
+          "id": "test:audio/music/layers",
+          "tempo_bpm": 240,
+          "bars": 2,
+          "volume_pm": 900,
+          "tracks": [
+            {
+              "layer": "base",
+              "patch": {
+                "wave": "saw",
+                "attack_ms": 30,
+                "decay_ms": 100,
+                "sustain_pm": 600,
+                "release_ms": 150
+              },
+              "volume_pm": 500,
+              "bars": [
+                "A3 - - - C4 - - - E4 - - - C4 - - -",
+                "G3 - - - B3 - - - D4 - - - B3 - - -"
+              ]
+            },
+            {
+              "layer": "combat",
+              "patch": {
+                "wave": "noise",
+                "attack_ms": 1,
+                "decay_ms": 80,
+                "sustain_pm": 0,
+                "release_ms": 40
+              },
+              "volume_pm": 400,
+              "bars": [
+                "C5 . . . C5 . . . C5 . . . C5 . . ."
+              ]
+            },
+            {
+              "layer": "tension",
+              "patch": {
+                "wave": "sine",
+                "attack_ms": 300,
+                "decay_ms": 100,
+                "sustain_pm": 900,
+                "release_ms": 300,
+                "am_dhz": 40,
+                "am_depth_pm": 500
+              },
+              "volume_pm": 300,
+              "bars": [
+                "E2+B2 - - - - - - - - - - - - - - -"
+              ]
+            }
+          ]
+        }
+      },
+      "expect": {
+        "layers": {
+          "base": {
+            "samples": 44100,
+            "peak": 20767,
+            "mean_abs": 5243.791201814059,
+            "probes": [
+              {
+                "i": 0,
+                "value": 4265
+              },
+              {
+                "i": 4900,
+                "value": 6881
+              },
+              {
+                "i": 8820,
+                "value": -4428
+              },
+              {
+                "i": 14700,
+                "value": 7749
+              },
+              {
+                "i": 22050,
+                "value": -1551
+              },
+              {
+                "i": 29400,
+                "value": 634
+              },
+              {
+                "i": 35280,
+                "value": -3217
+              },
+              {
+                "i": 44099,
+                "value": 4066
+              }
+            ]
+          },
+          "combat": {
+            "samples": 44100,
+            "peak": 11018,
+            "mean_abs": 1020.7013605442177,
+            "probes": [
+              {
+                "i": 0,
+                "value": 0
+              },
+              {
+                "i": 4900,
+                "value": 0
+              },
+              {
+                "i": 8820,
+                "value": 0
+              },
+              {
+                "i": 14700,
+                "value": 0
+              },
+              {
+                "i": 22050,
+                "value": 0
+              },
+              {
+                "i": 29400,
+                "value": -574
+              },
+              {
+                "i": 35280,
+                "value": 64
+              },
+              {
+                "i": 44099,
+                "value": 0
+              }
+            ]
+          },
+          "tension": {
+            "samples": 44100,
+            "peak": 11250,
+            "mean_abs": 3063.303537414966,
+            "probes": [
+              {
+                "i": 0,
+                "value": 4135
+              },
+              {
+                "i": 4900,
+                "value": 3593
+              },
+              {
+                "i": 8820,
+                "value": 1275
+              },
+              {
+                "i": 14700,
+                "value": 1901
+              },
+              {
+                "i": 22050,
+                "value": 4135
+              },
+              {
+                "i": 29400,
+                "value": 3884
+              },
+              {
+                "i": 35280,
+                "value": 2588
+              },
+              {
+                "i": 44099,
+                "value": 4439
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

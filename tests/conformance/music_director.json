@@ -1,0 +1,566 @@
+{
+  "suite": "music_director",
+  "spec_version": 1,
+  "generated_by": "tools/gen_conformance.py",
+  "cases": [
+    {
+      "name": "pieces",
+      "input": {
+        "op": "music_director",
+        "rules": {
+          "title": "title",
+          "dead": "dead",
+          "default_region": "verdalis",
+          "quests": [
+            {
+              "quest": "q:one",
+              "piece": "quest_one"
+            },
+            {
+              "quest": "q:two",
+              "piece": "quest_two"
+            }
+          ],
+          "places": {
+            "settlement": {
+              "day": "town_day",
+              "night": "town_night"
+            },
+            "dungeon": {
+              "day": "dungeon"
+            }
+          },
+          "regions": {
+            "verdalis": {
+              "day": "verdalis_day",
+              "night": "verdalis_night"
+            },
+            "frostveil": {
+              "day": "frost_day",
+              "night": "frost_night"
+            }
+          }
+        },
+        "base": {
+          "frame": 0,
+          "screen": "game",
+          "region": "verdalis",
+          "tod_pm": 500,
+          "place": "wild",
+          "quests": [],
+          "low_hp": false,
+          "cues": [],
+          "x": 10.0,
+          "y": 10.0
+        },
+        "patches": [
+          {},
+          {
+            "tod_pm": 100
+          },
+          {
+            "tod_pm": 250
+          },
+          {
+            "tod_pm": 750
+          },
+          {
+            "tod_pm": 751
+          },
+          {
+            "region": "frostveil"
+          },
+          {
+            "region": "unknown"
+          },
+          {
+            "place": "settlement"
+          },
+          {
+            "place": "settlement",
+            "tod_pm": 0
+          },
+          {
+            "place": "dungeon",
+            "tod_pm": 0
+          },
+          {
+            "screen": "title"
+          },
+          {
+            "screen": "dead"
+          }
+        ]
+      },
+      "expect": {
+        "outputs": [
+          {
+            "piece": "verdalis_day",
+            "layers": [
+              "base"
+            ]
+          },
+          {
+            "piece": "verdalis_night",
+            "layers": [
+              "base"
+            ]
+          },
+          {
+            "piece": "verdalis_day",
+            "layers": [
+              "base"
+            ]
+          },
+          {
+            "piece": "verdalis_day",
+            "layers": [
+              "base"
+            ]
+          },
+          {
+            "piece": "verdalis_night",
+            "layers": [
+              "base"
+            ]
+          },
+          {
+            "piece": "frost_night",
+            "layers": [
+              "base"
+            ]
+          },
+          {
+            "piece": "verdalis_night",
+            "layers": [
+              "base"
+            ]
+          },
+          {
+            "piece": "town_night",
+            "layers": [
+              "base"
+            ]
+          },
+          {
+            "piece": "town_night",
+            "layers": [
+              "base"
+            ]
+          },
+          {
+            "piece": "dungeon",
+            "layers": [
+              "base"
+            ]
+          },
+          {
+            "piece": "title",
+            "layers": [
+              "base"
+            ]
+          },
+          {
+            "piece": "dead",
+            "layers": [
+              "base"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "quests",
+      "input": {
+        "op": "music_director",
+        "rules": {
+          "title": "title",
+          "dead": "dead",
+          "default_region": "verdalis",
+          "quests": [
+            {
+              "quest": "q:one",
+              "piece": "quest_one"
+            },
+            {
+              "quest": "q:two",
+              "piece": "quest_two"
+            }
+          ],
+          "places": {
+            "settlement": {
+              "day": "town_day",
+              "night": "town_night"
+            },
+            "dungeon": {
+              "day": "dungeon"
+            }
+          },
+          "regions": {
+            "verdalis": {
+              "day": "verdalis_day",
+              "night": "verdalis_night"
+            },
+            "frostveil": {
+              "day": "frost_day",
+              "night": "frost_night"
+            }
+          }
+        },
+        "base": {
+          "frame": 0,
+          "screen": "game",
+          "region": "verdalis",
+          "tod_pm": 500,
+          "place": "wild",
+          "quests": [],
+          "low_hp": false,
+          "cues": [],
+          "x": 10.0,
+          "y": 10.0
+        },
+        "patches": [
+          {},
+          {
+            "quests": [
+              "q:two"
+            ]
+          },
+          {
+            "quests": [
+              "q:two",
+              "q:one"
+            ]
+          },
+          {
+            "quests": [
+              "q:one"
+            ],
+            "place": "dungeon"
+          },
+          {
+            "quests": [
+              "q:one"
+            ],
+            "place": "settlement"
+          },
+          {
+            "quests": [
+              "q:none"
+            ]
+          }
+        ]
+      },
+      "expect": {
+        "outputs": [
+          {
+            "piece": "verdalis_day",
+            "layers": [
+              "base"
+            ]
+          },
+          {
+            "piece": "quest_two",
+            "layers": [
+              "base"
+            ]
+          },
+          {
+            "piece": "quest_one",
+            "layers": [
+              "base"
+            ]
+          },
+          {
+            "piece": "dungeon",
+            "layers": [
+              "base"
+            ]
+          },
+          {
+            "piece": "quest_one",
+            "layers": [
+              "base"
+            ]
+          },
+          {
+            "piece": "town_day",
+            "layers": [
+              "base"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "fight_and_boss",
+      "input": {
+        "op": "music_director",
+        "rules": {
+          "title": "title",
+          "dead": "dead",
+          "default_region": "verdalis",
+          "quests": [
+            {
+              "quest": "q:one",
+              "piece": "quest_one"
+            },
+            {
+              "quest": "q:two",
+              "piece": "quest_two"
+            }
+          ],
+          "places": {
+            "settlement": {
+              "day": "town_day",
+              "night": "town_night"
+            },
+            "dungeon": {
+              "day": "dungeon"
+            }
+          },
+          "regions": {
+            "verdalis": {
+              "day": "verdalis_day",
+              "night": "verdalis_night"
+            },
+            "frostveil": {
+              "day": "frost_day",
+              "night": "frost_night"
+            }
+          }
+        },
+        "base": {
+          "frame": 0,
+          "screen": "game",
+          "region": "verdalis",
+          "tod_pm": 500,
+          "place": "wild",
+          "quests": [],
+          "low_hp": false,
+          "cues": [],
+          "x": 10.0,
+          "y": 10.0
+        },
+        "patches": [
+          {},
+          {
+            "cues": [
+              {
+                "kind": "aggro",
+                "family": "slime",
+                "x": 30.0,
+                "y": 10.0
+              }
+            ]
+          },
+          {
+            "cues": [
+              {
+                "kind": "aggro",
+                "family": "slime",
+                "x": 15.0,
+                "y": 10.0
+              }
+            ]
+          },
+          {},
+          {
+            "frame": 200
+          },
+          {
+            "frame": 420
+          },
+          {
+            "frame": 440
+          },
+          {
+            "frame": 441,
+            "cues": [
+              {
+                "kind": "hurt",
+                "family": "wolf",
+                "x": 50.0,
+                "y": 10.0
+              }
+            ]
+          },
+          {
+            "frame": 900
+          },
+          {
+            "frame": 1000,
+            "cues": [
+              {
+                "kind": "attack",
+                "family": "knight",
+                "x": 14.0,
+                "y": 10.0
+              }
+            ]
+          },
+          {
+            "frame": 1100
+          },
+          {
+            "frame": 1599
+          },
+          {
+            "frame": 1600
+          },
+          {
+            "frame": 1700
+          },
+          {
+            "frame": 1800,
+            "low_hp": true
+          },
+          {
+            "frame": 1801,
+            "low_hp": false
+          },
+          {
+            "frame": 1900,
+            "cues": [
+              {
+                "kind": "die",
+                "family": "king",
+                "x": 12.0,
+                "y": 10.0
+              }
+            ]
+          },
+          {
+            "frame": 2000
+          }
+        ]
+      },
+      "expect": {
+        "outputs": [
+          {
+            "piece": "verdalis_day",
+            "layers": [
+              "base"
+            ]
+          },
+          {
+            "piece": "verdalis_day",
+            "layers": [
+              "base"
+            ]
+          },
+          {
+            "piece": "verdalis_day",
+            "layers": [
+              "base",
+              "combat"
+            ]
+          },
+          {
+            "piece": "verdalis_day",
+            "layers": [
+              "base",
+              "combat"
+            ]
+          },
+          {
+            "piece": "verdalis_day",
+            "layers": [
+              "base",
+              "combat"
+            ]
+          },
+          {
+            "piece": "verdalis_day",
+            "layers": [
+              "base",
+              "combat"
+            ]
+          },
+          {
+            "piece": "verdalis_day",
+            "layers": [
+              "base"
+            ]
+          },
+          {
+            "piece": "verdalis_day",
+            "layers": [
+              "base",
+              "combat"
+            ]
+          },
+          {
+            "piece": "verdalis_day",
+            "layers": [
+              "base"
+            ]
+          },
+          {
+            "piece": "verdalis_day",
+            "layers": [
+              "base",
+              "combat",
+              "boss"
+            ]
+          },
+          {
+            "piece": "verdalis_day",
+            "layers": [
+              "base",
+              "combat",
+              "boss"
+            ]
+          },
+          {
+            "piece": "verdalis_day",
+            "layers": [
+              "base",
+              "combat",
+              "boss"
+            ]
+          },
+          {
+            "piece": "verdalis_day",
+            "layers": [
+              "base"
+            ]
+          },
+          {
+            "piece": "verdalis_day",
+            "layers": [
+              "base"
+            ]
+          },
+          {
+            "piece": "verdalis_day",
+            "layers": [
+              "base",
+              "tension"
+            ]
+          },
+          {
+            "piece": "verdalis_day",
+            "layers": [
+              "base"
+            ]
+          },
+          {
+            "piece": "verdalis_day",
+            "layers": [
+              "base",
+              "combat"
+            ]
+          },
+          {
+            "piece": "verdalis_day",
+            "layers": [
+              "base",
+              "combat"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

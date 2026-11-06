@@ -1,0 +1,395 @@
+{
+ "$schema": "../../../../schemas/music.schema.json",
+ "id": "base:audio/music/theme_sakura",
+ "tempo_bpm": 132,
+ "bars": 16,
+ "volume_pm": 600,
+ "tracks": [
+  {
+   "layer": "base",
+   "name": "pad",
+   "patch": {
+    "wave": "square",
+    "attack_ms": 25,
+    "decay_ms": 100,
+    "sustain_pm": 600,
+    "release_ms": 160,
+    "duty_pm": 500
+   },
+   "volume_pm": 230,
+   "bars": [
+    "A3+C#4+E4 - - - - - - - - - - - - - - -",
+    "E4+G#4+B3 - - - - - - - - - - - - - - -",
+    "F#4+A3+C#4 - - - - - - - - - - - - - - -",
+    "D4+F#4+A3 - - - - - - - - - - - - - - -",
+    "A3+C#4+E4 - - - - - - - - - - - - - - -",
+    "E4+G#4+B3 - - - - - - - - - - - - - - -",
+    "D4+F#4+A3 - - - - - - - - - - - - - - -",
+    "E4+G#4+B3 - - - - - - - - - - - - - - -",
+    "A3+C#4+E4 - - - - - - - - - - - - - - -",
+    "E4+G#4+B3 - - - - - - - - - - - - - - -",
+    "F#4+A3+C#4 - - - - - - - - - - - - - - -",
+    "D4+F#4+A3 - - - - - - - - - - - - - - -",
+    "A3+C#4+E4 - - - - - - - - - - - - - - -",
+    "E4+G#4+B3 - - - - - - - - - - - - - - -",
+    "D4+F#4+A3 - - - - - - - - - - - - - - -",
+    "E4+G#4+B3 - - - - - - - - - - - - - - -"
+   ]
+  },
+  {
+   "layer": "base",
+   "name": "bass",
+   "patch": {
+    "wave": "saw",
+    "attack_ms": 8,
+    "decay_ms": 120,
+    "sustain_pm": 600,
+    "release_ms": 100
+   },
+   "volume_pm": 420,
+   "bars": [
+    "A2 - - - A2 - - - E3 - - - A2 - - -",
+    "E3 - - - E3 - - - B2 - - - E3 - - -",
+    "F#3 - - - F#3 - - - C#3 - - - F#3 - - -",
+    "D3 - - - D3 - - - A2 - - - D3 - - -",
+    "A2 - . . A2 - . . E3 - . . A2 - . .",
+    "E3 - . . E3 - . . B2 - . . E3 - . .",
+    "D3 - . . D3 - . . A2 - . . D3 - . .",
+    "E3 - . . E3 - . . B2 - . . E3 - . .",
+    "A2 - - - A2 - - - E3 - - - A2 - - -",
+    "E3 - - - E3 - - - B2 - - - E3 - - -",
+    "F#3 - - - F#3 - - - C#3 - - - F#3 - - -",
+    "D3 - - - D3 - - - A2 - - - D3 - - -",
+    "A2 - - - - - - - E3 - - - - - - -",
+    "E3 - - - - - - - B2 - - - - - - -",
+    "D3 - - - - - - - A2 - - - - - - -",
+    "E3 - - - - - - - B2 - - - - - - -"
+   ]
+  },
+  {
+   "layer": "base",
+   "name": "arp",
+   "patch": {
+    "wave": "square",
+    "attack_ms": 4,
+    "decay_ms": 140,
+    "sustain_pm": 350,
+    "release_ms": 120,
+    "duty_pm": 250
+   },
+   "volume_pm": 170,
+   "bars": [
+    "A4 . C#5 . E5 . A4 . E5 . . . A4 . . .",
+    ". . . . B4 . . . B4 . G#5 . E5 . G#5 .",
+    "F#5 . A4 . C#5 . F#5 . C#5 . A4 . F#5 . A4 .",
+    "D5 . . . A4 . D5 . A4 . F#5 . D5 . F#5 .",
+    "A4 . C#5 . . . . . E5 . C#5 . A4 . . .",
+    "E5 . G#5 . B4 . E5 . B4 . . . E5 . G#5 .",
+    "D5 . F#5 . A4 . D5 . A4 . F#5 . D5 . . .",
+    "E5 . G#5 . B4 . E5 . B4 . G#5 . . . G#5 .",
+    "A4 . C#5 . E5 . . . E5 . C#5 . A4 . C#5 .",
+    "E5 . G#5 . B4 . E5 . . . G#5 . E5 . G#5 .",
+    "F#5 . A4 . . . F#5 . . . A4 . F#5 . A4 .",
+    "D5 . F#5 . A4 . D5 . . . . . D5 . F#5 .",
+    "A4 . C#5 . E5 . A4 . E5 . C#5 . A4 . . .",
+    "E5 . G#5 . B4 . E5 . B4 . G#5 . E5 . G#5 .",
+    "D5 . F#5 . A4 . D5 . A4 . F#5 . D5 . F#5 .",
+    ". . . . B4 . E5 . B4 . G#5 . E5 . G#5 ."
+   ]
+  },
+  {
+   "layer": "base",
+   "name": "lead",
+   "patch": {
+    "wave": "square",
+    "attack_ms": 4,
+    "decay_ms": 140,
+    "sustain_pm": 350,
+    "release_ms": 120,
+    "duty_pm": 250
+   },
+   "volume_pm": 300,
+   "bars": [
+    "A4 - - . . . B4 - A4 - - A4 - - A4 -",
+    "B4 - - . . . C#5 - B4 - - A4 - - A4 -",
+    "A4 - - . A4 - B4 - C#5 - - . D5 - - .",
+    "D5 - - . B4 - C#5 - - . . . . . . .",
+    "A4 - - . . . B4 - A4 - - A4 - - A4 -",
+    "B4 - - . . . C#5 - B4 - - A4 - - A4 -",
+    "A4 - - . A4 - B4 - D5 - - . E5 - - .",
+    "E5 - - . C#5 - D5 - - . . . . . . .",
+    "C#5 - - . A4 - B4 - C#5 - - . D5 - - .",
+    "B4 - - . A4 - B4 - B4 - - . C#5 - - .",
+    "A4 - A4 A4 - - A4 - A4 - A4 - - . C#5 -",
+    "A4 - A4 A4 - - A4 - - . . . . . . .",
+    "A4 - - . A4 - B4 - C#5 - - . D5 - - .",
+    "B4 - - . A4 - B4 - B4 - - . C#5 - - .",
+    "A4 - A4 A4 - - A4 - A4 - A4 - - . C#5 -",
+    "B4 - A4 A4 - - A4 - - . . . . . . ."
+   ]
+  },
+  {
+   "layer": "tension",
+   "name": "drone",
+   "patch": {
+    "wave": "sine",
+    "attack_ms": 1200,
+    "decay_ms": 600,
+    "sustain_pm": 900,
+    "release_ms": 1500,
+    "detune_cents": 4
+   },
+   "volume_pm": 350,
+   "bars": [
+    "A1+E2 - - - - - - - - - - - - - - -"
+   ]
+  },
+  {
+   "layer": "tension",
+   "name": "tremolo",
+   "patch": {
+    "wave": "square",
+    "attack_ms": 3,
+    "decay_ms": 70,
+    "sustain_pm": 0,
+    "release_ms": 50,
+    "duty_pm": 300
+   },
+   "volume_pm": 110,
+   "bars": [
+    "C#5 . C#5 . C#5 . C#5 . C#5 . C#5 . C#5 . C#5 .",
+    ". . . . . . . . G#5 . G#5 . G#5 . G#5 .",
+    "A4 . A4 . A4 . A4 . A4 . A4 . A4 . A4 .",
+    ". . . . . . . . F#5 . F#5 . F#5 . F#5 .",
+    "C#5 . C#5 . C#5 . C#5 . C#5 . C#5 . C#5 . C#5 .",
+    ". . . . . . . . G#5 . G#5 . G#5 . G#5 .",
+    "F#5 . F#5 . F#5 . F#5 . F#5 . F#5 . F#5 . F#5 .",
+    ". . . . . . . . G#5 . G#5 . G#5 . G#5 .",
+    "C#5 . C#5 . C#5 . C#5 . C#5 . C#5 . C#5 . C#5 .",
+    ". . . . . . . . G#5 . G#5 . G#5 . G#5 .",
+    "A4 . A4 . A4 . A4 . A4 . A4 . A4 . A4 .",
+    ". . . . . . . . F#5 . F#5 . F#5 . F#5 .",
+    "C#5 . C#5 . C#5 . C#5 . C#5 . C#5 . C#5 . C#5 .",
+    ". . . . . . . . G#5 . G#5 . G#5 . G#5 .",
+    "F#5 . F#5 . F#5 . F#5 . F#5 . F#5 . F#5 . F#5 .",
+    ". . . . . . . . G#5 . G#5 . G#5 . G#5 ."
+   ]
+  },
+  {
+   "layer": "combat",
+   "name": "kick",
+   "patch": {
+    "wave": "sine",
+    "attack_ms": 2,
+    "decay_ms": 120,
+    "sustain_pm": 0,
+    "release_ms": 40,
+    "glide_pm": 250
+   },
+   "volume_pm": 520,
+   "bars": [
+    "C2 . . . C2 . . . C2 . . . C2 . . ."
+   ]
+  },
+  {
+   "layer": "combat",
+   "name": "snare",
+   "patch": {
+    "wave": "noise",
+    "attack_ms": 1,
+    "decay_ms": 110,
+    "sustain_pm": 0,
+    "release_ms": 60
+   },
+   "volume_pm": 260,
+   "bars": [
+    ". . . . C5 . . . . . . . C5 . . ."
+   ]
+  },
+  {
+   "layer": "combat",
+   "name": "hat",
+   "patch": {
+    "wave": "noise",
+    "attack_ms": 1,
+    "decay_ms": 35,
+    "sustain_pm": 0,
+    "release_ms": 25
+   },
+   "volume_pm": 120,
+   "bars": [
+    "C7 . C7 . C7 . C7 . C7 . C7 . C7 . C7 ."
+   ]
+  },
+  {
+   "layer": "combat",
+   "name": "drive",
+   "patch": {
+    "wave": "saw",
+    "attack_ms": 8,
+    "decay_ms": 120,
+    "sustain_pm": 600,
+    "release_ms": 100
+   },
+   "volume_pm": 300,
+   "bars": [
+    "A2 . A2 . A2 . A2 . A2 . A2 . A2 . A2 .",
+    "E3 . E3 . E3 . E3 . E3 . E3 . E3 . E3 .",
+    "F#3 . F#3 . F#3 . F#3 . F#3 . F#3 . F#3 . F#3 .",
+    "D3 . D3 . D3 . D3 . D3 . D3 . D3 . D3 .",
+    "A2 . A2 . A2 . A2 . A2 . A2 . A2 . A2 .",
+    "E3 . E3 . E3 . E3 . E3 . E3 . E3 . E3 .",
+    "D3 . D3 . D3 . D3 . D3 . D3 . D3 . D3 .",
+    "E3 . E3 . E3 . E3 . E3 . E3 . E3 . E3 .",
+    "A2 . A2 . A2 . A2 . A2 . A2 . A2 . A2 .",
+    "E3 . E3 . E3 . E3 . E3 . E3 . E3 . E3 .",
+    "F#3 . F#3 . F#3 . F#3 . F#3 . F#3 . F#3 . F#3 .",
+    "D3 . D3 . D3 . D3 . D3 . D3 . D3 . D3 .",
+    "A2 . A2 . A2 . A2 . A2 . A2 . A2 . A2 .",
+    "E3 . E3 . E3 . E3 . E3 . E3 . E3 . E3 .",
+    "D3 . D3 . D3 . D3 . D3 . D3 . D3 . D3 .",
+    "E3 . E3 . E3 . E3 . E3 . E3 . E3 . E3 ."
+   ]
+  },
+  {
+   "layer": "combat",
+   "name": "stab",
+   "patch": {
+    "wave": "saw",
+    "attack_ms": 45,
+    "decay_ms": 150,
+    "sustain_pm": 750,
+    "release_ms": 200
+   },
+   "volume_pm": 160,
+   "bars": [
+    ". . A3+C#4+E4 . . . A3+C#4+E4 . . . A3+C#4+E4 . . . A3+C#4+E4 .",
+    ". . E4+G#4+B3 . . . E4+G#4+B3 . . . E4+G#4+B3 . . . E4+G#4+B3 .",
+    ". . F#4+A3+C#4 . . . F#4+A3+C#4 . . . F#4+A3+C#4 . . . F#4+A3+C#4 .",
+    ". . D4+F#4+A3 . . . D4+F#4+A3 . . . D4+F#4+A3 . . . D4+F#4+A3 .",
+    ". . A3+C#4+E4 . . . A3+C#4+E4 . . . A3+C#4+E4 . . . A3+C#4+E4 .",
+    ". . E4+G#4+B3 . . . E4+G#4+B3 . . . E4+G#4+B3 . . . E4+G#4+B3 .",
+    ". . D4+F#4+A3 . . . D4+F#4+A3 . . . D4+F#4+A3 . . . D4+F#4+A3 .",
+    ". . E4+G#4+B3 . . . E4+G#4+B3 . . . E4+G#4+B3 . . . E4+G#4+B3 .",
+    ". . A3+C#4+E4 . . . A3+C#4+E4 . . . A3+C#4+E4 . . . A3+C#4+E4 .",
+    ". . E4+G#4+B3 . . . E4+G#4+B3 . . . E4+G#4+B3 . . . E4+G#4+B3 .",
+    ". . F#4+A3+C#4 . . . F#4+A3+C#4 . . . F#4+A3+C#4 . . . F#4+A3+C#4 .",
+    ". . D4+F#4+A3 . . . D4+F#4+A3 . . . D4+F#4+A3 . . . D4+F#4+A3 .",
+    ". . A3+C#4+E4 . . . A3+C#4+E4 . . . A3+C#4+E4 . . . A3+C#4+E4 .",
+    ". . E4+G#4+B3 . . . E4+G#4+B3 . . . E4+G#4+B3 . . . E4+G#4+B3 .",
+    ". . D4+F#4+A3 . . . D4+F#4+A3 . . . D4+F#4+A3 . . . D4+F#4+A3 .",
+    ". . E4+G#4+B3 . . . E4+G#4+B3 . . . E4+G#4+B3 . . . E4+G#4+B3 ."
+   ]
+  },
+  {
+   "layer": "boss",
+   "name": "kick",
+   "patch": {
+    "wave": "sine",
+    "attack_ms": 2,
+    "decay_ms": 120,
+    "sustain_pm": 0,
+    "release_ms": 40,
+    "glide_pm": 250
+   },
+   "volume_pm": 560,
+   "bars": [
+    "C2 . C2 . C2 . C2 . C2 . C2 . C2 . C2 ."
+   ]
+  },
+  {
+   "layer": "boss",
+   "name": "tom",
+   "patch": {
+    "wave": "sine",
+    "attack_ms": 2,
+    "decay_ms": 170,
+    "sustain_pm": 0,
+    "release_ms": 60,
+    "glide_pm": 450
+   },
+   "volume_pm": 300,
+   "bars": [
+    ". . . . . . G2 G2 . . . . . . G2 G2"
+   ]
+  },
+  {
+   "layer": "boss",
+   "name": "hat",
+   "patch": {
+    "wave": "noise",
+    "attack_ms": 1,
+    "decay_ms": 35,
+    "sustain_pm": 0,
+    "release_ms": 25
+   },
+   "volume_pm": 110,
+   "bars": [
+    ". C7 . C7 . C7 . C7 . C7 . C7 . C7 . C7"
+   ]
+  },
+  {
+   "layer": "boss",
+   "name": "horn",
+   "patch": {
+    "wave": "saw",
+    "attack_ms": 90,
+    "decay_ms": 200,
+    "sustain_pm": 700,
+    "release_ms": 300
+   },
+   "volume_pm": 380,
+   "bars": [
+    "A2 - - - - - - - E3 - - - - - - -",
+    "E3 - - - - - - - B2 - - - - - - -",
+    "F#3 - - - - - - - C#3 - - - - - - -",
+    "D3 - - - - - - - A2 - - - - - - -",
+    "A2 - - - - - - - E3 - - - - - - -",
+    "E3 - - - - - - - B2 - - - - - - -",
+    "D3 - - - - - - - A2 - - - - - - -",
+    "E3 - - - - - - - B2 - - - - - - -",
+    "A2 - - - - - - - E3 - - - - - - -",
+    "E3 - - - - - - - B2 - - - - - - -",
+    "F#3 - - - - - - - C#3 - - - - - - -",
+    "D3 - - - - - - - A2 - - - - - - -",
+    "A2 - - - - - - - E3 - - - - - - -",
+    "E3 - - - - - - - B2 - - - - - - -",
+    "D3 - - - - - - - A2 - - - - - - -",
+    "E3 - - - - - - - B2 - - - - - - -"
+   ]
+  },
+  {
+   "layer": "boss",
+   "name": "choir",
+   "patch": {
+    "wave": "triangle",
+    "attack_ms": 450,
+    "decay_ms": 300,
+    "sustain_pm": 750,
+    "release_ms": 800,
+    "detune_cents": 12,
+    "am_dhz": 45,
+    "am_depth_pm": 150
+   },
+   "volume_pm": 240,
+   "bars": [
+    "A4+C#5+E5 - - - - - - - - - - - - - - -",
+    "E5+G#5+B4 - - - - - - - - - - - - - - -",
+    "F#5+A4+C#5 - - - - - - - - - - - - - - -",
+    "D5+F#5+A4 - - - - - - - - - - - - - - -",
+    "A4+C#5+E5 - - - - - - - - - - - - - - -",
+    "E5+G#5+B4 - - - - - - - - - - - - - - -",
+    "D5+F#5+A4 - - - - - - - - - - - - - - -",
+    "E5+G#5+B4 - - - - - - - - - - - - - - -",
+    "A4+C#5+E5 - - - - - - - - - - - - - - -",
+    "E5+G#5+B4 - - - - - - - - - - - - - - -",
+    "F#5+A4+C#5 - - - - - - - - - - - - - - -",
+    "D5+F#5+A4 - - - - - - - - - - - - - - -",
+    "A4+C#5+E5 - - - - - - - - - - - - - - -",
+    "E5+G#5+B4 - - - - - - - - - - - - - - -",
+    "D5+F#5+A4 - - - - - - - - - - - - - - -",
+    "E5+G#5+B4 - - - - - - - - - - - - - - -"
+   ]
+  }
+ ]
+}

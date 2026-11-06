@@ -2,12 +2,18 @@ package io.github.progliodario.aethermoor.core
 
 import io.github.progliodario.aethermoor.core.audio.AmbienceEntry
 import io.github.progliodario.aethermoor.core.audio.AmbienceRules
+import io.github.progliodario.aethermoor.core.audio.MusicContext
+import io.github.progliodario.aethermoor.core.audio.MusicDirector
 import io.github.progliodario.aethermoor.core.audio.PanelsOpen
 import io.github.progliodario.aethermoor.core.audio.PlayerSound
 import io.github.progliodario.aethermoor.core.audio.SoundCue
 import io.github.progliodario.aethermoor.core.audio.SoundDirector
 import io.github.progliodario.aethermoor.core.audio.SoundSnapshot
 import io.github.progliodario.aethermoor.core.audio.ambienceGains
+import io.github.progliodario.aethermoor.core.audio.parseMusic
+import io.github.progliodario.aethermoor.core.audio.parseMusicRules
+import io.github.progliodario.aethermoor.core.audio.renderMusic
+import kotlin.math.abs
 import java.io.File
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
@@ -22,6 +28,7 @@ import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.long
 import kotlinx.serialization.json.JsonPrimitive
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 /** The conformance suites of the sound director and of the ambience (spec 14). */
@@ -129,6 +136,71 @@ class ConformanceAudioDirectorTest {
             val got = ambienceGains(input.getValue("region").jsonPrimitive.content, input.getValue("tod_pm").jsonPrimitive.int, input.getValue("rain_pm").jsonPrimitive.int, rules)
             val wanted = c.getValue("expect").jsonObject.getValue("gains").jsonObject.mapValues { it.value.jsonPrimitive.int }
             assertEquals(wanted, got, label)
+        }
+    }
+
+    @Test
+    fun musicSuite() {
+        for (case in suite("music")) {
+            val c = case.jsonObject
+            val label = c.getValue("name").jsonPrimitive.content
+            val piece = parseMusic(c.getValue("input").jsonObject.getValue("piece").toString()).getOrThrow()
+            val layers = renderMusic(piece)
+            val wantedLayers = c.getValue("expect").jsonObject.getValue("layers").jsonObject
+            assertEquals(wantedLayers.keys, layers.keys, "$label layers")
+            for ((layer, expectElement) in wantedLayers) {
+                val expect = expectElement.jsonObject
+                val samples = layers.getValue(layer)
+                assertEquals(expect.getValue("samples").jsonPrimitive.int, samples.size, "$label $layer samples")
+                val peak = samples.maxOf { abs(it.toInt()) }
+                assertTrue(abs(peak - expect.getValue("peak").jsonPrimitive.int) <= 3, "$label $layer peak $peak")
+                val mean = samples.sumOf { abs(it.toInt()).toDouble() } / samples.size
+                val wanted = expect.getValue("mean_abs").jsonPrimitive.double
+                assertTrue(abs(mean - wanted) <= maxOf(3.0, wanted * 0.01), "$label $layer mean $mean expected $wanted")
+                for (probeElement in expect.getValue("probes").jsonArray) {
+                    val probe = probeElement.jsonObject
+                    val i = probe.getValue("i").jsonPrimitive.int
+                    val value = probe.getValue("value").jsonPrimitive.int
+                    assertTrue(abs(samples[i].toInt() - value) <= 3, "$label $layer sample $i: expected $value, got ${samples[i]}")
+                }
+            }
+        }
+    }
+
+    @Test
+    fun musicDirectorSuite() {
+        for (case in suite("music_director")) {
+            val c = case.jsonObject
+            val label = c.getValue("name").jsonPrimitive.content
+            val input = c.getValue("input").jsonObject
+            val director = MusicDirector(parseMusicRules(input.getValue("rules").toString()).getOrThrow())
+            var ctx = input.getValue("base").jsonObject
+            input.getValue("patches").jsonArray.forEachIndexed { index, patch ->
+                val merged = LinkedHashMap<String, JsonElement>(ctx)
+                merged["cues"] = JsonArray(emptyList())
+                merged["frame"] = JsonPrimitive(index)
+                merged.putAll(patch.jsonObject)
+                ctx = JsonObject(merged)
+                val input2 = MusicContext(
+                    frame = ctx.long("frame"),
+                    screen = ctx.getValue("screen").jsonPrimitive.content,
+                    region = ctx.getValue("region").jsonPrimitive.content,
+                    todPm = ctx.getValue("tod_pm").jsonPrimitive.int,
+                    place = ctx.getValue("place").jsonPrimitive.content,
+                    quests = ctx.getValue("quests").jsonArray.map { it.jsonPrimitive.content },
+                    lowHp = ctx.bool("low_hp"),
+                    cues = ctx.getValue("cues").jsonArray.map {
+                        val cue = it.jsonObject
+                        SoundCue(cue.getValue("kind").jsonPrimitive.content, cue.getValue("family").jsonPrimitive.content, cue.getValue("x").jsonPrimitive.double, cue.getValue("y").jsonPrimitive.double)
+                    },
+                    x = ctx.getValue("x").jsonPrimitive.double,
+                    y = ctx.getValue("y").jsonPrimitive.double,
+                )
+                val got = director.update(input2)
+                val wanted = c.getValue("expect").jsonObject.getValue("outputs").jsonArray[index].jsonObject
+                assertEquals(wanted.getValue("piece").jsonPrimitive.content, got.piece, "$label frame $index")
+                assertEquals(wanted.getValue("layers").jsonArray.map { it.jsonPrimitive.content }, got.layers, "$label frame $index")
+            }
         }
     }
 }

@@ -49,10 +49,11 @@ constexpr float kBaseTilePx = 48.0F;
 constexpr const char* kProtagonistId = "base:protagonist/ren";
 // Who is played in this run (spec 18), chosen for a new game and kept in the folder of the slot.
 std::string g_protagonist_id = kProtagonistId;
-aether::SoundBoard g_sound;              // the sounds (spec 14); silent in the smoke tests
-aether::SoundDirector g_sound_director;  // decides what to play from what happens
-std::string g_art_variant;               // palette variant of the player's art
-bool g_has_analyze = true;               // the protagonist has Ren's Analyze
+aether::SoundBoard g_sound;                             // the sounds (spec 14); silent in the smoke tests
+aether::SoundDirector g_sound_director;                 // decides what to play from what happens
+std::optional<aether::MusicDirector> g_music_director;  // decides which piece plays and which layers
+std::string g_art_variant;                              // palette variant of the player's art
+bool g_has_analyze = true;                              // the protagonist has Ren's Analyze
 constexpr const char* kMapPath = "maps/demo.tmj";
 constexpr int kFloatingTextFrames = 50;
 constexpr double kAutosaveSeconds = 30.0;
@@ -2328,6 +2329,15 @@ void save_frame(SDL_Renderer* renderer, const std::string& path) {
 
 // The title screen (spec 12, "Slots"): the games to pick from. Returns the game (1..kSlotCount), or 0 when the player
 // quits.
+// The title and the chooser have the music of the title and no ambience (spec 14, "The music director").
+void menu_sound() {
+    if (const aether::MusicRules* rules = g_sound.music_rules()) {
+        g_sound.set_music(rules->title, {"base"});
+    }
+    g_sound.set_ambience({});
+    g_sound.frame();
+}
+
 int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, const std::string& lang, int first_slot,
               const std::string& capture_path = {}) {
     std::vector<SlotInfo> slots;
@@ -2338,6 +2348,7 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
     int pending_delete = -1;
     std::string notice;
     for (;;) {
+        menu_sound();
         float density = SDL_GetWindowPixelDensity(window);
         if (density <= 0.0F) {
             density = 1.0F;
@@ -2499,6 +2510,7 @@ std::string choose_protagonist(SDL_Window* window, SDL_Renderer* renderer, const
     aether::TextureCache preview_cache(renderer, assets.pack);  // for the preview of the character
     int cursor = std::clamp(capture_cursor, 0, static_cast<int>(ids.size()) - 1);
     for (;;) {
+        menu_sound();
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_EVENT_QUIT) {
@@ -3197,6 +3209,39 @@ int main(int argc, char** argv) {
                     }
                     g_sound.set_ambience(
                         aether::ambience_gains(snap.region, snap.tod_pm, snap.rain_pm, g_sound.ambience_rules()));
+                    if (!g_music_director && g_sound.music_rules() != nullptr) {
+                        g_music_director.emplace(*g_sound.music_rules());
+                    }
+                    if (g_music_director) {  // the music: the piece of the place, the hour and the quest, and its
+                                             // layers
+                        static std::string place = "wild";
+                        static std::int64_t place_frame = -1000;
+                        if (sim.chunks() != nullptr && snap.frame - place_frame >= 30) {
+                            place_frame = snap.frame;
+                            const auto here =
+                                aether::settlement_containing(sim.chunks()->seed(), sim.chunks()->params(),
+                                                              static_cast<int>(std::floor(hero.position.x)),
+                                                              static_cast<int>(std::floor(hero.position.y)));
+                            place = !here ? "wild" : (here->kind == "dungeon" ? "dungeon" : "settlement");
+                        }
+                        aether::MusicContext mood;
+                        mood.frame = snap.frame;
+                        mood.screen = "game";
+                        mood.region = snap.region;
+                        mood.tod_pm = snap.tod_pm;
+                        mood.place = sim.chunks() != nullptr ? place : "wild";
+                        for (const auto& quest : sim.story().quests()) {
+                            if (!quest.second.done) {
+                                mood.quests.push_back(quest.first);
+                            }
+                        }
+                        mood.low_hp = hero.hp > 0 && hero.hp * 4 < sim.derived().max_hp;
+                        mood.cues = snap.cues;
+                        mood.x = snap.player.x;
+                        mood.y = snap.player.y;
+                        const aether::MusicChoice choice = g_music_director->update(mood);
+                        g_sound.set_music(choice.piece, choice.layers);
+                    }
                     g_sound.frame();
                 }
                 for (FloatingText& f : floating) {

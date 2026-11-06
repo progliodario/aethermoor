@@ -17,6 +17,9 @@ import io.github.progliodario.aethermoor.core.WorldParams
 import io.github.progliodario.aethermoor.core.biomeCode
 import io.github.progliodario.aethermoor.core.biomeCodeAt
 import io.github.progliodario.aethermoor.core.regionAt
+import io.github.progliodario.aethermoor.core.settlementContaining
+import io.github.progliodario.aethermoor.core.audio.MusicContext
+import io.github.progliodario.aethermoor.core.audio.MusicDirector
 import io.github.progliodario.aethermoor.core.audio.PanelsOpen
 import io.github.progliodario.aethermoor.core.audio.PlayerSound
 import io.github.progliodario.aethermoor.core.audio.SoundCue
@@ -88,6 +91,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private lateinit var font: BitmapFont
     private val sound = SoundBoard()
     private val soundDirector = SoundDirector()
+    private var musicDirector: MusicDirector? = null
+    private var place = "wild"
+    private var placeFrame = -1000L
     private var soundFrame = 0L
     private var dialogueLines = 0L
     private var lastLine = ""
@@ -457,6 +463,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val data = assets
         val slots = titleSlots
         if (world == null && data != null && slots != null) {
+            // the title and the chooser have the music of the title and no ambience
+            sound.musicRules?.let { sound.setMusic(it.title, listOf("base")) }
+            sound.setAmbience(emptyMap())
+            sound.frame()
             if (chooserSlot > 0) {
                 handleChooserInput(data)
                 if (chooserSlot > 0) drawChooser(data)
@@ -550,6 +560,28 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         )
         for (event in soundDirector.update(snapshot)) sound.playEvent(event.event, event.volumePm)
         sound.ambienceRules?.let { sound.setAmbience(ambienceGains(snapshot.region, snapshot.todPm, snapshot.rainPm, it)) }
+        if (musicDirector == null) musicDirector = sound.musicRules?.let { MusicDirector(it) }
+        musicDirector?.let { director ->
+            // the music: the piece of the place, the hour and the quest, and its layers
+            if (store != null && snapshot.frame - placeFrame >= 30) {
+                placeFrame = snapshot.frame
+                val here = settlementContaining(store.seed, store.params, floor(hero.position.x).toInt(), floor(hero.position.y).toInt())
+                place = if (here == null) "wild" else if (here.kind == "dungeon") "dungeon" else "settlement"
+            }
+            val mood = MusicContext(
+                frame = snapshot.frame,
+                region = snapshot.region,
+                todPm = snapshot.todPm,
+                place = if (store != null) place else "wild",
+                quests = world.story.quests.filterValues { !it.done }.keys.toList(),
+                lowHp = hero.hp > 0 && hero.hp * 4 < world.derived.maxHp,
+                cues = snapshot.cues,
+                x = snapshot.player.x,
+                y = snapshot.player.y,
+            )
+            val choice = director.update(mood)
+            sound.setMusic(choice.piece, choice.layers)
+        }
         sound.frame()
     }
 
