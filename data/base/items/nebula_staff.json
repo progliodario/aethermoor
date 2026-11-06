@@ -8,6 +8,7 @@
   "price": 1800,
   "weapon": {
     "atk": 23,
-    "matk": 0
+    "matk": 0,
+    "element": "light"
   }
 }

@@ -15,7 +15,7 @@ companions, mana for items and equipment.
 - **Dodge skill** (a skill of `type: "movement"` with a `movement` block): `timing.active` is the length of the roll in ticks, `cooldown_ticks`, and
   `movement {speed_mult_x100, iframes}`. A protagonist whose `starting_skills` hold none cannot dodge. In scenarios it is the object `dodge {ticks, speed_mult_x100, iframes, cooldown}`.
 - **Enemy** (`schemas/enemy.schema.json`): `level`, `stats {hp, atk, def, mdef, speed_x100}`, `xp`, `radius_x100`,
-  `drops`, `behavior` and `art`.
+  `drops`, `behavior` and `art`, and for the elements `element` (default `none`) and `weaknesses_pm` (see "Elements").
 - **Behavior** (`schemas/behavior.schema.json`): v1 has one kind, `melee_chaser` (the base pack has six sets of numbers for it: `melee_chaser_basic`, the shy `skittish`, the far-seeing `stalker`, the heavy `brute`, the long-reaching `lunger` and the post-bound `guardian`), with `aggro_x100`, `leash_x100`,
   `attack_range_x100`, `hit_range_x100`, `windup_ticks`, `recovery_ticks`. More kinds (and the full declarative state
   graph) come later; a kind is a closed behavior implemented by the engine and tuned by data.
@@ -76,8 +76,23 @@ The dodge is a short roll in a direction, with invulnerability. State per player
 
 For every living enemy not yet hit in this swing, in list order: `d` = distance between centers. It is hit when
 `d <= radius_skill + radius_enemy` and, if `d > 0`, `dot(facing, (enemy - player) / d) >= cos(angle_deg / 2)`.
-A hit applies the damage formula with the player's `atk`, the skill `power_pct`, the enemy `def`, element and
-penetration neutral (1000 / 0), levels of both sides, the drawn variance and crit, `buff_mod = 1000`.
+A hit applies the damage formula with the player's `atk`, the skill `power_pct`, the enemy `def`, the element
+multiplier of the hit ("Elements" below), penetration neutral (0), levels of both sides, the drawn variance and crit,
+`buff_mod = 1000`.
+
+## Elements
+
+A hit has an **element**: the one of the equipped weapon (`weapon.element` of the item, default `none`; the weapon
+the protagonist starts with counts when nothing else is equipped, and has none). The skills have no element yet.
+The element multiplier `elem_mult_pm` of the damage formula (spec 04) is, for an enemy:
+
+1. the value of `weaknesses_pm` for the element of the hit, when the enemy lists it (`1500` is a weakness, `500` a
+   resistance, `0` immunity); else
+2. `500` when the element of the hit is the enemy's own `element` and is not `none`; else
+3. `1000`.
+
+A hit of element `none` is always `1000`. The numbers of the floating texts do not change; a client may mark a hit with a
+multiplier above 1000 (the desktop and Android clients add an exclamation mark).
 
 ## Kill
 

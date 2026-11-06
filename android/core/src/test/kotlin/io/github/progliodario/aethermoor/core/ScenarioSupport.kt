@@ -55,6 +55,8 @@ private fun enemyDef(d: JsonObject): EnemyDef {
         id = (d["id"] as? JsonPrimitive)?.content ?: "",
         hp = d.long("hp"), atk = d.long("atk"), def = d.long("def"), level = d.long("level"), xp = d.long("xp"),
         radiusX100 = d.getValue("radius_x100").jsonPrimitive.int, speedX100 = d.getValue("speed_x100").jsonPrimitive.int,
+        element = d["element"]?.jsonPrimitive?.content ?: "none",
+        weaknessesPm = d["weaknesses_pm"]?.jsonObject?.mapValues { it.value.jsonPrimitive.long } ?: emptyMap(),
         drops = d.getValue("drops").jsonArray.map {
             val o = it.jsonObject
             DropDef(o.getValue("item").jsonPrimitive.content, o.long("qty_min"), o.long("qty_max"), o.long("weight_pm"))
@@ -132,7 +134,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
                 kind = d["kind"]?.jsonPrimitive?.content ?: "",
                 price = d["price"]?.jsonPrimitive?.long ?: 0L,
                 stackMax = d["stack_max"]?.jsonPrimitive?.int ?: 0,
-                weapon = d["weapon"]?.jsonObject?.let { WeaponStats(it.long("atk"), it.long("matk")) },
+                weapon = d["weapon"]?.jsonObject?.let { WeaponStats(it.long("atk"), it.long("matk"), it["element"]?.jsonPrimitive?.content ?: "none") },
                 armor = d["armor"]?.jsonObject?.let { ArmorStats(it.long("def"), it.long("mdef")) },
             )
         } ?: emptyMap(),

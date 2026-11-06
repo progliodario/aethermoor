@@ -489,7 +489,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
 
         for (e in world.takeEvents()) {
-            floating.add(FloatingText(e.position.x, e.position.y, e.amount.toString(), e.onPlayer, e.crit))
+            floating.add(FloatingText(e.position.x, e.position.y, e.amount.toString() + if (e.weak) "!" else "", e.onPlayer, e.crit))
             sound.play(if (e.onPlayer) "hurt" else if (e.crit) "crit" else "hit")
         }
         playChangeSounds(world)

@@ -10,7 +10,7 @@
     "mdef": 7,
     "speed_x100": 340
   },
-  "element": "none",
+  "element": "wind",
   "weaknesses_pm": {
     "light": 1500
   },

@@ -690,6 +690,7 @@ void WorldSim::do_hits() {
         in.atk = s.magical ? m_derived_.matk : m_derived_.atk;
         in.power_pct = s.power_pct;
         in.def_target = enemy.def.def;
+        in.elem_mult_pm = element_multiplier(enemy.def);
         in.lvl_attacker = p.level;
         in.lvl_target = enemy.def.level;
         in.variance_pm = variance;
@@ -698,13 +699,26 @@ void WorldSim::do_hits() {
         const std::int64_t amount = damage(in);
         enemy.hp -= amount;
         enemy.hit_flash = kHitFlashTicks;
-        m_events_.push_back({enemy.position, amount, crit, false});
+        m_events_.push_back({enemy.position, amount, crit, false, in.elem_mult_pm > 1000});
         if (enemy.hp <= 0) {
             enemy.hp = 0;
             enemy.state = EnemyState::Dead;
             on_kill(enemy);
         }
     }
+}
+
+std::int64_t WorldSim::element_multiplier(const EnemyDef& target) const {
+    const auto weapon = m_setup_.items.find(m_equipped_weapon_);
+    if (weapon == m_setup_.items.end() || !weapon->second.is_weapon || weapon->second.weapon_element == "none") {
+        return 1000;
+    }
+    const std::string& element = weapon->second.weapon_element;
+    const auto weakness = target.weaknesses_pm.find(element);
+    if (weakness != target.weaknesses_pm.end()) {
+        return weakness->second;
+    }
+    return target.element == element ? 500 : 1000;
 }
 
 void WorldSim::on_kill(Enemy& enemy) {

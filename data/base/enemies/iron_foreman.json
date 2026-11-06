@@ -10,7 +10,7 @@
     "mdef": 8,
     "speed_x100": 290
   },
-  "element": "none",
+  "element": "earth",
   "weaknesses_pm": {
     "water": 1500
   },

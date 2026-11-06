@@ -10,7 +10,7 @@
     "mdef": 18,
     "speed_x100": 280
   },
-  "element": "none",
+  "element": "light",
   "weaknesses_pm": {
     "fire": 1500
   },
