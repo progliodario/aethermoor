@@ -2452,6 +2452,7 @@ std::string choose_protagonist(SDL_Window* window, SDL_Renderer* renderer, const
     const auto key_of = [](const std::string& id, const char* what) {
         return std::string("$i18n:protagonist.") + id.substr(id.rfind('/') + 1) + "." + what;
     };
+    aether::TextureCache preview_cache(renderer, assets.pack);  // for the preview of the character
     int cursor = std::clamp(capture_cursor, 0, static_cast<int>(ids.size()) - 1);
     for (;;) {
         SDL_Event event;
@@ -2518,6 +2519,19 @@ std::string choose_protagonist(SDL_Window* window, SDL_Renderer* renderer, const
                       selected ? 255 : 200, selected ? 255 : 215, selected ? 255 : 230);
         }
         const std::string& id = ids[static_cast<std::size_t>(cursor)];
+        {  // the character, as it will look, under the list
+            std::string variant;
+            std::string parse_error;
+            if (const auto document = assets.pack.read_document(id)) {
+                if (const auto def = aether::parse_protagonist(*document, parse_error)) {
+                    variant = def->art_variant;
+                }
+            }
+            const int preview_px = static_cast<int>(128.0F * density);
+            draw_character(renderer, preview_cache, assets, false, false, static_cast<int>(SDL_GetTicks() / 16), false,
+                           variant, 180.0F * density, 610.0F * density, static_cast<float>(preview_px) / 32.0F,
+                           preview_px);
+        }
         const float text_x = 360.0F * density;
         const float text_w = static_cast<float>(out_w) - text_x - 30.0F * density;
         const float scale = 1.25F * density;
