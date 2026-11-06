@@ -1,0 +1,35 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/personal_gideon_1",
+  "name": "$i18n:quest.personal_gideon_1.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.personal_gideon_1.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_green",
+          "count": 6
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 90
+    },
+    {
+      "effect": "add_gold",
+      "amount": 120
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/potion_small",
+      "qty": 2
+    }
+  ]
+}

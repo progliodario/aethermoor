@@ -281,7 +281,7 @@
   "ui.protagonist_choose": "Choose who you will be",
   "ui.protagonist_gift": "Gift",
   "ui.protagonist_story": "Story",
-  "ui.protagonist_hint": "[W/S] choose   [E] confirm   [1-6] pick   [Esc] back",
+  "ui.protagonist_hint": "[W/S] choose   [E] confirm   [1-8] pick   [Esc] back",
   "ui.protagonist_hint_touch": "Tap a name to see it, tap it again to choose it",
   "dlg.pip.story.ren.ask": "I keep seeing numbers. Is that normal?",
   "dlg.pip.story.ren.o1": "Numbers? Over the slimes? Ha. Well, my mother says the meadow is a mess and the roof leaks. Six slimes and four gel, and you will see if your numbers are any good.",
@@ -320,5 +320,17 @@
   "dlg.pip.story.yuki.busy2": "Five mint slimes, two myconids. Quiet, remember.",
   "dlg.pip.story.yuki.done": "The lane is open and nobody saw anything. Take the dagger: it was left to someone who knows what to do with it.",
   "ui.mp": "MP",
-  "ui.mp_regen": "regen"
+  "ui.mp_regen": "regen",
+  "dlg.pip.story.lena.ask": "Is there a doctor in the village?",
+  "dlg.pip.story.lena.o1": "A doctor? There is the herbalist, who is very old. She says a doctor measures things: four spore caps and two mint leaves, if you want to measure them.",
+  "dlg.pip.story.lena.busy1": "Four spore caps, two mint leaves. Gently, they are still alive.",
+  "dlg.pip.story.lena.o2": "She says you wrote down everything, even her cough. Now the myconids and the mint slimes: she wants to know what kills them.",
+  "dlg.pip.story.lena.busy2": "Three myconids, three mint slimes. And the notes, do not forget the notes.",
+  "dlg.pip.story.lena.done": "Everyone sleeps better knowing you are here. Take the blade: the herbalist says it was made for someone who looks at things for a long time.",
+  "dlg.pip.story.gideon.ask": "Does anyone here know who I am?",
+  "dlg.pip.story.gideon.o1": "Who you are? A tall man with a black sword, and the slimes follow you. Six of them, since this morning. If you could, uh, ask them to stop.",
+  "dlg.pip.story.gideon.busy1": "Six green slimes. They really do follow you, you know.",
+  "dlg.pip.story.gideon.o2": "The village wants to thank you with a tribute, the only one it knows. Four tawny wolves and two furs for the winter, if it is not too much to ask a king.",
+  "dlg.pip.story.gideon.busy2": "Four tawny wolves, two furs. We call that a tribute, here. It is not like in the old days.",
+  "dlg.pip.story.gideon.done": "The whole village agrees: you are a good king. Take the blade, it is nothing like the old one, but it suits you."
 }

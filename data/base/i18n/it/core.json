@@ -281,7 +281,7 @@
   "ui.protagonist_choose": "Scegli chi sarai",
   "ui.protagonist_gift": "Dono",
   "ui.protagonist_story": "Storia",
-  "ui.protagonist_hint": "[W/S] scegli   [E] conferma   [1-6] scegli subito   [Esc] indietro",
+  "ui.protagonist_hint": "[W/S] scegli   [E] conferma   [1-8] scegli subito   [Esc] indietro",
   "ui.protagonist_hint_touch": "Tocca un nome per vederlo, toccalo di nuovo per sceglierlo",
   "dlg.pip.story.ren.ask": "Continuo a vedere dei numeri. È normale?",
   "dlg.pip.story.ren.o1": "Numeri? Sopra gli slime? Ah! Be', mia madre dice che il prato è un disastro e il tetto perde. Sei slime e quattro gel, e vedrai se i tuoi numeri servono a qualcosa.",
@@ -320,5 +320,17 @@
   "dlg.pip.story.yuki.busy2": "Cinque slime di menta, due miconidi. In silenzio, ricordalo.",
   "dlg.pip.story.yuki.done": "La strada è libera e nessuno ha visto niente. Prendi il pugnale: è stato lasciato a chi sa che cosa farne.",
   "ui.mp": "PM",
-  "ui.mp_regen": "rigen."
+  "ui.mp_regen": "rigen.",
+  "dlg.pip.story.lena.ask": "C'è un medico nel villaggio?",
+  "dlg.pip.story.lena.o1": "Un medico? C'è l'erborista, che è molto anziana. Dice che un medico misura le cose: quattro cappelle di spore e due foglie di menta, se vuoi misurarle.",
+  "dlg.pip.story.lena.busy1": "Quattro cappelle di spore, due foglie di menta. Con delicatezza, sono ancora vive.",
+  "dlg.pip.story.lena.o2": "Dice che hai scritto tutto, anche la sua tosse. Ora i miconidi e gli slime di menta: vuole sapere che cosa li uccide.",
+  "dlg.pip.story.lena.busy2": "Tre miconidi, tre slime di menta. E gli appunti, non scordare gli appunti.",
+  "dlg.pip.story.lena.done": "Tutti dormono meglio sapendo che ci sei. Prendi la lama: l'erborista dice che è fatta per chi guarda le cose a lungo.",
+  "dlg.pip.story.gideon.ask": "Qualcuno qui sa chi sono?",
+  "dlg.pip.story.gideon.o1": "Chi sei? Un uomo alto con una spada nera, e gli slime ti seguono. Sei, da stamattina. Se potessi, ecco, chiedere loro di smettere.",
+  "dlg.pip.story.gideon.busy1": "Sei slime verdi. Ti seguono davvero, sai.",
+  "dlg.pip.story.gideon.o2": "Il villaggio vuole ringraziarti con un tributo, l'unico che conosce. Quattro lupi fulvi e due pellicce per l'inverno, se non è troppo da chiedere a un re.",
+  "dlg.pip.story.gideon.busy2": "Quattro lupi fulvi, due pellicce. Qui lo chiamiamo tributo. Non è come ai vecchi tempi.",
+  "dlg.pip.story.gideon.done": "Tutto il villaggio è d'accordo: sei un buon re. Prendi la lama, non è per niente come la vecchia, ma ti sta bene."
 }

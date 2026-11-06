@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../../schemas/skill.schema.json",
+  "id": "base:skill/lena/incision",
+  "name": "$i18n:skill.lena.incision.name",
+  "description": "$i18n:skill.lena.incision.desc",
+  "type": "active",
+  "cost": {
+    "mp": 0
+  },
+  "cooldown_ticks": 24,
+  "timing": {
+    "startup": 5,
+    "active": 4,
+    "recovery": 9
+  },
+  "damage": {
+    "kind": "physical",
+    "element": "none",
+    "power_pct": 100
+  },
+  "tags": [
+    "melee",
+    "basic"
+  ],
+  "hitbox": {
+    "shape": "arc",
+    "radius_x100": 150,
+    "angle_deg": 100
+  }
+}

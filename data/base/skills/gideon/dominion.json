@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../../schemas/skill.schema.json",
+  "id": "base:skill/gideon/dominion",
+  "name": "$i18n:skill.gideon.dominion.name",
+  "description": "$i18n:skill.gideon.dominion.desc",
+  "type": "active",
+  "cost": {
+    "mp": 10
+  },
+  "cooldown_ticks": 90,
+  "timing": {
+    "startup": 12,
+    "active": 4,
+    "recovery": 18
+  },
+  "damage": {
+    "kind": "physical",
+    "element": "none",
+    "power_pct": 210
+  },
+  "tags": [
+    "melee",
+    "area"
+  ],
+  "hitbox": {
+    "shape": "arc",
+    "radius_x100": 260,
+    "angle_deg": 360
+  }
+}

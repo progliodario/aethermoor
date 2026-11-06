@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/personal_gideon_2",
+  "name": "$i18n:quest.personal_gideon_2.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.personal_gideon_2.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/wolf_tawny",
+          "count": 4
+        },
+        {
+          "type": "collect",
+          "item": "base:item/tawny_fur",
+          "count": 2
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 170
+    },
+    {
+      "effect": "add_gold",
+      "amount": 240
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/dominion_blade",
+      "qty": 1
+    }
+  ]
+}

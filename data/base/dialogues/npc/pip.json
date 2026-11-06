@@ -97,6 +97,26 @@
           "next": "yuki_s0"
         },
         {
+          "text": "$i18n:dlg.pip.story.lena.ask",
+          "when": {
+            "has_item": {
+              "item": "base:item/keepsake_lena",
+              "qty": 1
+            }
+          },
+          "next": "lena_s0"
+        },
+        {
+          "text": "$i18n:dlg.pip.story.gideon.ask",
+          "when": {
+            "has_item": {
+              "item": "base:item/keepsake_gideon",
+              "qty": 1
+            }
+          },
+          "next": "gideon_s0"
+        },
+        {
           "text": "$i18n:dlg.pip.q.bye",
           "next": "end"
         }
@@ -728,6 +748,206 @@
             {
               "effect": "start_quest",
               "quest": "base:quest/side/personal_yuki_2"
+            }
+          ],
+          "next": "menu"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "menu"
+        }
+      ]
+    },
+    "lena_s0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/personal_lena_2"
+      },
+      "then": "lena_done",
+      "else": "lena_s1"
+    },
+    "lena_s1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/personal_lena_2"
+      },
+      "then": "lena_busy2",
+      "else": "lena_s2"
+    },
+    "lena_s2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/personal_lena_1"
+      },
+      "then": "lena_o2",
+      "else": "lena_s3"
+    },
+    "lena_s3": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/personal_lena_1"
+      },
+      "then": "lena_busy1",
+      "else": "lena_o1"
+    },
+    "lena_done": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.lena.done",
+      "next": "menu"
+    },
+    "lena_busy1": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.lena.busy1",
+      "next": "menu"
+    },
+    "lena_busy2": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.lena.busy2",
+      "next": "menu"
+    },
+    "lena_o1": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.lena.o1",
+      "next": "lena_c1"
+    },
+    "lena_o2": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.lena.o2",
+      "next": "lena_c2"
+    },
+    "lena_c1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/personal_lena_1"
+            }
+          ],
+          "next": "menu"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "menu"
+        }
+      ]
+    },
+    "lena_c2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/personal_lena_2"
+            }
+          ],
+          "next": "menu"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "menu"
+        }
+      ]
+    },
+    "gideon_s0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/personal_gideon_2"
+      },
+      "then": "gideon_done",
+      "else": "gideon_s1"
+    },
+    "gideon_s1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/personal_gideon_2"
+      },
+      "then": "gideon_busy2",
+      "else": "gideon_s2"
+    },
+    "gideon_s2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/personal_gideon_1"
+      },
+      "then": "gideon_o2",
+      "else": "gideon_s3"
+    },
+    "gideon_s3": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/personal_gideon_1"
+      },
+      "then": "gideon_busy1",
+      "else": "gideon_o1"
+    },
+    "gideon_done": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.gideon.done",
+      "next": "menu"
+    },
+    "gideon_busy1": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.gideon.busy1",
+      "next": "menu"
+    },
+    "gideon_busy2": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.gideon.busy2",
+      "next": "menu"
+    },
+    "gideon_o1": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.gideon.o1",
+      "next": "gideon_c1"
+    },
+    "gideon_o2": {
+      "type": "say",
+      "speaker": "tutor_pip",
+      "text": "$i18n:dlg.pip.story.gideon.o2",
+      "next": "gideon_c2"
+    },
+    "gideon_c1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/personal_gideon_1"
+            }
+          ],
+          "next": "menu"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "menu"
+        }
+      ]
+    },
+    "gideon_c2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/personal_gideon_2"
             }
           ],
           "next": "menu"

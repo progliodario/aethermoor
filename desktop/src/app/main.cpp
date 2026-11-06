@@ -2547,8 +2547,8 @@ std::string choose_protagonist(SDL_Window* window, SDL_Renderer* renderer, const
             }
             const int preview_px = static_cast<int>(116.0F * density);
             draw_character(renderer, preview_cache, assets, false, false, static_cast<int>(SDL_GetTicks() / 16), false,
-                           variant, 180.0F * density, 630.0F * density, static_cast<float>(preview_px) / 32.0F,
-                           preview_px);
+                           variant, static_cast<float>(out_w) - 140.0F * density, 640.0F * density,
+                           static_cast<float>(preview_px) / 32.0F, preview_px);
         }
         const float text_x = 360.0F * density;
         const float text_w = static_cast<float>(out_w) - text_x - 30.0F * density;
@@ -2661,7 +2661,7 @@ int main(int argc, char** argv) {
         fs::create_directories(screenshot_dir, folder_error);
         const std::string shots_lang = saved_language().value_or(detect_language());
         run_title(window, renderer, assets, shots_lang, 1, (screenshot_dir / "title.png").string());
-        for (int i = 0; i < 6; ++i) {
+        for (int i = 0; i < 8; ++i) {
             choose_protagonist(window, renderer, assets, shots_lang,
                                (screenshot_dir / ("chooser_" + std::to_string(i) + ".png")).string(), i);
         }
