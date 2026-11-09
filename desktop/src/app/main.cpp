@@ -1255,36 +1255,23 @@ std::optional<std::string> saved_language() {
     return std::nullopt;
 }
 
-void write_settings() {
-    std::string out = "{
-";
-    if (const auto lang = saved_language()) {
-        out += "  \"language\": \"" + *lang + "\",
-";
+// Writes the settings file: the language (when there is one) and the four volumes.
+void write_settings(const std::optional<std::string>& lang) {
+    std::string out = "{\n";
+    if (lang) {
+        out += "  \"language\": \"" + *lang + "\",\n";
     }
     for (int i = 0; i < kVolumeKinds; ++i) {
-        out += std::string("  \"") + kVolumeKeys[i] + "\": " + std::to_string(g_volume[i]) + (i + 1 < kVolumeKinds ? ",
-" : "
-");
+        out += std::string("  \"") + kVolumeKeys[i] + "\": " + std::to_string(g_volume[i]);
+        out += i + 1 < kVolumeKinds ? ",\n" : "\n";
     }
-    out += "}
-";
+    out += "}\n";
     write_text_atomic(settings_file(), out);
 }
 
-void save_language(const std::string& lang) {
-    std::string out = "{
-  \"language\": \"" + lang + "\",
-";
-    for (int i = 0; i < kVolumeKinds; ++i) {
-        out += std::string("  \"") + kVolumeKeys[i] + "\": " + std::to_string(g_volume[i]) + (i + 1 < kVolumeKinds ? ",
-" : "
-");
-    }
-    out += "}
-";
-    write_text_atomic(settings_file(), out);
-}
+void write_settings() { write_settings(saved_language()); }
+
+void save_language(const std::string& lang) { write_settings(lang); }
 
 // Reads the volumes of the settings file (the defaults stay for what is missing) and gives them to the sound board.
 void load_volumes() {
