@@ -293,6 +293,20 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
             }
         }
     }
+    if (const auto title_table = pack.read_document("base:titles/all")) {  // titles (spec 11)
+        const Json parsed = Json::parse(*title_table, nullptr, /*allow_exceptions=*/false);
+        if (!parsed.is_discarded() && parsed.contains("titles")) {
+            for (const Json& t : parsed.at("titles")) {
+                TitleDef title;
+                title.id = t.at("id").get<std::string>();
+                title.name = t.at("name").get<std::string>();
+                title.kind = t.at("kind").get<std::string>();
+                title.count = t.at("count").get<std::int64_t>();
+                title.enemy = t.value("enemy", "");
+                setup.titles.push_back(std::move(title));
+            }
+        }
+    }
     if (const auto nodes =
             pack.read_document("base:gathering/nodes")) {  // the props that can be gathered from (spec 06)
         const Json parsed = Json::parse(*nodes, nullptr, /*allow_exceptions=*/false);

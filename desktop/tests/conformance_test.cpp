@@ -754,6 +754,17 @@ Scenario scenario_from_json(const Json& in) {
             setup.recipes.push_back(std::move(recipe));
         }
     }
+    if (in.contains("titles")) {
+        for (const Json& t : in.at("titles")) {
+            aether::TitleDef title;
+            title.id = t.at("id").get<std::string>();
+            title.name = t.at("name").get<std::string>();
+            title.kind = t.at("kind").get<std::string>();
+            title.count = integer(t, "count");
+            title.enemy = t.value("enemy", "");
+            setup.titles.push_back(std::move(title));
+        }
+    }
     if (in.contains("gather_nodes")) {
         for (const Json& n : in.at("gather_nodes")) {
             aether::GatherNode node;
@@ -874,6 +885,18 @@ void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) 
         REQUIRE(std::string(aether::to_string(sim.enemies()[i].state)) == we.at("state").get<std::string>());
         REQUIRE(sim.enemies()[i].position.x == Catch::Approx(we.at("x").get<float>()).margin(tol));
         REQUIRE(sim.enemies()[i].position.y == Catch::Approx(we.at("y").get<float>()).margin(tol));
+    }
+    if (want.contains("bestiary")) {
+        const Json& bestiary = want.at("bestiary");
+        REQUIRE(sim.bestiary().size() == bestiary.size());
+        for (const auto& [id, count] : bestiary.items()) {
+            REQUIRE(sim.bestiary().at(id) == count.get<int>());
+        }
+        const std::vector<std::string> titles = sim.earned_titles();
+        REQUIRE(titles.size() == want.at("titles").size());
+        for (std::size_t i = 0; i < titles.size(); ++i) {
+            REQUIRE(titles[i] == want.at("titles")[i].get<std::string>());
+        }
     }
     if (want.contains("equipped")) {
         REQUIRE(sim.equipped_weapon() == want.at("equipped").at("weapon").get<std::string>());

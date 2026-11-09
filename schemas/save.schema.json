@@ -345,6 +345,7 @@
         }
       }
     },
+    "bestiary": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 1 } },
     "companion": {
       "type": "object",
       "required": ["x", "y", "cooldown"],

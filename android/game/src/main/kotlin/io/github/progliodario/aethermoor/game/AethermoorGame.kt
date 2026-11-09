@@ -1662,7 +1662,6 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val entries = ArrayList<Pair<String, Int>>()
         if (story.quests.isEmpty()) {
             entries.add(Pair(data.pack.text(language, "\$i18n:ui.journal_empty"), 2))
-            return entries
         }
         if (story.quests.values.any { !it.done }) {
             entries.add(Pair(data.pack.text(language, "\$i18n:ui.journal_active"), 0))
@@ -1683,6 +1682,23 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 if (!progress.done) continue
                 val def = story.questDef(questId) ?: continue
                 entries.add(Pair(dialogueText(data.pack, def.name, def.args), 3))
+            }
+        }
+        // Titles and bestiary (spec 11): the titles earned (the last one counts), then every creature killed with its count.
+        val earned = world.earnedTitles()
+        if (world.combat.titles.isNotEmpty()) {
+            entries.add(Pair("", 2))
+            entries.add(Pair("${data.pack.text(language, "\$i18n:ui.journal_titles")} ${earned.size}/${world.combat.titles.size}", 0))
+            for (title in world.combat.titles) {
+                val have = title.id in earned
+                entries.add(Pair(if (have) data.pack.text(language, title.name) else "???", if (have) 1 else 3))
+            }
+        }
+        if (world.bestiary.isNotEmpty()) {
+            entries.add(Pair("", 2))
+            entries.add(Pair("${data.pack.text(language, "\$i18n:ui.journal_bestiary")} ${world.bestiary.size}", 0))
+            for ((id, count) in world.bestiary) {
+                entries.add(Pair("  ${data.pack.text(language, "\$i18n:enemy.${id.substringAfterLast('/')}.name")}  x$count", 2))
             }
         }
         return entries

@@ -52,6 +52,8 @@
   "ui.journal": "Journal",
   "ui.journal_active": "In progress",
   "ui.journal_done": "Completed",
+  "ui.journal_titles": "Titles",
+  "ui.journal_bestiary": "Bestiary",
   "ui.journal_empty": "No quests yet. Talk to people and visit the guild.",
   "ui.journal_hint": "[W/S] Scroll   [Q] Close",
   "ui.language_set": "Language: English",

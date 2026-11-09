@@ -133,6 +133,7 @@ struct SaveState {
     float companion_x = 0.0F;
     float companion_y = 0.0F;
     int companion_cooldown = 0;
+    std::map<std::string, int> bestiary;  // creature ID -> how many were killed (spec 11)
     std::map<std::string, std::int64_t> inventory;
     std::string equipped_weapon;  // spec 06
     std::string equipped_armor;
@@ -170,6 +171,10 @@ public:
     const CollisionWorld& collision() const { return m_collision_; }
     const std::vector<Enemy>& enemies() const { return m_enemies_; }
     const std::map<std::string, std::int64_t>& inventory() const { return m_inventory_; }
+    // The bestiary (spec 11): creature ID -> kills, and the IDs of the titles earned, in the order of the data.
+    const std::map<std::string, int>& bestiary() const { return m_bestiary_; }
+    std::vector<std::string> earned_titles() const;
+    const std::vector<TitleDef>& titles() const { return m_setup_.titles; }
     const DerivedStats& derived() const { return m_derived_; }
     bool streamed() const { return m_store_ != nullptr; }
     std::int64_t world_ticks() const { return m_world_ticks_; }
@@ -328,6 +333,7 @@ private:
     std::optional<ShopDef> m_shop_;
     std::optional<Board> m_board_;
     std::vector<std::pair<int, int>> m_stones_;
+    std::map<std::string, int> m_bestiary_;
     std::optional<Travel> m_travel_;
     int m_routine_tod_ = -1;             // time of day (permille) the dynamic NPCs were built for
     std::vector<NpcDef> m_npcs_;         // settlement people of the active window (spec 09)

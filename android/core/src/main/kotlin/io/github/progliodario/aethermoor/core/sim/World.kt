@@ -187,6 +187,9 @@ class WorldSim(
     /** The Threshold Stones that were used, in order of waking (spec 09). */
     val stones = ArrayList<Pair<Int, Int>>()
 
+    /** The bestiary (spec 11): creature id -> how many were killed. */
+    val bestiary = java.util.TreeMap<String, Int>()
+
     var travel: Travel? = null
         private set
 
@@ -868,6 +871,7 @@ class WorldSim(
         if (chunks != null) cleared[Pair(enemy.spawnerX, enemy.spawnerY)] = worldTicks
         val p = player
         p.kills++
+        if (enemy.def.id.isNotEmpty()) bestiary[enemy.def.id] = (bestiary[enemy.def.id] ?: 0) + 1
         for (drop in enemy.def.drops) {
             if (lootRng.nextBounded(1000) < drop.weightPm) {
                 var quantity = drop.qtyMin
@@ -877,6 +881,22 @@ class WorldSim(
         }
         grantXp(xpGain(enemy.def.xp, enemy.def.level, p.level))
         story.onKill(enemy.def.id)
+    }
+
+    /** The ids of the titles whose condition holds, in the order of the data (spec 11). */
+    fun earnedTitles(): List<String> {
+        val questsDone = story.quests.values.count { it.done }.toLong()
+        return combat.titles.filter { t ->
+            val have = when (t.kind) {
+                "kills" -> player.kills.toLong()
+                "kills_of" -> (bestiary[t.enemy] ?: 0).toLong()
+                "level" -> player.level
+                "species" -> bestiary.size.toLong()
+                "quests" -> questsDone
+                else -> 0L
+            }
+            have >= t.count
+        }.map { it.id }
     }
 
     override fun grantXp(amount: Long) {
@@ -1062,6 +1082,7 @@ class WorldSim(
             worldTicks = worldTicks,
             explored = explored.toList(),
             stones = stones.toList(),
+            bestiary = bestiary.toMap(),
             companion = if (combat.companion != null) Triple((companionPosition ?: player.position).x, (companionPosition ?: player.position).y, companionCooldown) else null,
             equippedWeapon = equippedWeapon,
             equippedArmor = equippedArmor,
@@ -1163,6 +1184,8 @@ class WorldSim(
         travel = null
         stones.clear()
         stones.addAll(s.stones)
+        bestiary.clear()
+        bestiary.putAll(s.bestiary)
         combat.companion?.let { c -> // a save without a companion (an older one) puts it next to the player
             val saved = s.companion
             companionPosition = if (saved != null) Vec2(saved.first, saved.second) else player.position

@@ -60,6 +60,14 @@ RECIPES = [
     {"id": "potion_small", "output": {"item": "base:item/potion_small", "qty": 1},
      "inputs": [{"item": "base:item/healing_herb", "qty": 3}, {"item": "base:item/slime_gel", "qty": 1}]},
 ]
+TITLES = [
+    {"id": "grown", "name": "t", "kind": "level", "count": 2},
+    {"id": "first_blood", "name": "t", "kind": "kills", "count": 1},
+    {"id": "slime_hunter", "name": "t", "kind": "kills_of", "count": 2, "enemy": "base:enemy/slime_green"},
+    {"id": "wolf_bane", "name": "t", "kind": "kills_of", "count": 2, "enemy": "base:enemy/wolf_grey"},
+    {"id": "naturalist", "name": "t", "kind": "species", "count": 2},
+    {"id": "helper", "name": "t", "kind": "quests", "count": 1},
+]
 GATHER_NODES = [
     {"prop": "base:art/prop/bush", "sound": "plant", "cooldown_ticks": 60, "reach_x100": 150,
      "drops": [{"item": "base:item/wild_berries", "qty_min": 1, "qty_max": 3, "weight_pm": 800}, {"item": "base:item/healing_herb", "qty_min": 1, "qty_max": 2, "weight_pm": 400}]},
@@ -125,6 +133,12 @@ def build_scenarios() -> list[dict]:
         scenario("level_up", [enemy(3.5, 4.5, hp=5, xp=500, **passive), enemy(3.6, 4.7, hp=5, xp=500, **passive),
                               enemy(3.4, 4.3, hp=5, xp=500, **passive)],
                  [segment(40, attack=True)]),
+        # Bestiary and titles (spec 11): every kill is counted by creature, and a title is earned when its condition holds.
+        scenario("bestiary_titles", [enemy(3.5, 4.5, hp=5, id="base:enemy/slime_green", **passive),
+                                     enemy(3.6, 4.7, hp=5, id="base:enemy/slime_green", **passive),
+                                     enemy(3.4, 4.3, hp=5, id="base:enemy/wolf_grey", **passive),
+                                     enemy(9.0, 7.0, hp=5, id="base:enemy/wolf_grey", **passive)],
+                 [segment(1), segment(40, attack=True), segment(20)], titles=TITLES),
         scenario("player_death", [enemy(6.7, 4.5, atk=400)], [segment(100), segment(100), segment(100)]),
         # Hurt by a slime, the player eats bread: health goes up and one bread is gone. A second bread at full health is refused,
         # and so are the gel (no effect), an item that is not owned and a use while the player is hurt but the stack is empty.

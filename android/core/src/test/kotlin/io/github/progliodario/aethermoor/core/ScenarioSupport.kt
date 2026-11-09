@@ -21,6 +21,7 @@ import io.github.progliodario.aethermoor.core.sim.ShopDef
 import io.github.progliodario.aethermoor.core.sim.SkillDef
 import io.github.progliodario.aethermoor.core.sim.StorySetup
 import io.github.progliodario.aethermoor.core.sim.TileDef
+import io.github.progliodario.aethermoor.core.sim.TitleDef
 import io.github.progliodario.aethermoor.core.sim.TileMap
 import io.github.progliodario.aethermoor.core.sim.Tileset
 import io.github.progliodario.aethermoor.core.sim.WeaponStats
@@ -142,6 +143,13 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
                 followX100 = c.getValue("follow_x100").jsonPrimitive.int,
             )
         },
+        titles = input["titles"]?.jsonArray?.map { t ->
+            val o = t.jsonObject
+            TitleDef(
+                o.getValue("id").jsonPrimitive.content, o.getValue("name").jsonPrimitive.content, o.getValue("kind").jsonPrimitive.content,
+                o.long("count"), o["enemy"]?.jsonPrimitive?.content ?: "",
+            )
+        } ?: emptyList(),
         recipes = input["recipes"]?.jsonArray?.map { r ->
             val o = r.jsonObject
             RecipeDef(
@@ -229,6 +237,11 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
         assertEquals(we.getValue("state").jsonPrimitive.content, enemy.state.id, "$at enemy $i state")
         assertNear(we.getValue("x").num(), enemy.position.x, tol, "$at enemy $i x")
         assertNear(we.getValue("y").num(), enemy.position.y, tol, "$at enemy $i y")
+    }
+    want["bestiary"]?.jsonObject?.let { b ->
+        assertEquals(b.size, sim.bestiary.size, "$at bestiary size")
+        for ((id, count) in b) assertEquals(count.jsonPrimitive.int, sim.bestiary[id], "$at bestiary $id")
+        assertEquals(want.getValue("titles").jsonArray.map { it.jsonPrimitive.content }, sim.earnedTitles(), "$at titles")
     }
     want["equipped"]?.jsonObject?.let {
         assertEquals(it.getValue("weapon").jsonPrimitive.content, sim.equippedWeapon, "$at equipped weapon")

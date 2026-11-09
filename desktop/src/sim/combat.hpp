@@ -159,6 +159,15 @@ struct RecipeDef {
     std::vector<std::pair<std::string, std::int64_t>> inputs;
 };
 
+// A title (spec 11): earned when its condition holds. kind: kills, kills_of, level, species or quests.
+struct TitleDef {
+    std::string id;
+    std::string name;
+    std::string kind;
+    std::int64_t count = 1;
+    std::string enemy;  // kills_of only
+};
+
 struct CombatSetup {
     bool enabled = false;
     PlayerSetup player;
@@ -180,6 +189,7 @@ struct CombatSetup {
     std::map<std::string, GatherNode> gather_nodes;  // the props that can be gathered from, by art ID
     std::vector<RecipeDef> recipes;                  // crafting recipes, in the order of the data
     std::optional<CompanionDef> companion;           // the companion of the protagonist (spec 10)
+    std::vector<TitleDef> titles;                    // the titles that can be earned (spec 11), in order of rank
 };
 
 enum class AttackPhase { None, Startup, Active, Recovery };

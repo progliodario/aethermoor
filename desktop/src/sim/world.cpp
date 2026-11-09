@@ -912,6 +912,9 @@ std::int64_t WorldSim::element_multiplier(const EnemyDef& target) const {
 void WorldSim::on_kill(Enemy& enemy) {
     Player& p = m_player_;
     ++p.kills;
+    if (!enemy.def.id.empty()) {
+        ++m_bestiary_[enemy.def.id];
+    }
     if (m_store_) {
         m_cleared_[{enemy.spawner_x, enemy.spawner_y}] = m_world_ticks_;
     }
@@ -927,6 +930,33 @@ void WorldSim::on_kill(Enemy& enemy) {
     }
     grant_xp(xp_gain(enemy.def.xp, enemy.def.level, p.level));
     m_story_.on_kill(enemy.def.id);
+}
+
+std::vector<std::string> WorldSim::earned_titles() const {
+    std::int64_t quests_done = 0;
+    for (const auto& entry : m_story_.quests()) {
+        quests_done += entry.second.done ? 1 : 0;
+    }
+    std::vector<std::string> earned;
+    for (const TitleDef& t : m_setup_.titles) {
+        std::int64_t have = 0;
+        if (t.kind == "kills") {
+            have = m_player_.kills;
+        } else if (t.kind == "kills_of") {
+            const auto it = m_bestiary_.find(t.enemy);
+            have = it == m_bestiary_.end() ? 0 : it->second;
+        } else if (t.kind == "level") {
+            have = m_player_.level;
+        } else if (t.kind == "species") {
+            have = static_cast<std::int64_t>(m_bestiary_.size());
+        } else if (t.kind == "quests") {
+            have = quests_done;
+        }
+        if (have >= t.count) {
+            earned.push_back(t.id);
+        }
+    }
+    return earned;
 }
 
 void WorldSim::grant_xp(std::int64_t amount) {
@@ -1148,6 +1178,7 @@ SaveState WorldSim::capture() const {
         s.cleared.push_back({spawner.first, spawner.second, died});
     }
     s.stones = m_stones_;
+    s.bestiary = m_bestiary_;
     if (m_setup_.companion) {
         s.has_companion = true;
         s.companion_x = m_companion_pos_.x;
@@ -1278,6 +1309,7 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
     m_board_.reset();
     m_travel_.reset();
     m_stones_ = s.stones;
+    m_bestiary_ = s.bestiary;
     if (m_setup_.companion) {  // a save without a companion (an older one) puts it next to the player
         m_companion_pos_ = s.has_companion ? Vec2{s.companion_x, s.companion_y} : s.position;
         m_companion_cooldown_ = s.has_companion ? s.companion_cooldown : m_setup_.companion->cooldown_ticks;

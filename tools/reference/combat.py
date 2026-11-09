@@ -70,6 +70,8 @@ class CombatSim:
         self.companion = scenario.get("companion")  # the definition of the companion (spec 10), or None
         self.comp_x, self.comp_y = scenario["player"]["start"]
         self.comp_cooldown = self.companion["cooldown_ticks"] if self.companion else 0
+        self.titles = scenario.get("titles", [])  # titles (spec 11)
+        self.bestiary: dict[str, int] = {}  # creature id -> how many were killed (spec 11)
         self.recipes = {r["id"]: r for r in scenario.get("recipes", [])}  # crafting (spec 06, "Crafting")
         self.combat = nm.derive_stream(seed, "combat")
         self.loot = nm.derive_stream(seed, "loot")
@@ -315,8 +317,22 @@ class CombatSim:
                 enemy.state = DEAD
                 self._on_kill(enemy)
 
+    def earned_titles(self) -> list[str]:
+        """The ids of the titles whose condition holds, in the order of the data (spec 11)."""
+        done = sum(1 for q in self.story.quests.values() if q["done"]) if self.story is not None else 0
+        out = []
+        for t in self.titles:
+            kind, count = t["kind"], t["count"]
+            have = {"kills": self.kills, "kills_of": self.bestiary.get(t.get("enemy", ""), 0), "level": self.level,
+                    "species": len(self.bestiary), "quests": done}[kind]
+            if have >= count:
+                out.append(t["id"])
+        return out
+
     def _on_kill(self, enemy: _Enemy) -> None:
         self.kills += 1
+        if enemy.d.get("id", ""):
+            self.bestiary[enemy.d["id"]] = self.bestiary.get(enemy.d["id"], 0) + 1
         for drop in enemy.d["drops"]:
             if self.loot.next_bounded(1000) < drop["weight_pm"]:
                 qty = drop["qty_min"]
@@ -578,6 +594,7 @@ class CombatSim:
             "enemies": [{"x": e.x, "y": e.y, "hp": e.hp, "state": e.state, "state_tick": e.t} for e in self.enemies],
             "inventory": dict(sorted(self.inventory.items())),
             "equipped": dict(self.equipped),
+            **({"bestiary": dict(sorted(self.bestiary.items()))} if self.bestiary else {}),
             "story": self.story.save_state() if self.story is not None else None,
         }
 
@@ -602,6 +619,7 @@ class CombatSim:
             enemy.x, enemy.y, enemy.hp, enemy.state, enemy.t = data["x"], data["y"], data["hp"], data["state"], data["state_tick"]
         self.inventory = dict(save["inventory"])
         self.equipped = {"weapon": "", "armor": "", **save.get("equipped", {})}
+        self.bestiary = dict(save.get("bestiary", {}))
         self.derived = self._derive()
         if self.story is not None and save["story"] is not None:
             self.story.load_state(save["story"])
@@ -616,6 +634,7 @@ class CombatSim:
             "kills": self.kills,
             "inventory": dict(sorted(self.inventory.items())),
             "equipped": dict(self.equipped),
+            **({"bestiary": dict(sorted(self.bestiary.items())), "titles": self.earned_titles()} if self.titles else {}),
             **({"story": self.story.snapshot()} if self.story is not None else {}),
         }
 

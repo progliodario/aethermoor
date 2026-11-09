@@ -36,6 +36,22 @@ private fun loadCompanion(pack: Pack, id: String): CompanionDef? {
     )
 }
 
+/** The titles (spec 11); none when the pack has no table. */
+private fun loadTitles(pack: Pack): List<TitleDef> {
+    val text = pack.readDocument("base:titles/all") ?: return emptyList()
+    val titles = Json.parseToJsonElement(text).jsonObject["titles"]?.jsonArray ?: return emptyList()
+    return titles.map { element ->
+        val t = element.jsonObject
+        TitleDef(
+            id = t.getValue("id").jsonPrimitive.content,
+            name = t.getValue("name").jsonPrimitive.content,
+            kind = t.getValue("kind").jsonPrimitive.content,
+            count = t.getValue("count").jsonPrimitive.long,
+            enemy = t["enemy"]?.jsonPrimitive?.content ?: "",
+        )
+    }
+}
+
 /** The crafting recipes (spec 06, "Crafting"); none when the pack has no table. */
 private fun loadRecipes(pack: Pack): List<RecipeDef> {
     val text = pack.readDocument("base:recipes/all") ?: return emptyList()
@@ -254,6 +270,7 @@ fun loadCombatSetup(
             items = items,
             gatherNodes = loadGatherNodes(pack),
             recipes = loadRecipes(pack),
+            titles = loadTitles(pack),
             companion = loadCompanion(pack, protagonist.companion),
             startWeapon = startWeapon,
         )

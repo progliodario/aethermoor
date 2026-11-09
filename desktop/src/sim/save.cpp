@@ -111,6 +111,13 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
     j["enemies"] = enemies;
     j["equipped"] = {{"weapon", s.equipped_weapon}, {"armor", s.equipped_armor}};
     j["world_ticks"] = s.world_ticks;
+    if (!s.bestiary.empty()) {
+        Json bestiary = Json::object();
+        for (const auto& [id, count] : s.bestiary) {
+            bestiary[id] = count;
+        }
+        j["bestiary"] = bestiary;
+    }
     if (meta.map == "world") {
         Json explored = Json::array();
         for (const auto& [x, y] : s.explored) {
@@ -226,6 +233,11 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
             s.companion_x = c.at("x").get<float>();
             s.companion_y = c.at("y").get<float>();
             s.companion_cooldown = c.at("cooldown").get<int>();
+        }
+        if (j.contains("bestiary")) {
+            for (const auto& [id, count] : j.at("bestiary").items()) {
+                s.bestiary[id] = count.get<int>();
+            }
         }
         if (j.contains("stones")) {
             for (const Json& c : j.at("stones")) {
