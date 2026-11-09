@@ -52,6 +52,8 @@
   "ui.journal": "Diario",
   "ui.journal_active": "In corso",
   "ui.journal_done": "Completate",
+  "ui.journal_titles": "Titoli",
+  "ui.journal_bestiary": "Bestiario",
   "ui.journal_empty": "Ancora nessuna missione. Parla con la gente e visita la gilda.",
   "ui.journal_hint": "[W/S] Scorri   [Q] Chiudi",
   "ui.language_set": "Lingua: Italiano",

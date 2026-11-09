@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aethermoor.invalid/schemas/titles.schema.json",
+  "title": "Titles a protagonist earns (spec 11)",
+  "type": "object",
+  "required": ["id", "titles"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:titles/[a-z0-9_]+$" },
+    "titles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "kind", "count"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "name": { "type": "string" },
+          "kind": { "enum": ["kills", "kills_of", "level", "species", "quests"] },
+          "count": { "type": "integer", "minimum": 1 },
+          "enemy": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:enemy/[a-z0-9_]+$" }
+        }
+      }
+    }
+  }
+}

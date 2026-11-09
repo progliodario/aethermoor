@@ -2026,7 +2026,6 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
     }
     if (!any_active && !any_done) {
         lines.push_back({assets.pack.text(ui.lang, "$i18n:ui.journal_empty"), 2});
-        return lines;
     }
     if (any_active) {
         lines.push_back({assets.pack.text(ui.lang, "$i18n:ui.journal_active"), 0});
@@ -2066,6 +2065,29 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
                 const aether::QuestDef& def = sim.story().setup().quests.at(quest_id);
                 lines.push_back({dialogue_text(assets.pack, ui.lang, def.name, def.args), 3});
             }
+        }
+    }
+    // Titles and bestiary (spec 11): the titles earned (the last one is the one that counts), then every creature
+    // killed with its count.
+    const std::vector<std::string> earned = sim.earned_titles();
+    if (!sim.titles().empty()) {
+        lines.push_back({"", 2});
+        lines.push_back({assets.pack.text(ui.lang, "$i18n:ui.journal_titles") + " " + std::to_string(earned.size()) +
+                             "/" + std::to_string(sim.titles().size()),
+                         0});
+        for (const aether::TitleDef& title : sim.titles()) {
+            const bool have = std::find(earned.begin(), earned.end(), title.id) != earned.end();
+            lines.push_back({have ? assets.pack.text(ui.lang, title.name) : std::string("???"), have ? 1 : 3});
+        }
+    }
+    if (!sim.bestiary().empty()) {
+        lines.push_back({"", 2});
+        lines.push_back(
+            {assets.pack.text(ui.lang, "$i18n:ui.journal_bestiary") + " " + std::to_string(sim.bestiary().size()), 0});
+        for (const auto& [id, count] : sim.bestiary()) {
+            const std::size_t slash = id.rfind('/');
+            const std::string key = "$i18n:enemy." + (slash == std::string::npos ? id : id.substr(slash + 1)) + ".name";
+            lines.push_back({"  " + assets.pack.text(ui.lang, key) + "  x" + std::to_string(count), 2});
         }
     }
     return lines;

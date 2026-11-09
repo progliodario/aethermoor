@@ -114,6 +114,9 @@ class CompanionDef(
 /** A crafting recipe (spec 06, "Crafting"). */
 class RecipeDef(val id: String, val output: String, val outputQty: Long, val inputs: List<Pair<String, Long>>)
 
+/** A title (spec 11): earned when its condition holds. [kind]: kills, kills_of, level, species or quests; [enemy] for kills_of only. */
+class TitleDef(val id: String, val name: String, val kind: String, val count: Long, val enemy: String = "")
+
 /** A prop that can be gathered from (spec 06, "Gathering"). */
 class GatherDrop(val item: String, val qtyMin: Long, val qtyMax: Long, val weightPm: Long)
 
@@ -140,6 +143,8 @@ class CombatSetup(
     val recipes: List<RecipeDef> = emptyList(),
     /** The companion of the protagonist (spec 10), or null. */
     val companion: CompanionDef? = null,
+    /** The titles that can be earned (spec 11), in order of rank. */
+    val titles: List<TitleDef> = emptyList(),
     /** Items with a `use` block, by item ID (spec 06). */
     val items: Map<String, ItemDef> = emptyMap(),
     /** The weapon and the armor worn in a new game (item ids, or empty). */

@@ -1,0 +1,81 @@
+{
+  "$schema": "../../schemas/titles.schema.json",
+  "id": "base:titles/all",
+  "titles": [
+    {
+      "id": "newcomer",
+      "name": "$i18n:title.newcomer",
+      "kind": "level",
+      "count": 2
+    },
+    {
+      "id": "slime_hunter",
+      "name": "$i18n:title.slime_hunter",
+      "kind": "kills_of",
+      "count": 10,
+      "enemy": "base:enemy/slime_green"
+    },
+    {
+      "id": "pest_control",
+      "name": "$i18n:title.pest_control",
+      "kind": "kills",
+      "count": 25
+    },
+    {
+      "id": "wolf_bane",
+      "name": "$i18n:title.wolf_bane",
+      "kind": "kills_of",
+      "count": 8,
+      "enemy": "base:enemy/wolf_grey"
+    },
+    {
+      "id": "adventurer",
+      "name": "$i18n:title.adventurer",
+      "kind": "level",
+      "count": 10
+    },
+    {
+      "id": "helper",
+      "name": "$i18n:title.helper",
+      "kind": "quests",
+      "count": 5
+    },
+    {
+      "id": "naturalist",
+      "name": "$i18n:title.naturalist",
+      "kind": "species",
+      "count": 10
+    },
+    {
+      "id": "veteran",
+      "name": "$i18n:title.veteran",
+      "kind": "kills",
+      "count": 150
+    },
+    {
+      "id": "gel_slayer",
+      "name": "$i18n:title.gel_slayer",
+      "kind": "kills_of",
+      "count": 1,
+      "enemy": "base:enemy/gel_king"
+    },
+    {
+      "id": "hero",
+      "name": "$i18n:title.hero",
+      "kind": "level",
+      "count": 25
+    },
+    {
+      "id": "chronicler",
+      "name": "$i18n:title.chronicler",
+      "kind": "species",
+      "count": 30
+    },
+    {
+      "id": "legend",
+      "name": "$i18n:title.legend",
+      "kind": "quests",
+      "count": 40
+    }
+  ]
+}
