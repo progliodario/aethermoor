@@ -15,6 +15,7 @@ open a panel, save, load. While a dialogue is open the movement and the attack o
 |---|---|
 | Keyboard, move | `W A S D` and the arrows (diagonals are normalized) |
 | Keyboard, attack | `J`, `Space` or the left mouse button |
+| Title screen, export and import (desktop) | `X`: export the chosen game to a file; `I`: import `import.aethersave` into the chosen empty game (spec 12, "Export and import") |
 | Keyboard, parry | `U`: the parry (spec 05, "Parry"); held, it opens a window whenever the wait is over |
 | Keyboard, power strike | `K`: the power strike (spec 05, "Mana"), while there is mana; held, it repeats when the cooldown ends; with `J` held too, the strike wins |
 | Keyboard, dodge | `L` or `Left Shift`: the dodge roll (spec 05), in the direction of the movement keys, or the way you face when none is held; held, it repeats when the cooldown ends |

@@ -32,6 +32,7 @@
 #include "audio/director.hpp"
 #include "data/world_data.hpp"
 #include "sim/save.hpp"
+#include "sim/save_bundle.hpp"
 #include "sim/world_map.hpp"
 #include "sim/world.hpp"
 #include "vector/rig.hpp"
@@ -1226,6 +1227,50 @@ SlotInfo read_slot(int slot) {
         }
     }
     return info;
+}
+
+// Export and import of a game (spec 12, "Export and import"): the files of a slot packed into one `.aethersave` file in
+// the `exports` folder next to the saves, and a file called `import.aethersave` in the same folder unpacked into an
+// empty slot.
+fs::path exports_dir() { return save_dir().parent_path() / "exports"; }
+
+const char* const kBundleFiles[] = {"auto.json", "quick.json", "protagonist.txt", "goal.txt"};
+
+// Writes the bundle of a used slot; returns the path of the file, or an empty string when it could not be written.
+std::string export_slot(int slot) {
+    std::map<std::string, std::string> files;
+    for (const char* name : kBundleFiles) {
+        if (const auto text = read_text_file(slot_dir(slot) / name)) {
+            files[name] = *text;
+        }
+    }
+    std::error_code ec;
+    fs::create_directories(exports_dir(), ec);
+    const fs::path target = exports_dir() / ("slot" + std::to_string(slot) + ".aethersave");
+    return write_text_atomic(target, aether::export_bundle(files, aether::game_version())) ? target.string()
+                                                                                           : std::string();
+}
+
+enum class ImportResult { Done, NoFile, Bad, SlotUsed };
+
+ImportResult import_slot(int slot, bool slot_used) {
+    if (slot_used) {
+        return ImportResult::SlotUsed;
+    }
+    const auto text = read_text_file(exports_dir() / "import.aethersave");
+    if (!text) {
+        return ImportResult::NoFile;
+    }
+    const auto files = aether::import_bundle(*text);
+    if (!files) {
+        return ImportResult::Bad;
+    }
+    std::error_code ec;
+    fs::create_directories(slot_dir(slot), ec);
+    for (const auto& [name, content] : *files) {
+        write_text_atomic(slot_dir(slot) / name, content);
+    }
+    return ImportResult::Done;
 }
 
 void delete_slot(int slot) {
@@ -2494,6 +2539,19 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
                     return cursor + 1;
                 } else if (digit >= 0 && digit < kSlotCount) {
                     return digit + 1;
+                } else if (key == SDLK_X && slots[static_cast<std::size_t>(cursor)].used) {
+                    const std::string path = export_slot(cursor + 1);
+                    notice = path.empty() ? assets.pack.text(lang, "$i18n:ui.export_failed")
+                                          : assets.pack.text(lang, "$i18n:ui.slot_exported", {{"path", path}});
+                } else if (key == SDLK_I) {
+                    const ImportResult result = import_slot(cursor + 1, slots[static_cast<std::size_t>(cursor)].used);
+                    if (result == ImportResult::Done) {
+                        slots[static_cast<std::size_t>(cursor)] = read_slot(cursor + 1);
+                    }
+                    const char* const keys[] = {"$i18n:ui.slot_imported", "$i18n:ui.import_missing",
+                                                "$i18n:ui.import_bad", "$i18n:ui.import_slot_used"};
+                    notice = assets.pack.text(lang, keys[static_cast<int>(result)],
+                                              {{"path", (exports_dir() / "import.aethersave").string()}});
                 } else if ((key == SDLK_D || key == SDLK_DELETE) && slots[static_cast<std::size_t>(cursor)].used) {
                     const aether::FormatArgs args{{"slot", static_cast<std::int64_t>(cursor + 1)}};
                     if (pending_delete == cursor) {

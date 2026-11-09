@@ -20,6 +20,7 @@
 #include "audio/director.hpp"
 #include "audio/music.hpp"
 #include "audio/synth.hpp"
+#include "sim/save_bundle.hpp"
 #include "core/id.hpp"
 #include "core/message_format.hpp"
 #include "core/numerics.hpp"
@@ -531,6 +532,35 @@ TEST_CASE("conformance: music director", "[conformance]") {
                 REQUIRE(got.layers[i] == wanted.at("layers").at(i).get<std::string>());
             }
             ++index;
+        }
+    }
+}
+
+TEST_CASE("conformance: savebundle", "[conformance]") {
+    const Json doc = load_suite("savebundle");
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        const Json& in = c.at("input");
+        std::optional<std::map<std::string, std::string>> got;
+        if (in.at("op").get<std::string>() == "import") {
+            got = aether::import_bundle(in.at("text").get<std::string>());
+        } else {
+            std::map<std::string, std::string> files;
+            for (const auto& [name, content] : in.at("files").items()) {
+                files[name] = content.get<std::string>();
+            }
+            got = aether::import_bundle(aether::export_bundle(files, "0.0.1"));
+        }
+        const Json& wanted = c.at("expect").at("files");
+        if (wanted.is_null()) {
+            REQUIRE(!got.has_value());
+        } else {
+            REQUIRE(got.has_value());
+            REQUIRE(got->size() == wanted.size());
+            for (const auto& [name, content] : wanted.items()) {
+                REQUIRE(got->count(name) == 1);
+                REQUIRE(got->at(name) == content.get<std::string>());
+            }
         }
     }
 }

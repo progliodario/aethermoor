@@ -1,0 +1,217 @@
+{
+  "suite": "savebundle",
+  "spec_version": 1,
+  "generated_by": "tools/gen_conformance.py",
+  "cases": [
+    {
+      "name": "roundtrip_all_files",
+      "input": {
+        "op": "roundtrip",
+        "files": {
+          "auto.json": "{\"save_version\": 1, \"seed\": \"0x00000000DEADBEEF\", \"map\": \"world\", \"player\": {\"hp\": 100, \"level\": 3}}",
+          "quick.json": "{\"save_version\": 1, \"seed\": \"0x00000000DEADBEEF\", \"map\": \"world\", \"player\": {\"hp\": 100, \"level\": 3}}",
+          "protagonist.txt": "base:protagonist/sakura",
+          "goal.txt": "8200 8150\n"
+        }
+      },
+      "expect": {
+        "files": {
+          "auto.json": "{\"save_version\": 1, \"seed\": \"0x00000000DEADBEEF\", \"map\": \"world\", \"player\": {\"hp\": 100, \"level\": 3}}",
+          "quick.json": "{\"save_version\": 1, \"seed\": \"0x00000000DEADBEEF\", \"map\": \"world\", \"player\": {\"hp\": 100, \"level\": 3}}",
+          "protagonist.txt": "base:protagonist/sakura",
+          "goal.txt": "8200 8150\n"
+        }
+      }
+    },
+    {
+      "name": "roundtrip_only_auto",
+      "input": {
+        "op": "roundtrip",
+        "files": {
+          "auto.json": "{\"save_version\": 1, \"seed\": \"0x00000000DEADBEEF\", \"map\": \"world\", \"player\": {\"hp\": 100, \"level\": 3}}"
+        }
+      },
+      "expect": {
+        "files": {
+          "auto.json": "{\"save_version\": 1, \"seed\": \"0x00000000DEADBEEF\", \"map\": \"world\", \"player\": {\"hp\": 100, \"level\": 3}}"
+        }
+      }
+    },
+    {
+      "name": "roundtrip_text_with_escapes",
+      "input": {
+        "op": "roundtrip",
+        "files": {
+          "auto.json": "{\"save_version\": 1, \"seed\": \"0x00000000DEADBEEF\", \"map\": \"world\", \"player\": {\"hp\": 100, \"level\": 3}}",
+          "protagonist.txt": "café \"quoted\" \\ back\nline\ttab ☃"
+        }
+      },
+      "expect": {
+        "files": {
+          "auto.json": "{\"save_version\": 1, \"seed\": \"0x00000000DEADBEEF\", \"map\": \"world\", \"player\": {\"hp\": 100, \"level\": 3}}",
+          "protagonist.txt": "café \"quoted\" \\ back\nline\ttab ☃"
+        }
+      }
+    },
+    {
+      "name": "roundtrip_drops_unknown_names",
+      "input": {
+        "op": "roundtrip",
+        "files": {
+          "auto.json": "{\"save_version\": 1, \"seed\": \"0x00000000DEADBEEF\", \"map\": \"world\", \"player\": {\"hp\": 100, \"level\": 3}}",
+          "notes.txt": "not packed"
+        }
+      },
+      "expect": {
+        "files": {
+          "auto.json": "{\"save_version\": 1, \"seed\": \"0x00000000DEADBEEF\", \"map\": \"world\", \"player\": {\"hp\": 100, \"level\": 3}}"
+        }
+      }
+    },
+    {
+      "name": "import_valid",
+      "input": {
+        "op": "import",
+        "text": "{\"aethersave\": 1, \"game_version\": \"0.0.1\", \"files\": {\"auto.json\": \"{\\\"save_version\\\": 1, \\\"seed\\\": \\\"0x00000000DEADBEEF\\\", \\\"map\\\": \\\"world\\\", \\\"player\\\": {\\\"hp\\\": 100, \\\"level\\\": 3}}\", \"protagonist.txt\": \"base:protagonist/ren\"}}"
+      },
+      "expect": {
+        "files": {
+          "auto.json": "{\"save_version\": 1, \"seed\": \"0x00000000DEADBEEF\", \"map\": \"world\", \"player\": {\"hp\": 100, \"level\": 3}}",
+          "protagonist.txt": "base:protagonist/ren"
+        }
+      }
+    },
+    {
+      "name": "import_valid_quick_only",
+      "input": {
+        "op": "import",
+        "text": "{\"aethersave\": 1, \"game_version\": \"0.0.1\", \"files\": {\"quick.json\": \"{\\\"save_version\\\": 1, \\\"seed\\\": \\\"0x00000000DEADBEEF\\\", \\\"map\\\": \\\"world\\\", \\\"player\\\": {\\\"hp\\\": 100, \\\"level\\\": 3}}\"}}"
+      },
+      "expect": {
+        "files": {
+          "quick.json": "{\"save_version\": 1, \"seed\": \"0x00000000DEADBEEF\", \"map\": \"world\", \"player\": {\"hp\": 100, \"level\": 3}}"
+        }
+      }
+    },
+    {
+      "name": "import_wrong_version",
+      "input": {
+        "op": "import",
+        "text": "{\"aethersave\": 2, \"game_version\": \"0.0.1\", \"files\": {\"auto.json\": \"{\\\"save_version\\\": 1, \\\"seed\\\": \\\"0x00000000DEADBEEF\\\", \\\"map\\\": \\\"world\\\", \\\"player\\\": {\\\"hp\\\": 100, \\\"level\\\": 3}}\"}}"
+      },
+      "expect": {
+        "files": null
+      }
+    },
+    {
+      "name": "import_version_not_a_number",
+      "input": {
+        "op": "import",
+        "text": "{\"aethersave\": \"1\", \"game_version\": \"0.0.1\", \"files\": {\"auto.json\": \"{\\\"save_version\\\": 1, \\\"seed\\\": \\\"0x00000000DEADBEEF\\\", \\\"map\\\": \\\"world\\\", \\\"player\\\": {\\\"hp\\\": 100, \\\"level\\\": 3}}\"}}"
+      },
+      "expect": {
+        "files": null
+      }
+    },
+    {
+      "name": "import_unknown_file",
+      "input": {
+        "op": "import",
+        "text": "{\"aethersave\": 1, \"game_version\": \"0.0.1\", \"files\": {\"auto.json\": \"{\\\"save_version\\\": 1, \\\"seed\\\": \\\"0x00000000DEADBEEF\\\", \\\"map\\\": \\\"world\\\", \\\"player\\\": {\\\"hp\\\": 100, \\\"level\\\": 3}}\", \"other.json\": \"{\\\"save_version\\\": 1, \\\"seed\\\": \\\"0x00000000DEADBEEF\\\", \\\"map\\\": \\\"world\\\", \\\"player\\\": {\\\"hp\\\": 100, \\\"level\\\": 3}}\"}}"
+      },
+      "expect": {
+        "files": null
+      }
+    },
+    {
+      "name": "import_path_traversal",
+      "input": {
+        "op": "import",
+        "text": "{\"aethersave\": 1, \"game_version\": \"0.0.1\", \"files\": {\"auto.json\": \"{\\\"save_version\\\": 1, \\\"seed\\\": \\\"0x00000000DEADBEEF\\\", \\\"map\\\": \\\"world\\\", \\\"player\\\": {\\\"hp\\\": 100, \\\"level\\\": 3}}\", \"../auto.json\": \"{\\\"save_version\\\": 1, \\\"seed\\\": \\\"0x00000000DEADBEEF\\\", \\\"map\\\": \\\"world\\\", \\\"player\\\": {\\\"hp\\\": 100, \\\"level\\\": 3}}\"}}"
+      },
+      "expect": {
+        "files": null
+      }
+    },
+    {
+      "name": "import_without_a_save",
+      "input": {
+        "op": "import",
+        "text": "{\"aethersave\": 1, \"game_version\": \"0.0.1\", \"files\": {\"protagonist.txt\": \"base:protagonist/ren\"}}"
+      },
+      "expect": {
+        "files": null
+      }
+    },
+    {
+      "name": "import_save_not_json",
+      "input": {
+        "op": "import",
+        "text": "{\"aethersave\": 1, \"game_version\": \"0.0.1\", \"files\": {\"auto.json\": \"not json\"}}"
+      },
+      "expect": {
+        "files": null
+      }
+    },
+    {
+      "name": "import_save_not_an_object",
+      "input": {
+        "op": "import",
+        "text": "{\"aethersave\": 1, \"game_version\": \"0.0.1\", \"files\": {\"auto.json\": \"[1, 2]\"}}"
+      },
+      "expect": {
+        "files": null
+      }
+    },
+    {
+      "name": "import_save_without_version",
+      "input": {
+        "op": "import",
+        "text": "{\"aethersave\": 1, \"game_version\": \"0.0.1\", \"files\": {\"auto.json\": \"{\\\"seed\\\": \\\"0x1\\\"}\"}}"
+      },
+      "expect": {
+        "files": null
+      }
+    },
+    {
+      "name": "import_file_not_a_string",
+      "input": {
+        "op": "import",
+        "text": "{\"aethersave\": 1, \"files\": {\"auto.json\": {\"a\": 1}}}"
+      },
+      "expect": {
+        "files": null
+      }
+    },
+    {
+      "name": "import_files_not_an_object",
+      "input": {
+        "op": "import",
+        "text": "{\"aethersave\": 1, \"files\": [1]}"
+      },
+      "expect": {
+        "files": null
+      }
+    },
+    {
+      "name": "import_not_json",
+      "input": {
+        "op": "import",
+        "text": "this is not a bundle"
+      },
+      "expect": {
+        "files": null
+      }
+    },
+    {
+      "name": "import_not_an_object",
+      "input": {
+        "op": "import",
+        "text": "[1]"
+      },
+      "expect": {
+        "files": null
+      }
+    }
+  ]
+}
