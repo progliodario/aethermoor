@@ -11,6 +11,7 @@
     "speed_x100": 270
   },
   "element": "earth",
+  "stagger_pct": 25,
   "sound": "knight",
   "weaknesses_pm": {
     "water": 1500
