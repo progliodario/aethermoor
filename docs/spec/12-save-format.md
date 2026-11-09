@@ -26,6 +26,20 @@ A game is a slot: its own world (its own seed), progress and saves. Three slots 
 - **Dev options.** Desktop `--slot=N` skips the title screen; `--smoke-test` uses its own folder and never touches the three slots.
 - **Back to the title.** Leaving a game (desktop: `Esc` with no panel open; Android: the Back key with no panel open, `Esc` on a keyboard) writes the `auto` save and returns to the title screen, where another game can be chosen; the world of the next game is built when it is chosen, from its own seed, and nothing of the previous world is kept (the map cells already seen are forgotten with it). With a panel open, Back closes the panel. On the title screen `Esc` or Back quits, and so does closing the window in a game. `--slot=N` and `--smoke-test` on desktop keep their one game and quit on `Esc`.
 
+## Export and import
+
+A game can be moved to another device or backed up as one file, a **bundle** (`.aethersave`): a JSON text
+`{"aethersave": 1, "game_version": "0.0.1", "files": {"auto.json": "<text>", "protagonist.txt": "<text>", ...}}`. `files` holds, as strings, the files of the slot
+with these names and no others: `auto.json`, `quick.json`, `protagonist.txt`, `goal.txt`. Exporting writes the files that exist (it leaves the others out).
+
+**Importing** takes a bundle and writes its files into an **empty** slot. A bundle is refused (nothing is written) when it is not JSON, is not an object, has no integer
+`aethersave` equal to 1, has no object `files`, has a file with another name (a name with a folder in it too), a file whose content is not a string, no `auto.json` and no
+`quick.json`, or a save that is not a JSON object with an integer `save_version`. The conformance suite `savebundle` covers these cases and the round trip.
+
+Desktop: on the title screen `X` exports the chosen game to `<user data>/exports/slot<N>.aethersave`, and `I` imports the file `<user data>/exports/import.aethersave` into the chosen game, if it
+is empty. Android: the format and the code are there (`SaveBundle.kt`), but the title screen has no buttons for it yet (parity debt: files cannot be reached from the app-private folder
+without a share or open dialog).
+
 ## Document
 
 ```json

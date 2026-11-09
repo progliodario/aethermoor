@@ -59,7 +59,7 @@ aether_target_options(aether_audio)
 
 # Simulation: tile maps, movement, collisions, the M2 world. Headless.
 add_library(aether_sim STATIC
-  src/sim/tilemap.cpp src/sim/movement.cpp src/sim/combat.cpp src/sim/story.cpp src/sim/save.cpp src/sim/combat_loader.cpp src/sim/world.cpp src/sim/world_map.cpp src/sim/chunk_store.cpp)
+  src/sim/tilemap.cpp src/sim/movement.cpp src/sim/combat.cpp src/sim/story.cpp src/sim/save.cpp src/sim/save_bundle.cpp src/sim/combat_loader.cpp src/sim/world.cpp src/sim/world_map.cpp src/sim/chunk_store.cpp)
 target_link_libraries(aether_sim PUBLIC aether_core aether_data PRIVATE nlohmann_json::nlohmann_json)
 aether_target_options(aether_sim)
 

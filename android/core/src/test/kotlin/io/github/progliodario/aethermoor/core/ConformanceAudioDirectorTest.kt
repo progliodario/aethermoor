@@ -13,6 +13,8 @@ import io.github.progliodario.aethermoor.core.audio.ambienceGains
 import io.github.progliodario.aethermoor.core.audio.parseMusic
 import io.github.progliodario.aethermoor.core.audio.parseMusicRules
 import io.github.progliodario.aethermoor.core.audio.renderMusic
+import io.github.progliodario.aethermoor.core.sim.exportBundle
+import io.github.progliodario.aethermoor.core.sim.importBundle
 import kotlin.math.abs
 import java.io.File
 import kotlinx.serialization.json.Json
@@ -200,6 +202,28 @@ class ConformanceAudioDirectorTest {
                 val wanted = c.getValue("expect").jsonObject.getValue("outputs").jsonArray[index].jsonObject
                 assertEquals(wanted.getValue("piece").jsonPrimitive.content, got.piece, "$label frame $index")
                 assertEquals(wanted.getValue("layers").jsonArray.map { it.jsonPrimitive.content }, got.layers, "$label frame $index")
+            }
+        }
+    }
+
+    @Test
+    fun saveBundleSuite() {
+        for (case in suite("savebundle")) {
+            val c = case.jsonObject
+            val label = c.getValue("name").jsonPrimitive.content
+            val input = c.getValue("input").jsonObject
+            val got =
+                if (input.getValue("op").jsonPrimitive.content == "import") {
+                    importBundle(input.getValue("text").jsonPrimitive.content)
+                } else {
+                    val files = input.getValue("files").jsonObject.mapValues { it.value.jsonPrimitive.content }
+                    importBundle(exportBundle(files, "0.0.1"))
+                }
+            val wantedElement = c.getValue("expect").jsonObject.getValue("files")
+            if (wantedElement is kotlinx.serialization.json.JsonNull) {
+                assertEquals(null, got, label)
+            } else {
+                assertEquals(wantedElement.jsonObject.mapValues { it.value.jsonPrimitive.content }, got, label)
             }
         }
     }
