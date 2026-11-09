@@ -94,6 +94,11 @@ The element multiplier `elem_mult_pm` of the damage formula (spec 04) is, for an
 A hit of element `none` is always `1000`. The numbers of the floating texts do not change; a client may mark a hit with a
 multiplier above 1000 (the desktop and Android clients add an exclamation mark).
 
+### The element of a skill
+
+A skill may have an element of its own (`damage.element` in its data). A hit of that skill uses it for the multiplier and for the status roll; a skill with `none` uses the element of the equipped weapon, as above.
+In the base pack the second skills have one: Dominion and Shadow Cut are of dark, Gale Strike of wind, Guard Slam of earth, Pressure Blast of fire, Arcane Burst of light; Power Strike and Autopsy Strike have none.
+
 ## Status effects
 
 A hit with a weapon that has an element (see "Elements") may leave a **status effect** on the creature that it did not kill, unless the creature is

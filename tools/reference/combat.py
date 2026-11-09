@@ -283,10 +283,17 @@ class CombatSim:
             target.state = DEAD
             self._on_kill(target)
 
+    def _hit_element(self) -> str:
+        """The element of the hit in progress (spec 05, "Elements"): the skill's own, or the weapon's when the skill has none."""
+        element = self.cur_skill.get("element", "none")
+        if element != "none":
+            return element
+        weapon = self.items.get(self.equipped["weapon"], {}).get("weapon") or {}
+        return weapon.get("element", "none")
+
     def _apply_status(self, enemy: _Enemy) -> None:
         """The status effect of a hit of the equipped weapon (spec 05, "Status effects"): a roll for every hit of an element, unless the creature is immune to it."""
-        weapon = self.items.get(self.equipped["weapon"], {}).get("weapon") or {}
-        element = weapon.get("element", "none")
+        element = self._hit_element()
         if element == "none" or self._elem_mult(enemy) == 0:
             return
         status, chance, ticks = STATUS_OF[element]
@@ -303,8 +310,7 @@ class CombatSim:
 
     def _elem_mult(self, enemy: _Enemy) -> int:
         """The element multiplier of a hit of the equipped weapon against an enemy (spec 05, "Elements")."""
-        weapon = self.items.get(self.equipped["weapon"], {}).get("weapon") or {}
-        element = weapon.get("element", "none")
+        element = self._hit_element()
         if element == "none":
             return 1000
         weaknesses = enemy.d.get("weaknesses_pm", {})

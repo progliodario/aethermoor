@@ -15,7 +15,7 @@
   },
   "damage": {
     "kind": "magical",
-    "element": "none",
+    "element": "light",
     "power_pct": 150
   },
   "tags": [

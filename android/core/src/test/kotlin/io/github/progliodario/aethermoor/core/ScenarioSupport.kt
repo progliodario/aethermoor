@@ -101,6 +101,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
             s.getValue("recovery").jsonPrimitive.int, s.getValue("cooldown").jsonPrimitive.int,
             s.long("power_pct"), s.getValue("radius_x100").jsonPrimitive.int, s.getValue("angle_deg").jsonPrimitive.int,
             s["kind"]?.jsonPrimitive?.content == "magical",
+            s["element"]?.jsonPrimitive?.content ?: "none",
         ),
         gift = input["gift"]?.jsonObject?.let { g ->
             fun pct(key: String, neutral: Int) = g[key]?.jsonPrimitive?.int ?: neutral
@@ -115,6 +116,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
                     d.getValue("recovery").jsonPrimitive.int, d.getValue("cooldown").jsonPrimitive.int,
                     d.long("power_pct"), d.getValue("radius_x100").jsonPrimitive.int, d.getValue("angle_deg").jsonPrimitive.int,
                     d["kind"]?.jsonPrimitive?.content == "magical",
+                    d["element"]?.jsonPrimitive?.content ?: "none",
                 ),
             )
         } ?: StrikeDef(),

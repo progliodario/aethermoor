@@ -278,6 +278,7 @@ private:
     void on_kill(Enemy& enemy);
     // The element multiplier of a hit of the equipped weapon against `target` (spec 05, "Elements").
     std::int64_t element_multiplier(const EnemyDef& target) const;
+    std::string hit_element() const;  // the element of the hit in progress: the skill's, or the weapon's
     // The roll for the status effect of the equipped weapon after a hit that left `enemy` alive (spec 05, "Status
     // effects").
     void apply_status(Enemy& enemy);

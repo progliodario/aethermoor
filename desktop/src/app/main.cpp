@@ -475,6 +475,17 @@ void draw_enemy(SDL_Renderer* renderer, aether::TextureCache& cache, const aethe
                   4.0F * k * 0.5F, 20, 20, 20, 200);
         fill_rect(renderer, feet_x - bar_w / 2.0F, feet_y - sprite->height * k - 6.0F * k * 0.5F, bar_w * ratio,
                   4.0F * k * 0.5F, 220, 70, 70, 255);
+        // The stagger bar (spec 05, "Stagger") under the health: yellow while it fills, white and emptying while the
+        // creature is broken.
+        const std::int64_t need = std::max<std::int64_t>(1, enemy.def.hp * enemy.def.stagger_pct / 100);
+        const float stagger = enemy.broken > 0 ? static_cast<float>(enemy.broken) / 120.0F
+                                               : static_cast<float>(enemy.stagger) / static_cast<float>(need);
+        if (enemy.def.stagger_pct > 0 && stagger > 0.0F) {
+            const float sy = feet_y - sprite->height * k - 1.5F * k * 0.5F;
+            fill_rect(renderer, feet_x - bar_w / 2.0F, sy, bar_w, 2.0F * k * 0.5F, 20, 20, 20, 200);
+            fill_rect(renderer, feet_x - bar_w / 2.0F, sy, bar_w * std::min(stagger, 1.0F), 2.0F * k * 0.5F, 255,
+                      enemy.broken > 0 ? 255 : 210, enemy.broken > 0 ? 255 : 80, 255);
+        }
     }
 }
 

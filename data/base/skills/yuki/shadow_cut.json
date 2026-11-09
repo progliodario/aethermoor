@@ -15,7 +15,7 @@
   },
   "damage": {
     "kind": "physical",
-    "element": "none",
+    "element": "dark",
     "power_pct": 210
   },
   "tags": [

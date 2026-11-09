@@ -15,7 +15,7 @@
   },
   "damage": {
     "kind": "physical",
-    "element": "none",
+    "element": "fire",
     "power_pct": 200
   },
   "tags": [
