@@ -664,6 +664,12 @@ Scenario scenario_from_json(const Json& in) {
     }
     sc.map.spawn_x = player.at("start").at(0).get<float>();
     sc.map.spawn_y = player.at("start").at(1).get<float>();
+    if (in.contains("gather_props")) {  // props that can be gathered from; they are also solid
+        for (const Json& g : in.at("gather_props")) {
+            sc.map.props.push_back({g.at("art").get<std::string>(), g.at("x").get<float>(), g.at("y").get<float>(),
+                                    g.at("radius").get<float>()});
+        }
+    }
     sc.tileset.tiles[1] = {"floor", false};
     sc.tileset.tiles[5] = {"wall", true};
 
@@ -723,6 +729,19 @@ Scenario scenario_from_json(const Json& in) {
     if (in.contains("inventory")) {
         for (const auto& [item, quantity] : in.at("inventory").items()) {
             setup.start_inventory[item] = quantity.get<std::int64_t>();
+        }
+    }
+    if (in.contains("gather_nodes")) {
+        for (const Json& n : in.at("gather_nodes")) {
+            aether::GatherNode node;
+            node.sound = n.at("sound").get<std::string>();
+            node.cooldown_ticks = n.at("cooldown_ticks").get<int>();
+            node.reach_x100 = n.at("reach_x100").get<int>();
+            for (const Json& d : n.at("drops")) {
+                node.drops.push_back({d.at("item").get<std::string>(), integer(d, "qty_min"), integer(d, "qty_max"),
+                                      integer(d, "weight_pm")});
+            }
+            setup.gather_nodes[n.at("prop").get<std::string>()] = std::move(node);
         }
     }
     if (in.contains("items")) {
@@ -787,6 +806,8 @@ void run_segment(aether::WorldSim& sim, const Json& segment) {
                 sim.story().start_quest(command.at("quest").get<std::string>());
             } else if (cmd == "use") {
                 sim.use_item(command.at("item").get<std::string>());
+            } else if (cmd == "gather") {
+                sim.gather();
             } else if (cmd == "equip") {
                 sim.equip(command.at("item").get<std::string>());
             } else if (cmd == "buy") {

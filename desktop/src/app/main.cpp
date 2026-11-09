@@ -1378,6 +1378,18 @@ void activate_dialogue(aether::WorldSim& sim, Ui& ui) {
         if (story.npc_in_range() == nullptr && sim.use_stone()) {  // a Threshold Stone (spec 09)
             const aether::WorldSim::Travel* travel = sim.travel();
             ui.travel_cursor = travel->here == 0 && travel->stops.size() > 1 ? 1 : 0;
+        } else if (story.npc_in_range() == nullptr) {  // a prop to gather from (spec 06, "Gathering")
+            const aether::WorldSim::GatherResult found = sim.gather();
+            if (found.node) {
+                std::string list;
+                for (const auto& [item, qty] : found.items) {
+                    const std::string key = "$i18n:item." + item.substr(item.rfind('/') + 1) + ".name";
+                    list += (list.empty() ? "" : ", ") + assets.pack.text(ui.lang, key, {{"count", qty}}) + " x" +
+                            std::to_string(qty);
+                }
+                notify(ui, list.empty() ? assets.pack.text(ui.lang, "$i18n:ui.gather_nothing")
+                                        : assets.pack.text(ui.lang, "$i18n:ui.gathered", {{"items", list}}));
+            }
         } else {
             story.interact();
         }

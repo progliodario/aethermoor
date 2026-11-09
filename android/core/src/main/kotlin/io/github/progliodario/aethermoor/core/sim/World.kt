@@ -3,6 +3,9 @@ package io.github.progliodario.aethermoor.core.sim
 import io.github.progliodario.aethermoor.core.DamageInput
 import io.github.progliodario.aethermoor.core.DerivedStats
 import io.github.progliodario.aethermoor.core.Equipment
+import io.github.progliodario.aethermoor.core.fnv1a64
+import io.github.progliodario.aethermoor.core.hash64
+import io.github.progliodario.aethermoor.core.mix64
 import io.github.progliodario.aethermoor.core.Offer
 import io.github.progliodario.aethermoor.core.Settlement
 import io.github.progliodario.aethermoor.core.TimeSample
@@ -206,6 +209,7 @@ class WorldSim(
     private var windowY = 0
     private val events = ArrayList<DamageEvent>()
     private val cues = ArrayList<SimCue>()
+    private val gathered = HashMap<Pair<Int, Int>, Pair<Long, Int>>() // (x100, y100) -> (tick it grows back, times); not saved
 
     val story = Story(combat.story, this)
 
@@ -544,6 +548,60 @@ class WorldSim(
     }
 
     /** Events produced since the last call (damage numbers). */
+    /** What gathering gave: [node] tells that there was something to gather from; [sound] is plant, wood or stone. */
+    class GatherResult(val node: Boolean, val sound: String, val items: List<Pair<String, Long>>)
+
+    private class Gatherable(val node: GatherNode, val x: Float, val y: Float)
+
+    /** The nearest prop in reach that can be gathered from and has grown back, or null (spec 06, "Gathering"). */
+    private fun findGatherable(): Gatherable? {
+        if (story.dialogueActive || combat.gatherNodes.isEmpty()) return null
+        val p = player
+        var best: Gatherable? = null
+        var bestD = 0f
+        val far = 4.5f // the largest reach plus a prop's radius
+        forEachProp(p.position.x - far, p.position.y - far, p.position.x + far, p.position.y + far) { prop ->
+            val node = combat.gatherNodes[prop.art] ?: return@forEachProp
+            val d = sqrt((prop.x - p.position.x) * (prop.x - p.position.x) + (prop.y - p.position.y) * (prop.y - p.position.y))
+            if (d > node.reachX100.toFloat() / 100f + prop.radius) return@forEachProp
+            val key = Pair(floor(prop.x * 100f + 0.5f).toInt(), floor(prop.y * 100f + 0.5f).toInt())
+            val grown = gathered[key]
+            if (grown != null && worldTicks < grown.first) return@forEachProp
+            val current = best
+            if (current == null || d < bestD || (d == bestD && (prop.x < current.x || (prop.x == current.x && prop.y < current.y)))) {
+                best = Gatherable(node, prop.x, prop.y)
+                bestD = d
+            }
+        }
+        return best
+    }
+
+    /** Whether there is something to gather from near the player (the touch button of the interface). */
+    fun gatherNear(): Boolean = findGatherable() != null
+
+    /** Gathers from the nearest prop in reach that can be gathered from; the items found are added to the bag (spec 06, "Gathering"). */
+    fun gather(): GatherResult {
+        val found = findGatherable() ?: return GatherResult(false, "", emptyList())
+        val p = player
+        val node = found.node
+        val bestX = found.x
+        val bestY = found.y
+        val key = Pair(floor(bestX * 100f + 0.5f).toInt(), floor(bestY * 100f + 0.5f).toInt())
+        val times = gathered[key]?.second ?: 0
+        val h = hash64(fnv1a64("gather") xor combat.seed, key.first.toLong(), key.second.toLong(), times.toLong())
+        val got = ArrayList<Pair<String, Long>>()
+        for ((i, drop) in node.drops.withIndex()) {
+            if (mix64(h + (2 * i).toULong()) % 1000uL < drop.weightPm.toULong()) {
+                val qty = drop.qtyMin + (mix64(h + (2 * i + 1).toULong()) % (drop.qtyMax - drop.qtyMin + 1).toULong()).toLong()
+                inventory[drop.item] = (inventory[drop.item] ?: 0L) + qty
+                got.add(Pair(drop.item, qty))
+            }
+        }
+        gathered[key] = Pair(worldTicks + node.cooldownTicks, times + 1)
+        cues.add(SimCue("gather", node.sound, p.position))
+        return GatherResult(true, node.sound, got)
+    }
+
     fun takeCues(): List<SimCue> {
         val copy = ArrayList(cues)
         cues.clear()

@@ -125,6 +125,22 @@
             ]
           },
           {
+            "cues": [
+              {
+                "kind": "gather",
+                "family": "plant",
+                "x": 10.0,
+                "y": 10.0
+              },
+              {
+                "kind": "gather",
+                "family": "stone",
+                "x": 10.0,
+                "y": 10.0
+              }
+            ]
+          },
+          {
             "player": {
               "dodge": true
             }
@@ -205,6 +221,16 @@
           [
             {
               "event": "player.parry",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "gather.plant",
+              "volume_pm": 1000
+            },
+            {
+              "event": "gather.stone",
               "volume_pm": 1000
             }
           ],

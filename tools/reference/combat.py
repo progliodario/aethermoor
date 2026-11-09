@@ -57,6 +57,13 @@ class CombatSim:
         if story_setup:
             self.props += [(n["pos"][0], n["pos"][1], NPC_RADIUS) for n in story_setup["npcs"]]
         seed = int(scenario["seed"], 16)
+        self.seed = seed
+        # Gathering (spec 06, "Gathering"): the nodes by prop art, the props that can be gathered from, and what is gathered: (x100, y100) -> (tick it grows back, times)
+        self.gather_nodes = {n["prop"]: n for n in scenario.get("gather_nodes", [])}
+        self.gather_props = [(g["art"], g["x"], g["y"], g["radius"]) for g in scenario.get("gather_props", [])]
+        self.props += [(x, y, r) for _, x, y, r in self.gather_props]
+        self.gathered: dict[tuple[int, int], tuple[int, int]] = {}
+        self.world_ticks = 0
         self.combat = nm.derive_stream(seed, "combat")
         self.loot = nm.derive_stream(seed, "loot")
         pl = scenario["player"]
@@ -122,6 +129,7 @@ class CombatSim:
     # --------------------------------------------------------------------------------- tick
 
     def tick(self, raw_x: float, raw_y: float, attack: bool, dodge: bool = False, strike: bool = False, parry: bool = False) -> None:
+        self.world_ticks += 1
         if self.story is not None and self.story.dialogue_active:
             raw_x, raw_y, attack, dodge, strike, parry = 0.0, 0.0, False, False, False, False
         if self.iframes > 0:
@@ -379,6 +387,39 @@ class CombatSim:
 
     # ---------------------------------------------------------------------------------- saves
 
+    def gather(self) -> list[tuple[str, int]] | None:
+        """Gathers from the nearest prop that can be gathered from within reach (spec 06, "Gathering"). None: nothing to gather here, or it has not grown back;
+        otherwise the items found (possibly none), which are added to the bag."""
+        if self.story is not None and self.story.dialogue_active:
+            return None
+        best = None
+        for art, x, y, radius in self.gather_props:
+            node = self.gather_nodes.get(art)
+            if node is None:
+                continue
+            dist = math.sqrt((x - self.x) ** 2 + (y - self.y) ** 2)
+            if dist > node["reach_x100"] / 100 + radius:
+                continue
+            key = (math.floor(x * 100 + 0.5), math.floor(y * 100 + 0.5))
+            if key in self.gathered and self.world_ticks < self.gathered[key][0]:
+                continue
+            candidate = (dist, x, y, key, node)
+            if best is None or candidate[:3] < best[:3]:
+                best = candidate
+        if best is None:
+            return None
+        _, _, _, key, node = best
+        times = self.gathered.get(key, (0, 0))[1]
+        h = nm.hash64(nm.fnv1a64(b"gather") ^ self.seed, key[0], key[1], times)
+        found = []
+        for i, drop in enumerate(node["drops"]):
+            if nm.mix64((h + 2 * i) & 0xFFFFFFFFFFFFFFFF) % 1000 < drop["weight_pm"]:
+                qty = drop["qty_min"] + nm.mix64((h + 2 * i + 1) & 0xFFFFFFFFFFFFFFFF) % (drop["qty_max"] - drop["qty_min"] + 1)
+                found.append((drop["item"], qty))
+                self.inventory[drop["item"]] = self.inventory.get(drop["item"], 0) + qty
+        self.gathered[key] = (self.world_ticks + node["cooldown_ticks"], times + 1)
+        return found
+
     def use_item(self, item_id: str) -> bool:
         """Uses one item of the inventory (docs/spec/06-items.md). Returns False, changing nothing, when it is refused."""
         if self.story is not None and self.story.dialogue_active:
@@ -529,6 +570,9 @@ def run_segment(sim: CombatSim, segment: dict) -> None:
             continue
         if command["cmd"] in ("equip", "buy", "sell"):
             getattr(sim, command["cmd"])(command["item"])
+            continue
+        if command["cmd"] == "gather":
+            sim.gather()
             continue
         if command["cmd"] == "start_quest":
             sim.story.start_quest(command["quest"])

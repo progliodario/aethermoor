@@ -27,6 +27,8 @@ std::vector<SoundEvent> SoundDirector::update(const SoundSnapshot& s) {
             emit("player.hurt");
         } else if (cue.kind == "parry") {
             emit("player.parry");
+        } else if (cue.kind == "gather") {
+            emit("gather." + cue.family);
         } else if (volume >= kMinAudiblePm) {
             emit("enemy." + cue.family + "." + cue.kind, volume);
         }

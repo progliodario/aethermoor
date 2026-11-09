@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/gather_wood",
+  "duration_ms": 220,
+  "volume_pm": 650,
+  "layers": [
+    {
+      "wave": "triangle",
+      "freq_start": 260,
+      "freq_end": 150,
+      "volume_pm": 600,
+      "attack_ms": 0,
+      "decay_ms": 120
+    },
+    {
+      "wave": "noise",
+      "freq_start": 2000,
+      "freq_end": 500,
+      "volume_pm": 450,
+      "attack_ms": 0,
+      "decay_ms": 80
+    },
+    {
+      "wave": "noise",
+      "freq_start": 3500,
+      "freq_end": 1500,
+      "volume_pm": 250,
+      "attack_ms": 90,
+      "decay_ms": 100
+    }
+  ]
+}

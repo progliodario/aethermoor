@@ -229,6 +229,14 @@ public:
     std::int64_t sell_price(const std::string& item_id) const;
     // Uses one item of the inventory (spec 06). Returns false, changing nothing, when it is refused.
     bool use_item(const std::string& item_id);
+    // Gathering (spec 06, "Gathering"): the items found at the nearest prop in reach that can be gathered from, which
+    // are added to the bag.
+    struct GatherResult {
+        bool node = false;  // there was something to gather from
+        std::string sound;  // plant, wood or stone
+        std::vector<std::pair<std::string, std::int64_t>> items;
+    };
+    GatherResult gather();
     const Story& story() const { return m_story_; }
 
     SaveState capture() const;
@@ -296,6 +304,8 @@ private:
     std::map<std::string, std::int64_t> m_inventory_;
     std::vector<DamageEvent> m_events_;
     std::vector<SimCue> m_cues_;
+    std::map<std::pair<int, int>, std::pair<std::int64_t, int>>
+        m_gathered_;  // (x100, y100) -> (tick it grows back, times); not saved
     Story m_story_;
     bool m_window_valid_ = false;
     int m_window_x_ = 0;  // chunk of the player the enemies were synchronized for

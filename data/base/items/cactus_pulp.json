@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/cactus_pulp",
+  "name": "$i18n:item.cactus_pulp.name",
+  "description": "$i18n:item.cactus_pulp.desc",
+  "kind": "food",
+  "rarity": "common",
+  "price": 3,
+  "stack_max": 99,
+  "use": {
+    "effects": [
+      {
+        "effect": "heal",
+        "amount": 8
+      }
+    ]
+  }
+}

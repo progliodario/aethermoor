@@ -146,6 +146,8 @@ class MusicDirector:
     def update(self, ctx: dict) -> dict:
         frame = ctx["frame"]
         for cue in ctx["cues"]:
+            if cue["kind"] == "gather":
+                continue
             near = math.hypot(cue["x"] - ctx["x"], cue["y"] - ctx["y"]) <= FIGHT_RANGE_TILES
             if cue["kind"] in ("hit", "hurt") or near:
                 self.last_fight = frame
