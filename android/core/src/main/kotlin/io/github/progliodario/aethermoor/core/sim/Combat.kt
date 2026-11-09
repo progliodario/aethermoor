@@ -97,6 +97,12 @@ class ArmorStats(val def: Long, val mdef: Long)
 /** What a shop sells: prices in permille of the base price. */
 class ShopDef(val pricePm: Int, val stock: List<String>)
 
+/** A prop that can be gathered from (spec 06, "Gathering"). */
+class GatherDrop(val item: String, val qtyMin: Long, val qtyMax: Long, val weightPm: Long)
+
+/** [sound]: plant, wood or stone, the sound of gathering. */
+class GatherNode(val sound: String, val cooldownTicks: Int, val reachX100: Int, val drops: List<GatherDrop>)
+
 class CombatSetup(
     val enabled: Boolean = false,
     val player: PlayerSetup = PlayerSetup(),
@@ -111,6 +117,8 @@ class CombatSetup(
     val startInventory: Map<String, Long> = emptyMap(),
     /** The enemies of the fauna of a streamed world, by ID. */
     val streamEnemies: Map<String, EnemyDef> = emptyMap(),
+    /** The props that can be gathered from, by art ID (spec 06, "Gathering"). */
+    val gatherNodes: Map<String, GatherNode> = emptyMap(),
     /** Items with a `use` block, by item ID (spec 06). */
     val items: Map<String, ItemDef> = emptyMap(),
     /** The weapon and the armor worn in a new game (item ids, or empty). */

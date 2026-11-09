@@ -125,6 +125,8 @@
   "ui.dodge": "Dodge",
   "ui.strike": "Strike",
   "ui.parry": "Parry",
+  "ui.gathered": "Gathered: {items}",
+  "ui.gather_nothing": "You find nothing this time",
   "ui.analyze_title": "{name}   Lv {level}",
   "ui.analyze_stats": "HP {hp}/{max}   Atk {atk}   Def {def}",
   "ui.analyze_drops": "Drops: {items}",

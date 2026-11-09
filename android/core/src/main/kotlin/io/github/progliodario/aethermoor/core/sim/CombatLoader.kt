@@ -17,6 +17,24 @@ private fun document(pack: Pack, id: String): JsonObject {
     return Json.parseToJsonElement(text).jsonObject
 }
 
+/** The props that can be gathered from (spec 06, "Gathering"); none when the pack has no table. */
+private fun loadGatherNodes(pack: Pack): Map<String, GatherNode> {
+    val text = pack.readDocument("base:gathering/nodes") ?: return emptyMap()
+    val nodes = Json.parseToJsonElement(text).jsonObject["nodes"]?.jsonArray ?: return emptyMap()
+    return nodes.associate { element ->
+        val n = element.jsonObject
+        n.getValue("prop").jsonPrimitive.content to GatherNode(
+            sound = n["sound"]?.jsonPrimitive?.content ?: "plant",
+            cooldownTicks = n.getValue("cooldown_ticks").jsonPrimitive.int,
+            reachX100 = n.getValue("reach_x100").jsonPrimitive.int,
+            drops = n.getValue("drops").jsonArray.map {
+                val d = it.jsonObject
+                GatherDrop(d.getValue("item").jsonPrimitive.content, d.getValue("qty_min").jsonPrimitive.long, d.getValue("qty_max").jsonPrimitive.long, d.getValue("weight_pm").jsonPrimitive.long)
+            },
+        )
+    }
+}
+
 /** One enemy document with its behavior (used by streamed worlds, which have no spawner list). */
 fun loadEnemyDef(pack: Pack, id: String): Result<EnemyDef> = runCatching { loadEnemy(pack, id) }
 
@@ -199,6 +217,7 @@ fun loadCombatSetup(
                 def.copy(hp = maxOf(1L, def.hp * enemyHpPct / 100), atk = def.atk * enemyAtkPct / 100)
             },
             items = items,
+            gatherNodes = loadGatherNodes(pack),
             startWeapon = startWeapon,
         )
     }

@@ -9,6 +9,9 @@ import io.github.progliodario.aethermoor.core.sim.StrikeDef
 import io.github.progliodario.aethermoor.core.sim.DropDef
 import io.github.progliodario.aethermoor.core.sim.EnemyDef
 import io.github.progliodario.aethermoor.core.sim.EnemySpawn
+import io.github.progliodario.aethermoor.core.sim.GatherDrop
+import io.github.progliodario.aethermoor.core.sim.GatherNode
+import io.github.progliodario.aethermoor.core.sim.Prop
 import io.github.progliodario.aethermoor.core.sim.ItemDef
 import io.github.progliodario.aethermoor.core.sim.ItemEffect
 import io.github.progliodario.aethermoor.core.sim.PlayerSetup
@@ -76,7 +79,11 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
     val rows = input.getValue("grid").jsonArray.map { it.jsonPrimitive.content }
     val ground = IntArray(rows.size * rows[0].length) { if (rows[it / rows[0].length][it % rows[0].length] == '#') 5 else 1 }
     val start = player.getValue("start").jsonArray
-    val map = TileMap(rows[0].length, rows.size, "", ground, start[0].num(), start[1].num(), emptyList())
+    val gatherProps = input["gather_props"]?.jsonArray?.map { g ->
+        val o = g.jsonObject
+        Prop(o.getValue("art").jsonPrimitive.content, o.getValue("x").num(), o.getValue("y").num(), o.getValue("radius").num())
+    } ?: emptyList()
+    val map = TileMap(rows[0].length, rows.size, "", ground, start[0].num(), start[1].num(), gatherProps)
     val tileset = Tileset("", mapOf(1 to TileDef("floor", false), 5 to TileDef("wall", true)))
     val s = input.getValue("skill").jsonObject
     val combat = CombatSetup(
@@ -126,6 +133,13 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         startLevel = player.getValue("level").jsonPrimitive.int,
         story = input["story"]?.let { parseStorySetup(it) } ?: StorySetup(),
         startInventory = input["inventory"]?.jsonObject?.mapValues { it.value.jsonPrimitive.long } ?: emptyMap(),
+        gatherNodes = input["gather_nodes"]?.jsonArray?.associate { n ->
+            val o = n.jsonObject
+            o.getValue("prop").jsonPrimitive.content to GatherNode(
+                o.getValue("sound").jsonPrimitive.content, o.getValue("cooldown_ticks").jsonPrimitive.int, o.getValue("reach_x100").jsonPrimitive.int,
+                o.getValue("drops").jsonArray.map { d -> val x = d.jsonObject; GatherDrop(x.getValue("item").jsonPrimitive.content, x.long("qty_min"), x.long("qty_max"), x.long("weight_pm")) },
+            )
+        } ?: emptyMap(),
         items = input["items"]?.jsonObject?.mapValues { (_, def) ->
             val d = def.jsonObject
             ItemDef(
@@ -163,6 +177,7 @@ internal fun runSegment(sim: WorldSim, segment: JsonObject) {
         when (cmd.getValue("cmd").jsonPrimitive.content) {
             "start_quest" -> sim.story.startQuest(cmd.getValue("quest").jsonPrimitive.content)
             "use" -> sim.useItem(cmd.getValue("item").jsonPrimitive.content)
+            "gather" -> sim.gather()
             "equip" -> sim.equip(cmd.getValue("item").jsonPrimitive.content)
             "buy" -> sim.buy(cmd.getValue("item").jsonPrimitive.content)
             "sell" -> sim.sell(cmd.getValue("item").jsonPrimitive.content)

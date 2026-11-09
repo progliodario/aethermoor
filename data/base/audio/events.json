@@ -44,6 +44,24 @@
       ],
       "volume_pm": 1000
     },
+    "gather.plant": {
+      "sounds": [
+        "gather_plant"
+      ],
+      "volume_pm": 900
+    },
+    "gather.wood": {
+      "sounds": [
+        "gather_wood"
+      ],
+      "volume_pm": 900
+    },
+    "gather.stone": {
+      "sounds": [
+        "gather_stone"
+      ],
+      "volume_pm": 900
+    },
     "crit": {
       "sounds": [
         "crit"

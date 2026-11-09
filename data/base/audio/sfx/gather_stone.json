@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/gather_stone",
+  "duration_ms": 200,
+  "volume_pm": 650,
+  "layers": [
+    {
+      "wave": "square",
+      "freq_start": 900,
+      "freq_end": 600,
+      "volume_pm": 350,
+      "attack_ms": 0,
+      "decay_ms": 90,
+      "duty_pm": 300
+    },
+    {
+      "wave": "noise",
+      "freq_start": 3000,
+      "freq_end": 900,
+      "volume_pm": 450,
+      "attack_ms": 0,
+      "decay_ms": 70
+    },
+    {
+      "wave": "triangle",
+      "freq_start": 1400,
+      "freq_end": 1100,
+      "volume_pm": 250,
+      "attack_ms": 0,
+      "decay_ms": 160
+    }
+  ]
+}

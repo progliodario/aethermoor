@@ -259,6 +259,24 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
         }
     }
 
+    if (const auto nodes =
+            pack.read_document("base:gathering/nodes")) {  // the props that can be gathered from (spec 06)
+        const Json parsed = Json::parse(*nodes, nullptr, /*allow_exceptions=*/false);
+        if (!parsed.is_discarded() && parsed.contains("nodes")) {
+            for (const Json& n : parsed.at("nodes")) {
+                GatherNode node;
+                node.sound = n.value("sound", "plant");
+                node.cooldown_ticks = n.at("cooldown_ticks").get<int>();
+                node.reach_x100 = n.at("reach_x100").get<int>();
+                for (const Json& d : n.at("drops")) {
+                    node.drops.push_back({d.at("item").get<std::string>(), d.at("qty_min").get<std::int64_t>(),
+                                          d.at("qty_max").get<std::int64_t>(), d.at("weight_pm").get<std::int64_t>()});
+                }
+                setup.gather_nodes[n.at("prop").get<std::string>()] = std::move(node);
+            }
+        }
+    }
+
     std::map<std::string, EnemyDef> cache;
     for (const SpawnPoint& spawn : map.spawners) {
         auto found = cache.find(spawn.enemy);

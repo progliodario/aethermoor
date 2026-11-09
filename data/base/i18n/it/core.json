@@ -125,6 +125,8 @@
   "ui.dodge": "Schiva",
   "ui.strike": "Colpo",
   "ui.parry": "Para",
+  "ui.gathered": "Raccolto: {items}",
+  "ui.gather_nothing": "Stavolta non trovi nulla",
   "ui.analyze_title": "{name}   Liv. {level}",
   "ui.analyze_stats": "PV {hp}/{max}   Att {atk}   Dif {def}",
   "ui.analyze_drops": "Bottino: {items}",

@@ -122,6 +122,21 @@ struct ShopDef {
     std::vector<std::string> stock;
 };
 
+// A prop that can be gathered from (spec 06, "Gathering").
+struct GatherDrop {
+    std::string item;
+    std::int64_t qty_min = 1;
+    std::int64_t qty_max = 1;
+    std::int64_t weight_pm = 0;
+};
+
+struct GatherNode {
+    std::string sound;  // plant, wood or stone: the sound of gathering
+    int cooldown_ticks = 0;
+    int reach_x100 = 150;
+    std::vector<GatherDrop> drops;
+};
+
 struct CombatSetup {
     bool enabled = false;
     PlayerSetup player;
@@ -140,6 +155,7 @@ struct CombatSetup {
     std::string start_armor;                              // the armor worn in a new game (an item ID, or empty)
     std::optional<ShopDef> shop;  // the shop of fixed maps and scenarios (streamed worlds use their regions)
     std::map<std::string, EnemyDef> stream_enemies;  // the enemies of the fauna of a streamed world, by ID
+    std::map<std::string, GatherNode> gather_nodes;  // the props that can be gathered from, by art ID
 };
 
 enum class AttackPhase { None, Startup, Active, Recovery };

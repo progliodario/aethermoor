@@ -1078,12 +1078,21 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (!story.dialogueView().active && story.npcInRange() == null && world.useStone()) {
             val travel = world.travel
             travelCursor = if (travel != null && travel.here == 0 && travel.stops.size > 1) 1 else 0
+        } else if (story.npcInRange() == null && !story.dialogueView().active) { // a prop to gather from (spec 06, "Gathering")
+            val pack = assets?.pack ?: return
+            val found = world.gather()
+            if (found.node) {
+                val list = found.items.joinToString(", ") { (item, qty) ->
+                    pack.text(language, "\$i18n:${item.substringAfter(':').replace('/', '.')}.name", mapOf("count" to qty)) + " x$qty"
+                }
+                showNotice(if (list.isEmpty()) pack.text(language, "\$i18n:ui.gather_nothing") else pack.text(language, "\$i18n:ui.gathered", mapOf("items" to list)))
+            }
         } else {
             story.interact()
         }
     }
 
-    private fun canInteract(world: WorldSim) = world.story.npcInRange() != null || world.stoneNear() != null
+    private fun canInteract(world: WorldSim) = world.story.npcInRange() != null || world.stoneNear() != null || world.gatherNear()
 
     private fun travelConfirm(world: WorldSim) {
         val pack = assets?.pack ?: return

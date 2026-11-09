@@ -8,6 +8,23 @@ Item data: `data/base/items/*.json` (`schemas/item.schema.json`). Accessories an
 
 The inventory is a map from item ID to a positive quantity (spec 12); an item whose quantity reaches 0 is removed. Clients list it ordered by ID.
 
+## Gathering
+
+The props of the world that look like something can be **gathered from**: pressing `E` (the interact button) with nobody to talk to and no Threshold Stone in reach picks the nearest of them.
+The table is `data/base/gathering.json` (schema `gathering`): for each prop art ID, the `sound` of gathering (`plant`, `wood` or `stone`), a `cooldown_ticks`, a `reach_x100`
+(how far from the prop the player may be, besides the radius of the prop) and `drops`. The base pack has the bush (berries, healing herbs), the oak and the pine (logs, resin, dry branches),
+the dead tree, the rock (stone, a little iron ore) and the cactus (pulp). The materials are items of kind `material` or `food`.
+
+- The prop is the nearest of those whose distance from the player is at most `reach + radius` and that have grown back (ties: the smaller `x`, then the smaller `y`). Dialogues refuse it.
+- A prop is identified by `(x100, y100) = floor(x * 100 + 0.5), floor(y * 100 + 0.5)` of its feet. The game keeps, for each prop gathered from, the tick when it grows back
+  (`world tick + cooldown_ticks`) and how many times it has been gathered (`times`). A prop that has not grown back is not picked.
+- **What is found** is decided without a random stream, from the seed, the prop and `times`: `h = hash64(fnv1a64("gather") xor seed, x100, y100, times)` (spec 01), and the draw `j` is
+  `mix64((h + j) mod 2^64)`. For the drops in order, with index `i`: the drop is found when `draw(2 i) mod 1000 < weight_pm`, and then its quantity is
+  `qty_min + draw(2 i + 1) mod (qty_max - qty_min + 1)`. The items go into the bag at once. A gathering that finds nothing still uses the prop up.
+- The state of what was gathered is **not saved**: after loading a game the props are as if they had grown back.
+- Presentation: a message with the items, and the sound `gather.<sound>` (the creature cue `gather`, spec 14). The conformance scenario `gather_nodes` covers the nearest prop, the cooldown, the reach and
+  the draws.
+
 ## Using an item
 
 `use_item(id)` returns whether the item was used. It is refused (nothing changes) when:

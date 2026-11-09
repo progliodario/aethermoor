@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/iron_ore",
+  "name": "$i18n:item.iron_ore.name",
+  "description": "$i18n:item.iron_ore.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 12,
+  "stack_max": 99
+}

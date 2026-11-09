@@ -1,0 +1,114 @@
+{
+  "$schema": "../../schemas/gathering.schema.json",
+  "id": "base:gathering/nodes",
+  "nodes": [
+    {
+      "prop": "base:art/prop/bush",
+      "sound": "plant",
+      "cooldown_ticks": 7200,
+      "reach_x100": 150,
+      "drops": [
+        {
+          "item": "base:item/wild_berries",
+          "qty_min": 1,
+          "qty_max": 3,
+          "weight_pm": 800
+        },
+        {
+          "item": "base:item/healing_herb",
+          "qty_min": 1,
+          "qty_max": 2,
+          "weight_pm": 300
+        }
+      ]
+    },
+    {
+      "prop": "base:art/prop/tree_oak",
+      "sound": "wood",
+      "cooldown_ticks": 10800,
+      "reach_x100": 150,
+      "drops": [
+        {
+          "item": "base:item/wood_log",
+          "qty_min": 1,
+          "qty_max": 2,
+          "weight_pm": 1000
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty_min": 1,
+          "qty_max": 1,
+          "weight_pm": 400
+        }
+      ]
+    },
+    {
+      "prop": "base:art/prop/pine",
+      "sound": "wood",
+      "cooldown_ticks": 10800,
+      "reach_x100": 150,
+      "drops": [
+        {
+          "item": "base:item/wood_log",
+          "qty_min": 1,
+          "qty_max": 2,
+          "weight_pm": 900
+        },
+        {
+          "item": "base:item/pine_resin",
+          "qty_min": 1,
+          "qty_max": 1,
+          "weight_pm": 500
+        }
+      ]
+    },
+    {
+      "prop": "base:art/prop/dead_tree",
+      "sound": "wood",
+      "cooldown_ticks": 9000,
+      "reach_x100": 150,
+      "drops": [
+        {
+          "item": "base:item/dry_branch",
+          "qty_min": 1,
+          "qty_max": 3,
+          "weight_pm": 1000
+        }
+      ]
+    },
+    {
+      "prop": "base:art/prop/rock",
+      "sound": "stone",
+      "cooldown_ticks": 12600,
+      "reach_x100": 150,
+      "drops": [
+        {
+          "item": "base:item/stone_chunk",
+          "qty_min": 1,
+          "qty_max": 2,
+          "weight_pm": 1000
+        },
+        {
+          "item": "base:item/iron_ore",
+          "qty_min": 1,
+          "qty_max": 1,
+          "weight_pm": 150
+        }
+      ]
+    },
+    {
+      "prop": "base:art/prop/cactus",
+      "sound": "plant",
+      "cooldown_ticks": 9000,
+      "reach_x100": 150,
+      "drops": [
+        {
+          "item": "base:item/cactus_pulp",
+          "qty_min": 1,
+          "qty_max": 2,
+          "weight_pm": 900
+        }
+      ]
+    }
+  ]
+}

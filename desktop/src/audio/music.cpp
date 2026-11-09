@@ -318,6 +318,9 @@ std::optional<MusicRules> parse_music_rules(std::string_view json_text, std::str
 
 MusicChoice MusicDirector::update(const MusicContext& ctx) {
     for (const SoundCue& cue : ctx.cues) {
+        if (cue.kind == "gather") {
+            continue;
+        }
         const bool near = std::hypot(cue.x - ctx.x, cue.y - ctx.y) <= kFightRangeTiles;
         if (cue.kind == "hit" || cue.kind == "hurt" || near) {
             m_last_fight_ = ctx.frame;

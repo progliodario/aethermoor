@@ -39,6 +39,8 @@ class Director:
                 emit("player.hurt")
             elif kind == "parry":
                 emit("player.parry")
+            elif kind == "gather":
+                emit(f"gather.{cue['family']}")
             elif volume >= MIN_AUDIBLE_PM:
                 emit(f"enemy.{cue['family']}.{kind}", volume)
             if kind == "hit":

@@ -53,6 +53,18 @@ ITEMS = {
     "base:item/chain_mail": {"kind": "armor", "price": 300, "armor": {"def": 5, "mdef": 2}},
 }
 BREAD = ITEMS
+GATHER_NODES = [
+    {"prop": "base:art/prop/bush", "sound": "plant", "cooldown_ticks": 60, "reach_x100": 150,
+     "drops": [{"item": "base:item/wild_berries", "qty_min": 1, "qty_max": 3, "weight_pm": 800}, {"item": "base:item/healing_herb", "qty_min": 1, "qty_max": 2, "weight_pm": 400}]},
+    {"prop": "base:art/prop/rock", "sound": "stone", "cooldown_ticks": 60, "reach_x100": 150,
+     "drops": [{"item": "base:item/stone_chunk", "qty_min": 1, "qty_max": 2, "weight_pm": 1000}, {"item": "base:item/iron_ore", "qty_min": 1, "qty_max": 1, "weight_pm": 300}]},
+]
+GATHER_PROPS = [
+    {"art": "base:art/prop/bush", "x": 3.0, "y": 4.5, "radius": 0.3},
+    {"art": "base:art/prop/rock", "x": 2.5, "y": 5.5, "radius": 0.3},
+    {"art": "base:art/prop/tree_oak", "x": 2.0, "y": 3.5, "radius": 0.3},
+    {"art": "base:art/prop/bush", "x": 9.0, "y": 4.5, "radius": 0.3},
+]
 EMPTY_STORY = {"quests": {}, "dialogues": {}, "npcs": []}
 
 
@@ -148,6 +160,14 @@ def build_scenarios() -> list[dict]:
                   segment(60, attack=True), segment(120)]),
         scenario("parry_early_and_late", [enemy(4.2, 4.5, atk=60)],
                  [segment(30), segment(1, parry=True), segment(80), segment(1, parry=True), segment(1, parry=True), segment(100)]),
+        # Gathering (spec 06): the nearest gatherable prop in reach gives its drops, rolled from the seed, the prop and how many times it was gathered;
+        # it grows back after its cooldown; a prop out of reach or with no node gives nothing.
+        scenario("gather_nodes", [enemy(12.0, 7.5, **passive)],
+                 [segment(1, do=[{"cmd": "gather"}]), segment(1, do=[{"cmd": "gather"}]), segment(1, do=[{"cmd": "gather"}]),
+                  segment(70), segment(1, do=[{"cmd": "gather"}]), segment(1, do=[{"cmd": "gather"}]),
+                  segment(1, move=(1, 0), do=[]), segment(90, move=(1, 0)), segment(1, do=[{"cmd": "gather"}]), segment(130, move=(-1, 0)),
+                  segment(1, do=[{"cmd": "gather"}]), segment(1, do=[{"cmd": "gather"}]), segment(70), segment(1, do=[{"cmd": "gather"}])],
+                 inventory={}, gather_nodes=GATHER_NODES, gather_props=GATHER_PROPS),
         scenario("equip_changes_stats", [enemy(8.1, 4.5, atk=40)],
                  [segment(200), segment(1, do=[{"cmd": "equip", "item": "base:item/iron_sword"},
                                                {"cmd": "equip", "item": "base:item/iron_sword"},

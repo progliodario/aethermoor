@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/pine_resin",
+  "name": "$i18n:item.pine_resin.name",
+  "description": "$i18n:item.pine_resin.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 5,
+  "stack_max": 99
+}

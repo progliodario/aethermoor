@@ -1371,13 +1371,25 @@ void notify(Ui& ui, const std::string& text) {
 }
 
 // Confirms the current dialogue line or choice.
-void activate_dialogue(aether::WorldSim& sim, Ui& ui) {
+void activate_dialogue(aether::WorldSim& sim, const Assets& assets, Ui& ui) {
     aether::Story& story = sim.story();
     const aether::DialogueView view = story.dialogue_view();
     if (!view.active) {
         if (story.npc_in_range() == nullptr && sim.use_stone()) {  // a Threshold Stone (spec 09)
             const aether::WorldSim::Travel* travel = sim.travel();
             ui.travel_cursor = travel->here == 0 && travel->stops.size() > 1 ? 1 : 0;
+        } else if (story.npc_in_range() == nullptr) {  // a prop to gather from (spec 06, "Gathering")
+            const aether::WorldSim::GatherResult found = sim.gather();
+            if (found.node) {
+                std::string list;
+                for (const auto& [item, qty] : found.items) {
+                    const std::string key = "$i18n:item." + item.substr(item.rfind('/') + 1) + ".name";
+                    list += (list.empty() ? "" : ", ") + assets.pack.text(ui.lang, key, {{"count", qty}}) + " x" +
+                            std::to_string(qty);
+                }
+                notify(ui, list.empty() ? assets.pack.text(ui.lang, "$i18n:ui.gather_nothing")
+                                        : assets.pack.text(ui.lang, "$i18n:ui.gathered", {{"items", list}}));
+            }
         } else {
             story.interact();
         }
@@ -1664,10 +1676,10 @@ void handle_map_key(const aether::WorldSim& sim, const Assets& assets, Ui& ui, S
     }
 }
 
-void handle_dialogue_key(aether::WorldSim& sim, Ui& ui, SDL_Keycode key) {
+void handle_dialogue_key(aether::WorldSim& sim, const Assets& assets, Ui& ui, SDL_Keycode key) {
     const bool active = sim.story().dialogue_active();
     if (key == SDLK_E || key == SDLK_RETURN || (active && key == SDLK_SPACE)) {
-        activate_dialogue(sim, ui);
+        activate_dialogue(sim, assets, ui);
     } else if (active && (key == SDLK_UP || key == SDLK_W)) {
         move_choice(sim, ui, -1);
     } else if (active && (key == SDLK_DOWN || key == SDLK_S)) {
@@ -1677,15 +1689,15 @@ void handle_dialogue_key(aether::WorldSim& sim, Ui& ui, SDL_Keycode key) {
         const int index = static_cast<int>(key - SDLK_1);
         if (view.is_choice && index < static_cast<int>(view.choices.size())) {
             ui.choice_index = index;
-            activate_dialogue(sim, ui);
+            activate_dialogue(sim, assets, ui);
         }
     }
 }
 
-void handle_dialogue_button(aether::WorldSim& sim, Ui& ui, Uint8 button) {
+void handle_dialogue_button(aether::WorldSim& sim, const Assets& assets, Ui& ui, Uint8 button) {
     const bool active = sim.story().dialogue_active();
     if (button == SDL_GAMEPAD_BUTTON_WEST || (active && button == SDL_GAMEPAD_BUTTON_SOUTH)) {
-        activate_dialogue(sim, ui);
+        activate_dialogue(sim, assets, ui);
     } else if (active && button == SDL_GAMEPAD_BUTTON_DPAD_UP) {
         move_choice(sim, ui, -1);
     } else if (active && button == SDL_GAMEPAD_BUTTON_DPAD_DOWN) {
@@ -3139,7 +3151,7 @@ int main(int argc, char** argv) {
                                 bag_use(sim, assets, ui);
                             }
                         } else {
-                            handle_dialogue_key(sim, ui, event.key.key);
+                            handle_dialogue_key(sim, assets, ui, event.key.key);
                         }
                     } else if (event.type == SDL_EVENT_MOUSE_WHEEL && ui.show_map && !smoke_test) {
                         map_zoom(ui, event.wheel.y > 0 ? 1 : (event.wheel.y < 0 ? -1 : 0));
@@ -3159,7 +3171,7 @@ int main(int argc, char** argv) {
                         set_goal(sim, assets, ui, cell_x, cell_y);
                     } else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN && !smoke_test &&
                                sim.story().dialogue_active()) {
-                        activate_dialogue(sim, ui);
+                        activate_dialogue(sim, assets, ui);
                     } else if (event.type == SDL_EVENT_GAMEPAD_BUTTON_DOWN && !smoke_test) {
                         if (sim.travel() != nullptr) {
                             if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_UP) {
@@ -3209,7 +3221,7 @@ int main(int argc, char** argv) {
                                 ui.show_inventory = false;
                             }
                         } else {
-                            handle_dialogue_button(sim, ui, event.gbutton.button);
+                            handle_dialogue_button(sim, assets, ui, event.gbutton.button);
                         }
                     } else if (event.type == SDL_EVENT_GAMEPAD_ADDED) {
                         devices.open_first_gamepad();

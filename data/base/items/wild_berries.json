@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/wild_berries",
+  "name": "$i18n:item.wild_berries.name",
+  "description": "$i18n:item.wild_berries.desc",
+  "kind": "food",
+  "rarity": "common",
+  "price": 3,
+  "stack_max": 99,
+  "use": {
+    "effects": [
+      {
+        "effect": "heal",
+        "amount": 10
+      }
+    ]
+  }
+}

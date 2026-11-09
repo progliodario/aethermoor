@@ -535,6 +535,67 @@ bool WorldSim::use_item(const std::string& item_id) {
 
 std::vector<DamageEvent> WorldSim::take_events() { return std::exchange(m_events_, {}); }
 
+WorldSim::GatherResult WorldSim::gather() {
+    GatherResult result;
+    if (m_story_.dialogue_active() || m_setup_.gather_nodes.empty()) {
+        return result;
+    }
+    const Player& p = m_player_;
+    const GatherNode* best_node = nullptr;
+    float best_d = 0.0F;
+    float best_x = 0.0F;
+    float best_y = 0.0F;
+    const float far = 4.5F;  // the largest reach plus a prop's radius
+    for_each_prop(p.position.x - far, p.position.y - far, p.position.x + far, p.position.y + far,
+                  [&](const Prop& prop) {
+                      const auto node = m_setup_.gather_nodes.find(prop.art);
+                      if (node == m_setup_.gather_nodes.end()) {
+                          return;
+                      }
+                      const float d = std::sqrt((prop.x - p.position.x) * (prop.x - p.position.x) +
+                                                (prop.y - p.position.y) * (prop.y - p.position.y));
+                      if (d > static_cast<float>(node->second.reach_x100) / 100.0F + prop.radius) {
+                          return;
+                      }
+                      const std::pair<int, int> key{static_cast<int>(std::floor(prop.x * 100.0F + 0.5F)),
+                                                    static_cast<int>(std::floor(prop.y * 100.0F + 0.5F))};
+                      const auto grown = m_gathered_.find(key);
+                      if (grown != m_gathered_.end() && m_world_ticks_ < grown->second.first) {
+                          return;
+                      }
+                      if (best_node == nullptr || d < best_d ||
+                          (d == best_d && (prop.x < best_x || (prop.x == best_x && prop.y < best_y)))) {
+                          best_node = &node->second;
+                          best_d = d;
+                          best_x = prop.x;
+                          best_y = prop.y;
+                      }
+                  });
+    if (best_node == nullptr) {
+        return result;
+    }
+    const std::pair<int, int> key{static_cast<int>(std::floor(best_x * 100.0F + 0.5F)),
+                                  static_cast<int>(std::floor(best_y * 100.0F + 0.5F))};
+    const auto before = m_gathered_.find(key);
+    const int times = before == m_gathered_.end() ? 0 : before->second.second;
+    const std::uint64_t h = hash64(fnv1a64("gather") ^ m_setup_.seed, key.first, key.second, times);
+    result.node = true;
+    result.sound = best_node->sound;
+    for (std::size_t i = 0; i < best_node->drops.size(); ++i) {
+        const GatherDrop& drop = best_node->drops[i];
+        if (static_cast<std::int64_t>(mix64(h + 2 * i) % 1000U) < drop.weight_pm) {
+            const std::int64_t qty =
+                drop.qty_min + static_cast<std::int64_t>(mix64(h + 2 * i + 1) %
+                                                         static_cast<std::uint64_t>(drop.qty_max - drop.qty_min + 1));
+            m_inventory_[drop.item] += qty;
+            result.items.emplace_back(drop.item, qty);
+        }
+    }
+    m_gathered_[key] = {m_world_ticks_ + best_node->cooldown_ticks, times + 1};
+    m_cues_.push_back({"gather", result.sound, p.position});
+    return result;
+}
+
 std::vector<SimCue> WorldSim::take_cues() { return std::exchange(m_cues_, {}); }
 
 void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool strike, bool parry) {
