@@ -37,8 +37,8 @@ with these names and no others: `auto.json`, `quick.json`, `protagonist.txt`, `g
 `quick.json`, or a save that is not a JSON object with an integer `save_version`. The conformance suite `savebundle` covers these cases and the round trip.
 
 Desktop: on the title screen `X` exports the chosen game to `<user data>/exports/slot<N>.aethersave`, and `I` imports the file `<user data>/exports/import.aethersave` into the chosen game, if it
-is empty. Android: the format and the code are there (`SaveBundle.kt`), but the title screen has no buttons for it yet (parity debt: files cannot be reached from the app-private folder
-without a share or open dialog).
+is empty. Android: every row of the title screen has a button, Export on a used game and Import on an empty one (`X` and `I` on a keyboard). The folder is `exports` in the storage of the app that a file manager
+can reach (`Android/data/<package>/files/exports`; the private folder when the device has none); a share or open dialog of the system is not used yet, so on some devices the folder can only be reached from a computer.
 
 ## Document
 
