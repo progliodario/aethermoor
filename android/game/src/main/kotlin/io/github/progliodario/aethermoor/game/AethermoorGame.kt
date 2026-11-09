@@ -133,6 +133,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var journalRect: FloatArray? = null
     private var journalPanel: FloatArray? = null
     private var languageRect: FloatArray? = null
+    private var soundRect: FloatArray? = null
+    private val volumes = intArrayOf(1000, 800, 500, 500) // master, effects, ambience, music in permille (spec 16, "Settings")
     private var mapRect: FloatArray? = null
     private var protagonistId = PROTAGONIST_ID // who is played in this game (spec 18), kept in the folder of the slot
     private var playerVariant: String? = null // palette variant of the player's art
@@ -190,6 +192,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         assets = loaded
         cache = TextureCache(loaded.pack)
         sound.open(loaded.pack)
+        loadVolumes()
         migrateLegacySaves()
         titleSlots = readSlots()
         Gdx.input.setCatchKey(Input.Keys.BACK, true) // Back leaves a game for the title screen (spec 12, "Slots")
@@ -414,13 +417,48 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             null
         }
 
-    private fun toggleLanguage(data: Assets) {
-        language = if (language == "it") "en" else "it"
+    private val volumeKeys = arrayOf("volume_master_pm", "volume_effects_pm", "volume_ambience_pm", "volume_music_pm")
+
+    /** Reads the volumes of the settings file (the defaults stay for what is missing) and gives them to the sound board. */
+    private fun loadVolumes() {
         try {
-            settingsFile().writeString("{\n  \"language\": \"$language\"\n}\n", false, "UTF-8")
+            val file = settingsFile()
+            val text = if (file.exists()) file.readString("UTF-8") else ""
+            for ((i, key) in volumeKeys.withIndex()) {
+                Regex("\"$key\"\\s*:\\s*(\\d+)").find(text)?.groupValues?.get(1)?.toIntOrNull()?.let { volumes[i] = it.coerceIn(0, 1000) }
+            }
+        } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
+            Gdx.app.error(TAG, "Cannot read the settings: ${e.message}")
+        }
+        sound.setVolumes(volumes[0], volumes[1], volumes[2], volumes[3])
+    }
+
+    /** Writes the language and the volumes to the settings file. */
+    private fun writeSettings() {
+        try {
+            val volumeText = volumeKeys.indices.joinToString(",\n") { "  \"${volumeKeys[it]}\": ${volumes[it]}" }
+            settingsFile().writeString("{\n  \"language\": \"$language\",\n$volumeText\n}\n", false, "UTF-8")
         } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
             Gdx.app.error(TAG, "Cannot write the settings: ${e.message}")
         }
+    }
+
+    /** The sound button: the whole volume goes 100, 60, 30, 0 percent and round again. */
+    private fun cycleVolume() {
+        volumes[0] = when {
+            volumes[0] > 600 -> 600
+            volumes[0] > 300 -> 300
+            volumes[0] > 0 -> 0
+            else -> 1000
+        }
+        sound.setVolumes(volumes[0], volumes[1], volumes[2], volumes[3])
+        writeSettings()
+        sound.playEvent("pickup")
+    }
+
+    private fun toggleLanguage(data: Assets) {
+        language = if (language == "it") "en" else "it"
+        writeSettings()
         showNotice(data.pack.text(language, "\$i18n:ui.language_set"))
     }
 
@@ -1242,6 +1280,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                     journalScroll = 0
                     return
                 }
+                val snd = soundRect
+                if (snd != null && x >= snd[0] && x <= snd[0] + snd[2] && y >= snd[1] && y <= snd[1] + snd[3]) {
+                    cycleVolume()
+                    return
+                }
                 val lang = languageRect
                 if (lang != null && x >= lang[0] && x <= lang[0] + lang[2] && y >= lang[1] && y <= lang[1] + lang[3]) {
                     assets?.let { toggleLanguage(it) }
@@ -1580,8 +1623,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val height = Gdx.graphics.height.toFloat()
         val journalButton = floatArrayOf(12f * density, 114f * density, 96f * density, 34f * density)
         val languageButton = floatArrayOf(12f * density + 104f * density, 114f * density, 96f * density, 34f * density)
+        val soundButton = floatArrayOf(12f * density + 208f * density, 114f * density, 80f * density, 34f * density)
         journalRect = journalButton
         languageRect = languageButton
+        soundRect = soundButton
         val panelW = min(width - 40f, 560f * density)
         val panelH = min(height - 40f, 480f * density)
         val panelX = (width - panelW) / 2f
@@ -1594,6 +1639,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         shapes.color = Color(0.04f, 0.12f, 0.23f, 0.8f)
         shapes.rect(journalButton[0], journalButton[1], journalButton[2], journalButton[3])
         shapes.rect(languageButton[0], languageButton[1], languageButton[2], languageButton[3])
+        shapes.rect(soundButton[0], soundButton[1], soundButton[2], soundButton[3])
         if (showJournal) {
             shapes.color = Color(0.04f, 0.12f, 0.23f, 0.96f)
             shapes.rect(panelX, panelY, panelW, panelH)
@@ -1607,6 +1653,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         font.color = Color.WHITE
         font.draw(batch, data.pack.text(language, "\$i18n:ui.journal"), journalButton[0] + 8f * density, journalButton[1] + (journalButton[3] - font.lineHeight) / 2f)
         font.draw(batch, language.uppercase(Locale.ROOT), languageButton[0] + 8f * density, languageButton[1] + (languageButton[3] - font.lineHeight) / 2f)
+        font.draw(batch, "${volumes[0] / 10}%", soundButton[0] + 8f * density, soundButton[1] + (soundButton[3] - font.lineHeight) / 2f)
         if (showJournal) {
             font.color = Color(1f, 0.84f, 0.47f, 1f)
             font.draw(batch, data.pack.text(language, "\$i18n:ui.journal"), panelX + 16f * density, panelY + 12f * density)

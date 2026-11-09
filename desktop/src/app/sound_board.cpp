@@ -61,6 +61,14 @@ bool SoundBoard::open(const Pack& pack) {
     return true;
 }
 
+void SoundBoard::set_volumes(int master_pm, int effects_pm, int ambience_pm, int music_pm) {
+    const auto unit = [](int pm) { return static_cast<float>(std::clamp(pm, 0, 1000)) / 1000.0F; };
+    m_master_ = unit(master_pm);
+    m_effects_ = unit(effects_pm);
+    m_ambience_ = unit(ambience_pm);
+    m_music_volume_ = unit(music_pm);
+}
+
 void SoundBoard::set_muted(bool muted) {
     m_muted_ = muted;
     if (muted) {
@@ -206,7 +214,7 @@ void SoundBoard::pump() {
             float sum = 0.0F;
             for (Voice& voice : m_voices_) {
                 if (voice.position < voice.samples->size()) {
-                    sum += static_cast<float>((*voice.samples)[voice.position++]) * voice.gain;
+                    sum += static_cast<float>((*voice.samples)[voice.position++]) * voice.gain * m_effects_;
                 }
             }
             for (auto& [name, loop] : m_loops_) {
@@ -214,7 +222,7 @@ void SoundBoard::pump() {
                     continue;
                 }
                 loop.gain += std::clamp(loop.target - loop.gain, -kFadeStep, kFadeStep);
-                sum += static_cast<float>((*loop.samples)[loop.position]) * loop.gain;
+                sum += static_cast<float>((*loop.samples)[loop.position]) * loop.gain * m_ambience_;
                 loop.position = (loop.position + 1) % loop.samples->size();
             }
             for (MusicLoop& music : m_music_) {
@@ -227,12 +235,12 @@ void SoundBoard::pump() {
                     layer_gain += std::clamp((on ? 1.0F : 0.0F) - layer_gain, -kFadeStep, kFadeStep);
                     if (layer_gain > 0.0F && music.gain > 0.0F) {
                         sum += static_cast<float>(samples[music.position % samples.size()]) * music.gain * layer_gain *
-                               kMusicBus;
+                               kMusicBus * m_music_volume_;
                     }
                 }
                 ++music.position;
             }
-            chunk[i] = static_cast<std::int16_t>(std::clamp(sum, -32767.0F, 32767.0F));
+            chunk[i] = static_cast<std::int16_t>(std::clamp(sum * m_master_, -32767.0F, 32767.0F));
         }
         m_voices_.erase(std::remove_if(m_voices_.begin(), m_voices_.end(),
                                        [](const Voice& v) { return v.position >= v.samples->size(); }),

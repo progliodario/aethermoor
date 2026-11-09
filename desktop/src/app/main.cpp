@@ -84,6 +84,8 @@ struct Ui {
     bool shop_sell = false;  // the shop shows what the player sells instead of what it sells
     bool show_map = false;
     bool show_journal = false;
+    bool show_settings = false;  // the volumes (spec 16, "Settings")
+    int settings_cursor = 0;
     int journal_scroll = 0;  // first visible line of the journal
     mutable std::map<std::pair<int, int>, std::optional<aether::Settlement>> map_markers;  // settlement shown on a cell
     mutable std::map<std::pair<int, int>, int>
@@ -1230,12 +1232,14 @@ void delete_slot(int slot) {
     }
 }
 
-// The settings file (spec 16): the language chosen by the player; without it the language of the system is used.
+// The settings file (spec 16): the language chosen by the player (without it the language of the system is used) and
+// the four volumes in permille: all of it, the effects, the ambience and the music.
 fs::path settings_file() { return save_dir().parent_path() / "settings.json"; }
 
-void save_language(const std::string& lang) {
-    write_text_atomic(settings_file(), "{\n  \"language\": \"" + lang + "\"\n}\n");
-}
+constexpr int kVolumeKinds = 4;
+int g_volume[kVolumeKinds] = {1000, 800, 500, 500};  // master, effects, ambience, music
+const char* const kVolumeKeys[kVolumeKinds] = {"volume_master_pm", "volume_effects_pm", "volume_ambience_pm",
+                                               "volume_music_pm"};
 
 std::optional<std::string> saved_language() {
     const auto text = read_text_file(settings_file());
@@ -1249,6 +1253,42 @@ std::optional<std::string> saved_language() {
         return "en";
     }
     return std::nullopt;
+}
+
+// Writes the settings file: the language (when there is one) and the four volumes.
+void write_settings(const std::optional<std::string>& lang) {
+    std::string out = "{\n";
+    if (lang) {
+        out += "  \"language\": \"" + *lang + "\",\n";
+    }
+    for (int i = 0; i < kVolumeKinds; ++i) {
+        out += std::string("  \"") + kVolumeKeys[i] + "\": " + std::to_string(g_volume[i]);
+        out += i + 1 < kVolumeKinds ? ",\n" : "\n";
+    }
+    out += "}\n";
+    write_text_atomic(settings_file(), out);
+}
+
+void write_settings() { write_settings(saved_language()); }
+
+void save_language(const std::string& lang) { write_settings(lang); }
+
+// Reads the volumes of the settings file (the defaults stay for what is missing) and gives them to the sound board.
+void load_volumes() {
+    if (const auto text = read_text_file(settings_file())) {
+        for (int i = 0; i < kVolumeKinds; ++i) {
+            const std::string key = std::string("\"") + kVolumeKeys[i] + "\"";
+            const std::size_t at = text->find(key);
+            if (at != std::string::npos) {
+                const std::size_t colon = text->find(':', at);
+                if (colon != std::string::npos) {
+                    g_volume[i] =
+                        std::clamp(static_cast<int>(std::strtol(text->c_str() + colon + 1, nullptr, 10)), 0, 1000);
+                }
+            }
+        }
+    }
+    g_sound.set_volumes(g_volume[0], g_volume[1], g_volume[2], g_volume[3]);
 }
 
 aether::SaveMeta save_meta(const aether::WorldSim& sim) {
@@ -1969,6 +2009,60 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
     return lines;
 }
 
+// The volume panel (F10): four rows, W/S choose, A/D change by a tenth, Esc closes.
+void handle_settings_key(Ui& ui, SDL_Keycode key) {
+    if (key == SDLK_UP || key == SDLK_W) {
+        ui.settings_cursor = (ui.settings_cursor + kVolumeKinds - 1) % kVolumeKinds;
+    } else if (key == SDLK_DOWN || key == SDLK_S) {
+        ui.settings_cursor = (ui.settings_cursor + 1) % kVolumeKinds;
+    } else if (key == SDLK_LEFT || key == SDLK_A || key == SDLK_RIGHT || key == SDLK_D) {
+        const int step = (key == SDLK_LEFT || key == SDLK_A) ? -100 : 100;
+        g_volume[ui.settings_cursor] = std::clamp(g_volume[ui.settings_cursor] + step, 0, 1000);
+        g_sound.set_volumes(g_volume[0], g_volume[1], g_volume[2], g_volume[3]);
+        write_settings();
+        if (ui.settings_cursor == 1) {
+            g_sound.play_event("pickup");  // a sample of the effects
+        }
+    }
+}
+
+void draw_settings(SDL_Renderer* renderer, const Assets& assets, const Ui& ui, int out_w, int out_h, float density) {
+    if (!ui.show_settings) {
+        return;
+    }
+    constexpr float kScale = 1.5F;
+    const float row = 8.0F * kScale + 22.0F;
+    const float w = std::min(static_cast<float>(out_w) - 40.0F, 520.0F * density);
+    const float h = 60.0F + row * static_cast<float>(kVolumeKinds) + 36.0F;
+    const float x = (static_cast<float>(out_w) - w) / 2.0F;
+    const float y = (static_cast<float>(out_h) - h) / 2.0F;
+    draw_panel(renderer, x, y, w, h, 255, 215, 120, 245);
+    static const char* const kLabels[kVolumeKinds] = {"$i18n:ui.volume_master", "$i18n:ui.volume_effects",
+                                                      "$i18n:ui.volume_ambience", "$i18n:ui.volume_music"};
+    SDL_SetRenderScale(renderer, kScale, kScale);
+    SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
+    debug_text(renderer, (x + 16.0F) / kScale, (y + 14.0F) / kScale,
+               assets.pack.text(ui.lang, "$i18n:ui.settings").c_str());
+    for (int i = 0; i < kVolumeKinds; ++i) {
+        const float ty = y + 48.0F + row * static_cast<float>(i);
+        SDL_SetRenderDrawColor(renderer, i == ui.settings_cursor ? 255 : 170, i == ui.settings_cursor ? 255 : 190,
+                               i == ui.settings_cursor ? 255 : 215, 255);
+        debug_text(renderer, (x + 16.0F) / kScale, ty / kScale, assets.pack.text(ui.lang, kLabels[i]).c_str());
+        debug_text(renderer, (x + w - 70.0F) / kScale, ty / kScale, (std::to_string(g_volume[i] / 10) + "%").c_str());
+    }
+    SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+    for (int i = 0; i < kVolumeKinds; ++i) {
+        const float ty = y + 48.0F + row * static_cast<float>(i);
+        draw_bar(renderer, x + 16.0F, ty + 18.0F, w - 100.0F, 8.0F, static_cast<float>(g_volume[i]) / 1000.0F, 90, 170,
+                 255);
+    }
+    SDL_SetRenderScale(renderer, kScale, kScale);
+    SDL_SetRenderDrawColor(renderer, 150, 170, 200, 255);
+    debug_text(renderer, (x + 16.0F) / kScale, (y + h - 28.0F) / kScale,
+               assets.pack.text(ui.lang, "$i18n:ui.settings_hint").c_str());
+    SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+}
+
 void draw_journal(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w,
                   int out_h, float density) {
     if (!ui.show_journal) {
@@ -2297,6 +2391,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     draw_board(renderer, assets, sim, ui, out_w, out_h, density);
     draw_travel(renderer, assets, sim, ui, out_w, out_h, density);
     draw_journal(renderer, assets, sim, ui, out_w, out_h, density);
+    draw_settings(renderer, assets, ui, out_w, out_h, density);
 
     if (debug) {
         char line[160];
@@ -2697,6 +2792,7 @@ int main(int argc, char** argv) {
     g_map_name = map_choice;
     if (!smoke_test) {
         g_sound.open(assets.pack);
+        load_volumes();
     }
 
     const std::string title(aether::game_name());
@@ -2885,8 +2981,9 @@ int main(int argc, char** argv) {
                 SDL_Event event;
                 while (SDL_PollEvent(&event)) {
                     if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE &&
-                        (ui.show_map || ui.show_inventory || ui.show_journal || sim.shop() != nullptr ||
-                         sim.board() != nullptr || sim.travel() != nullptr)) {
+                        (ui.show_map || ui.show_inventory || ui.show_journal || ui.show_settings ||
+                         sim.shop() != nullptr || sim.board() != nullptr || sim.travel() != nullptr)) {
+                        ui.show_settings = false;
                         ui.show_map = false;  // Esc closes the open panel first
                         ui.show_inventory = false;
                         ui.show_journal = false;
@@ -2915,8 +3012,13 @@ int main(int argc, char** argv) {
                     } else if (event.type == SDL_EVENT_KEY_DOWN && !smoke_test &&
                                (event.key.key == SDLK_F5 || event.key.key == SDLK_F9 || event.key.key == SDLK_F7 ||
                                 event.key.key == SDLK_I || event.key.key == SDLK_M || event.key.key == SDLK_Q ||
-                                event.key.key == SDLK_F2)) {
-                        if (event.key.key == SDLK_I) {
+                                event.key.key == SDLK_F2 || event.key.key == SDLK_F10)) {
+                        if (event.key.key == SDLK_F10) {
+                            ui.show_settings = !ui.show_settings;
+                            ui.show_inventory = false;
+                            ui.show_map = false;
+                            ui.show_journal = false;
+                        } else if (event.key.key == SDLK_I) {
                             ui.show_inventory = !ui.show_inventory;
                             ui.show_map = false;
                             ui.show_journal = false;
@@ -2956,6 +3058,8 @@ int main(int argc, char** argv) {
                             handle_board_key(sim, assets, ui, event.key.key);
                         } else if (sim.shop() != nullptr) {
                             handle_shop_key(sim, assets, ui, event.key.key);
+                        } else if (ui.show_settings) {
+                            handle_settings_key(ui, event.key.key);
                         } else if (ui.show_map) {
                             handle_map_key(sim, assets, ui, event.key.key);
                         } else if (ui.show_journal) {
@@ -3101,8 +3205,8 @@ int main(int argc, char** argv) {
                         ui.map_cx = ui.map_cy = 64.0F;
                     }
                     sim.tick(input.x, input.y, input.attack, input.dodge, input.strike);
-                } else if (ui.show_inventory || ui.show_map || ui.show_journal || sim.shop() != nullptr ||
-                           sim.board() != nullptr || sim.travel() != nullptr) {
+                } else if (ui.show_inventory || ui.show_map || ui.show_journal || ui.show_settings ||
+                           sim.shop() != nullptr || sim.board() != nullptr || sim.travel() != nullptr) {
                     accumulator = 0.0;  // the bag, the map, the journal, the shop and the board pause the game
                 } else {
                     accumulator += frame_seconds;

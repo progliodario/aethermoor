@@ -63,7 +63,7 @@ last entries can be reached. The window is a presentation detail; the cursor is 
 
 ## Settings
 
-The language chosen by the player is kept in `<user data>/settings.json` as `{"language": "it"}` (desktop: next to the `saves` folder; Android: the app-private
+The settings are kept in `<user data>/settings.json`: `{"language": "it", "volume_master_pm": 1000, "volume_effects_pm": 800, "volume_ambience_pm": 500, "volume_music_pm": 500}` (the volumes are permille from 0 to 1000; the numbers above are the defaults, used for what is missing). Spec 14 says what each volume scales: the master volume all of the sound, the others the sound effects, the ambience and the music. Desktop: `F10` opens a panel with four bars (`W`/`S` choose, `A`/`D` change by a tenth, `Esc` closes; the game pauses meanwhile). Android: the sound button next to the language button cycles the master volume 100, 60, 30 and 0 percent; the other three volumes can be set in the file. The language is kept in the same file as `{"language": "it"}` (desktop: next to the `saves` folder; Android: the app-private
 folder). Without it the language of the system is used (`it` if it is Italian, else `en`). The language can be changed at any time: texts are resolved when they are drawn (spec 17).
 
 ## Orientation (Android)

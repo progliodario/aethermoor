@@ -80,6 +80,22 @@ class SoundBoard {
 
     val ambienceRules: AmbienceRules? get() = table?.ambience
 
+    /** The volumes of the player, in permille: all of it, the effects, the ambience and the music (spec 16, "Settings"). */
+    fun setVolumes(masterPm: Int, effectsPm: Int, ambiencePm: Int, musicPm: Int) {
+        master = masterPm.coerceIn(0, 1000) / 1000f
+        effects = effectsPm.coerceIn(0, 1000) / 1000f
+        ambienceVolume = ambiencePm.coerceIn(0, 1000) / 1000f
+        musicVolume = musicPm.coerceIn(0, 1000) / 1000f
+    }
+
+    @Volatile private var master = 1f
+
+    @Volatile private var effects = 1f
+
+    @Volatile private var ambienceVolume = 1f
+
+    @Volatile private var musicVolume = 1f
+
     fun open(pack: Pack) {
         val text = pack.readDocument("base:audio/events") ?: return
         val events = parseEventTable(text).getOrNull() ?: return
@@ -180,12 +196,12 @@ class SoundBoard {
                 for (i in 0 until CHUNK) {
                     var sum = 0f
                     for (voice in voices) {
-                        if (voice.position < voice.samples.size) sum += voice.samples[voice.position++] * voice.gain
+                        if (voice.position < voice.samples.size) sum += voice.samples[voice.position++] * voice.gain * effects
                     }
                     for (loop in loops.values) {
                         if (loop.gain == 0f && loop.target == 0f) continue
                         loop.gain += (loop.target - loop.gain).coerceIn(-fadeStep, fadeStep)
-                        sum += loop.samples[loop.position] * loop.gain
+                        sum += loop.samples[loop.position] * loop.gain * ambienceVolume
                         loop.position = (loop.position + 1) % loop.samples.size
                     }
                     for (piece in music) {
@@ -196,11 +212,11 @@ class SoundBoard {
                             val layerGain = piece.layerGain.getOrDefault(layer, 0f)
                             val next = layerGain + ((if (on) 1f else 0f) - layerGain).coerceIn(-fadeStep, fadeStep)
                             piece.layerGain[layer] = next
-                            if (next > 0f && piece.gain > 0f) sum += samples[piece.position % samples.size] * piece.gain * next * MUSIC_BUS
+                            if (next > 0f && piece.gain > 0f) sum += samples[piece.position % samples.size] * piece.gain * next * MUSIC_BUS * musicVolume
                         }
                         piece.position++
                     }
-                    buffer[i] = sum.coerceIn(-32767f, 32767f).toInt().toShort()
+                    buffer[i] = (sum * master).coerceIn(-32767f, 32767f).toInt().toShort()
                 }
                 voices.removeAll { it.position >= it.samples.size }
                 music.removeAll { it.target == 0f && it.gain <= 0f }
