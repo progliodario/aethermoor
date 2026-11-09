@@ -2,13 +2,13 @@
   "$schema": "../../../../schemas/sfx_recipe.schema.json",
   "id": "base:audio/sfx/amb_rain_heavy",
   "duration_ms": 4000,
-  "volume_pm": 700,
+  "volume_pm": 550,
   "loop": true,
   "layers": [
     {
       "wave": "noise",
-      "freq_start": 3000,
-      "freq_end": 3000,
+      "freq_start": 1800,
+      "freq_end": 1800,
       "volume_pm": 800,
       "attack_ms": 0,
       "decay_ms": 1,
@@ -17,8 +17,8 @@
     },
     {
       "wave": "noise",
-      "freq_start": 1500,
-      "freq_end": 1500,
+      "freq_start": 900,
+      "freq_end": 900,
       "volume_pm": 500,
       "attack_ms": 0,
       "decay_ms": 1,

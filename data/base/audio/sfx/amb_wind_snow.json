@@ -2,13 +2,13 @@
   "$schema": "../../../../schemas/sfx_recipe.schema.json",
   "id": "base:audio/sfx/amb_wind_snow",
   "duration_ms": 8000,
-  "volume_pm": 600,
+  "volume_pm": 500,
   "loop": true,
   "layers": [
     {
       "wave": "noise",
-      "freq_start": 700,
-      "freq_end": 700,
+      "freq_start": 600,
+      "freq_end": 600,
       "volume_pm": 450,
       "attack_ms": 0,
       "decay_ms": 1,
@@ -17,23 +17,13 @@
     },
     {
       "wave": "sine",
-      "freq_start": 360,
-      "freq_end": 420,
-      "volume_pm": 250,
+      "freq_start": 300,
+      "freq_end": 340,
+      "volume_pm": 150,
       "attack_ms": 0,
       "decay_ms": 1,
       "am_dhz": 25,
       "am_depth_pm": 900
-    },
-    {
-      "wave": "sine",
-      "freq_start": 540,
-      "freq_end": 600,
-      "volume_pm": 150,
-      "attack_ms": 0,
-      "decay_ms": 1,
-      "am_dhz": 35,
-      "am_depth_pm": 800
     }
   ]
 }

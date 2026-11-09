@@ -17,8 +17,8 @@
     },
     {
       "wave": "noise",
-      "freq_start": 6000,
-      "freq_end": 6000,
+      "freq_start": 2500,
+      "freq_end": 2500,
       "volume_pm": 250,
       "attack_ms": 0,
       "decay_ms": 1,

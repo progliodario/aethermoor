@@ -2,27 +2,27 @@
   "$schema": "../../../../schemas/sfx_recipe.schema.json",
   "id": "base:audio/sfx/amb_crickets",
   "duration_ms": 4000,
-  "volume_pm": 450,
+  "volume_pm": 250,
   "loop": true,
   "layers": [
     {
-      "wave": "sine",
-      "freq_start": 4200,
-      "freq_end": 4200,
-      "volume_pm": 500,
+      "wave": "triangle",
+      "freq_start": 2300,
+      "freq_end": 2300,
+      "volume_pm": 400,
       "attack_ms": 0,
       "decay_ms": 1,
-      "am_dhz": 160,
+      "am_dhz": 80,
       "am_depth_pm": 950
     },
     {
-      "wave": "sine",
-      "freq_start": 4600,
-      "freq_end": 4600,
-      "volume_pm": 350,
+      "wave": "triangle",
+      "freq_start": 2600,
+      "freq_end": 2600,
+      "volume_pm": 250,
       "attack_ms": 0,
       "decay_ms": 1,
-      "am_dhz": 130,
+      "am_dhz": 60,
       "am_depth_pm": 950
     }
   ]
