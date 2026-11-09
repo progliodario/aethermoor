@@ -2,37 +2,27 @@
   "$schema": "../../../../schemas/sfx_recipe.schema.json",
   "id": "base:audio/sfx/amb_birds",
   "duration_ms": 8000,
-  "volume_pm": 450,
+  "volume_pm": 250,
   "loop": true,
   "layers": [
     {
-      "wave": "sine",
-      "freq_start": 3200,
-      "freq_end": 4600,
+      "wave": "triangle",
+      "freq_start": 1500,
+      "freq_end": 2100,
       "volume_pm": 450,
       "attack_ms": 0,
       "decay_ms": 1,
-      "am_dhz": 15,
+      "am_dhz": 10,
       "am_depth_pm": 990
     },
     {
-      "wave": "sine",
-      "freq_start": 2600,
-      "freq_end": 3800,
+      "wave": "triangle",
+      "freq_start": 1300,
+      "freq_end": 1800,
       "volume_pm": 300,
       "attack_ms": 0,
       "decay_ms": 1,
-      "am_dhz": 25,
-      "am_depth_pm": 990
-    },
-    {
-      "wave": "sine",
-      "freq_start": 4200,
-      "freq_end": 5200,
-      "volume_pm": 250,
-      "attack_ms": 0,
-      "decay_ms": 1,
-      "am_dhz": 35,
+      "am_dhz": 15,
       "am_depth_pm": 990
     }
   ]

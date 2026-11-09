@@ -713,11 +713,11 @@
         {
           "sound": "amb_birds",
           "when": "day",
-          "gain_pm": 600
+          "gain_pm": 220
         },
         {
           "sound": "amb_leaves",
-          "gain_pm": 350
+          "gain_pm": 250
         },
         {
           "sound": "amb_wind_soft",
@@ -726,13 +726,13 @@
         {
           "sound": "amb_crickets",
           "when": "night",
-          "gain_pm": 500
+          "gain_pm": 200
         }
       ],
       "whisperwood": [
         {
           "sound": "amb_leaves",
-          "gain_pm": 600
+          "gain_pm": 350
         },
         {
           "sound": "amb_magic",
@@ -741,12 +741,12 @@
         {
           "sound": "amb_crickets",
           "when": "night",
-          "gain_pm": 650
+          "gain_pm": 200
         },
         {
           "sound": "amb_birds",
           "when": "day",
-          "gain_pm": 400
+          "gain_pm": 180
         }
       ],
       "ironspine": [
@@ -767,7 +767,7 @@
         {
           "sound": "amb_crickets",
           "when": "night",
-          "gain_pm": 350
+          "gain_pm": 200
         }
       ],
       "frostveil": [
@@ -788,7 +788,7 @@
         {
           "sound": "amb_birds",
           "when": "day",
-          "gain_pm": 300
+          "gain_pm": 150
         }
       ],
       "ashen_wastes": [
@@ -813,7 +813,7 @@
         {
           "sound": "amb_crickets",
           "when": "night",
-          "gain_pm": 400
+          "gain_pm": 200
         }
       ]
     }
