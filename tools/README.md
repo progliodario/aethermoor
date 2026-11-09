@@ -29,6 +29,7 @@ Python scripts (3.12 or newer; the virtual environment of [`docs/dev/setup.md`](
 | `art_creatures.py` (`art_creature_looks.py`, `art_single_looks.py`) | rebuilds the detail layers over the creature recipes (jelly, fur, plates, glints) and the feature of each slime, wolf and knight; safe to run again |
 | `compose.py` | composes the music of `data/base/audio/music/` and `music_rules.json` (spec 14) from moods, modes and progressions |
 | `audio_wav.py` | writes a sound (`sfx <name>`) or a piece of music (`music <name> --layers base,combat`) to a WAV file, to listen to it |
+| `make_recipes.py` | writes the crafting recipes `data/base/recipes.json` (spec 06, "Crafting") |
 | `make_gathering.py` | writes the gatherable materials (items and their texts) and `data/base/gathering.json` (spec 06, "Gathering") |
 | `make_sfx.py` | writes the sound effect recipes of `data/base/audio/sfx/` (spec 14) |
 | `art_preview.py` (`--figures`) | an HTML sheet with art recipes, or with every person assembled, to look at them without the game |

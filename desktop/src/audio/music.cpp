@@ -318,7 +318,7 @@ std::optional<MusicRules> parse_music_rules(std::string_view json_text, std::str
 
 MusicChoice MusicDirector::update(const MusicContext& ctx) {
     for (const SoundCue& cue : ctx.cues) {
-        if (cue.kind == "gather") {
+        if (cue.kind == "gather" || cue.kind == "craft") {
             continue;
         }
         const bool near = std::hypot(cue.x - ctx.x, cue.y - ctx.y) <= kFightRangeTiles;

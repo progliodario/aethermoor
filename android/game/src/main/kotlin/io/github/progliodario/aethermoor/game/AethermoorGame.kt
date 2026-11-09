@@ -129,6 +129,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var bagRect: FloatArray? = null
     private var showMap = false
     private var showJournal = false
+    private var showCraft = false // the crafting panel (spec 06, "Crafting")
+    private var craftCursor = 0
+    private var craftPanel: FloatArray? = null
+    private var craftRowRects: List<FloatArray> = emptyList()
+    private var craftRect: FloatArray? = null
     private var journalScroll = 0
     private var journalRect: FloatArray? = null
     private var journalPanel: FloatArray? = null
@@ -208,6 +213,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         showInventory = false
         showMap = false
         showJournal = false
+        showCraft = false
         accumulator = 0f
         sinceAutosave = 0f
         message = ""
@@ -227,12 +233,13 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val back = Gdx.input.isKeyJustPressed(Input.Keys.BACK)
         val escape = Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)
         if (!back && !escape) return false
-        val panelOpen = showInventory || showMap || showJournal || world.shop != null || world.board != null || world.travel != null
+        val panelOpen = showInventory || showMap || showJournal || showCraft || world.shop != null || world.board != null || world.travel != null
         if (panelOpen) {
             if (back) {
                 showInventory = false
                 showMap = false
                 showJournal = false
+                showCraft = false
                 world.closeShop()
                 world.closeBoard()
                 world.closeTravel()
@@ -526,7 +533,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (handleBack(world)) return
         handleStoryInput(world)
         val frame = input.read()
-        if (showInventory || showMap || showJournal || world.shop != null || world.board != null || world.travel != null) {
+        if (showInventory || showMap || showJournal || showCraft || world.shop != null || world.board != null || world.travel != null) {
             accumulator = 0f // the bag, the map, the journal, the shop, the board and the stones pause the game
         } else {
             accumulator += min(Gdx.graphics.deltaTime, MAX_FRAME_SECONDS)
@@ -583,7 +590,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             weapon = world.equippedWeapon,
             armor = world.equippedArmor,
             panels = PanelsOpen(
-                bag = showInventory, map = showMap, journal = showJournal,
+                bag = showInventory, map = showMap, journal = showJournal || showCraft,
                 shop = world.shop != null, board = world.board != null, travel = world.travel != null,
             ),
             dialogue = view.active,
@@ -675,6 +682,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         drawDodgeButton(world, data)
         drawStrikeButton(world, data)
         drawParryButton(world, data)
+        drawCraft(world, data)
         drawAnalyze(world, data)
         drawStick()
     }
@@ -1152,9 +1160,41 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             assets?.let { toggleLanguage(it) }
             return
         }
+        if (showCraft) {
+            val recipes = world.combat.recipes
+            if (input.isKeyJustPressed(Input.Keys.C) || input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+                showCraft = false
+            } else if (input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W)) {
+                if (recipes.isNotEmpty()) craftCursor = (craftCursor + recipes.size - 1) % recipes.size
+            } else if (input.isKeyJustPressed(Input.Keys.DOWN) || input.isKeyJustPressed(Input.Keys.S)) {
+                if (recipes.isNotEmpty()) craftCursor = (craftCursor + 1) % recipes.size
+            } else if (input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.ENTER)) {
+                craftSelected(world)
+            } else if (input.justTouched()) {
+                val x = input.x.toFloat()
+                val y = input.y.toFloat()
+                val panel = craftPanel
+                if (panel == null || x < panel[0] || x > panel[0] + panel[2] || y < panel[1] || y > panel[1] + panel[3]) {
+                    showCraft = false
+                } else {
+                    val row = craftRowRects.indexOfFirst { r -> x >= r[0] && x <= r[0] + r[2] && y >= r[1] && y <= r[1] + r[3] }
+                    if (row >= 0) {
+                        craftCursor = row
+                        craftSelected(world)
+                    }
+                }
+            }
+            return
+        }
+        if (input.isKeyJustPressed(Input.Keys.C) && !showMap) {
+            showCraft = true
+            craftCursor = 0
+            return
+        }
         if (showJournal) {
             if (input.isKeyJustPressed(Input.Keys.Q) || input.isKeyJustPressed(Input.Keys.ESCAPE)) {
                 showJournal = false
+                showCraft = false
             } else if (input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W)) {
                 journalScroll = max(journalScroll - 1, 0)
             } else if (input.isKeyJustPressed(Input.Keys.DOWN) || input.isKeyJustPressed(Input.Keys.S)) {
@@ -1166,6 +1206,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 val panel = journalPanel
                 if (panel == null || x < panel[0] || x > panel[0] + panel[2] || y < panel[1] || y > panel[1] + panel[3]) {
                     showJournal = false
+                    showCraft = false
                 } else if (y < panel[1] + panel[3] / 2f) {
                     journalScroll = max(journalScroll - 3, 0)
                 } else {
@@ -1288,6 +1329,12 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 if (journal != null && x >= journal[0] && x <= journal[0] + journal[2] && y >= journal[1] && y <= journal[1] + journal[3]) {
                     showJournal = true
                     journalScroll = 0
+                    return
+                }
+                val craftButton = craftRect
+                if (craftButton != null && x >= craftButton[0] && x <= craftButton[0] + craftButton[2] && y >= craftButton[1] && y <= craftButton[1] + craftButton[3]) {
+                    showCraft = true
+                    craftCursor = 0
                     return
                 }
                 val snd = soundRect
@@ -1978,6 +2025,93 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         shapes.end()
     }
 
+    private fun itemName(data: Assets, item: String, count: Long): String =
+        data.pack.text(language, "\$i18n:${item.substringAfter(':').replace('/', '.')}.name", mapOf("count" to count))
+
+    private fun craftSelected(world: WorldSim) {
+        val data = assets ?: return
+        val pack = data.pack
+        val recipe = world.combat.recipes.getOrNull(craftCursor) ?: return
+        if (world.craft(recipe.id)) {
+            showNotice(pack.text(language, "\$i18n:ui.crafted", mapOf("item" to itemName(data, recipe.output, recipe.outputQty))))
+        } else {
+            showNotice(pack.text(language, "\$i18n:ui.cannot_craft"))
+        }
+    }
+
+    /** The crafting panel and its button (spec 06, "Crafting"): the recipes with what the bag has of each ingredient; a tap on a row makes it. */
+    private fun drawCraft(world: WorldSim, data: Assets) {
+        val density = Gdx.graphics.density
+        val width = Gdx.graphics.width.toFloat()
+        val height = Gdx.graphics.height.toFloat()
+        val button = floatArrayOf(12f * density + 296f * density, 114f * density, 96f * density, 34f * density)
+        craftRect = if (showCraft || world.story.dialogueActive || showMap || showInventory || showJournal) null else button
+        val recipes = world.combat.recipes
+        if (!showCraft) {
+            craftPanel = null
+            craftRowRects = emptyList()
+            if (craftRect == null || recipes.isEmpty()) {
+                craftRect = null
+                return
+            }
+            shapes.projectionMatrix = camera.combined
+            Gdx.gl.glEnable(GL20.GL_BLEND)
+            shapes.begin(ShapeRenderer.ShapeType.Filled)
+            shapes.color = Color(0.04f, 0.12f, 0.23f, 0.8f)
+            shapes.rect(button[0], button[1], button[2], button[3])
+            shapes.end()
+            batch.projectionMatrix = camera.combined
+            batch.begin()
+            font.color = Color.WHITE
+            font.draw(batch, data.pack.text(language, "\$i18n:ui.craft"), button[0] + 8f * density, button[1] + (button[3] - font.lineHeight) / 2f)
+            batch.end()
+            return
+        }
+        val rowH = font.lineHeight * 2.8f
+        val panelW = min(width - 40f, 680f * density)
+        val panelH = min(height - 40f, 90f * density + rowH * max(recipes.size, 1))
+        val panelX = (width - panelW) / 2f
+        val panelY = (height - panelH) / 2f
+        craftPanel = floatArrayOf(panelX, panelY, panelW, panelH)
+        val firstRowY = panelY + 52f * density
+        craftRowRects = recipes.indices.map { floatArrayOf(panelX, firstRowY + it * rowH, panelW, rowH) }
+        craftCursor = craftCursor.coerceIn(0, max(recipes.size - 1, 0))
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        drawPanel(panelX, panelY, panelW, panelH, Color(1f, 0.84f, 0.47f, 1f), 0.96f)
+        for ((i, r) in craftRowRects.withIndex()) {
+            if (r[1] + r[3] > panelY + panelH - 24f * density) break
+            if (i == craftCursor) {
+                shapes.color = Color(0.16f, 0.35f, 0.55f, 1f)
+                shapes.rect(r[0] + 6f * density, r[1], r[2] - 12f * density, r[3] - 2f * density)
+            }
+        }
+        shapes.end()
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        font.color = Color(1f, 0.84f, 0.47f, 1f)
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.craft"), panelX + 16f * density, panelY + 12f * density)
+        for ((i, recipe) in recipes.withIndex()) {
+            val r = craftRowRects[i]
+            if (r[1] + r[3] > panelY + panelH - 24f * density) break
+            var can = true
+            val needs = recipe.inputs.joinToString(", ") { (item, qty) ->
+                val have = world.inventory[item] ?: 0L
+                if (have < qty) can = false
+                "${itemName(data, item, qty)} $have/$qty"
+            }
+            font.color = if (can) Color(0.6f, 1f, 0.67f, 1f) else Color(0.7f, 0.6f, 0.6f, 1f)
+            font.draw(batch, "${itemName(data, recipe.output, recipe.outputQty)} x${recipe.outputQty}", r[0] + 16f * density, r[1] + 2f * density)
+            font.color = Color(0.67f, 0.75f, 0.85f, 1f)
+            font.draw(batch, needs, r[0] + 16f * density, r[1] + 2f * density + font.lineHeight * 1.2f)
+        }
+        font.color = Color(0.67f, 0.78f, 0.9f, 1f)
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.craft_hint"), panelX + 16f * density, panelY + panelH - font.lineHeight * 1.5f)
+        font.color = Color.WHITE
+        batch.end()
+    }
+
     /** The parry button, above the power strike button: held, it opens the parry window (spec 05, "Parry"); a touch on it is never an attack. */
     private fun drawParryButton(world: WorldSim, data: Assets) {
         val density = Gdx.graphics.density
@@ -1986,7 +2120,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             Gdx.graphics.width - 84f * density - 24f * density + (84f * density - size) / 2f,
             Gdx.graphics.height - 84f * density - 24f * density - 12f * density - 72f * density - 12f * density - size, size, size,
         )
-        val visible = world.combat.enabled && !world.story.dialogueActive && !showMap && !showInventory && !showJournal
+        val visible = world.combat.enabled && !world.story.dialogueActive && !showMap && !showInventory && !showJournal && !showCraft
         input.parryRect = rect.takeIf { visible }
         if (!visible) return
         shapes.projectionMatrix = camera.combined
@@ -2013,7 +2147,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             Gdx.graphics.width - 84f * density - 24f * density + (84f * density - size) / 2f,
             Gdx.graphics.height - 84f * density - 24f * density - 12f * density - size, size, size,
         )
-        val visible = world.hasStrike && !world.story.dialogueActive && !showMap && !showInventory && !showJournal
+        val visible = world.hasStrike && !world.story.dialogueActive && !showMap && !showInventory && !showJournal && !showCraft
         input.strikeRect = rect.takeIf { visible }
         if (!visible) return
         shapes.projectionMatrix = camera.combined
@@ -2037,7 +2171,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val density = Gdx.graphics.density
         val size = 84f * density
         val rect = floatArrayOf(Gdx.graphics.width - size - 24f * density, Gdx.graphics.height - size - 24f * density, size, size)
-        val visible = !world.story.dialogueActive && !showMap && !showInventory && !showJournal
+        val visible = !world.story.dialogueActive && !showMap && !showInventory && !showJournal && !showCraft
         input.dodgeRect = rect.takeIf { visible }
         if (!visible) return
         shapes.projectionMatrix = camera.combined
@@ -2064,7 +2198,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val density = Gdx.graphics.density
         val size = 64f * density
         val button = floatArrayOf(Gdx.graphics.width - 84f * density - 24f * density - size - 12f * density, Gdx.graphics.height - size - 24f * density, size, size)
-        val buttonVisible = hasAnalyze && !world.story.dialogueActive && !showMap && !showInventory && !showJournal
+        val buttonVisible = hasAnalyze && !world.story.dialogueActive && !showMap && !showInventory && !showJournal && !showCraft
         analyzeRect = button.takeIf { buttonVisible }
         input.analyzeRect = analyzeRect
         shapes.projectionMatrix = camera.combined

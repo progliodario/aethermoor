@@ -24,6 +24,7 @@ The game picks Italian or English from your system language.
   Debug info ...... F3       Title ........ Esc (with no panel open)
   Sound on or off . F8       Volumes ...... F10
   Export a game ... X on the title screen (a file in the exports folder)   Import ... I
+  Crafting ........ C (make potions, rations, tools from what you gather)
   Gather .......... E near a bush, a tree, a rock or a cactus (berries, herbs, wood, stone...)
   Parry ........... U (just before a creature hits: no damage, and it is stunned; gamepad: LB)
 
@@ -69,6 +70,7 @@ Il gioco sceglie italiano o inglese dalla lingua del sistema.
   Info di debug ... F3       Titolo ....... Esc (senza pannelli aperti)
   Suoni sì o no ... F8       Volumi ....... F10
   Esportare ....... X nella schermata del titolo (un file nella cartella exports)   Importare ... I
+  Costruire ....... C (crea pozioni, razioni, attrezzi con ciò che raccogli)
   Raccogliere ..... E vicino a un cespuglio, un albero, una roccia o un cactus (bacche, erbe, legno, pietra...)
   Parata .......... U (un attimo prima del colpo di una creatura: niente danno e la stordisci; gamepad: LB)
 

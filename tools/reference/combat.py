@@ -64,6 +64,7 @@ class CombatSim:
         self.props += [(x, y, r) for _, x, y, r in self.gather_props]
         self.gathered: dict[tuple[int, int], tuple[int, int]] = {}
         self.world_ticks = 0
+        self.recipes = {r["id"]: r for r in scenario.get("recipes", [])}  # crafting (spec 06, "Crafting")
         self.combat = nm.derive_stream(seed, "combat")
         self.loot = nm.derive_stream(seed, "loot")
         pl = scenario["player"]
@@ -387,6 +388,21 @@ class CombatSim:
 
     # ---------------------------------------------------------------------------------- saves
 
+    def craft(self, recipe_id: str) -> bool:
+        """Makes a recipe from the bag (spec 06, "Crafting"). Returns False, changing nothing, when it is refused."""
+        if self.story is not None and self.story.dialogue_active:
+            return False
+        recipe = self.recipes.get(recipe_id)
+        if recipe is None or any(self.inventory.get(i["item"], 0) < i["qty"] for i in recipe["inputs"]):
+            return False
+        for i in recipe["inputs"]:
+            self.inventory[i["item"]] -= i["qty"]
+            if self.inventory[i["item"]] == 0:
+                del self.inventory[i["item"]]
+        out = recipe["output"]
+        self.inventory[out["item"]] = self.inventory.get(out["item"], 0) + out["qty"]
+        return True
+
     def gather(self) -> list[tuple[str, int]] | None:
         """Gathers from the nearest prop that can be gathered from within reach (spec 06, "Gathering"). None: nothing to gather here, or it has not grown back;
         otherwise the items found (possibly none), which are added to the bag."""
@@ -570,6 +586,9 @@ def run_segment(sim: CombatSim, segment: dict) -> None:
             continue
         if command["cmd"] in ("equip", "buy", "sell"):
             getattr(sim, command["cmd"])(command["item"])
+            continue
+        if command["cmd"] == "craft":
+            sim.craft(command["recipe"])
             continue
         if command["cmd"] == "gather":
             sim.gather()

@@ -86,6 +86,8 @@ struct Ui {
     bool show_map = false;
     bool show_journal = false;
     bool show_settings = false;  // the volumes (spec 16, "Settings")
+    bool show_craft = false;     // the crafting panel (spec 06, "Crafting")
+    int craft_cursor = 0;
     int settings_cursor = 0;
     int journal_scroll = 0;  // first visible line of the journal
     mutable std::map<std::pair<int, int>, std::optional<aether::Settlement>> map_markers;  // settlement shown on a cell
@@ -2123,6 +2125,85 @@ void draw_settings(SDL_Renderer* renderer, const Assets& assets, const Ui& ui, i
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
+// The crafting panel (C): the recipes with what the bag has of each ingredient; W/S choose, E crafts, Esc closes (spec
+// 06, "Crafting").
+std::string item_name(const Assets& assets, const Ui& ui, const std::string& item, std::int64_t count) {
+    return assets.pack.text(ui.lang, "$i18n:item." + item.substr(item.rfind('/') + 1) + ".name", {{"count", count}});
+}
+
+void handle_craft_key(aether::WorldSim& sim, const Assets& assets, Ui& ui, SDL_Keycode key) {
+    const auto& recipes = sim.combat().recipes;
+    if (recipes.empty()) {
+        return;
+    }
+    const int count = static_cast<int>(recipes.size());
+    if (key == SDLK_UP || key == SDLK_W) {
+        ui.craft_cursor = (ui.craft_cursor + count - 1) % count;
+    } else if (key == SDLK_DOWN || key == SDLK_S) {
+        ui.craft_cursor = (ui.craft_cursor + 1) % count;
+    } else if (key == SDLK_E || key == SDLK_RETURN || key == SDLK_KP_ENTER || key == SDLK_SPACE) {
+        const aether::RecipeDef& recipe = recipes[static_cast<std::size_t>(ui.craft_cursor)];
+        if (sim.craft(recipe.id)) {
+            notify(ui, assets.pack.text(ui.lang, "$i18n:ui.crafted",
+                                        {{"item", item_name(assets, ui, recipe.output, recipe.output_qty)}}));
+        } else {
+            notify(ui, assets.pack.text(ui.lang, "$i18n:ui.cannot_craft"));
+        }
+    }
+}
+
+void draw_craft(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w,
+                int out_h, float density) {
+    if (!ui.show_craft) {
+        return;
+    }
+    constexpr float kScale = 1.5F;
+    const auto& recipes = sim.combat().recipes;
+    const float row = 8.0F * kScale * 2.0F + 14.0F;
+    const float w = std::min(static_cast<float>(out_w) - 40.0F, 760.0F * density);
+    const float h = std::min(static_cast<float>(out_h) - 40.0F,
+                             90.0F + row * static_cast<float>(std::max<std::size_t>(recipes.size(), 1)));
+    const float x = (static_cast<float>(out_w) - w) / 2.0F;
+    const float y = (static_cast<float>(out_h) - h) / 2.0F;
+    draw_panel(renderer, x, y, w, h, 255, 215, 120, 245);
+    SDL_SetRenderScale(renderer, kScale, kScale);
+    SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
+    debug_text(renderer, (x + 16.0F) / kScale, (y + 14.0F) / kScale,
+               assets.pack.text(ui.lang, "$i18n:ui.craft").c_str());
+    for (std::size_t i = 0; i < recipes.size(); ++i) {
+        const float ty = y + 44.0F + row * static_cast<float>(i);
+        if (ty + row > y + h - 30.0F) {
+            break;
+        }
+        const aether::RecipeDef& recipe = recipes[i];
+        bool can = true;
+        std::string needs;
+        for (const auto& [item, qty] : recipe.inputs) {
+            const auto owned = sim.inventory().find(item);
+            const std::int64_t have = owned == sim.inventory().end() ? 0 : owned->second;
+            can = can && have >= qty;
+            needs += (needs.empty() ? "" : ", ") + item_name(assets, ui, item, qty) + " " + std::to_string(have) + "/" +
+                     std::to_string(qty);
+        }
+        const bool selected = static_cast<int>(i) == ui.craft_cursor;
+        if (selected) {
+            SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+            fill_rect(renderer, x + 8.0F, ty - 3.0F, w - 16.0F, row, 40, 90, 140, 255);
+            SDL_SetRenderScale(renderer, kScale, kScale);
+        }
+        SDL_SetRenderDrawColor(renderer, can ? 150 : 170, can ? 255 : 150, can ? 170 : 150, 255);
+        debug_text(renderer, (x + 16.0F) / kScale, ty / kScale,
+                   (item_name(assets, ui, recipe.output, recipe.output_qty) + " x" + std::to_string(recipe.output_qty))
+                       .c_str());
+        SDL_SetRenderDrawColor(renderer, 170, 190, 215, 255);
+        debug_text(renderer, (x + 16.0F) / kScale, (ty + 8.0F * kScale + 4.0F) / kScale, needs.c_str());
+    }
+    SDL_SetRenderDrawColor(renderer, 150, 170, 200, 255);
+    debug_text(renderer, (x + 16.0F) / kScale, (y + h - 26.0F) / kScale,
+               assets.pack.text(ui.lang, "$i18n:ui.craft_hint").c_str());
+    SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+}
+
 void draw_journal(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w,
                   int out_h, float density) {
     if (!ui.show_journal) {
@@ -2452,6 +2533,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     draw_travel(renderer, assets, sim, ui, out_w, out_h, density);
     draw_journal(renderer, assets, sim, ui, out_w, out_h, density);
     draw_settings(renderer, assets, ui, out_w, out_h, density);
+    draw_craft(renderer, assets, sim, ui, out_w, out_h, density);
 
     if (debug) {
         char line[160];
@@ -3054,9 +3136,10 @@ int main(int argc, char** argv) {
                 SDL_Event event;
                 while (SDL_PollEvent(&event)) {
                     if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE &&
-                        (ui.show_map || ui.show_inventory || ui.show_journal || ui.show_settings ||
+                        (ui.show_map || ui.show_inventory || ui.show_journal || ui.show_settings || ui.show_craft ||
                          sim.shop() != nullptr || sim.board() != nullptr || sim.travel() != nullptr)) {
                         ui.show_settings = false;
+                        ui.show_craft = false;
                         ui.show_map = false;  // Esc closes the open panel first
                         ui.show_inventory = false;
                         ui.show_journal = false;
@@ -3085,8 +3168,14 @@ int main(int argc, char** argv) {
                     } else if (event.type == SDL_EVENT_KEY_DOWN && !smoke_test &&
                                (event.key.key == SDLK_F5 || event.key.key == SDLK_F9 || event.key.key == SDLK_F7 ||
                                 event.key.key == SDLK_I || event.key.key == SDLK_M || event.key.key == SDLK_Q ||
-                                event.key.key == SDLK_F2 || event.key.key == SDLK_F10)) {
-                        if (event.key.key == SDLK_F10) {
+                                event.key.key == SDLK_F2 || event.key.key == SDLK_F10 ||
+                                (event.key.key == SDLK_C && !ui.show_map))) {
+                        if (event.key.key == SDLK_C) {
+                            ui.show_craft = !ui.show_craft && sim.shop() == nullptr && sim.board() == nullptr;
+                            ui.show_settings = false;
+                            ui.show_inventory = false;
+                            ui.show_journal = false;
+                        } else if (event.key.key == SDLK_F10) {
                             ui.show_settings = !ui.show_settings;
                             ui.show_inventory = false;
                             ui.show_map = false;
@@ -3131,6 +3220,8 @@ int main(int argc, char** argv) {
                             handle_board_key(sim, assets, ui, event.key.key);
                         } else if (sim.shop() != nullptr) {
                             handle_shop_key(sim, assets, ui, event.key.key);
+                        } else if (ui.show_craft) {
+                            handle_craft_key(sim, assets, ui, event.key.key);
                         } else if (ui.show_settings) {
                             handle_settings_key(ui, event.key.key);
                         } else if (ui.show_map) {
@@ -3278,7 +3369,7 @@ int main(int argc, char** argv) {
                         ui.map_cx = ui.map_cy = 64.0F;
                     }
                     sim.tick(input.x, input.y, input.attack, input.dodge, input.strike, input.parry);
-                } else if (ui.show_inventory || ui.show_map || ui.show_journal || ui.show_settings ||
+                } else if (ui.show_inventory || ui.show_map || ui.show_journal || ui.show_settings || ui.show_craft ||
                            sim.shop() != nullptr || sim.board() != nullptr || sim.travel() != nullptr) {
                     accumulator = 0.0;  // the bag, the map, the journal, the shop and the board pause the game
                 } else {

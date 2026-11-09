@@ -137,6 +137,12 @@
                 "family": "stone",
                 "x": 10.0,
                 "y": 10.0
+              },
+              {
+                "kind": "craft",
+                "family": "",
+                "x": 10.0,
+                "y": 10.0
               }
             ]
           },
@@ -231,6 +237,10 @@
             },
             {
               "event": "gather.stone",
+              "volume_pm": 1000
+            },
+            {
+              "event": "craft",
               "volume_pm": 1000
             }
           ],

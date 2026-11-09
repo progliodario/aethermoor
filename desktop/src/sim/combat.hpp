@@ -137,6 +137,14 @@ struct GatherNode {
     std::vector<GatherDrop> drops;
 };
 
+// A crafting recipe (spec 06, "Crafting").
+struct RecipeDef {
+    std::string id;
+    std::string output;
+    std::int64_t output_qty = 1;
+    std::vector<std::pair<std::string, std::int64_t>> inputs;
+};
+
 struct CombatSetup {
     bool enabled = false;
     PlayerSetup player;
@@ -156,6 +164,7 @@ struct CombatSetup {
     std::optional<ShopDef> shop;  // the shop of fixed maps and scenarios (streamed worlds use their regions)
     std::map<std::string, EnemyDef> stream_enemies;  // the enemies of the fauna of a streamed world, by ID
     std::map<std::string, GatherNode> gather_nodes;  // the props that can be gathered from, by art ID
+    std::vector<RecipeDef> recipes;                  // crafting recipes, in the order of the data
 };
 
 enum class AttackPhase { None, Startup, Active, Recovery };

@@ -53,6 +53,12 @@ ITEMS = {
     "base:item/chain_mail": {"kind": "armor", "price": 300, "armor": {"def": 5, "mdef": 2}},
 }
 BREAD = ITEMS
+RECIPES = [
+    {"id": "tonic", "output": {"item": "base:item/tonic", "qty": 2},
+     "inputs": [{"item": "base:item/healing_herb", "qty": 1}, {"item": "base:item/wild_berries", "qty": 2}]},
+    {"id": "potion_small", "output": {"item": "base:item/potion_small", "qty": 1},
+     "inputs": [{"item": "base:item/healing_herb", "qty": 3}, {"item": "base:item/slime_gel", "qty": 1}]},
+]
 GATHER_NODES = [
     {"prop": "base:art/prop/bush", "sound": "plant", "cooldown_ticks": 60, "reach_x100": 150,
      "drops": [{"item": "base:item/wild_berries", "qty_min": 1, "qty_max": 3, "weight_pm": 800}, {"item": "base:item/healing_herb", "qty_min": 1, "qty_max": 2, "weight_pm": 400}]},
@@ -168,6 +174,13 @@ def build_scenarios() -> list[dict]:
                   segment(1, move=(1, 0), do=[]), segment(90, move=(1, 0)), segment(1, do=[{"cmd": "gather"}]), segment(130, move=(-1, 0)),
                   segment(1, do=[{"cmd": "gather"}]), segment(1, do=[{"cmd": "gather"}]), segment(70), segment(1, do=[{"cmd": "gather"}])],
                  inventory={}, gather_nodes=GATHER_NODES, gather_props=GATHER_PROPS),
+        # Crafting (spec 06): the inputs leave the bag and the output arrives; a recipe that is missing something, that does not exist, or a second one
+        # that the bag can no longer pay for is refused and changes nothing.
+        scenario("craft_recipes", [enemy(12.0, 7.5, **passive)],
+                 [segment(1, do=[{"cmd": "craft", "recipe": "tonic"}]), segment(1, do=[{"cmd": "craft", "recipe": "tonic"}]),
+                  segment(1, do=[{"cmd": "craft", "recipe": "tonic"}]), segment(1, do=[{"cmd": "craft", "recipe": "potion_small"}]),
+                  segment(1, do=[{"cmd": "craft", "recipe": "nothing"}]), segment(1, do=[{"cmd": "craft", "recipe": "potion_small"}])],
+                 inventory={"base:item/healing_herb": 4, "base:item/wild_berries": 4, "base:item/slime_gel": 1}, recipes=RECIPES),
         scenario("equip_changes_stats", [enemy(8.1, 4.5, atk=40)],
                  [segment(200), segment(1, do=[{"cmd": "equip", "item": "base:item/iron_sword"},
                                                {"cmd": "equip", "item": "base:item/iron_sword"},

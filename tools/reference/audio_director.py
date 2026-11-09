@@ -41,6 +41,8 @@ class Director:
                 emit("player.parry")
             elif kind == "gather":
                 emit(f"gather.{cue['family']}")
+            elif kind == "craft":
+                emit("craft")
             elif volume >= MIN_AUDIBLE_PM:
                 emit(f"enemy.{cue['family']}.{kind}", volume)
             if kind == "hit":

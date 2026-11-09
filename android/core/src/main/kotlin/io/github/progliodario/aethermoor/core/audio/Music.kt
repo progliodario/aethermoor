@@ -278,7 +278,7 @@ class MusicDirector(private val rules: MusicRules) {
 
     fun update(ctx: MusicContext): MusicChoice {
         for (cue in ctx.cues) {
-            if (cue.kind == "gather") continue
+            if (cue.kind == "gather" || cue.kind == "craft") continue
             val near = hypot(cue.x - ctx.x, cue.y - ctx.y) <= FIGHT_RANGE_TILES
             if (cue.kind == "hit" || cue.kind == "hurt" || near) {
                 lastFight = ctx.frame
