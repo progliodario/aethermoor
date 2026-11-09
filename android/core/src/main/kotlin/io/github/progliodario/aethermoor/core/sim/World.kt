@@ -551,6 +551,20 @@ class WorldSim(
     /** What gathering gave: [node] tells that there was something to gather from; [sound] is plant, wood or stone. */
     class GatherResult(val node: Boolean, val sound: String, val items: List<Pair<String, Long>>)
 
+    /** Makes a recipe from the bag (spec 06, "Crafting"). Returns false, changing nothing, when it is refused. */
+    fun craft(recipeId: String): Boolean {
+        if (story.dialogueActive) return false
+        val recipe = combat.recipes.firstOrNull { it.id == recipeId } ?: return false
+        if (recipe.inputs.any { (item, qty) -> (inventory[item] ?: 0L) < qty }) return false
+        for ((item, qty) in recipe.inputs) {
+            val left = (inventory[item] ?: 0L) - qty
+            if (left == 0L) inventory.remove(item) else inventory[item] = left
+        }
+        inventory[recipe.output] = (inventory[recipe.output] ?: 0L) + recipe.outputQty
+        cues.add(SimCue("craft", "", player.position))
+        return true
+    }
+
     private class Gatherable(val node: GatherNode, val x: Float, val y: Float)
 
     /** The nearest prop in reach that can be gathered from and has grown back, or null (spec 06, "Gathering"). */

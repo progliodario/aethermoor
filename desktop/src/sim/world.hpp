@@ -237,6 +237,8 @@ public:
         std::vector<std::pair<std::string, std::int64_t>> items;
     };
     GatherResult gather();
+    // Makes a recipe from the bag (spec 06, "Crafting"). Returns false, changing nothing, when it is refused.
+    bool craft(const std::string& recipe_id);
     const Story& story() const { return m_story_; }
 
     SaveState capture() const;

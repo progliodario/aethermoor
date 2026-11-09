@@ -44,6 +44,12 @@
       ],
       "volume_pm": 1000
     },
+    "craft": {
+      "sounds": [
+        "craft"
+      ],
+      "volume_pm": 900
+    },
     "gather.plant": {
       "sounds": [
         "gather_plant"

@@ -1,0 +1,146 @@
+{
+  "$schema": "../../schemas/recipes.schema.json",
+  "id": "base:recipes/all",
+  "recipes": [
+    {
+      "id": "tonic",
+      "output": {
+        "item": "base:item/tonic",
+        "qty": 2
+      },
+      "inputs": [
+        {
+          "item": "base:item/healing_herb",
+          "qty": 1
+        },
+        {
+          "item": "base:item/wild_berries",
+          "qty": 2
+        }
+      ]
+    },
+    {
+      "id": "potion_small",
+      "output": {
+        "item": "base:item/potion_small",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/healing_herb",
+          "qty": 3
+        },
+        {
+          "item": "base:item/slime_gel",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "id": "potion_medium",
+      "output": {
+        "item": "base:item/potion_medium",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/healing_herb",
+          "qty": 5
+        },
+        {
+          "item": "base:item/slime_gel",
+          "qty": 3
+        },
+        {
+          "item": "base:item/pine_resin",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "id": "potion_mana_small",
+      "output": {
+        "item": "base:item/potion_mana_small",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/mint_leaf",
+          "qty": 2
+        },
+        {
+          "item": "base:item/healing_herb",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "id": "travel_ration",
+      "output": {
+        "item": "base:item/travel_ration",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/wild_berries",
+          "qty": 5
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "id": "honey_cake",
+      "output": {
+        "item": "base:item/honey_cake",
+        "qty": 2
+      },
+      "inputs": [
+        {
+          "item": "base:item/wild_berries",
+          "qty": 3
+        },
+        {
+          "item": "base:item/pine_resin",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "id": "hand_axe",
+      "output": {
+        "item": "base:item/hand_axe",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/stone_chunk",
+          "qty": 3
+        },
+        {
+          "item": "base:item/wood_log",
+          "qty": 2
+        }
+      ]
+    },
+    {
+      "id": "iron_sword",
+      "output": {
+        "item": "base:item/iron_sword",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/iron_ore",
+          "qty": 5
+        },
+        {
+          "item": "base:item/wood_log",
+          "qty": 2
+        }
+      ]
+    }
+  ]
+}

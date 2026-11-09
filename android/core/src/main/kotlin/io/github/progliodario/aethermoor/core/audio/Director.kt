@@ -93,6 +93,8 @@ class SoundDirector {
                 emit("player.parry")
             } else if (cue.kind == "gather") {
                 emit("gather.${cue.family}")
+            } else if (cue.kind == "craft") {
+                emit("craft")
             } else if (volume >= MIN_AUDIBLE_PM) {
                 emit("enemy.${cue.family}.${cue.kind}", volume)
             }

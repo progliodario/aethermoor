@@ -731,6 +731,18 @@ Scenario scenario_from_json(const Json& in) {
             setup.start_inventory[item] = quantity.get<std::int64_t>();
         }
     }
+    if (in.contains("recipes")) {
+        for (const Json& r : in.at("recipes")) {
+            aether::RecipeDef recipe;
+            recipe.id = r.at("id").get<std::string>();
+            recipe.output = r.at("output").at("item").get<std::string>();
+            recipe.output_qty = integer(r.at("output"), "qty");
+            for (const Json& i : r.at("inputs")) {
+                recipe.inputs.emplace_back(i.at("item").get<std::string>(), integer(i, "qty"));
+            }
+            setup.recipes.push_back(std::move(recipe));
+        }
+    }
     if (in.contains("gather_nodes")) {
         for (const Json& n : in.at("gather_nodes")) {
             aether::GatherNode node;
@@ -808,6 +820,8 @@ void run_segment(aether::WorldSim& sim, const Json& segment) {
                 sim.use_item(command.at("item").get<std::string>());
             } else if (cmd == "gather") {
                 sim.gather();
+            } else if (cmd == "craft") {
+                sim.craft(command.at("recipe").get<std::string>());
             } else if (cmd == "equip") {
                 sim.equip(command.at("item").get<std::string>());
             } else if (cmd == "buy") {

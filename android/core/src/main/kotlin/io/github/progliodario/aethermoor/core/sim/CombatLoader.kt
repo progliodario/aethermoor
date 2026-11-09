@@ -17,6 +17,22 @@ private fun document(pack: Pack, id: String): JsonObject {
     return Json.parseToJsonElement(text).jsonObject
 }
 
+/** The crafting recipes (spec 06, "Crafting"); none when the pack has no table. */
+private fun loadRecipes(pack: Pack): List<RecipeDef> {
+    val text = pack.readDocument("base:recipes/all") ?: return emptyList()
+    val recipes = Json.parseToJsonElement(text).jsonObject["recipes"]?.jsonArray ?: return emptyList()
+    return recipes.map { element ->
+        val r = element.jsonObject
+        val output = r.getValue("output").jsonObject
+        RecipeDef(
+            id = r.getValue("id").jsonPrimitive.content,
+            output = output.getValue("item").jsonPrimitive.content,
+            outputQty = output.getValue("qty").jsonPrimitive.long,
+            inputs = r.getValue("inputs").jsonArray.map { Pair(it.jsonObject.getValue("item").jsonPrimitive.content, it.jsonObject.getValue("qty").jsonPrimitive.long) },
+        )
+    }
+}
+
 /** The props that can be gathered from (spec 06, "Gathering"); none when the pack has no table. */
 private fun loadGatherNodes(pack: Pack): Map<String, GatherNode> {
     val text = pack.readDocument("base:gathering/nodes") ?: return emptyMap()
@@ -218,6 +234,7 @@ fun loadCombatSetup(
             },
             items = items,
             gatherNodes = loadGatherNodes(pack),
+            recipes = loadRecipes(pack),
             startWeapon = startWeapon,
         )
     }

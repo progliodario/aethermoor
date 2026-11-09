@@ -535,6 +535,33 @@ bool WorldSim::use_item(const std::string& item_id) {
 
 std::vector<DamageEvent> WorldSim::take_events() { return std::exchange(m_events_, {}); }
 
+bool WorldSim::craft(const std::string& recipe_id) {
+    if (m_story_.dialogue_active()) {
+        return false;
+    }
+    const auto recipe = std::find_if(m_setup_.recipes.begin(), m_setup_.recipes.end(),
+                                     [&](const RecipeDef& r) { return r.id == recipe_id; });
+    if (recipe == m_setup_.recipes.end()) {
+        return false;
+    }
+    for (const auto& [item, qty] : recipe->inputs) {
+        const auto owned = m_inventory_.find(item);
+        if (owned == m_inventory_.end() || owned->second < qty) {
+            return false;
+        }
+    }
+    for (const auto& [item, qty] : recipe->inputs) {
+        auto owned = m_inventory_.find(item);
+        owned->second -= qty;
+        if (owned->second == 0) {
+            m_inventory_.erase(owned);
+        }
+    }
+    m_inventory_[recipe->output] += recipe->output_qty;
+    m_cues_.push_back({"craft", "", m_player_.position});
+    return true;
+}
+
 WorldSim::GatherResult WorldSim::gather() {
     GatherResult result;
     if (m_story_.dialogue_active() || m_setup_.gather_nodes.empty()) {

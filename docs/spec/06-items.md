@@ -25,6 +25,18 @@ the dead tree, the rock (stone, a little iron ore) and the cactus (pulp). The ma
 - Presentation: a message with the items, and the sound `gather.<sound>` (the creature cue `gather`, spec 14). The conformance scenario `gather_nodes` covers the nearest prop, the cooldown, the reach and
   the draws.
 
+## Crafting
+
+Materials can be made into things from the bag, anywhere, without a workshop. The recipes are `data/base/recipes.json` (schema `recipes`): each has an `id` (a short name),
+an `output` (`item`, `qty`) and `inputs` (a list of `item`, `qty`). The base pack has eight: tonics, small and medium health potions, a small mana potion, a travel ration, a honey cake, a hand axe and an iron sword.
+
+`craft(id)` is refused, changing nothing, while a dialogue is open, when the recipe does not exist, and when the bag has less than the `qty` of any input. Otherwise it removes every input
+(an item that reaches 0 leaves the bag) and adds `qty` of the output (an item the bag did not have enters it). There is no random number, no time and no gold in it. A craft is a creature
+cue `craft` for the sound director (spec 14, event `craft`). The conformance scenario `craft_recipes` covers a recipe made twice, then refused for what is missing, an unknown recipe and a second recipe the bag can no longer pay.
+
+Desktop: `C` opens a panel with the recipes (green when the bag has everything), `W`/`S` choose, `E` makes, `Esc` or `C` closes; the game pauses meanwhile. Android: a button next to the sound
+button opens it; a tap on a recipe makes it. The unique pieces that a shopkeeper makes from monster parts (spec 07, "Workshops") are a different thing and stay.
+
 ## Using an item
 
 `use_item(id)` returns whether the item was used. It is refused (nothing changes) when:

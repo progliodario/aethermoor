@@ -15,6 +15,7 @@ import io.github.progliodario.aethermoor.core.sim.Prop
 import io.github.progliodario.aethermoor.core.sim.ItemDef
 import io.github.progliodario.aethermoor.core.sim.ItemEffect
 import io.github.progliodario.aethermoor.core.sim.PlayerSetup
+import io.github.progliodario.aethermoor.core.sim.RecipeDef
 import io.github.progliodario.aethermoor.core.sim.ShopDef
 import io.github.progliodario.aethermoor.core.sim.SkillDef
 import io.github.progliodario.aethermoor.core.sim.StorySetup
@@ -133,6 +134,13 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         startLevel = player.getValue("level").jsonPrimitive.int,
         story = input["story"]?.let { parseStorySetup(it) } ?: StorySetup(),
         startInventory = input["inventory"]?.jsonObject?.mapValues { it.value.jsonPrimitive.long } ?: emptyMap(),
+        recipes = input["recipes"]?.jsonArray?.map { r ->
+            val o = r.jsonObject
+            RecipeDef(
+                o.getValue("id").jsonPrimitive.content, o.getValue("output").jsonObject.getValue("item").jsonPrimitive.content, o.getValue("output").jsonObject.long("qty"),
+                o.getValue("inputs").jsonArray.map { i -> Pair(i.jsonObject.getValue("item").jsonPrimitive.content, i.jsonObject.long("qty")) },
+            )
+        } ?: emptyList(),
         gatherNodes = input["gather_nodes"]?.jsonArray?.associate { n ->
             val o = n.jsonObject
             o.getValue("prop").jsonPrimitive.content to GatherNode(
@@ -178,6 +186,7 @@ internal fun runSegment(sim: WorldSim, segment: JsonObject) {
             "start_quest" -> sim.story.startQuest(cmd.getValue("quest").jsonPrimitive.content)
             "use" -> sim.useItem(cmd.getValue("item").jsonPrimitive.content)
             "gather" -> sim.gather()
+            "craft" -> sim.craft(cmd.getValue("recipe").jsonPrimitive.content)
             "equip" -> sim.equip(cmd.getValue("item").jsonPrimitive.content)
             "buy" -> sim.buy(cmd.getValue("item").jsonPrimitive.content)
             "sell" -> sim.sell(cmd.getValue("item").jsonPrimitive.content)
