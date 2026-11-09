@@ -3,6 +3,7 @@ package io.github.progliodario.aethermoor.core
 import io.github.progliodario.aethermoor.core.sim.ArmorStats
 import io.github.progliodario.aethermoor.core.sim.BehaviorDef
 import io.github.progliodario.aethermoor.core.sim.CombatSetup
+import io.github.progliodario.aethermoor.core.sim.CompanionDef
 import io.github.progliodario.aethermoor.core.sim.DodgeDef
 import io.github.progliodario.aethermoor.core.sim.GiftDef
 import io.github.progliodario.aethermoor.core.sim.StrikeDef
@@ -134,6 +135,13 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         startLevel = player.getValue("level").jsonPrimitive.int,
         story = input["story"]?.let { parseStorySetup(it) } ?: StorySetup(),
         startInventory = input["inventory"]?.jsonObject?.mapValues { it.value.jsonPrimitive.long } ?: emptyMap(),
+        companion = input["companion"]?.jsonObject?.let { c ->
+            CompanionDef(
+                atkBase = c.long("atk_base"), atkPerLevel = c.long("atk_per_level"), rangeX100 = c.getValue("range_x100").jsonPrimitive.int,
+                cooldownTicks = c.getValue("cooldown_ticks").jsonPrimitive.int, speedX100 = c.getValue("speed_x100").jsonPrimitive.int,
+                followX100 = c.getValue("follow_x100").jsonPrimitive.int,
+            )
+        },
         recipes = input["recipes"]?.jsonArray?.map { r ->
             val o = r.jsonObject
             RecipeDef(

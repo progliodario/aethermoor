@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/companion.schema.json",
+  "id": "base:companion/shade",
+  "name": "$i18n:companion.shade.name",
+  "art": "base:art/creature/cave_bat",
+  "scale_pct": 80,
+  "atk_base": 9,
+  "atk_per_level": 1,
+  "range_x100": 300,
+  "cooldown_ticks": 75,
+  "speed_x100": 380,
+  "follow_x100": 220
+}

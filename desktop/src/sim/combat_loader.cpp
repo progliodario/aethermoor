@@ -102,6 +102,25 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
     setup.gift.heal_pct = protagonist->heal_pct;
     setup.gift.dodge_cooldown_pct = protagonist->dodge_cooldown_pct;
     setup.gift.death_save_ticks = protagonist->death_save_ticks;
+    if (!protagonist->companion.empty()) {  // the companion of the protagonist (spec 10)
+        if (const auto companion_text = pack.read_document(protagonist->companion)) {
+            const Json c = Json::parse(*companion_text, nullptr, /*allow_exceptions=*/false);
+            if (!c.is_discarded() && c.contains("atk_base")) {
+                CompanionDef def;
+                def.id = protagonist->companion;
+                def.name = c.value("name", "");
+                def.art = c.value("art", "");
+                def.scale_pct = c.value("scale_pct", 100);
+                def.atk_base = c.at("atk_base").get<std::int64_t>();
+                def.atk_per_level = c.at("atk_per_level").get<std::int64_t>();
+                def.range_x100 = c.at("range_x100").get<int>();
+                def.cooldown_ticks = c.at("cooldown_ticks").get<int>();
+                def.speed_x100 = c.at("speed_x100").get<int>();
+                def.follow_x100 = c.at("follow_x100").get<int>();
+                setup.companion = std::move(def);
+            }
+        }
+    }
 
     try {
         for (const std::string& item_id : protagonist->starting_items) {

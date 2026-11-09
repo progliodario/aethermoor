@@ -51,5 +51,6 @@
     "base:skill/common/dodge",
     "base:skill/marco/pressure_blast"
   ],
-  "initially_available": true
+  "initially_available": true,
+  "companion": "base:companion/pot"
 }

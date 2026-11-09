@@ -51,5 +51,6 @@
   "initially_available": true,
   "gift_rules": {
     "mp_regen_pct": 300
-  }
+  },
+  "companion": "base:companion/newton"
 }

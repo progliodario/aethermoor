@@ -1,6 +1,6 @@
 # Specifications
 
-Normative rules shared by the desktop and Android clients. **Status:** 00 to 09, 12, 13, 14, 16, 17 and 18 are written (all but 16 and 18 have conformance suites; the protagonists are covered by the `stats` and `combat` suites and by a content test); 10, 11 and 15 are still to come with their milestones. The planned content is described in `docs/plan/02-dati-specifiche-e-formati.md`.
+Normative rules shared by the desktop and Android clients. **Status:** 00 to 10, 12, 13, 14, 16, 17 and 18 are written (all but 16 and 18 have conformance suites; the protagonists are covered by the `stats` and `combat` suites and by a content test); 11 and 15 are still to come with their milestones. The planned content is described in `docs/plan/02-dati-specifiche-e-formati.md`.
 
 | # | Document | Milestone |
 |---|---|---|
@@ -15,7 +15,7 @@ Normative rules shared by the desktop and Android clients. **Status:** 00 to 09,
 | [08](08-world-time.md) | world time, seasons, weather, respawn, the routines of the people | M5c, done |
 | [09](09-worldgen.md) | world generation: terrain, regions, settlements, landmarks, fauna, stones, the world map | M5, done |
 | [18](18-protagonists.md) | protagonists: data, choosing one for a new game, the base roster | M3 / M8, done for four |
-| 10 | companions and AI | M7 |
+| [10](10-companions.md) | companions: a follower that fights (commands and bonds later) | M7, first version done |
 | 11 | progression, titles, tags, reincarnation | M8 |
 | [12](12-save-format.md) | save format v1 and the save slots | M4b / M5, done |
 | [13](13-vector-art.md) | vector art recipes, rasterizer, rigs | M2, done |

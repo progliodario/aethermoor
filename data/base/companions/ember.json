@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/companion.schema.json",
+  "id": "base:companion/ember",
+  "name": "$i18n:companion.ember.name",
+  "art": "base:art/creature/wolf_tawny",
+  "scale_pct": 60,
+  "atk_base": 10,
+  "atk_per_level": 1,
+  "range_x100": 250,
+  "cooldown_ticks": 90,
+  "speed_x100": 360,
+  "follow_x100": 220
+}

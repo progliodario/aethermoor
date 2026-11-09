@@ -21,6 +21,8 @@ data class ProtagonistDef(
     /** Palette variant of the character art ("" for the default). */
     val artVariant: String = "",
     val initiallyAvailable: Boolean = true,
+    /** The ID of the companion that follows this protagonist (spec 10), or empty. */
+    val companion: String = "",
     /** The gift rules (spec 18). */
     val gift: io.github.progliodario.aethermoor.core.sim.GiftDef = io.github.progliodario.aethermoor.core.sim.GiftDef(),
 )
@@ -43,6 +45,7 @@ fun parseProtagonist(jsonText: String): Result<ProtagonistDef> =
                 it.jsonObject.getValue("item").jsonPrimitive.content to it.jsonObject.getValue("qty").jsonPrimitive.long
             } ?: emptyMap(),
             artVariant = (j["art_variant"] as? JsonPrimitive)?.contentOrNull ?: "",
+            companion = (j["companion"] as? JsonPrimitive)?.contentOrNull ?: "",
             gift = j["gift_rules"]?.jsonObject?.let { g ->
                 fun pct(key: String, neutral: Int) = (g[key] as? JsonPrimitive)?.contentOrNull?.toIntOrNull() ?: neutral
                 io.github.progliodario.aethermoor.core.sim.GiftDef(

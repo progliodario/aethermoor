@@ -44,5 +44,6 @@
     "base:skill/ren/power_strike",
     "base:skill/ren/analyze"
   ],
-  "initially_available": true
+  "initially_available": true,
+  "companion": "base:companion/orb"
 }

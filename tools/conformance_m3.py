@@ -53,6 +53,7 @@ ITEMS = {
     "base:item/chain_mail": {"kind": "armor", "price": 300, "armor": {"def": 5, "mdef": 2}},
 }
 BREAD = ITEMS
+COMPANION = {"atk_base": 12, "atk_per_level": 1, "range_x100": 300, "cooldown_ticks": 60, "speed_x100": 320, "follow_x100": 220}
 RECIPES = [
     {"id": "tonic", "output": {"item": "base:item/tonic", "qty": 2},
      "inputs": [{"item": "base:item/healing_herb", "qty": 1}, {"item": "base:item/wild_berries", "qty": 2}]},
@@ -181,6 +182,12 @@ def build_scenarios() -> list[dict]:
                   segment(1, do=[{"cmd": "craft", "recipe": "tonic"}]), segment(1, do=[{"cmd": "craft", "recipe": "potion_small"}]),
                   segment(1, do=[{"cmd": "craft", "recipe": "nothing"}]), segment(1, do=[{"cmd": "craft", "recipe": "potion_small"}])],
                  inventory={"base:item/healing_herb": 4, "base:item/wild_berries": 4, "base:item/slime_gel": 1}, recipes=RECIPES),
+        # The companion (spec 10): it hits the nearest creature in range every cooldown, without the player doing anything, and follows the player when he walks away;
+        # more than 8 tiles away it comes back at once.
+        scenario("companion_fights", [enemy(5.0, 4.5, hp=60, **passive), enemy(5.4, 6.0, hp=60, **passive)],
+                 [segment(70), segment(70), segment(70), segment(140)], companion=COMPANION),
+        scenario("companion_follows", [enemy(10.5, 4.5, hp=30, **passive)],
+                 [segment(60, move=(1, 0)), segment(60, move=(1, 0)), segment(100), segment(60, move=(0, 1)), segment(100)], companion=COMPANION),
         scenario("equip_changes_stats", [enemy(8.1, 4.5, atk=40)],
                  [segment(200), segment(1, do=[{"cmd": "equip", "item": "base:item/iron_sword"},
                                                {"cmd": "equip", "item": "base:item/iron_sword"},

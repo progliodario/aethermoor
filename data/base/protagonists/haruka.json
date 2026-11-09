@@ -51,5 +51,6 @@
   "initially_available": true,
   "gift_rules": {
     "aggro_pct": 50
-  }
+  },
+  "companion": "base:companion/pip"
 }

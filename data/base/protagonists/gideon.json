@@ -52,5 +52,6 @@
     "base:skill/common/dodge",
     "base:skill/gideon/dominion"
   ],
-  "initially_available": true
+  "initially_available": true,
+  "companion": "base:companion/gloom"
 }
