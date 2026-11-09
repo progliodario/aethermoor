@@ -94,6 +94,25 @@ The element multiplier `elem_mult_pm` of the damage formula (spec 04) is, for an
 A hit of element `none` is always `1000`. The numbers of the floating texts do not change; a client may mark a hit with a
 multiplier above 1000 (the desktop and Android clients add an exclamation mark).
 
+## Status effects
+
+A hit with a weapon that has an element (see "Elements") may leave a **status effect** on the creature that it did not kill, unless the creature is
+immune to that element (the multiplier of the hit is 0). After the damage is applied, one roll `next_bounded(1000)` of the `combat` stream is drawn;
+the status is applied when it is below the chance of the element. The effects last a number of ticks, are not saved, and a new one of the same kind
+restarts the count:
+
+| Element | Status | Chance (permille) | Ticks | What it does |
+|---|---|---|---|---|
+| fire | burn | 350 | 150 | every 30 ticks, `max(1, hp * 3 / 100)` damage (its maximum health), whatever the defense; it can kill |
+| water | chill | 400 | 180 | the creature moves at half speed |
+| wind | stun | 300 | 45 | the creature does nothing |
+| earth | stun | 300 | 75 | the creature does nothing |
+| light, dark | weaken | 350 | 240 | its attacks do 75 percent of their `atk` |
+
+At the start of an enemy's update: a burn counts down one tick and, on every 30th tick since it began, hurts (a kill follows the rules of "Kill");
+then a stunned creature counts down one tick and does nothing else; otherwise the creature acts as in "Enemy states"; at the end its chill and weaken
+count down. The parry and the status effects of the player's attacks on the player come later.
+
 ## Kill
 
 HP below 1 means dead (state `dead`, HP 0). Then, in order: loot, then

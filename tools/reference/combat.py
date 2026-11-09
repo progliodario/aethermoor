@@ -19,6 +19,10 @@ RESPAWN_IFRAMES = 90
 ATTACK_MOVE_MULT = 0.5
 MAX_LEVEL = 99
 RETURN_ARRIVAL = 0.1
+# Status effects (spec 05, "Status effects"): the element of the weapon -> (status, chance in permille, ticks).
+STATUS_OF = {"fire": ("burn", 350, 150), "water": ("chill", 400, 180), "wind": ("stun", 300, 45), "earth": ("stun", 300, 75),
+             "light": ("weaken", 350, 240), "dark": ("weaken", 350, 240)}
+BURN_PERIOD = 30
 
 
 def primary_at_level(base: dict, growth_pm: dict, level: int) -> rules.Primary:
@@ -37,6 +41,7 @@ class _Enemy:
         self.t = 0
         self.radius = self.d["radius_x100"] / 100
         self.speed = self.d["speed_x100"] / 100
+        self.burn = self.burn_clock = self.chill = self.weaken = self.stun = 0  # ticks left; not saved
 
 
 class CombatSim:
@@ -185,6 +190,24 @@ class CombatSim:
             if self.phase_tick >= s["recovery"]:
                 self.phase = NONE
 
+    def _apply_status(self, enemy: _Enemy) -> None:
+        """The status effect of a hit of the equipped weapon (spec 05, "Status effects"): a roll for every hit of an element, unless the creature is immune to it."""
+        weapon = self.items.get(self.equipped["weapon"], {}).get("weapon") or {}
+        element = weapon.get("element", "none")
+        if element == "none" or self._elem_mult(enemy) == 0:
+            return
+        status, chance, ticks = STATUS_OF[element]
+        if self.combat.next_bounded(1000) >= chance:
+            return
+        if status == "burn":
+            enemy.burn, enemy.burn_clock = ticks, 0
+        elif status == "chill":
+            enemy.chill = ticks
+        elif status == "stun":
+            enemy.stun = ticks
+        else:
+            enemy.weaken = ticks
+
     def _elem_mult(self, enemy: _Enemy) -> int:
         """The element multiplier of a hit of the equipped weapon against an enemy (spec 05, "Elements")."""
         weapon = self.items.get(self.equipped["weapon"], {}).get("weapon") or {}
@@ -217,6 +240,8 @@ class CombatSim:
             damage = rules.damage(attack, s["power_pct"], enemy.d["def"], self._elem_mult(enemy), 0, self.level,
                                   enemy.d["level"], variance, crit, self.derived["crit_mult_pm"], 1000)
             enemy.hp -= damage
+            if enemy.hp > 0:
+                self._apply_status(enemy)
             if enemy.hp <= 0:
                 enemy.hp = 0
                 enemy.state = DEAD
@@ -255,6 +280,26 @@ class CombatSim:
     def _update_enemy(self, index: int, e: _Enemy) -> None:
         if e.state == DEAD:
             return
+        if e.burn > 0:  # a burn hurts every BURN_PERIOD ticks, whatever the defense
+            e.burn -= 1
+            e.burn_clock += 1
+            if e.burn_clock % BURN_PERIOD == 0:
+                e.hp -= max(1, e.d["hp"] * 3 // 100)
+                if e.hp <= 0:
+                    e.hp = 0
+                    e.state = DEAD
+                    self._on_kill(e)
+                    return
+        if e.stun > 0:  # a stunned creature does nothing
+            e.stun -= 1
+            return
+        self._behave(e)
+        if e.chill > 0:
+            e.chill -= 1
+        if e.weaken > 0:
+            e.weaken -= 1
+
+    def _behave(self, e: _Enemy) -> None:
         b = e.d["behavior"]
         dx, dy = self.x - e.x, self.y - e.y
         dist = math.sqrt(dx * dx + dy * dy)
@@ -284,7 +329,7 @@ class CombatSim:
     def _move_enemy(self, e: _Enemy, tx: float, ty: float) -> None:
         dx, dy = tx - e.x, ty - e.y
         dist = math.sqrt(dx * dx + dy * dy)
-        step = e.speed * mv.TICK_DT
+        step = (e.speed / 2 if e.chill > 0 else e.speed) * mv.TICK_DT
         if dist > 0:
             if dist <= step:
                 e.x, e.y = tx, ty
@@ -295,7 +340,8 @@ class CombatSim:
 
     def _hurt_player(self, e: _Enemy) -> None:
         variance = 950 + self.combat.next_bounded(101)
-        damage = rules.damage(e.d["atk"], 100, self.derived["def"], 1000, 0, e.d["level"], self.level,
+        atk = e.d["atk"] * 75 // 100 if e.weaken > 0 else e.d["atk"]
+        damage = rules.damage(atk, 100, self.derived["def"], 1000, 0, e.d["level"], self.level,
                               variance, False, 1500, 1000)
         self.hp -= damage
         self.iframes = PLAYER_HIT_IFRAMES
