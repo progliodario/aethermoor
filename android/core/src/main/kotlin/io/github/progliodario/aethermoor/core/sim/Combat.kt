@@ -14,6 +14,8 @@ data class SkillDef(
     val angleDeg: Int = 110,
     /** Hits with matk instead of atk (spec 05, "Damage kind"). */
     val magical: Boolean = false,
+    /** The element of its hits; none: the element of the weapon (spec 05, "Elements"). */
+    val element: String = "none",
 )
 
 /** The dodge roll (spec 05, "Dodge roll"): from a skill of type "movement"; [enabled] is false when the protagonist has none. */

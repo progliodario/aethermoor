@@ -15,7 +15,7 @@
   },
   "damage": {
     "kind": "physical",
-    "element": "none",
+    "element": "earth",
     "power_pct": 190
   },
   "tags": [

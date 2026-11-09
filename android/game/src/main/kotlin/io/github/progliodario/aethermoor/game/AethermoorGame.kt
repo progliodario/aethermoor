@@ -893,6 +893,15 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             shapes.rect(fx - barW / 2f, fy, barW, 2f * k)
             shapes.color = Color(0.86f, 0.27f, 0.27f, 1f)
             shapes.rect(fx - barW / 2f, fy, barW * enemy.hp.toFloat() / enemy.def.hp.toFloat(), 2f * k)
+            // The stagger bar (spec 05, "Stagger") under the health: yellow while it fills, white and emptying while the creature is broken.
+            val need = max(1L, enemy.def.hp * enemy.def.staggerPct / 100)
+            val stagger = if (enemy.broken > 0) enemy.broken / 120f else enemy.stagger.toFloat() / need.toFloat()
+            if (enemy.def.staggerPct > 0 && stagger > 0f) {
+                shapes.color = Color(0.08f, 0.08f, 0.08f, 0.8f)
+                shapes.rect(fx - barW / 2f, fy + 2.5f * k, barW, 1f * k)
+                shapes.color = if (enemy.broken > 0) Color.WHITE else Color(1f, 0.82f, 0.31f, 1f)
+                shapes.rect(fx - barW / 2f, fy + 2.5f * k, barW * minOf(stagger, 1f), 1f * k)
+            }
         }
 
         val p = world.player

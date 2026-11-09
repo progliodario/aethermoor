@@ -914,8 +914,13 @@ class WorldSim(
     }
 
     /** The element multiplier of a hit of the equipped weapon against [target] (spec 05, "Elements"). */
+    private fun hitElement(): String {
+        val s = if (player.usingStrike) combat.strike.skill else combat.skill
+        return if (s.element != "none") s.element else combat.items[equippedWeapon]?.weapon?.element ?: "none"
+    }
+
     private fun elementMultiplier(target: EnemyDef): Long {
-        val element = combat.items[equippedWeapon]?.weapon?.element ?: "none"
+        val element = hitElement()
         if (element == "none") return 1000L
         target.weaknessesPm[element]?.let { return it }
         return if (target.element == element) 500L else 1000L
@@ -966,7 +971,7 @@ class WorldSim(
 
     /** The roll for the status effect of the equipped weapon after a hit that left [enemy] alive (spec 05, "Status effects"). */
     private fun applyStatus(enemy: Enemy) {
-        val element = combat.items[equippedWeapon]?.weapon?.element ?: "none"
+        val element = hitElement()
         if (element == "none" || elementMultiplier(enemy.def) == 0L) return
         val (chance, ticks) =
             when (element) {

@@ -151,6 +151,7 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
                 setup.skill.radius_x100 = skill->at("hitbox").at("radius_x100").get<int>();
                 setup.skill.angle_deg = skill->at("hitbox").at("angle_deg").get<int>();
                 setup.skill.magical = skill->at("damage").at("kind").get<std::string>() == "magical";
+                setup.skill.element = skill->at("damage").value("element", "none");
                 found_skill = true;
                 break;
             }
@@ -177,6 +178,7 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
                 setup.strike.skill.radius_x100 = skill->at("hitbox").at("radius_x100").get<int>();
                 setup.strike.skill.angle_deg = skill->at("hitbox").at("angle_deg").get<int>();
                 setup.strike.skill.magical = skill->at("damage").at("kind").get<std::string>() == "magical";
+                setup.strike.skill.element = skill->at("damage").value("element", "none");
                 break;
             }
         }

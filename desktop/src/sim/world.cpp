@@ -941,12 +941,23 @@ void WorldSim::do_hits() {
     }
 }
 
-std::int64_t WorldSim::element_multiplier(const EnemyDef& target) const {
+std::string WorldSim::hit_element() const {
+    const SkillDef& s = m_player_.using_strike ? m_setup_.strike.skill : m_setup_.skill;
+    if (s.element != "none") {
+        return s.element;
+    }
     const auto weapon = m_setup_.items.find(m_equipped_weapon_);
-    if (weapon == m_setup_.items.end() || !weapon->second.is_weapon || weapon->second.weapon_element == "none") {
+    if (weapon == m_setup_.items.end() || !weapon->second.is_weapon) {
+        return "none";
+    }
+    return weapon->second.weapon_element;
+}
+
+std::int64_t WorldSim::element_multiplier(const EnemyDef& target) const {
+    const std::string element = hit_element();
+    if (element == "none") {
         return 1000;
     }
-    const std::string& element = weapon->second.weapon_element;
     const auto weakness = target.weaknesses_pm.find(element);
     if (weakness != target.weaknesses_pm.end()) {
         return weakness->second;
@@ -1019,12 +1030,10 @@ void WorldSim::grant_xp(std::int64_t amount) {
 }
 
 void WorldSim::apply_status(Enemy& enemy) {
-    const auto weapon = m_setup_.items.find(m_equipped_weapon_);
-    if (weapon == m_setup_.items.end() || !weapon->second.is_weapon || weapon->second.weapon_element == "none" ||
-        element_multiplier(enemy.def) == 0) {
+    const std::string element = hit_element();
+    if (element == "none" || element_multiplier(enemy.def) == 0) {
         return;
     }
-    const std::string& element = weapon->second.weapon_element;
     int chance = 0;
     int ticks = 0;
     if (element == "fire") {

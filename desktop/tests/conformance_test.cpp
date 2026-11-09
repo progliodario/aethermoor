@@ -691,6 +691,7 @@ Scenario scenario_from_json(const Json& in) {
     setup.skill.radius_x100 = skill.at("radius_x100").get<int>();
     setup.skill.angle_deg = skill.at("angle_deg").get<int>();
     setup.skill.magical = skill.value("kind", "physical") == "magical";
+    setup.skill.element = skill.value("element", "none");
     if (in.contains("gift")) {
         const Json& gift = in.at("gift");
         setup.gift.mp_regen_pct = gift.value("mp_regen_pct", 100);
@@ -711,6 +712,7 @@ Scenario scenario_from_json(const Json& in) {
         setup.strike.skill.radius_x100 = strike.at("radius_x100").get<int>();
         setup.strike.skill.angle_deg = strike.at("angle_deg").get<int>();
         setup.strike.skill.magical = strike.value("kind", "physical") == "magical";
+        setup.strike.skill.element = strike.value("element", "none");
     }
     if (in.contains("dodge")) {
         const Json& dodge = in.at("dodge");

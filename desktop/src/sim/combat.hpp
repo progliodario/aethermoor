@@ -21,7 +21,8 @@ struct SkillDef {
     std::int64_t power_pct = 100;
     int radius_x100 = 160;
     int angle_deg = 110;
-    bool magical = false;  // hits with matk instead of atk (spec 05, "Damage kind")
+    bool magical = false;          // hits with matk instead of atk (spec 05, "Damage kind")
+    std::string element = "none";  // the element of its hits; none: the element of the weapon (spec 05, "Elements")
 };
 
 // The dodge roll (spec 05, "Dodge roll"): from a skill of type "movement"; `enabled` is false when the protagonist has

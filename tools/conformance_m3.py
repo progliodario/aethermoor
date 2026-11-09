@@ -167,6 +167,12 @@ def build_scenarios() -> list[dict]:
                  [segment(120, attack=True), segment(120, attack=True), segment(120, attack=True), segment(120, attack=True), segment(120, attack=True)]),
         scenario("stagger_strike", [enemy(3.6, 4.5, hp=600, atk=30, stagger_pct=20)],
                  [segment(60, strike=True), segment(100, attack=True), segment(100, strike=True), segment(150, attack=True)], strike=STRIKE),
+        # The element of a skill (spec 05): a power strike of fire is of fire whatever the weapon (here a blade of water), the plain slash keeps the element of the weapon.
+        scenario("skill_element", [enemy(3.5, 4.5, hp=900, weaknesses_pm={"fire": 1500, "water": 500}, **passive),
+                                   enemy(3.4, 4.9, hp=900, element="fire", **passive)],
+                 [segment(1, do=[{"cmd": "equip", "item": "base:item/frost_blade"}]), segment(60, strike=True), segment(60, attack=True),
+                  segment(100, strike=True), segment(150, attack=True)],
+                 inventory={"base:item/frost_blade": 1}, strike={**STRIKE, "element": "fire"}),
         scenario("player_death", [enemy(6.7, 4.5, atk=400)], [segment(100), segment(100), segment(100)]),
         # Hurt by a slime, the player eats bread: health goes up and one bread is gone. A second bread at full health is refused,
         # and so are the gel (no effect), an item that is not owned and a use while the player is hurt but the stack is empty.
