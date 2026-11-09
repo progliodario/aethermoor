@@ -22,7 +22,7 @@ The game picks Italian or English from your system language.
   Quick save ...... F5       Quick load .. F9       New game ......... F7
   Small map ....... N (shows or hides the map in the corner)
   Debug info ...... F3       Title ........ Esc (with no panel open)
-  Sound on or off . F8
+  Sound on or off . F8       Volumes ...... F10
 
 The game opens on a list of three games, each with its own world and its own hero: a new game asks who to be
 (Ren, Sakura, Daichi, Haruka, Marco, Yuki, Lena or Gideon; W/S, E or the number keys). Pick one
@@ -64,7 +64,7 @@ Il gioco sceglie italiano o inglese dalla lingua del sistema.
   Salvataggio rapido  F5     Carica ...... F9          Nuova partita ........ F7
   Mini mappa ...... N (mostra o nasconde la mappa nell'angolo)
   Info di debug ... F3       Titolo ....... Esc (senza pannelli aperti)
-  Suoni sì o no ... F8
+  Suoni sì o no ... F8       Volumi ....... F10
 
 All'avvio vedi un elenco di tre partite, ognuna con il suo mondo e il suo eroe: una nuova partita chiede chi vuoi essere
 (Ren, Sakura, Daichi, Haruka, Marco, Yuki, Lena o Gideon; W/S, E o i tasti numerici). Scegline una

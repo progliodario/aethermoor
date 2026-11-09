@@ -45,6 +45,8 @@ public:
     const MusicRules* music_rules() const { return m_music_rules_ ? &*m_music_rules_ : nullptr; }
     // Call once per frame: counts down the cooldowns and keeps the audio stream filled.
     void frame();
+    // The volumes of the player, in permille: all of it, the effects, the ambience and the music (spec 16, "Settings").
+    void set_volumes(int master_pm, int effects_pm, int ambience_pm, int music_pm);
     void set_muted(bool muted);
     bool muted() const { return m_muted_; }
     bool ready() const { return m_stream_ != nullptr; }
@@ -93,6 +95,10 @@ private:
     std::future<std::shared_ptr<Layers>> m_music_job_;
     std::vector<std::string> m_music_layers_;
     bool m_muted_ = false;
+    float m_master_ = 1.0F;
+    float m_effects_ = 1.0F;
+    float m_ambience_ = 1.0F;
+    float m_music_volume_ = 1.0F;
 };
 
 }  // namespace aether
