@@ -1062,6 +1062,7 @@ class WorldSim(
             worldTicks = worldTicks,
             explored = explored.toList(),
             stones = stones.toList(),
+            companion = if (combat.companion != null) Triple((companionPosition ?: player.position).x, (companionPosition ?: player.position).y, companionCooldown) else null,
             equippedWeapon = equippedWeapon,
             equippedArmor = equippedArmor,
             inventory = HashMap(inventory), story = story.capture(),
@@ -1162,6 +1163,11 @@ class WorldSim(
         travel = null
         stones.clear()
         stones.addAll(s.stones)
+        combat.companion?.let { c -> // a save without a companion (an older one) puts it next to the player
+            val saved = s.companion
+            companionPosition = if (saved != null) Vec2(saved.first, saved.second) else player.position
+            companionCooldown = saved?.third ?: c.cooldownTicks
+        }
         recomputeDerived()
         player.hp = minOf(s.hp, derived.maxHp)
         explored.clear()

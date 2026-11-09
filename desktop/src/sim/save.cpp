@@ -123,6 +123,9 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
         }
         j["stones"] = stones;
     }
+    if (s.has_companion) {
+        j["companion"] = {{"x", s.companion_x}, {"y", s.companion_y}, {"cooldown", s.companion_cooldown}};
+    }
     if (meta.map == "world") {
         Json cleared = Json::array();
         for (const ClearedSpawner& c : s.cleared) {
@@ -216,6 +219,13 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
             for (const Json& c : j.at("explored")) {
                 s.explored.emplace_back(c.at(0).get<int>(), c.at(1).get<int>());
             }
+        }
+        if (j.contains("companion")) {
+            const Json& c = j.at("companion");
+            s.has_companion = true;
+            s.companion_x = c.at("x").get<float>();
+            s.companion_y = c.at("y").get<float>();
+            s.companion_cooldown = c.at("cooldown").get<int>();
         }
         if (j.contains("stones")) {
             for (const Json& c : j.at("stones")) {

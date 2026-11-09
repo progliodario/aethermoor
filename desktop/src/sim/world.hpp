@@ -129,6 +129,10 @@ struct SaveState {
     std::vector<std::pair<int, int>>
         stones;                     // streamed worlds: tiles of the Threshold Stones that were used, in order (spec 09)
     std::int64_t world_ticks = -1;  // -1: not in the save (a new game starts at the world's start tick)
+    bool has_companion = false;     // the companion of the protagonist (spec 10): where it is and its cooldown
+    float companion_x = 0.0F;
+    float companion_y = 0.0F;
+    int companion_cooldown = 0;
     std::map<std::string, std::int64_t> inventory;
     std::string equipped_weapon;  // spec 06
     std::string equipped_armor;

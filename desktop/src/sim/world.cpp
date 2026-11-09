@@ -1148,6 +1148,12 @@ SaveState WorldSim::capture() const {
         s.cleared.push_back({spawner.first, spawner.second, died});
     }
     s.stones = m_stones_;
+    if (m_setup_.companion) {
+        s.has_companion = true;
+        s.companion_x = m_companion_pos_.x;
+        s.companion_y = m_companion_pos_.y;
+        s.companion_cooldown = m_companion_cooldown_;
+    }
     s.explored.assign(m_explored_.begin(), m_explored_.end());
     std::sort(s.explored.begin(), s.explored.end(), [](const auto& a, const auto& b) {  // rows first (spec 12)
         return a.second != b.second ? a.second < b.second : a.first < b.first;
@@ -1272,6 +1278,10 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
     m_board_.reset();
     m_travel_.reset();
     m_stones_ = s.stones;
+    if (m_setup_.companion) {  // a save without a companion (an older one) puts it next to the player
+        m_companion_pos_ = s.has_companion ? Vec2{s.companion_x, s.companion_y} : s.position;
+        m_companion_cooldown_ = s.has_companion ? s.companion_cooldown : m_setup_.companion->cooldown_ticks;
+    }
     recompute_derived();
     m_player_.hp = std::min(s.hp, m_derived_.max_hp);
     m_explored_ = std::set<std::pair<int, int>>(s.explored.begin(), s.explored.end());
