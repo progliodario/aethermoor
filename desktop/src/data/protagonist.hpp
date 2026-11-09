@@ -27,6 +27,7 @@ struct ProtagonistDef {
     int dodge_cooldown_pct = 100;
     int death_save_ticks = 0;
     std::string art_variant;  // palette variant of the character art ("" for the default)
+    std::string companion;    // the ID of the companion that follows this protagonist (spec 10), or empty
     bool initially_available = true;
 };
 

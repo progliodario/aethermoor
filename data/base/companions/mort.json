@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/companion.schema.json",
+  "id": "base:companion/mort",
+  "name": "$i18n:companion.mort.name",
+  "art": "base:art/creature/cave_spider",
+  "scale_pct": 80,
+  "atk_base": 8,
+  "atk_per_level": 1,
+  "range_x100": 280,
+  "cooldown_ticks": 85,
+  "speed_x100": 340,
+  "follow_x100": 220
+}

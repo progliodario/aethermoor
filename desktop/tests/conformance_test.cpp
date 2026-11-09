@@ -731,6 +731,17 @@ Scenario scenario_from_json(const Json& in) {
             setup.start_inventory[item] = quantity.get<std::int64_t>();
         }
     }
+    if (in.contains("companion")) {
+        const Json& c = in.at("companion");
+        aether::CompanionDef def;
+        def.atk_base = integer(c, "atk_base");
+        def.atk_per_level = integer(c, "atk_per_level");
+        def.range_x100 = c.at("range_x100").get<int>();
+        def.cooldown_ticks = c.at("cooldown_ticks").get<int>();
+        def.speed_x100 = c.at("speed_x100").get<int>();
+        def.follow_x100 = c.at("follow_x100").get<int>();
+        setup.companion = def;
+    }
     if (in.contains("recipes")) {
         for (const Json& r : in.at("recipes")) {
             aether::RecipeDef recipe;

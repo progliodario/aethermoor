@@ -28,6 +28,7 @@ import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.floor
 import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.sqrt
 
 // The world: map, player, enemies, combat and camera. Spec: docs/spec/02, 03 and 05.
@@ -37,6 +38,10 @@ private const val PLAYER_HIT_IFRAMES = 45
 
 // The parry (spec 05, "Parry"): the window, the wait before the next one, what it does to the attacker, the safety it gives.
 private const val PARRY_TICKS = 14
+
+// The companion (spec 10): it never comes farther than this from the player, and its body is this big.
+private const val COMPANION_LEASH = 8f
+private const val COMPANION_RADIUS = 0.25f
 private const val PARRY_COOLDOWN = 70
 private const val PARRY_STUN = 60
 private const val PARRY_IFRAMES = 20
@@ -209,6 +214,11 @@ class WorldSim(
     private var windowY = 0
     private val events = ArrayList<DamageEvent>()
     private val cues = ArrayList<SimCue>()
+
+    /** The companion (spec 10): where it is, or null when the protagonist has none. */
+    var companionPosition: Vec2? = if (combat.companion != null) player.position else null
+        private set
+    private var companionCooldown = combat.companion?.cooldownTicks ?: 0
     private val gathered = HashMap<Pair<Int, Int>, Pair<Long, Int>>() // (x100, y100) -> (tick it grows back, times); not saved
 
     val story = Story(combat.story, this)
@@ -551,6 +561,60 @@ class WorldSim(
     /** What gathering gave: [node] tells that there was something to gather from; [sound] is plant, wood or stone. */
     class GatherResult(val node: Boolean, val sound: String, val items: List<Pair<String, Long>>)
 
+    // The companion follows the player and hits the nearest creature in range now and then (spec 10).
+    private fun updateCompanion() {
+        val c = combat.companion ?: return
+        var pos = companionPosition ?: player.position
+        val p = player
+        val dx = p.position.x - pos.x
+        val dy = p.position.y - pos.y
+        val dist = sqrt(dx * dx + dy * dy)
+        val follow = c.followX100.toFloat() / 100f
+        if (dist > COMPANION_LEASH) {
+            pos = p.position
+        } else if (dist > follow) {
+            val step = min(c.speedX100.toFloat() / 100f * TICK_DT, dist - follow)
+            pos = collision.resolve(Vec2(pos.x + dx / dist * step, pos.y + dy / dist * step), COMPANION_RADIUS)
+        }
+        companionPosition = pos
+        if (companionCooldown > 0) companionCooldown--
+        if (companionCooldown > 0) return
+        var target: Enemy? = null
+        var best = 0f
+        for (enemy in enemies) {
+            if (enemy.state == EnemyState.DEAD) continue
+            val d = sqrt((enemy.position.x - pos.x) * (enemy.position.x - pos.x) + (enemy.position.y - pos.y) * (enemy.position.y - pos.y))
+            if (d <= c.rangeX100.toFloat() / 100f + enemy.radius && (target == null || d < best)) {
+                target = enemy
+                best = d
+            }
+        }
+        val hit = target ?: return
+        val amount = damage(
+            DamageInput(
+                atk = c.atkBase + c.atkPerLevel * (p.level - 1),
+                powerPct = 100,
+                defTarget = hit.def.def,
+                lvlAttacker = p.level,
+                lvlTarget = hit.def.level,
+                variancePm = 1000,
+                crit = false,
+                critMultPm = 1500,
+            ),
+        )
+        hit.hp -= amount
+        hit.hitFlash = HIT_FLASH_TICKS
+        events.add(DamageEvent(hit.position, amount, false, false))
+        cues.add(SimCue("hit", hit.def.sound, hit.position))
+        companionCooldown = c.cooldownTicks
+        if (hit.hp <= 0) {
+            hit.hp = 0
+            hit.state = EnemyState.DEAD
+            cues.add(SimCue("die", hit.def.sound, hit.position))
+            onKill(hit)
+        }
+    }
+
     /** Makes a recipe from the bag (spec 06, "Crafting"). Returns false, changing nothing, when it is refused. */
     fun craft(recipeId: String): Boolean {
         if (story.dialogueActive) return false
@@ -720,6 +784,7 @@ class WorldSim(
             }
         }
         advanceAttack()
+        updateCompanion()
         for (enemy in enemies) {
             updateEnemy(enemy)
             if (enemy.hitFlash > 0) enemy.hitFlash--
@@ -997,6 +1062,7 @@ class WorldSim(
             worldTicks = worldTicks,
             explored = explored.toList(),
             stones = stones.toList(),
+            companion = if (combat.companion != null) Triple((companionPosition ?: player.position).x, (companionPosition ?: player.position).y, companionCooldown) else null,
             equippedWeapon = equippedWeapon,
             equippedArmor = equippedArmor,
             inventory = HashMap(inventory), story = story.capture(),
@@ -1097,6 +1163,11 @@ class WorldSim(
         travel = null
         stones.clear()
         stones.addAll(s.stones)
+        combat.companion?.let { c -> // a save without a companion (an older one) puts it next to the player
+            val saved = s.companion
+            companionPosition = if (saved != null) Vec2(saved.first, saved.second) else player.position
+            companionCooldown = saved?.third ?: c.cooldownTicks
+        }
         recomputeDerived()
         player.hp = minOf(s.hp, derived.maxHp)
         explored.clear()

@@ -129,6 +129,10 @@ struct SaveState {
     std::vector<std::pair<int, int>>
         stones;                     // streamed worlds: tiles of the Threshold Stones that were used, in order (spec 09)
     std::int64_t world_ticks = -1;  // -1: not in the save (a new game starts at the world's start tick)
+    bool has_companion = false;     // the companion of the protagonist (spec 10): where it is and its cooldown
+    float companion_x = 0.0F;
+    float companion_y = 0.0F;
+    int companion_cooldown = 0;
     std::map<std::string, std::int64_t> inventory;
     std::string equipped_weapon;  // spec 06
     std::string equipped_armor;
@@ -239,6 +243,8 @@ public:
     GatherResult gather();
     // Makes a recipe from the bag (spec 06, "Crafting"). Returns false, changing nothing, when it is refused.
     bool craft(const std::string& recipe_id);
+    // The companion (spec 10): where it is, or nullptr when the protagonist has none.
+    const Vec2* companion_position() const { return m_setup_.companion ? &m_companion_pos_ : nullptr; }
     const Story& story() const { return m_story_; }
 
     SaveState capture() const;
@@ -306,6 +312,9 @@ private:
     std::map<std::string, std::int64_t> m_inventory_;
     std::vector<DamageEvent> m_events_;
     std::vector<SimCue> m_cues_;
+    Vec2 m_companion_pos_;
+    int m_companion_cooldown_ = 0;
+    void update_companion();
     std::map<std::pair<int, int>, std::pair<std::int64_t, int>>
         m_gathered_;  // (x100, y100) -> (tick it grows back, times); not saved
     Story m_story_;

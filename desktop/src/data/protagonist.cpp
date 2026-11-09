@@ -39,6 +39,7 @@ std::optional<ProtagonistDef> parse_protagonist(std::string_view json_text, std:
             def.death_save_ticks = rules.value("death_save_ticks", 0);
         }
         def.art_variant = j.value("art_variant", "");
+        def.companion = j.value("companion", "");
         def.initially_available = j.value("initially_available", true);
         return def;
     } catch (const Json::exception& e) {

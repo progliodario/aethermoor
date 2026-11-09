@@ -274,7 +274,7 @@ struct InputDevices {
 
 struct DrawItem {
     float feet_y = 0.0F;
-    int kind = 0;  // 0 prop, 1 enemy, 2 player, 3 npc
+    int kind = 0;  // 0 prop, 1 enemy, 2 player, 3 npc, 4 companion
     const aether::Prop* prop = nullptr;
     const aether::Enemy* enemy = nullptr;
     const aether::NpcDef* npc = nullptr;
@@ -2429,6 +2429,9 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
         items.push_back({npc.y, 3, nullptr, nullptr, &npc});
     }
     items.push_back({sim.player().position.y, 2, nullptr, nullptr, nullptr});
+    if (const aether::Vec2* companion = sim.companion_position()) {
+        items.push_back({companion->y, 4, nullptr, nullptr, nullptr});
+    }
     std::stable_sort(items.begin(), items.end(),
                      [](const DrawItem& a, const DrawItem& b) { return a.feet_y < b.feet_y; });
     for (const DrawItem& item : items) {
@@ -2440,6 +2443,15 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
             draw_character(renderer, cache, assets, player.moving, player.facing_left, player.clip_tick, blink,
                            g_art_variant, fx, fy, k, tile_px);
             draw_swing(renderer, sim, fx, fy, tile);
+        } else if (item.kind ==
+                   4) {  // the companion (spec 10), drawn with the art of its creature, a little smaller, bobbing
+            const aether::CompanionDef& def = *sim.combat().companion;
+            if (const aether::Sprite* sprite = cache.get(def.art, tile_px)) {
+                const aether::Vec2& at = *sim.companion_position();
+                const float bob = std::sin(static_cast<float>(now_ms) / 160.0F) * 2.0F * k;
+                draw_sprite(renderer, *sprite, (at.x - cam.x) * tile, (at.y - cam.y) * tile + bob,
+                            k * static_cast<float>(def.scale_pct) / 100.0F);
+            }
         } else if (item.kind == 3) {
             const float fx = (item.npc->x - cam.x) * tile;
             const float fy = (item.npc->y - cam.y) * tile;

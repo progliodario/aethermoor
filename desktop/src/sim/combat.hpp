@@ -137,6 +137,20 @@ struct GatherNode {
     std::vector<GatherDrop> drops;
 };
 
+// A companion that follows the player and fights (spec 10).
+struct CompanionDef {
+    std::string id;
+    std::string name;  // an $i18n: key
+    std::string art;   // the creature art it is drawn with
+    int scale_pct = 100;
+    std::int64_t atk_base = 0;
+    std::int64_t atk_per_level = 0;
+    int range_x100 = 300;
+    int cooldown_ticks = 60;
+    int speed_x100 = 320;
+    int follow_x100 = 220;
+};
+
 // A crafting recipe (spec 06, "Crafting").
 struct RecipeDef {
     std::string id;
@@ -165,6 +179,7 @@ struct CombatSetup {
     std::map<std::string, EnemyDef> stream_enemies;  // the enemies of the fauna of a streamed world, by ID
     std::map<std::string, GatherNode> gather_nodes;  // the props that can be gathered from, by art ID
     std::vector<RecipeDef> recipes;                  // crafting recipes, in the order of the data
+    std::optional<CompanionDef> companion;           // the companion of the protagonist (spec 10)
 };
 
 enum class AttackPhase { None, Startup, Active, Recovery };

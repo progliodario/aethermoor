@@ -97,6 +97,20 @@ class ArmorStats(val def: Long, val mdef: Long)
 /** What a shop sells: prices in permille of the base price. */
 class ShopDef(val pricePm: Int, val stock: List<String>)
 
+/** A companion that follows the player and fights (spec 10). [name] is an $i18n: key, [art] the creature art it is drawn with. */
+class CompanionDef(
+    val id: String = "",
+    val name: String = "",
+    val art: String = "",
+    val scalePct: Int = 100,
+    val atkBase: Long = 0,
+    val atkPerLevel: Long = 0,
+    val rangeX100: Int = 300,
+    val cooldownTicks: Int = 60,
+    val speedX100: Int = 320,
+    val followX100: Int = 220,
+)
+
 /** A crafting recipe (spec 06, "Crafting"). */
 class RecipeDef(val id: String, val output: String, val outputQty: Long, val inputs: List<Pair<String, Long>>)
 
@@ -124,6 +138,8 @@ class CombatSetup(
     val gatherNodes: Map<String, GatherNode> = emptyMap(),
     /** Crafting recipes, in the order of the data (spec 06, "Crafting"). */
     val recipes: List<RecipeDef> = emptyList(),
+    /** The companion of the protagonist (spec 10), or null. */
+    val companion: CompanionDef? = null,
     /** Items with a `use` block, by item ID (spec 06). */
     val items: Map<String, ItemDef> = emptyMap(),
     /** The weapon and the armor worn in a new game (item ids, or empty). */

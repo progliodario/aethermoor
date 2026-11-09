@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/companion.schema.json",
+  "id": "base:companion/pot",
+  "name": "$i18n:companion.pot.name",
+  "art": "base:art/creature/shore_crab",
+  "scale_pct": 80,
+  "atk_base": 9,
+  "atk_per_level": 1,
+  "range_x100": 220,
+  "cooldown_ticks": 100,
+  "speed_x100": 300,
+  "follow_x100": 220
+}

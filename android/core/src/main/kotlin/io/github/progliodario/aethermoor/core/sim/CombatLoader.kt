@@ -17,6 +17,25 @@ private fun document(pack: Pack, id: String): JsonObject {
     return Json.parseToJsonElement(text).jsonObject
 }
 
+/** The companion of a protagonist (spec 10), or null when there is none. */
+private fun loadCompanion(pack: Pack, id: String): CompanionDef? {
+    if (id.isEmpty()) return null
+    val text = pack.readDocument(id) ?: return null
+    val c = Json.parseToJsonElement(text).jsonObject
+    return CompanionDef(
+        id = id,
+        name = c["name"]?.jsonPrimitive?.content ?: "",
+        art = c["art"]?.jsonPrimitive?.content ?: "",
+        scalePct = c["scale_pct"]?.jsonPrimitive?.int ?: 100,
+        atkBase = c.getValue("atk_base").jsonPrimitive.long,
+        atkPerLevel = c.getValue("atk_per_level").jsonPrimitive.long,
+        rangeX100 = c.getValue("range_x100").jsonPrimitive.int,
+        cooldownTicks = c.getValue("cooldown_ticks").jsonPrimitive.int,
+        speedX100 = c.getValue("speed_x100").jsonPrimitive.int,
+        followX100 = c.getValue("follow_x100").jsonPrimitive.int,
+    )
+}
+
 /** The crafting recipes (spec 06, "Crafting"); none when the pack has no table. */
 private fun loadRecipes(pack: Pack): List<RecipeDef> {
     val text = pack.readDocument("base:recipes/all") ?: return emptyList()
@@ -235,6 +254,7 @@ fun loadCombatSetup(
             items = items,
             gatherNodes = loadGatherNodes(pack),
             recipes = loadRecipes(pack),
+            companion = loadCompanion(pack, protagonist.companion),
             startWeapon = startWeapon,
         )
     }

@@ -51,5 +51,6 @@
     "base:skill/yuki/shadow_step",
     "base:skill/yuki/shadow_cut"
   ],
-  "initially_available": true
+  "initially_available": true,
+  "companion": "base:companion/shade"
 }

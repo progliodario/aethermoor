@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/companion.schema.json",
+  "id": "base:companion/orb",
+  "name": "$i18n:companion.orb.name",
+  "art": "base:art/creature/wisp",
+  "scale_pct": 70,
+  "atk_base": 7,
+  "atk_per_level": 1,
+  "range_x100": 350,
+  "cooldown_ticks": 110,
+  "speed_x100": 330,
+  "follow_x100": 220
+}

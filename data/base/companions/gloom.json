@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/companion.schema.json",
+  "id": "base:companion/gloom",
+  "name": "$i18n:companion.gloom.name",
+  "art": "base:art/creature/wolf_shade",
+  "scale_pct": 60,
+  "atk_base": 11,
+  "atk_per_level": 1,
+  "range_x100": 300,
+  "cooldown_ticks": 90,
+  "speed_x100": 360,
+  "follow_x100": 220
+}

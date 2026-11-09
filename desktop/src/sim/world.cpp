@@ -13,6 +13,9 @@ constexpr int kPlayerHitIframes = 45;
 // The parry (spec 05, "Parry"): the window, the wait before the next one, what it does to the attacker, the safety it
 // gives.
 constexpr int kParryTicks = 14;
+// The companion (spec 10): it never comes farther than this from the player, and its body is this big.
+constexpr float kCompanionLeash = 8.0F;
+constexpr float kCompanionRadius = 0.25F;
 constexpr int kParryCooldown = 70;
 constexpr int kParryStun = 60;
 constexpr int kParryIframes = 20;
@@ -89,6 +92,8 @@ WorldSim::WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, Combat
     }
     m_collision_.resolve(m_player_.position.x, m_player_.position.y);
     m_spawn_ = m_player_.position;
+    m_companion_pos_ = m_player_.position;
+    m_companion_cooldown_ = m_setup_.companion ? m_setup_.companion->cooldown_ticks : 0;
     for (const NpcDef& npc : m_setup_.story.npcs) {
         m_collision_.add_prop({npc.x, npc.y, kNpcRadius});
     }
@@ -535,6 +540,67 @@ bool WorldSim::use_item(const std::string& item_id) {
 
 std::vector<DamageEvent> WorldSim::take_events() { return std::exchange(m_events_, {}); }
 
+// The companion follows the player and hits the nearest creature in range now and then (spec 10).
+void WorldSim::update_companion() {
+    const CompanionDef& c = *m_setup_.companion;
+    const Player& p = m_player_;
+    const float dx = p.position.x - m_companion_pos_.x;
+    const float dy = p.position.y - m_companion_pos_.y;
+    const float dist = std::sqrt(dx * dx + dy * dy);
+    const float follow = static_cast<float>(c.follow_x100) / 100.0F;
+    if (dist > kCompanionLeash) {
+        m_companion_pos_ = p.position;
+    } else if (dist > follow) {
+        const float step = std::min(static_cast<float>(c.speed_x100) / 100.0F * kTickDt, dist - follow);
+        m_companion_pos_.x += dx / dist * step;
+        m_companion_pos_.y += dy / dist * step;
+        m_collision_.resolve(m_companion_pos_.x, m_companion_pos_.y, kCompanionRadius);
+    }
+    if (m_companion_cooldown_ > 0) {
+        --m_companion_cooldown_;
+    }
+    if (m_companion_cooldown_ > 0) {
+        return;
+    }
+    Enemy* target = nullptr;
+    float best = 0.0F;
+    for (Enemy& enemy : m_enemies_) {
+        if (enemy.state == EnemyState::Dead) {
+            continue;
+        }
+        const float d = std::sqrt((enemy.position.x - m_companion_pos_.x) * (enemy.position.x - m_companion_pos_.x) +
+                                  (enemy.position.y - m_companion_pos_.y) * (enemy.position.y - m_companion_pos_.y));
+        if (d <= static_cast<float>(c.range_x100) / 100.0F + enemy.radius() && (target == nullptr || d < best)) {
+            target = &enemy;
+            best = d;
+        }
+    }
+    if (target == nullptr) {
+        return;
+    }
+    DamageInput in;
+    in.atk = c.atk_base + c.atk_per_level * (p.level - 1);
+    in.power_pct = 100;
+    in.def_target = target->def.def;
+    in.lvl_attacker = p.level;
+    in.lvl_target = target->def.level;
+    in.variance_pm = 1000;
+    in.crit = false;
+    in.crit_mult_pm = 1500;
+    const std::int64_t amount = damage(in);
+    target->hp -= amount;
+    target->hit_flash = kHitFlashTicks;
+    m_events_.push_back({target->position, amount, false, false});
+    m_cues_.push_back({"hit", target->def.sound, target->position});
+    m_companion_cooldown_ = c.cooldown_ticks;
+    if (target->hp <= 0) {
+        target->hp = 0;
+        target->state = EnemyState::Dead;
+        m_cues_.push_back({"die", target->def.sound, target->position});
+        on_kill(*target);
+    }
+}
+
 bool WorldSim::craft(const std::string& recipe_id) {
     if (m_story_.dialogue_active()) {
         return false;
@@ -738,6 +804,9 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
         }
     }
     advance_attack();
+    if (m_setup_.companion) {
+        update_companion();
+    }
     for (Enemy& enemy : m_enemies_) {
         update_enemy(enemy);
         if (enemy.hit_flash > 0) {
@@ -1079,6 +1148,12 @@ SaveState WorldSim::capture() const {
         s.cleared.push_back({spawner.first, spawner.second, died});
     }
     s.stones = m_stones_;
+    if (m_setup_.companion) {
+        s.has_companion = true;
+        s.companion_x = m_companion_pos_.x;
+        s.companion_y = m_companion_pos_.y;
+        s.companion_cooldown = m_companion_cooldown_;
+    }
     s.explored.assign(m_explored_.begin(), m_explored_.end());
     std::sort(s.explored.begin(), s.explored.end(), [](const auto& a, const auto& b) {  // rows first (spec 12)
         return a.second != b.second ? a.second < b.second : a.first < b.first;
@@ -1203,6 +1278,10 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
     m_board_.reset();
     m_travel_.reset();
     m_stones_ = s.stones;
+    if (m_setup_.companion) {  // a save without a companion (an older one) puts it next to the player
+        m_companion_pos_ = s.has_companion ? Vec2{s.companion_x, s.companion_y} : s.position;
+        m_companion_cooldown_ = s.has_companion ? s.companion_cooldown : m_setup_.companion->cooldown_ticks;
+    }
     recompute_derived();
     m_player_.hp = std::min(s.hp, m_derived_.max_hp);
     m_explored_ = std::set<std::pair<int, int>>(s.explored.begin(), s.explored.end());

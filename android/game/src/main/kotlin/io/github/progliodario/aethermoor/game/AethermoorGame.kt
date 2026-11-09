@@ -61,6 +61,7 @@ import kotlin.math.PI
 import kotlin.math.atan2
 import kotlin.math.ceil
 import kotlin.math.floor
+import kotlin.math.sin
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -657,17 +658,19 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
 
         // Props, enemies and the player, sorted by feet y (smaller first; ties keep list order, the player last).
-        class Item(val feetY: Float, val prop: Prop?, val enemy: Enemy?, val npc: NpcDef? = null)
+        class Item(val feetY: Float, val prop: Prop?, val enemy: Enemy?, val npc: NpcDef? = null, val companion: Boolean = false)
         val items = ArrayList<Item>()
         world.forEachProp(cam.x - 2f, cam.y - 1f, cam.x + viewW + 2f, cam.y + viewH + 4f) { prop -> items.add(Item(prop.y, prop, null)) }
         for (enemy in world.enemies) if (enemy.state != EnemyState.DEAD) items.add(Item(enemy.position.y, null, enemy))
         for (npc in world.story.setup.npcs + world.story.dynamicNpcs) items.add(Item(npc.y, null, null, npc))
         items.add(Item(world.player.position.y, null, null))
+        world.companionPosition?.let { items.add(Item(it.y, null, null, null, true)) }
         for (item in items.sortedBy { it.feetY }) {
             when {
                 item.prop != null -> drawProp(item.prop, cam.x, cam.y, tilePx, tile, k)
                 item.enemy != null -> drawEnemy(item.enemy, cam.x, cam.y, tilePx, tile, k)
                 item.npc != null -> drawNpc(world, data, item.npc, cam.x, cam.y, tilePx, k)
+                item.companion -> drawCompanion(world, cam.x, cam.y, tilePx, tile, k)
                 else -> drawPlayer(world, data, cam.x, cam.y, tilePx, k)
             }
         }
@@ -692,6 +695,18 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val fx = (prop.x - camX) * tile
         val fy = (prop.y - camY) * tile
         batch.draw(sprite.region, fx - sprite.originX * k, fy - sprite.originY * k, sprite.width * k, sprite.height * k)
+    }
+
+    /** The companion (spec 10), drawn with the art of its creature, a little smaller, bobbing. */
+    private fun drawCompanion(world: WorldSim, camX: Float, camY: Float, tilePx: Int, tile: Float, k: Float) {
+        val def = world.combat.companion ?: return
+        val at = world.companionPosition ?: return
+        val sprite = cache.get(def.art, tilePx) ?: return
+        val s = k * def.scalePct / 100f
+        val bob = sin(System.currentTimeMillis() / 160f) * 2f * k
+        val fx = (at.x - camX) * tile
+        val fy = (at.y - camY) * tile + bob
+        batch.draw(sprite.region, fx - sprite.originX * s, fy - sprite.originY * s, sprite.width * s, sprite.height * s)
     }
 
     private fun drawEnemy(enemy: Enemy, camX: Float, camY: Float, tilePx: Int, tile: Float, k: Float) {

@@ -28,6 +28,9 @@ PARRY_TICKS = 14
 PARRY_COOLDOWN = 70
 PARRY_STUN = 60
 PARRY_IFRAMES = 20
+# The companion (spec 10): it never comes farther than this from the player, and its body is this big.
+COMPANION_LEASH = 8.0
+COMPANION_RADIUS = 0.25
 
 
 def primary_at_level(base: dict, growth_pm: dict, level: int) -> rules.Primary:
@@ -64,6 +67,9 @@ class CombatSim:
         self.props += [(x, y, r) for _, x, y, r in self.gather_props]
         self.gathered: dict[tuple[int, int], tuple[int, int]] = {}
         self.world_ticks = 0
+        self.companion = scenario.get("companion")  # the definition of the companion (spec 10), or None
+        self.comp_x, self.comp_y = scenario["player"]["start"]
+        self.comp_cooldown = self.companion["cooldown_ticks"] if self.companion else 0
         self.recipes = {r["id"]: r for r in scenario.get("recipes", [])}  # crafting (spec 06, "Crafting")
         self.combat = nm.derive_stream(seed, "combat")
         self.loot = nm.derive_stream(seed, "loot")
@@ -193,6 +199,8 @@ class CombatSim:
                     self.phase, self.phase_tick, self.cooldown = STARTUP, 0, self.skill["cooldown"]
                     self.hit_set = set()
         self._advance_attack()
+        if self.companion is not None:
+            self._update_companion()
 
         for index, enemy in enumerate(self.enemies):
             self._update_enemy(index, enemy)
@@ -214,6 +222,41 @@ class CombatSim:
             self.phase_tick += 1
             if self.phase_tick >= s["recovery"]:
                 self.phase = NONE
+
+    def _update_companion(self) -> None:
+        """The companion follows the player and hits the nearest creature in range now and then (spec 10)."""
+        c = self.companion
+        dx, dy = self.x - self.comp_x, self.y - self.comp_y
+        dist = math.sqrt(dx * dx + dy * dy)
+        if dist > COMPANION_LEASH:
+            self.comp_x, self.comp_y = self.x, self.y
+        elif dist > c["follow_x100"] / 100:
+            step = min(c["speed_x100"] / 100 * mv.TICK_DT, dist - c["follow_x100"] / 100)
+            self.comp_x += dx / dist * step
+            self.comp_y += dy / dist * step
+            self.comp_x, self.comp_y = mv.resolve(self.comp_x, self.comp_y, self.grid, self.props, COMPANION_RADIUS)
+        if self.comp_cooldown > 0:
+            self.comp_cooldown -= 1
+        if self.comp_cooldown > 0:
+            return
+        target = None
+        best = 0.0
+        for enemy in self.enemies:
+            if enemy.state == DEAD:
+                continue
+            d = math.sqrt((enemy.x - self.comp_x) ** 2 + (enemy.y - self.comp_y) ** 2)
+            if d <= c["range_x100"] / 100 + enemy.radius and (target is None or d < best):
+                target, best = enemy, d
+        if target is None:
+            return
+        atk = c["atk_base"] + c["atk_per_level"] * (self.level - 1)
+        damage = rules.damage(atk, 100, target.d["def"], 1000, 0, self.level, target.d["level"], 1000, False, 1500, 1000)
+        target.hp -= damage
+        self.comp_cooldown = c["cooldown_ticks"]
+        if target.hp <= 0:
+            target.hp = 0
+            target.state = DEAD
+            self._on_kill(target)
 
     def _apply_status(self, enemy: _Enemy) -> None:
         """The status effect of a hit of the equipped weapon (spec 05, "Status effects"): a roll for every hit of an element, unless the creature is immune to it."""

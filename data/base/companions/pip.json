@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/companion.schema.json",
+  "id": "base:companion/pip",
+  "name": "$i18n:companion.pip.name",
+  "art": "base:art/creature/slime_mint",
+  "scale_pct": 90,
+  "atk_base": 6,
+  "atk_per_level": 1,
+  "range_x100": 200,
+  "cooldown_ticks": 80,
+  "speed_x100": 320,
+  "follow_x100": 220
+}

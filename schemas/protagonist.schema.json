@@ -17,6 +17,7 @@
     "free_points_per_level": { "type": "integer", "minimum": 0, "maximum": 10 },
     "cheat": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
     "art_variant": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "companion": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:companion/[a-z0-9_]+$" },
     "gift_rules": {
       "type": "object",
       "additionalProperties": false,
