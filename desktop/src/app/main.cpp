@@ -590,6 +590,21 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
                       (y + bar_h + 16.0F * density + below) / 2.0F,
                       assets.pack.text(ui.lang, "$i18n:ui.map_hint").c_str());
     }
+    // The status effects on the player (spec 05), one word each, under the level.
+    std::string status;
+    const auto add_status = [&](int ticks, const char* key) {
+        if (ticks > 0) {
+            status += (status.empty() ? "" : "  ") + assets.pack.text(ui.lang, key);
+        }
+    };
+    add_status(p.burn, "$i18n:ui.status_burn");
+    add_status(p.chill, "$i18n:ui.status_chill");
+    add_status(p.stun, "$i18n:ui.status_stun");
+    add_status(p.weaken, "$i18n:ui.status_weaken");
+    if (!status.empty()) {
+        SDL_SetRenderDrawColor(renderer, 255, 150, 90, 255);
+        outlined_text(renderer, x / 2.0F, (y + bar_h + 34.0F * density + below) / 2.0F, status.c_str());
+    }
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 

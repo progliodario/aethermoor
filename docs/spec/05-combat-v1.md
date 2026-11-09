@@ -111,7 +111,22 @@ restarts the count:
 
 At the start of an enemy's update: a burn counts down one tick and, on every 30th tick since it began, hurts (a kill follows the rules of "Kill");
 then a stunned creature counts down one tick and does nothing else; otherwise the creature acts as in "Enemy states"; at the end its chill and weaken
-count down. The status effects on the player come later.
+count down.
+
+### Status effects on the player
+
+A creature with an `element` that hurts the player (a hit that is not parried and does not kill; the death save of spec 18 counts as not killed) may leave the status of its element on the player: after the
+damage, one roll `next_bounded(1000)` of the `combat` stream, with the chances and the ticks of the table above. They are not saved; a death or a loaded game clears them; a new one of the same kind restarts the count.
+
+| Status | On the player |
+|---|---|
+| burn | every 30 ticks since it began, the player loses `max(1, max_hp * 2 / 100)` health, but never the last point (it cannot kill) |
+| chill | walking is at half speed (the roll is not slowed) |
+| stun | the inputs `attack`, `strike`, `dodge` and `parry` are ignored; the player can still walk |
+| weaken | the `atk` (or `matk`) of the player's hits is `atk * 75 / 100` |
+
+In a tick, right after the cooldowns are counted down: the burn counts down one tick and hurts on its period; then the stun counts down one tick and clears the inputs of this tick. The chill and the weaken
+count down at the end of the tick, after the creatures have been updated (so a status given in this tick lasts one tick less than its number).
 
 ## Parry
 

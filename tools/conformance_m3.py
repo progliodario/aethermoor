@@ -155,6 +155,12 @@ def build_scenarios() -> list[dict]:
                  inventory={"base:item/healing_herb": 4, "base:item/wild_berries": 4}, recipes=RECIPES, titles=TITLES,
                  gather_nodes=GATHER_NODES,
                  gather_props=[{"art": "base:art/prop/bush", "x": 3.0, "y": 6.0, "radius": 0.3}, {"art": "base:art/prop/rock", "x": 2.0, "y": 3.0, "radius": 0.3}]),
+        # Status effects on the player (spec 05): a creature of an element that hits may burn (health goes down by itself, never to zero), chill (half speed),
+        # stun (no attack, roll or parry) or weaken (softer hits); the player walks and fights through them.
+        *[scenario(f"player_status_{element}", [enemy(4.2, 4.5, hp=600, atk=40, element=element)],
+                   [segment(120), segment(90, move=(-1, 0)), segment(120, attack=True), segment(120, move=(0, 1), dodge=True), segment(150, attack=True),
+                    segment(1, parry=True), segment(120, attack=True)])
+          for element in ("fire", "water", "wind", "earth", "dark")],
         scenario("player_death", [enemy(6.7, 4.5, atk=400)], [segment(100), segment(100), segment(100)]),
         # Hurt by a slime, the player eats bread: health goes up and one bread is gone. A second bread at full health is refused,
         # and so are the gel (no effect), an item that is not owned and a use while the player is hurt but the stack is empty.
