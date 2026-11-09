@@ -23,6 +23,7 @@ RETURN_ARRIVAL = 0.1
 STATUS_OF = {"fire": ("burn", 350, 150), "water": ("chill", 400, 180), "wind": ("stun", 300, 45), "earth": ("stun", 300, 75),
              "light": ("weaken", 350, 240), "dark": ("weaken", 350, 240)}
 BURN_PERIOD = 30
+PLAYER_BURN_PCT = 2  # a burn on the player takes this much of the maximum health every period, and never the last point
 # The parry (spec 05, "Parry"): the window, the wait before the next one, what it does to the attacker, the safety it gives.
 PARRY_TICKS = 14
 PARRY_COOLDOWN = 70
@@ -87,6 +88,7 @@ class CombatSim:
         self.death_save_cd = 0
         self.dodge = scenario.get("dodge")  # {"ticks", "speed_mult_x100", "iframes", "cooldown"}, or None: no dodge (spec 05, "Dodge roll")
         self.dodge_ticks = 0
+        self.p_burn = self.p_burn_clock = self.p_chill = self.p_stun = self.p_weaken = 0  # status effects on the player (spec 05)
         self.dodge_cooldown = 0
         self.parry_ticks = 0
         self.parry_cooldown = 0
@@ -154,6 +156,15 @@ class CombatSim:
             self.death_save_cd -= 1
         self.mp_u = min(self.derived["max_mp"] * 6000, self.mp_u + self.derived["mp_regen_x100"] * self.gift.get("mp_regen_pct", 100) // 100)
 
+        if self.p_burn > 0:  # status effects on the player (spec 05, "Status effects on the player")
+            self.p_burn -= 1
+            self.p_burn_clock += 1
+            if self.p_burn_clock % BURN_PERIOD == 0:
+                self.hp = max(1, self.hp - max(1, self.derived["max_hp"] * PLAYER_BURN_PCT // 100))
+        if self.p_stun > 0:
+            self.p_stun -= 1
+            attack = dodge = strike = parry = False
+
         if parry and self.parry_ticks == 0 and self.parry_cooldown == 0 and self.phase == NONE and self.dodge_ticks == 0:
             self.parry_ticks, self.parry_cooldown = PARRY_TICKS, PARRY_COOLDOWN
         if self.parry_ticks > 0:  # a parry in progress allows no attack and no roll
@@ -182,6 +193,8 @@ class CombatSim:
                 length = math.sqrt(vx * vx + vy * vy)
                 self.facing = (vx / length, vy / length)
             mult = ATTACK_MOVE_MULT if self.phase != NONE else 1.0
+            if self.p_chill > 0:
+                mult *= 0.5
             moving_now = vx != 0.0 or vy != 0.0
             if vx != 0.0:
                 self.facing_left = vx < 0.0
@@ -209,6 +222,10 @@ class CombatSim:
             self._update_enemy(index, enemy)
         if self.parry_ticks > 0:
             self.parry_ticks -= 1
+        if self.p_chill > 0:
+            self.p_chill -= 1
+        if self.p_weaken > 0:
+            self.p_weaken -= 1
 
     def _advance_attack(self) -> None:
         s = self.cur_skill
@@ -308,6 +325,8 @@ class CombatSim:
             variance = 950 + self.combat.next_bounded(101)
             crit = self.combat.next_bounded(1000) < self.derived["crit_chance_pm"]
             attack = self.derived["matk"] if s.get("kind") == "magical" else self.derived["atk"]
+            if self.p_weaken > 0:
+                attack = attack * 75 // 100
             damage = rules.damage(attack, s["power_pct"], enemy.d["def"], self._elem_mult(enemy), 0, self.level,
                                   enemy.d["level"], variance, crit, self.derived["crit_mult_pm"], 1000)
             enemy.hp -= damage
@@ -444,8 +463,22 @@ class CombatSim:
             self.phase, self.phase_tick = NONE, 0
             self.dodge_ticks, self.dodge_cooldown = 0, 0
             self.parry_ticks = self.parry_cooldown = 0
+            self.p_burn = self.p_burn_clock = self.p_chill = self.p_stun = self.p_weaken = 0
             self.mp_u = self.derived["max_mp"] * 6000
             self.iframes = RESPAWN_IFRAMES
+            return
+        element = e.d.get("element", "none")
+        if element != "none":  # the status of the creature's element (spec 05, "Status effects on the player")
+            status, chance, ticks = STATUS_OF[element]
+            if self.combat.next_bounded(1000) < chance:
+                if status == "burn":
+                    self.p_burn, self.p_burn_clock = ticks, 0
+                elif status == "chill":
+                    self.p_chill = ticks
+                elif status == "stun":
+                    self.p_stun = ticks
+                else:
+                    self.p_weaken = ticks
 
     # ---------------------------------------------------------------------------------- saves
 
@@ -615,6 +648,7 @@ class CombatSim:
         self.hit_set = {i for i, hit in enumerate(p["hit_set"]) if hit}
         self.dodge_ticks, self.dodge_cooldown = 0, 0  # a roll in progress is not saved (spec 05)
         self.parry_ticks = self.parry_cooldown = 0
+        self.p_burn = self.p_burn_clock = self.p_chill = self.p_stun = self.p_weaken = 0
         self.death_save_cd = 0
         self.mp_u, self.cur_skill = self.derived["max_mp"] * 6000, self.skill  # nor is the mana: a loaded game starts full
         for name, stream in (("combat", self.combat), ("loot", self.loot)):

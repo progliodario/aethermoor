@@ -44,6 +44,8 @@ private const val COMPANION_LEASH = 8f
 private const val COMPANION_RADIUS = 0.25f
 private const val PARRY_COOLDOWN = 70
 private const val PARRY_STUN = 60
+private const val PLAYER_BURN_PERIOD = 30 // spec 05, "Status effects on the player"
+private const val PLAYER_BURN_PCT = 2
 private const val PARRY_IFRAMES = 20
 private const val RESPAWN_IFRAMES = 90
 private const val ATTACK_MOVE_MULT = 0.5f
@@ -82,6 +84,21 @@ class Player(var position: Vec2) {
     /** Ticks of the parry window left (spec 05, "Parry") and until the next one. Not saved. */
     var parryTicks = 0
     var parryCooldown = 0
+
+    /** Status effects on the player (spec 05), ticks left; not saved. */
+    var burn = 0
+    var burnClock = 0
+    var chill = 0
+    var stun = 0
+    var weaken = 0
+
+    fun clearStatus() {
+        burn = 0
+        burnClock = 0
+        chill = 0
+        stun = 0
+        weaken = 0
+    }
 
     /** Ticks until the death save is ready again (spec 18). Not saved. */
     var deathSaveCd = 0
@@ -728,14 +745,21 @@ class WorldSim(
         if (p.deathSaveCd > 0) p.deathSaveCd--
         p.mpU = minOf(derived.maxMp * 6000L, p.mpU + derived.mpRegenX100 * combat.gift.mpRegenPct / 100)
 
-        if (enabled && parryIn && !frozen && p.parryTicks == 0 && p.parryCooldown == 0 && p.phase == AttackPhase.NONE && p.dodgeTicks == 0) {
+        if (p.burn > 0) { // status effects on the player (spec 05)
+            p.burn--
+            p.burnClock++
+            if (p.burnClock % PLAYER_BURN_PERIOD == 0) p.hp = maxOf(1L, p.hp - maxOf(1L, derived.maxHp * PLAYER_BURN_PCT / 100))
+        }
+        val stunned = p.stun > 0
+        if (stunned) p.stun--
+        if (enabled && parryIn && !frozen && !stunned && p.parryTicks == 0 && p.parryCooldown == 0 && p.phase == AttackPhase.NONE && p.dodgeTicks == 0) {
             p.parryTicks = PARRY_TICKS // the parry window opens (spec 05, "Parry")
             p.parryCooldown = PARRY_COOLDOWN
         }
         // a parry in progress allows no attack and no roll
-        val attack = attackIn && !frozen && p.parryTicks == 0
-        val dodge = dodgeIn && !frozen && p.parryTicks == 0
-        val strike = strikeIn && !frozen && p.parryTicks == 0
+        val attack = attackIn && !frozen && !stunned && p.parryTicks == 0
+        val dodge = dodgeIn && !frozen && !stunned && p.parryTicks == 0
+        val strike = strikeIn && !frozen && !stunned && p.parryTicks == 0
 
         val direction = normalizeInput(rawX, rawY)
         val moving = direction.x != 0f || direction.y != 0f
@@ -767,6 +791,7 @@ class WorldSim(
             }
             var speed = if (enabled) derived.moveSpeedX100.toFloat() / 100f else speedTilesPerS
             if (enabled && p.phase != AttackPhase.NONE) speed *= ATTACK_MOVE_MULT
+            if (p.chill > 0) speed *= 0.5f
             p.position = collision.step(p.position, direction, speed)
 
             if (direction.x != 0f) p.facingLeft = direction.x < 0f
@@ -802,6 +827,8 @@ class WorldSim(
             if (enemy.hitFlash > 0) enemy.hitFlash--
         }
         if (p.parryTicks > 0) p.parryTicks--
+        if (p.chill > 0) p.chill--
+        if (p.weaken > 0) p.weaken--
     }
 
     private fun advanceAttack() {
@@ -843,7 +870,7 @@ class WorldSim(
             val crit = combatRng.nextBounded(1000) < derived.critChancePm
             val amount = damage(
                 DamageInput(
-                    atk = if (s.magical) derived.matk else derived.atk,
+                    atk = (if (s.magical) derived.matk else derived.atk).let { if (p.weaken > 0) it * 75 / 100 else it },
                     powerPct = s.powerPct,
                     defTarget = enemy.def.def,
                     elemMultPm = elementMultiplier(enemy.def),
@@ -1071,8 +1098,30 @@ class WorldSim(
             p.dodgeCooldown = 0
             p.parryTicks = 0
             p.parryCooldown = 0
+            p.clearStatus()
             p.mpU = derived.maxMp * 6000L
             p.iframes = RESPAWN_IFRAMES
+            return
+        }
+        val element = enemy.def.element // the status of the creature's element (spec 05, "Status effects on the player")
+        if (element == "none" || element.isEmpty()) return
+        val (chance, ticks) =
+            when (element) {
+                "fire" -> Pair(350, 150)
+                "water" -> Pair(400, 180)
+                "wind" -> Pair(300, 45)
+                "earth" -> Pair(300, 75)
+                else -> Pair(350, 240) // light, dark
+            }
+        if (combatRng.nextBounded(1000).toInt() >= chance) return
+        when (element) {
+            "fire" -> {
+                p.burn = ticks
+                p.burnClock = 0
+            }
+            "water" -> p.chill = ticks
+            "wind", "earth" -> p.stun = ticks
+            else -> p.weaken = ticks
         }
     }
 
@@ -1149,6 +1198,7 @@ class WorldSim(
         p.dodgeCooldown = 0
         p.parryTicks = 0
         p.parryCooldown = 0
+        p.clearStatus()
         p.mpU = derived.maxMp * 6000L // nor is the mana: a loaded game starts full
         p.usingStrike = false
         p.phase = s.phase

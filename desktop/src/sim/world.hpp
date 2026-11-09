@@ -45,6 +45,11 @@ struct Player {
     int dodge_cooldown = 0;     // ticks until the next roll; not saved
     int parry_ticks = 0;        // ticks of the parry window left (spec 05, "Parry"); not saved
     int parry_cooldown = 0;     // ticks until the next parry; not saved
+    int burn = 0;               // status effects on the player (spec 05), ticks left; not saved
+    int burn_clock = 0;
+    int chill = 0;
+    int stun = 0;
+    int weaken = 0;
     Vec2 dodge_dir{1.0F, 0.0F};
 };
 

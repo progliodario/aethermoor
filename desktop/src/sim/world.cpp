@@ -18,6 +18,8 @@ constexpr float kCompanionLeash = 8.0F;
 constexpr float kCompanionRadius = 0.25F;
 constexpr int kParryCooldown = 70;
 constexpr int kParryStun = 60;
+constexpr int kPlayerBurnPeriod = 30;  // spec 05, "Status effects on the player"
+constexpr int kPlayerBurnPct = 2;
 constexpr int kParryIframes = 20;
 constexpr int kRespawnIframes = 90;
 constexpr float kAttackMoveMult = 0.5F;
@@ -727,6 +729,21 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
     }
     p.mp_u = std::min(m_derived_.max_mp * 6000, p.mp_u + m_derived_.mp_regen_x100 * m_setup_.gift.mp_regen_pct / 100);
 
+    if (p.burn > 0) {  // status effects on the player (spec 05)
+        --p.burn;
+        if (++p.burn_clock % kPlayerBurnPeriod == 0) {
+            const std::int64_t amount = std::max<std::int64_t>(1, m_derived_.max_hp * kPlayerBurnPct / 100);
+            p.hp = std::max<std::int64_t>(1, p.hp - amount);
+        }
+    }
+    if (p.stun > 0) {
+        --p.stun;
+        attack = false;
+        dodge = false;
+        strike = false;
+        parry = false;
+    }
+
     if (combat && parry && p.parry_ticks == 0 && p.parry_cooldown == 0 && p.phase == AttackPhase::None &&
         p.dodge_ticks == 0) {
         p.parry_ticks = kParryTicks;  // the parry window opens (spec 05, "Parry")
@@ -773,6 +790,9 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
         if (combat && p.phase != AttackPhase::None) {
             speed *= kAttackMoveMult;
         }
+        if (p.chill > 0) {
+            speed *= 0.5F;
+        }
         m_collision_.step(p.position, direction, speed);
 
         if (direction.x != 0.0F) {
@@ -817,6 +837,12 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
     }
     if (p.parry_ticks > 0) {
         --p.parry_ticks;
+    }
+    if (p.chill > 0) {
+        --p.chill;
+    }
+    if (p.weaken > 0) {
+        --p.weaken;
     }
 }
 
@@ -873,6 +899,9 @@ void WorldSim::do_hits() {
         const bool crit = static_cast<std::int64_t>(m_combat_rng_.next_bounded(1000)) < m_derived_.crit_chance_pm;
         DamageInput in;
         in.atk = s.magical ? m_derived_.matk : m_derived_.atk;
+        if (p.weaken > 0) {
+            in.atk = in.atk * 75 / 100;
+        }
         in.power_pct = s.power_pct;
         in.def_target = enemy.def.def;
         in.elem_mult_pm = element_multiplier(enemy.def);
@@ -1148,8 +1177,42 @@ void WorldSim::hurt_player(Enemy& enemy) {
         p.dodge_cooldown = 0;
         p.parry_ticks = 0;
         p.parry_cooldown = 0;
+        p.burn = p.burn_clock = p.chill = p.stun = p.weaken = 0;
         p.mp_u = m_derived_.max_mp * 6000;
         p.iframes = kRespawnIframes;
+        return;
+    }
+    const std::string& element = enemy.def.element;  // the status of the creature's element (spec 05)
+    if (element == "none" || element.empty()) {
+        return;
+    }
+    int chance = 350;  // light, dark: weaken
+    int ticks = 240;
+    if (element == "fire") {
+        chance = 350;
+        ticks = 150;
+    } else if (element == "water") {
+        chance = 400;
+        ticks = 180;
+    } else if (element == "wind") {
+        chance = 300;
+        ticks = 45;
+    } else if (element == "earth") {
+        chance = 300;
+        ticks = 75;
+    }
+    if (static_cast<int>(m_combat_rng_.next_bounded(1000)) >= chance) {
+        return;
+    }
+    if (element == "fire") {
+        p.burn = ticks;
+        p.burn_clock = 0;
+    } else if (element == "water") {
+        p.chill = ticks;
+    } else if (element == "wind" || element == "earth") {
+        p.stun = ticks;
+    } else {
+        p.weaken = ticks;
     }
 }
 
@@ -1270,6 +1333,7 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
     m_player_.dodge_cooldown = 0;
     m_player_.parry_ticks = 0;
     m_player_.parry_cooldown = 0;
+    m_player_.burn = m_player_.burn_clock = m_player_.chill = m_player_.stun = m_player_.weaken = 0;
     m_player_.mp_u = m_derived_.max_mp * 6000;  // nor is the mana: a loaded game starts full
     m_player_.using_strike = false;
     m_combat_rng_.set_state(s.combat_state, s.combat_inc);
