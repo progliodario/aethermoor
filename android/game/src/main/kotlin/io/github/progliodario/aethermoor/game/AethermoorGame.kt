@@ -186,6 +186,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var titleRowRects: List<FloatArray> = emptyList()
     private var titleCrossRects: List<FloatArray> = emptyList()
 
+    /** On a used game the button that exports it, on an empty one the button that imports into it (spec 12, "Export and import"). */
+    private var titleBundleRects: List<FloatArray> = emptyList()
+
     override fun create() {
         batch = SpriteBatch()
         shapes = ShapeRenderer()
@@ -369,6 +372,62 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             }
             if (peek == null) SlotSummary(false, 1, 0L) else SlotSummary(true, peek.level, peek.gold)
         }
+
+    /** The folder of the exported games: the storage of the app that a file manager can reach, or the private one when there is none. */
+    private fun exportsDir() = if (Gdx.files.isExternalStorageAvailable) Gdx.files.external("exports") else Gdx.files.local("exports")
+
+    /** Packs the files of a game into `exports/slotN.aethersave`; the path, or null when it could not be written. */
+    private fun exportSlot(slot: Int): String? =
+        try {
+            val files = LinkedHashMap<String, String>()
+            for (name in listOf("auto.json", "quick.json", "protagonist.txt", "goal.txt")) {
+                val file = Gdx.files.local("saves/slot$slot/$name")
+                if (file.exists()) files[name] = file.readString("UTF-8")
+            }
+            val target = exportsDir().child("slot$slot.aethersave")
+            target.parent().mkdirs()
+            target.writeString(io.github.progliodario.aethermoor.core.sim.exportBundle(files, info.version), false, "UTF-8")
+            target.file().absolutePath
+        } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
+            Gdx.app.error(TAG, "Cannot export the game: ${e.message}")
+            null
+        }
+
+    /** Unpacks `exports/import.aethersave` into an empty game: "done", "missing" (no file) or "bad" (not a valid one). */
+    private fun importSlot(slot: Int): String =
+        try {
+            val source = exportsDir().child("import.aethersave")
+            val files = if (source.exists()) io.github.progliodario.aethermoor.core.sim.importBundle(source.readString("UTF-8")) else null
+            when {
+                !source.exists() -> "missing"
+                files == null -> "bad"
+                else -> {
+                    for ((name, content) in files) Gdx.files.local("saves/slot$slot/$name").writeString(content, false, "UTF-8")
+                    "done"
+                }
+            }
+        } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
+            Gdx.app.error(TAG, "Cannot import the game: ${e.message}")
+            "bad"
+        }
+
+    /** The export or import button of a row of the title screen. */
+    private fun bundleAction(data: Assets, slots: List<SlotSummary>, index: Int) {
+        titlePendingDelete = -1
+        titleNotice = if (slots[index].used) {
+            val path = exportSlot(index + 1)
+            if (path == null) data.pack.text(language, "\$i18n:ui.export_failed") else data.pack.text(language, "\$i18n:ui.slot_exported", mapOf("path" to path))
+        } else {
+            when (importSlot(index + 1)) {
+                "done" -> {
+                    titleSlots = readSlots()
+                    data.pack.text(language, "\$i18n:ui.slot_imported")
+                }
+                "missing" -> data.pack.text(language, "\$i18n:ui.import_missing", mapOf("path" to exportsDir().child("import.aethersave").file().absolutePath))
+                else -> data.pack.text(language, "\$i18n:ui.import_bad")
+            }
+        }
+    }
 
     private fun deleteSlot(slot: Int) {
         try {
@@ -2730,13 +2789,19 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             selectSlot(titleCursor + 1)
         } else if (input.isKeyJustPressed(Input.Keys.D) || input.isKeyJustPressed(Input.Keys.FORWARD_DEL)) {
             deleteOrAsk(data, slots, titleCursor)
+        } else if ((input.isKeyJustPressed(Input.Keys.X) && slots[titleCursor].used) || (input.isKeyJustPressed(Input.Keys.I) && !slots[titleCursor].used)) {
+            bundleAction(data, slots, titleCursor)
         } else if (input.justTouched()) {
             val x = input.x.toFloat()
             val y = input.y.toFloat()
             fun inside(r: FloatArray) = r.size == 4 && x >= r[0] && x <= r[0] + r[2] && y >= r[1] && y <= r[1] + r[3]
             val cross = titleCrossRects.indexOfFirst { inside(it) }
             val row = titleRowRects.indexOfFirst { inside(it) }
-            if (cross >= 0) {
+            val bundle = titleBundleRects.indexOfFirst { inside(it) }
+            if (bundle >= 0) {
+                titleCursor = bundle
+                bundleAction(data, slots, bundle)
+            } else if (cross >= 0) {
                 titleCursor = cross
                 deleteOrAsk(data, slots, cross)
             } else if (row >= 0) {
@@ -2896,6 +2961,13 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
         titleRowRects = rows
         titleCrossRects = crosses
+        // the export button of a used game is left of its cross; the import button of an empty one is where the cross would be
+        val bundles = slots.indices.map { i ->
+            val r = rows[i]
+            val w = rowH * 2f
+            floatArrayOf(if (slots[i].used) r[0] + r[2] - rowH - w else r[0] + r[2] - w, r[1], w, rowH)
+        }
+        titleBundleRects = bundles
 
         shapes.projectionMatrix = camera.combined
         shapes.begin(ShapeRenderer.ShapeType.Filled)
@@ -2912,6 +2984,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 shapes.color = if (titlePendingDelete == i) Color(0.7f, 0.2f, 0.2f, 1f) else Color(0.12f, 0.16f, 0.28f, 1f)
                 shapes.rect(c[0] + 6f * density, c[1] + 6f * density, c[2] - 12f * density, c[3] - 12f * density)
             }
+            val b = bundles[i]
+            shapes.color = Color(0.12f, 0.16f, 0.28f, 1f)
+            shapes.rect(b[0] + 6f * density, b[1] + 6f * density, b[2] - 12f * density, b[3] - 12f * density)
         }
         shapes.end()
 
@@ -2940,6 +3015,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 font.color = Color.WHITE
                 font.draw(batch, "x", c[0] + (c[2] - font.spaceXadvance) / 2f, c[1] + (c[3] - font.lineHeight) / 2f)
             }
+            val b = bundles[i]
+            val label = data.pack.text(language, if (slot.used) "\$i18n:ui.export_button" else "\$i18n:ui.import_button")
+            layout.setText(font, label)
+            font.color = Color(0.67f, 0.78f, 0.9f, 1f)
+            font.draw(batch, label, b[0] + (b[2] - layout.width) / 2f, b[1] + (b[3] - font.lineHeight) / 2f)
         }
         if (titleNotice.isNotEmpty()) {
             font.color = Color(1f, 0.84f, 0.47f, 1f)
