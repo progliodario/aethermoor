@@ -1,13 +1,18 @@
 # 11. Progression: bestiary and titles
 
 Status: **v1 (bestiary and titles; tags and reincarnation come later)**. Reference: `CombatSim._on_kill` and `CombatSim.earned_titles` in `tools/reference/combat.py`.
-Schema: `schemas/titles.schema.json`. Conformance: the scenario `bestiary_titles` of the suite `combat` (the checkpoints carry `bestiary` and `titles`).
+Schema: `schemas/titles.schema.json`. Conformance: the scenarios `bestiary_titles`, `counter_titles` and `board_quest_rewards` of the suite `combat` (the checkpoints carry `bestiary`, `counters` and `titles`).
 
 ## Bestiary
 
 Every time a creature dies by the hand of the player (or of the companion, spec 10) the **bestiary** counts it: `bestiary[id] += 1`, with `id` the ID of the creature (`base:enemy/slime_green`).
 A creature without an ID is not counted. The bestiary is a map from ID to kills; its size is the number of **species** met. It is saved (`bestiary` in the save document, spec 12; absent when empty and in older saves)
 and it is the same for all the maps of a game.
+
+## Counters
+
+Three **counters** tell how one plays: `gathered` goes up by one for every gathering that finds a prop (spec 06, even when it gives nothing), `crafted` for every recipe made (a refused one does not count),
+`parried` for every attack stopped by a parry (spec 05). They are saved (`counters` in the save document, spec 12; a counter at zero is absent). These are the first step of the tags: a title can ask for them.
 
 ## Titles
 
@@ -20,6 +25,7 @@ and it is the same for all the maps of a game.
 | `level` | the player is at level `count` or more |
 | `species` | the bestiary holds `count` creatures or more |
 | `quests` | `count` quests are finished |
+| `gathered`, `crafted`, `parried` | the counter of that name is at `count` or more |
 
 The titles earned are **not saved**: they are computed from the state, in the order of the data (`earned_titles`), so a title cannot be lost nor given twice, and a new title in a later version is
 earned at once by those who already satisfy it. The last title earned is the one that counts as the current one.

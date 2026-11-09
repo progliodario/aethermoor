@@ -17,7 +17,7 @@
         "properties": {
           "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
           "name": { "type": "string" },
-          "kind": { "enum": ["kills", "kills_of", "level", "species", "quests"] },
+          "kind": { "enum": ["kills", "kills_of", "level", "species", "quests", "gathered", "crafted", "parried"] },
           "count": { "type": "integer", "minimum": 1 },
           "enemy": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:enemy/[a-z0-9_]+$" }
         }

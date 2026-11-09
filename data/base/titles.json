@@ -47,6 +47,24 @@
       "count": 10
     },
     {
+      "id": "forager",
+      "name": "$i18n:title.forager",
+      "kind": "gathered",
+      "count": 30
+    },
+    {
+      "id": "artisan",
+      "name": "$i18n:title.artisan",
+      "kind": "crafted",
+      "count": 15
+    },
+    {
+      "id": "unbreakable",
+      "name": "$i18n:title.unbreakable",
+      "kind": "parried",
+      "count": 25
+    },
+    {
       "id": "veteran",
       "name": "$i18n:title.veteran",
       "kind": "kills",

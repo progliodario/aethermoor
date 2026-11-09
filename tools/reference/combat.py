@@ -71,6 +71,7 @@ class CombatSim:
         self.comp_x, self.comp_y = scenario["player"]["start"]
         self.comp_cooldown = self.companion["cooldown_ticks"] if self.companion else 0
         self.titles = scenario.get("titles", [])  # titles (spec 11)
+        self.counters: dict[str, int] = {}  # gathered, crafted, parried (spec 11)
         self.bestiary: dict[str, int] = {}  # creature id -> how many were killed (spec 11)
         self.recipes = {r["id"]: r for r in scenario.get("recipes", [])}  # crafting (spec 06, "Crafting")
         self.combat = nm.derive_stream(seed, "combat")
@@ -324,7 +325,7 @@ class CombatSim:
         for t in self.titles:
             kind, count = t["kind"], t["count"]
             have = {"kills": self.kills, "kills_of": self.bestiary.get(t.get("enemy", ""), 0), "level": self.level,
-                    "species": len(self.bestiary), "quests": done}[kind]
+                    "species": len(self.bestiary), "quests": done}.get(kind, self.counters.get(kind, 0))
             if have >= count:
                 out.append(t["id"])
         return out
@@ -425,6 +426,7 @@ class CombatSim:
     def _hurt_player(self, e: _Enemy) -> None:
         if self.parry_ticks > 0:  # parried: no damage, the attacker is stunned and the player is safe for a moment
             e.stun = PARRY_STUN
+            self.counters["parried"] = self.counters.get("parried", 0) + 1
             self.iframes = max(self.iframes, PARRY_IFRAMES)
             return
         variance = 950 + self.combat.next_bounded(101)
@@ -460,6 +462,7 @@ class CombatSim:
                 del self.inventory[i["item"]]
         out = recipe["output"]
         self.inventory[out["item"]] = self.inventory.get(out["item"], 0) + out["qty"]
+        self.counters["crafted"] = self.counters.get("crafted", 0) + 1
         return True
 
     def gather(self) -> list[tuple[str, int]] | None:
@@ -493,6 +496,7 @@ class CombatSim:
                 found.append((drop["item"], qty))
                 self.inventory[drop["item"]] = self.inventory.get(drop["item"], 0) + qty
         self.gathered[key] = (self.world_ticks + node["cooldown_ticks"], times + 1)
+        self.counters["gathered"] = self.counters.get("gathered", 0) + 1
         return found
 
     def use_item(self, item_id: str) -> bool:
@@ -595,6 +599,7 @@ class CombatSim:
             "inventory": dict(sorted(self.inventory.items())),
             "equipped": dict(self.equipped),
             **({"bestiary": dict(sorted(self.bestiary.items()))} if self.bestiary else {}),
+            **({"counters": dict(sorted(self.counters.items()))} if self.counters else {}),
             "story": self.story.save_state() if self.story is not None else None,
         }
 
@@ -620,6 +625,7 @@ class CombatSim:
         self.inventory = dict(save["inventory"])
         self.equipped = {"weapon": "", "armor": "", **save.get("equipped", {})}
         self.bestiary = dict(save.get("bestiary", {}))
+        self.counters = dict(save.get("counters", {}))
         self.derived = self._derive()
         if self.story is not None and save["story"] is not None:
             self.story.load_state(save["story"])
@@ -634,7 +640,8 @@ class CombatSim:
             "kills": self.kills,
             "inventory": dict(sorted(self.inventory.items())),
             "equipped": dict(self.equipped),
-            **({"bestiary": dict(sorted(self.bestiary.items())), "titles": self.earned_titles()} if self.titles else {}),
+            **({"bestiary": dict(sorted(self.bestiary.items())), "titles": self.earned_titles(),
+                "counters": dict(sorted(self.counters.items()))} if self.titles else {}),
             **({"story": self.story.snapshot()} if self.story is not None else {}),
         }
 

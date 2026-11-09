@@ -892,6 +892,11 @@ void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) 
         for (const auto& [id, count] : bestiary.items()) {
             REQUIRE(sim.bestiary().at(id) == count.get<int>());
         }
+        const Json& counters = want.at("counters");
+        REQUIRE(sim.counters().size() == counters.size());
+        for (const auto& [name, count] : counters.items()) {
+            REQUIRE(sim.counters().at(name) == count.get<int>());
+        }
         const std::vector<std::string> titles = sim.earned_titles();
         REQUIRE(titles.size() == want.at("titles").size());
         for (std::size_t i = 0; i < titles.size(); ++i) {

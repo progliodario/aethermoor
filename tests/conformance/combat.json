@@ -928,6 +928,24 @@
             "name": "t",
             "kind": "quests",
             "count": 1
+          },
+          {
+            "id": "forager",
+            "name": "t",
+            "kind": "gathered",
+            "count": 2
+          },
+          {
+            "id": "maker",
+            "name": "t",
+            "kind": "crafted",
+            "count": 2
+          },
+          {
+            "id": "guard",
+            "name": "t",
+            "kind": "parried",
+            "count": 1
           }
         ],
         "grid": [
@@ -1194,7 +1212,8 @@
               "armor": ""
             },
             "bestiary": {},
-            "titles": []
+            "titles": [],
+            "counters": {}
           },
           {
             "player": {
@@ -1247,7 +1266,8 @@
               "first_blood",
               "slime_hunter",
               "naturalist"
-            ]
+            ],
+            "counters": {}
           },
           {
             "player": {
@@ -1300,7 +1320,1721 @@
               "first_blood",
               "slime_hunter",
               "naturalist"
+            ],
+            "counters": {}
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
+      "name": "combat_counter_titles",
+      "input": {
+        "op": "combat",
+        "recipes": [
+          {
+            "id": "tonic",
+            "output": {
+              "item": "base:item/tonic",
+              "qty": 2
+            },
+            "inputs": [
+              {
+                "item": "base:item/healing_herb",
+                "qty": 1
+              },
+              {
+                "item": "base:item/wild_berries",
+                "qty": 2
+              }
             ]
+          },
+          {
+            "id": "potion_small",
+            "output": {
+              "item": "base:item/potion_small",
+              "qty": 1
+            },
+            "inputs": [
+              {
+                "item": "base:item/healing_herb",
+                "qty": 3
+              },
+              {
+                "item": "base:item/slime_gel",
+                "qty": 1
+              }
+            ]
+          }
+        ],
+        "titles": [
+          {
+            "id": "grown",
+            "name": "t",
+            "kind": "level",
+            "count": 2
+          },
+          {
+            "id": "first_blood",
+            "name": "t",
+            "kind": "kills",
+            "count": 1
+          },
+          {
+            "id": "slime_hunter",
+            "name": "t",
+            "kind": "kills_of",
+            "count": 2,
+            "enemy": "base:enemy/slime_green"
+          },
+          {
+            "id": "wolf_bane",
+            "name": "t",
+            "kind": "kills_of",
+            "count": 2,
+            "enemy": "base:enemy/wolf_grey"
+          },
+          {
+            "id": "naturalist",
+            "name": "t",
+            "kind": "species",
+            "count": 2
+          },
+          {
+            "id": "helper",
+            "name": "t",
+            "kind": "quests",
+            "count": 1
+          },
+          {
+            "id": "forager",
+            "name": "t",
+            "kind": "gathered",
+            "count": 2
+          },
+          {
+            "id": "maker",
+            "name": "t",
+            "kind": "crafted",
+            "count": 2
+          },
+          {
+            "id": "guard",
+            "name": "t",
+            "kind": "parried",
+            "count": 1
+          }
+        ],
+        "gather_nodes": [
+          {
+            "prop": "base:art/prop/bush",
+            "sound": "plant",
+            "cooldown_ticks": 60,
+            "reach_x100": 150,
+            "drops": [
+              {
+                "item": "base:item/wild_berries",
+                "qty_min": 1,
+                "qty_max": 3,
+                "weight_pm": 800
+              },
+              {
+                "item": "base:item/healing_herb",
+                "qty_min": 1,
+                "qty_max": 2,
+                "weight_pm": 400
+              }
+            ]
+          },
+          {
+            "prop": "base:art/prop/rock",
+            "sound": "stone",
+            "cooldown_ticks": 60,
+            "reach_x100": 150,
+            "drops": [
+              {
+                "item": "base:item/stone_chunk",
+                "qty_min": 1,
+                "qty_max": 2,
+                "weight_pm": 1000
+              },
+              {
+                "item": "base:item/iron_ore",
+                "qty_min": 1,
+                "qty_max": 1,
+                "weight_pm": 300
+              }
+            ]
+          }
+        ],
+        "gather_props": [
+          {
+            "art": "base:art/prop/bush",
+            "x": 3.0,
+            "y": 6.0,
+            "radius": 0.3
+          },
+          {
+            "art": "base:art/prop/rock",
+            "x": 2.0,
+            "y": 3.0,
+            "radius": 0.3
+          }
+        ],
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            2.2,
+            4.5
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              3.5,
+              4.5
+            ],
+            "def": {
+              "hp": 5,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 500,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              },
+              "id": "base:enemy/slime_green"
+            }
+          },
+          {
+            "pos": [
+              3.6,
+              4.7
+            ],
+            "def": {
+              "hp": 5,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 500,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              },
+              "id": "base:enemy/slime_green"
+            }
+          },
+          {
+            "pos": [
+              3.4,
+              4.3
+            ],
+            "def": {
+              "hp": 5,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 500,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              },
+              "id": "base:enemy/slime_green"
+            }
+          },
+          {
+            "pos": [
+              4.2,
+              4.5
+            ],
+            "def": {
+              "hp": 28,
+              "atk": 60,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 250,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 600,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 6,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "parry": true
+          },
+          {
+            "ticks": 5,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 12,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 60,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "parry": true
+          },
+          {
+            "ticks": 5,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 12,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 60,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "parry": true
+          },
+          {
+            "ticks": 5,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 12,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 60,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "gather"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "gather"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "gather"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "craft",
+                "recipe": "tonic"
+              },
+              {
+                "cmd": "craft",
+                "recipe": "nothing"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "craft",
+                "recipe": "tonic"
+              }
+            ]
+          },
+          {
+            "ticks": 40,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 30,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          }
+        ],
+        "inventory": {
+          "base:item/healing_herb": 4,
+          "base:item/wild_berries": 4
+        },
+        "items": {
+          "base:item/bread": {
+            "kind": "food",
+            "price": 5,
+            "effects": [
+              {
+                "effect": "heal",
+                "amount": 30
+              }
+            ]
+          },
+          "base:item/potion_mana_small": {
+            "kind": "consumable",
+            "price": 40,
+            "effects": [
+              {
+                "effect": "restore_mp",
+                "amount": 30
+              }
+            ]
+          },
+          "base:item/slime_gel": {
+            "kind": "material",
+            "price": 3,
+            "effects": []
+          },
+          "base:item/practice_sword": {
+            "kind": "weapon",
+            "price": 20,
+            "weapon": {
+              "atk": 3,
+              "matk": 0
+            }
+          },
+          "base:item/iron_sword": {
+            "kind": "weapon",
+            "price": 150,
+            "weapon": {
+              "atk": 7,
+              "matk": 0
+            }
+          },
+          "base:item/ember_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "fire"
+            }
+          },
+          "base:item/frost_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "water"
+            }
+          },
+          "base:item/storm_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "wind"
+            }
+          },
+          "base:item/quake_hammer": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "earth"
+            }
+          },
+          "base:item/sun_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "light"
+            }
+          },
+          "base:item/leather_vest": {
+            "kind": "armor",
+            "price": 80,
+            "armor": {
+              "def": 2,
+              "mdef": 1
+            }
+          },
+          "base:item/chain_mail": {
+            "kind": "armor",
+            "price": 300,
+            "armor": {
+              "def": 5,
+              "mdef": 2
+            }
+          }
+        }
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.3
+              },
+              {
+                "hp": 28,
+                "state": "chase",
+                "x": 3.991666666666666,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/healing_herb": 4,
+              "base:item/wild_berries": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.3
+              },
+              {
+                "hp": 28,
+                "state": "chase",
+                "x": 3.9499999999999993,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/healing_herb": 4,
+              "base:item/wild_berries": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.3
+              },
+              {
+                "hp": 28,
+                "state": "chase",
+                "x": 3.7416666666666667,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/healing_herb": 4,
+              "base:item/wild_berries": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.3
+              },
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/healing_herb": 4,
+              "base:item/wild_berries": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 86,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.3
+              },
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/healing_herb": 4,
+              "base:item/wild_berries": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 86,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.3
+              },
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/healing_herb": 4,
+              "base:item/wild_berries": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 86,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.3
+              },
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/healing_herb": 4,
+              "base:item/wild_berries": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 86,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.3
+              },
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/healing_herb": 4,
+              "base:item/wild_berries": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 86,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.3
+              },
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/healing_herb": 4,
+              "base:item/wild_berries": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 86,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.3
+              },
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/healing_herb": 4,
+              "base:item/wild_berries": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 86,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.3
+              },
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/healing_herb": 4,
+              "base:item/wild_berries": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 86,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.3
+              },
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/healing_herb": 4,
+              "base:item/wild_berries": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 31,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.3
+              },
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/healing_herb": 4,
+              "base:item/wild_berries": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 31,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.3
+              },
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/healing_herb": 4,
+              "base:item/stone_chunk": 1,
+              "base:item/wild_berries": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "gathered": 1,
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 31,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.3
+              },
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/healing_herb": 4,
+              "base:item/stone_chunk": 1,
+              "base:item/wild_berries": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "forager",
+              "guard"
+            ],
+            "counters": {
+              "gathered": 2,
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 31,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.3
+              },
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/healing_herb": 4,
+              "base:item/stone_chunk": 1,
+              "base:item/wild_berries": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "forager",
+              "guard"
+            ],
+            "counters": {
+              "gathered": 2,
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 31,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.3
+              },
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/healing_herb": 3,
+              "base:item/stone_chunk": 1,
+              "base:item/tonic": 2,
+              "base:item/wild_berries": 2
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "forager",
+              "guard"
+            ],
+            "counters": {
+              "crafted": 1,
+              "gathered": 2,
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 31,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.3
+              },
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/healing_herb": 2,
+              "base:item/stone_chunk": 1,
+              "base:item/tonic": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "forager",
+              "maker",
+              "guard"
+            ],
+            "counters": {
+              "crafted": 2,
+              "gathered": 2,
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 222,
+              "level": 5,
+              "xp": 385,
+              "deaths": 1,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.3
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 4,
+            "inventory": {
+              "base:item/healing_herb": 2,
+              "base:item/slime_gel": 4,
+              "base:item/stone_chunk": 1,
+              "base:item/tonic": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {
+              "base:enemy/slime_green": 3
+            },
+            "titles": [
+              "grown",
+              "first_blood",
+              "slime_hunter",
+              "forager",
+              "maker",
+              "guard"
+            ],
+            "counters": {
+              "crafted": 2,
+              "gathered": 2,
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 222,
+              "level": 5,
+              "xp": 385,
+              "deaths": 1,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.3
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 4,
+            "inventory": {
+              "base:item/healing_herb": 2,
+              "base:item/slime_gel": 4,
+              "base:item/stone_chunk": 1,
+              "base:item/tonic": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {
+              "base:enemy/slime_green": 3
+            },
+            "titles": [
+              "grown",
+              "first_blood",
+              "slime_hunter",
+              "forager",
+              "maker",
+              "guard"
+            ],
+            "counters": {
+              "crafted": 2,
+              "gathered": 2,
+              "parried": 1
+            }
           }
         ],
         "tol": 0.02
@@ -9051,6 +10785,64 @@
           "dialogues": {},
           "npcs": []
         },
+        "titles": [
+          {
+            "id": "grown",
+            "name": "t",
+            "kind": "level",
+            "count": 2
+          },
+          {
+            "id": "first_blood",
+            "name": "t",
+            "kind": "kills",
+            "count": 1
+          },
+          {
+            "id": "slime_hunter",
+            "name": "t",
+            "kind": "kills_of",
+            "count": 2,
+            "enemy": "base:enemy/slime_green"
+          },
+          {
+            "id": "wolf_bane",
+            "name": "t",
+            "kind": "kills_of",
+            "count": 2,
+            "enemy": "base:enemy/wolf_grey"
+          },
+          {
+            "id": "naturalist",
+            "name": "t",
+            "kind": "species",
+            "count": 2
+          },
+          {
+            "id": "helper",
+            "name": "t",
+            "kind": "quests",
+            "count": 1
+          },
+          {
+            "id": "forager",
+            "name": "t",
+            "kind": "gathered",
+            "count": 2
+          },
+          {
+            "id": "maker",
+            "name": "t",
+            "kind": "crafted",
+            "count": 2
+          },
+          {
+            "id": "guard",
+            "name": "t",
+            "kind": "parried",
+            "count": 1
+          }
+        ],
         "grid": [
           "##############",
           "#............#",
@@ -9282,6 +11074,9 @@
               "weapon": "",
               "armor": ""
             },
+            "bestiary": {},
+            "titles": [],
+            "counters": {},
             "story": {
               "flags": {},
               "gold": 0,
@@ -9335,6 +11130,14 @@
               "weapon": "",
               "armor": ""
             },
+            "bestiary": {
+              "base:enemy/cave_bat": 3
+            },
+            "titles": [
+              "first_blood",
+              "helper"
+            ],
+            "counters": {},
             "story": {
               "flags": {},
               "gold": 46,
@@ -9388,6 +11191,14 @@
               "weapon": "",
               "armor": ""
             },
+            "bestiary": {
+              "base:enemy/cave_bat": 3
+            },
+            "titles": [
+              "first_blood",
+              "helper"
+            ],
+            "counters": {},
             "story": {
               "flags": {},
               "gold": 46,
