@@ -67,7 +67,9 @@ struct Enemy {
     int chill = 0;
     int weaken = 0;
     int stun = 0;
-    int spawner_x = 0;  // streamed worlds: the spawner tile this enemy belongs to
+    std::int64_t stagger = 0;  // the stagger bar (spec 05, "Stagger"); not saved
+    int broken = 0;            // ticks left of being broken: stunned, and hits do more; not saved
+    int spawner_x = 0;         // streamed worlds: the spawner tile this enemy belongs to
     int spawner_y = 0;
     float radius() const { return static_cast<float>(def.radius_x100) / 100.0F; }
 };

@@ -62,6 +62,7 @@ private fun enemyDef(d: JsonObject): EnemyDef {
         hp = d.long("hp"), atk = d.long("atk"), def = d.long("def"), level = d.long("level"), xp = d.long("xp"),
         radiusX100 = d.getValue("radius_x100").jsonPrimitive.int, speedX100 = d.getValue("speed_x100").jsonPrimitive.int,
         element = d["element"]?.jsonPrimitive?.content ?: "none",
+        staggerPct = d["stagger_pct"]?.jsonPrimitive?.long ?: 40L,
         sound = d["sound"]?.jsonPrimitive?.content ?: "",
         weaknessesPm = d["weaknesses_pm"]?.jsonObject?.mapValues { it.value.jsonPrimitive.long } ?: emptyMap(),
         drops = d.getValue("drops").jsonArray.map {

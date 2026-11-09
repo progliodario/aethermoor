@@ -452,8 +452,8 @@
             "enemies": [
               {
                 "hp": 10,
-                "state": "attack",
-                "x": 3.3916666666666413,
+                "state": "chase",
+                "x": 3.8916666666666395,
                 "y": 4.5
               }
             ],
@@ -477,7 +477,7 @@
               {
                 "hp": 0,
                 "state": "dead",
-                "x": 3.3916666666666413,
+                "x": 3.8916666666666395,
                 "y": 4.5
               }
             ],
@@ -4721,6 +4721,589 @@
       }
     },
     {
+      "name": "combat_stagger_breaks",
+      "input": {
+        "op": "combat",
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            2.2,
+            4.5
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              3.6,
+              4.5
+            ],
+            "def": {
+              "hp": 400,
+              "atk": 30,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 250,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 600,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          },
+          {
+            "pos": [
+              3.4,
+              5.1
+            ],
+            "def": {
+              "hp": 400,
+              "atk": 30,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 250,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 600,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              },
+              "stagger_pct": 0
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 120,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 120,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 120,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 120,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 120,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          }
+        ]
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 90,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 295,
+                "state": "attack",
+                "x": 3.3916666666666675,
+                "y": 4.5
+              },
+              {
+                "hp": 310,
+                "state": "attack",
+                "x": 3.2509288015000144,
+                "y": 5.025464400750005
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            }
+          },
+          {
+            "player": {
+              "hp": 9,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 188,
+                "state": "attack",
+                "x": 3.3916666666666675,
+                "y": 4.5
+              },
+              {
+                "hp": 213,
+                "state": "attack",
+                "x": 3.2509288015000144,
+                "y": 5.025464400750005
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 1,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 113,
+                "state": "attack",
+                "x": 3.3916666666666675,
+                "y": 4.5
+              },
+              {
+                "hp": 129,
+                "state": "attack",
+                "x": 3.2509288015000144,
+                "y": 5.025464400750005
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            }
+          },
+          {
+            "player": {
+              "hp": 62,
+              "level": 1,
+              "xp": 0,
+              "deaths": 1,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 18,
+                "state": "attack",
+                "x": 3.3916666666666675,
+                "y": 4.5
+              },
+              {
+                "hp": 27,
+                "state": "attack",
+                "x": 3.2509288015000144,
+                "y": 5.025464400750005
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            }
+          },
+          {
+            "player": {
+              "hp": 62,
+              "level": 1,
+              "xp": 12,
+              "deaths": 1,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.3916666666666675,
+                "y": 4.5
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.2509288015000144,
+                "y": 5.025464400750005
+              }
+            ],
+            "kills": 2,
+            "inventory": {
+              "base:item/slime_gel": 3
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            }
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
+      "name": "combat_stagger_strike",
+      "input": {
+        "op": "combat",
+        "strike": {
+          "startup": 10,
+          "active": 4,
+          "recovery": 16,
+          "cooldown": 90,
+          "power_pct": 230,
+          "radius_x100": 190,
+          "angle_deg": 140,
+          "mp": 10
+        },
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            2.2,
+            4.5
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              3.6,
+              4.5
+            ],
+            "def": {
+              "hp": 600,
+              "atk": 30,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 250,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 600,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              },
+              "stagger_pct": 20
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 60,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "strike": true
+          },
+          {
+            "ticks": 100,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 100,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "strike": true
+          },
+          {
+            "ticks": 150,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          }
+        ]
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 115,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 558,
+                "state": "attack",
+                "x": 3.3916666666666675,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            }
+          },
+          {
+            "player": {
+              "hp": 88,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 495,
+                "state": "attack",
+                "x": 3.3916666666666675,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            }
+          },
+          {
+            "player": {
+              "hp": 62,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 445,
+                "state": "attack",
+                "x": 3.3916666666666675,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            }
+          },
+          {
+            "player": {
+              "hp": 62,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 323,
+                "state": "attack",
+                "x": 3.3916666666666675,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            }
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
       "name": "combat_player_death",
       "input": {
         "op": "combat",
@@ -5291,7 +5874,7 @@
           },
           {
             "player": {
-              "hp": 104,
+              "hp": 142,
               "level": 1,
               "xp": 6,
               "deaths": 0,
@@ -5318,7 +5901,7 @@
           },
           {
             "player": {
-              "hp": 134,
+              "hp": 142,
               "level": 1,
               "xp": 6,
               "deaths": 0,
@@ -5335,6 +5918,7 @@
             ],
             "kills": 1,
             "inventory": {
+              "base:item/bread": 1,
               "base:item/slime_gel": 3
             },
             "equipped": {
@@ -6783,7 +7367,7 @@
           },
           {
             "player": {
-              "hp": 88,
+              "hp": 142,
               "level": 1,
               "xp": 0,
               "deaths": 1,
@@ -6792,7 +7376,7 @@
             },
             "enemies": [
               {
-                "hp": 301,
+                "hp": 223,
                 "state": "attack",
                 "x": 3.3749999999999956,
                 "y": 4.5
@@ -6809,7 +7393,7 @@
           },
           {
             "player": {
-              "hp": 36,
+              "hp": 89,
               "level": 1,
               "xp": 0,
               "deaths": 1,
@@ -6818,7 +7402,7 @@
             },
             "enemies": [
               {
-                "hp": 193,
+                "hp": 142,
                 "state": "attack",
                 "x": 3.3749999999999956,
                 "y": 4.5
@@ -7176,7 +7760,7 @@
           },
           {
             "player": {
-              "hp": 88,
+              "hp": 142,
               "level": 1,
               "xp": 0,
               "deaths": 1,
@@ -7185,7 +7769,7 @@
             },
             "enemies": [
               {
-                "hp": 490,
+                "hp": 466,
                 "state": "attack",
                 "x": 3.3749999999999956,
                 "y": 4.5
@@ -7202,7 +7786,7 @@
           },
           {
             "player": {
-              "hp": 36,
+              "hp": 89,
               "level": 1,
               "xp": 0,
               "deaths": 1,
@@ -7211,7 +7795,7 @@
             },
             "enemies": [
               {
-                "hp": 490,
+                "hp": 466,
                 "state": "attack",
                 "x": 3.3749999999999956,
                 "y": 4.5
@@ -7554,7 +8138,7 @@
             },
             "enemies": [
               {
-                "hp": 473,
+                "hp": 465,
                 "state": "attack",
                 "x": 3.3749999999999956,
                 "y": 4.5
@@ -7580,7 +8164,7 @@
             },
             "enemies": [
               {
-                "hp": 264,
+                "hp": 232,
                 "state": "attack",
                 "x": 3.3749999999999956,
                 "y": 4.5
@@ -7606,7 +8190,7 @@
             },
             "enemies": [
               {
-                "hp": 264,
+                "hp": 232,
                 "state": "attack",
                 "x": 3.3749999999999956,
                 "y": 4.5
@@ -7964,7 +8548,7 @@
           },
           {
             "player": {
-              "hp": 38,
+              "hp": 65,
               "level": 1,
               "xp": 0,
               "deaths": 0,
@@ -7973,7 +8557,7 @@
             },
             "enemies": [
               {
-                "hp": 495,
+                "hp": 470,
                 "state": "attack",
                 "x": 3.3749999999999956,
                 "y": 4.5
@@ -7990,7 +8574,7 @@
           },
           {
             "player": {
-              "hp": 12,
+              "hp": 13,
               "level": 1,
               "xp": 0,
               "deaths": 0,
@@ -7999,7 +8583,7 @@
             },
             "enemies": [
               {
-                "hp": 495,
+                "hp": 470,
                 "state": "attack",
                 "x": 3.3749999999999956,
                 "y": 4.5
@@ -8357,7 +8941,7 @@
           },
           {
             "player": {
-              "hp": 122,
+              "hp": 142,
               "level": 1,
               "xp": 0,
               "deaths": 1,
@@ -8366,7 +8950,7 @@
             },
             "enemies": [
               {
-                "hp": 501,
+                "hp": 496,
                 "state": "attack",
                 "x": 3.3749999999999956,
                 "y": 4.5
@@ -8383,7 +8967,7 @@
           },
           {
             "player": {
-              "hp": 83,
+              "hp": 122,
               "level": 1,
               "xp": 0,
               "deaths": 1,
@@ -8392,7 +8976,7 @@
             },
             "enemies": [
               {
-                "hp": 501,
+                "hp": 496,
                 "state": "attack",
                 "x": 3.3749999999999956,
                 "y": 4.5
@@ -11845,7 +12429,7 @@
           },
           {
             "player": {
-              "hp": 35,
+              "hp": 68,
               "level": 1,
               "xp": 6,
               "deaths": 0,
@@ -11876,7 +12460,7 @@
           },
           {
             "player": {
-              "hp": 35,
+              "hp": 68,
               "level": 1,
               "xp": 6,
               "deaths": 0,
@@ -11907,7 +12491,7 @@
           },
           {
             "player": {
-              "hp": 35,
+              "hp": 68,
               "level": 1,
               "xp": 6,
               "deaths": 0,
@@ -14413,7 +14997,7 @@
             },
             "enemies": [
               {
-                "hp": 257,
+                "hp": 247,
                 "state": "idle",
                 "x": 3.5,
                 "y": 4.5
@@ -14838,7 +15422,7 @@
             },
             "enemies": [
               {
-                "hp": 211,
+                "hp": 195,
                 "state": "idle",
                 "x": 3.5,
                 "y": 4.5
@@ -15157,21 +15741,23 @@
             "player": {
               "hp": 130,
               "level": 1,
-              "xp": 0,
+              "xp": 6,
               "deaths": 0,
               "x": 2.2,
               "y": 4.5
             },
             "enemies": [
               {
-                "hp": 33,
-                "state": "idle",
+                "hp": 0,
+                "state": "dead",
                 "x": 3.5,
                 "y": 4.5
               }
             ],
-            "kills": 0,
-            "inventory": {},
+            "kills": 1,
+            "inventory": {
+              "base:item/slime_gel": 1
+            },
             "equipped": {
               "weapon": "",
               "armor": ""
@@ -15523,7 +16109,7 @@
             },
             "enemies": [
               {
-                "hp": 56,
+                "hp": 14,
                 "state": "idle",
                 "x": 3.5,
                 "y": 4.5
@@ -16764,8 +17350,8 @@
             "enemies": [
               {
                 "hp": 10,
-                "state": "attack",
-                "x": 3.375000000000002,
+                "state": "chase",
+                "x": 3.7916666666666674,
                 "y": 4.5
               }
             ],
@@ -16778,7 +17364,7 @@
           },
           {
             "player": {
-              "hp": 137,
+              "hp": 142,
               "level": 1,
               "xp": 0,
               "deaths": 0,
@@ -16789,7 +17375,7 @@
               {
                 "hp": 28,
                 "state": "idle",
-                "x": 4.083333333333334,
+                "x": 3.916666666666667,
                 "y": 4.5
               }
             ],
@@ -16802,7 +17388,7 @@
           },
           {
             "player": {
-              "hp": 137,
+              "hp": 142,
               "level": 1,
               "xp": 0,
               "deaths": 0,
@@ -16813,7 +17399,7 @@
               {
                 "hp": 28,
                 "state": "idle",
-                "x": 4.083333333333334,
+                "x": 3.916666666666667,
                 "y": 4.5
               }
             ],

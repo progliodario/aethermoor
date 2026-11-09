@@ -619,6 +619,7 @@ aether::EnemyDef enemy_def_from_json(const Json& d) {
     def.radius_x100 = d.at("radius_x100").get<int>();
     def.speed_x100 = d.at("speed_x100").get<int>();
     def.element = d.value("element", "none");
+    def.stagger_pct = d.value("stagger_pct", static_cast<std::int64_t>(40));
     def.sound = d.value("sound", "");
     if (d.contains("weaknesses_pm")) {
         for (const auto& [element, multiplier] : d.at("weaknesses_pm").items()) {

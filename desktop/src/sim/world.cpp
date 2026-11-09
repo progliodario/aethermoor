@@ -18,6 +18,8 @@ constexpr float kCompanionLeash = 8.0F;
 constexpr float kCompanionRadius = 0.25F;
 constexpr int kParryCooldown = 70;
 constexpr int kParryStun = 60;
+constexpr int kStaggerTicks = 120;  // spec 05, "Stagger"
+constexpr std::int64_t kStaggerDamagePct = 125;
 constexpr int kPlayerBurnPeriod = 30;  // spec 05, "Status effects on the player"
 constexpr int kPlayerBurnPct = 2;
 constexpr int kParryIframes = 20;
@@ -910,13 +912,25 @@ void WorldSim::do_hits() {
         in.variance_pm = variance;
         in.crit = crit;
         in.crit_mult_pm = m_derived_.crit_mult_pm;
-        const std::int64_t amount = damage(in);
+        std::int64_t amount = damage(in);
+        if (enemy.broken > 0) {
+            amount = amount * kStaggerDamagePct / 100;
+        }
         enemy.hp -= amount;
         enemy.hit_flash = kHitFlashTicks;
         m_events_.push_back({enemy.position, amount, crit, false, in.elem_mult_pm > 1000});
         m_cues_.push_back({"hit", enemy.def.sound, enemy.position, crit, in.elem_mult_pm > 1000});
         if (enemy.hp > 0) {
             apply_status(enemy);
+            if (enemy.def.stagger_pct > 0 && enemy.broken == 0) {  // the stagger bar (spec 05, "Stagger")
+                enemy.stagger += amount * (p.using_strike ? 2 : 1);
+                if (enemy.stagger >= std::max<std::int64_t>(1, enemy.def.hp * enemy.def.stagger_pct / 100)) {
+                    enemy.stagger = 0;
+                    enemy.broken = kStaggerTicks;
+                    enemy.stun = std::max(enemy.stun, kStaggerTicks);
+                    m_cues_.push_back({"parry", enemy.def.sound, enemy.position});  // the same clang as a parry
+                }
+            }
         }
         if (enemy.hp <= 0) {
             enemy.hp = 0;
@@ -1048,6 +1062,9 @@ void WorldSim::update_enemy(Enemy& enemy) {
     if (enemy.state == EnemyState::Dead) {
         return;
     }
+    if (enemy.broken > 0) {
+        --enemy.broken;
+    }
     if (enemy.burn > 0) {  // a burn hurts every 30 ticks, whatever the defense
         --enemy.burn;
         ++enemy.burn_clock;
@@ -1115,6 +1132,7 @@ void WorldSim::behave_enemy(Enemy& enemy) {
             if (distance(enemy.position.x, enemy.position.y, enemy.home.x, enemy.home.y) <= kReturnArrival) {
                 enemy.state = EnemyState::Idle;
                 enemy.hp = enemy.def.hp;
+                enemy.stagger = 0;
             } else {
                 move_enemy(enemy, enemy.home.x, enemy.home.y);
             }

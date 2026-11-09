@@ -44,6 +44,8 @@ private const val COMPANION_LEASH = 8f
 private const val COMPANION_RADIUS = 0.25f
 private const val PARRY_COOLDOWN = 70
 private const val PARRY_STUN = 60
+private const val STAGGER_TICKS = 120 // spec 05, "Stagger"
+private const val STAGGER_DAMAGE_PCT = 125L
 private const val PLAYER_BURN_PERIOD = 30 // spec 05, "Status effects on the player"
 private const val PLAYER_BURN_PCT = 2
 private const val PARRY_IFRAMES = 20
@@ -124,6 +126,10 @@ class Enemy(val def: EnemyDef, var position: Vec2) {
     var chill = 0
     var weaken = 0
     var stun = 0
+
+    /** The stagger bar and the ticks left of being broken (spec 05, "Stagger"); not saved. */
+    var stagger = 0L
+    var broken = 0
     val radius: Float get() = def.radiusX100 / 100f
 }
 
@@ -868,7 +874,7 @@ class WorldSim(
             hitSet[index] = true
             val variance = 950L + combatRng.nextBounded(101)
             val crit = combatRng.nextBounded(1000) < derived.critChancePm
-            val amount = damage(
+            val rawAmount = damage(
                 DamageInput(
                     atk = (if (s.magical) derived.matk else derived.atk).let { if (p.weaken > 0) it * 75 / 100 else it },
                     powerPct = s.powerPct,
@@ -881,11 +887,23 @@ class WorldSim(
                     critMultPm = derived.critMultPm,
                 ),
             )
+            val amount = if (enemy.broken > 0) rawAmount * STAGGER_DAMAGE_PCT / 100 else rawAmount
             enemy.hp -= amount
             enemy.hitFlash = HIT_FLASH_TICKS
             events.add(DamageEvent(enemy.position, amount, crit, false, weak = elementMultiplier(enemy.def) > 1000))
             cues.add(SimCue("hit", enemy.def.sound, enemy.position, crit, elementMultiplier(enemy.def) > 1000))
-            if (enemy.hp > 0) applyStatus(enemy)
+            if (enemy.hp > 0) {
+                applyStatus(enemy)
+                if (enemy.def.staggerPct > 0 && enemy.broken == 0) { // the stagger bar (spec 05, "Stagger")
+                    enemy.stagger += amount * (if (p.usingStrike) 2 else 1)
+                    if (enemy.stagger >= maxOf(1L, enemy.def.hp * enemy.def.staggerPct / 100)) {
+                        enemy.stagger = 0
+                        enemy.broken = STAGGER_TICKS
+                        enemy.stun = maxOf(enemy.stun, STAGGER_TICKS)
+                        cues.add(SimCue("parry", enemy.def.sound, enemy.position)) // the same clang as a parry
+                    }
+                }
+            }
             if (enemy.hp <= 0) {
                 enemy.hp = 0
                 enemy.state = EnemyState.DEAD
@@ -972,6 +990,7 @@ class WorldSim(
 
     private fun updateEnemy(enemy: Enemy) {
         if (enemy.state == EnemyState.DEAD) return
+        if (enemy.broken > 0) enemy.broken--
         if (enemy.burn > 0) { // a burn hurts every 30 ticks, whatever the defense
             enemy.burn--
             enemy.burnClock++
@@ -1032,6 +1051,7 @@ class WorldSim(
                 if (distance(enemy.position.x, enemy.position.y, enemy.home.x, enemy.home.y) <= RETURN_ARRIVAL) {
                     enemy.state = EnemyState.IDLE
                     enemy.hp = enemy.def.hp
+                    enemy.stagger = 0
                 } else {
                     moveEnemy(enemy, enemy.home.x, enemy.home.y)
                 }

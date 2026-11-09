@@ -76,8 +76,9 @@ struct EnemyDef {
     std::int64_t xp = 0;
     int radius_x100 = 35;
     int speed_x100 = 250;
-    std::string element = "none";                       // spec 05, "Elements"
-    std::string sound;                                  // the family of voices of the creature (spec 14)
+    std::string element = "none";   // spec 05, "Elements"
+    std::int64_t stagger_pct = 40;  // the share of the health that fills the stagger bar; 0: never (spec 05, "Stagger")
+    std::string sound;              // the family of voices of the creature (spec 14)
     std::map<std::string, std::int64_t> weaknesses_pm;  // element -> multiplier in permille
     std::vector<DropDef> drops;
     BehaviorDef behavior;
