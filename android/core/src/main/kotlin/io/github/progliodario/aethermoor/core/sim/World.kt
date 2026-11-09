@@ -82,6 +82,13 @@ class Enemy(val def: EnemyDef, var position: Vec2) {
 
     /** Presentation only. */
     var hitFlash = 0
+
+    /** Status effects (spec 05): ticks left; not saved. */
+    var burn = 0
+    var burnClock = 0
+    var chill = 0
+    var weaken = 0
+    var stun = 0
     val radius: Float get() = def.radiusX100 / 100f
 }
 
@@ -684,6 +691,7 @@ class WorldSim(
             enemy.hitFlash = HIT_FLASH_TICKS
             events.add(DamageEvent(enemy.position, amount, crit, false, weak = elementMultiplier(enemy.def) > 1000))
             cues.add(SimCue("hit", enemy.def.sound, enemy.position, crit, elementMultiplier(enemy.def) > 1000))
+            if (enemy.hp > 0) applyStatus(enemy)
             if (enemy.hp <= 0) {
                 enemy.hp = 0
                 enemy.state = EnemyState.DEAD
@@ -727,8 +735,58 @@ class WorldSim(
         }
     }
 
+    /** The roll for the status effect of the equipped weapon after a hit that left [enemy] alive (spec 05, "Status effects"). */
+    private fun applyStatus(enemy: Enemy) {
+        val element = combat.items[equippedWeapon]?.weapon?.element ?: "none"
+        if (element == "none" || elementMultiplier(enemy.def) == 0L) return
+        val (chance, ticks) =
+            when (element) {
+                "fire" -> Pair(350, 150)
+                "water" -> Pair(400, 180)
+                "wind" -> Pair(300, 45)
+                "earth" -> Pair(300, 75)
+                else -> Pair(350, 240) // light, dark
+            }
+        if (combatRng.nextBounded(1000).toInt() >= chance) return
+        when (element) {
+            "fire" -> {
+                enemy.burn = ticks
+                enemy.burnClock = 0
+            }
+            "water" -> enemy.chill = ticks
+            "wind", "earth" -> enemy.stun = ticks
+            else -> enemy.weaken = ticks
+        }
+    }
+
     private fun updateEnemy(enemy: Enemy) {
         if (enemy.state == EnemyState.DEAD) return
+        if (enemy.burn > 0) { // a burn hurts every 30 ticks, whatever the defense
+            enemy.burn--
+            enemy.burnClock++
+            if (enemy.burnClock % 30 == 0) {
+                val amount = maxOf(1L, enemy.def.hp * 3 / 100)
+                enemy.hp -= amount
+                events.add(DamageEvent(enemy.position, amount, false, false))
+                if (enemy.hp <= 0) {
+                    enemy.hp = 0
+                    enemy.state = EnemyState.DEAD
+                    cues.add(SimCue("die", enemy.def.sound, enemy.position))
+                    onKill(enemy)
+                    return
+                }
+            }
+        }
+        if (enemy.stun > 0) { // a stunned creature does nothing
+            enemy.stun--
+            return
+        }
+        behaveEnemy(enemy)
+        if (enemy.chill > 0) enemy.chill--
+        if (enemy.weaken > 0) enemy.weaken--
+    }
+
+    private fun behaveEnemy(enemy: Enemy) {
         val b = enemy.def.behavior
         val p = player
         val dist = distance(enemy.position.x, enemy.position.y, p.position.x, p.position.y)
@@ -775,7 +833,8 @@ class WorldSim(
         val dx = targetX - enemy.position.x
         val dy = targetY - enemy.position.y
         val dist = sqrt(dx * dx + dy * dy)
-        val step = (enemy.def.speedX100.toFloat() / 100f) * TICK_DT
+        val speed = enemy.def.speedX100.toFloat() / 100f
+        val step = (if (enemy.chill > 0) speed / 2f else speed) * TICK_DT
         var x = enemy.position.x
         var y = enemy.position.y
         if (dist > 0f) {
@@ -795,7 +854,7 @@ class WorldSim(
         val variance = 950L + combatRng.nextBounded(101)
         val amount = damage(
             DamageInput(
-                atk = enemy.def.atk,
+                atk = if (enemy.weaken > 0) enemy.def.atk * 75 / 100 else enemy.def.atk,
                 powerPct = 100,
                 defTarget = derived.def,
                 lvlAttacker = enemy.def.level,

@@ -45,6 +45,10 @@ ITEMS = {
     "base:item/practice_sword": {"kind": "weapon", "price": 20, "weapon": {"atk": 3, "matk": 0}},
     "base:item/iron_sword": {"kind": "weapon", "price": 150, "weapon": {"atk": 7, "matk": 0}},
     "base:item/ember_blade": {"kind": "weapon", "price": 400, "weapon": {"atk": 7, "matk": 0, "element": "fire"}},
+    "base:item/frost_blade": {"kind": "weapon", "price": 400, "weapon": {"atk": 7, "matk": 0, "element": "water"}},
+    "base:item/storm_blade": {"kind": "weapon", "price": 400, "weapon": {"atk": 7, "matk": 0, "element": "wind"}},
+    "base:item/quake_hammer": {"kind": "weapon", "price": 400, "weapon": {"atk": 7, "matk": 0, "element": "earth"}},
+    "base:item/sun_blade": {"kind": "weapon", "price": 400, "weapon": {"atk": 7, "matk": 0, "element": "light"}},
     "base:item/leather_vest": {"kind": "armor", "price": 80, "armor": {"def": 2, "mdef": 1}},
     "base:item/chain_mail": {"kind": "armor", "price": 300, "armor": {"def": 5, "mdef": 2}},
 }
@@ -128,6 +132,13 @@ def build_scenarios() -> list[dict]:
                                   enemy(3.7, 4.5, hp=400, weaknesses_pm={"fire": 0}, **passive)],
                  [segment(1, do=[{"cmd": "equip", "item": "base:item/ember_blade"}]), segment(40, attack=True)],
                  inventory={"base:item/ember_blade": 1}),
+        # Status effects (spec 05): every element of a weapon has its own, rolled on each hit: fire burns, water chills, wind and earth stun,
+        # light and dark weaken. A creature that fights back shows them in its health, its place and its state.
+        *[scenario(f"status_{name}", [enemy(5.0, 4.5, hp=900, atk=30, weaknesses_pm={"wind": 1500} if name == "storm" else {})],
+                   [segment(1, do=[{"cmd": "equip", "item": f"base:item/{blade}"}]), segment(150, attack=True), segment(150, attack=True),
+                    segment(150, attack=True), segment(120)],
+                   inventory={f"base:item/{blade}": 1})
+          for name, blade in (("burn", "ember_blade"), ("chill", "frost_blade"), ("storm", "storm_blade"), ("quake", "quake_hammer"), ("weaken", "sun_blade"))],
         scenario("equip_changes_stats", [enemy(8.1, 4.5, atk=40)],
                  [segment(200), segment(1, do=[{"cmd": "equip", "item": "base:item/iron_sword"},
                                                {"cmd": "equip", "item": "base:item/iron_sword"},

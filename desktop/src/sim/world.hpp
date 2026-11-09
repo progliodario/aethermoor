@@ -54,6 +54,12 @@ struct Enemy {
     EnemyState state = EnemyState::Idle;
     int state_tick = 0;
     int hit_flash = 0;  // presentation only
+    // Status effects (spec 05): ticks left; not saved.
+    int burn = 0;
+    int burn_clock = 0;
+    int chill = 0;
+    int weaken = 0;
+    int stun = 0;
     int spawner_x = 0;  // streamed worlds: the spawner tile this enemy belongs to
     int spawner_y = 0;
     float radius() const { return static_cast<float>(def.radius_x100) / 100.0F; }
@@ -239,6 +245,11 @@ private:
     void on_kill(Enemy& enemy);
     // The element multiplier of a hit of the equipped weapon against `target` (spec 05, "Elements").
     std::int64_t element_multiplier(const EnemyDef& target) const;
+    // The roll for the status effect of the equipped weapon after a hit that left `enemy` alive (spec 05, "Status
+    // effects").
+    void apply_status(Enemy& enemy);
+    // The behavior of a creature that is not stunned.
+    void behave_enemy(Enemy& enemy);
     void update_enemy(Enemy& enemy);
     void move_enemy(Enemy& enemy, float target_x, float target_y);
     void hurt_player(const Enemy& enemy);

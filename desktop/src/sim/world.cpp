@@ -703,6 +703,9 @@ void WorldSim::do_hits() {
         enemy.hit_flash = kHitFlashTicks;
         m_events_.push_back({enemy.position, amount, crit, false, in.elem_mult_pm > 1000});
         m_cues_.push_back({"hit", enemy.def.sound, enemy.position, crit, in.elem_mult_pm > 1000});
+        if (enemy.hp > 0) {
+            apply_status(enemy);
+        }
         if (enemy.hp <= 0) {
             enemy.hp = 0;
             enemy.state = EnemyState::Dead;
@@ -757,10 +760,80 @@ void WorldSim::grant_xp(std::int64_t amount) {
     }
 }
 
+void WorldSim::apply_status(Enemy& enemy) {
+    const auto weapon = m_setup_.items.find(m_equipped_weapon_);
+    if (weapon == m_setup_.items.end() || !weapon->second.is_weapon || weapon->second.weapon_element == "none" ||
+        element_multiplier(enemy.def) == 0) {
+        return;
+    }
+    const std::string& element = weapon->second.weapon_element;
+    int chance = 0;
+    int ticks = 0;
+    if (element == "fire") {
+        chance = 350;
+        ticks = 150;
+    } else if (element == "water") {
+        chance = 400;
+        ticks = 180;
+    } else if (element == "wind") {
+        chance = 300;
+        ticks = 45;
+    } else if (element == "earth") {
+        chance = 300;
+        ticks = 75;
+    } else {  // light, dark
+        chance = 350;
+        ticks = 240;
+    }
+    if (static_cast<int>(m_combat_rng_.next_bounded(1000)) >= chance) {
+        return;
+    }
+    if (element == "fire") {
+        enemy.burn = ticks;
+        enemy.burn_clock = 0;
+    } else if (element == "water") {
+        enemy.chill = ticks;
+    } else if (element == "wind" || element == "earth") {
+        enemy.stun = ticks;
+    } else {
+        enemy.weaken = ticks;
+    }
+}
+
 void WorldSim::update_enemy(Enemy& enemy) {
     if (enemy.state == EnemyState::Dead) {
         return;
     }
+    if (enemy.burn > 0) {  // a burn hurts every 30 ticks, whatever the defense
+        --enemy.burn;
+        ++enemy.burn_clock;
+        if (enemy.burn_clock % 30 == 0) {
+            const std::int64_t amount = std::max<std::int64_t>(1, enemy.def.hp * 3 / 100);
+            enemy.hp -= amount;
+            m_events_.push_back({enemy.position, amount, false, false});
+            if (enemy.hp <= 0) {
+                enemy.hp = 0;
+                enemy.state = EnemyState::Dead;
+                m_cues_.push_back({"die", enemy.def.sound, enemy.position});
+                on_kill(enemy);
+                return;
+            }
+        }
+    }
+    if (enemy.stun > 0) {  // a stunned creature does nothing
+        --enemy.stun;
+        return;
+    }
+    behave_enemy(enemy);
+    if (enemy.chill > 0) {
+        --enemy.chill;
+    }
+    if (enemy.weaken > 0) {
+        --enemy.weaken;
+    }
+}
+
+void WorldSim::behave_enemy(Enemy& enemy) {
     const BehaviorDef& b = enemy.def.behavior;
     const Player& p = m_player_;
     const float dist = distance(enemy.position.x, enemy.position.y, p.position.x, p.position.y);
@@ -811,7 +884,8 @@ void WorldSim::move_enemy(Enemy& enemy, float target_x, float target_y) {
     const float dx = target_x - enemy.position.x;
     const float dy = target_y - enemy.position.y;
     const float dist = std::sqrt(dx * dx + dy * dy);
-    const float step = (static_cast<float>(enemy.def.speed_x100) / 100.0F) * kTickDt;
+    const float speed = static_cast<float>(enemy.def.speed_x100) / 100.0F;
+    const float step = (enemy.chill > 0 ? speed / 2.0F : speed) * kTickDt;
     if (dist > 0.0F) {
         if (dist <= step) {
             enemy.position = {target_x, target_y};
@@ -827,7 +901,7 @@ void WorldSim::hurt_player(const Enemy& enemy) {
     Player& p = m_player_;
     const std::int64_t variance = 950 + static_cast<std::int64_t>(m_combat_rng_.next_bounded(101));
     DamageInput in;
-    in.atk = enemy.def.atk;
+    in.atk = enemy.weaken > 0 ? enemy.def.atk * 75 / 100 : enemy.def.atk;
     in.power_pct = 100;
     in.def_target = m_derived_.def;
     in.lvl_attacker = enemy.def.level;
