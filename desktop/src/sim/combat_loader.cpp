@@ -259,8 +259,8 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
         }
     }
 
-    if (const auto table = pack.read_document("base:recipes/all")) {  // crafting (spec 06)
-        const Json parsed = Json::parse(*table, nullptr, /*allow_exceptions=*/false);
+    if (const auto recipe_table = pack.read_document("base:recipes/all")) {  // crafting (spec 06)
+        const Json parsed = Json::parse(*recipe_table, nullptr, /*allow_exceptions=*/false);
         if (!parsed.is_discarded() && parsed.contains("recipes")) {
             for (const Json& r : parsed.at("recipes")) {
                 RecipeDef recipe;
