@@ -111,7 +111,18 @@ restarts the count:
 
 At the start of an enemy's update: a burn counts down one tick and, on every 30th tick since it began, hurts (a kill follows the rules of "Kill");
 then a stunned creature counts down one tick and does nothing else; otherwise the creature acts as in "Enemy states"; at the end its chill and weaken
-count down. The parry and the status effects of the player's attacks on the player come later.
+count down. The status effects on the player come later.
+
+## Parry
+
+The input `parry` (an edge is not needed: it is read every tick, like the roll) opens a **parry window** when no attack and no roll is going on, no
+window is open and the wait is over. The window lasts 14 ticks and the next one cannot open before 70 ticks have passed since this one opened. While the
+window is open the player cannot attack, strike or roll (those inputs are ignored), but can move.
+
+An attack of a creature that lands during the window (the instant of `hurt the player` in "Enemy states", when the player has no invulnerability left) is **parried**:
+it does no damage and draws no random number, the creature is stunned for 60 ticks (see "Status effects"), and the player is safe for 20 more ticks (`iframes` is at
+least 20). The window is counted down after the creatures have been updated in the tick, so it covers 14 updates of the creatures. A death or a loaded game closes it
+and clears the wait. Nothing about the parry is saved.
 
 ## Kill
 

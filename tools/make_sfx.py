@@ -52,6 +52,7 @@ variants("swing", 130, 500, [L("noise", 5200, 1400, 800, 12, 110), L("triangle",
 add("power", 420, 850, [L("saw", 120, 460, 600, 40, 360), L("noise", 900, 3200, 400, 80, 300), L("sine", 90, 60, 500, 0, 380)])
 add("dodge", 190, 450, [L("noise", 2200, 700, 650, 20, 160), L("sine", 300, 700, 250, 20, 160)])
 variants("hurt", 260, 800, [L("saw", 330, 90, 700, 0, 230), L("noise", 1800, 300, 450, 1, 160)])
+add("parry", 320, 850, [L("noise", 4500, 1800, 700, 0, 120), L("triangle", 1500, 1500, 500, 0, 260), L("triangle", 2250, 2250, 300, 0, 200), L("sine", 90, 60, 450, 0, 180)])
 add("death", 900, 800, [L("saw", 392, 98, 600, 0, 880), L("square", 196, 49, 450, 0, 880, 500), L("noise", 800, 120, 200, 0, 700)])
 add("crit", 300, 850, [L("noise", 4200, 500, 800, 1, 220), L("square", 330, 80, 600, 0, 200, 250), L("sine", 1320, 880, 400, 2, 260)])
 add("weak", 380, 700, [L("sine", 1568, 1568, 500, 0, 300), L("sine", 2093, 2093, 400, 40, 330), L("triangle", 784, 784, 300, 0, 260)])
@@ -217,6 +218,7 @@ EVENTS: dict[str, dict] = {
     "dodge": {"sounds": ["dodge"], "volume_pm": 900},
     "player.hurt": {"sounds": ["hurt_a", "hurt_b", "hurt_c"], "volume_pm": 1000, "cooldown": 8},
     "player.death": {"sounds": ["death"], "volume_pm": 1000},
+    "player.parry": {"sounds": ["parry"], "volume_pm": 1000},
     "crit": {"sounds": ["crit"], "volume_pm": 900},
     "weak": {"sounds": ["weak"], "volume_pm": 800},
     "level_up": {"sounds": ["level_up"], "volume_pm": 1000},

@@ -23,6 +23,11 @@ RETURN_ARRIVAL = 0.1
 STATUS_OF = {"fire": ("burn", 350, 150), "water": ("chill", 400, 180), "wind": ("stun", 300, 45), "earth": ("stun", 300, 75),
              "light": ("weaken", 350, 240), "dark": ("weaken", 350, 240)}
 BURN_PERIOD = 30
+# The parry (spec 05, "Parry"): the window, the wait before the next one, what it does to the attacker, the safety it gives.
+PARRY_TICKS = 14
+PARRY_COOLDOWN = 70
+PARRY_STUN = 60
+PARRY_IFRAMES = 20
 
 
 def primary_at_level(base: dict, growth_pm: dict, level: int) -> rules.Primary:
@@ -66,6 +71,8 @@ class CombatSim:
         self.dodge = scenario.get("dodge")  # {"ticks", "speed_mult_x100", "iframes", "cooldown"}, or None: no dodge (spec 05, "Dodge roll")
         self.dodge_ticks = 0
         self.dodge_cooldown = 0
+        self.parry_ticks = 0
+        self.parry_cooldown = 0
         self.dodge_dir = (1.0, 0.0)
         self.spawn = tuple(pl["start"])
         self.x, self.y = self.spawn
@@ -114,18 +121,25 @@ class CombatSim:
 
     # --------------------------------------------------------------------------------- tick
 
-    def tick(self, raw_x: float, raw_y: float, attack: bool, dodge: bool = False, strike: bool = False) -> None:
+    def tick(self, raw_x: float, raw_y: float, attack: bool, dodge: bool = False, strike: bool = False, parry: bool = False) -> None:
         if self.story is not None and self.story.dialogue_active:
-            raw_x, raw_y, attack, dodge, strike = 0.0, 0.0, False, False, False
+            raw_x, raw_y, attack, dodge, strike, parry = 0.0, 0.0, False, False, False, False
         if self.iframes > 0:
             self.iframes -= 1
         if self.cooldown > 0:
             self.cooldown -= 1
         if self.dodge_cooldown > 0:
             self.dodge_cooldown -= 1
+        if self.parry_cooldown > 0:
+            self.parry_cooldown -= 1
         if self.death_save_cd > 0:
             self.death_save_cd -= 1
         self.mp_u = min(self.derived["max_mp"] * 6000, self.mp_u + self.derived["mp_regen_x100"] * self.gift.get("mp_regen_pct", 100) // 100)
+
+        if parry and self.parry_ticks == 0 and self.parry_cooldown == 0 and self.phase == NONE and self.dodge_ticks == 0:
+            self.parry_ticks, self.parry_cooldown = PARRY_TICKS, PARRY_COOLDOWN
+        if self.parry_ticks > 0:  # a parry in progress allows no attack and no roll
+            attack = dodge = strike = False
 
         vx, vy = mv.normalize_input(raw_x, raw_y)
         if dodge and self.dodge is not None and self.dodge_ticks == 0 and self.dodge_cooldown == 0 and self.phase == NONE:
@@ -173,6 +187,8 @@ class CombatSim:
 
         for index, enemy in enumerate(self.enemies):
             self._update_enemy(index, enemy)
+        if self.parry_ticks > 0:
+            self.parry_ticks -= 1
 
     def _advance_attack(self) -> None:
         s = self.cur_skill
@@ -339,6 +355,10 @@ class CombatSim:
         e.x, e.y = mv.resolve(e.x, e.y, self.grid, self.props, e.radius)
 
     def _hurt_player(self, e: _Enemy) -> None:
+        if self.parry_ticks > 0:  # parried: no damage, the attacker is stunned and the player is safe for a moment
+            e.stun = PARRY_STUN
+            self.iframes = max(self.iframes, PARRY_IFRAMES)
+            return
         variance = 950 + self.combat.next_bounded(101)
         atk = e.d["atk"] * 75 // 100 if e.weaken > 0 else e.d["atk"]
         damage = rules.damage(atk, 100, self.derived["def"], 1000, 0, e.d["level"], self.level,
@@ -353,6 +373,7 @@ class CombatSim:
             self.x, self.y = self.spawn
             self.phase, self.phase_tick = NONE, 0
             self.dodge_ticks, self.dodge_cooldown = 0, 0
+            self.parry_ticks = self.parry_cooldown = 0
             self.mp_u = self.derived["max_mp"] * 6000
             self.iframes = RESPAWN_IFRAMES
 
@@ -471,6 +492,7 @@ class CombatSim:
         self.iframes, self.cooldown, self.phase, self.phase_tick = p["iframes"], p["cooldown"], p["phase"], p["phase_tick"]
         self.hit_set = {i for i, hit in enumerate(p["hit_set"]) if hit}
         self.dodge_ticks, self.dodge_cooldown = 0, 0  # a roll in progress is not saved (spec 05)
+        self.parry_ticks = self.parry_cooldown = 0
         self.death_save_cd = 0
         self.mp_u, self.cur_skill = self.derived["max_mp"] * 6000, self.skill  # nor is the mana: a loaded game starts full
         for name, stream in (("combat", self.combat), ("loot", self.loot)):
@@ -526,7 +548,7 @@ def run_segment(sim: CombatSim, segment: dict) -> None:
         elif command["cmd"] == "choose":
             sim.story.choose(command["index"])
     for _ in range(segment["ticks"]):
-        sim.tick(move[0], move[1], segment["attack"], segment.get("dodge", False), segment.get("strike", False))
+        sim.tick(move[0], move[1], segment["attack"], segment.get("dodge", False), segment.get("strike", False), segment.get("parry", False))
 
 
 def run_scenario(scenario: dict) -> list[dict]:

@@ -25,6 +25,8 @@ std::vector<SoundEvent> SoundDirector::update(const SoundSnapshot& s) {
         const int volume = std::clamp(1000 - static_cast<int>(std::floor(dist * kFalloffPmPerTile + 0.5)), 0, 1000);
         if (cue.kind == "hurt") {
             emit("player.hurt");
+        } else if (cue.kind == "parry") {
+            emit("player.parry");
         } else if (volume >= kMinAudiblePm) {
             emit("enemy." + cue.family + "." + cue.kind, volume);
         }

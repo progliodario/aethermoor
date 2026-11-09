@@ -5,7 +5,7 @@ import com.badlogic.gdx.Input
 import kotlin.math.sqrt
 
 /** Input of one frame: raw movement vector (the simulation normalizes it) and the attack button. */
-data class FrameInput(val x: Float, val y: Float, val attack: Boolean, val dodge: Boolean = false, val strike: Boolean = false)
+data class FrameInput(val x: Float, val y: Float, val attack: Boolean, val dodge: Boolean = false, val strike: Boolean = false, val parry: Boolean = false)
 
 /**
  * Input (spec 16): WASD/arrow keys and J/Space to attack, and on touch screens a floating stick on the left half
@@ -26,6 +26,9 @@ class InputController {
 
     /** Screen rectangle of the power strike button; a touch on it is a strike, never an attack. */
     var strikeRect: FloatArray? = null
+
+    /** Screen rectangle of the parry button; a touch on it is a parry, never an attack. */
+    var parryRect: FloatArray? = null
     private var originX = 0f
     private var originY = 0f
 
@@ -58,10 +61,12 @@ class InputController {
             (0 until MAX_POINTERS).any { input.isTouched(it) && inRect(dodgeRect, input.getX(it), input.getY(it)) }
         val strike = input.isKeyPressed(Input.Keys.K) ||
             (0 until MAX_POINTERS).any { input.isTouched(it) && inRect(strikeRect, input.getX(it), input.getY(it)) }
-        return FrameInput(x, y, attack, dodge, strike)
+        val parry = input.isKeyPressed(Input.Keys.U) ||
+            (0 until MAX_POINTERS).any { input.isTouched(it) && inRect(parryRect, input.getX(it), input.getY(it)) }
+        return FrameInput(x, y, attack, dodge, strike, parry)
     }
 
-    private fun inExcludedRect(x: Int, y: Int): Boolean = inRect(attackExcludedRect, x, y) || inRect(dodgeRect, x, y) || inRect(analyzeRect, x, y) || inRect(strikeRect, x, y)
+    private fun inExcludedRect(x: Int, y: Int): Boolean = inRect(attackExcludedRect, x, y) || inRect(dodgeRect, x, y) || inRect(analyzeRect, x, y) || inRect(strikeRect, x, y) || inRect(parryRect, x, y)
 
     private fun inRect(r: FloatArray?, x: Int, y: Int): Boolean {
         if (r == null) return false

@@ -43,6 +43,8 @@ struct Player {
     int death_save_cd = 0;      // ticks until the death save is ready again (spec 18); not saved
     int dodge_ticks = 0;        // ticks of the dodge roll left (spec 05); not saved
     int dodge_cooldown = 0;     // ticks until the next roll; not saved
+    int parry_ticks = 0;        // ticks of the parry window left (spec 05, "Parry"); not saved
+    int parry_cooldown = 0;     // ticks until the next parry; not saved
     Vec2 dodge_dir{1.0F, 0.0F};
 };
 
@@ -152,7 +154,8 @@ public:
              std::optional<StreamConfig> stream = std::nullopt);
 
     // One fixed tick (1/60 s) with the raw movement input and the attack input of this tick.
-    void tick(float raw_x, float raw_y, bool attack = false, bool dodge = false, bool strike = false);
+    void tick(float raw_x, float raw_y, bool attack = false, bool dodge = false, bool strike = false,
+              bool parry = false);
     // The mana in points (the floor of mp_u / 6000), and whether the protagonist has a power strike.
     std::int64_t mp() const { return m_player_.mp_u / 6000; }
     bool has_strike() const { return m_setup_.strike.enabled; }
@@ -252,7 +255,7 @@ private:
     void behave_enemy(Enemy& enemy);
     void update_enemy(Enemy& enemy);
     void move_enemy(Enemy& enemy, float target_x, float target_y);
-    void hurt_player(const Enemy& enemy);
+    void hurt_player(Enemy& enemy);
     void recompute_derived();
     void sync_window();
     void mark_explored();

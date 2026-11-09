@@ -118,6 +118,7 @@
   "ui.map_btn_next": "Avanti",
   "ui.dodge": "Schiva",
   "ui.strike": "Colpo",
+  "ui.parry": "Para",
   "ui.analyze_title": "{name}   Liv. {level}",
   "ui.analyze_stats": "PV {hp}/{max}   Att {atk}   Dif {def}",
   "ui.analyze_drops": "Bottino: {items}",

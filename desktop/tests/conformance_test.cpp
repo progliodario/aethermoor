@@ -749,6 +749,7 @@ void run_segment(aether::WorldSim& sim, const Json& segment) {
     const bool attack = segment.at("attack").get<bool>();
     const bool dodge = segment.contains("dodge") && segment.at("dodge").get<bool>();
     const bool strike = segment.contains("strike") && segment.at("strike").get<bool>();
+    const bool parry = segment.contains("parry") && segment.at("parry").get<bool>();
     if (segment.contains("do")) {
         for (const Json& command : segment.at("do")) {
             const std::string cmd = command.at("cmd").get<std::string>();
@@ -776,7 +777,7 @@ void run_segment(aether::WorldSim& sim, const Json& segment) {
         }
     }
     for (int tick = 0; tick < segment.at("ticks").get<int>(); ++tick) {
-        sim.tick(mx, my, attack, dodge, strike);
+        sim.tick(mx, my, attack, dodge, strike, parry);
     }
 }
 
