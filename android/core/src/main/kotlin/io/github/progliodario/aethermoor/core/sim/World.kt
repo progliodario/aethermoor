@@ -190,6 +190,13 @@ class WorldSim(
     /** The bestiary (spec 11): creature id -> how many were killed. */
     val bestiary = java.util.TreeMap<String, Int>()
 
+    /** The counters of spec 11: how many times the player gathered, crafted and parried. */
+    val counters = java.util.TreeMap<String, Int>()
+
+    private fun count(name: String) {
+        counters[name] = (counters[name] ?: 0) + 1
+    }
+
     var travel: Travel? = null
         private set
 
@@ -628,6 +635,7 @@ class WorldSim(
             if (left == 0L) inventory.remove(item) else inventory[item] = left
         }
         inventory[recipe.output] = (inventory[recipe.output] ?: 0L) + recipe.outputQty
+        count("crafted")
         cues.add(SimCue("craft", "", player.position))
         return true
     }
@@ -679,6 +687,7 @@ class WorldSim(
             }
         }
         gathered[key] = Pair(worldTicks + node.cooldownTicks, times + 1)
+        count("gathered")
         cues.add(SimCue("gather", node.sound, p.position))
         return GatherResult(true, node.sound, got)
     }
@@ -893,7 +902,7 @@ class WorldSim(
                 "level" -> player.level
                 "species" -> bestiary.size.toLong()
                 "quests" -> questsDone
-                else -> 0L
+                else -> (counters[t.kind] ?: 0).toLong()
             }
             have >= t.count
         }.map { it.id }
@@ -1027,6 +1036,7 @@ class WorldSim(
     private fun hurtPlayer(enemy: Enemy) {
         if (player.parryTicks > 0) { // parried: no damage, the attacker is stunned and the player is safe for a moment
             enemy.stun = PARRY_STUN
+            count("parried")
             player.iframes = maxOf(player.iframes, PARRY_IFRAMES)
             cues.add(SimCue("parry", enemy.def.sound, player.position))
             return
@@ -1083,6 +1093,7 @@ class WorldSim(
             explored = explored.toList(),
             stones = stones.toList(),
             bestiary = bestiary.toMap(),
+            counters = counters.toMap(),
             companion = if (combat.companion != null) Triple((companionPosition ?: player.position).x, (companionPosition ?: player.position).y, companionCooldown) else null,
             equippedWeapon = equippedWeapon,
             equippedArmor = equippedArmor,
@@ -1186,6 +1197,8 @@ class WorldSim(
         stones.addAll(s.stones)
         bestiary.clear()
         bestiary.putAll(s.bestiary)
+        counters.clear()
+        counters.putAll(s.counters)
         combat.companion?.let { c -> // a save without a companion (an older one) puts it next to the player
             val saved = s.companion
             companionPosition = if (saved != null) Vec2(saved.first, saved.second) else player.position

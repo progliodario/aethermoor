@@ -624,6 +624,7 @@ bool WorldSim::craft(const std::string& recipe_id) {
         }
     }
     m_inventory_[recipe->output] += recipe->output_qty;
+    ++m_counters_["crafted"];
     m_cues_.push_back({"craft", "", m_player_.position});
     return true;
 }
@@ -685,6 +686,7 @@ WorldSim::GatherResult WorldSim::gather() {
         }
     }
     m_gathered_[key] = {m_world_ticks_ + best_node->cooldown_ticks, times + 1};
+    ++m_counters_["gathered"];
     m_cues_.push_back({"gather", result.sound, p.position});
     return result;
 }
@@ -951,6 +953,8 @@ std::vector<std::string> WorldSim::earned_titles() const {
             have = static_cast<std::int64_t>(m_bestiary_.size());
         } else if (t.kind == "quests") {
             have = quests_done;
+        } else if (const auto counter = m_counters_.find(t.kind); counter != m_counters_.end()) {
+            have = counter->second;
         }
         if (have >= t.count) {
             earned.push_back(t.id);
@@ -1111,6 +1115,7 @@ void WorldSim::move_enemy(Enemy& enemy, float target_x, float target_y) {
 void WorldSim::hurt_player(Enemy& enemy) {
     if (m_player_.parry_ticks > 0) {  // parried: no damage, the attacker is stunned and the player is safe for a moment
         enemy.stun = kParryStun;
+        ++m_counters_["parried"];
         m_player_.iframes = std::max(m_player_.iframes, kParryIframes);
         m_cues_.push_back({"parry", enemy.def.sound, enemy.position});
         return;
@@ -1179,6 +1184,7 @@ SaveState WorldSim::capture() const {
     }
     s.stones = m_stones_;
     s.bestiary = m_bestiary_;
+    s.counters = m_counters_;
     if (m_setup_.companion) {
         s.has_companion = true;
         s.companion_x = m_companion_pos_.x;
@@ -1310,6 +1316,7 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
     m_travel_.reset();
     m_stones_ = s.stones;
     m_bestiary_ = s.bestiary;
+    m_counters_ = s.counters;
     if (m_setup_.companion) {  // a save without a companion (an older one) puts it next to the player
         m_companion_pos_ = s.has_companion ? Vec2{s.companion_x, s.companion_y} : s.position;
         m_companion_cooldown_ = s.has_companion ? s.companion_cooldown : m_setup_.companion->cooldown_ticks;

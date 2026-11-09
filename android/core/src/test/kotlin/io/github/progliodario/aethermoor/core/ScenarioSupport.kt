@@ -241,6 +241,7 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
     want["bestiary"]?.jsonObject?.let { b ->
         assertEquals(b.size, sim.bestiary.size, "$at bestiary size")
         for ((id, count) in b) assertEquals(count.jsonPrimitive.int, sim.bestiary[id], "$at bestiary $id")
+        assertEquals(want.getValue("counters").jsonObject.mapValues { it.value.jsonPrimitive.int }, sim.counters.toMap(), "$at counters")
         assertEquals(want.getValue("titles").jsonArray.map { it.jsonPrimitive.content }, sim.earnedTitles(), "$at titles")
     }
     want["equipped"]?.jsonObject?.let {

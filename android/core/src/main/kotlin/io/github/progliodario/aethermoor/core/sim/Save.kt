@@ -69,6 +69,8 @@ data class SaveState(
     val stones: List<Pair<Int, Int>> = emptyList(),
     /** The bestiary (spec 11): creature id -> kills. */
     val bestiary: Map<String, Int> = emptyMap(),
+    /** The counters of spec 11: gathered, crafted, parried. */
+    val counters: Map<String, Int> = emptyMap(),
     /** The companion (spec 10): x, y and cooldown; null: no companion in the save. */
     val companion: Triple<Float, Float, Int>? = null,
     /** The item ids worn (spec 06); null: not in the save (the starting weapon, no armor). */
@@ -171,6 +173,7 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
         }
         put("world_ticks", s.worldTicks)
         put("equipped", buildJsonObject { put("weapon", s.equippedWeapon ?: ""); put("armor", s.equippedArmor) })
+        if (s.counters.isNotEmpty()) put("counters", buildJsonObject { for ((name, count) in s.counters) put(name, count) })
         if (s.bestiary.isNotEmpty()) put("bestiary", buildJsonObject { for ((id, count) in s.bestiary) put(id, count) })
         s.companion?.let { c -> put("companion", buildJsonObject { put("x", c.first); put("y", c.second); put("cooldown", c.third) }) }
         if (meta.map == "world") {
@@ -291,6 +294,7 @@ fun saveFromJson(text: String): Result<SaveState> =
             explored = (j["explored"] as? JsonArray)?.map { c -> Pair(c.jsonArray[0].jsonPrimitive.int, c.jsonArray[1].jsonPrimitive.int) }
                 ?: emptyList(),
             companion = (j["companion"] as? JsonObject)?.let { c -> Triple(c.getValue("x").jsonPrimitive.float, c.getValue("y").jsonPrimitive.float, c.getValue("cooldown").jsonPrimitive.int) },
+            counters = (j["counters"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
             bestiary = (j["bestiary"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
             stones = (j["stones"] as? JsonArray)?.map { c -> Pair(c.jsonArray[0].jsonPrimitive.int, c.jsonArray[1].jsonPrimitive.int) }
                 ?: emptyList(),

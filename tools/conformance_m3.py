@@ -67,6 +67,9 @@ TITLES = [
     {"id": "wolf_bane", "name": "t", "kind": "kills_of", "count": 2, "enemy": "base:enemy/wolf_grey"},
     {"id": "naturalist", "name": "t", "kind": "species", "count": 2},
     {"id": "helper", "name": "t", "kind": "quests", "count": 1},
+    {"id": "forager", "name": "t", "kind": "gathered", "count": 2},
+    {"id": "maker", "name": "t", "kind": "crafted", "count": 2},
+    {"id": "guard", "name": "t", "kind": "parried", "count": 1},
 ]
 GATHER_NODES = [
     {"prop": "base:art/prop/bush", "sound": "plant", "cooldown_ticks": 60, "reach_x100": 150,
@@ -139,6 +142,19 @@ def build_scenarios() -> list[dict]:
                                      enemy(3.4, 4.3, hp=5, id="base:enemy/wolf_grey", **passive),
                                      enemy(9.0, 7.0, hp=5, id="base:enemy/wolf_grey", **passive)],
                  [segment(1), segment(40, attack=True), segment(20)], titles=TITLES),
+        # The counters of spec 11 (gathered, crafted, parried) and the titles of level: gathering twice, crafting twice (a refused recipe does not count),
+        # parries against a slime that fights, and a level gained from three rich ones.
+        scenario("counter_titles", [enemy(3.5, 4.5, hp=5, xp=500, id="base:enemy/slime_green", **passive),
+                                    enemy(3.6, 4.7, hp=5, xp=500, id="base:enemy/slime_green", **passive),
+                                    enemy(3.4, 4.3, hp=5, xp=500, id="base:enemy/slime_green", **passive),
+                                    enemy(4.2, 4.5, atk=60)],
+                 [segment(6), *[s for _ in range(3) for s in (segment(1, parry=True), segment(5), segment(12), segment(60))],
+                  segment(1, do=[{"cmd": "gather"}]), segment(1, do=[{"cmd": "gather"}]), segment(1, do=[{"cmd": "gather"}]),
+                  segment(1, do=[{"cmd": "craft", "recipe": "tonic"}, {"cmd": "craft", "recipe": "nothing"}]),
+                  segment(1, do=[{"cmd": "craft", "recipe": "tonic"}]), segment(40, attack=True), segment(30)],
+                 inventory={"base:item/healing_herb": 4, "base:item/wild_berries": 4}, recipes=RECIPES, titles=TITLES,
+                 gather_nodes=GATHER_NODES,
+                 gather_props=[{"art": "base:art/prop/bush", "x": 3.0, "y": 6.0, "radius": 0.3}, {"art": "base:art/prop/rock", "x": 2.0, "y": 3.0, "radius": 0.3}]),
         scenario("player_death", [enemy(6.7, 4.5, atk=400)], [segment(100), segment(100), segment(100)]),
         # Hurt by a slime, the player eats bread: health goes up and one bread is gone. A second bread at full health is refused,
         # and so are the gel (no effect), an item that is not owned and a use while the player is hurt but the stack is empty.
@@ -230,7 +246,7 @@ def build_scenarios() -> list[dict]:
         scenario("board_quest_rewards", [enemy(3.5, 4.5, id=target, **passive), enemy(3.6, 4.7, id=target, **passive),
                                          enemy(3.4, 4.3, id=target, **passive)],
                  [segment(1, do=[{"cmd": "start_quest", "quest": quest["id"]}]), segment(40, attack=True), segment(20)],
-                 story={"quests": {quest["id"]: quest}, "dialogues": {}, "npcs": []}),
+                 story={"quests": {quest["id"]: quest}, "dialogues": {}, "npcs": []}, titles=TITLES),
         # The dodge roll (spec 05): a roll of 12 ticks at 2.6 times the speed in the direction of the input, a cooldown that refuses the second
         # roll, then a third one (down) once the cooldown has run out; the roll is the same without input (the facing); against a wall it stops at the wall.
         scenario("dodge_roll", [enemy(12.0, 7.5, **passive)],
