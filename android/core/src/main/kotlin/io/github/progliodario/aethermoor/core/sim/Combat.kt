@@ -62,6 +62,8 @@ data class EnemyDef(
     val behavior: BehaviorDef = BehaviorDef(),
     /** The elements (spec 05, "Elements"): the creature's own, and its weaknesses and resistances in permille. */
     val element: String = "none",
+    /** The share of the health that fills the stagger bar; 0: never (spec 05, "Stagger"). */
+    val staggerPct: Long = 40,
     val weaknessesPm: Map<String, Long> = emptyMap(),
     /** The family of voices of the creature (spec 14). */
     val sound: String = "",

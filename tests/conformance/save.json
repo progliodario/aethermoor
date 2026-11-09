@@ -2012,7 +2012,7 @@
             "facing_left": false,
             "moving": true,
             "clip_tick": 149,
-            "hp": 137,
+            "hp": 142,
             "level": 1,
             "xp": 0,
             "deaths": 0,
@@ -2027,7 +2027,7 @@
           },
           "rng": {
             "combat": {
-              "state": "0x4e6a240be3271635",
+              "state": "0xc922eea8ea4266fa",
               "inc": "0x9417f2f99ce2f643"
             },
             "loot": {
@@ -2037,7 +2037,7 @@
           },
           "enemies": [
             {
-              "x": 4.083333333333334,
+              "x": 3.916666666666667,
               "y": 4.5,
               "hp": 28,
               "state": "idle",
@@ -2178,7 +2178,7 @@
         "checkpoints": [
           {
             "player": {
-              "hp": 137,
+              "hp": 142,
               "level": 1,
               "xp": 0,
               "deaths": 0,
@@ -2189,7 +2189,7 @@
               {
                 "hp": 28,
                 "state": "idle",
-                "x": 4.083333333333334,
+                "x": 3.916666666666667,
                 "y": 4.5
               }
             ],

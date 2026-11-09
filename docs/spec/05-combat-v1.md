@@ -1,7 +1,7 @@
 # 05. Combat v1
 
 Status: **v1.2 (M3 slice: attack, dodge roll, mana and the power strike)**. Reference: `tools/reference/combat.py`. Conformance suite: `combat` (scenarios).
-Formulas are in `04-stats-and-combat.md`. The **dodge roll** (below) is in v1.1, **mana and a second attack skill** in v1.2. Not yet: parry, status effects, stagger, projectiles,
+Formulas are in `04-stats-and-combat.md`. The **dodge roll** (below) is in v1.1, **mana and a second attack skill** in v1.2. Parry, status effects and stagger have their sections below. Not yet: projectiles,
 companions, mana for items and equipment.
 
 ## Data used
@@ -127,6 +127,14 @@ damage, one roll `next_bounded(1000)` of the `combat` stream, with the chances a
 
 In a tick, right after the cooldowns are counted down: the burn counts down one tick and hurts on its period; then the stun counts down one tick and clears the inputs of this tick. The chill and the weaken
 count down at the end of the tick, after the creatures have been updated (so a status given in this tick lasts one tick less than its number).
+
+## Stagger
+
+Every creature has a **stagger bar** that starts empty. A hit of the player that leaves the creature alive adds its damage to the bar (twice the damage for the power strike), unless the creature is broken.
+When the bar reaches `max(1, hp * stagger_pct / 100)` (`hp` is the maximum health of the creature; `stagger_pct` is in its data, 40 when absent, and 0 means that it has no bar) the creature is **broken**
+for 120 ticks: the bar is emptied, its stun is at least 120 ticks (see "Status effects"), and while it is broken the damage of the player's hits is `damage * 125 / 100` and the bar does not fill.
+In a hit the order is: damage (with the quarter more if broken), the status roll, then the bar. The broken time counts down at the start of the creature's update, before the burn. A creature that goes back home
+and heals empties its bar. The hits of the companion (spec 10) and the burn do not fill the bar. Nothing of this is saved.
 
 ## Parry
 

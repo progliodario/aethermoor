@@ -26,6 +26,10 @@ BURN_PERIOD = 30
 PLAYER_BURN_PCT = 2  # a burn on the player takes this much of the maximum health every period, and never the last point
 # The parry (spec 05, "Parry"): the window, the wait before the next one, what it does to the attacker, the safety it gives.
 PARRY_TICKS = 14
+# Stagger (spec 05, "Stagger"): the default share of the health that fills the bar, how long the creature is broken, and the damage it takes then.
+STAGGER_PCT = 40
+STAGGER_TICKS = 120
+STAGGER_DAMAGE_PCT = 125
 PARRY_COOLDOWN = 70
 PARRY_STUN = 60
 PARRY_IFRAMES = 20
@@ -51,6 +55,7 @@ class _Enemy:
         self.radius = self.d["radius_x100"] / 100
         self.speed = self.d["speed_x100"] / 100
         self.burn = self.burn_clock = self.chill = self.weaken = self.stun = 0  # ticks left; not saved
+        self.stagger = self.broken = 0  # the stagger bar and the ticks left of being broken; not saved
 
 
 class CombatSim:
@@ -329,9 +334,17 @@ class CombatSim:
                 attack = attack * 75 // 100
             damage = rules.damage(attack, s["power_pct"], enemy.d["def"], self._elem_mult(enemy), 0, self.level,
                                   enemy.d["level"], variance, crit, self.derived["crit_mult_pm"], 1000)
+            if enemy.broken > 0:
+                damage = damage * STAGGER_DAMAGE_PCT // 100
             enemy.hp -= damage
             if enemy.hp > 0:
                 self._apply_status(enemy)
+                pct = enemy.d.get("stagger_pct", STAGGER_PCT)
+                if pct > 0 and enemy.broken == 0:  # the stagger bar (spec 05, "Stagger")
+                    enemy.stagger += damage * (2 if self.strike is not None and s is self.strike else 1)
+                    if enemy.stagger >= max(1, enemy.d["hp"] * pct // 100):
+                        enemy.stagger, enemy.broken = 0, STAGGER_TICKS
+                        enemy.stun = max(enemy.stun, STAGGER_TICKS)
             if enemy.hp <= 0:
                 enemy.hp = 0
                 enemy.state = DEAD
@@ -384,6 +397,8 @@ class CombatSim:
     def _update_enemy(self, index: int, e: _Enemy) -> None:
         if e.state == DEAD:
             return
+        if e.broken > 0:
+            e.broken -= 1
         if e.burn > 0:  # a burn hurts every BURN_PERIOD ticks, whatever the defense
             e.burn -= 1
             e.burn_clock += 1
@@ -427,6 +442,7 @@ class CombatSim:
             hx, hy = e.home
             if math.sqrt((hx - e.x) ** 2 + (hy - e.y) ** 2) <= RETURN_ARRIVAL:
                 e.state, e.hp = IDLE, e.d["hp"]
+                e.stagger = 0
             else:
                 self._move_enemy(e, hx, hy)
 

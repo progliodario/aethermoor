@@ -161,6 +161,12 @@ def build_scenarios() -> list[dict]:
                    [segment(120), segment(90, move=(-1, 0)), segment(120, attack=True), segment(120, move=(0, 1), dodge=True), segment(150, attack=True),
                     segment(1, parry=True), segment(120, attack=True)])
           for element in ("fire", "water", "wind", "earth", "dark")],
+        # Stagger (spec 05): hits fill the bar of a creature; when it is full the creature is broken for 120 ticks (stunned, and hits do a quarter more).
+        # The power strike fills twice as much; a creature with `stagger_pct` 0 is never broken.
+        scenario("stagger_breaks", [enemy(3.6, 4.5, hp=400, atk=30), enemy(3.4, 5.1, hp=400, atk=30, stagger_pct=0)],
+                 [segment(120, attack=True), segment(120, attack=True), segment(120, attack=True), segment(120, attack=True), segment(120, attack=True)]),
+        scenario("stagger_strike", [enemy(3.6, 4.5, hp=600, atk=30, stagger_pct=20)],
+                 [segment(60, strike=True), segment(100, attack=True), segment(100, strike=True), segment(150, attack=True)], strike=STRIKE),
         scenario("player_death", [enemy(6.7, 4.5, atk=400)], [segment(100), segment(100), segment(100)]),
         # Hurt by a slime, the player eats bread: health goes up and one bread is gone. A second bread at full health is refused,
         # and so are the gel (no effect), an item that is not owned and a use while the player is hurt but the stack is empty.
