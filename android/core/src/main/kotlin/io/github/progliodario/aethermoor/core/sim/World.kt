@@ -31,6 +31,12 @@ import kotlin.math.sqrt
 // Keep this file in step with desktop/src/sim/world.cpp: same operations, same order, same random draws.
 
 private const val PLAYER_HIT_IFRAMES = 45
+
+// The parry (spec 05, "Parry"): the window, the wait before the next one, what it does to the attacker, the safety it gives.
+private const val PARRY_TICKS = 14
+private const val PARRY_COOLDOWN = 70
+private const val PARRY_STUN = 60
+private const val PARRY_IFRAMES = 20
 private const val RESPAWN_IFRAMES = 90
 private const val ATTACK_MOVE_MULT = 0.5f
 private const val MAX_LEVEL = 99L
@@ -64,6 +70,10 @@ class Player(var position: Vec2) {
     /** The dodge roll (spec 05): ticks left, ticks until the next one, and the direction. Not saved. */
     var dodgeTicks = 0
     var dodgeCooldown = 0
+
+    /** Ticks of the parry window left (spec 05, "Parry") and until the next one. Not saved. */
+    var parryTicks = 0
+    var parryCooldown = 0
 
     /** Ticks until the death save is ready again (spec 18). Not saved. */
     var deathSaveCd = 0
@@ -553,7 +563,7 @@ class WorldSim(
     /** Whether the protagonist has a power strike. */
     val hasStrike: Boolean get() = combat.strike.enabled
 
-    fun tick(rawXIn: Float, rawYIn: Float, attackIn: Boolean = false, dodgeIn: Boolean = false, strikeIn: Boolean = false) {
+    fun tick(rawXIn: Float, rawYIn: Float, attackIn: Boolean = false, dodgeIn: Boolean = false, strikeIn: Boolean = false, parryIn: Boolean = false) {
         worldTicks++
         syncWindow()
         if (chunks != null && windowValid && timeOfDayPm() != routineTod) refreshPeople(windowX, windowY) // somebody goes home or comes out (spec 08)
@@ -561,16 +571,23 @@ class WorldSim(
         val frozen = story.dialogueActive
         val rawX = if (frozen) 0f else rawXIn
         val rawY = if (frozen) 0f else rawYIn
-        val attack = attackIn && !frozen
-        val dodge = dodgeIn && !frozen
-        val strike = strikeIn && !frozen
         val p = player
         val enabled = combat.enabled
         if (p.iframes > 0) p.iframes--
         if (p.cooldown > 0) p.cooldown--
         if (p.dodgeCooldown > 0) p.dodgeCooldown--
+        if (p.parryCooldown > 0) p.parryCooldown--
         if (p.deathSaveCd > 0) p.deathSaveCd--
         p.mpU = minOf(derived.maxMp * 6000L, p.mpU + derived.mpRegenX100 * combat.gift.mpRegenPct / 100)
+
+        if (enabled && parryIn && !frozen && p.parryTicks == 0 && p.parryCooldown == 0 && p.phase == AttackPhase.NONE && p.dodgeTicks == 0) {
+            p.parryTicks = PARRY_TICKS // the parry window opens (spec 05, "Parry")
+            p.parryCooldown = PARRY_COOLDOWN
+        }
+        // a parry in progress allows no attack and no roll
+        val attack = attackIn && !frozen && p.parryTicks == 0
+        val dodge = dodgeIn && !frozen && p.parryTicks == 0
+        val strike = strikeIn && !frozen && p.parryTicks == 0
 
         val direction = normalizeInput(rawX, rawY)
         val moving = direction.x != 0f || direction.y != 0f
@@ -635,6 +652,7 @@ class WorldSim(
             updateEnemy(enemy)
             if (enemy.hitFlash > 0) enemy.hitFlash--
         }
+        if (p.parryTicks > 0) p.parryTicks--
     }
 
     private fun advanceAttack() {
@@ -850,6 +868,12 @@ class WorldSim(
     }
 
     private fun hurtPlayer(enemy: Enemy) {
+        if (player.parryTicks > 0) { // parried: no damage, the attacker is stunned and the player is safe for a moment
+            enemy.stun = PARRY_STUN
+            player.iframes = maxOf(player.iframes, PARRY_IFRAMES)
+            cues.add(SimCue("parry", enemy.def.sound, player.position))
+            return
+        }
         val p = player
         val variance = 950L + combatRng.nextBounded(101)
         val amount = damage(
@@ -878,6 +902,8 @@ class WorldSim(
             p.phaseTick = 0
             p.dodgeTicks = 0
             p.dodgeCooldown = 0
+            p.parryTicks = 0
+            p.parryCooldown = 0
             p.mpU = derived.maxMp * 6000L
             p.iframes = RESPAWN_IFRAMES
         }
@@ -951,6 +977,8 @@ class WorldSim(
         p.deathSaveCd = 0
         p.dodgeTicks = 0 // a roll in progress is not saved (spec 05)
         p.dodgeCooldown = 0
+        p.parryTicks = 0
+        p.parryCooldown = 0
         p.mpU = derived.maxMp * 6000L // nor is the mana: a loaded game starts full
         p.usingStrike = false
         p.phase = s.phase

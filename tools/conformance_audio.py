@@ -98,6 +98,7 @@ def suite_audio_director() -> list[dict]:
             {"player": {"phase": 1, "strike": True}},
             {"cues": [_cue("hit", crit=True, weak=True), _cue("die", "wolf"), _cue("aggro", "knight", x=30.0), _cue("attack", "bat", x=15.0)]},
             {"cues": [_cue("hurt", "slime")]},
+            {"cues": [_cue("parry", "wolf")]},
             {"player": {"dodge": True}}, {"player": {"dodge": True}}, {"player": {"dodge": False}},
             {"player": {"level": 2}}, {"player": {"save_cd": 1800}},
             {"player": {"hp": 0}},

@@ -10,6 +10,12 @@ namespace aether {
 namespace {
 
 constexpr int kPlayerHitIframes = 45;
+// The parry (spec 05, "Parry"): the window, the wait before the next one, what it does to the attacker, the safety it
+// gives.
+constexpr int kParryTicks = 14;
+constexpr int kParryCooldown = 70;
+constexpr int kParryStun = 60;
+constexpr int kParryIframes = 20;
 constexpr int kRespawnIframes = 90;
 constexpr float kAttackMoveMult = 0.5F;
 constexpr std::int64_t kMaxLevel = 99;
@@ -531,7 +537,7 @@ std::vector<DamageEvent> WorldSim::take_events() { return std::exchange(m_events
 
 std::vector<SimCue> WorldSim::take_cues() { return std::exchange(m_cues_, {}); }
 
-void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool strike) {
+void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool strike, bool parry) {
     Player& p = m_player_;
     const bool combat = m_setup_.enabled;
     ++m_world_ticks_;
@@ -546,6 +552,7 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
         attack = false;
         dodge = false;
         strike = false;
+        parry = false;
     }
     if (p.iframes > 0) {
         --p.iframes;
@@ -556,10 +563,24 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
     if (p.dodge_cooldown > 0) {
         --p.dodge_cooldown;
     }
+    if (p.parry_cooldown > 0) {
+        --p.parry_cooldown;
+    }
     if (p.death_save_cd > 0) {
         --p.death_save_cd;
     }
     p.mp_u = std::min(m_derived_.max_mp * 6000, p.mp_u + m_derived_.mp_regen_x100 * m_setup_.gift.mp_regen_pct / 100);
+
+    if (combat && parry && p.parry_ticks == 0 && p.parry_cooldown == 0 && p.phase == AttackPhase::None &&
+        p.dodge_ticks == 0) {
+        p.parry_ticks = kParryTicks;  // the parry window opens (spec 05, "Parry")
+        p.parry_cooldown = kParryCooldown;
+    }
+    if (p.parry_ticks > 0) {  // a parry in progress allows no attack and no roll
+        attack = false;
+        dodge = false;
+        strike = false;
+    }
 
     const Vec2 direction = normalize_input(raw_x, raw_y);
     const bool moving = direction.x != 0.0F || direction.y != 0.0F;
@@ -634,6 +655,9 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
         if (enemy.hit_flash > 0) {
             --enemy.hit_flash;
         }
+    }
+    if (p.parry_ticks > 0) {
+        --p.parry_ticks;
     }
 }
 
@@ -897,7 +921,13 @@ void WorldSim::move_enemy(Enemy& enemy, float target_x, float target_y) {
     m_collision_.resolve(enemy.position.x, enemy.position.y, enemy.radius());
 }
 
-void WorldSim::hurt_player(const Enemy& enemy) {
+void WorldSim::hurt_player(Enemy& enemy) {
+    if (m_player_.parry_ticks > 0) {  // parried: no damage, the attacker is stunned and the player is safe for a moment
+        enemy.stun = kParryStun;
+        m_player_.iframes = std::max(m_player_.iframes, kParryIframes);
+        m_cues_.push_back({"parry", enemy.def.sound, enemy.position});
+        return;
+    }
     Player& p = m_player_;
     const std::int64_t variance = 950 + static_cast<std::int64_t>(m_combat_rng_.next_bounded(101));
     DamageInput in;
@@ -924,6 +954,8 @@ void WorldSim::hurt_player(const Enemy& enemy) {
         p.phase_tick = 0;
         p.dodge_ticks = 0;
         p.dodge_cooldown = 0;
+        p.parry_ticks = 0;
+        p.parry_cooldown = 0;
         p.mp_u = m_derived_.max_mp * 6000;
         p.iframes = kRespawnIframes;
     }
@@ -1036,6 +1068,8 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
     m_player_.death_save_cd = 0;
     m_player_.dodge_ticks = 0;  // a roll in progress is not saved (spec 05)
     m_player_.dodge_cooldown = 0;
+    m_player_.parry_ticks = 0;
+    m_player_.parry_cooldown = 0;
     m_player_.mp_u = m_derived_.max_mp * 6000;  // nor is the mana: a loaded game starts full
     m_player_.using_strike = false;
     m_combat_rng_.set_state(s.combat_state, s.combat_inc);

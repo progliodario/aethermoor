@@ -28,7 +28,7 @@ To see real frames of a place of the world: `aethermoor --smoke-test --map=world
 
 ## Controls
 
-The full list is in [`PLAY.txt`](PLAY.txt) and in [spec 16](../docs/spec/16-input.md). In short: `WASD` or arrows to move, `J`, `Space` or the left mouse button to attack, `E` or `Enter` to talk and confirm, `I` the bag, `Q` the journal, `M` the world map, `F2` the language, `F5`/`F9`/`F7` quick save, quick load, new game, `F3` the debug overlay, `K` the power strike, `L` or `Left Shift` the dodge roll, `F8` sound on and off, `F10` the volumes, `Z` Analyze (Ren), `N` the small map, `P`/`X` on the map to mark and remove a goal, `Esc` closes a panel, then goes back to the title screen, and quits from there. A gamepad moves with the left stick (`A`/south attacks and confirms, `X`/west talks, `B`/east closes a panel or rolls out of the way, `RB` is the power strike).
+The full list is in [`PLAY.txt`](PLAY.txt) and in [spec 16](../docs/spec/16-input.md). In short: `WASD` or arrows to move, `J`, `Space` or the left mouse button to attack, `E` or `Enter` to talk and confirm, `I` the bag, `Q` the journal, `M` the world map, `F2` the language, `F5`/`F9`/`F7` quick save, quick load, new game, `F3` the debug overlay, `K` the power strike, `U` the parry, `L` or `Left Shift` the dodge roll, `F8` sound on and off, `F10` the volumes, `Z` Analyze (Ren), `N` the small map, `P`/`X` on the map to mark and remove a goal, `Esc` closes a panel, then goes back to the title screen, and quits from there. A gamepad moves with the left stick (`A`/south attacks and confirms, `X`/west talks, `B`/east closes a panel or rolls out of the way, `RB` is the power strike).
 
 ## Layout
 

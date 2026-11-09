@@ -157,6 +157,7 @@ internal fun runSegment(sim: WorldSim, segment: JsonObject) {
     val attack = segment.getValue("attack").jsonPrimitive.boolean
     val dodge = segment["dodge"]?.jsonPrimitive?.boolean ?: false
     val strike = segment["strike"]?.jsonPrimitive?.boolean ?: false
+    val parry = segment["parry"]?.jsonPrimitive?.boolean ?: false
     for (command in segment["do"]?.jsonArray ?: JsonArray(emptyList())) {
         val cmd = command.jsonObject
         when (cmd.getValue("cmd").jsonPrimitive.content) {
@@ -172,7 +173,7 @@ internal fun runSegment(sim: WorldSim, segment: JsonObject) {
             "choose" -> sim.story.choose(cmd.getValue("index").jsonPrimitive.int)
         }
     }
-    repeat(segment.getValue("ticks").jsonPrimitive.int) { sim.tick(move[0].num(), move[1].num(), attack, dodge, strike) }
+    repeat(segment.getValue("ticks").jsonPrimitive.int) { sim.tick(move[0].num(), move[1].num(), attack, dodge, strike, parry) }
 }
 
 private fun assertNear(wanted: Float, actual: Float, tol: Float, message: String) {

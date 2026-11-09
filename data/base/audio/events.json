@@ -38,6 +38,12 @@
       ],
       "volume_pm": 1000
     },
+    "player.parry": {
+      "sounds": [
+        "parry"
+      ],
+      "volume_pm": 1000
+    },
     "crit": {
       "sounds": [
         "crit"

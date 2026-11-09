@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/parry",
+  "duration_ms": 320,
+  "volume_pm": 850,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 4500,
+      "freq_end": 1800,
+      "volume_pm": 700,
+      "attack_ms": 0,
+      "decay_ms": 120
+    },
+    {
+      "wave": "triangle",
+      "freq_start": 1500,
+      "freq_end": 1500,
+      "volume_pm": 500,
+      "attack_ms": 0,
+      "decay_ms": 260
+    },
+    {
+      "wave": "triangle",
+      "freq_start": 2250,
+      "freq_end": 2250,
+      "volume_pm": 300,
+      "attack_ms": 0,
+      "decay_ms": 200
+    },
+    {
+      "wave": "sine",
+      "freq_start": 90,
+      "freq_end": 60,
+      "volume_pm": 450,
+      "attack_ms": 0,
+      "decay_ms": 180
+    }
+  ]
+}

@@ -216,6 +216,7 @@ struct InputState {
     bool attack = false;
     bool dodge = false;   // the dodge roll (spec 05): L, Left Shift or the east button of the gamepad
     bool strike = false;  // the power strike (spec 05, "Mana"): K or the right shoulder button of the gamepad
+    bool parry = false;   // the parry (spec 05, "Parry"): U or the left shoulder button of the gamepad
 };
 
 struct InputDevices {
@@ -253,9 +254,11 @@ struct InputDevices {
                     (SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON_LMASK) != 0;
         in.dodge = keys[SDL_SCANCODE_L] || keys[SDL_SCANCODE_LSHIFT];
         in.strike = keys[SDL_SCANCODE_K];
+        in.parry = keys[SDL_SCANCODE_U];
         if (gamepad != nullptr) {
             in.dodge = in.dodge || SDL_GetGamepadButton(gamepad, SDL_GAMEPAD_BUTTON_EAST);
             in.strike = in.strike || SDL_GetGamepadButton(gamepad, SDL_GAMEPAD_BUTTON_RIGHT_SHOULDER);
+            in.parry = in.parry || SDL_GetGamepadButton(gamepad, SDL_GAMEPAD_BUTTON_LEFT_SHOULDER);
             if (in.x == 0.0F && in.y == 0.0F) {
                 in.x = static_cast<float>(SDL_GetGamepadAxis(gamepad, SDL_GAMEPAD_AXIS_LEFTX)) / 32767.0F;
                 in.y = static_cast<float>(SDL_GetGamepadAxis(gamepad, SDL_GAMEPAD_AXIS_LEFTY)) / 32767.0F;
@@ -3204,7 +3207,7 @@ int main(int argc, char** argv) {
                         ui.map_level = 0;  // the very last frame shows the whole world
                         ui.map_cx = ui.map_cy = 64.0F;
                     }
-                    sim.tick(input.x, input.y, input.attack, input.dodge, input.strike);
+                    sim.tick(input.x, input.y, input.attack, input.dodge, input.strike, input.parry);
                 } else if (ui.show_inventory || ui.show_map || ui.show_journal || ui.show_settings ||
                            sim.shop() != nullptr || sim.board() != nullptr || sim.travel() != nullptr) {
                     accumulator = 0.0;  // the bag, the map, the journal, the shop and the board pause the game
@@ -3212,7 +3215,7 @@ int main(int argc, char** argv) {
                     accumulator += frame_seconds;
                     int ticks = 0;
                     while (accumulator >= static_cast<double>(aether::kTickDt) && ticks < kMaxTicksPerFrame) {
-                        sim.tick(input.x, input.y, input.attack, input.dodge, input.strike);
+                        sim.tick(input.x, input.y, input.attack, input.dodge, input.strike, input.parry);
                         accumulator -= static_cast<double>(aether::kTickDt);
                         ++ticks;
                     }

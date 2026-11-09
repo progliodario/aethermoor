@@ -115,6 +115,16 @@
             ]
           },
           {
+            "cues": [
+              {
+                "kind": "parry",
+                "family": "wolf",
+                "x": 12.0,
+                "y": 10.0
+              }
+            ]
+          },
+          {
             "player": {
               "dodge": true
             }
@@ -189,6 +199,12 @@
           [
             {
               "event": "player.hurt",
+              "volume_pm": 1000
+            }
+          ],
+          [
+            {
+              "event": "player.parry",
               "volume_pm": 1000
             }
           ],

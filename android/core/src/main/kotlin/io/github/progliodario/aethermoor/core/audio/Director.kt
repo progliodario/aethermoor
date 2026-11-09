@@ -89,6 +89,8 @@ class SoundDirector {
             val volume = max(0, min(1000, 1000 - floor(dist * FALLOFF_PM_PER_TILE + 0.5).toInt()))
             if (cue.kind == "hurt") {
                 emit("player.hurt")
+            } else if (cue.kind == "parry") {
+                emit("player.parry")
             } else if (volume >= MIN_AUDIBLE_PM) {
                 emit("enemy.${cue.family}.${cue.kind}", volume)
             }

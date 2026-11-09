@@ -71,8 +71,10 @@ def scenario(name: str, enemies: list[dict], script: list[dict], player: dict | 
     }
 
 
-def segment(ticks: int, move=(0, 0), attack=False, do=None, dodge=False, strike=False) -> dict:
+def segment(ticks: int, move=(0, 0), attack=False, do=None, dodge=False, strike=False, parry=False) -> dict:
     result = {"ticks": ticks, "move": list(move), "attack": attack}
+    if parry:
+        result["parry"] = True
     if strike:
         result["strike"] = True
     if dodge:
@@ -139,6 +141,13 @@ def build_scenarios() -> list[dict]:
                     segment(150, attack=True), segment(120)],
                    inventory={f"base:item/{blade}": 1})
           for name, blade in (("burn", "ember_blade"), ("chill", "frost_blade"), ("storm", "storm_blade"), ("quake", "quake_hammer"), ("weaken", "sun_blade"))],
+        # The parry (spec 05): a window of 14 ticks in which an attack that lands does no damage and stuns the attacker for 60 ticks; a wait of 70 ticks
+        # before the next one; no attack or roll while it lasts.
+        scenario("parry_blocks_and_stuns", [enemy(4.2, 4.5, atk=60)],
+                 [segment(6), *[s for _ in range(5) for s in (segment(1, parry=True), segment(5, attack=True), segment(12), segment(60))],
+                  segment(60, attack=True), segment(120)]),
+        scenario("parry_early_and_late", [enemy(4.2, 4.5, atk=60)],
+                 [segment(30), segment(1, parry=True), segment(80), segment(1, parry=True), segment(1, parry=True), segment(100)]),
         scenario("equip_changes_stats", [enemy(8.1, 4.5, atk=40)],
                  [segment(200), segment(1, do=[{"cmd": "equip", "item": "base:item/iron_sword"},
                                                {"cmd": "equip", "item": "base:item/iron_sword"},

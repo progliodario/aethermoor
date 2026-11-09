@@ -118,6 +118,7 @@
   "ui.map_btn_next": "Next",
   "ui.dodge": "Dodge",
   "ui.strike": "Strike",
+  "ui.parry": "Parry",
   "ui.analyze_title": "{name}   Lv {level}",
   "ui.analyze_stats": "HP {hp}/{max}   Atk {atk}   Def {def}",
   "ui.analyze_drops": "Drops: {items}",
