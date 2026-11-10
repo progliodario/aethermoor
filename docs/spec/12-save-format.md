@@ -8,7 +8,7 @@ Schema: `schemas/save.schema.json`. Conformance suite: `save` (resume scenarios)
 One JSON file per save, `<user data>/saves/slot<N>/<name>.json`, with the games (slots) `slot1`, `slot2` and `slot3` and, in each,
 the saves `auto` (written every 30 s, when the app pauses or quits) and `quick` (manual, desktop). The user data folder is
 `SDL_GetPrefPath` on desktop and the app-private folder on Android. A save can be copied by hand between devices and platforms.
-The inventory-level profile (`profile.json`) and per-chunk deltas described in the plan arrive with reincarnation.
+The profile (`profile.json`, see "Profile" below) is next to `settings.json`; per-chunk deltas described in the plan arrive with reincarnation.
 
 ## Slots
 
@@ -94,6 +94,21 @@ can reach (`Android/data/<package>/files/exports`; the private folder when the d
 - Every incompatible format change bumps `save_version` and adds a migration `migrate_N_to_N+1` with a fixture in `tests/conformance`. Optional
   fields that older readers can ignore (`map`, `cleared_spawners`, `spawner`) do not.
 
+## Profile
+
+`profile.json`, next to `settings.json` and outside every slot, keeps what all the games have reached (the base of the meta-progression of spec 11):
+
+```json
+{"profile_version": 1, "bestiary": {"base:enemy/slime_green": 41}, "titles": ["newcomer", "pest_control"]}
+```
+
+- `bestiary` is the **best** count of every creature in any one game (not the sum: playing the same game again does not count twice). `titles` are all the titles ever earned, in the order they were first earned.
+- A game **reports** its bestiary and its earned titles whenever it is saved (autosave and quick save): the profile becomes `bestiary[id] = max(old, new)` for every creature with a count of 1 or more, and every title not in the list is appended. Nothing ever goes down: deleting a game does not take anything from the profile.
+- Reading is forgiving: a missing file, text that is not JSON, not an object or with a `profile_version` other than 1 is an empty profile; in a valid one, a bestiary entry that is not an integer of at least 1 and a title that is not a string are dropped, and a repeated title counts once.
+- The title screen shows `ui.profile_line` (kinds of creatures, titles) when the profile is not empty.
+
+Reference: `tools/reference/profile.py`; conformance: the suite `profile`. The profile is not part of the `.aethersave` bundle.
+
 ## Not yet in v1
 
-CRC of the file, `profile.json` (meta-progression), other changes of the streamed world (arrive with the world systems), thumbnails, `.aethersave` export.
+CRC of the file, other changes of the streamed world (arrive with the world systems), thumbnails, `.aethersave` export.

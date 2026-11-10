@@ -31,6 +31,7 @@
 #include "app/sound_board.hpp"
 #include "audio/director.hpp"
 #include "data/world_data.hpp"
+#include "sim/profile.hpp"
 #include "sim/save.hpp"
 #include "sim/save_bundle.hpp"
 #include "sim/world_map.hpp"
@@ -1376,7 +1377,23 @@ aether::SaveMeta save_meta(const aether::WorldSim& sim) {
     return meta;
 }
 
+// The profile (spec 12, "Profile"): the best count of every creature and every title ever earned, kept next to the
+// settings.
+fs::path profile_file() { return save_dir().parent_path() / "profile.json"; }
+
+aether::Profile read_profile() {
+    const auto text = read_text_file(profile_file());
+    return aether::parse_profile(text ? *text : std::string());
+}
+
+// Adds what the game in progress has reached to the profile, whenever the game is saved.
+void update_profile(const aether::WorldSim& sim) {
+    const aether::Profile merged = aether::merge_profile(read_profile(), sim.bestiary(), sim.earned_titles());
+    write_text_atomic(profile_file(), aether::profile_to_json(merged));
+}
+
 bool save_game(const aether::WorldSim& sim, const fs::path& file) {
+    update_profile(sim);
     return write_text_atomic(file, aether::save_to_json(sim.capture(), save_meta(sim)));
 }
 
@@ -2744,6 +2761,7 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
         };
         SDL_SetRenderDrawColor(renderer, 11, 31, 58, 255);
         SDL_RenderClear(renderer);
+        const aether::Profile profile = read_profile();
         const std::string game_title = assets.pack.text(lang, "$i18n:game.title");
         const float title_scale = 3.0F * density;
         draw_text(title_scale, (static_cast<float>(out_w) - text_columns(game_title) * 8.0F * title_scale) / 2.0F,
@@ -2781,6 +2799,13 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
         }
         draw_text(hint_scale, panel_x, static_cast<float>(out_h) - 36.0F * density,
                   assets.pack.text(lang, "$i18n:ui.title_hint"), 170, 200, 230);
+        if (profile.bestiary.size() + profile.titles.size() > 0) {  // the records of all the games (spec 12, "Profile")
+            draw_text(hint_scale, panel_x, static_cast<float>(out_h) - 60.0F * density,
+                      assets.pack.text(lang, "$i18n:ui.profile_line",
+                                       {{"species", static_cast<std::int64_t>(profile.bestiary.size())},
+                                        {"titles", static_cast<std::int64_t>(profile.titles.size())}}),
+                      255, 215, 120);
+        }
         if (!capture_path.empty()) {
             save_frame(renderer, capture_path);
             return 0;
