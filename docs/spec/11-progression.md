@@ -39,7 +39,7 @@ Reference: `CombatSim._derive` (`echo_pct` of the scenario); conformance: the sc
 
 ## Display
 
-The journal (spec 07) shows, after the quests, the titles (the ones not earned yet as `???`) and the bestiary (name and kills, by ID). The name of a creature is the text key `enemy.<name>.name`.
+The journal (spec 07) shows, after the quests, the companion (name, whether it stays or follows, its bond and the attack the bond adds, spec 10), the counters and the echoes, then the titles (the ones not earned yet as `???`) and the bestiary (name and kills, by ID). The name of a creature is the text key `enemy.<name>.name`.
 
 ## Later
 

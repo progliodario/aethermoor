@@ -1803,6 +1803,24 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 entries.add(Pair(dialogueText(data.pack, def.name, def.args), 3))
             }
         }
+        // The companion (spec 10): its name, what it is doing, its bond and what the bond adds to its attack.
+        world.combat.companion?.let { companion ->
+            entries.add(Pair("", 2))
+            entries.add(Pair(data.pack.text(language, "\$i18n:ui.journal_companion"), 0))
+            entries.add(Pair(data.pack.text(language, companion.name), 1))
+            entries.add(Pair("  " + data.pack.text(language, if (world.companionStaying) "\$i18n:ui.companion_stays" else "\$i18n:ui.companion_follows"), 2))
+            entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.journal_bond", mapOf("bond" to world.companionBond, "bonus" to minOf(world.companionBond / 5, 10))), 2))
+        }
+        // The way of playing (spec 11): the counters, and the echoes of past games.
+        if (world.counters.isNotEmpty() || world.combat.echoPct > 0) {
+            entries.add(Pair("", 2))
+            entries.add(Pair(data.pack.text(language, "\$i18n:ui.journal_habits"), 0))
+            for (name in listOf("gathered", "crafted", "parried")) {
+                val count = world.counters[name] ?: continue
+                entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.counter_$name", mapOf("count" to count)), 2))
+            }
+            if (world.combat.echoPct > 0) entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.journal_echoes", mapOf("pct" to world.combat.echoPct)), 2))
+        }
         // Titles and bestiary (spec 11): the titles earned (the last one counts), then every creature killed with its count.
         val earned = world.earnedTitles()
         if (world.combat.titles.isNotEmpty()) {

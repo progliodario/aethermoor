@@ -2112,6 +2112,37 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
             }
         }
     }
+    // The companion (spec 10): its name, what it is doing, its bond and what the bond adds to its attack.
+    if (sim.combat().companion) {
+        const std::int64_t bond = sim.companion_bond();
+        lines.push_back({"", 2});
+        lines.push_back({assets.pack.text(ui.lang, "$i18n:ui.journal_companion"), 0});
+        lines.push_back({assets.pack.text(ui.lang, sim.combat().companion->name), 1});
+        lines.push_back({"  " + assets.pack.text(ui.lang, sim.companion_staying() ? "$i18n:ui.companion_stays"
+                                                                                  : "$i18n:ui.companion_follows"),
+                         2});
+        lines.push_back({"  " + assets.pack.text(ui.lang, "$i18n:ui.journal_bond",
+                                                 {{"bond", bond}, {"bonus", std::min<std::int64_t>(bond / 5, 10)}}),
+                         2});
+    }
+    // The way of playing (spec 11): the counters, and the echoes of past games.
+    if (!sim.counters().empty() || sim.combat().echo_pct > 0) {
+        lines.push_back({"", 2});
+        lines.push_back({assets.pack.text(ui.lang, "$i18n:ui.journal_habits"), 0});
+        for (const char* name : {"gathered", "crafted", "parried"}) {
+            const auto found = sim.counters().find(name);
+            if (found != sim.counters().end()) {
+                lines.push_back({"  " + assets.pack.text(ui.lang, std::string("$i18n:ui.counter_") + name,
+                                                         {{"count", static_cast<std::int64_t>(found->second)}}),
+                                 2});
+            }
+        }
+        if (sim.combat().echo_pct > 0) {
+            lines.push_back({"  " + assets.pack.text(ui.lang, "$i18n:ui.journal_echoes",
+                                                     {{"pct", static_cast<std::int64_t>(sim.combat().echo_pct)}}),
+                             2});
+        }
+    }
     // Titles and bestiary (spec 11): the titles earned (the last one is the one that counts), then every creature
     // killed with its count.
     const std::vector<std::string> earned = sim.earned_titles();
