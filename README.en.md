@@ -109,7 +109,7 @@ The game picks Italian or English from the system language (`F2` switches). It o
 | Quick save / load | `F5` / `F9` | Sound on / off | `F8` |
 | Close a panel, back to the games | `Esc` | Language | `F2` |
 
-The hint over what is near you says what `E` will do: *Talk*, *Touch the stone* or *Gather*.
+The hint over what is near you says what `E` will do: *Talk*, *Touch the stone* or *Gather*. Every action can have one more key of your choice: fill in the file `keys.json` next to the settings (it is created at the first start) with, for example, `"attack": "F"`.
 
 **Android:** the left half of the screen is a stick that appears where you touch; a touch on the right attacks; the buttons in the bottom right are dodge, power strike and parry; in the top left are bag, map, journal, language, sound, crafting and the companion button. The Back key closes a panel or goes back to the games. Every detail: [spec 16](docs/spec/16-input.md).
 
@@ -209,7 +209,7 @@ The project is developed by its owner together with Claude, an AI assistant that
 
 What comes next, in order (details in the [roadmap](docs/plan/06-roadmap-rischi-backlog.md), in Italian):
 
-- **Soon:** configurable keys, the companion's state and the counters shown in the interface, more automatic checks on the graphics.
+- **Soon:** a screen to choose the keys inside the game, more automatic checks on the graphics.
 - **Toward Alpha 0.1:** the personal bosses of the protagonists, real skill trees (today the talents are four, in a row), tags, a choice of what to carry into a reincarnation, item quality and workbenches, a better synthesizer to bring ambience and music back.
 - **Toward 1.0:** a base and residents, farming and fishing, a dynamic economy, accessibility, more languages, tools for modders.
 

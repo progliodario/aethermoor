@@ -69,6 +69,14 @@ The last used device decides which hints are shown: not implemented yet; the HUD
 When a list (the bag, a shop, the stones, the board) has more rows than the screen shows, the clients show a window of rows that follows the cursor, so the
 last entries can be reached. The window is a presentation detail; the cursor is clamped to the list.
 
+## Configurable keys
+
+Desktop: `<user data>/keys.json` (next to `settings.json`) is `{"keys": {"<action>": "<key>", ...}}` with the actions `up`, `down`, `left`, `right`, `attack`, `strike`, `dodge`, `parry`, `interact`, `bag`, `journal`, `map`,
+`minimap`, `crafting`, `companion` and `analyze`. A key is named as SDL names it (`"F"`, `"Space"`, `"Left Ctrl"`, `"Keypad 5"`); an empty name, an unknown one or the default key changes nothing. The key named for an
+action does what the default key of the action does, in the game, while it is held and when it is pressed; **the default keys keep working**. A key given to an action stops doing what it did before (so giving `E` to
+`attack` leaves talking to `Enter`). The file is written the first time the game starts, with every action and an empty key, and read when the game starts. Android uses touch; a physical keyboard there keeps the
+default keys. Presentation only: nothing of it is in the simulation or in the vectors.
+
 ## Settings
 
 The settings are kept in `<user data>/settings.json`: `{"language": "it", "volume_master_pm": 1000, "volume_effects_pm": 800, "volume_ambience_pm": 500, "volume_music_pm": 500}` (the volumes are permille from 0 to 1000; the numbers above are the defaults, used for what is missing). Spec 14 says what each volume scales: the master volume all of the sound, the others the sound effects, the ambience and the music. Desktop: `F10` opens a panel with four bars (`W`/`S` choose, `A`/`D` change by a tenth, `Esc` closes; the game pauses meanwhile). Android: the sound button next to the language button cycles the master volume 100, 60, 30 and 0 percent; the other three volumes can be set in the file. The language is kept in the same file as `{"language": "it"}` (desktop: next to the `saves` folder; Android: the app-private

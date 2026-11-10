@@ -109,7 +109,7 @@ Il gioco sceglie italiano o inglese dalla lingua del sistema (`F2` la cambia). S
 | Salvataggio rapido / carica | `F5` / `F9` | Suono sì / no | `F8` |
 | Chiudere un pannello, tornare alle partite | `Esc` | Lingua | `F2` |
 
-La scritta sopra ciò che hai vicino dice che cosa farà `E`: *Parla*, *Tocca la pietra* o *Raccogli*.
+La scritta sopra ciò che hai vicino dice che cosa farà `E`: *Parla*, *Tocca la pietra* o *Raccogli*. Ogni azione può avere un tasto in più a tua scelta: il file `keys.json` accanto alle impostazioni (si crea da solo al primo avvio) va compilato con, per esempio, `"attack": "F"`.
 
 **Android:** la metà sinistra dello schermo è una levetta che compare dove tocchi; un tocco a destra attacca; i pulsanti in basso a destra sono schivata, colpo potente e parata; in alto a sinistra ci sono zaino, mappa, diario, lingua, suono, creazione e il pulsante del compagno. Il tasto Indietro chiude un pannello o torna alle partite. Tutti i dettagli: [spec 16](docs/spec/16-input.md).
 
@@ -209,7 +209,7 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 
 Le prossime cose, in ordine (dettagli nella [roadmap](docs/plan/06-roadmap-rischi-backlog.md)):
 
-- **A breve:** tasti configurabili, stato del compagno e contatori visibili nell'interfaccia, più controlli automatici sulla grafica.
+- **A breve:** una schermata per scegliere i tasti dentro il gioco, più controlli automatici sulla grafica.
 - **Verso l'Alpha 0.1:** i boss personali dei protagonisti, veri alberi di abilità (oggi i talenti sono quattro, in fila), tag, la scelta di cosa portare nella reincarnazione, qualità degli oggetti e banchi da lavoro, un sintetizzatore migliore per riaccendere ambiente e musica.
 - **Verso la 1.0:** base e residenti, agricoltura e pesca, economia dinamica, accessibilità, altre lingue, strumenti per chi fa mod.
 

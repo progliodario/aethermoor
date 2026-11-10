@@ -224,6 +224,33 @@ struct InputState {
     bool parry = false;   // the parry (spec 05, "Parry"): U or the left shoulder button of the gamepad
 };
 
+// Configurable keys (spec 16, "Configurable keys"): `keys.json` next to the settings names, for each action, one more
+// key that does what the default key does. The default keys keep working; a key given to an action does that action's
+// job.
+struct Rebindable {
+    const char* action;
+    SDL_Keycode key;  // the default key of the action
+};
+constexpr Rebindable kRebindable[] = {
+    {"up", SDLK_W},       {"down", SDLK_S},     {"left", SDLK_A},      {"right", SDLK_D},
+    {"attack", SDLK_J},   {"strike", SDLK_K},   {"dodge", SDLK_L},     {"parry", SDLK_U},
+    {"interact", SDLK_E}, {"bag", SDLK_I},      {"journal", SDLK_Q},   {"map", SDLK_M},
+    {"minimap", SDLK_N},  {"crafting", SDLK_C}, {"companion", SDLK_H}, {"analyze", SDLK_Z},
+};
+std::map<SDL_Keycode, SDL_Keycode> g_key_remap;  // a key the player chose -> the default key it stands for
+std::map<SDL_Scancode, std::vector<SDL_Scancode>> g_held_remap;  // the same, by position, for the keys that are held
+
+// Gives a key event the key it stands for, when the player chose that key for an action.
+void remap_key_event(SDL_Event& event) {
+    if (event.type != SDL_EVENT_KEY_DOWN && event.type != SDL_EVENT_KEY_UP) {
+        return;
+    }
+    const auto found = g_key_remap.find(event.key.key);
+    if (found != g_key_remap.end()) {
+        event.key.key = found->second;
+    }
+}
+
 struct InputDevices {
     SDL_Gamepad* gamepad = nullptr;
 
@@ -241,25 +268,40 @@ struct InputDevices {
 
     // Raw movement vector and attack button from keyboard, mouse and gamepad; the simulation normalizes movement.
     InputState read() const {
-        const bool* keys = SDL_GetKeyboardState(nullptr);
+        const bool* raw = SDL_GetKeyboardState(nullptr);
+        // a default key is held when it is, or when one of the keys the player chose for it is (spec 16)
+        const auto held = [raw](SDL_Scancode code) {
+            if (raw[code]) {
+                return true;
+            }
+            const auto chosen = g_held_remap.find(code);
+            if (chosen != g_held_remap.end()) {
+                for (const SDL_Scancode other : chosen->second) {
+                    if (raw[other]) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        };
         InputState in;
-        if (keys[SDL_SCANCODE_A] || keys[SDL_SCANCODE_LEFT]) {
+        if (held(SDL_SCANCODE_A) || held(SDL_SCANCODE_LEFT)) {
             in.x -= 1.0F;
         }
-        if (keys[SDL_SCANCODE_D] || keys[SDL_SCANCODE_RIGHT]) {
+        if (held(SDL_SCANCODE_D) || held(SDL_SCANCODE_RIGHT)) {
             in.x += 1.0F;
         }
-        if (keys[SDL_SCANCODE_W] || keys[SDL_SCANCODE_UP]) {
+        if (held(SDL_SCANCODE_W) || held(SDL_SCANCODE_UP)) {
             in.y -= 1.0F;
         }
-        if (keys[SDL_SCANCODE_S] || keys[SDL_SCANCODE_DOWN]) {
+        if (held(SDL_SCANCODE_S) || held(SDL_SCANCODE_DOWN)) {
             in.y += 1.0F;
         }
-        in.attack = keys[SDL_SCANCODE_J] || keys[SDL_SCANCODE_SPACE] ||
+        in.attack = held(SDL_SCANCODE_J) || held(SDL_SCANCODE_SPACE) ||
                     (SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON_LMASK) != 0;
-        in.dodge = keys[SDL_SCANCODE_L] || keys[SDL_SCANCODE_LSHIFT];
-        in.strike = keys[SDL_SCANCODE_K];
-        in.parry = keys[SDL_SCANCODE_U];
+        in.dodge = held(SDL_SCANCODE_L) || held(SDL_SCANCODE_LSHIFT);
+        in.strike = held(SDL_SCANCODE_K);
+        in.parry = held(SDL_SCANCODE_U);
         if (gamepad != nullptr) {
             in.dodge = in.dodge || SDL_GetGamepadButton(gamepad, SDL_GAMEPAD_BUTTON_EAST);
             in.strike = in.strike || SDL_GetGamepadButton(gamepad, SDL_GAMEPAD_BUTTON_RIGHT_SHOULDER);
@@ -1359,6 +1401,45 @@ void write_settings(const std::optional<std::string>& lang) {
 void write_settings() { write_settings(saved_language()); }
 
 void save_language(const std::string& lang) { write_settings(lang); }
+
+// The keys file (spec 16, "Configurable keys"): written with every action and an empty key the first time, so that the
+// player can fill it in; read at the start. A key is named as SDL names it ("F", "Space", "Left Ctrl", "Keypad 5").
+fs::path keys_file() { return save_dir().parent_path() / "keys.json"; }
+
+void load_keys() {
+    g_key_remap.clear();
+    g_held_remap.clear();
+    const auto text = read_text_file(keys_file());
+    if (!text) {
+        std::string out = "{\n  \"keys\": {\n";
+        for (std::size_t i = 0; i < std::size(kRebindable); ++i) {
+            out += std::string("    \"") + kRebindable[i].action + "\": \"\"" +
+                   (i + 1 < std::size(kRebindable) ? ",\n" : "\n");
+        }
+        out += "  }\n}\n";
+        write_text_atomic(keys_file(), out);
+        return;
+    }
+    for (const Rebindable& entry : kRebindable) {
+        const std::string label = std::string("\"") + entry.action + "\"";
+        const std::size_t at = text->find(label);
+        if (at == std::string::npos) {
+            continue;
+        }
+        const std::size_t open = text->find('"', text->find(':', at + label.size()) + 1);
+        const std::size_t close = open == std::string::npos ? std::string::npos : text->find('"', open + 1);
+        if (close == std::string::npos) {
+            continue;
+        }
+        const std::string name = text->substr(open + 1, close - open - 1);
+        const SDL_Keycode key = name.empty() ? SDLK_UNKNOWN : SDL_GetKeyFromName(name.c_str());
+        if (key == SDLK_UNKNOWN || key == entry.key) {
+            continue;
+        }
+        g_key_remap[key] = entry.key;
+        g_held_remap[SDL_GetScancodeFromKey(entry.key, nullptr)].push_back(SDL_GetScancodeFromKey(key, nullptr));
+    }
+}
 
 // Reads the volumes of the settings file (the defaults stay for what is missing) and gives them to the sound board.
 void load_volumes() {
@@ -3194,6 +3275,7 @@ int main(int argc, char** argv) {
     if (!smoke_test) {
         g_sound.open(assets.pack);
         load_volumes();
+        load_keys();
     }
 
     const std::string title(aether::game_name());
@@ -3395,6 +3477,7 @@ int main(int argc, char** argv) {
 
                 SDL_Event event;
                 while (SDL_PollEvent(&event)) {
+                    remap_key_event(event);  // the keys the player chose (spec 16)
                     if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE &&
                         (ui.show_map || ui.show_inventory || ui.show_journal || ui.show_settings || ui.show_craft ||
                          sim.shop() != nullptr || sim.board() != nullptr || sim.travel() != nullptr)) {
