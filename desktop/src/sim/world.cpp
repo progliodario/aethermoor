@@ -317,6 +317,12 @@ void WorldSim::recompute_derived() {
         } else if (talent.stat == "defense") {
             m_derived_.def = m_derived_.def * pct / 100;
             m_derived_.mdef = m_derived_.mdef * pct / 100;
+        } else if (talent.stat == "magic") {
+            m_derived_.matk = m_derived_.matk * pct / 100;
+        } else if (talent.stat == "critical") {
+            m_derived_.crit_chance_pm = m_derived_.crit_chance_pm * pct / 100;
+        } else if (talent.stat == "speed") {
+            m_derived_.move_speed_x100 = m_derived_.move_speed_x100 * pct / 100;
         }
     }
 }
@@ -341,6 +347,12 @@ bool WorldSim::learn_talent(const std::string& talent_id) {
     const auto learned = m_talents_.find(talent_id);
     if (learned != m_talents_.end() && learned->second >= talent->max_rank) {
         return false;
+    }
+    if (!talent->requires_talent.empty()) {  // a branch of the tree opens when the talent before it has the rank asked
+        const auto before = m_talents_.find(talent->requires_talent);
+        if (before == m_talents_.end() || before->second < talent->requires_rank) {
+            return false;
+        }
     }
     ++m_talents_[talent_id];
     recompute_derived();

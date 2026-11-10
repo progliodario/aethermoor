@@ -153,6 +153,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
             TalentDef(
                 o.getValue("id").jsonPrimitive.content, o.getValue("name").jsonPrimitive.content, o.getValue("stat").jsonPrimitive.content,
                 o.long("pct_per_rank"), o.getValue("max_rank").jsonPrimitive.int,
+                o["requires"]?.jsonObject?.getValue("talent")?.jsonPrimitive?.content ?: "", o["requires"]?.jsonObject?.getValue("rank")?.jsonPrimitive?.int ?: 0,
             )
         } ?: emptyList(),
         talentPointsPerLevel = input["talent_points_per_level"]?.jsonPrimitive?.int ?: 1,
@@ -258,6 +259,9 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
         assertEquals(want.getValue("talent_points").jsonPrimitive.int, sim.talentPoints(), "$at talent points")
         assertEquals(want.long("max_hp"), sim.derived.maxHp, "$at max hp")
         assertEquals(want.long("max_mp"), sim.derived.maxMp, "$at max mp")
+        assertEquals(want.long("matk"), sim.derived.matk, "$at matk")
+        assertEquals(want.long("crit_chance_pm"), sim.derived.critChancePm, "$at crit")
+        assertEquals(want.long("move_speed_x100"), sim.derived.moveSpeedX100, "$at speed")
     }
     want["companion"]?.jsonObject?.let { wc ->
         val pos = sim.companionPosition ?: error("$at no companion")

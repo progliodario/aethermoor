@@ -30,6 +30,72 @@
       "stat": "defense",
       "pct_per_rank": 8,
       "max_rank": 10
+    },
+    {
+      "id": "keen_eye",
+      "name": "$i18n:talent.keen_eye.name",
+      "stat": "critical",
+      "pct_per_rank": 15,
+      "max_rank": 5,
+      "requires": {
+        "talent": "might",
+        "rank": 5
+      }
+    },
+    {
+      "id": "second_wind",
+      "name": "$i18n:talent.second_wind.name",
+      "stat": "health",
+      "pct_per_rank": 8,
+      "max_rank": 5,
+      "requires": {
+        "talent": "vigor",
+        "rank": 5
+      }
+    },
+    {
+      "id": "arcana",
+      "name": "$i18n:talent.arcana.name",
+      "stat": "magic",
+      "pct_per_rank": 10,
+      "max_rank": 5,
+      "requires": {
+        "talent": "focus",
+        "rank": 5
+      }
+    },
+    {
+      "id": "fleet_foot",
+      "name": "$i18n:talent.fleet_foot.name",
+      "stat": "speed",
+      "pct_per_rank": 4,
+      "max_rank": 5,
+      "requires": {
+        "talent": "guard",
+        "rank": 5
+      }
+    },
+    {
+      "id": "legend",
+      "name": "$i18n:talent.legend.name",
+      "stat": "attack",
+      "pct_per_rank": 10,
+      "max_rank": 5,
+      "requires": {
+        "talent": "keen_eye",
+        "rank": 5
+      }
+    },
+    {
+      "id": "bulwark",
+      "name": "$i18n:talent.bulwark.name",
+      "stat": "defense",
+      "pct_per_rank": 12,
+      "max_rank": 5,
+      "requires": {
+        "talent": "second_wind",
+        "rank": 5
+      }
     }
   ]
 }

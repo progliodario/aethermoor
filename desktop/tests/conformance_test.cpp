@@ -813,6 +813,10 @@ Scenario scenario_from_json(const Json& in) {
             talent.stat = t.at("stat").get<std::string>();
             talent.pct_per_rank = integer(t, "pct_per_rank");
             talent.max_rank = t.at("max_rank").get<int>();
+            if (t.contains("requires")) {
+                talent.requires_talent = t.at("requires").at("talent").get<std::string>();
+                talent.requires_rank = t.at("requires").at("rank").get<int>();
+            }
             setup.talents.push_back(std::move(talent));
         }
     }
@@ -962,6 +966,9 @@ void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) 
         REQUIRE(sim.talent_points() == want.at("talent_points").get<int>());
         REQUIRE(sim.derived().max_hp == integer(want, "max_hp"));
         REQUIRE(sim.derived().max_mp == integer(want, "max_mp"));
+        REQUIRE(sim.derived().matk == integer(want, "matk"));
+        REQUIRE(sim.derived().crit_chance_pm == integer(want, "crit_chance_pm"));
+        REQUIRE(sim.derived().move_speed_x100 == integer(want, "move_speed_x100"));
     }
     if (want.contains("companion")) {
         const Json& wc = want.at("companion");

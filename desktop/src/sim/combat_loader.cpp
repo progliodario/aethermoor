@@ -307,6 +307,10 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
                 talent.stat = t.at("stat").get<std::string>();
                 talent.pct_per_rank = t.at("pct_per_rank").get<std::int64_t>();
                 talent.max_rank = t.at("max_rank").get<int>();
+                if (t.contains("requires")) {
+                    talent.requires_talent = t.at("requires").at("talent").get<std::string>();
+                    talent.requires_rank = t.at("requires").at("rank").get<int>();
+                }
                 setup.talents.push_back(std::move(talent));
             }
         }

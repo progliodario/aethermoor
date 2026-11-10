@@ -178,6 +178,9 @@ struct TalentDef {
     std::string stat;
     std::int64_t pct_per_rank = 0;
     int max_rank = 1;
+    std::string
+        requires_talent;  // the talent that must have `requires_rank` first (the branches of the tree); empty: none
+    int requires_rank = 0;
 };
 
 struct CombatSetup {

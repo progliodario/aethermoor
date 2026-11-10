@@ -77,6 +77,12 @@ TALENTS = [
     {"id": "focus", "name": "t", "stat": "mana", "pct_per_rank": 10, "max_rank": 3},
     {"id": "guard", "name": "t", "stat": "defense", "pct_per_rank": 50, "max_rank": 3},
 ]
+TALENT_TREE = [
+    {"id": "might", "name": "t", "stat": "attack", "pct_per_rank": 10, "max_rank": 3},
+    {"id": "keen", "name": "t", "stat": "critical", "pct_per_rank": 50, "max_rank": 2, "requires": {"talent": "might", "rank": 2}},
+    {"id": "swift", "name": "t", "stat": "speed", "pct_per_rank": 15, "max_rank": 2, "requires": {"talent": "might", "rank": 3}},
+    {"id": "arcane", "name": "t", "stat": "magic", "pct_per_rank": 40, "max_rank": 2},
+]
 GATHER_NODES = [
     {"prop": "base:art/prop/bush", "sound": "plant", "cooldown_ticks": 60, "reach_x100": 150,
      "drops": [{"item": "base:item/wild_berries", "qty_min": 1, "qty_max": 3, "weight_pm": 800}, {"item": "base:item/healing_herb", "qty_min": 1, "qty_max": 2, "weight_pm": 400}]},
@@ -201,6 +207,14 @@ def build_scenarios() -> list[dict]:
                                  {"cmd": "talent", "talent": "nothing"}, {"cmd": "talent", "talent": "guard"}]),
                   segment(120, attack=True), segment(1, do=[{"cmd": "talent", "talent": t} for t in ("vigor", "vigor", "guard", "focus", "focus", "vigor")]), segment(120)],
                  talents=TALENTS, talent_points_per_level=2),
+        # The talent tree (spec 11): keen needs might at rank 2 and swift at rank 3; before that they are refused. Swift is seen in the walk, keen in the
+        # critical hits on a big slime, arcane in the magic.
+        scenario("talent_tree", [enemy(3.5, 4.5, hp=5, xp=500, **passive), enemy(3.6, 4.7, hp=5, xp=500, **passive), enemy(3.4, 4.3, hp=5, xp=500, **passive),
+                                 enemy(5.5, 4.5, hp=9000, **passive)],
+                 [segment(40, attack=True), segment(1, do=[{"cmd": "talent", "talent": t} for t in ("keen", "swift", "might", "keen", "might", "keen", "keen", "swift")]),
+                  segment(30, move=(1, 0)), segment(240, attack=True),
+                  segment(1, do=[{"cmd": "talent", "talent": t} for t in ("might", "swift", "swift", "arcane", "arcane", "arcane")]), segment(30, move=(1, 0))],
+                 talents=TALENT_TREE, talent_points_per_level=3),
         scenario("player_death", [enemy(6.7, 4.5, atk=400)], [segment(100), segment(100), segment(100)]),
         # Hurt by a slime, the player eats bread: health goes up and one bread is gone. A second bread at full health is refused,
         # and so are the gel (no effect), an item that is not owned and a use while the player is hurt but the stack is empty.

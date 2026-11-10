@@ -32,17 +32,17 @@ earned at once by those who already satisfy it. The last title earned is the one
 
 ## Talents
 
-`data/base/talents.json` (ID `base:talents/all`, schema `talents`) lists the talents and `points_per_level`. A talent has an `id`, a `name`, a `stat` (`attack`, `health`, `mana` or `defense`), `pct_per_rank` and `max_rank`.
+`data/base/talents.json` (ID `base:talents/all`, schema `talents`) lists the talents and `points_per_level`. A talent has an `id`, a `name`, a `stat` (`attack`, `health`, `mana`, `defense`, `magic`, `critical` or `speed`), `pct_per_rank`, `max_rank` and, for the branches of the tree, `requires` (`{talent, rank}`).
 
 - **Points.** The player has `(level - 1) * points_per_level` points in all; the points left are that number less the ranks learned.
-- **Learning.** `learn_talent(id)` is refused, changing nothing, while a dialogue is open, when the talent does not exist, when no point is left and when the talent is at `max_rank`. Otherwise the rank goes up by one, the derived stats
+- **Learning.** `learn_talent(id)` is refused, changing nothing, while a dialogue is open, when the talent does not exist, when no point is left, when the talent is at `max_rank`, and when it `requires` a talent that has not reached that rank yet (its branch is closed). Otherwise the rank goes up by one, the derived stats
   are computed again and the health is capped at the new maximum (it is not refilled).
 - **Effect.** When the derived stats are computed (spec 04), after the echoes, each talent with a rank above 0 multiplies its stats, in the order of the data: `stat * (100 + pct_per_rank * rank) / 100` (integer division).
-  `attack` is `atk` and `matk`, `health` is `max_hp`, `mana` is `max_mp`, `defense` is `def` and `mdef`.
+  `attack` is `atk` and `matk`, `health` is `max_hp`, `mana` is `max_mp`, `defense` is `def` and `mdef`, `magic` is `matk`, `critical` is `crit_chance_pm`, `speed` is `move_speed_x100`.
 - **Save.** `talents` in the save document (spec 12) is an object from talent ID to rank; absent when nothing was learned.
 
-The base pack has four talents of ten ranks: Might (attack, 5 percent a rank), Vigor (health, 6), Focus (mana, 8) and Guard (defense, 8), and one point a level (`tools/make_talents.py`). This is the first, flat form of the skill trees.
-Both clients show them in the crafting panel (`Tab` on a keyboard, a button of the panel on Android). Conformance: the scenario `talents_learned` (its checkpoints carry `talents`, `talent_points`, `max_hp`, `max_mp`).
+The base pack has a tree of ten talents and one point a level (`tools/make_talents.py`): four roots of ten ranks, Might (attack, 5 percent a rank), Vigor (health, 6), Focus (mana, 8) and Guard (defense, 8); a second ring of five ranks that opens at rank 5 of its root, Keen Eye (critical, 15; after Might), Second Wind (health, 8; after Vigor), Arcana (magic, 10; after Focus) and Fleet Foot (speed, 4; after Guard); and a crown, Legend (attack, 10; after Keen Eye 5) and Bulwark (defense, 12; after Second Wind 5).
+Both clients show them in the crafting panel (`Tab` on a keyboard, a button of the panel on Android). Conformance: the scenarios `talents_learned` and `talent_tree` (their checkpoints carry `talents`, `talent_points`, `max_hp`, `max_mp`, `matk`, `crit_chance_pm`, `move_speed_x100`). The panels show what opens a closed branch.
 
 ## Titles with effects
 

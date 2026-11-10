@@ -970,5 +970,11 @@
   "quest.act4_lena_1.task": "The report on Lena's own death was never written. It has written itself, in the Sanctum of Silence, east of the start. Sign it.",
   "quest.act4_gideon_1.name": "The Echo Itself",
   "quest.act4_gideon_1.task": "Three hundred years on a throne have left a shape behind: the throne itself, in the Sanctum of Ash, east of the start. Stand up from it.",
+  "talent.keen_eye.name": "Keen Eye",
+  "talent.second_wind.name": "Second Wind",
+  "talent.arcana.name": "Arcana",
+  "talent.fleet_foot.name": "Fleet Foot",
+  "talent.legend.name": "Legend",
+  "talent.bulwark.name": "Bulwark",
   "quest.personal_gideon_2.task": "Four tawny wolves and two furs: the village, politely, asks for a tribute."
 }

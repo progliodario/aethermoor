@@ -2373,7 +2373,24 @@ std::string talent_line(const Assets& assets, const Ui& ui, const aether::WorldS
                              {"rank", rank},
                              {"max", static_cast<std::int64_t>(talent.max_rank)},
                              {"pct", talent.pct_per_rank * rank},
-                             {"what", assets.pack.text(ui.lang, "$i18n:ui.talent_" + talent.stat)}});
+                             {"what", assets.pack.text(ui.lang, "$i18n:ui.talent_" + talent.stat)}}) +
+               [&]() -> std::string {  // a branch that is still closed says what opens it
+        if (talent.requires_talent.empty()) {
+            return "";
+        }
+        const auto before = sim.talents().find(talent.requires_talent);
+        if (before != sim.talents().end() && before->second >= talent.requires_rank) {
+            return "";
+        }
+        for (const aether::TalentDef& other : sim.combat().talents) {
+            if (other.id == talent.requires_talent) {
+                return "   " + assets.pack.text(ui.lang, "$i18n:ui.talent_needs",
+                                                {{"name", assets.pack.text(ui.lang, other.name)},
+                                                 {"rank", static_cast<std::int64_t>(talent.requires_rank)}});
+            }
+        }
+        return "";
+    }();
 }
 
 void handle_craft_key(aether::WorldSim& sim, const Assets& assets, Ui& ui, SDL_Keycode key) {
