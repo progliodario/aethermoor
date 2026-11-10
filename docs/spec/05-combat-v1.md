@@ -139,7 +139,7 @@ Every creature has a **stagger bar** that starts empty. A hit of the player that
 When the bar reaches `max(1, hp * stagger_pct / 100)` (`hp` is the maximum health of the creature; `stagger_pct` is in its data, 40 when absent, and 0 means that it has no bar) the creature is **broken**
 for 120 ticks: the bar is emptied, its stun is at least 120 ticks (see "Status effects"), and while it is broken the damage of the player's hits is `damage * 125 / 100` and the bar does not fill.
 In a hit the order is: damage (with the quarter more if broken), the status roll, then the bar. The broken time counts down at the start of the creature's update, before the burn. A creature that goes back home
-and heals empties its bar. The hits of the companion (spec 10) and the burn do not fill the bar. Nothing of this is saved.
+and heals empties its bar. The guardians of the base pack have `stagger_pct` 25, so they break about every quarter of their health. The hits of the companion (spec 10) and the burn do not fill the bar. Nothing of this is saved.
 
 ## Parry
 
