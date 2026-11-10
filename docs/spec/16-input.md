@@ -17,6 +17,7 @@ open a panel, save, load. While a dialogue is open the movement and the attack o
 | Keyboard, attack | `J`, `Space` or the left mouse button |
 | Title screen, export and import (desktop) | `X`: export the chosen game to a file; `I`: import `import.aethersave` into the chosen empty game (spec 12, "Export and import") |
 | Keyboard, crafting | `C`: the crafting panel (spec 06, "Crafting"); `W`/`S` choose, `E` makes, `Esc` or `C` closes; Android: a button |
+| Keyboard, companion | `H`: the companion stays where it is, or follows again (spec 10, "Commands") |
 | Keyboard, parry | `U`: the parry (spec 05, "Parry"); held, it opens a window whenever the wait is over |
 | Keyboard, power strike | `K`: the power strike (spec 05, "Mana"), while there is mana; held, it repeats when the cooldown ends; with `J` held too, the strike wins |
 | Keyboard, dodge | `L` or `Left Shift`: the dodge roll (spec 05), in the direction of the movement keys, or the way you face when none is held; held, it repeats when the cooldown ends |

@@ -555,7 +555,8 @@ void WorldSim::update_companion() {
     const float follow = static_cast<float>(c.follow_x100) / 100.0F;
     if (dist > kCompanionLeash) {
         m_companion_pos_ = p.position;
-    } else if (dist > follow) {
+        m_companion_stay_ = false;  // too far: it comes back and follows again
+    } else if (!m_companion_stay_ && dist > follow) {
         const float step = std::min(static_cast<float>(c.speed_x100) / 100.0F * kTickDt, dist - follow);
         m_companion_pos_.x += dx / dist * step;
         m_companion_pos_.y += dy / dist * step;
@@ -584,7 +585,7 @@ void WorldSim::update_companion() {
         return;
     }
     DamageInput in;
-    in.atk = c.atk_base + c.atk_per_level * (p.level - 1);
+    in.atk = c.atk_base + c.atk_per_level * (p.level - 1) + std::min(m_companion_bond_ / 5, 10);  // the bond (spec 10)
     in.power_pct = 100;
     in.def_target = target->def.def;
     in.lvl_attacker = p.level;
@@ -602,8 +603,17 @@ void WorldSim::update_companion() {
         target->hp = 0;
         target->state = EnemyState::Dead;
         m_cues_.push_back({"die", target->def.sound, target->position});
+        ++m_companion_bond_;
         on_kill(*target);
     }
+}
+
+bool WorldSim::companion_stay() {
+    if (!m_setup_.companion) {
+        return false;
+    }
+    m_companion_stay_ = !m_companion_stay_;
+    return true;
 }
 
 bool WorldSim::craft(const std::string& recipe_id) {
@@ -1281,6 +1291,8 @@ SaveState WorldSim::capture() const {
         s.companion_x = m_companion_pos_.x;
         s.companion_y = m_companion_pos_.y;
         s.companion_cooldown = m_companion_cooldown_;
+        s.companion_stay = m_companion_stay_;
+        s.companion_bond = m_companion_bond_;
     }
     s.explored.assign(m_explored_.begin(), m_explored_.end());
     std::sort(s.explored.begin(), s.explored.end(), [](const auto& a, const auto& b) {  // rows first (spec 12)
@@ -1412,6 +1424,8 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
     if (m_setup_.companion) {  // a save without a companion (an older one) puts it next to the player
         m_companion_pos_ = s.has_companion ? Vec2{s.companion_x, s.companion_y} : s.position;
         m_companion_cooldown_ = s.has_companion ? s.companion_cooldown : m_setup_.companion->cooldown_ticks;
+        m_companion_stay_ = s.has_companion && s.companion_stay;
+        m_companion_bond_ = s.has_companion ? s.companion_bond : 0;
     }
     recompute_derived();
     m_player_.hp = std::min(s.hp, m_derived_.max_hp);

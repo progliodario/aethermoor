@@ -36,6 +36,8 @@ PARRY_IFRAMES = 20
 # The companion (spec 10): it never comes farther than this from the player, and its body is this big.
 COMPANION_LEASH = 8.0
 COMPANION_RADIUS = 0.25
+COMPANION_BOND_STEP = 5   # kills of the companion for one more point of attack
+COMPANION_BOND_MAX = 10   # the most the bond adds
 
 
 def primary_at_level(base: dict, growth_pm: dict, level: int) -> rules.Primary:
@@ -76,6 +78,8 @@ class CombatSim:
         self.companion = scenario.get("companion")  # the definition of the companion (spec 10), or None
         self.comp_x, self.comp_y = scenario["player"]["start"]
         self.comp_cooldown = self.companion["cooldown_ticks"] if self.companion else 0
+        self.comp_stay = False  # told to stay where it is (spec 10, "Commands")
+        self.comp_bond = 0      # the creatures it has killed (spec 10, "Bond")
         self.titles = scenario.get("titles", [])  # titles (spec 11)
         self.counters: dict[str, int] = {}  # gathered, crafted, parried (spec 11)
         self.bestiary: dict[str, int] = {}  # creature id -> how many were killed (spec 11)
@@ -258,7 +262,8 @@ class CombatSim:
         dist = math.sqrt(dx * dx + dy * dy)
         if dist > COMPANION_LEASH:
             self.comp_x, self.comp_y = self.x, self.y
-        elif dist > c["follow_x100"] / 100:
+            self.comp_stay = False  # too far: it comes back and follows again
+        elif not self.comp_stay and dist > c["follow_x100"] / 100:
             step = min(c["speed_x100"] / 100 * mv.TICK_DT, dist - c["follow_x100"] / 100)
             self.comp_x += dx / dist * step
             self.comp_y += dy / dist * step
@@ -277,14 +282,22 @@ class CombatSim:
                 target, best = enemy, d
         if target is None:
             return
-        atk = c["atk_base"] + c["atk_per_level"] * (self.level - 1)
+        atk = c["atk_base"] + c["atk_per_level"] * (self.level - 1) + min(self.comp_bond // COMPANION_BOND_STEP, COMPANION_BOND_MAX)
         damage = rules.damage(atk, 100, target.d["def"], 1000, 0, self.level, target.d["level"], 1000, False, 1500, 1000)
         target.hp -= damage
         self.comp_cooldown = c["cooldown_ticks"]
         if target.hp <= 0:
             target.hp = 0
             target.state = DEAD
+            self.comp_bond += 1
             self._on_kill(target)
+
+    def companion_stay(self) -> bool:
+        """Tells the companion to stay where it is, or to follow again (spec 10, "Commands"). False when there is no companion."""
+        if self.companion is None:
+            return False
+        self.comp_stay = not self.comp_stay
+        return True
 
     def _hit_element(self) -> str:
         """The element of the hit in progress (spec 05, "Elements"): the skill's own, or the weapon's when the skill has none."""
@@ -699,6 +712,7 @@ class CombatSim:
             "kills": self.kills,
             "inventory": dict(sorted(self.inventory.items())),
             "equipped": dict(self.equipped),
+            **({"companion": {"x": self.comp_x, "y": self.comp_y, "stay": self.comp_stay, "bond": self.comp_bond}} if self.companion is not None else {}),
             **({"bestiary": dict(sorted(self.bestiary.items())), "titles": self.earned_titles(),
                 "counters": dict(sorted(self.counters.items()))} if self.titles else {}),
             **({"story": self.story.snapshot()} if self.story is not None else {}),
@@ -714,6 +728,9 @@ def run_segment(sim: CombatSim, segment: dict) -> None:
             continue
         if command["cmd"] in ("equip", "buy", "sell"):
             getattr(sim, command["cmd"])(command["item"])
+            continue
+        if command["cmd"] == "companion_stay":
+            sim.companion_stay()
             continue
         if command["cmd"] == "craft":
             sim.craft(command["recipe"])

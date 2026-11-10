@@ -351,7 +351,7 @@
       "type": "object",
       "required": ["x", "y", "cooldown"],
       "additionalProperties": false,
-      "properties": { "x": { "type": "number" }, "y": { "type": "number" }, "cooldown": { "type": "integer", "minimum": 0 } }
+      "properties": { "x": { "type": "number" }, "y": { "type": "number" }, "cooldown": { "type": "integer", "minimum": 0 }, "stay": { "type": "boolean" }, "bond": { "type": "integer", "minimum": 0 } }
     },
     "stones": {
       "type": "array",

@@ -139,6 +139,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var craftPanel: FloatArray? = null
     private var craftRowRects: List<FloatArray> = emptyList()
     private var craftRect: FloatArray? = null
+    private var companionRect: FloatArray? = null // the button that tells the companion to stay or to follow (spec 10)
     private var journalScroll = 0
     private var journalRect: FloatArray? = null
     private var journalPanel: FloatArray? = null
@@ -770,6 +771,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         drawStrikeButton(world, data)
         drawParryButton(world, data)
         drawCraft(world, data)
+        drawCompanionButton(world, data)
         drawAnalyze(world, data)
         drawStick()
     }
@@ -1445,6 +1447,13 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 if (journal != null && x >= journal[0] && x <= journal[0] + journal[2] && y >= journal[1] && y <= journal[1] + journal[3]) {
                     showJournal = true
                     journalScroll = 0
+                    return
+                }
+                val companionButton = companionRect
+                if (companionButton != null && x >= companionButton[0] && x <= companionButton[0] + companionButton[2] && y >= companionButton[1] && y <= companionButton[1] + companionButton[3]) {
+                    if (world.companionStay()) {
+                        assets?.let { showNotice(it.pack.text(language, if (world.companionStaying) "\$i18n:ui.companion_stays" else "\$i18n:ui.companion_follows")) }
+                    }
                     return
                 }
                 val craftButton = craftRect
@@ -2169,6 +2178,28 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         } else {
             showNotice(pack.text(language, "\$i18n:ui.cannot_craft"))
         }
+    }
+
+    /** The button that tells the companion to stay or to follow (spec 10, "Commands"), in a second row under the other buttons. */
+    private fun drawCompanionButton(world: WorldSim, data: Assets) {
+        val density = Gdx.graphics.density
+        val button = floatArrayOf(12f * density, 154f * density, 96f * density, 34f * density)
+        if (world.combat.companion == null || showCraft || world.story.dialogueActive || showMap || showInventory || showJournal) {
+            companionRect = null
+            return
+        }
+        companionRect = button
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        shapes.color = if (world.companionStaying) Color(0.35f, 0.25f, 0.06f, 0.85f) else Color(0.04f, 0.12f, 0.23f, 0.8f)
+        shapes.rect(button[0], button[1], button[2], button[3])
+        shapes.end()
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        font.color = Color.WHITE
+        font.draw(batch, data.pack.text(language, if (world.companionStaying) "\$i18n:ui.companion_follow_button" else "\$i18n:ui.companion_stay_button"), button[0] + 8f * density, button[1] + (button[3] - font.lineHeight) / 2f)
+        batch.end()
     }
 
     /** The crafting panel and its button (spec 06, "Crafting"): the recipes with what the bag has of each ingredient; a tap on a row makes it. */

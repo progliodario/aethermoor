@@ -26,6 +26,7 @@ The game picks Italian or English from your system language.
   Export a game ... X on the title screen (a file in the exports folder)   Import ... I
   Crafting ........ C (make potions, rations, tools from what you gather)
   Gather .......... E near a bush, a tree, a rock or a cactus (berries, herbs, wood, stone...)
+  Companion ....... H (stay here / follow me)
   Parry ........... U (just before a creature hits: no damage, and it is stunned; gamepad: LB)
 
 The game opens on a list of three games, each with its own world and its own hero: a new game asks who to be

@@ -206,6 +206,7 @@ internal fun runSegment(sim: WorldSim, segment: JsonObject) {
             "start_quest" -> sim.story.startQuest(cmd.getValue("quest").jsonPrimitive.content)
             "use" -> sim.useItem(cmd.getValue("item").jsonPrimitive.content)
             "gather" -> sim.gather()
+            "companion_stay" -> sim.companionStay()
             "craft" -> sim.craft(cmd.getValue("recipe").jsonPrimitive.content)
             "equip" -> sim.equip(cmd.getValue("item").jsonPrimitive.content)
             "buy" -> sim.buy(cmd.getValue("item").jsonPrimitive.content)
@@ -241,6 +242,13 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
         assertEquals(we.getValue("state").jsonPrimitive.content, enemy.state.id, "$at enemy $i state")
         assertNear(we.getValue("x").num(), enemy.position.x, tol, "$at enemy $i x")
         assertNear(we.getValue("y").num(), enemy.position.y, tol, "$at enemy $i y")
+    }
+    want["companion"]?.jsonObject?.let { wc ->
+        val pos = sim.companionPosition ?: error("$at no companion")
+        assertNear(wc.getValue("x").num(), pos.x, tol, "$at companion x")
+        assertNear(wc.getValue("y").num(), pos.y, tol, "$at companion y")
+        assertEquals(wc.getValue("stay").jsonPrimitive.boolean, sim.companionStaying, "$at companion stay")
+        assertEquals(wc.getValue("bond").jsonPrimitive.int, sim.companionBond, "$at companion bond")
     }
     want["bestiary"]?.jsonObject?.let { b ->
         assertEquals(b.size, sim.bestiary.size, "$at bestiary size")
