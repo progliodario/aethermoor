@@ -62,8 +62,8 @@ RECIPES = [
 ]
 TITLES = [
     {"id": "grown", "name": "t", "kind": "level", "count": 2},
-    {"id": "first_blood", "name": "t", "kind": "kills", "count": 1},
-    {"id": "slime_hunter", "name": "t", "kind": "kills_of", "count": 2, "enemy": "base:enemy/slime_green"},
+    {"id": "first_blood", "name": "t", "kind": "kills", "count": 1, "atk_pct": 20},
+    {"id": "slime_hunter", "name": "t", "kind": "kills_of", "count": 2, "enemy": "base:enemy/slime_green", "atk_pct": 30},
     {"id": "wolf_bane", "name": "t", "kind": "kills_of", "count": 2, "enemy": "base:enemy/wolf_grey"},
     {"id": "naturalist", "name": "t", "kind": "species", "count": 2},
     {"id": "helper", "name": "t", "kind": "quests", "count": 1},
@@ -177,6 +177,12 @@ def build_scenarios() -> list[dict]:
         scenario("echo_health", [enemy(3.5, 4.5, hp=5, xp=500, **passive), enemy(8.1, 4.5, atk=40)],
                  [segment(40, attack=True), segment(150), segment(1, do=[{"cmd": "equip", "item": "base:item/chain_mail"}]), segment(150)],
                  inventory={"base:item/chain_mail": 1}, echo_pct=10),
+        # Titles with effects (spec 11): the first kill earns a title worth 20 percent of attack, the second slime one worth 30 more; the big slime
+        # that is hit all along takes more with every title.
+        scenario("title_attack", [enemy(3.5, 4.5, hp=5, id="base:enemy/slime_green", **passive), enemy(3.4, 4.9, hp=4000, **passive),
+                                  enemy(3.4, 4.1, hp=70, id="base:enemy/slime_green", **passive)],
+                 [segment(40, attack=True), segment(40, attack=True), segment(40, attack=True), segment(40, attack=True), segment(40, attack=True),
+                  segment(40, attack=True)], titles=TITLES),
         scenario("player_death", [enemy(6.7, 4.5, atk=400)], [segment(100), segment(100), segment(100)]),
         # Hurt by a slime, the player eats bread: health goes up and one bread is gone. A second bread at full health is refused,
         # and so are the gel (no effect), an item that is not owned and a use while the player is hurt but the stack is empty.

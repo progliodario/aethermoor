@@ -352,6 +352,7 @@ class CombatSim:
             variance = 950 + self.combat.next_bounded(101)
             crit = self.combat.next_bounded(1000) < self.derived["crit_chance_pm"]
             attack = self.derived["matk"] if s.get("kind") == "magical" else self.derived["atk"]
+            attack = attack * (100 + self.title_attack_pct()) // 100  # the titles earned make the hits stronger (spec 11)
             if self.p_weaken > 0:
                 attack = attack * 75 // 100
             damage = rules.damage(attack, s["power_pct"], enemy.d["def"], self._elem_mult(enemy), 0, self.level,
@@ -383,6 +384,11 @@ class CombatSim:
             if have >= count:
                 out.append(t["id"])
         return out
+
+    def title_attack_pct(self) -> int:
+        """The percent that the earned titles add to the attack of the player's hits (spec 11, "Titles with effects")."""
+        earned = set(self.earned_titles())
+        return sum(t.get("atk_pct", 0) for t in self.titles if t["id"] in earned)
 
     def _on_kill(self, enemy: _Enemy) -> None:
         self.kills += 1

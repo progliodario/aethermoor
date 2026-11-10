@@ -151,7 +151,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
             val o = t.jsonObject
             TitleDef(
                 o.getValue("id").jsonPrimitive.content, o.getValue("name").jsonPrimitive.content, o.getValue("kind").jsonPrimitive.content,
-                o.long("count"), o["enemy"]?.jsonPrimitive?.content ?: "",
+                o.long("count"), o["enemy"]?.jsonPrimitive?.content ?: "", o["atk_pct"]?.jsonPrimitive?.long ?: 0L,
             )
         } ?: emptyList(),
         recipes = input["recipes"]?.jsonArray?.map { r ->

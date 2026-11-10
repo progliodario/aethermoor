@@ -167,7 +167,8 @@ struct TitleDef {
     std::string name;
     std::string kind;
     std::int64_t count = 1;
-    std::string enemy;  // kills_of only
+    std::string enemy;         // kills_of only
+    std::int64_t atk_pct = 0;  // percent added to the attack of the player's hits while the title is earned
 };
 
 struct CombatSetup {

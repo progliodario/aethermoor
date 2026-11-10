@@ -952,6 +952,7 @@ void WorldSim::do_hits() {
         const bool crit = static_cast<std::int64_t>(m_combat_rng_.next_bounded(1000)) < m_derived_.crit_chance_pm;
         DamageInput in;
         in.atk = s.magical ? m_derived_.matk : m_derived_.atk;
+        in.atk = in.atk * (100 + title_attack_pct()) / 100;  // the titles earned make the hits stronger (spec 11)
         if (p.weaken > 0) {
             in.atk = in.atk * 75 / 100;
         }
@@ -1066,6 +1067,17 @@ std::vector<std::string> WorldSim::earned_titles() const {
         }
     }
     return earned;
+}
+
+std::int64_t WorldSim::title_attack_pct() const {
+    const std::vector<std::string> earned = earned_titles();
+    std::int64_t pct = 0;
+    for (const TitleDef& t : m_setup_.titles) {
+        if (t.atk_pct != 0 && std::find(earned.begin(), earned.end(), t.id) != earned.end()) {
+            pct += t.atk_pct;
+        }
+    }
+    return pct;
 }
 
 void WorldSim::grant_xp(std::int64_t amount) {

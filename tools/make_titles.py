@@ -28,6 +28,10 @@ TITLES = {
 }
 
 
+# What a title adds to the attack of the player's hits, in percent, while it is earned (spec 11, "Titles with effects"); 3 when not listed.
+ATTACK_PCT = {"newcomer": 2, "veteran": 5, "gel_slayer": 5, "hero": 8, "chronicler": 8, "legend": 10}
+
+
 def add_texts(lang: str, entries: dict[str, str]) -> None:
     path = DATA / "i18n" / lang / "content.json"
     raw = path.read_text(encoding="utf-8", newline="")
@@ -49,6 +53,7 @@ def main() -> None:
     it: dict[str, str] = {}
     for name, (kind, count, enemy, name_en, name_it) in TITLES.items():
         entry = {"id": name, "name": f"$i18n:title.{name}", "kind": kind, "count": count}
+        entry["atk_pct"] = ATTACK_PCT.get(name, 3)
         if enemy:
             entry["enemy"] = f"base:enemy/{enemy}"
         titles.append(entry)
