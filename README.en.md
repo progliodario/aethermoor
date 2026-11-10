@@ -41,7 +41,7 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 
 - An open world of 16384 x 16384 tiles generated from a seed, always the same for the same seed, loaded in pieces as you walk.
 - Eight regions with their own land, creatures, shops and way of speaking; day and night, four seasons, weather.
-- About 130 settlements and 35 hand-made places (dungeons with a guardian, lairs, nests, outposts with a wayfarer and their story).
+- About 130 settlements and 36 hand-made places (dungeons with a guardian, lairs, nests, outposts with a wayfarer and their story), and two hand-written towns: **Fenwick**, the village where you start, and **Aldermere**, the town of the mother guild, with named people and quests of their own.
 - Threshold Stones to heal and to travel between places you have visited.
 - A world map with zoom, a goal to mark and a small map; the land is revealed in a square of 5 x 5 cells (640 tiles) around you.
 
@@ -55,7 +55,7 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 
 **Life and progression**
 
-- An adventurers' guild with a board and commissions, 110 quests, shops, inns, jobs from the elders.
+- An adventurers' guild with a board and commissions, 118 quests, shops, inns, jobs from the elders.
 - 143 items; gathering from bushes, trees, rocks and cacti; 16 recipes (potions, cooked dishes, gear).
 - A companion for each protagonist: it follows you, fights, stays where you tell it, and its bond grows with its victories.
 - A bestiary, 15 titles, and a profile shared by all your games: every title you ever earned gives a little more health to every new life (the "echoes").
@@ -209,7 +209,7 @@ The project is developed by its owner together with Claude, an AI assistant that
 What comes next, in order (details in the [roadmap](docs/plan/06-roadmap-rischi-backlog.md), in Italian):
 
 - **Soon:** configurable keys, the companion's state and the counters shown in the interface, more automatic checks on the graphics.
-- **Toward Alpha 0.1:** the first two hand-written towns, the three-act stories and personal bosses of the protagonists, skill trees, tags and titles with effects, the full reincarnation, item quality and workbenches, a better synthesizer to bring ambience and music back.
+- **Toward Alpha 0.1:** the three-act stories and personal bosses of the protagonists, skill trees, tags and titles with effects, the full reincarnation, item quality and workbenches, a better synthesizer to bring ambience and music back.
 - **Toward 1.0:** a base and residents, farming and fishing, a dynamic economy, accessibility, more languages, tools for modders.
 
 ## Contributing and license

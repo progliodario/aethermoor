@@ -802,6 +802,7 @@
             }
           ],
           "home": {
+            "name": "Fenwick",
             "radius": 72,
             "stamp": "base:stamp/village",
             "dx": 36,
@@ -1087,6 +1088,14 @@
               "kind": "dungeon",
               "dx": 6528,
               "dy": -640
+            },
+            {
+              "id": "aldermere",
+              "name": "Aldermere",
+              "stamp": "base:stamp/town",
+              "kind": "town",
+              "dx": 384,
+              "dy": -128
             }
           ],
           "guild": {
@@ -1757,6 +1766,48 @@
               "variant": "",
               "dx": -640,
               "dy": 6273
+            },
+            {
+              "key": "fenwick_elder_bran",
+              "dialogue": "base:dialogue/npc/bran",
+              "variant": "brown",
+              "dx": 33,
+              "dy": 41
+            },
+            {
+              "key": "fenwick_baker_odile",
+              "dialogue": "base:dialogue/npc/odile",
+              "variant": "ochre",
+              "dx": 40,
+              "dy": 42
+            },
+            {
+              "key": "fenwick_child_tobin",
+              "dialogue": "base:dialogue/npc/tobin",
+              "variant": "teal",
+              "dx": 41,
+              "dy": 39
+            },
+            {
+              "key": "aldermere_guildmaster_hestia",
+              "dialogue": "base:dialogue/npc/hestia",
+              "variant": "red",
+              "dx": 382,
+              "dy": -130
+            },
+            {
+              "key": "aldermere_quartermaster_rook",
+              "dialogue": "base:dialogue/npc/rook",
+              "variant": "green",
+              "dx": 386,
+              "dy": -127
+            },
+            {
+              "key": "aldermere_archivist_selwyn",
+              "dialogue": "base:dialogue/npc/selwyn",
+              "variant": "purple",
+              "dx": 382,
+              "dy": -126
             }
           ],
           "stamp_defs": {
@@ -5589,7 +5640,7 @@
         }
       },
       "expect": {
-        "count": 141,
+        "count": 142,
         "settlements": [
           [
             12683,
@@ -6252,6 +6303,16 @@
             0
           ],
           [
+            8561,
+            8052,
+            8576,
+            8064,
+            "town",
+            "base:stamp/town",
+            "Aldermere",
+            0
+          ],
+          [
             14976,
             8054,
             14976,
@@ -6298,7 +6359,7 @@
             8232,
             "village",
             "base:stamp/village",
-            "Torodale",
+            "Fenwick",
             0
           ],
           [
@@ -8157,6 +8218,7 @@
             }
           ],
           "home": {
+            "name": "Fenwick",
             "radius": 72,
             "stamp": "base:stamp/village",
             "dx": 36,
@@ -8442,6 +8504,14 @@
               "kind": "dungeon",
               "dx": 6528,
               "dy": -640
+            },
+            {
+              "id": "aldermere",
+              "name": "Aldermere",
+              "stamp": "base:stamp/town",
+              "kind": "town",
+              "dx": 384,
+              "dy": -128
             }
           ],
           "guild": {
@@ -9112,6 +9182,48 @@
               "variant": "",
               "dx": -640,
               "dy": 6273
+            },
+            {
+              "key": "fenwick_elder_bran",
+              "dialogue": "base:dialogue/npc/bran",
+              "variant": "brown",
+              "dx": 33,
+              "dy": 41
+            },
+            {
+              "key": "fenwick_baker_odile",
+              "dialogue": "base:dialogue/npc/odile",
+              "variant": "ochre",
+              "dx": 40,
+              "dy": 42
+            },
+            {
+              "key": "fenwick_child_tobin",
+              "dialogue": "base:dialogue/npc/tobin",
+              "variant": "teal",
+              "dx": 41,
+              "dy": 39
+            },
+            {
+              "key": "aldermere_guildmaster_hestia",
+              "dialogue": "base:dialogue/npc/hestia",
+              "variant": "red",
+              "dx": 382,
+              "dy": -130
+            },
+            {
+              "key": "aldermere_quartermaster_rook",
+              "dialogue": "base:dialogue/npc/rook",
+              "variant": "green",
+              "dx": 386,
+              "dy": -127
+            },
+            {
+              "key": "aldermere_archivist_selwyn",
+              "dialogue": "base:dialogue/npc/selwyn",
+              "variant": "purple",
+              "dx": 382,
+              "dy": -126
             }
           ],
           "stamp_defs": {
@@ -14237,6 +14349,7 @@
             }
           ],
           "home": {
+            "name": "Fenwick",
             "radius": 72,
             "stamp": "base:stamp/village",
             "dx": 36,
@@ -14522,6 +14635,14 @@
               "kind": "dungeon",
               "dx": 6528,
               "dy": -640
+            },
+            {
+              "id": "aldermere",
+              "name": "Aldermere",
+              "stamp": "base:stamp/town",
+              "kind": "town",
+              "dx": 384,
+              "dy": -128
             }
           ],
           "guild": {
@@ -15192,6 +15313,48 @@
               "variant": "",
               "dx": -640,
               "dy": 6273
+            },
+            {
+              "key": "fenwick_elder_bran",
+              "dialogue": "base:dialogue/npc/bran",
+              "variant": "brown",
+              "dx": 33,
+              "dy": 41
+            },
+            {
+              "key": "fenwick_baker_odile",
+              "dialogue": "base:dialogue/npc/odile",
+              "variant": "ochre",
+              "dx": 40,
+              "dy": 42
+            },
+            {
+              "key": "fenwick_child_tobin",
+              "dialogue": "base:dialogue/npc/tobin",
+              "variant": "teal",
+              "dx": 41,
+              "dy": 39
+            },
+            {
+              "key": "aldermere_guildmaster_hestia",
+              "dialogue": "base:dialogue/npc/hestia",
+              "variant": "red",
+              "dx": 382,
+              "dy": -130
+            },
+            {
+              "key": "aldermere_quartermaster_rook",
+              "dialogue": "base:dialogue/npc/rook",
+              "variant": "green",
+              "dx": 386,
+              "dy": -127
+            },
+            {
+              "key": "aldermere_archivist_selwyn",
+              "dialogue": "base:dialogue/npc/selwyn",
+              "variant": "purple",
+              "dx": 382,
+              "dy": -126
             }
           ],
           "stamp_defs": {
@@ -19097,13 +19260,13 @@
             0
           ],
           [
-            8606,
-            8028,
-            8618,
-            8034,
-            "village",
-            "base:stamp/village_c",
-            "Ravormere",
+            8561,
+            8052,
+            8576,
+            8064,
+            "town",
+            "base:stamp/town",
+            "Aldermere",
             0
           ],
           [
@@ -19123,7 +19286,7 @@
             8232,
             "village",
             "base:stamp/village",
-            "Holelvale",
+            "Fenwick",
             0
           ],
           [
@@ -19467,8 +19630,8 @@
           ],
           [
             67,
-            62,
-            "Ravormere"
+            63,
+            "Aldermere"
           ],
           [
             63,
@@ -19478,7 +19641,7 @@
           [
             64,
             64,
-            "Holelvale"
+            "Fenwick"
           ],
           [
             67,

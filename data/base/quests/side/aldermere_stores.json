@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/aldermere_stores",
+  "name": "$i18n:quest.aldermere_stores.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.aldermere_stores.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/iron_ore",
+          "count": 4
+        },
+        {
+          "type": "collect",
+          "item": "base:item/wood_log",
+          "count": 6
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 150
+    },
+    {
+      "effect": "add_gold",
+      "amount": 200
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 15
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/pike",
+      "qty": 1
+    }
+  ]
+}

@@ -199,6 +199,8 @@ class WorldParams(
     val homeStamp: String,
     val homeDx: Int,
     val homeDy: Int,
+    /** The name of the home village; empty: made like the others. */
+    val homeName: String = "",
     val regions: List<Region>,
     val settlementPerMille: Int,
     val settlementKinds: List<SettlementKind>,
@@ -398,7 +400,7 @@ private class Sites(private val seed: ULong, private val p: WorldParams) {
             p.namesMid[((n shr 16) % p.namesMid.size.toULong()).toInt()] +
             p.namesEnd[((n shr 32) % p.namesEnd.size.toULong()).toInt()]
         val kind = p.settlementKinds.firstOrNull { p.homeStamp in it.stamps }?.id ?: "village"
-        return withSlots(px - stamp.anchorX, py - stamp.anchorY, px, py, stamp, p.homeStamp, kind, name, sx, sy)
+        return withSlots(px - stamp.anchorX, py - stamp.anchorY, px, py, stamp, p.homeStamp, kind, p.homeName.ifEmpty { name }, sx, sy)
     }
 
     /** Builds the settlement with the NPC slots of its stamp (the characters with an npc role, in scan order). */
@@ -914,6 +916,7 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
             homeStamp = j["home"]?.jsonObject?.getValue("stamp")?.jsonPrimitive?.content ?: "",
             homeDx = j["home"]?.jsonObject?.getValue("dx")?.jsonPrimitive?.int ?: 0,
             homeDy = j["home"]?.jsonObject?.getValue("dy")?.jsonPrimitive?.int ?: 0,
+            homeName = j["home"]?.jsonObject?.get("name")?.jsonPrimitive?.content ?: "",
             regions = j.getValue("regions").jsonArray.map {
                 val r = it.jsonObject
                 Region(

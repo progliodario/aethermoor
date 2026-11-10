@@ -1463,6 +1463,48 @@
               "variant": "",
               "dx": -640,
               "dy": 6273
+            },
+            {
+              "key": "fenwick_elder_bran",
+              "dialogue": "base:dialogue/npc/bran",
+              "variant": "brown",
+              "dx": 33,
+              "dy": 41
+            },
+            {
+              "key": "fenwick_baker_odile",
+              "dialogue": "base:dialogue/npc/odile",
+              "variant": "ochre",
+              "dx": 40,
+              "dy": 42
+            },
+            {
+              "key": "fenwick_child_tobin",
+              "dialogue": "base:dialogue/npc/tobin",
+              "variant": "teal",
+              "dx": 41,
+              "dy": 39
+            },
+            {
+              "key": "aldermere_guildmaster_hestia",
+              "dialogue": "base:dialogue/npc/hestia",
+              "variant": "red",
+              "dx": 382,
+              "dy": -130
+            },
+            {
+              "key": "aldermere_quartermaster_rook",
+              "dialogue": "base:dialogue/npc/rook",
+              "variant": "green",
+              "dx": 386,
+              "dy": -127
+            },
+            {
+              "key": "aldermere_archivist_selwyn",
+              "dialogue": "base:dialogue/npc/selwyn",
+              "variant": "purple",
+              "dx": 382,
+              "dy": -126
             }
           ],
           "stamp_defs": {
@@ -5998,6 +6040,36 @@
             "wayfarer_ottavio",
             -151424,
             1616256
+          ],
+          [
+            "fenwick_elder_bran",
+            20864,
+            20864
+          ],
+          [
+            "fenwick_baker_odile",
+            22656,
+            21120
+          ],
+          [
+            "fenwick_child_tobin",
+            22912,
+            20352
+          ],
+          [
+            "aldermere_guildmaster_hestia",
+            110208,
+            -22912
+          ],
+          [
+            "aldermere_quartermaster_rook",
+            111232,
+            -22144
+          ],
+          [
+            "aldermere_archivist_selwyn",
+            110208,
+            -21888
           ]
         ],
         "gid_histogram": {
@@ -7488,6 +7560,48 @@
               "variant": "",
               "dx": -640,
               "dy": 6273
+            },
+            {
+              "key": "fenwick_elder_bran",
+              "dialogue": "base:dialogue/npc/bran",
+              "variant": "brown",
+              "dx": 33,
+              "dy": 41
+            },
+            {
+              "key": "fenwick_baker_odile",
+              "dialogue": "base:dialogue/npc/odile",
+              "variant": "ochre",
+              "dx": 40,
+              "dy": 42
+            },
+            {
+              "key": "fenwick_child_tobin",
+              "dialogue": "base:dialogue/npc/tobin",
+              "variant": "teal",
+              "dx": 41,
+              "dy": 39
+            },
+            {
+              "key": "aldermere_guildmaster_hestia",
+              "dialogue": "base:dialogue/npc/hestia",
+              "variant": "red",
+              "dx": 382,
+              "dy": -130
+            },
+            {
+              "key": "aldermere_quartermaster_rook",
+              "dialogue": "base:dialogue/npc/rook",
+              "variant": "green",
+              "dx": 386,
+              "dy": -127
+            },
+            {
+              "key": "aldermere_archivist_selwyn",
+              "dialogue": "base:dialogue/npc/selwyn",
+              "variant": "purple",
+              "dx": 382,
+              "dy": -126
             }
           ],
           "stamp_defs": {
@@ -12019,6 +12133,36 @@
             "wayfarer_ottavio",
             -153472,
             1615232
+          ],
+          [
+            "fenwick_elder_bran",
+            18816,
+            19840
+          ],
+          [
+            "fenwick_baker_odile",
+            20608,
+            20096
+          ],
+          [
+            "fenwick_child_tobin",
+            20864,
+            19328
+          ],
+          [
+            "aldermere_guildmaster_hestia",
+            108160,
+            -23936
+          ],
+          [
+            "aldermere_quartermaster_rook",
+            109184,
+            -23168
+          ],
+          [
+            "aldermere_archivist_selwyn",
+            108160,
+            -22912
           ]
         ],
         "gid_histogram": {
@@ -13509,6 +13653,48 @@
               "variant": "",
               "dx": -640,
               "dy": 6273
+            },
+            {
+              "key": "fenwick_elder_bran",
+              "dialogue": "base:dialogue/npc/bran",
+              "variant": "brown",
+              "dx": 33,
+              "dy": 41
+            },
+            {
+              "key": "fenwick_baker_odile",
+              "dialogue": "base:dialogue/npc/odile",
+              "variant": "ochre",
+              "dx": 40,
+              "dy": 42
+            },
+            {
+              "key": "fenwick_child_tobin",
+              "dialogue": "base:dialogue/npc/tobin",
+              "variant": "teal",
+              "dx": 41,
+              "dy": 39
+            },
+            {
+              "key": "aldermere_guildmaster_hestia",
+              "dialogue": "base:dialogue/npc/hestia",
+              "variant": "red",
+              "dx": 382,
+              "dy": -130
+            },
+            {
+              "key": "aldermere_quartermaster_rook",
+              "dialogue": "base:dialogue/npc/rook",
+              "variant": "green",
+              "dx": 386,
+              "dy": -127
+            },
+            {
+              "key": "aldermere_archivist_selwyn",
+              "dialogue": "base:dialogue/npc/selwyn",
+              "variant": "purple",
+              "dx": 382,
+              "dy": -126
             }
           ],
           "stamp_defs": {
@@ -18052,6 +18238,36 @@
             "wayfarer_ottavio",
             -152448,
             1618304
+          ],
+          [
+            "fenwick_elder_bran",
+            19840,
+            22912
+          ],
+          [
+            "fenwick_baker_odile",
+            21632,
+            23168
+          ],
+          [
+            "fenwick_child_tobin",
+            21888,
+            22400
+          ],
+          [
+            "aldermere_guildmaster_hestia",
+            109184,
+            -20864
+          ],
+          [
+            "aldermere_quartermaster_rook",
+            110208,
+            -20096
+          ],
+          [
+            "aldermere_archivist_selwyn",
+            109184,
+            -19840
           ]
         ],
         "gid_histogram": {

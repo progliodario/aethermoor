@@ -37,7 +37,9 @@ The game saves by itself every 30 seconds and when you quit; it continues
 where you left off (same world).
 Saves are in your user data folder.
 
-What to try: head south-east to the village near the start and talk to the people there (each region has its own way of speaking),
+What to try: head south-east to Fenwick, the village near the start: Elder Bran, Odile the baker and little Tobin have work for you;
+then go east (a little north) to Aldermere, the town of the mother guild, and meet Guildmaster Hestia, Quartermaster Rook and Archivist Selwyn.
+Talk to the other people too (each region has its own way of speaking),
 talk to the guild clerk Mira next to you and accept her quest,
 fight the green slimes, walk far away (the world is 16384 x 16384 tiles),
 open the map (M) and watch the day turn to night and the weather change.
