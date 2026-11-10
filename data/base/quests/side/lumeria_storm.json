@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/lumeria_storm",
+  "name": "$i18n:quest.lumeria_storm.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.lumeria_storm.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/wolf_storm",
+          "count": 5
+        },
+        {
+          "type": "collect",
+          "item": "base:item/storm_feather",
+          "count": 3
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 900
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1100
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 45
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/starlit_vestment",
+      "qty": 1
+    }
+  ]
+}

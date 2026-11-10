@@ -55,7 +55,7 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 
 **Vita e progressione**
 
-- Gilda degli avventurieri con bacheca e commissioni, 198 missioni, negozi, locande, lavori degli anziani.
+- Gilda degli avventurieri con bacheca e commissioni, 214 missioni, negozi, locande, lavori degli anziani.
 - 145 oggetti; raccolta da cespugli, alberi, rocce e cactus; 16 ricette (pozioni, piatti cucinati, equipaggiamento).
 - Un compagno per protagonista: ti segue, combatte, resta dove gli dici, e il suo legame cresce con le sue vittorie.
 - Titoli del modo di giocare che cambiano il gioco: il Raccoglitore trova di più, l'Artigiano crea di più, la Guardia incrollabile para più a lungo, il Veterano guadagna più esperienza.

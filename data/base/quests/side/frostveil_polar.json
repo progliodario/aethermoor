@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/frostveil_polar",
+  "name": "$i18n:quest.frostveil_polar.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.frostveil_polar.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/wolf_polar",
+          "count": 5
+        },
+        {
+          "type": "collect",
+          "item": "base:item/polar_fur",
+          "count": 3
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 900
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1100
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 45
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/frostfur_coat",
+      "qty": 1
+    }
+  ]
+}

@@ -55,7 +55,7 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 
 **Life and progression**
 
-- An adventurers' guild with a board and commissions, 198 quests, shops, inns, jobs from the elders.
+- An adventurers' guild with a board and commissions, 214 quests, shops, inns, jobs from the elders.
 - 145 items; gathering from bushes, trees, rocks and cacti; 16 recipes (potions, cooked dishes, gear).
 - A companion for each protagonist: it follows you, fights, stays where you tell it, and its bond grows with its victories.
 - Titles of a way of playing that change the game: the Forager finds more, the Artisan makes more, the Unbreakable Guard parries longer, the Veteran earns more experience.

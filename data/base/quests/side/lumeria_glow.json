@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/lumeria_glow",
+  "name": "$i18n:quest.lumeria_glow.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.lumeria_glow.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_glow",
+          "count": 8
+        },
+        {
+          "type": "collect",
+          "item": "base:item/star_dust",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 600
+    },
+    {
+      "effect": "add_gold",
+      "amount": 750
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 30
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/potion_mana_medium",
+      "qty": 3
+    }
+  ]
+}

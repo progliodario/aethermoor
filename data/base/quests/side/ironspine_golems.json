@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/ironspine_golems",
+  "name": "$i18n:quest.ironspine_golems.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.ironspine_golems.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/stone_golem",
+          "count": 3
+        },
+        {
+          "type": "collect",
+          "item": "base:item/golem_core",
+          "count": 2
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 720
+    },
+    {
+      "effect": "add_gold",
+      "amount": 900
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 36
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/slate_cleaver",
+      "qty": 1
+    }
+  ]
+}

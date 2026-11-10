@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/whisperwood_silk",
+  "name": "$i18n:quest.whisperwood_silk.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.whisperwood_silk.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/cave_spider",
+          "count": 6
+        },
+        {
+          "type": "collect",
+          "item": "base:item/spider_silk",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 540
+    },
+    {
+      "effect": "add_gold",
+      "amount": 680
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 27
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/wisp_mantle",
+      "qty": 1
+    }
+  ]
+}

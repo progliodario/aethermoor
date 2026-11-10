@@ -1931,6 +1931,62 @@
               "variant": "cream",
               "dx": 386,
               "dy": -129
+            },
+            {
+              "key": "outpost_carter_pell",
+              "dialogue": "base:dialogue/npc/pell",
+              "variant": "brown",
+              "dx": 385,
+              "dy": 127
+            },
+            {
+              "key": "outpost_herbalist_wren",
+              "dialogue": "base:dialogue/npc/wren",
+              "variant": "green",
+              "dx": -4222,
+              "dy": -2689
+            },
+            {
+              "key": "outpost_cook_brakka",
+              "dialogue": "base:dialogue/npc/brakka",
+              "variant": "ochre",
+              "dx": 4226,
+              "dy": -4737
+            },
+            {
+              "key": "outpost_netmender_nella",
+              "dialogue": "base:dialogue/npc/nella",
+              "variant": "teal",
+              "dx": -6271,
+              "dy": 4225
+            },
+            {
+              "key": "outpost_sculptor_henrik",
+              "dialogue": "base:dialogue/npc/henrik",
+              "variant": "cream",
+              "dx": -1151,
+              "dy": -6529
+            },
+            {
+              "key": "outpost_waterseller_farid",
+              "dialogue": "base:dialogue/npc/farid",
+              "variant": "purple",
+              "dx": 5505,
+              "dy": 3969
+            },
+            {
+              "key": "outpost_stargazer_astra",
+              "dialogue": "base:dialogue/npc/astra",
+              "variant": "purple",
+              "dx": -639,
+              "dy": 6271
+            },
+            {
+              "key": "outpost_smith_grael",
+              "dialogue": "base:dialogue/npc/grael",
+              "variant": "red",
+              "dx": 6786,
+              "dy": -385
             }
           ],
           "stamp_defs": {
@@ -9391,6 +9447,62 @@
               "variant": "cream",
               "dx": 386,
               "dy": -129
+            },
+            {
+              "key": "outpost_carter_pell",
+              "dialogue": "base:dialogue/npc/pell",
+              "variant": "brown",
+              "dx": 385,
+              "dy": 127
+            },
+            {
+              "key": "outpost_herbalist_wren",
+              "dialogue": "base:dialogue/npc/wren",
+              "variant": "green",
+              "dx": -4222,
+              "dy": -2689
+            },
+            {
+              "key": "outpost_cook_brakka",
+              "dialogue": "base:dialogue/npc/brakka",
+              "variant": "ochre",
+              "dx": 4226,
+              "dy": -4737
+            },
+            {
+              "key": "outpost_netmender_nella",
+              "dialogue": "base:dialogue/npc/nella",
+              "variant": "teal",
+              "dx": -6271,
+              "dy": 4225
+            },
+            {
+              "key": "outpost_sculptor_henrik",
+              "dialogue": "base:dialogue/npc/henrik",
+              "variant": "cream",
+              "dx": -1151,
+              "dy": -6529
+            },
+            {
+              "key": "outpost_waterseller_farid",
+              "dialogue": "base:dialogue/npc/farid",
+              "variant": "purple",
+              "dx": 5505,
+              "dy": 3969
+            },
+            {
+              "key": "outpost_stargazer_astra",
+              "dialogue": "base:dialogue/npc/astra",
+              "variant": "purple",
+              "dx": -639,
+              "dy": 6271
+            },
+            {
+              "key": "outpost_smith_grael",
+              "dialogue": "base:dialogue/npc/grael",
+              "variant": "red",
+              "dx": 6786,
+              "dy": -385
             }
           ],
           "stamp_defs": {

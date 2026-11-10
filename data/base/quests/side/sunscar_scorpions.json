@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/sunscar_scorpions",
+  "name": "$i18n:quest.sunscar_scorpions.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.sunscar_scorpions.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/dune_scorpion",
+          "count": 6
+        },
+        {
+          "type": "collect",
+          "item": "base:item/scorpion_sting",
+          "count": 3
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 480
+    },
+    {
+      "effect": "add_gold",
+      "amount": 600
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 24
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/potion_medium",
+      "qty": 3
+    }
+  ]
+}

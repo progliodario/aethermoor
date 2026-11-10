@@ -1,0 +1,157 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/npc/brakka",
+  "start": "c0",
+  "nodes": {
+    "c0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/ironspine_rust"
+      },
+      "then": "t0",
+      "else": "a0"
+    },
+    "t0": {
+      "type": "condition",
+      "when": {
+        "flag": "town_ironspine_rust_thanked"
+      },
+      "then": "c1",
+      "else": "thanks0"
+    },
+    "thanks0": {
+      "type": "say",
+      "speaker": "outpost_cook_brakka",
+      "text": "$i18n:dlg.town.brakka.ironspine_rust.thanks",
+      "next": "flag0"
+    },
+    "flag0": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_ironspine_rust_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a0": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/ironspine_rust"
+      },
+      "then": "busy0",
+      "else": "offer0"
+    },
+    "busy0": {
+      "type": "say",
+      "speaker": "outpost_cook_brakka",
+      "text": "$i18n:dlg.town.brakka.ironspine_rust.busy",
+      "next": "end"
+    },
+    "offer0": {
+      "type": "say",
+      "speaker": "outpost_cook_brakka",
+      "text": "$i18n:dlg.town.brakka.ironspine_rust.offer",
+      "next": "choice0"
+    },
+    "choice0": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/ironspine_rust"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c1": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/ironspine_golems"
+      },
+      "then": "t1",
+      "else": "a1"
+    },
+    "t1": {
+      "type": "condition",
+      "when": {
+        "flag": "town_ironspine_golems_thanked"
+      },
+      "then": "after",
+      "else": "thanks1"
+    },
+    "thanks1": {
+      "type": "say",
+      "speaker": "outpost_cook_brakka",
+      "text": "$i18n:dlg.town.brakka.ironspine_golems.thanks",
+      "next": "flag1"
+    },
+    "flag1": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_ironspine_golems_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/ironspine_golems"
+      },
+      "then": "busy1",
+      "else": "offer1"
+    },
+    "busy1": {
+      "type": "say",
+      "speaker": "outpost_cook_brakka",
+      "text": "$i18n:dlg.town.brakka.ironspine_golems.busy",
+      "next": "end"
+    },
+    "offer1": {
+      "type": "say",
+      "speaker": "outpost_cook_brakka",
+      "text": "$i18n:dlg.town.brakka.ironspine_golems.offer",
+      "next": "choice1"
+    },
+    "choice1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/ironspine_golems"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "after": {
+      "type": "say",
+      "speaker": "outpost_cook_brakka",
+      "text": "$i18n:dlg.town.brakka.after",
+      "next": "end"
+    }
+  }
+}

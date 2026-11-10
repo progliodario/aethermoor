@@ -1,0 +1,157 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/npc/astra",
+  "start": "c0",
+  "nodes": {
+    "c0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/lumeria_glow"
+      },
+      "then": "t0",
+      "else": "a0"
+    },
+    "t0": {
+      "type": "condition",
+      "when": {
+        "flag": "town_lumeria_glow_thanked"
+      },
+      "then": "c1",
+      "else": "thanks0"
+    },
+    "thanks0": {
+      "type": "say",
+      "speaker": "outpost_stargazer_astra",
+      "text": "$i18n:dlg.town.astra.lumeria_glow.thanks",
+      "next": "flag0"
+    },
+    "flag0": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_lumeria_glow_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a0": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/lumeria_glow"
+      },
+      "then": "busy0",
+      "else": "offer0"
+    },
+    "busy0": {
+      "type": "say",
+      "speaker": "outpost_stargazer_astra",
+      "text": "$i18n:dlg.town.astra.lumeria_glow.busy",
+      "next": "end"
+    },
+    "offer0": {
+      "type": "say",
+      "speaker": "outpost_stargazer_astra",
+      "text": "$i18n:dlg.town.astra.lumeria_glow.offer",
+      "next": "choice0"
+    },
+    "choice0": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/lumeria_glow"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c1": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/lumeria_storm"
+      },
+      "then": "t1",
+      "else": "a1"
+    },
+    "t1": {
+      "type": "condition",
+      "when": {
+        "flag": "town_lumeria_storm_thanked"
+      },
+      "then": "after",
+      "else": "thanks1"
+    },
+    "thanks1": {
+      "type": "say",
+      "speaker": "outpost_stargazer_astra",
+      "text": "$i18n:dlg.town.astra.lumeria_storm.thanks",
+      "next": "flag1"
+    },
+    "flag1": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_lumeria_storm_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/lumeria_storm"
+      },
+      "then": "busy1",
+      "else": "offer1"
+    },
+    "busy1": {
+      "type": "say",
+      "speaker": "outpost_stargazer_astra",
+      "text": "$i18n:dlg.town.astra.lumeria_storm.busy",
+      "next": "end"
+    },
+    "offer1": {
+      "type": "say",
+      "speaker": "outpost_stargazer_astra",
+      "text": "$i18n:dlg.town.astra.lumeria_storm.offer",
+      "next": "choice1"
+    },
+    "choice1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/lumeria_storm"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "after": {
+      "type": "say",
+      "speaker": "outpost_stargazer_astra",
+      "text": "$i18n:dlg.town.astra.after",
+      "next": "end"
+    }
+  }
+}
