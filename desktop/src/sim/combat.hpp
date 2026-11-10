@@ -167,8 +167,10 @@ struct TitleDef {
     std::string name;
     std::string kind;
     std::int64_t count = 1;
-    std::string enemy;         // kills_of only
-    std::int64_t atk_pct = 0;  // percent added to the attack of the player's hits while the title is earned
+    std::string enemy;              // kills_of only
+    std::int64_t atk_pct = 0;       // percent added to the attack of the player's hits while the title is earned
+    std::int64_t gather_bonus = 0;  // one more of every drop gathered, for each
+    std::int64_t craft_bonus = 0;   // more of the output of every recipe
 };
 
 // A talent (spec 11, "Talents"): every rank multiplies a kind of stat. stat: attack, health, mana or defense.

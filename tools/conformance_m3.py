@@ -67,8 +67,8 @@ TITLES = [
     {"id": "wolf_bane", "name": "t", "kind": "kills_of", "count": 2, "enemy": "base:enemy/wolf_grey"},
     {"id": "naturalist", "name": "t", "kind": "species", "count": 2},
     {"id": "helper", "name": "t", "kind": "quests", "count": 1},
-    {"id": "forager", "name": "t", "kind": "gathered", "count": 2},
-    {"id": "maker", "name": "t", "kind": "crafted", "count": 2},
+    {"id": "forager", "name": "t", "kind": "gathered", "count": 2, "gather_bonus": 1},
+    {"id": "maker", "name": "t", "kind": "crafted", "count": 1, "craft_bonus": 2},
     {"id": "guard", "name": "t", "kind": "parried", "count": 1},
 ]
 TALENTS = [
@@ -163,7 +163,7 @@ def build_scenarios() -> list[dict]:
                  [segment(6), *[s for _ in range(3) for s in (segment(1, parry=True), segment(5), segment(12), segment(60))],
                   segment(1, do=[{"cmd": "gather"}]), segment(1, do=[{"cmd": "gather"}]), segment(1, do=[{"cmd": "gather"}]),
                   segment(1, do=[{"cmd": "craft", "recipe": "tonic"}, {"cmd": "craft", "recipe": "nothing"}]),
-                  segment(1, do=[{"cmd": "craft", "recipe": "tonic"}]), segment(40, attack=True), segment(30)],
+                  segment(1, do=[{"cmd": "craft", "recipe": "tonic"}]), segment(40, attack=True), segment(30), segment(1, do=[{"cmd": "gather"}]), segment(1, do=[{"cmd": "gather"}])],
                  inventory={"base:item/healing_herb": 4, "base:item/wild_berries": 4}, recipes=RECIPES, titles=TITLES,
                  gather_nodes=GATHER_NODES,
                  gather_props=[{"art": "base:art/prop/bush", "x": 3.0, "y": 6.0, "radius": 0.3}, {"art": "base:art/prop/rock", "x": 2.0, "y": 3.0, "radius": 0.3}]),

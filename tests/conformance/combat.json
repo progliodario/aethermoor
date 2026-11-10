@@ -935,13 +935,15 @@
             "id": "forager",
             "name": "t",
             "kind": "gathered",
-            "count": 2
+            "count": 2,
+            "gather_bonus": 1
           },
           {
             "id": "maker",
             "name": "t",
             "kind": "crafted",
-            "count": 2
+            "count": 1,
+            "craft_bonus": 2
           },
           {
             "id": "guard",
@@ -1414,13 +1416,15 @@
             "id": "forager",
             "name": "t",
             "kind": "gathered",
-            "count": 2
+            "count": 2,
+            "gather_bonus": 1
           },
           {
             "id": "maker",
             "name": "t",
             "kind": "crafted",
-            "count": 2
+            "count": 1,
+            "craft_bonus": 2
           },
           {
             "id": "guard",
@@ -1871,6 +1875,32 @@
               0
             ],
             "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "gather"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "gather"
+              }
+            ]
           }
         ],
         "inventory": {
@@ -2849,6 +2879,7 @@
             "bestiary": {},
             "titles": [
               "forager",
+              "maker",
               "guard"
             ],
             "counters": {
@@ -2896,7 +2927,7 @@
             "inventory": {
               "base:item/healing_herb": 2,
               "base:item/stone_chunk": 1,
-              "base:item/tonic": 4
+              "base:item/tonic": 6
             },
             "equipped": {
               "weapon": "",
@@ -2954,7 +2985,7 @@
               "base:item/healing_herb": 2,
               "base:item/slime_gel": 4,
               "base:item/stone_chunk": 1,
-              "base:item/tonic": 4
+              "base:item/tonic": 6
             },
             "equipped": {
               "weapon": "",
@@ -3017,7 +3048,7 @@
               "base:item/healing_herb": 2,
               "base:item/slime_gel": 4,
               "base:item/stone_chunk": 1,
-              "base:item/tonic": 4
+              "base:item/tonic": 6
             },
             "equipped": {
               "weapon": "",
@@ -3037,6 +3068,135 @@
             "counters": {
               "crafted": 2,
               "gathered": 2,
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 222,
+              "level": 5,
+              "xp": 385,
+              "deaths": 1,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.3
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 4,
+            "inventory": {
+              "base:item/healing_herb": 2,
+              "base:item/iron_ore": 2,
+              "base:item/slime_gel": 4,
+              "base:item/stone_chunk": 4,
+              "base:item/tonic": 6
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {
+              "base:enemy/slime_green": 3
+            },
+            "titles": [
+              "grown",
+              "first_blood",
+              "slime_hunter",
+              "forager",
+              "maker",
+              "guard"
+            ],
+            "counters": {
+              "crafted": 2,
+              "gathered": 3,
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 222,
+              "level": 5,
+              "xp": 385,
+              "deaths": 1,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.3
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 4,
+            "inventory": {
+              "base:item/healing_herb": 5,
+              "base:item/iron_ore": 2,
+              "base:item/slime_gel": 4,
+              "base:item/stone_chunk": 4,
+              "base:item/tonic": 6,
+              "base:item/wild_berries": 3
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {
+              "base:enemy/slime_green": 3
+            },
+            "titles": [
+              "grown",
+              "first_blood",
+              "slime_hunter",
+              "forager",
+              "maker",
+              "guard"
+            ],
+            "counters": {
+              "crafted": 2,
+              "gathered": 4,
               "parried": 1
             }
           }
@@ -6245,13 +6405,15 @@
             "id": "forager",
             "name": "t",
             "kind": "gathered",
-            "count": 2
+            "count": 2,
+            "gather_bonus": 1
           },
           {
             "id": "maker",
             "name": "t",
             "kind": "crafted",
-            "count": 2
+            "count": 1,
+            "craft_bonus": 2
           },
           {
             "id": "guard",
@@ -17657,13 +17819,15 @@
             "id": "forager",
             "name": "t",
             "kind": "gathered",
-            "count": 2
+            "count": 2,
+            "gather_bonus": 1
           },
           {
             "id": "maker",
             "name": "t",
             "kind": "crafted",
-            "count": 2
+            "count": 1,
+            "craft_bonus": 2
           },
           {
             "id": "guard",

@@ -695,7 +695,7 @@ bool WorldSim::craft(const std::string& recipe_id) {
             m_inventory_.erase(owned);
         }
     }
-    m_inventory_[recipe->output] += recipe->output_qty;
+    m_inventory_[recipe->output] += recipe->output_qty + title_bonus("craft");  // the titles of an artisan (spec 11)
     ++m_counters_["crafted"];
     m_cues_.push_back({"craft", "", m_player_.position});
     return true;
@@ -791,8 +791,10 @@ WorldSim::GatherResult WorldSim::gather() {
         const GatherDrop& drop = best_node->drops[i];
         if (static_cast<std::int64_t>(mix64(h + 2 * i) % 1000U) < drop.weight_pm) {
             const std::int64_t qty =
-                drop.qty_min + static_cast<std::int64_t>(mix64(h + 2 * i + 1) %
-                                                         static_cast<std::uint64_t>(drop.qty_max - drop.qty_min + 1));
+                drop.qty_min +
+                static_cast<std::int64_t>(mix64(h + 2 * i + 1) %
+                                          static_cast<std::uint64_t>(drop.qty_max - drop.qty_min + 1)) +
+                title_bonus("gather");  // the titles of a forager (spec 11)
             m_inventory_[drop.item] += qty;
             result.items.emplace_back(drop.item, qty);
         }
@@ -1124,6 +1126,17 @@ std::vector<std::string> WorldSim::earned_titles() const {
         }
     }
     return earned;
+}
+
+std::int64_t WorldSim::title_bonus(const std::string& what) const {
+    const std::vector<std::string> earned = earned_titles();
+    std::int64_t bonus = 0;
+    for (const TitleDef& t : m_setup_.titles) {
+        if (std::find(earned.begin(), earned.end(), t.id) != earned.end()) {
+            bonus += what == "gather" ? t.gather_bonus : t.craft_bonus;
+        }
+    }
+    return bonus;
 }
 
 std::int64_t WorldSim::title_attack_pct() const {

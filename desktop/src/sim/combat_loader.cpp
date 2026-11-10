@@ -326,6 +326,8 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
                 title.count = t.at("count").get<std::int64_t>();
                 title.enemy = t.value("enemy", "");
                 title.atk_pct = t.value("atk_pct", static_cast<std::int64_t>(0));
+                title.gather_bonus = t.value("gather_bonus", static_cast<std::int64_t>(0));
+                title.craft_bonus = t.value("craft_bonus", static_cast<std::int64_t>(0));
                 setup.titles.push_back(std::move(title));
             }
         }

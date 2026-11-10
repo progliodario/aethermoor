@@ -50,6 +50,8 @@ A title may have `atk_pct`: while the title is earned, the attack of every hit o
 before a weaken on the player takes its quarter (spec 05). The sum is read at each hit, so a title earned in the middle of a fight counts from the next blow. The companion's hits are not changed. In the base pack every title
 is worth 3 percent, the first one 2, and the rare ones 5, 8 or 10 (`tools/make_titles.py`): with all fifteen the hits are 65 percent stronger. Conformance: the scenario `title_attack`.
 
+A title may also have `gather_bonus` (every drop that a gathering finds gives that many more, spec 06) and `craft_bonus` (every recipe made gives that many more of its output), summed over the earned titles at the moment of the gathering or the craft. These are the titles of a way of playing, the first tags: in the base pack Forager (30 gatherings) gives one more of every drop and Artisan (15 recipes) one more of every recipe. Conformance: the scenario `counter_titles`.
+
 ## Reincarnation
 
 A game whose protagonist has reached **level 10** can be **reincarnated** from the title screen (desktop: `R` on the game, then `R` again to confirm; Android: the `Rebirth` button of the row, twice). The game ends: the profile

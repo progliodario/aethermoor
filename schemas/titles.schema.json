@@ -3,24 +3,73 @@
   "$id": "https://aethermoor.invalid/schemas/titles.schema.json",
   "title": "Titles a protagonist earns (spec 11)",
   "type": "object",
-  "required": ["id", "titles"],
+  "required": [
+    "id",
+    "titles"
+  ],
   "additionalProperties": false,
   "properties": {
-    "$schema": { "type": "string" },
-    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:titles/[a-z0-9_]+$" },
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:titles/[a-z0-9_]+$"
+    },
     "titles": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "name", "kind", "count"],
+        "required": [
+          "id",
+          "name",
+          "kind",
+          "count"
+        ],
         "additionalProperties": false,
         "properties": {
-          "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
-          "name": { "type": "string" },
-          "kind": { "enum": ["kills", "kills_of", "level", "species", "quests", "gathered", "crafted", "parried"] },
-          "count": { "type": "integer", "minimum": 1 },
-          "atk_pct": { "type": "integer", "minimum": 0, "maximum": 200 },
-          "enemy": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:enemy/[a-z0-9_]+$" }
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "kills",
+              "kills_of",
+              "level",
+              "species",
+              "quests",
+              "gathered",
+              "crafted",
+              "parried"
+            ]
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "atk_pct": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
+          },
+          "enemy": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*:enemy/[a-z0-9_]+$"
+          },
+          "gather_bonus": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "craft_bonus": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          }
         }
       }
     }
