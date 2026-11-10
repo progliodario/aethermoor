@@ -139,6 +139,12 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
     }
     if (s.has_companion) {
         j["companion"] = {{"x", s.companion_x}, {"y", s.companion_y}, {"cooldown", s.companion_cooldown}};
+        if (s.companion_stay) {
+            j["companion"]["stay"] = true;
+        }
+        if (s.companion_bond > 0) {
+            j["companion"]["bond"] = s.companion_bond;
+        }
     }
     if (meta.map == "world") {
         Json cleared = Json::array();
@@ -240,6 +246,8 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
             s.companion_x = c.at("x").get<float>();
             s.companion_y = c.at("y").get<float>();
             s.companion_cooldown = c.at("cooldown").get<int>();
+            s.companion_stay = c.value("stay", false);
+            s.companion_bond = c.value("bond", 0);
         }
         if (j.contains("counters")) {
             for (const auto& [name, count] : j.at("counters").items()) {

@@ -879,6 +879,8 @@ void run_segment(aether::WorldSim& sim, const Json& segment) {
                 sim.use_item(command.at("item").get<std::string>());
             } else if (cmd == "gather") {
                 sim.gather();
+            } else if (cmd == "companion_stay") {
+                sim.companion_stay();
             } else if (cmd == "craft") {
                 sim.craft(command.at("recipe").get<std::string>());
             } else if (cmd == "equip") {
@@ -922,6 +924,14 @@ void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) 
         REQUIRE(std::string(aether::to_string(sim.enemies()[i].state)) == we.at("state").get<std::string>());
         REQUIRE(sim.enemies()[i].position.x == Catch::Approx(we.at("x").get<float>()).margin(tol));
         REQUIRE(sim.enemies()[i].position.y == Catch::Approx(we.at("y").get<float>()).margin(tol));
+    }
+    if (want.contains("companion")) {
+        const Json& wc = want.at("companion");
+        REQUIRE(sim.companion_position() != nullptr);
+        REQUIRE(sim.companion_position()->x == Catch::Approx(wc.at("x").get<float>()).margin(tol));
+        REQUIRE(sim.companion_position()->y == Catch::Approx(wc.at("y").get<float>()).margin(tol));
+        REQUIRE(sim.companion_staying() == wc.at("stay").get<bool>());
+        REQUIRE(sim.companion_bond() == wc.at("bond").get<int>());
     }
     if (want.contains("bestiary")) {
         const Json& bestiary = want.at("bestiary");

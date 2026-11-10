@@ -238,6 +238,13 @@ def build_scenarios() -> list[dict]:
         # more than 8 tiles away it comes back at once.
         scenario("companion_fights", [enemy(5.0, 4.5, hp=60, **passive), enemy(5.4, 6.0, hp=60, **passive)],
                  [segment(70), segment(70), segment(70), segment(140)], companion=COMPANION),
+        # Commands and bond (spec 10): told to stay, the companion does not follow (and still hits what comes in its range); told again, or left more than
+        # 8 tiles behind, it follows. Every creature it kills is one of bond, and five of bond are one more point of attack.
+        {**scenario("companion_stays", [enemy(10.5, 6.5, hp=30, **passive)],
+                 [segment(1, do=[{"cmd": "companion_stay"}]), segment(90, move=(1, 0)), segment(1, do=[{"cmd": "companion_stay"}]), segment(90),
+                  segment(1, do=[{"cmd": "companion_stay"}]), segment(240, move=(1, 0)), segment(60)], companion=COMPANION), "grid": arena(24, 9)},
+        scenario("companion_bond", [enemy(3.0 + 0.3 * (i % 4), 3.9 + 0.4 * (i // 4), hp=8, **passive) for i in range(12)] + [enemy(4.6, 4.5, hp=200, **passive)],
+                 [segment(200), segment(200), segment(200), segment(200), segment(200)], companion={**COMPANION, "cooldown_ticks": 12}),
         scenario("companion_follows", [enemy(10.5, 4.5, hp=30, **passive)],
                  [segment(60, move=(1, 0)), segment(60, move=(1, 0)), segment(100), segment(60, move=(0, 1)), segment(100)], companion=COMPANION),
         scenario("equip_changes_stats", [enemy(8.1, 4.5, atk=40)],

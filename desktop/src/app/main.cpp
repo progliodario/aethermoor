@@ -3252,6 +3252,13 @@ int main(int argc, char** argv) {
                     } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_Z && !smoke_test &&
                                g_has_analyze && !ui.show_map && !sim.story().dialogue_active()) {
                         ui.analyze_frames = ui.analyze_frames > 0 ? 0 : 360;  // Analyze: six seconds, or again to hide
+                    } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_H && !smoke_test &&
+                               !ui.show_map && !sim.story().dialogue_active()) {
+                        if (sim.companion_stay()) {  // the companion stays here, or follows again (spec 10, "Commands")
+                            notify(ui,
+                                   assets.pack.text(ui.lang, sim.companion_staying() ? "$i18n:ui.companion_stays"
+                                                                                     : "$i18n:ui.companion_follows"));
+                        }
                     } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_N && !smoke_test &&
                                !ui.show_map) {
                         ui.show_minimap = !ui.show_minimap;

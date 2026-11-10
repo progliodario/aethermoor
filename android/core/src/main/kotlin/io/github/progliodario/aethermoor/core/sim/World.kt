@@ -252,6 +252,21 @@ class WorldSim(
     var companionPosition: Vec2? = if (combat.companion != null) player.position else null
         private set
     private var companionCooldown = combat.companion?.cooldownTicks ?: 0
+
+    /** The companion was told to stay where it is (spec 10, "Commands"). */
+    var companionStaying = false
+        private set
+
+    /** The creatures the companion has killed (spec 10, "Bond"). */
+    var companionBond = 0
+        private set
+
+    /** Tells the companion to stay where it is, or to follow again; false when there is none. */
+    fun companionStay(): Boolean {
+        if (combat.companion == null) return false
+        companionStaying = !companionStaying
+        return true
+    }
     private val gathered = HashMap<Pair<Int, Int>, Pair<Long, Int>>() // (x100, y100) -> (tick it grows back, times); not saved
 
     val story = Story(combat.story, this)
@@ -605,7 +620,8 @@ class WorldSim(
         val follow = c.followX100.toFloat() / 100f
         if (dist > COMPANION_LEASH) {
             pos = p.position
-        } else if (dist > follow) {
+            companionStaying = false // too far: it comes back and follows again
+        } else if (!companionStaying && dist > follow) {
             val step = min(c.speedX100.toFloat() / 100f * TICK_DT, dist - follow)
             pos = collision.resolve(Vec2(pos.x + dx / dist * step, pos.y + dy / dist * step), COMPANION_RADIUS)
         }
@@ -625,7 +641,7 @@ class WorldSim(
         val hit = target ?: return
         val amount = damage(
             DamageInput(
-                atk = c.atkBase + c.atkPerLevel * (p.level - 1),
+                atk = c.atkBase + c.atkPerLevel * (p.level - 1) + minOf(companionBond / 5, 10), // the bond (spec 10)
                 powerPct = 100,
                 defTarget = hit.def.def,
                 lvlAttacker = p.level,
@@ -644,6 +660,7 @@ class WorldSim(
             hit.hp = 0
             hit.state = EnemyState.DEAD
             cues.add(SimCue("die", hit.def.sound, hit.position))
+            companionBond++
             onKill(hit)
         }
     }
@@ -1167,6 +1184,8 @@ class WorldSim(
             explored = explored.toList(),
             stones = stones.toList(),
             bestiary = bestiary.toMap(),
+            companionStay = companionStaying,
+            companionBond = companionBond,
             counters = counters.toMap(),
             companion = if (combat.companion != null) Triple((companionPosition ?: player.position).x, (companionPosition ?: player.position).y, companionCooldown) else null,
             equippedWeapon = equippedWeapon,
@@ -1278,6 +1297,8 @@ class WorldSim(
             val saved = s.companion
             companionPosition = if (saved != null) Vec2(saved.first, saved.second) else player.position
             companionCooldown = saved?.third ?: c.cooldownTicks
+            companionStaying = saved != null && s.companionStay
+            companionBond = if (saved != null) s.companionBond else 0
         }
         recomputeDerived()
         player.hp = minOf(s.hp, derived.maxHp)

@@ -140,6 +140,8 @@ struct SaveState {
     float companion_x = 0.0F;
     float companion_y = 0.0F;
     int companion_cooldown = 0;
+    bool companion_stay = false;          // told to stay (spec 10, "Commands")
+    int companion_bond = 0;               // the creatures it has killed (spec 10, "Bond")
     std::map<std::string, int> bestiary;  // creature ID -> how many were killed (spec 11)
     std::map<std::string, int> counters;  // gathered, crafted, parried (spec 11)
     std::map<std::string, std::int64_t> inventory;
@@ -259,6 +261,10 @@ public:
     bool craft(const std::string& recipe_id);
     // The companion (spec 10): where it is, or nullptr when the protagonist has none.
     const Vec2* companion_position() const { return m_setup_.companion ? &m_companion_pos_ : nullptr; }
+    // Tells the companion to stay where it is, or to follow again (spec 10, "Commands"); false when there is none.
+    bool companion_stay();
+    bool companion_staying() const { return m_companion_stay_; }
+    int companion_bond() const { return m_companion_bond_; }
     const Story& story() const { return m_story_; }
 
     SaveState capture() const;
@@ -329,6 +335,8 @@ private:
     std::vector<SimCue> m_cues_;
     Vec2 m_companion_pos_;
     int m_companion_cooldown_ = 0;
+    bool m_companion_stay_ = false;
+    int m_companion_bond_ = 0;
     void update_companion();
     std::map<std::pair<int, int>, std::pair<std::int64_t, int>>
         m_gathered_;  // (x100, y100) -> (tick it grows back, times); not saved

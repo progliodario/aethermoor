@@ -72,7 +72,7 @@ can reach (`Android/data/<package>/files/exports`; the private folder when the d
 - `explored` (streamed world) is the list of explored world map cells `[x, y]`, ordered by row then column (spec 09); absent in old saves.
 - `counters` (spec 11) is an object from counter name (`gathered`, `crafted`, `parried`) to a count; absent when empty and in older saves.
 - `bestiary` (spec 11) is an object from creature ID to kills; absent when empty and in older saves.
-- `companion` (a protagonist with a companion, spec 10) is `{"x", "y", "cooldown"}`: where the companion is and how many ticks until it hits again; absent in older saves (it is put next to the player).
+- `companion` (a protagonist with a companion, spec 10) is `{"x", "y", "cooldown"}`: where the companion is and how many ticks until it hits again, with `stay` (true when it was told to stay) and `bond` (its kills) when they are not false and 0; absent in older saves (it is put next to the player).
 - `stones` (streamed world) is the list of the tiles `[x, y]` of the Threshold Stones that were used, in the order they were woken (spec 09); absent in old saves.
 - `story.guild_points` is the guild points of the player (spec 07); absent in old saves (0). Quests whose id starts with `board:` are generated quests: only their progress is saved.
 - `equipped` is `{weapon, armor}`: the item ids worn (spec 06); absent in old saves (the starting weapon, no armor).
