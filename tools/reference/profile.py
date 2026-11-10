@@ -4,11 +4,15 @@ from __future__ import annotations
 import json
 
 FORMAT = 1
+ECHO_TITLES_MAX = 15   # an echo for each title, up to this many (spec 11, "Echoes")
+ECHO_PER_LIFE = 3      # percent for each past life
+ECHO_LIVES_MAX = 10    # past lives that count
+REBIRTH_LEVEL = 10     # the level a game needs to be reincarnated
 
 
 def parse_profile(text: str | None) -> dict:
     """The profile in a text: `{"bestiary": {id: kills}, "titles": [ids]}`. A missing or broken text gives an empty profile; entries that do not make sense are left out."""
-    empty = {"bestiary": {}, "titles": []}
+    empty = {"bestiary": {}, "titles": [], "lives": 0}
     if not text:
         return empty
     try:
@@ -27,7 +31,8 @@ def parse_profile(text: str | None) -> dict:
         for title in doc["titles"]:
             if isinstance(title, str) and title not in titles:
                 titles.append(title)
-    return {"bestiary": dict(sorted(bestiary.items())), "titles": titles}
+    lives = doc["lives"] if type(doc.get("lives")) is int and doc["lives"] >= 0 else 0
+    return {"bestiary": dict(sorted(bestiary.items())), "titles": titles, "lives": lives}
 
 
 def merge_profile(profile: dict, bestiary: dict[str, int], titles: list[str]) -> dict:
@@ -40,8 +45,20 @@ def merge_profile(profile: dict, bestiary: dict[str, int], titles: list[str]) ->
     for title in titles:
         if title not in out_titles:
             out_titles.append(title)
-    return {"bestiary": dict(sorted(merged.items())), "titles": out_titles}
+    return {"bestiary": dict(sorted(merged.items())), "titles": out_titles, "lives": profile.get("lives", 0)}
+
+
+def reincarnate(profile: dict, level: int) -> dict | None:
+    """The profile after a game of that level is reincarnated: one more past life. None when the level is too low (spec 11, "Reincarnation")."""
+    if level < REBIRTH_LEVEL:
+        return None
+    return {**profile, "lives": profile.get("lives", 0) + 1}
+
+
+def echo_pct(profile: dict) -> int:
+    """The percent of maximum health that the profile gives to every game (spec 11, "Echoes")."""
+    return min(len(profile["titles"]), ECHO_TITLES_MAX) + ECHO_PER_LIFE * min(profile.get("lives", 0), ECHO_LIVES_MAX)
 
 
 def profile_to_json(profile: dict) -> str:
-    return json.dumps({"profile_version": FORMAT, "bestiary": profile["bestiary"], "titles": profile["titles"]}, ensure_ascii=False, separators=(",", ":"))
+    return json.dumps({"profile_version": FORMAT, "bestiary": profile["bestiary"], "titles": profile["titles"], "lives": profile.get("lives", 0)}, ensure_ascii=False, separators=(",", ":"))

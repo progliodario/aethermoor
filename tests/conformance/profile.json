@@ -24,7 +24,9 @@
         "titles": [
           "newcomer",
           "pest_control"
-        ]
+        ],
+        "lives": 0,
+        "echo_pct": 2
       }
     },
     {
@@ -40,7 +42,9 @@
         },
         "titles": [
           "newcomer"
-        ]
+        ],
+        "lives": 0,
+        "echo_pct": 1
       }
     },
     {
@@ -58,7 +62,9 @@
           "base:enemy/slime_green": 8,
           "base:enemy/wolf_grey": 9
         },
-        "titles": []
+        "titles": [],
+        "lives": 0,
+        "echo_pct": 0
       }
     },
     {
@@ -78,7 +84,9 @@
           "hero",
           "newcomer",
           "veteran"
-        ]
+        ],
+        "lives": 0,
+        "echo_pct": 3
       }
     },
     {
@@ -98,7 +106,9 @@
         },
         "titles": [
           "newcomer"
-        ]
+        ],
+        "lives": 0,
+        "echo_pct": 1
       }
     },
     {
@@ -110,7 +120,9 @@
       },
       "expect": {
         "bestiary": {},
-        "titles": []
+        "titles": [],
+        "lives": 0,
+        "echo_pct": 0
       }
     },
     {
@@ -126,7 +138,9 @@
         "bestiary": {},
         "titles": [
           "newcomer"
-        ]
+        ],
+        "lives": 0,
+        "echo_pct": 1
       }
     },
     {
@@ -143,7 +157,9 @@
         "titles": [
           "x",
           "y"
-        ]
+        ],
+        "lives": 0,
+        "echo_pct": 2
       }
     },
     {
@@ -157,7 +173,180 @@
       },
       "expect": {
         "bestiary": {},
+        "titles": [],
+        "lives": 0,
+        "echo_pct": 0
+      }
+    },
+    {
+      "name": "lives_are_kept",
+      "input": {
+        "text": "{\"profile_version\": 1, \"bestiary\": {}, \"titles\": [\"hero\"], \"lives\": 2}",
+        "bestiary": {},
+        "titles": [
+          "newcomer"
+        ]
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": [
+          "hero",
+          "newcomer"
+        ],
+        "lives": 2,
+        "echo_pct": 8
+      }
+    },
+    {
+      "name": "bad_lives_are_zero",
+      "input": {
+        "text": "{\"profile_version\": 1, \"bestiary\": {}, \"titles\": [], \"lives\": -4}",
+        "bestiary": {},
         "titles": []
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": [],
+        "lives": 0,
+        "echo_pct": 0
+      }
+    },
+    {
+      "name": "lives_not_a_number",
+      "input": {
+        "text": "{\"profile_version\": 1, \"bestiary\": {}, \"titles\": [], \"lives\": \"3\"}",
+        "bestiary": {},
+        "titles": []
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": [],
+        "lives": 0,
+        "echo_pct": 0
+      }
+    },
+    {
+      "name": "echoes_stop_at_fifteen_titles",
+      "input": {
+        "text": "{\"profile_version\": 1, \"bestiary\": {}, \"titles\": [\"t0\", \"t1\", \"t2\", \"t3\", \"t4\", \"t5\", \"t6\", \"t7\", \"t8\", \"t9\", \"t10\", \"t11\", \"t12\", \"t13\", \"t14\", \"t15\", \"t16\", \"t17\", \"t18\", \"t19\"]}",
+        "bestiary": {},
+        "titles": []
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": [
+          "t0",
+          "t1",
+          "t2",
+          "t3",
+          "t4",
+          "t5",
+          "t6",
+          "t7",
+          "t8",
+          "t9",
+          "t10",
+          "t11",
+          "t12",
+          "t13",
+          "t14",
+          "t15",
+          "t16",
+          "t17",
+          "t18",
+          "t19"
+        ],
+        "lives": 0,
+        "echo_pct": 15
+      }
+    },
+    {
+      "name": "rebirth_first_life",
+      "input": {
+        "text": "{\"profile_version\": 1, \"bestiary\": {}, \"titles\": [\"newcomer\"]}",
+        "bestiary": {},
+        "titles": [],
+        "rebirth_level": 10
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": [
+          "newcomer"
+        ],
+        "lives": 1,
+        "echo_pct": 4,
+        "reborn": true
+      }
+    },
+    {
+      "name": "rebirth_too_early",
+      "input": {
+        "text": "{\"profile_version\": 1, \"bestiary\": {}, \"titles\": [\"newcomer\"]}",
+        "bestiary": {},
+        "titles": [],
+        "rebirth_level": 9
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": [
+          "newcomer"
+        ],
+        "lives": 0,
+        "echo_pct": 1,
+        "reborn": false
+      }
+    },
+    {
+      "name": "rebirth_third_life",
+      "input": {
+        "text": "{\"profile_version\": 1, \"bestiary\": {\"base:enemy/slime_green\": 7}, \"titles\": [\"hero\", \"veteran\"], \"lives\": 2}",
+        "bestiary": {},
+        "titles": [],
+        "rebirth_level": 31
+      },
+      "expect": {
+        "bestiary": {
+          "base:enemy/slime_green": 7
+        },
+        "titles": [
+          "hero",
+          "veteran"
+        ],
+        "lives": 3,
+        "echo_pct": 11,
+        "reborn": true
+      }
+    },
+    {
+      "name": "rebirth_echoes_stop_at_ten_lives",
+      "input": {
+        "text": "{\"profile_version\": 1, \"bestiary\": {}, \"titles\": [], \"lives\": 14}",
+        "bestiary": {},
+        "titles": [],
+        "rebirth_level": 50
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": [],
+        "lives": 15,
+        "echo_pct": 30,
+        "reborn": true
+      }
+    },
+    {
+      "name": "rebirth_from_nothing",
+      "input": {
+        "text": null,
+        "bestiary": {},
+        "titles": [],
+        "rebirth_level": 12
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": [],
+        "lives": 1,
+        "echo_pct": 3,
+        "reborn": true
       }
     }
   ]

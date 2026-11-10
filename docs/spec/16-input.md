@@ -18,6 +18,7 @@ open a panel, save, load. While a dialogue is open the movement and the attack o
 | Title screen, export and import (desktop) | `X`: export the chosen game to a file; `I`: import `import.aethersave` into the chosen empty game (spec 12, "Export and import") |
 | Keyboard, crafting | `C`: the crafting panel (spec 06, "Crafting"); `W`/`S` choose, `E` makes, `Esc` or `C` closes; Android: a button |
 | Keyboard, the `E` hint | the hint over what `E` would act on says what it does: `ui.interact` over a person (talk), `ui.interact_stone` over a Threshold Stone, `ui.interact_gather` over a prop to gather from; on Android the button has the same three words (`ui.touch_talk`, `ui.touch_stone`, `ui.touch_gather`). When more than one is near, the order is person, stone, prop |
+| Keyboard, title screen | besides `W`/`S`, `E`, `D`, `X` and `I` (spec 12): `R` reincarnates the chosen game when it has reached level 10, after a second `R` (spec 11). On Android the row of such a game has a `Rebirth` button |
 | Keyboard, talents | `Tab` in the crafting panel (`C`) switches between the recipes and the talents (spec 11); `W`/`S` choose, `E` learns a rank. On Android the panel has a button for it; a tap chooses a talent, a second tap learns |
 | Keyboard, companion | `H`: the companion stays where it is, or follows again (spec 10, "Commands") |
 | Keyboard, parry | `U`: the parry (spec 05, "Parry"); held, it opens a window whenever the wait is over |

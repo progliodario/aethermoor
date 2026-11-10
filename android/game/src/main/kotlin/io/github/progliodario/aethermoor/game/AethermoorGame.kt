@@ -41,7 +41,9 @@ import io.github.progliodario.aethermoor.core.sim.Profile
 import io.github.progliodario.aethermoor.core.sim.SaveMeta
 import io.github.progliodario.aethermoor.core.sim.mergeProfile
 import io.github.progliodario.aethermoor.core.sim.parseProfile
+import io.github.progliodario.aethermoor.core.sim.profileEchoPct
 import io.github.progliodario.aethermoor.core.sim.profileToJson
+import io.github.progliodario.aethermoor.core.sim.reincarnate
 import io.github.progliodario.aethermoor.core.sim.StreamConfig
 import io.github.progliodario.aethermoor.core.sim.saveFromJson
 import io.github.progliodario.aethermoor.core.sim.saveToJson
@@ -196,6 +198,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     /** On a used game the button that exports it, on an empty one the button that imports into it (spec 12, "Export and import"). */
     private var titleBundleRects: List<FloatArray> = emptyList()
 
+    /** The button that reincarnates a used game (spec 11, "Reincarnation"), and the game it asked to confirm. */
+    private var titleRebirthRects: List<FloatArray> = emptyList()
+    private var titlePendingRebirth = -1
+
     override fun create() {
         batch = SpriteBatch()
         shapes = ShapeRenderer()
@@ -278,7 +284,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 Gdx.app.error(TAG, "Cannot build the combat setup: ${it.message}")
                 return
             }
-        combat.echoPct = minOf(readProfile().titles.size, 15) // the echoes of past games (spec 11)
+        combat.echoPct = profileEchoPct(readProfile()) // the echoes of past games and lives (spec 11)
         val world = WorldSim(loaded.map, loaded.tileset, 0f, combat, StreamConfig(loaded.worldParams, seed))
         sim = world
         loadAutosave(world, loaded.pack)
@@ -418,6 +424,35 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             Gdx.app.error(TAG, "Cannot import the game: ${e.message}")
             "bad"
         }
+
+    /** Reincarnation (spec 11): the first call on a game of level 10 or more asks to confirm, the second ends it: the profile gains a life and the slot is free. */
+    private fun rebirthOrAsk(data: Assets, slots: List<SlotSummary>, index: Int) {
+        if (!slots[index].used) return
+        titlePendingDelete = -1
+        if (slots[index].level < 10) {
+            titlePendingRebirth = -1
+            titleNotice = data.pack.text(language, "\$i18n:ui.rebirth_too_early")
+            return
+        }
+        if (titlePendingRebirth != index) {
+            titlePendingRebirth = index
+            titleNotice = data.pack.text(language, "\$i18n:ui.rebirth_confirm", mapOf("slot" to index + 1))
+            return
+        }
+        val reborn = reincarnate(readProfile(), slots[index].level.toLong()) ?: return
+        try {
+            profileFile().writeString(profileToJson(reborn), false, "UTF-8")
+            for (name in listOf("auto.json", "auto.json.tmp", "quick.json", "quick.json.tmp", "protagonist.txt", "goal.txt")) {
+                val file = Gdx.files.local("saves/slot${index + 1}/$name")
+                if (file.exists()) file.delete()
+            }
+        } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
+            Gdx.app.error(TAG, "Cannot reincarnate the game: ${e.message}")
+        }
+        titlePendingRebirth = -1
+        titleSlots = readSlots()
+        titleNotice = data.pack.text(language, "\$i18n:ui.reborn", mapOf("lives" to reborn.lives, "pct" to profileEchoPct(reborn)))
+    }
 
     /** The export or import button of a row of the title screen. */
     private fun bundleAction(data: Assets, slots: List<SlotSummary>, index: Int) {
@@ -2946,6 +2981,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             selectSlot(titleCursor + 1)
         } else if (input.isKeyJustPressed(Input.Keys.D) || input.isKeyJustPressed(Input.Keys.FORWARD_DEL)) {
             deleteOrAsk(data, slots, titleCursor)
+        } else if (input.isKeyJustPressed(Input.Keys.R)) {
+            rebirthOrAsk(data, slots, titleCursor)
         } else if ((input.isKeyJustPressed(Input.Keys.X) && slots[titleCursor].used) || (input.isKeyJustPressed(Input.Keys.I) && !slots[titleCursor].used)) {
             bundleAction(data, slots, titleCursor)
         } else if (input.justTouched()) {
@@ -2955,7 +2992,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             val cross = titleCrossRects.indexOfFirst { inside(it) }
             val row = titleRowRects.indexOfFirst { inside(it) }
             val bundle = titleBundleRects.indexOfFirst { inside(it) }
-            if (bundle >= 0) {
+            val rebirth = titleRebirthRects.indexOfFirst { inside(it) }
+            if (rebirth >= 0) {
+                titleCursor = rebirth
+                rebirthOrAsk(data, slots, rebirth)
+            } else if (bundle >= 0) {
                 titleCursor = bundle
                 bundleAction(data, slots, bundle)
             } else if (cross >= 0) {
@@ -3125,6 +3166,12 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             floatArrayOf(if (slots[i].used) r[0] + r[2] - rowH - w else r[0] + r[2] - w, r[1], w, rowH)
         }
         titleBundleRects = bundles
+        // the button of the reincarnation, left of the export button, on the games that have reached level 10
+        val rebirths = slots.indices.map { i ->
+            val r = rows[i]
+            if (slots[i].used && slots[i].level >= 10) floatArrayOf(r[0] + r[2] - rowH - rowH * 2f - rowH * 2f, r[1], rowH * 2f, rowH) else floatArrayOf()
+        }
+        titleRebirthRects = rebirths
 
         shapes.projectionMatrix = camera.combined
         shapes.begin(ShapeRenderer.ShapeType.Filled)
@@ -3144,6 +3191,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             val b = bundles[i]
             shapes.color = Color(0.12f, 0.16f, 0.28f, 1f)
             shapes.rect(b[0] + 6f * density, b[1] + 6f * density, b[2] - 12f * density, b[3] - 12f * density)
+            val rb = rebirths[i]
+            if (rb.size == 4) {
+                shapes.color = if (titlePendingRebirth == i) Color(0.55f, 0.4f, 0.1f, 1f) else Color(0.2f, 0.16f, 0.3f, 1f)
+                shapes.rect(rb[0] + 6f * density, rb[1] + 6f * density, rb[2] - 12f * density, rb[3] - 12f * density)
+            }
         }
         shapes.end()
 
@@ -3177,6 +3229,13 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             layout.setText(font, label)
             font.color = Color(0.67f, 0.78f, 0.9f, 1f)
             font.draw(batch, label, b[0] + (b[2] - layout.width) / 2f, b[1] + (b[3] - font.lineHeight) / 2f)
+            val rb = rebirths[i]
+            if (rb.size == 4) {
+                val rebirthLabel = data.pack.text(language, "\$i18n:ui.rebirth_button")
+                layout.setText(font, rebirthLabel)
+                font.color = Color(1f, 0.84f, 0.47f, 1f)
+                font.draw(batch, rebirthLabel, rb[0] + (rb[2] - layout.width) / 2f, rb[1] + (rb[3] - font.lineHeight) / 2f)
+            }
         }
         if (titleNotice.isNotEmpty()) {
             font.color = Color(1f, 0.84f, 0.47f, 1f)
@@ -3187,7 +3246,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val profile = readProfile()
         if (profile.bestiary.size + profile.titles.size > 0) { // the records of all the games (spec 12, "Profile")
             font.color = Color(1f, 0.84f, 0.47f, 1f)
-            font.draw(batch, data.pack.text(language, "\$i18n:ui.profile_line", mapOf("species" to profile.bestiary.size, "titles" to profile.titles.size)), panelX, height - font.lineHeight * 4f)
+            font.draw(batch, data.pack.text(language, "\$i18n:ui.profile_line", mapOf("species" to profile.bestiary.size, "titles" to profile.titles.size, "lives" to profile.lives, "pct" to profileEchoPct(profile))), panelX, height - font.lineHeight * 4f)
         }
         font.color = Color.WHITE
         batch.end()

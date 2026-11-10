@@ -1310,6 +1310,15 @@ void delete_slot(int slot) {
     }
 }
 
+// A reincarnated game leaves nothing in its slot: the next game there chooses who to be, and has no goal on the map.
+void clear_slot(int slot) {
+    delete_slot(slot);
+    std::error_code ec;
+    for (const char* name : {"protagonist.txt", "goal.txt"}) {
+        fs::remove(slot_dir(slot) / name, ec);
+    }
+}
+
 // The settings file (spec 16): the language chosen by the player (without it the language of the system is used) and
 // the four volumes in permille: all of it, the effects, the ambience and the music.
 fs::path settings_file() { return save_dir().parent_path() / "settings.json"; }
@@ -1393,7 +1402,7 @@ void update_profile(const aether::WorldSim& sim) {
     write_text_atomic(profile_file(), aether::profile_to_json(merged));
 }
 
-int echo_percent(const aether::Profile& profile) { return std::min(static_cast<int>(profile.titles.size()), 15); }
+int echo_percent(const aether::Profile& profile) { return aether::profile_echo_pct(profile); }
 
 bool save_game(const aether::WorldSim& sim, const fs::path& file) {
     update_profile(sim);
@@ -2785,6 +2794,8 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
     }
     int cursor = std::clamp(first_slot - 1, 0, kSlotCount - 1);
     int pending_delete = -1;
+    int pending_rebirth =
+        -1;  // the game that `R` asked to reincarnate; a second `R` does it (spec 11, "Reincarnation")
     std::string notice;
     for (;;) {
         menu_sound();
@@ -2848,6 +2859,28 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
                                                 "$i18n:ui.import_bad", "$i18n:ui.import_slot_used"};
                     notice = assets.pack.text(lang, keys[static_cast<int>(result)],
                                               {{"path", (exports_dir() / "import.aethersave").string()}});
+                } else if (key == SDLK_R && slots[static_cast<std::size_t>(cursor)].used) {
+                    // Reincarnation: the game ends, the profile gains a life, the slot is free for a new one.
+                    const aether::FormatArgs args{{"slot", static_cast<std::int64_t>(cursor + 1)}};
+                    aether::Profile reborn = read_profile();
+                    if (slots[static_cast<std::size_t>(cursor)].level < 10) {
+                        pending_rebirth = -1;
+                        notice = assets.pack.text(lang, "$i18n:ui.rebirth_too_early");
+                    } else if (pending_rebirth == cursor &&
+                               aether::reincarnate(reborn, slots[static_cast<std::size_t>(cursor)].level)) {
+                        write_text_atomic(profile_file(), aether::profile_to_json(reborn));
+                        clear_slot(cursor + 1);
+                        slots[static_cast<std::size_t>(cursor)] = SlotInfo{};
+                        pending_rebirth = -1;
+                        notice =
+                            assets.pack.text(lang, "$i18n:ui.reborn",
+                                             {{"lives", static_cast<std::int64_t>(reborn.lives)},
+                                              {"pct", static_cast<std::int64_t>(aether::profile_echo_pct(reborn))}});
+                    } else {
+                        pending_rebirth = cursor;
+                        pending_delete = -1;
+                        notice = assets.pack.text(lang, "$i18n:ui.rebirth_confirm", args);
+                    }
                 } else if ((key == SDLK_D || key == SDLK_DELETE) && slots[static_cast<std::size_t>(cursor)].used) {
                     const aether::FormatArgs args{{"slot", static_cast<std::int64_t>(cursor + 1)}};
                     if (pending_delete == cursor) {
@@ -2928,7 +2961,9 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
             draw_text(hint_scale, panel_x, static_cast<float>(out_h) - 60.0F * density,
                       assets.pack.text(lang, "$i18n:ui.profile_line",
                                        {{"species", static_cast<std::int64_t>(profile.bestiary.size())},
-                                        {"titles", static_cast<std::int64_t>(profile.titles.size())}}),
+                                        {"titles", static_cast<std::int64_t>(profile.titles.size())},
+                                        {"lives", static_cast<std::int64_t>(profile.lives)},
+                                        {"pct", static_cast<std::int64_t>(aether::profile_echo_pct(profile))}}),
                       255, 215, 120);
         }
         if (!capture_path.empty()) {
