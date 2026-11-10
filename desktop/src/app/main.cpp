@@ -1392,6 +1392,8 @@ void update_profile(const aether::WorldSim& sim) {
     write_text_atomic(profile_file(), aether::profile_to_json(merged));
 }
 
+int echo_percent(const aether::Profile& profile) { return std::min(static_cast<int>(profile.titles.size()), 15); }
+
 bool save_game(const aether::WorldSim& sim, const fs::path& file) {
     update_profile(sim);
     return write_text_atomic(file, aether::save_to_json(sim.capture(), save_meta(sim)));
@@ -3153,6 +3155,9 @@ int main(int argc, char** argv) {
         }
         std::string combat_error;
         auto combat = aether::load_combat_setup(assets.pack, assets.map, g_protagonist_id, seed, combat_error);
+        if (combat) {
+            combat->echo_pct = echo_percent(read_profile());  // the echoes of past games (spec 11)
+        }
         if (combat && stream) {
             for (const std::string& enemy : aether::world_enemy_ids(stream->params)) {
                 if (combat && combat->stream_enemies.count(enemy) == 0) {

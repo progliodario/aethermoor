@@ -300,6 +300,7 @@ void WorldSim::recompute_derived() {
         equipment.armor_mdef = armor->second.armor_mdef;
     }
     m_derived_ = derived_stats(m_player_.level, primary_at_level(m_setup_.player, m_player_.level), equipment);
+    m_derived_.max_hp = m_derived_.max_hp * (100 + m_setup_.echo_pct) / 100;  // the echoes of past games (spec 11)
 }
 
 void WorldSim::teleport(float x, float y) {
