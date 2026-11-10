@@ -1836,8 +1836,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         // The status window, as in every isekai (spec 16, "Status window"): who the Guest is and what the numbers say.
         val p = world.player
         val d = world.derived
-        val earned = world.earnedTitles()
-        val title = world.combat.titles.firstOrNull { earned.isNotEmpty() && it.id == earned.last() }?.let { data.pack.text(language, it.name) }
+        val statusTitles = world.earnedTitles()
+        val title = world.combat.titles.firstOrNull { statusTitles.isNotEmpty() && it.id == statusTitles.last() }?.let { data.pack.text(language, it.name) }
             ?: data.pack.text(language, "\$i18n:ui.status_no_title")
         val need = world.combat.xpTable.getOrNull((p.level - 1).toInt()) ?: 0L
         entries.add(Pair(data.pack.text(language, "\$i18n:ui.status"), 0))
