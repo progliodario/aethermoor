@@ -49,8 +49,8 @@
           "landmark_clearing": 24,
           "region_blend": 4500,
           "difficulty": {
-            "enemy_hp_pct": 200,
-            "enemy_atk_pct": 175
+            "enemy_hp_pct": 100,
+            "enemy_atk_pct": 70
           },
           "elevation": {
             "salt": 1,
@@ -5614,8 +5614,8 @@
         }
       },
       "expect": {
-        "explored_count": 29,
-        "explored_digest": "0x07c7473ed00e946e",
+        "explored_count": 59,
+        "explored_digest": "0x8690d43aacf087d1",
         "biomes": [
           [
             50,
@@ -6168,8 +6168,8 @@
           "landmark_clearing": 24,
           "region_blend": 4500,
           "difficulty": {
-            "enemy_hp_pct": 200,
-            "enemy_atk_pct": 175
+            "enemy_hp_pct": 100,
+            "enemy_atk_pct": 70
           },
           "elevation": {
             "salt": 1,
@@ -11733,8 +11733,8 @@
         }
       },
       "expect": {
-        "explored_count": 33,
-        "explored_digest": "0x422ff62eab09d9c3",
+        "explored_count": 79,
+        "explored_digest": "0x407b5cbd38b87bfb",
         "biomes": [
           [
             45,

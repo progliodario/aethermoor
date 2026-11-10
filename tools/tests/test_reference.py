@@ -193,15 +193,15 @@ def test_world_map_exploration():
     params = worldgen.load_params()
     cells: set = set()
     worldgen.explore(cells, params, 8192, 8192)
-    assert len(cells) == 9 and (64, 64) in cells and (63, 63) in cells and (65, 65) in cells
+    assert len(cells) == 25 and (64, 64) in cells and (62, 62) in cells and (66, 66) in cells
     worldgen.explore(cells, params, 8193, 8200)  # same cell: nothing new
-    assert len(cells) == 9
+    assert len(cells) == 25
     corner: set = set()
     worldgen.explore(corner, params, 0, 0)
-    assert corner == {(0, 0), (1, 0), (0, 1), (1, 1)}
+    assert corner == {(x, y) for x in range(3) for y in range(3)}
     far: set = set()
     worldgen.explore(far, params, 16383, 16383)
-    assert far == {(126, 126), (127, 126), (126, 127), (127, 127)}
+    assert far == {(x, y) for x in range(125, 128) for y in range(125, 128)}
     assert 0 <= worldgen.biome_code(1, params, 64, 64) < 7
 
 

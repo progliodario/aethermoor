@@ -484,13 +484,16 @@ def biome_code(seed: int, params: dict, cell_x: int, cell_y: int) -> int:
     return biome_code_at(seed, params, cell_x * MAP_CELL + MAP_CELL // 2, cell_y * MAP_CELL + MAP_CELL // 2)
 
 
+EXPLORE_RADIUS = 2  # the player sees the map this many cells around the one they stand on (5 x 5 cells, spec 09)
+
+
 def explore(cells: set, params: dict, tile_x: int, tile_y: int) -> None:
-    """Marks the cell of the tile and its eight neighbours that lie inside the world as explored."""
+    """Marks the cell of the tile and the cells within EXPLORE_RADIUS of it that lie inside the world as explored."""
     columns = (params["width"] + MAP_CELL - 1) // MAP_CELL
     rows = (params["height"] + MAP_CELL - 1) // MAP_CELL
     cx, cy = tile_x // MAP_CELL, tile_y // MAP_CELL
-    for y in range(cy - 1, cy + 2):
-        for x in range(cx - 1, cx + 2):
+    for y in range(cy - EXPLORE_RADIUS, cy + EXPLORE_RADIUS + 1):
+        for x in range(cx - EXPLORE_RADIUS, cx + EXPLORE_RADIUS + 1):
             if 0 <= x < columns and 0 <= y < rows:
                 cells.add((x, y))
 
