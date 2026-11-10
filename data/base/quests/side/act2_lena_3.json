@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/act2_lena_3",
+  "name": "$i18n:quest.act2_lena_3.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.act2_lena_3.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/rime_revenant",
+          "count": 1
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 1500
+    },
+    {
+      "effect": "add_gold",
+      "amount": 2000
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 120
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/coroners_blade",
+      "qty": 1
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/wanderers_greatcoat",
+      "qty": 1
+    }
+  ]
+}

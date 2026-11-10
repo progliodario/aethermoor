@@ -50,6 +50,12 @@ Each protagonist has a first act of three quests, "The First Echo": something of
 the Mint Matron or the Gel King). Sister Maren (`shrine_keeper_maren`), in the plaza of Aldermere, gives them: her dialogue shows one line for each protagonist, to whoever carries that protagonist's keepsake (as Pip does for the
 personal quests), and then offers the quests one after the other (`base:quest/side/act1_<name>_1` to `_3`). It is all data (spec 07): `tools/make_stories.py` writes it.
 
+## The second act
+
+"The Second Echo" follows the first act with the same giver and the same shape (`base:quest/side/act2_<name>_1` to `_3`), in another region: a bigger piece of the protagonist's old world has landed there. Ren goes to Ironspine
+(the Iron Foreman), Sakura to Lumeria (the Astral Curator), Daichi and Gideon to the Ashen Wastes (the Cinder Colossus; the Char Tyrant, on Gideon's old throne), Haruka to Whisperwood (the Moss Elder), Marco to Tidehaven
+(the Drowned Captain), Yuki to Sunscar (the Sand Sentinel), Lena to Frostveil (the Rime Revenant). Maren says the closing words of the first act before she offers the first quest of the second. The table is `tools/stories_act2.py`.
+
 ## Personal stories
 
 Every protagonist starts with a **keepsake** (`base:item/keepsake_<name>`, kind `key`, price 0 so it cannot be sold, quantity 1) and Pip, the lad of the home village (spec 07), has for each of them a question in his menu that is shown only when the player holds that keepsake

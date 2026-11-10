@@ -55,8 +55,8 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 
 **Life and progression**
 
-- An adventurers' guild with a board and commissions, 142 quests, shops, inns, jobs from the elders.
-- 143 items; gathering from bushes, trees, rocks and cacti; 16 recipes (potions, cooked dishes, gear).
+- An adventurers' guild with a board and commissions, 166 quests, shops, inns, jobs from the elders.
+- 145 items; gathering from bushes, trees, rocks and cacti; 16 recipes (potions, cooked dishes, gear).
 - A companion for each protagonist: it follows you, fights, stays where you tell it, and its bond grows with its victories.
 - Talents: one point a level to spend on attack, health, mana or defense (ten ranks each).
 - A bestiary, 15 titles that raise your attack, and a profile shared by all your games: every title you ever earned gives a little more health to every new life (the "echoes").
@@ -66,7 +66,7 @@ The full catalog of the content, generated from the data, is in [`docs/design/ca
 
 ## The protagonists
 
-Each one has a prologue with Lyra, a gift, two attack skills, two personal quests and the first act of their story ("The First Echo": three quests given by Sister Maren in Aldermere, ending at a guardian).
+Each one has a prologue with Lyra, a gift, two attack skills, two personal quests and the first two acts of their story, given by Sister Maren in Aldermere: "The First Echo" in Verdalis and "The Second Echo" in another region (Ren in the mines of Ironspine, Sakura at the observatory of Lumeria, Gideon in his old kingdom...), three quests each, with a guardian at the end.
 
 | Protagonist | Who they were | Gift | Tone | Companion |
 |---|---|---|---|---|
@@ -210,7 +210,7 @@ The project is developed by its owner together with Claude, an AI assistant that
 What comes next, in order (details in the [roadmap](docs/plan/06-roadmap-rischi-backlog.md), in Italian):
 
 - **Soon:** configurable keys, the companion's state and the counters shown in the interface, more automatic checks on the graphics.
-- **Toward Alpha 0.1:** the second and third act of the stories and the personal bosses of the protagonists, real skill trees (today the talents are four, in a row), tags, the full reincarnation, item quality and workbenches, a better synthesizer to bring ambience and music back.
+- **Toward Alpha 0.1:** the third act of the stories and the personal bosses of the protagonists, real skill trees (today the talents are four, in a row), tags, the full reincarnation, item quality and workbenches, a better synthesizer to bring ambience and music back.
 - **Toward 1.0:** a base and residents, farming and fishing, a dynamic economy, accessibility, more languages, tools for modders.
 
 ## Contributing and license

@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/act2_marco_1",
+  "name": "$i18n:quest.act2_marco_1.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.act2_marco_1.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/shore_crab",
+          "count": 8
+        },
+        {
+          "type": "collect",
+          "item": "base:item/crab_shell",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 500
+    },
+    {
+      "effect": "add_gold",
+      "amount": 500
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 80
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/fish_stew",
+      "qty": 3
+    }
+  ]
+}
