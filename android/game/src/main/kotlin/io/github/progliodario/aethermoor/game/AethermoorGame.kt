@@ -1833,6 +1833,21 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private fun journalEntries(world: WorldSim, data: Assets): List<Pair<String, Int>> {
         val story = world.story
         val entries = ArrayList<Pair<String, Int>>()
+        // The status window, as in every isekai (spec 16, "Status window"): who the Guest is and what the numbers say.
+        val p = world.player
+        val d = world.derived
+        val earned = world.earnedTitles()
+        val title = world.combat.titles.firstOrNull { earned.isNotEmpty() && it.id == earned.last() }?.let { data.pack.text(language, it.name) }
+            ?: data.pack.text(language, "\$i18n:ui.status_no_title")
+        val need = world.combat.xpTable.getOrNull((p.level - 1).toInt()) ?: 0L
+        entries.add(Pair(data.pack.text(language, "\$i18n:ui.status"), 0))
+        entries.add(Pair(data.pack.text(language, "\$i18n:protagonist.${protagonistId.substringAfterLast('/')}.name") + "  -  " + title, 1))
+        entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_level", mapOf("level" to p.level, "xp" to p.xp, "need" to need)), 2))
+        entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_vitals", mapOf("hp" to p.hp, "max_hp" to d.maxHp, "mp" to world.mp, "max_mp" to d.maxMp)), 2))
+        entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_power", mapOf("atk" to d.atk, "matk" to d.matk, "def" to d.def, "mdef" to d.mdef)), 2))
+        entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_more", mapOf("crit" to d.critChancePm / 10, "speed" to d.moveSpeedX100, "titles" to world.titleAttackPct())), 2))
+        entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_purse", mapOf("gold" to story.gold, "kills" to p.kills)), 2))
+        entries.add(Pair("", 2))
         if (story.quests.isEmpty()) {
             entries.add(Pair(data.pack.text(language, "\$i18n:ui.journal_empty"), 2))
         }

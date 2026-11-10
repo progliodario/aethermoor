@@ -2154,6 +2154,45 @@ struct JournalLine {
 std::vector<JournalLine> journal_lines(const Assets& assets, const aether::WorldSim& sim, const Ui& ui,
                                        std::size_t columns) {
     std::vector<JournalLine> lines;
+    // The status window, as in every isekai (spec 16, "Status window"): who the Guest is and what the numbers say.
+    {
+        const aether::Player& p = sim.player();
+        const aether::DerivedStats& d = sim.derived();
+        const std::vector<std::string> earned = sim.earned_titles();
+        std::string title = assets.pack.text(ui.lang, "$i18n:ui.status_no_title");
+        for (const aether::TitleDef& t : sim.titles()) {
+            if (!earned.empty() && t.id == earned.back()) {
+                title = assets.pack.text(ui.lang, t.name);
+            }
+        }
+        const std::size_t slash = g_protagonist_id.rfind('/');
+        const std::string who = g_protagonist_id.substr(slash == std::string::npos ? 0 : slash + 1);
+        const std::int64_t need = p.level - 1 < static_cast<std::int64_t>(sim.combat().xp_table.size())
+                                      ? sim.combat().xp_table[static_cast<std::size_t>(p.level - 1)]
+                                      : 0;
+        lines.push_back({assets.pack.text(ui.lang, "$i18n:ui.status"), 0});
+        lines.push_back({assets.pack.text(ui.lang, "$i18n:protagonist." + who + ".name") + "  -  " + title, 1});
+        lines.push_back({"  " + assets.pack.text(ui.lang, "$i18n:ui.status_level",
+                                                 {{"level", p.level}, {"xp", p.xp}, {"need", need}}),
+                         2});
+        lines.push_back(
+            {"  " + assets.pack.text(ui.lang, "$i18n:ui.status_vitals",
+                                     {{"hp", p.hp}, {"max_hp", d.max_hp}, {"mp", sim.mp()}, {"max_mp", d.max_mp}}),
+             2});
+        lines.push_back({"  " + assets.pack.text(ui.lang, "$i18n:ui.status_power",
+                                                 {{"atk", d.atk}, {"matk", d.matk}, {"def", d.def}, {"mdef", d.mdef}}),
+                         2});
+        lines.push_back({"  " + assets.pack.text(ui.lang, "$i18n:ui.status_more",
+                                                 {{"crit", d.crit_chance_pm / 10},
+                                                  {"speed", d.move_speed_x100},
+                                                  {"titles", sim.title_attack_pct()}}),
+                         2});
+        lines.push_back(
+            {"  " + assets.pack.text(ui.lang, "$i18n:ui.status_purse",
+                                     {{"gold", sim.story().gold()}, {"kills", static_cast<std::int64_t>(p.kills)}}),
+             2});
+        lines.push_back({"", 2});
+    }
     const auto& quests = sim.story().quests();
     bool any_active = false;
     bool any_done = false;
@@ -3518,7 +3557,7 @@ int main(int argc, char** argv) {
                     } else if (event.type == SDL_EVENT_KEY_DOWN && !smoke_test &&
                                (event.key.key == SDLK_F5 || event.key.key == SDLK_F9 || event.key.key == SDLK_F7 ||
                                 event.key.key == SDLK_I || event.key.key == SDLK_M || event.key.key == SDLK_Q ||
-                                event.key.key == SDLK_F2 || event.key.key == SDLK_F10 ||
+                                event.key.key == SDLK_V || event.key.key == SDLK_F2 || event.key.key == SDLK_F10 ||
                                 (event.key.key == SDLK_C && !ui.show_map))) {
                         if (event.key.key == SDLK_C) {
                             ui.show_craft = !ui.show_craft && sim.shop() == nullptr && sim.board() == nullptr;
@@ -3540,7 +3579,8 @@ int main(int argc, char** argv) {
                             ui.map_pick = -1;
                             ui.show_inventory = false;
                             ui.show_journal = false;
-                        } else if (event.key.key == SDLK_Q) {
+                        } else if (event.key.key == SDLK_Q ||
+                                   event.key.key == SDLK_V) {  // V: the status window, at the top of the journal
                             ui.show_journal = !ui.show_journal && sim.shop() == nullptr && sim.board() == nullptr;
                             ui.journal_scroll = 0;
                             ui.show_inventory = false;
