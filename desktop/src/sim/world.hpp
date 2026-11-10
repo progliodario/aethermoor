@@ -184,6 +184,8 @@ public:
     // The bestiary (spec 11): creature ID -> kills, and the IDs of the titles earned, in the order of the data.
     const std::map<std::string, int>& bestiary() const { return m_bestiary_; }
     std::vector<std::string> earned_titles() const;
+    // The percent that the earned titles add to the attack of the player's hits (spec 11, "Titles with effects").
+    std::int64_t title_attack_pct() const;
     const std::map<std::string, int>& counters() const { return m_counters_; }
     const std::vector<TitleDef>& titles() const { return m_setup_.titles; }
     const DerivedStats& derived() const { return m_derived_; }

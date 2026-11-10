@@ -1825,10 +1825,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val earned = world.earnedTitles()
         if (world.combat.titles.isNotEmpty()) {
             entries.add(Pair("", 2))
-            entries.add(Pair("${data.pack.text(language, "\$i18n:ui.journal_titles")} ${earned.size}/${world.combat.titles.size}", 0))
+            entries.add(Pair("${data.pack.text(language, "\$i18n:ui.journal_titles")} ${earned.size}/${world.combat.titles.size}  (${data.pack.text(language, "\$i18n:ui.journal_title_attack", mapOf("pct" to world.titleAttackPct()))})", 0))
             for (title in world.combat.titles) {
                 val have = title.id in earned
-                entries.add(Pair(if (have) data.pack.text(language, title.name) else "???", if (have) 1 else 3))
+                entries.add(Pair(if (have) "${data.pack.text(language, title.name)}  +${title.atkPct}%" else "???", if (have) 1 else 3))
             }
         }
         if (world.bestiary.isNotEmpty()) {

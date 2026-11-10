@@ -6,94 +6,109 @@
       "id": "newcomer",
       "name": "$i18n:title.newcomer",
       "kind": "level",
-      "count": 2
+      "count": 2,
+      "atk_pct": 2
     },
     {
       "id": "slime_hunter",
       "name": "$i18n:title.slime_hunter",
       "kind": "kills_of",
       "count": 10,
+      "atk_pct": 3,
       "enemy": "base:enemy/slime_green"
     },
     {
       "id": "pest_control",
       "name": "$i18n:title.pest_control",
       "kind": "kills",
-      "count": 25
+      "count": 25,
+      "atk_pct": 3
     },
     {
       "id": "wolf_bane",
       "name": "$i18n:title.wolf_bane",
       "kind": "kills_of",
       "count": 8,
+      "atk_pct": 3,
       "enemy": "base:enemy/wolf_grey"
     },
     {
       "id": "adventurer",
       "name": "$i18n:title.adventurer",
       "kind": "level",
-      "count": 10
+      "count": 10,
+      "atk_pct": 3
     },
     {
       "id": "helper",
       "name": "$i18n:title.helper",
       "kind": "quests",
-      "count": 5
+      "count": 5,
+      "atk_pct": 3
     },
     {
       "id": "naturalist",
       "name": "$i18n:title.naturalist",
       "kind": "species",
-      "count": 10
+      "count": 10,
+      "atk_pct": 3
     },
     {
       "id": "forager",
       "name": "$i18n:title.forager",
       "kind": "gathered",
-      "count": 30
+      "count": 30,
+      "atk_pct": 3
     },
     {
       "id": "artisan",
       "name": "$i18n:title.artisan",
       "kind": "crafted",
-      "count": 15
+      "count": 15,
+      "atk_pct": 3
     },
     {
       "id": "unbreakable",
       "name": "$i18n:title.unbreakable",
       "kind": "parried",
-      "count": 25
+      "count": 25,
+      "atk_pct": 3
     },
     {
       "id": "veteran",
       "name": "$i18n:title.veteran",
       "kind": "kills",
-      "count": 150
+      "count": 150,
+      "atk_pct": 5
     },
     {
       "id": "gel_slayer",
       "name": "$i18n:title.gel_slayer",
       "kind": "kills_of",
       "count": 1,
+      "atk_pct": 5,
       "enemy": "base:enemy/gel_king"
     },
     {
       "id": "hero",
       "name": "$i18n:title.hero",
       "kind": "level",
-      "count": 25
+      "count": 25,
+      "atk_pct": 8
     },
     {
       "id": "chronicler",
       "name": "$i18n:title.chronicler",
       "kind": "species",
-      "count": 30
+      "count": 30,
+      "atk_pct": 8
     },
     {
       "id": "legend",
       "name": "$i18n:title.legend",
       "kind": "quests",
-      "count": 40
+      "count": 40,
+      "atk_pct": 10
     }
   ]
 }

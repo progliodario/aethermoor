@@ -2148,12 +2148,16 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
     const std::vector<std::string> earned = sim.earned_titles();
     if (!sim.titles().empty()) {
         lines.push_back({"", 2});
-        lines.push_back({assets.pack.text(ui.lang, "$i18n:ui.journal_titles") + " " + std::to_string(earned.size()) +
-                             "/" + std::to_string(sim.titles().size()),
-                         0});
+        lines.push_back(
+            {assets.pack.text(ui.lang, "$i18n:ui.journal_titles") + " " + std::to_string(earned.size()) + "/" +
+                 std::to_string(sim.titles().size()) + "  (" +
+                 assets.pack.text(ui.lang, "$i18n:ui.journal_title_attack", {{"pct", sim.title_attack_pct()}}) + ")",
+             0});
         for (const aether::TitleDef& title : sim.titles()) {
             const bool have = std::find(earned.begin(), earned.end(), title.id) != earned.end();
-            lines.push_back({have ? assets.pack.text(ui.lang, title.name) : std::string("???"), have ? 1 : 3});
+            lines.push_back({have ? assets.pack.text(ui.lang, title.name) + "  +" + std::to_string(title.atk_pct) + "%"
+                                  : std::string("???"),
+                             have ? 1 : 3});
         }
     }
     if (!sim.bestiary().empty()) {

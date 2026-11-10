@@ -799,6 +799,7 @@ Scenario scenario_from_json(const Json& in) {
             title.kind = t.at("kind").get<std::string>();
             title.count = integer(t, "count");
             title.enemy = t.value("enemy", "");
+            title.atk_pct = t.value("atk_pct", static_cast<std::int64_t>(0));
             setup.titles.push_back(std::move(title));
         }
     }

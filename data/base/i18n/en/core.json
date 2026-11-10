@@ -58,6 +58,7 @@
   "ui.journal_active": "In progress",
   "ui.journal_done": "Completed",
   "ui.journal_titles": "Titles",
+  "ui.journal_title_attack": "attack +{pct}%",
   "ui.status_burn": "Burning",
   "ui.status_chill": "Chilled",
   "ui.status_stun": "Stunned",

@@ -893,7 +893,7 @@ class WorldSim(
             val crit = combatRng.nextBounded(1000) < derived.critChancePm
             val rawAmount = damage(
                 DamageInput(
-                    atk = (if (s.magical) derived.matk else derived.atk).let { if (p.weaken > 0) it * 75 / 100 else it },
+                    atk = ((if (s.magical) derived.matk else derived.atk) * (100 + titleAttackPct()) / 100).let { if (p.weaken > 0) it * 75 / 100 else it }, // titles (spec 11), then weaken
                     powerPct = s.powerPct,
                     defTarget = enemy.def.def,
                     elemMultPm = elementMultiplier(enemy.def),
@@ -973,6 +973,12 @@ class WorldSim(
             }
             have >= t.count
         }.map { it.id }
+    }
+
+    /** The percent that the earned titles add to the attack of the player's hits (spec 11, "Titles with effects"). */
+    fun titleAttackPct(): Long {
+        val earned = earnedTitles().toSet()
+        return combat.titles.filter { it.id in earned }.sumOf { it.atkPct }
     }
 
     override fun grantXp(amount: Long) {

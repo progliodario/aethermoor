@@ -119,7 +119,7 @@ class CompanionDef(
 class RecipeDef(val id: String, val output: String, val outputQty: Long, val inputs: List<Pair<String, Long>>)
 
 /** A title (spec 11): earned when its condition holds. [kind]: kills, kills_of, level, species or quests; [enemy] for kills_of only. */
-class TitleDef(val id: String, val name: String, val kind: String, val count: Long, val enemy: String = "")
+class TitleDef(val id: String, val name: String, val kind: String, val count: Long, val enemy: String = "", val atkPct: Long = 0)
 
 /** A prop that can be gathered from (spec 06, "Gathering"). */
 class GatherDrop(val item: String, val qtyMin: Long, val qtyMax: Long, val weightPm: Long)

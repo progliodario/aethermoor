@@ -30,6 +30,12 @@ Three **counters** tell how one plays: `gathered` goes up by one for every gathe
 The titles earned are **not saved**: they are computed from the state, in the order of the data (`earned_titles`), so a title cannot be lost nor given twice, and a new title in a later version is
 earned at once by those who already satisfy it. The last title earned is the one that counts as the current one.
 
+## Titles with effects
+
+A title may have `atk_pct`: while the title is earned, the attack of every hit of the player (the `atk`, or the `matk` of a magical skill) is `atk * (100 + sum of atk_pct of the earned titles) / 100`, computed
+before a weaken on the player takes its quarter (spec 05). The sum is read at each hit, so a title earned in the middle of a fight counts from the next blow. The companion's hits are not changed. In the base pack every title
+is worth 3 percent, the first one 2, and the rare ones 5, 8 or 10 (`tools/make_titles.py`): with all fifteen the hits are 65 percent stronger. Conformance: the scenario `title_attack`.
+
 ## Echoes (the first form of reincarnation)
 
 What the player reached in past games is not lost: every title in the profile (spec 12, "Profile") is an **echo**, and a game that starts, or is loaded, has `echo_pct = min(number of titles in the profile, 15)`.
@@ -43,4 +49,4 @@ The journal (spec 07) shows, after the quests, the companion (name, whether it s
 
 ## Later
 
-Tags (traits earned by how one plays), the full reincarnation (a new life with a chosen carry-over, not only the echoes), and titles with effects.
+Tags (traits earned by how one plays), the full reincarnation (a new life with a chosen carry-over, not only the echoes), and titles with other effects than attack.
