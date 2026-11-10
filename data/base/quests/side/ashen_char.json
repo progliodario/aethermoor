@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/ashen_char",
+  "name": "$i18n:quest.ashen_char.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.ashen_char.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_char",
+          "count": 6
+        },
+        {
+          "type": "collect",
+          "item": "base:item/char_chunk",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 1260
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1575
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 63
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/ember_greatsword",
+      "qty": 1
+    }
+  ]
+}

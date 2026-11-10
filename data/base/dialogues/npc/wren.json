@@ -1,0 +1,157 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/npc/wren",
+  "start": "c0",
+  "nodes": {
+    "c0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/whisperwood_spores"
+      },
+      "then": "t0",
+      "else": "a0"
+    },
+    "t0": {
+      "type": "condition",
+      "when": {
+        "flag": "town_whisperwood_spores_thanked"
+      },
+      "then": "c1",
+      "else": "thanks0"
+    },
+    "thanks0": {
+      "type": "say",
+      "speaker": "outpost_herbalist_wren",
+      "text": "$i18n:dlg.town.wren.whisperwood_spores.thanks",
+      "next": "flag0"
+    },
+    "flag0": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_whisperwood_spores_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a0": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/whisperwood_spores"
+      },
+      "then": "busy0",
+      "else": "offer0"
+    },
+    "busy0": {
+      "type": "say",
+      "speaker": "outpost_herbalist_wren",
+      "text": "$i18n:dlg.town.wren.whisperwood_spores.busy",
+      "next": "end"
+    },
+    "offer0": {
+      "type": "say",
+      "speaker": "outpost_herbalist_wren",
+      "text": "$i18n:dlg.town.wren.whisperwood_spores.offer",
+      "next": "choice0"
+    },
+    "choice0": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/whisperwood_spores"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c1": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/whisperwood_silk"
+      },
+      "then": "t1",
+      "else": "a1"
+    },
+    "t1": {
+      "type": "condition",
+      "when": {
+        "flag": "town_whisperwood_silk_thanked"
+      },
+      "then": "after",
+      "else": "thanks1"
+    },
+    "thanks1": {
+      "type": "say",
+      "speaker": "outpost_herbalist_wren",
+      "text": "$i18n:dlg.town.wren.whisperwood_silk.thanks",
+      "next": "flag1"
+    },
+    "flag1": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_whisperwood_silk_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/whisperwood_silk"
+      },
+      "then": "busy1",
+      "else": "offer1"
+    },
+    "busy1": {
+      "type": "say",
+      "speaker": "outpost_herbalist_wren",
+      "text": "$i18n:dlg.town.wren.whisperwood_silk.busy",
+      "next": "end"
+    },
+    "offer1": {
+      "type": "say",
+      "speaker": "outpost_herbalist_wren",
+      "text": "$i18n:dlg.town.wren.whisperwood_silk.offer",
+      "next": "choice1"
+    },
+    "choice1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/whisperwood_silk"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "after": {
+      "type": "say",
+      "speaker": "outpost_herbalist_wren",
+      "text": "$i18n:dlg.town.wren.after",
+      "next": "end"
+    }
+  }
+}

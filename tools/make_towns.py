@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Writes the two hand-written towns of Verdalis: Fenwick (the village of the start) and Aldermere (the town of the mother guild).
+"""Writes the two hand-written towns of Verdalis: Fenwick (the village of the start) and Aldermere (the town of the mother guild),
+and the named person of every outpost (`towns_outposts.py`).
 
 For each named person: a dialogue (`data/base/dialogues/npc/<name>.json`), their quests (`data/base/quests/side/`), the texts in both
 languages, and their place in the world data (`npcs`); Aldermere is also a landmark with the stamp of a town. Run it after changing the
@@ -146,6 +147,12 @@ PEOPLE = [
 ]
 
 
+def _outposts() -> list:
+    from towns_outposts import OUTPOST_PEOPLE as people  # imported late: that table imports nothing from here, but keep the two files independent
+
+    return people
+
+
 def quest_id(q: dict) -> str:
     return f"base:quest/side/{q['id']}"
 
@@ -206,6 +213,9 @@ def set_texts(file: str, lang: str, entries: dict[str, str]) -> None:
     path.write_text(newline.join(lines), encoding="utf-8", newline="")
 
 
+OUTPOST_PEOPLE: list = []
+
+
 def patch_world() -> None:
     """Adds the landmark of Aldermere and the people to the world data, one line each, leaving every other line as it is."""
     raw = WORLD.read_text(encoding="utf-8", newline="")
@@ -228,16 +238,18 @@ def patch_world() -> None:
         lines.insert(last + 1, text)
 
     add("landmarks", f'"id": "{ALDERMERE["id"]}"', ALDERMERE)
-    for p in PEOPLE:
+    for p in PEOPLE + OUTPOST_PEOPLE:
         add("npcs", f'"key": "{p["key"]}"', {"key": p["key"], "dialogue": f"base:dialogue/npc/{p['file']}", "variant": p["variant"], "dx": p["dx"], "dy": p["dy"]})
     WORLD.write_text(newline.join(lines), encoding="utf-8", newline="")
 
 
 def main() -> None:
+    global OUTPOST_PEOPLE
+    OUTPOST_PEOPLE = _outposts()
     core = {"en": {}, "it": {}}
     content = {"en": {}, "it": {}}
     quests = 0
-    for p in PEOPLE:
+    for p in PEOPLE + OUTPOST_PEOPLE:
         (DATA / "dialogues" / "npc" / f"{p['file']}.json").write_text(json.dumps(dialogue_of(p), indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         for i, lang in enumerate(("en", "it")):
             core[lang][f"speaker.{p['key']}"] = p["name"][i]
@@ -254,7 +266,7 @@ def main() -> None:
         set_texts("core.json", lang, core[lang])
         set_texts("content.json", lang, content[lang])
     patch_world()
-    print(f"wrote {len(PEOPLE)} people and {quests} quests")
+    print(f"wrote {len(PEOPLE) + len(OUTPOST_PEOPLE)} people and {quests} quests")
 
 
 if __name__ == "__main__":

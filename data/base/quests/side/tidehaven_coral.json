@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/tidehaven_coral",
+  "name": "$i18n:quest.tidehaven_coral.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.tidehaven_coral.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_coral",
+          "count": 6
+        },
+        {
+          "type": "collect",
+          "item": "base:item/coral_fragment",
+          "count": 3
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 540
+    },
+    {
+      "effect": "add_gold",
+      "amount": 680
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 27
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/coralweave_vest",
+      "qty": 1
+    }
+  ]
+}

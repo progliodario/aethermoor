@@ -31,7 +31,7 @@ Python scripts (3.12 or newer; the virtual environment of [`docs/dev/setup.md`](
 | `audio_wav.py` | writes a sound (`sfx <name>`) or a piece of music (`music <name> --layers base,combat`) to a WAV file, to listen to it |
 | `make_recipes.py` | writes the crafting recipes `data/base/recipes.json` (spec 06, "Crafting") |
 | `make_companions.py` | writes the companions `data/base/companions/` with their names, and gives each protagonist theirs (spec 10) |
-| `make_towns.py` | writes the two hand-written towns: the named people of Fenwick and Aldermere, their dialogues and quests, their texts, and their lines in the world data (`npcs`, the landmark of Aldermere) |
+| `make_towns.py` (`towns_outposts.py`) | writes the two hand-written towns and the named person of every outpost: the named people of Fenwick and Aldermere, their dialogues and quests, their texts, and their lines in the world data (`npcs`, the landmark of Aldermere) |
 | `make_stories.py` (`stories_act2.py` to `stories_act4.py`) | writes the story in three acts and the epilogue of each protagonist: Sister Maren's dialogue in Aldermere, ten quests for each protagonist, their texts, two staves for the magic users and her line in the world data |
 | `make_talents.py` | writes the talents `data/base/talents.json` and their names (spec 11, "Talents") |
 | `make_echoes.py` | writes the Echoes, the personal bosses of the protagonists: their art (a guardian's, recoloured), the enemies, their names and the sanctums in `landmarks`; then run `make_stamps.py`, `make_stories.py`, `gen_conformance.py` |

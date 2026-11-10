@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/crossroads_wolves",
+  "name": "$i18n:quest.crossroads_wolves.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.crossroads_wolves.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/wolf_tawny",
+          "count": 6
+        },
+        {
+          "type": "collect",
+          "item": "base:item/tawny_fur",
+          "count": 3
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 180
+    },
+    {
+      "effect": "add_gold",
+      "amount": 220
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 9
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/leather_vest",
+      "qty": 1
+    }
+  ]
+}

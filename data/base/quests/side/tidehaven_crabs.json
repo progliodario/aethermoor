@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/tidehaven_crabs",
+  "name": "$i18n:quest.tidehaven_crabs.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.tidehaven_crabs.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/shore_crab",
+          "count": 8
+        },
+        {
+          "type": "collect",
+          "item": "base:item/crab_shell",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 360
+    },
+    {
+      "effect": "add_gold",
+      "amount": 450
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 18
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/fish_stew",
+      "qty": 3
+    }
+  ]
+}

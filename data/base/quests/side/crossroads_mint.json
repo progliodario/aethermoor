@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/crossroads_mint",
+  "name": "$i18n:quest.crossroads_mint.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.crossroads_mint.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_mint",
+          "count": 8
+        },
+        {
+          "type": "collect",
+          "item": "base:item/mint_leaf",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 120
+    },
+    {
+      "effect": "add_gold",
+      "amount": 150
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 6
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/potion_small",
+      "qty": 3
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/frostveil_ice",
+  "name": "$i18n:quest.frostveil_ice.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.frostveil_ice.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_ice",
+          "count": 8
+        },
+        {
+          "type": "collect",
+          "item": "base:item/ice_crystal",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 600
+    },
+    {
+      "effect": "add_gold",
+      "amount": 750
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 30
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/potion_large",
+      "qty": 2
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/ashen_embers",
+  "name": "$i18n:quest.ashen_embers.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.ashen_embers.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_ember",
+          "count": 8
+        },
+        {
+          "type": "collect",
+          "item": "base:item/ember_core",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 840
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1050
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 42
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/potion_large",
+      "qty": 3
+    }
+  ]
+}

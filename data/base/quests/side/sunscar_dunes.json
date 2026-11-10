@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/sunscar_dunes",
+  "name": "$i18n:quest.sunscar_dunes.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.sunscar_dunes.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/wolf_dune",
+          "count": 6
+        },
+        {
+          "type": "collect",
+          "item": "base:item/dune_pelt",
+          "count": 3
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 720
+    },
+    {
+      "effect": "add_gold",
+      "amount": 900
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 36
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/amber_plate",
+      "qty": 1
+    }
+  ]
+}
