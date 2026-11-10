@@ -55,8 +55,8 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 
 **Vita e progressione**
 
-- Gilda degli avventurieri con bacheca e commissioni, 142 missioni, negozi, locande, lavori degli anziani.
-- 143 oggetti; raccolta da cespugli, alberi, rocce e cactus; 16 ricette (pozioni, piatti cucinati, equipaggiamento).
+- Gilda degli avventurieri con bacheca e commissioni, 166 missioni, negozi, locande, lavori degli anziani.
+- 145 oggetti; raccolta da cespugli, alberi, rocce e cactus; 16 ricette (pozioni, piatti cucinati, equipaggiamento).
 - Un compagno per protagonista: ti segue, combatte, resta dove gli dici, e il suo legame cresce con le sue vittorie.
 - Talenti: un punto per livello da spendere in attacco, vita, mana o difesa (dieci ranghi ciascuno).
 - Bestiario, 15 titoli che aumentano l'attacco, e un profilo comune a tutte le partite: ogni titolo mai ottenuto dà un po' di vita in più a ogni nuova vita (gli "echi").
@@ -66,7 +66,7 @@ Il catalogo completo dei contenuti, generato dai dati, è in [`docs/design/catal
 
 ## I protagonisti
 
-Ognuno ha un prologo con Lyra, un dono, due abilità d'attacco, due missioni personali e il primo atto della sua storia ("Il primo eco": tre missioni date da Suor Maren ad Aldermere, che finiscono con un guardiano).
+Ognuno ha un prologo con Lyra, un dono, due abilità d'attacco, due missioni personali e i primi due atti della sua storia, dati da Suor Maren ad Aldermere: "Il primo eco" a Verdalis e "Il secondo eco" in un'altra regione (Ren nelle miniere di Ironspine, Sakura all'osservatorio di Lumeria, Gideon nel suo vecchio regno...), tre missioni ciascuno, con un guardiano alla fine.
 
 | Protagonista | Chi era | Dono | Tono | Compagno |
 |---|---|---|---|---|
@@ -210,7 +210,7 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 Le prossime cose, in ordine (dettagli nella [roadmap](docs/plan/06-roadmap-rischi-backlog.md)):
 
 - **A breve:** tasti configurabili, stato del compagno e contatori visibili nell'interfaccia, più controlli automatici sulla grafica.
-- **Verso l'Alpha 0.1:** il secondo e il terzo atto delle storie e i boss personali dei protagonisti, veri alberi di abilità (oggi i talenti sono quattro, in fila), tag, la reincarnazione completa, qualità degli oggetti e banchi da lavoro, un sintetizzatore migliore per riaccendere ambiente e musica.
+- **Verso l'Alpha 0.1:** il terzo atto delle storie e i boss personali dei protagonisti, veri alberi di abilità (oggi i talenti sono quattro, in fila), tag, la reincarnazione completa, qualità degli oggetti e banchi da lavoro, un sintetizzatore migliore per riaccendere ambiente e musica.
 - **Verso la 1.0:** base e residenti, agricoltura e pesca, economia dinamica, accessibilità, altre lingue, strumenti per chi fa mod.
 
 ## Contribuire e licenza

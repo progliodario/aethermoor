@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/act2_haruka_2",
+  "name": "$i18n:quest.act2_haruka_2.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.act2_haruka_2.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/moss_clump",
+          "count": 4
+        },
+        {
+          "type": "collect",
+          "item": "base:item/healing_herb",
+          "count": 6
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 600
+    },
+    {
+      "effect": "add_gold",
+      "amount": 600
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 100
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/tonic",
+      "qty": 8
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/archmage_staff",
+  "name": "$i18n:item.archmage_staff.name",
+  "description": "$i18n:item.archmage_staff.desc",
+  "kind": "weapon",
+  "rarity": "epic",
+  "price": 2200,
+  "weapon": {
+    "atk": 4,
+    "matk": 26
+  }
+}

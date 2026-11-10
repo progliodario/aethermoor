@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Writes the first act of the story of each protagonist: three quests in a row, given by Sister Maren at the shrine of Lyra in Aldermere.
+"""Writes the first two acts of the story of each protagonist: three quests each, given by Sister Maren at the shrine of Lyra in Aldermere.
+The first act is in this file (`ACTS`), the second in `stories_act2.py` (`ACT2`): each protagonist goes to another region.
 
 Maren (`shrine_keeper_maren`) has one dialogue with a line for each protagonist, shown to whoever carries that protagonist's keepsake (the
 same way Pip tells the personal quests). The act of each protagonist is called "The First Echo": something of their old world has come
@@ -9,6 +10,7 @@ from __future__ import annotations
 import json
 
 from make_towns import DATA, WORLD, set_texts
+from stories_act2 import ACT2, NEW_ITEMS
 
 MAREN = {"key": "shrine_keeper_maren", "dialogue": "base:dialogue/npc/maren", "variant": "cream", "dx": 386, "dy": -129}
 NAME = ("Sister Maren, keeper of Lyra's shrine", "Suor Maren, custode del santuario di Lyra")
@@ -192,8 +194,25 @@ ACTS = {
 }
 
 
+def short_id(name: str, i: int) -> str:
+    """The quests of a protagonist in order: three of the first act, then three of the second."""
+    return f"act1_{name}_{i + 1}" if i < 3 else f"act2_{name}_{i - 2}"
+
+
 def qid(name: str, i: int) -> str:
-    return f"base:quest/side/act1_{name}_{i + 1}"
+    return "base:quest/side/" + short_id(name, i)
+
+
+def write_items() -> tuple[dict, dict]:
+    """The items that the second act adds (`stories_act2.NEW_ITEMS`), and their texts."""
+    en, it = {}, {}
+    for name, (atk, matk, price, name_en, name_it, desc_en, desc_it) in NEW_ITEMS.items():
+        doc = {"$schema": "../../../schemas/item.schema.json", "id": f"base:item/{name}", "name": f"$i18n:item.{name}.name", "description": f"$i18n:item.{name}.desc",
+               "kind": "weapon", "rarity": "epic", "price": price, "weapon": {"atk": atk, "matk": matk}}
+        (DATA / "items" / f"{name}.json").write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        en[f"item.{name}.name"], en[f"item.{name}.desc"] = name_en, desc_en
+        it[f"item.{name}.name"], it[f"item.{name}.desc"] = name_it, desc_it
+    return en, it
 
 
 def main() -> None:
@@ -209,28 +228,39 @@ def main() -> None:
 
     nodes: dict[str, dict] = {"start": say("hello", "menu")}
     choices = []
-    for name, act in ACTS.items():
+    item_en, item_it = write_items()
+    content["en"].update(item_en)
+    content["it"].update(item_it)
+    for name, first in ACTS.items():
+        second = ACT2[name]
+        # the two acts in a row; what Maren says at the end of the first act opens the second, and the last word is the second act's
+        act = {"ask": first["ask"], "interlude": first["done"], "done": second["done"], "quests": first["quests"] + second["quests"]}
         choices.append({"text": f"$i18n:dlg.maren.{name}.ask", "when": {"has_item": {"item": f"base:item/keepsake_{name}", "qty": 1}}, "next": f"{name}_c0"})
         for i, lang in enumerate(("en", "it")):
             core[lang][f"dlg.maren.{name}.ask"] = act["ask"][i]
             core[lang][f"dlg.maren.{name}.done"] = act["done"][i]
+            core[lang][f"dlg.maren.{name}.interlude"] = act["interlude"][i]
         count = len(act["quests"])
         for n, (title, task, objectives, rewards, offer, busy, thanks) in enumerate(act["quests"]):
             nxt = f"{name}_c{n + 1}" if n + 1 < count else f"{name}_done"
-            thanked = f"act1_{name}_{n + 1}_thanked"
+            thanked = f"{short_id(name, n)}_thanked"
             nodes[f"{name}_c{n}"] = {"type": "condition", "when": {"quest_done": qid(name, n)}, "then": f"{name}_t{n}", "else": f"{name}_a{n}"}
             nodes[f"{name}_t{n}"] = {"type": "condition", "when": {"flag": thanked}, "then": nxt, "else": f"{name}_thanks{n}"}
             nodes[f"{name}_thanks{n}"] = say(f"{name}.q{n + 1}.thanks", f"{name}_flag{n}")
             nodes[f"{name}_flag{n}"] = {"type": "effects", "effects": [{"effect": "set_flag", "flag": thanked, "value": True}], "next": "end"}
-            nodes[f"{name}_a{n}"] = {"type": "condition", "when": {"quest_active": qid(name, n)}, "then": f"{name}_busy{n}", "else": f"{name}_offer{n}"}
+            # the first quest of the second act is offered after the closing words of the first
+            before_offer = f"{name}_interlude" if n == 3 else f"{name}_offer{n}"
+            if n == 3:
+                nodes[f"{name}_interlude"] = say(f"{name}.interlude", f"{name}_offer{n}")
+            nodes[f"{name}_a{n}"] = {"type": "condition", "when": {"quest_active": qid(name, n)}, "then": f"{name}_busy{n}", "else": before_offer}
             nodes[f"{name}_busy{n}"] = say(f"{name}.q{n + 1}.busy", "end")
             nodes[f"{name}_offer{n}"] = say(f"{name}.q{n + 1}.offer", f"{name}_choice{n}")
             nodes[f"{name}_choice{n}"] = {"type": "choice", "choices": [
                 {"text": "$i18n:dlg.wayfarer.accept", "effects": [{"effect": "start_quest", "quest": qid(name, n)}], "next": "end"},
                 {"text": "$i18n:dlg.wayfarer.later", "next": "end"}]}
             quest = {
-                "$schema": "../../../../schemas/quest.schema.json", "id": qid(name, n), "name": f"$i18n:quest.act1_{name}_{n + 1}.name", "kind": "side",
-                "stages": [{"id": "task", "journal": f"$i18n:quest.act1_{name}_{n + 1}.task", "next": "end", "objectives": [
+                "$schema": "../../../../schemas/quest.schema.json", "id": qid(name, n), "name": f"$i18n:quest.{short_id(name, n)}.name", "kind": "side",
+                "stages": [{"id": "task", "journal": f"$i18n:quest.{short_id(name, n)}.task", "next": "end", "objectives": [
                     {"type": "kill", "enemy": f"base:enemy/{target}", "count": c} if kind == KILL else {"type": "collect", "item": f"base:item/{target}", "count": c}
                     for kind, target, c in objectives]}],
                 "rewards": [{"effect": "add_xp", "amount": rewards["xp"]}, {"effect": "add_gold", "amount": rewards["gold"]}, {"effect": "add_guild_points", "amount": 20 * (n + 1)}]
@@ -239,13 +269,13 @@ def main() -> None:
             # the objectives go before `next` in the files of the pack: keep that order
             stage = quest["stages"][0]
             quest["stages"][0] = {"id": stage["id"], "journal": stage["journal"], "objectives": stage["objectives"], "next": stage["next"]}
-            (DATA / "quests" / "side" / f"act1_{name}_{n + 1}.json").write_text(json.dumps(quest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+            (DATA / "quests" / "side" / f"{short_id(name, n)}.json").write_text(json.dumps(quest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
             for i, lang in enumerate(("en", "it")):
                 core[lang][f"dlg.maren.{name}.q{n + 1}.offer"] = offer[i]
                 core[lang][f"dlg.maren.{name}.q{n + 1}.busy"] = busy[i]
                 core[lang][f"dlg.maren.{name}.q{n + 1}.thanks"] = thanks[i]
-                content[lang][f"quest.act1_{name}_{n + 1}.name"] = title[i]
-                content[lang][f"quest.act1_{name}_{n + 1}.task"] = task[i]
+                content[lang][f"quest.{short_id(name, n)}.name"] = title[i]
+                content[lang][f"quest.{short_id(name, n)}.task"] = task[i]
         nodes[f"{name}_done"] = say(f"{name}.done", "end")
     choices.append({"text": "$i18n:dlg.maren.bye", "next": "end"})
     nodes["menu"] = {"type": "choice", "choices": choices}
@@ -269,7 +299,7 @@ def main() -> None:
         lines[last] = lines[last].rstrip() + ","
         lines.insert(last + 1, text)
     WORLD.write_text(newline.join(lines), encoding="utf-8", newline="")
-    print(f"wrote the first act of {len(ACTS)} protagonists: {sum(len(a['quests']) for a in ACTS.values())} quests")
+    print(f"wrote two acts for {len(ACTS)} protagonists: {sum(len(a['quests']) + len(ACT2[n]['quests']) for n, a in ACTS.items())} quests")
 
 
 if __name__ == "__main__":

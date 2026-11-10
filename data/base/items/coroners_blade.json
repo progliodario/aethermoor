@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/coroners_blade",
+  "name": "$i18n:item.coroners_blade.name",
+  "description": "$i18n:item.coroners_blade.desc",
+  "kind": "weapon",
+  "rarity": "epic",
+  "price": 2200,
+  "weapon": {
+    "atk": 20,
+    "matk": 18
+  }
+}

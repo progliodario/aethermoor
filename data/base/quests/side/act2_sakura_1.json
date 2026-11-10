@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/act2_sakura_1",
+  "name": "$i18n:quest.act2_sakura_1.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.act2_sakura_1.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_glow",
+          "count": 8
+        },
+        {
+          "type": "collect",
+          "item": "base:item/star_dust",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 500
+    },
+    {
+      "effect": "add_gold",
+      "amount": 500
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 80
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/potion_mana_medium",
+      "qty": 2
+    }
+  ]
+}
