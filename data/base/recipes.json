@@ -141,6 +141,162 @@
           "qty": 2
         }
       ]
+    },
+    {
+      "id": "hearty_stew",
+      "output": {
+        "item": "base:item/hearty_stew",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/spore_cap",
+          "qty": 2
+        },
+        {
+          "item": "base:item/healing_herb",
+          "qty": 1
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "id": "fish_stew",
+      "output": {
+        "item": "base:item/fish_stew",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/crab_shell",
+          "qty": 2
+        },
+        {
+          "item": "base:item/mint_leaf",
+          "qty": 1
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "id": "royal_feast",
+      "output": {
+        "item": "base:item/royal_feast",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/hearty_stew",
+          "qty": 1
+        },
+        {
+          "item": "base:item/honey_cake",
+          "qty": 1
+        },
+        {
+          "item": "base:item/wild_berries",
+          "qty": 5
+        }
+      ]
+    },
+    {
+      "id": "potion_large",
+      "output": {
+        "item": "base:item/potion_large",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/potion_medium",
+          "qty": 2
+        },
+        {
+          "item": "base:item/spore_cap",
+          "qty": 2
+        },
+        {
+          "item": "base:item/pine_resin",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "id": "potion_mana_medium",
+      "output": {
+        "item": "base:item/potion_mana_medium",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/potion_mana_small",
+          "qty": 2
+        },
+        {
+          "item": "base:item/mint_leaf",
+          "qty": 3
+        },
+        {
+          "item": "base:item/wisp_ember",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "id": "leather_vest",
+      "output": {
+        "item": "base:item/leather_vest",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/tawny_fur",
+          "qty": 4
+        },
+        {
+          "item": "base:item/spider_silk",
+          "qty": 2
+        }
+      ]
+    },
+    {
+      "id": "studded_leather",
+      "output": {
+        "item": "base:item/studded_leather",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/leather_vest",
+          "qty": 1
+        },
+        {
+          "item": "base:item/iron_ore",
+          "qty": 4
+        }
+      ]
+    },
+    {
+      "id": "pike",
+      "output": {
+        "item": "base:item/pike",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/iron_ore",
+          "qty": 4
+        },
+        {
+          "item": "base:item/wood_log",
+          "qty": 3
+        }
+      ]
     }
   ]
 }

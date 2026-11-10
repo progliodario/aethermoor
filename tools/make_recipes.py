@@ -18,6 +18,17 @@ RECIPES = {
     "honey_cake": ("honey_cake", 2, {"wild_berries": 3, "pine_resin": 1}),
     "hand_axe": ("hand_axe", 1, {"stone_chunk": 3, "wood_log": 2}),
     "iron_sword": ("iron_sword", 1, {"iron_ore": 5, "wood_log": 2}),
+    # cooking: what the creatures leave and what grows, over a fire of dry branches
+    "hearty_stew": ("hearty_stew", 1, {"spore_cap": 2, "healing_herb": 1, "dry_branch": 1}),
+    "fish_stew": ("fish_stew", 1, {"crab_shell": 2, "mint_leaf": 1, "dry_branch": 1}),
+    "royal_feast": ("royal_feast", 1, {"hearty_stew": 1, "honey_cake": 1, "wild_berries": 5}),
+    # stronger potions from the weaker ones
+    "potion_large": ("potion_large", 1, {"potion_medium": 2, "spore_cap": 2, "pine_resin": 1}),
+    "potion_mana_medium": ("potion_mana_medium", 1, {"potion_mana_small": 2, "mint_leaf": 3, "wisp_ember": 1}),
+    # gear from hides and ore
+    "leather_vest": ("leather_vest", 1, {"tawny_fur": 4, "spider_silk": 2}),
+    "studded_leather": ("studded_leather", 1, {"leather_vest": 1, "iron_ore": 4}),
+    "pike": ("pike", 1, {"iron_ore": 4, "wood_log": 3}),
 }
 
 
