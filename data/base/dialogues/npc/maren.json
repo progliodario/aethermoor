@@ -1,0 +1,1878 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/npc/maren",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.hello",
+      "next": "menu"
+    },
+    "ren_c0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_ren_1"
+      },
+      "then": "ren_t0",
+      "else": "ren_a0"
+    },
+    "ren_t0": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_ren_1_thanked"
+      },
+      "then": "ren_c1",
+      "else": "ren_thanks0"
+    },
+    "ren_thanks0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.ren.q1.thanks",
+      "next": "ren_flag0"
+    },
+    "ren_flag0": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_ren_1_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "ren_a0": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_ren_1"
+      },
+      "then": "ren_busy0",
+      "else": "ren_offer0"
+    },
+    "ren_busy0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.ren.q1.busy",
+      "next": "end"
+    },
+    "ren_offer0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.ren.q1.offer",
+      "next": "ren_choice0"
+    },
+    "ren_choice0": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_ren_1"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "ren_c1": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_ren_2"
+      },
+      "then": "ren_t1",
+      "else": "ren_a1"
+    },
+    "ren_t1": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_ren_2_thanked"
+      },
+      "then": "ren_c2",
+      "else": "ren_thanks1"
+    },
+    "ren_thanks1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.ren.q2.thanks",
+      "next": "ren_flag1"
+    },
+    "ren_flag1": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_ren_2_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "ren_a1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_ren_2"
+      },
+      "then": "ren_busy1",
+      "else": "ren_offer1"
+    },
+    "ren_busy1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.ren.q2.busy",
+      "next": "end"
+    },
+    "ren_offer1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.ren.q2.offer",
+      "next": "ren_choice1"
+    },
+    "ren_choice1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_ren_2"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "ren_c2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_ren_3"
+      },
+      "then": "ren_t2",
+      "else": "ren_a2"
+    },
+    "ren_t2": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_ren_3_thanked"
+      },
+      "then": "ren_done",
+      "else": "ren_thanks2"
+    },
+    "ren_thanks2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.ren.q3.thanks",
+      "next": "ren_flag2"
+    },
+    "ren_flag2": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_ren_3_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "ren_a2": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_ren_3"
+      },
+      "then": "ren_busy2",
+      "else": "ren_offer2"
+    },
+    "ren_busy2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.ren.q3.busy",
+      "next": "end"
+    },
+    "ren_offer2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.ren.q3.offer",
+      "next": "ren_choice2"
+    },
+    "ren_choice2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_ren_3"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "ren_done": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.ren.done",
+      "next": "end"
+    },
+    "sakura_c0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_sakura_1"
+      },
+      "then": "sakura_t0",
+      "else": "sakura_a0"
+    },
+    "sakura_t0": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_sakura_1_thanked"
+      },
+      "then": "sakura_c1",
+      "else": "sakura_thanks0"
+    },
+    "sakura_thanks0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.sakura.q1.thanks",
+      "next": "sakura_flag0"
+    },
+    "sakura_flag0": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_sakura_1_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "sakura_a0": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_sakura_1"
+      },
+      "then": "sakura_busy0",
+      "else": "sakura_offer0"
+    },
+    "sakura_busy0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.sakura.q1.busy",
+      "next": "end"
+    },
+    "sakura_offer0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.sakura.q1.offer",
+      "next": "sakura_choice0"
+    },
+    "sakura_choice0": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_sakura_1"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "sakura_c1": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_sakura_2"
+      },
+      "then": "sakura_t1",
+      "else": "sakura_a1"
+    },
+    "sakura_t1": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_sakura_2_thanked"
+      },
+      "then": "sakura_c2",
+      "else": "sakura_thanks1"
+    },
+    "sakura_thanks1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.sakura.q2.thanks",
+      "next": "sakura_flag1"
+    },
+    "sakura_flag1": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_sakura_2_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "sakura_a1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_sakura_2"
+      },
+      "then": "sakura_busy1",
+      "else": "sakura_offer1"
+    },
+    "sakura_busy1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.sakura.q2.busy",
+      "next": "end"
+    },
+    "sakura_offer1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.sakura.q2.offer",
+      "next": "sakura_choice1"
+    },
+    "sakura_choice1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_sakura_2"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "sakura_c2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_sakura_3"
+      },
+      "then": "sakura_t2",
+      "else": "sakura_a2"
+    },
+    "sakura_t2": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_sakura_3_thanked"
+      },
+      "then": "sakura_done",
+      "else": "sakura_thanks2"
+    },
+    "sakura_thanks2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.sakura.q3.thanks",
+      "next": "sakura_flag2"
+    },
+    "sakura_flag2": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_sakura_3_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "sakura_a2": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_sakura_3"
+      },
+      "then": "sakura_busy2",
+      "else": "sakura_offer2"
+    },
+    "sakura_busy2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.sakura.q3.busy",
+      "next": "end"
+    },
+    "sakura_offer2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.sakura.q3.offer",
+      "next": "sakura_choice2"
+    },
+    "sakura_choice2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_sakura_3"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "sakura_done": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.sakura.done",
+      "next": "end"
+    },
+    "daichi_c0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_daichi_1"
+      },
+      "then": "daichi_t0",
+      "else": "daichi_a0"
+    },
+    "daichi_t0": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_daichi_1_thanked"
+      },
+      "then": "daichi_c1",
+      "else": "daichi_thanks0"
+    },
+    "daichi_thanks0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.daichi.q1.thanks",
+      "next": "daichi_flag0"
+    },
+    "daichi_flag0": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_daichi_1_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "daichi_a0": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_daichi_1"
+      },
+      "then": "daichi_busy0",
+      "else": "daichi_offer0"
+    },
+    "daichi_busy0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.daichi.q1.busy",
+      "next": "end"
+    },
+    "daichi_offer0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.daichi.q1.offer",
+      "next": "daichi_choice0"
+    },
+    "daichi_choice0": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_daichi_1"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "daichi_c1": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_daichi_2"
+      },
+      "then": "daichi_t1",
+      "else": "daichi_a1"
+    },
+    "daichi_t1": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_daichi_2_thanked"
+      },
+      "then": "daichi_c2",
+      "else": "daichi_thanks1"
+    },
+    "daichi_thanks1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.daichi.q2.thanks",
+      "next": "daichi_flag1"
+    },
+    "daichi_flag1": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_daichi_2_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "daichi_a1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_daichi_2"
+      },
+      "then": "daichi_busy1",
+      "else": "daichi_offer1"
+    },
+    "daichi_busy1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.daichi.q2.busy",
+      "next": "end"
+    },
+    "daichi_offer1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.daichi.q2.offer",
+      "next": "daichi_choice1"
+    },
+    "daichi_choice1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_daichi_2"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "daichi_c2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_daichi_3"
+      },
+      "then": "daichi_t2",
+      "else": "daichi_a2"
+    },
+    "daichi_t2": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_daichi_3_thanked"
+      },
+      "then": "daichi_done",
+      "else": "daichi_thanks2"
+    },
+    "daichi_thanks2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.daichi.q3.thanks",
+      "next": "daichi_flag2"
+    },
+    "daichi_flag2": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_daichi_3_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "daichi_a2": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_daichi_3"
+      },
+      "then": "daichi_busy2",
+      "else": "daichi_offer2"
+    },
+    "daichi_busy2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.daichi.q3.busy",
+      "next": "end"
+    },
+    "daichi_offer2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.daichi.q3.offer",
+      "next": "daichi_choice2"
+    },
+    "daichi_choice2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_daichi_3"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "daichi_done": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.daichi.done",
+      "next": "end"
+    },
+    "haruka_c0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_haruka_1"
+      },
+      "then": "haruka_t0",
+      "else": "haruka_a0"
+    },
+    "haruka_t0": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_haruka_1_thanked"
+      },
+      "then": "haruka_c1",
+      "else": "haruka_thanks0"
+    },
+    "haruka_thanks0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.haruka.q1.thanks",
+      "next": "haruka_flag0"
+    },
+    "haruka_flag0": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_haruka_1_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "haruka_a0": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_haruka_1"
+      },
+      "then": "haruka_busy0",
+      "else": "haruka_offer0"
+    },
+    "haruka_busy0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.haruka.q1.busy",
+      "next": "end"
+    },
+    "haruka_offer0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.haruka.q1.offer",
+      "next": "haruka_choice0"
+    },
+    "haruka_choice0": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_haruka_1"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "haruka_c1": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_haruka_2"
+      },
+      "then": "haruka_t1",
+      "else": "haruka_a1"
+    },
+    "haruka_t1": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_haruka_2_thanked"
+      },
+      "then": "haruka_c2",
+      "else": "haruka_thanks1"
+    },
+    "haruka_thanks1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.haruka.q2.thanks",
+      "next": "haruka_flag1"
+    },
+    "haruka_flag1": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_haruka_2_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "haruka_a1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_haruka_2"
+      },
+      "then": "haruka_busy1",
+      "else": "haruka_offer1"
+    },
+    "haruka_busy1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.haruka.q2.busy",
+      "next": "end"
+    },
+    "haruka_offer1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.haruka.q2.offer",
+      "next": "haruka_choice1"
+    },
+    "haruka_choice1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_haruka_2"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "haruka_c2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_haruka_3"
+      },
+      "then": "haruka_t2",
+      "else": "haruka_a2"
+    },
+    "haruka_t2": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_haruka_3_thanked"
+      },
+      "then": "haruka_done",
+      "else": "haruka_thanks2"
+    },
+    "haruka_thanks2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.haruka.q3.thanks",
+      "next": "haruka_flag2"
+    },
+    "haruka_flag2": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_haruka_3_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "haruka_a2": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_haruka_3"
+      },
+      "then": "haruka_busy2",
+      "else": "haruka_offer2"
+    },
+    "haruka_busy2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.haruka.q3.busy",
+      "next": "end"
+    },
+    "haruka_offer2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.haruka.q3.offer",
+      "next": "haruka_choice2"
+    },
+    "haruka_choice2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_haruka_3"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "haruka_done": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.haruka.done",
+      "next": "end"
+    },
+    "marco_c0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_marco_1"
+      },
+      "then": "marco_t0",
+      "else": "marco_a0"
+    },
+    "marco_t0": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_marco_1_thanked"
+      },
+      "then": "marco_c1",
+      "else": "marco_thanks0"
+    },
+    "marco_thanks0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.marco.q1.thanks",
+      "next": "marco_flag0"
+    },
+    "marco_flag0": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_marco_1_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "marco_a0": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_marco_1"
+      },
+      "then": "marco_busy0",
+      "else": "marco_offer0"
+    },
+    "marco_busy0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.marco.q1.busy",
+      "next": "end"
+    },
+    "marco_offer0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.marco.q1.offer",
+      "next": "marco_choice0"
+    },
+    "marco_choice0": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_marco_1"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "marco_c1": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_marco_2"
+      },
+      "then": "marco_t1",
+      "else": "marco_a1"
+    },
+    "marco_t1": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_marco_2_thanked"
+      },
+      "then": "marco_c2",
+      "else": "marco_thanks1"
+    },
+    "marco_thanks1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.marco.q2.thanks",
+      "next": "marco_flag1"
+    },
+    "marco_flag1": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_marco_2_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "marco_a1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_marco_2"
+      },
+      "then": "marco_busy1",
+      "else": "marco_offer1"
+    },
+    "marco_busy1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.marco.q2.busy",
+      "next": "end"
+    },
+    "marco_offer1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.marco.q2.offer",
+      "next": "marco_choice1"
+    },
+    "marco_choice1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_marco_2"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "marco_c2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_marco_3"
+      },
+      "then": "marco_t2",
+      "else": "marco_a2"
+    },
+    "marco_t2": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_marco_3_thanked"
+      },
+      "then": "marco_done",
+      "else": "marco_thanks2"
+    },
+    "marco_thanks2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.marco.q3.thanks",
+      "next": "marco_flag2"
+    },
+    "marco_flag2": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_marco_3_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "marco_a2": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_marco_3"
+      },
+      "then": "marco_busy2",
+      "else": "marco_offer2"
+    },
+    "marco_busy2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.marco.q3.busy",
+      "next": "end"
+    },
+    "marco_offer2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.marco.q3.offer",
+      "next": "marco_choice2"
+    },
+    "marco_choice2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_marco_3"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "marco_done": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.marco.done",
+      "next": "end"
+    },
+    "yuki_c0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_yuki_1"
+      },
+      "then": "yuki_t0",
+      "else": "yuki_a0"
+    },
+    "yuki_t0": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_yuki_1_thanked"
+      },
+      "then": "yuki_c1",
+      "else": "yuki_thanks0"
+    },
+    "yuki_thanks0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.yuki.q1.thanks",
+      "next": "yuki_flag0"
+    },
+    "yuki_flag0": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_yuki_1_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "yuki_a0": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_yuki_1"
+      },
+      "then": "yuki_busy0",
+      "else": "yuki_offer0"
+    },
+    "yuki_busy0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.yuki.q1.busy",
+      "next": "end"
+    },
+    "yuki_offer0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.yuki.q1.offer",
+      "next": "yuki_choice0"
+    },
+    "yuki_choice0": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_yuki_1"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "yuki_c1": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_yuki_2"
+      },
+      "then": "yuki_t1",
+      "else": "yuki_a1"
+    },
+    "yuki_t1": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_yuki_2_thanked"
+      },
+      "then": "yuki_c2",
+      "else": "yuki_thanks1"
+    },
+    "yuki_thanks1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.yuki.q2.thanks",
+      "next": "yuki_flag1"
+    },
+    "yuki_flag1": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_yuki_2_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "yuki_a1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_yuki_2"
+      },
+      "then": "yuki_busy1",
+      "else": "yuki_offer1"
+    },
+    "yuki_busy1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.yuki.q2.busy",
+      "next": "end"
+    },
+    "yuki_offer1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.yuki.q2.offer",
+      "next": "yuki_choice1"
+    },
+    "yuki_choice1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_yuki_2"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "yuki_c2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_yuki_3"
+      },
+      "then": "yuki_t2",
+      "else": "yuki_a2"
+    },
+    "yuki_t2": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_yuki_3_thanked"
+      },
+      "then": "yuki_done",
+      "else": "yuki_thanks2"
+    },
+    "yuki_thanks2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.yuki.q3.thanks",
+      "next": "yuki_flag2"
+    },
+    "yuki_flag2": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_yuki_3_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "yuki_a2": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_yuki_3"
+      },
+      "then": "yuki_busy2",
+      "else": "yuki_offer2"
+    },
+    "yuki_busy2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.yuki.q3.busy",
+      "next": "end"
+    },
+    "yuki_offer2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.yuki.q3.offer",
+      "next": "yuki_choice2"
+    },
+    "yuki_choice2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_yuki_3"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "yuki_done": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.yuki.done",
+      "next": "end"
+    },
+    "lena_c0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_lena_1"
+      },
+      "then": "lena_t0",
+      "else": "lena_a0"
+    },
+    "lena_t0": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_lena_1_thanked"
+      },
+      "then": "lena_c1",
+      "else": "lena_thanks0"
+    },
+    "lena_thanks0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.lena.q1.thanks",
+      "next": "lena_flag0"
+    },
+    "lena_flag0": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_lena_1_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "lena_a0": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_lena_1"
+      },
+      "then": "lena_busy0",
+      "else": "lena_offer0"
+    },
+    "lena_busy0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.lena.q1.busy",
+      "next": "end"
+    },
+    "lena_offer0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.lena.q1.offer",
+      "next": "lena_choice0"
+    },
+    "lena_choice0": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_lena_1"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "lena_c1": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_lena_2"
+      },
+      "then": "lena_t1",
+      "else": "lena_a1"
+    },
+    "lena_t1": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_lena_2_thanked"
+      },
+      "then": "lena_c2",
+      "else": "lena_thanks1"
+    },
+    "lena_thanks1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.lena.q2.thanks",
+      "next": "lena_flag1"
+    },
+    "lena_flag1": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_lena_2_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "lena_a1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_lena_2"
+      },
+      "then": "lena_busy1",
+      "else": "lena_offer1"
+    },
+    "lena_busy1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.lena.q2.busy",
+      "next": "end"
+    },
+    "lena_offer1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.lena.q2.offer",
+      "next": "lena_choice1"
+    },
+    "lena_choice1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_lena_2"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "lena_c2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_lena_3"
+      },
+      "then": "lena_t2",
+      "else": "lena_a2"
+    },
+    "lena_t2": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_lena_3_thanked"
+      },
+      "then": "lena_done",
+      "else": "lena_thanks2"
+    },
+    "lena_thanks2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.lena.q3.thanks",
+      "next": "lena_flag2"
+    },
+    "lena_flag2": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_lena_3_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "lena_a2": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_lena_3"
+      },
+      "then": "lena_busy2",
+      "else": "lena_offer2"
+    },
+    "lena_busy2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.lena.q3.busy",
+      "next": "end"
+    },
+    "lena_offer2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.lena.q3.offer",
+      "next": "lena_choice2"
+    },
+    "lena_choice2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_lena_3"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "lena_done": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.lena.done",
+      "next": "end"
+    },
+    "gideon_c0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_gideon_1"
+      },
+      "then": "gideon_t0",
+      "else": "gideon_a0"
+    },
+    "gideon_t0": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_gideon_1_thanked"
+      },
+      "then": "gideon_c1",
+      "else": "gideon_thanks0"
+    },
+    "gideon_thanks0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.gideon.q1.thanks",
+      "next": "gideon_flag0"
+    },
+    "gideon_flag0": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_gideon_1_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "gideon_a0": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_gideon_1"
+      },
+      "then": "gideon_busy0",
+      "else": "gideon_offer0"
+    },
+    "gideon_busy0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.gideon.q1.busy",
+      "next": "end"
+    },
+    "gideon_offer0": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.gideon.q1.offer",
+      "next": "gideon_choice0"
+    },
+    "gideon_choice0": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_gideon_1"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "gideon_c1": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_gideon_2"
+      },
+      "then": "gideon_t1",
+      "else": "gideon_a1"
+    },
+    "gideon_t1": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_gideon_2_thanked"
+      },
+      "then": "gideon_c2",
+      "else": "gideon_thanks1"
+    },
+    "gideon_thanks1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.gideon.q2.thanks",
+      "next": "gideon_flag1"
+    },
+    "gideon_flag1": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_gideon_2_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "gideon_a1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_gideon_2"
+      },
+      "then": "gideon_busy1",
+      "else": "gideon_offer1"
+    },
+    "gideon_busy1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.gideon.q2.busy",
+      "next": "end"
+    },
+    "gideon_offer1": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.gideon.q2.offer",
+      "next": "gideon_choice1"
+    },
+    "gideon_choice1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_gideon_2"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "gideon_c2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act1_gideon_3"
+      },
+      "then": "gideon_t2",
+      "else": "gideon_a2"
+    },
+    "gideon_t2": {
+      "type": "condition",
+      "when": {
+        "flag": "act1_gideon_3_thanked"
+      },
+      "then": "gideon_done",
+      "else": "gideon_thanks2"
+    },
+    "gideon_thanks2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.gideon.q3.thanks",
+      "next": "gideon_flag2"
+    },
+    "gideon_flag2": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "act1_gideon_3_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "gideon_a2": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/act1_gideon_3"
+      },
+      "then": "gideon_busy2",
+      "else": "gideon_offer2"
+    },
+    "gideon_busy2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.gideon.q3.busy",
+      "next": "end"
+    },
+    "gideon_offer2": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.gideon.q3.offer",
+      "next": "gideon_choice2"
+    },
+    "gideon_choice2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/act1_gideon_3"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "gideon_done": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.gideon.done",
+      "next": "end"
+    },
+    "menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.maren.ren.ask",
+          "when": {
+            "has_item": {
+              "item": "base:item/keepsake_ren",
+              "qty": 1
+            }
+          },
+          "next": "ren_c0"
+        },
+        {
+          "text": "$i18n:dlg.maren.sakura.ask",
+          "when": {
+            "has_item": {
+              "item": "base:item/keepsake_sakura",
+              "qty": 1
+            }
+          },
+          "next": "sakura_c0"
+        },
+        {
+          "text": "$i18n:dlg.maren.daichi.ask",
+          "when": {
+            "has_item": {
+              "item": "base:item/keepsake_daichi",
+              "qty": 1
+            }
+          },
+          "next": "daichi_c0"
+        },
+        {
+          "text": "$i18n:dlg.maren.haruka.ask",
+          "when": {
+            "has_item": {
+              "item": "base:item/keepsake_haruka",
+              "qty": 1
+            }
+          },
+          "next": "haruka_c0"
+        },
+        {
+          "text": "$i18n:dlg.maren.marco.ask",
+          "when": {
+            "has_item": {
+              "item": "base:item/keepsake_marco",
+              "qty": 1
+            }
+          },
+          "next": "marco_c0"
+        },
+        {
+          "text": "$i18n:dlg.maren.yuki.ask",
+          "when": {
+            "has_item": {
+              "item": "base:item/keepsake_yuki",
+              "qty": 1
+            }
+          },
+          "next": "yuki_c0"
+        },
+        {
+          "text": "$i18n:dlg.maren.lena.ask",
+          "when": {
+            "has_item": {
+              "item": "base:item/keepsake_lena",
+              "qty": 1
+            }
+          },
+          "next": "lena_c0"
+        },
+        {
+          "text": "$i18n:dlg.maren.gideon.ask",
+          "when": {
+            "has_item": {
+              "item": "base:item/keepsake_gideon",
+              "qty": 1
+            }
+          },
+          "next": "gideon_c0"
+        },
+        {
+          "text": "$i18n:dlg.maren.bye",
+          "next": "end"
+        }
+      ]
+    }
+  }
+}

@@ -431,7 +431,7 @@ class WorldGenTest {
         assertEquals(16384, params.width)
         val map = makeStreamMap(params)
         assertEquals(0, map.ground.size)
-        assertEquals(16, map.npcs.size) // Mira, Pip, the eight wayfarers, three people of Fenwick and three of Aldermere
+        assertEquals(17, map.npcs.size) // Mira, Pip, eight wayfarers, three of Fenwick, three of Aldermere, Sister Maren
         assertEquals("guild_clerk_mira", map.npcs[0].key)
         val setup = loadCombatSetup(pack, map, "base:protagonist/ren", 42uL, worldEnemyIds(params)).getOrThrow()
         val tileset = parseTileset(requireNotNull(pack.readDocument("base:tileset/overworld"))).getOrThrow()

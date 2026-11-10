@@ -44,6 +44,12 @@ A **new game** (a slot with no save yet) opens with the prologue of its protagon
 with `begin_dialogue` before the first tick; the world waits behind it as behind any dialogue. A protagonist without that dialogue starts at once. It is not shown again when the game is loaded. Each prologue has
 one choice; the first answer sets the flag `<name>.prologue_first`, which later dialogues may read. The texts are written by `tools/make_prologues.py`.
 
+## The first act
+
+Each protagonist has a first act of three quests, "The First Echo": something of their old world came through the Threshold with them, and the third quest ends at a guardian of Verdalis (the warden of Grunmoor Barrow,
+the Mint Matron or the Gel King). Sister Maren (`shrine_keeper_maren`), in the plaza of Aldermere, gives them: her dialogue shows one line for each protagonist, to whoever carries that protagonist's keepsake (as Pip does for the
+personal quests), and then offers the quests one after the other (`base:quest/side/act1_<name>_1` to `_3`). It is all data (spec 07): `tools/make_stories.py` writes it.
+
 ## Personal stories
 
 Every protagonist starts with a **keepsake** (`base:item/keepsake_<name>`, kind `key`, price 0 so it cannot be sold, quantity 1) and Pip, the lad of the home village (spec 07), has for each of them a question in his menu that is shown only when the player holds that keepsake

@@ -55,7 +55,7 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 
 **Life and progression**
 
-- An adventurers' guild with a board and commissions, 118 quests, shops, inns, jobs from the elders.
+- An adventurers' guild with a board and commissions, 142 quests, shops, inns, jobs from the elders.
 - 143 items; gathering from bushes, trees, rocks and cacti; 16 recipes (potions, cooked dishes, gear).
 - A companion for each protagonist: it follows you, fights, stays where you tell it, and its bond grows with its victories.
 - A bestiary, 15 titles, and a profile shared by all your games: every title you ever earned gives a little more health to every new life (the "echoes").
@@ -65,7 +65,7 @@ The full catalog of the content, generated from the data, is in [`docs/design/ca
 
 ## The protagonists
 
-Each one has a prologue with Lyra, a gift, two attack skills, a story and two personal quests.
+Each one has a prologue with Lyra, a gift, two attack skills, two personal quests and the first act of their story ("The First Echo": three quests given by Sister Maren in Aldermere, ending at a guardian).
 
 | Protagonist | Who they were | Gift | Tone | Companion |
 |---|---|---|---|---|
@@ -209,7 +209,7 @@ The project is developed by its owner together with Claude, an AI assistant that
 What comes next, in order (details in the [roadmap](docs/plan/06-roadmap-rischi-backlog.md), in Italian):
 
 - **Soon:** configurable keys, the companion's state and the counters shown in the interface, more automatic checks on the graphics.
-- **Toward Alpha 0.1:** the three-act stories and personal bosses of the protagonists, skill trees, tags and titles with effects, the full reincarnation, item quality and workbenches, a better synthesizer to bring ambience and music back.
+- **Toward Alpha 0.1:** the second and third act of the stories and the personal bosses of the protagonists, skill trees, tags and titles with effects, the full reincarnation, item quality and workbenches, a better synthesizer to bring ambience and music back.
 - **Toward 1.0:** a base and residents, farming and fishing, a dynamic economy, accessibility, more languages, tools for modders.
 
 ## Contributing and license

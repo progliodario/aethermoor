@@ -1505,6 +1505,13 @@
               "variant": "purple",
               "dx": 382,
               "dy": -126
+            },
+            {
+              "key": "shrine_keeper_maren",
+              "dialogue": "base:dialogue/npc/maren",
+              "variant": "cream",
+              "dx": 386,
+              "dy": -129
             }
           ],
           "stamp_defs": {
@@ -6070,6 +6077,11 @@
             "aldermere_archivist_selwyn",
             110208,
             -21888
+          ],
+          [
+            "shrine_keeper_maren",
+            111232,
+            -22656
           ]
         ],
         "gid_histogram": {
@@ -7602,6 +7614,13 @@
               "variant": "purple",
               "dx": 382,
               "dy": -126
+            },
+            {
+              "key": "shrine_keeper_maren",
+              "dialogue": "base:dialogue/npc/maren",
+              "variant": "cream",
+              "dx": 386,
+              "dy": -129
             }
           ],
           "stamp_defs": {
@@ -12163,6 +12182,11 @@
             "aldermere_archivist_selwyn",
             108160,
             -22912
+          ],
+          [
+            "shrine_keeper_maren",
+            109184,
+            -23680
           ]
         ],
         "gid_histogram": {
@@ -13695,6 +13719,13 @@
               "variant": "purple",
               "dx": 382,
               "dy": -126
+            },
+            {
+              "key": "shrine_keeper_maren",
+              "dialogue": "base:dialogue/npc/maren",
+              "variant": "cream",
+              "dx": 386,
+              "dy": -129
             }
           ],
           "stamp_defs": {
@@ -18268,6 +18299,11 @@
             "aldermere_archivist_selwyn",
             109184,
             -19840
+          ],
+          [
+            "shrine_keeper_maren",
+            110208,
+            -20608
           ]
         ],
         "gid_histogram": {
