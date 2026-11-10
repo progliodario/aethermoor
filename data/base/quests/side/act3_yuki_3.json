@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/act3_yuki_3",
+  "name": "$i18n:quest.act3_yuki_3.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.act3_yuki_3.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/pearl_empress",
+          "count": 1
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 5000
+    },
+    {
+      "effect": "add_gold",
+      "amount": 8000
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 180
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/captains_cutlass",
+      "qty": 1
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/empress_pearl_vest",
+      "qty": 1
+    }
+  ]
+}

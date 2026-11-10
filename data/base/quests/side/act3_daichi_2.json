@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/act3_daichi_2",
+  "name": "$i18n:quest.act3_daichi_2.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.act3_daichi_2.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/spider_silk",
+          "count": 4
+        },
+        {
+          "type": "collect",
+          "item": "base:item/ember_core",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 1800
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1800
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 160
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/hearty_stew",
+      "qty": 4
+    }
+  ]
+}

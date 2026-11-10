@@ -56,6 +56,12 @@ personal quests), and then offers the quests one after the other (`base:quest/si
 (the Iron Foreman), Sakura to Lumeria (the Astral Curator), Daichi and Gideon to the Ashen Wastes (the Cinder Colossus; the Char Tyrant, on Gideon's old throne), Haruka to Whisperwood (the Moss Elder), Marco to Tidehaven
 (the Drowned Captain), Yuki to Sunscar (the Sand Sentinel), Lena to Frostveil (the Rime Revenant). Maren says the closing words of the first act before she offers the first quest of the second. The table is `tools/stories_act2.py`.
 
+## The third act
+
+"The Last Echo" closes the story (`base:quest/side/act3_<name>_1` to `_3`): the last and largest piece of each old world, held by one of the great guardians. Ren: the Vault Warden (Obsidian Vault, Ashen Wastes);
+Sakura: the Nebula Heart (Lumeria); Daichi: the Magma Heart (Ashen Wastes); Haruka: the Moonshade Alpha (Whisperwood); Marco: the Forge-Tyrant (Ironspine); Yuki: the Pearl Empress (Tidehaven); Lena: the Frost Sovereign
+(Frostveil); Gideon: the Storm Sovereign (Lumeria). Maren says the closing words of the second act before she offers the first quest of the third, and her last words when the story is over. The table is `tools/stories_act3.py`.
+
 ## Personal stories
 
 Every protagonist starts with a **keepsake** (`base:item/keepsake_<name>`, kind `key`, price 0 so it cannot be sold, quantity 1) and Pip, the lad of the home village (spec 07), has for each of them a question in his menu that is shown only when the player holds that keepsake

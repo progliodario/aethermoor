@@ -32,7 +32,7 @@ Python scripts (3.12 or newer; the virtual environment of [`docs/dev/setup.md`](
 | `make_recipes.py` | writes the crafting recipes `data/base/recipes.json` (spec 06, "Crafting") |
 | `make_companions.py` | writes the companions `data/base/companions/` with their names, and gives each protagonist theirs (spec 10) |
 | `make_towns.py` | writes the two hand-written towns: the named people of Fenwick and Aldermere, their dialogues and quests, their texts, and their lines in the world data (`npcs`, the landmark of Aldermere) |
-| `make_stories.py` (`stories_act2.py`) | writes the first two acts of each protagonist's story: Sister Maren's dialogue in Aldermere, six quests for each protagonist, their texts, two staves for the magic users and her line in the world data |
+| `make_stories.py` (`stories_act2.py`, `stories_act3.py`) | writes the story in three acts of each protagonist: Sister Maren's dialogue in Aldermere, nine quests for each protagonist, their texts, two staves for the magic users and her line in the world data |
 | `make_talents.py` | writes the talents `data/base/talents.json` and their names (spec 11, "Talents") |
 | `make_titles.py` | writes the titles `data/base/titles.json` and their names (spec 11) |
 | `make_prologues.py` | writes the prologue of each protagonist, `data/base/dialogues/<name>/prologue.json`, and its texts (spec 18, "Prologue") |

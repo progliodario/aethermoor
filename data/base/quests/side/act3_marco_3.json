@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/act3_marco_3",
+  "name": "$i18n:quest.act3_marco_3.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.act3_marco_3.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/forge_tyrant",
+          "count": 1
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 5000
+    },
+    {
+      "effect": "add_gold",
+      "amount": 6000
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 180
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/foreman_maul",
+      "qty": 1
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/glacier_plate",
+      "qty": 1
+    }
+  ]
+}
