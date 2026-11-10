@@ -257,6 +257,8 @@ public:
         std::vector<std::pair<std::string, std::int64_t>> items;
     };
     GatherResult gather();
+    // Where the prop that `gather` would gather from is, if there is one (for the hint of the interface).
+    std::optional<std::pair<float, float>> gather_near() const;
     // Makes a recipe from the bag (spec 06, "Crafting"). Returns false, changing nothing, when it is refused.
     bool craft(const std::string& recipe_id);
     // The companion (spec 10): where it is, or nullptr when the protagonist has none.

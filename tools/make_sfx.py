@@ -199,8 +199,8 @@ AMBIENCE = {
     "amb_wind_strong": (8000, 700, [L("noise", 450, 450, 800, 0, 1, am=(25, 700)), L("noise", 900, 900, 400, 0, 1, am=(35, 800))]),
     "amb_wind_desert": (8000, 600, [L("noise", 1100, 1100, 600, 0, 1, am=(25, 750)), L("noise", 600, 600, 300, 0, 1, am=(15, 600))]),
     "amb_wind_snow": (8000, 500, [L("noise", 600, 600, 450, 0, 1, am=(25, 800)), L("sine", 300, 340, 150, 0, 1, am=(25, 900))]),
-    "amb_rain_light": (4000, 450, [L("noise", 2200, 2200, 600, 0, 1, am=(50, 200)), L("noise", 1300, 1300, 350, 0, 1, am=(75, 300))]),
-    "amb_rain_heavy": (4000, 550, [L("noise", 1800, 1800, 800, 0, 1, am=(50, 250)), L("noise", 900, 900, 500, 0, 1, am=(25, 300))]),
+    "amb_rain_light": (4000, 200, [L("noise", 2200, 2200, 600, 0, 1, am=(50, 200)), L("noise", 1300, 1300, 350, 0, 1, am=(75, 300))]),
+    "amb_rain_heavy": (4000, 260, [L("noise", 1800, 1800, 800, 0, 1, am=(50, 250)), L("noise", 900, 900, 500, 0, 1, am=(25, 300))]),
     "amb_waves": (8000, 600, [L("noise", 600, 600, 650, 0, 1, am=(10, 950)), L("noise", 1800, 1800, 300, 0, 1, am=(10, 900))]),
     "amb_crickets": (4000, 250, [L("triangle", 2300, 2300, 400, 0, 1, am=(80, 950)), L("triangle", 2600, 2600, 250, 0, 1, am=(60, 950))]),
     "amb_birds": (8000, 250, [L("triangle", 1500, 2100, 450, 0, 1, am=(10, 990)), L("triangle", 1300, 1800, 300, 0, 1, am=(15, 990))]),
@@ -256,7 +256,7 @@ EVENTS: dict[str, dict] = {
     "nightfall": {"sounds": ["nightfall"], "volume_pm": 700},
 }
 for ground in STEPS:
-    EVENTS[f"step.{ground}"] = {"sounds": [f"step_{ground}_{c}" for c in "abc"], "volume_pm": 700}
+    EVENTS[f"step.{ground}"] = {"sounds": [f"step_{ground}_{c}" for c in "abc"], "volume_pm": 350}
 for family in FAMILIES:
     for kind in ("aggro", "attack", "hit", "die"):
         EVENTS[f"enemy.{family}.{kind}"] = {"sounds": [f"{family}_{kind}"], "volume_pm": 1000, **({"cooldown": 20} if kind == "aggro" else {})}
@@ -265,21 +265,13 @@ for panel, sounds in {"bag": ("open_bag", "close_bag"), "map": ("open_map", "clo
     EVENTS[f"ui.open.{panel}"] = {"sounds": [sounds[0]], "volume_pm": 800}
     EVENTS[f"ui.close.{panel}"] = {"sounds": [sounds[1]], "volume_pm": 800}
 
-# What loops where: each region has its own air. `when` is `day`, `night` or `always`; `gain_pm` the loudness of the loop.
+# What loops where. The regional beds are switched off: the synthesizer has no filtered noise yet, and its stepped noise and plain tones, looped for
+# minutes, were unpleasant to listen to (the owner asked twice to remove a disturbing sound). The recipes `amb_*` stay in the pack, and the rules
+# (spec 14, "Ambience") and their vectors are unchanged, so a region gets its air back by listing sounds here: `{"sound", "when", "gain_pm"}`.
+REGIONS = ("verdalis", "whisperwood", "ironspine", "sunscar", "frostveil", "tidehaven", "ashen_wastes", "lumeria")
 AMBIENCE_RULES = {
     "rain": {"light": "amb_rain_light", "heavy": "amb_rain_heavy", "silences": ["amb_birds", "amb_crickets"]},
-    "regions": {
-        "verdalis": [{"sound": "amb_birds", "when": "day", "gain_pm": 220}, {"sound": "amb_leaves", "gain_pm": 250}, {"sound": "amb_wind_soft", "gain_pm": 300},
-                     {"sound": "amb_crickets", "when": "night", "gain_pm": 200}],
-        "whisperwood": [{"sound": "amb_leaves", "gain_pm": 350}, {"sound": "amb_magic", "gain_pm": 250}, {"sound": "amb_crickets", "when": "night", "gain_pm": 200},
-                        {"sound": "amb_birds", "when": "day", "gain_pm": 180}],
-        "ironspine": [{"sound": "amb_wind_strong", "gain_pm": 650}, {"sound": "amb_cave", "gain_pm": 200}],
-        "sunscar": [{"sound": "amb_wind_desert", "gain_pm": 650}, {"sound": "amb_crickets", "when": "night", "gain_pm": 200}],
-        "frostveil": [{"sound": "amb_wind_snow", "gain_pm": 700}],
-        "tidehaven": [{"sound": "amb_waves", "gain_pm": 700}, {"sound": "amb_wind_soft", "gain_pm": 350}, {"sound": "amb_birds", "when": "day", "gain_pm": 150}],
-        "ashen_wastes": [{"sound": "amb_ash", "gain_pm": 650}, {"sound": "amb_fire", "gain_pm": 250}],
-        "lumeria": [{"sound": "amb_magic", "gain_pm": 600}, {"sound": "amb_wind_soft", "gain_pm": 300}, {"sound": "amb_crickets", "when": "night", "gain_pm": 200}],
-    },
+    "regions": {region: [] for region in REGIONS},
 }
 
 

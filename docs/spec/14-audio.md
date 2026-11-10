@@ -109,6 +109,9 @@ The `ambience` section of the table says, for each region, which loops belong to
 rain loop at `min(1000, max(0, rain_pm - 500) * 2)` when above zero, and the loops in `rain.silences` (the birds, the crickets) go to 0.
 Loops at 0 are left out. The client sets these as the targets of its loops every frame.
 
+**Base pack:** the regions of `events.json` list no loops for now, so nothing loops but the rain. The stepped noise and the plain tones of the synthesizer, looped for minutes, were unpleasant to listen to;
+the `amb_*` recipes stay in the pack for when the synthesizer has filtered noise. The rule above and its vectors (which carry their own table) are unchanged.
+
 ## Music
 
 A **piece** (`schemas/music.schema.json`, `data/base/audio/music/<name>.json`, ID `base:audio/music/<name>`) is a loop of `bars` bars

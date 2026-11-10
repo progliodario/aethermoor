@@ -17,6 +17,7 @@ open a panel, save, load. While a dialogue is open the movement and the attack o
 | Keyboard, attack | `J`, `Space` or the left mouse button |
 | Title screen, export and import (desktop) | `X`: export the chosen game to a file; `I`: import `import.aethersave` into the chosen empty game (spec 12, "Export and import") |
 | Keyboard, crafting | `C`: the crafting panel (spec 06, "Crafting"); `W`/`S` choose, `E` makes, `Esc` or `C` closes; Android: a button |
+| Keyboard, the `E` hint | the hint over what `E` would act on says what it does: `ui.interact` over a person (talk), `ui.interact_stone` over a Threshold Stone, `ui.interact_gather` over a prop to gather from; on Android the button has the same three words (`ui.touch_talk`, `ui.touch_stone`, `ui.touch_gather`). When more than one is near, the order is person, stone, prop |
 | Keyboard, companion | `H`: the companion stays where it is, or follows again (spec 10, "Commands") |
 | Keyboard, parry | `U`: the parry (spec 05, "Parry"); held, it opens a window whenever the wait is over |
 | Keyboard, power strike | `K`: the power strike (spec 05, "Mana"), while there is mana; held, it repeats when the cooldown ends; with `J` held too, the strike wins |

@@ -1598,8 +1598,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
         if (canTalk) {
             font.color = Color.WHITE
+            // the word of the button says what it will do: talk, touch the stone or gather (the same order as the action)
+            val what = when {
+                world.story.npcInRange() != null -> "talk"
+                world.stoneNear() != null -> "stone"
+                else -> "gather"
+            }
             font.draw(
-                batch, data.pack.text(language, "\$i18n:ui.interact"),
+                batch, data.pack.text(language, "\$i18n:ui.touch_$what"),
                 button[0] + 12f * density, button[1] + button[3] / 2f - font.lineHeight / 2f,
             )
         }
