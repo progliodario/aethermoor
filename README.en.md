@@ -59,7 +59,7 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 - 145 items; gathering from bushes, trees, rocks and cacti; 16 recipes (potions, cooked dishes, gear).
 - A companion for each protagonist: it follows you, fights, stays where you tell it, and its bond grows with its victories.
 - Talents: one point a level to spend on attack, health, mana or defense (ten ranks each).
-- A bestiary, 15 titles that raise your attack, and a profile shared by all your games: every title you ever earned gives a little more health to every game (the "echoes"), and a game that reached level 10 can be **reincarnated**: it ends, and every past life gives +3% health to all the ones after it.
+- A bestiary, 15 titles that raise your attack, and a profile shared by all your games: every title you ever earned gives a little more health to every game (the "echoes"), and a game that reached level 10 can be **reincarnated**: it ends, every past life gives +3% health to all the ones after it, and half of its gold is an heirloom for your next new game.
 - Three separate games, automatic saving, export and import of a game as one file.
 
 The full catalog of the content, generated from the data, is in [`docs/design/catalog.md`](docs/design/catalog.md).

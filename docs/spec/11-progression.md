@@ -56,6 +56,12 @@ A game whose protagonist has reached **level 10** can be **reincarnated** from t
 (spec 12) gains one **past life** (`lives += 1`), and the slot is emptied (its saves, the protagonist kept for it and its goal), so the next game there chooses who to be. A game below level 10 is refused and nothing changes.
 What the game had reached is already in the profile, which every save updates. Past lives never go down.
 
+## Heirloom
+
+When a game is reincarnated, **half of its gold** (`gold * 50 / 100`, from the autosave the title screen reads) is added to the **heirloom** of the profile. The next **new game** (a slot without a save, in any slot) takes the whole
+heirloom when it starts: its gold goes up by it, the profile's heirloom goes back to 0, and a notice says how much it was. Several reincarnations before a new game add up. Reference: `reincarnate` and `claim_heirloom` in
+`tools/reference/profile.py`; conformance: the suite `profile`.
+
 ## Echoes
 
 What the player reached in past games is not lost: every title in the profile (spec 12, "Profile") is an **echo**, and so is every past life: a game that starts, or is loaded, has `echo_pct = min(number of titles in the profile, 15) + 3 * min(lives, 10)`, 45 at most.
@@ -69,4 +75,4 @@ The journal (spec 07) shows, after the quests, the companion (name, whether it s
 
 ## Later
 
-Tags (traits earned by how one plays), a chosen carry-over for the reincarnation (today a past life gives health to every game, nothing else), and titles with other effects than attack.
+Tags (traits earned by how one plays), a chosen carry-over for the reincarnation (today a past life gives health to every game and half of its gold to the next one), and titles with other effects than attack.

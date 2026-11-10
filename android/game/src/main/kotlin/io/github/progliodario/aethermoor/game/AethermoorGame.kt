@@ -39,6 +39,7 @@ import io.github.progliodario.aethermoor.core.sim.Prop
 import io.github.progliodario.aethermoor.core.sim.QuestStage
 import io.github.progliodario.aethermoor.core.sim.Profile
 import io.github.progliodario.aethermoor.core.sim.SaveMeta
+import io.github.progliodario.aethermoor.core.sim.claimHeirloom
 import io.github.progliodario.aethermoor.core.sim.mergeProfile
 import io.github.progliodario.aethermoor.core.sim.parseProfile
 import io.github.progliodario.aethermoor.core.sim.profileEchoPct
@@ -439,7 +440,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             titleNotice = data.pack.text(language, "\$i18n:ui.rebirth_confirm", mapOf("slot" to index + 1))
             return
         }
-        val reborn = reincarnate(readProfile(), slots[index].level.toLong()) ?: return
+        val reborn = reincarnate(readProfile(), slots[index].level.toLong(), slots[index].gold) ?: return
         try {
             profileFile().writeString(profileToJson(reborn), false, "UTF-8")
             for (name in listOf("auto.json", "auto.json.tmp", "quick.json", "quick.json.tmp", "protagonist.txt", "goal.txt")) {
@@ -519,6 +520,16 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (!file.exists()) {
             // A new game opens with the prologue of its protagonist: a talk with Lyra at the Threshold (spec 18).
             world.story.beginDialogue("base:dialogue/${protagonistId.substringAfterLast('/')}/prologue")
+            val (heirloom, rest) = claimHeirloom(readProfile()) // the heirloom of a past life (spec 11)
+            if (heirloom > 0) {
+                world.story.gold += heirloom
+                try {
+                    profileFile().writeString(profileToJson(rest), false, "UTF-8")
+                } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
+                    Gdx.app.error(TAG, "Cannot write the profile: ${e.message}")
+                }
+                showNotice(pack.text(language, "\$i18n:ui.heirloom", mapOf("gold" to heirloom)))
+            }
             return
         }
         val text = file.readString("UTF-8")

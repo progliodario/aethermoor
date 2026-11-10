@@ -2867,7 +2867,8 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
                         pending_rebirth = -1;
                         notice = assets.pack.text(lang, "$i18n:ui.rebirth_too_early");
                     } else if (pending_rebirth == cursor &&
-                               aether::reincarnate(reborn, slots[static_cast<std::size_t>(cursor)].level)) {
+                               aether::reincarnate(reborn, slots[static_cast<std::size_t>(cursor)].level,
+                                                   slots[static_cast<std::size_t>(cursor)].gold)) {
                         write_text_atomic(profile_file(), aether::profile_to_json(reborn));
                         clear_slot(cursor + 1);
                         slots[static_cast<std::size_t>(cursor)] = SlotInfo{};
@@ -3366,6 +3367,12 @@ int main(int argc, char** argv) {
                     // 18).
                     const std::size_t slash = g_protagonist_id.rfind('/');
                     sim.story().begin_dialogue("base:dialogue/" + g_protagonist_id.substr(slash + 1) + "/prologue");
+                    aether::Profile profile = read_profile();  // the heirloom of a past life (spec 11)
+                    if (const std::int64_t heirloom = aether::claim_heirloom(profile); heirloom > 0) {
+                        sim.story().set_gold(sim.story().gold() + heirloom);
+                        write_text_atomic(profile_file(), aether::profile_to_json(profile));
+                        notify(ui, assets.pack.text(ui.lang, "$i18n:ui.heirloom", {{"gold", heirloom}}));
+                    }
                 }
             }
 
