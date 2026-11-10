@@ -47,6 +47,9 @@ python tools/validate_data.py
 python tools/gen_conformance.py
 python tools/make_stamps.py
 
+# Generators of data from tables in code: run the one whose table you changed (the list is in tools/README.md)
+python tools/make_recipes.py   # also make_gathering, make_companions, make_titles, make_prologues, make_sfx
+
 # A catalog of the pack in tables (creatures, items, quests, sites), for reviewing the content
 python tools/make_catalog.py   # writes docs/design/catalog.md
 
@@ -105,4 +108,4 @@ cd android && gradle :core:test :app:assembleDebug
 
 ## Where things stand
 
-Eight protagonists (Ren, Sakura, Daichi, Haruka, Marco, Yuki, Lena, Gideon: spec 18), a streamed 16384 x 16384 world with eight regions, 35 hand-made sites, 60 creatures, 143 items, 110 quests, guild, shops, inns, stones, seasons, three save slots, Italian and English (see `docs/design/catalog.md` and the status of `docs/plan/06-roadmap-rischi-backlog.md`, section 8). Feature gating exists (ADR 0009) but is not used yet: `supported_features` is empty in `project.json` and in both clients, and parity is kept by the shared specs and vectors. Combat balance and the other protagonists are the owner's to decide.
+Eight protagonists (Ren, Sakura, Daichi, Haruka, Marco, Yuki, Lena, Gideon: spec 18), a streamed 16384 x 16384 world with eight regions, 35 hand-made sites, 60 creatures, 143 items, 110 quests, guild, shops, inns, stones, seasons, three save slots with export and import, Italian and English. Combat has elements, status effects (on creatures and on the player), parry, dodge and stagger; there are companions (stay/follow, bond), gathering, crafting (16 recipes), a bestiary, 15 titles, a shared `profile.json` with echoes, and a prologue for each protagonist. Sound effects are on; the music (no `music_rules.json`) and the regional ambience (empty `ambience.regions` in `events.json`) are switched off because the owner found them unpleasant: do not turn them back on without asking (see `docs/design/catalog.md` and the status of `docs/plan/06-roadmap-rischi-backlog.md`, section 8). Feature gating exists (ADR 0009) but is not used yet: `supported_features` is empty in `project.json` and in both clients, and parity is kept by the shared specs and vectors. Combat balance and the other protagonists are the owner's to decide.

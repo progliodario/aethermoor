@@ -30,8 +30,12 @@ Python scripts (3.12 or newer; the virtual environment of [`docs/dev/setup.md`](
 | `compose.py` | composes the music of `data/base/audio/music/` and `music_rules.json` (spec 14) from moods, modes and progressions |
 | `audio_wav.py` | writes a sound (`sfx <name>`) or a piece of music (`music <name> --layers base,combat`) to a WAV file, to listen to it |
 | `make_recipes.py` | writes the crafting recipes `data/base/recipes.json` (spec 06, "Crafting") |
+| `make_companions.py` | writes the companions `data/base/companions/` with their names, and gives each protagonist theirs (spec 10) |
+| `make_titles.py` | writes the titles `data/base/titles.json` and their names (spec 11) |
+| `make_prologues.py` | writes the prologue of each protagonist, `data/base/dialogues/<name>/prologue.json`, and its texts (spec 18, "Prologue") |
 | `make_gathering.py` | writes the gatherable materials (items and their texts) and `data/base/gathering.json` (spec 06, "Gathering") |
-| `make_sfx.py` | writes the sound effect recipes of `data/base/audio/sfx/` (spec 14) |
+| `make_sfx.py` | writes the sound effect recipes of `data/base/audio/sfx/` and the table `events.json` (spec 14); the regional ambience is switched off there |
+| `conformance_audio.py`, `conformance_music.py`, `conformance_savebundle.py`, `conformance_profile.py` | the suites of the sound synthesizer and directors, of the music, of the save bundle and of the profile, used by `gen_conformance.py` like `conformance_m2.py` to `conformance_m5.py` |
 | `art_preview.py` (`--figures`) | an HTML sheet with art recipes, or with every person assembled, to look at them without the game |
 
 ## Working with GitHub

@@ -2589,10 +2589,15 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
 
     if (!sim.story().dialogue_active() && sim.story().npc_in_range() == nullptr) {
         if (const auto stone = sim.stone_near()) {
-            const std::string hint = assets.pack.text(ui.lang, "$i18n:ui.interact");
+            const std::string hint = assets.pack.text(ui.lang, "$i18n:ui.interact_stone");
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-            debug_text(renderer, (stone->first - cam.x) * tile - static_cast<float>(hint.size()) * 4.0F,
+            debug_text(renderer, (stone->first - cam.x) * tile - text_columns(hint) * 4.0F,
                        (stone->second - cam.y) * tile - 2.4F * tile, hint.c_str());
+        } else if (const auto node = sim.gather_near()) {  // something to gather from: the same key, its own word
+            const std::string hint = assets.pack.text(ui.lang, "$i18n:ui.interact_gather");
+            SDL_SetRenderDrawColor(renderer, 190, 255, 190, 255);
+            debug_text(renderer, (node->first - cam.x) * tile - text_columns(hint) * 4.0F,
+                       (node->second - cam.y) * tile - 1.8F * tile, hint.c_str());
         }
     }
     if (!sim.story().dialogue_active()) {

@@ -2,7 +2,7 @@
   "$schema": "../../../../schemas/sfx_recipe.schema.json",
   "id": "base:audio/sfx/amb_rain_heavy",
   "duration_ms": 4000,
-  "volume_pm": 550,
+  "volume_pm": 260,
   "loop": true,
   "layers": [
     {

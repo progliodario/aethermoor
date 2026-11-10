@@ -644,6 +644,46 @@ bool WorldSim::craft(const std::string& recipe_id) {
     return true;
 }
 
+std::optional<std::pair<float, float>> WorldSim::gather_near() const {
+    if (m_story_.dialogue_active() || m_setup_.gather_nodes.empty()) {
+        return std::nullopt;
+    }
+    const Player& p = m_player_;
+    bool found = false;
+    float best_d = 0.0F;
+    float best_x = 0.0F;
+    float best_y = 0.0F;
+    const float far = 4.5F;  // the largest reach plus a prop's radius
+    for_each_prop(
+        p.position.x - far, p.position.y - far, p.position.x + far, p.position.y + far, [&](const Prop& prop) {
+            const auto node = m_setup_.gather_nodes.find(prop.art);
+            if (node == m_setup_.gather_nodes.end()) {
+                return;
+            }
+            const float d = std::sqrt((prop.x - p.position.x) * (prop.x - p.position.x) +
+                                      (prop.y - p.position.y) * (prop.y - p.position.y));
+            if (d > static_cast<float>(node->second.reach_x100) / 100.0F + prop.radius) {
+                return;
+            }
+            const std::pair<int, int> key{static_cast<int>(std::floor(prop.x * 100.0F + 0.5F)),
+                                          static_cast<int>(std::floor(prop.y * 100.0F + 0.5F))};
+            const auto grown = m_gathered_.find(key);
+            if (grown != m_gathered_.end() && m_world_ticks_ < grown->second.first) {
+                return;
+            }
+            if (!found || d < best_d || (d == best_d && (prop.x < best_x || (prop.x == best_x && prop.y < best_y)))) {
+                found = true;
+                best_d = d;
+                best_x = prop.x;
+                best_y = prop.y;
+            }
+        });
+    if (!found) {
+        return std::nullopt;
+    }
+    return std::make_pair(best_x, best_y);
+}
+
 WorldSim::GatherResult WorldSim::gather() {
     GatherResult result;
     if (m_story_.dialogue_active() || m_setup_.gather_nodes.empty()) {

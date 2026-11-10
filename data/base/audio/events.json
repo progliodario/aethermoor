@@ -240,7 +240,7 @@
         "step_grass_b",
         "step_grass_c"
       ],
-      "volume_pm": 700
+      "volume_pm": 350
     },
     "step.dirt": {
       "sounds": [
@@ -248,7 +248,7 @@
         "step_dirt_b",
         "step_dirt_c"
       ],
-      "volume_pm": 700
+      "volume_pm": 350
     },
     "step.sand": {
       "sounds": [
@@ -256,7 +256,7 @@
         "step_sand_b",
         "step_sand_c"
       ],
-      "volume_pm": 700
+      "volume_pm": 350
     },
     "step.snow": {
       "sounds": [
@@ -264,7 +264,7 @@
         "step_snow_b",
         "step_snow_c"
       ],
-      "volume_pm": 700
+      "volume_pm": 350
     },
     "step.stone": {
       "sounds": [
@@ -272,7 +272,7 @@
         "step_stone_b",
         "step_stone_c"
       ],
-      "volume_pm": 700
+      "volume_pm": 350
     },
     "step.wood": {
       "sounds": [
@@ -280,7 +280,7 @@
         "step_wood_b",
         "step_wood_c"
       ],
-      "volume_pm": 700
+      "volume_pm": 350
     },
     "step.water": {
       "sounds": [
@@ -288,7 +288,7 @@
         "step_water_b",
         "step_water_c"
       ],
-      "volume_pm": 700
+      "volume_pm": 350
     },
     "step.moss": {
       "sounds": [
@@ -296,7 +296,7 @@
         "step_moss_b",
         "step_moss_c"
       ],
-      "volume_pm": 700
+      "volume_pm": 350
     },
     "step.ash": {
       "sounds": [
@@ -304,7 +304,7 @@
         "step_ash_b",
         "step_ash_c"
       ],
-      "volume_pm": 700
+      "volume_pm": 350
     },
     "enemy.slime.aggro": {
       "sounds": [
@@ -739,113 +739,14 @@
       ]
     },
     "regions": {
-      "verdalis": [
-        {
-          "sound": "amb_birds",
-          "when": "day",
-          "gain_pm": 220
-        },
-        {
-          "sound": "amb_leaves",
-          "gain_pm": 250
-        },
-        {
-          "sound": "amb_wind_soft",
-          "gain_pm": 300
-        },
-        {
-          "sound": "amb_crickets",
-          "when": "night",
-          "gain_pm": 200
-        }
-      ],
-      "whisperwood": [
-        {
-          "sound": "amb_leaves",
-          "gain_pm": 350
-        },
-        {
-          "sound": "amb_magic",
-          "gain_pm": 250
-        },
-        {
-          "sound": "amb_crickets",
-          "when": "night",
-          "gain_pm": 200
-        },
-        {
-          "sound": "amb_birds",
-          "when": "day",
-          "gain_pm": 180
-        }
-      ],
-      "ironspine": [
-        {
-          "sound": "amb_wind_strong",
-          "gain_pm": 650
-        },
-        {
-          "sound": "amb_cave",
-          "gain_pm": 200
-        }
-      ],
-      "sunscar": [
-        {
-          "sound": "amb_wind_desert",
-          "gain_pm": 650
-        },
-        {
-          "sound": "amb_crickets",
-          "when": "night",
-          "gain_pm": 200
-        }
-      ],
-      "frostveil": [
-        {
-          "sound": "amb_wind_snow",
-          "gain_pm": 700
-        }
-      ],
-      "tidehaven": [
-        {
-          "sound": "amb_waves",
-          "gain_pm": 700
-        },
-        {
-          "sound": "amb_wind_soft",
-          "gain_pm": 350
-        },
-        {
-          "sound": "amb_birds",
-          "when": "day",
-          "gain_pm": 150
-        }
-      ],
-      "ashen_wastes": [
-        {
-          "sound": "amb_ash",
-          "gain_pm": 650
-        },
-        {
-          "sound": "amb_fire",
-          "gain_pm": 250
-        }
-      ],
-      "lumeria": [
-        {
-          "sound": "amb_magic",
-          "gain_pm": 600
-        },
-        {
-          "sound": "amb_wind_soft",
-          "gain_pm": 300
-        },
-        {
-          "sound": "amb_crickets",
-          "when": "night",
-          "gain_pm": 200
-        }
-      ]
+      "verdalis": [],
+      "whisperwood": [],
+      "ironspine": [],
+      "sunscar": [],
+      "frostveil": [],
+      "tidehaven": [],
+      "ashen_wastes": [],
+      "lumeria": []
     }
   }
 }
