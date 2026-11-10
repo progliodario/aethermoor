@@ -135,6 +135,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var showMap = false
     private var showJournal = false
     private var showCraft = false // the crafting panel (spec 06, "Crafting")
+    private var craftTab = 0 // what the panel shows: 0 the recipes, 1 the talents (spec 11, "Talents")
+    private var craftTabRect: FloatArray? = null // the button of the panel that switches between the two
     private var craftCursor = 0
     private var craftPanel: FloatArray? = null
     private var craftRowRects: List<FloatArray> = emptyList()
@@ -1283,15 +1285,21 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             return
         }
         if (showCraft) {
-            val recipes = world.combat.recipes
+            val rowCount = if (craftTab == 1) world.combat.talents.size else world.combat.recipes.size
             if (input.isKeyJustPressed(Input.Keys.C) || input.isKeyJustPressed(Input.Keys.ESCAPE)) {
                 showCraft = false
+            } else if (input.isKeyJustPressed(Input.Keys.TAB) && world.combat.talents.isNotEmpty()) {
+                craftTab = 1 - craftTab
+                craftCursor = 0
             } else if (input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W)) {
-                if (recipes.isNotEmpty()) craftCursor = (craftCursor + recipes.size - 1) % recipes.size
+                if (rowCount > 0) craftCursor = (craftCursor + rowCount - 1) % rowCount
             } else if (input.isKeyJustPressed(Input.Keys.DOWN) || input.isKeyJustPressed(Input.Keys.S)) {
-                if (recipes.isNotEmpty()) craftCursor = (craftCursor + 1) % recipes.size
+                if (rowCount > 0) craftCursor = (craftCursor + 1) % rowCount
             } else if (input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.ENTER)) {
                 craftSelected(world)
+            } else if (input.justTouched() && craftTabRect?.let { r -> input.x >= r[0] && input.x <= r[0] + r[2] && input.y >= r[1] && input.y <= r[1] + r[3] } == true) {
+                craftTab = 1 - craftTab // the button of the panel: recipes or talents
+                craftCursor = 0
             } else if (input.justTouched()) {
                 val x = input.x.toFloat()
                 val y = input.y.toFloat()
@@ -2199,6 +2207,15 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private fun craftSelected(world: WorldSim) {
         val data = assets ?: return
         val pack = data.pack
+        if (craftTab == 1) { // the talents (spec 11): one point for a rank
+            val talent = world.combat.talents.getOrNull(craftCursor) ?: return
+            if (world.learnTalent(talent.id)) {
+                showNotice(pack.text(language, "\$i18n:ui.talent_learned", mapOf("name" to pack.text(language, talent.name), "rank" to (world.talents[talent.id] ?: 0))))
+            } else {
+                showNotice(pack.text(language, "\$i18n:ui.talent_refused"))
+            }
+            return
+        }
         val recipe = world.combat.recipes.getOrNull(craftCursor) ?: return
         if (world.craft(recipe.id)) {
             showNotice(pack.text(language, "\$i18n:ui.crafted", mapOf("item" to itemName(data, recipe.output, recipe.outputQty))))
@@ -2226,6 +2243,48 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         batch.begin()
         font.color = Color.WHITE
         font.draw(batch, data.pack.text(language, if (world.companionStaying) "\$i18n:ui.companion_follow_button" else "\$i18n:ui.companion_stay_button"), button[0] + 8f * density, button[1] + (button[3] - font.lineHeight) / 2f)
+        batch.end()
+    }
+
+    /** The talents in the crafting panel (spec 11, "Talents"): one row each with its rank and what it gives; a tap chooses, a second tap learns. */
+    private fun drawTalents(world: WorldSim, data: Assets, tabButton: FloatArray) {
+        val density = Gdx.graphics.density
+        val panel = craftPanel ?: return
+        val talents = world.combat.talents
+        val rowH = font.lineHeight * 2.2f
+        val firstRowY = panel[1] + 56f * density
+        craftCursor = craftCursor.coerceIn(0, max(talents.size - 1, 0))
+        craftRowRects = talents.indices.map { floatArrayOf(panel[0], firstRowY + it * rowH, panel[2], rowH) }
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        drawPanel(panel[0], panel[1], panel[2], panel[3], Color(1f, 0.84f, 0.47f, 1f), 0.96f)
+        craftRowRects.getOrNull(craftCursor)?.let { r ->
+            shapes.color = Color(0.16f, 0.35f, 0.55f, 1f)
+            shapes.rect(r[0] + 6f * density, r[1], r[2] - 12f * density, r[3] - 2f * density)
+        }
+        shapes.end()
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        font.color = Color(1f, 0.84f, 0.47f, 1f)
+        val points = world.talentPoints()
+        font.draw(batch, "${data.pack.text(language, "\$i18n:ui.talents")}  (${data.pack.text(language, "\$i18n:ui.talent_points", mapOf("points" to points))})", panel[0] + 16f * density, panel[1] + 12f * density)
+        font.color = Color(0.6f, 0.85f, 1f, 1f)
+        font.draw(batch, "[ " + data.pack.text(language, "\$i18n:ui.craft") + " ]", tabButton[0] + 8f * density, tabButton[1] + 6f * density)
+        for ((i, talent) in talents.withIndex()) {
+            val r = craftRowRects[i]
+            val rank = world.talents[talent.id] ?: 0
+            font.color = if (points > 0 && rank < talent.maxRank) Color(0.6f, 1f, 0.67f, 1f) else Color(0.8f, 0.8f, 0.85f, 1f)
+            font.draw(
+                batch,
+                data.pack.text(
+                    language, "\$i18n:ui.talent_row",
+                    mapOf("name" to data.pack.text(language, talent.name), "rank" to rank, "max" to talent.maxRank, "pct" to talent.pctPerRank * rank, "what" to data.pack.text(language, "\$i18n:ui.talent_${talent.stat}")),
+                ),
+                r[0] + 16f * density, r[1] + (r[3] - font.lineHeight) / 2f,
+            )
+        }
+        font.color = Color.WHITE
         batch.end()
     }
 
@@ -2263,6 +2322,13 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val panelX = (width - panelW) / 2f
         val panelY = (height - panelH) / 2f
         craftPanel = floatArrayOf(panelX, panelY, panelW, panelH)
+        // the button that switches the panel between the recipes and the talents, in its top right corner
+        val tabButton = floatArrayOf(panelX + panelW - 150f * density, panelY + 6f * density, 140f * density, 32f * density)
+        craftTabRect = if (world.combat.talents.isEmpty()) null else tabButton
+        if (craftTab == 1 && world.combat.talents.isNotEmpty()) {
+            drawTalents(world, data, tabButton)
+            return
+        }
         val firstRowY = panelY + 52f * density
         craftCursor = craftCursor.coerceIn(0, max(recipes.size - 1, 0))
         // the rows that fit, around the cursor: a long list scrolls with it (the rows out of sight are put off the screen)
@@ -2285,6 +2351,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         batch.begin()
         font.color = Color(1f, 0.84f, 0.47f, 1f)
         font.draw(batch, data.pack.text(language, "\$i18n:ui.craft"), panelX + 16f * density, panelY + 12f * density)
+        if (craftTabRect != null) {
+            font.color = Color(0.6f, 0.85f, 1f, 1f)
+            font.draw(batch, "[ " + data.pack.text(language, "\$i18n:ui.talents") + " ]", tabButton[0] + 8f * density, tabButton[1] + 6f * density)
+            font.color = Color(1f, 0.84f, 0.47f, 1f)
+        }
         for ((i, recipe) in recipes.withIndex()) {
             val r = craftRowRects[i]
             if (r[2] == 0f) continue

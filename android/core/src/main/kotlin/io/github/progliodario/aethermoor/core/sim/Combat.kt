@@ -119,6 +119,9 @@ class CompanionDef(
 class RecipeDef(val id: String, val output: String, val outputQty: Long, val inputs: List<Pair<String, Long>>)
 
 /** A title (spec 11): earned when its condition holds. [kind]: kills, kills_of, level, species or quests; [enemy] for kills_of only. */
+/** A talent (spec 11, "Talents"): every rank multiplies a kind of stat. [stat]: attack, health, mana or defense. */
+class TalentDef(val id: String, val name: String, val stat: String, val pctPerRank: Long, val maxRank: Int)
+
 class TitleDef(val id: String, val name: String, val kind: String, val count: Long, val enemy: String = "", val atkPct: Long = 0)
 
 /** A prop that can be gathered from (spec 06, "Gathering"). */
@@ -164,6 +167,9 @@ class CombatSetup(
     val gift: GiftDef = GiftDef(),
     /** Percent added to the maximum health, from the profile of past games (spec 11, "Echoes"). */
     var echoPct: Int = 0,
+    /** The talents that can be learned, in the order of the data (spec 11, "Talents"), and the points a level gives. */
+    val talents: List<TalentDef> = emptyList(),
+    val talentPointsPerLevel: Int = 1,
 )
 
 enum class AttackPhase { NONE, STARTUP, ACTIVE, RECOVERY }

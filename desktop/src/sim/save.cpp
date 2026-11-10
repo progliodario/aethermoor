@@ -118,6 +118,13 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
         }
         j["bestiary"] = bestiary;
     }
+    if (!s.talents.empty()) {
+        Json talents = Json::object();
+        for (const auto& [id, rank] : s.talents) {
+            talents[id] = rank;
+        }
+        j["talents"] = talents;
+    }
     if (!s.counters.empty()) {
         Json counters = Json::object();
         for (const auto& [name, count] : s.counters) {
@@ -248,6 +255,11 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
             s.companion_cooldown = c.at("cooldown").get<int>();
             s.companion_stay = c.value("stay", false);
             s.companion_bond = c.value("bond", 0);
+        }
+        if (j.contains("talents")) {
+            for (const auto& [id, rank] : j.at("talents").items()) {
+                s.talents[id] = rank.get<int>();
+            }
         }
         if (j.contains("counters")) {
             for (const auto& [name, count] : j.at("counters").items()) {

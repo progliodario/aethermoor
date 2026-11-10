@@ -1,0 +1,35 @@
+{
+  "$schema": "../../schemas/talents.schema.json",
+  "id": "base:talents/all",
+  "points_per_level": 1,
+  "talents": [
+    {
+      "id": "might",
+      "name": "$i18n:talent.might.name",
+      "stat": "attack",
+      "pct_per_rank": 5,
+      "max_rank": 10
+    },
+    {
+      "id": "vigor",
+      "name": "$i18n:talent.vigor.name",
+      "stat": "health",
+      "pct_per_rank": 6,
+      "max_rank": 10
+    },
+    {
+      "id": "focus",
+      "name": "$i18n:talent.focus.name",
+      "stat": "mana",
+      "pct_per_rank": 8,
+      "max_rank": 10
+    },
+    {
+      "id": "guard",
+      "name": "$i18n:talent.guard.name",
+      "stat": "defense",
+      "pct_per_rank": 8,
+      "max_rank": 10
+    }
+  ]
+}

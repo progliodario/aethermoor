@@ -842,5 +842,9 @@
   "quest.act1_gideon_2.task": "Gideon will pay back what was taken in his name: furs and gel for the farms.",
   "quest.act1_gideon_3.name": "The First Echo",
   "quest.act1_gideon_3.task": "A voice from Mossveil Cellar offers Gideon his old crown. The Gel King wears it. Answer him.",
+  "talent.might.name": "Might",
+  "talent.vigor.name": "Vigor",
+  "talent.focus.name": "Focus",
+  "talent.guard.name": "Guard",
   "quest.personal_gideon_2.task": "Four tawny wolves and two furs: the village, politely, asks for a tribute."
 }

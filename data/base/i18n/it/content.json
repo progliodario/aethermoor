@@ -842,5 +842,9 @@
   "quest.act1_gideon_2.task": "Gideon ripagherà ciò che è stato preso in suo nome: pellicce e gelatina per le fattorie.",
   "quest.act1_gideon_3.name": "Il primo eco",
   "quest.act1_gideon_3.task": "Una voce dalla Cantina di Mossveil offre a Gideon la sua vecchia corona. La porta il Re Gelatina. Rispondigli.",
+  "talent.might.name": "Potenza",
+  "talent.vigor.name": "Vigore",
+  "talent.focus.name": "Concentrazione",
+  "talent.guard.name": "Guardia",
   "quest.personal_gideon_2.task": "Quattro lupi fulvi e due pellicce: il villaggio, con garbo, chiede un tributo."
 }

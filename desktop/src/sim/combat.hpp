@@ -171,8 +171,19 @@ struct TitleDef {
     std::int64_t atk_pct = 0;  // percent added to the attack of the player's hits while the title is earned
 };
 
+// A talent (spec 11, "Talents"): every rank multiplies a kind of stat. stat: attack, health, mana or defense.
+struct TalentDef {
+    std::string id;
+    std::string name;
+    std::string stat;
+    std::int64_t pct_per_rank = 0;
+    int max_rank = 1;
+};
+
 struct CombatSetup {
     bool enabled = false;
+    std::vector<TalentDef> talents;  // the talents that can be learned, in the order of the data
+    int talent_points_per_level = 1;
     int echo_pct = 0;  // percent added to the maximum health, from the profile of past games (spec 11, "Echoes")
     PlayerSetup player;
     SkillDef skill;

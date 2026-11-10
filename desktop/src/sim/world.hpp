@@ -144,6 +144,7 @@ struct SaveState {
     int companion_bond = 0;               // the creatures it has killed (spec 10, "Bond")
     std::map<std::string, int> bestiary;  // creature ID -> how many were killed (spec 11)
     std::map<std::string, int> counters;  // gathered, crafted, parried (spec 11)
+    std::map<std::string, int> talents;   // talent ID -> rank (spec 11, "Talents")
     std::map<std::string, std::int64_t> inventory;
     std::string equipped_weapon;  // spec 06
     std::string equipped_armor;
@@ -187,6 +188,10 @@ public:
     // The percent that the earned titles add to the attack of the player's hits (spec 11, "Titles with effects").
     std::int64_t title_attack_pct() const;
     const std::map<std::string, int>& counters() const { return m_counters_; }
+    // Talents (spec 11): the ranks learned, the points left, and spending one point on a rank (false when refused).
+    const std::map<std::string, int>& talents() const { return m_talents_; }
+    int talent_points() const;
+    bool learn_talent(const std::string& talent_id);
     const std::vector<TitleDef>& titles() const { return m_setup_.titles; }
     const DerivedStats& derived() const { return m_derived_; }
     bool streamed() const { return m_store_ != nullptr; }
@@ -357,6 +362,7 @@ private:
     std::vector<std::pair<int, int>> m_stones_;
     std::map<std::string, int> m_bestiary_;
     std::map<std::string, int> m_counters_;
+    std::map<std::string, int> m_talents_;
     std::optional<Travel> m_travel_;
     int m_routine_tod_ = -1;             // time of day (permille) the dynamic NPCs were built for
     std::vector<NpcDef> m_npcs_;         // settlement people of the active window (spec 09)

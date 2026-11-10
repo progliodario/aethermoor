@@ -70,6 +70,7 @@ can reach (`Android/data/<package>/files/exports`; the private folder when the d
   window is rebuilt around the saved player position; every enemy must belong to a spawner of the window (the enemy of a cleared spawner is dead), and every
   uncleared spawner of the window must have its enemy, otherwise the save is invalid for this build. `cleared_spawners` and `spawner` are absent on fixed maps.
 - `explored` (streamed world) is the list of explored world map cells `[x, y]`, ordered by row then column (spec 09); absent in old saves.
+- `talents` (spec 11, "Talents") is an object from talent ID to the rank learned; absent when empty and in older saves.
 - `counters` (spec 11) is an object from counter name (`gathered`, `crafted`, `parried`) to a count; absent when empty and in older saves.
 - `bestiary` (spec 11) is an object from creature ID to kills; absent when empty and in older saves.
 - `companion` (a protagonist with a companion, spec 10) is `{"x", "y", "cooldown"}`: where the companion is and how many ticks until it hits again, with `stay` (true when it was told to stay) and `bond` (its kills) when they are not false and 0; absent in older saves (it is put next to the player).

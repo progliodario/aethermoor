@@ -58,7 +58,8 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 - Gilda degli avventurieri con bacheca e commissioni, 142 missioni, negozi, locande, lavori degli anziani.
 - 143 oggetti; raccolta da cespugli, alberi, rocce e cactus; 16 ricette (pozioni, piatti cucinati, equipaggiamento).
 - Un compagno per protagonista: ti segue, combatte, resta dove gli dici, e il suo legame cresce con le sue vittorie.
-- Bestiario, 15 titoli, e un profilo comune a tutte le partite: ogni titolo mai ottenuto dà un po' di vita in più a ogni nuova vita (gli "echi").
+- Talenti: un punto per livello da spendere in attacco, vita, mana o difesa (dieci ranghi ciascuno).
+- Bestiario, 15 titoli che aumentano l'attacco, e un profilo comune a tutte le partite: ogni titolo mai ottenuto dà un po' di vita in più a ogni nuova vita (gli "echi").
 - Tre partite separate, salvataggio automatico, esportazione e importazione di una partita in un file.
 
 Il catalogo completo dei contenuti, generato dai dati, è in [`docs/design/catalog.md`](docs/design/catalog.md).
@@ -102,7 +103,7 @@ Il gioco sceglie italiano o inglese dalla lingua del sistema (`F2` la cambia). S
 | Attaccare | `J` o `Spazio` | Diario, titoli, bestiario | `Q` |
 | Colpo potente | `K` | Mappa del mondo | `M` |
 | Schivata | `L` o `Maiusc` | Mini mappa | `N` |
-| Parata | `U` | Creazione | `C` |
+| Parata | `U` | Creazione, e talenti con `Tab` | `C` |
 | Parlare, toccare una pietra, raccogliere | `E` | Compagno: resta / segui | `H` |
 | Analizza (Ren) | `Z` | Volumi | `F10` |
 | Salvataggio rapido / carica | `F5` / `F9` | Suono sì / no | `F8` |
@@ -209,7 +210,7 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 Le prossime cose, in ordine (dettagli nella [roadmap](docs/plan/06-roadmap-rischi-backlog.md)):
 
 - **A breve:** tasti configurabili, stato del compagno e contatori visibili nell'interfaccia, più controlli automatici sulla grafica.
-- **Verso l'Alpha 0.1:** il secondo e il terzo atto delle storie e i boss personali dei protagonisti, alberi di abilità, tag e titoli con effetti, la reincarnazione completa, qualità degli oggetti e banchi da lavoro, un sintetizzatore migliore per riaccendere ambiente e musica.
+- **Verso l'Alpha 0.1:** il secondo e il terzo atto delle storie e i boss personali dei protagonisti, veri alberi di abilità (oggi i talenti sono quattro, in fila), tag, la reincarnazione completa, qualità degli oggetti e banchi da lavoro, un sintetizzatore migliore per riaccendere ambiente e musica.
 - **Verso la 1.0:** base e residenti, agricoltura e pesca, economia dinamica, accessibilità, altre lingue, strumenti per chi fa mod.
 
 ## Contribuire e licenza

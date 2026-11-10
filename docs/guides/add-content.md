@@ -47,6 +47,10 @@ The crafting recipes and the props that give materials are tables written by a s
 `tools/make_companions.py` has one line for each companion: whose it is, the creature art it is drawn with, its names, attack, range, cooldown and speed. Running it writes `data/base/companions/` and the
 `companion` of each protagonist. Rules: [spec 10](../spec/10-companions.md).
 
+## A talent
+
+`tools/make_talents.py` lists the talents: the stat they multiply (`attack`, `health`, `mana`, `defense`), the percent of a rank, the ranks and the names, and how many points a level gives. Rules: [spec 11](../spec/11-progression.md), "Talents". A new kind of stat is a rule change.
+
 ## A title
 
 `tools/make_titles.py` lists the titles in order of rank: a kind (`kills`, `kills_of` with a creature, `level`, `species`, `quests`, or a counter: `gathered`, `crafted`, `parried`), a count and the names. Titles are computed,

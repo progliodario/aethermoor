@@ -36,6 +36,8 @@ PARRY_IFRAMES = 20
 # The companion (spec 10): it never comes farther than this from the player, and its body is this big.
 COMPANION_LEASH = 8.0
 COMPANION_RADIUS = 0.25
+# Talents (spec 11, "Talents"): what each kind of talent multiplies.
+TALENT_STATS = {"attack": ("atk", "matk"), "health": ("max_hp",), "mana": ("max_mp",), "defense": ("def", "mdef")}
 COMPANION_BOND_STEP = 5   # kills of the companion for one more point of attack
 COMPANION_BOND_MAX = 10   # the most the bond adds
 
@@ -93,6 +95,9 @@ class CombatSim:
         self.skill = scenario["skill"]
         self.strike = scenario.get("strike")  # the power strike: a skill dict like `skill` plus "mp"; None: none (spec 05, "Mana")
         self.cur_skill = self.skill  # the skill of the swing in progress
+        self.talent_defs = scenario.get("talents", [])  # the talents that can be learned (spec 11, "Talents")
+        self.talent_points_per_level = scenario.get("talent_points_per_level", 1)
+        self.talents: dict[str, int] = {}  # talent id -> rank
         self.echo_pct = scenario.get("echo_pct", 0)  # +percent of the maximum health, from the profile (spec 11, "Echoes")
         self.gift = scenario.get("gift", {})  # percentages and the death save of the protagonist (spec 18, "Gift rules")
         self.death_save_cd = 0
@@ -144,7 +149,28 @@ class CombatSim:
             armor_def=armor["def"] if armor else 0,
             armor_mdef=armor["mdef"] if armor else 0))
         derived["max_hp"] = derived["max_hp"] * (100 + self.echo_pct) // 100  # the echoes of past games (spec 11)
+        for talent in self.talent_defs:  # the talents, in the order of the data (spec 11, "Talents")
+            rank = self.talents.get(talent["id"], 0)
+            if rank > 0:
+                for key in TALENT_STATS[talent["stat"]]:
+                    derived[key] = derived[key] * (100 + talent["pct_per_rank"] * rank) // 100
         return derived
+
+    def talent_points(self) -> int:
+        """The talent points not spent yet: one share for every level gained, less the ranks learned."""
+        return (self.level - 1) * self.talent_points_per_level - sum(self.talents.values())
+
+    def learn_talent(self, talent_id: str) -> bool:
+        """Spends one point on a rank of a talent (spec 11, "Talents"). Returns False, changing nothing, when it is refused."""
+        if self.story is not None and self.story.dialogue_active:
+            return False
+        talent = next((t for t in self.talent_defs if t["id"] == talent_id), None)
+        if talent is None or self.talent_points() < 1 or self.talents.get(talent_id, 0) >= talent["max_rank"]:
+            return False
+        self.talents[talent_id] = self.talents.get(talent_id, 0) + 1
+        self.derived = self._derive()
+        self.hp = min(self.hp, self.derived["max_hp"])
+        return True
 
     @property
     def speed(self) -> float:
@@ -677,6 +703,7 @@ class CombatSim:
             "equipped": dict(self.equipped),
             **({"bestiary": dict(sorted(self.bestiary.items()))} if self.bestiary else {}),
             **({"counters": dict(sorted(self.counters.items()))} if self.counters else {}),
+            **({"talents": dict(sorted(self.talents.items()))} if self.talents else {}),
             "story": self.story.save_state() if self.story is not None else None,
         }
 
@@ -704,6 +731,7 @@ class CombatSim:
         self.equipped = {"weapon": "", "armor": "", **save.get("equipped", {})}
         self.bestiary = dict(save.get("bestiary", {}))
         self.counters = dict(save.get("counters", {}))
+        self.talents = dict(save.get("talents", {}))
         self.derived = self._derive()
         if self.story is not None and save["story"] is not None:
             self.story.load_state(save["story"])
@@ -718,6 +746,8 @@ class CombatSim:
             "kills": self.kills,
             "inventory": dict(sorted(self.inventory.items())),
             "equipped": dict(self.equipped),
+            **({"talents": dict(sorted(self.talents.items())), "talent_points": self.talent_points(), "max_hp": self.derived["max_hp"],
+                "max_mp": self.derived["max_mp"]} if self.talent_defs else {}),
             **({"companion": {"x": self.comp_x, "y": self.comp_y, "stay": self.comp_stay, "bond": self.comp_bond}} if self.companion is not None else {}),
             **({"bestiary": dict(sorted(self.bestiary.items())), "titles": self.earned_titles(),
                 "counters": dict(sorted(self.counters.items()))} if self.titles else {}),
@@ -734,6 +764,9 @@ def run_segment(sim: CombatSim, segment: dict) -> None:
             continue
         if command["cmd"] in ("equip", "buy", "sell"):
             getattr(sim, command["cmd"])(command["item"])
+            continue
+        if command["cmd"] == "talent":
+            sim.learn_talent(command["talent"])
             continue
         if command["cmd"] == "companion_stay":
             sim.companion_stay()

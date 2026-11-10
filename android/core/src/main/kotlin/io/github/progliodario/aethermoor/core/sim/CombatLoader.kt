@@ -36,6 +36,26 @@ private fun loadCompanion(pack: Pack, id: String): CompanionDef? {
     )
 }
 
+/** The talents (spec 11) and the points a level gives; none when the pack has no table. */
+private fun loadTalents(pack: Pack): Pair<List<TalentDef>, Int> {
+    val text = pack.readDocument("base:talents/all") ?: return Pair(emptyList(), 1)
+    val doc = Json.parseToJsonElement(text).jsonObject
+    val talents = doc["talents"]?.jsonArray ?: return Pair(emptyList(), 1)
+    return Pair(
+        talents.map { element ->
+            val t = element.jsonObject
+            TalentDef(
+                id = t.getValue("id").jsonPrimitive.content,
+                name = t.getValue("name").jsonPrimitive.content,
+                stat = t.getValue("stat").jsonPrimitive.content,
+                pctPerRank = t.getValue("pct_per_rank").jsonPrimitive.long,
+                maxRank = t.getValue("max_rank").jsonPrimitive.int,
+            )
+        },
+        doc["points_per_level"]?.jsonPrimitive?.int ?: 1,
+    )
+}
+
 /** The titles (spec 11); none when the pack has no table. */
 private fun loadTitles(pack: Pack): List<TitleDef> {
     val text = pack.readDocument("base:titles/all") ?: return emptyList()
@@ -275,6 +295,8 @@ fun loadCombatSetup(
             gatherNodes = loadGatherNodes(pack),
             recipes = loadRecipes(pack),
             titles = loadTitles(pack),
+            talents = loadTalents(pack).first,
+            talentPointsPerLevel = loadTalents(pack).second,
             companion = loadCompanion(pack, protagonist.companion),
             startWeapon = startWeapon,
         )

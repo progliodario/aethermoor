@@ -1,6 +1,6 @@
 # 11. Progression: bestiary and titles
 
-Status: **v1 (bestiary and titles; tags and reincarnation come later)**. Reference: `CombatSim._on_kill` and `CombatSim.earned_titles` in `tools/reference/combat.py`.
+Status: **v1 (bestiary, counters, titles with effects, talents, echoes; tags, real skill trees and the full reincarnation come later)**. Reference: `CombatSim._on_kill` and `CombatSim.earned_titles` in `tools/reference/combat.py`.
 Schema: `schemas/titles.schema.json`. Conformance: the scenarios `bestiary_titles`, `counter_titles` and `board_quest_rewards` of the suite `combat` (the checkpoints carry `bestiary`, `counters` and `titles`).
 
 ## Bestiary
@@ -29,6 +29,20 @@ Three **counters** tell how one plays: `gathered` goes up by one for every gathe
 
 The titles earned are **not saved**: they are computed from the state, in the order of the data (`earned_titles`), so a title cannot be lost nor given twice, and a new title in a later version is
 earned at once by those who already satisfy it. The last title earned is the one that counts as the current one.
+
+## Talents
+
+`data/base/talents.json` (ID `base:talents/all`, schema `talents`) lists the talents and `points_per_level`. A talent has an `id`, a `name`, a `stat` (`attack`, `health`, `mana` or `defense`), `pct_per_rank` and `max_rank`.
+
+- **Points.** The player has `(level - 1) * points_per_level` points in all; the points left are that number less the ranks learned.
+- **Learning.** `learn_talent(id)` is refused, changing nothing, while a dialogue is open, when the talent does not exist, when no point is left and when the talent is at `max_rank`. Otherwise the rank goes up by one, the derived stats
+  are computed again and the health is capped at the new maximum (it is not refilled).
+- **Effect.** When the derived stats are computed (spec 04), after the echoes, each talent with a rank above 0 multiplies its stats, in the order of the data: `stat * (100 + pct_per_rank * rank) / 100` (integer division).
+  `attack` is `atk` and `matk`, `health` is `max_hp`, `mana` is `max_mp`, `defense` is `def` and `mdef`.
+- **Save.** `talents` in the save document (spec 12) is an object from talent ID to rank; absent when nothing was learned.
+
+The base pack has four talents of ten ranks: Might (attack, 5 percent a rank), Vigor (health, 6), Focus (mana, 8) and Guard (defense, 8), and one point a level (`tools/make_talents.py`). This is the first, flat form of the skill trees.
+Both clients show them in the crafting panel (`Tab` on a keyboard, a button of the panel on Android). Conformance: the scenario `talents_learned` (its checkpoints carry `talents`, `talent_points`, `max_hp`, `max_mp`).
 
 ## Titles with effects
 

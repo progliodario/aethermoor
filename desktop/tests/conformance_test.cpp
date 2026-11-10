@@ -791,6 +791,18 @@ Scenario scenario_from_json(const Json& in) {
             setup.recipes.push_back(std::move(recipe));
         }
     }
+    if (in.contains("talents")) {
+        setup.talent_points_per_level = in.value("talent_points_per_level", 1);
+        for (const Json& t : in.at("talents")) {
+            aether::TalentDef talent;
+            talent.id = t.at("id").get<std::string>();
+            talent.name = t.at("name").get<std::string>();
+            talent.stat = t.at("stat").get<std::string>();
+            talent.pct_per_rank = integer(t, "pct_per_rank");
+            talent.max_rank = t.at("max_rank").get<int>();
+            setup.talents.push_back(std::move(talent));
+        }
+    }
     if (in.contains("titles")) {
         for (const Json& t : in.at("titles")) {
             aether::TitleDef title;
@@ -880,6 +892,8 @@ void run_segment(aether::WorldSim& sim, const Json& segment) {
                 sim.use_item(command.at("item").get<std::string>());
             } else if (cmd == "gather") {
                 sim.gather();
+            } else if (cmd == "talent") {
+                sim.learn_talent(command.at("talent").get<std::string>());
             } else if (cmd == "companion_stay") {
                 sim.companion_stay();
             } else if (cmd == "craft") {
@@ -925,6 +939,16 @@ void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) 
         REQUIRE(std::string(aether::to_string(sim.enemies()[i].state)) == we.at("state").get<std::string>());
         REQUIRE(sim.enemies()[i].position.x == Catch::Approx(we.at("x").get<float>()).margin(tol));
         REQUIRE(sim.enemies()[i].position.y == Catch::Approx(we.at("y").get<float>()).margin(tol));
+    }
+    if (want.contains("talents")) {
+        const Json& talents = want.at("talents");
+        REQUIRE(sim.talents().size() == talents.size());
+        for (const auto& [id, rank] : talents.items()) {
+            REQUIRE(sim.talents().at(id) == rank.get<int>());
+        }
+        REQUIRE(sim.talent_points() == want.at("talent_points").get<int>());
+        REQUIRE(sim.derived().max_hp == integer(want, "max_hp"));
+        REQUIRE(sim.derived().max_mp == integer(want, "max_mp"));
     }
     if (want.contains("companion")) {
         const Json& wc = want.at("companion");

@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aethermoor.invalid/schemas/talents.schema.json",
+  "title": "Talents the player learns with the points of the levels (spec 11)",
+  "type": "object",
+  "required": [
+    "id",
+    "points_per_level",
+    "talents"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:talents/[a-z0-9_]+$"
+    },
+    "points_per_level": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10
+    },
+    "talents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "stat",
+          "pct_per_rank",
+          "max_rank"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "stat": {
+            "enum": [
+              "attack",
+              "health",
+              "mana",
+              "defense"
+            ]
+          },
+          "pct_per_rank": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "max_rank": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50
+          }
+        }
+      }
+    }
+  }
+}

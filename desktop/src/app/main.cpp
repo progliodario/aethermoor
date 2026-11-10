@@ -88,6 +88,7 @@ struct Ui {
     bool show_journal = false;
     bool show_settings = false;  // the volumes (spec 16, "Settings")
     bool show_craft = false;     // the crafting panel (spec 06, "Crafting")
+    int craft_tab = 0;           // what the panel shows: 0 the recipes, 1 the talents (spec 11, "Talents")
     int craft_cursor = 0;
     int settings_cursor = 0;
     int journal_scroll = 0;  // first visible line of the journal
@@ -2233,7 +2234,45 @@ std::string item_name(const Assets& assets, const Ui& ui, const std::string& ite
     return assets.pack.text(ui.lang, "$i18n:item." + item.substr(item.rfind('/') + 1) + ".name", {{"count", count}});
 }
 
+// The words of a talent row: its name, its rank and what the ranks learned give.
+std::string talent_line(const Assets& assets, const Ui& ui, const aether::WorldSim& sim,
+                        const aether::TalentDef& talent) {
+    const auto learned = sim.talents().find(talent.id);
+    const std::int64_t rank = learned == sim.talents().end() ? 0 : learned->second;
+    return assets.pack.text(ui.lang, "$i18n:ui.talent_row",
+                            {{"name", assets.pack.text(ui.lang, talent.name)},
+                             {"rank", rank},
+                             {"max", static_cast<std::int64_t>(talent.max_rank)},
+                             {"pct", talent.pct_per_rank * rank},
+                             {"what", assets.pack.text(ui.lang, "$i18n:ui.talent_" + talent.stat)}});
+}
+
 void handle_craft_key(aether::WorldSim& sim, const Assets& assets, Ui& ui, SDL_Keycode key) {
+    const auto& talents = sim.combat().talents;
+    if (key == SDLK_TAB && !talents.empty()) {  // the same panel shows the recipes or the talents
+        ui.craft_tab = 1 - ui.craft_tab;
+        ui.craft_cursor = 0;
+        return;
+    }
+    if (ui.craft_tab == 1 && !talents.empty()) {
+        const int rows = static_cast<int>(talents.size());
+        ui.craft_cursor = std::clamp(ui.craft_cursor, 0, rows - 1);
+        if (key == SDLK_UP || key == SDLK_W) {
+            ui.craft_cursor = (ui.craft_cursor + rows - 1) % rows;
+        } else if (key == SDLK_DOWN || key == SDLK_S) {
+            ui.craft_cursor = (ui.craft_cursor + 1) % rows;
+        } else if (key == SDLK_E || key == SDLK_RETURN || key == SDLK_KP_ENTER || key == SDLK_SPACE) {
+            const aether::TalentDef& talent = talents[static_cast<std::size_t>(ui.craft_cursor)];
+            if (sim.learn_talent(talent.id)) {
+                notify(ui, assets.pack.text(ui.lang, "$i18n:ui.talent_learned",
+                                            {{"name", assets.pack.text(ui.lang, talent.name)},
+                                             {"rank", static_cast<std::int64_t>(sim.talents().at(talent.id))}}));
+            } else {
+                notify(ui, assets.pack.text(ui.lang, "$i18n:ui.talent_refused"));
+            }
+        }
+        return;
+    }
     const auto& recipes = sim.combat().recipes;
     if (recipes.empty()) {
         return;
@@ -2260,6 +2299,45 @@ void draw_craft(SDL_Renderer* renderer, const Assets& assets, const aether::Worl
         return;
     }
     constexpr float kScale = 1.5F;
+    if (ui.craft_tab == 1 &&
+        !sim.combat().talents.empty()) {  // the talents (spec 11): one row each, the points left in the title
+        const auto& talents = sim.combat().talents;
+        const float trow = 8.0F * kScale + 16.0F;
+        const float tw = std::min(static_cast<float>(out_w) - 40.0F, 760.0F * density);
+        const float th =
+            std::min(static_cast<float>(out_h) - 40.0F, 100.0F + trow * static_cast<float>(talents.size()));
+        const float tx = (static_cast<float>(out_w) - tw) / 2.0F;
+        const float ty0 = (static_cast<float>(out_h) - th) / 2.0F;
+        draw_panel(renderer, tx, ty0, tw, th, 255, 215, 120, 245);
+        SDL_SetRenderScale(renderer, kScale, kScale);
+        SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
+        const std::string title = assets.pack.text(ui.lang, "$i18n:ui.talents") + "  (" +
+                                  assets.pack.text(ui.lang, "$i18n:ui.talent_points",
+                                                   {{"points", static_cast<std::int64_t>(sim.talent_points())}}) +
+                                  ")";
+        debug_text(renderer, (tx + 16.0F) / kScale, (ty0 + 14.0F) / kScale, title.c_str());
+        for (std::size_t i = 0; i < talents.size(); ++i) {
+            const float ty = ty0 + 48.0F + trow * static_cast<float>(i);
+            if (ty + trow > ty0 + th - 30.0F) {
+                break;
+            }
+            if (static_cast<int>(i) == ui.craft_cursor) {
+                SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+                fill_rect(renderer, tx + 8.0F, ty - 4.0F, tw - 16.0F, trow, 40, 90, 140, 255);
+                SDL_SetRenderScale(renderer, kScale, kScale);
+            }
+            const auto learned = sim.talents().find(talents[i].id);
+            const bool full = learned != sim.talents().end() && learned->second >= talents[i].max_rank;
+            const bool can = sim.talent_points() > 0 && !full;
+            SDL_SetRenderDrawColor(renderer, can ? 150 : 200, can ? 255 : 200, can ? 170 : 210, 255);
+            debug_text(renderer, (tx + 16.0F) / kScale, ty / kScale, talent_line(assets, ui, sim, talents[i]).c_str());
+        }
+        SDL_SetRenderDrawColor(renderer, 150, 170, 200, 255);
+        debug_text(renderer, (tx + 16.0F) / kScale, (ty0 + th - 26.0F) / kScale,
+                   assets.pack.text(ui.lang, "$i18n:ui.talents_hint").c_str());
+        SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+        return;
+    }
     const auto& recipes = sim.combat().recipes;
     const float row = 8.0F * kScale * 2.0F + 14.0F;
     const float w = std::min(static_cast<float>(out_w) - 40.0F, 760.0F * density);
