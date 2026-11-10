@@ -103,6 +103,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
             s["kind"]?.jsonPrimitive?.content == "magical",
             s["element"]?.jsonPrimitive?.content ?: "none",
         ),
+        echoPct = input["echo_pct"]?.jsonPrimitive?.int ?: 0,
         gift = input["gift"]?.jsonObject?.let { g ->
             fun pct(key: String, neutral: Int) = g[key]?.jsonPrimitive?.int ?: neutral
             GiftDef(pct("mp_regen_pct", 100), pct("aggro_pct", 100), pct("heal_pct", 100), pct("dodge_cooldown_pct", 100), pct("death_save_ticks", 0))

@@ -275,6 +275,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 Gdx.app.error(TAG, "Cannot build the combat setup: ${it.message}")
                 return
             }
+        combat.echoPct = minOf(readProfile().titles.size, 15) // the echoes of past games (spec 11)
         val world = WorldSim(loaded.map, loaded.tileset, 0f, combat, StreamConfig(loaded.worldParams, seed))
         sim = world
         loadAutosave(world, loaded.pack)

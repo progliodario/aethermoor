@@ -406,7 +406,7 @@ class WorldSim(
                 armorDef = combat.items[equippedArmor]?.armor?.def ?: 0L,
                 armorMdef = combat.items[equippedArmor]?.armor?.mdef ?: 0L,
             ),
-        )
+        ).let { it.copy(maxHp = it.maxHp * (100 + combat.echoPct) / 100) } // the echoes of past games (spec 11)
     }
 
     /** Puts the player at (x, y) in tiles, loading the chunks around (developer option, later the Threshold Stones). */

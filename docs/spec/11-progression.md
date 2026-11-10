@@ -30,10 +30,17 @@ Three **counters** tell how one plays: `gathered` goes up by one for every gathe
 The titles earned are **not saved**: they are computed from the state, in the order of the data (`earned_titles`), so a title cannot be lost nor given twice, and a new title in a later version is
 earned at once by those who already satisfy it. The last title earned is the one that counts as the current one.
 
+## Echoes (the first form of reincarnation)
+
+What the player reached in past games is not lost: every title in the profile (spec 12, "Profile") is an **echo**, and a game that starts, or is loaded, has `echo_pct = min(number of titles in the profile, 15)`.
+The maximum health of the player is `max_hp * (100 + echo_pct) / 100` (integer division), computed after the formula of spec 04 and before anything else uses it (healing, burn, the death save). The echoes are the
+same in all the games and are not saved in them (the profile is read when the game is built). One percent for each title is small on purpose: it softens a new life, it does not replace playing it.
+Reference: `CombatSim._derive` (`echo_pct` of the scenario); conformance: the scenario `echo_health`.
+
 ## Display
 
 The journal (spec 07) shows, after the quests, the titles (the ones not earned yet as `???`) and the bestiary (name and kills, by ID). The name of a creature is the text key `enemy.<name>.name`.
 
 ## Later
 
-Tags (traits earned by how one plays), reincarnation (a new life that keeps part of the progress), a shared `profile.json` across saves, and titles with effects.
+Tags (traits earned by how one plays), the full reincarnation (a new life with a chosen carry-over, not only the echoes), and titles with effects.

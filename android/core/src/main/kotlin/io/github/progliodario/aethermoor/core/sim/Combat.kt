@@ -162,6 +162,8 @@ class CombatSetup(
     val strike: StrikeDef = StrikeDef(),
     /** The gift rules of the protagonist (spec 18). */
     val gift: GiftDef = GiftDef(),
+    /** Percent added to the maximum health, from the profile of past games (spec 11, "Echoes"). */
+    val echoPct: Int = 0,
 )
 
 enum class AttackPhase { NONE, STARTUP, ACTIVE, RECOVERY }

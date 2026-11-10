@@ -172,6 +172,7 @@ struct TitleDef {
 
 struct CombatSetup {
     bool enabled = false;
+    int echo_pct = 0;  // percent added to the maximum health, from the profile of past games (spec 11, "Echoes")
     PlayerSetup player;
     SkillDef skill;
     DodgeDef dodge;

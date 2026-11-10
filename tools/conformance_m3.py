@@ -173,6 +173,10 @@ def build_scenarios() -> list[dict]:
                  [segment(1, do=[{"cmd": "equip", "item": "base:item/frost_blade"}]), segment(60, strike=True), segment(60, attack=True),
                   segment(100, strike=True), segment(150, attack=True)],
                  inventory={"base:item/frost_blade": 1}, strike={**STRIKE, "element": "fire"}),
+        # Echoes (spec 11): the profile of past games adds a percent of maximum health from the start (here 10 percent, and with armor on top); it holds through a level up.
+        scenario("echo_health", [enemy(3.5, 4.5, hp=5, xp=500, **passive), enemy(8.1, 4.5, atk=40)],
+                 [segment(40, attack=True), segment(150), segment(1, do=[{"cmd": "equip", "item": "base:item/chain_mail"}]), segment(150)],
+                 inventory={"base:item/chain_mail": 1}, echo_pct=10),
         scenario("player_death", [enemy(6.7, 4.5, atk=400)], [segment(100), segment(100), segment(100)]),
         # Hurt by a slime, the player eats bread: health goes up and one bread is gone. A second bread at full health is refused,
         # and so are the gel (no effect), an item that is not owned and a use while the player is hurt but the stack is empty.

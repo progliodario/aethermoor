@@ -89,6 +89,7 @@ class CombatSim:
         self.skill = scenario["skill"]
         self.strike = scenario.get("strike")  # the power strike: a skill dict like `skill` plus "mp"; None: none (spec 05, "Mana")
         self.cur_skill = self.skill  # the skill of the swing in progress
+        self.echo_pct = scenario.get("echo_pct", 0)  # +percent of the maximum health, from the profile (spec 11, "Echoes")
         self.gift = scenario.get("gift", {})  # percentages and the death save of the protagonist (spec 18, "Gift rules")
         self.death_save_cd = 0
         self.dodge = scenario.get("dodge")  # {"ticks", "speed_mult_x100", "iframes", "cooldown"}, or None: no dodge (spec 05, "Dodge roll")
@@ -133,11 +134,13 @@ class CombatSim:
         primary = primary_at_level(self.base, self.growth, self.level)
         weapon = self.items.get(self.equipped["weapon"], {}).get("weapon")
         armor = self.items.get(self.equipped["armor"], {}).get("armor")
-        return rules.derived_stats(self.level, primary, rules.Equipment(
+        derived = rules.derived_stats(self.level, primary, rules.Equipment(
             weapon_atk=weapon["atk"] if weapon else self.weapon_atk,
             weapon_matk=weapon["matk"] if weapon else self.weapon_matk,
             armor_def=armor["def"] if armor else 0,
             armor_mdef=armor["mdef"] if armor else 0))
+        derived["max_hp"] = derived["max_hp"] * (100 + self.echo_pct) // 100  # the echoes of past games (spec 11)
+        return derived
 
     @property
     def speed(self) -> float:
