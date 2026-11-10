@@ -13,6 +13,7 @@ import io.github.progliodario.aethermoor.core.audio.ambienceGains
 import io.github.progliodario.aethermoor.core.audio.parseMusic
 import io.github.progliodario.aethermoor.core.audio.parseMusicRules
 import io.github.progliodario.aethermoor.core.audio.renderMusic
+import io.github.progliodario.aethermoor.core.sim.claimHeirloom
 import io.github.progliodario.aethermoor.core.sim.exportBundle
 import io.github.progliodario.aethermoor.core.sim.mergeProfile
 import io.github.progliodario.aethermoor.core.sim.parseProfile
@@ -222,9 +223,12 @@ class ConformanceAudioDirectorTest {
             val titles = input.getValue("titles").jsonArray.map { it.jsonPrimitive.content }
             val merged = mergeProfile(parseProfile(text), bestiary, titles)
             val expect = c.getValue("expect").jsonObject
-            val reborn = input["rebirth_level"]?.let { reincarnate(merged, it.jsonPrimitive.content.toLong()) }
+            val reborn = input["rebirth_level"]?.let { reincarnate(merged, it.jsonPrimitive.content.toLong(), input.getValue("rebirth_gold").jsonPrimitive.content.toLong()) }
             if (input["rebirth_level"] != null) assertEquals(expect.getValue("reborn").jsonPrimitive.content == "true", reborn != null, "$label reborn")
-            val got = reborn ?: merged
+            val claimed = if (input["claim"] != null) claimHeirloom(reborn ?: merged) else null
+            claimed?.let { assertEquals(expect.getValue("claimed").jsonPrimitive.content.toLong(), it.first, "$label claimed") }
+            val got = claimed?.second ?: reborn ?: merged
+            assertEquals(expect.getValue("heirloom").jsonPrimitive.content.toLong(), got.heirloom, "$label heirloom")
             assertEquals(expect.getValue("lives").jsonPrimitive.int, got.lives, "$label lives")
             assertEquals(expect.getValue("echo_pct").jsonPrimitive.int, profileEchoPct(got), "$label echoes")
             assertEquals(expect.getValue("bestiary").jsonObject.mapValues { it.value.jsonPrimitive.int }, got.bestiary.toMap(), "$label bestiary")
@@ -233,6 +237,7 @@ class ConformanceAudioDirectorTest {
             assertEquals(got.bestiary.toMap(), again.bestiary.toMap(), "$label round trip bestiary")
             assertEquals(got.titles, again.titles, "$label round trip titles")
             assertEquals(got.lives, again.lives, "$label round trip lives")
+            assertEquals(got.heirloom, again.heirloom, "$label round trip heirloom")
         }
     }
 

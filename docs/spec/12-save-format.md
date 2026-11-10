@@ -105,6 +105,7 @@ can reach (`Android/data/<package>/files/exports`; the private folder when the d
 
 - `bestiary` is the **best** count of every creature in any one game (not the sum: playing the same game again does not count twice). `titles` are all the titles ever earned, in the order they were first earned.
 - A game **reports** its bestiary and its earned titles whenever it is saved (autosave and quick save): the profile becomes `bestiary[id] = max(old, new)` for every creature with a count of 1 or more, and every title not in the list is appended. Nothing ever goes down: deleting a game does not take anything from the profile.
+- `heirloom` is the gold that waits for the next new game (spec 11, "Heirloom"); absent, negative or not an integer, it is 0.
 - `lives` is the number of games that were reincarnated (spec 11, "Reincarnation"); absent, negative or not an integer, it is 0.
 - Reading is forgiving: a missing file, text that is not JSON, not an object or with a `profile_version` other than 1 is an empty profile; in a valid one, a bestiary entry that is not an integer of at least 1 and a title that is not a string are dropped, and a repeated title counts once.
 - The title screen shows `ui.profile_line` (kinds of creatures, titles) when the profile is not empty.

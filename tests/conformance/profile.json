@@ -26,6 +26,7 @@
           "pest_control"
         ],
         "lives": 0,
+        "heirloom": 0,
         "echo_pct": 2
       }
     },
@@ -44,6 +45,7 @@
           "newcomer"
         ],
         "lives": 0,
+        "heirloom": 0,
         "echo_pct": 1
       }
     },
@@ -64,6 +66,7 @@
         },
         "titles": [],
         "lives": 0,
+        "heirloom": 0,
         "echo_pct": 0
       }
     },
@@ -86,6 +89,7 @@
           "veteran"
         ],
         "lives": 0,
+        "heirloom": 0,
         "echo_pct": 3
       }
     },
@@ -108,6 +112,7 @@
           "newcomer"
         ],
         "lives": 0,
+        "heirloom": 0,
         "echo_pct": 1
       }
     },
@@ -122,6 +127,7 @@
         "bestiary": {},
         "titles": [],
         "lives": 0,
+        "heirloom": 0,
         "echo_pct": 0
       }
     },
@@ -140,6 +146,7 @@
           "newcomer"
         ],
         "lives": 0,
+        "heirloom": 0,
         "echo_pct": 1
       }
     },
@@ -159,6 +166,7 @@
           "y"
         ],
         "lives": 0,
+        "heirloom": 0,
         "echo_pct": 2
       }
     },
@@ -175,6 +183,7 @@
         "bestiary": {},
         "titles": [],
         "lives": 0,
+        "heirloom": 0,
         "echo_pct": 0
       }
     },
@@ -194,6 +203,7 @@
           "newcomer"
         ],
         "lives": 2,
+        "heirloom": 0,
         "echo_pct": 8
       }
     },
@@ -208,6 +218,7 @@
         "bestiary": {},
         "titles": [],
         "lives": 0,
+        "heirloom": 0,
         "echo_pct": 0
       }
     },
@@ -222,6 +233,7 @@
         "bestiary": {},
         "titles": [],
         "lives": 0,
+        "heirloom": 0,
         "echo_pct": 0
       }
     },
@@ -257,6 +269,7 @@
           "t19"
         ],
         "lives": 0,
+        "heirloom": 0,
         "echo_pct": 15
       }
     },
@@ -266,7 +279,8 @@
         "text": "{\"profile_version\": 1, \"bestiary\": {}, \"titles\": [\"newcomer\"]}",
         "bestiary": {},
         "titles": [],
-        "rebirth_level": 10
+        "rebirth_level": 10,
+        "rebirth_gold": 0
       },
       "expect": {
         "bestiary": {},
@@ -274,6 +288,7 @@
           "newcomer"
         ],
         "lives": 1,
+        "heirloom": 0,
         "echo_pct": 4,
         "reborn": true
       }
@@ -284,7 +299,8 @@
         "text": "{\"profile_version\": 1, \"bestiary\": {}, \"titles\": [\"newcomer\"]}",
         "bestiary": {},
         "titles": [],
-        "rebirth_level": 9
+        "rebirth_level": 9,
+        "rebirth_gold": 0
       },
       "expect": {
         "bestiary": {},
@@ -292,6 +308,7 @@
           "newcomer"
         ],
         "lives": 0,
+        "heirloom": 0,
         "echo_pct": 1,
         "reborn": false
       }
@@ -302,7 +319,8 @@
         "text": "{\"profile_version\": 1, \"bestiary\": {\"base:enemy/slime_green\": 7}, \"titles\": [\"hero\", \"veteran\"], \"lives\": 2}",
         "bestiary": {},
         "titles": [],
-        "rebirth_level": 31
+        "rebirth_level": 31,
+        "rebirth_gold": 0
       },
       "expect": {
         "bestiary": {
@@ -313,6 +331,7 @@
           "veteran"
         ],
         "lives": 3,
+        "heirloom": 0,
         "echo_pct": 11,
         "reborn": true
       }
@@ -323,12 +342,14 @@
         "text": "{\"profile_version\": 1, \"bestiary\": {}, \"titles\": [], \"lives\": 14}",
         "bestiary": {},
         "titles": [],
-        "rebirth_level": 50
+        "rebirth_level": 50,
+        "rebirth_gold": 0
       },
       "expect": {
         "bestiary": {},
         "titles": [],
         "lives": 15,
+        "heirloom": 0,
         "echo_pct": 30,
         "reborn": true
       }
@@ -339,14 +360,121 @@
         "text": null,
         "bestiary": {},
         "titles": [],
-        "rebirth_level": 12
+        "rebirth_level": 12,
+        "rebirth_gold": 0
       },
       "expect": {
         "bestiary": {},
         "titles": [],
         "lives": 1,
+        "heirloom": 0,
         "echo_pct": 3,
         "reborn": true
+      }
+    },
+    {
+      "name": "heirloom_half_of_the_gold",
+      "input": {
+        "text": null,
+        "bestiary": {},
+        "titles": [],
+        "rebirth_level": 15,
+        "rebirth_gold": 1001
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": [],
+        "lives": 1,
+        "heirloom": 500,
+        "echo_pct": 3,
+        "reborn": true
+      }
+    },
+    {
+      "name": "heirloom_adds_up",
+      "input": {
+        "text": "{\"profile_version\": 1, \"bestiary\": {}, \"titles\": [], \"lives\": 1, \"heirloom\": 300}",
+        "bestiary": {},
+        "titles": [],
+        "rebirth_level": 20,
+        "rebirth_gold": 4000
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": [],
+        "lives": 2,
+        "heirloom": 2300,
+        "echo_pct": 6,
+        "reborn": true
+      }
+    },
+    {
+      "name": "heirloom_not_when_too_early",
+      "input": {
+        "text": "{\"profile_version\": 1, \"bestiary\": {}, \"titles\": [], \"heirloom\": 70}",
+        "bestiary": {},
+        "titles": [],
+        "rebirth_level": 5,
+        "rebirth_gold": 900
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": [],
+        "lives": 0,
+        "heirloom": 70,
+        "echo_pct": 0,
+        "reborn": false
+      }
+    },
+    {
+      "name": "claim_the_heirloom",
+      "input": {
+        "text": "{\"profile_version\": 1, \"bestiary\": {}, \"titles\": [\"hero\"], \"lives\": 2, \"heirloom\": 2300}",
+        "bestiary": {},
+        "titles": [],
+        "claim": true
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": [
+          "hero"
+        ],
+        "lives": 2,
+        "heirloom": 0,
+        "echo_pct": 7,
+        "claimed": 2300
+      }
+    },
+    {
+      "name": "claim_nothing",
+      "input": {
+        "text": "{\"profile_version\": 1, \"bestiary\": {}, \"titles\": [], \"lives\": 1}",
+        "bestiary": {},
+        "titles": [],
+        "claim": true
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": [],
+        "lives": 1,
+        "heirloom": 0,
+        "echo_pct": 3,
+        "claimed": 0
+      }
+    },
+    {
+      "name": "bad_heirloom_is_zero",
+      "input": {
+        "text": "{\"profile_version\": 1, \"bestiary\": {}, \"titles\": [], \"heirloom\": -50}",
+        "bestiary": {},
+        "titles": []
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": [],
+        "lives": 0,
+        "heirloom": 0,
+        "echo_pct": 0
       }
     }
   ]

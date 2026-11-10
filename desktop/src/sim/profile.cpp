@@ -1,6 +1,7 @@
 #include "sim/profile.hpp"
 
 #include <algorithm>
+#include <utility>
 #include <nlohmann/json.hpp>
 
 namespace aether {
@@ -34,6 +35,10 @@ Profile parse_profile(std::string_view text) {
     if (doc.contains("lives") && doc.at("lives").is_number_integer() && doc.at("lives").get<std::int64_t>() >= 0) {
         profile.lives = static_cast<int>(doc.at("lives").get<std::int64_t>());
     }
+    if (doc.contains("heirloom") && doc.at("heirloom").is_number_integer() &&
+        doc.at("heirloom").get<std::int64_t>() >= 0) {
+        profile.heirloom = doc.at("heirloom").get<std::int64_t>();
+    }
     return profile;
 }
 
@@ -64,16 +69,20 @@ std::string profile_to_json(const Profile& profile) {
     doc["bestiary"] = bestiary;
     doc["titles"] = profile.titles;
     doc["lives"] = profile.lives;
+    doc["heirloom"] = profile.heirloom;
     return doc.dump();
 }
 
-bool reincarnate(Profile& profile, std::int64_t level) {
+bool reincarnate(Profile& profile, std::int64_t level, std::int64_t gold) {
     if (level < 10) {
         return false;
     }
     ++profile.lives;
+    profile.heirloom += std::max<std::int64_t>(0, gold) * 50 / 100;
     return true;
 }
+
+std::int64_t claim_heirloom(Profile& profile) { return std::exchange(profile.heirloom, 0); }
 
 int profile_echo_pct(const Profile& profile) {
     return std::min(static_cast<int>(profile.titles.size()), 15) + 3 * std::min(profile.lives, 10);
