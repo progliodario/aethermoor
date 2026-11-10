@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/echo_gideon",
+  "name": "$i18n:enemy.echo_gideon.name",
+  "level": 24,
+  "stats": {
+    "hp": 1600,
+    "atk": 55,
+    "def": 22,
+    "mdef": 18,
+    "speed_x100": 260
+  },
+  "element": "dark",
+  "stagger_pct": 20,
+  "sound": "king",
+  "xp": 1440,
+  "drops": [
+    {
+      "item": "base:item/potion_large",
+      "qty_min": 2,
+      "qty_max": 3,
+      "weight_pm": 1000
+    },
+    {
+      "item": "base:item/potion_mana_medium",
+      "qty_min": 1,
+      "qty_max": 2,
+      "weight_pm": 1000
+    }
+  ],
+  "radius_x100": 62,
+  "behavior": "base:behavior/guardian",
+  "art": "base:art/creature/echo_gideon"
+}

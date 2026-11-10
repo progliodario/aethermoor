@@ -41,7 +41,7 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 
 - Un mondo aperto di 16384 x 16384 caselle generato da un seme, sempre uguale a parità di seme, caricato a pezzi mentre cammini.
 - Otto regioni con terreno, creature, negozi e modo di parlare propri; giorno e notte, quattro stagioni, meteo.
-- Circa 130 insediamenti, 36 luoghi fatti a mano (sotterranei con guardiano, tane, nidi, avamposti con un viandante e la sua storia), e due paesi scritti a mano: **Fenwick**, il villaggio dove cominci, e **Aldermere**, la città della gilda madre, con persone che hanno un nome e missioni proprie.
+- Circa 130 insediamenti, 44 luoghi fatti a mano (sotterranei con guardiano, tane, nidi, avamposti con un viandante e la sua storia), e due paesi scritti a mano: **Fenwick**, il villaggio dove cominci, e **Aldermere**, la città della gilda madre, con persone che hanno un nome e missioni proprie.
 - Pietre della Soglia per curarsi e viaggiare fra i posti già visitati.
 - Mappa del mondo con zoom, meta da segnare e mini mappa; si scopre la terra in un quadrato di 5 x 5 celle (640 caselle) intorno a te.
 
@@ -51,11 +51,11 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 - Sei elementi (fuoco, acqua, vento, terra, luce, buio): armi e abilità ne hanno uno, le creature hanno debolezze e resistenze.
 - Stati alterati su creature e giocatore: bruciatura, gelo, stordimento, indebolimento.
 - Stagger: i colpi riempiono una barra sotto la vita della creatura; piena, la creatura resta spezzata per due secondi e subisce più danno.
-- 60 creature con comportamenti diversi, 27 guardiani.
+- 68 creature con comportamenti diversi, 27 guardiani e 8 Echi, i boss personali dei protagonisti.
 
 **Vita e progressione**
 
-- Gilda degli avventurieri con bacheca e commissioni, 190 missioni, negozi, locande, lavori degli anziani.
+- Gilda degli avventurieri con bacheca e commissioni, 198 missioni, negozi, locande, lavori degli anziani.
 - 145 oggetti; raccolta da cespugli, alberi, rocce e cactus; 16 ricette (pozioni, piatti cucinati, equipaggiamento).
 - Un compagno per protagonista: ti segue, combatte, resta dove gli dici, e il suo legame cresce con le sue vittorie.
 - Talenti: un punto per livello da spendere in attacco, vita, mana o difesa (dieci ranghi ciascuno).
@@ -66,7 +66,7 @@ Il catalogo completo dei contenuti, generato dai dati, è in [`docs/design/catal
 
 ## I protagonisti
 
-Ognuno ha un prologo con Lyra, un dono, due abilità d'attacco, due missioni personali e una storia completa in tre atti, data da Suor Maren ad Aldermere: "Il primo eco" a Verdalis, "Il secondo eco" e "L'ultimo eco" in altre regioni (Ren nelle miniere di Ironspine e nella Cripta di Ossidiana, Sakura all'osservatorio di Lumeria, Gideon nel suo vecchio regno...), tre missioni per atto, ognuno chiuso da un guardiano.
+Ognuno ha un prologo con Lyra, un dono, due abilità d'attacco, due missioni personali e una storia completa in tre atti, data da Suor Maren ad Aldermere: "Il primo eco" a Verdalis, "Il secondo eco" e "L'ultimo eco" in altre regioni (Ren nelle miniere di Ironspine e nella Cripta di Ossidiana, Sakura all'osservatorio di Lumeria, Gideon nel suo vecchio regno...), tre missioni per atto, ognuno chiuso da un guardiano, e un epilogo contro il proprio **Eco**: il momento che lo ha portato su Aethermoor, diventato una creatura, in uno degli otto santuari intorno alla partenza.
 
 | Protagonista | Chi era | Dono | Tono | Compagno |
 |---|---|---|---|---|
@@ -210,7 +210,7 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 Le prossime cose, in ordine (dettagli nella [roadmap](docs/plan/06-roadmap-rischi-backlog.md)):
 
 - **A breve:** una schermata per scegliere i tasti dentro il gioco, più controlli automatici sulla grafica.
-- **Verso l'Alpha 0.1:** i boss personali dei protagonisti, veri alberi di abilità (oggi i talenti sono quattro, in fila), tag, la scelta di cosa portare nella reincarnazione, qualità degli oggetti e banchi da lavoro, un sintetizzatore migliore per riaccendere ambiente e musica.
+- **Verso l'Alpha 0.1:**  veri alberi di abilità (oggi i talenti sono quattro, in fila), tag, la scelta di cosa portare nella reincarnazione, qualità degli oggetti e banchi da lavoro, un sintetizzatore migliore per riaccendere ambiente e musica.
 - **Verso la 1.0:** base e residenti, agricoltura e pesca, economia dinamica, accessibilità, altre lingue, strumenti per chi fa mod.
 
 ## Contribuire e licenza

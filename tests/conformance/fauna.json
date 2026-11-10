@@ -1932,6 +1932,102 @@
           [
             8563,
             8084
+          ],
+          [
+            7523,
+            7821
+          ],
+          [
+            7552,
+            7808
+          ],
+          [
+            7581,
+            8562
+          ],
+          [
+            7552,
+            8576
+          ],
+          [
+            7824,
+            7534
+          ],
+          [
+            7808,
+            7552
+          ],
+          [
+            7834,
+            7571
+          ],
+          [
+            7800,
+            8850
+          ],
+          [
+            7801,
+            8850
+          ],
+          [
+            7808,
+            8832
+          ],
+          [
+            7835,
+            8840
+          ],
+          [
+            7838,
+            8853
+          ],
+          [
+            8576,
+            7552
+          ],
+          [
+            8544,
+            8842
+          ],
+          [
+            8547,
+            8860
+          ],
+          [
+            8576,
+            8832
+          ],
+          [
+            8604,
+            8837
+          ],
+          [
+            8584,
+            8842
+          ],
+          [
+            8832,
+            7808
+          ],
+          [
+            8841,
+            7834
+          ],
+          [
+            8863,
+            7836
+          ],
+          [
+            8814,
+            8547
+          ],
+          [
+            8805,
+            8596
+          ],
+          [
+            8832,
+            8576
           ]
         ],
         "params": {
@@ -3016,6 +3112,70 @@
               "kind": "town",
               "dx": 384,
               "dy": -128
+            },
+            {
+              "id": "sanctum_ren",
+              "name": "Sanctum of Numbers",
+              "stamp": "base:stamp/sanctum_ren",
+              "kind": "dungeon",
+              "dx": -640,
+              "dy": -384
+            },
+            {
+              "id": "sanctum_sakura",
+              "name": "Sanctum of Light",
+              "stamp": "base:stamp/sanctum_sakura",
+              "kind": "dungeon",
+              "dx": -640,
+              "dy": 384
+            },
+            {
+              "id": "sanctum_daichi",
+              "name": "Sanctum of Embers",
+              "stamp": "base:stamp/sanctum_daichi",
+              "kind": "dungeon",
+              "dx": -384,
+              "dy": -640
+            },
+            {
+              "id": "sanctum_haruka",
+              "name": "Sanctum of Rain",
+              "stamp": "base:stamp/sanctum_haruka",
+              "kind": "dungeon",
+              "dx": -384,
+              "dy": 640
+            },
+            {
+              "id": "sanctum_marco",
+              "name": "Sanctum of Steam",
+              "stamp": "base:stamp/sanctum_marco",
+              "kind": "dungeon",
+              "dx": 384,
+              "dy": -640
+            },
+            {
+              "id": "sanctum_yuki",
+              "name": "Sanctum of Frames",
+              "stamp": "base:stamp/sanctum_yuki",
+              "kind": "dungeon",
+              "dx": 384,
+              "dy": 640
+            },
+            {
+              "id": "sanctum_lena",
+              "name": "Sanctum of Silence",
+              "stamp": "base:stamp/sanctum_lena",
+              "kind": "dungeon",
+              "dx": 640,
+              "dy": -384
+            },
+            {
+              "id": "sanctum_gideon",
+              "name": "Sanctum of Ash",
+              "stamp": "base:stamp/sanctum_gideon",
+              "kind": "dungeon",
+              "dx": 640,
+              "dy": 384
             }
           ],
           "guild": {
@@ -7554,6 +7714,438 @@
                 "e": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_ember"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/sanctum_ren": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/sanctum_ren",
+              "w": 17,
+              "h": 17,
+              "anchor": [
+                8,
+                8
+              ],
+              "rows": [
+                ".......===.......",
+                ".######===######.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#cccccc^cccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                "==ccccccccccccc==",
+                "==cccccc<cccccc==",
+                "==ccccccccccccc==",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#ccccccccccccc#.",
+                ".######===######.",
+                ".......===......."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "<": {
+                  "tile": 14,
+                  "spawner": "base:enemy/echo_ren"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/sanctum_sakura": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/sanctum_sakura",
+              "w": 17,
+              "h": 17,
+              "anchor": [
+                8,
+                8
+              ],
+              "rows": [
+                ".......===.......",
+                ".######===######.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#cccccc^cccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                "==ccccccccccccc==",
+                "==cccccc>cccccc==",
+                "==ccccccccccccc==",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#ccccccccccccc#.",
+                ".######===######.",
+                ".......===......."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                ">": {
+                  "tile": 14,
+                  "spawner": "base:enemy/echo_sakura"
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/sanctum_daichi": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/sanctum_daichi",
+              "w": 17,
+              "h": 17,
+              "anchor": [
+                8,
+                8
+              ],
+              "rows": [
+                ".......===.......",
+                ".######===######.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#cccccc^cccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                "==ccccccccccccc==",
+                "==cccccc[cccccc==",
+                "==ccccccccccccc==",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#ccccccccccccc#.",
+                ".######===######.",
+                ".......===......."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "[": {
+                  "tile": 14,
+                  "spawner": "base:enemy/echo_daichi"
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/sanctum_haruka": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/sanctum_haruka",
+              "w": 17,
+              "h": 17,
+              "anchor": [
+                8,
+                8
+              ],
+              "rows": [
+                ".......===.......",
+                ".######===######.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#cccccc^cccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                "==ccccccccccccc==",
+                "==cccccc]cccccc==",
+                "==ccccccccccccc==",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#ccccccccccccc#.",
+                ".######===######.",
+                ".......===......."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "]": {
+                  "tile": 14,
+                  "spawner": "base:enemy/echo_haruka"
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/sanctum_marco": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/sanctum_marco",
+              "w": 17,
+              "h": 17,
+              "anchor": [
+                8,
+                8
+              ],
+              "rows": [
+                ".......===.......",
+                ".######===######.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#cccccc^cccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                "==ccccccccccccc==",
+                "==cccccc{cccccc==",
+                "==ccccccccccccc==",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#ccccccccccccc#.",
+                ".######===######.",
+                ".......===......."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "{": {
+                  "tile": 14,
+                  "spawner": "base:enemy/echo_marco"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/sanctum_yuki": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/sanctum_yuki",
+              "w": 17,
+              "h": 17,
+              "anchor": [
+                8,
+                8
+              ],
+              "rows": [
+                ".......===.......",
+                ".######===######.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#cccccc^cccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                "==ccccccccccccc==",
+                "==cccccc}cccccc==",
+                "==ccccccccccccc==",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#ccccccccccccc#.",
+                ".######===######.",
+                ".......===......."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "}": {
+                  "tile": 14,
+                  "spawner": "base:enemy/echo_yuki"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/sanctum_lena": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/sanctum_lena",
+              "w": 17,
+              "h": 17,
+              "anchor": [
+                8,
+                8
+              ],
+              "rows": [
+                ".......===.......",
+                ".######===######.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#cccccc^cccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                "==ccccccccccccc==",
+                "==cccccc|cccccc==",
+                "==ccccccccccccc==",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#ccccccccccccc#.",
+                ".######===######.",
+                ".......===......."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "|": {
+                  "tile": 14,
+                  "spawner": "base:enemy/echo_lena"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/sanctum_gideon": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/sanctum_gideon",
+              "w": 17,
+              "h": 17,
+              "anchor": [
+                8,
+                8
+              ],
+              "rows": [
+                ".......===.......",
+                ".######===######.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#cccccc^cccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                "==ccccccccccccc==",
+                "==cccccc`cccccc==",
+                "==ccccccccccccc==",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#ccccccccccccc#.",
+                ".######===######.",
+                ".......===......."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
+                  "radius_x100": 35
+                },
+                "`": {
+                  "tile": 14,
+                  "spawner": "base:enemy/echo_gideon"
+                },
+                "c": {
+                  "tile": 14
                 },
                 "l": {
                   "tile": 14,
@@ -10934,6 +11526,174 @@
             0,
             "base:enemy/slime_green",
             "base:item/slime_gel"
+          ],
+          [
+            7523,
+            7821,
+            0,
+            "base:enemy/slime_mint",
+            "base:item/mint_leaf"
+          ],
+          [
+            7552,
+            7808,
+            0,
+            "base:enemy/echo_ren",
+            ""
+          ],
+          [
+            7581,
+            8562,
+            0,
+            "base:enemy/slime_mint",
+            "base:item/mint_leaf"
+          ],
+          [
+            7552,
+            8576,
+            0,
+            "base:enemy/echo_sakura",
+            ""
+          ],
+          [
+            7824,
+            7534,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            7808,
+            7552,
+            0,
+            "base:enemy/echo_daichi",
+            ""
+          ],
+          [
+            7834,
+            7571,
+            0,
+            "base:enemy/slime_mint",
+            "base:item/mint_leaf"
+          ],
+          [
+            7800,
+            8850,
+            0,
+            "base:enemy/slime_mint",
+            "base:item/mint_leaf"
+          ],
+          [
+            7801,
+            8850,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            7808,
+            8832,
+            0,
+            "base:enemy/echo_haruka",
+            ""
+          ],
+          [
+            7835,
+            8840,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            7838,
+            8853,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8576,
+            7552,
+            0,
+            "base:enemy/echo_marco",
+            ""
+          ],
+          [
+            8544,
+            8842,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8547,
+            8860,
+            0,
+            "base:enemy/slime_mint",
+            "base:item/mint_leaf"
+          ],
+          [
+            8576,
+            8832,
+            0,
+            "base:enemy/echo_yuki",
+            ""
+          ],
+          [
+            8604,
+            8837,
+            0,
+            "base:enemy/wolf_tawny",
+            "base:item/tawny_fur"
+          ],
+          [
+            8584,
+            8842,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8832,
+            7808,
+            0,
+            "base:enemy/echo_lena",
+            ""
+          ],
+          [
+            8841,
+            7834,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8863,
+            7836,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8814,
+            8547,
+            0,
+            "base:enemy/myconid",
+            "base:item/spore_cap"
+          ],
+          [
+            8805,
+            8596,
+            0,
+            "base:enemy/slime_mint",
+            "base:item/mint_leaf"
+          ],
+          [
+            8832,
+            8576,
+            0,
+            "base:enemy/echo_gideon",
+            ""
           ]
         ]
       }
@@ -12939,6 +13699,114 @@
           [
             8595,
             8069
+          ],
+          [
+            7538,
+            7828
+          ],
+          [
+            7537,
+            7834
+          ],
+          [
+            7552,
+            7808
+          ],
+          [
+            7552,
+            8576
+          ],
+          [
+            7799,
+            7563
+          ],
+          [
+            7808,
+            7552
+          ],
+          [
+            7830,
+            7556
+          ],
+          [
+            7830,
+            7559
+          ],
+          [
+            7802,
+            8841
+          ],
+          [
+            7807,
+            8843
+          ],
+          [
+            7805,
+            8848
+          ],
+          [
+            7808,
+            8832
+          ],
+          [
+            7834,
+            8844
+          ],
+          [
+            7818,
+            8851
+          ],
+          [
+            8549,
+            7567
+          ],
+          [
+            8576,
+            7552
+          ],
+          [
+            8596,
+            7554
+          ],
+          [
+            8548,
+            8820
+          ],
+          [
+            8576,
+            8832
+          ],
+          [
+            8827,
+            7780
+          ],
+          [
+            8820,
+            7781
+          ],
+          [
+            8816,
+            7784
+          ],
+          [
+            8838,
+            7783
+          ],
+          [
+            8808,
+            7819
+          ],
+          [
+            8832,
+            7808
+          ],
+          [
+            8857,
+            7819
+          ],
+          [
+            8832,
+            8576
           ]
         ],
         "params": {
@@ -14023,6 +14891,70 @@
               "kind": "town",
               "dx": 384,
               "dy": -128
+            },
+            {
+              "id": "sanctum_ren",
+              "name": "Sanctum of Numbers",
+              "stamp": "base:stamp/sanctum_ren",
+              "kind": "dungeon",
+              "dx": -640,
+              "dy": -384
+            },
+            {
+              "id": "sanctum_sakura",
+              "name": "Sanctum of Light",
+              "stamp": "base:stamp/sanctum_sakura",
+              "kind": "dungeon",
+              "dx": -640,
+              "dy": 384
+            },
+            {
+              "id": "sanctum_daichi",
+              "name": "Sanctum of Embers",
+              "stamp": "base:stamp/sanctum_daichi",
+              "kind": "dungeon",
+              "dx": -384,
+              "dy": -640
+            },
+            {
+              "id": "sanctum_haruka",
+              "name": "Sanctum of Rain",
+              "stamp": "base:stamp/sanctum_haruka",
+              "kind": "dungeon",
+              "dx": -384,
+              "dy": 640
+            },
+            {
+              "id": "sanctum_marco",
+              "name": "Sanctum of Steam",
+              "stamp": "base:stamp/sanctum_marco",
+              "kind": "dungeon",
+              "dx": 384,
+              "dy": -640
+            },
+            {
+              "id": "sanctum_yuki",
+              "name": "Sanctum of Frames",
+              "stamp": "base:stamp/sanctum_yuki",
+              "kind": "dungeon",
+              "dx": 384,
+              "dy": 640
+            },
+            {
+              "id": "sanctum_lena",
+              "name": "Sanctum of Silence",
+              "stamp": "base:stamp/sanctum_lena",
+              "kind": "dungeon",
+              "dx": 640,
+              "dy": -384
+            },
+            {
+              "id": "sanctum_gideon",
+              "name": "Sanctum of Ash",
+              "stamp": "base:stamp/sanctum_gideon",
+              "kind": "dungeon",
+              "dx": 640,
+              "dy": 384
             }
           ],
           "guild": {
@@ -18561,6 +19493,438 @@
                 "e": {
                   "tile": 14,
                   "spawner": "base:enemy/slime_ember"
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/sanctum_ren": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/sanctum_ren",
+              "w": 17,
+              "h": 17,
+              "anchor": [
+                8,
+                8
+              ],
+              "rows": [
+                ".......===.......",
+                ".######===######.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#cccccc^cccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                "==ccccccccccccc==",
+                "==cccccc<cccccc==",
+                "==ccccccccccccc==",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#ccccccccccccc#.",
+                ".######===######.",
+                ".......===......."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "<": {
+                  "tile": 14,
+                  "spawner": "base:enemy/echo_ren"
+                },
+                "=": {
+                  "tile": 11
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/sanctum_sakura": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/sanctum_sakura",
+              "w": 17,
+              "h": 17,
+              "anchor": [
+                8,
+                8
+              ],
+              "rows": [
+                ".......===.......",
+                ".######===######.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#cccccc^cccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                "==ccccccccccccc==",
+                "==cccccc>cccccc==",
+                "==ccccccccccccc==",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#ccccccccccccc#.",
+                ".######===######.",
+                ".......===......."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                ">": {
+                  "tile": 14,
+                  "spawner": "base:enemy/echo_sakura"
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/sanctum_daichi": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/sanctum_daichi",
+              "w": 17,
+              "h": 17,
+              "anchor": [
+                8,
+                8
+              ],
+              "rows": [
+                ".......===.......",
+                ".######===######.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#cccccc^cccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                "==ccccccccccccc==",
+                "==cccccc[cccccc==",
+                "==ccccccccccccc==",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#ccccccccccccc#.",
+                ".######===######.",
+                ".......===......."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "[": {
+                  "tile": 14,
+                  "spawner": "base:enemy/echo_daichi"
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/sanctum_haruka": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/sanctum_haruka",
+              "w": 17,
+              "h": 17,
+              "anchor": [
+                8,
+                8
+              ],
+              "rows": [
+                ".......===.......",
+                ".######===######.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#cccccc^cccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                "==ccccccccccccc==",
+                "==cccccc]cccccc==",
+                "==ccccccccccccc==",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#ccccccccccccc#.",
+                ".######===######.",
+                ".......===......."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "]": {
+                  "tile": 14,
+                  "spawner": "base:enemy/echo_haruka"
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/sanctum_marco": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/sanctum_marco",
+              "w": 17,
+              "h": 17,
+              "anchor": [
+                8,
+                8
+              ],
+              "rows": [
+                ".......===.......",
+                ".######===######.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#cccccc^cccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                "==ccccccccccccc==",
+                "==cccccc{cccccc==",
+                "==ccccccccccccc==",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#ccccccccccccc#.",
+                ".######===######.",
+                ".......===......."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "{": {
+                  "tile": 14,
+                  "spawner": "base:enemy/echo_marco"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/sanctum_yuki": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/sanctum_yuki",
+              "w": 17,
+              "h": 17,
+              "anchor": [
+                8,
+                8
+              ],
+              "rows": [
+                ".......===.......",
+                ".######===######.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#cccccc^cccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                "==ccccccccccccc==",
+                "==cccccc}cccccc==",
+                "==ccccccccccccc==",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#ccccccccccccc#.",
+                ".######===######.",
+                ".......===......."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "}": {
+                  "tile": 14,
+                  "spawner": "base:enemy/echo_yuki"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/sanctum_lena": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/sanctum_lena",
+              "w": 17,
+              "h": 17,
+              "anchor": [
+                8,
+                8
+              ],
+              "rows": [
+                ".......===.......",
+                ".######===######.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#cccccc^cccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                "==ccccccccccccc==",
+                "==cccccc|cccccc==",
+                "==ccccccccccccc==",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#ccccccccccccc#.",
+                ".######===######.",
+                ".......===......."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
+                  "radius_x100": 35
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "|": {
+                  "tile": 14,
+                  "spawner": "base:enemy/echo_lena"
+                }
+              },
+              "spots": []
+            },
+            "base:stamp/sanctum_gideon": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/sanctum_gideon",
+              "w": 17,
+              "h": 17,
+              "anchor": [
+                8,
+                8
+              ],
+              "rows": [
+                ".......===.......",
+                ".######===######.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#cccccc^cccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                "==ccccccccccccc==",
+                "==cccccc`cccccc==",
+                "==ccccccccccccc==",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#ccccccccccccc#.",
+                ".#clccccccccclc#.",
+                ".#ccccccccccccc#.",
+                ".######===######.",
+                ".......===......."
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "=": {
+                  "tile": 11
+                },
+                "^": {
+                  "prop": "base:art/prop/statue",
+                  "radius_x100": 35
+                },
+                "`": {
+                  "tile": 14,
+                  "spawner": "base:enemy/echo_gideon"
+                },
+                "c": {
+                  "tile": 14
                 },
                 "l": {
                   "tile": 14,
@@ -22067,6 +23431,195 @@
             0,
             "base:enemy/wolf_tawny",
             "base:item/tawny_fur"
+          ],
+          [
+            7538,
+            7828,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            7537,
+            7834,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            7552,
+            7808,
+            0,
+            "base:enemy/echo_ren",
+            ""
+          ],
+          [
+            7552,
+            8576,
+            0,
+            "base:enemy/echo_sakura",
+            ""
+          ],
+          [
+            7799,
+            7563,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            7808,
+            7552,
+            0,
+            "base:enemy/echo_daichi",
+            ""
+          ],
+          [
+            7830,
+            7556,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            7830,
+            7559,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            7802,
+            8841,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            7807,
+            8843,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            7805,
+            8848,
+            0,
+            "base:enemy/myconid",
+            "base:item/spore_cap"
+          ],
+          [
+            7808,
+            8832,
+            0,
+            "base:enemy/echo_haruka",
+            ""
+          ],
+          [
+            7834,
+            8844,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            7818,
+            8851,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8549,
+            7567,
+            0,
+            "base:enemy/myconid",
+            "base:item/spore_cap"
+          ],
+          [
+            8576,
+            7552,
+            0,
+            "base:enemy/echo_marco",
+            ""
+          ],
+          [
+            8596,
+            7554,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8548,
+            8820,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8576,
+            8832,
+            0,
+            "base:enemy/echo_yuki",
+            ""
+          ],
+          [
+            8827,
+            7780,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8820,
+            7781,
+            0,
+            "base:enemy/myconid",
+            "base:item/spore_cap"
+          ],
+          [
+            8816,
+            7784,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8838,
+            7783,
+            0,
+            "base:enemy/slime_mint",
+            "base:item/mint_leaf"
+          ],
+          [
+            8808,
+            7819,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8832,
+            7808,
+            0,
+            "base:enemy/echo_lena",
+            ""
+          ],
+          [
+            8857,
+            7819,
+            0,
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
+          ],
+          [
+            8832,
+            8576,
+            0,
+            "base:enemy/echo_gideon",
+            ""
           ]
         ]
       }

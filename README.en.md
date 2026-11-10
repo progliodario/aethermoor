@@ -41,7 +41,7 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 
 - An open world of 16384 x 16384 tiles generated from a seed, always the same for the same seed, loaded in pieces as you walk.
 - Eight regions with their own land, creatures, shops and way of speaking; day and night, four seasons, weather.
-- About 130 settlements and 36 hand-made places (dungeons with a guardian, lairs, nests, outposts with a wayfarer and their story), and two hand-written towns: **Fenwick**, the village where you start, and **Aldermere**, the town of the mother guild, with named people and quests of their own.
+- About 130 settlements and 44 hand-made places (dungeons with a guardian, lairs, nests, outposts with a wayfarer and their story), and two hand-written towns: **Fenwick**, the village where you start, and **Aldermere**, the town of the mother guild, with named people and quests of their own.
 - Threshold Stones to heal and to travel between places you have visited.
 - A world map with zoom, a goal to mark and a small map; the land is revealed in a square of 5 x 5 cells (640 tiles) around you.
 
@@ -51,11 +51,11 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 - Six elements (fire, water, wind, earth, light, dark): weapons and skills have one, creatures have weaknesses and resistances.
 - Status effects on creatures and on the player: burn, chill, stun, weaken.
 - Stagger: hits fill a bar under a creature's health; when it is full the creature is broken for two seconds and takes more damage.
-- 60 creatures with different behaviors, 27 guardians.
+- 68 creatures with different behaviors, 27 guardians and 8 Echoes, the personal bosses of the protagonists.
 
 **Life and progression**
 
-- An adventurers' guild with a board and commissions, 190 quests, shops, inns, jobs from the elders.
+- An adventurers' guild with a board and commissions, 198 quests, shops, inns, jobs from the elders.
 - 145 items; gathering from bushes, trees, rocks and cacti; 16 recipes (potions, cooked dishes, gear).
 - A companion for each protagonist: it follows you, fights, stays where you tell it, and its bond grows with its victories.
 - Talents: one point a level to spend on attack, health, mana or defense (ten ranks each).
@@ -66,7 +66,7 @@ The full catalog of the content, generated from the data, is in [`docs/design/ca
 
 ## The protagonists
 
-Each one has a prologue with Lyra, a gift, two attack skills, two personal quests and a whole story in three acts, given by Sister Maren in Aldermere: "The First Echo" in Verdalis, "The Second Echo" and "The Last Echo" in other regions (Ren in the mines of Ironspine and the Obsidian Vault, Sakura at the observatory of Lumeria, Gideon in his old kingdom...), three quests an act, each closed by a guardian.
+Each one has a prologue with Lyra, a gift, two attack skills, two personal quests and a whole story in three acts, given by Sister Maren in Aldermere: "The First Echo" in Verdalis, "The Second Echo" and "The Last Echo" in other regions (Ren in the mines of Ironspine and the Obsidian Vault, Sakura at the observatory of Lumeria, Gideon in his old kingdom...), three quests an act, each closed by a guardian, and an epilogue against their own **Echo**: the moment that brought them to Aethermoor, grown into a creature, in one of the eight sanctums around the start.
 
 | Protagonist | Who they were | Gift | Tone | Companion |
 |---|---|---|---|---|
@@ -210,7 +210,7 @@ The project is developed by its owner together with Claude, an AI assistant that
 What comes next, in order (details in the [roadmap](docs/plan/06-roadmap-rischi-backlog.md), in Italian):
 
 - **Soon:** a screen to choose the keys inside the game, more automatic checks on the graphics.
-- **Toward Alpha 0.1:** the personal bosses of the protagonists, real skill trees (today the talents are four, in a row), tags, a choice of what to carry into a reincarnation, item quality and workbenches, a better synthesizer to bring ambience and music back.
+- **Toward Alpha 0.1:**  real skill trees (today the talents are four, in a row), tags, a choice of what to carry into a reincarnation, item quality and workbenches, a better synthesizer to bring ambience and music back.
 - **Toward 1.0:** a base and residents, farming and fishing, a dynamic economy, accessibility, more languages, tools for modders.
 
 ## Contributing and license

@@ -1,0 +1,54 @@
+{
+  "$schema": "../../../schemas/stamp.schema.json",
+  "id": "base:stamp/sanctum_marco",
+  "w": 17,
+  "h": 17,
+  "anchor": [
+    8,
+    8
+  ],
+  "rows": [
+    ".......===.......",
+    ".######===######.",
+    ".#ccccccccccccc#.",
+    ".#clccccccccclc#.",
+    ".#cccccc^cccccc#.",
+    ".#ccccccccccccc#.",
+    ".#ccccccccccccc#.",
+    "==ccccccccccccc==",
+    "==cccccc{cccccc==",
+    "==ccccccccccccc==",
+    ".#ccccccccccccc#.",
+    ".#ccccccccccccc#.",
+    ".#ccccccccccccc#.",
+    ".#clccccccccclc#.",
+    ".#ccccccccccccc#.",
+    ".######===######.",
+    ".......===......."
+  ],
+  "legend": {
+    "#": {
+      "tile": 5
+    },
+    "=": {
+      "tile": 11
+    },
+    "^": {
+      "prop": "base:art/prop/statue",
+      "radius_x100": 35
+    },
+    "c": {
+      "tile": 14
+    },
+    "l": {
+      "tile": 14,
+      "prop": "base:art/prop/lamp",
+      "radius_x100": 15
+    },
+    "{": {
+      "tile": 14,
+      "spawner": "base:enemy/echo_marco"
+    }
+  },
+  "spots": []
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/echo_lena",
+  "name": "$i18n:enemy.echo_lena.name",
+  "level": 24,
+  "stats": {
+    "hp": 1450,
+    "atk": 52,
+    "def": 21,
+    "mdef": 20,
+    "speed_x100": 250
+  },
+  "element": "water",
+  "stagger_pct": 20,
+  "sound": "knight",
+  "xp": 1440,
+  "drops": [
+    {
+      "item": "base:item/potion_large",
+      "qty_min": 2,
+      "qty_max": 3,
+      "weight_pm": 1000
+    },
+    {
+      "item": "base:item/potion_mana_medium",
+      "qty_min": 1,
+      "qty_max": 2,
+      "weight_pm": 1000
+    }
+  ],
+  "radius_x100": 58,
+  "behavior": "base:behavior/guardian",
+  "art": "base:art/creature/echo_lena"
+}

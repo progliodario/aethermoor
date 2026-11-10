@@ -68,8 +68,16 @@ Gear by level: L1: weapon 3, armor 2/1, L4: weapon 7, armor 4/2, L8: weapon 12, 
 | Cinder Colossus | 20 | 14 | 3.7 s / 12% |
 | Frost Sovereign | 20 | 13 | 3.3 s / 10% |
 | Vault Warden | 22 | 16 | 4.0 s / 13% |
+| The Third Floor | 24 | 17 | 3.8 s / 12% |
+| The Throne That Was | 24 | 18 | 4.1 s / 13% |
+| The Rain on the Road | 24 | 16 | 3.5 s / 10% |
+| The Final Report | 24 | 17 | 3.8 s / 11% |
+| The Sealed Pot | 24 | 18 | 4.1 s / 13% |
+| The Overtime | 24 | 17 | 3.8 s / 11% |
+| The Unfinished Equation | 24 | 16 | 3.2 s / 9% |
+| The Last Frame | 24 | 16 | 3.2 s / 9% |
 
-## Outliers (23)
+## Outliers (29)
 
 Creatures whose comfortable level differs from their level by more than 5 above or 6 below.
 
@@ -96,3 +104,9 @@ Creatures whose comfortable level differs from their level by more than 5 above 
 - Char Tyrant: level 16, comfortable at 8
 - Astral Curator: level 17, comfortable at 10
 - Frost Sovereign: level 20, comfortable at 13
+- The Third Floor: level 24, comfortable at 17
+- The Rain on the Road: level 24, comfortable at 16
+- The Final Report: level 24, comfortable at 17
+- The Overtime: level 24, comfortable at 17
+- The Unfinished Equation: level 24, comfortable at 16
+- The Last Frame: level 24, comfortable at 16

@@ -426,7 +426,7 @@ class WorldGenTest {
         val pack = loadBasePack(repoRoot)
         val params = loadWorldParams(pack, "base:world/overworld").getOrThrow()
         assertEquals(8, params.regions.size)
-        assertEquals(46, params.stamps.size)
+        assertEquals(54, params.stamps.size) // with the eight sanctums of the Echoes
         assertEquals(72, params.homeRadius)
         assertEquals(16384, params.width)
         val map = makeStreamMap(params)

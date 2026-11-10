@@ -50,6 +50,8 @@ Pip, next to Mira, answers the questions of a newcomer. Elders, innkeepers, shop
 offer (jobs, a bed for the night, things made from monster parts, commissions); the seasons change what people say and offer.
 Far from the start, each region has dungeons, lairs and nests, and an outpost with a shop, an inn, a Threshold Stone and a wayfarer with a story:
 the letters they send each other go round the whole world. Wake the stones of the towns you pass: they bring you home.
+Around the start, about 750 tiles away in every direction, stand eight sanctums, each with an Echo: the moment that brought one of the
+heroes here. Sister Maren in Aldermere tells each hero's story in three acts, and the last quest sends them to their own Echo.
 
 Please tell me what feels wrong: speed, camera, combat, controls, the world.
 

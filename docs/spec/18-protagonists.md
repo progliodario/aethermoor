@@ -62,6 +62,13 @@ personal quests), and then offers the quests one after the other (`base:quest/si
 Sakura: the Nebula Heart (Lumeria); Daichi: the Magma Heart (Ashen Wastes); Haruka: the Moonshade Alpha (Whisperwood); Marco: the Forge-Tyrant (Ironspine); Yuki: the Pearl Empress (Tidehaven); Lena: the Frost Sovereign
 (Frostveil); Gideon: the Storm Sovereign (Lumeria). Maren says the closing words of the second act before she offers the first quest of the third, and her last words when the story is over. The table is `tools/stories_act3.py`.
 
+## Personal bosses and the epilogue
+
+Each protagonist has an **Echo** (`base:enemy/echo_<name>`): the moment that brought them to Aethermoor, grown into a creature (Ren's overtime, Sakura's unfinished equation, Daichi's third floor, Haruka's rain on the road,
+Marco's sealed pot, Yuki's last frame, Lena's final report, Gideon's throne). It is a guardian of level 24 with the art of a guardian recoloured pale and violet, and it waits in a **sanctum**, a landmark of the ring of
+eight around the start (about 750 tiles from it). The epilogue "The Echo Itself" (`base:quest/side/act4_<name>_1`) is the last quest Sister Maren gives, after the third act; it asks to defeat the protagonist's own Echo.
+Anyone can find and fight any Echo; only the protagonist's own closes the story. `tools/make_echoes.py` writes the Echoes and the landmarks, `tools/make_stamps.py` the sanctums, `tools/stories_act4.py` the epilogue.
+
 ## Personal stories
 
 Every protagonist starts with a **keepsake** (`base:item/keepsake_<name>`, kind `key`, price 0 so it cannot be sold, quantity 1) and Pip, the lad of the home village (spec 07), has for each of them a question in his menu that is shown only when the player holds that keepsake
