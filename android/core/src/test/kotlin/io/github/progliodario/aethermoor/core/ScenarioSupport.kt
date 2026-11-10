@@ -171,6 +171,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
             RecipeDef(
                 o.getValue("id").jsonPrimitive.content, o.getValue("output").jsonObject.getValue("item").jsonPrimitive.content, o.getValue("output").jsonObject.long("qty"),
                 o.getValue("inputs").jsonArray.map { i -> Pair(i.jsonObject.getValue("item").jsonPrimitive.content, i.jsonObject.long("qty")) },
+                o["station"]?.jsonPrimitive?.content ?: "",
             )
         } ?: emptyList(),
         gatherNodes = input["gather_nodes"]?.jsonArray?.associate { n ->

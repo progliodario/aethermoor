@@ -169,6 +169,8 @@
   "ui.crafted": "Creato: {item}",
   "ui.cannot_craft": "Non hai ciò che serve",
   "ui.craft_hint": "W/S scegli   E crea   Tab talenti   C o Esc chiudi",
+  "ui.needs_fire": "(vicino a un fuoco)",
+  "ui.at_fire": "(il fuoco è qui)",
   "ui.talents": "Talenti",
   "ui.talent_points": "punti da spendere: {points}",
   "ui.talent_row": "{name}  {rank}/{max}   +{pct}% {what}",

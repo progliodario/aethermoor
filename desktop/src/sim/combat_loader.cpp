@@ -289,6 +289,7 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
                 recipe.id = r.at("id").get<std::string>();
                 recipe.output = r.at("output").at("item").get<std::string>();
                 recipe.output_qty = r.at("output").at("qty").get<std::int64_t>();
+                recipe.station = r.value("station", "");
                 for (const Json& i : r.at("inputs")) {
                     recipe.inputs.emplace_back(i.at("item").get<std::string>(), i.at("qty").get<std::int64_t>());
                 }

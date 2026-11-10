@@ -161,7 +161,8 @@
           "item": "base:item/dry_branch",
           "qty": 1
         }
-      ]
+      ],
+      "station": "base:art/prop/campfire"
     },
     {
       "id": "fish_stew",
@@ -182,7 +183,8 @@
           "item": "base:item/dry_branch",
           "qty": 1
         }
-      ]
+      ],
+      "station": "base:art/prop/campfire"
     },
     {
       "id": "royal_feast",
@@ -203,7 +205,8 @@
           "item": "base:item/wild_berries",
           "qty": 5
         }
-      ]
+      ],
+      "station": "base:art/prop/campfire"
     },
     {
       "id": "potion_large",

@@ -37,6 +37,12 @@ cue `craft` for the sound director (spec 14, event `craft`). The conformance sce
 Desktop: `C` opens a panel with the recipes (green when the bag has everything), `W`/`S` choose, `E` makes, `Esc` or `C` closes; the game pauses meanwhile. Android: a button next to the sound
 button opens it; a tap on a recipe chooses it and a tap on the chosen one makes it. On both clients a list longer than the panel scrolls with the chosen recipe. The unique pieces that a shopkeeper makes from monster parts (spec 07, "Workshops") are a different thing and stay.
 
+### Stations
+
+A recipe may have a `station`: the art of a prop it must be made next to. `craft` is then also refused unless a prop of that art is within `2 + its radius` tiles of the player (the distance between the centres). The base pack
+cooks its dishes (hearty stew, fish stew, royal feast) at a **campfire**: there is one in the plaza of Fenwick, of Aldermere and of every outpost. The panels say "(at a campfire)" or "(the fire is here)" next to such a recipe.
+Conformance: the scenario `craft_at_fire`.
+
 ## Using an item
 
 `use_item(id)` returns whether the item was used. It is refused (nothing changes) when:

@@ -673,6 +673,21 @@ bool WorldSim::companion_stay() {
     return true;
 }
 
+bool WorldSim::near_station(const std::string& art) const {
+    if (art.empty()) {
+        return true;
+    }
+    const Vec2 at = m_player_.position;
+    bool found = false;
+    for_each_prop(at.x - 3.0F, at.y - 3.0F, at.x + 3.0F, at.y + 3.0F, [&](const Prop& prop) {
+        if (prop.art == art &&
+            std::sqrt((prop.x - at.x) * (prop.x - at.x) + (prop.y - at.y) * (prop.y - at.y)) <= 2.0F + prop.radius) {
+            found = true;
+        }
+    });
+    return found;
+}
+
 bool WorldSim::craft(const std::string& recipe_id) {
     if (m_story_.dialogue_active()) {
         return false;
@@ -680,6 +695,9 @@ bool WorldSim::craft(const std::string& recipe_id) {
     const auto recipe = std::find_if(m_setup_.recipes.begin(), m_setup_.recipes.end(),
                                      [&](const RecipeDef& r) { return r.id == recipe_id; });
     if (recipe == m_setup_.recipes.end()) {
+        return false;
+    }
+    if (!near_station(recipe->station)) {  // cooking needs a fire (spec 06, "Stations")
         return false;
     }
     for (const auto& [item, qty] : recipe->inputs) {

@@ -266,6 +266,8 @@ public:
         std::vector<std::pair<std::string, std::int64_t>> items;
     };
     GatherResult gather();
+    // Whether a prop of that art is within 2 tiles (plus its radius); an empty art is everywhere (spec 06, "Stations").
+    bool near_station(const std::string& art) const;
     // Where the prop that `gather` would gather from is, if there is one (for the hint of the interface).
     std::optional<std::pair<float, float>> gather_near() const;
     // Makes a recipe from the bag (spec 06, "Crafting"). Returns false, changing nothing, when it is refused.

@@ -9961,6 +9961,466 @@
       }
     },
     {
+      "name": "combat_craft_at_fire",
+      "input": {
+        "op": "combat",
+        "recipes": [
+          {
+            "id": "tonic",
+            "output": {
+              "item": "base:item/tonic",
+              "qty": 2
+            },
+            "inputs": [
+              {
+                "item": "base:item/healing_herb",
+                "qty": 1
+              },
+              {
+                "item": "base:item/wild_berries",
+                "qty": 2
+              }
+            ]
+          },
+          {
+            "id": "potion_small",
+            "output": {
+              "item": "base:item/potion_small",
+              "qty": 1
+            },
+            "inputs": [
+              {
+                "item": "base:item/healing_herb",
+                "qty": 3
+              },
+              {
+                "item": "base:item/slime_gel",
+                "qty": 1
+              }
+            ]
+          },
+          {
+            "id": "stew",
+            "output": {
+              "item": "base:item/hearty_stew",
+              "qty": 1
+            },
+            "station": "base:art/prop/campfire",
+            "inputs": [
+              {
+                "item": "base:item/spore_cap",
+                "qty": 2
+              },
+              {
+                "item": "base:item/healing_herb",
+                "qty": 1
+              },
+              {
+                "item": "base:item/dry_branch",
+                "qty": 1
+              }
+            ]
+          }
+        ],
+        "gather_nodes": [
+          {
+            "prop": "base:art/prop/bush",
+            "sound": "plant",
+            "cooldown_ticks": 60,
+            "reach_x100": 150,
+            "drops": [
+              {
+                "item": "base:item/wild_berries",
+                "qty_min": 1,
+                "qty_max": 3,
+                "weight_pm": 800
+              },
+              {
+                "item": "base:item/healing_herb",
+                "qty_min": 1,
+                "qty_max": 2,
+                "weight_pm": 400
+              }
+            ]
+          },
+          {
+            "prop": "base:art/prop/rock",
+            "sound": "stone",
+            "cooldown_ticks": 60,
+            "reach_x100": 150,
+            "drops": [
+              {
+                "item": "base:item/stone_chunk",
+                "qty_min": 1,
+                "qty_max": 2,
+                "weight_pm": 1000
+              },
+              {
+                "item": "base:item/iron_ore",
+                "qty_min": 1,
+                "qty_max": 1,
+                "weight_pm": 300
+              }
+            ]
+          }
+        ],
+        "gather_props": [
+          {
+            "art": "base:art/prop/campfire",
+            "x": 9.5,
+            "y": 5.5,
+            "radius": 0.3
+          }
+        ],
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            2.2,
+            4.5
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              12.0,
+              7.5
+            ],
+            "def": {
+              "hp": 28,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "craft",
+                "recipe": "stew"
+              },
+              {
+                "cmd": "craft",
+                "recipe": "tonic"
+              }
+            ]
+          },
+          {
+            "ticks": 100,
+            "move": [
+              1,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "craft",
+                "recipe": "stew"
+              },
+              {
+                "cmd": "craft",
+                "recipe": "stew"
+              }
+            ]
+          }
+        ],
+        "inventory": {
+          "base:item/healing_herb": 6,
+          "base:item/wild_berries": 4,
+          "base:item/spore_cap": 4,
+          "base:item/dry_branch": 2
+        },
+        "items": {
+          "base:item/bread": {
+            "kind": "food",
+            "price": 5,
+            "effects": [
+              {
+                "effect": "heal",
+                "amount": 30
+              }
+            ]
+          },
+          "base:item/potion_mana_small": {
+            "kind": "consumable",
+            "price": 40,
+            "effects": [
+              {
+                "effect": "restore_mp",
+                "amount": 30
+              }
+            ]
+          },
+          "base:item/slime_gel": {
+            "kind": "material",
+            "price": 3,
+            "effects": []
+          },
+          "base:item/practice_sword": {
+            "kind": "weapon",
+            "price": 20,
+            "weapon": {
+              "atk": 3,
+              "matk": 0
+            }
+          },
+          "base:item/iron_sword": {
+            "kind": "weapon",
+            "price": 150,
+            "weapon": {
+              "atk": 7,
+              "matk": 0
+            }
+          },
+          "base:item/ember_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "fire"
+            }
+          },
+          "base:item/frost_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "water"
+            }
+          },
+          "base:item/storm_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "wind"
+            }
+          },
+          "base:item/quake_hammer": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "earth"
+            }
+          },
+          "base:item/sun_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "light"
+            }
+          },
+          "base:item/leather_vest": {
+            "kind": "armor",
+            "price": 80,
+            "armor": {
+              "def": 2,
+              "mdef": 1
+            }
+          },
+          "base:item/chain_mail": {
+            "kind": "armor",
+            "price": 300,
+            "armor": {
+              "def": 5,
+              "mdef": 2
+            }
+          }
+        }
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/dry_branch": 2,
+              "base:item/healing_herb": 5,
+              "base:item/spore_cap": 4,
+              "base:item/tonic": 2,
+              "base:item/wild_berries": 2
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 8.966666666666663,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/dry_branch": 2,
+              "base:item/healing_herb": 5,
+              "base:item/spore_cap": 4,
+              "base:item/tonic": 2,
+              "base:item/wild_berries": 2
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 8.966666666666663,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/healing_herb": 3,
+              "base:item/hearty_stew": 2,
+              "base:item/tonic": 2,
+              "base:item/wild_berries": 2
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            }
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
       "name": "combat_player_death",
       "input": {
         "op": "combat",

@@ -116,7 +116,8 @@ class CompanionDef(
 )
 
 /** A crafting recipe (spec 06, "Crafting"). */
-class RecipeDef(val id: String, val output: String, val outputQty: Long, val inputs: List<Pair<String, Long>>)
+/** [station]: the art of the prop it must be made next to (spec 06, "Stations"); empty: anywhere. */
+class RecipeDef(val id: String, val output: String, val outputQty: Long, val inputs: List<Pair<String, Long>>, val station: String = "")
 
 /** A title (spec 11): earned when its condition holds. [kind]: kills, kills_of, level, species or quests; [enemy] for kills_of only. */
 /** A talent (spec 11, "Talents"): every rank multiplies a kind of stat. [stat]: attack, health, mana or defense. */

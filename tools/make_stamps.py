@@ -197,6 +197,7 @@ def village() -> dict:
     c.put(10, 7, "w")
     c.put(10, 8, "E")
     c.put(12, 6, "T")
+    c.put(17, 8, "?")  # a campfire to cook at (spec 06, "Stations")
     c.house(1, 1, 6, 4, {(1, 1): "b", (3, 1): "V"})
     c.house(13, 1, 7, 5, {(1, 1): "b", (2, 1): "b", (5, 2): "S"}, door=3)
     c.house(1, 9, 6, 4, {(2, 1): "V"})
@@ -220,6 +221,7 @@ def town() -> dict:
         c.put(x, y, "l")
     c.put(15, 13, "E")
     c.put(18, 10, "T")
+    c.put(21, 14, "?")  # a campfire to cook at (spec 06, "Stations")
     # Guild hall (north-west), shop (north-east), inn (south-west) and houses.
     c.house(4, 4, 9, 5, {(1, 1): "b", (2, 1): "b", (6, 2): "G", (7, 1): "b"}, door=4)
     c.house(18, 4, 8, 5, {(1, 1): "b", (2, 1): "b", (5, 2): "S"}, door=4)

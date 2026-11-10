@@ -32,9 +32,14 @@ RECIPES = {
 }
 
 
+# the cooked dishes are made next to a campfire (spec 06, "Stations"): Fenwick, Aldermere and every outpost have one
+AT_FIRE = ("hearty_stew", "fish_stew", "royal_feast")
+
+
 def main() -> None:
     recipes = [{"id": name, "output": {"item": f"base:item/{out}", "qty": qty},
-                "inputs": [{"item": f"base:item/{item}", "qty": n} for item, n in inputs.items()]}
+                "inputs": [{"item": f"base:item/{item}", "qty": n} for item, n in inputs.items()],
+                **({"station": "base:art/prop/campfire"} if name in AT_FIRE else {})}
                for name, (out, qty, inputs) in RECIPES.items()]
     OUT.write_text(json.dumps({"$schema": "../../schemas/recipes.schema.json", "id": "base:recipes/all", "recipes": recipes}, indent=2) + "\n", encoding="utf-8")
     print(f"wrote {len(recipes)} recipes")
