@@ -1,0 +1,58 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/daichi/prologue",
+  "start": "n1",
+  "nodes": {
+    "n1": {
+      "type": "say",
+      "speaker": "goddess_lyra",
+      "text": "$i18n:dlg.daichi.prologue.n1",
+      "next": "n2",
+      "expression": "gentle"
+    },
+    "n2": {
+      "type": "say",
+      "speaker": "goddess_lyra",
+      "text": "$i18n:dlg.daichi.prologue.n2",
+      "next": "ask"
+    },
+    "ask": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.daichi.prologue.c1",
+          "next": "first"
+        },
+        {
+          "text": "$i18n:dlg.daichi.prologue.c2",
+          "next": "r2"
+        }
+      ]
+    },
+    "first": {
+      "type": "set_flag",
+      "flag": "daichi.prologue_first",
+      "value": true,
+      "next": "r1"
+    },
+    "r1": {
+      "type": "say",
+      "speaker": "goddess_lyra",
+      "text": "$i18n:dlg.daichi.prologue.r1",
+      "next": "n3"
+    },
+    "r2": {
+      "type": "say",
+      "speaker": "goddess_lyra",
+      "text": "$i18n:dlg.daichi.prologue.r2",
+      "next": "n3"
+    },
+    "n3": {
+      "type": "say",
+      "speaker": "goddess_lyra",
+      "text": "$i18n:dlg.daichi.prologue.n3",
+      "next": "end",
+      "expression": "gentle"
+    }
+  }
+}

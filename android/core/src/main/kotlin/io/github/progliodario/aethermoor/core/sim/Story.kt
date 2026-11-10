@@ -436,6 +436,13 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
 
     private fun node(): DialogueNode = setup.dialogues.getValue(dialogueId).nodes.getValue(nodeName)
 
+    /** Opens a dialogue that no one in the world starts (the prologue, spec 18); false when it does not exist or one is open. */
+    fun beginDialogue(id: String): Boolean {
+        if (dialogueActive || id !in setup.dialogues) return false
+        startDialogue(id)
+        return true
+    }
+
     private fun startDialogue(id: String) {
         val def = setup.dialogues[id] ?: return
         dialogueActive = true

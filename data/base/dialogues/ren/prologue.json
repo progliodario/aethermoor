@@ -3,13 +3,56 @@
   "id": "base:dialogue/ren/prologue",
   "start": "n1",
   "nodes": {
-    "n1": { "type": "say", "speaker": "goddess_lyra", "expression": "gentle",
-            "text": "$i18n:dlg.ren.prologue.n1", "next": "n2" },
-    "n2": { "type": "choice", "choices": [
-      { "text": "$i18n:dlg.ren.prologue.c1", "next": "n3" },
-      { "text": "$i18n:dlg.ren.prologue.c2", "next": "n4" }
-    ] },
-    "n3": { "type": "set_flag", "flag": "ren.accepted_quickly", "value": true, "next": "end" },
-    "n4": { "type": "say", "speaker": "goddess_lyra", "text": "$i18n:dlg.ren.prologue.n4", "next": "end" }
+    "n1": {
+      "type": "say",
+      "speaker": "goddess_lyra",
+      "text": "$i18n:dlg.ren.prologue.n1",
+      "next": "n2",
+      "expression": "gentle"
+    },
+    "n2": {
+      "type": "say",
+      "speaker": "goddess_lyra",
+      "text": "$i18n:dlg.ren.prologue.n2",
+      "next": "ask"
+    },
+    "ask": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.ren.prologue.c1",
+          "next": "first"
+        },
+        {
+          "text": "$i18n:dlg.ren.prologue.c2",
+          "next": "r2"
+        }
+      ]
+    },
+    "first": {
+      "type": "set_flag",
+      "flag": "ren.prologue_first",
+      "value": true,
+      "next": "r1"
+    },
+    "r1": {
+      "type": "say",
+      "speaker": "goddess_lyra",
+      "text": "$i18n:dlg.ren.prologue.r1",
+      "next": "n3"
+    },
+    "r2": {
+      "type": "say",
+      "speaker": "goddess_lyra",
+      "text": "$i18n:dlg.ren.prologue.r2",
+      "next": "n3"
+    },
+    "n3": {
+      "type": "say",
+      "speaker": "goddess_lyra",
+      "text": "$i18n:dlg.ren.prologue.n3",
+      "next": "end",
+      "expression": "gentle"
+    }
   }
 }

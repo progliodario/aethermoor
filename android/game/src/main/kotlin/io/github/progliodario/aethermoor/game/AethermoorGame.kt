@@ -479,7 +479,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     private fun loadAutosave(world: WorldSim, pack: Pack) {
         val file = saveFile()
-        if (!file.exists()) return
+        if (!file.exists()) {
+            // A new game opens with the prologue of its protagonist: a talk with Lyra at the Threshold (spec 18).
+            world.story.beginDialogue("base:dialogue/${protagonistId.substringAfterLast('/')}/prologue")
+            return
+        }
         val text = file.readString("UTF-8")
         val peek = savePeek(text).getOrNull()
         if (peek == null || peek.map != MAP_WORLD || peek.seed != seed) return // another map: start a fresh run
