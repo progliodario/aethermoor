@@ -23,7 +23,7 @@ The game picks Italian or English from your system language.
   Small map ....... N (shows or hides the map in the corner)
   Debug info ...... F3       Title ........ Esc (with no panel open)
   Sound on or off . F8       Volumes ...... F10
-  Your own keys ... edit keys.json next to settings.json (in your user data folder): "attack": "F", and so on
+  Your own keys ... F4 in a game: choose an action, press E, then the key you want (or edit keys.json next to settings.json)
   Reincarnate ..... R on the title screen, on a game of level 10 or more (twice): it ends, and all your games get stronger
   Export a game ... X on the title screen (a file in the exports folder)   Import ... I
   Crafting ........ C (make potions, rations, tools from what you gather)

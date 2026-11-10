@@ -79,7 +79,7 @@ the critical chance, the speed, what the titles add to the attack, the gold and 
 Desktop: `<user data>/keys.json` (next to `settings.json`) is `{"keys": {"<action>": "<key>", ...}}` with the actions `up`, `down`, `left`, `right`, `attack`, `strike`, `dodge`, `parry`, `interact`, `bag`, `journal`, `map`,
 `minimap`, `crafting`, `companion` and `analyze`. A key is named as SDL names it (`"F"`, `"Space"`, `"Left Ctrl"`, `"Keypad 5"`); an empty name, an unknown one or the default key changes nothing. The key named for an
 action does what the default key of the action does, in the game, while it is held and when it is pressed; **the default keys keep working**. A key given to an action stops doing what it did before (so giving `E` to
-`attack` leaves talking to `Enter`). The file is written the first time the game starts, with every action and an empty key, and read when the game starts. Android uses touch; a physical keyboard there keeps the
+`attack` leaves talking to `Enter`). The file is written the first time the game starts, with every action and an empty key, and read when the game starts. The **keys panel** (`F4` in a game) does the same from inside the game: `W`/`S` choose an action, `E` waits for a key and gives it to the action (`Esc` cancels; the default key or `Backspace` takes the choice away), `Esc` closes; the file is written at once. The game pauses meanwhile. Android uses touch; a physical keyboard there keeps the
 default keys. Presentation only: nothing of it is in the simulation or in the vectors.
 
 ## Settings
