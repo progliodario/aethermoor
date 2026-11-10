@@ -29,6 +29,8 @@ TITLES = {
 
 
 # What a title adds to the attack of the player's hits, in percent, while it is earned (spec 11, "Titles with effects"); 3 when not listed.
+# What a title of a way of playing adds besides attack (spec 11): one more of every drop gathered, more of every recipe made.
+PERKS = {"forager": {"gather_bonus": 1}, "artisan": {"craft_bonus": 1}}
 ATTACK_PCT = {"newcomer": 2, "veteran": 5, "gel_slayer": 5, "hero": 8, "chronicler": 8, "legend": 10}
 
 
@@ -54,6 +56,7 @@ def main() -> None:
     for name, (kind, count, enemy, name_en, name_it) in TITLES.items():
         entry = {"id": name, "name": f"$i18n:title.{name}", "kind": kind, "count": count}
         entry["atk_pct"] = ATTACK_PCT.get(name, 3)
+        entry.update(PERKS.get(name, {}))
         if enemy:
             entry["enemy"] = f"base:enemy/{enemy}"
         titles.append(entry)

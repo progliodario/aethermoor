@@ -71,6 +71,8 @@ private fun loadTitles(pack: Pack): List<TitleDef> {
             count = t.getValue("count").jsonPrimitive.long,
             enemy = t["enemy"]?.jsonPrimitive?.content ?: "",
             atkPct = t["atk_pct"]?.jsonPrimitive?.long ?: 0L,
+            gatherBonus = t["gather_bonus"]?.jsonPrimitive?.long ?: 0L,
+            craftBonus = t["craft_bonus"]?.jsonPrimitive?.long ?: 0L,
         )
     }
 }

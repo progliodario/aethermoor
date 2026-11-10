@@ -122,7 +122,17 @@ class RecipeDef(val id: String, val output: String, val outputQty: Long, val inp
 /** A talent (spec 11, "Talents"): every rank multiplies a kind of stat. [stat]: attack, health, mana or defense. */
 class TalentDef(val id: String, val name: String, val stat: String, val pctPerRank: Long, val maxRank: Int, val requiresTalent: String = "", val requiresRank: Int = 0)
 
-class TitleDef(val id: String, val name: String, val kind: String, val count: Long, val enemy: String = "", val atkPct: Long = 0)
+class TitleDef(
+    val id: String,
+    val name: String,
+    val kind: String,
+    val count: Long,
+    val enemy: String = "",
+    val atkPct: Long = 0,
+    /** One more of every drop gathered, and more of the output of every recipe, while the title is earned. */
+    val gatherBonus: Long = 0,
+    val craftBonus: Long = 0,
+)
 
 /** A prop that can be gathered from (spec 06, "Gathering"). */
 class GatherDrop(val item: String, val qtyMin: Long, val qtyMax: Long, val weightPm: Long)

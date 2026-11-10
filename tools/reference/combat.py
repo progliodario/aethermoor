@@ -415,6 +415,12 @@ class CombatSim:
                 out.append(t["id"])
         return out
 
+    def title_bonus(self, key: str) -> int:
+        """What the earned titles add to gathering (`gather_bonus`, one more of every drop found) or to crafting (`craft_bonus`, one more of the
+        output) (spec 11, "Titles with effects")."""
+        earned = set(self.earned_titles())
+        return sum(t.get(key, 0) for t in self.titles if t["id"] in earned)
+
     def title_attack_pct(self) -> int:
         """The percent that the earned titles add to the attack of the player's hits (spec 11, "Titles with effects")."""
         earned = set(self.earned_titles())
@@ -568,7 +574,7 @@ class CombatSim:
             if self.inventory[i["item"]] == 0:
                 del self.inventory[i["item"]]
         out = recipe["output"]
-        self.inventory[out["item"]] = self.inventory.get(out["item"], 0) + out["qty"]
+        self.inventory[out["item"]] = self.inventory.get(out["item"], 0) + out["qty"] + self.title_bonus("craft_bonus")  # the titles of an artisan
         self.counters["crafted"] = self.counters.get("crafted", 0) + 1
         return True
 
@@ -600,6 +606,7 @@ class CombatSim:
         for i, drop in enumerate(node["drops"]):
             if nm.mix64((h + 2 * i) & 0xFFFFFFFFFFFFFFFF) % 1000 < drop["weight_pm"]:
                 qty = drop["qty_min"] + nm.mix64((h + 2 * i + 1) & 0xFFFFFFFFFFFFFFFF) % (drop["qty_max"] - drop["qty_min"] + 1)
+                qty += self.title_bonus("gather_bonus")  # the titles of a forager
                 found.append((drop["item"], qty))
                 self.inventory[drop["item"]] = self.inventory.get(drop["item"], 0) + qty
         self.gathered[key] = (self.world_ticks + node["cooldown_ticks"], times + 1)

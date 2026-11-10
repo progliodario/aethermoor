@@ -707,7 +707,7 @@ class WorldSim(
             val left = (inventory[item] ?: 0L) - qty
             if (left == 0L) inventory.remove(item) else inventory[item] = left
         }
-        inventory[recipe.output] = (inventory[recipe.output] ?: 0L) + recipe.outputQty
+        inventory[recipe.output] = (inventory[recipe.output] ?: 0L) + recipe.outputQty + titleBonus(gather = false) // the titles of an artisan (spec 11)
         count("crafted")
         cues.add(SimCue("craft", "", player.position))
         return true
@@ -754,7 +754,7 @@ class WorldSim(
         val got = ArrayList<Pair<String, Long>>()
         for ((i, drop) in node.drops.withIndex()) {
             if (mix64(h + (2 * i).toULong()) % 1000uL < drop.weightPm.toULong()) {
-                val qty = drop.qtyMin + (mix64(h + (2 * i + 1).toULong()) % (drop.qtyMax - drop.qtyMin + 1).toULong()).toLong()
+                val qty = drop.qtyMin + (mix64(h + (2 * i + 1).toULong()) % (drop.qtyMax - drop.qtyMin + 1).toULong()).toLong() + titleBonus(gather = true) // the titles of a forager (spec 11)
                 inventory[drop.item] = (inventory[drop.item] ?: 0L) + qty
                 got.add(Pair(drop.item, qty))
             }
@@ -1006,6 +1006,12 @@ class WorldSim(
             }
             have >= t.count
         }.map { it.id }
+    }
+
+    /** What the earned titles add to gathering ([gather] true) or to crafting (spec 11, "Titles with effects"). */
+    fun titleBonus(gather: Boolean): Long {
+        val earned = earnedTitles().toSet()
+        return combat.titles.filter { it.id in earned }.sumOf { if (gather) it.gatherBonus else it.craftBonus }
     }
 
     /** The percent that the earned titles add to the attack of the player's hits (spec 11, "Titles with effects"). */

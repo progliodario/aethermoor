@@ -58,14 +58,16 @@
       "name": "$i18n:title.forager",
       "kind": "gathered",
       "count": 30,
-      "atk_pct": 3
+      "atk_pct": 3,
+      "gather_bonus": 1
     },
     {
       "id": "artisan",
       "name": "$i18n:title.artisan",
       "kind": "crafted",
       "count": 15,
-      "atk_pct": 3
+      "atk_pct": 3,
+      "craft_bonus": 1
     },
     {
       "id": "unbreakable",
