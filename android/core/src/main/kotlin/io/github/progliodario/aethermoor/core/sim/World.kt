@@ -213,6 +213,23 @@ class WorldSim(
     /** The bestiary (spec 11): creature id -> how many were killed. */
     val bestiary = java.util.TreeMap<String, Int>()
 
+    /** The talents learned (spec 11, "Talents"): talent id -> rank. */
+    val talents = java.util.TreeMap<String, Int>()
+
+    /** The talent points not spent yet: a share for every level gained, less the ranks learned. */
+    fun talentPoints(): Int = (player.level - 1).toInt() * combat.talentPointsPerLevel - talents.values.sum()
+
+    /** Spends one point on a rank of a talent; false, changing nothing, when it is refused. */
+    fun learnTalent(id: String): Boolean {
+        if (story.dialogueActive) return false
+        val talent = combat.talents.firstOrNull { it.id == id } ?: return false
+        if (talentPoints() < 1 || (talents[id] ?: 0) >= talent.maxRank) return false
+        talents[id] = (talents[id] ?: 0) + 1
+        recomputeDerived()
+        player.hp = minOf(player.hp, derived.maxHp)
+        return true
+    }
+
     /** The counters of spec 11: how many times the player gathered, crafted and parried. */
     val counters = java.util.TreeMap<String, Int>()
 
@@ -422,6 +439,18 @@ class WorldSim(
                 armorMdef = combat.items[equippedArmor]?.armor?.mdef ?: 0L,
             ),
         ).let { it.copy(maxHp = it.maxHp * (100 + combat.echoPct) / 100) } // the echoes of past games (spec 11)
+        for (talent in combat.talents) { // the talents, in the order of the data (spec 11)
+            val rank = talents[talent.id] ?: 0
+            if (rank <= 0) continue
+            val pct = 100 + talent.pctPerRank * rank
+            derived = when (talent.stat) {
+                "attack" -> derived.copy(atk = derived.atk * pct / 100, matk = derived.matk * pct / 100)
+                "health" -> derived.copy(maxHp = derived.maxHp * pct / 100)
+                "mana" -> derived.copy(maxMp = derived.maxMp * pct / 100)
+                "defense" -> derived.copy(def = derived.def * pct / 100, mdef = derived.mdef * pct / 100)
+                else -> derived
+            }
+        }
     }
 
     /** Puts the player at (x, y) in tiles, loading the chunks around (developer option, later the Threshold Stones). */
@@ -1193,6 +1222,7 @@ class WorldSim(
             companionStay = companionStaying,
             companionBond = companionBond,
             counters = counters.toMap(),
+            talents = talents.toMap(),
             companion = if (combat.companion != null) Triple((companionPosition ?: player.position).x, (companionPosition ?: player.position).y, companionCooldown) else null,
             equippedWeapon = equippedWeapon,
             equippedArmor = equippedArmor,
@@ -1299,6 +1329,9 @@ class WorldSim(
         bestiary.putAll(s.bestiary)
         counters.clear()
         counters.putAll(s.counters)
+        talents.clear()
+        talents.putAll(s.talents)
+        recomputeDerived() // the talents change the derived stats
         combat.companion?.let { c -> // a save without a companion (an older one) puts it next to the player
             val saved = s.companion
             companionPosition = if (saved != null) Vec2(saved.first, saved.second) else player.position

@@ -71,6 +71,8 @@ data class SaveState(
     val bestiary: Map<String, Int> = emptyMap(),
     /** The counters of spec 11: gathered, crafted, parried. */
     val counters: Map<String, Int> = emptyMap(),
+    /** The talents learned (spec 11): talent id -> rank. */
+    val talents: Map<String, Int> = emptyMap(),
     /** The companion (spec 10): x, y and cooldown; null: no companion in the save. */
     val companion: Triple<Float, Float, Int>? = null,
     /** The companion was told to stay, and the creatures it has killed (spec 10). */
@@ -176,6 +178,7 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
         }
         put("world_ticks", s.worldTicks)
         put("equipped", buildJsonObject { put("weapon", s.equippedWeapon ?: ""); put("armor", s.equippedArmor) })
+        if (s.talents.isNotEmpty()) put("talents", buildJsonObject { for ((id, rank) in s.talents) put(id, rank) })
         if (s.counters.isNotEmpty()) put("counters", buildJsonObject { for ((name, count) in s.counters) put(name, count) })
         if (s.bestiary.isNotEmpty()) put("bestiary", buildJsonObject { for ((id, count) in s.bestiary) put(id, count) })
         s.companion?.let { c -> put("companion", buildJsonObject { put("x", c.first); put("y", c.second); put("cooldown", c.third); if (s.companionStay) put("stay", true); if (s.companionBond > 0) put("bond", s.companionBond) }) }
@@ -297,6 +300,7 @@ fun saveFromJson(text: String): Result<SaveState> =
             explored = (j["explored"] as? JsonArray)?.map { c -> Pair(c.jsonArray[0].jsonPrimitive.int, c.jsonArray[1].jsonPrimitive.int) }
                 ?: emptyList(),
             companion = (j["companion"] as? JsonObject)?.let { c -> Triple(c.getValue("x").jsonPrimitive.float, c.getValue("y").jsonPrimitive.float, c.getValue("cooldown").jsonPrimitive.int) },
+            talents = (j["talents"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
             counters = (j["counters"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
             companionStay = ((j["companion"] as? JsonObject)?.get("stay") as? JsonPrimitive)?.content == "true",
             companionBond = ((j["companion"] as? JsonObject)?.get("bond") as? JsonPrimitive)?.content?.toIntOrNull() ?: 0,

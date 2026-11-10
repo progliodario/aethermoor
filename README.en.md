@@ -58,7 +58,8 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 - An adventurers' guild with a board and commissions, 142 quests, shops, inns, jobs from the elders.
 - 143 items; gathering from bushes, trees, rocks and cacti; 16 recipes (potions, cooked dishes, gear).
 - A companion for each protagonist: it follows you, fights, stays where you tell it, and its bond grows with its victories.
-- A bestiary, 15 titles, and a profile shared by all your games: every title you ever earned gives a little more health to every new life (the "echoes").
+- Talents: one point a level to spend on attack, health, mana or defense (ten ranks each).
+- A bestiary, 15 titles that raise your attack, and a profile shared by all your games: every title you ever earned gives a little more health to every new life (the "echoes").
 - Three separate games, automatic saving, export and import of a game as one file.
 
 The full catalog of the content, generated from the data, is in [`docs/design/catalog.md`](docs/design/catalog.md).
@@ -102,7 +103,7 @@ The game picks Italian or English from the system language (`F2` switches). It o
 | Attack | `J` or `Space` | Journal, titles, bestiary | `Q` |
 | Power strike | `K` | World map | `M` |
 | Dodge roll | `L` or `Shift` | Small map | `N` |
-| Parry | `U` | Crafting | `C` |
+| Parry | `U` | Crafting, and talents with `Tab` | `C` |
 | Talk, touch a stone, gather | `E` | Companion: stay / follow | `H` |
 | Analyze (Ren) | `Z` | Volumes | `F10` |
 | Quick save / load | `F5` / `F9` | Sound on / off | `F8` |
@@ -209,7 +210,7 @@ The project is developed by its owner together with Claude, an AI assistant that
 What comes next, in order (details in the [roadmap](docs/plan/06-roadmap-rischi-backlog.md), in Italian):
 
 - **Soon:** configurable keys, the companion's state and the counters shown in the interface, more automatic checks on the graphics.
-- **Toward Alpha 0.1:** the second and third act of the stories and the personal bosses of the protagonists, skill trees, tags and titles with effects, the full reincarnation, item quality and workbenches, a better synthesizer to bring ambience and music back.
+- **Toward Alpha 0.1:** the second and third act of the stories and the personal bosses of the protagonists, real skill trees (today the talents are four, in a row), tags, the full reincarnation, item quality and workbenches, a better synthesizer to bring ambience and music back.
 - **Toward 1.0:** a base and residents, farming and fishing, a dynamic economy, accessibility, more languages, tools for modders.
 
 ## Contributing and license

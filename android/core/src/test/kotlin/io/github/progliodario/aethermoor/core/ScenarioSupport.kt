@@ -21,6 +21,7 @@ import io.github.progliodario.aethermoor.core.sim.ShopDef
 import io.github.progliodario.aethermoor.core.sim.SkillDef
 import io.github.progliodario.aethermoor.core.sim.StorySetup
 import io.github.progliodario.aethermoor.core.sim.TileDef
+import io.github.progliodario.aethermoor.core.sim.TalentDef
 import io.github.progliodario.aethermoor.core.sim.TitleDef
 import io.github.progliodario.aethermoor.core.sim.TileMap
 import io.github.progliodario.aethermoor.core.sim.Tileset
@@ -147,6 +148,14 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
                 followX100 = c.getValue("follow_x100").jsonPrimitive.int,
             )
         },
+        talents = input["talents"]?.jsonArray?.map { t ->
+            val o = t.jsonObject
+            TalentDef(
+                o.getValue("id").jsonPrimitive.content, o.getValue("name").jsonPrimitive.content, o.getValue("stat").jsonPrimitive.content,
+                o.long("pct_per_rank"), o.getValue("max_rank").jsonPrimitive.int,
+            )
+        } ?: emptyList(),
+        talentPointsPerLevel = input["talent_points_per_level"]?.jsonPrimitive?.int ?: 1,
         titles = input["titles"]?.jsonArray?.map { t ->
             val o = t.jsonObject
             TitleDef(
@@ -206,6 +215,7 @@ internal fun runSegment(sim: WorldSim, segment: JsonObject) {
             "start_quest" -> sim.story.startQuest(cmd.getValue("quest").jsonPrimitive.content)
             "use" -> sim.useItem(cmd.getValue("item").jsonPrimitive.content)
             "gather" -> sim.gather()
+            "talent" -> sim.learnTalent(cmd.getValue("talent").jsonPrimitive.content)
             "companion_stay" -> sim.companionStay()
             "craft" -> sim.craft(cmd.getValue("recipe").jsonPrimitive.content)
             "equip" -> sim.equip(cmd.getValue("item").jsonPrimitive.content)
@@ -242,6 +252,12 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
         assertEquals(we.getValue("state").jsonPrimitive.content, enemy.state.id, "$at enemy $i state")
         assertNear(we.getValue("x").num(), enemy.position.x, tol, "$at enemy $i x")
         assertNear(we.getValue("y").num(), enemy.position.y, tol, "$at enemy $i y")
+    }
+    want["talents"]?.jsonObject?.let { wt ->
+        assertEquals(wt.mapValues { it.value.jsonPrimitive.int }, sim.talents.toMap(), "$at talents")
+        assertEquals(want.getValue("talent_points").jsonPrimitive.int, sim.talentPoints(), "$at talent points")
+        assertEquals(want.long("max_hp"), sim.derived.maxHp, "$at max hp")
+        assertEquals(want.long("max_mp"), sim.derived.maxMp, "$at max mp")
     }
     want["companion"]?.jsonObject?.let { wc ->
         val pos = sim.companionPosition ?: error("$at no companion")

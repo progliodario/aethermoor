@@ -296,6 +296,21 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
             }
         }
     }
+    if (const auto talent_table = pack.read_document("base:talents/all")) {  // talents (spec 11)
+        const Json parsed = Json::parse(*talent_table, nullptr, /*allow_exceptions=*/false);
+        if (!parsed.is_discarded() && parsed.contains("talents")) {
+            setup.talent_points_per_level = parsed.value("points_per_level", 1);
+            for (const Json& t : parsed.at("talents")) {
+                TalentDef talent;
+                talent.id = t.at("id").get<std::string>();
+                talent.name = t.at("name").get<std::string>();
+                talent.stat = t.at("stat").get<std::string>();
+                talent.pct_per_rank = t.at("pct_per_rank").get<std::int64_t>();
+                talent.max_rank = t.at("max_rank").get<int>();
+                setup.talents.push_back(std::move(talent));
+            }
+        }
+    }
     if (const auto title_table = pack.read_document("base:titles/all")) {  // titles (spec 11)
         const Json parsed = Json::parse(*title_table, nullptr, /*allow_exceptions=*/false);
         if (!parsed.is_discarded() && parsed.contains("titles")) {

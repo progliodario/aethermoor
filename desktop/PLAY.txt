@@ -25,6 +25,7 @@ The game picks Italian or English from your system language.
   Sound on or off . F8       Volumes ...... F10
   Export a game ... X on the title screen (a file in the exports folder)   Import ... I
   Crafting ........ C (make potions, rations, tools from what you gather)
+  Talents ......... C, then Tab: spend the point of each level on attack, health, mana or defense
   Gather .......... E near a bush, a tree, a rock or a cactus (berries, herbs, wood, stone...)
   Companion ....... H (stay here / follow me)
   Parry ........... U (just before a creature hits: no damage, and it is stunned; gamepad: LB)

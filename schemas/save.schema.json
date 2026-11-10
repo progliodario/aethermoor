@@ -345,6 +345,7 @@
         }
       }
     },
+    "talents": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 1 } },
     "counters": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 1 } },
     "bestiary": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 1 } },
     "companion": {

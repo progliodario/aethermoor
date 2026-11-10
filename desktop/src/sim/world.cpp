@@ -301,6 +301,51 @@ void WorldSim::recompute_derived() {
     }
     m_derived_ = derived_stats(m_player_.level, primary_at_level(m_setup_.player, m_player_.level), equipment);
     m_derived_.max_hp = m_derived_.max_hp * (100 + m_setup_.echo_pct) / 100;  // the echoes of past games (spec 11)
+    for (const TalentDef& talent : m_setup_.talents) {  // the talents, in the order of the data (spec 11)
+        const auto learned = m_talents_.find(talent.id);
+        if (learned == m_talents_.end() || learned->second <= 0) {
+            continue;
+        }
+        const std::int64_t pct = 100 + talent.pct_per_rank * learned->second;
+        if (talent.stat == "attack") {
+            m_derived_.atk = m_derived_.atk * pct / 100;
+            m_derived_.matk = m_derived_.matk * pct / 100;
+        } else if (talent.stat == "health") {
+            m_derived_.max_hp = m_derived_.max_hp * pct / 100;
+        } else if (talent.stat == "mana") {
+            m_derived_.max_mp = m_derived_.max_mp * pct / 100;
+        } else if (talent.stat == "defense") {
+            m_derived_.def = m_derived_.def * pct / 100;
+            m_derived_.mdef = m_derived_.mdef * pct / 100;
+        }
+    }
+}
+
+int WorldSim::talent_points() const {
+    int spent = 0;
+    for (const auto& entry : m_talents_) {
+        spent += entry.second;
+    }
+    return static_cast<int>(m_player_.level - 1) * m_setup_.talent_points_per_level - spent;
+}
+
+bool WorldSim::learn_talent(const std::string& talent_id) {
+    if (m_story_.dialogue_active()) {
+        return false;
+    }
+    const auto talent = std::find_if(m_setup_.talents.begin(), m_setup_.talents.end(),
+                                     [&](const TalentDef& t) { return t.id == talent_id; });
+    if (talent == m_setup_.talents.end() || talent_points() < 1) {
+        return false;
+    }
+    const auto learned = m_talents_.find(talent_id);
+    if (learned != m_talents_.end() && learned->second >= talent->max_rank) {
+        return false;
+    }
+    ++m_talents_[talent_id];
+    recompute_derived();
+    m_player_.hp = std::min(m_player_.hp, m_derived_.max_hp);
+    return true;
 }
 
 void WorldSim::teleport(float x, float y) {
@@ -1338,6 +1383,7 @@ SaveState WorldSim::capture() const {
     s.stones = m_stones_;
     s.bestiary = m_bestiary_;
     s.counters = m_counters_;
+    s.talents = m_talents_;
     if (m_setup_.companion) {
         s.has_companion = true;
         s.companion_x = m_companion_pos_.x;
@@ -1473,6 +1519,8 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
     m_stones_ = s.stones;
     m_bestiary_ = s.bestiary;
     m_counters_ = s.counters;
+    m_talents_ = s.talents;
+    recompute_derived();       // the talents change the derived stats
     if (m_setup_.companion) {  // a save without a companion (an older one) puts it next to the player
         m_companion_pos_ = s.has_companion ? Vec2{s.companion_x, s.companion_y} : s.position;
         m_companion_cooldown_ = s.has_companion ? s.companion_cooldown : m_setup_.companion->cooldown_ticks;

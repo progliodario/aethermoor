@@ -71,6 +71,12 @@ TITLES = [
     {"id": "maker", "name": "t", "kind": "crafted", "count": 2},
     {"id": "guard", "name": "t", "kind": "parried", "count": 1},
 ]
+TALENTS = [
+    {"id": "might", "name": "t", "stat": "attack", "pct_per_rank": 25, "max_rank": 2},
+    {"id": "vigor", "name": "t", "stat": "health", "pct_per_rank": 10, "max_rank": 3},
+    {"id": "focus", "name": "t", "stat": "mana", "pct_per_rank": 10, "max_rank": 3},
+    {"id": "guard", "name": "t", "stat": "defense", "pct_per_rank": 50, "max_rank": 3},
+]
 GATHER_NODES = [
     {"prop": "base:art/prop/bush", "sound": "plant", "cooldown_ticks": 60, "reach_x100": 150,
      "drops": [{"item": "base:item/wild_berries", "qty_min": 1, "qty_max": 3, "weight_pm": 800}, {"item": "base:item/healing_herb", "qty_min": 1, "qty_max": 2, "weight_pm": 400}]},
@@ -183,6 +189,18 @@ def build_scenarios() -> list[dict]:
                                   enemy(3.4, 4.1, hp=70, id="base:enemy/slime_green", **passive)],
                  [segment(40, attack=True), segment(40, attack=True), segment(40, attack=True), segment(40, attack=True), segment(40, attack=True),
                   segment(40, attack=True)], titles=TITLES),
+        # Talents (spec 11): a point for each level gained (two here). At level 1 nothing can be learned; three rich slimes give levels, then the points go to
+        # might (two ranks, a third is refused), vigor, guard, focus, an unknown talent (refused), until none is left. A slime that fights shows the
+        # defense, a big one the attack.
+        scenario("talents_learned", [enemy(3.5, 4.5, hp=5, xp=500, **passive), enemy(3.6, 4.7, hp=5, xp=500, **passive), enemy(3.4, 4.3, hp=5, xp=500, **passive),
+                                     enemy(3.4, 4.9, hp=6000, **passive), enemy(8.1, 4.5, hp=900, atk=60)],
+                 [segment(1, do=[{"cmd": "talent", "talent": "might"}]), segment(40, attack=True), segment(60, attack=True),
+                  segment(1, do=[{"cmd": "talent", "talent": "might"}, {"cmd": "talent", "talent": "might"}, {"cmd": "talent", "talent": "might"}]),
+                  segment(60, attack=True),
+                  segment(1, do=[{"cmd": "talent", "talent": "vigor"}, {"cmd": "talent", "talent": "guard"}, {"cmd": "talent", "talent": "focus"},
+                                 {"cmd": "talent", "talent": "nothing"}, {"cmd": "talent", "talent": "guard"}]),
+                  segment(120, attack=True), segment(1, do=[{"cmd": "talent", "talent": t} for t in ("vigor", "vigor", "guard", "focus", "focus", "vigor")]), segment(120)],
+                 talents=TALENTS, talent_points_per_level=2),
         scenario("player_death", [enemy(6.7, 4.5, atk=400)], [segment(100), segment(100), segment(100)]),
         # Hurt by a slime, the player eats bread: health goes up and one bread is gone. A second bread at full health is refused,
         # and so are the gel (no effect), an item that is not owned and a use while the player is hurt but the stack is empty.
