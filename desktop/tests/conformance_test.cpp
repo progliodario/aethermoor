@@ -798,6 +798,7 @@ Scenario scenario_from_json(const Json& in) {
             recipe.id = r.at("id").get<std::string>();
             recipe.output = r.at("output").at("item").get<std::string>();
             recipe.output_qty = integer(r.at("output"), "qty");
+            recipe.station = r.value("station", "");
             for (const Json& i : r.at("inputs")) {
                 recipe.inputs.emplace_back(i.at("item").get<std::string>(), integer(i, "qty"));
             }

@@ -220,6 +220,15 @@ def build_scenarios() -> list[dict]:
                  [segment(6), *[s for _ in range(6) for s in (segment(1, parry=True), segment(5, attack=True), segment(12), segment(60))], segment(7),
                   *[s for _ in range(4) for s in (segment(1, parry=True), segment(75))]],
                  titles=[{"id": "guard", "name": "t", "kind": "parried", "count": 1, "parry_bonus": 20}]),
+        # Stations (spec 06): a stew needs a campfire within two tiles; far from it the recipe is refused, next to it it is made; a recipe with no station
+        # is made anywhere.
+        scenario("craft_at_fire", [enemy(12.0, 7.5, **passive)],
+                 [segment(1, do=[{"cmd": "craft", "recipe": "stew"}, {"cmd": "craft", "recipe": "tonic"}]), segment(100, move=(1, 0)),
+                  segment(1, do=[{"cmd": "craft", "recipe": "stew"}, {"cmd": "craft", "recipe": "stew"}])],
+                 inventory={"base:item/healing_herb": 6, "base:item/wild_berries": 4, "base:item/spore_cap": 4, "base:item/dry_branch": 2},
+                 recipes=RECIPES + [{"id": "stew", "output": {"item": "base:item/hearty_stew", "qty": 1}, "station": "base:art/prop/campfire",
+                                     "inputs": [{"item": "base:item/spore_cap", "qty": 2}, {"item": "base:item/healing_herb", "qty": 1}, {"item": "base:item/dry_branch", "qty": 1}]}],
+                 gather_nodes=GATHER_NODES, gather_props=[{"art": "base:art/prop/campfire", "x": 9.5, "y": 5.5, "radius": 0.3}]),
         scenario("player_death", [enemy(6.7, 4.5, atk=400)], [segment(100), segment(100), segment(100)]),
         # Hurt by a slime, the player eats bread: health goes up and one bread is gone. A second bread at full health is refused,
         # and so are the gel (no effect), an item that is not owned and a use while the player is hurt but the stack is empty.

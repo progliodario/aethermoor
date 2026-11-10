@@ -699,10 +699,22 @@ class WorldSim(
     }
 
     /** Makes a recipe from the bag (spec 06, "Crafting"). Returns false, changing nothing, when it is refused. */
+    /** Whether a prop of [art] is within 2 tiles (plus its radius); an empty art is everywhere (spec 06, "Stations"). */
+    fun nearStation(art: String): Boolean {
+        if (art.isEmpty()) return true
+        val at = player.position
+        var found = false
+        forEachProp(at.x - 3f, at.y - 3f, at.x + 3f, at.y + 3f) { prop ->
+            if (prop.art == art && sqrt((prop.x - at.x) * (prop.x - at.x) + (prop.y - at.y) * (prop.y - at.y)) <= 2f + prop.radius) found = true
+        }
+        return found
+    }
+
     fun craft(recipeId: String): Boolean {
         if (story.dialogueActive) return false
         val recipe = combat.recipes.firstOrNull { it.id == recipeId } ?: return false
         if (recipe.inputs.any { (item, qty) -> (inventory[item] ?: 0L) < qty }) return false
+        if (!nearStation(recipe.station)) return false // cooking needs a fire (spec 06, "Stations")
         for ((item, qty) in recipe.inputs) {
             val left = (inventory[item] ?: 0L) - qty
             if (left == 0L) inventory.remove(item) else inventory[item] = left

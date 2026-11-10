@@ -569,6 +569,8 @@ class CombatSim:
         recipe = self.recipes.get(recipe_id)
         if recipe is None or any(self.inventory.get(i["item"], 0) < i["qty"] for i in recipe["inputs"]):
             return False
+        if not self.near_station(recipe.get("station", "")):  # cooking needs a fire (spec 06, "Stations")
+            return False
         for i in recipe["inputs"]:
             self.inventory[i["item"]] -= i["qty"]
             if self.inventory[i["item"]] == 0:
@@ -577,6 +579,12 @@ class CombatSim:
         self.inventory[out["item"]] = self.inventory.get(out["item"], 0) + out["qty"] + self.title_bonus("craft_bonus")  # the titles of an artisan
         self.counters["crafted"] = self.counters.get("crafted", 0) + 1
         return True
+
+    def near_station(self, art: str) -> bool:
+        """Whether a prop of that art is within 2 tiles of the player (plus its radius); an empty art is everywhere (spec 06, "Stations")."""
+        if not art:
+            return True
+        return any(a == art and math.sqrt((x - self.x) ** 2 + (y - self.y) ** 2) <= 2.0 + r for a, x, y, r in self.gather_props)
 
     def gather(self) -> list[tuple[str, int]] | None:
         """Gathers from the nearest prop that can be gathered from within reach (spec 06, "Gathering"). None: nothing to gather here, or it has not grown back;

@@ -159,6 +159,7 @@ struct RecipeDef {
     std::string output;
     std::int64_t output_qty = 1;
     std::vector<std::pair<std::string, std::int64_t>> inputs;
+    std::string station;  // the art of the prop it must be made next to (spec 06, "Stations"); empty: anywhere
 };
 
 // A title (spec 11): earned when its condition holds. kind: kills, kills_of, level, species or quests.

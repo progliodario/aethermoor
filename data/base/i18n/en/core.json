@@ -169,6 +169,8 @@
   "ui.crafted": "Made: {item}",
   "ui.cannot_craft": "You do not have what it takes",
   "ui.craft_hint": "W/S choose   E make   Tab talents   C or Esc close",
+  "ui.needs_fire": "(at a campfire)",
+  "ui.at_fire": "(the fire is here)",
   "ui.talents": "Talents",
   "ui.talent_points": "points to spend: {points}",
   "ui.talent_row": "{name}  {rank}/{max}   +{pct}% {what}",

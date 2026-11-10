@@ -91,6 +91,7 @@ private fun loadRecipes(pack: Pack): List<RecipeDef> {
             output = output.getValue("item").jsonPrimitive.content,
             outputQty = output.getValue("qty").jsonPrimitive.long,
             inputs = r.getValue("inputs").jsonArray.map { Pair(it.jsonObject.getValue("item").jsonPrimitive.content, it.jsonObject.getValue("qty").jsonPrimitive.long) },
+            station = r["station"]?.jsonPrimitive?.content ?: "",
         )
     }
 }
