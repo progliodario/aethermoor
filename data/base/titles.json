@@ -22,7 +22,8 @@
       "name": "$i18n:title.pest_control",
       "kind": "kills",
       "count": 25,
-      "atk_pct": 3
+      "atk_pct": 3,
+      "xp_pct": 10
     },
     {
       "id": "wolf_bane",
@@ -74,14 +75,16 @@
       "name": "$i18n:title.unbreakable",
       "kind": "parried",
       "count": 25,
-      "atk_pct": 3
+      "atk_pct": 3,
+      "parry_bonus": 8
     },
     {
       "id": "veteran",
       "name": "$i18n:title.veteran",
       "kind": "kills",
       "count": 150,
-      "atk_pct": 5
+      "atk_pct": 5,
+      "xp_pct": 15
     },
     {
       "id": "gel_slayer",
@@ -110,7 +113,8 @@
       "name": "$i18n:title.legend",
       "kind": "quests",
       "count": 40,
-      "atk_pct": 10
+      "atk_pct": 10,
+      "xp_pct": 25
     }
   ]
 }

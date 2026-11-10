@@ -69,6 +69,16 @@
             "type": "integer",
             "minimum": 0,
             "maximum": 10
+          },
+          "parry_bonus": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 60
+          },
+          "xp_pct": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200
           }
         }
       }

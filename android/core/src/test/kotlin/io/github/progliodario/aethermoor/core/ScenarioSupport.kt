@@ -163,6 +163,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
                 o.getValue("id").jsonPrimitive.content, o.getValue("name").jsonPrimitive.content, o.getValue("kind").jsonPrimitive.content,
                 o.long("count"), o["enemy"]?.jsonPrimitive?.content ?: "", o["atk_pct"]?.jsonPrimitive?.long ?: 0L,
                 o["gather_bonus"]?.jsonPrimitive?.long ?: 0L, o["craft_bonus"]?.jsonPrimitive?.long ?: 0L,
+                o["parry_bonus"]?.jsonPrimitive?.long ?: 0L, o["xp_pct"]?.jsonPrimitive?.long ?: 0L,
             )
         } ?: emptyList(),
         recipes = input["recipes"]?.jsonArray?.map { r ->

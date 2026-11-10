@@ -58,7 +58,7 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 - Gilda degli avventurieri con bacheca e commissioni, 198 missioni, negozi, locande, lavori degli anziani.
 - 145 oggetti; raccolta da cespugli, alberi, rocce e cactus; 16 ricette (pozioni, piatti cucinati, equipaggiamento).
 - Un compagno per protagonista: ti segue, combatte, resta dove gli dici, e il suo legame cresce con le sue vittorie.
-- Titoli del modo di giocare che cambiano il gioco: il Raccoglitore trova di più a ogni raccolta, l'Artigiano crea di più a ogni ricetta.
+- Titoli del modo di giocare che cambiano il gioco: il Raccoglitore trova di più, l'Artigiano crea di più, la Guardia incrollabile para più a lungo, il Veterano guadagna più esperienza.
 - Un albero di dieci talenti: un punto per livello, quattro radici (attacco, vita, mana, difesa), un secondo anello che si apre al rango 5 (critico, secondo fiato, magia, velocità) e una corona (Leggenda, Baluardo).
 - Bestiario, 15 titoli che aumentano l'attacco, e un profilo comune a tutte le partite: ogni titolo mai ottenuto dà un po' di vita in più a ogni partita (gli "echi"), e una partita arrivata al livello 10 può **reincarnarsi**: finisce, ogni vita passata dà +3% di vita a tutte le successive, e metà del suo oro passa in eredità alla prossima partita nuova.
 - Tre partite separate, salvataggio automatico, esportazione e importazione di una partita in un file.

@@ -62,7 +62,7 @@ RECIPES = [
 ]
 TITLES = [
     {"id": "grown", "name": "t", "kind": "level", "count": 2},
-    {"id": "first_blood", "name": "t", "kind": "kills", "count": 1, "atk_pct": 20},
+    {"id": "first_blood", "name": "t", "kind": "kills", "count": 1, "atk_pct": 20, "xp_pct": 50},
     {"id": "slime_hunter", "name": "t", "kind": "kills_of", "count": 2, "enemy": "base:enemy/slime_green", "atk_pct": 30},
     {"id": "wolf_bane", "name": "t", "kind": "kills_of", "count": 2, "enemy": "base:enemy/wolf_grey"},
     {"id": "naturalist", "name": "t", "kind": "species", "count": 2},
@@ -215,6 +215,11 @@ def build_scenarios() -> list[dict]:
                   segment(30, move=(1, 0)), segment(240, attack=True),
                   segment(1, do=[{"cmd": "talent", "talent": t} for t in ("might", "swift", "swift", "arcane", "arcane", "arcane")]), segment(30, move=(1, 0))],
                  talents=TALENT_TREE, talent_points_per_level=3),
+        # The parry of a guard (spec 11): once a parry earns the title, the window is 20 ticks wider, so the late parries after it still stop the blows.
+        scenario("title_parry", [enemy(4.2, 4.5, atk=60)],
+                 [segment(6), *[s for _ in range(6) for s in (segment(1, parry=True), segment(5, attack=True), segment(12), segment(60))], segment(7),
+                  *[s for _ in range(4) for s in (segment(1, parry=True), segment(75))]],
+                 titles=[{"id": "guard", "name": "t", "kind": "parried", "count": 1, "parry_bonus": 20}]),
         scenario("player_death", [enemy(6.7, 4.5, atk=400)], [segment(100), segment(100), segment(100)]),
         # Hurt by a slime, the player eats bread: health goes up and one bread is gone. A second bread at full health is refused,
         # and so are the gel (no effect), an item that is not owned and a use while the player is hurt but the stack is empty.

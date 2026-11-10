@@ -132,6 +132,9 @@ class TitleDef(
     /** One more of every drop gathered, and more of the output of every recipe, while the title is earned. */
     val gatherBonus: Long = 0,
     val craftBonus: Long = 0,
+    /** Ticks added to the parry window, and percent more experience from a kill. */
+    val parryBonus: Long = 0,
+    val xpPct: Long = 0,
 )
 
 /** A prop that can be gathered from (spec 06, "Gathering"). */

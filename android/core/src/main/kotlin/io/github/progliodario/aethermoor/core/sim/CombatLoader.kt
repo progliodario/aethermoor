@@ -73,6 +73,8 @@ private fun loadTitles(pack: Pack): List<TitleDef> {
             atkPct = t["atk_pct"]?.jsonPrimitive?.long ?: 0L,
             gatherBonus = t["gather_bonus"]?.jsonPrimitive?.long ?: 0L,
             craftBonus = t["craft_bonus"]?.jsonPrimitive?.long ?: 0L,
+            parryBonus = t["parry_bonus"]?.jsonPrimitive?.long ?: 0L,
+            xpPct = t["xp_pct"]?.jsonPrimitive?.long ?: 0L,
         )
     }
 }

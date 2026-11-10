@@ -902,7 +902,8 @@
             "name": "t",
             "kind": "kills",
             "count": 1,
-            "atk_pct": 20
+            "atk_pct": 20,
+            "xp_pct": 50
           },
           {
             "id": "slime_hunter",
@@ -1223,7 +1224,7 @@
             "player": {
               "hp": 142,
               "level": 1,
-              "xp": 18,
+              "xp": 27,
               "deaths": 0,
               "x": 2.2,
               "y": 4.5
@@ -1277,7 +1278,7 @@
             "player": {
               "hp": 142,
               "level": 1,
-              "xp": 18,
+              "xp": 27,
               "deaths": 0,
               "x": 2.2,
               "y": 4.5
@@ -1383,7 +1384,8 @@
             "name": "t",
             "kind": "kills",
             "count": 1,
-            "atk_pct": 20
+            "atk_pct": 20,
+            "xp_pct": 50
           },
           {
             "id": "slime_hunter",
@@ -2947,9 +2949,9 @@
           },
           {
             "player": {
-              "hp": 222,
-              "level": 5,
-              "xp": 385,
+              "hp": 242,
+              "level": 6,
+              "xp": 393,
               "deaths": 1,
               "x": 2.2,
               "y": 4.5
@@ -3010,9 +3012,9 @@
           },
           {
             "player": {
-              "hp": 222,
-              "level": 5,
-              "xp": 385,
+              "hp": 242,
+              "level": 6,
+              "xp": 393,
               "deaths": 1,
               "x": 2.2,
               "y": 4.5
@@ -3073,9 +3075,9 @@
           },
           {
             "player": {
-              "hp": 222,
-              "level": 5,
-              "xp": 385,
+              "hp": 242,
+              "level": 6,
+              "xp": 393,
               "deaths": 1,
               "x": 2.2,
               "y": 4.5
@@ -3137,9 +3139,9 @@
           },
           {
             "player": {
-              "hp": 222,
-              "level": 5,
-              "xp": 385,
+              "hp": 242,
+              "level": 6,
+              "xp": 393,
               "deaths": 1,
               "x": 2.2,
               "y": 4.5
@@ -6372,7 +6374,8 @@
             "name": "t",
             "kind": "kills",
             "count": 1,
-            "atk_pct": 20
+            "atk_pct": 20,
+            "xp_pct": 50
           },
           {
             "id": "slime_hunter",
@@ -6639,7 +6642,7 @@
             "player": {
               "hp": 142,
               "level": 1,
-              "xp": 6,
+              "xp": 9,
               "deaths": 0,
               "x": 2.2,
               "y": 4.5
@@ -6684,7 +6687,7 @@
             "player": {
               "hp": 142,
               "level": 1,
-              "xp": 12,
+              "xp": 18,
               "deaths": 0,
               "x": 2.2,
               "y": 4.5
@@ -6730,7 +6733,7 @@
             "player": {
               "hp": 142,
               "level": 1,
-              "xp": 12,
+              "xp": 18,
               "deaths": 0,
               "x": 2.2,
               "y": 4.5
@@ -6776,7 +6779,7 @@
             "player": {
               "hp": 142,
               "level": 1,
-              "xp": 12,
+              "xp": 18,
               "deaths": 0,
               "x": 2.2,
               "y": 4.5
@@ -6822,7 +6825,7 @@
             "player": {
               "hp": 142,
               "level": 1,
-              "xp": 12,
+              "xp": 18,
               "deaths": 0,
               "x": 2.2,
               "y": 4.5
@@ -6868,7 +6871,7 @@
             "player": {
               "hp": 142,
               "level": 1,
-              "xp": 12,
+              "xp": 18,
               "deaths": 0,
               "x": 2.2,
               "y": 4.5
@@ -8522,6 +8525,1436 @@
             "matk": 63,
             "crit_chance_pm": 760,
             "move_speed_x100": 531
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
+      "name": "combat_title_parry",
+      "input": {
+        "op": "combat",
+        "titles": [
+          {
+            "id": "guard",
+            "name": "t",
+            "kind": "parried",
+            "count": 1,
+            "parry_bonus": 20
+          }
+        ],
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            2.2,
+            4.5
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              4.2,
+              4.5
+            ],
+            "def": {
+              "hp": 28,
+              "atk": 60,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 250,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 600,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 6,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "parry": true
+          },
+          {
+            "ticks": 5,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 12,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 60,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "parry": true
+          },
+          {
+            "ticks": 5,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 12,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 60,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "parry": true
+          },
+          {
+            "ticks": 5,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 12,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 60,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "parry": true
+          },
+          {
+            "ticks": 5,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 12,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 60,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "parry": true
+          },
+          {
+            "ticks": 5,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 12,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 60,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "parry": true
+          },
+          {
+            "ticks": 5,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 12,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 60,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 7,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "parry": true
+          },
+          {
+            "ticks": 75,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "parry": true
+          },
+          {
+            "ticks": 75,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "parry": true
+          },
+          {
+            "ticks": 75,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "parry": true
+          },
+          {
+            "ticks": 75,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          }
+        ]
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "chase",
+                "x": 3.991666666666666,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "chase",
+                "x": 3.9499999999999993,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "chase",
+                "x": 3.7416666666666667,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 86,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 86,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 86,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 86,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 86,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 86,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 86,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 86,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 31,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 31,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 31,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 31,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 2
+            }
+          },
+          {
+            "player": {
+              "hp": 31,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 2
+            }
+          },
+          {
+            "player": {
+              "hp": 31,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 2
+            }
+          },
+          {
+            "player": {
+              "hp": 31,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 2
+            }
+          },
+          {
+            "player": {
+              "hp": 31,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 2
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 1,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 2
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 1,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 2
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 1,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 2
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 1,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 2
+            }
+          },
+          {
+            "player": {
+              "hp": 86,
+              "level": 1,
+              "xp": 0,
+              "deaths": 1,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 2
+            }
+          },
+          {
+            "player": {
+              "hp": 86,
+              "level": 1,
+              "xp": 0,
+              "deaths": 1,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 2
+            }
+          },
+          {
+            "player": {
+              "hp": 86,
+              "level": 1,
+              "xp": 0,
+              "deaths": 1,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 2
+            }
+          },
+          {
+            "player": {
+              "hp": 86,
+              "level": 1,
+              "xp": 0,
+              "deaths": 1,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 3
+            }
+          },
+          {
+            "player": {
+              "hp": 86,
+              "level": 1,
+              "xp": 0,
+              "deaths": 1,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 3
+            }
+          },
+          {
+            "player": {
+              "hp": 34,
+              "level": 1,
+              "xp": 0,
+              "deaths": 1,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 3
+            }
+          },
+          {
+            "player": {
+              "hp": 34,
+              "level": 1,
+              "xp": 0,
+              "deaths": 1,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 3
+            }
+          },
+          {
+            "player": {
+              "hp": 34,
+              "level": 1,
+              "xp": 0,
+              "deaths": 1,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 4
+            }
+          },
+          {
+            "player": {
+              "hp": 34,
+              "level": 1,
+              "xp": 0,
+              "deaths": 1,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 4
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 2,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "attack",
+                "x": 3.366666666666668,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "bestiary": {},
+            "titles": [
+              "guard"
+            ],
+            "counters": {
+              "parried": 4
+            }
           }
         ],
         "tol": 0.02
@@ -17786,7 +19219,8 @@
             "name": "t",
             "kind": "kills",
             "count": 1,
-            "atk_pct": 20
+            "atk_pct": 20,
+            "xp_pct": 50
           },
           {
             "id": "slime_hunter",
@@ -18088,9 +19522,9 @@
           },
           {
             "player": {
-              "hp": 142,
-              "level": 1,
-              "xp": 46,
+              "hp": 162,
+              "level": 2,
+              "xp": 5,
               "deaths": 0,
               "x": 2.2,
               "y": 4.5
@@ -18127,6 +19561,7 @@
               "base:enemy/cave_bat": 3
             },
             "titles": [
+              "grown",
               "first_blood",
               "helper"
             ],
@@ -18149,9 +19584,9 @@
           },
           {
             "player": {
-              "hp": 142,
-              "level": 1,
-              "xp": 46,
+              "hp": 162,
+              "level": 2,
+              "xp": 5,
               "deaths": 0,
               "x": 2.2,
               "y": 4.5
@@ -18188,6 +19623,7 @@
               "base:enemy/cave_bat": 3
             },
             "titles": [
+              "grown",
               "first_blood",
               "helper"
             ],
