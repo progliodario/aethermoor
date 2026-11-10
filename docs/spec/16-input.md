@@ -69,6 +69,11 @@ The last used device decides which hints are shown: not implemented yet; the HUD
 When a list (the bag, a shop, the stones, the board) has more rows than the screen shows, the clients show a window of rows that follows the cursor, so the
 last entries can be reached. The window is a presentation detail; the cursor is clamped to the list.
 
+## Status window
+
+The journal opens with the **status** of the Guest: the protagonist and the last title earned (spec 11), level and experience, health and mana, attack, magic, defense and magic defense (spec 04, after equipment, talents and echoes),
+the critical chance, the speed, what the titles add to the attack, the gold and the creatures defeated. Desktop: `V` opens the journal at it (as `Q` does); Android: the journal button. Presentation only.
+
 ## Configurable keys
 
 Desktop: `<user data>/keys.json` (next to `settings.json`) is `{"keys": {"<action>": "<key>", ...}}` with the actions `up`, `down`, `left`, `right`, `attack`, `strike`, `dodge`, `parry`, `interact`, `bag`, `journal`, `map`,

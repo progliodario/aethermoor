@@ -13,7 +13,7 @@ The game picks Italian or English from your system language.
   Dodge roll ...... L or Left Shift (gamepad: B): a quick roll, you cannot be hurt for a moment
   Talk / confirm .. E or Enter (gamepad: X), choices with W/S or 1-9
   Bag ............. I (W/S to choose, E to use or wear)
-  Journal ......... Q (W/S to scroll)       Language ..... F2 (Italian/English)
+  Journal ......... Q (W/S to scroll); V too: it opens with your status (level, health, attack, defense...)       Language ..... F2 (Italian/English)
   Shop ............ talk to a shopkeeper and pick the wares; Tab buy/sell, E confirm
   Guild board ..... talk to a guild clerk in a town and choose the day's work; E accept
   Threshold Stone . E next to a glowing stone: heals you and lets you travel to stones you woke

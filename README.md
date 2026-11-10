@@ -100,7 +100,7 @@ Il gioco sceglie italiano o inglese dalla lingua del sistema (`F2` la cambia). S
 | Azione | Tasto | Azione | Tasto |
 |---|---|---|---|
 | Muoversi | `WASD` o frecce | Zaino | `I` |
-| Attaccare | `J` o `Spazio` | Diario, titoli, bestiario | `Q` |
+| Attaccare | `J` o `Spazio` | Diario con stato, titoli, bestiario | `Q` o `V` |
 | Colpo potente | `K` | Mappa del mondo | `M` |
 | Schivata | `L` o `Maiusc` | Mini mappa | `N` |
 | Parata | `U` | Creazione, e talenti con `Tab` | `C` |
@@ -210,7 +210,7 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 Le prossime cose, in ordine (dettagli nella [roadmap](docs/plan/06-roadmap-rischi-backlog.md)):
 
 - **A breve:** una schermata per scegliere i tasti dentro il gioco, più controlli automatici sulla grafica.
-- **Verso l'Alpha 0.1:**  veri alberi di abilità (oggi i talenti sono quattro, in fila), tag, la scelta di cosa portare nella reincarnazione, qualità degli oggetti e banchi da lavoro, un sintetizzatore migliore per riaccendere ambiente e musica.
+- **Verso l'Alpha 0.1:** veri alberi di abilità (oggi i talenti sono quattro, in fila), tag, la scelta di cosa portare nella reincarnazione, qualità degli oggetti e banchi da lavoro, un sintetizzatore migliore per riaccendere ambiente e musica.
 - **Verso la 1.0:** base e residenti, agricoltura e pesca, economia dinamica, accessibilità, altre lingue, strumenti per chi fa mod.
 
 ## Contribuire e licenza

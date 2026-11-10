@@ -100,7 +100,7 @@ The game picks Italian or English from the system language (`F2` switches). It o
 | Action | Key | Action | Key |
 |---|---|---|---|
 | Move | `WASD` or arrows | Bag | `I` |
-| Attack | `J` or `Space` | Journal, titles, bestiary | `Q` |
+| Attack | `J` or `Space` | Journal with status, titles, bestiary | `Q` or `V` |
 | Power strike | `K` | World map | `M` |
 | Dodge roll | `L` or `Shift` | Small map | `N` |
 | Parry | `U` | Crafting, and talents with `Tab` | `C` |
@@ -210,7 +210,7 @@ The project is developed by its owner together with Claude, an AI assistant that
 What comes next, in order (details in the [roadmap](docs/plan/06-roadmap-rischi-backlog.md), in Italian):
 
 - **Soon:** a screen to choose the keys inside the game, more automatic checks on the graphics.
-- **Toward Alpha 0.1:**  real skill trees (today the talents are four, in a row), tags, a choice of what to carry into a reincarnation, item quality and workbenches, a better synthesizer to bring ambience and music back.
+- **Toward Alpha 0.1:** real skill trees (today the talents are four, in a row), tags, a choice of what to carry into a reincarnation, item quality and workbenches, a better synthesizer to bring ambience and music back.
 - **Toward 1.0:** a base and residents, farming and fishing, a dynamic economy, accessibility, more languages, tools for modders.
 
 ## Contributing and license
