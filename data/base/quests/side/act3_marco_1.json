@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/act3_marco_1",
+  "name": "$i18n:quest.act3_marco_1.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.act3_marco_1.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_rust",
+          "count": 8
+        },
+        {
+          "type": "collect",
+          "item": "base:item/rust_flake",
+          "count": 5
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 1500
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1500
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 140
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/royal_feast",
+      "qty": 1
+    }
+  ]
+}

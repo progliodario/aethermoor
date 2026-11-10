@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Writes the first two acts of the story of each protagonist: three quests each, given by Sister Maren at the shrine of Lyra in Aldermere.
-The first act is in this file (`ACTS`), the second in `stories_act2.py` (`ACT2`): each protagonist goes to another region.
+The first act is in this file (`ACTS`), the second in `stories_act2.py` (`ACT2`), the third in `stories_act3.py` (`ACT3`).
 
 Maren (`shrine_keeper_maren`) has one dialogue with a line for each protagonist, shown to whoever carries that protagonist's keepsake (the
 same way Pip tells the personal quests). The act of each protagonist is called "The First Echo": something of their old world has come
@@ -11,6 +11,7 @@ import json
 
 from make_towns import DATA, WORLD, set_texts
 from stories_act2 import ACT2, NEW_ITEMS
+from stories_act3 import ACT3
 
 MAREN = {"key": "shrine_keeper_maren", "dialogue": "base:dialogue/npc/maren", "variant": "cream", "dx": 386, "dy": -129}
 NAME = ("Sister Maren, keeper of Lyra's shrine", "Suor Maren, custode del santuario di Lyra")
@@ -195,8 +196,8 @@ ACTS = {
 
 
 def short_id(name: str, i: int) -> str:
-    """The quests of a protagonist in order: three of the first act, then three of the second."""
-    return f"act1_{name}_{i + 1}" if i < 3 else f"act2_{name}_{i - 2}"
+    """The quests of a protagonist in order: three of each act."""
+    return f"act{i // 3 + 1}_{name}_{i % 3 + 1}"
 
 
 def qid(name: str, i: int) -> str:
@@ -234,12 +235,15 @@ def main() -> None:
     for name, first in ACTS.items():
         second = ACT2[name]
         # the two acts in a row; what Maren says at the end of the first act opens the second, and the last word is the second act's
-        act = {"ask": first["ask"], "interlude": first["done"], "done": second["done"], "quests": first["quests"] + second["quests"]}
+        third = ACT3[name]
+        act = {"ask": first["ask"], "interlude": first["done"], "interlude2": second["done"], "done": third["done"],
+               "quests": first["quests"] + second["quests"] + third["quests"]}
         choices.append({"text": f"$i18n:dlg.maren.{name}.ask", "when": {"has_item": {"item": f"base:item/keepsake_{name}", "qty": 1}}, "next": f"{name}_c0"})
         for i, lang in enumerate(("en", "it")):
             core[lang][f"dlg.maren.{name}.ask"] = act["ask"][i]
             core[lang][f"dlg.maren.{name}.done"] = act["done"][i]
             core[lang][f"dlg.maren.{name}.interlude"] = act["interlude"][i]
+            core[lang][f"dlg.maren.{name}.interlude2"] = act["interlude2"][i]
         count = len(act["quests"])
         for n, (title, task, objectives, rewards, offer, busy, thanks) in enumerate(act["quests"]):
             nxt = f"{name}_c{n + 1}" if n + 1 < count else f"{name}_done"
@@ -249,9 +253,11 @@ def main() -> None:
             nodes[f"{name}_thanks{n}"] = say(f"{name}.q{n + 1}.thanks", f"{name}_flag{n}")
             nodes[f"{name}_flag{n}"] = {"type": "effects", "effects": [{"effect": "set_flag", "flag": thanked, "value": True}], "next": "end"}
             # the first quest of the second act is offered after the closing words of the first
-            before_offer = f"{name}_interlude" if n == 3 else f"{name}_offer{n}"
-            if n == 3:
-                nodes[f"{name}_interlude"] = say(f"{name}.interlude", f"{name}_offer{n}")
+            # the first quest of a new act is offered after the closing words of the act before it
+            interlude = {3: "interlude", 6: "interlude2"}.get(n)
+            before_offer = f"{name}_{interlude}" if interlude else f"{name}_offer{n}"
+            if interlude:
+                nodes[f"{name}_{interlude}"] = say(f"{name}.{interlude}", f"{name}_offer{n}")
             nodes[f"{name}_a{n}"] = {"type": "condition", "when": {"quest_active": qid(name, n)}, "then": f"{name}_busy{n}", "else": before_offer}
             nodes[f"{name}_busy{n}"] = say(f"{name}.q{n + 1}.busy", "end")
             nodes[f"{name}_offer{n}"] = say(f"{name}.q{n + 1}.offer", f"{name}_choice{n}")
@@ -299,7 +305,7 @@ def main() -> None:
         lines[last] = lines[last].rstrip() + ","
         lines.insert(last + 1, text)
     WORLD.write_text(newline.join(lines), encoding="utf-8", newline="")
-    print(f"wrote two acts for {len(ACTS)} protagonists: {sum(len(a['quests']) + len(ACT2[n]['quests']) for n, a in ACTS.items())} quests")
+    print(f"wrote three acts for {len(ACTS)} protagonists: {sum(len(a['quests']) + len(ACT2[n]['quests']) + len(ACT3[n]['quests']) for n, a in ACTS.items())} quests")
 
 
 if __name__ == "__main__":

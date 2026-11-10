@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/act3_marco_2",
+  "name": "$i18n:quest.act3_marco_2.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.act3_marco_2.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/slate_shard",
+          "count": 5
+        },
+        {
+          "type": "collect",
+          "item": "base:item/golem_core",
+          "count": 2
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 1800
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1800
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 160
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/potion_large",
+      "qty": 3
+    }
+  ]
+}
