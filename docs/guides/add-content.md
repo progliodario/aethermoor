@@ -37,6 +37,30 @@ The eight base protagonists are the examples: `data/base/protagonists/<name>.jso
 
 `python tools/validate_data.py`, `python tools/make_catalog.py` and the tests (`python -m pytest tools/tests`: `test_every_protagonist_is_complete`) check the rest.
 
+## A recipe, and a prop to gather from
+
+The crafting recipes and the props that give materials are tables written by a script: change the table in `tools/make_recipes.py` (recipe: output, quantity, inputs; every item must exist) or in
+`tools/make_gathering.py` (the materials and, for each prop art, its drops with a chance and a range, and the ticks it takes to grow back), run the script and the validator. Rules: [spec 06](../spec/06-items.md), "Gathering" and "Crafting".
+
+## A companion
+
+`tools/make_companions.py` has one line for each companion: whose it is, the creature art it is drawn with, its names, attack, range, cooldown and speed. Running it writes `data/base/companions/` and the
+`companion` of each protagonist. Rules: [spec 10](../spec/10-companions.md).
+
+## A title
+
+`tools/make_titles.py` lists the titles in order of rank: a kind (`kills`, `kills_of` with a creature, `level`, `species`, `quests`, or a counter: `gathered`, `crafted`, `parried`), a count and the names. Titles are computed,
+not saved, so a new one is earned at once by who already satisfies it, and every title in the profile is one percent of health for all games (the echoes): add them with care. Rules: [spec 11](../spec/11-progression.md).
+
+## A prologue
+
+`tools/make_prologues.py` has, for each protagonist, the lines of Lyra and the two answers, in both languages; it writes `data/base/dialogues/<name>/prologue.json` and the texts. Rules: [spec 18](../spec/18-protagonists.md), "Prologue".
+
+## A sound
+
+`tools/make_sfx.py` builds every sound effect recipe and the table of events (`data/base/audio/events.json`). Listen to a sound before adding it: `python tools/audio_wav.py sfx <name> --out x.wav`. The music and the loops
+of ambience of the regions are switched off in the base pack (see [spec 14](../spec/14-audio.md), "Ambience"): do not turn them back on without the owner having listened to them.
+
 ## A creature
 
 1. Art: copy a recipe from `data/base/art/creatures/` and change its `palette` (same keys) for a recolor, or draw a new one (`schemas/art_recipe.schema.json`: layers of `rect`, `ellipse`, `polygon` and `path` with flat, linear or radial fills). Look at it with `python tools/art_preview.py <name> --out sheet.html` and open the sheet in a browser.
