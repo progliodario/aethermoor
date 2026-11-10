@@ -31,6 +31,9 @@ Profile parse_profile(std::string_view text) {
             }
         }
     }
+    if (doc.contains("lives") && doc.at("lives").is_number_integer() && doc.at("lives").get<std::int64_t>() >= 0) {
+        profile.lives = static_cast<int>(doc.at("lives").get<std::int64_t>());
+    }
     return profile;
 }
 
@@ -60,7 +63,20 @@ std::string profile_to_json(const Profile& profile) {
     }
     doc["bestiary"] = bestiary;
     doc["titles"] = profile.titles;
+    doc["lives"] = profile.lives;
     return doc.dump();
+}
+
+bool reincarnate(Profile& profile, std::int64_t level) {
+    if (level < 10) {
+        return false;
+    }
+    ++profile.lives;
+    return true;
+}
+
+int profile_echo_pct(const Profile& profile) {
+    return std::min(static_cast<int>(profile.titles.size()), 15) + 3 * std::min(profile.lives, 10);
 }
 
 }  // namespace aether

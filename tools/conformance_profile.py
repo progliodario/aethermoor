@@ -8,7 +8,16 @@ from reference import profile
 
 def _case(name: str, text, bestiary: dict, titles: list) -> dict:
     merged = profile.merge_profile(profile.parse_profile(text), bestiary, titles)
-    return {"name": name, "input": {"text": text, "bestiary": bestiary, "titles": titles}, "expect": merged}
+    return {"name": name, "input": {"text": text, "bestiary": bestiary, "titles": titles}, "expect": {**merged, "echo_pct": profile.echo_pct(merged)}}
+
+
+def _rebirth(name: str, text, level: int) -> dict:
+    """A game of `level` is reincarnated: the profile after it (unchanged when the level is too low), whether it was allowed, and the echoes."""
+    before = profile.parse_profile(text)
+    after = profile.reincarnate(before, level)
+    result = after if after is not None else before
+    return {"name": name, "input": {"text": text, "bestiary": {}, "titles": [], "rebirth_level": level},
+            "expect": {**result, "echo_pct": profile.echo_pct(result), "reborn": after is not None}}
 
 
 def suite_profile() -> list[dict]:
@@ -25,4 +34,13 @@ def suite_profile() -> list[dict]:
         _case("not_an_object_is_empty", "[1, 2]", {}, ["newcomer"]),
         _case("bad_entries_are_dropped", json.dumps({"profile_version": 1, "bestiary": {"a": 0, "b": -3, "c": "7", "d": 2.5, "e": 4}, "titles": ["x", 3, "x", None, "y"]}), {}, []),
         _case("zero_counts_ignored", doc(), {"base:enemy/slime_green": 0}, []),
+        _case("lives_are_kept", json.dumps({"profile_version": 1, "bestiary": {}, "titles": ["hero"], "lives": 2}), {}, ["newcomer"]),
+        _case("bad_lives_are_zero", json.dumps({"profile_version": 1, "bestiary": {}, "titles": [], "lives": -4}), {}, []),
+        _case("lives_not_a_number", json.dumps({"profile_version": 1, "bestiary": {}, "titles": [], "lives": "3"}), {}, []),
+        _case("echoes_stop_at_fifteen_titles", doc(titles=[f"t{i}" for i in range(20)]), {}, []),
+        _rebirth("rebirth_first_life", doc(titles=["newcomer"]), 10),
+        _rebirth("rebirth_too_early", doc(titles=["newcomer"]), 9),
+        _rebirth("rebirth_third_life", json.dumps({"profile_version": 1, "bestiary": {"base:enemy/slime_green": 7}, "titles": ["hero", "veteran"], "lives": 2}), 31),
+        _rebirth("rebirth_echoes_stop_at_ten_lives", json.dumps({"profile_version": 1, "bestiary": {}, "titles": [], "lives": 14}), 50),
+        _rebirth("rebirth_from_nothing", None, 12),
     ]

@@ -10,7 +10,8 @@ import kotlinx.serialization.json.put
 // The profile: what is kept across games in `profile.json` next to the settings (the best count of every creature killed and
 // every title ever earned). Spec: docs/spec/12-save-format.md ("Profile"). Headless.
 
-class Profile(val bestiary: Map<String, Int> = emptyMap(), val titles: List<String> = emptyList())
+/** [lives]: the games that were reincarnated (spec 11, "Reincarnation"). */
+class Profile(val bestiary: Map<String, Int> = emptyMap(), val titles: List<String> = emptyList(), val lives: Int = 0)
 
 /** The profile in a text; a missing or broken text gives an empty profile, and entries that make no sense are left out. */
 fun parseProfile(text: String?): Profile {
@@ -28,7 +29,8 @@ fun parseProfile(text: String?): Profile {
         val s = (title as? JsonPrimitive)?.takeIf { it.isString }?.content
         if (s != null && s !in titles) titles.add(s)
     }
-    return Profile(bestiary, titles)
+    val lives = (doc["lives"] as? JsonPrimitive)?.takeIf { !it.isString }?.content?.toLongOrNull()?.takeIf { it >= 0 }?.toInt() ?: 0
+    return Profile(bestiary, titles, lives)
 }
 
 /** The profile after a game reports its bestiary and titles: the best count of every creature, every title ever earned. */
@@ -37,12 +39,19 @@ fun mergeProfile(profile: Profile, bestiary: Map<String, Int>, titles: List<Stri
     for ((name, count) in bestiary) if (count >= 1) merged[name] = maxOf(merged[name] ?: 0, count)
     val outTitles = ArrayList(profile.titles)
     for (title in titles) if (title !in outTitles) outTitles.add(title)
-    return Profile(merged, outTitles)
+    return Profile(merged, outTitles, profile.lives)
 }
+
+/** The profile after a game of [level] is reincarnated: one more past life; null when the level is below 10. */
+fun reincarnate(profile: Profile, level: Long): Profile? = if (level < 10) null else Profile(profile.bestiary, profile.titles, profile.lives + 1)
+
+/** The percent of maximum health that the profile gives to every game: one for each title (up to 15), three for each past life (up to 10). */
+fun profileEchoPct(profile: Profile): Int = minOf(profile.titles.size, 15) + 3 * minOf(profile.lives, 10)
 
 fun profileToJson(profile: Profile): String =
     buildJsonObject {
         put("profile_version", 1)
         put("bestiary", buildJsonObject { for ((name, count) in profile.bestiary) put(name, count) })
         put("titles", JsonArray(profile.titles.map { JsonPrimitive(it) }))
+        put("lives", profile.lives)
     }.toString()
