@@ -181,6 +181,7 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
             p.home_stamp = j.at("home").at("stamp").get<std::string>();
             p.home_dx = j.at("home").at("dx").get<int>();
             p.home_dy = j.at("home").at("dy").get<int>();
+            p.home_name = j.at("home").value("name", "");
         }
         for (const Json& r : j.at("regions")) {
             Region region;

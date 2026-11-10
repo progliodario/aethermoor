@@ -30,7 +30,7 @@
     { "id": "ashen_wastes", "name": "$i18n:region.ashen_wastes.name", "x_pm": 920, "y_pm": 480, "danger": 7, "tone": "grim", "fauna": [{ "enemy": "base:enemy/slime_ember", "drop": "base:item/ember_core", "weight": 4 }, { "enemy": "base:enemy/wolf_grey", "drop": "base:item/wolf_fang", "weight": 2 }, { "enemy": "base:enemy/slime_magma", "drop": "base:item/magma_shard", "weight": 3 }, { "enemy": "base:enemy/wolf_dire", "drop": "base:item/dire_fang", "weight": 1 }, { "enemy": "base:enemy/slime_char", "drop": "base:item/char_chunk", "weight": 2 }, { "enemy": "base:enemy/stone_golem", "drop": "base:item/golem_core", "weight": 1 }, { "enemy": "base:enemy/wisp", "drop": "base:item/wisp_ember", "weight": 1 }, { "enemy": "base:enemy/dune_scorpion", "drop": "base:item/scorpion_sting", "weight": 1 }, { "enemy": "base:enemy/slime_green", "drop": "base:item/slime_gel", "weight": 2 }], "shop": { "price_pm": 1500, "stock": ["base:item/potion_small", "base:item/steel_sword", "base:item/chain_mail", "base:item/potion_large", "base:item/runed_blade", "base:item/plate_cuirass", "base:item/war_axe", "base:item/knight_plate", "base:item/royal_feast", "base:item/dragon_scale_vest"] }, "bias": { "temperature": 12000, "moisture": -10000 }, "ground": { "plains": [19, 20, 21], "desert": [22], "forest": [21] }, "props": { "plains": [{ "art": "base:art/prop/dead_tree", "radius_x100": 30, "per_mille": 25 }, { "art": "base:art/prop/rock", "radius_x100": 35, "per_mille": 12 }, { "art": "base:art/prop/bones", "radius_x100": 8, "per_mille": 3 }], "desert": [{ "art": "base:art/prop/dead_tree", "radius_x100": 30, "per_mille": 30 }, { "art": "base:art/prop/rock", "radius_x100": 35, "per_mille": 14 }, { "art": "base:art/prop/bones", "radius_x100": 8, "per_mille": 6 }], "forest": [{ "art": "base:art/prop/dead_tree", "radius_x100": 30, "per_mille": 140 }] } },
     { "id": "lumeria", "name": "$i18n:region.lumeria.name", "x_pm": 480, "y_pm": 900, "danger": 5, "tone": "scholarly", "fauna": [{ "enemy": "base:enemy/slime_glow", "drop": "base:item/star_dust", "weight": 3 }, { "enemy": "base:enemy/slime_blue", "drop": "base:item/slime_gel", "weight": 2 }, { "enemy": "base:enemy/wolf_grey", "drop": "base:item/wolf_fang", "weight": 1 }, { "enemy": "base:enemy/wolf_storm", "drop": "base:item/storm_feather", "weight": 2 }, { "enemy": "base:enemy/slime_nebula", "drop": "base:item/nebula_ash", "weight": 2 }, { "enemy": "base:enemy/cave_spider", "drop": "base:item/spider_silk", "weight": 1 }, { "enemy": "base:enemy/myconid", "drop": "base:item/spore_cap", "weight": 1 }, { "enemy": "base:enemy/wisp", "drop": "base:item/wisp_ember", "weight": 2 }, { "enemy": "base:enemy/night_owl", "drop": "base:item/owl_feather", "weight": 1 }, { "enemy": "base:enemy/slime_green", "drop": "base:item/slime_gel", "weight": 2 }], "shop": { "price_pm": 1100, "stock": ["base:item/potion_small", "base:item/iron_sword", "base:item/chain_mail", "base:item/potion_medium", "base:item/mage_robe", "base:item/runed_blade", "base:item/moon_blade", "base:item/warding_robe", "base:item/silk_robe", "base:item/travel_ration", "base:item/potion_mana_small", "base:item/potion_mana_medium"] }, "bias": { "moisture": 8000 }, "ground": { "plains": [31, 32] }, "props": { "plains": [{ "art": "base:art/prop/tree_oak", "radius_x100": 30, "per_mille": 20 }, { "art": "base:art/prop/bush", "radius_x100": 28, "per_mille": 25 }, { "art": "base:art/prop/rock", "radius_x100": 35, "per_mille": 8 }] } }
   ],
-  "home": { "radius": 72, "stamp": "base:stamp/village", "dx": 36, "dy": 40 },
+  "home": { "name": "Fenwick", "radius": 72, "stamp": "base:stamp/village", "dx": 36, "dy": 40 },
   "landmarks": [
     { "id": "grunmoor_barrow", "name": "Grunmoor Barrow", "stamp": "base:stamp/barrow", "kind": "dungeon", "dx": -60, "dy": -34 },
     { "id": "mossveil_cellar", "name": "Mossveil Cellar", "stamp": "base:stamp/cellar", "kind": "dungeon", "dx": 50, "dy": -45 },
@@ -66,7 +66,8 @@
     { "id": "frostveil_rookery", "name": "Polar Rookery", "stamp": "base:stamp/rookery", "kind": "dungeon", "dx": -1152, "dy": -7040 },
     { "id": "tidehaven_shoal", "name": "Pearl Shoal", "stamp": "base:stamp/shoal", "kind": "dungeon", "dx": -6272, "dy": 4480 },
     { "id": "lumeria_pool", "name": "Nebula Pool", "stamp": "base:stamp/pool", "kind": "dungeon", "dx": -640, "dy": 6528 },
-    { "id": "ashen_wastes_charpit", "name": "Char Pit", "stamp": "base:stamp/charpit", "kind": "dungeon", "dx": 6528, "dy": -640 }
+    { "id": "ashen_wastes_charpit", "name": "Char Pit", "stamp": "base:stamp/charpit", "kind": "dungeon", "dx": 6528, "dy": -640 },
+    { "id": "aldermere", "name": "Aldermere", "stamp": "base:stamp/town", "kind": "town", "dx": 384, "dy": -128 }
   ],
   "guild": {
     "offers_per_day": 4,
@@ -177,6 +178,12 @@
     { "key": "wayfarer_ilvi", "dialogue": "base:dialogue/npc/ilvi", "variant": "cream", "dx": -1152, "dy": -6527 },
     { "key": "wayfarer_marlo", "dialogue": "base:dialogue/npc/marlo", "variant": "teal", "dx": -6272, "dy": 4225 },
     { "key": "wayfarer_kessa", "dialogue": "base:dialogue/npc/kessa", "variant": "red", "dx": 6784, "dy": -383 },
-    { "key": "wayfarer_ottavio", "dialogue": "base:dialogue/npc/ottavio", "variant": "", "dx": -640, "dy": 6273 }
+    { "key": "wayfarer_ottavio", "dialogue": "base:dialogue/npc/ottavio", "variant": "", "dx": -640, "dy": 6273 },
+    { "key": "fenwick_elder_bran", "dialogue": "base:dialogue/npc/bran", "variant": "brown", "dx": 33, "dy": 41 },
+    { "key": "fenwick_baker_odile", "dialogue": "base:dialogue/npc/odile", "variant": "ochre", "dx": 40, "dy": 42 },
+    { "key": "fenwick_child_tobin", "dialogue": "base:dialogue/npc/tobin", "variant": "teal", "dx": 41, "dy": 39 },
+    { "key": "aldermere_guildmaster_hestia", "dialogue": "base:dialogue/npc/hestia", "variant": "red", "dx": 382, "dy": -130 },
+    { "key": "aldermere_quartermaster_rook", "dialogue": "base:dialogue/npc/rook", "variant": "green", "dx": 386, "dy": -127 },
+    { "key": "aldermere_archivist_selwyn", "dialogue": "base:dialogue/npc/selwyn", "variant": "purple", "dx": 382, "dy": -126 }
   ]
 }

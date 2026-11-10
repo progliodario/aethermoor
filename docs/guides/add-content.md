@@ -52,6 +52,11 @@ The crafting recipes and the props that give materials are tables written by a s
 `tools/make_titles.py` lists the titles in order of rank: a kind (`kills`, `kills_of` with a creature, `level`, `species`, `quests`, or a counter: `gathered`, `crafted`, `parried`), a count and the names. Titles are computed,
 not saved, so a new one is earned at once by who already satisfies it, and every title in the profile is one percent of health for all games (the echoes): add them with care. Rules: [spec 11](../spec/11-progression.md).
 
+## A named person with quests
+
+`tools/make_towns.py` has a table of people: where they stand (tiles from the center of the world, on walkable ground), their look, their lines and their quests (objectives and rewards). It writes the dialogue, the quests, the texts and
+the person's line in `npcs` of the world data. The count of `npcs` is checked by a test of each client (see the last section).
+
 ## A prologue
 
 `tools/make_prologues.py` has, for each protagonist, the lines of Lyra and the two answers, in both languages; it writes `data/base/dialogues/<name>/prologue.json` and the texts. Rules: [spec 18](../spec/18-protagonists.md), "Prologue".

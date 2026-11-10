@@ -31,6 +31,7 @@ Python scripts (3.12 or newer; the virtual environment of [`docs/dev/setup.md`](
 | `audio_wav.py` | writes a sound (`sfx <name>`) or a piece of music (`music <name> --layers base,combat`) to a WAV file, to listen to it |
 | `make_recipes.py` | writes the crafting recipes `data/base/recipes.json` (spec 06, "Crafting") |
 | `make_companions.py` | writes the companions `data/base/companions/` with their names, and gives each protagonist theirs (spec 10) |
+| `make_towns.py` | writes the two hand-written towns: the named people of Fenwick and Aldermere, their dialogues and quests, their texts, and their lines in the world data (`npcs`, the landmark of Aldermere) |
 | `make_titles.py` | writes the titles `data/base/titles.json` and their names (spec 11) |
 | `make_prologues.py` | writes the prologue of each protagonist, `data/base/dialogues/<name>/prologue.json`, and its texts (spec 18, "Prologue") |
 | `make_gathering.py` | writes the gatherable materials (items and their texts) and `data/base/gathering.json` (spec 06, "Gathering") |

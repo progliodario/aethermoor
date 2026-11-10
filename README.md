@@ -41,7 +41,7 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 
 - Un mondo aperto di 16384 x 16384 caselle generato da un seme, sempre uguale a parità di seme, caricato a pezzi mentre cammini.
 - Otto regioni con terreno, creature, negozi e modo di parlare propri; giorno e notte, quattro stagioni, meteo.
-- Circa 130 insediamenti, 35 luoghi fatti a mano (sotterranei con guardiano, tane, nidi, avamposti con un viandante e la sua storia).
+- Circa 130 insediamenti, 36 luoghi fatti a mano (sotterranei con guardiano, tane, nidi, avamposti con un viandante e la sua storia), e due paesi scritti a mano: **Fenwick**, il villaggio dove cominci, e **Aldermere**, la città della gilda madre, con persone che hanno un nome e missioni proprie.
 - Pietre della Soglia per curarsi e viaggiare fra i posti già visitati.
 - Mappa del mondo con zoom, meta da segnare e mini mappa; si scopre la terra in un quadrato di 5 x 5 celle (640 caselle) intorno a te.
 
@@ -55,7 +55,7 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 
 **Vita e progressione**
 
-- Gilda degli avventurieri con bacheca e commissioni, 110 missioni, negozi, locande, lavori degli anziani.
+- Gilda degli avventurieri con bacheca e commissioni, 118 missioni, negozi, locande, lavori degli anziani.
 - 143 oggetti; raccolta da cespugli, alberi, rocce e cactus; 16 ricette (pozioni, piatti cucinati, equipaggiamento).
 - Un compagno per protagonista: ti segue, combatte, resta dove gli dici, e il suo legame cresce con le sue vittorie.
 - Bestiario, 15 titoli, e un profilo comune a tutte le partite: ogni titolo mai ottenuto dà un po' di vita in più a ogni nuova vita (gli "echi").
@@ -209,7 +209,7 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 Le prossime cose, in ordine (dettagli nella [roadmap](docs/plan/06-roadmap-rischi-backlog.md)):
 
 - **A breve:** tasti configurabili, stato del compagno e contatori visibili nell'interfaccia, più controlli automatici sulla grafica.
-- **Verso l'Alpha 0.1:** le prime due città scritte a mano, le trame in tre atti e i boss personali dei protagonisti, alberi di abilità, tag e titoli con effetti, la reincarnazione completa, qualità degli oggetti e banchi da lavoro, un sintetizzatore migliore per riaccendere ambiente e musica.
+- **Verso l'Alpha 0.1:** le trame in tre atti e i boss personali dei protagonisti, alberi di abilità, tag e titoli con effetti, la reincarnazione completa, qualità degli oggetti e banchi da lavoro, un sintetizzatore migliore per riaccendere ambiente e musica.
 - **Verso la 1.0:** base e residenti, agricoltura e pesca, economia dinamica, accessibilità, altre lingue, strumenti per chi fa mod.
 
 ## Contribuire e licenza

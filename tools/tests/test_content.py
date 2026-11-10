@@ -64,6 +64,11 @@ def test_every_kill_target_spawns_and_every_item_asked_for_can_be_found():
     spawn = spawnable_enemies()
     enemies, items = load_all("enemies"), load_all("items")
     dropped = {drop["item"] for enemy_id in spawn for drop in enemies[enemy_id]["drops"]}
+    # what grows on the props of the world (spec 06, "Gathering") and what the recipes make can be found too
+    gathering = json.loads((DATA / "gathering.json").read_text(encoding="utf-8"))
+    recipes = json.loads((DATA / "recipes.json").read_text(encoding="utf-8"))
+    dropped |= {drop["item"] for node in gathering["nodes"] for drop in node["drops"]}
+    dropped |= {recipe["output"]["item"] for recipe in recipes["recipes"]}
     rewarded = set()
     for doc in list(load_all("quests").values()) + list(load_all("dialogues").values()):
         found = {"quests": set(), "items": set(), "enemies": set()}

@@ -125,6 +125,7 @@ class Sites:
         n = hash64(self.seed, sx, sy, 43)
         name = names["start"][n % len(names["start"])] + names["mid"][(n >> 16) % len(names["mid"])] \
             + names["end"][(n >> 32) % len(names["end"])]
+        name = params["home"].get("name") or name  # a name of its own, when the data gives one
         kind = next((k["id"] for k in params["settlements"]["kinds"] if stamp_id in k["stamps"]), "village")
         return self._with_slots({"x": px - stamp["anchor"][0], "y": py - stamp["anchor"][1], "px": px, "py": py, "w": stamp["w"],
                                  "h": stamp["h"], "stamp": stamp_id, "kind": kind, "name": name, "region": region_at(params, px, py)},

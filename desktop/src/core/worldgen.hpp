@@ -166,6 +166,7 @@ struct WorldParams {
     std::string home_stamp;
     int home_dx = 0;
     int home_dy = 0;
+    std::string home_name;  // the name of the home village; empty: made like the others
 
     GuildParams guild;
 

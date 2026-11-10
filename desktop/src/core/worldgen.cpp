@@ -362,6 +362,9 @@ private:
         s.kind = chosen->id;
         s.name = p.names_start[n % p.names_start.size()] + p.names_mid[(n >> 16) % p.names_mid.size()] +
                  p.names_end[(n >> 32) % p.names_end.size()];
+        if (!p.home_name.empty()) {
+            s.name = p.home_name;  // a name of its own, when the data gives one
+        }
         s.region = region_at(p, px, py);
         add_slots(s, sx, sy);
         return s;

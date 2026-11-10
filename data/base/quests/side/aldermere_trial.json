@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/aldermere_trial",
+  "name": "$i18n:quest.aldermere_trial.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.aldermere_trial.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_mint",
+          "count": 6
+        },
+        {
+          "type": "kill",
+          "enemy": "base:enemy/myconid",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 200
+    },
+    {
+      "effect": "add_gold",
+      "amount": 250
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 30
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/potion_medium",
+      "qty": 2
+    }
+  ]
+}
