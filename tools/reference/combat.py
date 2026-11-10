@@ -208,7 +208,7 @@ class CombatSim:
             attack = dodge = strike = parry = False
 
         if parry and self.parry_ticks == 0 and self.parry_cooldown == 0 and self.phase == NONE and self.dodge_ticks == 0:
-            self.parry_ticks, self.parry_cooldown = PARRY_TICKS, PARRY_COOLDOWN
+            self.parry_ticks, self.parry_cooldown = PARRY_TICKS + self.title_bonus("parry_bonus"), PARRY_COOLDOWN  # a guard's titles widen it
         if self.parry_ticks > 0:  # a parry in progress allows no attack and no roll
             attack = dodge = strike = False
 
@@ -416,8 +416,8 @@ class CombatSim:
         return out
 
     def title_bonus(self, key: str) -> int:
-        """What the earned titles add to gathering (`gather_bonus`, one more of every drop found) or to crafting (`craft_bonus`, one more of the
-        output) (spec 11, "Titles with effects")."""
+        """What the earned titles add (spec 11, "Titles with effects"): `gather_bonus` (more of every drop gathered), `craft_bonus` (more of every
+        recipe made), `parry_bonus` (ticks added to the parry window), `xp_pct` (percent more experience from a kill)."""
         earned = set(self.earned_titles())
         return sum(t.get(key, 0) for t in self.titles if t["id"] in earned)
 
@@ -436,7 +436,7 @@ class CombatSim:
                 if drop["qty_max"] > drop["qty_min"]:
                     qty += self.loot.next_bounded(drop["qty_max"] - drop["qty_min"] + 1)
                 self.inventory[drop["item"]] = self.inventory.get(drop["item"], 0) + qty
-        self.grant_xp(rules.xp_gain(enemy.d["xp"], enemy.d["level"], self.level))
+        self.grant_xp(rules.xp_gain(enemy.d["xp"], enemy.d["level"], self.level) * (100 + self.title_bonus("xp_pct")) // 100)  # a veteran's titles
         if self.story is not None:
             self.story.on_kill(enemy.d.get("id", ""))
 

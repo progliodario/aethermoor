@@ -809,7 +809,7 @@ class WorldSim(
         val stunned = p.stun > 0
         if (stunned) p.stun--
         if (enabled && parryIn && !frozen && !stunned && p.parryTicks == 0 && p.parryCooldown == 0 && p.phase == AttackPhase.NONE && p.dodgeTicks == 0) {
-            p.parryTicks = PARRY_TICKS // the parry window opens (spec 05, "Parry")
+            p.parryTicks = PARRY_TICKS + titleParryBonus() // the window opens (spec 05); a guard's titles widen it
             p.parryCooldown = PARRY_COOLDOWN
         }
         // a parry in progress allows no attack and no roll
@@ -988,7 +988,7 @@ class WorldSim(
                 inventory[drop.item] = (inventory[drop.item] ?: 0L) + quantity
             }
         }
-        grantXp(xpGain(enemy.def.xp, enemy.def.level, p.level))
+        grantXp(xpGain(enemy.def.xp, enemy.def.level, p.level) * (100 + titleXpPct()) / 100) // a veteran's titles (spec 11)
         story.onKill(enemy.def.id)
     }
 
@@ -1013,6 +1013,11 @@ class WorldSim(
         val earned = earnedTitles().toSet()
         return combat.titles.filter { it.id in earned }.sumOf { if (gather) it.gatherBonus else it.craftBonus }
     }
+
+    /** What the earned titles add to the parry window (ticks) and to the experience of a kill (percent). */
+    private fun titleParryBonus(): Int = earnedTitles().toSet().let { earned -> combat.titles.filter { it.id in earned }.sumOf { it.parryBonus } }.toInt()
+
+    private fun titleXpPct(): Long = earnedTitles().toSet().let { earned -> combat.titles.filter { it.id in earned }.sumOf { it.xpPct } }
 
     /** The percent that the earned titles add to the attack of the player's hits (spec 11, "Titles with effects"). */
     fun titleAttackPct(): Long {

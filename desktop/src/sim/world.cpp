@@ -858,7 +858,9 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
 
     if (combat && parry && p.parry_ticks == 0 && p.parry_cooldown == 0 && p.phase == AttackPhase::None &&
         p.dodge_ticks == 0) {
-        p.parry_ticks = kParryTicks;  // the parry window opens (spec 05, "Parry")
+        p.parry_ticks =
+            kParryTicks +
+            static_cast<int>(title_bonus("parry"));  // the window opens (spec 05); a guard's titles widen it
         p.parry_cooldown = kParryCooldown;
     }
     if (p.parry_ticks > 0) {  // a parry in progress allows no attack and no roll
@@ -1095,7 +1097,8 @@ void WorldSim::on_kill(Enemy& enemy) {
             m_inventory_[drop.item] += quantity;
         }
     }
-    grant_xp(xp_gain(enemy.def.xp, enemy.def.level, p.level));
+    grant_xp(xp_gain(enemy.def.xp, enemy.def.level, p.level) * (100 + title_bonus("xp")) /
+             100);  // a veteran's titles (spec 11)
     m_story_.on_kill(enemy.def.id);
 }
 
@@ -1133,7 +1136,10 @@ std::int64_t WorldSim::title_bonus(const std::string& what) const {
     std::int64_t bonus = 0;
     for (const TitleDef& t : m_setup_.titles) {
         if (std::find(earned.begin(), earned.end(), t.id) != earned.end()) {
-            bonus += what == "gather" ? t.gather_bonus : t.craft_bonus;
+            bonus += what == "gather"  ? t.gather_bonus
+                     : what == "craft" ? t.craft_bonus
+                     : what == "parry" ? t.parry_bonus
+                                       : t.xp_pct;
         }
     }
     return bonus;

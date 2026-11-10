@@ -187,7 +187,7 @@ public:
     std::vector<std::string> earned_titles() const;
     // The percent that the earned titles add to the attack of the player's hits (spec 11, "Titles with effects").
     std::int64_t title_attack_pct() const;
-    // What the earned titles add to gathering and crafting (spec 11): "gather" or "craft".
+    // What the earned titles add (spec 11): "gather", "craft", "parry" (window ticks) or "xp" (percent).
     std::int64_t title_bonus(const std::string& what) const;
     const std::map<std::string, int>& counters() const { return m_counters_; }
     // Talents (spec 11): the ranks learned, the points left, and spending one point on a rank (false when refused).

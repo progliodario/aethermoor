@@ -30,7 +30,8 @@ TITLES = {
 
 # What a title adds to the attack of the player's hits, in percent, while it is earned (spec 11, "Titles with effects"); 3 when not listed.
 # What a title of a way of playing adds besides attack (spec 11): one more of every drop gathered, more of every recipe made.
-PERKS = {"forager": {"gather_bonus": 1}, "artisan": {"craft_bonus": 1}}
+PERKS = {"forager": {"gather_bonus": 1}, "artisan": {"craft_bonus": 1}, "unbreakable": {"parry_bonus": 8},
+         "pest_control": {"xp_pct": 10}, "veteran": {"xp_pct": 15}, "legend": {"xp_pct": 25}}
 ATTACK_PCT = {"newcomer": 2, "veteran": 5, "gel_slayer": 5, "hero": 8, "chronicler": 8, "legend": 10}
 
 
