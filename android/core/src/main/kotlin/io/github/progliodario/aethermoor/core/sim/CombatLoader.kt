@@ -50,6 +50,8 @@ private fun loadTalents(pack: Pack): Pair<List<TalentDef>, Int> {
                 stat = t.getValue("stat").jsonPrimitive.content,
                 pctPerRank = t.getValue("pct_per_rank").jsonPrimitive.long,
                 maxRank = t.getValue("max_rank").jsonPrimitive.int,
+                requiresTalent = t["requires"]?.jsonObject?.getValue("talent")?.jsonPrimitive?.content ?: "",
+                requiresRank = t["requires"]?.jsonObject?.getValue("rank")?.jsonPrimitive?.int ?: 0,
             )
         },
         doc["points_per_level"]?.jsonPrimitive?.int ?: 1,

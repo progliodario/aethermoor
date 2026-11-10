@@ -224,6 +224,7 @@ class WorldSim(
         if (story.dialogueActive) return false
         val talent = combat.talents.firstOrNull { it.id == id } ?: return false
         if (talentPoints() < 1 || (talents[id] ?: 0) >= talent.maxRank) return false
+        if (talent.requiresTalent.isNotEmpty() && (talents[talent.requiresTalent] ?: 0) < talent.requiresRank) return false // a branch of the tree
         talents[id] = (talents[id] ?: 0) + 1
         recomputeDerived()
         player.hp = minOf(player.hp, derived.maxHp)
@@ -448,6 +449,9 @@ class WorldSim(
                 "health" -> derived.copy(maxHp = derived.maxHp * pct / 100)
                 "mana" -> derived.copy(maxMp = derived.maxMp * pct / 100)
                 "defense" -> derived.copy(def = derived.def * pct / 100, mdef = derived.mdef * pct / 100)
+                "magic" -> derived.copy(matk = derived.matk * pct / 100)
+                "critical" -> derived.copy(critChancePm = derived.critChancePm * pct / 100)
+                "speed" -> derived.copy(moveSpeedX100 = derived.moveSpeedX100 * pct / 100)
                 else -> derived
             }
         }

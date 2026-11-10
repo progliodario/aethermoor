@@ -2307,6 +2307,13 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         batch.end()
     }
 
+    /** What opens a branch of the talent tree that is still closed, or nothing. */
+    private fun lockedNote(world: WorldSim, data: Assets, talent: io.github.progliodario.aethermoor.core.sim.TalentDef): String {
+        if (talent.requiresTalent.isEmpty() || (world.talents[talent.requiresTalent] ?: 0) >= talent.requiresRank) return ""
+        val before = world.combat.talents.firstOrNull { it.id == talent.requiresTalent } ?: return ""
+        return "   " + data.pack.text(language, "\$i18n:ui.talent_needs", mapOf("name" to data.pack.text(language, before.name), "rank" to talent.requiresRank))
+    }
+
     /** The talents in the crafting panel (spec 11, "Talents"): one row each with its rank and what it gives; a tap chooses, a second tap learns. */
     private fun drawTalents(world: WorldSim, data: Assets, tabButton: FloatArray) {
         val density = Gdx.graphics.density
@@ -2341,7 +2348,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 data.pack.text(
                     language, "\$i18n:ui.talent_row",
                     mapOf("name" to data.pack.text(language, talent.name), "rank" to rank, "max" to talent.maxRank, "pct" to talent.pctPerRank * rank, "what" to data.pack.text(language, "\$i18n:ui.talent_${talent.stat}")),
-                ),
+                ) + lockedNote(world, data, talent),
                 r[0] + 16f * density, r[1] + (r[3] - font.lineHeight) / 2f,
             )
         }

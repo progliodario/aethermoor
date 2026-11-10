@@ -970,5 +970,11 @@
   "quest.act4_lena_1.task": "Il referto sulla morte di Lena non è mai stato scritto. Si è scritto da solo, nel Santuario del Silenzio, a est della partenza. Firmalo.",
   "quest.act4_gideon_1.name": "L'eco stessa",
   "quest.act4_gideon_1.task": "Trecento anni su un trono hanno lasciato una forma: il trono stesso, nel Santuario della Cenere, a est della partenza. Alzati.",
+  "talent.keen_eye.name": "Occhio acuto",
+  "talent.second_wind.name": "Secondo fiato",
+  "talent.arcana.name": "Arcano",
+  "talent.fleet_foot.name": "Piede lesto",
+  "talent.legend.name": "Leggenda",
+  "talent.bulwark.name": "Baluardo",
   "quest.personal_gideon_2.task": "Quattro lupi fulvi e due pellicce: il villaggio, con garbo, chiede un tributo."
 }

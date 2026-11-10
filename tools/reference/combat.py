@@ -37,7 +37,8 @@ PARRY_IFRAMES = 20
 COMPANION_LEASH = 8.0
 COMPANION_RADIUS = 0.25
 # Talents (spec 11, "Talents"): what each kind of talent multiplies.
-TALENT_STATS = {"attack": ("atk", "matk"), "health": ("max_hp",), "mana": ("max_mp",), "defense": ("def", "mdef")}
+TALENT_STATS = {"attack": ("atk", "matk"), "health": ("max_hp",), "mana": ("max_mp",), "defense": ("def", "mdef"), "magic": ("matk",),
+                "critical": ("crit_chance_pm",), "speed": ("move_speed_x100",)}
 COMPANION_BOND_STEP = 5   # kills of the companion for one more point of attack
 COMPANION_BOND_MAX = 10   # the most the bond adds
 
@@ -166,6 +167,9 @@ class CombatSim:
             return False
         talent = next((t for t in self.talent_defs if t["id"] == talent_id), None)
         if talent is None or self.talent_points() < 1 or self.talents.get(talent_id, 0) >= talent["max_rank"]:
+            return False
+        need = talent.get("requires")  # a branch of the tree opens when the talent before it has the rank asked
+        if need is not None and self.talents.get(need["talent"], 0) < need["rank"]:
             return False
         self.talents[talent_id] = self.talents.get(talent_id, 0) + 1
         self.derived = self._derive()
@@ -747,7 +751,8 @@ class CombatSim:
             "inventory": dict(sorted(self.inventory.items())),
             "equipped": dict(self.equipped),
             **({"talents": dict(sorted(self.talents.items())), "talent_points": self.talent_points(), "max_hp": self.derived["max_hp"],
-                "max_mp": self.derived["max_mp"]} if self.talent_defs else {}),
+                "max_mp": self.derived["max_mp"], "matk": self.derived["matk"], "crit_chance_pm": self.derived["crit_chance_pm"],
+                "move_speed_x100": self.derived["move_speed_x100"]} if self.talent_defs else {}),
             **({"companion": {"x": self.comp_x, "y": self.comp_y, "stay": self.comp_stay, "bond": self.comp_bond}} if self.companion is not None else {}),
             **({"bestiary": dict(sorted(self.bestiary.items())), "titles": self.earned_titles(),
                 "counters": dict(sorted(self.counters.items()))} if self.titles else {}),

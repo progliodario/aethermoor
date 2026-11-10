@@ -58,7 +58,7 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 - An adventurers' guild with a board and commissions, 198 quests, shops, inns, jobs from the elders.
 - 145 items; gathering from bushes, trees, rocks and cacti; 16 recipes (potions, cooked dishes, gear).
 - A companion for each protagonist: it follows you, fights, stays where you tell it, and its bond grows with its victories.
-- Talents: one point a level to spend on attack, health, mana or defense (ten ranks each).
+- A tree of ten talents: a point a level, four roots (attack, health, mana, defense), a second ring that opens at rank 5 (critical, second wind, magic, speed) and a crown (Legend, Bulwark).
 - A bestiary, 15 titles that raise your attack, and a profile shared by all your games: every title you ever earned gives a little more health to every game (the "echoes"), and a game that reached level 10 can be **reincarnated**: it ends, every past life gives +3% health to all the ones after it, and half of its gold is an heirloom for your next new game.
 - Three separate games, automatic saving, export and import of a game as one file.
 
@@ -210,7 +210,7 @@ The project is developed by its owner together with Claude, an AI assistant that
 What comes next, in order (details in the [roadmap](docs/plan/06-roadmap-rischi-backlog.md), in Italian):
 
 - **Soon:** a screen to choose the keys inside the game, more automatic checks on the graphics.
-- **Toward Alpha 0.1:** real skill trees (today the talents are four, in a row), tags, a choice of what to carry into a reincarnation, item quality and workbenches, a better synthesizer to bring ambience and music back.
+- **Toward Alpha 0.1:** new active skills in the tree, tags, a choice of what to carry into a reincarnation, item quality and workbenches, a better synthesizer to bring ambience and music back.
 - **Toward 1.0:** a base and residents, farming and fishing, a dynamic economy, accessibility, more languages, tools for modders.
 
 ## Contributing and license

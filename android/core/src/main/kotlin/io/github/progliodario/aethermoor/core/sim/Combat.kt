@@ -120,7 +120,7 @@ class RecipeDef(val id: String, val output: String, val outputQty: Long, val inp
 
 /** A title (spec 11): earned when its condition holds. [kind]: kills, kills_of, level, species or quests; [enemy] for kills_of only. */
 /** A talent (spec 11, "Talents"): every rank multiplies a kind of stat. [stat]: attack, health, mana or defense. */
-class TalentDef(val id: String, val name: String, val stat: String, val pctPerRank: Long, val maxRank: Int)
+class TalentDef(val id: String, val name: String, val stat: String, val pctPerRank: Long, val maxRank: Int, val requiresTalent: String = "", val requiresRank: Int = 0)
 
 class TitleDef(val id: String, val name: String, val kind: String, val count: Long, val enemy: String = "", val atkPct: Long = 0)
 
