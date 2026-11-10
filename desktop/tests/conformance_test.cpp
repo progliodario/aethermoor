@@ -20,6 +20,7 @@
 #include "audio/director.hpp"
 #include "audio/music.hpp"
 #include "audio/synth.hpp"
+#include "sim/profile.hpp"
 #include "sim/save_bundle.hpp"
 #include "core/id.hpp"
 #include "core/message_format.hpp"
@@ -562,6 +563,38 @@ TEST_CASE("conformance: savebundle", "[conformance]") {
                 REQUIRE(got->at(name) == content.get<std::string>());
             }
         }
+    }
+}
+
+TEST_CASE("conformance: profile", "[conformance]") {
+    const Json doc = load_suite("profile");
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        const Json& in = c.at("input");
+        const aether::Profile before =
+            aether::parse_profile(in.at("text").is_null() ? "" : in.at("text").get<std::string>());
+        std::map<std::string, int> bestiary;
+        for (const auto& [name, count] : in.at("bestiary").items()) {
+            bestiary[name] = count.get<int>();
+        }
+        std::vector<std::string> titles;
+        for (const Json& title : in.at("titles")) {
+            titles.push_back(title.get<std::string>());
+        }
+        const aether::Profile got = aether::merge_profile(before, bestiary, titles);
+        const Json& expect = c.at("expect");
+        REQUIRE(got.bestiary.size() == expect.at("bestiary").size());
+        for (const auto& [name, count] : expect.at("bestiary").items()) {
+            REQUIRE(got.bestiary.at(name) == count.get<int>());
+        }
+        REQUIRE(got.titles.size() == expect.at("titles").size());
+        for (std::size_t i = 0; i < got.titles.size(); ++i) {
+            REQUIRE(got.titles[i] == expect.at("titles")[i].get<std::string>());
+        }
+        const aether::Profile again =
+            aether::parse_profile(aether::profile_to_json(got));  // writing and reading it back changes nothing
+        REQUIRE(again.bestiary == got.bestiary);
+        REQUIRE(again.titles == got.titles);
     }
 }
 

@@ -37,7 +37,11 @@ import io.github.progliodario.aethermoor.core.sim.EnemyState
 import io.github.progliodario.aethermoor.core.sim.NpcDef
 import io.github.progliodario.aethermoor.core.sim.Prop
 import io.github.progliodario.aethermoor.core.sim.QuestStage
+import io.github.progliodario.aethermoor.core.sim.Profile
 import io.github.progliodario.aethermoor.core.sim.SaveMeta
+import io.github.progliodario.aethermoor.core.sim.mergeProfile
+import io.github.progliodario.aethermoor.core.sim.parseProfile
+import io.github.progliodario.aethermoor.core.sim.profileToJson
 import io.github.progliodario.aethermoor.core.sim.StreamConfig
 import io.github.progliodario.aethermoor.core.sim.saveFromJson
 import io.github.progliodario.aethermoor.core.sim.saveToJson
@@ -441,7 +445,27 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     }
 
     /** Writes the autosave (a temporary file first, then a move over the old save). */
+    private fun profileFile() = Gdx.files.local("profile.json")
+
+    private fun readProfile(): Profile =
+        try {
+            val file = profileFile()
+            parseProfile(if (file.exists()) file.readString("UTF-8") else null)
+        } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
+            Profile()
+        }
+
+    /** Adds what the game in progress has reached to the profile (spec 12, "Profile"), whenever the game is saved. */
+    private fun updateProfile(world: WorldSim) {
+        try {
+            profileFile().writeString(profileToJson(mergeProfile(readProfile(), world.bestiary, world.earnedTitles())), false, "UTF-8")
+        } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
+            Gdx.app.error(TAG, "Cannot write the profile: ${e.message}")
+        }
+    }
+
     private fun saveGame(world: WorldSim) {
+        updateProfile(world)
         try {
             val temp = Gdx.files.local("saves/slot$currentSlot/auto.json.tmp")
             temp.writeString(saveToJson(world.capture(), SaveMeta(info.version, 1, protagonistId, seed, MAP_WORLD)), false, "UTF-8")
@@ -3027,6 +3051,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
         font.color = Color(0.67f, 0.78f, 0.9f, 1f)
         font.draw(batch, data.pack.text(language, "\$i18n:ui.title_hint_touch"), panelX, height - font.lineHeight * 2.4f)
+        val profile = readProfile()
+        if (profile.bestiary.size + profile.titles.size > 0) { // the records of all the games (spec 12, "Profile")
+            font.color = Color(1f, 0.84f, 0.47f, 1f)
+            font.draw(batch, data.pack.text(language, "\$i18n:ui.profile_line", mapOf("species" to profile.bestiary.size, "titles" to profile.titles.size)), panelX, height - font.lineHeight * 4f)
+        }
         font.color = Color.WHITE
         batch.end()
     }

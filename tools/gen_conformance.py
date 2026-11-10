@@ -19,6 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import conformance_audio  # noqa: E402
 import conformance_music  # noqa: E402
+import conformance_profile  # noqa: E402
 import conformance_savebundle  # noqa: E402
 import conformance_m2  # noqa: E402
 import conformance_m3  # noqa: E402
@@ -227,6 +228,7 @@ SUITES = {
     "audio_ambience": conformance_audio.suite_audio_ambience,
     "music": conformance_music.suite_music,
     "savebundle": conformance_savebundle.suite_savebundle,
+    "profile": conformance_profile.suite_profile,
     "music_director": conformance_music.suite_music_director,
     "combat": conformance_m3.suite_combat,
     "story": conformance_m4.suite_story,

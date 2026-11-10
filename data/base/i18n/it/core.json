@@ -87,6 +87,7 @@
   "ui.export_failed": "Non è stato possibile esportare la partita",
   "ui.slot_exported": "Partita esportata in {path}",
   "ui.title_hint_touch": "Tocca una partita per giocare. Tocca la croce per cancellarla, Esporta per salvarla in un file, Importa per caricarne una in una partita vuota.",
+  "ui.profile_line": "Record di tutte le tue partite: {species} tipi di creature, {titles} titoli",
   "ui.export_button": "Esporta",
   "ui.import_button": "Importa",
   "ui.clock": "{season}, giorno {day}  {time}",

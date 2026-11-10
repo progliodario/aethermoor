@@ -1,0 +1,164 @@
+{
+  "suite": "profile",
+  "spec_version": 1,
+  "generated_by": "tools/gen_conformance.py",
+  "cases": [
+    {
+      "name": "first_game",
+      "input": {
+        "text": null,
+        "bestiary": {
+          "base:enemy/slime_green": 3,
+          "base:enemy/wolf_grey": 1
+        },
+        "titles": [
+          "newcomer",
+          "pest_control"
+        ]
+      },
+      "expect": {
+        "bestiary": {
+          "base:enemy/slime_green": 3,
+          "base:enemy/wolf_grey": 1
+        },
+        "titles": [
+          "newcomer",
+          "pest_control"
+        ]
+      }
+    },
+    {
+      "name": "nothing_to_add",
+      "input": {
+        "text": "{\"profile_version\": 1, \"bestiary\": {\"base:enemy/slime_green\": 5}, \"titles\": [\"newcomer\"]}",
+        "bestiary": {},
+        "titles": []
+      },
+      "expect": {
+        "bestiary": {
+          "base:enemy/slime_green": 5
+        },
+        "titles": [
+          "newcomer"
+        ]
+      }
+    },
+    {
+      "name": "best_count_wins",
+      "input": {
+        "text": "{\"profile_version\": 1, \"bestiary\": {\"base:enemy/slime_green\": 5, \"base:enemy/wolf_grey\": 9}, \"titles\": []}",
+        "bestiary": {
+          "base:enemy/slime_green": 8,
+          "base:enemy/wolf_grey": 2
+        },
+        "titles": []
+      },
+      "expect": {
+        "bestiary": {
+          "base:enemy/slime_green": 8,
+          "base:enemy/wolf_grey": 9
+        },
+        "titles": []
+      }
+    },
+    {
+      "name": "titles_keep_their_order",
+      "input": {
+        "text": "{\"profile_version\": 1, \"bestiary\": {}, \"titles\": [\"hero\", \"newcomer\"]}",
+        "bestiary": {},
+        "titles": [
+          "newcomer",
+          "veteran",
+          "hero"
+        ]
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": [
+          "hero",
+          "newcomer",
+          "veteran"
+        ]
+      }
+    },
+    {
+      "name": "broken_text_is_empty",
+      "input": {
+        "text": "not json",
+        "bestiary": {
+          "base:enemy/slime_green": 1
+        },
+        "titles": [
+          "newcomer"
+        ]
+      },
+      "expect": {
+        "bestiary": {
+          "base:enemy/slime_green": 1
+        },
+        "titles": [
+          "newcomer"
+        ]
+      }
+    },
+    {
+      "name": "wrong_version_is_empty",
+      "input": {
+        "text": "{\"profile_version\": 2, \"bestiary\": {\"base:enemy/slime_green\": 9}, \"titles\": [\"hero\"]}",
+        "bestiary": {},
+        "titles": []
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": []
+      }
+    },
+    {
+      "name": "not_an_object_is_empty",
+      "input": {
+        "text": "[1, 2]",
+        "bestiary": {},
+        "titles": [
+          "newcomer"
+        ]
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": [
+          "newcomer"
+        ]
+      }
+    },
+    {
+      "name": "bad_entries_are_dropped",
+      "input": {
+        "text": "{\"profile_version\": 1, \"bestiary\": {\"a\": 0, \"b\": -3, \"c\": \"7\", \"d\": 2.5, \"e\": 4}, \"titles\": [\"x\", 3, \"x\", null, \"y\"]}",
+        "bestiary": {},
+        "titles": []
+      },
+      "expect": {
+        "bestiary": {
+          "e": 4
+        },
+        "titles": [
+          "x",
+          "y"
+        ]
+      }
+    },
+    {
+      "name": "zero_counts_ignored",
+      "input": {
+        "text": "{\"profile_version\": 1, \"bestiary\": {}, \"titles\": []}",
+        "bestiary": {
+          "base:enemy/slime_green": 0
+        },
+        "titles": []
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": []
+      }
+    }
+  ]
+}

@@ -87,6 +87,7 @@
   "ui.export_failed": "The game could not be exported",
   "ui.slot_exported": "Game exported to {path}",
   "ui.title_hint_touch": "Tap a game to play it. Tap the cross to delete a game, Export to save it to a file, Import to load one into an empty game.",
+  "ui.profile_line": "Records of all your games: {species} kinds of creatures, {titles} titles",
   "ui.export_button": "Export",
   "ui.import_button": "Import",
   "ui.clock": "{season}, day {day}  {time}",
