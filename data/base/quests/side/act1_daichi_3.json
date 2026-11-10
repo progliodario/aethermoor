@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/act1_daichi_3",
+  "name": "$i18n:quest.act1_daichi_3.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.act1_daichi_3.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/barrow_warden",
+          "count": 1
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 500
+    },
+    {
+      "effect": "add_gold",
+      "amount": 600
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 60
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/war_axe",
+      "qty": 1
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/splint_mail",
+      "qty": 1
+    }
+  ]
+}

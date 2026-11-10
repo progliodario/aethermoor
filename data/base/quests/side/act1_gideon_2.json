@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/act1_gideon_2",
+  "name": "$i18n:quest.act1_gideon_2.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.act1_gideon_2.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/tawny_fur",
+          "count": 3
+        },
+        {
+          "type": "collect",
+          "item": "base:item/slime_gel",
+          "count": 5
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 200
+    },
+    {
+      "effect": "add_gold",
+      "amount": 200
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 40
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/hearty_stew",
+      "qty": 3
+    }
+  ]
+}

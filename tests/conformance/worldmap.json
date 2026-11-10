@@ -1833,6 +1833,13 @@
               "variant": "purple",
               "dx": 382,
               "dy": -126
+            },
+            {
+              "key": "shrine_keeper_maren",
+              "dialogue": "base:dialogue/npc/maren",
+              "variant": "cream",
+              "dx": 386,
+              "dy": -129
             }
           ],
           "stamp_defs": {
@@ -8003,6 +8010,13 @@
               "variant": "purple",
               "dx": 382,
               "dy": -126
+            },
+            {
+              "key": "shrine_keeper_maren",
+              "dialogue": "base:dialogue/npc/maren",
+              "variant": "cream",
+              "dx": 386,
+              "dy": -129
             }
           ],
           "stamp_defs": {

@@ -184,6 +184,7 @@
     { "key": "fenwick_child_tobin", "dialogue": "base:dialogue/npc/tobin", "variant": "teal", "dx": 41, "dy": 39 },
     { "key": "aldermere_guildmaster_hestia", "dialogue": "base:dialogue/npc/hestia", "variant": "red", "dx": 382, "dy": -130 },
     { "key": "aldermere_quartermaster_rook", "dialogue": "base:dialogue/npc/rook", "variant": "green", "dx": 386, "dy": -127 },
-    { "key": "aldermere_archivist_selwyn", "dialogue": "base:dialogue/npc/selwyn", "variant": "purple", "dx": 382, "dy": -126 }
+    { "key": "aldermere_archivist_selwyn", "dialogue": "base:dialogue/npc/selwyn", "variant": "purple", "dx": 382, "dy": -126 },
+    { "key": "shrine_keeper_maren", "dialogue": "base:dialogue/npc/maren", "variant": "cream", "dx": 386, "dy": -129 }
   ]
 }

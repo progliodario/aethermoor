@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/act1_lena_1",
+  "name": "$i18n:quest.act1_lena_1.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.act1_lena_1.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/myconid",
+          "count": 6
+        },
+        {
+          "type": "collect",
+          "item": "base:item/spore_cap",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 150
+    },
+    {
+      "effect": "add_gold",
+      "amount": 150
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 20
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/potion_mana_small",
+      "qty": 3
+    }
+  ]
+}
