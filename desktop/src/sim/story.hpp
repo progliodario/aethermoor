@@ -189,6 +189,9 @@ public:
     void on_talk(std::string_view npc_key);
 
     bool dialogue_active() const { return m_dialogue_active_; }
+    // Opens a dialogue that no one in the world starts (the prologue, spec 18); false when it does not exist or one is
+    // open.
+    bool begin_dialogue(const std::string& dialogue_id);
     void interact();
     void advance();
     void choose(int index);

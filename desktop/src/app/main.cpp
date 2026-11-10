@@ -3208,6 +3208,11 @@ int main(int argc, char** argv) {
                 if (peek && peek->map == g_map_name && peek->seed == seed &&
                     load_game(sim, g_slot_dir / "auto.json", ignored)) {
                     notify(ui, assets.pack.text(ui.lang, "$i18n:ui.loaded"));
+                } else if (!previous && g_map_name == "world") {
+                    // A new game opens with the prologue of its protagonist: a talk with Lyra at the Threshold (spec
+                    // 18).
+                    const std::size_t slash = g_protagonist_id.rfind('/');
+                    sim.story().begin_dialogue("base:dialogue/" + g_protagonist_id.substr(slash + 1) + "/prologue");
                 }
             }
 

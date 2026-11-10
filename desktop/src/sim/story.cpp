@@ -500,6 +500,14 @@ void Story::on_talk(std::string_view npc_key) {
 
 const DialogueNode& Story::node() const { return m_setup_.dialogues.at(m_dialogue_id_).nodes.at(m_node_); }
 
+bool Story::begin_dialogue(const std::string& dialogue_id) {
+    if (m_dialogue_active_ || m_setup_.dialogues.find(dialogue_id) == m_setup_.dialogues.end()) {
+        return false;
+    }
+    start_dialogue(dialogue_id);
+    return true;
+}
+
 void Story::start_dialogue(const std::string& dialogue_id) {
     const auto found = m_setup_.dialogues.find(dialogue_id);
     if (found == m_setup_.dialogues.end()) {
