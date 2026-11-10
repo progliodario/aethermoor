@@ -1296,9 +1296,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                     showCraft = false
                 } else {
                     val row = craftRowRects.indexOfFirst { r -> x >= r[0] && x <= r[0] + r[2] && y >= r[1] && y <= r[1] + r[3] }
-                    if (row >= 0) {
-                        craftCursor = row
-                        craftSelected(world)
+                    if (row >= 0) { // a tap chooses a recipe (the list scrolls to it); a tap on the chosen one makes it
+                        if (row == craftCursor) craftSelected(world) else craftCursor = row
                     }
                 }
             }
@@ -2237,14 +2236,17 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val panelY = (height - panelH) / 2f
         craftPanel = floatArrayOf(panelX, panelY, panelW, panelH)
         val firstRowY = panelY + 52f * density
-        craftRowRects = recipes.indices.map { floatArrayOf(panelX, firstRowY + it * rowH, panelW, rowH) }
         craftCursor = craftCursor.coerceIn(0, max(recipes.size - 1, 0))
+        // the rows that fit, around the cursor: a long list scrolls with it (the rows out of sight are put off the screen)
+        val fit = max(((panelH - 52f * density - 24f * density) / rowH).toInt(), 1)
+        val first = (craftCursor - fit / 2).coerceIn(0, max(recipes.size - fit, 0))
+        craftRowRects = recipes.indices.map { if (it < first || it >= first + fit) floatArrayOf(-10000f, -10000f, 0f, 0f) else floatArrayOf(panelX, firstRowY + (it - first) * rowH, panelW, rowH) }
         shapes.projectionMatrix = camera.combined
         Gdx.gl.glEnable(GL20.GL_BLEND)
         shapes.begin(ShapeRenderer.ShapeType.Filled)
         drawPanel(panelX, panelY, panelW, panelH, Color(1f, 0.84f, 0.47f, 1f), 0.96f)
         for ((i, r) in craftRowRects.withIndex()) {
-            if (r[1] + r[3] > panelY + panelH - 24f * density) break
+            if (r[2] == 0f) continue
             if (i == craftCursor) {
                 shapes.color = Color(0.16f, 0.35f, 0.55f, 1f)
                 shapes.rect(r[0] + 6f * density, r[1], r[2] - 12f * density, r[3] - 2f * density)
@@ -2257,7 +2259,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         font.draw(batch, data.pack.text(language, "\$i18n:ui.craft"), panelX + 16f * density, panelY + 12f * density)
         for ((i, recipe) in recipes.withIndex()) {
             val r = craftRowRects[i]
-            if (r[1] + r[3] > panelY + panelH - 24f * density) break
+            if (r[2] == 0f) continue
             var can = true
             val needs = recipe.inputs.joinToString(", ") { (item, qty) ->
                 val have = world.inventory[item] ?: 0L

@@ -2237,8 +2237,13 @@ void draw_craft(SDL_Renderer* renderer, const Assets& assets, const aether::Worl
     SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
     debug_text(renderer, (x + 16.0F) / kScale, (y + 14.0F) / kScale,
                assets.pack.text(ui.lang, "$i18n:ui.craft").c_str());
-    for (std::size_t i = 0; i < recipes.size(); ++i) {
-        const float ty = y + 44.0F + row * static_cast<float>(i);
+    // The rows that fit, around the cursor: a long list scrolls with it.
+    const std::size_t fit = static_cast<std::size_t>(std::max((h - 74.0F) / row, 1.0F));
+    const std::size_t cursor = static_cast<std::size_t>(std::max(ui.craft_cursor, 0));
+    const std::size_t last_first = recipes.size() > fit ? recipes.size() - fit : 0;
+    const std::size_t first = std::min(cursor > fit / 2 ? cursor - fit / 2 : 0, last_first);
+    for (std::size_t i = first; i < recipes.size(); ++i) {
+        const float ty = y + 44.0F + row * static_cast<float>(i - first);
         if (ty + row > y + h - 30.0F) {
             break;
         }
