@@ -739,14 +739,16 @@ fun biomeCode(seed: ULong, p: WorldParams, cellX: Int, cellY: Int): Int =
 /** The same code for one tile: the map draws a zoomed cell as a grid of these (spec 09, "The map view"). */
 fun biomeCodeAt(seed: ULong, p: WorldParams, tileX: Int, tileY: Int): Int = biomeAt(seed, p, tileX, tileY).ordinal
 
-/** Marks the cell of the tile and its eight neighbours inside the world as explored. */
+private const val EXPLORE_RADIUS = 2 // 5 x 5 cells around the player (spec 09)
+
+/** Marks the cell of the tile and the cells within [EXPLORE_RADIUS] of it inside the world as explored. */
 fun explore(cells: MutableSet<Pair<Int, Int>>, p: WorldParams, tileX: Int, tileY: Int) {
     val columns = (p.width + MAP_CELL - 1) / MAP_CELL
     val rows = (p.height + MAP_CELL - 1) / MAP_CELL
     val cx = tileX / MAP_CELL
     val cy = tileY / MAP_CELL
-    for (y in cy - 1..cy + 1) {
-        for (x in cx - 1..cx + 1) {
+    for (y in cy - EXPLORE_RADIUS..cy + EXPLORE_RADIUS) {
+        for (x in cx - EXPLORE_RADIUS..cx + EXPLORE_RADIUS) {
             if (x in 0 until columns && y in 0 until rows) cells.add(Pair(x, y))
         }
     }

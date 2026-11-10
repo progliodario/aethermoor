@@ -253,7 +253,7 @@ number of enemies and their digest (`fold hash64(h, x, y, dead)` over the spawne
 ## Exploration and the world map
 
 The world map divides the world in **cells** of `MAP_CELL = 128` x 128 tiles (`columns = ceil(width / 128)`, same for rows). At every tick, after the window of
-chunks is updated, the cell of the player `(floor(x) / 128, floor(y) / 128)` and its eight neighbours that lie inside the world become **explored**; explored
+chunks is updated, the cell of the player `(floor(x) / 128, floor(y) / 128)` and the cells within two of it in each direction (5 x 5 cells, 640 tiles across) that lie inside the world become **explored**; explored
 cells are never forgotten and are stored in the save (spec 12, `explored`).
 
 The map shows each explored cell with the biome of the tile at the center of the cell (`cell * 128 + 64`): code 0 water, 1 beach, 2 mountain, 3 snow, 4 desert,
@@ -268,7 +268,7 @@ The view is presentation, not rules (no vectors): both clients draw the same thi
   (`cell_px = side / max(columns, rows)`), every level doubles it (`cell_px * 2^level`, so 16 times at level 4). The view has a **center**, a cell position
   (fractional) kept inside `[0, columns] x [0, rows]`.
 - Opening the map **frames what was explored**: the center is the middle of the bounding box of the explored cells, and the level is the biggest at which the box plus a margin
-  of one cell on each side fits in the view. A new game, which has explored 3 x 3 cells, opens at level 4; a game that has crossed the world opens at level 0 or 1.
+  of one cell on each side fits in the view. A new game, which has explored 5 x 5 cells, opens at level 3 or 4; a game that has crossed the world opens at level 0 or 1.
 - The player moves the view (a step is a sixth of the view), changes the level, goes back to the player (the view is centered on the player's position, same level) or frames the
   explored cells again. Keys, drag, wheel, pinch and buttons are in spec 16.
 - **Detail.** What is explored stays whole cells of 128 x 128 tiles, but a cell is drawn as a grid of `n x n` squares, `n = 1` at level 0 and `n = 2^level` from level 1 (2, 4, 8, 16), so that a square stays about 4 or 5 pixels at every zoom. The square `(i, j)` (column, row, from the top left) has the

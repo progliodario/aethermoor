@@ -231,7 +231,7 @@ TEST_CASE("the overworld is streamed from the content pack and is playable", "[w
     REQUIRE(sim.story().npc_in_range() != nullptr);
     REQUIRE(sim.world_ticks() == params->time.start_tick + 120);  // the world clock runs with the ticks
     REQUIRE(sim.time().has_value());
-    REQUIRE(sim.explored().size() == 9);  // the cell of the spawn and its neighbours
+    REQUIRE(sim.explored().size() == 25);  // the cell of the spawn and the two rings around it
     REQUIRE(sim.time()->tod_pm == static_cast<int>(sim.world_ticks() * 1000 / params->time.day_ticks));
 
     // The enemies are exactly those of the spawners in the 5 x 5 chunks around the player, whichever chunk that is.

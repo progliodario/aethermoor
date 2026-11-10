@@ -762,8 +762,9 @@ void explore(std::set<std::pair<int, int>>& cells, const WorldParams& p, int til
     const int rows = (p.height + kMapCell - 1) / kMapCell;
     const int cx = tile_x / kMapCell;
     const int cy = tile_y / kMapCell;
-    for (int y = cy - 1; y <= cy + 1; ++y) {
-        for (int x = cx - 1; x <= cx + 1; ++x) {
+    constexpr int kExploreRadius = 2;  // 5 x 5 cells around the player (spec 09)
+    for (int y = cy - kExploreRadius; y <= cy + kExploreRadius; ++y) {
+        for (int x = cx - kExploreRadius; x <= cx + kExploreRadius; ++x) {
             if (x >= 0 && x < columns && y >= 0 && y < rows) {
                 cells.insert({x, y});
             }

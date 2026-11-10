@@ -446,7 +446,7 @@ class WorldGenTest {
         assertTrue(sim.story.npcInRange() != null)
         assertEquals(params.time.startTick + 120, sim.worldTicks) // the world clock runs with the ticks
         assertEquals((sim.worldTicks * 1000 / params.time.dayTicks).toInt(), sim.time()?.todPm)
-        assertEquals(9, sim.explored.size) // the cell of the spawn and its neighbours
+        assertEquals(25, sim.explored.size) // the cell of the spawn and the two rings around it
 
         // The enemies are exactly those of the spawners in the 5 x 5 chunks around the player, whichever chunk that is.
         fun checkWindow() {
