@@ -1,0 +1,560 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/creature/echo_daichi",
+  "canvas": {
+    "w": 36,
+    "h": 30,
+    "origin": [
+      18,
+      26
+    ]
+  },
+  "palette": {
+    "body": "#CA8795",
+    "light": "#E5C3AF",
+    "dark": "#9C7790",
+    "outline": "#82718F",
+    "eye": "#E5DEFF"
+  },
+  "variants": {},
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          18,
+          26,
+          15,
+          4
+        ]
+      },
+      "fill": {
+        "color": "#746E8E"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "path": "M 3 25 Q 2 9 18 6 Q 34 9 33 25 Q 18 29 3 25 Z"
+      },
+      "fill": {
+        "radial": {
+          "cx": 14,
+          "cy": 11,
+          "r": 24,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.45,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          13,
+          12,
+          4,
+          2.2
+        ]
+      },
+      "fill": {
+        "color": "#E5DEFF"
+      },
+      "alpha": 0.35
+    },
+    {
+      "shape": {
+        "ellipse": [
+          13,
+          18,
+          1.8,
+          2.6
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          23,
+          18,
+          1.8,
+          2.6
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            11,
+            9
+          ],
+          [
+            12,
+            2.5
+          ],
+          [
+            15.5,
+            6
+          ],
+          [
+            18,
+            1
+          ],
+          [
+            20.5,
+            6
+          ],
+          [
+            24,
+            2.5
+          ],
+          [
+            25,
+            9
+          ]
+        ]
+      },
+      "fill": {
+        "color": "#DFC7AF"
+      },
+      "stroke": {
+        "color": "#AA9695",
+        "width": 1.0
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18,
+          6.2,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "#D38AA0"
+      }
+    },
+    {
+      "shape": {
+        "path": "M 4.8 24.9 Q 18.0 29.52 31.2 24.9 Q 18.0 22.38 4.8 24.9 Z"
+      },
+      "fill": {
+        "color": "#746E8E"
+      },
+      "alpha": 0.16
+    },
+    {
+      "shape": {
+        "path": "M 6.6 26.58 Q 18.0 29.1 29.4 26.58"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.84
+      },
+      "alpha": 0.4
+    },
+    {
+      "shape": {
+        "ellipse": [
+          25.2,
+          19.02,
+          2.25,
+          2.25
+        ]
+      },
+      "fill": {
+        "color": "#E5DEFF"
+      },
+      "alpha": 0.16
+    },
+    {
+      "shape": {
+        "ellipse": [
+          24.52,
+          18.34,
+          0.9,
+          0.9
+        ]
+      },
+      "fill": {
+        "color": "#E5DEFF"
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "ellipse": [
+          11.4,
+          21.12,
+          1.65,
+          1.65
+        ]
+      },
+      "fill": {
+        "color": "#E5DEFF"
+      },
+      "alpha": 0.16
+    },
+    {
+      "shape": {
+        "ellipse": [
+          10.91,
+          20.62,
+          0.66,
+          0.66
+        ]
+      },
+      "fill": {
+        "color": "#E5DEFF"
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "ellipse": [
+          27,
+          13.98,
+          1.35,
+          1.35
+        ]
+      },
+      "fill": {
+        "color": "#E5DEFF"
+      },
+      "alpha": 0.16
+    },
+    {
+      "shape": {
+        "ellipse": [
+          26.59,
+          13.58,
+          0.54,
+          0.54
+        ]
+      },
+      "fill": {
+        "color": "#E5DEFF"
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "ellipse": [
+          21.6,
+          22.8,
+          1.2,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "#E5DEFF"
+      },
+      "alpha": 0.16
+    },
+    {
+      "shape": {
+        "ellipse": [
+          21.24,
+          22.44,
+          0.48,
+          0.48
+        ]
+      },
+      "fill": {
+        "color": "#E5DEFF"
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "ellipse": [
+          19.8,
+          10.2,
+          1.5,
+          0.63
+        ]
+      },
+      "fill": {
+        "color": "#E5DEFF"
+      },
+      "alpha": 0.55
+    },
+    {
+      "shape": {
+        "path": "M 9.0 11.46 Q 10.8 8.52 15.6 7.89"
+      },
+      "stroke": {
+        "color": "#E5DEFF",
+        "width": 1.05
+      },
+      "alpha": 0.35
+    },
+    {
+      "shape": {
+        "path": "M 15.3 21.42 Q 18.0 23.76 20.7 21.42"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.81
+      },
+      "alpha": 0.75
+    },
+    {
+      "shape": {
+        "ellipse": [
+          12.37,
+          16.92,
+          0.68,
+          0.76
+        ]
+      },
+      "fill": {
+        "color": "#E5DEFF"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          13.45,
+          18.99,
+          0.4,
+          0.36
+        ]
+      },
+      "fill": {
+        "color": "#E5DEFF"
+      },
+      "alpha": 0.45
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22.37,
+          16.92,
+          0.68,
+          0.76
+        ]
+      },
+      "fill": {
+        "color": "#E5DEFF"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          23.45,
+          18.99,
+          0.4,
+          0.36
+        ]
+      },
+      "fill": {
+        "color": "#E5DEFF"
+      },
+      "alpha": 0.45
+    },
+    {
+      "shape": {
+        "path": "M 8 11 L 11 15 L 9 19 L 12 23"
+      },
+      "stroke": {
+        "color": "#E5CDAF",
+        "width": 1.1
+      }
+    },
+    {
+      "shape": {
+        "path": "M 26 10 L 24 14 L 27 18 L 25 22"
+      },
+      "stroke": {
+        "color": "#E5CDAF",
+        "width": 1.1
+      }
+    },
+    {
+      "shape": {
+        "path": "M 15 8 L 17 11 L 15.6 14"
+      },
+      "stroke": {
+        "color": "#E5ABA0",
+        "width": 0.9
+      }
+    },
+    {
+      "shape": {
+        "path": "M 8 11 L 11 15 L 9 19 L 12 23 M 26 10 L 24 14 L 27 18 L 25 22"
+      },
+      "stroke": {
+        "color": "#E5ABA0",
+        "width": 2.2
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "ellipse": [
+          30.4,
+          26.4,
+          1,
+          1.5
+        ]
+      },
+      "fill": {
+        "color": "#E5ABA0"
+      },
+      "stroke": {
+        "color": "#B18093",
+        "width": 0.5
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          7,
+          26.8,
+          0.8,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "#E5CDAF"
+      }
+    },
+    {
+      "shape": {
+        "path": "M 6 21 Q 18 29 30 21"
+      },
+      "stroke": {
+        "color": "#DFC7AF",
+        "width": 1.1
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          9,
+          23.4,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "#DFC7AF"
+      },
+      "stroke": {
+        "color": "#AA9695",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          13,
+          25.5,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "#DFC7AF"
+      },
+      "stroke": {
+        "color": "#AA9695",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18,
+          26.4,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "#DFC7AF"
+      },
+      "stroke": {
+        "color": "#AA9695",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          23,
+          25.5,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "#DFC7AF"
+      },
+      "stroke": {
+        "color": "#AA9695",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          27,
+          23.4,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "#DFC7AF"
+      },
+      "stroke": {
+        "color": "#AA9695",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18,
+          27.6,
+          1.5,
+          1.7
+        ]
+      },
+      "fill": {
+        "color": "#D38AA0"
+      },
+      "stroke": {
+        "color": "#AA7A95",
+        "width": 0.5
+      }
+    }
+  ]
+}

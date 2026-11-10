@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/echo_yuki",
+  "name": "$i18n:enemy.echo_yuki.name",
+  "level": 24,
+  "stats": {
+    "hp": 1300,
+    "atk": 52,
+    "def": 17,
+    "mdef": 20,
+    "speed_x100": 280
+  },
+  "element": "dark",
+  "stagger_pct": 20,
+  "sound": "matron",
+  "xp": 1440,
+  "drops": [
+    {
+      "item": "base:item/potion_large",
+      "qty_min": 2,
+      "qty_max": 3,
+      "weight_pm": 1000
+    },
+    {
+      "item": "base:item/potion_mana_medium",
+      "qty_min": 1,
+      "qty_max": 2,
+      "weight_pm": 1000
+    }
+  ],
+  "radius_x100": 54,
+  "behavior": "base:behavior/guardian",
+  "art": "base:art/creature/echo_yuki"
+}

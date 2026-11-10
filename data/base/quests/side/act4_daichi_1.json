@@ -1,0 +1,39 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/act4_daichi_1",
+  "name": "$i18n:quest.act4_daichi_1.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.act4_daichi_1.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/echo_daichi",
+          "count": 1
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 6000
+    },
+    {
+      "effect": "add_gold",
+      "amount": 8000
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 200
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/potion_large",
+      "qty": 5
+    }
+  ]
+}

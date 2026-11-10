@@ -1,0 +1,688 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/creature/echo_ren",
+  "canvas": {
+    "w": 56,
+    "h": 64,
+    "origin": [
+      28,
+      60
+    ]
+  },
+  "palette": {
+    "light": "#D7B4D4",
+    "body": "#9C7BA0",
+    "dark": "#847395",
+    "outline": "#796F8F",
+    "glow": "#E583A3",
+    "bone": "#D3C6E3",
+    "slit": "#776F8F"
+  },
+  "variants": {},
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          28,
+          60,
+          20,
+          5
+        ]
+      },
+      "fill": {
+        "color": "#746E8E"
+      },
+      "alpha": 0.3
+    },
+    {
+      "shape": {
+        "path": "M 12 58 Q 10 34 28 28 Q 46 34 44 58 Q 28 62 12 58 Z"
+      },
+      "fill": {
+        "radial": {
+          "cx": 22,
+          "cy": 36,
+          "r": 30,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.5,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.8
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          12,
+          37,
+          7,
+          6
+        ]
+      },
+      "fill": {
+        "color": "$p.body"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          44,
+          37,
+          7,
+          6
+        ]
+      },
+      "fill": {
+        "color": "$p.body"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.6
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            28,
+            36
+          ],
+          [
+            32,
+            43
+          ],
+          [
+            28,
+            52
+          ],
+          [
+            24,
+            43
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.glow"
+      },
+      "alpha": 0.85
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            19,
+            15
+          ],
+          [
+            11,
+            3
+          ],
+          [
+            23,
+            11
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.bone"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.4
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            37,
+            15
+          ],
+          [
+            45,
+            3
+          ],
+          [
+            33,
+            11
+          ]
+        ]
+      },
+      "fill": {
+        "color": "$p.bone"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 18 28 Q 18 10 28 8 Q 38 10 38 28 Q 28 32 18 28 Z"
+      },
+      "fill": {
+        "radial": {
+          "cx": 23,
+          "cy": 14,
+          "r": 22,
+          "stops": [
+            [
+              0,
+              "$p.light"
+            ],
+            [
+              0.55,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.dark"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 1.8
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          20,
+          18.5,
+          16,
+          4
+        ]
+      },
+      "fill": {
+        "color": "$p.slit"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          24.5,
+          20.5,
+          1.9,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "$p.glow"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          31.5,
+          20.5,
+          1.9,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "$p.glow"
+      }
+    },
+    {
+      "shape": {
+        "path": "M 14 56 Q 12 38 28 33 Q 44 38 42 56"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 1.0
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 15 46 Q 28 50 41 46"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 1.2
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 14 40 Q 28 44 42 40"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.8
+      },
+      "alpha": 0.4
+    },
+    {
+      "shape": {
+        "ellipse": [
+          17,
+          42,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.5
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          39,
+          42,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.5
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          19,
+          53,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.5
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          37,
+          53,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.5
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          28,
+          56,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.5
+      }
+    },
+    {
+      "shape": {
+        "path": "M 28 52 L 26 57 L 28.4 55.6 L 27 60"
+      },
+      "stroke": {
+        "color": "$p.glow",
+        "width": 0.9
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "path": "M 20 36 L 22 40 L 21 43"
+      },
+      "stroke": {
+        "color": "$p.glow",
+        "width": 0.7
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "ellipse": [
+          12,
+          35.5,
+          6.6,
+          5.4
+        ]
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.8
+      },
+      "alpha": 0.5
+    },
+    {
+      "shape": {
+        "ellipse": [
+          10.4,
+          34,
+          2.4,
+          1.5
+        ]
+      },
+      "fill": {
+        "color": "#E5DEFF"
+      },
+      "alpha": 0.3
+    },
+    {
+      "shape": {
+        "path": "M 7 38.5 Q 12 41.5 17 38.5"
+      },
+      "stroke": {
+        "color": "#746E8E",
+        "width": 0.9
+      },
+      "alpha": 0.3
+    },
+    {
+      "shape": {
+        "ellipse": [
+          44,
+          35.5,
+          6.6,
+          5.4
+        ]
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.8
+      },
+      "alpha": 0.5
+    },
+    {
+      "shape": {
+        "ellipse": [
+          42.4,
+          34,
+          2.4,
+          1.5
+        ]
+      },
+      "fill": {
+        "color": "#E5DEFF"
+      },
+      "alpha": 0.3
+    },
+    {
+      "shape": {
+        "path": "M 39 38.5 Q 44 41.5 49 38.5"
+      },
+      "stroke": {
+        "color": "#746E8E",
+        "width": 0.9
+      },
+      "alpha": 0.3
+    },
+    {
+      "shape": {
+        "path": "M 28 8.4 L 28 18"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 1.0
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 20 12 Q 22 9.5 26 9"
+      },
+      "stroke": {
+        "color": "#E5DEFF",
+        "width": 1.0
+      },
+      "alpha": 0.4
+    },
+    {
+      "shape": {
+        "rect": [
+          20,
+          18.5,
+          16,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "#746E8E"
+      },
+      "alpha": 0.35
+    },
+    {
+      "shape": {
+        "ellipse": [
+          24.5,
+          20.5,
+          3.2,
+          2.2
+        ]
+      },
+      "fill": {
+        "color": "$p.glow"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "ellipse": [
+          31.5,
+          20.5,
+          3.2,
+          2.2
+        ]
+      },
+      "fill": {
+        "color": "$p.glow"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "path": "M 13 5.5 L 19 12.5"
+      },
+      "stroke": {
+        "color": "#E5DEFF",
+        "width": 0.6
+      },
+      "alpha": 0.55
+    },
+    {
+      "shape": {
+        "path": "M 43 5.5 L 37 12.5"
+      },
+      "stroke": {
+        "color": "#E5DEFF",
+        "width": 0.6
+      },
+      "alpha": 0.55
+    },
+    {
+      "shape": {
+        "ellipse": [
+          28,
+          30,
+          9,
+          1.6
+        ]
+      },
+      "fill": {
+        "color": "#746E8E"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "ellipse": [
+          17,
+          54,
+          4.4,
+          4.4
+        ]
+      },
+      "stroke": {
+        "color": "#DFC7AF",
+        "width": 1.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 14 57 L 14 64"
+      },
+      "stroke": {
+        "color": "#DFC7AF",
+        "width": 1.2
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          13,
+          62,
+          2.4,
+          1.6
+        ]
+      },
+      "fill": {
+        "color": "#DFC7AF"
+      }
+    },
+    {
+      "shape": {
+        "path": "M 17 57 L 17 62"
+      },
+      "stroke": {
+        "color": "#DFC7AF",
+        "width": 1.2
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          16,
+          61,
+          2.4,
+          1.6
+        ]
+      },
+      "fill": {
+        "color": "#DFC7AF"
+      }
+    },
+    {
+      "shape": {
+        "path": "M 20 57 L 20 64"
+      },
+      "stroke": {
+        "color": "#DFC7AF",
+        "width": 1.2
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          19,
+          60,
+          2.4,
+          1.6
+        ]
+      },
+      "fill": {
+        "color": "#DFC7AF"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          24,
+          42,
+          8,
+          7
+        ]
+      },
+      "fill": {
+        "color": "#DFC7AF"
+      },
+      "stroke": {
+        "color": "#AA9695",
+        "width": 0.9
+      }
+    },
+    {
+      "shape": {
+        "path": "M 25.6 42 Q 25.6 37.6 28 37.6 Q 30.4 37.6 30.4 42"
+      },
+      "stroke": {
+        "color": "#CCC7EB",
+        "width": 1.6
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          28,
+          45.2,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "#7D779B"
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          27.4,
+          45.6,
+          1.2,
+          2.2
+        ]
+      },
+      "fill": {
+        "color": "#7D779B"
+      }
+    }
+  ]
+}

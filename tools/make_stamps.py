@@ -95,6 +95,9 @@ LEGEND = {
     "I": {"tile": 13, "npc": "innkeeper"},
     "E": {"tile": 14, "npc": "elder"},
 }
+# the Echoes, the personal bosses of the protagonists (tools/make_echoes.py): one legend character each
+for _who, _entry in __import__("make_echoes").ECHOES.items():
+    LEGEND[_entry[0]] = {"tile": 14, "spawner": f"base:enemy/echo_{_who}"}
 
 
 class Canvas:
@@ -665,6 +668,25 @@ def lair(stamp_id: str, wall: str, thickness: int, floor: str, gaps: str, mob: s
     return stamp(stamp_id, c, anchor, [], open_air=(floor == "."))
 
 
+def sanctum(who: str) -> dict:
+    """A sanctum of the ring around the start: a round of stone open on four sides, lamps, a statue of Lyra, and one Echo in the middle (spec 18, "Personal bosses")."""
+    from make_echoes import ECHOES
+    c = Canvas(17, 17)
+    c.rect(1, 1, 15, 15, "#")
+    c.rect(2, 2, 13, 13, "c")
+    for lane in (7, 8, 9):  # the four ways in
+        for depth in (0, 1):
+            c.put(lane, depth, "=")
+            c.put(lane, 16 - depth, "=")
+            c.put(depth, lane, "=")
+            c.put(16 - depth, lane, "=")
+    for x, y in ((3, 3), (13, 3), (3, 13), (13, 13)):
+        c.put(x, y, "l")
+    c.put(8, 4, "^")
+    c.put(8, 8, ECHOES[who][0])
+    return stamp(f"base:stamp/sanctum_{who}", c, (8, 8), [])
+
+
 def den() -> dict:
     """Ironspine: a den of dire wolves inside a ring of trees."""
     return lair("base:stamp/den", "t", 2, ".", "e", "D", "W", "U", [("o", 6, 7), ("o", 18, 11), ("o", 10, 15)])
@@ -952,7 +974,8 @@ def main() -> None:
     for build in (hamlet, village, town, barrow, cellar, mine, cavern, temple, hollow, ziggurat, observatory, citadel, den, vent, grotto, amber, icepit, roost, hamlet_b, hamlet_c, village_b, village_c, town_b,
                   outpost_ironspine, outpost_tidehaven, outpost_frostveil, outpost_whisperwood, outpost_sunscar, outpost_lumeria,
                   outpost_ashen, outpost_verdalis, forge, galleon, keep, vault, hamlet_d, village_d, town_c,
-                  nest_mint, nest_moss, nest_rust, nest_dune, nest_rookery, nest_shoal, nest_pool, nest_charpit):
+                  nest_mint, nest_moss, nest_rust, nest_dune, nest_rookery, nest_shoal, nest_pool, nest_charpit,
+                  *[(lambda who=who: sanctum(who)) for who in ("ren", "sakura", "daichi", "haruka", "marco", "yuki", "lena", "gideon")]):
         data = build()
         name = data["id"].split("/")[-1]
         path = OUT / f"{name}.json"

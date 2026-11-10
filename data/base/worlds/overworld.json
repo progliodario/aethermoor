@@ -67,7 +67,15 @@
     { "id": "tidehaven_shoal", "name": "Pearl Shoal", "stamp": "base:stamp/shoal", "kind": "dungeon", "dx": -6272, "dy": 4480 },
     { "id": "lumeria_pool", "name": "Nebula Pool", "stamp": "base:stamp/pool", "kind": "dungeon", "dx": -640, "dy": 6528 },
     { "id": "ashen_wastes_charpit", "name": "Char Pit", "stamp": "base:stamp/charpit", "kind": "dungeon", "dx": 6528, "dy": -640 },
-    { "id": "aldermere", "name": "Aldermere", "stamp": "base:stamp/town", "kind": "town", "dx": 384, "dy": -128 }
+    { "id": "aldermere", "name": "Aldermere", "stamp": "base:stamp/town", "kind": "town", "dx": 384, "dy": -128 },
+    { "id": "sanctum_ren", "name": "Sanctum of Numbers", "stamp": "base:stamp/sanctum_ren", "kind": "dungeon", "dx": -640, "dy": -384 },
+    { "id": "sanctum_sakura", "name": "Sanctum of Light", "stamp": "base:stamp/sanctum_sakura", "kind": "dungeon", "dx": -640, "dy": 384 },
+    { "id": "sanctum_daichi", "name": "Sanctum of Embers", "stamp": "base:stamp/sanctum_daichi", "kind": "dungeon", "dx": -384, "dy": -640 },
+    { "id": "sanctum_haruka", "name": "Sanctum of Rain", "stamp": "base:stamp/sanctum_haruka", "kind": "dungeon", "dx": -384, "dy": 640 },
+    { "id": "sanctum_marco", "name": "Sanctum of Steam", "stamp": "base:stamp/sanctum_marco", "kind": "dungeon", "dx": 384, "dy": -640 },
+    { "id": "sanctum_yuki", "name": "Sanctum of Frames", "stamp": "base:stamp/sanctum_yuki", "kind": "dungeon", "dx": 384, "dy": 640 },
+    { "id": "sanctum_lena", "name": "Sanctum of Silence", "stamp": "base:stamp/sanctum_lena", "kind": "dungeon", "dx": 640, "dy": -384 },
+    { "id": "sanctum_gideon", "name": "Sanctum of Ash", "stamp": "base:stamp/sanctum_gideon", "kind": "dungeon", "dx": 640, "dy": 384 }
   ],
   "guild": {
     "offers_per_day": 4,
