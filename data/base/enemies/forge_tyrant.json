@@ -23,6 +23,12 @@
       "qty_min": 1,
       "qty_max": 1,
       "weight_pm": 1000
+    },
+    {
+      "item": "base:item/bat_charm",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 350
     }
   ],
   "radius_x100": 60,

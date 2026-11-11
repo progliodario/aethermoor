@@ -288,6 +288,7 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
                 def.acc_mdef = a.value("mdef", static_cast<std::int64_t>(0));
                 def.acc_max_hp = a.value("max_hp", static_cast<std::int64_t>(0));
                 def.acc_crit_pm = a.value("crit_pm", static_cast<std::int64_t>(0));
+                def.acc_drain_pm = a.value("drain_pm", static_cast<std::int64_t>(0));
             }
             setup.items.emplace(id, std::move(def));
         } catch (const Json::exception& e) {

@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/sand_charm",
+  "name": "$i18n:item.sand_charm.name",
+  "description": "$i18n:item.sand_charm.desc",
+  "kind": "accessory",
+  "rarity": "uncommon",
+  "price": 280,
+  "accessory": {
+    "crit_pm": 40,
+    "max_hp": 20
+  }
+}

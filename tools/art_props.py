@@ -404,5 +404,18 @@ def reeds() -> Recipe:
     return r
 
 
+def mushrooms() -> Recipe:
+    """A patch of mushrooms in the moss of the forest: where spore caps and herbs are gathered (spec 06, "Gathering")."""
+    r = prop("mushrooms", 28, 22, (14, 18), {"cap": "#C0583A", "light": "#E8906A", "stem": "#F2E6CC", "moss": "#4E8A3E", "outline": "#3A1E12"})
+    r.ellipse(14, 18.5, 11, 3, "#000000", alpha=0.25)
+    r.ellipse(14, 17.5, 10, 2.6, "$p.moss", alpha=0.9)
+    for cx, h, w in ((9, 7, 4.2), (15, 10, 5.4), (20.5, 6, 3.6)):
+        r.rect(cx - w * 0.22, 17.5 - h * 0.55, w * 0.44, h * 0.55, "$p.stem", stroke="$p.outline", width=0.6)
+        r.path(f"M {cx - w} {17.5 - h * 0.5} Q {cx} {17.5 - h * 1.25} {cx + w} {17.5 - h * 0.5} Z", "$p.cap", stroke="$p.outline", width=0.8)
+        for dx in (-0.45, 0.2):
+            r.ellipse(cx + w * dx, 17.5 - h * 0.78, w * 0.13, w * 0.1, "#FFF4E0", alpha=0.9)
+    return r
+
+
 def build_props() -> list[Recipe]:
-    return [tree_oak(), pine(), dead_tree(), bush(), rock(), cactus(), campfire(), crate(), barrel(), bones(), lamp(), signpost(), statue(), tent(), banner(), well(), threshold_stone(), stall(), haybale(), anvil(), reeds()]
+    return [tree_oak(), pine(), dead_tree(), bush(), rock(), cactus(), campfire(), crate(), barrel(), bones(), lamp(), signpost(), statue(), tent(), banner(), well(), threshold_stone(), stall(), haybale(), anvil(), reeds(), mushrooms()]

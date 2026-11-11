@@ -57,6 +57,7 @@ ITEMS = {
     "base:item/leather_vest": {"kind": "armor", "price": 80, "armor": {"def": 2, "mdef": 1}},
     "base:item/chain_mail": {"kind": "armor", "price": 300, "armor": {"def": 5, "mdef": 2}},
     "base:item/fang_necklace": {"kind": "accessory", "price": 200, "accessory": {"atk": 12, "max_hp": 40}},
+    "base:item/bat_charm": {"kind": "accessory", "price": 200, "accessory": {"drain_pm": 300}},
 }
 BREAD = ITEMS
 COMPANION = {"atk_base": 12, "atk_per_level": 1, "range_x100": 300, "cooldown_ticks": 60, "speed_x100": 320, "follow_x100": 220}
@@ -340,6 +341,10 @@ def build_scenarios() -> list[dict]:
                  [segment(1, do=[{"cmd": "use", "item": "base:item/cleansing_draught"}]), segment(150), segment(1, do=[{"cmd": "use", "item": "base:item/cleansing_draught"}]),
                   segment(60, move=(-1, 0)), segment(100), segment(1, do=[{"cmd": "use", "item": "base:item/cleansing_draught"}]), segment(60, move=(-1, 0))],
                  inventory={"base:item/cleansing_draught": 3}),
+        # Drain (spec 06, "Equipment"): an accessory with `drain_pm` gives back that share of the damage of every hit (at least 1) to a hurt player.
+        scenario("accessory_drain", [enemy(3.0, 4.5, hp=900, atk=24)],
+                 [segment(1, do=[{"cmd": "equip", "item": "base:item/bat_charm"}]), segment(200, attack=True), segment(200, attack=True)],
+                 inventory={"base:item/bat_charm": 1}),
         scenario("companion_follows", [enemy(10.5, 4.5, hp=30, **passive)],
                  [segment(60, move=(1, 0)), segment(60, move=(1, 0)), segment(100), segment(60, move=(0, 1)), segment(100)], companion=COMPANION),
         scenario("equip_changes_stats", [enemy(8.1, 4.5, atk=40)],

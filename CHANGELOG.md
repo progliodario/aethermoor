@@ -19,6 +19,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Accessories that drain** (spec 06, "Equipment"; `drain_pm` in the reference, the vectors and both clients, scenario `accessory_drain`): the bat-wing charm gives back 15% of the damage of every hit as health.
+- **Four more accessories**: the bat-wing charm (Ironspine), the ember ring (+4 attack, +2 defense; the Ashen Wastes), the frost locket (+6 magic defense, +20 health; Frostveil) and the sand charm (+4% critical chance, +20 health; Sunscar), at an anvil and in the shops. Nine in all. 179 items, 46 recipes.
+- **Guardians drop accessories**: every guardian of a region leaves its region's accessory one time in three, and Hestia's bounties give one with their reward.
+- **Mushroom patches** grow in the forests: spore caps, healing herbs and now and then a clump of moss to gather.
 - **A third equipment slot: the accessory** (spec 06, "Equipment"; spec 12; reference, vectors, both clients, scenario `accessory_worn`). Accessories add flat bonuses: the fang necklace (+6 attack), the pearl pendant (+40 health), the owl-feather charm (+6% critical chance), the golem amulet (+5 defense, +3 magic defense), the star brooch (+8 magic). They are made at an anvil and each is sold in one region. Equip them from the bag like weapons and armor; the save keeps the slot.
 - **The cleansing draught** (spec 06, "Cleanse"; a new item effect, scenario `cleanse_draught`): it ends burning, chill, stun and weakness at once and heals a little. Two healing herbs and a spore cap make two at a campfire; four regions sell it. 175 items, 42 recipes.
 - The status window shows what you wear ("Wearing: Iron sword, Leather vest, Fang necklace").

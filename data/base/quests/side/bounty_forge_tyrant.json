@@ -35,6 +35,11 @@
       "effect": "add_item",
       "item": "base:item/miners_broth",
       "qty": 2
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/bat_charm",
+      "qty": 1
     }
   ]
 }

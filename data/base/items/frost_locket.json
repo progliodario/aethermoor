@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/frost_locket",
+  "name": "$i18n:item.frost_locket.name",
+  "description": "$i18n:item.frost_locket.desc",
+  "kind": "accessory",
+  "rarity": "uncommon",
+  "price": 300,
+  "accessory": {
+    "mdef": 6,
+    "max_hp": 20
+  }
+}

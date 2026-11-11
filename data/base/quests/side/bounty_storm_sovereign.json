@@ -35,6 +35,11 @@
       "effect": "add_item",
       "item": "base:item/starlight_elixir",
       "qty": 2
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/star_brooch",
+      "qty": 1
     }
   ]
 }

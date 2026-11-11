@@ -1038,6 +1038,8 @@ class WorldSim(
             )
             val amount = if (enemy.broken > 0) rawAmount * STAGGER_DAMAGE_PCT / 100 else rawAmount
             enemy.hp -= amount
+            val drain = combat.items[equippedAccessory]?.accessory?.drainPm ?: 0L // an accessory that drains (spec 06)
+            if (drain > 0 && p.hp > 0 && p.hp < derived.maxHp) p.hp = minOf(derived.maxHp, p.hp + maxOf(1L, amount * drain / 1000))
             enemy.hitFlash = HIT_FLASH_TICKS
             events.add(DamageEvent(enemy.position, amount, crit, false, weak = elementMultiplier(enemy.def) > 1000))
             cues.add(SimCue("hit", enemy.def.sound, enemy.position, crit, elementMultiplier(enemy.def) > 1000))

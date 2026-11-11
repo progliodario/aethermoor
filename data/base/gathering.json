@@ -111,6 +111,32 @@
       ]
     },
     {
+      "prop": "base:art/prop/mushrooms",
+      "sound": "plant",
+      "cooldown_ticks": 8000,
+      "reach_x100": 150,
+      "drops": [
+        {
+          "item": "base:item/spore_cap",
+          "qty_min": 1,
+          "qty_max": 2,
+          "weight_pm": 750
+        },
+        {
+          "item": "base:item/healing_herb",
+          "qty_min": 1,
+          "qty_max": 1,
+          "weight_pm": 400
+        },
+        {
+          "item": "base:item/moss_clump",
+          "qty_min": 1,
+          "qty_max": 1,
+          "weight_pm": 150
+        }
+      ]
+    },
+    {
       "prop": "base:art/prop/reeds",
       "sound": "water",
       "cooldown_ticks": 6000,

@@ -35,6 +35,11 @@
       "effect": "add_item",
       "item": "base:item/frost_tonic",
       "qty": 2
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/frost_locket",
+      "qty": 1
     }
   ]
 }

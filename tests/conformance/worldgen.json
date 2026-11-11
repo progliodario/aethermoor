@@ -285,7 +285,8 @@
                   "base:item/hunters_stew",
                   "base:item/roast_meat",
                   "base:item/hunters_jerkin",
-                  "base:item/golem_amulet"
+                  "base:item/golem_amulet",
+                  "base:item/bat_charm"
                 ]
               },
               "bias": {
@@ -380,7 +381,8 @@
                   "base:item/studded_leather",
                   "base:item/fish_stew",
                   "base:item/grilled_fish",
-                  "base:item/fox_cloak"
+                  "base:item/fox_cloak",
+                  "base:item/sand_charm"
                 ]
               },
               "bias": {
@@ -489,7 +491,8 @@
                   "base:item/potion_mana_small",
                   "base:item/hunters_stew",
                   "base:item/antler_spear",
-                  "base:item/cleansing_draught"
+                  "base:item/cleansing_draught",
+                  "base:item/frost_locket"
                 ]
               },
               "bias": {
@@ -682,7 +685,8 @@
                   "base:item/royal_feast",
                   "base:item/dragon_scale_vest",
                   "base:item/hunters_stew",
-                  "base:item/cleansing_draught"
+                  "base:item/cleansing_draught",
+                  "base:item/ember_ring"
                 ]
               },
               "bias": {
@@ -1166,6 +1170,11 @@
                 "art": "base:art/prop/bush",
                 "radius_x100": 28,
                 "per_mille": 40
+              },
+              {
+                "art": "base:art/prop/mushrooms",
+                "radius_x100": 15,
+                "per_mille": 15
               }
             ],
             "snow": [
@@ -6569,8 +6578,8 @@
           ]
         ],
         "tile_count": 7680,
-        "prop_count": 477,
-        "prop_digest": "0x57ab7bd93cf257b7",
+        "prop_count": 490,
+        "prop_digest": "0x06cc879c731b2888",
         "spawner_count": 4,
         "spawner_digest": "0x1b471b8dc377221b",
         "spawn": [
@@ -7019,7 +7028,8 @@
                   "base:item/hunters_stew",
                   "base:item/roast_meat",
                   "base:item/hunters_jerkin",
-                  "base:item/golem_amulet"
+                  "base:item/golem_amulet",
+                  "base:item/bat_charm"
                 ]
               },
               "bias": {
@@ -7114,7 +7124,8 @@
                   "base:item/studded_leather",
                   "base:item/fish_stew",
                   "base:item/grilled_fish",
-                  "base:item/fox_cloak"
+                  "base:item/fox_cloak",
+                  "base:item/sand_charm"
                 ]
               },
               "bias": {
@@ -7223,7 +7234,8 @@
                   "base:item/potion_mana_small",
                   "base:item/hunters_stew",
                   "base:item/antler_spear",
-                  "base:item/cleansing_draught"
+                  "base:item/cleansing_draught",
+                  "base:item/frost_locket"
                 ]
               },
               "bias": {
@@ -7416,7 +7428,8 @@
                   "base:item/royal_feast",
                   "base:item/dragon_scale_vest",
                   "base:item/hunters_stew",
-                  "base:item/cleansing_draught"
+                  "base:item/cleansing_draught",
+                  "base:item/ember_ring"
                 ]
               },
               "bias": {
@@ -7900,6 +7913,11 @@
                 "art": "base:art/prop/bush",
                 "radius_x100": 28,
                 "per_mille": 40
+              },
+              {
+                "art": "base:art/prop/mushrooms",
+                "radius_x100": 15,
+                "per_mille": 15
               }
             ],
             "snow": [
@@ -13299,8 +13317,8 @@
           ]
         ],
         "tile_count": 5760,
-        "prop_count": 268,
-        "prop_digest": "0xaaf3c3e619e56cae",
+        "prop_count": 276,
+        "prop_digest": "0x8ce2062ed3299f82",
         "spawner_count": 1,
         "spawner_digest": "0xc37f51744e98b683",
         "spawn": [
@@ -13749,7 +13767,8 @@
                   "base:item/hunters_stew",
                   "base:item/roast_meat",
                   "base:item/hunters_jerkin",
-                  "base:item/golem_amulet"
+                  "base:item/golem_amulet",
+                  "base:item/bat_charm"
                 ]
               },
               "bias": {
@@ -13844,7 +13863,8 @@
                   "base:item/studded_leather",
                   "base:item/fish_stew",
                   "base:item/grilled_fish",
-                  "base:item/fox_cloak"
+                  "base:item/fox_cloak",
+                  "base:item/sand_charm"
                 ]
               },
               "bias": {
@@ -13953,7 +13973,8 @@
                   "base:item/potion_mana_small",
                   "base:item/hunters_stew",
                   "base:item/antler_spear",
-                  "base:item/cleansing_draught"
+                  "base:item/cleansing_draught",
+                  "base:item/frost_locket"
                 ]
               },
               "bias": {
@@ -14146,7 +14167,8 @@
                   "base:item/royal_feast",
                   "base:item/dragon_scale_vest",
                   "base:item/hunters_stew",
-                  "base:item/cleansing_draught"
+                  "base:item/cleansing_draught",
+                  "base:item/ember_ring"
                 ]
               },
               "bias": {
@@ -14630,6 +14652,11 @@
                 "art": "base:art/prop/bush",
                 "radius_x100": 28,
                 "per_mille": 40
+              },
+              {
+                "art": "base:art/prop/mushrooms",
+                "radius_x100": 15,
+                "per_mille": 15
               }
             ],
             "snow": [
@@ -20041,8 +20068,8 @@
           ]
         ],
         "tile_count": 8448,
-        "prop_count": 359,
-        "prop_digest": "0x6a46baca98371941",
+        "prop_count": 367,
+        "prop_digest": "0x0d0e69a3c58a299d",
         "spawner_count": 3,
         "spawner_digest": "0xb04be13d0666112c",
         "spawn": [

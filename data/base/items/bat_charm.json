@@ -1,0 +1,12 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/bat_charm",
+  "name": "$i18n:item.bat_charm.name",
+  "description": "$i18n:item.bat_charm.desc",
+  "kind": "accessory",
+  "rarity": "uncommon",
+  "price": 280,
+  "accessory": {
+    "drain_pm": 150
+  }
+}

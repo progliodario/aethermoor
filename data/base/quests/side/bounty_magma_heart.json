@@ -35,6 +35,11 @@
       "effect": "add_item",
       "item": "base:item/ember_brew",
       "qty": 2
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/ember_ring",
+      "qty": 1
     }
   ]
 }

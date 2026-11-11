@@ -888,6 +888,7 @@ Scenario scenario_from_json(const Json& in) {
                 parsed.acc_mdef = a.value("mdef", static_cast<std::int64_t>(0));
                 parsed.acc_max_hp = a.value("max_hp", static_cast<std::int64_t>(0));
                 parsed.acc_crit_pm = a.value("crit_pm", static_cast<std::int64_t>(0));
+                parsed.acc_drain_pm = a.value("drain_pm", static_cast<std::int64_t>(0));
             }
             setup.items.emplace(item, std::move(parsed));
         }

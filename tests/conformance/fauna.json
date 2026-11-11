@@ -2307,7 +2307,8 @@
                   "base:item/hunters_stew",
                   "base:item/roast_meat",
                   "base:item/hunters_jerkin",
-                  "base:item/golem_amulet"
+                  "base:item/golem_amulet",
+                  "base:item/bat_charm"
                 ]
               },
               "bias": {
@@ -2402,7 +2403,8 @@
                   "base:item/studded_leather",
                   "base:item/fish_stew",
                   "base:item/grilled_fish",
-                  "base:item/fox_cloak"
+                  "base:item/fox_cloak",
+                  "base:item/sand_charm"
                 ]
               },
               "bias": {
@@ -2511,7 +2513,8 @@
                   "base:item/potion_mana_small",
                   "base:item/hunters_stew",
                   "base:item/antler_spear",
-                  "base:item/cleansing_draught"
+                  "base:item/cleansing_draught",
+                  "base:item/frost_locket"
                 ]
               },
               "bias": {
@@ -2704,7 +2707,8 @@
                   "base:item/royal_feast",
                   "base:item/dragon_scale_vest",
                   "base:item/hunters_stew",
-                  "base:item/cleansing_draught"
+                  "base:item/cleansing_draught",
+                  "base:item/ember_ring"
                 ]
               },
               "bias": {
@@ -3549,6 +3553,11 @@
                 "art": "base:art/prop/bush",
                 "radius_x100": 28,
                 "per_mille": 40
+              },
+              {
+                "art": "base:art/prop/mushrooms",
+                "radius_x100": 15,
+                "per_mille": 15
               }
             ],
             "snow": [
@@ -14234,7 +14243,8 @@
                   "base:item/hunters_stew",
                   "base:item/roast_meat",
                   "base:item/hunters_jerkin",
-                  "base:item/golem_amulet"
+                  "base:item/golem_amulet",
+                  "base:item/bat_charm"
                 ]
               },
               "bias": {
@@ -14329,7 +14339,8 @@
                   "base:item/studded_leather",
                   "base:item/fish_stew",
                   "base:item/grilled_fish",
-                  "base:item/fox_cloak"
+                  "base:item/fox_cloak",
+                  "base:item/sand_charm"
                 ]
               },
               "bias": {
@@ -14438,7 +14449,8 @@
                   "base:item/potion_mana_small",
                   "base:item/hunters_stew",
                   "base:item/antler_spear",
-                  "base:item/cleansing_draught"
+                  "base:item/cleansing_draught",
+                  "base:item/frost_locket"
                 ]
               },
               "bias": {
@@ -14631,7 +14643,8 @@
                   "base:item/royal_feast",
                   "base:item/dragon_scale_vest",
                   "base:item/hunters_stew",
-                  "base:item/cleansing_draught"
+                  "base:item/cleansing_draught",
+                  "base:item/ember_ring"
                 ]
               },
               "bias": {
@@ -15476,6 +15489,11 @@
                 "art": "base:art/prop/bush",
                 "radius_x100": 28,
                 "per_mille": 40
+              },
+              {
+                "art": "base:art/prop/mushrooms",
+                "radius_x100": 15,
+                "per_mille": 15
               }
             ],
             "snow": [

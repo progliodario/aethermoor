@@ -153,6 +153,11 @@
         "crit_pm": {
           "type": "integer",
           "minimum": 0
+        },
+        "drain_pm": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
         }
       }
     }

@@ -53,6 +53,10 @@ RECIPES = {
     "owl_charm": ("owl_charm", 1, {"owl_feather": 3, "shade_wisp": 1}),
     "golem_amulet": ("golem_amulet", 1, {"golem_core": 1, "slate_shard": 3}),
     "star_brooch": ("star_brooch", 1, {"star_dust": 3, "nebula_ash": 1}),
+    "bat_charm": ("bat_charm", 1, {"bat_wing": 3, "slime_gel": 2}),
+    "ember_ring": ("ember_ring", 1, {"ember_core": 2, "iron_ore": 2}),
+    "frost_locket": ("frost_locket", 1, {"ice_crystal": 2, "polar_fur": 1}),
+    "sand_charm": ("sand_charm", 1, {"scorpion_sting": 2, "amber_drop": 2}),
     # fine gear, at an anvil (every town has one): the plain piece and materials
     "fine_iron_sword": ("fine_iron_sword", 1, {"iron_sword": 1, "iron_ore": 3, "golem_core": 1}),
     "fine_hand_axe": ("fine_hand_axe", 1, {"hand_axe": 1, "iron_ore": 3, "wood_log": 3}),
@@ -65,7 +69,7 @@ RECIPES = {
 # the cooked dishes are made next to a campfire (spec 06, "Stations"): Fenwick, Aldermere and every outpost have one
 AT_FIRE = ("hearty_stew", "fish_stew", "royal_feast", "miners_broth", "grilled_fish", "fishermans_stew", "roast_meat", "hunters_stew", "cleansing_draught")
 # the fine gear is made at an anvil
-AT_ANVIL = ("fine_iron_sword", "fine_hand_axe", "fine_pike", "fine_leather_vest", "fine_studded_leather", "hunters_jerkin", "antler_spear", "fox_cloak", "fang_necklace", "pearl_pendant", "owl_charm", "golem_amulet", "star_brooch")
+AT_ANVIL = ("fine_iron_sword", "fine_hand_axe", "fine_pike", "fine_leather_vest", "fine_studded_leather", "hunters_jerkin", "antler_spear", "fox_cloak", "fang_necklace", "pearl_pendant", "owl_charm", "golem_amulet", "star_brooch", "bat_charm", "ember_ring", "frost_locket", "sand_charm")
 
 
 def main() -> None:
