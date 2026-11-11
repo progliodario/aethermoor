@@ -49,8 +49,12 @@ jobs:
             libxi-dev libxss-dev libxkbcommon-dev libwayland-dev wayland-protocols libdecor-0-dev
             libasound2-dev libpulse-dev libpipewire-0.3-dev libudev-dev libdbus-1-dev libibus-1.0-dev
             libgl-dev libegl1-mesa-dev libgles-dev libdrm-dev libgbm-dev libsndio-dev"
+          # security.ubuntu.com does not always answer the runners (11 November 2026): the Azure mirror of the runners carries the same
+          # security pockets, so the sources point there; a list that still fails to refresh does not stop the install.
+          sudo sed -i -E 's#https?://security\.ubuntu\.com/ubuntu/?#http://azure.archive.ubuntu.com/ubuntu/#g' /etc/apt/sources.list.d/*.sources /etc/apt/sources.list 2>/dev/null || true
           for attempt in 1 2 3; do
-            if sudo timeout 300 apt-get $APT update && sudo timeout 420 apt-get $APT install -y --no-install-recommends $PACKAGES; then
+            sudo timeout 300 apt-get $APT update || echo "some package lists did not refresh"
+            if sudo timeout 420 apt-get $APT install -y --no-install-recommends $PACKAGES; then
               exit 0
             fi
             echo "apt attempt $attempt failed or timed out; trying again"
