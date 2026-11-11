@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aethermoor.invalid/schemas/lights.schema.json",
+  "title": "The props that shine at night (spec 08, \"Lights\")",
+  "type": "object",
+  "required": [
+    "id",
+    "lights"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:lights/[a-z0-9_]+$"
+    },
+    "lights": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "art",
+          "radius_x100",
+          "color",
+          "strength_pm"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "art": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*:art/prop/[a-z0-9_]+$"
+          },
+          "radius_x100": {
+            "type": "integer",
+            "minimum": 50,
+            "maximum": 1500
+          },
+          "color": {
+            "type": "string",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          },
+          "strength_pm": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000
+          },
+          "flicker_pm": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000
+          }
+        }
+      }
+    }
+  }
+}
