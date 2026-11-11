@@ -15,6 +15,8 @@ class Sprite(
     val height: Float,
     val originX: Float,
     val originY: Float,
+    /** The picture looks to the left (spec 13, "Facing"). */
+    val facesLeft: Boolean = false,
 )
 
 /**
@@ -49,7 +51,7 @@ class TextureCache(private val pack: Pack) {
                     texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
                     val region = TextureRegion(texture)
                     region.flip(false, true)
-                    entry = Entry(bucket, Sprite(region, recipe.width, recipe.height, recipe.originX, recipe.originY), texture, pixmap)
+                    entry = Entry(bucket, Sprite(region, recipe.width, recipe.height, recipe.originX, recipe.originY, recipe.facesLeft), texture, pixmap)
                 },
                 onFailure = { Gdx.app.error(TAG, "Cannot bake art recipe '$recipeId': ${it.message}") },
             )

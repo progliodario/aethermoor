@@ -4,6 +4,17 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ## [Unreleased]
 
+### Changed
+
+- **A new look for the whole game: anime art** (spec 13 v2, ADR 0013). Everything that is drawn was drawn again:
+  - **People** are no longer mascots: about 1.8 tiles tall and 4.6 heads, with large eyes in the colour of each person, hair with a ring of light, clothes with folds, a hard violet shade away from the light and a thin line. The eight protagonists and the seven kinds of villagers each have their own hair, hat and clothes (Sakura's tails and lab coat, Daichi's helmet and turnout coat, Gideon's horns and cape...), and everyone is drawn **from behind** when walking up the screen. New walk and idle animations.
+  - **The ground is painted**: grass, forest floor, moss, sand, snow, ash, savanna, water and the others are large pictures of 4 x 4 tiles made of soft clouds of colour with tufts, flowers, stones and patches of sun, so the ground no longer repeats at every tile; one ground **fades into the next** (grass over a path, sand over water) instead of ending in squares.
+  - **Things** (trees, rocks, wells, tents, stalls, lamps, the Threshold Stones, the campfire...) have matter (bark, stone, cloth), a soft shadow on the ground and, for what burns or shines, a glow. Trees are larger.
+  - **Creatures**: the slimes are jelly with a light inside; wolves, the boar, the elk and the fox are drawn from the side and **turn to face you**; the guardians are suits of armor with burning eyes; the bat, the spider, the scorpion, the crab, the owl, the myconid, the golem and the wisp are new drawings. Every creature keeps its own feature.
+  - The world is drawn a third larger (a tile is 64 pixels instead of 48, times the density of the screen).
+- The art recipes can do what a painter needs (spec 13): a layer can be **blurred** (`blur`), kept **inside what is painted** (`clip`), **multiplied** or **added** (`blend`), and filled with a **noise** texture; a terrain recipe can cover several tiles (macro tiles) and a ground has a `blend` rank in the tileset; a rig part has a second recipe for the view from behind (`art_back`, `z_back`); a creature recipe can say it `faces` left. Both rasterizers work on the box of each layer instead of the whole canvas.
+- Tools: `tools/reference/raster.py` is a reference rasterizer in Python (it builds the new conformance probes); `tools/art_preview.py` draws real PNG pictures with it (`--figures`, `--scene`); `art_tiles.py`, `art_props.py`, `art_chars.py`, `art_looks.py` and `art_creatures.py` were rewritten (`art_creature_looks.py` and `art_single_looks.py` are gone).
+
 ### Fixed
 
 - The wild boar and the ridge elk were drawn with the tawny wolf's stripes instead of their tusks and antlers (the art rebuild had stopped halfway); they now look like themselves.

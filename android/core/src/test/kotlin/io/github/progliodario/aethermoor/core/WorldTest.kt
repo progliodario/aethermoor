@@ -106,7 +106,7 @@ class WorldTest {
     fun rigOfTheDemoCharacterMirrorsCleanly() {
         val rig = parseRig(requireNotNull(pack.readDocument("base:art/rig/humanoid"))).getOrThrow()
         val walk = parseClip(requireNotNull(pack.readDocument("base:art/clip/humanoid_walk"))).getOrThrow()
-        assertEquals(7, rig.parts.size)
+        assertEquals(8, rig.parts.size)
         val pose = evaluatePose(rig, walk, 0f, false)
         val mirrored = evaluatePose(rig, walk, 0f, true)
         assertEquals(rig.parts.size, pose.size)

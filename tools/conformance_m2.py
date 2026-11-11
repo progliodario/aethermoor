@@ -1,13 +1,14 @@
 """Conformance suites added in M2: rig_pose, movement, raster. Imported by gen_conformance.py.
 
-The raster expectations are computed analytically (the Python reference has no rasterizer), so they
-check both clients against geometry instead of against each other.
+The first raster expectations are computed analytically, so they check both clients against geometry instead of against
+each other; the ones of the newer features (blur, clip, blend, noise) come from the reference rasterizer
+(`tools/reference/raster.py`), with a tolerance for the 32-bit floats of the clients.
 """
 from __future__ import annotations
 
 import math
 
-from reference import movement, pose
+from reference import movement, pose, raster
 
 
 def case(name: str, inp: dict, expect: dict) -> dict:
@@ -196,4 +197,33 @@ def suite_raster() -> list[dict]:
     add("path_quadratic_area", _recipe(16, 16, [{"shape": {"path": "M 2 8 Q 8 0 14 8 Z"}, "fill": red}]), 1.0,
         {"width": 16, "height": 16, "probes": [_probe(8, 6, [255, 0, 0, 255]), _probe(8, 12, [0, 0, 0, 0])],
          "sum_alpha": {"value": curve_area, "rel_tol": 0.03}})
+
+    def reference(name, recipe, scale, points, variant=None, tol=3):
+        """A case whose probes are what the reference rasterizer draws at `points`."""
+        image = raster.rasterize(recipe, scale, variant)
+        add(name, recipe, scale, {"width": image[0], "height": image[1],
+                                  "probes": [_probe(x, y, raster.pixel(image, x, y), tol) for x, y in points]}, variant)
+
+    blue_square = {"shape": {"rect": [0, 0, 16, 16]}, "fill": {"color": "#2040C0"}}
+    grid = [(x, y) for y in (1, 4, 6, 8, 11, 14) for x in (1, 4, 6, 8, 11, 14)]
+    reference("blur_square", _recipe(16, 16, [{"shape": {"rect": [5, 5, 6, 6]}, "fill": red, "blur": 1.5}]), 1.0, grid)
+    reference("blur_scaled", _recipe(8, 8, [{"shape": {"ellipse": [4, 4, 2, 2]}, "fill": red, "blur": 0.75}]), 2.0, grid)
+    reference("blur_at_the_edge", _recipe(16, 16, [{"shape": {"rect": [0, 0, 5, 16]}, "fill": red, "blur": 2}]), 1.0, grid)
+    reference("blur_stroke", _recipe(16, 16, [{"shape": {"path": "M 3 8 L 13 8"}, "stroke": {"color": "#00FF00", "width": 2}, "blur": 1}]), 1.0, grid)
+    half = {"shape": {"rect": [0, 0, 8, 16]}, "fill": {"color": "#2040C0"}}
+    reference("clip_inside", _recipe(16, 16, [half, {"shape": {"rect": [4, 4, 8, 8]}, "fill": red, "clip": True}]), 1.0, grid)
+    reference("clip_on_soft_alpha", _recipe(16, 16, [dict(half, alpha=0.5), {"shape": {"rect": [4, 4, 8, 8]}, "fill": red, "clip": True, "alpha": 0.5}]), 1.0, grid)
+    reference("blend_multiply", _recipe(16, 16, [blue_square, {"shape": {"rect": [4, 4, 8, 8]}, "fill": {"color": "#808080"}, "blend": "multiply", "alpha": 0.5}]), 1.0, grid)
+    reference("blend_multiply_adds_no_coverage", _recipe(16, 16, [half, {"shape": {"rect": [4, 4, 8, 8]}, "fill": {"color": "#404040"}, "blend": "multiply"}]), 1.0, grid)
+    reference("blend_add", _recipe(16, 16, [blue_square, {"shape": {"rect": [4, 4, 8, 8]}, "fill": {"color": "#806020"}, "blend": "add", "alpha": 0.5}]), 1.0, grid)
+    reference("blend_add_clipped_glow", _recipe(16, 16, [half, {"shape": {"ellipse": [8, 8, 4, 4]}, "fill": {"color": "#FFFFFF"}, "blend": "add", "clip": True, "blur": 1, "alpha": 0.6}]), 1.0, grid)
+    stops = [[0.3, "#000000"], [0.7, "#FFFFFF"]]
+    reference("noise_plain", _recipe(16, 16, [{"shape": {"rect": [0, 0, 16, 16]}, "fill": {"noise": {"scale": 6, "seed": 5, "octaves": 3, "stops": stops}}}]), 1.0, grid, tol=4)
+    reference("noise_default_octaves", _recipe(16, 16, [{"shape": {"rect": [0, 0, 16, 16]}, "fill": {"noise": {"scale": 4, "stops": stops}}}]), 1.0, grid, tol=4)
+    reference("noise_scaled", _recipe(8, 8, [{"shape": {"rect": [0, 0, 8, 8]}, "fill": {"noise": {"scale": 3, "seed": 77, "octaves": 2, "stops": stops}}}]), 2.0, grid, tol=4)
+    periodic = _recipe(16, 16, [{"shape": {"rect": [0, 0, 16, 16]}, "fill": {"noise": {"scale": 4, "seed": 9, "octaves": 4, "period": 2, "stops": [[0.3, "#203080"], [0.7, "#F0E060"]]}}}])
+    reference("noise_periodic", periodic, 1.0, grid + [(0, 3), (8, 3), (3, 0), (3, 8)], tol=4)
+    # the same recipe drawn as a macro tile of 2 x 2 cells: the right half repeats the left one
+    image = raster.rasterize(periodic, 1.0)
+    assert all(abs(a - b) <= 1 for x in range(8) for y in range(16) for a, b in zip(raster.pixel(image, x, y), raster.pixel(image, x + 8, y)))
     return cases

@@ -1,0 +1,1708 @@
+{
+  "$schema": "../../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/char/ren/head_back",
+  "canvas": {
+    "w": 44,
+    "h": 50,
+    "origin": [
+      22,
+      38
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          21.2,
+          3.2,
+          2.6
+        ]
+      },
+      "fill": {
+        "color": "$p.hair"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "teal"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 14.6 32 Q 13.4 19.6 22 19.4 Q 30.6 19.6 29.4 32 Q 28.6 37.4 26.4 38.8 L 17.6 38.8 Q 15.4 37.4 14.6 32 Z"
+      },
+      "fill": {
+        "color": "#2E5E3A"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "green"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 18.8 24.6 Q 13.6 22.4 12.4 16 Q 16.4 18.6 15.8 26 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 22,
+          "y0": 16,
+          "x1": 22,
+          "y1": 26,
+          "stops": [
+            [
+              0,
+              "#6A4A6A"
+            ],
+            [
+              1,
+              "#2B1B30"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 17 24.4 Q 14.2 22 13.2 18"
+      },
+      "stroke": {
+        "color": "#C7586A",
+        "width": 0.4
+      },
+      "alpha": 0.8,
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 16.4 30 L 12 28.2 L 15.8 33.4 Z"
+      },
+      "fill": {
+        "color": "$p.skin"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.4
+      },
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 25.2 24.6 Q 30.4 22.4 31.6 16 Q 27.6 18.6 28.2 26 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 22,
+          "y0": 16,
+          "x1": 22,
+          "y1": 26,
+          "stops": [
+            [
+              0,
+              "#6A4A6A"
+            ],
+            [
+              1,
+              "#2B1B30"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 27 24.4 Q 29.8 22 30.8 18"
+      },
+      "stroke": {
+        "color": "#C7586A",
+        "width": 0.4
+      },
+      "alpha": 0.8,
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 27.6 30 L 32 28.2 L 28.2 33.4 Z"
+      },
+      "fill": {
+        "color": "$p.skin"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.4
+      },
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 15.4 30 Q 14.4 36 15.8 39.4 Q 22 40.6 28.2 39.4 Q 29.6 36 28.6 30 Z"
+      },
+      "fill": {
+        "color": "$p.hair"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 23 30 L 28.6 30 Q 29.6 36 28.2 39.4 Q 25 40.2 23 40.2 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.35,
+      "blend": "multiply",
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 16.4 25.4 Q 9.6 24.4 10 36 Q 10.2 43 12.6 47.6 Q 12.2 41 13.8 37 Q 14.6 32 16.2 29 Z"
+      },
+      "fill": {
+        "color": "$p.hair"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 13 27 Q 11.2 32 11.4 38"
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 0.7
+      },
+      "alpha": 0.3,
+      "clip": true,
+      "blend": "add",
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 27.6 25.4 Q 34.4 24.4 34 36 Q 33.8 43 31.4 47.6 Q 31.8 41 30.2 37 Q 29.4 32 27.8 29 Z"
+      },
+      "fill": {
+        "color": "$p.hair"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 31 27 Q 32.8 32 32.6 38"
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 0.7
+      },
+      "alpha": 0.3,
+      "clip": true,
+      "blend": "add",
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          16.4,
+          31.8,
+          0.9,
+          1.4
+        ]
+      },
+      "fill": {
+        "color": "$p.skin"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.35
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          27.6,
+          31.8,
+          0.9,
+          1.4
+        ]
+      },
+      "fill": {
+        "color": "$p.skin"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.35
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          20.4,
+          35.8,
+          3.2,
+          3
+        ]
+      },
+      "fill": {
+        "color": "$p.skin"
+      }
+    },
+    {
+      "shape": {
+        "path": "M 15.7 31 Q 15 22.2 22 22 Q 29 22.2 28.3 31 Q 28.2 35.8 25.4 36.8 Q 22 37.6 18.6 36.8 Q 15.8 35.8 15.7 31 Z"
+      },
+      "fill": {
+        "color": "$p.hair"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      }
+    },
+    {
+      "shape": {
+        "path": "M 23 22 Q 29 22.2 28.3 31 Q 28.2 35.8 25.4 36.8 Q 22 37.6 18.6 36.8 Q 25 35 25.2 30 Q 25.4 26 23 22 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.4,
+      "blend": "multiply"
+    },
+    {
+      "shape": {
+        "path": "M 17.2 26 Q 20.5 23.6 24.6 24.8"
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 0.9
+      },
+      "alpha": 0.3,
+      "clip": true,
+      "blend": "add"
+    },
+    {
+      "shape": {
+        "path": "M 19 35 Q 18.4 30 19.4 25 M 22 36.4 Q 21.6 30 22.2 23.4 M 25 35.4 Q 25.8 30 24.8 25"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.22
+      },
+      "alpha": 0.5
+    },
+    {
+      "shape": {
+        "path": "M 15.6 25.6 L 12.2 23.4 L 12.6 26.4 Z"
+      },
+      "fill": {
+        "color": "#FF6FA8"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 15.6 25.6 L 13.2 28.4 L 15.2 28 Z"
+      },
+      "fill": {
+        "color": "#E0508A"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          15.6,
+          25.7,
+          0.9,
+          0.9
+        ]
+      },
+      "fill": {
+        "color": "#FFD1E3"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 28.4 25.6 L 31.8 23.4 L 31.4 26.4 Z"
+      },
+      "fill": {
+        "color": "#FF6FA8"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 28.4 25.6 L 30.8 28.4 L 28.8 28 Z"
+      },
+      "fill": {
+        "color": "#E0508A"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          28.4,
+          25.7,
+          0.9,
+          0.9
+        ]
+      },
+      "fill": {
+        "color": "#FFD1E3"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 15.4 27.8 Q 14.6 20.8 22 20.6 Q 29.4 20.8 28.6 27.8 Q 22 25.6 15.4 27.8 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 22,
+          "y0": 20.6,
+          "x1": 22,
+          "y1": 28,
+          "stops": [
+            [
+              0,
+              "#FFB44A"
+            ],
+            [
+              1,
+              "#C45A1C"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "daichi"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 20.9 20.7 Q 22 19.6 23.1 20.7 L 23 26.6 L 21 26.6 Z"
+      },
+      "fill": {
+        "color": "#FFD08A"
+      },
+      "alpha": 0.55,
+      "only": [
+        "daichi"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 23.6 20.7 Q 29.4 20.8 28.6 27.8 Q 26 26.8 24.6 26.6 Q 25.6 24 23.6 20.7 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.35,
+      "blend": "multiply",
+      "only": [
+        "daichi"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 15.2 27.4 Q 22 25.4 28.8 27.4 L 30 32.6 Q 22 34.6 14 32.6 Z"
+      },
+      "fill": {
+        "color": "#B04A16"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.4
+      },
+      "only": [
+        "daichi"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 14.8 30 Q 22 32 29.2 30"
+      },
+      "stroke": {
+        "color": "#F0E24A",
+        "width": 0.9
+      },
+      "only": [
+        "daichi"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 19.6 23 Q 18.4 32 19.4 41 Q 22 44 24.6 41 Q 25.6 32 24.4 23 Q 22 21.6 19.6 23 Z"
+      },
+      "fill": {
+        "color": "$p.hair"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "haruka"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 20.8 26 Q 20.2 33 21 39"
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 0.7
+      },
+      "alpha": 0.3,
+      "clip": true,
+      "blend": "add",
+      "only": [
+        "haruka"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 22.6 22.4 Q 25.6 32 24.6 41 Q 23.4 42.6 22.4 42.8 Q 23.6 32 22.6 22.4 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.35,
+      "blend": "multiply",
+      "only": [
+        "haruka"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 19 23 Q 22 21 25 23 L 24.8 25 Q 22 23.4 19.2 25 Z"
+      },
+      "fill": {
+        "color": "#4FB06A"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.35
+      },
+      "only": [
+        "haruka"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 15.4 27.8 Q 14.6 20.8 22 20.6 Q 29.4 20.8 28.6 27.8 Q 22 25.6 15.4 27.8 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 22,
+          "y0": 20.6,
+          "x1": 22,
+          "y1": 28,
+          "stops": [
+            [
+              0,
+              "#E8504A"
+            ],
+            [
+              1,
+              "#A82428"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          17.6,
+          24.4,
+          0.4,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.9,
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20.4,
+          22.6,
+          0.4,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.9,
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          23.8,
+          23.2,
+          0.4,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.9,
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          26.4,
+          25.2,
+          0.4,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.9,
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          19,
+          26.4,
+          0.4,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.9,
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22.4,
+          25.4,
+          0.4,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.9,
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          25.2,
+          22.2,
+          0.4,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.9,
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 23.6 20.7 Q 29.4 20.8 28.6 27.8 Q 26 26.8 24.6 26.6 Q 25.6 24 23.6 20.7 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.35,
+      "blend": "multiply",
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 22 27 L 25.6 25.4 L 24.6 28.6 L 26 31.4 L 22.6 29 Z"
+      },
+      "fill": {
+        "color": "#C9302C"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.35
+      },
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22.2,
+          27.4,
+          0.9,
+          0.9
+        ]
+      },
+      "fill": {
+        "color": "#A82428"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 15.8 31 Q 15.2 37 16.6 39.2 Q 22 40.4 27.4 39.2 Q 28.8 37 28.2 31 Z"
+      },
+      "fill": {
+        "color": "$p.hair"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 23 31 L 28.2 31 Q 28.8 37 27.4 39.2 Q 25 40 23 40 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.35,
+      "blend": "multiply",
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 15 26.6 Q 13.6 19.4 22.6 19.8 Q 30.6 20.2 29 25.6 Q 22 23.8 15 26.6 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 22,
+          "y0": 20,
+          "x1": 22,
+          "y1": 27,
+          "stops": [
+            [
+              0,
+              "#3A3A4A"
+            ],
+            [
+              1,
+              "#16161E"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 16.6 23 Q 20 20.4 24.4 20.6"
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 0.6
+      },
+      "alpha": 0.25,
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          23.4,
+          19.5,
+          0.7,
+          0.6
+        ]
+      },
+      "fill": {
+        "color": "#26262E"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          27,
+          3.6,
+          3.2
+        ]
+      },
+      "fill": {
+        "color": "$p.hair"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 22.6 23.8 Q 25.8 25 25.5 28 Q 25 30 22.4 30.2 Q 24 27 22.6 23.8 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.35,
+      "blend": "multiply",
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 18.4 24.8 L 25.4 29"
+      },
+      "stroke": {
+        "color": "#C8D4E4",
+        "width": 0.5
+      },
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18.4,
+          24.8,
+          0.6,
+          0.6
+        ]
+      },
+      "fill": {
+        "color": "#E0508A"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.2
+      },
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 15.7 26.4 Q 22 24.4 28.3 26.4 L 28.2 27.6 Q 22 25.6 15.8 27.6 Z"
+      },
+      "fill": {
+        "color": "#E0BE60"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 15.4 27.8 Q 14.6 20.8 22 20.6 Q 29.4 20.8 28.6 27.8 Q 22 25.6 15.4 27.8 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 16,
+          "y0": 38,
+          "x1": 28,
+          "y1": 38,
+          "stops": [
+            [
+              0,
+              "#E4E8F0"
+            ],
+            [
+              0.5,
+              "#8A90A0"
+            ],
+            [
+              1,
+              "#4A4E5C"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "red"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 13.8 28 Q 22 25.2 30.2 28 L 30 29.4 Q 22 26.8 14 29.4 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 16,
+          "y0": 38,
+          "x1": 28,
+          "y1": 38,
+          "stops": [
+            [
+              0,
+              "#E4E8F0"
+            ],
+            [
+              0.5,
+              "#8A90A0"
+            ],
+            [
+              1,
+              "#4A4E5C"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.4
+      },
+      "only": [
+        "red"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 22 20.6 L 22 26.4"
+      },
+      "stroke": {
+        "color": "#4C505C",
+        "width": 0.5
+      },
+      "only": [
+        "red"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 17.2 23.4 Q 19 21.4 21 21.1"
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 0.6
+      },
+      "alpha": 0.6,
+      "only": [
+        "red"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 14.6 32 Q 13.4 19.6 22 19.4 Q 30.6 19.6 29.4 32 Q 28.6 38 22 39.6 Q 15.4 38 14.6 32 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 22,
+          "y0": 20,
+          "x1": 22,
+          "y1": 40,
+          "stops": [
+            [
+              0,
+              "#4E8A58"
+            ],
+            [
+              1,
+              "#2A5234"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "green"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 23 19.4 Q 30.6 19.6 29.4 32 Q 28.6 38 22.6 39.6 Q 26 30 23 19.4 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.3,
+      "blend": "multiply",
+      "only": [
+        "green"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 22 19.6 Q 22.6 30 22 39.4"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.25
+      },
+      "alpha": 0.5,
+      "only": [
+        "green"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          26.6,
+          10.4,
+          2.6
+        ]
+      },
+      "fill": {
+        "linear": {
+          "x0": 12,
+          "y0": 38,
+          "x1": 32,
+          "y1": 38,
+          "stops": [
+            [
+              0,
+              "#F8E4A0"
+            ],
+            [
+              1,
+              "#B8963E"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "ochre"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 16.6 26.4 Q 16.6 19.6 22 19.6 Q 27.4 19.6 27.4 26.4 Q 22 28 16.6 26.4 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 17,
+          "y0": 20,
+          "x1": 27,
+          "y1": 27,
+          "stops": [
+            [
+              0,
+              "#FFF0B8"
+            ],
+            [
+              1,
+              "#C8A650"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "ochre"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 16.6 25.2 Q 22 26.8 27.4 25.2 L 27.4 26.4 Q 22 28 16.6 26.4 Z"
+      },
+      "fill": {
+        "color": "#A8503A"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.25
+      },
+      "only": [
+        "ochre"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 14 26.4 L 15.6 27.8"
+      },
+      "stroke": {
+        "color": "#A8862A",
+        "width": 0.25
+      },
+      "alpha": 0.7,
+      "only": [
+        "ochre"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 18 27 L 19.6 28.2"
+      },
+      "stroke": {
+        "color": "#A8862A",
+        "width": 0.25
+      },
+      "alpha": 0.7,
+      "only": [
+        "ochre"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 22 26.4 L 23.6 27.8"
+      },
+      "stroke": {
+        "color": "#A8862A",
+        "width": 0.25
+      },
+      "alpha": 0.7,
+      "only": [
+        "ochre"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 26 27 L 27.6 28.2"
+      },
+      "stroke": {
+        "color": "#A8862A",
+        "width": 0.25
+      },
+      "alpha": 0.7,
+      "only": [
+        "ochre"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 30 26.4 L 31.6 27.8"
+      },
+      "stroke": {
+        "color": "#A8862A",
+        "width": 0.25
+      },
+      "alpha": 0.7,
+      "only": [
+        "ochre"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 16.4 26.2 Q 19 24 20.6 18 Q 22.6 11.6 26.4 11 Q 24.4 17.6 27.6 26.2 Q 22 27.8 16.4 26.2 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 17,
+          "y0": 11,
+          "x1": 27,
+          "y1": 27,
+          "stops": [
+            [
+              0,
+              "#8A6CD8"
+            ],
+            [
+              1,
+              "#3E2E76"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "purple"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          26.6,
+          9.6,
+          2.3
+        ]
+      },
+      "fill": {
+        "linear": {
+          "x0": 13,
+          "y0": 38,
+          "x1": 31,
+          "y1": 38,
+          "stops": [
+            [
+              0,
+              "#7A5CC0"
+            ],
+            [
+              1,
+              "#32245E"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "purple"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 16.6 25 Q 22 26.6 27.4 25 L 27.6 26.2 Q 22 27.8 16.4 26.2 Z"
+      },
+      "fill": {
+        "color": "#E0BE60"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.25
+      },
+      "only": [
+        "purple"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 19.6 23 Q 21.2 18 23.2 14.4"
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 0.5
+      },
+      "alpha": 0.3,
+      "only": [
+        "purple"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 15.7 25.6 Q 22 23.6 28.3 25.6 L 28.2 27.4 Q 22 25.4 15.8 27.4 Z"
+      },
+      "fill": {
+        "color": "#2E9AB8"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.35
+      },
+      "only": [
+        "teal"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 28 26.4 L 31.6 28.4 L 29.4 29 L 32 32.4 L 28.2 28.6 Z"
+      },
+      "fill": {
+        "color": "#2E9AB8"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "teal"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18.4,
+          18.6,
+          3.6,
+          3
+        ]
+      },
+      "fill": {
+        "linear": {
+          "x0": 14.8,
+          "y0": 15.6,
+          "x1": 22,
+          "y1": 21.6,
+          "stops": [
+            [
+              0,
+              "#FFFFFF"
+            ],
+            [
+              1,
+              "#C8CCE0"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.4
+      },
+      "only": [
+        "cream"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          25.6,
+          18.6,
+          3.6,
+          3
+        ]
+      },
+      "fill": {
+        "linear": {
+          "x0": 22,
+          "y0": 15.6,
+          "x1": 29.2,
+          "y1": 21.6,
+          "stops": [
+            [
+              0,
+              "#FFFFFF"
+            ],
+            [
+              1,
+              "#C8CCE0"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.4
+      },
+      "only": [
+        "cream"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          16.6,
+          4.2,
+          3.4
+        ]
+      },
+      "fill": {
+        "linear": {
+          "x0": 17.8,
+          "y0": 13.2,
+          "x1": 26.2,
+          "y1": 20,
+          "stops": [
+            [
+              0,
+              "#FFFFFF"
+            ],
+            [
+              1,
+              "#C8CCE0"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.4
+      },
+      "only": [
+        "cream"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 16.4 20.2 L 27.6 20.2 L 27.9 26.2 Q 22 24.6 16.1 26.2 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 16,
+          "y0": 38,
+          "x1": 28,
+          "y1": 38,
+          "stops": [
+            [
+              0,
+              "#FFFFFF"
+            ],
+            [
+              1,
+              "#C8CCE0"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.4
+      },
+      "only": [
+        "cream"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 19 21 L 18.85 25.2"
+      },
+      "stroke": {
+        "color": "#A8ACC4",
+        "width": 0.25
+      },
+      "only": [
+        "cream"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 22 21 L 22 25.2"
+      },
+      "stroke": {
+        "color": "#A8ACC4",
+        "width": 0.25
+      },
+      "only": [
+        "cream"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 25 21 L 25.15 25.2"
+      },
+      "stroke": {
+        "color": "#A8ACC4",
+        "width": 0.25
+      },
+      "only": [
+        "cream"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 15.4 27.8 Q 14.6 20.8 22 20.6 Q 29.4 20.8 28.6 27.8 Q 22 25.6 15.4 27.8 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 22,
+          "y0": 20.6,
+          "x1": 22,
+          "y1": 28,
+          "stops": [
+            [
+              0,
+              "#8A6444"
+            ],
+            [
+              1,
+              "#4E3422"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "brown"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 20 24.6 L 24 22 M 17 26 L 20 23 M 24.6 25.4 L 27 23.6"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.2
+      },
+      "alpha": 0.4,
+      "only": [
+        "brown"
+      ]
+    }
+  ],
+  "palette": {
+    "skin": "#F4CFAE",
+    "hair": "#2E2A3A",
+    "eye": "#4A6FA8",
+    "shirt": "#3F6FD1",
+    "shirt_dark": "#2E54A5",
+    "pants": "#4A4F62",
+    "boots": "#3A2E2A",
+    "outline": "#1E1B28"
+  },
+  "variants": {
+    "red": {
+      "shirt": "#D14B3F",
+      "shirt_dark": "#A5362E",
+      "eye": "#6A4A2A"
+    },
+    "green": {
+      "shirt": "#4FA464",
+      "shirt_dark": "#38804A",
+      "hair": "#5A3A24",
+      "eye": "#3E7A48",
+      "pants": "#5A4A38"
+    },
+    "ochre": {
+      "shirt": "#D4A040",
+      "shirt_dark": "#A67C2A",
+      "skin": "#D9A77A",
+      "hair": "#1E1B28",
+      "eye": "#5A3A1E",
+      "pants": "#6B4A32"
+    },
+    "purple": {
+      "shirt": "#8A5CC0",
+      "shirt_dark": "#6B439A",
+      "hair": "#C9C1B0",
+      "eye": "#8A5CC0",
+      "pants": "#3E2E76"
+    },
+    "teal": {
+      "shirt": "#3FA8A8",
+      "shirt_dark": "#2E8080",
+      "skin": "#8D5A3C",
+      "hair": "#1A1620",
+      "eye": "#2E2018",
+      "pants": "#245E70"
+    },
+    "cream": {
+      "shirt": "#E8E4DC",
+      "shirt_dark": "#BDB8AC",
+      "pants": "#6B5A48",
+      "hair": "#A0522D",
+      "eye": "#6A8A3A"
+    },
+    "brown": {
+      "shirt": "#8C6A48",
+      "shirt_dark": "#6A4E32",
+      "skin": "#C98E66",
+      "hair": "#2A1E16",
+      "eye": "#3A2A1A",
+      "pants": "#4A3424"
+    },
+    "sakura": {
+      "skin": "#F8D8C0",
+      "hair": "#E07AB8",
+      "eye": "#A050D0",
+      "shirt": "#8A5FD0",
+      "shirt_dark": "#6A45A8",
+      "pants": "#3C3A5C",
+      "boots": "#2A2230"
+    },
+    "daichi": {
+      "skin": "#D9A878",
+      "hair": "#1E1A18",
+      "eye": "#5A3A1E",
+      "shirt": "#D6532B",
+      "shirt_dark": "#A33E1E",
+      "pants": "#2E3238",
+      "boots": "#1E1E1E"
+    },
+    "haruka": {
+      "skin": "#F2CCAE",
+      "hair": "#7A5232",
+      "eye": "#3E9A5A",
+      "shirt": "#4FA87A",
+      "shirt_dark": "#3A8260",
+      "pants": "#6A5A44",
+      "boots": "#4A3A2A"
+    },
+    "marco": {
+      "skin": "#E6BE9A",
+      "hair": "#1E1814",
+      "eye": "#4A3220",
+      "shirt": "#ECECEC",
+      "shirt_dark": "#BDBDC8",
+      "pants": "#3A4A5A",
+      "boots": "#2A2A30"
+    },
+    "yuki": {
+      "skin": "#F4D8C2",
+      "hair": "#DCDCF0",
+      "eye": "#C03A50",
+      "shirt": "#3A3A58",
+      "shirt_dark": "#2A2A42",
+      "pants": "#26263A",
+      "boots": "#14141E"
+    },
+    "lena": {
+      "skin": "#EFD4C4",
+      "hair": "#3A2A2A",
+      "eye": "#5A7A9A",
+      "shirt": "#D8DCE6",
+      "shirt_dark": "#AEB4C4",
+      "pants": "#4A4F66",
+      "boots": "#262630"
+    },
+    "gideon": {
+      "skin": "#CFA58A",
+      "hair": "#8A2A2A",
+      "eye": "#E02838",
+      "shirt": "#3A2E48",
+      "shirt_dark": "#261E32",
+      "pants": "#1E1A28",
+      "boots": "#120E18"
+    }
+  }
+}

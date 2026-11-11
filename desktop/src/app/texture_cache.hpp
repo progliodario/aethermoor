@@ -18,6 +18,9 @@ struct Sprite {
     float height = 0.0F;
     float origin_x = 0.0F;
     float origin_y = 0.0F;
+    bool faces_left = false;  // the picture looks to the left (spec 13, "Facing")
+    int px_w = 0;             // the size of the texture, in pixels
+    int px_h = 0;
 };
 
 class TextureCache {

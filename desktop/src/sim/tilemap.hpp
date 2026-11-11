@@ -14,6 +14,7 @@ struct TileDef {
     std::string art;
     bool solid = false;
     std::string surface = "grass";  // what the ground sounds like under the feet (spec 14)
+    int blend = 0;                  // the rank of a soft ground (spec 13, "Ground blending"); 0: hard edges
 };
 
 struct Tileset {

@@ -1,0 +1,1284 @@
+{
+  "$schema": "../../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/char/ren/torso_back",
+  "canvas": {
+    "w": 40,
+    "h": 52,
+    "origin": [
+      20,
+      22
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "rect": [
+          18.3,
+          2.6,
+          3.4,
+          4
+        ]
+      },
+      "fill": {
+        "color": "$p.skin"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.35
+      }
+    },
+    {
+      "shape": {
+        "path": "M 18.3 2.6 L 21.7 2.6 L 21.7 5.4 Q 20 4.4 18.3 5.4 Z"
+      },
+      "fill": {
+        "color": "#B06A80"
+      },
+      "alpha": 0.4,
+      "blend": "multiply"
+    },
+    {
+      "shape": {
+        "path": "M 12.3 7.5 Q 11.7 6.6 14 6.1 L 17.8 5.4 L 22.2 5.4 L 26 6.1 Q 28.3 6.6 27.7 7.5 L 26.3 15 Q 25.7 19 26.1 22 L 26.6 26.2 Q 20 27.6 13.4 26.2 L 13.9 22 Q 14.3 19 13.7 15 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 20,
+          "y0": 6,
+          "x1": 20,
+          "y1": 27,
+          "stops": [
+            [
+              0,
+              "$p.shirt"
+            ],
+            [
+              1,
+              "$p.shirt_dark"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      }
+    },
+    {
+      "shape": {
+        "path": "M 22.4 5.4 L 26 6.1 Q 28.3 6.6 27.7 7.5 L 26.3 15 Q 25.7 19 26.1 22 L 26.6 26.2 L 22.6 27.2 Q 24.4 18 22.4 5.4 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.35,
+      "blend": "multiply"
+    },
+    {
+      "shape": {
+        "path": "M 12.3 7.5 Q 11.7 6.6 14 6.1 L 17 5.6 L 14.4 7.4 L 13.4 14 Z"
+      },
+      "fill": {
+        "color": "#FFF4D8"
+      },
+      "alpha": 0.14,
+      "blur": 0.4,
+      "clip": true,
+      "blend": "add"
+    },
+    {
+      "shape": {
+        "path": "M 20 6.4 Q 20.3 16 20 26"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.25
+      },
+      "alpha": 0.4
+    },
+    {
+      "shape": {
+        "path": "M 17.8 5.4 Q 20 6.8 22.2 5.4"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.35
+      }
+    },
+    {
+      "shape": {
+        "path": "M 14.8 13 Q 15.8 16 15 19.4 M 25.2 13 Q 24.4 16 25.2 19"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.22
+      },
+      "alpha": 0.4
+    },
+    {
+      "shape": {
+        "path": "M 13.8 21.7 Q 20 22.9 26.2 21.7 L 26.4 23.6 Q 20 24.8 13.6 23.6 Z"
+      },
+      "fill": {
+        "color": "#4A3426"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.35
+      }
+    },
+    {
+      "shape": {
+        "path": "M 13.8 21.7 Q 20 22.9 26.2 21.7"
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 0.25
+      },
+      "alpha": 0.3
+    },
+    {
+      "shape": {
+        "path": "M 13.5 24 Q 20 25.2 26.5 24 L 26.6 26.2 Q 20 27.6 13.4 26.2 Z"
+      },
+      "fill": {
+        "color": "$p.pants"
+      }
+    },
+    {
+      "shape": {
+        "path": "M 13.5 24 Q 20 25.2 26.5 24 L 26.6 26.2 Q 20 27.6 13.4 26.2 Z"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 12.1 7.4 Q 11.6 6.4 14 6 L 26 6 Q 28.4 6.4 27.9 7.4 L 26.6 16 L 28.2 34.6 Q 20 36.6 11.8 34.6 L 13.4 16 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 20,
+          "y0": 6,
+          "x1": 20,
+          "y1": 34,
+          "stops": [
+            [
+              0,
+              "#F5F7FA"
+            ],
+            [
+              1,
+              "#C3C5C8"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.4
+      },
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 22 6 L 26 6 Q 28.4 6.4 27.9 7.4 L 26.6 16 L 28.2 34.6 L 23 35.8 Q 24.6 22 22 6 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.3,
+      "blend": "multiply",
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 20 6.2 L 20 35.8"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.25
+      },
+      "alpha": 0.5,
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 13.6 20.6 L 26.4 20.6 L 26.5 22.2 L 13.5 22.2 Z"
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 17.6 5.8 Q 20 7.4 22.4 5.8 L 22.8 4.8 Q 20 6.2 17.2 4.8 Z"
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 13.6 12.8 Q 20 13.8 26.4 12.8 L 26.3 14.6 Q 20 15.6 13.7 14.6 Z"
+      },
+      "fill": {
+        "color": "#F0E24A"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.25
+      },
+      "clip": true,
+      "only": [
+        "daichi"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 13.7 13.4 Q 20 14.4 26.3 13.4"
+      },
+      "stroke": {
+        "color": "#F4F4F8",
+        "width": 0.45
+      },
+      "clip": true,
+      "only": [
+        "daichi"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 13.6 18.4 Q 20 19.4 26.4 18.4 L 26.3 20.2 Q 20 21.2 13.7 20.2 Z"
+      },
+      "fill": {
+        "color": "#F0E24A"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.25
+      },
+      "clip": true,
+      "only": [
+        "daichi"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 13.7 19 Q 20 20 26.3 19"
+      },
+      "stroke": {
+        "color": "#F4F4F8",
+        "width": 0.45
+      },
+      "clip": true,
+      "only": [
+        "daichi"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 16 8.4 L 24 8.4 L 24 11.4 L 16 11.4 Z"
+      },
+      "fill": {
+        "color": "#F0E24A"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.25
+      },
+      "only": [
+        "daichi"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 14.4 6.4 L 20.6 21.4 M 25.6 6.4 L 19.4 21.4"
+      },
+      "stroke": {
+        "color": "#F4F0E6",
+        "width": 1.1
+      },
+      "only": [
+        "haruka"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 13.8 21.2 Q 20 22.4 26.2 21.2"
+      },
+      "stroke": {
+        "color": "#F4F0E6",
+        "width": 1.2
+      },
+      "only": [
+        "haruka"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 20 22 Q 17 19.4 16.6 22.4 Q 17.4 24 20 22 Z"
+      },
+      "fill": {
+        "color": "#F4F0E6"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "haruka"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 20 22 L 18.4 27.4"
+      },
+      "stroke": {
+        "color": "#F4F0E6",
+        "width": 0.9
+      },
+      "only": [
+        "haruka"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 20 22 Q 23 19.4 23.4 22.4 Q 22.6 24 20 22 Z"
+      },
+      "fill": {
+        "color": "#F4F0E6"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "haruka"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 20 22 L 21.6 27.4"
+      },
+      "stroke": {
+        "color": "#F4F0E6",
+        "width": 0.9
+      },
+      "only": [
+        "haruka"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 14.4 6.4 L 20.6 21.4 M 25.6 6.4 L 19.4 21.4"
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 1.1
+      },
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 13.8 21.2 Q 20 22.4 26.2 21.2"
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 1.2
+      },
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 20 22 Q 17 19.4 16.6 22.4 Q 17.4 24 20 22 Z"
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 20 22 L 18.4 27.4"
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 0.9
+      },
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 20 22 Q 23 19.4 23.4 22.4 Q 22.6 24 20 22 Z"
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 20 22 L 21.6 27.4"
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 0.9
+      },
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 13.7 21.7 Q 20 22.9 26.3 21.7 L 26.4 23.6 Q 20 24.8 13.6 23.6 Z"
+      },
+      "fill": {
+        "color": "#1C1C24"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 15.6 3.8 Q 20 6 24.4 3.8 L 25.2 7.4 Q 20 10.4 14.8 7.4 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 20,
+          "y0": 4,
+          "x1": 20,
+          "y1": 10,
+          "stops": [
+            [
+              0,
+              "#E04A5A"
+            ],
+            [
+              1,
+              "#9A2434"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.4
+      },
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 15.4 5.6 Q 20 8.2 24.6 5.6"
+      },
+      "stroke": {
+        "color": "#7A1828",
+        "width": 0.35
+      },
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 19.6 8 L 16.4 7.6 L 15.6 31 L 18.8 29.8 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 20,
+          "y0": 8,
+          "x1": 20,
+          "y1": 31,
+          "stops": [
+            [
+              0,
+              "#D03A4A"
+            ],
+            [
+              1,
+              "#8A1E2E"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.4
+      },
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 18.6 26 L 15.9 26.6"
+      },
+      "stroke": {
+        "color": "#7A1828",
+        "width": 0.4
+      },
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 20.4 8 L 23.6 7.6 L 24.4 28 L 21.2 26.8 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 20,
+          "y0": 8,
+          "x1": 20,
+          "y1": 31,
+          "stops": [
+            [
+              0,
+              "#D03A4A"
+            ],
+            [
+              1,
+              "#8A1E2E"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.4
+      },
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 21.4 23 L 24.1 23.6"
+      },
+      "stroke": {
+        "color": "#7A1828",
+        "width": 0.4
+      },
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 12.1 7.4 Q 11.6 6.4 14 6 L 26 6 Q 28.4 6.4 27.9 7.4 L 26.6 16 L 28.2 34.6 Q 20 36.6 11.8 34.6 L 13.4 16 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 20,
+          "y0": 6,
+          "x1": 20,
+          "y1": 34,
+          "stops": [
+            [
+              0,
+              "#3B3B46"
+            ],
+            [
+              1,
+              "#22222B"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.4
+      },
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 22 6 L 26 6 Q 28.4 6.4 27.9 7.4 L 26.6 16 L 28.2 34.6 L 23 35.8 Q 24.6 22 22 6 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.3,
+      "blend": "multiply",
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 20 6.2 L 20 35.8"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.25
+      },
+      "alpha": 0.5,
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 13.6 20.6 L 26.4 20.6 L 26.5 22.2 L 13.5 22.2 Z"
+      },
+      "fill": {
+        "color": "#E8ECF4"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 17.6 5.8 Q 20 7.4 22.4 5.8 L 22.8 4.8 Q 20 6.2 17.2 4.8 Z"
+      },
+      "fill": {
+        "color": "#E8ECF4"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 14 6.6 L 17.6 5.8 Q 20 7.2 22.4 5.8 L 26 6.6 L 25.6 18 Q 20 20.6 14.4 18 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 14,
+          "y0": 22,
+          "x1": 26,
+          "y1": 22,
+          "stops": [
+            [
+              0,
+              "#E4E8F0"
+            ],
+            [
+              0.5,
+              "#8A90A0"
+            ],
+            [
+              1,
+              "#4A4E5C"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "red"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 20 7.4 L 20 19.4"
+      },
+      "stroke": {
+        "color": "#4C505C",
+        "width": 0.4
+      },
+      "only": [
+        "red"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 15.4 8.4 Q 16.4 13 15.6 17"
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 0.5
+      },
+      "alpha": 0.5,
+      "only": [
+        "red"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 11.6 7.8 Q 12 4.6 15.4 5.4 L 14.6 9 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 14,
+          "y0": 22,
+          "x1": 26,
+          "y1": 22,
+          "stops": [
+            [
+              0,
+              "#E4E8F0"
+            ],
+            [
+              0.5,
+              "#8A90A0"
+            ],
+            [
+              1,
+              "#4A4E5C"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.4
+      },
+      "only": [
+        "red"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 28.4 7.8 Q 28 4.6 24.6 5.4 L 25.4 9 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 14,
+          "y0": 22,
+          "x1": 26,
+          "y1": 22,
+          "stops": [
+            [
+              0,
+              "#E4E8F0"
+            ],
+            [
+              0.5,
+              "#8A90A0"
+            ],
+            [
+              1,
+              "#4A4E5C"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.4
+      },
+      "only": [
+        "red"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 11.6 7.6 Q 11.4 5.6 15 5.4 L 25 5.4 Q 28.6 5.6 28.4 7.6 L 27 12.4 Q 20 15.4 13 12.4 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 20,
+          "y0": 6,
+          "x1": 20,
+          "y1": 14,
+          "stops": [
+            [
+              0,
+              "#4E8A58"
+            ],
+            [
+              1,
+              "#2A5234"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "green"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 25 13.4 L 14.4 22.8"
+      },
+      "stroke": {
+        "color": "#5A3A1E",
+        "width": 0.7
+      },
+      "only": [
+        "green"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 22.4 6.4 L 26.4 4.4 L 28.4 16.4 L 24.4 18 Z"
+      },
+      "fill": {
+        "color": "#6A4426"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.4
+      },
+      "only": [
+        "green"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 23.6 5.4 L 23.2 2.4"
+      },
+      "stroke": {
+        "color": "#E8E0C8",
+        "width": 0.35
+      },
+      "only": [
+        "green"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 24.7 4.96 L 24.3 1.96"
+      },
+      "stroke": {
+        "color": "#E8E0C8",
+        "width": 0.35
+      },
+      "only": [
+        "green"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 25.8 4.52 L 25.4 1.52"
+      },
+      "stroke": {
+        "color": "#E8E0C8",
+        "width": 0.35
+      },
+      "only": [
+        "green"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 15.6 6 L 21 21.8"
+      },
+      "stroke": {
+        "color": "#6A4426",
+        "width": 1
+      },
+      "only": [
+        "ochre"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 24.4 6 L 19 21.8"
+      },
+      "stroke": {
+        "color": "#6A4426",
+        "width": 1
+      },
+      "only": [
+        "ochre"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 12.1 7.4 Q 11.6 6.4 14 6 L 17.6 5.4 L 20 8 L 22.4 5.4 L 26 6 Q 28.4 6.4 27.9 7.4 L 26.6 16 L 28.6 46 Q 20 48.4 11.4 46 L 13.4 16 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 20,
+          "y0": 6,
+          "x1": 20,
+          "y1": 48,
+          "stops": [
+            [
+              0,
+              "#6A4CB0"
+            ],
+            [
+              1,
+              "#2E2060"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "purple"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 22.4 5.4 L 26 6 Q 28.4 6.4 27.9 7.4 L 26.6 16 L 28.6 46 L 23.4 47.6 Q 25 26 22.4 5.4 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.3,
+      "blend": "multiply",
+      "only": [
+        "purple"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 13.7 21.4 Q 20 22.8 26.3 21.4 L 26.4 23 Q 20 24.4 13.6 23 Z"
+      },
+      "fill": {
+        "color": "#E0BE60"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "purple"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 11.6 44 Q 20 46.4 28.4 44"
+      },
+      "stroke": {
+        "color": "#E0BE60",
+        "width": 0.6
+      },
+      "only": [
+        "purple"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 17 25 Q 16 36 16.6 46 M 23 25 Q 24 36 23.4 46"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.25
+      },
+      "alpha": 0.45,
+      "only": [
+        "purple"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 27 6.4 L 24.4 5.8 L 13.8 20.6 L 13.9 23 L 16 23.2 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 20,
+          "y0": 6,
+          "x1": 20,
+          "y1": 23,
+          "stops": [
+            [
+              0,
+              "#F0C860"
+            ],
+            [
+              1,
+              "#B8862A"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.4
+      },
+      "only": [
+        "teal"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 14.4 6.4 L 20.6 21.4 M 25.6 6.4 L 19.4 21.4"
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 1.1
+      },
+      "only": [
+        "cream"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 13.8 21.2 Q 20 22.4 26.2 21.2"
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 1.2
+      },
+      "only": [
+        "cream"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 20 22 Q 17 19.4 16.6 22.4 Q 17.4 24 20 22 Z"
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "cream"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 20 22 L 18.4 27.4"
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 0.9
+      },
+      "only": [
+        "cream"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 20 22 Q 23 19.4 23.4 22.4 Q 22.6 24 20 22 Z"
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "cream"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 20 22 L 21.6 27.4"
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 0.9
+      },
+      "only": [
+        "cream"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 15.4 6 L 16.4 21.8"
+      },
+      "stroke": {
+        "color": "#3E2A1A",
+        "width": 1.1
+      },
+      "only": [
+        "brown"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 24.6 6 L 23.6 21.8"
+      },
+      "stroke": {
+        "color": "#3E2A1A",
+        "width": 1.1
+      },
+      "only": [
+        "brown"
+      ]
+    }
+  ],
+  "palette": {
+    "skin": "#F4CFAE",
+    "hair": "#2E2A3A",
+    "eye": "#4A6FA8",
+    "shirt": "#3F6FD1",
+    "shirt_dark": "#2E54A5",
+    "pants": "#4A4F62",
+    "boots": "#3A2E2A",
+    "outline": "#1E1B28"
+  },
+  "variants": {
+    "red": {
+      "shirt": "#D14B3F",
+      "shirt_dark": "#A5362E",
+      "eye": "#6A4A2A"
+    },
+    "green": {
+      "shirt": "#4FA464",
+      "shirt_dark": "#38804A",
+      "hair": "#5A3A24",
+      "eye": "#3E7A48",
+      "pants": "#5A4A38"
+    },
+    "ochre": {
+      "shirt": "#D4A040",
+      "shirt_dark": "#A67C2A",
+      "skin": "#D9A77A",
+      "hair": "#1E1B28",
+      "eye": "#5A3A1E",
+      "pants": "#6B4A32"
+    },
+    "purple": {
+      "shirt": "#8A5CC0",
+      "shirt_dark": "#6B439A",
+      "hair": "#C9C1B0",
+      "eye": "#8A5CC0",
+      "pants": "#3E2E76"
+    },
+    "teal": {
+      "shirt": "#3FA8A8",
+      "shirt_dark": "#2E8080",
+      "skin": "#8D5A3C",
+      "hair": "#1A1620",
+      "eye": "#2E2018",
+      "pants": "#245E70"
+    },
+    "cream": {
+      "shirt": "#E8E4DC",
+      "shirt_dark": "#BDB8AC",
+      "pants": "#6B5A48",
+      "hair": "#A0522D",
+      "eye": "#6A8A3A"
+    },
+    "brown": {
+      "shirt": "#8C6A48",
+      "shirt_dark": "#6A4E32",
+      "skin": "#C98E66",
+      "hair": "#2A1E16",
+      "eye": "#3A2A1A",
+      "pants": "#4A3424"
+    },
+    "sakura": {
+      "skin": "#F8D8C0",
+      "hair": "#E07AB8",
+      "eye": "#A050D0",
+      "shirt": "#8A5FD0",
+      "shirt_dark": "#6A45A8",
+      "pants": "#3C3A5C",
+      "boots": "#2A2230"
+    },
+    "daichi": {
+      "skin": "#D9A878",
+      "hair": "#1E1A18",
+      "eye": "#5A3A1E",
+      "shirt": "#D6532B",
+      "shirt_dark": "#A33E1E",
+      "pants": "#2E3238",
+      "boots": "#1E1E1E"
+    },
+    "haruka": {
+      "skin": "#F2CCAE",
+      "hair": "#7A5232",
+      "eye": "#3E9A5A",
+      "shirt": "#4FA87A",
+      "shirt_dark": "#3A8260",
+      "pants": "#6A5A44",
+      "boots": "#4A3A2A"
+    },
+    "marco": {
+      "skin": "#E6BE9A",
+      "hair": "#1E1814",
+      "eye": "#4A3220",
+      "shirt": "#ECECEC",
+      "shirt_dark": "#BDBDC8",
+      "pants": "#3A4A5A",
+      "boots": "#2A2A30"
+    },
+    "yuki": {
+      "skin": "#F4D8C2",
+      "hair": "#DCDCF0",
+      "eye": "#C03A50",
+      "shirt": "#3A3A58",
+      "shirt_dark": "#2A2A42",
+      "pants": "#26263A",
+      "boots": "#14141E"
+    },
+    "lena": {
+      "skin": "#EFD4C4",
+      "hair": "#3A2A2A",
+      "eye": "#5A7A9A",
+      "shirt": "#D8DCE6",
+      "shirt_dark": "#AEB4C4",
+      "pants": "#4A4F66",
+      "boots": "#262630"
+    },
+    "gideon": {
+      "skin": "#CFA58A",
+      "hair": "#8A2A2A",
+      "eye": "#E02838",
+      "shirt": "#3A2E48",
+      "shirt_dark": "#261E32",
+      "pants": "#1E1A28",
+      "boots": "#120E18"
+    }
+  }
+}

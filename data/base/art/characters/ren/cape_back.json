@@ -1,0 +1,255 @@
+{
+  "$schema": "../../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/char/ren/cape_back",
+  "canvas": {
+    "w": 48,
+    "h": 54,
+    "origin": [
+      24,
+      6
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "path": "M 15.4 6.6 Q 10.2 26 11 48 Q 18 50.6 24 49 Q 30 50.6 37 48 Q 37.8 26 32.6 6.6 Q 24 4.6 15.4 6.6 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 24,
+          "y0": 6,
+          "x1": 24,
+          "y1": 50,
+          "stops": [
+            [
+              0,
+              "#3A2444"
+            ],
+            [
+              1,
+              "#18101E"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
+      },
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 26 5.4 L 32.6 6.6 Q 37.8 26 37 48 Q 32 50 28 49.6 Q 30 26 26 5.4 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.3,
+      "blend": "multiply",
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 18 12 Q 15.4 30 16.4 48 M 24 9 Q 24.6 30 24 49 M 30 12 Q 32.6 30 31.6 48"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "alpha": 0.5,
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            24,
+            18
+          ],
+          [
+            27.4,
+            23
+          ],
+          [
+            24,
+            28.4
+          ],
+          [
+            20.6,
+            23
+          ]
+        ]
+      },
+      "stroke": {
+        "color": "#C92A3A",
+        "width": 0.5
+      },
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          24,
+          23,
+          1.1,
+          1.1
+        ]
+      },
+      "fill": {
+        "color": "#C92A3A"
+      },
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 15.4 6.6 Q 24 4.6 32.6 6.6 L 32 8.8 Q 24 6.8 16 8.8 Z"
+      },
+      "fill": {
+        "color": "#E0BE60"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "gideon"
+      ]
+    }
+  ],
+  "palette": {
+    "skin": "#F4CFAE",
+    "hair": "#2E2A3A",
+    "eye": "#4A6FA8",
+    "shirt": "#3F6FD1",
+    "shirt_dark": "#2E54A5",
+    "pants": "#4A4F62",
+    "boots": "#3A2E2A",
+    "outline": "#1E1B28"
+  },
+  "variants": {
+    "red": {
+      "shirt": "#D14B3F",
+      "shirt_dark": "#A5362E",
+      "eye": "#6A4A2A"
+    },
+    "green": {
+      "shirt": "#4FA464",
+      "shirt_dark": "#38804A",
+      "hair": "#5A3A24",
+      "eye": "#3E7A48",
+      "pants": "#5A4A38"
+    },
+    "ochre": {
+      "shirt": "#D4A040",
+      "shirt_dark": "#A67C2A",
+      "skin": "#D9A77A",
+      "hair": "#1E1B28",
+      "eye": "#5A3A1E",
+      "pants": "#6B4A32"
+    },
+    "purple": {
+      "shirt": "#8A5CC0",
+      "shirt_dark": "#6B439A",
+      "hair": "#C9C1B0",
+      "eye": "#8A5CC0",
+      "pants": "#3E2E76"
+    },
+    "teal": {
+      "shirt": "#3FA8A8",
+      "shirt_dark": "#2E8080",
+      "skin": "#8D5A3C",
+      "hair": "#1A1620",
+      "eye": "#2E2018",
+      "pants": "#245E70"
+    },
+    "cream": {
+      "shirt": "#E8E4DC",
+      "shirt_dark": "#BDB8AC",
+      "pants": "#6B5A48",
+      "hair": "#A0522D",
+      "eye": "#6A8A3A"
+    },
+    "brown": {
+      "shirt": "#8C6A48",
+      "shirt_dark": "#6A4E32",
+      "skin": "#C98E66",
+      "hair": "#2A1E16",
+      "eye": "#3A2A1A",
+      "pants": "#4A3424"
+    },
+    "sakura": {
+      "skin": "#F8D8C0",
+      "hair": "#E07AB8",
+      "eye": "#A050D0",
+      "shirt": "#8A5FD0",
+      "shirt_dark": "#6A45A8",
+      "pants": "#3C3A5C",
+      "boots": "#2A2230"
+    },
+    "daichi": {
+      "skin": "#D9A878",
+      "hair": "#1E1A18",
+      "eye": "#5A3A1E",
+      "shirt": "#D6532B",
+      "shirt_dark": "#A33E1E",
+      "pants": "#2E3238",
+      "boots": "#1E1E1E"
+    },
+    "haruka": {
+      "skin": "#F2CCAE",
+      "hair": "#7A5232",
+      "eye": "#3E9A5A",
+      "shirt": "#4FA87A",
+      "shirt_dark": "#3A8260",
+      "pants": "#6A5A44",
+      "boots": "#4A3A2A"
+    },
+    "marco": {
+      "skin": "#E6BE9A",
+      "hair": "#1E1814",
+      "eye": "#4A3220",
+      "shirt": "#ECECEC",
+      "shirt_dark": "#BDBDC8",
+      "pants": "#3A4A5A",
+      "boots": "#2A2A30"
+    },
+    "yuki": {
+      "skin": "#F4D8C2",
+      "hair": "#DCDCF0",
+      "eye": "#C03A50",
+      "shirt": "#3A3A58",
+      "shirt_dark": "#2A2A42",
+      "pants": "#26263A",
+      "boots": "#14141E"
+    },
+    "lena": {
+      "skin": "#EFD4C4",
+      "hair": "#3A2A2A",
+      "eye": "#5A7A9A",
+      "shirt": "#D8DCE6",
+      "shirt_dark": "#AEB4C4",
+      "pants": "#4A4F66",
+      "boots": "#262630"
+    },
+    "gideon": {
+      "skin": "#CFA58A",
+      "hair": "#8A2A2A",
+      "eye": "#E02838",
+      "shirt": "#3A2E48",
+      "shirt_dark": "#261E32",
+      "pants": "#1E1A28",
+      "boots": "#120E18"
+    }
+  }
+}

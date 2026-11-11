@@ -17,6 +17,8 @@ struct RigPart {
     float offset_y = 0.0F;
     int z = 0;
     std::string art;
+    std::string art_back;  // the recipe when the figure is seen from behind (spec 13); the same as `art` if not given
+    int z_back = 0;        // the draw order when seen from behind; the same as `z` if not given
 };
 
 struct Rig {

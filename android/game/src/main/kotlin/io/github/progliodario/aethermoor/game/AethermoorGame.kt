@@ -66,6 +66,7 @@ import io.github.progliodario.aethermoor.core.vector.parseClip
 import io.github.progliodario.aethermoor.core.vector.parseRig
 import java.util.Locale
 import kotlin.math.PI
+import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -813,7 +814,28 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 val sy0 = ((ty - cam.y) * tile).roundToInt().toFloat()
                 val sx1 = ((tx + 1 - cam.x) * tile).roundToInt().toFloat()
                 val sy1 = ((ty + 1 - cam.y) * tile).roundToInt().toFloat()
-                batch.draw(sprite.region, sx0, sy0, sx1 - sx0, sy1 - sy0)
+                // one cell of a macro tile (spec 13): the texture has its first row at v = 0
+                val span = max(1, (sprite.width / 32f).roundToInt())
+                val u = (tx % span).toFloat() / span
+                val v = (ty % span).toFloat() / span
+                batch.draw(sprite.region.texture, sx0, sy0, sx1 - sx0, sy1 - sy0, u, v, u + 1f / span, v + 1f / span)
+            }
+        }
+        // The soft edges of the grounds (spec 13, "Ground blending"): a neighbour of a higher rank fades over the tile.
+        for (ty in y0 until y1) {
+            for (tx in x0 until x1) {
+                val def = data.tileset.tiles[world.gidAt(tx, ty)] ?: continue
+                if (def.blend <= 0) continue
+                val sx0 = ((tx - cam.x) * tile).roundToInt().toFloat()
+                val sy0 = ((ty - cam.y) * tile).roundToInt().toFloat()
+                val sx1 = ((tx + 1 - cam.x) * tile).roundToInt().toFloat()
+                val sy1 = ((ty + 1 - cam.y) * tile).roundToInt().toFloat()
+                for (side in GROUND_SIDES) {
+                    val other = data.tileset.tiles[world.gidAt(tx + side[0], ty + side[1])] ?: continue
+                    if (other.blend <= def.blend) continue
+                    val over = cache.get(other.art, tilePx) ?: continue
+                    drawGroundBlend(over, tx, ty, side[0], side[1], sx0, sy0, sx1 - sx0, sy1 - sy0)
+                }
             }
         }
 
@@ -828,7 +850,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         for (item in items.sortedBy { it.feetY }) {
             when {
                 item.prop != null -> drawProp(item.prop, cam.x, cam.y, tilePx, tile, k)
-                item.enemy != null -> drawEnemy(item.enemy, cam.x, cam.y, tilePx, tile, k)
+                item.enemy != null -> drawEnemy(item.enemy, cam.x, cam.y, tilePx, tile, k, world.player.position.x)
                 item.npc != null -> drawNpc(world, data, item.npc, cam.x, cam.y, tilePx, k)
                 item.companion -> drawCompanion(world, cam.x, cam.y, tilePx, tile, k)
                 else -> drawPlayer(world, data, cam.x, cam.y, tilePx, k)
@@ -853,6 +875,56 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         drawStick()
     }
 
+    private val blendVertices = FloatArray(20)
+
+    /**
+     * A ground of a higher rank fades over the edge of a tile (spec 13, "Ground blending"): the picture of the neighbour
+     * in the direction ([dx], [dy]), opaque on the shared edge and gone at the middle of the tile.
+     */
+    private fun drawGroundBlend(sprite: Sprite, tx: Int, ty: Int, dx: Int, dy: Int, x: Float, y: Float, w: Float, h: Float) {
+        val span = max(1, (sprite.width / 32f).roundToInt())
+        val u0 = (tx % span).toFloat() / span
+        val v0 = (ty % span).toFloat() / span
+        val cell = 1f / span
+        // the corners of the half next to the neighbour, in the unit square of the tile: two on the edge, two in the middle
+        var ex0 = 0f
+        var ey0 = 0f
+        var ex1 = 0f
+        var ey1 = 1f
+        var mx0 = 0.5f
+        var my0 = 0f
+        var mx1 = 0.5f
+        var my1 = 1f
+        if (dx > 0) {
+            ex0 = 1f
+            ex1 = 1f
+        } else if (dy != 0) {
+            ex0 = 0f
+            ex1 = 1f
+            ey0 = if (dy > 0) 1f else 0f
+            ey1 = ey0
+            mx0 = 0f
+            mx1 = 1f
+            my0 = 0.5f
+            my1 = 0.5f
+        }
+        val opaque = Color.WHITE.toFloatBits()
+        val clear = Color.toFloatBits(1f, 1f, 1f, 0f)
+        var i = 0
+        fun vertex(ux: Float, uy: Float, color: Float) {
+            blendVertices[i++] = x + ux * w
+            blendVertices[i++] = y + uy * h
+            blendVertices[i++] = color
+            blendVertices[i++] = u0 + ux * cell
+            blendVertices[i++] = v0 + uy * cell
+        }
+        vertex(ex0, ey0, opaque)
+        vertex(ex1, ey1, opaque)
+        vertex(mx1, my1, clear)
+        vertex(mx0, my0, clear)
+        batch.draw(sprite.region.texture, blendVertices, 0, 20)
+    }
+
     private fun drawProp(prop: Prop, camX: Float, camY: Float, tilePx: Int, tile: Float, k: Float) {
         val sprite = cache.get(prop.art, tilePx) ?: return
         val fx = (prop.x - camX) * tile
@@ -869,10 +941,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val bob = sin(System.currentTimeMillis() / 160f) * 2f * k
         val fx = (at.x - camX) * tile
         val fy = (at.y - camY) * tile + bob
-        batch.draw(sprite.region, fx - sprite.originX * s, fy - sprite.originY * s, sprite.width * s, sprite.height * s)
+        if (sprite.facesLeft && world.player.position.x > at.x) { // it turns to face the player (spec 13, "Facing")
+            batch.draw(sprite.region, fx + sprite.originX * s, fy - sprite.originY * s, -sprite.width * s, sprite.height * s)
+        } else {
+            batch.draw(sprite.region, fx - sprite.originX * s, fy - sprite.originY * s, sprite.width * s, sprite.height * s)
+        }
     }
 
-    private fun drawEnemy(enemy: Enemy, camX: Float, camY: Float, tilePx: Int, tile: Float, k: Float) {
+    private fun drawEnemy(enemy: Enemy, camX: Float, camY: Float, tilePx: Int, tile: Float, k: Float, playerX: Float) {
         val sprite = cache.get(enemy.def.art, tilePx) ?: return
         val fx = (enemy.position.x - camX) * tile
         val fy = (enemy.position.y - camY) * tile
@@ -880,11 +956,12 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val wave = if (phase < 30f) phase / 30f else (60f - phase) / 30f
         val squash = 0.95f + 0.1f * wave
         if (enemy.hitFlash > 0) batch.setColor(1f, 0.47f, 0.47f, 1f)
-        batch.draw(
-            sprite.region,
-            fx - sprite.originX * k * (2f - squash), fy - sprite.originY * k * squash,
-            sprite.width * k * (2f - squash), sprite.height * k * squash,
-        )
+        val wide = k * (2f - squash)
+        if (sprite.facesLeft && playerX > enemy.position.x) { // it turns to face the player (spec 13, "Facing")
+            batch.draw(sprite.region, fx + sprite.originX * wide, fy - sprite.originY * k * squash, -sprite.width * wide, sprite.height * k * squash)
+        } else {
+            batch.draw(sprite.region, fx - sprite.originX * wide, fy - sprite.originY * k * squash, sprite.width * wide, sprite.height * k * squash)
+        }
         batch.setColor(1f, 1f, 1f, 1f)
     }
 
@@ -892,9 +969,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val tile = tilePx.toFloat()
         val player = world.player
         val blink = player.iframes > 0 && (player.iframes / 4) % 2 == 0
+        val back = player.facing.y < 0f && abs(player.facing.y) > abs(player.facing.x)
         drawCharacter(
             data, player.moving, player.facingLeft, player.clipTick, blink, playerVariant,
-            (player.position.x - camX) * tile, (player.position.y - camY) * tile, tilePx, k,
+            (player.position.x - camX) * tile, (player.position.y - camY) * tile, tilePx, k, back,
         )
     }
 
@@ -926,14 +1004,16 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     private fun drawCharacter(
         data: Assets, moving: Boolean, facingLeft: Boolean, clipTick: Int, blink: Boolean, variant: String?,
-        feetX: Float, feetY: Float, tilePx: Int, k: Float,
+        feetX: Float, feetY: Float, tilePx: Int, k: Float, back: Boolean = false,
     ) {
         val clip = if (moving) data.walk else data.idle
-        val pose = evaluatePose(data.rig, clip, clipTick.toFloat(), facingLeft).sortedBy { it.z }
+        // seen from behind (spec 13), the parts use their own recipe and draw order
+        val pose = evaluatePose(data.rig, clip, clipTick.toFloat(), facingLeft)
+            .sortedBy { if (back) data.rig.parts[it.partIndex].zBack else it.z }
         batch.setColor(1f, 1f, 1f, if (blink) 0.47f else 1f)
         for (posed in pose) {
             val part = data.rig.parts[posed.partIndex]
-            val sprite = cache.get(part.art, tilePx, variant) ?: continue
+            val sprite = cache.get(if (back) part.artBack else part.art, tilePx, variant) ?: continue
             val px = feetX + posed.x * k
             val py = feetY + posed.y * k
             val pivotX = sprite.originX * k
@@ -3540,7 +3620,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         private const val PROTAGONIST_ID = "base:protagonist/ren"
         private const val MAP_WORLD = "world"
         private const val SLOT_COUNT = 3
-        private const val BASE_TILE_PX = 48f
+        private const val BASE_TILE_PX = 64f
+        private val GROUND_SIDES = arrayOf(intArrayOf(-1, 0), intArrayOf(1, 0), intArrayOf(0, -1), intArrayOf(0, 1))
 
         /** Colors of the world map by biome code: water, beach, mountain, snow, desert, forest, plains. */
         private val MAP_COLORS = arrayOf(

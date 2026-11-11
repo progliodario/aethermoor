@@ -49,7 +49,7 @@ constexpr int kWindowHeight = 720;
 constexpr int kSmokeTestFrames = 90;
 constexpr int kMaxTicksPerFrame = 5;
 constexpr double kMaxFrameSeconds = 0.25;
-constexpr float kBaseTilePx = 48.0F;
+constexpr float kBaseTilePx = 64.0F;
 constexpr const char* kProtagonistId = "base:protagonist/ren";
 // Who is played in this run (spec 18), chosen for a new game and kept in the folder of the slot.
 std::string g_protagonist_id = kProtagonistId;
@@ -472,25 +472,81 @@ void draw_bar(SDL_Renderer* renderer, float x, float y, float w, float h, float 
     }
 }
 
+// `flip` mirrors the picture about its origin (a beast that turns to face the player: spec 13, "Facing").
 void draw_sprite(SDL_Renderer* renderer, const aether::Sprite& sprite, float feet_x, float feet_y, float k,
-                 float squash = 1.0F) {
+                 float squash = 1.0F, bool flip = false) {
     const float w = sprite.width * k * (2.0F - squash);
     const float h = sprite.height * k * squash;
-    const SDL_FRect dst{feet_x - sprite.origin_x * k * (2.0F - squash), feet_y - sprite.origin_y * k * squash, w, h};
-    SDL_RenderTexture(renderer, sprite.texture, nullptr, &dst);
+    const float left = (flip ? sprite.width - sprite.origin_x : sprite.origin_x) * k * (2.0F - squash);
+    const SDL_FRect dst{feet_x - left, feet_y - sprite.origin_y * k * squash, w, h};
+    if (flip) {
+        SDL_RenderTextureRotated(renderer, sprite.texture, nullptr, &dst, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+    } else {
+        SDL_RenderTexture(renderer, sprite.texture, nullptr, &dst);
+    }
 }
 
+// The part of a tile picture that the tile at (tx, ty) shows: all of it, or one cell of a macro tile (spec 13).
+SDL_FRect tile_source(const aether::Sprite& sprite, int tx, int ty) {
+    const int span = std::max(1, static_cast<int>(std::lround(sprite.width / 32.0F)));
+    const float cell_w = static_cast<float>(sprite.px_w) / static_cast<float>(span);
+    const float cell_h = static_cast<float>(sprite.px_h) / static_cast<float>(span);
+    return SDL_FRect{static_cast<float>(tx % span) * cell_w, static_cast<float>(ty % span) * cell_h, cell_w, cell_h};
+}
+
+// A ground of a higher rank fades over the edge of the tile at `dst` (spec 13, "Ground blending"): the picture of the
+// neighbour in the direction (dx, dy), opaque on the shared edge and gone at the middle of the tile.
+void draw_ground_blend(SDL_Renderer* renderer, const aether::Sprite& sprite, int tx, int ty, int dx, int dy,
+                       const SDL_FRect& dst) {
+    const SDL_FRect src = tile_source(sprite, tx, ty);
+    // the corners of the half next to the neighbour, in the unit square of the tile: two on the edge, two in the middle
+    float ex0 = 0.0F;
+    float ey0 = 0.0F;
+    float ex1 = 0.0F;
+    float ey1 = 1.0F;
+    float mx0 = 0.5F;
+    float my0 = 0.0F;
+    float mx1 = 0.5F;
+    float my1 = 1.0F;
+    if (dx > 0) {
+        ex0 = ex1 = 1.0F;
+    } else if (dy != 0) {
+        ex0 = 0.0F;
+        ex1 = 1.0F;
+        ey0 = ey1 = dy > 0 ? 1.0F : 0.0F;
+        mx0 = 0.0F;
+        mx1 = 1.0F;
+        my0 = my1 = 0.5F;
+    }
+    const auto vertex = [&](float ux, float uy, float alpha) {
+        return SDL_Vertex{{dst.x + ux * dst.w, dst.y + uy * dst.h},
+                          {1.0F, 1.0F, 1.0F, alpha},
+                          {(src.x + ux * src.w) / static_cast<float>(sprite.px_w),
+                           (src.y + uy * src.h) / static_cast<float>(sprite.px_h)}};
+    };
+    const SDL_Vertex vertices[4] = {vertex(ex0, ey0, 1.0F), vertex(ex1, ey1, 1.0F), vertex(mx1, my1, 0.0F),
+                                    vertex(mx0, my0, 0.0F)};
+    const int indices[6] = {0, 1, 2, 0, 2, 3};
+    SDL_RenderGeometry(renderer, sprite.texture, vertices, 4, indices, 6);
+}
+
+// `back`: the figure is seen from behind (spec 13): its parts use their `art_back` and `z_back`.
 void draw_character(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& assets, bool moving,
                     bool facing_left, int clip_tick, bool blink, std::string_view variant, float feet_x, float feet_y,
-                    float k, int tile_px) {
+                    float k, int tile_px, bool back = false) {
     const aether::Clip& clip = moving ? assets.walk : assets.idle;
     std::vector<aether::PosedPart> pose =
         aether::evaluate_pose(assets.rig, clip, static_cast<float>(clip_tick), facing_left);
+    if (back) {
+        for (aether::PosedPart& posed : pose) {
+            posed.z = assets.rig.parts[posed.part_index].z_back;
+        }
+    }
     std::stable_sort(pose.begin(), pose.end(),
                      [](const aether::PosedPart& a, const aether::PosedPart& b) { return a.z < b.z; });
     for (const aether::PosedPart& posed : pose) {
         const aether::RigPart& part = assets.rig.parts[posed.part_index];
-        const aether::Sprite* sprite = cache.get(part.art, tile_px, variant);
+        const aether::Sprite* sprite = cache.get(back ? part.art_back : part.art, tile_px, variant);
         if (sprite == nullptr) {
             continue;
         }
@@ -510,7 +566,7 @@ void draw_character(SDL_Renderer* renderer, aether::TextureCache& cache, const A
 }
 
 void draw_enemy(SDL_Renderer* renderer, aether::TextureCache& cache, const aether::Enemy& enemy, float feet_x,
-                float feet_y, float k, int tile_px, Uint64 now_ms) {
+                float feet_y, float k, int tile_px, Uint64 now_ms, float player_x) {
     const aether::Sprite* sprite = cache.get(enemy.def.art, tile_px);
     if (sprite == nullptr) {
         return;
@@ -521,7 +577,7 @@ void draw_enemy(SDL_Renderer* renderer, aether::TextureCache& cache, const aethe
     if (enemy.hit_flash > 0) {
         SDL_SetTextureColorMod(sprite->texture, 255, 120, 120);
     }
-    draw_sprite(renderer, *sprite, feet_x, feet_y, k, squash);
+    draw_sprite(renderer, *sprite, feet_x, feet_y, k, squash, sprite->faces_left && player_x > enemy.position.x);
     SDL_SetTextureColorMod(sprite->texture, 255, 255, 255);
     if (enemy.hp < enemy.def.hp) {
         const float bar_w = 28.0F * k;
@@ -3278,7 +3334,32 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
             const float sx1 = std::round((static_cast<float>(tx + 1) - cam.x) * tile);
             const float sy1 = std::round((static_cast<float>(ty + 1) - cam.y) * tile);
             const SDL_FRect dst{sx0, sy0, sx1 - sx0, sy1 - sy0};
-            SDL_RenderTexture(renderer, sprite->texture, nullptr, &dst);
+            const SDL_FRect src = tile_source(*sprite, tx, ty);
+            SDL_RenderTexture(renderer, sprite->texture, &src, &dst);
+        }
+    }
+    // The soft edges of the grounds (spec 13, "Ground blending"): a neighbour of a higher rank fades over the tile.
+    for (int ty = y0; ty < y1; ++ty) {
+        for (int tx = x0; tx < x1; ++tx) {
+            const auto def = assets.tileset.tiles.find(sim.gid_at(tx, ty));
+            if (def == assets.tileset.tiles.end() || def->second.blend <= 0) {
+                continue;
+            }
+            const float sx0 = std::round((static_cast<float>(tx) - cam.x) * tile);
+            const float sy0 = std::round((static_cast<float>(ty) - cam.y) * tile);
+            const float sx1 = std::round((static_cast<float>(tx + 1) - cam.x) * tile);
+            const float sy1 = std::round((static_cast<float>(ty + 1) - cam.y) * tile);
+            const SDL_FRect dst{sx0, sy0, sx1 - sx0, sy1 - sy0};
+            constexpr int kSides[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+            for (const auto& side : kSides) {
+                const auto other = assets.tileset.tiles.find(sim.gid_at(tx + side[0], ty + side[1]));
+                if (other == assets.tileset.tiles.end() || other->second.blend <= def->second.blend) {
+                    continue;
+                }
+                if (const aether::Sprite* over = cache.get(other->second.art, tile_px)) {
+                    draw_ground_blend(renderer, *over, tx, ty, side[0], side[1], dst);
+                }
+            }
         }
     }
 
@@ -3308,8 +3389,9 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
             const float fy = (sim.player().position.y - cam.y) * tile;
             const aether::Player& player = sim.player();
             const bool blink = player.iframes > 0 && (player.iframes / 4) % 2 == 0;
+            const bool back = player.facing.y < 0.0F && std::fabs(player.facing.y) > std::fabs(player.facing.x);
             draw_character(renderer, cache, assets, player.moving, player.facing_left, player.clip_tick, blink,
-                           g_art_variant, fx, fy, k, tile_px);
+                           g_art_variant, fx, fy, k, tile_px, back);
             draw_swing(renderer, sim, fx, fy, tile);
         } else if (item.kind ==
                    4) {  // the companion (spec 10), drawn with the art of its creature, a little smaller, bobbing
@@ -3318,7 +3400,8 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
                 const aether::Vec2& at = *sim.companion_position();
                 const float bob = std::sin(static_cast<float>(now_ms) / 160.0F) * 2.0F * k;
                 draw_sprite(renderer, *sprite, (at.x - cam.x) * tile, (at.y - cam.y) * tile + bob,
-                            k * static_cast<float>(def.scale_pct) / 100.0F);
+                            k * static_cast<float>(def.scale_pct) / 100.0F, 1.0F,
+                            sprite->faces_left && sim.player().position.x > at.x);
             }
         } else if (item.kind == 3) {
             const float fx = (item.npc->x - cam.x) * tile;
@@ -3327,7 +3410,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
                            static_cast<int>(now_ms / 16), false, item.npc->variant, fx, fy, k, tile_px);
         } else if (item.kind == 1) {
             draw_enemy(renderer, cache, *item.enemy, (item.enemy->position.x - cam.x) * tile,
-                       (item.enemy->position.y - cam.y) * tile, k, tile_px, now_ms);
+                       (item.enemy->position.y - cam.y) * tile, k, tile_px, now_ms, sim.player().position.x);
         } else if (const aether::Sprite* sprite = cache.get(item.prop->art, tile_px)) {
             draw_sprite(renderer, *sprite, (item.prop->x - cam.x) * tile, (item.prop->y - cam.y) * tile, k);
         }

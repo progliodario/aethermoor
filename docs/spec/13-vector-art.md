@@ -1,6 +1,6 @@
 # 13. Vector art
 
-Status: **v1**. Schemas: `art_recipe`, `rig`, `clip`, `tileset`. Conformance suites: `raster`, `rig_pose`.
+Status: **v2** (blur, clip, blend, noise fills, macro tiles and the view from behind were added to v1). Schemas: `art_recipe`, `rig`, `clip`, `tileset`. Conformance suites: `raster`, `rig_pose`.
 See ADR 0012 for why both clients use the same in-house software rasterizer.
 
 ## Recipes
@@ -19,8 +19,16 @@ image (feet of a character, joint of a limb, base of a tree).
   `path "<d>"` with the **absolute, upper-case** commands `M L H V C Q Z`, numbers separated by spaces or commas.
 - **Fill** (optional): `{"color": c}`, `{"linear": {x0, y0, x1, y1, stops}}`, `{"radial": {cx, cy, r, stops}}`.
   `stops` are `[[t, color], ...]` with `t` in 0..1, increasing. Outside the first/last stop the end color is kept.
+  `{"noise": {scale, seed, octaves, period, stops}}` is a cloudy texture (see "Noise" below): `scale` is the size of the largest
+  clouds in art units, `seed` (default 0) picks the pattern, `octaves` (1 to 6, default 3) adds finer clouds, `period` (default 0:
+  none) makes the pattern repeat every `period * scale` art units, so that a tile joins itself.
 - **Stroke** (optional): `{"color": c, "width": w}` in art units, round joins and round caps.
 - **alpha** (optional, default 1): layer opacity.
+- **blur** (optional, default 0, art units): softens the edge of the layer (a soft shadow, a glow, an airbrushed shade).
+- **clip** (optional, default false): the layer is painted only where something is already painted, and adds no coverage
+  (a shade or a light that stays inside the silhouette).
+- **blend** (optional): `"normal"` (default), `"multiply"` (darkens what is under it and keeps its hue: the shades) or `"add"`
+  (lightens: glows, rims of light).
 - **only** / **except** (optional, lists of variant names): a layer with `only` is drawn just when the chosen variant is
   one of the names; a layer with `except` is skipped when it is. With no variant (the base look) a layer with `only`
   is skipped. This gives a variant its own shapes (a hairstyle, a horn, a scarf), not only its own colors.
@@ -51,22 +59,83 @@ All arithmetic is 32-bit float, except trigonometric tables for ellipses (double
    add a quad `p0 +/- n*h, p1 +/- n*h` (`h = width * s / 2`, `n` the unit normal), and for every vertex a circle polygon
    of radius `h` (same point-count rule as ellipses). Every piece is oriented so its signed area is positive
    (`sum(x_i*y_{i+1} - x_{i+1}*y_i) > 0`); the union is then filled with the nonzero rule.
+   The stroke of a layer uses the `blur`, `clip` and `blend` of the layer, like its fill.
+3b. **Blur.** `rad = floor(blur * s + 0.5)` pixels. When `rad >= 1` the coverage (of the fill, and of the stroke) is blurred
+   before painting: every row is replaced three times by its box blur, then every column three times. One box blur pass
+   of a line replaces each value by the sum of the `2*rad + 1` values centred on it, divided by `2*rad + 1`; values outside
+   the bitmap count as 0 (so a blurred shape is cut at the edge of the canvas).
 4. **Paint.** For every pixel with coverage `c > 0`, evaluate the paint at the pixel center `((x+0.5)/s, (y+0.5)/s)`
-   in art units. `a = c * layer_alpha * paint.a`. Composite *source over* in premultiplied float
-   (`dst = src_premul + dst * (1 - a)`).
+   in art units. `a = c * layer_alpha * paint.a`. The destination `dst` is premultiplied float RGBA.
+   - `blend: multiply`: `dst.rgb = dst.rgb * (1 - a + a * src.rgb)` for each channel; `dst.a` does not change (`clip` has no
+     effect: a multiplied layer never adds coverage).
+   - Otherwise, with `clip`: `a = a * dst.a` first.
+   - `blend: add`: `dst.rgb = dst.rgb + src.rgb * a`. `blend: normal`: `dst.rgb = src.rgb * a + dst.rgb * (1 - a)`
+     (*source over*).
+   - Without `clip`, `dst.a = a + dst.a * (1 - a)`; with `clip`, `dst.a` does not change.
    - Linear: `t = clamp(((px-x0)*dx + (py-y0)*dy) / (dx*dx + dy*dy), 0, 1)` with `dx = x1-x0`, `dy = y1-y0`.
    - Radial: `t = clamp(sqrt((px-cx)^2 + (py-cy)^2) / r, 0, 1)`.
+   - Noise: `t` is the value of "Noise" below at the pixel center.
    - Stop colors are interpolated linearly in straight RGBA.
 5. **Output.** `alpha8 = floor(a * 255 + 0.5)`. If `alpha8 == 0` the pixel is `(0,0,0,0)`. Otherwise each
    channel is `floor(premul / a * 255 + 0.5)`, clamped to 0..255.
 
+### Noise
+
+The value of a noise fill at the art point `(px, py)` is a sum of `octaves` layers of value noise. All integers are unsigned
+32-bit and wrap; the rest is float.
+
+```
+total = 0; norm = 0; amp = 1
+for o in 0 .. octaves-1:
+    f = 2^o / scale;  u = px * f;  v = py * f
+    ix = floor(u); iy = floor(v); fu = u - ix; fv = v - iy
+    su = fu*fu*(3 - 2*fu);  sv = fv*fv*(3 - 2*fv)
+    ix1 = ix + 1; iy1 = iy + 1
+    if period > 0:  per = period * 2^o;  ix, iy, ix1, iy1 are taken modulo per
+    a = H(ix, iy, seed+o);  b = H(ix1, iy, seed+o);  c = H(ix, iy1, seed+o);  d = H(ix1, iy1, seed+o)
+    top = a + (b - a)*su;  bottom = c + (d - c)*su
+    total += (top + (bottom - top)*sv) * amp;  norm += amp;  amp = amp / 2
+t = total / norm
+
+H(i, j, s):  h = i*0x9E3779B1 + j*0x85EBCA77 + s*0xC2B2AE3D
+             h ^= h >> 15;  h *= 0x2C1B3C6D;  h ^= h >> 12;  h *= 0x297A2D39;  h ^= h >> 15
+             return (h >> 8) / 16777215
+```
+
+`t` is in 0..1 and stays near 0.5, so the stops of a noise fill are usually between 0.25 and 0.75.
+
 Tolerances in the conformance suite are +/-2 per channel for probes and a relative area tolerance for shapes.
 The two clients must agree with the *geometry*, not bit by bit.
+
+## Macro tiles
+
+A terrain tile is 32 x 32 art units. A tile recipe whose canvas is `n * 32` units wide (`n = round(canvas.w / 32)`, at least
+1) is a **macro tile**: it covers `n x n` tiles, and the tile at `(tx, ty)` of the map shows the cell `(tx mod n, ty mod n)` of
+the picture (cell 0, 0 is the top left). The painted ground of the base pack uses `n = 4` with noise fills of period 128
+units, so the ground does not repeat at every tile and joins itself everywhere. Recipes of the same ground share the base
+noise, so that any of them joins any other.
+
+## Ground blending
+
+A tile of the tileset may have a `blend` rank (an integer above 0; walls and floors have none). The clients first draw every
+tile, then, for every tile `T` with a rank and each of its four neighbours `N` with a **higher** rank, they draw the picture of
+`N` again over the half of `T` next to `N`: fully opaque on the edge they share and fading in a straight line to nothing at
+the middle of `T`. The picture of `N` is cut at the cell of `T` (`tx mod n, ty mod n` of `N`'s macro tile), so the ground of `N`
+simply goes on. Grass (rank 80) thus fades over a path (40), a path over sand (30), sand over water (10). Tiles of the same
+rank do not blend (they are the same ground). Presentation only.
+
+## Facing
+
+A recipe may say `"faces": "left"`: the picture looks to the left (the beasts, seen from the side), and the clients draw it
+mirrored when the player is to the right of the creature, so that it faces the player. Without it a picture is never mirrored.
 
 ## Rigs and clips
 
 A **rig** lists parts (parents first): `id`, `parent` (or null), `offset [x, y]` (joint position in the parent's
 space, art units), `z` (draw order) and `art` (the recipe of the part; the recipe `canvas.origin` is the pivot).
+A part may have `art_back` and `z_back`: the recipe and the draw order used when the figure is **seen from behind**; a part
+without them uses `art` and `z`. The pose is the same in both views. The clients show the player from behind while the last
+movement was mostly upward (`facing.y < 0` and `|facing.y| > |facing.x|`), and the other people always from the front.
 
 A **clip** has `loop`, `length_ticks` and per-part `tracks`: `rot [[tick, degrees], ...]` and
 `pos [[tick, x, y], ...]` keyframes, linearly interpolated and clamped outside the key range. `events` mark
@@ -79,7 +148,7 @@ A **mirrored** pose (facing left) negates every `x` and every rotation.
 ## Scale buckets and caching
 
 The renderer asks for `tile_px` pixels per tile and rasterizes at `s = tile_px / 32`. `tile_px` is rounded up to a
-bucket `{32, 48, 64, 96, 128, 192, 256}` and the texture is drawn scaled to the exact size. Textures are cached by
+bucket `{32, 48, 64, 96, 128, 192, 256}` (the base size of a tile on screen is 64 pixels times the density of the screen) and the texture is drawn scaled to the exact size. Textures are cached by
 `(recipe id, variant, bucket)`; a change of bucket (zoom, screen density) re-bakes in the background. After a lost
 graphics context (Android) all textures are re-created from the CPU bitmaps.
 

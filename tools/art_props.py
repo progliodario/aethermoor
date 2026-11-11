@@ -1,421 +1,535 @@
-"""The recipes of the props (trees, rocks, bushes, camps, signs...), built with tools/artkit.py. Canvas sizes and origins (the feet) are the same as
-before, so that the collision radii in the world data still fit."""
+"""The props of data/base/art/props/: trees, rocks, camp and town things, painted in the anime way (docs/design/art-style.md).
+
+Every prop has its origin at its foot (the draw order and the collision of the world data use it), a soft shadow on the
+ground, a thin dark line in its own hue, flat tones broken by a noise fill, a hard violet shade on the side away from the
+light (top left) and a warm rim where the light lands. Used by `make_art.py`.
+"""
 from __future__ import annotations
 
 import math
 
-from artkit import Recipe, darken, lighten, linear, mix, radial  # noqa: E402
+from artkit import ART, Recipe, darken, lighten, linear, mix, noise, radial  # noqa: F401
 
-OUTLINE = "#1E1B28"
+INK = "#1E1830"
 
 
 def prop(name: str, w, h, origin, palette: dict) -> Recipe:
-    return Recipe(f"base:art/prop/{name}", w, h, origin, palette, seed="v2")
+    return Recipe(f"base:art/prop/{name}", w, h, origin, palette, seed="v3")
 
 
-def lobe(r: Recipe, cx, cy, rx, ry, base: str, outline: str, width=1.3, light=0.35, dark=0.3):
-    """A rounded mass with a radial light from the top left and an outline."""
-    r.ellipse(cx, cy, rx, ry, radial(cx - rx * 0.35, cy - ry * 0.4, max(rx, ry) * 1.35, (0, lighten(base, light)), (0.55, base), (1, darken(base, dark))), stroke=outline, width=width)
+def wobble(r: Recipe, cx: float, cy: float, rx: float, ry: float, n: int = 9, jitter: float = 0.18) -> str:
+    """A closed organic outline around an ellipse: n bumps of slightly different sizes."""
+    pts = []
+    for k in range(n):
+        a = 2 * math.pi * k / n + r.rng.uniform(-0.15, 0.15)
+        m = 1 + r.rng.uniform(-jitter, jitter)
+        pts.append((cx + math.cos(a) * rx * m, cy + math.sin(a) * ry * m))
+    mids = [((pts[i][0] + pts[(i + 1) % n][0]) / 2, (pts[i][1] + pts[(i + 1) % n][1]) / 2) for i in range(n)]
+    d = f"M {mids[-1][0]:.2f} {mids[-1][1]:.2f}"
+    for i in range(n):
+        # push the control point outward so that every bump is round
+        px, py = pts[i]
+        ox, oy = px + (px - cx) * 0.22, py + (py - cy) * 0.22
+        d += f" Q {ox:.2f} {oy:.2f} {mids[i][0]:.2f} {mids[i][1]:.2f}"
+    return d + " Z"
+
+
+def ell(cx: float, cy: float, rx: float, ry: float) -> str:
+    """An ellipse as a path (for shade() and lit(), which take paths)."""
+    k = 0.5523
+    return (f"M {cx - rx:.2f} {cy:.2f} C {cx - rx:.2f} {cy - ry * k:.2f} {cx - rx * k:.2f} {cy - ry:.2f} {cx:.2f} {cy - ry:.2f} "
+            f"C {cx + rx * k:.2f} {cy - ry:.2f} {cx + rx:.2f} {cy - ry * k:.2f} {cx + rx:.2f} {cy:.2f} "
+            f"C {cx + rx:.2f} {cy + ry * k:.2f} {cx + rx * k:.2f} {cy + ry:.2f} {cx:.2f} {cy + ry:.2f} "
+            f"C {cx - rx * k:.2f} {cy + ry:.2f} {cx - rx:.2f} {cy + ry * k:.2f} {cx - rx:.2f} {cy:.2f} Z")
+
+
+def box(x: float, y: float, w: float, h: float) -> str:
+    return f"M {x:.2f} {y:.2f} L {x + w:.2f} {y:.2f} L {x + w:.2f} {y + h:.2f} L {x:.2f} {y + h:.2f} Z"
+
+
+def wood(seed: int, tone: str, scale: float = 5.0):
+    return noise(scale, seed, (0.3, darken(tone, 0.16)), (0.5, tone), (0.72, lighten(tone, 0.14)), octaves=3)
+
+
+def stone(seed: int, tone: str, scale: float = 5.0):
+    return noise(scale, seed, (0.28, darken(tone, 0.2)), (0.5, tone), (0.74, lighten(tone, 0.18)), octaves=3)
+
+
+# ------------------------------------------------------------------------------------------------ trees and plants
+def crown(r: Recipe, clumps: list[tuple[float, float, float, float]], dark: str, mid: str, light: str, seed: int, ink: str,
+          tip: str | None = None) -> None:
+    """The foliage of a tree: clumps drawn back to front, each one dark below, lit from the top left, with leaf strokes."""
+    for i, (cx, cy, rx, ry) in enumerate(clumps):
+        outline = wobble(r, cx, cy, rx, ry, 10, 0.14)
+        r.path(outline, noise(rx * 0.7, seed + i, (0.25, dark), (0.5, mid), (0.85, light), octaves=3), stroke=ink, width=0.45)
+        # the lower right of the clump is in shade, the upper left catches the light
+        r.shade(ell(cx + rx * 0.3, cy + ry * 0.5, rx * 1.05, ry * 0.8), 0.5, blur=rx * 0.22, clip=True)
+        r.lit(wobble(r, cx - rx * 0.28, cy - ry * 0.36, rx * 0.62, ry * 0.5, 8, 0.2), 0.5, light, blur=rx * 0.1)
+        for _ in range(int(rx * 1.6)):  # leaves picked out by the light
+            a, m = r.rng.uniform(0, 2 * math.pi), r.rng.uniform(0, 0.8)
+            lx, ly = cx - rx * 0.2 + math.cos(a) * rx * m * 0.8, cy - ry * 0.25 + math.sin(a) * ry * m * 0.7
+            s = r.rng.uniform(0.7, 1.4)
+            r.path(f"M {lx - s:.2f} {ly + s * 0.3:.2f} Q {lx:.2f} {ly - s * 0.9:.2f} {lx + s:.2f} {ly - s * 0.2:.2f} Q {lx:.2f} {ly + s * 0.2:.2f} {lx - s:.2f} {ly + s * 0.3:.2f} Z",
+                   tip or light, alpha=r.rng.uniform(0.45, 0.9), clip=True)
+        for _ in range(int(rx * 0.8)):  # dark gaps between the leaves
+            a, m = r.rng.uniform(0, 2 * math.pi), r.rng.uniform(0.2, 0.85)
+            lx, ly = cx + rx * 0.15 + math.cos(a) * rx * m * 0.8, cy + ry * 0.2 + math.sin(a) * ry * m * 0.7
+            s = r.rng.uniform(0.6, 1.2)
+            r.ellipse(lx, ly, s, s * 0.6, "#0A2418", alpha=0.4, clip=True)
+
+
+def trunk(r: Recipe, x: float, foot: float, top: float, w: float, tone: str, seed: int, roots: bool = True) -> None:
+    d = (f"M {x - w * 0.5:.2f} {top:.2f} L {x + w * 0.5:.2f} {top:.2f} Q {x + w * 0.42:.2f} {(top + foot) / 2:.2f} {x + w * 0.62:.2f} {foot - 2:.2f} "
+         + (f"L {x + w * 1.1:.2f} {foot:.2f} L {x + w * 0.2:.2f} {foot - 0.6:.2f} L {x:.2f} {foot + 0.8:.2f} L {x - w * 0.3:.2f} {foot - 0.6:.2f} L {x - w * 1.15:.2f} {foot:.2f} "
+            if roots else f"L {x + w * 0.62:.2f} {foot:.2f} L {x - w * 0.62:.2f} {foot:.2f} ")
+         + f"L {x - w * 0.62:.2f} {foot - 2:.2f} Q {x - w * 0.42:.2f} {(top + foot) / 2:.2f} {x - w * 0.5:.2f} {top:.2f} Z")
+    r.path(d, wood(seed, tone, 3.5), stroke=INK, width=0.45)
+    r.shade(box(x + w * 0.05, top, w * 1.2, foot - top + 1), 0.55, blur=0.6, clip=True)
+    r.lit(box(x - w * 0.7, top, w * 0.3, foot - top), 0.3, "#FFE8B8", blur=0.4)
+    for k in range(4):  # the bark
+        bx = x - w * 0.3 + k * w * 0.2
+        r.path(f"M {bx:.2f} {top + 2 + k:.2f} Q {bx + 0.6:.2f} {(top + foot) / 2:.2f} {bx - 0.3:.2f} {foot - 3 - k:.2f}", None, stroke=darken(tone, 0.55), width=0.3, alpha=0.6, clip=True)
 
 
 def tree_oak() -> Recipe:
-    r = prop("tree_oak", 64, 96, (32, 88), {"trunk": "#8B5E3C", "trunk_dark": "#5E3F27", "leaf": "#3E8E45", "leaf_light": "#6CBF63", "leaf_dark": "#2B6A34"})
-    r.shadow(33, 88, 20, 5.5, 0.30)
-    # roots and trunk
-    r.poly([(24, 89), (28, 82), (36, 82), (41, 89), (36, 86.5), (28, 86.5)], "$p.trunk_dark")
-    r.path("M 27 86 Q 29 62 28 52 L 38 52 Q 37 62 38 86 Z", linear(26, 0, 40, 0, (0, "$p.trunk"), (0.6, "$p.trunk"), (1, "$p.trunk_dark")), stroke="#2E1E12", width=1.3)
-    for y in (58, 66, 74, 81):  # bark
-        r.path(f"M 30 {y} Q 32.5 {y + 2} 35 {y - 1}", None, stroke="$p.trunk_dark", width=0.9, alpha=0.8)
-    r.ellipse(32.5, 70, 1.5, 2.2, "#3E2A18", alpha=0.8)  # a knot
-    r.path("M 29 52 Q 22 48 17 44", None, stroke="$p.trunk_dark", width=3.2)  # branches into the crown
-    r.path("M 37 52 Q 44 48 49 43", None, stroke="$p.trunk_dark", width=3.2)
-    outline = darken("#2B6A34", 0.5)
-    # the crown: dark lobes at the back, the base color in the middle, light lobes in front
-    for cx, cy, rx, ry in ((18, 40, 13, 11), (47, 38, 14, 11), (32, 24, 18, 14), (14, 28, 11, 9), (50, 26, 11, 9)):
-        lobe(r, cx, cy, rx, ry, "$p.leaf_dark" if False else "#2B6A34", outline, 1.3, 0.25, 0.35)
-    for cx, cy, rx, ry in ((24, 36, 14, 10), (42, 36, 14, 10), (32, 30, 17, 12), (20, 22, 11, 8), (44, 21, 11, 8), (32, 14, 12, 9)):
-        lobe(r, cx, cy, rx, ry, "#3E8E45", outline, 1.2, 0.35, 0.3)
-    for cx, cy, rx, ry in ((24, 24, 8, 6), (38, 18, 7, 5), (45, 30, 6, 4.5), (17, 33, 6, 4.5)):
-        r.ellipse(cx, cy, rx, ry, "$p.leaf_light", alpha=0.9)
-        r.ellipse(cx - rx * 0.3, cy - ry * 0.35, rx * 0.5, ry * 0.4, lighten("#6CBF63", 0.45), alpha=0.7)
-    for x, y in r.scatter(26, 6):  # leaf clumps: small dark and light dabs inside the crown
-        if ((x - 32) / 21) ** 2 + ((y - 28) / 17) ** 2 < 1:
-            c = r.rng.choice(["#2B6A34", "#2B6A34", "#6CBF63", "#4FA654"])
-            r.ellipse(x, y, r.rng.uniform(1.0, 2.0), r.rng.uniform(0.8, 1.4), c, alpha=0.8)
-    r.variants = {"autumn": {"leaf": "#D2813A", "leaf_light": "#EDB05B", "leaf_dark": "#9C5524"}}
+    r = prop("tree_oak", 96, 128, (48, 120), {"trunk": "#7A5236", "leaf": "#3E8E45", "leaf_light": "#9AD86A", "leaf_dark": "#1F5A3A"})
+    r.shadow(50, 120, 30, 7, 0.4)
+    trunk(r, 48, 120, 62, 9, "#7A5236", 201)
+    r.path("M 44 86 Q 34 80 30 70", None, stroke=INK, width=3.4)
+    r.path("M 44 86 Q 34 80 30 70", None, stroke="#6A4630", width=2.6)
+    r.path("M 52 82 Q 62 76 66 66", None, stroke=INK, width=3.0)
+    r.path("M 52 82 Q 62 76 66 66", None, stroke="#553824", width=2.2)
+    clumps = [(48, 62, 34, 22), (24, 56, 17, 15), (72, 56, 17, 15), (36, 36, 21, 17), (62, 36, 20, 17), (48, 20, 20, 15), (30, 68, 14, 10), (64, 70, 14, 9), (48, 50, 18, 14)]
+    crown(r, clumps, "$p.leaf_dark", "$p.leaf", "$p.leaf_light", 211, "#143A2A")
+    r.variants = {"autumn": {"leaf": "#D2813A", "leaf_light": "#F8C860", "leaf_dark": "#8A3E22"}}
     return r
 
 
 def pine() -> Recipe:
-    r = prop("pine", 64, 96, (32, 88), {"trunk": "#6B4A32", "dark": "#2F6B4C", "mid": "#3A8059", "light": "#4A9A6A", "outline": "#1D4533", "snow": "#F2F6FA"})
-    r.shadow(33, 88, 17, 5, 0.30)
-    r.rect(29, 74, 6, 15, linear(29, 0, 35, 0, (0, "#8A6444"), (1, "$p.trunk")), stroke="#2E1E12", width=1.1)
-    r.line(31, 76, 31, 87, "#4A3220", 0.8, 0.8)
-    tiers = [(80, 23, 24), (62, 19, 20), (46, 15, 17), (32, 11, 14), (20, 7.5, 10)]  # (bottom y, half width, height)
-    for by, hw, h in tiers:
-        top = by - h
-        r.poly([(32 - hw, by), (32, top), (32 + hw, by), (32 + hw * 0.55, by - 2.4), (32 + hw * 0.2, by), (32, by - 2), (32 - hw * 0.25, by), (32 - hw * 0.6, by - 2.4)], "$p.dark", stroke="$p.outline", width=1.3)
-        r.poly([(32 - hw, by), (32, top), (32 + 0.5, by - 1)], "$p.mid")
-        r.poly([(32 - hw * 0.62, by - 3), (32 - 1, top + 3.5), (32 - hw * 0.15, by - 4)], "$p.light", alpha=0.8)
-        for k in range(3):  # needle lines
-            x0 = 32 - hw * (0.7 - k * 0.3)
-            r.line(x0, by - 1.2, x0 + hw * 0.18, by - h * 0.32, darken("#2F6B4C", 0.3), 0.8, 0.8)
-        r.poly([(32 - hw * 0.34, top + h * 0.42), (32, top - 0.2), (32 + hw * 0.34, top + h * 0.42), (32 + hw * 0.18, top + h * 0.34), (32, top + h * 0.5), (32 - hw * 0.2, top + h * 0.34)], "$p.snow", alpha=0.95)
+    r = prop("pine", 80, 128, (40, 120), {"trunk": "#6B4A32", "dark": "#1E5A44", "mid": "#2F7A58", "light": "#6FBE84", "snow": "#F4F8FF"})
+    r.shadow(42, 120, 22, 6, 0.4)
+    trunk(r, 40, 120, 92, 6.5, "#6B4A32", 221)
+    tiers = [(96, 30, 22), (78, 26, 22), (60, 21, 21), (43, 16, 19), (27, 11, 17)]
+    for i, (base_y, half, height) in enumerate(tiers):
+        top = base_y - height
+        pts = [(40, top)]
+        teeth = 5
+        for k in range(teeth + 1):  # the ragged lower edge, right to left
+            x = 40 + half - k * (2 * half / teeth)
+            pts.append((x, base_y - (2.5 if k in (0, teeth) else 0) + r.rng.uniform(-1, 1)))
+            if k < teeth:
+                pts.append((x - half / teeth, base_y - 5 + r.rng.uniform(-1, 1)))
+        d = "M " + " L ".join(f"{x:.2f} {y:.2f}" for x, y in pts) + " Z"
+        r.ellipse(40, base_y - 1, half * 0.8, 3, "#0A2A20", alpha=0.5, blur=1.2, clip=True)  # the shade under a tier, on the one below
+        r.path(d, noise(6, 231 + i, (0.25, "$p.dark"), (0.5, "$p.mid"), (0.78, "$p.light"), octaves=3), stroke="#0E3226", width=0.45)
+        r.shade(f"M 40 {top} L {40 + half} {base_y} L {40 + half * 0.1:.1f} {base_y} L {40 + half * 0.25:.1f} {top + height * 0.5:.1f} Z", 0.5, blur=1.0, clip=True)
+        for _ in range(int(half * 0.9)):  # needles
+            nx = 40 + r.rng.uniform(-half * 0.7, half * 0.5)
+            ny = r.rng.uniform(top + height * 0.35, base_y - 3)
+            if abs(nx - 40) > half * (ny - top) / height:
+                continue
+            r.path(f"M {nx:.2f} {ny:.2f} L {nx - 1.6:.2f} {ny + 2.6:.2f} L {nx + 0.6:.2f} {ny + 1.8:.2f} Z", "$p.light", alpha=r.rng.uniform(0.3, 0.7), clip=True)
+        # snow on the upper left of the tier
+        r.path(f"M 40 {top} L {40 - half * 0.42:.1f} {top + height * 0.5:.1f} Q {40 - half * 0.25:.1f} {top + height * 0.42:.1f} {40 - half * 0.1:.1f} {top + height * 0.56:.1f} "
+               f"Q {40 + half * 0.05:.1f} {top + height * 0.4:.1f} {40 + half * 0.2:.1f} {top + height * 0.46:.1f} Z",
+               linear(40 - half, top, 40 + half, top + height, (0, "$p.snow"), (1, "#B4C8F0")), stroke="#7A90C0", width=0.25)
     return r
 
 
 def dead_tree() -> Recipe:
-    r = prop("dead_tree", 64, 96, (32, 88), {"trunk": "#5A4A44", "dark": "#2E2420", "light": "#7A6A62"})
-    r.shadow(33, 88, 18, 5, 0.30)
-    r.poly([(22, 90), (27, 80), (37, 80), (43, 90), (36, 86), (28, 86)], "$p.dark")
-    r.path("M 26 86 Q 29 64 30 40 L 35 40 Q 36 64 38 86 Z", linear(26, 0, 40, 0, (0, "$p.light"), (0.4, "$p.trunk"), (1, "$p.dark")), stroke="#1A1412", width=1.3)
-    for y in (48, 58, 68, 78):
-        r.path(f"M 30 {y} Q 32 {y + 2.5} 35 {y - 0.5}", None, stroke="$p.dark", width=0.9, alpha=0.9)
-    r.ellipse(32.6, 64, 1.5, 2.4, "#14100E")
-    branches = [("M 31 46 Q 24 40 17 28 Q 14 22 12 18", 3.0), ("M 34 42 Q 42 36 49 26 Q 52 21 53 15", 3.0), ("M 32 38 Q 31 28 28 18", 2.4),
-                ("M 24 38 Q 18 36 12 38", 1.8), ("M 40 36 Q 46 34 52 36", 1.8), ("M 17 28 Q 20 22 22 20", 1.6), ("M 49 26 Q 46 20 44 17", 1.6)]
-    for d, w in branches:
-        r.path(d, None, stroke="#1A1412", width=w + 1.6)
+    r = prop("dead_tree", 80, 112, (40, 104), {"trunk": "#5A4A48", "dark": "#2A2028", "light": "#9A8A84"})
+    r.shadow(42, 104, 18, 5, 0.38)
+    limbs = [("M 40 60 Q 30 46 16 40 Q 12 34 10 24", 3.2), ("M 40 54 Q 50 40 62 36 Q 68 28 70 18", 3.0), ("M 40 44 Q 36 30 38 12", 3.4),
+             ("M 22 42 Q 20 34 24 26", 1.8), ("M 58 37 Q 56 28 50 22", 1.8), ("M 38 28 Q 44 22 48 12", 1.6), ("M 14 34 Q 8 34 4 30", 1.3), ("M 66 28 Q 72 28 76 24", 1.3)]
+    trunk(r, 40, 104, 44, 10, "#5A4A48", 241)
+    for d, w in limbs:
+        r.path(d, None, stroke=INK, width=w + 0.9)
+    for d, w in limbs:
         r.path(d, None, stroke="$p.trunk", width=w)
-        r.path(d, None, stroke="$p.light", width=max(0.6, w * 0.3), alpha=0.7)
-    r.ellipse(29, 18, 1.3, 1.3, "#14100E")
+    for d, w in limbs:  # the light along the upper left of the limbs
+        r.path(d, None, stroke="$p.light", width=w * 0.3, alpha=0.6, clip=True)
+    r.path("M 37 70 Q 34 76 37 83 Q 41 86 43 80 Q 44 73 37 70 Z", "#140E18", stroke=INK, width=0.3)  # a hollow
+    r.path("M 38 72 Q 36 76 38 81", None, stroke="#7A6A64", width=0.4, alpha=0.7)
     return r
 
 
 def bush() -> Recipe:
-    r = prop("bush", 32, 24, (16, 20), {"leaf": "#4E9A44", "light": "#8AD068", "dark": "#2E6228", "outline": "#143312", "berry": "#D8402A"})
-    r.shadow(17, 21, 13, 3.4, 0.30)
-    for cx, cy, rx, ry in ((9, 14, 8, 6.5), (23, 14, 8, 6.5), (16, 10, 10, 8)):
-        lobe(r, cx, cy, rx, ry, "#4E9A44", "$p.outline", 1.2, 0.3, 0.38)
-    for cx, cy, rx, ry in ((11, 9, 4.2, 3), (19, 7.5, 3.6, 2.6)):
-        r.ellipse(cx, cy, rx, ry, "$p.light", alpha=0.8)
-    for x, y in ((8, 14), (14, 15), (20, 11), (24, 15), (16, 8), (11, 11)):
-        r.ellipse(x + 0.4, y + 0.6, 1.6, 1.4, "#000000", alpha=0.25)
-        r.ellipse(x, y, 1.6, 1.6, "$p.berry", stroke="#7A1E10", width=0.5)
-        r.ellipse(x - 0.5, y - 0.5, 0.5, 0.5, "#FFFFFF", alpha=0.9)
+    r = prop("bush", 40, 30, (20, 26), {"leaf": "#3E8E45", "light": "#9AD86A", "dark": "#1F5A3A", "berry": "#E0402E"})
+    r.shadow(21, 26, 16, 4, 0.36)
+    crown(r, [(20, 17, 15, 8.5), (10, 15, 8, 7), (30, 15, 8, 7), (20, 10, 10, 7)], "$p.dark", "$p.leaf", "$p.light", 251, "#143A2A")
+    for x, y in ((9, 15), (15, 9), (24, 12), (30, 17), (19, 19), (27, 21), (12, 20)):
+        r.ellipse(x + 0.2, y + 0.3, 1.3, 1.3, "#5A0E18")
+        r.ellipse(x, y, 1.2, 1.2, radial(x - 0.4, y - 0.4, 1.6, (0, "#FF9A7A"), (0.5, "$p.berry"), (1, "#8A1420")))
+        r.ellipse(x - 0.4, y - 0.4, 0.3, 0.3, "#FFFFFF", alpha=0.9)
     return r
 
 
 def rock() -> Recipe:
-    r = prop("rock", 32, 28, (16, 24), {"base": "#8D949F", "light": "#BCC2CB", "dark": "#5A606A"})
-    r.shadow(17, 25, 13.5, 3.2, 0.30)
-    r.path("M 3 22 Q 2 12 9 8 Q 15 4 22 7 Q 29 11 29 20 Q 28 25 16 25 Q 5 25 3 22 Z", linear(6, 6, 26, 26, (0, "$p.light"), (0.5, "$p.base"), (1, "$p.dark")), stroke="#3E434C", width=1.4)
-    r.poly([(9, 8), (16, 5.5), (15, 14), (8, 17)], "$p.light", alpha=0.6)  # facets
-    r.poly([(16, 5.5), (22, 7), (23, 15), (15, 14)], "$p.base", alpha=0.5)
-    r.poly([(15, 14), (23, 15), (28, 20), (24, 24), (14, 24)], "$p.dark", alpha=0.45)
-    r.path("M 9 19 L 13 16 L 15 20", None, stroke="#3E434C", width=0.8, alpha=0.8)
-    r.path("M 19 18 L 22 15", None, stroke="#3E434C", width=0.7, alpha=0.7)
-    r.ellipse(10, 11, 2.6, 1.3, "#FFFFFF", alpha=0.45)
-    r.ellipse(24, 22, 3.5, 1.2, "#5A8A4A", alpha=0.8)  # moss at the foot
+    r = prop("rock", 36, 30, (18, 26), {"base": "#8D949F", "light": "#D0D6E0", "dark": "#4A4E60"})
+    r.shadow(19.5, 26, 15, 4, 0.4)
+    body = "M 3 25 L 4 15 L 10 7 L 19 4 L 28 8 L 33 17 L 32 25 Q 18 28 3 25 Z"
+    r.path(body, stone(261, "#8D949F", 6), stroke=INK, width=0.5)
+    r.shade("M 19 4 L 28 8 L 33 17 L 32 25 L 16 27 L 20 15 Z", 0.55, clip=True)
+    r.shade("M 3 25 L 4 21 Q 18 25 32 21 L 32 25 Q 18 28 3 25 Z", 0.4, blur=0.8, clip=True)
+    r.lit("M 4 15 L 10 7 L 19 4 L 20 15 L 11 13 Z", 0.4, "#FFF0D0")
+    r.path("M 10 7 L 11 13 L 4 15 M 11 13 L 20 15 L 19 4 M 20 15 L 16 27", None, stroke=INK, width=0.3, alpha=0.6)
+    r.path("M 23 12 L 25 16 L 24 19", None, stroke=INK, width=0.3, alpha=0.7)
+    r.ellipse(8, 24, 5, 1.8, "#5E9A50", alpha=0.75, blur=0.5, clip=True)  # moss
+    r.ellipse(27, 24.5, 3.5, 1.4, "#5E9A50", alpha=0.6, blur=0.5, clip=True)
     return r
 
 
 def cactus() -> Recipe:
-    r = prop("cactus", 32, 48, (16, 44), {"body": "#5FA865", "rib": "#3F8A4A", "outline": "#26502E"})
-    r.shadow(17, 45, 11, 3, 0.30)
+    r = prop("cactus", 36, 52, (18, 48), {"body": "#4FA060", "rib": "#2F7A4A", "light": "#A8E090"})
+    r.shadow(19, 48, 11, 3.2, 0.38)
 
-    def arm(d: str, w: float):
-        r.path(d, None, stroke="$p.outline", width=w + 2)
-        r.path(d, None, stroke="$p.body", width=w)
-        r.path(d, None, stroke=lighten("#5FA865", 0.3), width=w * 0.25, alpha=0.8)
+    def limb(d: str, cx: float, top: float, bottom: float, w: float) -> None:
+        r.path(d, noise(4, 271, (0.3, "#3A8A52"), (0.6, "$p.body"), (0.8, "#6FBE74"), octaves=2), stroke="#12382A", width=0.5)
+        r.shade(box(cx + w * 0.1, top, w, bottom - top), 0.5, blur=0.5, clip=True)
+        r.lit(box(cx - w * 0.5, top, w * 0.22, bottom - top), 0.4, "#E8FFC0", blur=0.3)
+        for k in (-0.25, 0.05, 0.3):  # ribs with their thorns
+            r.line(cx + w * k, top + 2, cx + w * k, bottom - 1, "$p.rib", 0.35, alpha=0.8)
+        for k in range(int((bottom - top) / 3.5)):
+            y = top + 3 + k * 3.5
+            for sx in (-0.5, 0.5):
+                r.line(cx + sx * w, y, cx + sx * (w + 1.6), y - 0.8, "#F4F0D8", 0.25)
 
-    arm("M 12 34 L 7 34 Q 5 34 5 31 L 5 21", 5.0)
-    arm("M 20 28 L 25 28 Q 27 28 27 25 L 27 15", 5.0)
-    r.path("M 11 44 Q 9 44 9 40 L 9 10 Q 9 3 16 3 Q 23 3 23 10 L 23 40 Q 23 44 21 44 Z", linear(9, 0, 23, 0, (0, lighten("#5FA865", 0.28)), (0.45, "$p.body"), (1, "$p.rib")), stroke="$p.outline", width=1.5)
-    for x in (13, 16, 19):
-        r.path(f"M {x} 6 Q {x + 0.4} 24 {x} 43", None, stroke="$p.rib", width=0.8, alpha=0.7)
-    for x, y in ((12, 12), (20, 17), (12, 26), (20, 33), (12, 38), (6, 24), (26, 18)):  # spines
-        r.line(x - 1, y, x + 1, y, "#F2EBC8", 0.6)
-        r.line(x, y - 1, x, y + 1, "#F2EBC8", 0.6)
-    r.ellipse(16, 3.5, 2.2, 1.5, "#E8628A")  # a flower
-    r.ellipse(16, 3.5, 0.9, 0.7, "#FFE07A")
-    return r
-
-
-def campfire() -> Recipe:
-    r = prop("campfire", 28, 26, (14, 22), {"log": "#7A5232", "dark": "#3E2814", "flame": "#F2862A", "core": "#FFE066", "outline": "#2A1608", "ash": "#5A5550"})
-    r.shadow(14, 23, 11, 2.4, 0.28)
-    r.ellipse(14, 20, 10, 3.2, "$p.ash", alpha=0.85)
-    r.ellipse(14, 19.6, 6.5, 1.8, "#2A2622", alpha=0.9)
-    for x, y in ((6, 19), (9.5, 22), (19, 22), (22, 19), (14, 23)):  # ring of stones
-        r.ellipse(x, y, 2.2, 1.6, "#8D8D95", stroke="#3A3A42", width=0.6)
-        r.ellipse(x - 0.5, y - 0.4, 0.9, 0.5, "#BCBCC4")
-    for (x0, y0, x1, y1) in ((6, 21, 20, 15.5), (22, 21, 8, 15.5)):
-        r.line(x0, y0, x1, y1, "$p.outline", 4.6)
-        r.line(x0, y0, x1, y1, "$p.log", 3.2)
-        r.line(x0, y0 - 0.8, x1, y1 - 0.8, "#9A6E44", 0.9, 0.8)
-        r.ellipse(x1, y1, 1.4, 1.4, "$p.dark")
-    r.path("M 14 2 Q 23 10 21 16 Q 19 21 14 21 Q 9 21 7 16 Q 5 10 14 2 Z", radial(14, 18, 13, (0, "$p.core"), (0.5, "$p.flame"), (1, "#D8441E")), stroke="$p.outline", width=0.8)
-    r.path("M 14 8 Q 19 13 18 17 Q 16.5 20 14 20 Q 11.5 20 10 17 Q 9 13 14 8 Z", "$p.core", alpha=0.95)
-    r.path("M 14 13 Q 16.5 16 15.5 18.5 Q 14 19.5 12.5 18.5 Q 11.5 16 14 13 Z", "#FFFBE0")
-    r.path("M 6 8 Q 9 10 8 14 Q 6 12 6 8 Z", "$p.flame", alpha=0.85)
-    r.path("M 22 7 Q 20 10 21 13 Q 23 10 22 7 Z", "$p.flame", alpha=0.85)
-    for x, y in ((10, 5), (18, 3.5), (22, 9), (7, 11)):  # sparks
-        r.ellipse(x, y, 0.55, 0.55, "#FFD070")
-    return r
-
-
-def crate() -> Recipe:
-    r = prop("crate", 28, 26, (14, 23), {"wood": "#B07C44", "light": "#D8A468", "dark": "#6E4824", "outline": "#2E1C0A"})
-    r.shadow(15, 24, 12, 2.6, 0.28)
-    r.rect(3, 6, 22, 17, linear(0, 6, 0, 23, (0, "$p.light"), (0.4, "$p.wood"), (1, "$p.dark")), stroke="$p.outline", width=1.4)
-    r.rect(3, 6, 22, 3, "$p.light", alpha=0.7)
-    for x in (9, 14, 19):
-        r.line(x, 9, x, 23, "$p.dark", 0.7, 0.8)
-    for y in (12.5, 18):
-        r.line(3.5, y, 24.5, y, darken("#B07C44", 0.35), 0.6, 0.7)
-    r.rect(3, 6, 22, 2.4, "$p.dark", alpha=0.5)
-    r.rect(3, 20.6, 22, 2.4, "$p.dark", alpha=0.4)
-    for (x0, y0, x1, y1) in ((4, 8, 24, 22), (24, 8, 4, 22)):  # braces
-        r.line(x0, y0, x1, y1, "$p.outline", 3.4)
-        r.line(x0, y0, x1, y1, "$p.wood", 2.2)
-        r.line(x0, y0 - 0.5, x1, y1 - 0.5, "$p.light", 0.7, 0.8)
-    for x, y in ((5, 8), (23, 8), (5, 21.5), (23, 21.5)):
-        r.ellipse(x, y, 0.8, 0.8, "#2E2E36")
-        r.ellipse(x - 0.2, y - 0.2, 0.3, 0.3, "#C0C0C8")
-    return r
-
-
-def barrel() -> Recipe:
-    r = prop("barrel", 24, 28, (12, 24), {"wood": "#9A6A38", "top": "#B88650", "band": "#4A4A52"})
-    r.shadow(13, 25, 10, 2.4, 0.28)
-    r.path("M 4 8 Q 2 16 4 23 Q 12 26 20 23 Q 22 16 20 8 Z", linear(2, 0, 22, 0, (0, lighten("#9A6A38", 0.2)), (0.45, "$p.wood"), (1, darken("#9A6A38", 0.35))), stroke="#2E1C0A", width=1.4)
-    for x in (7.5, 10.5, 13.5, 16.5):
-        r.path(f"M {x} 8.5 Q {x - 0.6} 16 {x} 23.4", None, stroke=darken("#9A6A38", 0.4), width=0.6, alpha=0.7)
-    for y in (11, 20):
-        r.path(f"M 3.2 {y} Q 12 {y + 2} 20.8 {y}", None, stroke="#1E1E24", width=3.0)
-        r.path(f"M 3.2 {y} Q 12 {y + 2} 20.8 {y}", None, stroke="$p.band", width=2.0)
-        r.path(f"M 3.6 {y - 0.6} Q 12 {y + 1.4} 20.4 {y - 0.6}", None, stroke="#8A8A94", width=0.6, alpha=0.8)
-    r.ellipse(12, 8, 8.2, 3.4, "$p.top", stroke="#2E1C0A", width=1.3)
-    r.ellipse(12, 8, 6.2, 2.4, darken("#B88650", 0.12))
-    r.path("M 7 8 Q 12 6 17 8", None, stroke=lighten("#B88650", 0.3), width=0.7, alpha=0.8)
-    return r
-
-
-def bones() -> Recipe:
-    r = prop("bones", 32, 20, (16, 16), {"bone": "#EAE2CC", "dark": "#A89E84", "outline": "#3A3426", "socket": "#1E1B28"})
-    r.shadow(16, 17, 13, 2.6, 0.26)
-    for (x0, y0, x1, y1) in ((4, 15, 27, 10), (6, 10, 28, 16)):  # crossed bones
-        r.line(x0, y0, x1, y1, "$p.outline", 4.2)
-        r.line(x0, y0, x1, y1, "$p.bone", 2.8)
-        r.line(x0, y0 - 0.7, x1, y1 - 0.7, "#FFFDF0", 0.8, 0.9)
-        for (ex, ey) in ((x0, y0), (x1, y1)):
-            r.ellipse(ex - 0.8, ey - 1.2, 2.0, 1.8, "$p.outline")
-            r.ellipse(ex - 0.8, ey + 1.2, 2.0, 1.8, "$p.outline")
-            r.ellipse(ex - 0.8, ey - 1.2, 1.4, 1.2, "$p.bone")
-            r.ellipse(ex - 0.8, ey + 1.2, 1.4, 1.2, "$p.bone")
-    r.ellipse(16, 9.5, 6.4, 5.2, "$p.bone", stroke="$p.outline", width=1.2)
-    r.rect(12.5, 12.5, 7, 3.4, "$p.bone", stroke="$p.outline", width=1.0)
-    for x in (14, 16, 18):
-        r.line(x, 12.8, x, 15.6, "$p.dark", 0.6)
-    r.ellipse(13.6, 9.2, 1.7, 2.0, "$p.socket")
-    r.ellipse(18.4, 9.2, 1.7, 2.0, "$p.socket")
-    r.poly([(15.2, 11.6), (16.8, 11.6), (16, 13)], "$p.dark")
-    r.ellipse(13.7, 6.8, 2.2, 1.0, "#FFFFFF", alpha=0.5)
-    return r
-
-
-def lamp() -> Recipe:
-    r = prop("lamp", 16, 40, (8, 36), {"pole": "#3A3A44", "glow": "#FFD878", "core": "#FFF4C4"})
-    r.ellipse(8, 7, 8, 8, "$p.glow", alpha=0.18)
-    r.ellipse(8, 7, 6, 6.5, "$p.glow", alpha=0.25)
-    r.shadow(9, 35.5, 5.5, 2.0, 0.28)
-    r.rect(5, 33, 6, 3, "$p.pole", stroke=OUTLINE, width=0.9)
-    r.rect(7, 12, 2, 22, linear(7, 0, 9, 0, (0, "#5A5A66"), (1, "#26262E")), stroke=OUTLINE, width=0.7)
-    r.rect(5.8, 10, 4.4, 2.4, "$p.pole", stroke=OUTLINE, width=0.8)
-    r.path("M 4 8 L 4.8 2.6 L 11.2 2.6 L 12 8 Q 8 10 4 8 Z", "$p.glow", stroke=OUTLINE, width=0.9)
-    r.ellipse(8, 6, 2.4, 2.9, "$p.core")
-    r.rect(3.6, 1.6, 8.8, 1.8, "$p.pole", stroke=OUTLINE, width=0.8)
-    r.line(8, 4.5, 8, 7.5, "#FFFFFF", 0.7, 0.9)
-    return r
-
-
-def signpost() -> Recipe:
-    r = prop("signpost", 24, 32, (12, 30), {"wood": "#9A6C3E", "light": "#C9955E", "dark": "#5E3E1E", "outline": "#2A1808", "ink": "#2A1808"})
-    r.shadow(13, 30.5, 8, 2, 0.28)
-    r.rect(10.4, 8, 3.4, 22, linear(10, 0, 14, 0, (0, "$p.light"), (1, "$p.dark")), stroke="$p.outline", width=1.1)
-    for (x, y, w, h, flip) in ((3, 6, 17, 6.4, 0), (6, 14, 16, 6.4, 1)):
-        if not flip:
-            r.poly([(x, y), (x + w - 3, y), (x + w, y + h / 2), (x + w - 3, y + h), (x, y + h)], linear(0, y, 0, y + h, (0, "$p.light"), (1, "$p.wood")), stroke="$p.outline", width=1.1)
-        else:
-            r.poly([(x + 3, y), (x + w, y), (x + w, y + h), (x + 3, y + h), (x, y + h / 2)], linear(0, y, 0, y + h, (0, "$p.light"), (1, "$p.wood")), stroke="$p.outline", width=1.1)
-        r.line(x + 3, y + 2.2, x + w - 6, y + 2.2, "$p.ink", 0.9, 0.9)
-        r.line(x + 3, y + 4, x + w - 8, y + 4, "$p.ink", 0.7, 0.8)
-        r.ellipse(x + (3 if not flip else w - 2.2), y + h / 2, 0.5, 0.5, "#2E2E36")
-    return r
-
-
-def statue() -> Recipe:
-    r = prop("statue", 28, 42, (14, 38), {"stone": "#A8ADB4", "light": "#D8DCE2", "dark": "#6A6F76", "outline": "#26292E", "moss": "#6E9A55"})
-    r.shadow(15, 39.5, 11, 2.4, 0.28)
-    r.rect(4, 31, 20, 7, linear(4, 0, 24, 0, (0, "$p.stone"), (1, "$p.dark")), stroke="$p.outline", width=1.4)
-    r.rect(6, 28, 16, 4, linear(6, 0, 22, 0, (0, "$p.light"), (1, "$p.stone")), stroke="$p.outline", width=1.2)
-    r.line(5, 34.5, 23, 34.5, "$p.dark", 0.6, 0.8)
-    r.path("M 9 28 Q 8 18 11 13 L 17 13 Q 20 18 19 28 Z", linear(8, 0, 20, 0, (0, "$p.light"), (0.5, "$p.stone"), (1, "$p.dark")), stroke="$p.outline", width=1.3)  # robe
-    r.path("M 9 27 Q 14 24 19 27", None, stroke="$p.dark", width=0.8)
-    r.path("M 11 22 Q 13 24 12 28", None, stroke="$p.dark", width=0.7, alpha=0.8)
-    r.path("M 9.5 15 Q 5 20 6 24", None, stroke="$p.outline", width=3.4)
-    r.path("M 9.5 15 Q 5 20 6 24", None, stroke="$p.stone", width=2.0)
-    r.path("M 18.5 15 Q 23 17 23 12", None, stroke="$p.outline", width=3.4)
-    r.path("M 18.5 15 Q 23 17 23 12", None, stroke="$p.stone", width=2.0)
-    r.ellipse(14, 9.5, 4.4, 4.8, radial(12.5, 8, 7, (0, "$p.light"), (1, "$p.stone")), stroke="$p.outline", width=1.3)
-    r.line(12.4, 9.8, 13.6, 9.8, "$p.dark", 0.6)
-    r.line(14.8, 9.8, 16, 9.8, "$p.dark", 0.6)
-    r.ellipse(8, 33, 3.6, 1.5, "$p.moss", alpha=0.85)
-    r.ellipse(19, 30, 2.4, 1.0, "$p.moss", alpha=0.8)
-    r.path("M 6 36 Q 5 33 7 31", None, stroke="$p.moss", width=1.2, alpha=0.9)
-    return r
-
-
-def tent() -> Recipe:
-    r = prop("tent", 40, 32, (20, 28), {"cloth": "#C9A66B", "light": "#E8D2A0", "dark": "#8A6A3A", "stripe": "#B8483A", "outline": "#3A2810", "pole": "#6A4A2A"})
-    r.shadow(21, 29, 17, 3.4, 0.28)
-    r.poly([(3, 28), (20, 5), (37, 28)], "$p.dark", stroke="$p.outline", width=1.5)
-    r.poly([(3, 28), (20, 5), (21.5, 28)], linear(3, 0, 21, 0, (0, "$p.light"), (1, "$p.cloth")))
-    r.poly([(21.5, 28), (20, 5), (37, 28)], linear(20, 0, 37, 0, (0, "$p.cloth"), (1, "$p.dark")))
-    r.poly([(20, 5), (24, 5.2), (37, 28), (31, 28)], "$p.stripe", alpha=0.9)
-    r.poly([(20, 5), (16, 5.2), (3, 28), (9, 28)], "$p.stripe", alpha=0.9)
-    r.poly([(14, 28), (20, 12), (26, 28)], "#2A1A10", stroke="$p.outline", width=1.0)
-    r.poly([(20, 12), (26, 28), (23, 28), (20, 17)], "#3C2818")
-    r.line(20, 5, 20, 1.2, "$p.pole", 1.4)
-    r.poly([(20, 1.2), (27, 2.6), (20, 4.2)], "$p.stripe", stroke="$p.outline", width=0.8)
-    for (x0, y0, x1, y1) in ((3, 28, 0, 30), (37, 28, 40, 30)):
-        r.line(x0, y0, x1, y1, "$p.pole", 0.9)
-        r.ellipse(x1, y1, 0.7, 0.7, "#2E2E36")
-    return r
-
-
-def banner() -> Recipe:
-    r = prop("banner", 24, 40, (12, 36), {"cloth": "#B8483A", "light": "#E27A68", "dark": "#7A261C", "emblem": "#F2C94C", "outline": "#2E0E08", "pole": "#6A4A2A"})
-    r.shadow(13, 37, 6, 1.8, 0.28)
-    r.rect(11, 4, 2.4, 33, linear(11, 0, 13.4, 0, (0, "#8A6444"), (1, "$p.pole")), stroke="$p.outline", width=0.9)
-    r.ellipse(12.2, 3.2, 2.6, 2.6, radial(11.4, 2.4, 3.6, (0, "#FFF0A0"), (1, "#D8A82C")), stroke="$p.outline", width=0.8)
-    r.path("M 13 7 L 22.5 7 L 22.5 26 L 17.8 22.6 L 13 26 Z", linear(13, 0, 23, 0, (0, "$p.light"), (0.5, "$p.cloth"), (1, "$p.dark")), stroke="$p.outline", width=1.2)
-    r.line(13.6, 9, 22, 9, "$p.dark", 0.8, 0.8)
-    r.poly([(17.8, 11), (20.4, 15), (17.8, 19.4), (15.2, 15)], "$p.emblem", stroke="$p.outline", width=0.7)
-    r.poly([(17.8, 12.4), (19.2, 15), (17.8, 17.6), (16.4, 15)], lighten("#F2C94C", 0.5), alpha=0.8)
-    for y in (12, 17, 22):
-        r.line(14, y, 14.8, y + 1, "$p.dark", 0.6, 0.7)
-    return r
-
-
-def well() -> Recipe:
-    r = prop("well", 32, 36, (16, 32), {"stone": "#8F8F98", "water": "#3C78B4", "wood": "#7A5230", "roof": "#B04A3A"})
-    r.shadow(17, 31, 14, 3.6, 0.28)
-    r.ellipse(16, 23, 13, 8.4, "#5A5A62", stroke="#2A2A30", width=1.3)
-    r.ellipse(16, 22, 12, 7.4, linear(4, 14, 28, 30, (0, lighten("#8F8F98", 0.3)), (1, "#6A6A72")))
-    for k in range(9):  # the stones of the rim
-        a = k / 9 * 6.28
-        x, y = 16 + 11.3 * math.cos(a), 22 + 6.7 * math.sin(a)
-        r.ellipse(x, y, 2.2, 1.6, mix("#8F8F98", "#BCBCC4", (k % 3) / 3), stroke="#3A3A42", width=0.5)
-    r.ellipse(16, 20.5, 8.6, 5.2, "#1E3A5A")
-    r.ellipse(16, 20.9, 8.0, 4.7, radial(14, 19.5, 9, (0, "#6CB0E8"), (1, "$p.water")))
-    r.path("M 11 21 Q 14 19.4 17 21", None, stroke="#C8E4FA", width=0.7, alpha=0.9)
-    for x in (7, 24):
-        r.rect(x, 7, 2.6, 15, linear(x, 0, x + 2.6, 0, (0, "#9A6A44"), (1, "$p.wood")), stroke="#2E1C0A", width=1.0)
-    r.rect(7, 12, 18.6, 1.8, "$p.wood", stroke="#2E1C0A", width=0.8)
-    r.line(16, 12, 16, 17.5, "#D8C8A0", 0.7)
-    r.rect(14.4, 17, 3.2, 2.4, "#6A4A2A", stroke="#2E1C0A", width=0.6)
-    r.poly([(3, 9), (16, 1.4), (29, 9)], "$p.roof", stroke="#4A1E14", width=1.3)
-    r.poly([(3, 9), (16, 1.4), (17, 9)], lighten("#B04A3A", 0.25), alpha=0.85)
-    r.poly([(16, 1.4), (29, 9), (22, 9)], darken("#B04A3A", 0.25), alpha=0.7)
-    for x in (8, 12.5, 17.5, 22):
-        r.line(x, 3.4 + abs(x - 16) * 0.28, x + 0.6, 8.8, "#4A1E14", 0.6, 0.7)
-    return r
-
-
-def threshold_stone() -> Recipe:
-    r = prop("threshold_stone", 32, 44, (16, 40), {"light": "#A9B3C4", "body": "#6C7585", "dark": "#3F4756", "outline": "#232A36", "rune": "#6FE3FF"})
-    r.ellipse(16, 22, 15, 20, "$p.rune", alpha=0.10)
-    r.ellipse(16, 24, 11, 15, "$p.rune", alpha=0.12)
-    r.shadow(17, 40.5, 12.5, 3.4, 0.30)
-    r.poly([(6, 41), (26, 41), (23, 35), (9, 35)], "$p.body", stroke="$p.outline", width=1.4)
-    r.poly([(9, 35), (23, 35), (24, 33), (8, 33)], "$p.light", alpha=0.8)
-    r.path("M 9 35 Q 7 22 11 12 Q 16 3 21 12 Q 25 22 23 35 Z", linear(8, 0, 24, 0, (0, "$p.light"), (0.45, "$p.body"), (1, "$p.dark")), stroke="$p.outline", width=1.5)
-    r.path("M 11 33 Q 10 22 13 14", None, stroke=lighten("#A9B3C4", 0.4), width=1.0, alpha=0.6)
-    r.path("M 16 11 L 16 15 M 14 13 L 18 13", None, stroke="$p.rune", width=0.9)
-    r.poly([(16, 17), (19.4, 22), (16, 28), (12.6, 22)], "$p.rune", alpha=0.35, stroke="$p.rune", width=1.2)
-    r.poly([(16, 19), (17.8, 22), (16, 25.4), (14.2, 22)], "#E4FBFF")
-    for (x, y) in ((11.5, 30), (20.5, 29), (13, 15.5), (19.6, 16.5)):
-        r.line(x - 1, y, x + 1, y, "$p.rune", 0.8, 0.9)
-        r.line(x, y - 1, x, y + 1, "$p.rune", 0.8, 0.9)
-    for x, y in ((6, 28), (26, 24), (9, 12), (24, 10)):  # motes of light
-        r.ellipse(x, y, 0.7, 0.7, "$p.rune", alpha=0.8)
-    return r
-
-
-def stall() -> Recipe:
-    r = prop("stall", 40, 34, (20, 30), {"wood": "#9A6A38", "cloth": "#C9302C", "cloth2": "#F4EFE0", "outline": "#2E1C0A"})
-    r.shadow(21, 31, 17, 3, 0.28)
-    r.rect(4, 17, 32, 11, linear(0, 17, 0, 28, (0, "#B88650"), (1, "#7A4F2A")), stroke="$p.outline", width=1.3)
-    r.rect(4, 17, 32, 2.4, "#D8A468", alpha=0.7)
-    for fx, color in ((9, "#E85A3A"), (14, "#F2C94C"), (19, "#7AC24A"), (25, "#E85A3A"), (30, "#B8553A")):
-        r.ellipse(fx, 20, 2.3, 1.7, color, stroke="#3A2010", width=0.5)
-    for px in (5, 34):
-        r.rect(px, 6, 2, 22, "$p.wood", stroke="$p.outline", width=1.0)
-    r.path("M 2 4 L 38 4 L 40 14 L 0 14 Z", "$p.cloth", stroke="$p.outline", width=1.3)
-    for k in range(5):
-        x0 = 2 + k * 7.2
-        r.poly([(x0, 4), (x0 + 3.6, 4), (x0 + 3.2 + 0.4 * k * 0, 14), (x0 - 0.4, 14)], "$p.cloth2", alpha=0.95)
-    r.path("M 0 14 Q 3.3 17.5 6.6 14 Q 10 17.5 13.4 14 Q 16.8 17.5 20 14 Q 23.2 17.5 26.6 14 Q 30 17.5 33.4 14 Q 36.8 17.5 40 14", None, stroke="$p.outline", width=1.0)
-    r.rect(2, 4, 36, 1.8, "#FFFFFF", alpha=0.25)
-    return r
-
-
-def haybale() -> Recipe:
-    r = prop("haybale", 30, 24, (15, 21), {"hay": "#E0C060", "dark": "#A8862A", "light": "#F4DC8A", "outline": "#4A3410"})
-    r.shadow(16, 22, 13, 2.6, 0.28)
-    r.rect(3, 6, 24, 15, linear(0, 6, 0, 21, (0, "$p.light"), (0.45, "$p.hay"), (1, "$p.dark")), stroke="$p.outline", width=1.3)
-    for y in (10, 14, 18):
-        r.path(f"M 4 {y} Q 15 {y + 1.2} 26 {y}", None, stroke="$p.dark", width=0.6, alpha=0.7)
-    for x in (9.5, 20.5):
-        r.rect(x, 6, 1.6, 15, "#7A5A2A", alpha=0.85)
-    for x, y, a in ((6, 8, 0.8), (13, 12, -0.6), (22, 9, 0.6), (17, 17, -0.8), (8, 18, 0.5)):
-        r.line(x, y, x + 3 * a, y - 1.2, "$p.light", width=0.6, alpha=0.9)
-    r.path("M 3 6 Q 15 2 27 6", None, stroke="$p.light", width=1.0, alpha=0.6)
-    return r
-
-
-def anvil() -> Recipe:
-    """An anvil on a stump, with a hammer: where fine gear is made (spec 06, "Stations")."""
-    r = prop("anvil", 32, 28, (16, 25), {"iron": "#5C6470", "light": "#A9B2BE", "dark": "#2E333A", "wood": "#8A5A2E", "outline": "#1A1C20"})
-    r.shadow(16, 25, 12, 2.6, 0.3)
-    r.rect(9, 15, 14, 10, linear(0, 15, 0, 25, (0, "#A06A38"), (1, "#5E3A1A")), stroke="$p.outline", width=1.2)
-    r.path("M 9 17 Q 16 15.5 23 17", None, stroke="#C08A50", width=0.7, alpha=0.8)
-    r.path("M 11 15 L 21 15 L 22 12 L 26 11 L 28 8 L 4 8 L 6 11 L 10 12 Z", linear(0, 8, 0, 15, (0, "$p.light"), (0.5, "$p.iron"), (1, "$p.dark")), stroke="$p.outline", width=1.2)
-    r.rect(4, 7, 24, 1.6, "#FFFFFF", alpha=0.3)
-    r.rect(20, 3, 2, 6, "$p.wood", stroke="$p.outline", width=0.8)
-    r.rect(17, 2, 8, 2.6, "$p.iron", stroke="$p.outline", width=0.8)
-    r.ellipse(8, 21, 1.4, 1.0, "#F2A03A", alpha=0.85)
+    limb("M 6 30 Q 6 22 9.5 22 Q 13 22 13 30 L 13 34 L 6 34 Z", 9.5, 22, 34, 7)
+    r.rect(8, 31, 6, 5, "$p.body", stroke="#12382A", width=0.4)
+    limb("M 23 26 Q 23 17 26.5 17 Q 30 17 30 26 L 30 30 L 23 30 Z", 26.5, 17, 30, 7)
+    r.rect(22, 26.5, 6, 5, "$p.body", stroke="#12382A", width=0.4)
+    limb("M 12 47 L 12 12 Q 12 4 18 4 Q 24 4 24 12 L 24 47 Z", 18, 4, 47, 12)
+    r.ellipse(18, 4.5, 2.2, 1.8, radial(17.4, 4, 2.6, (0, "#FFD0E0"), (1, "#E0508A")), stroke="#7A1E48", width=0.3)  # a flower
+    r.ellipse(18, 4.5, 0.7, 0.6, "#FFE070")
     return r
 
 
 def reeds() -> Recipe:
-    """Reeds on the shore, with a ripple and a fish under the water: where one fishes (spec 06, "Gathering")."""
-    r = prop("reeds", 32, 28, (16, 24), {"reed": "#7FA44A", "light": "#B8D478", "dark": "#4A6A28", "water": "#4A8AC8", "outline": "#22341A"})
-    r.ellipse(16, 24, 13, 3.6, "#2E6AA8", alpha=0.45)  # the water at the foot
-    r.ellipse(16, 24, 9, 2.4, "#FFFFFF", stroke="#FFFFFF", width=0.6, alpha=0.25)  # a ripple
-    r.ellipse(24, 23.5, 2.6, 1.0, "#E8B040", alpha=0.7)  # a fish, just under the surface
-    for x0, top, lean in ((8, 7, -2.0), (11, 4, -0.8), (14, 6, 0.5), (17, 3, 1.2), (20, 8, 2.0), (23, 10, 2.6)):
-        r.path(f"M {x0} 24 Q {x0 + lean * 0.4} {(24 + top) / 2} {x0 + lean} {top}", None, stroke="$p.reed", width=1.4)
-        r.path(f"M {x0} 24 Q {x0 + lean * 0.4} {(24 + top) / 2} {x0 + lean} {top}", None, stroke="$p.light", width=0.5, alpha=0.7)
-    for x, y in ((11 - 0.8, 4), (17 + 1.2, 3)):  # two cattail heads
-        r.ellipse(x, y + 2.5, 1.3, 2.6, "#7A4A22", stroke="$p.outline", width=0.5)
+    r = prop("reeds", 36, 34, (18, 30), {"reed": "#7FA44A", "light": "#C8E088", "dark": "#3E6230", "water": "#4A8AC8"})
+    r.ellipse(18, 29.5, 15, 3.6, "#2F6FC8", alpha=0.45, blur=1.0)
+    r.ellipse(15, 29, 8, 1.4, "#CFE8FF", alpha=0.5, blur=0.5)
+    for i in range(13):
+        x = 5 + i * 2.1 + r.rng.uniform(-0.6, 0.6)
+        top = r.rng.uniform(5, 14)
+        lean = r.rng.uniform(-2.5, 2.5)
+        c = mix("#3E6230", "#C8E088", r.rng.random())
+        r.path(f"M {x - 0.5:.2f} 29.5 Q {x + lean * 0.3:.2f} {(top + 29.5) / 2:.2f} {x + lean:.2f} {top:.2f} Q {x + lean * 0.4 + 0.4:.2f} {(top + 29.5) / 2:.2f} {x + 0.5:.2f} 29.5 Z", c, stroke="#22341A", width=0.2)
+        if i % 3 == 0:  # a cattail
+            hx, hy = x + lean * 0.75, top + 4
+            r.path(f"M {hx - 0.9:.2f} {hy - 2.6:.2f} Q {hx:.2f} {hy - 3.4:.2f} {hx + 0.9:.2f} {hy - 2.6:.2f} L {hx + 0.9:.2f} {hy + 2.2:.2f} Q {hx:.2f} {hy + 3:.2f} {hx - 0.9:.2f} {hy + 2.2:.2f} Z",
+                   linear(hx - 1, hy, hx + 1, hy, (0, "#9A6A40"), (1, "#4A2C18")), stroke="#24140A", width=0.25)
     return r
 
 
 def mushrooms() -> Recipe:
-    """A patch of mushrooms in the moss of the forest: where spore caps and herbs are gathered (spec 06, "Gathering")."""
-    r = prop("mushrooms", 28, 22, (14, 18), {"cap": "#C0583A", "light": "#E8906A", "stem": "#F2E6CC", "moss": "#4E8A3E", "outline": "#3A1E12"})
-    r.ellipse(14, 18.5, 11, 3, "#000000", alpha=0.25)
-    r.ellipse(14, 17.5, 10, 2.6, "$p.moss", alpha=0.9)
-    for cx, h, w in ((9, 7, 4.2), (15, 10, 5.4), (20.5, 6, 3.6)):
-        r.rect(cx - w * 0.22, 17.5 - h * 0.55, w * 0.44, h * 0.55, "$p.stem", stroke="$p.outline", width=0.6)
-        r.path(f"M {cx - w} {17.5 - h * 0.5} Q {cx} {17.5 - h * 1.25} {cx + w} {17.5 - h * 0.5} Z", "$p.cap", stroke="$p.outline", width=0.8)
-        for dx in (-0.45, 0.2):
-            r.ellipse(cx + w * dx, 17.5 - h * 0.78, w * 0.13, w * 0.1, "#FFF4E0", alpha=0.9)
+    r = prop("mushrooms", 32, 26, (16, 22), {"cap": "#C8483A", "light": "#FF9A7A", "stem": "#F6ECD6", "moss": "#4E8A3E"})
+    r.shadow(16.5, 22, 13, 3.4, 0.36)
+    r.ellipse(16, 21.5, 12, 2.6, "$p.moss", alpha=0.8, blur=0.8)
+    for (x, y, s) in ((21, 12, 0.8), (9, 13.5, 0.7), (15, 9, 1.15)):
+        r.path(f"M {x - 1.6 * s:.2f} {y:.2f} Q {x - 2 * s:.2f} {y + 5 * s:.2f} {x - 2.4 * s:.2f} {y + 9 * s:.2f} L {x + 2.4 * s:.2f} {y + 9 * s:.2f} Q {x + 2 * s:.2f} {y + 5 * s:.2f} {x + 1.6 * s:.2f} {y:.2f} Z",
+               linear(x - 2 * s, y, x + 2 * s, y, (0, "#FFFFFF"), (0.4, "$p.stem"), (1, "#B8A88A")), stroke=INK, width=0.35)
+        r.shade(box(x - 2.5 * s, y, 5 * s, 2.4 * s), 0.5, blur=0.5, clip=True)
+        cap = (f"M {x - 7 * s:.2f} {y + 1 * s:.2f} Q {x - 6 * s:.2f} {y - 6 * s:.2f} {x:.2f} {y - 6.4 * s:.2f} Q {x + 6 * s:.2f} {y - 6 * s:.2f} {x + 7 * s:.2f} {y + 1 * s:.2f} "
+               f"Q {x:.2f} {y + 2.6 * s:.2f} {x - 7 * s:.2f} {y + 1 * s:.2f} Z")
+        r.path(cap, radial(x - 2.5 * s, y - 4 * s, 9 * s, (0, "$p.light"), (0.5, "$p.cap"), (1, "#7A1E2A")), stroke=INK, width=0.4)
+        r.shade(f"M {x + 1 * s:.2f} {y - 6.4 * s:.2f} Q {x + 6 * s:.2f} {y - 6 * s:.2f} {x + 7 * s:.2f} {y + 1 * s:.2f} Q {x + 3 * s:.2f} {y + 2.2 * s:.2f} {x + 2 * s:.2f} {y + 2.2 * s:.2f} Q {x + 4 * s:.2f} {y - 2 * s:.2f} {x + 1 * s:.2f} {y - 6.4 * s:.2f} Z", 0.4, clip=True)
+        for dx, dy, q in ((-3, -3, 0.9), (1.5, -4.2, 0.7), (3.6, -1.2, 0.6), (-1, -1, 0.6), (-4.8, -0.4, 0.5)):
+            r.ellipse(x + dx * s, y + dy * s, q * s, q * s * 0.75, "#FFF8EC", clip=True)
+    return r
+
+
+# ------------------------------------------------------------------------------------------------ camp and road
+def campfire() -> Recipe:
+    r = prop("campfire", 36, 40, (18, 34), {"log": "#7A5232", "flame": "#FF7A1E", "core": "#FFE880", "ash": "#5A5550"})
+    r.shadow(18, 34, 15, 4, 0.36)
+    r.glow(18, 28, 20, "#FF8A30", 0.4)
+    for k in range(9):  # a ring of stones
+        a = 2 * math.pi * k / 9
+        x, y = 18 + math.cos(a) * 12, 33 + math.sin(a) * 3.6
+        r.ellipse(x, y, 2.6, 1.9, stone(281 + k, "#8A8C98", 2), stroke=INK, width=0.3)
+        r.ellipse(x - 0.5, y - 0.6, 1.2, 0.6, "#FFD0A0", alpha=0.5)
+    r.ellipse(18, 32.5, 9, 2.6, "#2A2028")
+    for d in ("M 8 33 L 26 28", "M 28 33 L 10 28"):
+        r.path(d, None, stroke=INK, width=4.0)
+        r.path(d, None, stroke="$p.log", width=3.2)
+        r.path(d, None, stroke="#C89060", width=0.8, alpha=0.6)
+    r.ellipse(18, 31, 5, 1.6, "#FF5A1E", alpha=0.9, blur=0.8)
+    flame = "M 18 4 Q 23 12 26 19 Q 28.5 26 24 30.5 Q 18 33.5 12 30.5 Q 7.5 26 10.5 19 Q 12.5 15 13 11 Q 15.5 13 15.5 16 Q 17 10 18 4 Z"
+    r.path(flame, linear(18, 4, 18, 32, (0, "#FF4A1E"), (0.5, "$p.flame"), (1, "#FFC040")), blur=0.4)
+    r.path("M 18 12 Q 21.5 18 23 23 Q 24 28 20.5 30 Q 18 31 15.5 30 Q 12 28 13.5 23 Q 14.5 20 16 18 Q 17 16 18 12 Z", linear(18, 12, 18, 31, (0, "#FFB030"), (1, "$p.core")), blur=0.3)
+    r.path("M 18 20 Q 20 24 20 27 Q 20 30 18 30 Q 16 30 16 27 Q 16 24 18 20 Z", "#FFFBE8", blur=0.3)
+    for x, y in ((11, 9), (25, 7), (21, 2), (14, 3)):  # sparks
+        r.ellipse(x, y, 0.5, 0.5, "#FFE080")
+        r.glow(x, y, 2, "#FF9A30", 0.5)
+    return r
+
+
+def crate() -> Recipe:
+    r = prop("crate", 30, 30, (15, 26), {"wood": "#B07C44", "light": "#E8B878", "dark": "#5E3C1E"})
+    r.shadow(16.5, 26, 14, 3.4, 0.4)
+    r.path("M 3 9 L 9 4 L 27 4 L 27 21 L 21 26 L 3 26 Z", "$p.dark", stroke=INK, width=0.5)
+    r.path("M 3 9 L 9 4 L 27 4 L 21 9 Z", wood(291, "#D0A064", 4), stroke=INK, width=0.4)  # the top
+    r.path("M 21 9 L 27 4 L 27 21 L 21 26 Z", wood(292, "#7A5028", 4), stroke=INK, width=0.4)  # the side in shade
+    r.rect(3, 9, 18, 17, wood(293, "#B07C44", 4), stroke=INK, width=0.4)
+    for y in (13.2, 17.4, 21.6):
+        r.line(3.4, y, 20.6, y, "#3E2410", 0.35, alpha=0.7)
+    r.path("M 3 9 L 6 9 L 21 23 L 21 26 L 18 26 L 3 12 Z", wood(294, "#9A6836", 4), stroke=INK, width=0.35)  # the brace
+    for x in (3, 18):
+        r.rect(x, 9, 3, 17, wood(295, "#C08A50", 4), stroke=INK, width=0.35)
+    r.rect(3, 9, 18, 1.0, "#FFF0D0", alpha=0.4)
+    for x, y in ((4.5, 10.8), (19.5, 10.8), (4.5, 24.4), (19.5, 24.4)):
+        r.ellipse(x, y, 0.5, 0.5, "#2A1608")
+    return r
+
+
+def barrel() -> Recipe:
+    r = prop("barrel", 26, 32, (13, 28), {"wood": "#9A6A38", "top": "#C89A60", "band": "#5A5E6A"})
+    r.shadow(14, 28, 12, 3.2, 0.4)
+    body = "M 4 7 Q 1.5 17 4 27 Q 13 30.5 22 27 Q 24.5 17 22 7 Z"
+    r.path(body, wood(301, "#9A6A38", 4), stroke=INK, width=0.5)
+    for x in (7.5, 10.5, 13.5, 16.5, 19):  # staves
+        r.path(f"M {x} 8 Q {x + (x - 13) * 0.12:.2f} 17 {x} 28", None, stroke="#3E2410", width=0.3, alpha=0.7, clip=True)
+    r.shade("M 15 6 L 23 6 Q 25 17 22.5 28 L 14 30 Q 18 17 15 6 Z", 0.5, blur=0.8, clip=True)
+    r.lit("M 4.5 8 Q 2.5 17 4.5 26 L 7 26.5 Q 5 17 7 8 Z", 0.4, "#FFE8B8", blur=0.4)
+    for y in (10.5, 23.5):  # iron bands
+        r.path(f"M 2.9 {y} Q 13 {y + 2.6} 23.1 {y} L 23.2 {y + 2.2} Q 13 {y + 4.8} 2.8 {y + 2.2} Z",
+               linear(3, 0, 23, 0, (0, "#B8BCC8"), (0.4, "$p.band"), (1, "#2A2C38")), stroke=INK, width=0.3)
+    r.ellipse(13, 7, 9, 2.8, wood(302, "#C89A60", 3), stroke=INK, width=0.45)
+    r.ellipse(13, 7, 7.2, 2.0, "#2A1608", alpha=0.25)
+    r.ellipse(11, 6.4, 3.5, 0.8, "#FFF0D0", alpha=0.4, blur=0.3)
+    return r
+
+
+def bones() -> Recipe:
+    r = prop("bones", 34, 22, (17, 18), {"bone": "#EFE7D2", "dark": "#A89E84", "socket": "#1E1B28"})
+    r.shadow(17.5, 18, 14, 3, 0.32)
+    fill = linear(0, 4, 0, 20, (0, "#FFFBEE"), (0.6, "$p.bone"), (1, "$p.dark"))
+    for d in ("M 4 15 L 30 9", "M 5 9 L 29 16"):  # crossed bones with knobbed ends
+        r.path(d, None, stroke=INK, width=3.4)
+        r.path(d, None, stroke="$p.bone", width=2.5)
+    for x, y in ((4, 15), (30, 9), (5, 9), (29, 16)):
+        for dx, dy in ((-0.9, -0.9), (0.9, 0.9)):
+            r.ellipse(x + dx, y + dy, 1.9, 1.7, fill, stroke=INK, width=0.4)
+    skull = "M 10.5 9 Q 10.5 2 17 2 Q 23.5 2 23.5 9 Q 23.5 12 21.5 13 L 21.5 16 L 12.5 16 L 12.5 13 Q 10.5 12 10.5 9 Z"
+    r.path(skull, fill, stroke=INK, width=0.5)
+    r.shade("M 18 2 Q 23.5 2 23.5 9 Q 23.5 12 21.5 13 L 21.5 16 L 17 16 Q 20 9 18 2 Z", 0.35, clip=True)
+    for x in (14.2, 19.8):
+        r.ellipse(x, 8.6, 1.9, 2.1, "$p.socket")
+        r.ellipse(x + 0.5, 9.2, 0.6, 0.7, "#3A3050")
+    r.poly([(17, 10.6), (17.9, 12.6), (16.1, 12.6)], "$p.socket")
+    for x in (14, 15.5, 17, 18.5, 20):
+        r.line(x, 13.6, x, 16, INK, 0.3)
+    r.path("M 13 4.5 Q 15 3 17.5 3", None, stroke="#FFFFFF", width=0.6, alpha=0.8)
+    return r
+
+
+def lamp() -> Recipe:
+    r = prop("lamp", 24, 48, (12, 44), {"pole": "#3A3A48", "glow": "#FFD878", "core": "#FFF6CC"})
+    r.shadow(12.5, 44, 7, 2.2, 0.38)
+    r.glow(12, 11, 16, "#FFC860", 0.45)
+    r.path("M 8.5 44 L 9.5 40.5 L 14.5 40.5 L 15.5 44 Z", linear(8, 0, 16, 0, (0, "#7A7A8C"), (1, "#1E1E2A")), stroke=INK, width=0.4)
+    r.rect(10.9, 17, 2.2, 24, linear(10.9, 0, 13.1, 0, (0, "#8A8A9C"), (0.4, "$p.pole"), (1, "#16161E")), stroke=INK, width=0.35)
+    r.rect(10.2, 26, 3.6, 1.4, "$p.pole", stroke=INK, width=0.3)
+    r.path("M 7 17 L 17 17 L 15.5 19 L 8.5 19 Z", "$p.pole", stroke=INK, width=0.35)
+    r.path("M 8 17 L 7 7.5 L 17 7.5 L 16 17 Z", linear(12, 7, 12, 17, (0, "$p.core"), (1, "$p.glow")), stroke=INK, width=0.4)  # the glass
+    r.ellipse(12, 12.5, 2.2, 3.2, "#FFFFFF", alpha=0.9, blur=0.8)
+    r.line(12, 7.5, 12, 17, INK, 0.3, alpha=0.6)
+    r.path("M 5.5 7.8 L 12 2.5 L 18.5 7.8 Z", linear(5, 0, 19, 0, (0, "#6A6A7C"), (1, "#1E1E2A")), stroke=INK, width=0.4)  # the cap
+    r.ellipse(12, 2.4, 1.0, 1.0, "$p.pole", stroke=INK, width=0.3)
+    return r
+
+
+def signpost() -> Recipe:
+    r = prop("signpost", 28, 36, (14, 33), {"wood": "#9A6C3E", "light": "#D8A870", "dark": "#5E3E1E", "ink": "#2A1808"})
+    r.shadow(14.5, 33, 8, 2.2, 0.38)
+    r.rect(12.6, 6, 2.8, 27, wood(311, "#7A5230", 3), stroke=INK, width=0.4)
+    r.shade(box(14, 6, 1.6, 27), 0.5, clip=True)
+    for y, d in ((8, "M 3 8 L 21 8 L 25.5 11.5 L 21 15 L 3 15 Z"), (18, "M 25 18 L 8 18 L 3.5 21.5 L 8 25 L 25 25 Z")):
+        r.path(d, wood(312 + y, "#B88450", 4), stroke=INK, width=0.45)
+        r.rect(3, y, 22.5, 1.0, "#FFF0D0", alpha=0.35, clip=True)
+        r.rect(3, y + 5.6, 22.5, 1.4, "#2A1E4A", alpha=0.35, clip=True)
+        for k in range(3):
+            r.line(7 + k * 4, y + 2.6, 9.6 + k * 4, y + 2.6, "$p.ink", 0.5, alpha=0.8)
+            r.line(7 + k * 4.4, y + 4.4, 9 + k * 4.4, y + 4.4, "$p.ink", 0.4, alpha=0.6)
+        r.ellipse(14, y + 3.5, 0.6, 0.6, "#2A1608")
+    r.ellipse(11, 32.5, 3, 1.2, "#5E9A50", alpha=0.8, blur=0.4)
+    return r
+
+
+def tent() -> Recipe:
+    r = prop("tent", 52, 42, (26, 37), {"cloth": "#C9A66B", "light": "#F4E0B0", "dark": "#7A5A34", "stripe": "#B8483A", "pole": "#6A4A2A"})
+    r.shadow(27, 37, 25, 5, 0.4)
+    r.path("M 26 5 L 48 36 L 4 36 Z", noise(6, 321, (0.3, "#B8945A"), (0.5, "$p.cloth"), (0.75, "$p.light"), octaves=3), stroke=INK, width=0.5)
+    r.shade("M 26 5 L 48 36 L 30 36 Z", 0.5, clip=True)
+    r.lit("M 26 5 L 4 36 L 9 36 L 26 11 Z", 0.35, "#FFF4D0")
+    r.path("M 26 12 L 34 36 L 18 36 Z", linear(26, 12, 26, 36, (0, "#1A1024"), (1, "#3A2A30")), stroke=INK, width=0.4)  # the opening
+    r.path("M 26 12 L 18 36 L 13 36 L 24.5 12 Z", "$p.light", stroke=INK, width=0.35)  # a flap tied back
+    r.path("M 14.5 30 L 43.5 30 L 45.5 33 L 12.5 33 Z", "$p.stripe", alpha=0.85, clip=True)
+    r.path("M 26 12 L 34 36 L 18 36 Z", "#1A1024", alpha=0.9)
+    r.path("M 26 12 L 18 36 L 13 36 L 24.5 12 Z", "$p.light", stroke=INK, width=0.35)
+    r.line(26, 1.5, 26, 6, "$p.pole", 1.0)
+    r.path("M 26 1.5 L 32 3 L 26 4.8 Z", "$p.stripe", stroke=INK, width=0.3)
+    for x0, x1 in ((4, 0.8), (48, 51.2)):
+        r.line(x0, 36, x1, 39.5, "#E8DCC0", 0.35)
+        r.line(x1, 38, x1, 40.5, "$p.pole", 0.8)
+    return r
+
+
+def banner() -> Recipe:
+    r = prop("banner", 28, 48, (14, 44), {"cloth": "#B8483A", "light": "#F08A70", "dark": "#6A1E1C", "emblem": "#F2C94C", "pole": "#6A4A2A"})
+    r.shadow(14.5, 44, 7, 2, 0.38)
+    r.rect(12.8, 3, 2.4, 41, wood(331, "#6A4A2A", 3), stroke=INK, width=0.4)
+    r.shade(box(14.2, 3, 1.2, 41), 0.5, clip=True)
+    r.ellipse(14, 2.6, 2, 2, radial(13.3, 2, 2.6, (0, "#FFF4B0"), (1, "#B8862A")), stroke=INK, width=0.35)
+    cloth = "M 15.2 6 Q 20 7.5 26 6 L 26 28 L 20.6 24 L 15.2 28 Z"
+    r.path(cloth, linear(15, 6, 26, 28, (0, "$p.light"), (0.4, "$p.cloth"), (1, "$p.dark")), stroke=INK, width=0.45)
+    r.shade("M 19 6.8 Q 20.5 16 19.5 25 L 22 25 Q 23 16 22 7 Z", 0.35, blur=0.6, clip=True)  # a fold
+    r.poly([(20.6, 11), (23.4, 15), (20.6, 19.5), (17.8, 15)], "$p.emblem", stroke="#6A4A0E", width=0.3)
+    r.poly([(20.6, 12.8), (22, 15), (20.6, 17.4), (19.2, 15)], "#FFF4B0")
+    r.rect(15.2, 6, 10.8, 1.4, "$p.emblem", alpha=0.9, clip=True)
+    return r
+
+
+def statue() -> Recipe:
+    r = prop("statue", 32, 50, (16, 46), {"stone": "#A8ADB8", "light": "#E4E8F0", "dark": "#5A5E70", "moss": "#6E9A55"})
+    r.shadow(17, 46, 13, 3.4, 0.4)
+    fill = stone(341, "#A8ADB8", 5)
+    r.path("M 5 46 L 6.5 39 L 25.5 39 L 27 46 Z", fill, stroke=INK, width=0.45)  # the plinth
+    r.rect(8, 35, 16, 4.2, fill, stroke=INK, width=0.45)
+    # a robed figure holding a sword point down
+    r.path("M 10 35 Q 9 24 11.5 17 Q 16 14.5 20.5 17 Q 23 24 22 35 Z", fill, stroke=INK, width=0.45)
+    r.path("M 11.5 17 Q 7 19 7.5 26 L 10.5 27 Q 10 21 12.5 19 Z", fill, stroke=INK, width=0.4)
+    r.path("M 20.5 17 Q 25 19 24.5 26 L 21.5 27 Q 22 21 19.5 19 Z", fill, stroke=INK, width=0.4)
+    r.ellipse(16, 11, 4.2, 4.8, fill, stroke=INK, width=0.45)
+    r.path("M 11.6 10.5 Q 11 4.5 16 4.5 Q 21 4.5 20.4 10.5 Q 18.5 7.5 16 7.8 Q 13.5 7.5 11.6 10.5 Z", fill, stroke=INK, width=0.4)  # a hood
+    r.rect(15.2, 19, 1.6, 17, linear(15, 0, 17, 0, (0, "#F0F4FA"), (1, "#7A8090")), stroke=INK, width=0.3)  # the blade
+    r.rect(12.6, 18.4, 6.8, 1.6, fill, stroke=INK, width=0.3)
+    r.shade("M 16.5 4 L 28 4 L 28 47 L 15.5 47 Q 19 28 16.5 4 Z", 0.45, blur=0.5, clip=True)
+    r.lit("M 4 46 L 6.5 39 L 9 39 L 8 35 L 10 35 Q 8.5 24 11 17 Q 7 19 7.5 26 L 9 26.5 Q 9 20 12 17.5 L 11.6 10.5 Q 11 4.5 16 4.5 L 16 5.5 Q 12.5 6 12.8 10.5 L 13 17 Q 10.5 24 11.5 35 L 9.5 39 L 7 46 Z", 0.5, "#FFF6E0")
+    r.path("M 13 31 Q 14 26 13.2 21 M 19 32 Q 18.4 27 19.4 22", None, stroke=INK, width=0.3, alpha=0.5)
+    r.ellipse(8.5, 45, 4, 1.6, "$p.moss", alpha=0.85, blur=0.5, clip=True)
+    r.ellipse(22, 39.5, 3, 1, "$p.moss", alpha=0.7, blur=0.4, clip=True)
+    return r
+
+
+def well() -> Recipe:
+    r = prop("well", 40, 46, (20, 40), {"stone": "#8F8F9C", "water": "#3C78B4", "wood": "#7A5230", "roof": "#B04A3A"})
+    r.shadow(21, 40, 18, 4.5, 0.4)
+    for x in (8, 32):  # posts
+        r.rect(x - 1.3, 10, 2.6, 22, wood(351, "#7A5230", 3), stroke=INK, width=0.4)
+    r.rect(8, 15, 24, 1.8, wood(352, "#6A4426", 3), stroke=INK, width=0.35)  # the windlass
+    r.line(20, 16.8, 20, 27, "#D8C8A0", 0.5)
+    r.path("M 17.5 27 L 22.5 27 L 22 31 L 18 31 Z", wood(353, "#9A6A38", 2), stroke=INK, width=0.35)  # the bucket
+    r.ellipse(20, 30, 13.4, 5, stone(354, "#7A7A88", 4), stroke=INK, width=0.5)  # the rim
+    r.ellipse(20, 30, 10, 3.5, linear(10, 27, 30, 33, (0, "#12284E"), (1, "$p.water")), stroke=INK, width=0.4)
+    r.path("M 14 30 Q 18 28.6 23 29.6", None, stroke="#BFE0FF", width=0.5, alpha=0.8)
+    r.path("M 6.6 30 Q 6.6 39 20 40.5 Q 33.4 39 33.4 30 Q 33.4 35 20 35 Q 6.6 35 6.6 30 Z", stone(355, "#8F8F9C", 4), stroke=INK, width=0.5)  # the wall
+    for k in range(7):
+        x = 8.5 + k * 3.9
+        r.line(x, 34 + (0.6 if k in (0, 6) else 1.0), x + (0.3 if k % 2 else -0.3), 39.4 - abs(k - 3) * 0.35, INK, 0.3, alpha=0.6)
+    r.path("M 7 36.4 Q 20 38.6 33 36.4", None, stroke=INK, width=0.3, alpha=0.6)
+    r.shade("M 21 33 L 34 30 L 34 41 L 20 41 Z", 0.5, blur=0.8, clip=True)
+    r.path("M 2 12 L 20 1.5 L 38 12 L 36 13.5 L 20 5 L 4 13.5 Z", "#5A1E20", stroke=INK, width=0.4)
+    r.path("M 3 12 L 20 2 L 37 12 Z", noise(4, 356, (0.3, "#8A3028"), (0.5, "$p.roof"), (0.75, "#D8705A"), octaves=2), stroke=INK, width=0.5)  # the roof
+    for k in range(1, 5):  # rows of tiles
+        y = 2 + k * 2
+        half = (y - 2) * 1.7
+        r.path(f"M {20 - half:.1f} {y} L {20 + half:.1f} {y}", None, stroke="#5A1E20", width=0.3, alpha=0.6)
+    r.shade("M 20 2 L 37 12 L 20 12 Z", 0.4, clip=True)
+    return r
+
+
+def stall() -> Recipe:
+    r = prop("stall", 48, 44, (24, 39), {"wood": "#9A6A38", "cloth": "#C9302C", "cloth2": "#F8F2E4"})
+    r.shadow(25, 39, 23, 5, 0.4)
+    for x in (5, 43):
+        r.rect(x - 1.3, 12, 2.6, 27, wood(361, "#7A5230", 3), stroke=INK, width=0.4)
+    r.rect(4, 24, 40, 14.5, wood(362, "#9A6A38", 5), stroke=INK, width=0.5)  # the counter
+    for x in (14, 24, 34):
+        r.line(x, 27.5, x, 38, "#3E2410", 0.35, alpha=0.7)
+    r.rect(3, 22, 42, 3.4, wood(363, "#C89A60", 4), stroke=INK, width=0.45)
+    r.shade(box(4, 25.4, 40, 3), 0.45, blur=0.6, clip=True)
+    goods = [(9, "#E04A3A"), (13.5, "#F0A030"), (18, "#E04A3A"), (26, "#7AB848"), (30.5, "#F0D048"), (35, "#7AB848"), (39.5, "#B060D0")]
+    for x, c in goods:  # fruit and jars on the counter
+        r.ellipse(x, 20.6, 2.1, 1.9, radial(x - 0.7, 19.9, 2.8, (0, lighten(c, 0.5)), (0.5, c), (1, darken(c, 0.45))), stroke=INK, width=0.3)
+        r.ellipse(x - 0.7, 19.9, 0.5, 0.4, "#FFFFFF", alpha=0.8)
+    awning = "M 1 13 L 6 3 L 42 3 L 47 13 Z"
+    r.path(awning, "$p.cloth2", stroke=INK, width=0.5)
+    for k in range(4):  # stripes
+        x0, x1 = 6 + k * 9, 6 + k * 9 + 4.5
+        b0, b1 = 1 + k * 11.5, 1 + k * 11.5 + 5.75
+        r.path(f"M {x0} 3 L {x1} 3 L {b1} 13 L {b0} 13 Z", "$p.cloth", clip=True)
+    for k in range(8):  # the scalloped edge
+        x = 1 + k * 5.75
+        c = "$p.cloth" if k % 2 == 0 else "$p.cloth2"
+        r.path(f"M {x} 13 L {x + 5.75} 13 Q {x + 5.75} 16.4 {x + 2.87} 16.4 Q {x} 16.4 {x} 13 Z", c, stroke=INK, width=0.35)
+    r.shade("M 24 3 L 42 3 L 47 13 L 47 17 L 24 17 Z", 0.3, clip=True)
+    r.lit("M 1 13 L 6 3 L 16 3 L 11 13 Z", 0.25, "#FFF4D0")
+    r.rect(5, 16.4, 38, 3, "#2A1E4A", alpha=0.35, blur=0.8)
+    return r
+
+
+def haybale() -> Recipe:
+    r = prop("haybale", 34, 28, (17, 24), {"hay": "#E0C060", "dark": "#9A7A2A", "light": "#FFF0A8"})
+    r.shadow(18, 24, 16, 3.6, 0.4)
+    body = "M 3 9 Q 3 5 7 5 L 27 5 Q 31 5 31 9 L 31 21 Q 31 25 27 25 L 7 25 Q 3 25 3 21 Z"
+    r.path(body, noise(3, 371, (0.3, "$p.dark"), (0.5, "$p.hay"), (0.75, "$p.light"), octaves=3), stroke="#3E2C0E", width=0.5)
+    for _ in range(46):  # straws
+        x, y = r.rng.uniform(4, 30), r.rng.uniform(6, 24)
+        length = r.rng.uniform(2, 5)
+        r.line(x, y, x + length, y + r.rng.uniform(-0.5, 0.5), r.rng.choice(["#FFF4B8", "#A8862A", "#F0D878"]), 0.3, alpha=0.8)
+    r.shade("M 19 5 L 31 5 L 31 25 L 17 25 Z", 0.4, blur=1.0, clip=True)
+    r.shade(box(3, 20, 28, 5), 0.3, blur=0.8, clip=True)
+    for x in (11, 23):  # the twine
+        r.rect(x - 0.6, 5, 1.2, 20, "#7A5A2A", stroke="#3E2C0E", width=0.25)
+    r.lit(box(3, 5, 28, 1.6), 0.4, "#FFFBE0")
+    return r
+
+
+def anvil() -> Recipe:
+    r = prop("anvil", 36, 32, (18, 28), {"iron": "#5C6470", "light": "#C8D0DC", "dark": "#22262E", "wood": "#8A5A2E"})
+    r.shadow(19, 28, 15, 3.6, 0.4)
+    r.glow(18, 12, 12, "#FF9A40", 0.22)
+    r.path("M 8 28 L 9 19 L 27 19 L 28 28 Z", wood(381, "#8A5A2E", 3), stroke=INK, width=0.45)  # the block
+    r.ellipse(18, 19, 9, 2.2, wood(382, "#B88450", 2), stroke=INK, width=0.4)
+    for rr in (6, 3.5):
+        r.ellipse(18, 19, rr, rr * 0.24, None, stroke="#5A3A1A", width=0.25, alpha=0.7)
+    r.shade("M 19 19 L 28 19 L 29 29 L 18 29 Z", 0.45, blur=0.6, clip=True)
+    iron = linear(0, 6, 0, 19, (0, "$p.light"), (0.25, "$p.iron"), (1, "$p.dark"))
+    r.path("M 2 8 Q 8 8 11 7 L 31 7 L 31 11 L 25 11 Q 22 13 22 16 L 25 18.5 L 11 18.5 L 14 16 Q 14 13 11 11.5 Q 6 11.5 2 8 Z", iron, stroke=INK, width=0.5)
+    r.rect(11, 7, 20, 1.0, "#FFFFFF", alpha=0.6, clip=True)
+    r.path("M 3 8.2 Q 8 8.6 11 8", None, stroke="#FFFFFF", width=0.4, alpha=0.6)
+    r.ellipse(27.5, 8.2, 1.0, 0.5, "$p.dark")
+    r.rect(14, 5.6, 7, 1.5, linear(14, 0, 21, 0, (0, "#FFE080"), (0.6, "#FF7A20"), (1, "#B03010")), stroke=INK, width=0.25)  # a glowing bar
+    return r
+
+
+def threshold_stone() -> Recipe:
+    r = prop("threshold_stone", 40, 56, (20, 50), {"light": "#B8C2D4", "body": "#6C7585", "dark": "#343C4E", "rune": "#6FE3FF"})
+    r.shadow(21, 50, 15, 4, 0.4)
+    r.glow(20, 26, 26, "#5FD8FF", 0.3)
+    for x, s in ((7, 1.0), (33, 0.8)):  # small stones at its sides
+        r.path(f"M {x - 3 * s:.1f} 50 L {x - 2.4 * s:.1f} {50 - 5 * s:.1f} L {x:.1f} {50 - 7 * s:.1f} L {x + 2.6 * s:.1f} {50 - 4.6 * s:.1f} L {x + 3 * s:.1f} 50 Z", stone(391, "#6C7585", 3), stroke=INK, width=0.4)
+        r.shade(f"M {x:.1f} {50 - 7 * s:.1f} L {x + 2.6 * s:.1f} {50 - 4.6 * s:.1f} L {x + 3 * s:.1f} 50 L {x:.1f} 50 Z", 0.45, clip=True)
+    body = "M 10 50 L 11 20 Q 12 6 20 3 Q 28 6 29 20 L 30 50 Z"
+    r.path(body, stone(392, "#6C7585", 6), stroke=INK, width=0.55)
+    r.shade("M 20 3 Q 28 6 29 20 L 30 50 L 21 50 Q 24 26 20 3 Z", 0.5, clip=True)
+    r.lit("M 10 50 L 11 20 Q 12 6 20 3 L 20 5.5 Q 14 8 13.4 20 L 12.6 50 Z", 0.5, "#E8F8FF")
+    rune = "M 20 12 L 25 20 L 20 28 L 15 20 Z M 20 28 L 20 40 M 16 34 L 24 34 M 17 42.5 L 20 40 L 23 42.5"
+    r.path(rune, None, stroke="$p.rune", width=2.6, alpha=0.5, blend="add", blur=1.2)
+    r.path(rune, None, stroke="#0E3A50", width=1.3)
+    r.path(rune, None, stroke="$p.rune", width=0.8)
+    r.path(rune, None, stroke="#FFFFFF", width=0.3, alpha=0.9)
+    r.ellipse(20, 20, 1.3, 1.3, "#FFFFFF")
+    r.glow(20, 20, 5, "#9FF0FF", 0.7)
+    r.path("M 13 44 L 16 46 L 15 49 M 26 9 L 27.5 13", None, stroke=INK, width=0.3, alpha=0.6)
+    for x, y in ((6, 12), (34, 18), (31, 6), (8, 30)):  # motes of light
+        r.ellipse(x, y, 0.5, 0.5, "#E0FCFF")
+        r.glow(x, y, 2.2, "#6FE3FF", 0.6)
+    r.ellipse(14, 49.5, 4, 1.4, "#5E9A50", alpha=0.8, blur=0.5, clip=True)
     return r
 
 
 def build_props() -> list[Recipe]:
-    return [tree_oak(), pine(), dead_tree(), bush(), rock(), cactus(), campfire(), crate(), barrel(), bones(), lamp(), signpost(), statue(), tent(), banner(), well(), threshold_stone(), stall(), haybale(), anvil(), reeds(), mushrooms()]
+    return [tree_oak(), pine(), dead_tree(), bush(), rock(), cactus(), campfire(), crate(), barrel(), bones(), lamp(), signpost(),
+            statue(), tent(), banner(), well(), threshold_stone(), stall(), haybale(), anvil(), reeds(), mushrooms()]

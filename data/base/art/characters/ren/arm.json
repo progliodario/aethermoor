@@ -2,24 +2,56 @@
   "$schema": "../../../../../schemas/art_recipe.schema.json",
   "id": "base:art/char/ren/arm",
   "canvas": {
-    "w": 10,
-    "h": 20,
+    "w": 14,
+    "h": 26,
     "origin": [
-      5,
-      2
+      7,
+      3
     ]
   },
   "layers": [
     {
       "shape": {
-        "path": "M 2 1 Q 5 0 8 1 L 8 11 Q 5 13 2 11 Z"
+        "path": "M 5.5 16.4 L 8.5 16.4 Q 9 18.4 8.6 20.2 Q 8 21.8 7 21.8 Q 6 21.8 5.4 20.2 Q 5 18.4 5.5 16.4 Z"
+      },
+      "fill": {
+        "color": "$p.skin"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.35
+      }
+    },
+    {
+      "shape": {
+        "path": "M 7.2 19.4 L 7.2 21.2 M 6.3 19.6 L 6.3 21"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.2
+      },
+      "alpha": 0.5
+    },
+    {
+      "shape": {
+        "path": "M 7.4 16.4 L 8.5 16.4 Q 9 18.4 8.6 20.2 Q 8 21.8 7.2 21.8 Z"
+      },
+      "fill": {
+        "color": "#B06A80"
+      },
+      "alpha": 0.3,
+      "blend": "multiply"
+    },
+    {
+      "shape": {
+        "path": "M 4.9 2.2 Q 7 1.2 9.1 2.2 Q 9.4 9 8.8 16.6 L 5.2 16.6 Q 4.6 9 4.9 2.2 Z"
       },
       "fill": {
         "linear": {
-          "x0": 1,
-          "y0": 0,
-          "x1": 9,
-          "y1": 0,
+          "x0": 7,
+          "y0": 2,
+          "x1": 7,
+          "y1": 17,
           "stops": [
             [
               0,
@@ -34,301 +66,206 @@
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 1.4
+        "width": 0.45
       }
     },
     {
       "shape": {
-        "path": "M 2.6 1.4 Q 5 0.6 7.4 1.4 L 7.4 3.4 Q 5 2.6 2.6 3.4 Z"
+        "path": "M 7.5 1.4 Q 9.1 1.8 9.1 2.2 Q 9.4 9 8.8 16.6 L 7.3 16.6 Q 8 9 7.5 1.4 Z"
       },
       "fill": {
-        "color": "#FFFFFF"
+        "color": "#5A4E9A"
       },
-      "alpha": 0.2
+      "alpha": 0.38,
+      "blend": "multiply"
     },
     {
       "shape": {
-        "rect": [
-          2,
-          9,
-          6,
-          2.4
-        ]
+        "path": "M 4.9 2.2 Q 5.8 1.5 6.6 1.4 Q 5.7 6 5.4 11 Q 4.7 7 4.9 2.2 Z"
+      },
+      "fill": {
+        "color": "#FFF4D8"
+      },
+      "alpha": 0.14,
+      "blur": 0.3,
+      "clip": true,
+      "blend": "add"
+    },
+    {
+      "shape": {
+        "path": "M 5.4 9.6 Q 7 10.4 8.7 9.4"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.22
+      },
+      "alpha": 0.4
+    },
+    {
+      "shape": {
+        "path": "M 5.1 14.8 L 8.9 14.8 L 8.8 16.6 L 5.2 16.6 Z"
       },
       "fill": {
         "color": "$p.shirt_dark"
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 0.8
+        "width": 0.35
       }
     },
     {
       "shape": {
-        "rect": [
-          2.4,
-          9.3,
-          5.2,
-          0.7
-        ]
+        "path": "M 4.9 2.2 Q 7 1.2 9.1 2.2 Q 9.4 9 8.8 16.6 L 5.2 16.6 Q 4.6 9 4.9 2.2 Z"
       },
       "fill": {
-        "color": "#FFFFFF"
-      },
-      "alpha": 0.18
-    },
-    {
-      "shape": {
-        "ellipse": [
-          5,
-          13.3,
-          3,
-          2.9
-        ]
-      },
-      "fill": {
-        "radial": {
-          "cx": 4,
-          "cy": 12,
-          "r": 5,
+        "linear": {
+          "x0": 7,
+          "y0": -13,
+          "x1": 7,
+          "y1": 15,
           "stops": [
             [
               0,
-              "#FFE0BD"
+              "#F5F7FA"
             ],
             [
               1,
-              "$p.skin"
+              "#C3C5C8"
             ]
           ]
         }
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 1.2
-      }
+        "width": 0.4
+      },
+      "only": [
+        "sakura"
+      ]
     },
     {
       "shape": {
-        "path": "M 4 14.5 L 4 15.5 M 6 14.5 L 6 15.5"
+        "path": "M 7.5 1.4 Q 9.1 1.8 9.1 2.2 Q 9.4 9 8.8 16.6 L 7.3 16.6 Q 8 9 7.5 1.4 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.32,
+      "blend": "multiply",
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 5.05 14.6 L 8.95 14.6 L 8.8 16.6 L 5.2 16.6 Z"
+      },
+      "fill": {
+        "color": "#DDE3EE"
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 0.5
+        "width": 0.35
       },
-      "alpha": 0.6
+      "only": [
+        "sakura"
+      ]
     },
     {
       "shape": {
-        "rect": [
-          2.2,
-          10.4,
-          5.6,
-          1.2
-        ]
+        "path": "M 5.5 16.4 L 8.5 16.4 Q 9 18.4 8.6 20.2 Q 8 21.8 7 21.8 Q 6 21.8 5.4 20.2 Q 5 18.4 5.5 16.4 Z"
       },
       "fill": {
-        "color": "#8A929C"
+        "color": "#2A2A36"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.35
+      },
+      "only": [
+        "daichi"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 4.75 11 L 9.25 11 L 9.2 12.8 L 4.8 12.8 Z"
+      },
+      "fill": {
+        "color": "#F0E24A"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.25
+      },
+      "only": [
+        "daichi"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 4.8 11.6 L 9.2 11.6"
+      },
+      "stroke": {
+        "color": "#F4F4F8",
+        "width": 0.4
+      },
+      "only": [
+        "daichi"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 5 14.6 L 9 14.6 L 8.9 16.8 L 5.1 16.8 Z"
+      },
+      "fill": {
+        "color": "#2A2A36"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "daichi"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 5.05 9 L 8.95 9 L 8.8 16.6 L 5.2 16.6 Z"
+      },
+      "fill": {
+        "color": "$p.skin"
       },
       "stroke": {
         "color": "$p.outline",
         "width": 0.4
       },
-      "except": [
-        "sakura",
-        "daichi",
-        "haruka",
-        "marco",
-        "yuki",
-        "lena",
-        "gideon",
-        "red",
-        "green",
-        "ochre",
-        "purple",
-        "teal",
-        "cream",
-        "brown"
+      "only": [
+        "haruka"
       ]
     },
     {
       "shape": {
-        "rect": [
-          3.4,
-          10.5,
-          2.6,
-          0.9
-        ]
+        "path": "M 7.4 9 L 8.95 9 L 8.8 16.6 L 7.3 16.6 Z"
       },
       "fill": {
-        "color": "#F2F2F2"
+        "color": "#B06A80"
       },
-      "alpha": 0.8,
-      "except": [
-        "sakura",
-        "daichi",
-        "haruka",
-        "marco",
-        "yuki",
-        "lena",
-        "gideon",
-        "red",
-        "green",
-        "ochre",
-        "purple",
-        "teal",
-        "cream",
-        "brown"
+      "alpha": 0.3,
+      "blend": "multiply",
+      "only": [
+        "haruka"
       ]
     },
     {
       "shape": {
-        "rect": [
-          1.8,
-          1,
-          6.4,
-          10.6
-        ]
+        "path": "M 4.8 8.2 L 9.2 8.2 L 9.1 9.8 L 4.9 9.8 Z"
       },
       "fill": {
-        "color": "#F4F6FA"
+        "color": "$p.shirt_dark"
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 1.2
-      },
-      "only": [
-        "sakura"
-      ]
-    },
-    {
-      "shape": {
-        "rect": [
-          1.8,
-          9.6,
-          6.4,
-          2
-        ]
-      },
-      "fill": {
-        "color": "#DDE3EE"
-      },
-      "only": [
-        "sakura"
-      ]
-    },
-    {
-      "shape": {
-        "rect": [
-          1.8,
-          1,
-          6.4,
-          10.6
-        ]
-      },
-      "fill": {
-        "color": "#2A2A36"
-      },
-      "stroke": {
-        "color": "$p.outline",
-        "width": 1.2
-      },
-      "only": [
-        "lena"
-      ]
-    },
-    {
-      "shape": {
-        "rect": [
-          1.8,
-          9.8,
-          6.4,
-          1.8
-        ]
-      },
-      "fill": {
-        "color": "#E8ECF4"
-      },
-      "only": [
-        "lena"
-      ]
-    },
-    {
-      "shape": {
-        "ellipse": [
-          5,
-          13.3,
-          3,
-          2.9
-        ]
-      },
-      "fill": {
-        "color": "#DDE8F4"
-      },
-      "stroke": {
-        "color": "$p.outline",
-        "width": 1
-      },
-      "alpha": 0.8,
-      "only": [
-        "lena"
-      ]
-    },
-    {
-      "shape": {
-        "rect": [
-          2,
-          4.4,
-          6,
-          1.8
-        ]
-      },
-      "fill": {
-        "color": "#E8E24A"
-      },
-      "stroke": {
-        "color": "$p.outline",
-        "width": 0.5
-      },
-      "only": [
-        "daichi"
-      ]
-    },
-    {
-      "shape": {
-        "rect": [
-          2.1,
-          9.4,
-          5.8,
-          2.6
-        ]
-      },
-      "fill": {
-        "color": "#2A2A36"
-      },
-      "stroke": {
-        "color": "$p.outline",
-        "width": 0.6
-      },
-      "only": [
-        "daichi"
-      ]
-    },
-    {
-      "shape": {
-        "rect": [
-          2,
-          6,
-          6,
-          5.6
-        ]
-      },
-      "fill": {
-        "color": "$p.skin"
-      },
-      "stroke": {
-        "color": "$p.outline",
-        "width": 1
+        "width": 0.35
       },
       "only": [
         "haruka"
@@ -336,35 +273,29 @@
     },
     {
       "shape": {
-        "rect": [
-          2,
-          8.8,
-          6,
-          1.4
-        ]
+        "path": "M 5.1 14.4 L 8.9 14.4 L 8.8 16.2 L 5.2 16.2 Z"
       },
       "fill": {
         "color": "#4FB06A"
       },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
       "only": [
         "haruka"
       ]
     },
     {
       "shape": {
-        "rect": [
-          2,
-          5,
-          6,
-          6.6
-        ]
+        "path": "M 5.05 9 L 8.95 9 L 8.8 16.6 L 5.2 16.6 Z"
       },
       "fill": {
         "color": "$p.skin"
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 1
+        "width": 0.4
       },
       "only": [
         "marco"
@@ -372,19 +303,42 @@
     },
     {
       "shape": {
-        "rect": [
-          2,
-          9.4,
-          6,
-          2.2
-        ]
+        "path": "M 7.4 9 L 8.95 9 L 8.8 16.6 L 7.3 16.6 Z"
+      },
+      "fill": {
+        "color": "#B06A80"
+      },
+      "alpha": 0.3,
+      "blend": "multiply",
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 4.8 8.2 L 9.2 8.2 L 9.1 9.8 L 4.9 9.8 Z"
+      },
+      "fill": {
+        "color": "$p.shirt_dark"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.35
+      },
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 5.1 14.4 L 8.9 14.4 L 8.8 16.2 L 5.2 16.2 Z"
       },
       "fill": {
         "color": "#8A5A32"
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 0.6
+        "width": 0.3
       },
       "only": [
         "marco"
@@ -392,19 +346,14 @@
     },
     {
       "shape": {
-        "ellipse": [
-          5,
-          13.3,
-          3,
-          2.9
-        ]
+        "path": "M 5.5 16.4 L 8.5 16.4 Q 9 18.4 8.6 20.2 Q 8 21.8 7 21.8 Q 6 21.8 5.4 20.2 Q 5 18.4 5.5 16.4 Z"
       },
       "fill": {
         "color": "#1C1C24"
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 1
+        "width": 0.35
       },
       "only": [
         "yuki"
@@ -412,19 +361,14 @@
     },
     {
       "shape": {
-        "rect": [
-          2,
-          9.4,
-          6,
-          2.4
-        ]
+        "path": "M 4.9 2.2 Q 7 1.2 9.1 2.2 Q 9.4 9 8.8 16.6 L 5.2 16.6 Q 4.6 9 4.9 2.2 Z"
       },
       "fill": {
-        "color": "#1C1C24"
+        "color": "$p.shirt"
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 0.6
+        "width": 0.4
       },
       "only": [
         "yuki"
@@ -432,47 +376,130 @@
     },
     {
       "shape": {
-        "rect": [
-          1.6,
-          7.6,
-          6.8,
-          4
-        ]
+        "path": "M 7.5 1.4 Q 9.1 1.8 9.1 2.2 Q 9.4 9 8.8 16.6 L 7.3 16.6 Q 8 9 7.5 1.4 Z"
       },
       "fill": {
-        "color": "#D8B65A"
+        "color": "#5A4E9A"
       },
-      "stroke": {
-        "color": "$p.outline",
-        "width": 0.9
-      },
+      "alpha": 0.32,
+      "blend": "multiply",
       "only": [
-        "gideon"
+        "yuki"
       ]
     },
     {
       "shape": {
-        "polygon": [
-          [
-            2.6,
-            9
-          ],
-          [
-            4,
-            9
-          ],
-          [
-            3.3,
-            6.4
+        "path": "M 5.05 14.6 L 8.95 14.6 L 8.8 16.6 L 5.2 16.6 Z"
+      },
+      "fill": {
+        "color": "#1C1C24"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.35
+      },
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 5.5 16.4 L 8.5 16.4 Q 9 18.4 8.6 20.2 Q 8 21.8 7 21.8 Q 6 21.8 5.4 20.2 Q 5 18.4 5.5 16.4 Z"
+      },
+      "fill": {
+        "color": "#E4EAF4"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.35
+      },
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 4.9 2.2 Q 7 1.2 9.1 2.2 Q 9.4 9 8.8 16.6 L 5.2 16.6 Q 4.6 9 4.9 2.2 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 7,
+          "y0": -13,
+          "x1": 7,
+          "y1": 15,
+          "stops": [
+            [
+              0,
+              "#3B3B46"
+            ],
+            [
+              1,
+              "#22222B"
+            ]
           ]
-        ]
-      },
-      "fill": {
-        "color": "#D8B65A"
+        }
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 0.5
+        "width": 0.4
+      },
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 7.5 1.4 Q 9.1 1.8 9.1 2.2 Q 9.4 9 8.8 16.6 L 7.3 16.6 Q 8 9 7.5 1.4 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.32,
+      "blend": "multiply",
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 5.05 14.6 L 8.95 14.6 L 8.8 16.6 L 5.2 16.6 Z"
+      },
+      "fill": {
+        "color": "#E8ECF4"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.35
+      },
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 4.7 11.4 L 9.3 11.4 L 9 16.6 L 5 16.6 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 5,
+          "y0": 3,
+          "x1": 9,
+          "y1": 3,
+          "stops": [
+            [
+              0,
+              "#FFE898"
+            ],
+            [
+              1,
+              "#A8862A"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.35
       },
       "only": [
         "gideon"
@@ -482,25 +509,25 @@
       "shape": {
         "polygon": [
           [
-            6,
-            9
-          ],
-          [
-            7.4,
-            9
+            5.7,
+            11.4
           ],
           [
             6.7,
-            6.4
+            11.4
+          ],
+          [
+            6.2,
+            9.6
           ]
         ]
       },
       "fill": {
-        "color": "#D8B65A"
+        "color": "#E0BE60"
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 0.5
+        "width": 0.25
       },
       "only": [
         "gideon"
@@ -508,19 +535,91 @@
     },
     {
       "shape": {
-        "rect": [
-          2,
-          9,
-          6,
-          2.6
+        "polygon": [
+          [
+            7.3,
+            11.4
+          ],
+          [
+            8.3,
+            11.4
+          ],
+          [
+            7.8,
+            9.6
+          ]
         ]
       },
       "fill": {
-        "color": "#355E3C"
+        "color": "#E0BE60"
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 0.6
+        "width": 0.25
+      },
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 5.5 16.4 L 8.5 16.4 Q 9 18.4 8.6 20.2 Q 8 21.8 7 21.8 Q 6 21.8 5.4 20.2 Q 5 18.4 5.5 16.4 Z"
+      },
+      "fill": {
+        "color": "#2B1B30"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.35
+      },
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 4.8 10.6 L 9.2 10.6 L 8.9 16.6 L 5.1 16.6 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 1,
+          "y0": 3,
+          "x1": 13,
+          "y1": 3,
+          "stops": [
+            [
+              0,
+              "#E4E8F0"
+            ],
+            [
+              0.5,
+              "#8A90A0"
+            ],
+            [
+              1,
+              "#4A4E5C"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.35
+      },
+      "only": [
+        "red"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 5 12.6 L 9 12.6 L 8.85 16.6 L 5.15 16.6 Z"
+      },
+      "fill": {
+        "color": "#6A4426"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.35
       },
       "only": [
         "green"
@@ -528,19 +627,14 @@
     },
     {
       "shape": {
-        "rect": [
-          2,
-          9.4,
-          6,
-          2.2
-        ]
+        "path": "M 5.05 9 L 8.95 9 L 8.8 16.6 L 5.2 16.6 Z"
       },
       "fill": {
-        "color": "#7A5A36"
+        "color": "$p.skin"
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 0.6
+        "width": 0.4
       },
       "only": [
         "ochre"
@@ -548,14 +642,57 @@
     },
     {
       "shape": {
-        "path": "M 1 8 L 9 8 L 10 12 L 0 12 Z"
+        "path": "M 7.4 9 L 8.95 9 L 8.8 16.6 L 7.3 16.6 Z"
       },
       "fill": {
-        "color": "#3E2E76"
+        "color": "#B06A80"
+      },
+      "alpha": 0.3,
+      "blend": "multiply",
+      "only": [
+        "ochre"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 4.8 8.2 L 9.2 8.2 L 9.1 9.8 L 4.9 9.8 Z"
+      },
+      "fill": {
+        "color": "$p.shirt_dark"
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 0.8
+        "width": 0.35
+      },
+      "only": [
+        "ochre"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 4.7 2.2 Q 7 1.2 9.3 2.2 L 10.4 16.4 Q 7 18 3.6 16.4 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 7,
+          "y0": 2,
+          "x1": 7,
+          "y1": 17,
+          "stops": [
+            [
+              0,
+              "#6A4CB0"
+            ],
+            [
+              1,
+              "#3E2E76"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.45
       },
       "only": [
         "purple"
@@ -563,19 +700,72 @@
     },
     {
       "shape": {
-        "rect": [
-          2,
-          8.4,
-          6,
-          3
-        ]
+        "path": "M 5.05 9 L 8.95 9 L 8.8 16.6 L 5.2 16.6 Z"
       },
       "fill": {
-        "color": "#FFFFFF"
+        "color": "$p.skin"
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 0.6
+        "width": 0.4
+      },
+      "only": [
+        "teal"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 7.4 9 L 8.95 9 L 8.8 16.6 L 7.3 16.6 Z"
+      },
+      "fill": {
+        "color": "#B06A80"
+      },
+      "alpha": 0.3,
+      "blend": "multiply",
+      "only": [
+        "teal"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 4.8 8.2 L 9.2 8.2 L 9.1 9.8 L 4.9 9.8 Z"
+      },
+      "fill": {
+        "color": "$p.shirt_dark"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.35
+      },
+      "only": [
+        "teal"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 5.1 14.4 L 8.9 14.4 L 8.8 16.2 L 5.2 16.2 Z"
+      },
+      "fill": {
+        "color": "#5A3A1E"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.3
+      },
+      "only": [
+        "teal"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 5.05 9 L 8.95 9 L 8.8 16.6 L 5.2 16.6 Z"
+      },
+      "fill": {
+        "color": "$p.skin"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.4
       },
       "only": [
         "cream"
@@ -583,28 +773,146 @@
     },
     {
       "shape": {
-        "rect": [
-          2,
-          8.6,
-          6,
-          3
-        ]
+        "path": "M 7.4 9 L 8.95 9 L 8.8 16.6 L 7.3 16.6 Z"
       },
       "fill": {
-        "color": "#8F94A4"
+        "color": "#B06A80"
+      },
+      "alpha": 0.3,
+      "blend": "multiply",
+      "only": [
+        "cream"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 4.8 8.2 L 9.2 8.2 L 9.1 9.8 L 4.9 9.8 Z"
+      },
+      "fill": {
+        "color": "$p.shirt_dark"
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 0.7
+        "width": 0.35
       },
       "only": [
-        "red"
+        "cream"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 5.5 16.4 L 8.5 16.4 Q 9 18.4 8.6 20.2 Q 8 21.8 7 21.8 Q 6 21.8 5.4 20.2 Q 5 18.4 5.5 16.4 Z"
+      },
+      "fill": {
+        "color": "#5A3E28"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.35
+      },
+      "only": [
+        "brown"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 4.9 2.2 Q 7 1.2 9.1 2.2 Q 9.4 9 8.8 16.6 L 5.2 16.6 Q 4.6 9 4.9 2.2 Z"
+      },
+      "fill": {
+        "color": "$p.shirt"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.4
+      },
+      "only": [
+        "brown"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 7.5 1.4 Q 9.1 1.8 9.1 2.2 Q 9.4 9 8.8 16.6 L 7.3 16.6 Q 8 9 7.5 1.4 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.32,
+      "blend": "multiply",
+      "only": [
+        "brown"
+      ]
+    },
+    {
+      "shape": {
+        "rect": [
+          5.3,
+          15.9,
+          3.4,
+          0.9
+        ]
+      },
+      "fill": {
+        "color": "#3A3A44"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.2
+      },
+      "except": [
+        "sakura",
+        "daichi",
+        "haruka",
+        "marco",
+        "yuki",
+        "lena",
+        "gideon",
+        "red",
+        "green",
+        "ochre",
+        "purple",
+        "teal",
+        "cream",
+        "brown"
+      ]
+    },
+    {
+      "shape": {
+        "rect": [
+          6.3,
+          15.75,
+          1.4,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "#DDE8F0"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.2
+      },
+      "except": [
+        "sakura",
+        "daichi",
+        "haruka",
+        "marco",
+        "yuki",
+        "lena",
+        "gideon",
+        "red",
+        "green",
+        "ochre",
+        "purple",
+        "teal",
+        "cream",
+        "brown"
       ]
     }
   ],
   "palette": {
-    "skin": "#F1C9A0",
+    "skin": "#F4CFAE",
     "hair": "#2E2A3A",
+    "eye": "#4A6FA8",
     "shirt": "#3F6FD1",
     "shirt_dark": "#2E54A5",
     "pants": "#4A4F62",
@@ -614,45 +922,58 @@
   "variants": {
     "red": {
       "shirt": "#D14B3F",
-      "shirt_dark": "#A5362E"
+      "shirt_dark": "#A5362E",
+      "eye": "#6A4A2A"
     },
     "green": {
       "shirt": "#4FA464",
       "shirt_dark": "#38804A",
-      "hair": "#5A3A24"
+      "hair": "#5A3A24",
+      "eye": "#3E7A48",
+      "pants": "#5A4A38"
     },
     "ochre": {
       "shirt": "#D4A040",
       "shirt_dark": "#A67C2A",
       "skin": "#D9A77A",
-      "hair": "#1E1B28"
+      "hair": "#1E1B28",
+      "eye": "#5A3A1E",
+      "pants": "#6B4A32"
     },
     "purple": {
       "shirt": "#8A5CC0",
       "shirt_dark": "#6B439A",
-      "hair": "#C9C1B0"
+      "hair": "#C9C1B0",
+      "eye": "#8A5CC0",
+      "pants": "#3E2E76"
     },
     "teal": {
       "shirt": "#3FA8A8",
       "shirt_dark": "#2E8080",
       "skin": "#8D5A3C",
-      "hair": "#1A1620"
+      "hair": "#1A1620",
+      "eye": "#2E2018",
+      "pants": "#245E70"
     },
     "cream": {
       "shirt": "#E8E4DC",
       "shirt_dark": "#BDB8AC",
       "pants": "#6B5A48",
-      "hair": "#A0522D"
+      "hair": "#A0522D",
+      "eye": "#6A8A3A"
     },
     "brown": {
       "shirt": "#8C6A48",
       "shirt_dark": "#6A4E32",
       "skin": "#C98E66",
-      "hair": "#2A1E16"
+      "hair": "#2A1E16",
+      "eye": "#3A2A1A",
+      "pants": "#4A3424"
     },
     "sakura": {
-      "skin": "#F6D5BA",
-      "hair": "#C86AA8",
+      "skin": "#F8D8C0",
+      "hair": "#E07AB8",
+      "eye": "#A050D0",
       "shirt": "#8A5FD0",
       "shirt_dark": "#6A45A8",
       "pants": "#3C3A5C",
@@ -661,14 +982,16 @@
     "daichi": {
       "skin": "#D9A878",
       "hair": "#1E1A18",
+      "eye": "#5A3A1E",
       "shirt": "#D6532B",
       "shirt_dark": "#A33E1E",
       "pants": "#2E3238",
       "boots": "#1E1E1E"
     },
     "haruka": {
-      "skin": "#F0C8A8",
-      "hair": "#6A4A2E",
+      "skin": "#F2CCAE",
+      "hair": "#7A5232",
+      "eye": "#3E9A5A",
       "shirt": "#4FA87A",
       "shirt_dark": "#3A8260",
       "pants": "#6A5A44",
@@ -677,22 +1000,25 @@
     "marco": {
       "skin": "#E6BE9A",
       "hair": "#1E1814",
+      "eye": "#4A3220",
       "shirt": "#ECECEC",
       "shirt_dark": "#BDBDC8",
       "pants": "#3A4A5A",
       "boots": "#2A2A30"
     },
     "yuki": {
-      "skin": "#F0D2B8",
-      "hair": "#D8D8E8",
+      "skin": "#F4D8C2",
+      "hair": "#DCDCF0",
+      "eye": "#C03A50",
       "shirt": "#3A3A58",
       "shirt_dark": "#2A2A42",
       "pants": "#26263A",
       "boots": "#14141E"
     },
     "lena": {
-      "skin": "#EBCFBE",
+      "skin": "#EFD4C4",
       "hair": "#3A2A2A",
+      "eye": "#5A7A9A",
       "shirt": "#D8DCE6",
       "shirt_dark": "#AEB4C4",
       "pants": "#4A4F66",
@@ -701,6 +1027,7 @@
     "gideon": {
       "skin": "#CFA58A",
       "hair": "#8A2A2A",
+      "eye": "#E02838",
       "shirt": "#3A2E48",
       "shirt_dark": "#261E32",
       "pants": "#1E1A28",

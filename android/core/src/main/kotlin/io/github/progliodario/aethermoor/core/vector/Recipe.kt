@@ -49,7 +49,12 @@ sealed interface Paint {
     data class Linear(val x0: Float, val y0: Float, val x1: Float, val y1: Float, val stops: List<GradientStop>) : Paint
 
     data class Radial(val cx: Float, val cy: Float, val r: Float, val stops: List<GradientStop>) : Paint
+
+    /** A cloudy texture (spec 13, "Noise"): [scale] is the size of the largest clouds, [period] makes it repeat. */
+    data class Noise(val scale: Float, val seed: Int, val octaves: Int, val period: Int, val stops: List<GradientStop>) : Paint
 }
+
+enum class Blend { NORMAL, MULTIPLY, ADD }
 
 sealed interface Shape {
     data class Rect(val x: Float, val y: Float, val w: Float, val h: Float) : Shape
@@ -72,6 +77,11 @@ data class Layer(
     val only: List<String> = emptyList(),
     /** Not drawn with one of these variants. */
     val except: List<String> = emptyList(),
+    /** Softens the edge: the radius of the blur of the coverage, in art units. */
+    val blur: Float = 0f,
+    /** Painted only where something is already painted. */
+    val clip: Boolean = false,
+    val blend: Blend = Blend.NORMAL,
 )
 
 typealias Palette = Map<String, String>
@@ -85,6 +95,8 @@ data class Recipe(
     val palette: Palette,
     val variants: Map<String, Palette>,
     val layers: List<Layer>,
+    /** The picture looks to the left: mirrored to face the player (spec 13, "Facing"). */
+    val facesLeft: Boolean = false,
 )
 
 // Numbers are read through Double and then narrowed, exactly like the C++ client does.
@@ -104,6 +116,13 @@ private fun parsePaint(fill: JsonObject): Paint {
         val g = it.jsonObject
         return Paint.Linear(g.getValue("x0").f(), g.getValue("y0").f(), g.getValue("x1").f(), g.getValue("y1").f(),
             parseStops(g.getValue("stops").jsonArray))
+    }
+    fill["noise"]?.let {
+        val n = it.jsonObject
+        return Paint.Noise(
+            n.getValue("scale").f(), n["seed"]?.asInt() ?: 0, n["octaves"]?.asInt() ?: 3, n["period"]?.asInt() ?: 0,
+            parseStops(n.getValue("stops").jsonArray),
+        )
     }
     val g = fill.getValue("radial").jsonObject
     return Paint.Radial(g.getValue("cx").f(), g.getValue("cy").f(), g.getValue("r").f(),
@@ -135,6 +154,13 @@ fun parseRecipe(jsonText: String): Result<Recipe> =
                 alpha = l["alpha"]?.f() ?: 1f,
                 only = l["only"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
                 except = l["except"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
+                blur = l["blur"]?.f() ?: 0f,
+                clip = l["clip"]?.asBoolean() ?: false,
+                blend = when ((l["blend"] as? JsonPrimitive)?.contentOrNull) {
+                    "multiply" -> Blend.MULTIPLY
+                    "add" -> Blend.ADD
+                    else -> Blend.NORMAL
+                },
             )
         }
         Recipe(
@@ -146,6 +172,7 @@ fun parseRecipe(jsonText: String): Result<Recipe> =
             palette = j["palette"]?.let { parsePalette(it) } ?: emptyMap(),
             variants = j["variants"]?.jsonObject?.mapValues { parsePalette(it.value) } ?: emptyMap(),
             layers = layers,
+            facesLeft = (j["faces"] as? JsonPrimitive)?.contentOrNull == "left",
         )
     }
 

@@ -28,7 +28,7 @@ So changing the numbers of these skills is a data change (run `python tools/gen_
 
 The eight base protagonists are the examples: `data/base/protagonists/<name>.json` (`schemas/protagonist.schema.json`) and, for each one, the files that its data names. A new one needs, in this order:
 
-1. **Look**: a palette variant of the same name in the four recipes of `data/base/art/characters/ren/` (`head`, `torso`, `arm`, `leg`: `skin`, `hair`, `shirt`, `shirt_dark`, `pants`, `boots`), given as `art_variant`.
+1. **Look**: a palette variant of the same name in `VARIANTS` of `tools/art_chars.py` (`skin`, `hair`, `eye`, `shirt`, `shirt_dark`, `pants`, `boots`) and what the person wears in `tools/art_looks.py` (functions `@look("<name>", "<part>")` for the head, the torso, the arm, the leg and the cape, each told whether the figure is seen from behind); add the name to `PROTAGONISTS` there, run `python tools/art_chars.py` and look at it with `python tools/art_preview.py --figures <name>` ([art style](../design/art-style.md)).
 2. **Weapon and keepsake**: `data/base/items/<weapon>.json` (kind `weapon`, `atk` and `matk`) and `keepsake_<name>.json` (kind `key`, price 0, so that it cannot be sold).
 3. **Skills**: `data/base/skills/<name>/`: a basic attack and a power strike (two skills with a `hitbox`, the second with a `cost.mp`; `damage.kind` is `physical` or `magical`) and, optionally, an own dodge (a skill of type `movement` with a `movement` block); `base:skill/common/dodge` is the default. Rules in [spec 05](../spec/05-combat-v1.md).
 4. **The protagonist file**: base stats and growth (the stat screen of the chooser shows what they give at level 1), `starting_items` (weapon, bread, potions, the keepsake), `starting_skills` in that order, `art_variant`, and `gift_rules` if the gift has numbers (the five knobs of [spec 18](../spec/18-protagonists.md)). `python tools/balance_report.py` does not model other protagonists than Ren.
@@ -49,7 +49,7 @@ Fishing is gathering from a prop that grows on the beaches (`base:art/prop/reeds
 ## Game to hunt
 
 The game of the hunt is a table in `tools/make_hunting.py`: level, stats, palette (on the body of the wolves), drops, the fauna drop and the regions where it lives, and its items. Give it a look of its own
-in `tools/art_creature_looks.py` (`WOLVES`), then run `python tools/make_hunting.py`, `python tools/art_creatures.py`, `python tools/make_recipes.py` (for the recipes that use its drops) and
+in `tools/art_creatures.py` (`BEASTS`: its feature and the shape of its tail, ears and snout), then run `python tools/make_hunting.py`, `python tools/art_creatures.py`, `python tools/make_recipes.py` (for the recipes that use its drops) and
 `python tools/gen_conformance.py` (the fauna changes the world). Rules: [spec 06](../spec/06-items.md), "Hunting".
 
 ## A companion
@@ -82,7 +82,7 @@ of ambience of the regions are switched off in the base pack (see [spec 14](../s
 
 ## A creature
 
-1. Art: copy a recipe from `data/base/art/creatures/` and change its `palette` (same keys) for a recolor, or draw a new one (`schemas/art_recipe.schema.json`: layers of `rect`, `ellipse`, `polygon` and `path` with flat, linear or radial fills). Look at it with `python tools/art_preview.py <name> --out sheet.html` and open the sheet in a browser.
+1. Art: copy a recipe of the same family from `data/base/art/creatures/` and change its `palette` (same keys), then add the creature to the table of its family in `tools/art_creatures.py` with a feature of its own and run it ([art style](../design/art-style.md), "Creature"); a creature of a new kind is a new function there.
 2. `data/base/enemies/<name>.json`: level, `stats`, `weaknesses_pm`, `xp`, `drops` (one item with a weight in permille), `radius_x100`, a `behavior` from `data/base/behaviors/` and the art.
 3. Where it lives: add it to the `fauna` of a region (`enemy`, `drop`, `weight`), or to a stamp (below). The guild board and the commissions find it through the fauna.
 4. Names and the drop item as in the sections above.
