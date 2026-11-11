@@ -713,6 +713,78 @@
       "station": "base:art/prop/anvil"
     },
     {
+      "id": "bat_charm",
+      "output": {
+        "item": "base:item/bat_charm",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/bat_wing",
+          "qty": 3
+        },
+        {
+          "item": "base:item/slime_gel",
+          "qty": 2
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "ember_ring",
+      "output": {
+        "item": "base:item/ember_ring",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/ember_core",
+          "qty": 2
+        },
+        {
+          "item": "base:item/iron_ore",
+          "qty": 2
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "frost_locket",
+      "output": {
+        "item": "base:item/frost_locket",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/ice_crystal",
+          "qty": 2
+        },
+        {
+          "item": "base:item/polar_fur",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "sand_charm",
+      "output": {
+        "item": "base:item/sand_charm",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/scorpion_sting",
+          "qty": 2
+        },
+        {
+          "item": "base:item/amber_drop",
+          "qty": 2
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
       "id": "fine_iron_sword",
       "output": {
         "item": "base:item/fine_iron_sword",

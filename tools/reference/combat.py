@@ -433,6 +433,9 @@ class CombatSim:
             if enemy.broken > 0:
                 damage = damage * STAGGER_DAMAGE_PCT // 100
             enemy.hp -= damage
+            drain = (self.items.get(self.equipped["accessory"], {}).get("accessory") or {}).get("drain_pm", 0)
+            if drain > 0 and 0 < self.hp < self.derived["max_hp"]:  # an accessory that drains (spec 06, "Equipment")
+                self.hp = min(self.derived["max_hp"], self.hp + max(1, damage * drain // 1000))
             if enemy.hp > 0:
                 self._apply_status(enemy)
                 pct = enemy.d.get("stagger_pct", STAGGER_PCT)

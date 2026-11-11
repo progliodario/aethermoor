@@ -1138,6 +1138,11 @@ void WorldSim::do_hits() {
             amount = amount * kStaggerDamagePct / 100;
         }
         enemy.hp -= amount;
+        if (const auto charm = m_setup_.items.find(m_equipped_accessory_);  // an accessory that drains (spec 06)
+            charm != m_setup_.items.end() && charm->second.acc_drain_pm > 0 && p.hp > 0 && p.hp < m_derived_.max_hp) {
+            p.hp = std::min(m_derived_.max_hp,
+                            p.hp + std::max<std::int64_t>(1, amount * charm->second.acc_drain_pm / 1000));
+        }
         enemy.hit_flash = kHitFlashTicks;
         m_events_.push_back({enemy.position, amount, crit, false, in.elem_mult_pm > 1000});
         m_cues_.push_back({"hit", enemy.def.sound, enemy.position, crit, in.elem_mult_pm > 1000});

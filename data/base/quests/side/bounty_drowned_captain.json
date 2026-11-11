@@ -35,6 +35,11 @@
       "effect": "add_item",
       "item": "base:item/pearl_elixir",
       "qty": 2
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/pearl_pendant",
+      "qty": 1
     }
   ]
 }

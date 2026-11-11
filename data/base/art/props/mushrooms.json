@@ -1,0 +1,220 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/mushrooms",
+  "canvas": {
+    "w": 28,
+    "h": 22,
+    "origin": [
+      14,
+      18
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          14,
+          18.5,
+          11,
+          3
+        ]
+      },
+      "fill": {
+        "color": "#000000"
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "ellipse": [
+          14,
+          17.5,
+          10,
+          2.6
+        ]
+      },
+      "fill": {
+        "color": "$p.moss"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "rect": [
+          8.08,
+          13.65,
+          1.85,
+          3.85
+        ]
+      },
+      "fill": {
+        "color": "$p.stem"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.6
+      }
+    },
+    {
+      "shape": {
+        "path": "M 4.8 14.0 Q 9 8.75 13.2 14.0 Z"
+      },
+      "fill": {
+        "color": "$p.cap"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.8
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          7.11,
+          12.04,
+          0.55,
+          0.42
+        ]
+      },
+      "fill": {
+        "color": "#FFF4E0"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          9.84,
+          12.04,
+          0.55,
+          0.42
+        ]
+      },
+      "fill": {
+        "color": "#FFF4E0"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "rect": [
+          13.81,
+          12,
+          2.38,
+          5.5
+        ]
+      },
+      "fill": {
+        "color": "$p.stem"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.6
+      }
+    },
+    {
+      "shape": {
+        "path": "M 9.6 12.5 Q 15 5.0 20.4 12.5 Z"
+      },
+      "fill": {
+        "color": "$p.cap"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.8
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          12.57,
+          9.7,
+          0.7,
+          0.54
+        ]
+      },
+      "fill": {
+        "color": "#FFF4E0"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          16.08,
+          9.7,
+          0.7,
+          0.54
+        ]
+      },
+      "fill": {
+        "color": "#FFF4E0"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "rect": [
+          19.71,
+          14.2,
+          1.58,
+          3.3
+        ]
+      },
+      "fill": {
+        "color": "$p.stem"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.6
+      }
+    },
+    {
+      "shape": {
+        "path": "M 16.9 14.5 Q 20.5 10.0 24.1 14.5 Z"
+      },
+      "fill": {
+        "color": "$p.cap"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.8
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18.88,
+          12.82,
+          0.47,
+          0.36
+        ]
+      },
+      "fill": {
+        "color": "#FFF4E0"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          21.22,
+          12.82,
+          0.47,
+          0.36
+        ]
+      },
+      "fill": {
+        "color": "#FFF4E0"
+      },
+      "alpha": 0.9
+    }
+  ],
+  "palette": {
+    "cap": "#C0583A",
+    "light": "#E8906A",
+    "stem": "#F2E6CC",
+    "moss": "#4E8A3E",
+    "outline": "#3A1E12"
+  }
+}

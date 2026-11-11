@@ -35,6 +35,11 @@
       "effect": "add_item",
       "item": "base:item/desert_nectar",
       "qty": 2
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/sand_charm",
+      "qty": 1
     }
   ]
 }

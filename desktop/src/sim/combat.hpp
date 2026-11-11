@@ -125,6 +125,7 @@ struct ItemDef {
     std::int64_t acc_mdef = 0;
     std::int64_t acc_max_hp = 0;
     std::int64_t acc_crit_pm = 0;
+    std::int64_t acc_drain_pm = 0;  // share of the damage of every hit given back to the player
 };
 
 // What a shop sells: prices in permille of the base price (spec 06).
