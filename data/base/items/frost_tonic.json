@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/frost_tonic",
+  "name": "$i18n:item.frost_tonic.name",
+  "description": "$i18n:item.frost_tonic.desc",
+  "kind": "consumable",
+  "rarity": "uncommon",
+  "price": 190,
+  "stack_max": 99,
+  "use": {
+    "effects": [
+      {
+        "effect": "restore_mp",
+        "amount": 120
+      }
+    ]
+  }
+}

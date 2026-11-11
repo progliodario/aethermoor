@@ -1,0 +1,22 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/moonmoss_draught",
+  "name": "$i18n:item.moonmoss_draught.name",
+  "description": "$i18n:item.moonmoss_draught.desc",
+  "kind": "consumable",
+  "rarity": "uncommon",
+  "price": 160,
+  "stack_max": 99,
+  "use": {
+    "effects": [
+      {
+        "effect": "heal",
+        "amount": 200
+      },
+      {
+        "effect": "restore_mp",
+        "amount": 40
+      }
+    ]
+  }
+}

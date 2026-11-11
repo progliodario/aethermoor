@@ -29,6 +29,14 @@ RECIPES = {
     "leather_vest": ("leather_vest", 1, {"tawny_fur": 4, "spider_silk": 2}),
     "studded_leather": ("studded_leather", 1, {"leather_vest": 1, "iron_ore": 4}),
     "pike": ("pike", 1, {"iron_ore": 4, "wood_log": 3}),
+    # the brews of the regions: every material the creatures leave has a use
+    "moonmoss_draught": ("moonmoss_draught", 1, {"moss_clump": 2, "shade_wisp": 1, "owl_feather": 1}),
+    "miners_broth": ("miners_broth", 1, {"rust_flake": 2, "wolf_fang": 2, "healing_herb": 1}),
+    "desert_nectar": ("desert_nectar", 1, {"amber_drop": 2, "scorpion_sting": 1}),
+    "frost_tonic": ("frost_tonic", 1, {"ice_crystal": 2, "polar_fur": 1}),
+    "pearl_elixir": ("pearl_elixir", 1, {"pearl_dust": 2, "tide_pearl": 1, "coral_fragment": 1}),
+    "ember_brew": ("ember_brew", 1, {"ember_core": 1, "magma_shard": 1, "char_chunk": 1}),
+    "starlight_elixir": ("starlight_elixir", 1, {"star_dust": 2, "nebula_ash": 1, "storm_feather": 1}),
     # fine gear, at an anvil (every town has one): the plain piece and materials
     "fine_iron_sword": ("fine_iron_sword", 1, {"iron_sword": 1, "iron_ore": 3, "golem_core": 1}),
     "fine_hand_axe": ("fine_hand_axe", 1, {"hand_axe": 1, "iron_ore": 3, "wood_log": 3}),
@@ -39,7 +47,7 @@ RECIPES = {
 
 
 # the cooked dishes are made next to a campfire (spec 06, "Stations"): Fenwick, Aldermere and every outpost have one
-AT_FIRE = ("hearty_stew", "fish_stew", "royal_feast")
+AT_FIRE = ("hearty_stew", "fish_stew", "royal_feast", "miners_broth")
 # the fine gear is made at an anvil
 AT_ANVIL = ("fine_iron_sword", "fine_hand_axe", "fine_pike", "fine_leather_vest", "fine_studded_leather",)
 
