@@ -5,28 +5,29 @@ import io.github.progliodario.aethermoor.core.sim.BehaviorDef
 import io.github.progliodario.aethermoor.core.sim.CombatSetup
 import io.github.progliodario.aethermoor.core.sim.CompanionDef
 import io.github.progliodario.aethermoor.core.sim.DodgeDef
-import io.github.progliodario.aethermoor.core.sim.GiftDef
-import io.github.progliodario.aethermoor.core.sim.StrikeDef
 import io.github.progliodario.aethermoor.core.sim.DropDef
 import io.github.progliodario.aethermoor.core.sim.EnemyDef
 import io.github.progliodario.aethermoor.core.sim.EnemySpawn
 import io.github.progliodario.aethermoor.core.sim.GatherDrop
 import io.github.progliodario.aethermoor.core.sim.GatherNode
-import io.github.progliodario.aethermoor.core.sim.Prop
+import io.github.progliodario.aethermoor.core.sim.GiftDef
 import io.github.progliodario.aethermoor.core.sim.ItemDef
 import io.github.progliodario.aethermoor.core.sim.ItemEffect
 import io.github.progliodario.aethermoor.core.sim.PlayerSetup
+import io.github.progliodario.aethermoor.core.sim.Prop
 import io.github.progliodario.aethermoor.core.sim.RecipeDef
 import io.github.progliodario.aethermoor.core.sim.ShopDef
 import io.github.progliodario.aethermoor.core.sim.SkillDef
 import io.github.progliodario.aethermoor.core.sim.StorySetup
-import io.github.progliodario.aethermoor.core.sim.TileDef
+import io.github.progliodario.aethermoor.core.sim.StrikeDef
 import io.github.progliodario.aethermoor.core.sim.TalentDef
-import io.github.progliodario.aethermoor.core.sim.TitleDef
+import io.github.progliodario.aethermoor.core.sim.TileDef
 import io.github.progliodario.aethermoor.core.sim.TileMap
 import io.github.progliodario.aethermoor.core.sim.Tileset
+import io.github.progliodario.aethermoor.core.sim.TitleDef
 import io.github.progliodario.aethermoor.core.sim.WeaponStats
 import io.github.progliodario.aethermoor.core.sim.WorldSim
+import io.github.progliodario.aethermoor.core.sim.accessoryOf
 import io.github.progliodario.aethermoor.core.sim.parseStorySetup
 import kotlin.math.abs
 import kotlinx.serialization.json.JsonArray
@@ -188,7 +189,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
             ItemDef(
                 effects = d["effects"]?.jsonArray?.map {
                     ItemEffect(
-                        it.jsonObject.getValue("effect").jsonPrimitive.content, it.jsonObject.getValue("amount").jsonPrimitive.long,
+                        it.jsonObject.getValue("effect").jsonPrimitive.content, it.jsonObject["amount"]?.jsonPrimitive?.long ?: 0L,
                         it.jsonObject["ticks"]?.jsonPrimitive?.int ?: 0,
                     )
                 } ?: emptyList(),
