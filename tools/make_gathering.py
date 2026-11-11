@@ -19,6 +19,9 @@ ITEMS = {
     "stone_chunk": ("material", 3, [], "Stone chunk", "Pezzo di pietra", "Heavy and sharp at one end.", "Pesante e affilato da un lato."),
     "iron_ore": ("material", 12, [], "Iron ore", "Minerale di ferro", "Rusty red, heavy for its size.", "Rosso ruggine, pesante per la sua grandezza."),
     "cactus_pulp": ("food", 3, [("heal", 8)], "Cactus pulp", "Polpa di cactus", "Cool and watery. Restores a little health.", "Fresca e acquosa. Ripristina un po' di salute."),
+    # fishing in the reeds of the shores
+    "river_fish": ("food", 6, [("heal", 15)], "Fresh fish", "Pesce fresco", "Still wet. Better grilled, but it will do raw. Restores a little health.", "Ancora bagnato. Meglio alla griglia, ma va bene anche crudo. Ripristina un po' di salute."),
+    "golden_carp": ("material", 80, [], "Golden carp", "Carpa dorata", "A rare fish with scales like coins. Merchants pay well for it.", "Un pesce raro con le squame come monete. I mercanti lo pagano bene."),
 }
 
 # prop art -> what it gives; every drop rolls on its own (`weight_pm` out of 1000), `qty` is a range
@@ -35,6 +38,9 @@ NODES = [
      "drops": [("stone_chunk", 1, 2, 1000), ("iron_ore", 1, 1, 150)]},
     {"prop": "base:art/prop/cactus", "sound": "plant", "cooldown_ticks": 9000, "reach_x100": 150,
      "drops": [("cactus_pulp", 1, 2, 900)]},
+    # fishing: the reeds that grow on the beaches, where the fish hide
+    {"prop": "base:art/prop/reeds", "sound": "plant", "cooldown_ticks": 6000, "reach_x100": 150,
+     "drops": [("river_fish", 1, 2, 900), ("golden_carp", 1, 1, 60)]},
 ]
 
 

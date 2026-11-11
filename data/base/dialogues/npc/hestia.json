@@ -88,7 +88,7 @@
       "when": {
         "flag": "town_aldermere_crown_thanked"
       },
-      "then": "after",
+      "then": "c2",
       "else": "thanks1"
     },
     "thanks1": {
@@ -137,6 +137,78 @@
             {
               "effect": "start_quest",
               "quest": "base:quest/side/aldermere_crown"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/aldermere_dire_alpha"
+      },
+      "then": "t2",
+      "else": "a2"
+    },
+    "t2": {
+      "type": "condition",
+      "when": {
+        "flag": "town_aldermere_dire_alpha_thanked"
+      },
+      "then": "after",
+      "else": "thanks2"
+    },
+    "thanks2": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.aldermere_dire_alpha.thanks",
+      "next": "flag2"
+    },
+    "flag2": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_aldermere_dire_alpha_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a2": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/aldermere_dire_alpha"
+      },
+      "then": "busy2",
+      "else": "offer2"
+    },
+    "busy2": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.aldermere_dire_alpha.busy",
+      "next": "end"
+    },
+    "offer2": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.aldermere_dire_alpha.offer",
+      "next": "choice2"
+    },
+    "choice2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/aldermere_dire_alpha"
             }
           ],
           "next": "end"

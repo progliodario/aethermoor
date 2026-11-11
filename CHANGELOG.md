@@ -17,6 +17,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Fishing** (spec 06, "Gathering"; spec 09): reeds grow on the beaches, and `E` by them fishes: fresh fish (it heals a little raw) and now and then a golden carp that merchants pay 80 gold for. Two new dishes at a campfire: grilled fish (two fish and a branch) and a fisherman's stew.
+- **The bestiary tells what you learned** (spec 11): under every creature you defeated, the journal shows what it is weak to, what it resists and what it leaves. Ren's Analyze panel shows the weaknesses and resistances too.
+- **Six new quests** in Fenwick and Aldermere, one more for each of their people: mushrooms in the well for Bran, mint for Odile's pastry, Tobin's slime king under the Mossveil Cellar, the Dire Alpha bounty for Hestia, golem cores for Rook's lanterns, and the Astral Curator for Selwyn's catalogue. 228 quests in all.
 - **Every quest shows where to go** (spec 07, "Places"; both clients). Not only the quests of guardians: every quest stage now has a place, found from what it asks. To talk to someone, the place is that person; to defeat creatures or bring what they drop, the nearest dungeon or lair where they live, else the nearest outpost of a region where they roam; for what grows anywhere, the nearest outpost. When you have no goal, a new quest stage puts the goal of the map there, with a notice, and the green arrow points the way.
 - The quest tracker and the journal say where each quest goes ("Go to: Mint Hollow"), and the map shows an orange square on the place of every quest in progress (new key "Quests").
 - On the map, `Q` (the [Quest] button on Android) puts the goal on the next quest in progress, so you choose which quest to follow.

@@ -1136,6 +1136,13 @@
                 "radius_x100": 8,
                 "per_mille": 4
               }
+            ],
+            "beach": [
+              {
+                "art": "base:art/prop/reeds",
+                "radius_x100": 18,
+                "per_mille": 25
+              }
             ]
           },
           "routines": {
@@ -6490,8 +6497,8 @@
           ]
         ],
         "tile_count": 7680,
-        "prop_count": 476,
-        "prop_digest": "0xa1d666a5ecc0e3fc",
+        "prop_count": 477,
+        "prop_digest": "0x57ab7bd93cf257b7",
         "spawner_count": 4,
         "spawner_digest": "0x1b471b8dc377221b",
         "spawn": [
@@ -7785,6 +7792,13 @@
                 "art": "base:art/prop/bones",
                 "radius_x100": 8,
                 "per_mille": 4
+              }
+            ],
+            "beach": [
+              {
+                "art": "base:art/prop/reeds",
+                "radius_x100": 18,
+                "per_mille": 25
               }
             ]
           },
@@ -13136,8 +13150,8 @@
           ]
         ],
         "tile_count": 5760,
-        "prop_count": 267,
-        "prop_digest": "0xc1ae9a9f0f7d5af7",
+        "prop_count": 268,
+        "prop_digest": "0xaaf3c3e619e56cae",
         "spawner_count": 1,
         "spawner_digest": "0xc37f51744e98b683",
         "spawn": [
@@ -14431,6 +14445,13 @@
                 "art": "base:art/prop/bones",
                 "radius_x100": 8,
                 "per_mille": 4
+              }
+            ],
+            "beach": [
+              {
+                "art": "base:art/prop/reeds",
+                "radius_x100": 18,
+                "per_mille": 25
               }
             ]
           },
@@ -19794,8 +19815,8 @@
           ]
         ],
         "tile_count": 8448,
-        "prop_count": 358,
-        "prop_digest": "0x3e6135d7971ede50",
+        "prop_count": 359,
+        "prop_digest": "0x6a46baca98371941",
         "spawner_count": 3,
         "spawner_digest": "0xb04be13d0666112c",
         "spawn": [

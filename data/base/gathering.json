@@ -109,6 +109,26 @@
           "weight_pm": 900
         }
       ]
+    },
+    {
+      "prop": "base:art/prop/reeds",
+      "sound": "plant",
+      "cooldown_ticks": 6000,
+      "reach_x100": 150,
+      "drops": [
+        {
+          "item": "base:item/river_fish",
+          "qty_min": 1,
+          "qty_max": 2,
+          "weight_pm": 900
+        },
+        {
+          "item": "base:item/golden_carp",
+          "qty_min": 1,
+          "qty_max": 1,
+          "weight_pm": 60
+        }
+      ]
     }
   ]
 }

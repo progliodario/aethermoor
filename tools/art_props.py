@@ -390,5 +390,19 @@ def anvil() -> Recipe:
     return r
 
 
+def reeds() -> Recipe:
+    """Reeds on the shore, with a ripple and a fish under the water: where one fishes (spec 06, "Gathering")."""
+    r = prop("reeds", 32, 28, (16, 24), {"reed": "#7FA44A", "light": "#B8D478", "dark": "#4A6A28", "water": "#4A8AC8", "outline": "#22341A"})
+    r.ellipse(16, 24, 13, 3.6, "#2E6AA8", alpha=0.45)  # the water at the foot
+    r.ellipse(16, 24, 9, 2.4, "#FFFFFF", stroke="#FFFFFF", width=0.6, alpha=0.25)  # a ripple
+    r.ellipse(24, 23.5, 2.6, 1.0, "#E8B040", alpha=0.7)  # a fish, just under the surface
+    for x0, top, lean in ((8, 7, -2.0), (11, 4, -0.8), (14, 6, 0.5), (17, 3, 1.2), (20, 8, 2.0), (23, 10, 2.6)):
+        r.path(f"M {x0} 24 Q {x0 + lean * 0.4} {(24 + top) / 2} {x0 + lean} {top}", None, stroke="$p.reed", width=1.4)
+        r.path(f"M {x0} 24 Q {x0 + lean * 0.4} {(24 + top) / 2} {x0 + lean} {top}", None, stroke="$p.light", width=0.5, alpha=0.7)
+    for x, y in ((11 - 0.8, 4), (17 + 1.2, 3)):  # two cattail heads
+        r.ellipse(x, y + 2.5, 1.3, 2.6, "#7A4A22", stroke="$p.outline", width=0.5)
+    return r
+
+
 def build_props() -> list[Recipe]:
-    return [tree_oak(), pine(), dead_tree(), bush(), rock(), cactus(), campfire(), crate(), barrel(), bones(), lamp(), signpost(), statue(), tent(), banner(), well(), threshold_stone(), stall(), haybale(), anvil()]
+    return [tree_oak(), pine(), dead_tree(), bush(), rock(), cactus(), campfire(), crate(), barrel(), bones(), lamp(), signpost(), statue(), tent(), banner(), well(), threshold_stone(), stall(), haybale(), anvil(), reeds()]

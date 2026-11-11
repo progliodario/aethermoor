@@ -13,7 +13,7 @@ The inventory is a map from item ID to a positive quantity (spec 12); an item wh
 The props of the world that look like something can be **gathered from**: pressing `E` (the interact button) with nobody to talk to and no Threshold Stone in reach picks the nearest of them.
 The table is `data/base/gathering.json` (schema `gathering`): for each prop art ID, the `sound` of gathering (`plant`, `wood` or `stone`), a `cooldown_ticks`, a `reach_x100`
 (how far from the prop the player may be, besides the radius of the prop) and `drops`. The base pack has the bush (berries, healing herbs), the oak and the pine (logs, resin, dry branches),
-the dead tree, the rock (stone, a little iron ore) and the cactus (pulp). The materials are items of kind `material` or `food`.
+the dead tree, the rock (stone, a little iron ore), the cactus (pulp) and the **reeds** of the beaches, where one fishes (fresh fish, and now and then a golden carp that merchants pay well for). The materials are items of kind `material` or `food`.
 
 - The prop is the nearest of those whose distance from the player is at most `reach + radius` and that have grown back (ties: the smaller `x`, then the smaller `y`). Dialogues refuse it.
 - A prop is identified by `(x100, y100) = floor(x * 100 + 0.5), floor(y * 100 + 0.5)` of its feet. The game keeps, for each prop gathered from, the tick when it grows back
@@ -28,7 +28,7 @@ the dead tree, the rock (stone, a little iron ore) and the cactus (pulp). The ma
 ## Crafting
 
 Materials can be made into things from the bag, anywhere, without a workshop. The recipes are `data/base/recipes.json` (schema `recipes`): each has an `id` (a short name),
-an `output` (`item`, `qty`) and `inputs` (a list of `item`, `qty`). The base pack has sixteen: tonics, small, medium and large health potions, small and medium mana potions, a travel ration, a honey cake, cooked dishes (a hearty stew, a fish stew, a royal feast), a hand axe, an iron sword, a pike, a leather vest and a studded one.
+an `output` (`item`, `qty`) and `inputs` (a list of `item`, `qty`). The base pack has thirty (`tools/make_recipes.py`): tonics, small, medium and large health potions, small and medium mana potions, a travel ration, a honey cake, cooked dishes (a hearty stew, a fish stew, a royal feast, a miners' broth, grilled fish and a fisherman's stew from the fish of the reeds), the brews of the regions, a hand axe, an iron sword, a pike, a leather vest, a studded one, and five pieces of fine gear.
 
 `craft(id)` is refused, changing nothing, while a dialogue is open, when the recipe does not exist, and when the bag has less than the `qty` of any input. Otherwise it removes every input
 (an item that reaches 0 leaves the bag) and adds `qty` of the output (an item the bag did not have enters it). There is no random number, no time and no gold in it. A craft is a creature

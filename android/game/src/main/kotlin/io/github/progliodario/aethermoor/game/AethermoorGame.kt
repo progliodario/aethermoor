@@ -1956,6 +1956,12 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             entries.add(Pair("${data.pack.text(language, "\$i18n:ui.journal_bestiary")} ${world.bestiary.size}", 0))
             for ((id, count) in world.bestiary) {
                 entries.add(Pair("  ${data.pack.text(language, "\$i18n:enemy.${id.substringAfterLast('/')}.name")}  x$count", 2))
+                // what was learned of it (spec 11, "Bestiary"): its weaknesses and resistances, and what it leaves
+                val def = world.combat.streamEnemies[id] ?: continue
+                val items = def.drops.joinToString(", ") { data.pack.text(language, "\$i18n:item.${it.item.substringAfterLast('/')}.name", mapOf("count" to 1)) }
+                val notes = listOf(creatureElements(data.pack, def), if (items.isEmpty()) "" else data.pack.text(language, "\$i18n:ui.analyze_drops", mapOf("items" to items)))
+                    .filter { it.isNotEmpty() }.joinToString("   ")
+                if (notes.isNotEmpty()) entries.add(Pair("    $notes", 3))
             }
         }
         return entries
@@ -2281,6 +2287,16 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     /** The words of a quest place: a text key is looked up, a name (of a landmark or a person) is shown as it is. */
     private fun placeLabel(pack: io.github.progliodario.aethermoor.core.Pack, label: String): String =
         if (label.startsWith("\$i18n:")) pack.text(language, label) else label
+
+    /** What a creature is weak to and what it resists (spec 05, "Elements"): one line, empty when it has neither. See the desktop `creature_elements`. */
+    private fun creatureElements(pack: io.github.progliodario.aethermoor.core.Pack, def: io.github.progliodario.aethermoor.core.sim.EnemyDef): String {
+        val weak = def.weaknessesPm.filter { it.value > 1000 }.keys.joinToString(", ") { pack.text(language, "\$i18n:ui.element_$it") }
+        val resists = def.weaknessesPm.filter { it.value < 1000 }.keys.joinToString(", ") { pack.text(language, "\$i18n:ui.element_$it") }
+        return listOfNotNull(
+            weak.takeIf { it.isNotEmpty() }?.let { pack.text(language, "\$i18n:ui.creature_weak", mapOf("list" to it)) },
+            resists.takeIf { it.isNotEmpty() }?.let { pack.text(language, "\$i18n:ui.creature_resists", mapOf("list" to it)) },
+        ).joinToString("   ")
+    }
 
     private fun currentStage(world: WorldSim, questId: String, stageId: String): QuestStage? =
         world.story.questDef(questId)?.stages?.firstOrNull { it.id == stageId }
@@ -2656,6 +2672,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                     data.pack.text(language, "\$i18n:item.${it.item.substringAfterLast('/')}.name", mapOf("count" to 1)) + " " + (it.weightPm / 10) + "%"
                 }
                 if (items.isNotEmpty()) lines.add(data.pack.text(language, "\$i18n:ui.analyze_drops", mapOf("items" to items)))
+                creatureElements(data.pack, def).takeIf { it.isNotEmpty() }?.let { lines.add(it) }
             }
         }
         var panelW = 0f

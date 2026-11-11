@@ -1,0 +1,215 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/reeds",
+  "canvas": {
+    "w": 32,
+    "h": 28,
+    "origin": [
+      16,
+      24
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          16,
+          24,
+          13,
+          3.6
+        ]
+      },
+      "fill": {
+        "color": "#2E6AA8"
+      },
+      "alpha": 0.45
+    },
+    {
+      "shape": {
+        "ellipse": [
+          16,
+          24,
+          9,
+          2.4
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "stroke": {
+        "color": "#FFFFFF",
+        "width": 0.6
+      },
+      "alpha": 0.25
+    },
+    {
+      "shape": {
+        "ellipse": [
+          24,
+          23.5,
+          2.6,
+          1
+        ]
+      },
+      "fill": {
+        "color": "#E8B040"
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 8 24 Q 7.2 15.5 6.0 7"
+      },
+      "stroke": {
+        "color": "$p.reed",
+        "width": 1.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 8 24 Q 7.2 15.5 6.0 7"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.5
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 11 24 Q 10.68 14.0 10.2 4"
+      },
+      "stroke": {
+        "color": "$p.reed",
+        "width": 1.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 11 24 Q 10.68 14.0 10.2 4"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.5
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 14 24 Q 14.2 15.0 14.5 6"
+      },
+      "stroke": {
+        "color": "$p.reed",
+        "width": 1.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 14 24 Q 14.2 15.0 14.5 6"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.5
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 17 24 Q 17.48 13.5 18.2 3"
+      },
+      "stroke": {
+        "color": "$p.reed",
+        "width": 1.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 17 24 Q 17.48 13.5 18.2 3"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.5
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 20 24 Q 20.8 16.0 22.0 8"
+      },
+      "stroke": {
+        "color": "$p.reed",
+        "width": 1.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 20 24 Q 20.8 16.0 22.0 8"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.5
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 23 24 Q 24.04 17.0 25.6 10"
+      },
+      "stroke": {
+        "color": "$p.reed",
+        "width": 1.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 23 24 Q 24.04 17.0 25.6 10"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.5
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "ellipse": [
+          10.2,
+          6.5,
+          1.3,
+          2.6
+        ]
+      },
+      "fill": {
+        "color": "#7A4A22"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.5
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18.2,
+          5.5,
+          1.3,
+          2.6
+        ]
+      },
+      "fill": {
+        "color": "#7A4A22"
+      },
+      "stroke": {
+        "color": "$p.outline",
+        "width": 0.5
+      }
+    }
+  ],
+  "palette": {
+    "reed": "#7FA44A",
+    "light": "#B8D478",
+    "dark": "#4A6A28",
+    "water": "#4A8AC8",
+    "outline": "#22341A"
+  }
+}

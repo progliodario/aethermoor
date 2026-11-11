@@ -187,6 +187,46 @@
       "station": "base:art/prop/campfire"
     },
     {
+      "id": "grilled_fish",
+      "output": {
+        "item": "base:item/grilled_fish",
+        "qty": 2
+      },
+      "inputs": [
+        {
+          "item": "base:item/river_fish",
+          "qty": 2
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/campfire"
+    },
+    {
+      "id": "fishermans_stew",
+      "output": {
+        "item": "base:item/fish_stew",
+        "qty": 2
+      },
+      "inputs": [
+        {
+          "item": "base:item/river_fish",
+          "qty": 3
+        },
+        {
+          "item": "base:item/healing_herb",
+          "qty": 1
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/campfire"
+    },
+    {
       "id": "royal_feast",
       "output": {
         "item": "base:item/royal_feast",

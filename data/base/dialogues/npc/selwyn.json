@@ -16,7 +16,7 @@
       "when": {
         "flag": "town_aldermere_samples_thanked"
       },
-      "then": "after",
+      "then": "c1",
       "else": "thanks0"
     },
     "thanks0": {
@@ -65,6 +65,78 @@
             {
               "effect": "start_quest",
               "quest": "base:quest/side/aldermere_samples"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c1": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/aldermere_curator"
+      },
+      "then": "t1",
+      "else": "a1"
+    },
+    "t1": {
+      "type": "condition",
+      "when": {
+        "flag": "town_aldermere_curator_thanked"
+      },
+      "then": "after",
+      "else": "thanks1"
+    },
+    "thanks1": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.aldermere_curator.thanks",
+      "next": "flag1"
+    },
+    "flag1": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_aldermere_curator_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/aldermere_curator"
+      },
+      "then": "busy1",
+      "else": "offer1"
+    },
+    "busy1": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.aldermere_curator.busy",
+      "next": "end"
+    },
+    "offer1": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.aldermere_curator.offer",
+      "next": "choice1"
+    },
+    "choice1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/aldermere_curator"
             }
           ],
           "next": "end"

@@ -147,6 +147,81 @@ PEOPLE = [
 ]
 
 
+# One more quest for each person of Fenwick and Aldermere, after the others (the dialogue offers them in order).
+def _q(qid, name, task, objectives, xp, gold, points, items, offer, busy, thanks) -> dict:
+    return {"id": qid, "name": name, "task": task, "objectives": objectives, "rewards": {"xp": xp, "gold": gold, "points": points, "items": items},
+            "offer": offer, "busy": busy, "thanks": thanks}
+
+
+MORE_QUESTS = {
+    "fenwick_elder_bran": _q(
+        "fenwick_mushrooms", ("Mushrooms in the Well", "Funghi nel pozzo"),
+        ("Myconids have crept up to the well of Fenwick. Elder Bran asks you to drive four away and bring their caps to the healer.",
+         "I miconidi sono arrivati fino al pozzo di Fenwick. L'anziano Bran ti chiede di scacciarne quattro e portare le loro cappelle alla guaritrice."),
+        [{"type": "kill", "enemy": "base:enemy/myconid", "count": 4}, {"type": "collect", "item": "base:item/spore_cap", "count": 3}],
+        160, 200, 12, {"base:item/potion_medium": 2},
+        ("There is a mushroom in the well, Guest. A big one. It walks. I am old enough to have seen everything, and I had not seen that.",
+         "C'è un fungo nel pozzo, Ospite. Uno grosso. Cammina. Sono abbastanza vecchio da aver visto di tutto, e quello non l'avevo visto."),
+        ("Four of the walking mushrooms, and three caps for the healer.", "Quattro funghi che camminano, e tre cappelle per la guaritrice."),
+        ("Clean water again. The healer says the caps make a fine potion; she sends you two.", "Di nuovo acqua pulita. La guaritrice dice che le cappelle fanno una buona pozione: te ne manda due.")),
+    "fenwick_baker_odile": _q(
+        "fenwick_mint", ("Mint for the Pastry", "Menta per i dolci"),
+        ("Odile wants mint leaves for a new pastry. The mint slimes around Fenwick carry the freshest.",
+         "Odile vuole foglie di menta per un dolce nuovo. Le più fresche le portano gli slime alla menta attorno a Fenwick."),
+        [{"type": "kill", "enemy": "base:enemy/slime_mint", "count": 5}, {"type": "collect", "item": "base:item/mint_leaf", "count": 4}],
+        110, 90, 0, {"base:item/honey_cake": 4, "base:item/travel_ration": 2},
+        ("I have an idea for a pastry, and the idea is green. The mint slimes keep the best leaves. They are cool to the touch; they will not mind a hot oven, I hope.",
+         "Ho un'idea per un dolce, e l'idea è verde. Le foglie migliori le tengono gli slime alla menta. Sono freschi al tatto: spero non gli dispiaccia un forno caldo."),
+        ("Five mint slimes, four leaves.", "Cinque slime alla menta, quattro foglie."),
+        ("Taste. No, taste properly. Cakes and rations for the road, and the recipe has your name now.", "Assaggia. No, assaggia per bene. Torte e razioni per la strada, e la ricetta ora porta il tuo nome.")),
+    "fenwick_child_tobin": _q(
+        "fenwick_gel_king", ("The King Under the Cellar", "Il re sotto la cantina"),
+        ("Tobin swears a king of slimes lives in the Mossveil Cellar, north of Fenwick. Go and see; if he is there, end his reign.",
+         "Tobin giura che nella Mossveil Cellar, a nord di Fenwick, vive un re degli slime. Vai a vedere: se c'è, metti fine al suo regno."),
+        [{"type": "kill", "enemy": "base:enemy/gel_king", "count": 1}],
+        180, 120, 10, {"base:item/minty_charm": 1},
+        ("There is a king in the old cellar! A slime king, with a crown! Nobody believes me. You believe me. You are a Guest, Guests believe everything.",
+         "C'è un re nella vecchia cantina! Un re slime, con la corona! Nessuno mi crede. Tu mi credi. Sei un Ospite, gli Ospiti credono a tutto."),
+        ("The Gel King, in the Mossveil Cellar. I told you. I TOLD everyone.", "Il Re Gelatina, nella Mossveil Cellar. Te l'avevo detto. L'avevo detto a TUTTI."),
+        ("You saw him? With the crown? I knew it. Here, my lucky charm. I do not need luck any more, I have a Guest.",
+         "L'hai visto? Con la corona? Lo sapevo. Tieni, il mio portafortuna. Non mi serve più la fortuna, ho un Ospite.")),
+    "aldermere_guildmaster_hestia": _q(
+        "aldermere_dire_alpha", ("The Alpha of the Dire Den", "L'Alfa atroce della Dire Den"),
+        ("The guild has a standing bounty on the Dire Alpha of the Dire Den, in Ironspine. Hestia thinks it is time someone collected it.",
+         "La gilda ha una taglia aperta sull'Alfa atroce della Dire Den, a Ironspine. Hestia pensa che sia ora che qualcuno la riscuota."),
+        [{"type": "kill", "enemy": "base:enemy/dire_alpha", "count": 1}],
+        700, 800, 40, {"base:item/potion_large": 2},
+        ("That bounty has been on the board since before I was guildmaster. Every rank-C party that tried came back without a story. You come back with stories, Guest.",
+         "Quella taglia è in bacheca da prima che diventassi maestra della gilda. Ogni squadra di rango C che ci ha provato è tornata senza una storia. Tu torni sempre con delle storie, Ospite."),
+        ("The Dire Alpha, in the Dire Den of Ironspine.", "L'Alfa atroce, nella Dire Den di Ironspine."),
+        ("Collected, at last. The guild pays its debts, and the potions are from my own stores.", "Riscossa, finalmente. La gilda paga i suoi debiti, e le pozioni vengono dalla mia riserva.")),
+    "aldermere_quartermaster_rook": _q(
+        "aldermere_golem_cores", ("Cores for the Lanterns", "Nuclei per le lanterne"),
+        ("Rook wants golem cores to light the guild hall through the winter. The stone golems carry them.",
+         "Rook vuole nuclei di golem per illuminare la sala della gilda durante l'inverno. Li portano i golem di pietra."),
+        [{"type": "kill", "enemy": "base:enemy/stone_golem", "count": 3}, {"type": "collect", "item": "base:item/golem_core", "count": 2}],
+        520, 640, 30, {"base:item/potion_medium": 3},
+        ("Oil is dear and candles are worse. A golem's core glows for a century. Two of them, and the guild hall never goes dark. Mind the fists.",
+         "L'olio è caro e le candele peggio. Il nucleo di un golem brilla per un secolo. Con due, la sala della gilda non resta mai al buio. Attento ai pugni."),
+        ("Three golems, two cores.", "Tre golem, due nuclei."),
+        ("Light! The archivist cried. Do not tell him I said so. Potions, from the stores that are full again thanks to you.",
+         "Luce! L'archivista ha pianto. Non dirgli che te l'ho detto. Pozioni, dai magazzini che grazie a te sono di nuovo pieni.")),
+    "aldermere_archivist_selwyn": _q(
+        "aldermere_curator", ("The Last Page of the Observatory", "L'ultima pagina dell'osservatorio"),
+        ("Selwyn's catalogue of the Starfall Observatory, in Lumeria, has one page missing: its Curator. Defeat it and bring him the story.",
+         "Al catalogo di Selwyn sullo Starfall Observatory, a Lumeria, manca una pagina: il suo Curatore. Sconfiggilo e portagli la storia."),
+        [{"type": "kill", "enemy": "base:enemy/astral_curator", "count": 1}],
+        900, 1000, 50, {"base:item/potion_mana_medium": 3},
+        ("Every page of the observatory is written, but one. 'The Curator', it says, and then nothing. The last scholar who went to finish it did not. Would you?",
+         "Ogni pagina dell'osservatorio è scritta, tranne una. 'Il Curatore', dice, e poi niente. L'ultimo studioso che andò a finirla non ci riuscì. Lo faresti tu?"),
+        ("The Astral Curator, in the Starfall Observatory of Lumeria.", "Il Curatore astrale, nello Starfall Observatory di Lumeria."),
+        ("The page is written. In your words, mostly, and a few of mine. Take these potions; scholars live on mana and tea.",
+         "La pagina è scritta. Con parole tue, per lo più, e qualcuna mia. Prendi queste pozioni: gli studiosi vivono di mana e di tè.")),
+}
+for _person in PEOPLE:
+    if _person["key"] in MORE_QUESTS:
+        _person["quests"].append(MORE_QUESTS[_person["key"]])
+
 def _outposts() -> list:
     from towns_outposts import OUTPOST_PEOPLE as people  # imported late: that table imports nothing from here, but keep the two files independent
 

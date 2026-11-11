@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/golden_carp",
+  "name": "$i18n:item.golden_carp.name",
+  "description": "$i18n:item.golden_carp.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 80,
+  "stack_max": 99
+}

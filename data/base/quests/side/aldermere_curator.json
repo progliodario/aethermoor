@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/aldermere_curator",
+  "name": "$i18n:quest.aldermere_curator.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.aldermere_curator.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/astral_curator",
+          "count": 1
+        }
+      ],
+      "next": "end",
+      "place": "lumeria_observatory"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 900
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1000
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 50
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/potion_mana_medium",
+      "qty": 3
+    }
+  ]
+}
