@@ -146,6 +146,8 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
                 atkBase = c.long("atk_base"), atkPerLevel = c.long("atk_per_level"), rangeX100 = c.getValue("range_x100").jsonPrimitive.int,
                 cooldownTicks = c.getValue("cooldown_ticks").jsonPrimitive.int, speedX100 = c.getValue("speed_x100").jsonPrimitive.int,
                 followX100 = c.getValue("follow_x100").jsonPrimitive.int,
+                careBond = c["care_bond"]?.jsonPrimitive?.int ?: 0, careTicks = c["care_ticks"]?.jsonPrimitive?.int ?: 0,
+                carePct = c["care_pct"]?.jsonPrimitive?.int ?: 0,
             )
         },
         talents = input["talents"]?.jsonArray?.map { t ->

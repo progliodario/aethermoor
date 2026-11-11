@@ -48,6 +48,8 @@ data class BehaviorDef(
     val hitRangeX100: Int = 150,
     val windupTicks: Int = 18,
     val recoveryTicks: Int = 30,
+    /** The behavior document, e.g. base:behavior/guardian (presentation: the guardian bar). */
+    val id: String = "",
 )
 
 data class EnemyDef(
@@ -113,6 +115,10 @@ class CompanionDef(
     val cooldownTicks: Int = 60,
     val speedX100: Int = 320,
     val followX100: Int = 220,
+    /** Care (spec 10): from [careBond] on, every [careTicks] (0: never) it heals the player by [carePct] of the maximum health. */
+    val careBond: Int = 0,
+    val careTicks: Int = 0,
+    val carePct: Int = 0,
 )
 
 /** A crafting recipe (spec 06, "Crafting"). */

@@ -17,6 +17,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Companions take care of you** (spec 10, "Care"; both clients, conformance scenario `companion_care`): once a companion has ten kills with you, it heals 5% of your health every ten seconds when you are hurt.
+- **The guardian bar** (spec 05): near a guardian, a wide bar at the top of the screen shows its name and level, its health with a notch at every quarter, and its stagger.
+- **Quests that ask for something gathered point to it**: the goal and the "Go to" line go to the nearest reeds, bush, tree or rock around you that gives it (spec 07, "Places"), not to an outpost far away.
+- **A fishing quest**: Nella of Brinewatch asks for six fresh fish from the reeds of the shore. 229 quests in all.
 - **Fishing** (spec 06, "Gathering"; spec 09): reeds grow on the beaches, and `E` by them fishes: fresh fish (it heals a little raw) and now and then a golden carp that merchants pay 80 gold for. Two new dishes at a campfire: grilled fish (two fish and a branch) and a fisherman's stew.
 - **The bestiary tells what you learned** (spec 11): under every creature you defeated, the journal shows what it is weak to, what it resists and what it leaves. Ren's Analyze panel shows the weaknesses and resistances too.
 - **Six new quests** in Fenwick and Aldermere, one more for each of their people: mushrooms in the well for Bran, mint for Odile's pastry, Tobin's slime king under the Mossveil Cellar, the Dire Alpha bounty for Hestia, golem cores for Rook's lanterns, and the Astral Curator for Selwyn's catalogue. 228 quests in all.

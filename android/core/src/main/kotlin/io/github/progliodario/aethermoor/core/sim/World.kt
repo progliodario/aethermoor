@@ -280,6 +280,7 @@ class WorldSim(
 
     /** The creatures the companion has killed (spec 10, "Bond"). */
     var companionBond = 0
+    private var companionCare = 0 // ticks since it last tended the player (spec 10, "Care"); not saved
         private set
 
     /** Tells the companion to stay where it is, or to follow again; false when there is none. */
@@ -662,6 +663,14 @@ class WorldSim(
             pos = collision.resolve(Vec2(pos.x + dx / dist * step, pos.y + dy / dist * step), COMPANION_RADIUS)
         }
         companionPosition = pos
+        if (c.careTicks > 0 && companionBond >= c.careBond) { // care (spec 10): it tends the player now and then
+            companionCare++
+            if (companionCare >= c.careTicks) {
+                companionCare = 0
+                val full = derived.maxHp
+                if (player.hp > 0 && player.hp < full) player.hp = minOf(full, player.hp + maxOf(1L, full * c.carePct / 100))
+            }
+        }
         if (companionCooldown > 0) companionCooldown--
         if (companionCooldown > 0) return
         var target: Enemy? = null

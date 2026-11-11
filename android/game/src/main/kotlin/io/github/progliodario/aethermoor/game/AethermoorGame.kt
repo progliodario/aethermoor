@@ -838,6 +838,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         drawCraft(world, data)
         drawCompanionButton(world, data)
         drawAnalyze(world, data)
+        drawGuardianBar(world, data)
         drawStick()
     }
 
@@ -2281,6 +2282,22 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val outposts = params.landmarks.filter { it.kind == "hamlet" }
         val home = outposts.filter { l -> params.regions[regionAt(params, cx + l.dx, cy + l.dy)].fauna.any { it.enemy in wanted } }.minByOrNull { distance2(it) }
         if (home != null) return at(home)
+        // something gathered: the nearest prop that gives it, in the land around the player
+        val items = stage.objectives.filter { it.kind == ObjectiveKind.COLLECT }.map { it.target }.toSet()
+        val arts = world.combat.gatherNodes.filter { (_, node) -> node.drops.any { it.item in items } }.keys
+        if (arts.isNotEmpty()) {
+            val far = 48f
+            var near: QuestPlace? = null
+            var nearD = far * far
+            world.forEachProp(px - far, py - far, px + far, py + far) { prop ->
+                val d = (prop.x - px) * (prop.x - px) + (prop.y - py) * (prop.y - py)
+                if (prop.art in arts && d < nearD) {
+                    nearD = d
+                    near = QuestPlace(prop.x, prop.y, "\$i18n:ui.place_nearby")
+                }
+            }
+            near?.let { return it }
+        }
         return outposts.minByOrNull { distance2(it) }?.let { at(it) }
     }
 
@@ -2643,6 +2660,48 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
      * Ren's Analyze, the eye of the system (key Z, or its button next to the dodge button): the nearest living creature within 10 tiles, with its
      * level, health, attack, defense and what it can drop (with the chance), in a panel at the top center for a few seconds. Presentation only.
      */
+    /** The guardian bar (spec 05, "Guardians"): see the desktop `draw_guardian_bar`. */
+    private fun drawGuardianBar(world: WorldSim, data: Assets) {
+        if (world.story.dialogueActive || showMap) return
+        val px = world.player.position.x
+        val py = world.player.position.y
+        val boss = world.enemies
+            .filter { it.state != EnemyState.DEAD && it.def.behavior.id.endsWith("guardian") }
+            .filter { (it.position.x - px) * (it.position.x - px) + (it.position.y - py) * (it.position.y - py) < 100f }
+            .minByOrNull { (it.position.x - px) * (it.position.x - px) + (it.position.y - py) * (it.position.y - py) } ?: return
+        val density = Gdx.graphics.density
+        val width = Gdx.graphics.width.toFloat()
+        val w = minOf(520f * density, width * 0.6f)
+        val x = (width - w) / 2f
+        val y = 64f * density
+        val h = 12f * density
+        val ratio = (boss.hp.toFloat() / max(1L, boss.def.hp).toFloat()).coerceIn(0f, 1f)
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        drawBar(x, y, w, h, ratio, Color(0.86f, 0.25f, 0.27f, 1f))
+        shapes.color = Color(0.04f, 0.05f, 0.09f, 1f)
+        for (i in 1..3) shapes.rect(x + w * i / 4f - 1f, y, 2f, h) // the notches: a quarter of the health each
+        if (boss.def.staggerPct > 0) { // the stagger, under the health
+            val need = max(1L, boss.def.hp * boss.def.staggerPct / 100)
+            val stagger = if (boss.broken > 0) boss.broken / 120f else boss.stagger.toFloat() / need.toFloat()
+            shapes.color = Color(0.04f, 0.05f, 0.09f, 0.9f)
+            shapes.rect(x, y + h + 4f, w, 4f * density)
+            shapes.color = if (boss.broken > 0) Color.WHITE else Color(1f, 0.82f, 0.31f, 1f)
+            shapes.rect(x, y + h + 4f, w * stagger.coerceIn(0f, 1f), 4f * density)
+        }
+        shapes.end()
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        val name = data.pack.text(language, "\$i18n:enemy.${boss.def.id.substringAfterLast('/')}.name") + "   " +
+            data.pack.text(language, "\$i18n:ui.guardian_level", mapOf("level" to boss.def.level))
+        layout.setText(font, name)
+        font.color = Color(1f, 0.86f, 0.59f, 1f)
+        hudText(name, (width - layout.width) / 2f, y - font.lineHeight * 1.4f)
+        batch.end()
+    }
+
     private fun drawAnalyze(world: WorldSim, data: Assets) {
         val density = Gdx.graphics.density
         val size = 64f * density

@@ -790,6 +790,9 @@ Scenario scenario_from_json(const Json& in) {
         def.cooldown_ticks = c.at("cooldown_ticks").get<int>();
         def.speed_x100 = c.at("speed_x100").get<int>();
         def.follow_x100 = c.at("follow_x100").get<int>();
+        def.care_bond = c.value("care_bond", 0);
+        def.care_ticks = c.value("care_ticks", 0);
+        def.care_pct = c.value("care_pct", 0);
         setup.companion = def;
     }
     if (in.contains("recipes")) {

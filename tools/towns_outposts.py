@@ -243,3 +243,16 @@ GUARDIAN_QUESTS = {
 }
 for _person in OUTPOST_PEOPLE:
     _person["quests"].append(GUARDIAN_QUESTS[_person["key"]])
+
+# Nella's fourth quest: fishing in the reeds of the shore (spec 06, "Gathering"). The goal of the map goes to the nearest reeds.
+OUTPOST_PEOPLE[3]["quests"].append(_quest(
+    "tidehaven_catch", ("Fresh for the Table", "Freschi per la tavola"),
+    ("Brinewatch has nets again, but no fishers. Nella asks you to try the reeds of the shore and bring six fresh fish.",
+     "Brinewatch ha di nuovo le reti, ma non i pescatori. Nella ti chiede di provare tra i canneti della riva e portare sei pesci freschi."),
+    [_collect("river_fish", 6)], 600, 500, {"base:item/pearl_elixir": 1, "base:item/fish_stew": 2},
+    ("Whole nets and nobody to cast them: the fishers all became adventurers after you came. Ha. Try the reeds, Guest. The fish hide in them at the edge of the water.",
+     "Reti intere e nessuno che le getti: dopo il tuo arrivo i pescatori sono diventati tutti avventurieri. Ah. Prova tra i canneti, Ospite. I pesci si nascondono lì, sul bordo dell'acqua."),
+    ("Six fresh fish, from the reeds by the water.", "Sei pesci freschi, dai canneti sull'acqua."),
+    ("A Guest who fishes! I will tell the others; they will be ashamed. Stew, and an elixir from the pearls of the first catch.",
+     "Un Ospite che pesca! Lo dirò agli altri: si vergogneranno. Zuppa, e un elisir dalle perle della prima pesca.")))
+assert OUTPOST_PEOPLE[3]["key"] == "outpost_netmender_nella"

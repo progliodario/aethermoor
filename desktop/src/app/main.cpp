@@ -702,6 +702,65 @@ std::string creature_elements(const Assets& assets, const Ui& ui, const aether::
 // Ren's Analyze, the eye of the system (key Z): the nearest living creature within 10 tiles, with its level, health,
 // attack, defense and what it can drop (with the chance), in a panel at the top center for a few seconds. Presentation
 // only.
+// The guardian bar (spec 05, "Guardians"): when a guardian stands within ten tiles, its name, its health with notches
+// at every quarter and its stagger, wide at the top of the screen. Presentation only.
+void draw_guardian_bar(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui,
+                       int out_w, float density) {
+    if (sim.story().dialogue_active() || ui.show_map) {
+        return;
+    }
+    const aether::Enemy* boss = nullptr;
+    float best = 100.0F;  // ten tiles, squared
+    for (const aether::Enemy& enemy : sim.enemies()) {
+        const std::string& behavior = enemy.def.behavior.id;
+        if (enemy.state == aether::EnemyState::Dead || behavior.size() < 8 ||
+            behavior.compare(behavior.size() - 8, 8, "guardian") != 0) {
+            continue;
+        }
+        const float dx = enemy.position.x - sim.player().position.x;
+        const float dy = enemy.position.y - sim.player().position.y;
+        if (dx * dx + dy * dy < best) {
+            best = dx * dx + dy * dy;
+            boss = &enemy;
+        }
+    }
+    if (boss == nullptr) {
+        return;
+    }
+    const float w = std::min(520.0F * density, static_cast<float>(out_w) * 0.6F);
+    const float x = (static_cast<float>(out_w) - w) / 2.0F;
+    const float y = 54.0F * density;
+    const float h = 12.0F * density;
+    const float ratio = std::clamp(
+        static_cast<float>(boss->hp) / static_cast<float>(std::max<std::int64_t>(1, boss->def.hp)), 0.0F, 1.0F);
+    fill_rect(renderer, x - 3.0F, y - 3.0F, w + 6.0F, h + 6.0F, 10, 12, 24, 230);
+    fill_rect(renderer, x, y, w, h, 40, 16, 22, 255);
+    fill_rect(renderer, x, y, w * ratio, h * 0.55F, 235, 70, 70, 255);
+    fill_rect(renderer, x, y + h * 0.55F, w * ratio, h * 0.45F, 170, 40, 45, 255);
+    for (int i = 1; i < 4; ++i) {  // the notches: a quarter of the health each
+        fill_rect(renderer, x + w * static_cast<float>(i) / 4.0F - 1.0F, y, 2.0F, h, 10, 12, 24, 255);
+    }
+    if (boss->def.stagger_pct > 0) {  // the stagger, under the health
+        const std::int64_t need = std::max<std::int64_t>(1, boss->def.hp * boss->def.stagger_pct / 100);
+        const float stagger = boss->broken > 0 ? static_cast<float>(boss->broken) / 120.0F
+                                               : static_cast<float>(boss->stagger) / static_cast<float>(need);
+        fill_rect(renderer, x, y + h + 4.0F, w, 4.0F * density, 10, 12, 24, 230);
+        if (boss->broken > 0) {
+            fill_rect(renderer, x, y + h + 4.0F, w * std::min(stagger, 1.0F), 4.0F * density, 255, 255, 255, 255);
+        } else {
+            fill_rect(renderer, x, y + h + 4.0F, w * std::min(stagger, 1.0F), 4.0F * density, 255, 210, 80, 255);
+        }
+    }
+    const std::string id = boss->def.id.substr(boss->def.id.rfind('/') + 1);
+    const std::string name = assets.pack.text(ui.lang, "$i18n:enemy." + id + ".name") + "   " +
+                             assets.pack.text(ui.lang, "$i18n:ui.guardian_level", {{"level", boss->def.level}});
+    SDL_SetRenderScale(renderer, 2.0F, 2.0F);
+    SDL_SetRenderDrawColor(renderer, 255, 220, 150, 255);
+    outlined_text(renderer, (static_cast<float>(out_w) / 2.0F - text_columns(name) * 8.0F) / 2.0F,
+                  (y - 22.0F * density) / 2.0F, name.c_str());
+    SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+}
+
 void draw_analyze(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w,
                   float density) {
     if (ui.analyze_frames <= 0 || sim.story().dialogue_active() || ui.show_map) {
@@ -1016,6 +1075,36 @@ std::optional<QuestPlace> quest_place(const aether::WorldSim& sim, const aether:
             }
             if (lives && (best == nullptr || distance2(l) < distance2(*best))) {
                 best = &l;
+            }
+        }
+    }
+    if (best == nullptr) {  // something gathered: the nearest prop that gives it, in the land around the player
+        std::set<std::string> arts;
+        for (const aether::Objective& o : stage.objectives) {
+            if (o.kind != aether::Objective::Kind::Collect) {
+                continue;
+            }
+            for (const auto& [art, node] : sim.combat().gather_nodes) {
+                for (const aether::GatherDrop& drop : node.drops) {
+                    if (drop.item == o.target) {
+                        arts.insert(art);
+                    }
+                }
+            }
+        }
+        if (!arts.empty()) {
+            const float far = 48.0F;
+            std::optional<QuestPlace> prop_place;
+            float prop_d = far * far;
+            sim.for_each_prop(px - far, py - far, px + far, py + far, [&](const aether::Prop& prop) {
+                const float d = (prop.x - px) * (prop.x - px) + (prop.y - py) * (prop.y - py);
+                if (arts.count(prop.art) != 0 && d < prop_d) {
+                    prop_d = d;
+                    prop_place = QuestPlace{prop.x, prop.y, "$i18n:ui.place_nearby"};
+                }
+            });
+            if (prop_place) {
+                return prop_place;
             }
         }
     }
@@ -3211,6 +3300,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     draw_quest_tracker(renderer, assets, sim, ui, out_w, density);
     draw_minimap(renderer, sim, ui, density);
     draw_analyze(renderer, assets, sim, ui, out_w, density);
+    draw_guardian_bar(renderer, assets, sim, ui, out_w, density);
     if (ui.has_goal && sim.streamed() && !ui.show_map) {  // an arrow around the player, toward the goal, when it is far
         const float ddx = ui.goal_x - sim.player().position.x;
         const float ddy = ui.goal_y - sim.player().position.y;

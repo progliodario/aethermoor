@@ -33,6 +33,9 @@ private fun loadCompanion(pack: Pack, id: String): CompanionDef? {
         cooldownTicks = c.getValue("cooldown_ticks").jsonPrimitive.int,
         speedX100 = c.getValue("speed_x100").jsonPrimitive.int,
         followX100 = c.getValue("follow_x100").jsonPrimitive.int,
+        careBond = c["care_bond"]?.jsonPrimitive?.int ?: 0,
+        careTicks = c["care_ticks"]?.jsonPrimitive?.int ?: 0,
+        carePct = c["care_pct"]?.jsonPrimitive?.int ?: 0,
     )
 }
 
@@ -151,6 +154,7 @@ private fun loadEnemy(pack: Pack, id: String): EnemyDef {
             hitRangeX100 = behavior.getValue("hit_range_x100").jsonPrimitive.int,
             windupTicks = behavior.getValue("windup_ticks").jsonPrimitive.int,
             recoveryTicks = behavior.getValue("recovery_ticks").jsonPrimitive.int,
+            id = enemy.getValue("behavior").jsonPrimitive.content,
         ),
     )
 }

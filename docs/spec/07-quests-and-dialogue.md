@@ -214,7 +214,9 @@ for the current stage of each quest in progress, in this order:
    - **talk**: the person to talk to (a person of the story data, or a person of a settlement), where they stand;
    - **kill** or **collect**: the creatures that are the target, or that drop the item asked for (the drops of the enemies of the world and of the fauna of every region); the nearest landmark
      whose stamp has a spawner of one of them; else the nearest outpost (a landmark of kind `hamlet`) in a region whose fauna has one of them.
-3. Else the nearest outpost: it covers what grows anywhere (berries, wood, ore).
+3. Else, for a **collect** objective of something gathered (spec 06, "Gathering"), the nearest prop within 48 tiles of the player, among the land already loaded, whose node drops it
+   (reeds for fish, bushes for berries...): the name shown is `ui.place_nearby`.
+4. Else the nearest outpost: it covers what grows anywhere when nothing is near (berries, wood, ore).
 
 "Nearest" is measured from the player, in tiles (squared distance, the first in the order of the data on a tie). The name shown is the landmark's name, the person's name, or `speaker.<key>`.
 

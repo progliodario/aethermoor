@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/tidehaven_catch",
+  "name": "$i18n:quest.tidehaven_catch.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.tidehaven_catch.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/river_fish",
+          "count": 6
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 600
+    },
+    {
+      "effect": "add_gold",
+      "amount": 500
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 30
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/pearl_elixir",
+      "qty": 1
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/fish_stew",
+      "qty": 2
+    }
+  ]
+}

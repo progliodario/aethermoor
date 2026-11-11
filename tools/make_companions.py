@@ -9,6 +9,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "base"
 
+# Care (spec 10): from this bond on, every companion heals the player now and then (ten seconds, 5% of the health).
+CARE_BOND, CARE_TICKS, CARE_PCT = 10, 600, 5
+
 # companion: (protagonist, creature art, name en, name it, atk_base, atk_per_level, range_x100, cooldown_ticks, speed_x100, scale_pct)
 COMPANIONS = {
     "orb": ("ren", "wisp", "Orb", "Orbe", 7, 1, 350, 110, 330, 70),
@@ -49,7 +52,7 @@ def main() -> None:
         write_json(DATA / "companions" / f"{name}.json", {
             "$schema": "../../../schemas/companion.schema.json", "id": f"base:companion/{name}", "name": f"$i18n:companion.{name}.name",
             "art": f"base:art/creature/{art}", "scale_pct": scale, "atk_base": atk, "atk_per_level": per_level, "range_x100": reach,
-            "cooldown_ticks": cooldown, "speed_x100": speed, "follow_x100": 220})
+            "cooldown_ticks": cooldown, "speed_x100": speed, "follow_x100": 220, "care_bond": CARE_BOND, "care_ticks": CARE_TICKS, "care_pct": CARE_PCT})
         en[f"companion.{name}.name"], it[f"companion.{name}.name"] = name_en, name_it
         path = DATA / "protagonists" / f"{who}.json"
         doc = json.loads(path.read_text(encoding="utf-8"))

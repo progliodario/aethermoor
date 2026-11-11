@@ -160,7 +160,7 @@
       "when": {
         "flag": "town_tidehaven_empress_thanked"
       },
-      "then": "after",
+      "then": "c3",
       "else": "thanks2"
     },
     "thanks2": {
@@ -209,6 +209,78 @@
             {
               "effect": "start_quest",
               "quest": "base:quest/side/tidehaven_empress"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c3": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/tidehaven_catch"
+      },
+      "then": "t3",
+      "else": "a3"
+    },
+    "t3": {
+      "type": "condition",
+      "when": {
+        "flag": "town_tidehaven_catch_thanked"
+      },
+      "then": "after",
+      "else": "thanks3"
+    },
+    "thanks3": {
+      "type": "say",
+      "speaker": "outpost_netmender_nella",
+      "text": "$i18n:dlg.town.nella.tidehaven_catch.thanks",
+      "next": "flag3"
+    },
+    "flag3": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_tidehaven_catch_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a3": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/tidehaven_catch"
+      },
+      "then": "busy3",
+      "else": "offer3"
+    },
+    "busy3": {
+      "type": "say",
+      "speaker": "outpost_netmender_nella",
+      "text": "$i18n:dlg.town.nella.tidehaven_catch.busy",
+      "next": "end"
+    },
+    "offer3": {
+      "type": "say",
+      "speaker": "outpost_netmender_nella",
+      "text": "$i18n:dlg.town.nella.tidehaven_catch.offer",
+      "next": "choice3"
+    },
+    "choice3": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/tidehaven_catch"
             }
           ],
           "next": "end"

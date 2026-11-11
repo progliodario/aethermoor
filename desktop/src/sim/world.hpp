@@ -351,6 +351,7 @@ private:
     int m_companion_cooldown_ = 0;
     bool m_companion_stay_ = false;
     int m_companion_bond_ = 0;
+    int m_companion_care_ = 0;  // ticks since it last tended the player (spec 10, "Care"); not saved
     void update_companion();
     std::map<std::pair<int, int>, std::pair<std::int64_t, int>>
         m_gathered_;  // (x100, y100) -> (tick it grows back, times); not saved
