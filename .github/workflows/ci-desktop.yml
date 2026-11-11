@@ -21,6 +21,7 @@ jobs:
   build:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 90  # a hung runner fails the job instead of blocking the pull request for hours
     strategy:
       fail-fast: false
       matrix:
@@ -37,15 +38,25 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      # Apt on the hosted runners sometimes hangs on a mirror or on the package lock: every attempt has its own time limit and
+      # network timeouts, it waits for the lock instead of forever, and it is tried three times before the step fails.
       - name: Linux system packages (SDL3 build prerequisites)
         if: runner.os == 'Linux'
+        timeout-minutes: 25
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            ninja-build pkg-config autoconf autoconf-archive automake libtool libltdl-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxfixes-dev \
-            libxi-dev libxss-dev libxkbcommon-dev libwayland-dev wayland-protocols libdecor-0-dev \
-            libasound2-dev libpulse-dev libpipewire-0.3-dev libudev-dev libdbus-1-dev libibus-1.0-dev \
-            libgl-dev libegl1-mesa-dev libgles-dev libdrm-dev libgbm-dev libsndio-dev
+          APT="-o Acquire::Retries=3 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 -o DPkg::Lock::Timeout=120"
+          PACKAGES="ninja-build pkg-config autoconf autoconf-archive automake libtool libltdl-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxfixes-dev
+            libxi-dev libxss-dev libxkbcommon-dev libwayland-dev wayland-protocols libdecor-0-dev
+            libasound2-dev libpulse-dev libpipewire-0.3-dev libudev-dev libdbus-1-dev libibus-1.0-dev
+            libgl-dev libegl1-mesa-dev libgles-dev libdrm-dev libgbm-dev libsndio-dev"
+          for attempt in 1 2 3; do
+            if sudo timeout 300 apt-get $APT update && sudo timeout 420 apt-get $APT install -y --no-install-recommends $PACKAGES; then
+              exit 0
+            fi
+            echo "apt attempt $attempt failed or timed out; trying again"
+            sleep 20
+          done
+          exit 1
 
       # The dependencies (SDL3 above all) take minutes to build; vcpkg keeps the binaries of a build here.
       - name: Create the vcpkg cache folder
