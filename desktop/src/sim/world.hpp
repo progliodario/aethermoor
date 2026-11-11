@@ -54,6 +54,8 @@ struct Player {
     std::int64_t fortify_pct = 0;
     int ward = 0;  // a brew that wards (spec 06): ticks left, and the defense it adds; not saved
     std::int64_t ward_pct = 0;
+    int regen = 0;  // a dish that heals over time (spec 06): ticks left, and the health every second; not saved
+    std::int64_t regen_amount = 0;
     Vec2 dodge_dir{1.0F, 0.0F};
 };
 

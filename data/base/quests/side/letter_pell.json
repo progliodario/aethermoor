@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/letter_pell",
+  "name": "$i18n:quest.letter_pell.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.letter_pell.task",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "outpost_carter_pell"
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 80
+    },
+    {
+      "effect": "add_gold",
+      "amount": 120
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 4
+    }
+  ]
+}

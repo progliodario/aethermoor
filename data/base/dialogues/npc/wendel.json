@@ -1,0 +1,589 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/npc/wendel",
+  "start": "c0",
+  "nodes": {
+    "c0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/letter_pell"
+      },
+      "then": "t0",
+      "else": "a0"
+    },
+    "t0": {
+      "type": "condition",
+      "when": {
+        "flag": "town_letter_pell_thanked"
+      },
+      "then": "c1",
+      "else": "thanks0"
+    },
+    "thanks0": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_pell.thanks",
+      "next": "flag0"
+    },
+    "flag0": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_letter_pell_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a0": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/letter_pell"
+      },
+      "then": "busy0",
+      "else": "offer0"
+    },
+    "busy0": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_pell.busy",
+      "next": "end"
+    },
+    "offer0": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_pell.offer",
+      "next": "choice0"
+    },
+    "choice0": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/letter_pell"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c1": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/letter_wren"
+      },
+      "then": "t1",
+      "else": "a1"
+    },
+    "t1": {
+      "type": "condition",
+      "when": {
+        "flag": "town_letter_wren_thanked"
+      },
+      "then": "c2",
+      "else": "thanks1"
+    },
+    "thanks1": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_wren.thanks",
+      "next": "flag1"
+    },
+    "flag1": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_letter_wren_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/letter_wren"
+      },
+      "then": "busy1",
+      "else": "offer1"
+    },
+    "busy1": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_wren.busy",
+      "next": "end"
+    },
+    "offer1": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_wren.offer",
+      "next": "choice1"
+    },
+    "choice1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/letter_wren"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/letter_brakka"
+      },
+      "then": "t2",
+      "else": "a2"
+    },
+    "t2": {
+      "type": "condition",
+      "when": {
+        "flag": "town_letter_brakka_thanked"
+      },
+      "then": "c3",
+      "else": "thanks2"
+    },
+    "thanks2": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_brakka.thanks",
+      "next": "flag2"
+    },
+    "flag2": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_letter_brakka_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a2": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/letter_brakka"
+      },
+      "then": "busy2",
+      "else": "offer2"
+    },
+    "busy2": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_brakka.busy",
+      "next": "end"
+    },
+    "offer2": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_brakka.offer",
+      "next": "choice2"
+    },
+    "choice2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/letter_brakka"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c3": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/letter_nella"
+      },
+      "then": "t3",
+      "else": "a3"
+    },
+    "t3": {
+      "type": "condition",
+      "when": {
+        "flag": "town_letter_nella_thanked"
+      },
+      "then": "c4",
+      "else": "thanks3"
+    },
+    "thanks3": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_nella.thanks",
+      "next": "flag3"
+    },
+    "flag3": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_letter_nella_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a3": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/letter_nella"
+      },
+      "then": "busy3",
+      "else": "offer3"
+    },
+    "busy3": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_nella.busy",
+      "next": "end"
+    },
+    "offer3": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_nella.offer",
+      "next": "choice3"
+    },
+    "choice3": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/letter_nella"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c4": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/letter_henrik"
+      },
+      "then": "t4",
+      "else": "a4"
+    },
+    "t4": {
+      "type": "condition",
+      "when": {
+        "flag": "town_letter_henrik_thanked"
+      },
+      "then": "c5",
+      "else": "thanks4"
+    },
+    "thanks4": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_henrik.thanks",
+      "next": "flag4"
+    },
+    "flag4": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_letter_henrik_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a4": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/letter_henrik"
+      },
+      "then": "busy4",
+      "else": "offer4"
+    },
+    "busy4": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_henrik.busy",
+      "next": "end"
+    },
+    "offer4": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_henrik.offer",
+      "next": "choice4"
+    },
+    "choice4": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/letter_henrik"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c5": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/letter_farid"
+      },
+      "then": "t5",
+      "else": "a5"
+    },
+    "t5": {
+      "type": "condition",
+      "when": {
+        "flag": "town_letter_farid_thanked"
+      },
+      "then": "c6",
+      "else": "thanks5"
+    },
+    "thanks5": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_farid.thanks",
+      "next": "flag5"
+    },
+    "flag5": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_letter_farid_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a5": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/letter_farid"
+      },
+      "then": "busy5",
+      "else": "offer5"
+    },
+    "busy5": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_farid.busy",
+      "next": "end"
+    },
+    "offer5": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_farid.offer",
+      "next": "choice5"
+    },
+    "choice5": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/letter_farid"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c6": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/letter_astra"
+      },
+      "then": "t6",
+      "else": "a6"
+    },
+    "t6": {
+      "type": "condition",
+      "when": {
+        "flag": "town_letter_astra_thanked"
+      },
+      "then": "c7",
+      "else": "thanks6"
+    },
+    "thanks6": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_astra.thanks",
+      "next": "flag6"
+    },
+    "flag6": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_letter_astra_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a6": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/letter_astra"
+      },
+      "then": "busy6",
+      "else": "offer6"
+    },
+    "busy6": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_astra.busy",
+      "next": "end"
+    },
+    "offer6": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_astra.offer",
+      "next": "choice6"
+    },
+    "choice6": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/letter_astra"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c7": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/letter_grael"
+      },
+      "then": "t7",
+      "else": "a7"
+    },
+    "t7": {
+      "type": "condition",
+      "when": {
+        "flag": "town_letter_grael_thanked"
+      },
+      "then": "after",
+      "else": "thanks7"
+    },
+    "thanks7": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_grael.thanks",
+      "next": "flag7"
+    },
+    "flag7": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_letter_grael_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a7": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/letter_grael"
+      },
+      "then": "busy7",
+      "else": "offer7"
+    },
+    "busy7": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_grael.busy",
+      "next": "end"
+    },
+    "offer7": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.letter_grael.offer",
+      "next": "choice7"
+    },
+    "choice7": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/letter_grael"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "after": {
+      "type": "say",
+      "speaker": "aldermere_courier_wendel",
+      "text": "$i18n:dlg.town.wendel.after",
+      "next": "end"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/letter_henrik",
+  "name": "$i18n:quest.letter_henrik.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.letter_henrik.task",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "outpost_sculptor_henrik"
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 300
+    },
+    {
+      "effect": "add_gold",
+      "amount": 340
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 15
+    }
+  ]
+}

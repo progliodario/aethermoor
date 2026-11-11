@@ -19,6 +19,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Dishes that regenerate** (spec 06, "Regen"; a new item effect in the reference, the vectors and both clients, scenario `regen_cake`): the honey cake, the tonic, the travel ration and the hearty stew give back health every second for a while. "Regenerating" shows under your level.
+- **Wendel, the courier of the guild** (Aldermere): eight letters to deliver by hand, one to each person of the outposts, from Pell at the Crossroads to Grael at Ember Watch. The goal of the map goes to the person. 259 quests in all.
+- The status window lists what you ate and drank that is still working, with the seconds left ("Still working: Fortified 25 s, Warded 40 s").
 - **Brews that ward** (spec 06, "Ward"; a new item effect in the reference, the vectors and both clients, scenario `ward_brew`): the brews of the regions raise your defense for a while (the miners' broth, the desert nectar and the pearl elixir +30% for 30 s, the frost tonic +40% and the ember brew +50% for a minute). "Warded" shows under your level.
 - **The dune fox**, game of Sunscar and the Ashen Wastes: game meat and fox pelts, and a fox-fur cloak at an anvil. 71 creatures, 168 items, 35 recipes.
 - **Hestia's bounties**: after her quests, the guildmaster of Aldermere posts a bounty on the nine guardians that had no quest of their own (from the Ice Warden to the Vault Warden). Each sets the goal of the map.

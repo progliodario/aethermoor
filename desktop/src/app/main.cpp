@@ -669,6 +669,7 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
     add_status(p.weaken, "$i18n:ui.status_weaken");
     add_status(p.fortify, "$i18n:ui.status_fortify");  // a meal that fortifies (spec 06)
     add_status(p.ward, "$i18n:ui.status_ward");        // a brew that wards (spec 06)
+    add_status(p.regen, "$i18n:ui.status_regen");      // a dish that heals over time (spec 06)
     if (!status.empty()) {
         SDL_SetRenderDrawColor(renderer, 255, 150, 90, 255);
         outlined_text(renderer, x / 2.0F, (y + bar_h + 34.0F * density + below) / 2.0F, status.c_str());
@@ -2580,6 +2581,20 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
             {"  " + assets.pack.text(ui.lang, "$i18n:ui.status_purse",
                                      {{"gold", sim.story().gold()}, {"kills", static_cast<std::int64_t>(p.kills)}}),
              2});
+        // what the player ate and drank is still working (spec 06, "Fortify", "Ward", "Regen"): each with its seconds
+        // left
+        std::string effects;
+        for (const auto& [ticks, key] : {std::pair<int, const char*>{p.fortify, "$i18n:ui.status_fortify"},
+                                         std::pair<int, const char*>{p.ward, "$i18n:ui.status_ward"},
+                                         std::pair<int, const char*>{p.regen, "$i18n:ui.status_regen"}}) {
+            if (ticks > 0) {
+                effects += (effects.empty() ? "" : ", ") + assets.pack.text(ui.lang, key) + " " +
+                           std::to_string((ticks + 59) / 60) + " s";
+            }
+        }
+        if (!effects.empty()) {
+            lines.push_back({"  " + assets.pack.text(ui.lang, "$i18n:ui.status_effects", {{"list", effects}}), 2});
+        }
         lines.push_back({"", 2});
     }
     const auto& quests = sim.story().quests();

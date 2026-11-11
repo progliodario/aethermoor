@@ -106,7 +106,7 @@ class CombatSim:
         self.death_save_cd = 0
         self.dodge = scenario.get("dodge")  # {"ticks", "speed_mult_x100", "iframes", "cooldown"}, or None: no dodge (spec 05, "Dodge roll")
         self.dodge_ticks = 0
-        self.p_burn = self.p_burn_clock = self.p_chill = self.p_stun = self.p_weaken = self.p_fortify = self.p_fortify_pct = self.p_ward = self.p_ward_pct = 0  # status effects on the player (spec 05)
+        self.p_burn = self.p_burn_clock = self.p_chill = self.p_stun = self.p_weaken = self.p_fortify = self.p_fortify_pct = self.p_ward = self.p_ward_pct = self.p_regen = self.p_regen_amount = 0  # status effects on the player (spec 05)
         self.dodge_cooldown = 0
         self.parry_ticks = 0
         self.parry_cooldown = 0
@@ -274,6 +274,10 @@ class CombatSim:
             self.p_fortify -= 1
         if self.p_ward > 0:  # and a brew that wards (spec 06, "Ward")
             self.p_ward -= 1
+        if self.p_regen > 0:  # a dish that heals over time (spec 06, "Regen"): `amount` every second
+            self.p_regen -= 1
+            if self.p_regen % 60 == 0 and 0 < self.hp < self.derived["max_hp"]:
+                self.hp = min(self.derived["max_hp"], self.hp + self.p_regen_amount)
 
     def _advance_attack(self) -> None:
         s = self.cur_skill
@@ -565,7 +569,7 @@ class CombatSim:
             self.phase, self.phase_tick = NONE, 0
             self.dodge_ticks, self.dodge_cooldown = 0, 0
             self.parry_ticks = self.parry_cooldown = 0
-            self.p_burn = self.p_burn_clock = self.p_chill = self.p_stun = self.p_weaken = self.p_fortify = self.p_fortify_pct = self.p_ward = self.p_ward_pct = 0
+            self.p_burn = self.p_burn_clock = self.p_chill = self.p_stun = self.p_weaken = self.p_fortify = self.p_fortify_pct = self.p_ward = self.p_ward_pct = self.p_regen = self.p_regen_amount = 0
             self.mp_u = self.derived["max_mp"] * 6000
             self.iframes = RESPAWN_IFRAMES
             return
@@ -654,9 +658,13 @@ class CombatSim:
         mana = sum(e["amount"] for e in item["effects"] if e["effect"] == "restore_mp")
         fortify = [e for e in item["effects"] if e["effect"] == "fortify"]  # spec 06, "Fortify": attack up for a while
         ward = [e for e in item["effects"] if e["effect"] == "ward"]  # spec 06, "Ward": defense up for a while
+        regen = [e for e in item["effects"] if e["effect"] == "regen"]  # spec 06, "Regen": health back over time
         full_mp = self.derived["max_mp"] * 6000
-        if not ((heal > 0 and self.hp < self.derived["max_hp"]) or (mana > 0 and self.mp_u < full_mp) or fortify or ward):
+        if not ((heal > 0 and self.hp < self.derived["max_hp"]) or (mana > 0 and self.mp_u < full_mp) or fortify or ward or regen):
             return False
+        if regen:
+            self.p_regen_amount = regen[-1]["amount"]
+            self.p_regen = regen[-1].get("ticks", 0)
         if ward:
             self.p_ward_pct = ward[-1]["amount"]
             self.p_ward = ward[-1].get("ticks", 0)
@@ -768,7 +776,7 @@ class CombatSim:
         self.hit_set = {i for i, hit in enumerate(p["hit_set"]) if hit}
         self.dodge_ticks, self.dodge_cooldown = 0, 0  # a roll in progress is not saved (spec 05)
         self.parry_ticks = self.parry_cooldown = 0
-        self.p_burn = self.p_burn_clock = self.p_chill = self.p_stun = self.p_weaken = self.p_fortify = self.p_fortify_pct = self.p_ward = self.p_ward_pct = 0
+        self.p_burn = self.p_burn_clock = self.p_chill = self.p_stun = self.p_weaken = self.p_fortify = self.p_fortify_pct = self.p_ward = self.p_ward_pct = self.p_regen = self.p_regen_amount = 0
         self.death_save_cd = 0
         self.mp_u, self.cur_skill = self.derived["max_mp"] * 6000, self.skill  # nor is the mana: a loaded game starts full
         for name, stream in (("combat", self.combat), ("loot", self.loot)):

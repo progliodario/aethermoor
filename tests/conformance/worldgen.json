@@ -1629,6 +1629,13 @@
               "variant": "red",
               "dx": 6786,
               "dy": -385
+            },
+            {
+              "key": "aldermere_courier_wendel",
+              "dialogue": "base:dialogue/npc/wendel",
+              "variant": "teal",
+              "dx": 384,
+              "dy": -130
             }
           ],
           "stamp_defs": {
@@ -6684,6 +6691,11 @@
             "outpost_smith_grael",
             1749632,
             -88192
+          ],
+          [
+            "aldermere_courier_wendel",
+            110720,
+            -22912
           ]
         ],
         "gid_histogram": {
@@ -8340,6 +8352,13 @@
               "variant": "red",
               "dx": 6786,
               "dy": -385
+            },
+            {
+              "key": "aldermere_courier_wendel",
+              "dialogue": "base:dialogue/npc/wendel",
+              "variant": "teal",
+              "dx": 384,
+              "dy": -130
             }
           ],
           "stamp_defs": {
@@ -13391,6 +13410,11 @@
             "outpost_smith_grael",
             1747584,
             -89216
+          ],
+          [
+            "aldermere_courier_wendel",
+            108672,
+            -23936
           ]
         ],
         "gid_histogram": {
@@ -15047,6 +15071,13 @@
               "variant": "red",
               "dx": 6786,
               "dy": -385
+            },
+            {
+              "key": "aldermere_courier_wendel",
+              "dialogue": "base:dialogue/npc/wendel",
+              "variant": "teal",
+              "dx": 384,
+              "dy": -130
             }
           ],
           "stamp_defs": {
@@ -20110,6 +20141,11 @@
             "outpost_smith_grael",
             1748608,
             -86144
+          ],
+          [
+            "aldermere_courier_wendel",
+            109696,
+            -20864
           ]
         ],
         "gid_histogram": {
