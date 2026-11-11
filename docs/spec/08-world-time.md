@@ -84,3 +84,9 @@ Nothing respawns in front of the player, and an enemy killed in a chunk that sta
 
 `world_ticks` (integer) at the top level of the save, and `cleared_spawners` entries `[x, y, died_tick]`. A save without `world_ticks` starts at
 `time.start_tick`; an entry with two numbers has `died_tick` 0 (ready as soon as the world time allows).
+
+## Lights
+
+`data/base/lights.json` (ID `base:lights/all`, schema `lights`) lists the props that shine at night: `art`, `radius_x100` (tiles), `color`, `strength_pm` and `flicker_pm`. When it is not full daylight, both clients draw
+over the darkness a soft glow of that colour around every such prop in view, as bright as `strength_pm * (1000 - effective_light_pm) / 1000`, wavering by up to half of `flicker_pm`. The base pack lights the lamps, the campfires,
+the Threshold Stones and the anvils. Presentation only: nothing of it is in the simulation or in the vectors.

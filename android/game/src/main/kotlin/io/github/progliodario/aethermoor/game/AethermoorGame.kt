@@ -815,6 +815,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         batch.end()
 
         drawAtmosphere(world)
+        drawLights(world, data, cam.x, cam.y, tile, viewW, viewH)
         drawOverlays(world, cam.x, cam.y, tile, k)
         drawGoalArrow(world, cam.x, cam.y, tile)
         drawMinimap(world)
@@ -928,6 +929,36 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     }
 
     /** Enemy health bars, the sword swing and the HUD bars (shapes, no textures). */
+    private var lights: List<io.github.progliodario.aethermoor.core.LightDef>? = null
+
+    /** The lights at night (spec 08, "Lights"): a soft glow around every prop of the lights table, as strong as the night is dark. Presentation only. */
+    private fun drawLights(world: WorldSim, data: Assets, camX: Float, camY: Float, tile: Float, viewW: Float, viewH: Float) {
+        val time = world.time() ?: return
+        val dark = 1000 - time.effectiveLightPm
+        if (dark <= 0) return
+        val table = lights ?: io.github.progliodario.aethermoor.core.loadLights(data.pack).also { lights = it }
+        if (table.isEmpty()) return
+        val now = com.badlogic.gdx.utils.TimeUtils.millis()
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        world.forEachProp(camX - 6f, camY - 6f, camX + viewW + 6f, camY + viewH + 6f) { prop ->
+            for (light in table) {
+                if (light.art != prop.art) continue
+                val wave = kotlin.math.sin(now / 90f + prop.x * 3.1f + prop.y * 1.7f)
+                val strength = (light.strengthPm / 1000f * dark / 1000f * (1f + wave * light.flickerPm / 1000f * 0.5f)).coerceAtMost(1f)
+                val cx = (prop.x - camX) * tile
+                val cy = (prop.y - 0.3f - camY) * tile
+                for (ring in 4 downTo 1) { // four soft rings: brighter towards the middle
+                    shapes.color = Color(light.r / 255f, light.g / 255f, light.b / 255f, strength * 0.14f)
+                    shapes.circle(cx, cy, light.radius * tile * ring / 4f, 24)
+                }
+            }
+        }
+        shapes.end()
+    }
+
     /** Night and weather over the world (spec 08). Presentation only. */
     private fun drawAtmosphere(world: WorldSim) {
         val time = world.time() ?: return

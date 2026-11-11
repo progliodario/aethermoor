@@ -43,7 +43,7 @@ target_compile_definitions(aether_core PUBLIC
 aether_target_options(aether_core)
 
 # Content packs: JSON loading. Still headless.
-add_library(aether_data STATIC src/data/pack.cpp src/data/protagonist.cpp src/data/world_data.cpp)
+add_library(aether_data STATIC src/data/pack.cpp src/data/protagonist.cpp src/data/world_data.cpp src/data/lights.cpp)
 target_link_libraries(aether_data PUBLIC aether_core PRIVATE nlohmann_json::nlohmann_json)
 aether_target_options(aether_data)
 

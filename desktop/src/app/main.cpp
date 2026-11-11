@@ -30,6 +30,7 @@
 #include "sim/chunk_store.hpp"
 #include "app/sound_board.hpp"
 #include "audio/director.hpp"
+#include "data/lights.hpp"
 #include "data/world_data.hpp"
 #include "sim/profile.hpp"
 #include "sim/save.hpp"
@@ -60,6 +61,8 @@ constexpr const char* kMapPath = "maps/demo.tmj";
 constexpr int kFloatingTextFrames = 50;
 constexpr double kAutosaveSeconds = 30.0;
 constexpr const char* kWorldId = "base:world/overworld";
+
+std::vector<aether::LightDef> g_lights;  // the props that shine at night (spec 08, "Lights")
 
 struct Assets {
     aether::Pack pack;
@@ -189,6 +192,7 @@ bool load_assets(const fs::path& dir, Assets& out) {
         return false;
     }
     out.pack = std::move(*pack);
+    g_lights = aether::load_lights(out.pack);
 
     std::string error;
     const auto read = [&](std::string_view id) { return out.pack.read_document(id); };
@@ -1157,6 +1161,52 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
     key(205, 120, 255, "$i18n:ui.map_key_site");
     key(140, 255, 235, "$i18n:ui.map_key_stone");
     key(90, 255, 120, "$i18n:ui.map_key_goal");
+}
+
+// The lights at night (spec 08, "Lights"): a soft glow around every prop of the lights table, as strong as the night is
+// dark, drawn over the darkness. Presentation only.
+void draw_lights(SDL_Renderer* renderer, const aether::WorldSim& sim, const aether::Camera& cam, float tile,
+                 float view_w, float view_h, Uint64 now_ms) {
+    const auto time = sim.time();
+    if (!time || g_lights.empty()) {
+        return;
+    }
+    const int dark = 1000 - time->effective_light_pm;
+    if (dark <= 0) {
+        return;
+    }
+    constexpr int kSides = 24;
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    sim.for_each_prop(
+        cam.x - 6.0F, cam.y - 6.0F, cam.x + view_w + 6.0F, cam.y + view_h + 6.0F, [&](const aether::Prop& prop) {
+            for (const aether::LightDef& light : g_lights) {
+                if (light.art != prop.art) {
+                    continue;
+                }
+                // a flicker that is the same for a prop on every frame of the same moment
+                const float wave = std::sin(static_cast<float>(now_ms) / 90.0F + prop.x * 3.1F + prop.y * 1.7F);
+                const float strength = static_cast<float>(light.strength_pm) / 1000.0F * static_cast<float>(dark) /
+                                       1000.0F * (1.0F + wave * static_cast<float>(light.flicker_pm) / 1000.0F * 0.5F);
+                const float cx = (prop.x - cam.x) * tile;
+                const float cy = (prop.y - 0.3F - cam.y) * tile;
+                const float radius = light.radius * tile;
+                SDL_Vertex vertices[kSides + 1];
+                int indices[kSides * 3];
+                const SDL_FColor centre{static_cast<float>(light.r) / 255.0F, static_cast<float>(light.g) / 255.0F,
+                                        static_cast<float>(light.b) / 255.0F, std::min(strength, 1.0F) * 0.55F};
+                const SDL_FColor edge{centre.r, centre.g, centre.b, 0.0F};
+                vertices[0] = SDL_Vertex{{cx, cy}, centre, {0.0F, 0.0F}};
+                for (int i = 0; i < kSides; ++i) {
+                    const float angle = static_cast<float>(i) * 6.2831853F / static_cast<float>(kSides);
+                    vertices[i + 1] =
+                        SDL_Vertex{{cx + std::cos(angle) * radius, cy + std::sin(angle) * radius}, edge, {0.0F, 0.0F}};
+                    indices[i * 3] = 0;
+                    indices[i * 3 + 1] = i + 1;
+                    indices[i * 3 + 2] = (i + 1) % kSides + 1;
+                }
+                SDL_RenderGeometry(renderer, nullptr, vertices, kSides + 1, indices, kSides * 3);
+            }
+        });
 }
 
 // Night and weather over the world, and the clock (spec 08). Presentation only.
@@ -2919,6 +2969,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     }
 
     draw_atmosphere(renderer, assets, sim, ui, out_w, out_h, density, now_ms);
+    draw_lights(renderer, sim, cam, tile, view_w, view_h, now_ms);
     draw_hud(renderer, assets, sim, ui, density);
     draw_quest_tracker(renderer, assets, sim, ui, out_w, density);
     draw_minimap(renderer, sim, ui, density);
