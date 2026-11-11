@@ -3441,6 +3441,7 @@ int main(int argc, char** argv) {
         forced_protagonist;  // developer option: --protagonist=sakura plays that one (a new game, the smoke test)
     std::optional<std::uint64_t> forced_seed;
     std::optional<std::pair<float, float>> start_at;  // developer option: --start=X,Y in tiles
+    int start_hour = -1;  // developer option: --hour=H puts the clock of the world at that hour (to see the night)
     fs::path screenshot_dir;
     for (int i = 1; i < argc; ++i) {
         if (std::strcmp(argv[i], "--version") == 0) {
@@ -3462,6 +3463,9 @@ int main(int argc, char** argv) {
             if (end != nullptr && *end == ',') {
                 start_at = std::make_pair(sx, std::strtof(end + 1, nullptr));
             }
+        }
+        if (std::strncmp(argv[i], "--hour=", 7) == 0) {
+            start_hour = std::clamp(std::atoi(argv[i] + 7), 0, 23);
         }
         if (std::strncmp(argv[i], "--seed=", 7) == 0) {
             forced_seed = std::strtoull(argv[i] + 7, nullptr, 0);
@@ -3640,6 +3644,16 @@ int main(int argc, char** argv) {
             aether::WorldSim sim(assets.map, assets.tileset, 0.0F, std::move(*combat), stream);
             if (start_at && g_map_name == "world") {
                 sim.teleport(start_at->first, start_at->second);
+            }
+            if (start_hour >= 0 && sim.chunks() != nullptr) {  // --hour: the clock moves forward to that hour
+                if (const auto now = sim.time()) {
+                    const std::int64_t day = sim.chunks()->params().time.day_ticks;
+                    const std::int64_t delta_pm = ((start_hour * 1000 / 24) - now->tod_pm + 1000) % 1000;
+                    aether::SaveState moved = sim.capture();
+                    moved.world_ticks = sim.world_ticks() + delta_pm * day / 1000;
+                    std::string ignored;
+                    sim.restore(moved, ignored);
+                }
             }
             const float spawn_x = sim.player().position.x;
             const aether::SaveState initial_state = sim.capture();
