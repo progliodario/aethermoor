@@ -668,6 +668,7 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
     add_status(p.stun, "$i18n:ui.status_stun");
     add_status(p.weaken, "$i18n:ui.status_weaken");
     add_status(p.fortify, "$i18n:ui.status_fortify");  // a meal that fortifies (spec 06)
+    add_status(p.ward, "$i18n:ui.status_ward");        // a brew that wards (spec 06)
     if (!status.empty()) {
         SDL_SetRenderDrawColor(renderer, 255, 150, 90, 255);
         outlined_text(renderer, x / 2.0F, (y + bar_h + 34.0F * density + below) / 2.0F, status.c_str());
@@ -759,6 +760,12 @@ void draw_guardian_bar(SDL_Renderer* renderer, const Assets& assets, const aethe
     SDL_SetRenderDrawColor(renderer, 255, 220, 150, 255);
     outlined_text(renderer, (static_cast<float>(out_w) / 2.0F - text_columns(name) * 8.0F) / 2.0F,
                   (y - 22.0F * density) / 2.0F, name.c_str());
+    // what it is weak to and what it resists (spec 05, "Elements"), under the bar
+    if (const std::string elements = creature_elements(assets, ui, boss->def); !elements.empty()) {
+        SDL_SetRenderDrawColor(renderer, 200, 220, 255, 255);
+        outlined_text(renderer, (static_cast<float>(out_w) / 2.0F - text_columns(elements) * 8.0F) / 2.0F,
+                      (y + h + 10.0F * density) / 2.0F, elements.c_str());
+    }
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 

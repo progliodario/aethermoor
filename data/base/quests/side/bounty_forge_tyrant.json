@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/bounty_forge_tyrant",
+  "name": "$i18n:quest.bounty_forge_tyrant.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.bounty_forge_tyrant.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/forge_tyrant",
+          "count": 1
+        }
+      ],
+      "next": "end",
+      "place": "ironspine_forge"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 1000
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1100
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 50
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/miners_broth",
+      "qty": 2
+    }
+  ]
+}

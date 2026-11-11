@@ -88,7 +88,7 @@
       "when": {
         "flag": "town_aldermere_golem_cores_thanked"
       },
-      "then": "after",
+      "then": "c2",
       "else": "thanks1"
     },
     "thanks1": {
@@ -137,6 +137,78 @@
             {
               "effect": "start_quest",
               "quest": "base:quest/side/aldermere_golem_cores"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/aldermere_hides"
+      },
+      "then": "t2",
+      "else": "a2"
+    },
+    "t2": {
+      "type": "condition",
+      "when": {
+        "flag": "town_aldermere_hides_thanked"
+      },
+      "then": "after",
+      "else": "thanks2"
+    },
+    "thanks2": {
+      "type": "say",
+      "speaker": "aldermere_quartermaster_rook",
+      "text": "$i18n:dlg.town.rook.aldermere_hides.thanks",
+      "next": "flag2"
+    },
+    "flag2": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_aldermere_hides_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a2": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/aldermere_hides"
+      },
+      "then": "busy2",
+      "else": "offer2"
+    },
+    "busy2": {
+      "type": "say",
+      "speaker": "aldermere_quartermaster_rook",
+      "text": "$i18n:dlg.town.rook.aldermere_hides.busy",
+      "next": "end"
+    },
+    "offer2": {
+      "type": "say",
+      "speaker": "aldermere_quartermaster_rook",
+      "text": "$i18n:dlg.town.rook.aldermere_hides.offer",
+      "next": "choice2"
+    },
+    "choice2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/aldermere_hides"
             }
           ],
           "next": "end"

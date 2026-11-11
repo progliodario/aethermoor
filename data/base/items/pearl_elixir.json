@@ -16,6 +16,11 @@
       {
         "effect": "restore_mp",
         "amount": 60
+      },
+      {
+        "effect": "ward",
+        "amount": 30,
+        "ticks": 1800
       }
     ]
   }

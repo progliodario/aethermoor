@@ -12,6 +12,11 @@
       {
         "effect": "heal",
         "amount": 250
+      },
+      {
+        "effect": "ward",
+        "amount": 30,
+        "ticks": 1800
       }
     ]
   }

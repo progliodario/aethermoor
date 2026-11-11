@@ -1,0 +1,35 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/fenwick_pies",
+  "name": "$i18n:quest.fenwick_pies.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.fenwick_pies.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/game_meat",
+          "count": 5
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 140
+    },
+    {
+      "effect": "add_gold",
+      "amount": 120
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/roast_meat",
+      "qty": 3
+    }
+  ]
+}

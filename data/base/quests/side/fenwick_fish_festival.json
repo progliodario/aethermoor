@@ -1,0 +1,39 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/fenwick_fish_festival",
+  "name": "$i18n:quest.fenwick_fish_festival.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.fenwick_fish_festival.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/river_fish",
+          "count": 8
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 200
+    },
+    {
+      "effect": "add_gold",
+      "amount": 180
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 12
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/fish_stew",
+      "qty": 3
+    }
+  ]
+}

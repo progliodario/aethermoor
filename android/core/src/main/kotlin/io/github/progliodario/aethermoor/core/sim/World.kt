@@ -98,6 +98,10 @@ class Player(var position: Vec2) {
     var fortify = 0
     var fortifyPct = 0L
 
+    /** A brew that wards (spec 06, "Ward"): ticks left, and the defense it adds in percent; not saved. */
+    var ward = 0
+    var wardPct = 0L
+
     fun clearStatus() {
         burn = 0
         burnClock = 0
@@ -105,6 +109,7 @@ class Player(var position: Vec2) {
         stun = 0
         weaken = 0
         fortify = 0
+        ward = 0
     }
 
     /** Ticks until the death save is ready again (spec 18). Not saved. */
@@ -639,11 +644,16 @@ class WorldSim(
         val heal = item.effects.filter { it.effect == "heal" }.sumOf { it.amount } * combat.gift.healPct / 100
         val mana = item.effects.filter { it.effect == "restore_mp" }.sumOf { it.amount }
         val fortify = item.effects.lastOrNull { it.effect == "fortify" } // spec 06, "Fortify": attack up for a while
+        val ward = item.effects.lastOrNull { it.effect == "ward" } // spec 06, "Ward": defense up for a while
         val fullMp = derived.maxMp * 6000L
-        if (!((heal > 0L && player.hp < derived.maxHp) || (mana > 0L && player.mpU < fullMp) || fortify != null)) return false
+        if (!((heal > 0L && player.hp < derived.maxHp) || (mana > 0L && player.mpU < fullMp) || fortify != null || ward != null)) return false
         if (fortify != null) {
             player.fortifyPct = fortify.amount
             player.fortify = fortify.ticks
+        }
+        if (ward != null) {
+            player.wardPct = ward.amount
+            player.ward = ward.ticks
         }
         if (heal > 0L) player.hp = minOf(derived.maxHp, player.hp + heal)
         if (mana > 0L) player.mpU = minOf(fullMp, player.mpU + mana * 6000L)
@@ -925,6 +935,7 @@ class WorldSim(
         if (p.chill > 0) p.chill--
         if (p.weaken > 0) p.weaken--
         if (p.fortify > 0) p.fortify-- // a meal that fortifies (spec 06) wears off
+        if (p.ward > 0) p.ward-- // and a brew that wards (spec 06)
     }
 
     private fun advanceAttack() {
@@ -1207,7 +1218,7 @@ class WorldSim(
             DamageInput(
                 atk = if (enemy.weaken > 0) enemy.def.atk * 75 / 100 else enemy.def.atk,
                 powerPct = 100,
-                defTarget = derived.def,
+                defTarget = if (player.ward > 0) derived.def * (100 + player.wardPct) / 100 else derived.def, // a brew that wards (spec 06)
                 lvlAttacker = enemy.def.level,
                 lvlTarget = p.level,
                 variancePm = variance,

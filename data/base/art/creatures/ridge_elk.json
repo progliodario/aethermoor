@@ -651,93 +651,86 @@
     },
     {
       "shape": {
-        "path": "M 8 26 Q 10 27 12.4 25"
+        "path": "M 14.4 8.6 Q 12.8 4.4 9 1.2"
       },
       "stroke": {
-        "color": "#3A2410",
+        "color": "#E8D6B0",
+        "width": 1.6
+      }
+    },
+    {
+      "shape": {
+        "path": "M 14.4 8.6 Q 12.8 4.4 9 1.2"
+      },
+      "stroke": {
+        "color": "#6A5434",
+        "width": 0.5
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 13.0 5.2 L 13.8 1.0"
+      },
+      "stroke": {
+        "color": "#E8D6B0",
         "width": 1.2
-      },
-      "alpha": 0.7
+      }
     },
     {
       "shape": {
-        "path": "M 32 26 Q 30 27 27.6 25"
+        "path": "M 11.0 3.4 L 10.8 0.6"
       },
       "stroke": {
-        "color": "#3A2410",
+        "color": "#E8D6B0",
+        "width": 1.1
+      }
+    },
+    {
+      "shape": {
+        "path": "M 25.6 8.6 Q 27.200000000000003 4.4 31 1.2"
+      },
+      "stroke": {
+        "color": "#E8D6B0",
+        "width": 1.6
+      }
+    },
+    {
+      "shape": {
+        "path": "M 25.6 8.6 Q 27.200000000000003 4.4 31 1.2"
+      },
+      "stroke": {
+        "color": "#6A5434",
+        "width": 0.5
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 27.0 5.2 L 26.200000000000003 1.0"
+      },
+      "stroke": {
+        "color": "#E8D6B0",
         "width": 1.2
-      },
-      "alpha": 0.7
+      }
     },
     {
       "shape": {
-        "path": "M 8 29.4 Q 10 30.4 12.4 28.4"
+        "path": "M 29.0 3.4 L 29.200000000000003 0.6"
       },
       "stroke": {
-        "color": "#3A2410",
-        "width": 1.2
-      },
-      "alpha": 0.7
+        "color": "#E8D6B0",
+        "width": 1.1
+      }
     },
     {
       "shape": {
-        "path": "M 32 29.4 Q 30 30.4 27.6 28.4"
+        "path": "M 15 26 Q 20 30 25 26 Q 23 31 20 32 Q 17 31 15 26 Z"
       },
-      "stroke": {
-        "color": "#3A2410",
-        "width": 1.2
+      "fill": {
+        "color": "#F0E2C4"
       },
-      "alpha": 0.7
-    },
-    {
-      "shape": {
-        "path": "M 8 32.6 Q 10 33.6 12.4 31.6"
-      },
-      "stroke": {
-        "color": "#3A2410",
-        "width": 1.2
-      },
-      "alpha": 0.7
-    },
-    {
-      "shape": {
-        "path": "M 32 32.6 Q 30 33.6 27.6 31.6"
-      },
-      "stroke": {
-        "color": "#3A2410",
-        "width": 1.2
-      },
-      "alpha": 0.7
-    },
-    {
-      "shape": {
-        "path": "M 17 9.4 L 17.6 12.6"
-      },
-      "stroke": {
-        "color": "#3A2410",
-        "width": 0.9
-      },
-      "alpha": 0.7
-    },
-    {
-      "shape": {
-        "path": "M 20 9.4 L 20 12.6"
-      },
-      "stroke": {
-        "color": "#3A2410",
-        "width": 0.9
-      },
-      "alpha": 0.7
-    },
-    {
-      "shape": {
-        "path": "M 23 9.4 L 22.4 12.6"
-      },
-      "stroke": {
-        "color": "#3A2410",
-        "width": 0.9
-      },
-      "alpha": 0.7
+      "alpha": 0.8
     }
   ]
 }

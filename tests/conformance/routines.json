@@ -231,7 +231,8 @@
                   "base:item/travel_ration",
                   "base:item/potion_mana_small",
                   "base:item/potion_mana_medium",
-                  "base:item/roast_meat"
+                  "base:item/roast_meat",
+                  "base:item/hunters_jerkin"
                 ]
               },
               "bias": {
@@ -336,7 +337,8 @@
                   "base:item/splint_mail",
                   "base:item/potion_mana_small",
                   "base:item/hunters_stew",
-                  "base:item/roast_meat"
+                  "base:item/roast_meat",
+                  "base:item/hunters_jerkin"
                 ]
               },
               "bias": {
@@ -411,6 +413,11 @@
                   "enemy": "base:enemy/dune_scorpion",
                   "drop": "base:item/scorpion_sting",
                   "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/dune_fox",
+                  "drop": "base:item/fox_pelt",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -425,7 +432,8 @@
                   "base:item/saber",
                   "base:item/studded_leather",
                   "base:item/fish_stew",
-                  "base:item/grilled_fish"
+                  "base:item/grilled_fish",
+                  "base:item/fox_cloak"
                 ]
               },
               "bias": {
@@ -532,7 +540,8 @@
                   "base:item/splint_mail",
                   "base:item/fish_stew",
                   "base:item/potion_mana_small",
-                  "base:item/hunters_stew"
+                  "base:item/hunters_stew",
+                  "base:item/antler_spear"
                 ]
               },
               "bias": {
@@ -701,6 +710,11 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/dune_fox",
+                  "drop": "base:item/fox_pelt",
                   "weight": 2
                 }
               ],
@@ -7799,7 +7813,8 @@
                   "base:item/travel_ration",
                   "base:item/potion_mana_small",
                   "base:item/potion_mana_medium",
-                  "base:item/roast_meat"
+                  "base:item/roast_meat",
+                  "base:item/hunters_jerkin"
                 ]
               },
               "bias": {
@@ -7904,7 +7919,8 @@
                   "base:item/splint_mail",
                   "base:item/potion_mana_small",
                   "base:item/hunters_stew",
-                  "base:item/roast_meat"
+                  "base:item/roast_meat",
+                  "base:item/hunters_jerkin"
                 ]
               },
               "bias": {
@@ -7979,6 +7995,11 @@
                   "enemy": "base:enemy/dune_scorpion",
                   "drop": "base:item/scorpion_sting",
                   "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/dune_fox",
+                  "drop": "base:item/fox_pelt",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -7993,7 +8014,8 @@
                   "base:item/saber",
                   "base:item/studded_leather",
                   "base:item/fish_stew",
-                  "base:item/grilled_fish"
+                  "base:item/grilled_fish",
+                  "base:item/fox_cloak"
                 ]
               },
               "bias": {
@@ -8100,7 +8122,8 @@
                   "base:item/splint_mail",
                   "base:item/fish_stew",
                   "base:item/potion_mana_small",
-                  "base:item/hunters_stew"
+                  "base:item/hunters_stew",
+                  "base:item/antler_spear"
                 ]
               },
               "bias": {
@@ -8269,6 +8292,11 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/dune_fox",
+                  "drop": "base:item/fox_pelt",
                   "weight": 2
                 }
               ],

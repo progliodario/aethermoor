@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/bounty_frost_sovereign",
+  "name": "$i18n:quest.bounty_frost_sovereign.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.bounty_frost_sovereign.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/frost_sovereign",
+          "count": 1
+        }
+      ],
+      "next": "end",
+      "place": "frostveil_keep"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 1300
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1400
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 65
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/frost_tonic",
+      "qty": 2
+    }
+  ]
+}

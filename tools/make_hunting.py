@@ -21,6 +21,10 @@ GAME = {
                   {"fur": "#A8754A", "light": "#D9AE7E", "dark": "#6A4524", "outline": "#2E1C0C", "eye": "#20140A", "nose": "#2A1B0A", "inner": "#E8C0A0"},
                   [("game_meat", 1, 2, 850), ("elk_antler", 1, 1, 450)], "elk_antler", ("frostveil", "ironspine", "lumeria"),
                   "Ridge elk", "Alce dei crinali"),
+    "dune_fox": (3, 45, 8, 2, 400, 13,
+                 {"fur": "#D99A4E", "light": "#F4D29A", "dark": "#8A5A24", "outline": "#3A220C", "eye": "#2A1A08", "nose": "#2A1B0A", "inner": "#F2C8A8"},
+                 [("game_meat", 1, 1, 700), ("fox_pelt", 1, 1, 550)], "fox_pelt", ("sunscar", "ashen_wastes"),
+                 "Dune fox", "Volpe delle dune"),
 }
 FAUNA_WEIGHT = 2
 
@@ -36,6 +40,10 @@ ITEMS = {
                      "Carne, erbe e pazienza. Ripristina molta salute e fortifica: +20% di attacco per un minuto."),
     "hunters_jerkin": ("armor", 260, {"def": 5, "mdef": 2}, "uncommon", "Hunter's jerkin", "Giubba del cacciatore",
                        "Boar hide over leather, with antler toggles. Light and tough.", "Pelle di cinghiale sopra il cuoio, con alamari di corno. Leggera e robusta."),
+    "fox_pelt": ("material", 26, [], "common", "Fox pelt", "Pelliccia di volpe", "Soft, golden, and warm as the sand at noon.",
+                 "Morbida, dorata, e calda come la sabbia a mezzogiorno."),
+    "fox_cloak": ("armor", 340, {"def": 6, "mdef": 4}, "uncommon", "Fox-fur cloak", "Mantello di volpe",
+                  "Light as the wind of the dunes, and it turns the sun aside.", "Leggero come il vento delle dune, e devia il sole."),
     "antler_spear": ("weapon", 300, {"atk": 16, "matk": 0}, "uncommon", "Antler spear", "Lancia di corno", "A long shaft with an elk's antler for a point. It reaches far.",
                      "Un'asta lunga con un corno d'alce per punta. Arriva lontano."),
 }

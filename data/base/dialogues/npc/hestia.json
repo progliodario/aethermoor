@@ -160,7 +160,7 @@
       "when": {
         "flag": "town_aldermere_dire_alpha_thanked"
       },
-      "then": "after",
+      "then": "c3",
       "else": "thanks2"
     },
     "thanks2": {
@@ -209,6 +209,654 @@
             {
               "effect": "start_quest",
               "quest": "base:quest/side/aldermere_dire_alpha"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c3": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/bounty_ice_warden"
+      },
+      "then": "t3",
+      "else": "a3"
+    },
+    "t3": {
+      "type": "condition",
+      "when": {
+        "flag": "town_bounty_ice_warden_thanked"
+      },
+      "then": "c4",
+      "else": "thanks3"
+    },
+    "thanks3": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_ice_warden.thanks",
+      "next": "flag3"
+    },
+    "flag3": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_bounty_ice_warden_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a3": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/bounty_ice_warden"
+      },
+      "then": "busy3",
+      "else": "offer3"
+    },
+    "busy3": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_ice_warden.busy",
+      "next": "end"
+    },
+    "offer3": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_ice_warden.offer",
+      "next": "choice3"
+    },
+    "choice3": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/bounty_ice_warden"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c4": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/bounty_coral_matron"
+      },
+      "then": "t4",
+      "else": "a4"
+    },
+    "t4": {
+      "type": "condition",
+      "when": {
+        "flag": "town_bounty_coral_matron_thanked"
+      },
+      "then": "c5",
+      "else": "thanks4"
+    },
+    "thanks4": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_coral_matron.thanks",
+      "next": "flag4"
+    },
+    "flag4": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_bounty_coral_matron_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a4": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/bounty_coral_matron"
+      },
+      "then": "busy4",
+      "else": "offer4"
+    },
+    "busy4": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_coral_matron.busy",
+      "next": "end"
+    },
+    "offer4": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_coral_matron.offer",
+      "next": "choice4"
+    },
+    "choice4": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/bounty_coral_matron"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c5": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/bounty_amber_queen"
+      },
+      "then": "t5",
+      "else": "a5"
+    },
+    "t5": {
+      "type": "condition",
+      "when": {
+        "flag": "town_bounty_amber_queen_thanked"
+      },
+      "then": "c6",
+      "else": "thanks5"
+    },
+    "thanks5": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_amber_queen.thanks",
+      "next": "flag5"
+    },
+    "flag5": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_bounty_amber_queen_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a5": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/bounty_amber_queen"
+      },
+      "then": "busy5",
+      "else": "offer5"
+    },
+    "busy5": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_amber_queen.busy",
+      "next": "end"
+    },
+    "offer5": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_amber_queen.offer",
+      "next": "choice5"
+    },
+    "choice5": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/bounty_amber_queen"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c6": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/bounty_magma_heart"
+      },
+      "then": "t6",
+      "else": "a6"
+    },
+    "t6": {
+      "type": "condition",
+      "when": {
+        "flag": "town_bounty_magma_heart_thanked"
+      },
+      "then": "c7",
+      "else": "thanks6"
+    },
+    "thanks6": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_magma_heart.thanks",
+      "next": "flag6"
+    },
+    "flag6": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_bounty_magma_heart_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a6": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/bounty_magma_heart"
+      },
+      "then": "busy6",
+      "else": "offer6"
+    },
+    "busy6": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_magma_heart.busy",
+      "next": "end"
+    },
+    "offer6": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_magma_heart.offer",
+      "next": "choice6"
+    },
+    "choice6": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/bounty_magma_heart"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c7": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/bounty_storm_sovereign"
+      },
+      "then": "t7",
+      "else": "a7"
+    },
+    "t7": {
+      "type": "condition",
+      "when": {
+        "flag": "town_bounty_storm_sovereign_thanked"
+      },
+      "then": "c8",
+      "else": "thanks7"
+    },
+    "thanks7": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_storm_sovereign.thanks",
+      "next": "flag7"
+    },
+    "flag7": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_bounty_storm_sovereign_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a7": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/bounty_storm_sovereign"
+      },
+      "then": "busy7",
+      "else": "offer7"
+    },
+    "busy7": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_storm_sovereign.busy",
+      "next": "end"
+    },
+    "offer7": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_storm_sovereign.offer",
+      "next": "choice7"
+    },
+    "choice7": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/bounty_storm_sovereign"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c8": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/bounty_forge_tyrant"
+      },
+      "then": "t8",
+      "else": "a8"
+    },
+    "t8": {
+      "type": "condition",
+      "when": {
+        "flag": "town_bounty_forge_tyrant_thanked"
+      },
+      "then": "c9",
+      "else": "thanks8"
+    },
+    "thanks8": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_forge_tyrant.thanks",
+      "next": "flag8"
+    },
+    "flag8": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_bounty_forge_tyrant_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a8": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/bounty_forge_tyrant"
+      },
+      "then": "busy8",
+      "else": "offer8"
+    },
+    "busy8": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_forge_tyrant.busy",
+      "next": "end"
+    },
+    "offer8": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_forge_tyrant.offer",
+      "next": "choice8"
+    },
+    "choice8": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/bounty_forge_tyrant"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c9": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/bounty_drowned_captain"
+      },
+      "then": "t9",
+      "else": "a9"
+    },
+    "t9": {
+      "type": "condition",
+      "when": {
+        "flag": "town_bounty_drowned_captain_thanked"
+      },
+      "then": "c10",
+      "else": "thanks9"
+    },
+    "thanks9": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_drowned_captain.thanks",
+      "next": "flag9"
+    },
+    "flag9": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_bounty_drowned_captain_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a9": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/bounty_drowned_captain"
+      },
+      "then": "busy9",
+      "else": "offer9"
+    },
+    "busy9": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_drowned_captain.busy",
+      "next": "end"
+    },
+    "offer9": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_drowned_captain.offer",
+      "next": "choice9"
+    },
+    "choice9": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/bounty_drowned_captain"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c10": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/bounty_frost_sovereign"
+      },
+      "then": "t10",
+      "else": "a10"
+    },
+    "t10": {
+      "type": "condition",
+      "when": {
+        "flag": "town_bounty_frost_sovereign_thanked"
+      },
+      "then": "c11",
+      "else": "thanks10"
+    },
+    "thanks10": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_frost_sovereign.thanks",
+      "next": "flag10"
+    },
+    "flag10": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_bounty_frost_sovereign_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a10": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/bounty_frost_sovereign"
+      },
+      "then": "busy10",
+      "else": "offer10"
+    },
+    "busy10": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_frost_sovereign.busy",
+      "next": "end"
+    },
+    "offer10": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_frost_sovereign.offer",
+      "next": "choice10"
+    },
+    "choice10": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/bounty_frost_sovereign"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c11": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/bounty_vault_warden"
+      },
+      "then": "t11",
+      "else": "a11"
+    },
+    "t11": {
+      "type": "condition",
+      "when": {
+        "flag": "town_bounty_vault_warden_thanked"
+      },
+      "then": "after",
+      "else": "thanks11"
+    },
+    "thanks11": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_vault_warden.thanks",
+      "next": "flag11"
+    },
+    "flag11": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_bounty_vault_warden_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a11": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/bounty_vault_warden"
+      },
+      "then": "busy11",
+      "else": "offer11"
+    },
+    "busy11": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_vault_warden.busy",
+      "next": "end"
+    },
+    "offer11": {
+      "type": "say",
+      "speaker": "aldermere_guildmaster_hestia",
+      "text": "$i18n:dlg.town.hestia.bounty_vault_warden.offer",
+      "next": "choice11"
+    },
+    "choice11": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/bounty_vault_warden"
             }
           ],
           "next": "end"

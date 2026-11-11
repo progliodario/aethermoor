@@ -313,11 +313,20 @@ def ridge_elk(x: Recipe) -> None:  # branching antlers and a pale throat patch (
         x.path(f"M {bx + side * 3.4} 3.4 L {bx + side * 3.6} 0.6", None, stroke="#E8D6B0", width=1.1)
     x.path("M 15 26 Q 20 30 25 26 Q 23 31 20 32 Q 17 31 15 26 Z", "#F0E2C4", alpha=0.8)
 
+
+def dune_fox(x: Recipe) -> None:  # tall pointed ears, a white muzzle and a white tail tip (the game of the hunt, spec 06)
+    for side in (-1, 1):
+        x.poly([(20 + side * 6.5, 9.5), (20 + side * 10.5, 0.8), (20 + side * 11.5, 10.5)], "$p.fur", stroke="$p.outline", width=0.9)
+        x.poly([(20 + side * 8, 8.6), (20 + side * 10.4, 3.2), (20 + side * 10.6, 8.8)], "$p.inner", alpha=0.9)
+    x.path("M 15.6 19 Q 20 26 24.4 19 Q 22.5 23.5 20 24 Q 17.5 23.5 15.6 19 Z", "#FFF6E8", alpha=0.9)
+    x.ellipse(31.5, 33.5, 2.4, 1.6, "#FFF6E8", stroke="$p.outline", width=0.6)
+
+
 WOLVES = {
     "wolf_grey": wolf_grey, "wolf_dire": wolf_dire, "wolf_dune": wolf_dune, "wolf_frost": wolf_frost, "wolf_polar": wolf_polar,
     "wolf_shade": wolf_shade, "wolf_storm": wolf_storm, "wolf_tawny": wolf_tawny, "dire_alpha": dire_alpha, "dune_mother": dune_mother,
     "moonshade_alpha": moonshade_alpha, "polar_king": polar_king, "storm_sovereign": storm_sovereign,
-    "wild_boar": wild_boar, "ridge_elk": ridge_elk,
+    "wild_boar": wild_boar, "ridge_elk": ridge_elk, "dune_fox": dune_fox,
 }
 
 

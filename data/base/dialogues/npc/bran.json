@@ -160,7 +160,7 @@
       "when": {
         "flag": "town_fenwick_mushrooms_thanked"
       },
-      "then": "after",
+      "then": "c3",
       "else": "thanks2"
     },
     "thanks2": {
@@ -209,6 +209,78 @@
             {
               "effect": "start_quest",
               "quest": "base:quest/side/fenwick_mushrooms"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c3": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/fenwick_fish_festival"
+      },
+      "then": "t3",
+      "else": "a3"
+    },
+    "t3": {
+      "type": "condition",
+      "when": {
+        "flag": "town_fenwick_fish_festival_thanked"
+      },
+      "then": "after",
+      "else": "thanks3"
+    },
+    "thanks3": {
+      "type": "say",
+      "speaker": "fenwick_elder_bran",
+      "text": "$i18n:dlg.town.bran.fenwick_fish_festival.thanks",
+      "next": "flag3"
+    },
+    "flag3": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_fenwick_fish_festival_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a3": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/fenwick_fish_festival"
+      },
+      "then": "busy3",
+      "else": "offer3"
+    },
+    "busy3": {
+      "type": "say",
+      "speaker": "fenwick_elder_bran",
+      "text": "$i18n:dlg.town.bran.fenwick_fish_festival.busy",
+      "next": "end"
+    },
+    "offer3": {
+      "type": "say",
+      "speaker": "fenwick_elder_bran",
+      "text": "$i18n:dlg.town.bran.fenwick_fish_festival.offer",
+      "next": "choice3"
+    },
+    "choice3": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/fenwick_fish_festival"
             }
           ],
           "next": "end"
