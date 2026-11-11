@@ -83,7 +83,8 @@ data class PlayerSetup(
 )
 
 /** One effect of using an item (spec 06): "heal" with an [amount]. */
-class ItemEffect(val effect: String, val amount: Long)
+/** [ticks]: how long it lasts (fortify, spec 06). */
+class ItemEffect(val effect: String, val amount: Long, val ticks: Int = 0)
 
 /** An item of the pack (spec 06): its effects when used, its price and, for equipment, its statistics. */
 class ItemDef(

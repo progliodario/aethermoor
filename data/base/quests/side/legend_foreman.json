@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/legend_foreman",
+  "name": "$i18n:quest.legend_foreman.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.legend_foreman.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/iron_foreman",
+          "count": 1
+        }
+      ],
+      "next": "end",
+      "place": "ironspine_mine"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 600
+    },
+    {
+      "effect": "add_gold",
+      "amount": 650
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 30
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/miners_broth",
+      "qty": 3
+    }
+  ]
+}

@@ -24,16 +24,16 @@ GAME = {
 }
 FAUNA_WEIGHT = 2
 
-# item: (kind, price, effects or armor, rarity, name en, name it, description en, description it)
+# item: (kind, price, effects [(effect, amount[, ticks])] or armor/weapon stats, rarity, name en, name it, description en, description it)
 ITEMS = {
     "game_meat": ("food", 8, [("heal", 20)], "common", "Game meat", "Selvaggina", "Fresh from the hunt. Better roasted, but it will do. Restores a little health.",
                   "Fresca di caccia. Meglio arrosto, ma va bene così. Ripristina un po' di salute."),
     "boar_hide": ("material", 14, [], "common", "Boar hide", "Pelle di cinghiale", "Thick and bristly. Tanners love it.", "Spessa e ispida. I conciatori la adorano."),
     "elk_antler": ("material", 22, [], "common", "Elk antler", "Corno d'alce", "Light, hard, and very pointy.", "Leggero, duro e molto appuntito."),
-    "roast_meat": ("food", 30, [("heal", 70)], "common", "Roast meat", "Arrosto", "Crackling outside, tender inside. Restores health.",
-                   "Croccante fuori, tenero dentro. Ripristina la salute."),
-    "hunters_stew": ("food", 45, [("heal", 120)], "common", "Hunter's stew", "Stufato del cacciatore", "Meat, herbs and patience. Restores a lot of health.",
-                     "Carne, erbe e pazienza. Ripristina molta salute."),
+    "roast_meat": ("food", 30, [("heal", 70), ("fortify", 10, 1800)], "common", "Roast meat", "Arrosto", "Crackling outside, tender inside. Restores health and fortifies: +10% attack for 30 s.",
+                   "Croccante fuori, tenero dentro. Ripristina la salute e fortifica: +10% di attacco per 30 s."),
+    "hunters_stew": ("food", 45, [("heal", 120), ("fortify", 20, 3600)], "common", "Hunter's stew", "Stufato del cacciatore", "Meat, herbs and patience. Restores a lot of health and fortifies: +20% attack for a minute.",
+                     "Carne, erbe e pazienza. Ripristina molta salute e fortifica: +20% di attacco per un minuto."),
     "hunters_jerkin": ("armor", 260, {"def": 5, "mdef": 2}, "uncommon", "Hunter's jerkin", "Giubba del cacciatore",
                        "Boar hide over leather, with antler toggles. Light and tough.", "Pelle di cinghiale sopra il cuoio, con alamari di corno. Leggera e robusta."),
     "antler_spear": ("weapon", 300, {"atk": 16, "matk": 0}, "uncommon", "Antler spear", "Lancia di corno", "A long shaft with an elk's antler for a point. It reaches far.",
@@ -71,7 +71,7 @@ def item_doc(name: str, spec: tuple) -> dict:
     if kind in ("food", "material"):
         doc["stack_max"] = 99
     if kind == "food":
-        doc["use"] = {"effects": [{"effect": effect, "amount": amount} for effect, amount in extra]}
+        doc["use"] = {"effects": [{"effect": e[0], "amount": e[1], **({"ticks": e[2]} if len(e) > 2 else {})} for e in extra]}
     elif kind == "armor":
         doc["armor"] = extra
     elif kind == "weapon":

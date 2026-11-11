@@ -218,9 +218,64 @@ MORE_QUESTS = {
         ("The page is written. In your words, mostly, and a few of mine. Take these potions; scholars live on mana and tea.",
          "La pagina è scritta. Con parole tue, per lo più, e qualcuna mia. Prendi queste pozioni: gli studiosi vivono di mana e di tè.")),
 }
+# The archivist's Book of Legends (M9, the stories of the regions): after his first quest, Selwyn asks for the end of seven legends, one guardian
+# of a great dungeon in each region (set_quest_places.py gives each its place).
+LEGENDS = [
+    _q("legend_barrow", ('The Warden Under the Hill', 'Il custode sotto la collina'),
+       ("Selwyn's Book of Legends tells of the Barrow Warden of Grunmoor Barrow, in Verdalis. Defeat it and bring him the end of the story.",
+        "Il Libro delle Leggende di Selwyn parla del Custode del Tumulo di Grunmoor Barrow, a Verdalis. Sconfiggilo e portagli la fine della storia."),
+       [{"type": "kill", "enemy": "base:enemy/barrow_warden", "count": 1}], 300, 300, 15, {'base:item/potion_medium': 2},
+       ('The first legend of my book is the oldest, and the closest: a warden who guards a barrow that nobody remembers filling. Will you write its last line?', "La prima leggenda del mio libro è la più antica, e la più vicina: un custode che veglia un tumulo che nessuno ricorda di aver riempito. Ne scriverai l'ultima riga?"),
+       ("The Barrow Warden, in Grunmoor Barrow.", "Il Custode del Tumulo, a Grunmoor Barrow."),
+       ('So the warden rests. I will write that it went quietly. It did not, did it? I will write that it went quietly anyway.', "Dunque il custode riposa. Scriverò che se n'è andato in silenzio. Non è vero, eh? Lo scriverò lo stesso.")),
+    _q("legend_moonshade", ('The Wolf Under the Moon', 'Il lupo sotto la luna'),
+       ("Selwyn's Book of Legends tells of the Moonshade Alpha of Whisperwood Hollow, in Whisperwood. Defeat it and bring him the end of the story.",
+        "Il Libro delle Leggende di Selwyn parla dell'Alfa dell'ombra lunare di Whisperwood Hollow, a Whisperwood. Sconfiggilo e portagli la fine della storia."),
+       [{"type": "kill", "enemy": "base:enemy/moonshade_alpha", "count": 1}], 700, 700, 35, {'base:item/moonmoss_draught': 2},
+       ('The second legend: a wolf that hunts by moonlight in Whisperwood, and casts no shadow. The pages say no one has seen it twice.', "La seconda leggenda: un lupo che caccia al chiaro di luna a Whisperwood, e non fa ombra. Le pagine dicono che nessuno l'ha visto due volte."),
+       ("The Moonshade Alpha, in Whisperwood Hollow.", "L'Alfa dell'ombra lunare, a Whisperwood Hollow."),
+       ('You saw it twice, then. Once coming, once going. The pages will need a new sentence.', "Allora l'hai visto due volte. Una all'andata, una al ritorno. Alle pagine servirà una frase nuova.")),
+    _q("legend_foreman", ('The Foreman Who Never Clocked Out', 'Il caposquadra che non smontava mai'),
+       ("Selwyn's Book of Legends tells of the Ironbound Foreman of Ironspine Mine, in Ironspine. Defeat it and bring him the end of the story.",
+        "Il Libro delle Leggende di Selwyn parla del Caposquadra di ferro di Ironspine Mine, a Ironspine. Sconfiggilo e portagli la fine della storia."),
+       [{"type": "kill", "enemy": "base:enemy/iron_foreman", "count": 1}], 600, 650, 30, {'base:item/miners_broth': 3},
+       ('The third legend is a sad one: a foreman of the old mine who would not stop working when the mine stopped. He is iron now, they say, all the way through.', 'La terza leggenda è triste: un caposquadra della vecchia miniera che non volle smettere quando la miniera smise. Ora è di ferro, dicono, da parte a parte.'),
+       ("The Ironbound Foreman, in Ironspine Mine.", "Il Caposquadra di ferro, a Ironspine Mine."),
+       ('His shift is over, then. I hope he heard the bell. Some legends end with a bell.', 'Il suo turno è finito, dunque. Spero abbia sentito la campana. Certe leggende finiscono con una campana.')),
+    _q("legend_regent", ('The Regent of the Drowned', 'Il reggente degli annegati'),
+       ("Selwyn's Book of Legends tells of the Tide Regent of Drowned Temple, in Tidehaven. Defeat it and bring him the end of the story.",
+        "Il Libro delle Leggende di Selwyn parla del Reggente della marea di Drowned Temple, a Tidehaven. Sconfiggilo e portagli la fine della storia."),
+       [{"type": "kill", "enemy": "base:enemy/tide_regent", "count": 1}], 650, 700, 32, {'base:item/pearl_elixir': 2},
+       ('The fourth legend rules a temple the sea took back: the Tide Regent, who still keeps the court of a kingdom under the water.', "La quarta leggenda regna su un tempio che il mare si è ripreso: il Reggente della marea, che tiene ancora la corte di un regno sott'acqua."),
+       ("The Tide Regent, in Drowned Temple.", "Il Reggente della marea, a Drowned Temple."),
+       ('A court without a regent. I will write that the fish voted, and voted well.', 'Una corte senza reggente. Scriverò che i pesci hanno votato, e hanno votato bene.')),
+    _q("legend_revenant", ('The Revenant in the Ice', 'Lo spettro nel ghiaccio'),
+       ("Selwyn's Book of Legends tells of the Rime Revenant of Frostveil Cavern, in Frostveil. Defeat it and bring him the end of the story.",
+        "Il Libro delle Leggende di Selwyn parla dello Spettro del gelo di Frostveil Cavern, a Frostveil. Sconfiggilo e portagli la fine della storia."),
+       [{"type": "kill", "enemy": "base:enemy/rime_revenant", "count": 1}], 800, 850, 40, {'base:item/frost_tonic': 3},
+       ('The fifth legend is cold: a knight frozen into the cavern of Frostveil, who woke up and did not like what he found.', 'La quinta leggenda è fredda: un cavaliere congelato nella caverna di Frostveil, che si è svegliato e non ha gradito ciò che ha trovato.'),
+       ("The Rime Revenant, in Frostveil Cavern.", "Lo Spettro del gelo, a Frostveil Cavern."),
+       ('Back to sleep, then, and for good. I shall write it in ink that does not freeze. I have some. I bought it for this.', "Di nuovo a dormire, dunque, e per sempre. Lo scriverò con un inchiostro che non gela. Ce l'ho. L'ho comprato apposta.")),
+    _q("legend_sentinel", ('The Sentinel of the Ziggurat', 'La sentinella dello ziggurat'),
+       ("Selwyn's Book of Legends tells of the Sand Sentinel of Sunken Ziggurat, in Sunscar. Defeat it and bring him the end of the story.",
+        "Il Libro delle Leggende di Selwyn parla della Sentinella di sabbia di Sunken Ziggurat, a Sunscar. Sconfiggila e portagli la fine della storia."),
+       [{"type": "kill", "enemy": "base:enemy/sand_sentinel", "count": 1}], 900, 950, 45, {'base:item/desert_nectar': 3},
+       ('The sixth legend stands guard at a ziggurat half eaten by the sand of Sunscar. What it guards, the book does not say. The book would like to know.', 'La sesta leggenda fa la guardia a uno ziggurat mezzo mangiato dalla sabbia di Sunscar. Cosa sorvegli, il libro non lo dice. Il libro vorrebbe saperlo.'),
+       ("The Sand Sentinel, in Sunken Ziggurat.", "La Sentinella di sabbia, a Sunken Ziggurat."),
+       ('Sand, you say? It guarded sand. That is the most honest legend in the book.', 'Sabbia, dici? Sorvegliava sabbia. È la leggenda più onesta del libro.')),
+    _q("legend_colossus", ('The Colossus of Cinders', 'Il colosso di cenere'),
+       ("Selwyn's Book of Legends tells of the Cinder Colossus of Cinder Citadel, in the Ashen Wastes. Defeat it and bring him the end of the story.",
+        "Il Libro delle Leggende di Selwyn parla del Colosso di cenere di Cinder Citadel, nelle Terre di Cenere. Sconfiggilo e portagli la fine della storia."),
+       [{"type": "kill", "enemy": "base:enemy/cinder_colossus", "count": 1}], 1200, 1300, 60, {'base:item/ember_brew': 3},
+       ('The last legend is the largest: a colossus of cinders that walks the citadel of the Ashen Wastes. Only the heroes of songs ever came back from it. Be a song, Guest.', "L'ultima leggenda è la più grande: un colosso di cenere che percorre la cittadella delle Terre di Cenere. Solo gli eroi delle canzoni ne sono tornati. Sii una canzone, Ospite."),
+       ("The Cinder Colossus, in Cinder Citadel.", "Il Colosso di cenere, a Cinder Citadel."),
+       ('The book is finished. Every legend has an ending, and every ending has your name. I will start a second book. It will be about you.', 'Il libro è finito. Ogni leggenda ha una fine, e ogni fine porta il tuo nome. Comincerò un secondo libro. Parlerà di te.')),
+]
 for _person in PEOPLE:
     if _person["key"] in MORE_QUESTS:
         _person["quests"].append(MORE_QUESTS[_person["key"]])
+    if _person["key"] == "aldermere_archivist_selwyn":
+        _person["quests"].extend(LEGENDS)
 
 def _outposts() -> list:
     from towns_outposts import OUTPOST_PEOPLE as people  # imported late: that table imports nothing from here, but keep the two files independent

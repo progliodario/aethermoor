@@ -667,6 +667,7 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
     add_status(p.chill, "$i18n:ui.status_chill");
     add_status(p.stun, "$i18n:ui.status_stun");
     add_status(p.weaken, "$i18n:ui.status_weaken");
+    add_status(p.fortify, "$i18n:ui.status_fortify");  // a meal that fortifies (spec 06)
     if (!status.empty()) {
         SDL_SetRenderDrawColor(renderer, 255, 150, 90, 255);
         outlined_text(renderer, x / 2.0F, (y + bar_h + 34.0F * density + below) / 2.0F, status.c_str());
@@ -2688,8 +2689,10 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
     }
     if (!sim.bestiary().empty()) {
         lines.push_back({"", 2});
-        lines.push_back(
-            {assets.pack.text(ui.lang, "$i18n:ui.journal_bestiary") + " " + std::to_string(sim.bestiary().size()), 0});
+        lines.push_back({assets.pack.text(ui.lang, "$i18n:ui.journal_bestiary") + " " +
+                             std::to_string(sim.bestiary().size()) + "/" +
+                             std::to_string(std::max(sim.bestiary().size(), sim.combat().stream_enemies.size())),
+                         0});
         for (const auto& [id, count] : sim.bestiary()) {
             const std::size_t slash = id.rfind('/');
             const std::string key = "$i18n:enemy." + (slash == std::string::npos ? id : id.substr(slash + 1)) + ".name";

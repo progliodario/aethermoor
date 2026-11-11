@@ -55,8 +55,8 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 
 **Life and progression**
 
-- An adventurers' guild with a board and commissions, 231 quests, shops, inns, jobs from the elders.
-- 166 items; gathering from bushes, trees, rocks and cacti, **fishing** in the reeds of the beaches and **hunting**; 34 recipes (potions, brews and elixirs of the regions, dishes cooked at a fire, gear, and fine gear at the anvil of a town).
+- An adventurers' guild with a board and commissions, 238 quests (the archivist's Book of Legends among them, one guardian in every region), shops, inns, jobs from the elders.
+- 166 items; gathering from bushes, trees, rocks and cacti, **fishing** in the reeds of the beaches and **hunting**; 34 recipes (the best dishes **fortify** you: more attack for a while) (potions, brews and elixirs of the regions, dishes cooked at a fire, gear, and fine gear at the anvil of a town).
 - A companion for each protagonist: it follows you, fights, stays where you tell it, and its bond grows with its victories: after ten, it heals you a little every ten seconds.
 - Titles of a way of playing that change the game: the Forager finds more, the Artisan makes more, the Unbreakable Guard parries longer, the Veteran earns more experience.
 - A tree of ten talents: a point a level, four roots (attack, health, mana, defense), a second ring that opens at rank 5 (critical, second wind, magic, speed) and a crown (Legend, Bulwark).

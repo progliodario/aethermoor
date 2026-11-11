@@ -264,7 +264,7 @@ Dopo l'approvazione, ogni voce diventerà un issue con descrizione, criteri di a
 
 ### 8.1 Dove siamo
 
-Aggiornato all'11 novembre 2026 (versione `0.0.1`, nessuna release pubblicata). Il gioco è giocabile su desktop e Android con **otto protagonisti** (Ren, Sakura, Daichi, Haruka, Marco, Yuki, Lena, Gideon), un mondo di 16384² tile in streaming con otto regioni, 44 siti a mano, 70 creature, 166 oggetti e 231 missioni (`docs/design/catalog.md`). **Ogni missione segna sulla mappa dove andare** (spec 07, "Places").
+Aggiornato all'11 novembre 2026 (versione `0.0.1`, nessuna release pubblicata). Il gioco è giocabile su desktop e Android con **otto protagonisti** (Ren, Sakura, Daichi, Haruka, Marco, Yuki, Lena, Gideon), un mondo di 16384² tile in streaming con otto regioni, 44 siti a mano, 70 creature, 166 oggetti e 238 missioni (`docs/design/catalog.md`). **Ogni missione segna sulla mappa dove andare** (spec 07, "Places").
 
 | Milestone | Stato | Note |
 |---|---|---|
@@ -277,7 +277,7 @@ Aggiornato all'11 novembre 2026 (versione `0.0.1`, nessuna release pubblicata). 
 | M6 Sistemi di vita | iniziato | Oggetti usabili, mana e pozioni, negozi, equipaggiamento, locande, **raccolta** (cespugli, alberi, rocce, cactus) e **creazione dalla borsa** (16 ricette: pozioni, cucina, equipaggiamento). **Mancano:** agricoltura, qualità degli oggetti, banchi da lavoro, pesca, caccia, base e residenti, economia dinamica |
 | M7 Compagni | iniziato | Un compagno per protagonista che segue e combatte, comando resta/segui, legame che cresce con le uccisioni (spec 10). **Mancano:** altri comandi, più compagni insieme, i doni che ne dipendono (domare, comandare) |
 | M8 Progressione profonda | iniziato | Bestiario, contatori di stile, 15 titoli, `profile.json` condiviso ed echi (+1% di vita per titolo, spec 11 e 12). **Mancano:** alberi di abilità, tag e titoli con effetti, ranghi oltre la gilda, reincarnazione completa e Albero dell'Eredità |
-| M9 Contenuti | iniziato | Per ogni protagonista: storia, dono, due missioni personali. I prologhi, le storie complete in tre atti e l'epilogo contro l'Eco, il boss personale di ogni protagonista, ci sono (80 missioni, otto creature e otto santuari nuovi). Mancano altre storie per regione |
+| M9 Contenuti | iniziato | Per ogni protagonista: storia, dono, due missioni personali. I prologhi, le storie complete in tre atti e l'epilogo contro l'Eco, il boss personale di ogni protagonista, ci sono (80 missioni, otto creature e otto santuari nuovi). Il Libro delle Leggende di Selwyn porta una storia in ogni regione (sette guardiani dei grandi dungeon, 11 novembre 2026). Mancano altre storie per regione |
 | M10-M12 | iniziato | Effetti sonori sintetizzati con il loro direttore (spec 14); musica e ambiente delle regioni scritti ma **spenti** su richiesta del proprietario (suonavano male). **Mancano:** rifinitura, un sintetizzatore con rumore filtrato, release 1.0 |
 
 Verificato finora: la CI (Windows MSVC, Linux GCC, Android: test JVM e `assembleDebug`), 23 file di vettori eseguiti dai due client, e centinaia di fotogrammi reali del client desktop (`aethermoor --smoke-test --screenshot-dir=...`: gioco, mappa, pannelli, schermata di scelta). **Prove in gioco:** il proprietario prova a fondo ogni modifica su Windows, Linux e Android e riferisce ciò che non va; da questa macchina non si può compilare né ascoltare, quindi ciò che non è coperto da vettori o fotogrammi resta da confermare con le sue prove.

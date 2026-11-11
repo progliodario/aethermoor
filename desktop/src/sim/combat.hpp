@@ -101,8 +101,9 @@ struct PlayerSetup {
 
 // What using an item does (spec 06): a list of effects.
 struct ItemEffect {
-    std::string effect;  // "heal"
+    std::string effect;  // "heal", "restore_mp", "fortify"
     std::int64_t amount = 0;
+    int ticks = 0;  // how long it lasts (fortify, spec 06)
 };
 
 struct ItemDef {

@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/legend_barrow",
+  "name": "$i18n:quest.legend_barrow.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.legend_barrow.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/barrow_warden",
+          "count": 1
+        }
+      ],
+      "next": "end",
+      "place": "grunmoor_barrow"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 300
+    },
+    {
+      "effect": "add_gold",
+      "amount": 300
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 15
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/potion_medium",
+      "qty": 2
+    }
+  ]
+}

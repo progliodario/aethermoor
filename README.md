@@ -55,8 +55,8 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 
 **Vita e progressione**
 
-- Gilda degli avventurieri con bacheca e commissioni, 231 missioni, negozi, locande, lavori degli anziani.
-- 166 oggetti; raccolta da cespugli, alberi, rocce e cactus, **pesca** nei canneti delle spiagge e **caccia**; 34 ricette (pozioni, infusi ed elisir delle regioni, piatti cucinati al fuoco, equipaggiamento, ed equipaggiamento pregiato all'incudine delle città).
+- Gilda degli avventurieri con bacheca e commissioni, 238 missioni (tra cui il Libro delle Leggende dell'archivista, un guardiano per regione), negozi, locande, lavori degli anziani.
+- 166 oggetti; raccolta da cespugli, alberi, rocce e cactus, **pesca** nei canneti delle spiagge e **caccia**; 34 ricette (i piatti migliori **fortificano**: più attacco per un po') (pozioni, infusi ed elisir delle regioni, piatti cucinati al fuoco, equipaggiamento, ed equipaggiamento pregiato all'incudine delle città).
 - Un compagno per protagonista: ti segue, combatte, resta dove gli dici, e il suo legame cresce con le sue vittorie: dopo dieci, ti cura un po' ogni dieci secondi.
 - Titoli del modo di giocare che cambiano il gioco: il Raccoglitore trova di più, l'Artigiano crea di più, la Guardia incrollabile para più a lungo, il Veterano guadagna più esperienza.
 - Un albero di dieci talenti: un punto per livello, quattro radici (attacco, vita, mana, difesa), un secondo anello che si apre al rango 5 (critico, secondo fiato, magia, velocità) e una corona (Leggenda, Baluardo).

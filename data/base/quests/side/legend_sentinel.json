@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/legend_sentinel",
+  "name": "$i18n:quest.legend_sentinel.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.legend_sentinel.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/sand_sentinel",
+          "count": 1
+        }
+      ],
+      "next": "end",
+      "place": "sunscar_ziggurat"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 900
+    },
+    {
+      "effect": "add_gold",
+      "amount": 950
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 45
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/desert_nectar",
+      "qty": 3
+    }
+  ]
+}

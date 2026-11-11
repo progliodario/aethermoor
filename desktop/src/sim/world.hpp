@@ -50,6 +50,8 @@ struct Player {
     int chill = 0;
     int stun = 0;
     int weaken = 0;
+    int fortify = 0;  // a meal that fortifies (spec 06): ticks left, and the attack it adds; not saved
+    std::int64_t fortify_pct = 0;
     Vec2 dodge_dir{1.0F, 0.0F};
 };
 

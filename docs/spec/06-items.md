@@ -56,7 +56,7 @@ Conformance: the scenario `craft_at_fire`.
 
 - a dialogue is open;
 - the inventory does not hold the item, or the item has no `use` effects;
-- none of its effects would change anything right now: no `heal` (or one at full health) and no `restore_mp` (or one at full mana). An item with both effects is used when either one would change something.
+- none of its effects would change anything right now: no `heal` (or one at full health), no `restore_mp` (or one at full mana) and no `fortify`. An item with both effects is used when either one would change something.
 
 Otherwise the effects are applied in order and the quantity of the item drops by one. Supported effects:
 
@@ -64,6 +64,7 @@ Otherwise the effects are applied in order and the quantity of the item drops by
 |---|---|---|
 | `heal` | `amount` | `hp = min(max_hp, hp + amount)` |
 | `restore_mp` | `amount` (points) | `mp_u = min(max_mp * 6000, mp_u + amount * 6000)` (spec 05, "Mana") |
+| `fortify` | `amount` (percent), `ticks` | **Fortify**: `fortify_pct = amount`, `fortify = ticks` (a later meal replaces both). While `fortify > 0` the player's hits use `atk * (100 + title_attack_pct + fortify_pct) / 100` (spec 05, spec 11). `fortify` goes down by one every tick, where `weaken` does, and goes to 0 on death and on loading (not saved). An item with `fortify` is always useful, even at full health. Conformance: the scenario `fortify_meal`. |
 
 Using an item is instant: it takes no time, has no cooldown and does not interrupt an attack. An unknown effect counts as an effect that changes nothing.
 

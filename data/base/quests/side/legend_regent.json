@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/legend_regent",
+  "name": "$i18n:quest.legend_regent.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.legend_regent.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/tide_regent",
+          "count": 1
+        }
+      ],
+      "next": "end",
+      "place": "drowned_temple"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 650
+    },
+    {
+      "effect": "add_gold",
+      "amount": 700
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 32
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/pearl_elixir",
+      "qty": 2
+    }
+  ]
+}

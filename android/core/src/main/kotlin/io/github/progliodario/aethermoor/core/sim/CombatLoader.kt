@@ -274,7 +274,7 @@ fun loadCombatSetup(
             items[id] = ItemDef(
                 effects = doc["use"]?.jsonObject?.getValue("effects")?.jsonArray?.map {
                     val o = it.jsonObject
-                    ItemEffect(o.getValue("effect").jsonPrimitive.content, o["amount"]?.jsonPrimitive?.long ?: 0L)
+                    ItemEffect(o.getValue("effect").jsonPrimitive.content, o["amount"]?.jsonPrimitive?.long ?: 0L, o["ticks"]?.jsonPrimitive?.int ?: 0)
                 } ?: emptyList(),
                 kind = doc.getValue("kind").jsonPrimitive.content,
                 price = doc.getValue("price").jsonPrimitive.long,

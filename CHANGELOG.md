@@ -17,6 +17,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Meals that fortify** (spec 06, "Fortify"; a new item effect in the reference, the vectors and both clients, scenario `fortify_meal`): roast meat and fish stew give +10% attack for 30 seconds, the hunter's stew +20% and the royal feast +25% for a minute. They can be eaten at full health, and "Fortified" shows under your level while it lasts.
+- **Selwyn's Book of Legends** (Aldermere): after his first quest the archivist asks for the end of seven legends, one guardian of a great dungeon in every region, from the Barrow Warden to the Cinder Colossus. Each sets the goal of the map. 238 quests in all.
+- The journal shows how many kinds of creatures you have met out of all those of the world.
 - **The heirloom weapon** (spec 11, "Heirloom"; spec 12; both clients, suite `profile`): reincarnating a game now passes on, besides half of its gold, the weapon it had in hand. The next new game finds it in the bag.
 - **Two titles of the hunt**: Boar Hunter (ten wild boars; one more of every drop gathered) and Elk Stalker (eight ridge elks; +10% experience). 17 titles.
 - **Fishing sounds like water**: a splash when you fish in the reeds (a new gathering sound, `gather.water`).

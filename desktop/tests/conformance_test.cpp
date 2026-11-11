@@ -863,7 +863,8 @@ Scenario scenario_from_json(const Json& in) {
             parsed.stack_max = def.value("stack_max", 0);
             if (def.contains("effects")) {
                 for (const Json& effect : def.at("effects")) {
-                    parsed.effects.push_back({effect.at("effect").get<std::string>(), integer(effect, "amount")});
+                    parsed.effects.push_back(
+                        {effect.at("effect").get<std::string>(), integer(effect, "amount"), effect.value("ticks", 0)});
                 }
             }
             if (def.contains("weapon")) {
