@@ -52,16 +52,23 @@ jobs:
       # network timeouts, it waits for the lock instead of forever, and it is tried three times before the step fails.
       - name: Linux system packages (SDL3 build prerequisites)
         if: runner.os == 'Linux'
-        timeout-minutes: 25
+        timeout-minutes: 35
         run: |
           APT="-o Acquire::Retries=3 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 -o DPkg::Lock::Timeout=120"
           PACKAGES="ninja-build pkg-config autoconf autoconf-archive automake libtool libltdl-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxfixes-dev
             libxi-dev libxss-dev libxkbcommon-dev libwayland-dev wayland-protocols libdecor-0-dev
             libasound2-dev libpulse-dev libpipewire-0.3-dev libudev-dev libdbus-1-dev libibus-1.0-dev
             libgl-dev libegl1-mesa-dev libgles-dev libdrm-dev libgbm-dev libsndio-dev"
-          # security.ubuntu.com does not always answer the runners (11 November 2026): the Azure mirror of the runners carries the same
-          # security pockets, so the sources point there; a list that still fails to refresh does not stop the install.
-          sudo sed -i -E 's#https?://security\.ubuntu\.com/ubuntu/?#http://azure.archive.ubuntu.com/ubuntu/#g' /etc/apt/sources.list.d/*.sources /etc/apt/sources.list 2>/dev/null || true
+          # The Ubuntu archive and its Azure mirror did not answer the runners for hours on 11 November 2026: the first official mirror that
+          # answers within ten seconds serves every Ubuntu source (the packages are signed by Ubuntu, so any official mirror will do).
+          MIRROR=""
+          for m in http://azure.archive.ubuntu.com/ubuntu http://archive.ubuntu.com/ubuntu http://mirrors.edge.kernel.org/ubuntu http://mirror.math.princeton.edu/pub/ubuntu http://ftp.halifax.rwth-aachen.de/ubuntu; do
+            if curl -sfI --max-time 10 "$m/dists/noble/InRelease" >/dev/null; then MIRROR="$m"; break; fi
+          done
+          echo "Ubuntu mirror: ${MIRROR:-none answered}"
+          if [ -n "$MIRROR" ]; then
+            sudo sed -i -E "s#https?://(azure\.)?(archive|security)\.ubuntu\.com/ubuntu/?#$MIRROR/#g" /etc/apt/sources.list.d/*.sources /etc/apt/sources.list 2>/dev/null || true
+          fi
           mkdir -p ~/apt-archives/partial
           APT="$APT -o dir::cache::archives=$HOME/apt-archives"
           if ls ~/apt-archives/*.deb >/dev/null 2>&1 && sudo timeout 300 apt-get $APT install -y --no-download --no-install-recommends ~/apt-archives/*.deb; then
@@ -69,7 +76,7 @@ jobs:
             exit 0
           fi
           for attempt in 1 2 3; do
-            sudo timeout 300 apt-get $APT update || echo "some package lists did not refresh"
+            sudo timeout 150 apt-get $APT update || echo "some package lists did not refresh"
             if sudo timeout 420 apt-get $APT install -y --no-install-recommends $PACKAGES; then
               exit 0
             fi
