@@ -69,6 +69,7 @@ struct QuestStage {
     std::string journal;  // "$i18n:..." reference
     std::vector<Objective> objectives;
     std::string next;
+    std::string place;  // the landmark the stage sends the player to (spec 07, "Places"); empty: none
 };
 
 struct QuestDef {

@@ -79,7 +79,8 @@ data class Objective(val kind: ObjectiveKind, val target: String, val count: Lon
     val required: Long get() = if (kind == ObjectiveKind.TALK) 1 else count
 }
 
-data class QuestStage(val id: String, val journal: String, val objectives: List<Objective>, val next: String)
+/** [place]: the landmark the stage sends the player to (spec 07, "Places"); empty: none. */
+data class QuestStage(val id: String, val journal: String, val objectives: List<Objective>, val next: String, val place: String = "")
 
 /** [args] are the arguments of the name and journal texts (spec 07). */
 data class QuestDef(
@@ -251,6 +252,7 @@ private fun parseQuestObject(j: JsonObject): QuestDef {
                 }
             },
             next = s.str("next"),
+            place = optStr(s, "place"),
         )
     }
     require(stages.isNotEmpty()) { "a quest needs at least one stage" }

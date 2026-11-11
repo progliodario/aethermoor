@@ -134,6 +134,7 @@
   "ui.goal": "Meta: {dir}, {dist} tile",
   "ui.goal_here": "Meta: sei qui",
   "ui.goal_set": "Meta segnata sulla mappa.",
+  "ui.goal_quest": "Meta segnata sulla mappa: {place}",
   "ui.goal_cleared": "Meta tolta.",
   "ui.dir_e": "est",
   "ui.dir_se": "sud-est",

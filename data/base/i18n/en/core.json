@@ -134,6 +134,7 @@
   "ui.goal": "Goal: {dir}, {dist} tiles",
   "ui.goal_here": "Goal: you are here",
   "ui.goal_set": "Goal marked on the map.",
+  "ui.goal_quest": "Goal set on the map: {place}",
   "ui.goal_cleared": "Goal removed.",
   "ui.dir_e": "east",
   "ui.dir_se": "south-east",

@@ -14,7 +14,8 @@
           "count": 1
         }
       ],
-      "next": "report"
+      "next": "report",
+      "place": "ironspine_mine"
     },
     {
       "id": "report",
