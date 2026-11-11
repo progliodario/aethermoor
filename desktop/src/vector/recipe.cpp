@@ -124,6 +124,7 @@ std::optional<Recipe> parse_recipe(std::string_view json_text, std::string& erro
         recipe.origin_x = canvas.at("origin").at(0).get<float>();
         recipe.origin_y = canvas.at("origin").at(1).get<float>();
         recipe.faces_left = j.value("faces", "") == "left";
+        recipe.sway = j.value("sway", 0.0F);
         if (j.contains("palette")) {
             recipe.palette = parse_palette(j.at("palette"));
         }

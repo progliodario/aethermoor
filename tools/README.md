@@ -24,6 +24,7 @@ Python scripts (3.12 or newer; the virtual environment of [`docs/dev/setup.md`](
 | `make_demo_map.py` (`--check`) | `data/base/maps/demo.tmj`, the demo map |
 | `make_catalog.py` | `docs/design/catalog.md`: regions, creatures, items, quests, sites and their world positions |
 | `balance_report.py` | `docs/design/balance.md`: a rough model of every fight, with the difficulty of the world data |
+| `make_font.py` (`--show`) | writes the font of the interface, `data/base/fonts/aether.json` (spec 13, "Font"): every glyph is drawn there as strokes; `--show out.png "text"` draws a text with it |
 | `make_art.py` (`tiles`, `props`) | writes the recipes of the terrain tiles (`art_tiles.py`: painted macro tiles of 4 x 4 tiles, walls and floors) and of the props (`art_props.py`), with `artkit.py` (style: [`docs/design/art-style.md`](../docs/design/art-style.md)) |
 | `art_chars.py` (`art_looks.py`) | writes the people: the parts of the humanoid rig seen from the front and from behind, the palettes of the protagonists and the villagers, what each one wears (`only`/`except` layers), the rig and its two clips |
 | `art_creatures.py` | writes every creature from the body of its family (slimes, beasts, guardians in armor, the single ones) and its own feature, keeping the palette of its file; run `make_echoes.py` after it |

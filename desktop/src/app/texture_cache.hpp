@@ -21,6 +21,7 @@ struct Sprite {
     bool faces_left = false;  // the picture looks to the left (spec 13, "Facing")
     int px_w = 0;             // the size of the texture, in pixels
     int px_h = 0;
+    float sway = 0.0F;  // how far the top moves in the wind, in art units (spec 13, "Sway")
 };
 
 class TextureCache {

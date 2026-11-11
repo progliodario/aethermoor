@@ -57,8 +57,15 @@ const Sprite* TextureCache::get(const std::string& recipe_id, int tile_px, std::
                 if (texture != nullptr) {
                     SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_LINEAR);
                     SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
-                    entry.sprite = {texture,          recipe->width,      recipe->height, recipe->origin_x,
-                                    recipe->origin_y, recipe->faces_left, bitmap.width,   bitmap.height};
+                    entry.sprite.texture = texture;
+                    entry.sprite.width = recipe->width;
+                    entry.sprite.height = recipe->height;
+                    entry.sprite.origin_x = recipe->origin_x;
+                    entry.sprite.origin_y = recipe->origin_y;
+                    entry.sprite.faces_left = recipe->faces_left;
+                    entry.sprite.px_w = bitmap.width;
+                    entry.sprite.px_h = bitmap.height;
+                    entry.sprite.sway = recipe->sway;
                     entry.failed = false;
                 }
             }

@@ -49,7 +49,17 @@ Per guardare il risultato senza il gioco: `python tools/art_preview.py <schema>`
 - Una creatura nuova: copiare un file della stessa famiglia, cambiarne la tavolozza, aggiungere una riga alla tabella della famiglia con un tratto che la distingua dalle sorelle (non solo un colore), rieseguire lo strumento.
 - Gli Echi sono un guardiano ricolorato: li scrive `make_echoes.py`, da rieseguire dopo `art_creatures.py`.
 
+## Luce, vento, aria
+
+Non sono nelle ricette ma nei client, uguali su desktop e Android (spec 08, "The colour of the hour"; spec 13, "Sway"):
+
+- **La luce dell'ora.** Di notte il mondo è moltiplicato per un blu, all'alba e al tramonto per una luce calda; lampioni, falò e Pietre della Soglia **si sommano** a ciò che la notte ha scurito. I colori sono in `grading` di `data/base/lights.json`: si cambiano lì, non nel codice.
+- **Il vento.** Una ricetta con `sway` (unità d'arte) si piega con il vento: la base resta ferma, la cima si sposta. Alberi 1-2, cespugli e stendardi meno di 1. `art_props.py` ha la tabella.
+- **L'aria.** Pulviscolo nel sole di giorno, lucciole di notte (`motes`), e i bordi dello schermo un po' più scuri (`vignette_pm`).
+
 ## Interfaccia
+
+Il testo del desktop è scritto con il font del pack (`data/base/fonts/aether.json`, spec 13 "Font"): ogni lettera è fatta di tratti, disegnati con una penna tonda dal rasterizzatore dell'arte alla misura che serve. Le lettere sono disegnate in `tools/make_font.py` (una riga per lettera: larghezza e tratti, in una cella di 8 x 11 con le maiuscole da 1 a 7 e le minuscole alte 4); `python tools/make_font.py --show prova.png "testo"` mostra una frase. Android usa ancora il font di libGDX ([progliodario/aethermoor#181](https://github.com/progliodario/aethermoor/issues/181)).
 
 `draw_panel` e `draw_bar` in `desktop/src/app/main.cpp` e `drawPanel` e `drawBar` in `AethermoorGame.kt` disegnano pannelli e barre con lo stesso aspetto; ogni pannello nuovo usa questi.
 

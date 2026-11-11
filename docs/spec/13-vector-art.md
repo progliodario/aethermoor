@@ -124,6 +124,23 @@ the middle of `T`. The picture of `N` is cut at the cell of `T` (`tx mod n, ty m
 simply goes on. Grass (rank 80) thus fades over a path (40), a path over sand (30), sand over water (10). Tiles of the same
 rank do not blend (they are the same ground). Presentation only.
 
+## Sway
+
+A recipe may have `"sway": a` (art units): the wind moves it. The clients draw it with its foot still and its top moved
+sideways by `a * sin(t / 620 + x * 0.9 + y * 0.6)` art units, where `t` is the time in milliseconds and `(x, y)` the tile
+of its foot (so neighbours do not move together); the picture is sheared, not turned. Presentation only: the collision does
+not move. The trees, the bushes, the reeds, the banners and the flame of the campfire of the base pack sway.
+
+## Font
+
+`data/base/fonts/aether.json` (ID `base:font/aether`, schema `font`) is the font of the interface: for each character a width
+`w` and its strokes `d`, a path in a cell of `cell.w x cell.h` font units, drawn with a round pen of the `stroke` width by the
+rasterizer above (one layer with a stroke and no fill), white, at the size a screen needs, and tinted with the colour of the
+text. A line of text is its glyphs one after the other, each taking its `w`; a glyph is placed with its cell centred on that
+width. A character the font does not have is drawn as `?`. `tools/make_font.py` writes the file. The desktop client draws
+all its text with it (its screens are laid out in columns of 8 units: `cell.top` is the room that accents take above the
+line); the Android client still uses the bitmap font of libGDX (parity debt: [progliodario/aethermoor#181](https://github.com/progliodario/aethermoor/issues/181)).
+
 ## Facing
 
 A recipe may say `"faces": "left"`: the picture looks to the left (the beasts, seen from the side), and the clients draw it

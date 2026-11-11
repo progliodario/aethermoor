@@ -76,6 +76,7 @@ struct Recipe {
     float origin_x = 0.0F;
     float origin_y = 0.0F;
     bool faces_left = false;  // the picture looks to the left: mirrored to face the player (spec 13, "Facing")
+    float sway = 0.0F;        // how far the top moves in the wind, in art units (spec 13, "Sway")
     Palette palette;
     std::map<std::string, Palette, std::less<>> variants;
     std::vector<Layer> layers;

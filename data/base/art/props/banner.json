@@ -236,5 +236,6 @@
     "dark": "#6A1E1C",
     "emblem": "#F2C94C",
     "pole": "#6A4A2A"
-  }
+  },
+  "sway": 0.5
 }

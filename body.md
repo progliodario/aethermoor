@@ -21,10 +21,17 @@ The owner asked for graphics that are far richer and close to the look of an ani
 - Rasterizer: blur, clip, blend, noise; works on the box of each layer instead of the whole canvas.
 - A tile is 64 pixels instead of 48 (times the density); macro tiles; soft ground edges; the player seen from behind when walking up; beasts and companions that turn to face the player.
 
+### Light, wind, font (second commit)
+
+- **The colour of the hour** (spec 08): the night multiplies the world by a blue instead of veiling it in grey, dawn and dusk are warm, the lights are added over the night, dust drifts in the sun and fireflies blink at night, a vignette darkens the edges. Colours in `grading` of `data/base/lights.json`. Both clients.
+- **Sway** (spec 13): a recipe says how far its top moves in the wind; trees, bushes, reeds, banners and the campfire sway. Both clients.
+- **Font** (spec 13): `data/base/fonts/aether.json`, 131 glyphs drawn stroke by stroke by `tools/make_font.py` and baked with the rasterizer of the art. The desktop draws all its text with it (it used the 8 x 8 debug font of SDL) and measures texts by the widths of the glyphs. Android keeps the font of libGDX: parity debt, #181.
+
 ### Checked
 
 - `validate_data.py`, `ruff`, `pytest tools/tests` (60 passed), `gen_conformance.py --check`: run locally.
 - The art was looked at with `tools/art_preview.py` (every person, every creature, every prop, a composed scene).
+- The first commit was built and tested by CI on Windows and Android (the Linux job failed downloading a dependency and was rerun); its smoke-test screenshots were looked at: the new art is drawn correctly by the C++ client.
 - Desktop and Android were **not** built locally (no compilers on this machine): CI is the build. Not seen on a real screen yet.
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)

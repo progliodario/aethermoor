@@ -7,7 +7,7 @@ Guide for Claude (and humans) working in this repo. The project owner mostly cha
 **Aethermoor** (working title): top-down real-time isekai fantasy action RPG, 2D vector graphics, open world, 8+ playable protagonists, single player, offline.
 Two native clients with **separate code** and **shared data and specs**:
 
-- `desktop/`: C++20, SDL3, with the in-house vector rasterizer (ADR 0012; ThorVG was dropped). Windows and Linux.
+- `desktop/`: C++20, SDL3, with the in-house vector rasterizer (ADR 0012 and 0013; ThorVG was dropped). Windows and Linux.
 - `android/`: Kotlin, libGDX, the same rasterizer in Kotlin. Android 11+ (minSdk 30).
 
 Full plan: `docs/plan/README.md` (Italian). Decisions: `docs/adr/`.
@@ -49,6 +49,10 @@ python tools/make_stamps.py
 
 # Generators of data from tables in code: run the one whose table you changed (the list is in tools/README.md)
 python tools/make_recipes.py   # also make_gathering, make_companions, make_titles, make_prologues, make_sfx
+
+# The art is written by code and saved as JSON (style: docs/design/art-style.md); look at it without the game
+python tools/make_art.py tiles props   # also art_chars.py (people), art_creatures.py then make_echoes.py, make_font.py
+python tools/art_preview.py --scene --out sheet.html   # PNG pictures drawn by the reference rasterizer; also --figures, or a pattern
 
 # A catalog of the pack in tables (creatures, items, quests, sites), for reviewing the content
 python tools/make_catalog.py   # writes docs/design/catalog.md
@@ -114,7 +118,8 @@ cd android && gradle :core:test :app:assembleDebug
 - **Combat:** attack, power strike, dodge, parry, elements, status effects on creatures and on the player, stagger, a guardian bar at the top of the screen. The world difficulty is `enemy_hp_pct` 100 and `enemy_atk_pct` 70: easy on purpose.
 - **Progression:** levels, a tree of ten talents (`tools/make_talents.py`), 20 titles with effects (attack, gathering, crafting, parry, experience), a bestiary, a status window, a shared `profile.json` with echoes, past lives and the heirloom of gold and weapon (reincarnation from the title screen at level 10).
 - **Life:** guild, shops, inns, gathering, fishing in the reeds of the beaches, hunting (boars, elks and dune foxes, `tools/make_hunting.py`), meals that fortify, brews that ward, dishes that regenerate and a brew of haste, an accessory slot, a cleansing draught, crafting with 46 recipes and two stations (a campfire for dishes, an anvil in every town for fine gear), companions (stay/follow, bond, care: a close companion heals you).
-- **Interface:** three save slots with export and import, Italian and English, configurable keys on the desktop (`keys.json`, the `F4` panel).
+- **Graphics:** anime art (ADR 0013, spec 13 v2): every recipe is written by a tool (`art_tiles.py`, `art_props.py`, `art_chars.py` with `art_looks.py`, `art_creatures.py`) and uses blur, clip, multiply/add and noise fills; people are 4.6 heads tall with a view from behind, the ground is painted macro tiles (4 x 4 tiles) that fade into each other (`blend` in the tileset), beasts turn to face the player. The night multiplies the world by a blue and the lights add to it, the wind moves the plants (`sway`), motes drift (spec 08, "The colour of the hour"). A tile is 64 pixels times the density.
+- **Interface:** three save slots with export and import, Italian and English, configurable keys on the desktop (`keys.json`, the `F4` panel). The desktop draws its text with the font of the pack (`data/base/fonts/aether.json`, `tools/make_font.py`); Android still uses the font of libGDX (parity debt, issue 181).
 - **Sound:** effects are on; the music (no `music_rules.json`) and the regional ambience (empty `ambience.regions` in `events.json`) are switched off because the owner found them unpleasant: do not turn them back on without asking.
 - **Parity:** feature gating exists (ADR 0009) but is not used: `supported_features` is empty in `project.json` and in both clients, and parity is kept by the shared specs and vectors. Configurable keys are desktop only (Android uses touch).
 - The status of the roadmap is in `docs/plan/06-roadmap-rischi-backlog.md`, section 8.

@@ -64,6 +64,12 @@
         "left"
       ],
       "description": "The picture looks to the left: the clients mirror it when the player is to its right."
+    },
+    "sway": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 8,
+      "description": "How far the top of the picture moves in the wind, in art units (spec 13, \"Sway\")."
     }
   },
   "$defs": {

@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aethermoor.invalid/schemas/font.schema.json",
+  "title": "The font of the interface (spec 13, \"Font\")",
+  "type": "object",
+  "required": [
+    "id",
+    "cell",
+    "stroke",
+    "glyphs"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:font/[a-z0-9_]+$"
+    },
+    "cell": {
+      "type": "object",
+      "required": [
+        "w",
+        "h",
+        "top"
+      ],
+      "additionalProperties": false,
+      "description": "The cell every glyph is drawn in, in font units; `top` is the room above the top of the caps.",
+      "properties": {
+        "w": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "h": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "top": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "stroke": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "description": "The width of the pen, in font units."
+    },
+    "glyphs": {
+      "type": "object",
+      "description": "By character: `w` is the width the glyph takes in a line, `d` its strokes (a path, as in the art recipes) in the cell.",
+      "propertyNames": {
+        "minLength": 1,
+        "maxLength": 2
+      },
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "w"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "w": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "d": {
+            "type": "string",
+            "pattern": "^[MLHVCQZ0-9eE.,+\\- ]+$"
+          }
+        }
+      }
+    }
+  }
+}

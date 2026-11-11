@@ -55,6 +55,7 @@ class Recipe:
         self.layers: list[dict] = []
         self.variants: dict[str, dict] = {}
         self.faces: str | None = None  # "left": the clients mirror the picture to face the player
+        self.sway: float = 0.0  # how far the top moves in the wind, in art units (spec 13, "Sway")
         self.rng = random.Random(f"{recipe_id}/{seed}")
 
     # --- layers
@@ -174,6 +175,8 @@ class Recipe:
             data["variants"] = self.variants
         if self.faces:
             data["faces"] = self.faces
+        if self.sway:
+            data["sway"] = _n(self.sway)
         return data
 
     def write(self, path: Path) -> None:

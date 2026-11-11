@@ -97,6 +97,8 @@ data class Recipe(
     val layers: List<Layer>,
     /** The picture looks to the left: mirrored to face the player (spec 13, "Facing"). */
     val facesLeft: Boolean = false,
+    /** How far the top moves in the wind, in art units (spec 13, "Sway"). */
+    val sway: Float = 0f,
 )
 
 // Numbers are read through Double and then narrowed, exactly like the C++ client does.
@@ -173,6 +175,7 @@ fun parseRecipe(jsonText: String): Result<Recipe> =
             variants = j["variants"]?.jsonObject?.mapValues { parsePalette(it.value) } ?: emptyMap(),
             layers = layers,
             facesLeft = (j["faces"] as? JsonPrimitive)?.contentOrNull == "left",
+            sway = j["sway"]?.f() ?: 0f,
         )
     }
 

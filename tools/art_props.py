@@ -531,5 +531,9 @@ def threshold_stone() -> Recipe:
 
 
 def build_props() -> list[Recipe]:
-    return [tree_oak(), pine(), dead_tree(), bush(), rock(), cactus(), campfire(), crate(), barrel(), bones(), lamp(), signpost(),
-            statue(), tent(), banner(), well(), threshold_stone(), stall(), haybale(), anvil(), reeds(), mushrooms()]
+    props = [tree_oak(), pine(), dead_tree(), bush(), rock(), cactus(), campfire(), crate(), barrel(), bones(), lamp(), signpost(),
+             statue(), tent(), banner(), well(), threshold_stone(), stall(), haybale(), anvil(), reeds(), mushrooms()]
+    sway = {"tree_oak": 1.8, "pine": 1.1, "dead_tree": 0.5, "bush": 0.7, "reeds": 1.4, "banner": 0.5, "campfire": 0.6}  # what the wind moves
+    for r in props:
+        r.sway = sway.get(r.id.rsplit("/", 1)[1], 0.0)
+    return props

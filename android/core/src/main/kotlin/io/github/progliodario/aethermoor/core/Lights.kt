@@ -33,3 +33,40 @@ fun loadLights(pack: Pack): List<LightDef> {
         )
     }
 }
+
+/**
+ * The colour of the hour (spec 08): what the world is multiplied by at night and at twilight (0xRRGGBB), the vignette and
+ * the motes.
+ */
+class Grading(
+    val night: Int = 0x5766C7,
+    val twilight: Int = 0xFFCC9E,
+    val vignettePm: Int = 280,
+    val motes: Int = 26,
+    val moteDay: Int = 0xFFF6C8,
+    val moteNight: Int = 0xC8FF8A,
+)
+
+/** The grading of the pack (`grading` of base:lights/all); the defaults for what it does not say. */
+fun loadGrading(pack: Pack): Grading {
+    val defaults = Grading()
+    val text = pack.readDocument("base:lights/all") ?: return defaults
+    val doc = runCatching { Json.parseToJsonElement(text).jsonObject }.getOrNull() ?: return defaults
+    val g = doc["grading"] as? JsonObject ?: return defaults
+
+    fun color(key: String, fallback: Int): Int {
+        val value = (g[key] as? kotlinx.serialization.json.JsonPrimitive)?.content ?: return fallback
+        return if (value.length == 7 && value[0] == '#') value.substring(1).toIntOrNull(16) ?: fallback else fallback
+    }
+
+    fun number(key: String, fallback: Int): Int = (g[key] as? kotlinx.serialization.json.JsonPrimitive)?.intOrNull ?: fallback
+
+    return Grading(
+        night = color("night", defaults.night),
+        twilight = color("twilight", defaults.twilight),
+        vignettePm = number("vignette_pm", defaults.vignettePm),
+        motes = number("motes", defaults.motes),
+        moteDay = color("mote_day", defaults.moteDay),
+        moteNight = color("mote_night", defaults.moteNight),
+    )
+}

@@ -53,6 +53,45 @@
           }
         }
       }
+    },
+    "grading": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The colour of the hour (spec 08): art direction, presentation only.",
+      "properties": {
+        "night": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$",
+          "description": "What the screen is multiplied by at full night."
+        },
+        "twilight": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$",
+          "description": "What the screen is multiplied by at dawn and dusk."
+        },
+        "vignette_pm": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000,
+          "description": "How dark the edges of the screen are."
+        },
+        "motes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 200,
+          "description": "How many motes drift over the world."
+        },
+        "mote_day": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$",
+          "description": "The colour of the motes in daylight (dust in the sun)."
+        },
+        "mote_night": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$",
+          "description": "The colour of the motes at night (fireflies)."
+        }
+      }
     }
   }
 }

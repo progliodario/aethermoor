@@ -860,6 +860,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
         drawAtmosphere(world)
         drawLights(world, data, cam.x, cam.y, tile, viewW, viewH)
+        drawAmbience(world, data)
         drawOverlays(world, cam.x, cam.y, tile, k)
         drawGoalArrow(world, cam.x, cam.y, tile)
         drawMinimap(world)
@@ -929,7 +930,30 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val sprite = cache.get(prop.art, tilePx) ?: return
         val fx = (prop.x - camX) * tile
         val fy = (prop.y - camY) * tile
-        batch.draw(sprite.region, fx - sprite.originX * k, fy - sprite.originY * k, sprite.width * k, sprite.height * k)
+        if (sprite.sway <= 0f) {
+            batch.draw(sprite.region, fx - sprite.originX * k, fy - sprite.originY * k, sprite.width * k, sprite.height * k)
+            return
+        }
+        // the wind moves it (spec 13, "Sway"): the foot stays, the top goes sideways (a shear)
+        val shift = sprite.sway * k * sin((System.currentTimeMillis() % 3895574L) / 620f + prop.x * 0.9f + prop.y * 0.6f)
+        val x0 = fx - sprite.originX * k
+        val y0 = fy - sprite.originY * k
+        val x1 = x0 + sprite.width * k
+        val y1 = y0 + sprite.height * k
+        val white = Color.WHITE.toFloatBits()
+        var i = 0
+        fun vertex(x: Float, y: Float, u: Float, v: Float) {
+            blendVertices[i++] = x
+            blendVertices[i++] = y
+            blendVertices[i++] = white
+            blendVertices[i++] = u
+            blendVertices[i++] = v
+        }
+        vertex(x0 + shift, y0, 0f, 0f)
+        vertex(x0, y1, 0f, 1f)
+        vertex(x1, y1, 1f, 1f)
+        vertex(x1 + shift, y0, 1f, 0f)
+        batch.draw(sprite.region.texture, blendVertices, 0, 20)
     }
 
     /** The companion (spec 10), drawn with the art of its creature, a little smaller, bobbing. */
@@ -1044,7 +1068,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val now = com.badlogic.gdx.utils.TimeUtils.millis()
         shapes.projectionMatrix = camera.combined
         Gdx.gl.glEnable(GL20.GL_BLEND)
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE) // the lights are added to what the night darkened
         shapes.begin(ShapeRenderer.ShapeType.Filled)
         world.forEachProp(camX - 6f, camY - 6f, camX + viewW + 6f, camY + viewH + 6f) { prop ->
             for (light in table) {
@@ -1060,6 +1084,65 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             }
         }
         shapes.end()
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
+    }
+
+    private var grading: io.github.progliodario.aethermoor.core.Grading? = null
+
+    private fun gradingOf(data: Assets) = grading ?: io.github.progliodario.aethermoor.core.loadGrading(data.pack).also { grading = it }
+
+    private fun rgb(color: Int, alpha: Float) = Color(((color shr 16) and 0xFF) / 255f, ((color shr 8) and 0xFF) / 255f, (color and 0xFF) / 255f, alpha)
+
+    /**
+     * What drifts in the air and the dark edges of the screen (spec 08, "The colour of the hour"): dust in the sun by
+     * day, fireflies by night, a vignette. Presentation only.
+     */
+    private fun drawAmbience(world: WorldSim, data: Assets) {
+        val g = gradingOf(data)
+        val time = world.time()
+        val w = Gdx.graphics.width.toFloat()
+        val h = Gdx.graphics.height.toFloat()
+        val density = Gdx.graphics.density
+        val night = if (time != null) ((1000 - time.effectiveLightPm) / 1000f).coerceIn(0f, 1f) else 0f
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        if (g.motes > 0 && (time == null || time.rainPm <= 0)) {
+            val t = (System.currentTimeMillis() % 6000000L).toFloat()
+            val fireflies = night > 0.5f
+            val tint = if (fireflies) g.moteNight else g.moteDay
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE)
+            shapes.begin(ShapeRenderer.ShapeType.Filled)
+            for (i in 0 until g.motes) {
+                val a = i * 0.6180339f - floor(i * 0.6180339f)
+                val b = i * 0.7548777f - floor(i * 0.7548777f)
+                val driftX = a + t * 0.000011f * (0.4f + b)
+                val driftY = b + t * 0.000006f * (0.5f + a) + 0.015f * sin(t * 0.0008f + i * 1.3f)
+                val x = (driftX - floor(driftX)) * w
+                val y = (driftY - floor(driftY)) * h
+                val pulse = sin(t * (if (fireflies) 0.003f else 0.0015f) + i * 2.1f)
+                val alpha = if (fireflies) night * max(0f, pulse) * max(0f, pulse) * 0.85f else (1f - night) * (0.16f + 0.10f * pulse)
+                if (alpha <= 0.02f) continue
+                val size = (if (fireflies) 2f else 1.5f) * density
+                shapes.color = rgb(tint, alpha / 3f)
+                shapes.rect(x - size * 2f, y - size * 2f, size * 4f, size * 4f)
+                shapes.color = rgb(tint, alpha.coerceIn(0f, 1f))
+                shapes.rect(x - size * 0.5f, y - size * 0.5f, size, size)
+            }
+            shapes.end()
+        }
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
+        if (g.vignettePm > 0) { // four bands that are dark on the edge of the screen and clear towards the middle
+            val dark = Color(0.02f, 0.02f, 0.08f, (g.vignettePm / 1000f).coerceIn(0f, 1f))
+            val clear = Color(0.02f, 0.02f, 0.08f, 0f)
+            val bx = w * 0.3f
+            val by = h * 0.3f
+            shapes.begin(ShapeRenderer.ShapeType.Filled)
+            shapes.rect(0f, 0f, w, by, dark, dark, clear, clear)
+            shapes.rect(0f, h - by, w, by, clear, clear, dark, dark)
+            shapes.rect(0f, 0f, bx, h, dark, clear, clear, dark)
+            shapes.rect(w - bx, 0f, bx, h, clear, dark, dark, clear)
+            shapes.end()
+        }
     }
 
     /** Night and weather over the world (spec 08). Presentation only. */
@@ -1071,11 +1154,20 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         shapes.projectionMatrix = camera.combined
         Gdx.gl.glEnable(GL20.GL_BLEND)
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
-        if (dark > 0) {
+        // The colour of the hour (spec 08): the world is multiplied by the blue of the night, then by the warm light
+        // of dawn and dusk, so that colours keep their hue instead of going grey.
+        val grade = grading ?: io.github.progliodario.aethermoor.core.Grading()
+        val night = (dark / 1000f).coerceIn(0f, 1f)
+        val twilight = 0.75f * (1f - abs(time.lightPm - 550f) / 350f).coerceIn(0f, 1f)
+        for ((color, amount) in listOf(grade.night to night, grade.twilight to twilight)) {
+            if (amount <= 0f) continue
+            val tint = rgb(color, 1f)
+            Gdx.gl.glBlendFunc(GL20.GL_DST_COLOR, GL20.GL_ZERO)
             shapes.begin(ShapeRenderer.ShapeType.Filled)
-            shapes.color = Color(0.03f, 0.055f, 0.17f, dark * 0.69f / 1000f)
+            shapes.color = Color(1f + (tint.r - 1f) * amount, 1f + (tint.g - 1f) * amount, 1f + (tint.b - 1f) * amount, 1f)
             shapes.rect(0f, 0f, w, h)
             shapes.end()
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
         }
         val params = world.chunks?.params
         if (params != null && time.seasonIndex >= 0) { // the tint of the season (spec 08)
