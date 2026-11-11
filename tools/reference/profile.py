@@ -13,7 +13,7 @@ HEIRLOOM_PCT = 50      # the share of a reincarnated game's gold that waits for 
 
 def parse_profile(text: str | None) -> dict:
     """The profile in a text: `{"bestiary": {id: kills}, "titles": [ids]}`. A missing or broken text gives an empty profile; entries that do not make sense are left out."""
-    empty = {"bestiary": {}, "titles": [], "lives": 0, "heirloom": 0}
+    empty = {"bestiary": {}, "titles": [], "lives": 0, "heirloom": 0, "heirloom_item": ""}
     if not text:
         return empty
     try:
@@ -34,7 +34,8 @@ def parse_profile(text: str | None) -> dict:
                 titles.append(title)
     lives = doc["lives"] if type(doc.get("lives")) is int and doc["lives"] >= 0 else 0
     heirloom = doc["heirloom"] if type(doc.get("heirloom")) is int and doc["heirloom"] >= 0 else 0
-    return {"bestiary": dict(sorted(bestiary.items())), "titles": titles, "lives": lives, "heirloom": heirloom}
+    item = doc["heirloom_item"] if isinstance(doc.get("heirloom_item"), str) else ""
+    return {"bestiary": dict(sorted(bestiary.items())), "titles": titles, "lives": lives, "heirloom": heirloom, "heirloom_item": item}
 
 
 def merge_profile(profile: dict, bestiary: dict[str, int], titles: list[str]) -> dict:
@@ -47,20 +48,24 @@ def merge_profile(profile: dict, bestiary: dict[str, int], titles: list[str]) ->
     for title in titles:
         if title not in out_titles:
             out_titles.append(title)
-    return {"bestiary": dict(sorted(merged.items())), "titles": out_titles, "lives": profile.get("lives", 0), "heirloom": profile.get("heirloom", 0)}
+    return {"bestiary": dict(sorted(merged.items())), "titles": out_titles, "lives": profile.get("lives", 0), "heirloom": profile.get("heirloom", 0),
+            "heirloom_item": profile.get("heirloom_item", "")}
 
 
-def reincarnate(profile: dict, level: int, gold: int = 0) -> dict | None:
-    """The profile after a game of that level, with that gold, is reincarnated: one more past life, and half of the gold kept as the heirloom
-    of the next new game. None when the level is too low (spec 11, "Reincarnation", "Heirloom")."""
+def reincarnate(profile: dict, level: int, gold: int = 0, weapon: str = "") -> dict | None:
+    """The profile after a game of that level, with that gold and that weapon in hand, is reincarnated: one more past life, half of the gold kept
+    as the heirloom of the next new game, and the weapon too (it replaces one already waiting; none keeps it). None when the level is too low
+    (spec 11, "Reincarnation", "Heirloom")."""
     if level < REBIRTH_LEVEL:
         return None
-    return {**profile, "lives": profile.get("lives", 0) + 1, "heirloom": profile.get("heirloom", 0) + max(0, gold) * HEIRLOOM_PCT // 100}
+    return {**profile, "lives": profile.get("lives", 0) + 1, "heirloom": profile.get("heirloom", 0) + max(0, gold) * HEIRLOOM_PCT // 100,
+            "heirloom_item": weapon or profile.get("heirloom_item", "")}
 
 
 def claim_heirloom(profile: dict) -> tuple[int, dict]:
-    """A new game takes the heirloom: the gold it starts with, and the profile with nothing left waiting."""
-    return profile.get("heirloom", 0), {**profile, "heirloom": 0}
+    """A new game takes the heirloom: the gold it starts with (the weapon is `profile["heirloom_item"]`, read before), and the profile with nothing
+    left waiting."""
+    return profile.get("heirloom", 0), {**profile, "heirloom": 0, "heirloom_item": ""}
 
 
 def echo_pct(profile: dict) -> int:
@@ -69,4 +74,5 @@ def echo_pct(profile: dict) -> int:
 
 
 def profile_to_json(profile: dict) -> str:
-    return json.dumps({"profile_version": FORMAT, "bestiary": profile["bestiary"], "titles": profile["titles"], "lives": profile.get("lives", 0), "heirloom": profile.get("heirloom", 0)}, ensure_ascii=False, separators=(",", ":"))
+    return json.dumps({"profile_version": FORMAT, "bestiary": profile["bestiary"], "titles": profile["titles"], "lives": profile.get("lives", 0), "heirloom": profile.get("heirloom", 0),
+                       **({"heirloom_item": profile["heirloom_item"]} if profile.get("heirloom_item") else {})}, ensure_ascii=False, separators=(",", ":"))

@@ -27,6 +27,7 @@
         ],
         "lives": 0,
         "heirloom": 0,
+        "heirloom_item": "",
         "echo_pct": 2
       }
     },
@@ -46,6 +47,7 @@
         ],
         "lives": 0,
         "heirloom": 0,
+        "heirloom_item": "",
         "echo_pct": 1
       }
     },
@@ -67,6 +69,7 @@
         "titles": [],
         "lives": 0,
         "heirloom": 0,
+        "heirloom_item": "",
         "echo_pct": 0
       }
     },
@@ -90,6 +93,7 @@
         ],
         "lives": 0,
         "heirloom": 0,
+        "heirloom_item": "",
         "echo_pct": 3
       }
     },
@@ -113,6 +117,7 @@
         ],
         "lives": 0,
         "heirloom": 0,
+        "heirloom_item": "",
         "echo_pct": 1
       }
     },
@@ -128,6 +133,7 @@
         "titles": [],
         "lives": 0,
         "heirloom": 0,
+        "heirloom_item": "",
         "echo_pct": 0
       }
     },
@@ -147,6 +153,7 @@
         ],
         "lives": 0,
         "heirloom": 0,
+        "heirloom_item": "",
         "echo_pct": 1
       }
     },
@@ -167,6 +174,7 @@
         ],
         "lives": 0,
         "heirloom": 0,
+        "heirloom_item": "",
         "echo_pct": 2
       }
     },
@@ -184,6 +192,7 @@
         "titles": [],
         "lives": 0,
         "heirloom": 0,
+        "heirloom_item": "",
         "echo_pct": 0
       }
     },
@@ -204,6 +213,7 @@
         ],
         "lives": 2,
         "heirloom": 0,
+        "heirloom_item": "",
         "echo_pct": 8
       }
     },
@@ -219,6 +229,7 @@
         "titles": [],
         "lives": 0,
         "heirloom": 0,
+        "heirloom_item": "",
         "echo_pct": 0
       }
     },
@@ -234,6 +245,7 @@
         "titles": [],
         "lives": 0,
         "heirloom": 0,
+        "heirloom_item": "",
         "echo_pct": 0
       }
     },
@@ -270,6 +282,7 @@
         ],
         "lives": 0,
         "heirloom": 0,
+        "heirloom_item": "",
         "echo_pct": 15
       }
     },
@@ -280,7 +293,8 @@
         "bestiary": {},
         "titles": [],
         "rebirth_level": 10,
-        "rebirth_gold": 0
+        "rebirth_gold": 0,
+        "rebirth_weapon": ""
       },
       "expect": {
         "bestiary": {},
@@ -289,6 +303,7 @@
         ],
         "lives": 1,
         "heirloom": 0,
+        "heirloom_item": "",
         "echo_pct": 4,
         "reborn": true
       }
@@ -300,7 +315,8 @@
         "bestiary": {},
         "titles": [],
         "rebirth_level": 9,
-        "rebirth_gold": 0
+        "rebirth_gold": 0,
+        "rebirth_weapon": ""
       },
       "expect": {
         "bestiary": {},
@@ -309,6 +325,7 @@
         ],
         "lives": 0,
         "heirloom": 0,
+        "heirloom_item": "",
         "echo_pct": 1,
         "reborn": false
       }
@@ -320,7 +337,8 @@
         "bestiary": {},
         "titles": [],
         "rebirth_level": 31,
-        "rebirth_gold": 0
+        "rebirth_gold": 0,
+        "rebirth_weapon": ""
       },
       "expect": {
         "bestiary": {
@@ -332,6 +350,7 @@
         ],
         "lives": 3,
         "heirloom": 0,
+        "heirloom_item": "",
         "echo_pct": 11,
         "reborn": true
       }
@@ -343,13 +362,15 @@
         "bestiary": {},
         "titles": [],
         "rebirth_level": 50,
-        "rebirth_gold": 0
+        "rebirth_gold": 0,
+        "rebirth_weapon": ""
       },
       "expect": {
         "bestiary": {},
         "titles": [],
         "lives": 15,
         "heirloom": 0,
+        "heirloom_item": "",
         "echo_pct": 30,
         "reborn": true
       }
@@ -361,13 +382,15 @@
         "bestiary": {},
         "titles": [],
         "rebirth_level": 12,
-        "rebirth_gold": 0
+        "rebirth_gold": 0,
+        "rebirth_weapon": ""
       },
       "expect": {
         "bestiary": {},
         "titles": [],
         "lives": 1,
         "heirloom": 0,
+        "heirloom_item": "",
         "echo_pct": 3,
         "reborn": true
       }
@@ -379,13 +402,15 @@
         "bestiary": {},
         "titles": [],
         "rebirth_level": 15,
-        "rebirth_gold": 1001
+        "rebirth_gold": 1001,
+        "rebirth_weapon": ""
       },
       "expect": {
         "bestiary": {},
         "titles": [],
         "lives": 1,
         "heirloom": 500,
+        "heirloom_item": "",
         "echo_pct": 3,
         "reborn": true
       }
@@ -397,13 +422,15 @@
         "bestiary": {},
         "titles": [],
         "rebirth_level": 20,
-        "rebirth_gold": 4000
+        "rebirth_gold": 4000,
+        "rebirth_weapon": ""
       },
       "expect": {
         "bestiary": {},
         "titles": [],
         "lives": 2,
         "heirloom": 2300,
+        "heirloom_item": "",
         "echo_pct": 6,
         "reborn": true
       }
@@ -415,13 +442,15 @@
         "bestiary": {},
         "titles": [],
         "rebirth_level": 5,
-        "rebirth_gold": 900
+        "rebirth_gold": 900,
+        "rebirth_weapon": ""
       },
       "expect": {
         "bestiary": {},
         "titles": [],
         "lives": 0,
         "heirloom": 70,
+        "heirloom_item": "",
         "echo_pct": 0,
         "reborn": false
       }
@@ -441,8 +470,10 @@
         ],
         "lives": 2,
         "heirloom": 0,
+        "heirloom_item": "",
         "echo_pct": 7,
-        "claimed": 2300
+        "claimed": 2300,
+        "claimed_item": ""
       }
     },
     {
@@ -458,8 +489,125 @@
         "titles": [],
         "lives": 1,
         "heirloom": 0,
+        "heirloom_item": "",
         "echo_pct": 3,
-        "claimed": 0
+        "claimed": 0,
+        "claimed_item": ""
+      }
+    },
+    {
+      "name": "heirloom_weapon",
+      "input": {
+        "text": null,
+        "bestiary": {},
+        "titles": [],
+        "rebirth_level": 12,
+        "rebirth_gold": 100,
+        "rebirth_weapon": "base:item/steel_sword"
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": [],
+        "lives": 1,
+        "heirloom": 50,
+        "heirloom_item": "base:item/steel_sword",
+        "echo_pct": 3,
+        "reborn": true
+      }
+    },
+    {
+      "name": "heirloom_weapon_replaces",
+      "input": {
+        "text": "{\"profile_version\": 1, \"bestiary\": {}, \"titles\": [], \"heirloom_item\": \"base:item/pike\"}",
+        "bestiary": {},
+        "titles": [],
+        "rebirth_level": 14,
+        "rebirth_gold": 0,
+        "rebirth_weapon": "base:item/moon_blade"
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": [],
+        "lives": 1,
+        "heirloom": 0,
+        "heirloom_item": "base:item/moon_blade",
+        "echo_pct": 3,
+        "reborn": true
+      }
+    },
+    {
+      "name": "heirloom_no_weapon_keeps",
+      "input": {
+        "text": "{\"profile_version\": 1, \"bestiary\": {}, \"titles\": [], \"heirloom_item\": \"base:item/pike\"}",
+        "bestiary": {},
+        "titles": [],
+        "rebirth_level": 14,
+        "rebirth_gold": 0,
+        "rebirth_weapon": ""
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": [],
+        "lives": 1,
+        "heirloom": 0,
+        "heirloom_item": "base:item/pike",
+        "echo_pct": 3,
+        "reborn": true
+      }
+    },
+    {
+      "name": "heirloom_weapon_not_when_too_early",
+      "input": {
+        "text": null,
+        "bestiary": {},
+        "titles": [],
+        "rebirth_level": 3,
+        "rebirth_gold": 0,
+        "rebirth_weapon": "base:item/steel_sword"
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": [],
+        "lives": 0,
+        "heirloom": 0,
+        "heirloom_item": "",
+        "echo_pct": 0,
+        "reborn": false
+      }
+    },
+    {
+      "name": "claim_the_weapon",
+      "input": {
+        "text": "{\"profile_version\": 1, \"bestiary\": {}, \"titles\": [], \"heirloom\": 40, \"heirloom_item\": \"base:item/steel_sword\"}",
+        "bestiary": {},
+        "titles": [],
+        "claim": true
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": [],
+        "lives": 0,
+        "heirloom": 0,
+        "heirloom_item": "",
+        "echo_pct": 0,
+        "claimed": 40,
+        "claimed_item": "base:item/steel_sword"
+      }
+    },
+    {
+      "name": "bad_heirloom_item_is_none",
+      "input": {
+        "text": "{\"profile_version\": 1, \"bestiary\": {}, \"titles\": [], \"heirloom_item\": 7}",
+        "bestiary": {},
+        "titles": []
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": [],
+        "lives": 0,
+        "heirloom": 0,
+        "heirloom_item": "",
+        "echo_pct": 0
       }
     },
     {
@@ -474,6 +622,7 @@
         "titles": [],
         "lives": 0,
         "heirloom": 0,
+        "heirloom_item": "",
         "echo_pct": 0
       }
     }

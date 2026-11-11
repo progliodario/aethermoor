@@ -60,7 +60,7 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 - A companion for each protagonist: it follows you, fights, stays where you tell it, and its bond grows with its victories: after ten, it heals you a little every ten seconds.
 - Titles of a way of playing that change the game: the Forager finds more, the Artisan makes more, the Unbreakable Guard parries longer, the Veteran earns more experience.
 - A tree of ten talents: a point a level, four roots (attack, health, mana, defense), a second ring that opens at rank 5 (critical, second wind, magic, speed) and a crown (Legend, Bulwark).
-- A bestiary that tells what every creature you defeated is weak to, what it resists and what it leaves, 15 titles that raise your attack, and a profile shared by all your games: every title you ever earned gives a little more health to every game (the "echoes"), and a game that reached level 10 can be **reincarnated**: it ends, every past life gives +3% health to all the ones after it, and half of its gold is an heirloom for your next new game.
+- A bestiary that tells what every creature you defeated is weak to, what it resists and what it leaves, 17 titles that raise your attack (hunters' ones too), and a profile shared by all your games: every title you ever earned gives a little more health to every game (the "echoes"), and a game that reached level 10 can be **reincarnated**: it ends, every past life gives +3% health to all the ones after it, and half of its gold, with the weapon in its hand, is an heirloom for your next new game.
 - Three separate games, automatic saving, export and import of a game as one file.
 
 The full catalog of the content, generated from the data, is in [`docs/design/catalog.md`](docs/design/catalog.md).

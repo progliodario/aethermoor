@@ -147,7 +147,7 @@ class TitleDef(
 /** A prop that can be gathered from (spec 06, "Gathering"). */
 class GatherDrop(val item: String, val qtyMin: Long, val qtyMax: Long, val weightPm: Long)
 
-/** [sound]: plant, wood or stone, the sound of gathering. */
+/** [sound]: plant, wood, stone or water, the sound of gathering. */
 class GatherNode(val sound: String, val cooldownTicks: Int, val reachX100: Int, val drops: List<GatherDrop>)
 
 class CombatSetup(

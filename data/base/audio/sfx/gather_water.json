@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/gather_water",
+  "duration_ms": 340,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "noise",
+      "freq_start": 1400,
+      "freq_end": 4200,
+      "volume_pm": 550,
+      "attack_ms": 5,
+      "decay_ms": 300,
+      "am_dhz": 60,
+      "am_depth_pm": 500
+    },
+    {
+      "wave": "sine",
+      "freq_start": 520,
+      "freq_end": 180,
+      "volume_pm": 450,
+      "attack_ms": 0,
+      "decay_ms": 220
+    },
+    {
+      "wave": "noise",
+      "freq_start": 600,
+      "freq_end": 300,
+      "volume_pm": 300,
+      "attack_ms": 60,
+      "decay_ms": 260
+    }
+  ]
+}

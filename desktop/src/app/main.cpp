@@ -1610,6 +1610,7 @@ struct SlotInfo {
     bool used = false;
     int level = 1;
     std::int64_t gold = 0;
+    std::string weapon;
 };
 
 SlotInfo read_slot(int slot) {
@@ -1619,6 +1620,7 @@ SlotInfo read_slot(int slot) {
             info.used = true;
             info.level = peek->level;
             info.gold = peek->gold;
+            info.weapon = peek->weapon;
         }
     }
     return info;
@@ -3502,7 +3504,8 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
                         notice = assets.pack.text(lang, "$i18n:ui.rebirth_too_early");
                     } else if (pending_rebirth == cursor &&
                                aether::reincarnate(reborn, slots[static_cast<std::size_t>(cursor)].level,
-                                                   slots[static_cast<std::size_t>(cursor)].gold)) {
+                                                   slots[static_cast<std::size_t>(cursor)].gold,
+                                                   slots[static_cast<std::size_t>(cursor)].weapon)) {
                         write_text_atomic(profile_file(), aether::profile_to_json(reborn));
                         clear_slot(cursor + 1);
                         slots[static_cast<std::size_t>(cursor)] = SlotInfo{};
@@ -4017,10 +4020,23 @@ int main(int argc, char** argv) {
                     const std::size_t slash = g_protagonist_id.rfind('/');
                     sim.story().begin_dialogue("base:dialogue/" + g_protagonist_id.substr(slash + 1) + "/prologue");
                     aether::Profile profile = read_profile();  // the heirloom of a past life (spec 11)
-                    if (const std::int64_t heirloom = aether::claim_heirloom(profile); heirloom > 0) {
+                    const std::string weapon = profile.heirloom_item;
+                    if (const std::int64_t heirloom = aether::claim_heirloom(profile);
+                        heirloom > 0 || !weapon.empty()) {
                         sim.story().set_gold(sim.story().gold() + heirloom);
                         write_text_atomic(profile_file(), aether::profile_to_json(profile));
-                        notify(ui, assets.pack.text(ui.lang, "$i18n:ui.heirloom", {{"gold", heirloom}}));
+                        if (!weapon.empty() &&
+                            assets.pack.read_document(weapon)) {  // the weapon of the past life, in the bag
+                            sim.give_item(weapon, 1);
+                            notify(ui, assets.pack.text(
+                                           ui.lang, "$i18n:ui.heirloom_weapon",
+                                           {{"gold", heirloom},
+                                            {"item", assets.pack.text(
+                                                         ui.lang, "$i18n:item." + weapon.substr(weapon.rfind('/') + 1) +
+                                                                      ".name")}}));
+                        } else {
+                            notify(ui, assets.pack.text(ui.lang, "$i18n:ui.heirloom", {{"gold", heirloom}}));
+                        }
                     }
                 }
             }

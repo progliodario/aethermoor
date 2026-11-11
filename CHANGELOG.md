@@ -17,6 +17,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **The heirloom weapon** (spec 11, "Heirloom"; spec 12; both clients, suite `profile`): reincarnating a game now passes on, besides half of its gold, the weapon it had in hand. The next new game finds it in the bag.
+- **Two titles of the hunt**: Boar Hunter (ten wild boars; one more of every drop gathered) and Elk Stalker (eight ridge elks; +10% experience). 17 titles.
+- **Fishing sounds like water**: a splash when you fish in the reeds (a new gathering sound, `gather.water`).
+- **The shops sell the new food**: roast meat, the hunter's stew, fish stew and grilled fish in the regions where they belong.
 - **Hunting** (spec 06, "Hunting"): two shy wild creatures live in the regions, the **wild boar** (Verdalis, Whisperwood, Tidehaven) and the **ridge elk** (Frostveil, Ironspine, Lumeria). They leave game meat, boar hides and elk antlers. Four new recipes: roast meat and a hunter's stew at a campfire, a hunter's jerkin and an antler spear at an anvil. Two hunting quests, for Pell (boars in the barley) and Henrik (antlers for his chisels). 70 creatures, 166 items, 34 recipes, 231 quests.
 - The journal says what the companion's care does ("It tends you: +5% health every 10 s"), or from which bond it will start.
 - **Companions take care of you** (spec 10, "Care"; both clients, conformance scenario `companion_care`): once a companion has ten kills with you, it heals 5% of your health every ten seconds when you are hurt.

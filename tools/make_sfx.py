@@ -55,6 +55,7 @@ variants("hurt", 260, 800, [L("saw", 330, 90, 700, 0, 230), L("noise", 1800, 300
 add("parry", 320, 850, [L("noise", 4500, 1800, 700, 0, 120), L("triangle", 1500, 1500, 500, 0, 260), L("triangle", 2250, 2250, 300, 0, 200), L("sine", 90, 60, 450, 0, 180)])
 add("gather_plant", 260, 550, [L("noise", 3000, 1200, 500, 10, 220, am=(90, 700)), L("noise", 1800, 800, 300, 40, 200)])
 add("gather_wood", 220, 650, [L("triangle", 260, 150, 600, 0, 120), L("noise", 2000, 500, 450, 0, 80), L("noise", 3500, 1500, 250, 90, 100)])
+add("gather_water", 340, 600, [L("noise", 1400, 4200, 550, 5, 300, am=(60, 500)), L("sine", 520, 180, 450, 0, 220), L("noise", 600, 300, 300, 60, 260)])
 add("gather_stone", 200, 650, [L("square", 900, 600, 350, 0, 90, 300), L("noise", 3000, 900, 450, 0, 70), L("triangle", 1400, 1100, 250, 0, 160)])
 add("craft", 420, 600, [L("noise", 3500, 1500, 400, 0, 80), L("triangle", 520, 520, 350, 0, 140), L("triangle", 780, 780, 350, 110, 140), L("triangle", 1040, 1040, 350, 220, 190)])
 add("death", 900, 800, [L("saw", 392, 98, 600, 0, 880), L("square", 196, 49, 450, 0, 880, 500), L("noise", 800, 120, 200, 0, 700)])
@@ -227,6 +228,7 @@ EVENTS: dict[str, dict] = {
     "gather.plant": {"sounds": ["gather_plant"], "volume_pm": 900},
     "gather.wood": {"sounds": ["gather_wood"], "volume_pm": 900},
     "gather.stone": {"sounds": ["gather_stone"], "volume_pm": 900},
+    "gather.water": {"sounds": ["gather_water"], "volume_pm": 900},
     "crit": {"sounds": ["crit"], "volume_pm": 900},
     "weak": {"sounds": ["weak"], "volume_pm": 800},
     "level_up": {"sounds": ["level_up"], "volume_pm": 1000},

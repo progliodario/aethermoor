@@ -584,10 +584,11 @@ TEST_CASE("conformance: profile", "[conformance]") {
         aether::Profile got = aether::merge_profile(before, bestiary, titles);
         if (in.contains("rebirth_level")) {
             REQUIRE(aether::reincarnate(got, in.at("rebirth_level").get<std::int64_t>(),
-                                        in.at("rebirth_gold").get<std::int64_t>()) ==
-                    c.at("expect").at("reborn").get<bool>());
+                                        in.at("rebirth_gold").get<std::int64_t>(),
+                                        in.value("rebirth_weapon", "")) == c.at("expect").at("reborn").get<bool>());
         }
         if (in.contains("claim")) {
+            REQUIRE(got.heirloom_item == c.at("expect").at("claimed_item").get<std::string>());
             REQUIRE(aether::claim_heirloom(got) == c.at("expect").at("claimed").get<std::int64_t>());
         }
         const Json& expect = c.at("expect");
@@ -601,6 +602,7 @@ TEST_CASE("conformance: profile", "[conformance]") {
         }
         REQUIRE(got.lives == expect.at("lives").get<int>());
         REQUIRE(got.heirloom == expect.at("heirloom").get<std::int64_t>());
+        REQUIRE(got.heirloom_item == expect.at("heirloom_item").get<std::string>());
         REQUIRE(aether::profile_echo_pct(got) == expect.at("echo_pct").get<int>());
         const aether::Profile again =
             aether::parse_profile(aether::profile_to_json(got));  // writing and reading it back changes nothing

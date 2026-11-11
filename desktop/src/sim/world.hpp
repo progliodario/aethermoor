@@ -245,6 +245,12 @@ public:
     const std::vector<std::pair<int, int>>& stones() const { return m_stones_; }
     // Equipment and shops (spec 06): each returns false, changing nothing, when refused.
     bool equip(const std::string& item_id);
+    // Puts items into the bag (the heirloom of a past life, spec 11); a quantity below 1 does nothing.
+    void give_item(const std::string& item_id, std::int64_t qty) {
+        if (qty > 0 && !item_id.empty()) {
+            m_inventory_[item_id] += qty;
+        }
+    }
     bool buy(const std::string& item_id);
     bool sell(const std::string& item_id);
     void close_shop() { m_shop_.reset(); }
@@ -263,7 +269,7 @@ public:
     // are added to the bag.
     struct GatherResult {
         bool node = false;  // there was something to gather from
-        std::string sound;  // plant, wood or stone
+        std::string sound;  // plant, wood, stone or water
         std::vector<std::pair<std::string, std::int64_t>> items;
     };
     GatherResult gather();

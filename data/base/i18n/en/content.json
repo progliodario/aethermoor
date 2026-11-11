@@ -1052,6 +1052,8 @@
   "item.hunters_jerkin.desc": "Boar hide over leather, with antler toggles. Light and tough.",
   "item.antler_spear.name": "Antler spear",
   "item.antler_spear.desc": "A long shaft with an elk's antler for a point. It reaches far.",
+  "title.boar_hunter": "Boar Hunter",
+  "title.elk_stalker": "Elk Stalker",
   "quest.crossroads_matron.name": "The Mother of Mint",
   "quest.crossroads_matron.task": "Every mint slime of the Crossroads comes from one place: Mint Hollow, where the Mint Matron sits. Pell asks you to end it there.",
   "quest.whisperwood_elder.name": "The Moss Elder",

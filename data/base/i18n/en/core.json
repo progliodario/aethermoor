@@ -107,6 +107,7 @@
   "ui.rebirth_confirm": "Reincarnate game {slot}? It ends, and every game after it is stronger. Once more to confirm",
   "ui.reborn": "A life ends, another begins. Past lives: {lives}. Every game now has +{pct}% health, and half of its gold waits for your next new game",
   "ui.heirloom": "An heirloom of a past life: {gold} gold",
+  "ui.heirloom_weapon": "The heirloom of a past life: {gold} gold and {item}",
   "ui.import_slot_used": "Import into an empty game: delete this one first",
   "ui.import_bad": "That file is not a valid saved game",
   "ui.import_missing": "To import a game, put its .aethersave file here: {path}",

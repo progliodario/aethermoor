@@ -11,7 +11,7 @@ The inventory is a map from item ID to a positive quantity (spec 12); an item wh
 ## Gathering
 
 The props of the world that look like something can be **gathered from**: pressing `E` (the interact button) with nobody to talk to and no Threshold Stone in reach picks the nearest of them.
-The table is `data/base/gathering.json` (schema `gathering`): for each prop art ID, the `sound` of gathering (`plant`, `wood` or `stone`), a `cooldown_ticks`, a `reach_x100`
+The table is `data/base/gathering.json` (schema `gathering`): for each prop art ID, the `sound` of gathering (`plant`, `wood`, `stone` or `water`), a `cooldown_ticks`, a `reach_x100`
 (how far from the prop the player may be, besides the radius of the prop) and `drops`. The base pack has the bush (berries, healing herbs), the oak and the pine (logs, resin, dry branches),
 the dead tree, the rock (stone, a little iron ore), the cactus (pulp) and the **reeds** of the beaches, where one fishes (fresh fish, and now and then a golden carp that merchants pay well for). The materials are items of kind `material` or `food`.
 

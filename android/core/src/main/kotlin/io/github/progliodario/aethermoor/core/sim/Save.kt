@@ -95,16 +95,19 @@ class SaveMeta(
 )
 
 /** The seed and map name of a save, read without building a world (to rebuild the same world first). */
-class SavePeek(val seed: ULong, val map: String, val level: Int = 1, val gold: Long = 0)
+/** [weapon]: the weapon in hand, for the heirloom of a reincarnation (spec 11). */
+class SavePeek(val seed: ULong, val map: String, val level: Int = 1, val gold: Long = 0, val weapon: String = "")
 
 fun savePeek(text: String): Result<SavePeek> =
     runCatching {
         val j = Json.parseToJsonElement(text).jsonObject
         val player = j["player"] as? JsonObject
         val story = j["story"] as? JsonObject
+        val equipped = j["equipped"] as? JsonObject
         SavePeek(
             parseHex64(j.getValue("seed")), (j["map"] as? JsonPrimitive)?.content ?: "",
             (player?.get("level") as? JsonPrimitive)?.int ?: 1, (story?.get("gold") as? JsonPrimitive)?.long ?: 0L,
+            (equipped?.get("weapon") as? JsonPrimitive)?.takeIf { it.isString }?.content ?: "",
         )
     }
 

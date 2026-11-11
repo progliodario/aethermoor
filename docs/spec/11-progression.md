@@ -52,7 +52,7 @@ Both clients show them in the crafting panel (`Tab` on a keyboard, a button of t
 
 A title may have `atk_pct`: while the title is earned, the attack of every hit of the player (the `atk`, or the `matk` of a magical skill) is `atk * (100 + sum of atk_pct of the earned titles) / 100`, computed
 before a weaken on the player takes its quarter (spec 05). The sum is read at each hit, so a title earned in the middle of a fight counts from the next blow. The companion's hits are not changed. In the base pack every title
-is worth 3 percent, the first one 2, and the rare ones 5, 8 or 10 (`tools/make_titles.py`): with all fifteen the hits are 65 percent stronger. Conformance: the scenario `title_attack`.
+is worth 3 percent, the first one 2, and the rare ones 5, 8 or 10 (`tools/make_titles.py`): with the first fifteen the hits are 65 percent stronger. The hunt adds two (the Boar Hunter, one more of every drop gathered; the Elk Stalker, +10% experience), 17 in all. Conformance: the scenario `title_attack`.
 
 A title may also have `gather_bonus` (every drop that a gathering finds gives that many more, spec 06) and `craft_bonus` (every recipe made gives that many more of its output), summed over the earned titles at the moment of the gathering or the craft; `parry_bonus` (ticks added to the parry window when it opens, spec 05) and `xp_pct` (the experience of a kill is `xp * (100 + xp_pct) / 100`, after the rule of spec 04; quest rewards are not changed). These are the titles of a way of playing, the first tags: in the base pack Forager (30 gatherings) gives one more of every drop, Artisan (15 recipes) one more of every recipe, Unbreakable Guard (25 parries) 8 more ticks of parry, and Pest Control, Veteran and Legend of the Realm 10, 15 and 25 percent more experience from kills. Conformance: the scenarios `counter_titles` and `title_parry`.
 
@@ -65,7 +65,11 @@ What the game had reached is already in the profile, which every save updates. P
 ## Heirloom
 
 When a game is reincarnated, **half of its gold** (`gold * 50 / 100`, from the autosave the title screen reads) is added to the **heirloom** of the profile. The next **new game** (a slot without a save, in any slot) takes the whole
-heirloom when it starts: its gold goes up by it, the profile's heirloom goes back to 0, and a notice says how much it was. Several reincarnations before a new game add up. Reference: `reincarnate` and `claim_heirloom` in
+heirloom when it starts: its gold goes up by it, the profile's heirloom goes back to 0, and a notice says how much it was. Several reincarnations before a new game add up.
+
+The **weapon in hand** goes with the gold: the reincarnated game's equipped weapon (from the same autosave, `equipped.weapon`) becomes the profile's `heirloom_item`; a later reincarnation with a weapon
+replaces it, one without a weapon keeps it. The next new game finds it in its bag (one, not equipped) when the pack has that item, the profile's `heirloom_item` goes back to empty, and the notice says
+`ui.heirloom_weapon` (gold and weapon). Reference: `reincarnate` and `claim_heirloom` in
 `tools/reference/profile.py`; conformance: the suite `profile`.
 
 ## Echoes

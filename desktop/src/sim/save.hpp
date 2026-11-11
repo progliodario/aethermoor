@@ -34,6 +34,7 @@ struct SavePeek {
     std::string map;
     int level = 1;  // for the slot list (spec 12, "Slots")
     std::int64_t gold = 0;
+    std::string weapon;  // the weapon in hand, for the heirloom of a reincarnation (spec 11)
 };
 std::optional<SavePeek> save_peek(std::string_view json_text);
 

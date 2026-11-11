@@ -89,7 +89,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val worldParams: WorldParams,
     )
 
-    private class SlotSummary(val used: Boolean, val level: Int, val gold: Long)
+    private class SlotSummary(val used: Boolean, val level: Int, val gold: Long, val weapon: String = "")
 
     private class FloatingText(val x: Float, val y: Float, val text: String, val onPlayer: Boolean, val crit: Boolean) {
         var age = 0
@@ -387,7 +387,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
                 null
             }
-            if (peek == null) SlotSummary(false, 1, 0L) else SlotSummary(true, peek.level, peek.gold)
+            if (peek == null) SlotSummary(false, 1, 0L) else SlotSummary(true, peek.level, peek.gold, peek.weapon)
         }
 
     /** The folder of the exported games: the storage of the app that a file manager can reach, or the private one when there is none. */
@@ -442,7 +442,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             titleNotice = data.pack.text(language, "\$i18n:ui.rebirth_confirm", mapOf("slot" to index + 1))
             return
         }
-        val reborn = reincarnate(readProfile(), slots[index].level.toLong(), slots[index].gold) ?: return
+        val reborn = reincarnate(readProfile(), slots[index].level.toLong(), slots[index].gold, slots[index].weapon) ?: return
         try {
             profileFile().writeString(profileToJson(reborn), false, "UTF-8")
             for (name in listOf("auto.json", "auto.json.tmp", "quick.json", "quick.json.tmp", "protagonist.txt", "goal.txt")) {
@@ -522,15 +522,25 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (!file.exists()) {
             // A new game opens with the prologue of its protagonist: a talk with Lyra at the Threshold (spec 18).
             world.story.beginDialogue("base:dialogue/${protagonistId.substringAfterLast('/')}/prologue")
-            val (heirloom, rest) = claimHeirloom(readProfile()) // the heirloom of a past life (spec 11)
-            if (heirloom > 0) {
+            val before = readProfile()
+            val weapon = before.heirloomItem
+            val (heirloom, rest) = claimHeirloom(before) // the heirloom of a past life (spec 11)
+            if (heirloom > 0 || weapon.isNotEmpty()) {
                 world.story.gold += heirloom
+                if (weapon.isNotEmpty() && pack.readDocument(weapon) != null) world.inventory[weapon] = (world.inventory[weapon] ?: 0L) + 1 // the weapon of the past life
                 try {
                     profileFile().writeString(profileToJson(rest), false, "UTF-8")
                 } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
                     Gdx.app.error(TAG, "Cannot write the profile: ${e.message}")
                 }
-                showNotice(pack.text(language, "\$i18n:ui.heirloom", mapOf("gold" to heirloom)))
+                val gift = weapon.isNotEmpty() && pack.readDocument(weapon) != null
+                showNotice(
+                    if (gift) {
+                        pack.text(language, "\$i18n:ui.heirloom_weapon", mapOf("gold" to heirloom, "item" to pack.text(language, "\$i18n:item.${weapon.substringAfterLast('/')}.name")))
+                    } else {
+                        pack.text(language, "\$i18n:ui.heirloom", mapOf("gold" to heirloom))
+                    },
+                )
             }
             return
         }

@@ -339,6 +339,10 @@ std::optional<SavePeek> save_peek(std::string_view json_text) {
         if (j.contains("story") && j.at("story").is_object()) {
             peek.gold = j.at("story").value("gold", static_cast<std::int64_t>(0));
         }
+        if (j.contains("equipped") && j.at("equipped").is_object() && j.at("equipped").contains("weapon") &&
+            j.at("equipped").at("weapon").is_string()) {
+            peek.weapon = j.at("equipped").at("weapon").get<std::string>();
+        }
         return peek;
     } catch (const std::exception&) {
         return std::nullopt;

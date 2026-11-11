@@ -134,7 +134,7 @@ struct GatherDrop {
 };
 
 struct GatherNode {
-    std::string sound;  // plant, wood or stone: the sound of gathering
+    std::string sound;  // plant, wood, stone or water: the sound of gathering
     int cooldown_ticks = 0;
     int reach_x100 = 150;
     std::vector<GatherDrop> drops;

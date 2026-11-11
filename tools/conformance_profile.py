@@ -13,17 +13,18 @@ def _case(name: str, text, bestiary: dict, titles: list) -> dict:
 
 def _claim(name: str, text) -> dict:
     """A new game takes the heirloom of the profile: the gold it gets, and the profile after."""
-    gold, after = profile.claim_heirloom(profile.parse_profile(text))
+    before = profile.parse_profile(text)
+    gold, after = profile.claim_heirloom(before)
     return {"name": name, "input": {"text": text, "bestiary": {}, "titles": [], "claim": True},
-            "expect": {**after, "echo_pct": profile.echo_pct(after), "claimed": gold}}
+            "expect": {**after, "echo_pct": profile.echo_pct(after), "claimed": gold, "claimed_item": before["heirloom_item"]}}
 
 
-def _rebirth(name: str, text, level: int, gold: int = 0) -> dict:
+def _rebirth(name: str, text, level: int, gold: int = 0, weapon: str = "") -> dict:
     """A game of `level` is reincarnated: the profile after it (unchanged when the level is too low), whether it was allowed, and the echoes."""
     before = profile.parse_profile(text)
-    after = profile.reincarnate(before, level, gold)
+    after = profile.reincarnate(before, level, gold, weapon)
     result = after if after is not None else before
-    return {"name": name, "input": {"text": text, "bestiary": {}, "titles": [], "rebirth_level": level, "rebirth_gold": gold},
+    return {"name": name, "input": {"text": text, "bestiary": {}, "titles": [], "rebirth_level": level, "rebirth_gold": gold, "rebirth_weapon": weapon},
             "expect": {**result, "echo_pct": profile.echo_pct(result), "reborn": after is not None}}
 
 
@@ -55,5 +56,11 @@ def suite_profile() -> list[dict]:
         _rebirth("heirloom_not_when_too_early", json.dumps({"profile_version": 1, "bestiary": {}, "titles": [], "heirloom": 70}), 5, 900),
         _claim("claim_the_heirloom", json.dumps({"profile_version": 1, "bestiary": {}, "titles": ["hero"], "lives": 2, "heirloom": 2300})),
         _claim("claim_nothing", json.dumps({"profile_version": 1, "bestiary": {}, "titles": [], "lives": 1})),
+        _rebirth("heirloom_weapon", None, 12, 100, "base:item/steel_sword"),
+        _rebirth("heirloom_weapon_replaces", json.dumps({"profile_version": 1, "bestiary": {}, "titles": [], "heirloom_item": "base:item/pike"}), 14, 0, "base:item/moon_blade"),
+        _rebirth("heirloom_no_weapon_keeps", json.dumps({"profile_version": 1, "bestiary": {}, "titles": [], "heirloom_item": "base:item/pike"}), 14, 0, ""),
+        _rebirth("heirloom_weapon_not_when_too_early", None, 3, 0, "base:item/steel_sword"),
+        _claim("claim_the_weapon", json.dumps({"profile_version": 1, "bestiary": {}, "titles": [], "heirloom": 40, "heirloom_item": "base:item/steel_sword"})),
+        _case("bad_heirloom_item_is_none", json.dumps({"profile_version": 1, "bestiary": {}, "titles": [], "heirloom_item": 7}), {}, []),
         _case("bad_heirloom_is_zero", json.dumps({"profile_version": 1, "bestiary": {}, "titles": [], "heirloom": -50}), {}, []),
     ]
