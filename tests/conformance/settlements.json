@@ -79,6 +79,11 @@
                   "enemy": "base:enemy/myconid",
                   "drop": "base:item/spore_cap",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/wild_boar",
+                  "drop": "base:item/boar_hide",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -152,6 +157,11 @@
                 {
                   "enemy": "base:enemy/night_owl",
                   "drop": "base:item/owl_feather",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wild_boar",
+                  "drop": "base:item/boar_hide",
                   "weight": 2
                 }
               ],
@@ -250,6 +260,11 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/ridge_elk",
+                  "drop": "base:item/elk_antler",
                   "weight": 2
                 }
               ],
@@ -440,6 +455,11 @@
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/ridge_elk",
+                  "drop": "base:item/elk_antler",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -518,6 +538,11 @@
                   "enemy": "base:enemy/shore_crab",
                   "drop": "base:item/crab_shell",
                   "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/wild_boar",
+                  "drop": "base:item/boar_hide",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -751,6 +776,11 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/ridge_elk",
+                  "drop": "base:item/elk_antler",
                   "weight": 2
                 }
               ],
@@ -8154,6 +8184,11 @@
                   "enemy": "base:enemy/myconid",
                   "drop": "base:item/spore_cap",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/wild_boar",
+                  "drop": "base:item/boar_hide",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -8227,6 +8262,11 @@
                 {
                   "enemy": "base:enemy/night_owl",
                   "drop": "base:item/owl_feather",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wild_boar",
+                  "drop": "base:item/boar_hide",
                   "weight": 2
                 }
               ],
@@ -8325,6 +8365,11 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/ridge_elk",
+                  "drop": "base:item/elk_antler",
                   "weight": 2
                 }
               ],
@@ -8515,6 +8560,11 @@
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/ridge_elk",
+                  "drop": "base:item/elk_antler",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -8593,6 +8643,11 @@
                   "enemy": "base:enemy/shore_crab",
                   "drop": "base:item/crab_shell",
                   "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/wild_boar",
+                  "drop": "base:item/boar_hide",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -8826,6 +8881,11 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/ridge_elk",
+                  "drop": "base:item/elk_antler",
                   "weight": 2
                 }
               ],
@@ -14894,6 +14954,11 @@
                   "enemy": "base:enemy/myconid",
                   "drop": "base:item/spore_cap",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/wild_boar",
+                  "drop": "base:item/boar_hide",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -14967,6 +15032,11 @@
                 {
                   "enemy": "base:enemy/night_owl",
                   "drop": "base:item/owl_feather",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wild_boar",
+                  "drop": "base:item/boar_hide",
                   "weight": 2
                 }
               ],
@@ -15065,6 +15135,11 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/ridge_elk",
+                  "drop": "base:item/elk_antler",
                   "weight": 2
                 }
               ],
@@ -15255,6 +15330,11 @@
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/ridge_elk",
+                  "drop": "base:item/elk_antler",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -15333,6 +15413,11 @@
                   "enemy": "base:enemy/shore_crab",
                   "drop": "base:item/crab_shell",
                   "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/wild_boar",
+                  "drop": "base:item/boar_hide",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -15566,6 +15651,11 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/ridge_elk",
+                  "drop": "base:item/elk_antler",
                   "weight": 2
                 }
               ],

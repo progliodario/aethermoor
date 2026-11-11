@@ -227,6 +227,94 @@
       "station": "base:art/prop/campfire"
     },
     {
+      "id": "roast_meat",
+      "output": {
+        "item": "base:item/roast_meat",
+        "qty": 2
+      },
+      "inputs": [
+        {
+          "item": "base:item/game_meat",
+          "qty": 2
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/campfire"
+    },
+    {
+      "id": "hunters_stew",
+      "output": {
+        "item": "base:item/hunters_stew",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/game_meat",
+          "qty": 2
+        },
+        {
+          "item": "base:item/healing_herb",
+          "qty": 1
+        },
+        {
+          "item": "base:item/mint_leaf",
+          "qty": 1
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/campfire"
+    },
+    {
+      "id": "hunters_jerkin",
+      "output": {
+        "item": "base:item/hunters_jerkin",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/leather_vest",
+          "qty": 1
+        },
+        {
+          "item": "base:item/boar_hide",
+          "qty": 3
+        },
+        {
+          "item": "base:item/elk_antler",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "antler_spear",
+      "output": {
+        "item": "base:item/antler_spear",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/wood_log",
+          "qty": 2
+        },
+        {
+          "item": "base:item/elk_antler",
+          "qty": 2
+        },
+        {
+          "item": "base:item/iron_ore",
+          "qty": 2
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
       "id": "royal_feast",
       "output": {
         "item": "base:item/royal_feast",

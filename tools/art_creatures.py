@@ -122,6 +122,8 @@ def main() -> None:
     for path in sorted(DIR.glob("*.json")):
         d = json.loads(path.read_text(encoding="utf-8"))
         name = path.stem
+        if name.startswith("echo_"):  # the Echoes are drawn by make_echoes.py
+            continue
         pal = set(d["palette"])
         w = d["canvas"]["w"]
         layers = d["layers"]
@@ -135,10 +137,10 @@ def main() -> None:
             layers = layers[: ORIGINAL["giant"]]
             extra = slime_overlay(5.1, 56.1, 22.2, 58, [(22.1, 42.6), (39.1, 42.6)], 3.1, name)
             extra += transform_layers(_features(SLIMES[name]), 1.7, 0, 12)
-        elif w == 40 and "fur" in pal:
+        elif w == 40 and "fur" in pal and name in WOLVES:  # the Echoes (make_echoes.py) draw their own
             layers = layers[: ORIGINAL["wolf"]]
             extra = wolf_overlay(name) + _features(WOLVES[name])
-        elif w == 56 and "slit" in pal:
+        elif w == 56 and "slit" in pal and name in KNIGHTS:
             layers = layers[: ORIGINAL["knight"]]
             extra = knight_overlay(name) + _features(KNIGHTS[name])
         elif name in SINGLES:

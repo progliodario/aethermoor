@@ -256,3 +256,25 @@ OUTPOST_PEOPLE[3]["quests"].append(_quest(
     ("A Guest who fishes! I will tell the others; they will be ashamed. Stew, and an elixir from the pearls of the first catch.",
      "Un Ospite che pesca! Lo dirò agli altri: si vergogneranno. Zuppa, e un elisir dalle perle della prima pesca.")))
 assert OUTPOST_PEOPLE[3]["key"] == "outpost_netmender_nella"
+
+# The hunt (spec 06, "Hunting"): Pell wants the boars out of the barley, Henrik wants antlers to carve.
+OUTPOST_PEOPLE[0]["quests"].append(_quest(
+    "crossroads_boars", ("Boars in the Barley", "Cinghiali nell'orzo"),
+    ("Wild boars dig up the barley by the Crossroads. Pell asks you to hunt five and bring back meat for the camp.",
+     "I cinghiali scavano l'orzo vicino al Crocevia. Pell ti chiede di cacciarne cinque e riportare carne per il campo."),
+    [_kill("wild_boar", 5), _collect("game_meat", 4)], 160, 180, {"base:item/roast_meat": 3},
+    ("The barley looks like a battlefield. Boars, Guest, a whole family, and they eat better than my mules. Hunt them, and the camp eats boar tonight.",
+     "L'orzo sembra un campo di battaglia. Cinghiali, Ospite, una famiglia intera, e mangiano meglio dei miei muli. Cacciali, e stasera il campo mangia cinghiale."),
+    ("Five boars, four cuts of meat.", "Cinque cinghiali, quattro tagli di carne."),
+    ("Roast for everyone, and the first plates for you. The mules are jealous.", "Arrosto per tutti, e i primi piatti per te. I muli sono gelosi.")))
+OUTPOST_PEOPLE[4]["quests"].append(_quest(
+    "frostveil_antlers", ("Antlers for the Chisels", "Corna per gli scalpelli"),
+    ("Henrik's chisels have worn out. The ridge elks of Frostveil carry the only antler hard enough to make new handles.",
+     "Gli scalpelli di Henrik sono consumati. Gli alci dei crinali di Frostveil portano l'unico corno abbastanza duro per i manici nuovi."),
+    [_kill("ridge_elk", 4), _collect("elk_antler", 3)], 900, 900, {"base:item/hunters_stew": 3},
+    ("My chisels have handles of pine, and pine splits in the cold. An elk's antler never does. Three, and I will carve until spring.",
+     "I miei scalpelli hanno manici di pino, e il pino si spacca col freddo. Il corno d'alce mai. Tre, e scolpirò fino a primavera."),
+    ("Four ridge elks, three antlers.", "Quattro alci dei crinali, tre corna."),
+    ("Look at that grip. I will carve you an elk, in thanks, out of ice. Stew first; the cold does not wait.",
+     "Guarda che impugnatura. Ti scolpirò un alce, per ringraziarti, nel ghiaccio. Prima lo stufato: il freddo non aspetta.")))
+assert OUTPOST_PEOPLE[0]["key"] == "outpost_carter_pell" and OUTPOST_PEOPLE[4]["key"] == "outpost_sculptor_henrik"

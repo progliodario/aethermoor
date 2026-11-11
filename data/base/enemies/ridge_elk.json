@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/ridge_elk",
+  "name": "$i18n:enemy.ridge_elk.name",
+  "level": 4,
+  "stats": {
+    "hp": 60,
+    "atk": 9,
+    "def": 3,
+    "mdef": 2,
+    "speed_x100": 360
+  },
+  "element": "none",
+  "sound": "wolf",
+  "weaknesses_pm": {
+    "fire": 1500
+  },
+  "xp": 16,
+  "drops": [
+    {
+      "item": "base:item/game_meat",
+      "qty_min": 1,
+      "qty_max": 2,
+      "weight_pm": 850
+    },
+    {
+      "item": "base:item/elk_antler",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 450
+    }
+  ],
+  "radius_x100": 38,
+  "behavior": "base:behavior/skittish",
+  "art": "base:art/creature/ridge_elk"
+}

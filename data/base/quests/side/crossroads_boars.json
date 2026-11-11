@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/crossroads_boars",
+  "name": "$i18n:quest.crossroads_boars.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.crossroads_boars.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/wild_boar",
+          "count": 5
+        },
+        {
+          "type": "collect",
+          "item": "base:item/game_meat",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 160
+    },
+    {
+      "effect": "add_gold",
+      "amount": 180
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 8
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/roast_meat",
+      "qty": 3
+    }
+  ]
+}

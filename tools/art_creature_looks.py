@@ -292,10 +292,32 @@ def storm_sovereign(x: Recipe) -> None:  # sovereign of the storm wolves: a crow
     x.ellipse(20, 6, 9, 3.4, FIRE2, alpha=0.18)
 
 
+
+def wild_boar(x: Recipe) -> None:  # a bristly mane, a flat snout and two curved tusks (the game of the hunt, spec 06)
+    for sx, h in ((15, 3.2), (17, 4.2), (19, 4.8), (21, 4.8), (23, 4.2), (25, 3.2)):
+        x.poly([(sx - 1.1, 9.6), (sx, 9.6 - h), (sx + 1.1, 9.6)], "#2A1A0E", stroke="#140C06", width=0.5)
+    x.ellipse(20, 21.6, 4.2, 2.6, "#B07A64", stroke="#1E120A", width=0.8)
+    for nx in (18.6, 21.4):
+        x.ellipse(nx, 21.6, 0.7, 1.0, "#2A1410")
+    x.path("M 16.6 23.2 Q 14.6 22 15 19.4", None, stroke="#F4EEDC", width=1.3)
+    x.path("M 23.4 23.2 Q 25.4 22 25 19.4", None, stroke="#F4EEDC", width=1.3)
+
+
+def ridge_elk(x: Recipe) -> None:  # branching antlers and a pale throat patch (the game of the hunt, spec 06)
+    for side in (-1, 1):
+        bx = 20 + side * 5.6
+        tip = 20 + side * 11
+        x.path(f"M {bx} 8.6 Q {bx + side * 1.6} 4.4 {tip} 1.2", None, stroke="#E8D6B0", width=1.6)
+        x.path(f"M {bx} 8.6 Q {bx + side * 1.6} 4.4 {tip} 1.2", None, stroke="#6A5434", width=0.5, alpha=0.6)
+        x.path(f"M {bx + side * 1.4} 5.2 L {bx + side * 0.6} 1.0", None, stroke="#E8D6B0", width=1.2)
+        x.path(f"M {bx + side * 3.4} 3.4 L {bx + side * 3.6} 0.6", None, stroke="#E8D6B0", width=1.1)
+    x.path("M 15 26 Q 20 30 25 26 Q 23 31 20 32 Q 17 31 15 26 Z", "#F0E2C4", alpha=0.8)
+
 WOLVES = {
     "wolf_grey": wolf_grey, "wolf_dire": wolf_dire, "wolf_dune": wolf_dune, "wolf_frost": wolf_frost, "wolf_polar": wolf_polar,
     "wolf_shade": wolf_shade, "wolf_storm": wolf_storm, "wolf_tawny": wolf_tawny, "dire_alpha": dire_alpha, "dune_mother": dune_mother,
     "moonshade_alpha": moonshade_alpha, "polar_king": polar_king, "storm_sovereign": storm_sovereign,
+    "wild_boar": wild_boar, "ridge_elk": ridge_elk,
 }
 
 

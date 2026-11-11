@@ -73,6 +73,8 @@
   "ui.journal_bestiary": "Bestiary",
   "ui.journal_companion": "Companion",
   "ui.journal_bond": "Bond {bond} (attack +{bonus})",
+  "ui.journal_care": "It tends you: +{pct}% health every {seconds} s",
+  "ui.journal_care_later": "At bond {bond} it will tend you",
   "ui.journal_habits": "Your way",
   "ui.counter_gathered": "Gatherings: {count}",
   "ui.counter_crafted": "Things made: {count}",
@@ -868,5 +870,11 @@
   "dlg.town.nella.tidehaven_catch.offer": "Whole nets and nobody to cast them: the fishers all became adventurers after you came. Ha. Try the reeds, Guest. The fish hide in them at the edge of the water.",
   "dlg.town.nella.tidehaven_catch.busy": "Six fresh fish, from the reeds by the water.",
   "dlg.town.nella.tidehaven_catch.thanks": "A Guest who fishes! I will tell the others; they will be ashamed. Stew, and an elixir from the pearls of the first catch.",
+  "dlg.town.pell.crossroads_boars.offer": "The barley looks like a battlefield. Boars, Guest, a whole family, and they eat better than my mules. Hunt them, and the camp eats boar tonight.",
+  "dlg.town.pell.crossroads_boars.busy": "Five boars, four cuts of meat.",
+  "dlg.town.pell.crossroads_boars.thanks": "Roast for everyone, and the first plates for you. The mules are jealous.",
+  "dlg.town.henrik.frostveil_antlers.offer": "My chisels have handles of pine, and pine splits in the cold. An elk's antler never does. Three, and I will carve until spring.",
+  "dlg.town.henrik.frostveil_antlers.busy": "Four ridge elks, three antlers.",
+  "dlg.town.henrik.frostveil_antlers.thanks": "Look at that grip. I will carve you an elk, in thanks, out of ice. Stew first; the cold does not wait.",
   "dlg.pip.story.gideon.done": "The whole village agrees: you are a good king. Take the blade, it is nothing like the old one, but it suits you."
 }
