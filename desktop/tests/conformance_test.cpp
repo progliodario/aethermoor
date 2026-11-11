@@ -1309,6 +1309,12 @@ TEST_CASE("conformance: worldmap", "[conformance]") {
             REQUIRE(aether::biome_code_at(seed, *params, sample.at(0).get<int>(), sample.at(1).get<int>()) ==
                     sample.at(2).get<int>());
         }
+        for (const Json& sample : want.at("map_codes")) {
+            INFO("map " << sample.at(0).get<int>() << "," << sample.at(1).get<int>() << " widen "
+                        << sample.at(2).get<int>());
+            REQUIRE(aether::map_code_at(seed, *params, sample.at(0).get<int>(), sample.at(1).get<int>(),
+                                        sample.at(2).get<int>()) == sample.at(3).get<int>());
+        }
     }
 }
 

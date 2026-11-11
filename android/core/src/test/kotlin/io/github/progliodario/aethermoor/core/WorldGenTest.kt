@@ -392,6 +392,12 @@ class WorldGenTest {
                 val ty = s[1].jsonPrimitive.int
                 assertEquals(s[2].jsonPrimitive.int, biomeCodeAt(seed, params, tx, ty), "$label tile $tx,$ty")
             }
+            for (sample in want.getValue("map_codes").jsonArray) {
+                val s = sample.jsonArray
+                val tx = s[0].jsonPrimitive.int
+                val ty = s[1].jsonPrimitive.int
+                assertEquals(s[3].jsonPrimitive.int, mapCodeAt(seed, params, tx, ty, s[2].jsonPrimitive.int), "$label map $tx,$ty")
+            }
         }
     }
 

@@ -752,6 +752,23 @@ GeneratedChunk generate_chunk(std::uint64_t seed, const WorldParams& p, int chun
     return chunk;
 }
 
+int map_code_at(std::uint64_t seed, const WorldParams& p, int tile_x, int tile_y, int widen) {
+    const Biome biome = biome_at(seed, p, tile_x, tile_y);
+    const int code = static_cast<int>(biome);
+    if (widen < 1 || biome == Biome::Water || biome == Biome::Mountain || in_clearing(p, tile_x, tile_y)) {
+        return code;
+    }
+    constexpr std::int64_t kMid = 32768;
+    const auto distance = [](std::int64_t value) { return value < kMid ? kMid - value : value - kMid; };
+    if (distance(field(seed, p.river, tile_x, tile_y)) < p.river_half_width * widen) {
+        return 7;
+    }
+    if (distance(field(seed, p.road, tile_x, tile_y)) < p.road_half_width * widen) {
+        return 8;
+    }
+    return code;
+}
+
 int biome_code_at(std::uint64_t seed, const WorldParams& p, int tile_x, int tile_y) {
     return static_cast<int>(biome_at(seed, p, tile_x, tile_y));
 }

@@ -741,6 +741,15 @@ fun biomeCode(seed: ULong, p: WorldParams, cellX: Int, cellY: Int): Int =
 /** The same code for one tile: the map draws a zoomed cell as a grid of these (spec 09, "The map view"). */
 fun biomeCodeAt(seed: ULong, p: WorldParams, tileX: Int, tileY: Int): Int = biomeAt(seed, p, tileX, tileY).ordinal
 
+/** The code the map draws for a tile seen [widen] tiles wide: the biome, or 7 (a river) or 8 (a road) when the tile is that close to one (spec 09, "The map view"). */
+fun mapCodeAt(seed: ULong, p: WorldParams, tileX: Int, tileY: Int, widen: Int): Int {
+    val biome = biomeAt(seed, p, tileX, tileY)
+    if (widen < 1 || biome == Biome.WATER || biome == Biome.MOUNTAIN || inClearing(p, tileX, tileY)) return biome.ordinal
+    if (abs(field(seed, p.river, tileX, tileY) - MID) < p.riverHalfWidth.toLong() * widen) return 7
+    if (abs(field(seed, p.road, tileX, tileY) - MID) < p.roadHalfWidth.toLong() * widen) return 8
+    return biome.ordinal
+}
+
 private const val EXPLORE_RADIUS = 2 // 5 x 5 cells around the player (spec 09)
 
 /** Marks the cell of the tile and the cells within [EXPLORE_RADIUS] of it inside the world as explored. */

@@ -16,6 +16,7 @@ import io.github.progliodario.aethermoor.core.Pack
 import io.github.progliodario.aethermoor.core.WorldParams
 import io.github.progliodario.aethermoor.core.biomeCode
 import io.github.progliodario.aethermoor.core.biomeCodeAt
+import io.github.progliodario.aethermoor.core.mapCodeAt
 import io.github.progliodario.aethermoor.core.regionAt
 import io.github.progliodario.aethermoor.core.settlementContaining
 import io.github.progliodario.aethermoor.core.audio.MusicContext
@@ -2217,7 +2218,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 if (tx < 0 || ty < 0 || tx >= params.width || ty >= params.height || Pair(tx / MAP_CELL, ty / MAP_CELL) !in world.explored) {
                     (-1).toByte()
                 } else {
-                    biomeCodeAt(store.seed, params, tx, ty).toByte()
+                    mapCodeAt(store.seed, params, tx, ty, step / 2).toByte() // rivers and roads too (spec 09)
                 }
             }
             miniOx = ox
@@ -2763,7 +2764,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                     ByteArray(n * n) { k ->
                         val i = k % n
                         val j = k / n
-                        biomeCodeAt(store.seed, store.params, x * MAP_CELL + (2 * i + 1) * MAP_CELL / (2 * n), y * MAP_CELL + (2 * j + 1) * MAP_CELL / (2 * n)).toByte()
+                        mapCodeAt(store.seed, store.params, x * MAP_CELL + (2 * i + 1) * MAP_CELL / (2 * n), y * MAP_CELL + (2 * j + 1) * MAP_CELL / (2 * n), if (n >= 4) MAP_CELL / n / 2 else 0).toByte()
                     }
                 }
                 val sub = v.cell / n
@@ -3313,6 +3314,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             Color(0.235f, 0.431f, 0.745f, 1f), Color(0.871f, 0.808f, 0.588f, 1f), Color(0.51f, 0.51f, 0.549f, 1f),
             Color(0.922f, 0.941f, 0.961f, 1f), Color(0.871f, 0.808f, 0.588f, 1f), Color(0.235f, 0.51f, 0.275f, 1f),
             Color(0.431f, 0.706f, 0.353f, 1f),
+            Color(0.353f, 0.627f, 0.902f, 1f), Color(0.667f, 0.51f, 0.333f, 1f), // a river, a road (spec 09)
         )
         /** The rectangle of a list row that is not on the screen: no tap can hit it. */
         private val OFF_SCREEN = floatArrayOf(-1f, -1f, 0f, 0f)

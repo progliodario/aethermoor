@@ -480,6 +480,28 @@ def biome_code_at(seed: int, params: dict, tile_x: int, tile_y: int) -> int:
     return BIOME_CODES.index(biome_at(seed, params, tile_x, tile_y))
 
 
+MAP_RIVER, MAP_ROAD = 7, 8  # the codes of the map for a river and a road (spec 09, "The map view")
+
+
+def map_code_at(seed: int, params: dict, tile_x: int, tile_y: int, widen: int) -> int:
+    """The code the map draws for a sample of `widen` tiles around a tile: the biome, or a river or a road when the tile is that close to one
+    (the half widths are multiplied by `widen`, so that thin lines show at every zoom)."""
+    biome = biome_at(seed, params, tile_x, tile_y)
+    code = BIOME_CODES.index(biome)
+    if widen < 1 or biome not in LAND:
+        return code
+    w, h = params["width"], params["height"]
+    r = params["spawn_clear_radius"]
+    if (tile_x - w // 2) ** 2 + (tile_y - h // 2) ** 2 < r * r:
+        return code
+    river, road = params["river"], params["road"]
+    if abs(field(seed, river, tile_x, tile_y) - MID) < river["half_width"] * widen:
+        return MAP_RIVER
+    if abs(field(seed, road, tile_x, tile_y) - MID) < road["half_width"] * widen:
+        return MAP_ROAD
+    return code
+
+
 def biome_code(seed: int, params: dict, cell_x: int, cell_y: int) -> int:
     """Biome shown on the world map for a cell: the biome of the tile at the center of the cell."""
     return biome_code_at(seed, params, cell_x * MAP_CELL + MAP_CELL // 2, cell_y * MAP_CELL + MAP_CELL // 2)
