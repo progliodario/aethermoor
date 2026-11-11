@@ -136,6 +136,7 @@
   "ui.goal_set": "Meta segnata sulla mappa.",
   "ui.goal_quest": "Meta segnata sulla mappa: {place}",
   "ui.quest_place": "Vai a: {place}",
+  "ui.place_nearby": "un punto qui vicino (lo mostra la mappa)",
   "ui.goal_cleared": "Meta tolta.",
   "ui.dir_e": "est",
   "ui.dir_se": "sud-est",
@@ -215,6 +216,7 @@
   "ui.analyze_title": "{name}   Liv. {level}",
   "ui.analyze_stats": "PV {hp}/{max}   Att {atk}   Dif {def}",
   "ui.analyze_drops": "Bottino: {items}",
+  "ui.guardian_level": "Guardiano, livello {level}",
   "ui.creature_weak": "Debole a: {list}",
   "ui.creature_resists": "Resiste a: {list}",
   "ui.element_fire": "fuoco",
@@ -863,5 +865,8 @@
   "dlg.town.selwyn.aldermere_curator.offer": "Ogni pagina dell'osservatorio è scritta, tranne una. 'Il Curatore', dice, e poi niente. L'ultimo studioso che andò a finirla non ci riuscì. Lo faresti tu?",
   "dlg.town.selwyn.aldermere_curator.busy": "Il Curatore astrale, nello Starfall Observatory di Lumeria.",
   "dlg.town.selwyn.aldermere_curator.thanks": "La pagina è scritta. Con parole tue, per lo più, e qualcuna mia. Prendi queste pozioni: gli studiosi vivono di mana e di tè.",
+  "dlg.town.nella.tidehaven_catch.offer": "Reti intere e nessuno che le getti: dopo il tuo arrivo i pescatori sono diventati tutti avventurieri. Ah. Prova tra i canneti, Ospite. I pesci si nascondono lì, sul bordo dell'acqua.",
+  "dlg.town.nella.tidehaven_catch.busy": "Sei pesci freschi, dai canneti sull'acqua.",
+  "dlg.town.nella.tidehaven_catch.thanks": "Un Ospite che pesca! Lo dirò agli altri: si vergogneranno. Zuppa, e un elisir dalle perle della prima pesca.",
   "dlg.pip.story.gideon.done": "Tutto il villaggio è d'accordo: sei un buon re. Prendi la lama, non è per niente come la vecchia, ma ti sta bene."
 }

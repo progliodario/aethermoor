@@ -84,6 +84,7 @@ class CombatSim:
         self.comp_cooldown = self.companion["cooldown_ticks"] if self.companion else 0
         self.comp_stay = False  # told to stay where it is (spec 10, "Commands")
         self.comp_bond = 0      # the creatures it has killed (spec 10, "Bond")
+        self.comp_care = 0      # ticks since it last tended the player (spec 10, "Care"); not saved
         self.titles = scenario.get("titles", [])  # titles (spec 11)
         self.counters: dict[str, int] = {}  # gathered, crafted, parried (spec 11)
         self.bestiary: dict[str, int] = {}  # creature id -> how many were killed (spec 11)
@@ -299,6 +300,13 @@ class CombatSim:
             self.comp_x += dx / dist * step
             self.comp_y += dy / dist * step
             self.comp_x, self.comp_y = mv.resolve(self.comp_x, self.comp_y, self.grid, self.props, COMPANION_RADIUS)
+        if c.get("care_ticks", 0) > 0 and self.comp_bond >= c.get("care_bond", 0):  # care (spec 10): it tends the player now and then
+            self.comp_care += 1
+            if self.comp_care >= c["care_ticks"]:
+                self.comp_care = 0
+                full = self.derived["max_hp"]
+                if 0 < self.hp < full:
+                    self.hp = min(full, self.hp + max(1, full * c.get("care_pct", 0) // 100))
         if self.comp_cooldown > 0:
             self.comp_cooldown -= 1
         if self.comp_cooldown > 0:

@@ -1,6 +1,6 @@
 # 10. Companions
 
-Status: **v1.1 (a follower that fights, the stay command and a bond that grows with its kills; several companions at once come later)**. Reference: `CombatSim._update_companion` in `tools/reference/combat.py`.
+Status: **v1.2 (a follower that fights, the stay command, a bond that grows with its kills, and care: a close companion heals the player; several companions at once come later)**. Reference: `CombatSim._update_companion` in `tools/reference/combat.py`.
 Schema: `schemas/companion.schema.json`. Conformance: the scenarios `companion_fights`, `companion_follows`, `companion_stays` and `companion_bond` (the checkpoints carry `companion`: position, `stay`, `bond`) of the suite `combat`.
 
 Every protagonist has a **companion** (`companion` in the protagonist data, spec 18): a small creature that walks with the player and hits the enemies near it now and then, so that fights are
@@ -42,6 +42,13 @@ When the player is more than 8 tiles away the companion is put on the player's p
 
 Every creature killed by a hit of the companion adds one to its **bond**, before the kill is handled. Its attack is `atk_base + atk_per_level * (player level - 1) + min(bond / 5, 10)`: one more point every five kills,
 ten at most. The bond and the stay command are saved with the companion (`stay`, `bond` in `companion` of the save document, spec 12; absent when false and 0).
+
+## Care
+
+A companion may have `care_bond`, `care_ticks` and `care_pct` (all optional, 0 when absent). While its bond is at least `care_bond` and `care_ticks > 0`, every tick of step 1 (after it moves,
+before it looks for a target) adds one to a counter; when the counter reaches `care_ticks` it goes back to 0 and, if the player is alive and hurt, the player's health becomes
+`min(max_hp, hp + max(1, max_hp * care_pct / 100))`. The counter is not saved and starts at 0. The base pack gives every companion `care_bond` 10, `care_ticks` 600 and `care_pct` 5 (`tools/make_companions.py`):
+after ten kills together it heals 5% of the health every ten seconds. Conformance: the scenario `companion_care` (without care, the same fight kills the player).
 
 ## Later
 

@@ -61,6 +61,7 @@ std::optional<EnemyDef> load_enemy_impl(const Pack& pack, const std::string& id,
         if (!behavior) {
             return std::nullopt;
         }
+        def.behavior.id = enemy->at("behavior").get<std::string>();
         def.behavior.aggro_x100 = behavior->at("aggro_x100").get<int>();
         def.behavior.leash_x100 = behavior->at("leash_x100").get<int>();
         def.behavior.attack_range_x100 = behavior->at("attack_range_x100").get<int>();
@@ -118,6 +119,9 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
                 def.cooldown_ticks = c.at("cooldown_ticks").get<int>();
                 def.speed_x100 = c.at("speed_x100").get<int>();
                 def.follow_x100 = c.at("follow_x100").get<int>();
+                def.care_bond = c.value("care_bond", 0);
+                def.care_ticks = c.value("care_ticks", 0);
+                def.care_pct = c.value("care_pct", 0);
                 setup.companion = std::move(def);
             }
         }

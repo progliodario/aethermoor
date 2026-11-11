@@ -3,19 +3,81 @@
   "$id": "https://aethermoor.invalid/schemas/companion.schema.json",
   "title": "A companion that follows the player and fights",
   "type": "object",
-  "required": ["id", "name", "art", "scale_pct", "atk_base", "atk_per_level", "range_x100", "cooldown_ticks", "speed_x100", "follow_x100"],
+  "required": [
+    "id",
+    "name",
+    "art",
+    "scale_pct",
+    "atk_base",
+    "atk_per_level",
+    "range_x100",
+    "cooldown_ticks",
+    "speed_x100",
+    "follow_x100"
+  ],
   "additionalProperties": false,
   "properties": {
-    "$schema": { "type": "string" },
-    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:companion/[a-z0-9_]+$" },
-    "name": { "type": "string" },
-    "art": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:art/creature/[a-z0-9_]+$" },
-    "scale_pct": { "type": "integer", "minimum": 30, "maximum": 150 },
-    "atk_base": { "type": "integer", "minimum": 0 },
-    "atk_per_level": { "type": "integer", "minimum": 0 },
-    "range_x100": { "type": "integer", "minimum": 50, "maximum": 800 },
-    "cooldown_ticks": { "type": "integer", "minimum": 1 },
-    "speed_x100": { "type": "integer", "minimum": 50, "maximum": 1000 },
-    "follow_x100": { "type": "integer", "minimum": 50, "maximum": 800 }
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:companion/[a-z0-9_]+$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "art": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:art/creature/[a-z0-9_]+$"
+    },
+    "scale_pct": {
+      "type": "integer",
+      "minimum": 30,
+      "maximum": 150
+    },
+    "atk_base": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "atk_per_level": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "range_x100": {
+      "type": "integer",
+      "minimum": 50,
+      "maximum": 800
+    },
+    "cooldown_ticks": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "speed_x100": {
+      "type": "integer",
+      "minimum": 50,
+      "maximum": 1000
+    },
+    "follow_x100": {
+      "type": "integer",
+      "minimum": 50,
+      "maximum": 800
+    },
+    "care_bond": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "the bond from which it tends the player (spec 10, \"Care\")"
+    },
+    "care_ticks": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "how often it heals the player; 0: never"
+    },
+    "care_pct": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "how much, in percent of the maximum health"
+    }
   }
 }

@@ -9,5 +9,8 @@
   "range_x100": 200,
   "cooldown_ticks": 80,
   "speed_x100": 320,
-  "follow_x100": 220
+  "follow_x100": 220,
+  "care_bond": 10,
+  "care_ticks": 600,
+  "care_pct": 5
 }

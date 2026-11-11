@@ -55,9 +55,9 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 
 **Life and progression**
 
-- An adventurers' guild with a board and commissions, 228 quests, shops, inns, jobs from the elders.
+- An adventurers' guild with a board and commissions, 229 quests, shops, inns, jobs from the elders.
 - 159 items; gathering from bushes, trees, rocks and cacti, and **fishing** in the reeds of the beaches; 30 recipes (potions, brews and elixirs of the regions, dishes cooked at a fire, gear, and fine gear at the anvil of a town).
-- A companion for each protagonist: it follows you, fights, stays where you tell it, and its bond grows with its victories.
+- A companion for each protagonist: it follows you, fights, stays where you tell it, and its bond grows with its victories: after ten, it heals you a little every ten seconds.
 - Titles of a way of playing that change the game: the Forager finds more, the Artisan makes more, the Unbreakable Guard parries longer, the Veteran earns more experience.
 - A tree of ten talents: a point a level, four roots (attack, health, mana, defense), a second ring that opens at rank 5 (critical, second wind, magic, speed) and a crown (Legend, Bulwark).
 - A bestiary that tells what every creature you defeated is weak to, what it resists and what it leaves, 15 titles that raise your attack, and a profile shared by all your games: every title you ever earned gives a little more health to every game (the "echoes"), and a game that reached level 10 can be **reincarnated**: it ends, every past life gives +3% health to all the ones after it, and half of its gold is an heirloom for your next new game.

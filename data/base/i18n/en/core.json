@@ -136,6 +136,7 @@
   "ui.goal_set": "Goal marked on the map.",
   "ui.goal_quest": "Goal set on the map: {place}",
   "ui.quest_place": "Go to: {place}",
+  "ui.place_nearby": "a spot nearby (the map shows it)",
   "ui.goal_cleared": "Goal removed.",
   "ui.dir_e": "east",
   "ui.dir_se": "south-east",
@@ -215,6 +216,7 @@
   "ui.analyze_title": "{name}   Lv {level}",
   "ui.analyze_stats": "HP {hp}/{max}   Atk {atk}   Def {def}",
   "ui.analyze_drops": "Drops: {items}",
+  "ui.guardian_level": "Guardian, level {level}",
   "ui.creature_weak": "Weak to: {list}",
   "ui.creature_resists": "Resists: {list}",
   "ui.element_fire": "fire",
@@ -863,5 +865,8 @@
   "dlg.town.selwyn.aldermere_curator.offer": "Every page of the observatory is written, but one. 'The Curator', it says, and then nothing. The last scholar who went to finish it did not. Would you?",
   "dlg.town.selwyn.aldermere_curator.busy": "The Astral Curator, in the Starfall Observatory of Lumeria.",
   "dlg.town.selwyn.aldermere_curator.thanks": "The page is written. In your words, mostly, and a few of mine. Take these potions; scholars live on mana and tea.",
+  "dlg.town.nella.tidehaven_catch.offer": "Whole nets and nobody to cast them: the fishers all became adventurers after you came. Ha. Try the reeds, Guest. The fish hide in them at the edge of the water.",
+  "dlg.town.nella.tidehaven_catch.busy": "Six fresh fish, from the reeds by the water.",
+  "dlg.town.nella.tidehaven_catch.thanks": "A Guest who fishes! I will tell the others; they will be ashamed. Stew, and an elixir from the pearls of the first catch.",
   "dlg.pip.story.gideon.done": "The whole village agrees: you are a good king. Take the blade, it is nothing like the old one, but it suits you."
 }

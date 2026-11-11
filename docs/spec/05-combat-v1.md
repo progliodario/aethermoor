@@ -181,6 +181,9 @@ and `iframes = 45`. If `hp <= 0`: `deaths++`, `hp = max_hp`, position = spawn, a
 
 ## Presentation (not in the contract)
 
+**The guardian bar.** When a living creature whose behavior is a guardian (its behavior ID ends with `guardian`) stands within ten tiles of the player, the clients draw a wide bar at the top
+of the screen: its name and level (`ui.guardian_level`), its health with a notch at every quarter, and its stagger under it (yellow while it fills, white while it is broken). The nearest guardian wins.
+
 Two small squares next to the bars show the abilities: they fill while the cooldown of the dodge (`dodge_cooldown`) or of the power strike (`cooldown`, shared with the attack) runs and light up when the ability can be used (the strike also needs its mana).
 
 Damage numbers, enemy health bars, a squash animation for slimes and the HUD (HP, level, XP) are drawn by each client

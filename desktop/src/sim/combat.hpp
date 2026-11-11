@@ -59,6 +59,7 @@ struct DropDef {
 };
 
 struct BehaviorDef {
+    std::string id;  // the behavior document, e.g. base:behavior/guardian (presentation: the guardian bar)
     int aggro_x100 = 600;
     int leash_x100 = 900;
     int attack_range_x100 = 120;
@@ -151,6 +152,9 @@ struct CompanionDef {
     int cooldown_ticks = 60;
     int speed_x100 = 320;
     int follow_x100 = 220;
+    int care_bond = 0;   // care (spec 10): from this bond on it heals the player
+    int care_ticks = 0;  // every so many ticks; 0: never
+    int care_pct = 0;    // by this share of the maximum health
 };
 
 // A crafting recipe (spec 06, "Crafting").

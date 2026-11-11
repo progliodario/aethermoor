@@ -619,6 +619,16 @@ void WorldSim::update_companion() {
         m_companion_pos_.y += dy / dist * step;
         m_collision_.resolve(m_companion_pos_.x, m_companion_pos_.y, kCompanionRadius);
     }
+    if (c.care_ticks > 0 && m_companion_bond_ >= c.care_bond) {  // care (spec 10): it tends the player now and then
+        ++m_companion_care_;
+        if (m_companion_care_ >= c.care_ticks) {
+            m_companion_care_ = 0;
+            const std::int64_t full = m_derived_.max_hp;
+            if (m_player_.hp > 0 && m_player_.hp < full) {
+                m_player_.hp = std::min(full, m_player_.hp + std::max<std::int64_t>(1, full * c.care_pct / 100));
+            }
+        }
+    }
     if (m_companion_cooldown_ > 0) {
         --m_companion_cooldown_;
     }

@@ -300,6 +300,11 @@ def build_scenarios() -> list[dict]:
         # Teamwork (spec 10): the companion goes first for the creature the player hit last, even when another is nearer to it.
         scenario("companion_teamwork", [enemy(3.6, 4.5, hp=400, **passive), enemy(1.6, 4.5, hp=400, **passive), enemy(2.2, 5.6, hp=400, **passive)],
                  [segment(30, attack=True), segment(120), segment(1, move=(-1, 0)), segment(40, attack=True), segment(120)], companion=COMPANION),
+        # Care (spec 10): from `care_bond` kills on, every `care_ticks` the companion heals the player by `care_pct` of the health (at least 1, never above the
+        # maximum, never a dead player). The wolf bites the player first; the companion kills the first slime, and the healing starts.
+        scenario("companion_care", [enemy(4.6, 4.5, hp=10, **passive), enemy(7.4, 4.5, hp=900, atk=24)],
+                 [segment(60), segment(120), segment(120), segment(120), segment(300)],
+                 companion={**COMPANION, "care_bond": 1, "care_ticks": 50, "care_pct": 10}),
         scenario("companion_follows", [enemy(10.5, 4.5, hp=30, **passive)],
                  [segment(60, move=(1, 0)), segment(60, move=(1, 0)), segment(100), segment(60, move=(0, 1)), segment(100)], companion=COMPANION),
         scenario("equip_changes_stats", [enemy(8.1, 4.5, atk=40)],
