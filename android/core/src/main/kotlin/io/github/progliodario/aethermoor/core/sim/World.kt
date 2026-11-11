@@ -106,6 +106,10 @@ class Player(var position: Vec2) {
     var regen = 0
     var regenAmount = 0L
 
+    /** A brew of haste (spec 06, "Haste"): ticks left, and the speed of walking it adds in percent; not saved. */
+    var haste = 0
+    var hastePct = 0L
+
     fun clearStatus() {
         burn = 0
         burnClock = 0
@@ -115,6 +119,7 @@ class Player(var position: Vec2) {
         fortify = 0
         ward = 0
         regen = 0
+        haste = 0
     }
 
     /** Ticks until the death save is ready again (spec 18). Not saved. */
@@ -651,8 +656,9 @@ class WorldSim(
         val fortify = item.effects.lastOrNull { it.effect == "fortify" } // spec 06, "Fortify": attack up for a while
         val ward = item.effects.lastOrNull { it.effect == "ward" } // spec 06, "Ward": defense up for a while
         val regen = item.effects.lastOrNull { it.effect == "regen" } // spec 06, "Regen": health back over time
+        val haste = item.effects.lastOrNull { it.effect == "haste" } // spec 06, "Haste": faster on foot for a while
         val fullMp = derived.maxMp * 6000L
-        if (!((heal > 0L && player.hp < derived.maxHp) || (mana > 0L && player.mpU < fullMp) || fortify != null || ward != null || regen != null)) return false
+        if (!((heal > 0L && player.hp < derived.maxHp) || (mana > 0L && player.mpU < fullMp) || fortify != null || ward != null || regen != null || haste != null)) return false
         if (fortify != null) {
             player.fortifyPct = fortify.amount
             player.fortify = fortify.ticks
@@ -664,6 +670,10 @@ class WorldSim(
         if (regen != null) {
             player.regenAmount = regen.amount
             player.regen = regen.ticks
+        }
+        if (haste != null) {
+            player.hastePct = haste.amount
+            player.haste = haste.ticks
         }
         if (heal > 0L) player.hp = minOf(derived.maxHp, player.hp + heal)
         if (mana > 0L) player.mpU = minOf(fullMp, player.mpU + mana * 6000L)
@@ -904,7 +914,8 @@ class WorldSim(
                 val length = sqrt(direction.x * direction.x + direction.y * direction.y)
                 p.facing = Vec2(direction.x / length, direction.y / length)
             }
-            var speed = if (enabled) derived.moveSpeedX100.toFloat() / 100f else speedTilesPerS
+            val walkX100 = if (p.haste > 0) derived.moveSpeedX100 * (100 + p.hastePct) / 100 else derived.moveSpeedX100.toLong() // a brew of haste (spec 06)
+            var speed = if (enabled) walkX100.toFloat() / 100f else speedTilesPerS
             if (enabled && p.phase != AttackPhase.NONE) speed *= ATTACK_MOVE_MULT
             if (p.chill > 0) speed *= 0.5f
             p.position = collision.step(p.position, direction, speed)
@@ -946,6 +957,7 @@ class WorldSim(
         if (p.weaken > 0) p.weaken--
         if (p.fortify > 0) p.fortify-- // a meal that fortifies (spec 06) wears off
         if (p.ward > 0) p.ward-- // and a brew that wards (spec 06)
+        if (p.haste > 0) p.haste-- // a brew of haste (spec 06) wears off
         if (p.regen > 0) { // a dish that heals over time (spec 06): `amount` every second
             p.regen--
             if (p.regen % 60 == 0 && p.hp > 0 && p.hp < derived.maxHp) p.hp = minOf(derived.maxHp, p.hp + p.regenAmount)
@@ -1059,19 +1071,16 @@ class WorldSim(
     }
 
     /** The ids of the titles whose condition holds, in the order of the data (spec 11). */
-    fun earnedTitles(): List<String> {
-        val questsDone = story.quests.values.count { it.done }.toLong()
-        return combat.titles.filter { t ->
-            val have = when (t.kind) {
-                "kills" -> player.kills.toLong()
-                "kills_of" -> (bestiary[t.enemy] ?: 0).toLong()
-                "level" -> player.level
-                "species" -> bestiary.size.toLong()
-                "quests" -> questsDone
-                else -> (counters[t.kind] ?: 0).toLong()
-            }
-            have >= t.count
-        }.map { it.id }
+    fun earnedTitles(): List<String> = combat.titles.filter { titleProgress(it) >= it.count }.map { it.id }
+
+    /** How far the player is toward a title: the number its kind counts (spec 11, "Titles"). */
+    fun titleProgress(t: TitleDef): Long = when (t.kind) {
+        "kills" -> player.kills.toLong()
+        "kills_of" -> (bestiary[t.enemy] ?: 0).toLong()
+        "level" -> player.level
+        "species" -> bestiary.size.toLong()
+        "quests" -> story.quests.values.count { it.done }.toLong()
+        else -> (counters[t.kind] ?: 0).toLong()
     }
 
     /** What the earned titles add to gathering ([gather] true) or to crafting (spec 11, "Titles with effects"). */

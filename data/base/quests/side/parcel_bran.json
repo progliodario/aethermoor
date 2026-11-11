@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/parcel_bran",
+  "name": "$i18n:quest.parcel_bran.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.parcel_bran.task",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "fenwick_elder_bran"
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 60
+    },
+    {
+      "effect": "add_gold",
+      "amount": 80
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 3
+    }
+  ]
+}

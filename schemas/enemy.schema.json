@@ -80,7 +80,7 @@
       ]
     },
     "sound": {
-      "enum": ["slime", "matron", "king", "wolf", "alpha", "knight", "bat", "spider", "scorpion", "crab", "owl", "myconid", "golem", "wisp"]
+      "enum": ["slime", "matron", "king", "wolf", "alpha", "knight", "bat", "spider", "scorpion", "crab", "owl", "myconid", "golem", "wisp", "boar", "elk", "fox"]
     },
     "weaknesses_pm": {
       "type": "object",

@@ -56,6 +56,8 @@ struct Player {
     std::int64_t ward_pct = 0;
     int regen = 0;  // a dish that heals over time (spec 06): ticks left, and the health every second; not saved
     std::int64_t regen_amount = 0;
+    int haste = 0;  // a brew of haste (spec 06): ticks left, and the speed of walking it adds; not saved
+    std::int64_t haste_pct = 0;
     Vec2 dodge_dir{1.0F, 0.0F};
 };
 
@@ -192,6 +194,8 @@ public:
     // The bestiary (spec 11): creature ID -> kills, and the IDs of the titles earned, in the order of the data.
     const std::map<std::string, int>& bestiary() const { return m_bestiary_; }
     std::vector<std::string> earned_titles() const;
+    // How far the player is toward a title: the number its kind counts (spec 11, "Titles").
+    std::int64_t title_progress(const TitleDef& title) const;
     // The percent that the earned titles add to the attack of the player's hits (spec 11, "Titles with effects").
     std::int64_t title_attack_pct() const;
     // What the earned titles add (spec 11): "gather", "craft", "parry" (window ticks) or "xp" (percent).

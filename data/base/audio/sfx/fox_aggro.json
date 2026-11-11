@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/fox_aggro",
+  "duration_ms": 300,
+  "volume_pm": 550,
+  "layers": [
+    {
+      "wave": "saw",
+      "freq_start": 900,
+      "freq_end": 1400,
+      "volume_pm": 450,
+      "attack_ms": 10,
+      "decay_ms": 120,
+      "am_dhz": 14,
+      "am_depth_pm": 900
+    },
+    {
+      "wave": "sine",
+      "freq_start": 1500,
+      "freq_end": 1100,
+      "volume_pm": 300,
+      "attack_ms": 140,
+      "decay_ms": 140
+    }
+  ]
+}

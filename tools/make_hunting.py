@@ -27,6 +27,7 @@ GAME = {
                  "Dune fox", "Volpe delle dune"),
 }
 FAUNA_WEIGHT = 2
+SOUND = {"wild_boar": "boar", "ridge_elk": "elk", "dune_fox": "fox"}  # their voices (tools/make_sfx.py)
 
 # item: (kind, price, effects [(effect, amount[, ticks])] or armor/weapon stats, rarity, name en, name it, description en, description it)
 ITEMS = {
@@ -96,7 +97,7 @@ def main() -> None:
     for name, (level, hp, atk, defense, speed, xp, palette, drops, fauna_drop, regions, name_en, name_it) in GAME.items():
         write_json(DATA / "enemies" / f"{name}.json", {
             "$schema": "../../../schemas/enemy.schema.json", "id": f"base:enemy/{name}", "name": f"$i18n:enemy.{name}.name", "level": level,
-            "stats": {"hp": hp, "atk": atk, "def": defense, "mdef": 2, "speed_x100": speed}, "element": "none", "sound": "wolf",
+            "stats": {"hp": hp, "atk": atk, "def": defense, "mdef": 2, "speed_x100": speed}, "element": "none", "sound": SOUND[name],
             "weaknesses_pm": {"fire": 1500}, "xp": xp,
             "drops": [{"item": f"base:item/{item}", "qty_min": lo, "qty_max": hi, "weight_pm": pm} for item, lo, hi, pm in drops],
             "radius_x100": 38, "behavior": "base:behavior/skittish", "art": f"base:art/creature/{name}"})

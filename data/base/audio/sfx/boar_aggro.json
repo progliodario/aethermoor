@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/boar_aggro",
+  "duration_ms": 380,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "saw",
+      "freq_start": 95,
+      "freq_end": 70,
+      "volume_pm": 600,
+      "attack_ms": 30,
+      "decay_ms": 330,
+      "am_dhz": 35,
+      "am_depth_pm": 650
+    },
+    {
+      "wave": "noise",
+      "freq_start": 500,
+      "freq_end": 300,
+      "volume_pm": 250,
+      "attack_ms": 20,
+      "decay_ms": 300
+    }
+  ]
+}

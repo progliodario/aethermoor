@@ -11,7 +11,7 @@
     "speed_x100": 400
   },
   "element": "none",
-  "sound": "wolf",
+  "sound": "fox",
   "weaknesses_pm": {
     "fire": 1500
   },

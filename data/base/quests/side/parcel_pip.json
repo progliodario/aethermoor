@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/parcel_pip",
+  "name": "$i18n:quest.parcel_pip.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.parcel_pip.task",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "tutor_pip"
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 50
+    },
+    {
+      "effect": "add_gold",
+      "amount": 60
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 2
+    }
+  ]
+}

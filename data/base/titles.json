@@ -105,6 +105,30 @@
       "xp_pct": 15
     },
     {
+      "id": "seasoned_forager",
+      "name": "$i18n:title.seasoned_forager",
+      "kind": "gathered",
+      "count": 150,
+      "atk_pct": 3,
+      "gather_bonus": 1
+    },
+    {
+      "id": "master_artisan",
+      "name": "$i18n:title.master_artisan",
+      "kind": "crafted",
+      "count": 40,
+      "atk_pct": 3,
+      "craft_bonus": 1
+    },
+    {
+      "id": "great_hunter",
+      "name": "$i18n:title.great_hunter",
+      "kind": "species",
+      "count": 45,
+      "atk_pct": 6,
+      "xp_pct": 15
+    },
+    {
       "id": "gel_slayer",
       "name": "$i18n:title.gel_slayer",
       "kind": "kills_of",

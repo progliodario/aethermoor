@@ -19,6 +19,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **A brew of haste** (spec 06, "Haste"; a new item effect in the reference, the vectors and both clients, scenario `haste_brew`): the windleaf brew (a storm feather and two mint leaves; sold in Lumeria and Verdalis) makes you walk 30% faster for a minute. "Hasted" shows under your level and in the status window.
+- **The game has voices of its own**: the wild boar grunts, the ridge elk bugles, the dune fox yips (twelve new sounds; music and ambience stay off).
+- **Three more titles** (20 in all): Seasoned Forager, Master Artisan, Great Hunter. The journal shows how far you are toward every title you have not earned yet ("??? 3/10").
+- **Wendel's parcels**: four short deliveries close to home (Maren, Mira, Pip, Bran) after his eight letters. 263 quests in all.
 - **Dishes that regenerate** (spec 06, "Regen"; a new item effect in the reference, the vectors and both clients, scenario `regen_cake`): the honey cake, the tonic, the travel ration and the hearty stew give back health every second for a while. "Regenerating" shows under your level.
 - **Wendel, the courier of the guild** (Aldermere): eight letters to deliver by hand, one to each person of the outposts, from Pell at the Crossroads to Grael at Ember Watch. The goal of the map goes to the person. 259 quests in all.
 - The status window lists what you ate and drank that is still working, with the seconds left ("Still working: Fortified 25 s, Warded 40 s").
