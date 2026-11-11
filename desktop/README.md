@@ -21,6 +21,7 @@ The build copies `../data` next to the executable (`data/base/pack.json` is look
 | `--map=demo\|world` | the hand-made demo map or the streamed 16384 x 16384 world (default: `world`, and `demo` for the smoke test) |
 | `--seed=N` | the seed of a new world (a saved game keeps its own) |
 | `--start=X,Y` | puts the player at a tile, to look at a place (a village, a dungeon) in a smoke test |
+| `--hour=H` | moves the clock of the world to that hour (0 to 23), to look at the night and its lights |
 | `--slot=N` | developer option: opens game 1 to 3 without the title screen |
 | `--protagonist=<name>` | developer option: plays that protagonist (`ren`, `sakura`, `daichi`, `haruka`, `marco`, `yuki`, `lena`, `gideon`) in a new game or the smoke test |
 

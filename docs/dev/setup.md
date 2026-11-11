@@ -85,4 +85,4 @@ All of them are Python scripts in `tools/`; use the virtual environment of the "
 | `clang-format -i <file>` (from the virtual environment) | formats C++ with `desktop/.clang-format` (120 columns); `ship.py` does it for the C++ files it commits |
 | `python -m pytest tools/tests` and `python -m ruff check tools` | the tests of the reference and of the data, and the linter |
 
-To see real frames of the game: `aethermoor --smoke-test --map=world --seed=7 --start=<x>,<y> --screenshot-dir=<folder>` writes PNG screenshots (walking, bag, map) at a place of the world.
+To see real frames of the game: `aethermoor --smoke-test --map=world --seed=7 --start=<x>,<y> --screenshot-dir=<folder>` writes PNG screenshots (walking, bag, map) at a place of the world; `--hour=22` shows it at night.
