@@ -674,6 +674,28 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
+// What a creature is weak to and what it resists (spec 05, "Elements"), for the Analyze panel and the bestiary: one
+// line, empty when it has neither.
+std::string creature_elements(const Assets& assets, const Ui& ui, const aether::EnemyDef& def) {
+    std::string weak;
+    std::string resists;
+    for (const auto& [element, pm] : def.weaknesses_pm) {
+        std::string& list = pm > 1000 ? weak : resists;
+        if (pm != 1000) {
+            list += (list.empty() ? "" : ", ") + assets.pack.text(ui.lang, "$i18n:ui.element_" + element);
+        }
+    }
+    std::string line;
+    if (!weak.empty()) {
+        line = assets.pack.text(ui.lang, "$i18n:ui.creature_weak", {{"list", weak}});
+    }
+    if (!resists.empty()) {
+        line +=
+            (line.empty() ? "" : "   ") + assets.pack.text(ui.lang, "$i18n:ui.creature_resists", {{"list", resists}});
+    }
+    return line;
+}
+
 // A small map of the land around the player in a corner of the screen (spec 09, "The map view"): 40 x 40 samples 16
 // tiles apart (640 tiles across), only where the land was explored, with the player in the middle, the woken stones and
 // the goal.
@@ -723,6 +745,9 @@ void draw_analyze(SDL_Renderer* renderer, const Assets& assets, const aether::Wo
         }
         if (!items.empty()) {
             lines.push_back(assets.pack.text(ui.lang, "$i18n:ui.analyze_drops", {{"items", items}}));
+        }
+        if (const std::string elements = creature_elements(assets, ui, def); !elements.empty()) {
+            lines.push_back(elements);
         }
     }
     float columns = 0.0F;
@@ -2568,6 +2593,26 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
             const std::size_t slash = id.rfind('/');
             const std::string key = "$i18n:enemy." + (slash == std::string::npos ? id : id.substr(slash + 1)) + ".name";
             lines.push_back({"  " + assets.pack.text(ui.lang, key) + "  x" + std::to_string(count), 2});
+            // what was learned of it (spec 11, "Bestiary"): its weaknesses and resistances, and what it leaves
+            const auto def = sim.combat().stream_enemies.find(id);
+            if (def == sim.combat().stream_enemies.end()) {
+                continue;
+            }
+            std::string items;
+            for (const aether::DropDef& drop : def->second.drops) {
+                const std::size_t cut = drop.item.rfind('/');
+                items += (items.empty() ? "" : ", ") +
+                         assets.pack.text(ui.lang, "$i18n:item." + drop.item.substr(cut + 1) + ".name",
+                                          {{"count", std::int64_t{1}}});
+            }
+            std::string notes = creature_elements(assets, ui, def->second);
+            if (!items.empty()) {
+                notes += (notes.empty() ? "" : "   ") +
+                         assets.pack.text(ui.lang, "$i18n:ui.analyze_drops", {{"items", items}});
+            }
+            for (const std::string& wrapped : wrap_text(notes, columns)) {
+                lines.push_back({"    " + wrapped, 3});
+            }
         }
     }
     return lines;

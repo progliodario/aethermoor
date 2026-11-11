@@ -1498,6 +1498,13 @@
                 "radius_x100": 8,
                 "per_mille": 4
               }
+            ],
+            "beach": [
+              {
+                "art": "base:art/prop/reeds",
+                "radius_x100": 18,
+                "per_mille": 25
+              }
             ]
           },
           "routines": {
@@ -6605,8 +6612,8 @@
               ]
             ],
             "tile_digest": "0x39a9403db6b510f9",
-            "prop_count": 12,
-            "prop_digest": "0x45f00dd8a6a45bfe",
+            "prop_count": 18,
+            "prop_digest": "0x02ec4e684e3e1090",
             "spawner_count": 1,
             "spawner_digest": "0x94f9642c4e0c1199",
             "people": [],
@@ -8268,6 +8275,13 @@
                 "art": "base:art/prop/bones",
                 "radius_x100": 8,
                 "per_mille": 4
+              }
+            ],
+            "beach": [
+              {
+                "art": "base:art/prop/reeds",
+                "radius_x100": 18,
+                "per_mille": 25
               }
             ]
           },
@@ -14800,6 +14814,13 @@
                 "radius_x100": 8,
                 "per_mille": 4
               }
+            ],
+            "beach": [
+              {
+                "art": "base:art/prop/reeds",
+                "radius_x100": 18,
+                "per_mille": 25
+              }
             ]
           },
           "routines": {
@@ -19782,8 +19803,8 @@
               ]
             ],
             "tile_digest": "0x64db62ea201ac1ca",
-            "prop_count": 37,
-            "prop_digest": "0x305e0f1df35fdb4d",
+            "prop_count": 38,
+            "prop_digest": "0x2cc78c24cd8de5da",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "people": [
@@ -19959,8 +19980,8 @@
               ]
             ],
             "tile_digest": "0x64db62ea201ac1ca",
-            "prop_count": 37,
-            "prop_digest": "0x305e0f1df35fdb4d",
+            "prop_count": 38,
+            "prop_digest": "0x2cc78c24cd8de5da",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "people": [
@@ -21972,6 +21993,13 @@
                 "art": "base:art/prop/bones",
                 "radius_x100": 8,
                 "per_mille": 4
+              }
+            ],
+            "beach": [
+              {
+                "art": "base:art/prop/reeds",
+                "radius_x100": 18,
+                "per_mille": 25
               }
             ]
           },
@@ -26959,8 +26987,8 @@
               ]
             ],
             "tile_digest": "0x976308bc805a4735",
-            "prop_count": 159,
-            "prop_digest": "0x43a3007995e8eaa1",
+            "prop_count": 161,
+            "prop_digest": "0x286106ff33e15bc2",
             "spawner_count": 3,
             "spawner_digest": "0xbf27ab71711c0680",
             "people": [
@@ -27378,8 +27406,8 @@
               ]
             ],
             "tile_digest": "0x50fa40e1bae99fae",
-            "prop_count": 73,
-            "prop_digest": "0xc294ef564456e723",
+            "prop_count": 74,
+            "prop_digest": "0x5eb26a5d03f2ae0e",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "people": [
@@ -27542,8 +27570,8 @@
               ]
             ],
             "tile_digest": "0x1db67018086e2add",
-            "prop_count": 216,
-            "prop_digest": "0x0b30d4bebc743a80",
+            "prop_count": 217,
+            "prop_digest": "0xecdba496408520e3",
             "spawner_count": 0,
             "spawner_digest": "0x0000000000000000",
             "people": [],

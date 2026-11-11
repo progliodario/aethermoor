@@ -1,0 +1,45 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/fenwick_mint",
+  "name": "$i18n:quest.fenwick_mint.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.fenwick_mint.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_mint",
+          "count": 5
+        },
+        {
+          "type": "collect",
+          "item": "base:item/mint_leaf",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 110
+    },
+    {
+      "effect": "add_gold",
+      "amount": 90
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/honey_cake",
+      "qty": 4
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/travel_ration",
+      "qty": 2
+    }
+  ]
+}

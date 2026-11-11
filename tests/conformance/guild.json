@@ -1546,6 +1546,13 @@
                 "radius_x100": 8,
                 "per_mille": 4
               }
+            ],
+            "beach": [
+              {
+                "art": "base:art/prop/reeds",
+                "radius_x100": 18,
+                "per_mille": 25
+              }
             ]
           },
           "routines": {
@@ -12762,6 +12769,13 @@
                 "radius_x100": 8,
                 "per_mille": 4
               }
+            ],
+            "beach": [
+              {
+                "art": "base:art/prop/reeds",
+                "radius_x100": 18,
+                "per_mille": 25
+              }
             ]
           },
           "routines": {
@@ -23977,6 +23991,13 @@
                 "art": "base:art/prop/bones",
                 "radius_x100": 8,
                 "per_mille": 4
+              }
+            ],
+            "beach": [
+              {
+                "art": "base:art/prop/reeds",
+                "radius_x100": 18,
+                "per_mille": 25
               }
             ]
           },

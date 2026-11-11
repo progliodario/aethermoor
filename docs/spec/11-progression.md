@@ -9,6 +9,10 @@ Every time a creature dies by the hand of the player (or of the companion, spec 
 A creature without an ID is not counted. The bestiary is a map from ID to kills; its size is the number of **species** met. It is saved (`bestiary` in the save document, spec 12; absent when empty and in older saves)
 and it is the same for all the maps of a game.
 
+Presentation: the journal lists the bestiary, each species with its kills, and under it what was learned of it, from the data of the creature: what it is weak to and what it resists
+(the elements whose `weaknesses_pm` is above or below 1000, spec 05, "Elements": `ui.creature_weak`, `ui.creature_resists`, `ui.element_<element>`) and what it leaves (`ui.analyze_drops`).
+Ren's Analyze panel (spec 18) shows the same line of elements for the creature in front of him.
+
 ## Counters
 
 Three **counters** tell how one plays: `gathered` goes up by one for every gathering that finds a prop (spec 06, even when it gives nothing), `crafted` for every recipe made (a refused one does not count),
