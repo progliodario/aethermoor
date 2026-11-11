@@ -85,6 +85,22 @@ Nothing respawns in front of the player, and an enemy killed in a chunk that sta
 `world_ticks` (integer) at the top level of the save, and `cleared_spawners` entries `[x, y, died_tick]`. A save without `world_ticks` starts at
 `time.start_tick`; an entry with two numbers has `died_tick` 0 (ready as soon as the world time allows).
 
+## The colour of the hour
+
+Presentation only, the same on both clients, with the colours of `grading` in `data/base/lights.json` (art direction; a pack
+without it uses the defaults in brackets). With `n = (1000 - effective_light_pm) / 1000` (the night) and
+`w = clamp(1 - |light_pm - 550| / 350, 0, 1)` (dawn and dusk: the sun is neither up nor down):
+
+1. the world is **multiplied** by the colour between white and `night` [`#5766C7`] at `n`: the night is blue, not grey, and
+   colours keep their hue;
+2. then by the colour between white and `twilight` [`#FFCC9E`] at `0.75 * w`: the warm light of dawn and dusk;
+3. the lights of the next section are **added** over it (they light what the night darkened);
+4. `motes` [26] small lights drift over the world: dust in the sun by day (`mote_day`, faint), fireflies by night
+   (`mote_night`, blinking), none while it rains;
+5. the edges of the screen are darkened by up to `vignette_pm` [280] permille (a vignette), under the interface.
+
+The tint of the season is laid over as before.
+
 ## Lights
 
 `data/base/lights.json` (ID `base:lights/all`, schema `lights`) lists the props that shine at night: `art`, `radius_x100` (tiles), `color`, `strength_pm` and `flicker_pm`. When it is not full daylight, both clients draw

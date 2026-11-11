@@ -2,326 +2,229 @@
   "$schema": "../../../../schemas/art_recipe.schema.json",
   "id": "base:art/prop/tent",
   "canvas": {
-    "w": 40,
-    "h": 32,
+    "w": 52,
+    "h": 42,
     "origin": [
-      20,
-      28
+      26,
+      37
     ]
   },
   "layers": [
     {
       "shape": {
         "ellipse": [
-          21,
-          29,
-          17,
-          3.4
+          27,
+          37,
+          25,
+          5
         ]
       },
       "fill": {
-        "color": "#000000"
+        "color": "#141030"
       },
-      "alpha": 0.28
+      "alpha": 0.4,
+      "blur": 1.75
     },
     {
       "shape": {
         "ellipse": [
-          21,
-          29,
-          12.24,
-          2.38
+          27,
+          37,
+          15,
+          2.75
         ]
       },
       "fill": {
-        "color": "#000000"
+        "color": "#141030"
       },
-      "alpha": 0.168
+      "alpha": 0.32,
+      "blur": 1.25
     },
     {
       "shape": {
-        "polygon": [
-          [
-            3,
-            28
-          ],
-          [
-            20,
-            5
-          ],
-          [
-            37,
-            28
-          ]
-        ]
+        "path": "M 26 5 L 48 36 L 4 36 Z"
       },
       "fill": {
-        "color": "$p.dark"
-      },
-      "stroke": {
-        "color": "$p.outline",
-        "width": 1.5
-      }
-    },
-    {
-      "shape": {
-        "polygon": [
-          [
-            3,
-            28
-          ],
-          [
-            20,
-            5
-          ],
-          [
-            21.5,
-            28
-          ]
-        ]
-      },
-      "fill": {
-        "linear": {
-          "x0": 3,
-          "y0": 0,
-          "x1": 21,
-          "y1": 0,
+        "noise": {
+          "scale": 6,
+          "seed": 321,
+          "octaves": 3,
           "stops": [
             [
-              0,
+              0.3,
+              "#B8945A"
+            ],
+            [
+              0.5,
+              "$p.cloth"
+            ],
+            [
+              0.75,
               "$p.light"
-            ],
-            [
-              1,
-              "$p.cloth"
             ]
           ]
         }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.5
       }
     },
     {
       "shape": {
-        "polygon": [
-          [
-            21.5,
-            28
-          ],
-          [
-            20,
-            5
-          ],
-          [
-            37,
-            28
-          ]
-        ]
+        "path": "M 26 5 L 48 36 L 30 36 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.5,
+      "clip": true,
+      "blend": "multiply"
+    },
+    {
+      "shape": {
+        "path": "M 26 5 L 4 36 L 9 36 L 26 11 Z"
+      },
+      "fill": {
+        "color": "#FFF4D0"
+      },
+      "alpha": 0.35,
+      "clip": true,
+      "blend": "add"
+    },
+    {
+      "shape": {
+        "path": "M 26 12 L 34 36 L 18 36 Z"
       },
       "fill": {
         "linear": {
-          "x0": 20,
-          "y0": 0,
-          "x1": 37,
-          "y1": 0,
+          "x0": 26,
+          "y0": 12,
+          "x1": 26,
+          "y1": 36,
           "stops": [
             [
               0,
-              "$p.cloth"
+              "#1A1024"
             ],
             [
               1,
-              "$p.dark"
+              "#3A2A30"
             ]
           ]
         }
-      }
-    },
-    {
-      "shape": {
-        "polygon": [
-          [
-            20,
-            5
-          ],
-          [
-            24,
-            5.2
-          ],
-          [
-            37,
-            28
-          ],
-          [
-            31,
-            28
-          ]
-        ]
-      },
-      "fill": {
-        "color": "$p.stripe"
-      },
-      "alpha": 0.9
-    },
-    {
-      "shape": {
-        "polygon": [
-          [
-            20,
-            5
-          ],
-          [
-            16,
-            5.2
-          ],
-          [
-            3,
-            28
-          ],
-          [
-            9,
-            28
-          ]
-        ]
-      },
-      "fill": {
-        "color": "$p.stripe"
-      },
-      "alpha": 0.9
-    },
-    {
-      "shape": {
-        "polygon": [
-          [
-            14,
-            28
-          ],
-          [
-            20,
-            12
-          ],
-          [
-            26,
-            28
-          ]
-        ]
-      },
-      "fill": {
-        "color": "#2A1A10"
       },
       "stroke": {
-        "color": "$p.outline",
-        "width": 1.0
+        "color": "#1E1830",
+        "width": 0.4
       }
     },
     {
       "shape": {
-        "polygon": [
-          [
-            20,
-            12
-          ],
-          [
-            26,
-            28
-          ],
-          [
-            23,
-            28
-          ],
-          [
-            20,
-            17
-          ]
-        ]
+        "path": "M 26 12 L 18 36 L 13 36 L 24.5 12 Z"
       },
       "fill": {
-        "color": "#3C2818"
+        "color": "$p.light"
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.35
       }
     },
     {
       "shape": {
-        "path": "M 20 5 L 20 1.2"
+        "path": "M 14.5 30 L 43.5 30 L 45.5 33 L 12.5 33 Z"
+      },
+      "fill": {
+        "color": "$p.stripe"
+      },
+      "alpha": 0.85,
+      "clip": true
+    },
+    {
+      "shape": {
+        "path": "M 26 12 L 34 36 L 18 36 Z"
+      },
+      "fill": {
+        "color": "#1A1024"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "path": "M 26 12 L 18 36 L 13 36 L 24.5 12 Z"
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.35
+      }
+    },
+    {
+      "shape": {
+        "path": "M 26 1.5 L 26 6"
       },
       "stroke": {
         "color": "$p.pole",
-        "width": 1.4
+        "width": 1
       }
     },
     {
       "shape": {
-        "polygon": [
-          [
-            20,
-            1.2
-          ],
-          [
-            27,
-            2.6
-          ],
-          [
-            20,
-            4.2
-          ]
-        ]
+        "path": "M 26 1.5 L 32 3 L 26 4.8 Z"
       },
       "fill": {
         "color": "$p.stripe"
       },
       "stroke": {
-        "color": "$p.outline",
+        "color": "#1E1830",
+        "width": 0.3
+      }
+    },
+    {
+      "shape": {
+        "path": "M 4 36 L 0.8 39.5"
+      },
+      "stroke": {
+        "color": "#E8DCC0",
+        "width": 0.35
+      }
+    },
+    {
+      "shape": {
+        "path": "M 0.8 38 L 0.8 40.5"
+      },
+      "stroke": {
+        "color": "$p.pole",
         "width": 0.8
       }
     },
     {
       "shape": {
-        "path": "M 3 28 L 0 30"
+        "path": "M 48 36 L 51.2 39.5"
+      },
+      "stroke": {
+        "color": "#E8DCC0",
+        "width": 0.35
+      }
+    },
+    {
+      "shape": {
+        "path": "M 51.2 38 L 51.2 40.5"
       },
       "stroke": {
         "color": "$p.pole",
-        "width": 0.9
-      }
-    },
-    {
-      "shape": {
-        "ellipse": [
-          0,
-          30,
-          0.7,
-          0.7
-        ]
-      },
-      "fill": {
-        "color": "#2E2E36"
-      }
-    },
-    {
-      "shape": {
-        "path": "M 37 28 L 40 30"
-      },
-      "stroke": {
-        "color": "$p.pole",
-        "width": 0.9
-      }
-    },
-    {
-      "shape": {
-        "ellipse": [
-          40,
-          30,
-          0.7,
-          0.7
-        ]
-      },
-      "fill": {
-        "color": "#2E2E36"
+        "width": 0.8
       }
     }
   ],
   "palette": {
     "cloth": "#C9A66B",
-    "light": "#E8D2A0",
-    "dark": "#8A6A3A",
+    "light": "#F4E0B0",
+    "dark": "#7A5A34",
     "stripe": "#B8483A",
-    "outline": "#3A2810",
     "pole": "#6A4A2A"
   }
 }

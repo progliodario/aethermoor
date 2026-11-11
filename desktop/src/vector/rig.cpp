@@ -73,6 +73,8 @@ std::optional<Rig> parse_rig(std::string_view json_text, std::string& error) {
             part.offset_y = p.at("offset").at(1).get<float>();
             part.z = p.value("z", 0);
             part.art = p.at("art").get<std::string>();
+            part.art_back = p.value("art_back", part.art);
+            part.z_back = p.value("z_back", part.z);
             rig.parts.push_back(std::move(part));
         }
         return rig;

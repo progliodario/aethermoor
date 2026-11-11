@@ -23,6 +23,10 @@ data class RigPart(
     val offsetY: Float,
     val z: Int,
     val art: String,
+    /** The recipe when the figure is seen from behind (spec 13); the same as [art] if not given. */
+    val artBack: String = art,
+    /** The draw order when seen from behind; the same as [z] if not given. */
+    val zBack: Int = z,
 )
 
 /** Parts are listed parents first. */
@@ -45,13 +49,17 @@ fun parseRig(jsonText: String): Result<Rig> =
         val parts = j.getValue("parts").jsonArray.map { element ->
             val p = element.jsonObject
             val parent = p.getValue("parent")
+            val z = p["z"]?.jsonPrimitive?.int ?: 0
+            val art = p.getValue("art").jsonPrimitive.content
             RigPart(
                 id = p.getValue("id").jsonPrimitive.content,
                 parent = if (parent is JsonNull) "" else parent.jsonPrimitive.content,
                 offsetX = p.getValue("offset").jsonArray[0].f(),
                 offsetY = p.getValue("offset").jsonArray[1].f(),
-                z = p["z"]?.jsonPrimitive?.int ?: 0,
-                art = p.getValue("art").jsonPrimitive.content,
+                z = z,
+                art = art,
+                artBack = p["art_back"]?.jsonPrimitive?.content ?: art,
+                zBack = p["z_back"]?.jsonPrimitive?.int ?: z,
             )
         }
         Rig((j["id"] as? JsonPrimitive)?.contentOrNull ?: "", parts)

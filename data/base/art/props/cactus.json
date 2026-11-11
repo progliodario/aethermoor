@@ -2,315 +2,702 @@
   "$schema": "../../../../schemas/art_recipe.schema.json",
   "id": "base:art/prop/cactus",
   "canvas": {
-    "w": 32,
-    "h": 48,
+    "w": 36,
+    "h": 52,
     "origin": [
-      16,
-      44
+      18,
+      48
     ]
   },
   "layers": [
     {
       "shape": {
         "ellipse": [
-          17,
-          45,
+          19,
+          48,
           11,
-          3
+          3.2
         ]
       },
       "fill": {
-        "color": "#000000"
+        "color": "#141030"
       },
-      "alpha": 0.3
+      "alpha": 0.38,
+      "blur": 1.12
     },
     {
       "shape": {
         "ellipse": [
-          17,
-          45,
-          7.92,
-          2.1
+          19,
+          48,
+          6.6,
+          1.76
         ]
       },
       "fill": {
-        "color": "#000000"
+        "color": "#141030"
       },
-      "alpha": 0.18
+      "alpha": 0.304,
+      "blur": 0.8
     },
     {
       "shape": {
-        "path": "M 12 34 L 7 34 Q 5 34 5 31 L 5 21"
-      },
-      "stroke": {
-        "color": "$p.outline",
-        "width": 7.0
-      }
-    },
-    {
-      "shape": {
-        "path": "M 12 34 L 7 34 Q 5 34 5 31 L 5 21"
-      },
-      "stroke": {
-        "color": "$p.body",
-        "width": 5.0
-      }
-    },
-    {
-      "shape": {
-        "path": "M 12 34 L 7 34 Q 5 34 5 31 L 5 21"
-      },
-      "stroke": {
-        "color": "#8FC293",
-        "width": 1.25
-      },
-      "alpha": 0.8
-    },
-    {
-      "shape": {
-        "path": "M 20 28 L 25 28 Q 27 28 27 25 L 27 15"
-      },
-      "stroke": {
-        "color": "$p.outline",
-        "width": 7.0
-      }
-    },
-    {
-      "shape": {
-        "path": "M 20 28 L 25 28 Q 27 28 27 25 L 27 15"
-      },
-      "stroke": {
-        "color": "$p.body",
-        "width": 5.0
-      }
-    },
-    {
-      "shape": {
-        "path": "M 20 28 L 25 28 Q 27 28 27 25 L 27 15"
-      },
-      "stroke": {
-        "color": "#8FC293",
-        "width": 1.25
-      },
-      "alpha": 0.8
-    },
-    {
-      "shape": {
-        "path": "M 11 44 Q 9 44 9 40 L 9 10 Q 9 3 16 3 Q 23 3 23 10 L 23 40 Q 23 44 21 44 Z"
+        "path": "M 6 30 Q 6 22 9.5 22 Q 13 22 13 30 L 13 34 L 6 34 Z"
       },
       "fill": {
-        "linear": {
-          "x0": 9,
-          "y0": 0,
-          "x1": 23,
-          "y1": 0,
+        "noise": {
+          "scale": 4,
+          "seed": 271,
+          "octaves": 2,
           "stops": [
             [
-              0,
-              "#8CC090"
+              0.3,
+              "#3A8A52"
             ],
             [
-              0.45,
+              0.6,
               "$p.body"
             ],
             [
-              1,
-              "$p.rib"
+              0.8,
+              "#6FBE74"
             ]
           ]
         }
       },
       "stroke": {
-        "color": "$p.outline",
-        "width": 1.5
+        "color": "#12382A",
+        "width": 0.5
       }
     },
     {
       "shape": {
-        "path": "M 13 6 Q 13.4 24 13 43"
+        "path": "M 10.20 22.00 L 17.20 22.00 L 17.20 34.00 L 10.20 34.00 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.5,
+      "blur": 0.5,
+      "clip": true,
+      "blend": "multiply"
+    },
+    {
+      "shape": {
+        "path": "M 6.00 22.00 L 7.54 22.00 L 7.54 34.00 L 6.00 34.00 Z"
+      },
+      "fill": {
+        "color": "#E8FFC0"
+      },
+      "alpha": 0.4,
+      "blur": 0.3,
+      "clip": true,
+      "blend": "add"
+    },
+    {
+      "shape": {
+        "path": "M 7.75 24 L 7.75 33"
       },
       "stroke": {
         "color": "$p.rib",
-        "width": 0.8
+        "width": 0.35
       },
-      "alpha": 0.7
+      "alpha": 0.8
     },
     {
       "shape": {
-        "path": "M 16 6 Q 16.4 24 16 43"
+        "path": "M 9.85 24 L 9.85 33"
       },
       "stroke": {
         "color": "$p.rib",
-        "width": 0.8
+        "width": 0.35
       },
-      "alpha": 0.7
+      "alpha": 0.8
     },
     {
       "shape": {
-        "path": "M 19 6 Q 19.4 24 19 43"
+        "path": "M 11.6 24 L 11.6 33"
       },
       "stroke": {
         "color": "$p.rib",
-        "width": 0.8
+        "width": 0.35
       },
-      "alpha": 0.7
+      "alpha": 0.8
     },
     {
       "shape": {
-        "path": "M 11 12 L 13 12"
+        "path": "M 6 25 L 5.2 24.2"
       },
       "stroke": {
-        "color": "#F2EBC8",
-        "width": 0.6
+        "color": "#F4F0D8",
+        "width": 0.25
       }
     },
     {
       "shape": {
-        "path": "M 12 11 L 12 13"
+        "path": "M 13 25 L 13.8 24.2"
       },
       "stroke": {
-        "color": "#F2EBC8",
-        "width": 0.6
+        "color": "#F4F0D8",
+        "width": 0.25
       }
     },
     {
       "shape": {
-        "path": "M 19 17 L 21 17"
+        "path": "M 6 28.5 L 5.2 27.7"
       },
       "stroke": {
-        "color": "#F2EBC8",
-        "width": 0.6
+        "color": "#F4F0D8",
+        "width": 0.25
       }
     },
     {
       "shape": {
-        "path": "M 20 16 L 20 18"
+        "path": "M 13 28.5 L 13.8 27.7"
       },
       "stroke": {
-        "color": "#F2EBC8",
-        "width": 0.6
+        "color": "#F4F0D8",
+        "width": 0.25
       }
     },
     {
       "shape": {
-        "path": "M 11 26 L 13 26"
+        "path": "M 6 32 L 5.2 31.2"
       },
       "stroke": {
-        "color": "#F2EBC8",
-        "width": 0.6
+        "color": "#F4F0D8",
+        "width": 0.25
       }
     },
     {
       "shape": {
-        "path": "M 12 25 L 12 27"
+        "path": "M 13 32 L 13.8 31.2"
       },
       "stroke": {
-        "color": "#F2EBC8",
-        "width": 0.6
+        "color": "#F4F0D8",
+        "width": 0.25
       }
     },
     {
       "shape": {
-        "path": "M 19 33 L 21 33"
+        "rect": [
+          8,
+          31,
+          6,
+          5
+        ]
+      },
+      "fill": {
+        "color": "$p.body"
       },
       "stroke": {
-        "color": "#F2EBC8",
-        "width": 0.6
+        "color": "#12382A",
+        "width": 0.4
       }
     },
     {
       "shape": {
-        "path": "M 20 32 L 20 34"
+        "path": "M 23 26 Q 23 17 26.5 17 Q 30 17 30 26 L 30 30 L 23 30 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 4,
+          "seed": 271,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "#3A8A52"
+            ],
+            [
+              0.6,
+              "$p.body"
+            ],
+            [
+              0.8,
+              "#6FBE74"
+            ]
+          ]
+        }
       },
       "stroke": {
-        "color": "#F2EBC8",
-        "width": 0.6
+        "color": "#12382A",
+        "width": 0.5
       }
     },
     {
       "shape": {
-        "path": "M 11 38 L 13 38"
+        "path": "M 27.20 17.00 L 34.20 17.00 L 34.20 30.00 L 27.20 30.00 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.5,
+      "blur": 0.5,
+      "clip": true,
+      "blend": "multiply"
+    },
+    {
+      "shape": {
+        "path": "M 23.00 17.00 L 24.54 17.00 L 24.54 30.00 L 23.00 30.00 Z"
+      },
+      "fill": {
+        "color": "#E8FFC0"
+      },
+      "alpha": 0.4,
+      "blur": 0.3,
+      "clip": true,
+      "blend": "add"
+    },
+    {
+      "shape": {
+        "path": "M 24.75 19 L 24.75 29"
       },
       "stroke": {
-        "color": "#F2EBC8",
-        "width": 0.6
+        "color": "$p.rib",
+        "width": 0.35
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "path": "M 26.85 19 L 26.85 29"
+      },
+      "stroke": {
+        "color": "$p.rib",
+        "width": 0.35
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "path": "M 28.6 19 L 28.6 29"
+      },
+      "stroke": {
+        "color": "$p.rib",
+        "width": 0.35
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "path": "M 23 20 L 22.2 19.2"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
       }
     },
     {
       "shape": {
-        "path": "M 12 37 L 12 39"
+        "path": "M 30 20 L 30.8 19.2"
       },
       "stroke": {
-        "color": "#F2EBC8",
-        "width": 0.6
+        "color": "#F4F0D8",
+        "width": 0.25
       }
     },
     {
       "shape": {
-        "path": "M 5 24 L 7 24"
+        "path": "M 23 23.5 L 22.2 22.7"
       },
       "stroke": {
-        "color": "#F2EBC8",
-        "width": 0.6
+        "color": "#F4F0D8",
+        "width": 0.25
       }
     },
     {
       "shape": {
-        "path": "M 6 23 L 6 25"
+        "path": "M 30 23.5 L 30.8 22.7"
       },
       "stroke": {
-        "color": "#F2EBC8",
-        "width": 0.6
+        "color": "#F4F0D8",
+        "width": 0.25
       }
     },
     {
       "shape": {
-        "path": "M 25 18 L 27 18"
+        "path": "M 23 27 L 22.2 26.2"
       },
       "stroke": {
-        "color": "#F2EBC8",
-        "width": 0.6
+        "color": "#F4F0D8",
+        "width": 0.25
       }
     },
     {
       "shape": {
-        "path": "M 26 17 L 26 19"
+        "path": "M 30 27 L 30.8 26.2"
       },
       "stroke": {
-        "color": "#F2EBC8",
-        "width": 0.6
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          22,
+          26.5,
+          6,
+          5
+        ]
+      },
+      "fill": {
+        "color": "$p.body"
+      },
+      "stroke": {
+        "color": "#12382A",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 12 47 L 12 12 Q 12 4 18 4 Q 24 4 24 12 L 24 47 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 4,
+          "seed": 271,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "#3A8A52"
+            ],
+            [
+              0.6,
+              "$p.body"
+            ],
+            [
+              0.8,
+              "#6FBE74"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#12382A",
+        "width": 0.5
+      }
+    },
+    {
+      "shape": {
+        "path": "M 19.20 4.00 L 31.20 4.00 L 31.20 47.00 L 19.20 47.00 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.5,
+      "blur": 0.5,
+      "clip": true,
+      "blend": "multiply"
+    },
+    {
+      "shape": {
+        "path": "M 12.00 4.00 L 14.64 4.00 L 14.64 47.00 L 12.00 47.00 Z"
+      },
+      "fill": {
+        "color": "#E8FFC0"
+      },
+      "alpha": 0.4,
+      "blur": 0.3,
+      "clip": true,
+      "blend": "add"
+    },
+    {
+      "shape": {
+        "path": "M 15 6 L 15 46"
+      },
+      "stroke": {
+        "color": "$p.rib",
+        "width": 0.35
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "path": "M 18.6 6 L 18.6 46"
+      },
+      "stroke": {
+        "color": "$p.rib",
+        "width": 0.35
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "path": "M 21.6 6 L 21.6 46"
+      },
+      "stroke": {
+        "color": "$p.rib",
+        "width": 0.35
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "path": "M 12 7 L 11.2 6.2"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "path": "M 24 7 L 24.8 6.2"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "path": "M 12 10.5 L 11.2 9.7"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "path": "M 24 10.5 L 24.8 9.7"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "path": "M 12 14 L 11.2 13.2"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "path": "M 24 14 L 24.8 13.2"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "path": "M 12 17.5 L 11.2 16.7"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "path": "M 24 17.5 L 24.8 16.7"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "path": "M 12 21 L 11.2 20.2"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "path": "M 24 21 L 24.8 20.2"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "path": "M 12 24.5 L 11.2 23.7"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "path": "M 24 24.5 L 24.8 23.7"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "path": "M 12 28 L 11.2 27.2"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "path": "M 24 28 L 24.8 27.2"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "path": "M 12 31.5 L 11.2 30.7"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "path": "M 24 31.5 L 24.8 30.7"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "path": "M 12 35 L 11.2 34.2"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "path": "M 24 35 L 24.8 34.2"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "path": "M 12 38.5 L 11.2 37.7"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "path": "M 24 38.5 L 24.8 37.7"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "path": "M 12 42 L 11.2 41.2"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "path": "M 24 42 L 24.8 41.2"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "path": "M 12 45.5 L 11.2 44.7"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
+      }
+    },
+    {
+      "shape": {
+        "path": "M 24 45.5 L 24.8 44.7"
+      },
+      "stroke": {
+        "color": "#F4F0D8",
+        "width": 0.25
       }
     },
     {
       "shape": {
         "ellipse": [
-          16,
-          3.5,
+          18,
+          4.5,
           2.2,
-          1.5
+          1.8
         ]
       },
       "fill": {
-        "color": "#E8628A"
+        "radial": {
+          "cx": 17.4,
+          "cy": 4,
+          "r": 2.6,
+          "stops": [
+            [
+              0,
+              "#FFD0E0"
+            ],
+            [
+              1,
+              "#E0508A"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#7A1E48",
+        "width": 0.3
       }
     },
     {
       "shape": {
         "ellipse": [
-          16,
-          3.5,
-          0.9,
-          0.7
+          18,
+          4.5,
+          0.7,
+          0.6
         ]
       },
       "fill": {
-        "color": "#FFE07A"
+        "color": "#FFE070"
       }
     }
   ],
   "palette": {
-    "body": "#5FA865",
-    "rib": "#3F8A4A",
-    "outline": "#26502E"
+    "body": "#4FA060",
+    "rib": "#2F7A4A",
+    "light": "#A8E090"
   }
 }

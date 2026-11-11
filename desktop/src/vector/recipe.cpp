@@ -30,6 +30,18 @@ Paint parse_paint(const Json& fill) {
         paint.color = fill.at("color").get<std::string>();
         return paint;
     }
+    if (fill.contains("noise")) {
+        const Json& n = fill.at("noise");
+        paint.kind = Paint::Kind::Noise;
+        paint.noise_scale = n.at("scale").get<float>();
+        paint.noise_seed = n.value("seed", 0);
+        paint.noise_octaves = n.value("octaves", 3);
+        paint.noise_period = n.value("period", 0);
+        for (const Json& stop : n.at("stops")) {
+            paint.stops.push_back({stop.at(0).get<float>(), stop.at(1).get<std::string>()});
+        }
+        return paint;
+    }
     const bool linear = fill.contains("linear");
     const Json& g = linear ? fill.at("linear") : fill.at("radial");
     paint.kind = linear ? Paint::Kind::Linear : Paint::Kind::Radial;
@@ -111,6 +123,8 @@ std::optional<Recipe> parse_recipe(std::string_view json_text, std::string& erro
         recipe.height = canvas.at("h").get<float>();
         recipe.origin_x = canvas.at("origin").at(0).get<float>();
         recipe.origin_y = canvas.at("origin").at(1).get<float>();
+        recipe.faces_left = j.value("faces", "") == "left";
+        recipe.sway = j.value("sway", 0.0F);
         if (j.contains("palette")) {
             recipe.palette = parse_palette(j.at("palette"));
         }
@@ -131,6 +145,11 @@ std::optional<Recipe> parse_recipe(std::string_view json_text, std::string& erro
                 layer.stroke.width = l.at("stroke").at("width").get<float>();
             }
             layer.alpha = l.value("alpha", 1.0F);
+            layer.blur = l.value("blur", 0.0F);
+            layer.clip = l.value("clip", false);
+            const std::string blend = l.value("blend", "normal");
+            layer.blend = blend == "multiply" ? Layer::Blend::Multiply
+                                              : (blend == "add" ? Layer::Blend::Add : Layer::Blend::Normal);
             if (l.contains("only")) {
                 layer.only = l.at("only").get<std::vector<std::string>>();
             }

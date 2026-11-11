@@ -3,40 +3,117 @@
   "$id": "https://aethermoor.invalid/schemas/art_recipe.schema.json",
   "title": "Vector art recipe",
   "type": "object",
-  "required": ["id", "canvas", "layers"],
+  "required": [
+    "id",
+    "canvas",
+    "layers"
+  ],
   "additionalProperties": false,
   "properties": {
-    "$schema": { "type": "string" },
-    "id": { "$ref": "#/$defs/id" },
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "$ref": "#/$defs/id"
+    },
     "canvas": {
       "type": "object",
-      "required": ["w", "h", "origin"],
+      "required": [
+        "w",
+        "h",
+        "origin"
+      ],
       "additionalProperties": false,
       "properties": {
-        "w": { "type": "number", "exclusiveMinimum": 0 },
-        "h": { "type": "number", "exclusiveMinimum": 0 },
-        "origin": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 }
+        "w": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "h": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "origin": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        }
       }
     },
-    "palette": { "$ref": "#/$defs/palette" },
-    "variants": { "type": "object", "additionalProperties": { "$ref": "#/$defs/palette" } },
-    "layers": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/layer" } }
+    "palette": {
+      "$ref": "#/$defs/palette"
+    },
+    "variants": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/palette"
+      }
+    },
+    "layers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/layer"
+      }
+    },
+    "faces": {
+      "enum": [
+        "left"
+      ],
+      "description": "The picture looks to the left: the clients mirror it when the player is to its right."
+    },
+    "sway": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 8,
+      "description": "How far the top of the picture moves in the wind, in art units (spec 13, \"Sway\")."
+    }
   },
   "$defs": {
-    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$" },
-    "color": { "type": "string", "pattern": "^(#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?|\\$p\\.[a-z0-9_]+)$" },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+    },
+    "color": {
+      "type": "string",
+      "pattern": "^(#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?|\\$p\\.[a-z0-9_]+)$"
+    },
     "palette": {
       "type": "object",
-      "propertyNames": { "pattern": "^[a-z0-9_]+$" },
-      "additionalProperties": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$" }
+      "propertyNames": {
+        "pattern": "^[a-z0-9_]+$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$"
+      }
     },
-    "number4": { "type": "array", "items": { "type": "number" }, "minItems": 4, "maxItems": 4 },
+    "number4": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 4,
+      "maxItems": 4
+    },
     "stops": {
       "type": "array",
       "minItems": 2,
       "items": {
         "type": "array",
-        "prefixItems": [{ "type": "number", "minimum": 0, "maximum": 1 }, { "$ref": "#/$defs/color" }],
+        "prefixItems": [
+          {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          {
+            "$ref": "#/$defs/color"
+          }
+        ],
         "items": false,
         "minItems": 2
       }
@@ -47,14 +124,28 @@
       "maxProperties": 1,
       "additionalProperties": false,
       "properties": {
-        "rect": { "$ref": "#/$defs/number4" },
-        "ellipse": { "$ref": "#/$defs/number4" },
+        "rect": {
+          "$ref": "#/$defs/number4"
+        },
+        "ellipse": {
+          "$ref": "#/$defs/number4"
+        },
         "polygon": {
           "type": "array",
           "minItems": 2,
-          "items": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 }
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          }
         },
-        "path": { "type": "string", "pattern": "^[MLHVCQZ0-9eE.,+\\- ]+$" }
+        "path": {
+          "type": "string",
+          "pattern": "^[MLHVCQZ0-9eE.,+\\- ]+$"
+        }
       }
     },
     "fill": {
@@ -63,50 +154,171 @@
       "maxProperties": 1,
       "additionalProperties": false,
       "properties": {
-        "color": { "$ref": "#/$defs/color" },
+        "color": {
+          "$ref": "#/$defs/color"
+        },
         "linear": {
           "type": "object",
-          "required": ["x0", "y0", "x1", "y1", "stops"],
+          "required": [
+            "x0",
+            "y0",
+            "x1",
+            "y1",
+            "stops"
+          ],
           "additionalProperties": false,
           "properties": {
-            "x0": { "type": "number" }, "y0": { "type": "number" },
-            "x1": { "type": "number" }, "y1": { "type": "number" },
-            "stops": { "$ref": "#/$defs/stops" }
+            "x0": {
+              "type": "number"
+            },
+            "y0": {
+              "type": "number"
+            },
+            "x1": {
+              "type": "number"
+            },
+            "y1": {
+              "type": "number"
+            },
+            "stops": {
+              "$ref": "#/$defs/stops"
+            }
           }
         },
         "radial": {
           "type": "object",
-          "required": ["cx", "cy", "r", "stops"],
+          "required": [
+            "cx",
+            "cy",
+            "r",
+            "stops"
+          ],
           "additionalProperties": false,
           "properties": {
-            "cx": { "type": "number" }, "cy": { "type": "number" },
-            "r": { "type": "number", "exclusiveMinimum": 0 },
-            "stops": { "$ref": "#/$defs/stops" }
+            "cx": {
+              "type": "number"
+            },
+            "cy": {
+              "type": "number"
+            },
+            "r": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "stops": {
+              "$ref": "#/$defs/stops"
+            }
+          }
+        },
+        "noise": {
+          "type": "object",
+          "required": [
+            "scale",
+            "stops"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "scale": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "description": "The size of the largest clouds, in art units."
+            },
+            "seed": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "octaves": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 6
+            },
+            "period": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4096,
+              "description": "The noise repeats every period cells of `scale` (0: it does not repeat)."
+            },
+            "stops": {
+              "$ref": "#/$defs/stops"
+            }
           }
         }
       }
     },
     "stroke": {
       "type": "object",
-      "required": ["color", "width"],
+      "required": [
+        "color",
+        "width"
+      ],
       "additionalProperties": false,
       "properties": {
-        "color": { "$ref": "#/$defs/color" },
-        "width": { "type": "number", "exclusiveMinimum": 0 }
+        "color": {
+          "$ref": "#/$defs/color"
+        },
+        "width": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
       }
     },
     "layer": {
       "type": "object",
-      "required": ["shape"],
+      "required": [
+        "shape"
+      ],
       "additionalProperties": false,
       "properties": {
-        "name": { "type": "string" },
-        "shape": { "$ref": "#/$defs/shape" },
-        "fill": { "$ref": "#/$defs/fill" },
-        "stroke": { "$ref": "#/$defs/stroke" },
-        "alpha": { "type": "number", "minimum": 0, "maximum": 1 },
-        "only": { "type": "array", "items": { "type": "string" }, "description": "draw the layer only with one of these variants" },
-        "except": { "type": "array", "items": { "type": "string" }, "description": "do not draw the layer with one of these variants" }
+        "name": {
+          "type": "string"
+        },
+        "shape": {
+          "$ref": "#/$defs/shape"
+        },
+        "fill": {
+          "$ref": "#/$defs/fill"
+        },
+        "stroke": {
+          "$ref": "#/$defs/stroke"
+        },
+        "alpha": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "only": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "draw the layer only with one of these variants"
+        },
+        "except": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "do not draw the layer with one of these variants"
+        },
+        "blur": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 64,
+          "description": "Softens the edge of the layer: the radius of the blur of its coverage, in art units."
+        },
+        "clip": {
+          "type": "boolean",
+          "description": "The layer is painted only where something is already painted (and does not add coverage)."
+        },
+        "blend": {
+          "enum": [
+            "normal",
+            "multiply",
+            "add"
+          ],
+          "description": "How the layer meets what is under it: multiply darkens it, add lightens it."
+        }
       }
     }
   }

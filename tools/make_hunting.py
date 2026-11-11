@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Writes the game of the hunt (spec 06, "Hunting"): two wild creatures that are shy and easy, what they leave, their texts, their art (from the
-tawny wolf's body, with their own palette and features from `art_creature_looks.py`), and their place in the fauna of the regions. Run it after
+"""Writes the game of the hunt (spec 06, "Hunting"): two wild creatures that are shy and easy, what they leave, their texts, their art (a first file from the
+tawny wolf's, with their own palette; `art_creatures.py` then draws their own body and feature, `BEASTS`), and their place in the fauna of the regions. Run it after
 changing the tables here, then `python tools/art_creatures.py`, `python tools/make_recipes.py` and `python tools/gen_conformance.py`."""
 from __future__ import annotations
 

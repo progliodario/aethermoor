@@ -66,6 +66,7 @@ import io.github.progliodario.aethermoor.core.vector.parseClip
 import io.github.progliodario.aethermoor.core.vector.parseRig
 import java.util.Locale
 import kotlin.math.PI
+import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -813,7 +814,28 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 val sy0 = ((ty - cam.y) * tile).roundToInt().toFloat()
                 val sx1 = ((tx + 1 - cam.x) * tile).roundToInt().toFloat()
                 val sy1 = ((ty + 1 - cam.y) * tile).roundToInt().toFloat()
-                batch.draw(sprite.region, sx0, sy0, sx1 - sx0, sy1 - sy0)
+                // one cell of a macro tile (spec 13): the texture has its first row at v = 0
+                val span = max(1, (sprite.width / 32f).roundToInt())
+                val u = (tx % span).toFloat() / span
+                val v = (ty % span).toFloat() / span
+                batch.draw(sprite.region.texture, sx0, sy0, sx1 - sx0, sy1 - sy0, u, v, u + 1f / span, v + 1f / span)
+            }
+        }
+        // The soft edges of the grounds (spec 13, "Ground blending"): a neighbour of a higher rank fades over the tile.
+        for (ty in y0 until y1) {
+            for (tx in x0 until x1) {
+                val def = data.tileset.tiles[world.gidAt(tx, ty)] ?: continue
+                if (def.blend <= 0) continue
+                val sx0 = ((tx - cam.x) * tile).roundToInt().toFloat()
+                val sy0 = ((ty - cam.y) * tile).roundToInt().toFloat()
+                val sx1 = ((tx + 1 - cam.x) * tile).roundToInt().toFloat()
+                val sy1 = ((ty + 1 - cam.y) * tile).roundToInt().toFloat()
+                for (side in GROUND_SIDES) {
+                    val other = data.tileset.tiles[world.gidAt(tx + side[0], ty + side[1])] ?: continue
+                    if (other.blend <= def.blend) continue
+                    val over = cache.get(other.art, tilePx) ?: continue
+                    drawGroundBlend(over, tx, ty, side[0], side[1], sx0, sy0, sx1 - sx0, sy1 - sy0)
+                }
             }
         }
 
@@ -828,7 +850,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         for (item in items.sortedBy { it.feetY }) {
             when {
                 item.prop != null -> drawProp(item.prop, cam.x, cam.y, tilePx, tile, k)
-                item.enemy != null -> drawEnemy(item.enemy, cam.x, cam.y, tilePx, tile, k)
+                item.enemy != null -> drawEnemy(item.enemy, cam.x, cam.y, tilePx, tile, k, world.player.position.x)
                 item.npc != null -> drawNpc(world, data, item.npc, cam.x, cam.y, tilePx, k)
                 item.companion -> drawCompanion(world, cam.x, cam.y, tilePx, tile, k)
                 else -> drawPlayer(world, data, cam.x, cam.y, tilePx, k)
@@ -838,6 +860,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
         drawAtmosphere(world)
         drawLights(world, data, cam.x, cam.y, tile, viewW, viewH)
+        drawAmbience(world, data)
         drawOverlays(world, cam.x, cam.y, tile, k)
         drawGoalArrow(world, cam.x, cam.y, tile)
         drawMinimap(world)
@@ -853,11 +876,84 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         drawStick()
     }
 
+    private val blendVertices = FloatArray(20)
+
+    /**
+     * A ground of a higher rank fades over the edge of a tile (spec 13, "Ground blending"): the picture of the neighbour
+     * in the direction ([dx], [dy]), opaque on the shared edge and gone at the middle of the tile.
+     */
+    private fun drawGroundBlend(sprite: Sprite, tx: Int, ty: Int, dx: Int, dy: Int, x: Float, y: Float, w: Float, h: Float) {
+        val span = max(1, (sprite.width / 32f).roundToInt())
+        val u0 = (tx % span).toFloat() / span
+        val v0 = (ty % span).toFloat() / span
+        val cell = 1f / span
+        // the corners of the half next to the neighbour, in the unit square of the tile: two on the edge, two in the middle
+        var ex0 = 0f
+        var ey0 = 0f
+        var ex1 = 0f
+        var ey1 = 1f
+        var mx0 = 0.5f
+        var my0 = 0f
+        var mx1 = 0.5f
+        var my1 = 1f
+        if (dx > 0) {
+            ex0 = 1f
+            ex1 = 1f
+        } else if (dy != 0) {
+            ex0 = 0f
+            ex1 = 1f
+            ey0 = if (dy > 0) 1f else 0f
+            ey1 = ey0
+            mx0 = 0f
+            mx1 = 1f
+            my0 = 0.5f
+            my1 = 0.5f
+        }
+        val opaque = Color.WHITE.toFloatBits()
+        val clear = Color.toFloatBits(1f, 1f, 1f, 0f)
+        var i = 0
+        fun vertex(ux: Float, uy: Float, color: Float) {
+            blendVertices[i++] = x + ux * w
+            blendVertices[i++] = y + uy * h
+            blendVertices[i++] = color
+            blendVertices[i++] = u0 + ux * cell
+            blendVertices[i++] = v0 + uy * cell
+        }
+        vertex(ex0, ey0, opaque)
+        vertex(ex1, ey1, opaque)
+        vertex(mx1, my1, clear)
+        vertex(mx0, my0, clear)
+        batch.draw(sprite.region.texture, blendVertices, 0, 20)
+    }
+
     private fun drawProp(prop: Prop, camX: Float, camY: Float, tilePx: Int, tile: Float, k: Float) {
         val sprite = cache.get(prop.art, tilePx) ?: return
         val fx = (prop.x - camX) * tile
         val fy = (prop.y - camY) * tile
-        batch.draw(sprite.region, fx - sprite.originX * k, fy - sprite.originY * k, sprite.width * k, sprite.height * k)
+        if (sprite.sway <= 0f) {
+            batch.draw(sprite.region, fx - sprite.originX * k, fy - sprite.originY * k, sprite.width * k, sprite.height * k)
+            return
+        }
+        // the wind moves it (spec 13, "Sway"): the foot stays, the top goes sideways (a shear)
+        val shift = sprite.sway * k * sin((System.currentTimeMillis() % 3895574L) / 620f + prop.x * 0.9f + prop.y * 0.6f)
+        val x0 = fx - sprite.originX * k
+        val y0 = fy - sprite.originY * k
+        val x1 = x0 + sprite.width * k
+        val y1 = y0 + sprite.height * k
+        val white = Color.WHITE.toFloatBits()
+        var i = 0
+        fun vertex(x: Float, y: Float, u: Float, v: Float) {
+            blendVertices[i++] = x
+            blendVertices[i++] = y
+            blendVertices[i++] = white
+            blendVertices[i++] = u
+            blendVertices[i++] = v
+        }
+        vertex(x0 + shift, y0, 0f, 0f)
+        vertex(x0, y1, 0f, 1f)
+        vertex(x1, y1, 1f, 1f)
+        vertex(x1 + shift, y0, 1f, 0f)
+        batch.draw(sprite.region.texture, blendVertices, 0, 20)
     }
 
     /** The companion (spec 10), drawn with the art of its creature, a little smaller, bobbing. */
@@ -869,10 +965,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val bob = sin(System.currentTimeMillis() / 160f) * 2f * k
         val fx = (at.x - camX) * tile
         val fy = (at.y - camY) * tile + bob
-        batch.draw(sprite.region, fx - sprite.originX * s, fy - sprite.originY * s, sprite.width * s, sprite.height * s)
+        if (sprite.facesLeft && world.player.position.x > at.x) { // it turns to face the player (spec 13, "Facing")
+            batch.draw(sprite.region, fx + sprite.originX * s, fy - sprite.originY * s, -sprite.width * s, sprite.height * s)
+        } else {
+            batch.draw(sprite.region, fx - sprite.originX * s, fy - sprite.originY * s, sprite.width * s, sprite.height * s)
+        }
     }
 
-    private fun drawEnemy(enemy: Enemy, camX: Float, camY: Float, tilePx: Int, tile: Float, k: Float) {
+    private fun drawEnemy(enemy: Enemy, camX: Float, camY: Float, tilePx: Int, tile: Float, k: Float, playerX: Float) {
         val sprite = cache.get(enemy.def.art, tilePx) ?: return
         val fx = (enemy.position.x - camX) * tile
         val fy = (enemy.position.y - camY) * tile
@@ -880,11 +980,12 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val wave = if (phase < 30f) phase / 30f else (60f - phase) / 30f
         val squash = 0.95f + 0.1f * wave
         if (enemy.hitFlash > 0) batch.setColor(1f, 0.47f, 0.47f, 1f)
-        batch.draw(
-            sprite.region,
-            fx - sprite.originX * k * (2f - squash), fy - sprite.originY * k * squash,
-            sprite.width * k * (2f - squash), sprite.height * k * squash,
-        )
+        val wide = k * (2f - squash)
+        if (sprite.facesLeft && playerX > enemy.position.x) { // it turns to face the player (spec 13, "Facing")
+            batch.draw(sprite.region, fx + sprite.originX * wide, fy - sprite.originY * k * squash, -sprite.width * wide, sprite.height * k * squash)
+        } else {
+            batch.draw(sprite.region, fx - sprite.originX * wide, fy - sprite.originY * k * squash, sprite.width * wide, sprite.height * k * squash)
+        }
         batch.setColor(1f, 1f, 1f, 1f)
     }
 
@@ -892,9 +993,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val tile = tilePx.toFloat()
         val player = world.player
         val blink = player.iframes > 0 && (player.iframes / 4) % 2 == 0
+        val back = player.facing.y < 0f && abs(player.facing.y) > abs(player.facing.x)
         drawCharacter(
             data, player.moving, player.facingLeft, player.clipTick, blink, playerVariant,
-            (player.position.x - camX) * tile, (player.position.y - camY) * tile, tilePx, k,
+            (player.position.x - camX) * tile, (player.position.y - camY) * tile, tilePx, k, back,
         )
     }
 
@@ -926,14 +1028,16 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     private fun drawCharacter(
         data: Assets, moving: Boolean, facingLeft: Boolean, clipTick: Int, blink: Boolean, variant: String?,
-        feetX: Float, feetY: Float, tilePx: Int, k: Float,
+        feetX: Float, feetY: Float, tilePx: Int, k: Float, back: Boolean = false,
     ) {
         val clip = if (moving) data.walk else data.idle
-        val pose = evaluatePose(data.rig, clip, clipTick.toFloat(), facingLeft).sortedBy { it.z }
+        // seen from behind (spec 13), the parts use their own recipe and draw order
+        val pose = evaluatePose(data.rig, clip, clipTick.toFloat(), facingLeft)
+            .sortedBy { if (back) data.rig.parts[it.partIndex].zBack else it.z }
         batch.setColor(1f, 1f, 1f, if (blink) 0.47f else 1f)
         for (posed in pose) {
             val part = data.rig.parts[posed.partIndex]
-            val sprite = cache.get(part.art, tilePx, variant) ?: continue
+            val sprite = cache.get(if (back) part.artBack else part.art, tilePx, variant) ?: continue
             val px = feetX + posed.x * k
             val py = feetY + posed.y * k
             val pivotX = sprite.originX * k
@@ -964,7 +1068,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val now = com.badlogic.gdx.utils.TimeUtils.millis()
         shapes.projectionMatrix = camera.combined
         Gdx.gl.glEnable(GL20.GL_BLEND)
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE) // the lights are added to what the night darkened
         shapes.begin(ShapeRenderer.ShapeType.Filled)
         world.forEachProp(camX - 6f, camY - 6f, camX + viewW + 6f, camY + viewH + 6f) { prop ->
             for (light in table) {
@@ -980,6 +1084,65 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             }
         }
         shapes.end()
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
+    }
+
+    private var grading: io.github.progliodario.aethermoor.core.Grading? = null
+
+    private fun gradingOf(data: Assets) = grading ?: io.github.progliodario.aethermoor.core.loadGrading(data.pack).also { grading = it }
+
+    private fun rgb(color: Int, alpha: Float) = Color(((color shr 16) and 0xFF) / 255f, ((color shr 8) and 0xFF) / 255f, (color and 0xFF) / 255f, alpha)
+
+    /**
+     * What drifts in the air and the dark edges of the screen (spec 08, "The colour of the hour"): dust in the sun by
+     * day, fireflies by night, a vignette. Presentation only.
+     */
+    private fun drawAmbience(world: WorldSim, data: Assets) {
+        val g = gradingOf(data)
+        val time = world.time()
+        val w = Gdx.graphics.width.toFloat()
+        val h = Gdx.graphics.height.toFloat()
+        val density = Gdx.graphics.density
+        val night = if (time != null) ((1000 - time.effectiveLightPm) / 1000f).coerceIn(0f, 1f) else 0f
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        if (g.motes > 0 && (time == null || time.rainPm <= 0)) {
+            val t = (System.currentTimeMillis() % 6000000L).toFloat()
+            val fireflies = night > 0.5f
+            val tint = if (fireflies) g.moteNight else g.moteDay
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE)
+            shapes.begin(ShapeRenderer.ShapeType.Filled)
+            for (i in 0 until g.motes) {
+                val a = i * 0.6180339f - floor(i * 0.6180339f)
+                val b = i * 0.7548777f - floor(i * 0.7548777f)
+                val driftX = a + t * 0.000011f * (0.4f + b)
+                val driftY = b + t * 0.000006f * (0.5f + a) + 0.015f * sin(t * 0.0008f + i * 1.3f)
+                val x = (driftX - floor(driftX)) * w
+                val y = (driftY - floor(driftY)) * h
+                val pulse = sin(t * (if (fireflies) 0.003f else 0.0015f) + i * 2.1f)
+                val alpha = if (fireflies) night * max(0f, pulse) * max(0f, pulse) * 0.85f else (1f - night) * (0.16f + 0.10f * pulse)
+                if (alpha <= 0.02f) continue
+                val size = (if (fireflies) 2f else 1.5f) * density
+                shapes.color = rgb(tint, alpha / 3f)
+                shapes.rect(x - size * 2f, y - size * 2f, size * 4f, size * 4f)
+                shapes.color = rgb(tint, alpha.coerceIn(0f, 1f))
+                shapes.rect(x - size * 0.5f, y - size * 0.5f, size, size)
+            }
+            shapes.end()
+        }
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
+        if (g.vignettePm > 0) { // four bands that are dark on the edge of the screen and clear towards the middle
+            val dark = Color(0.02f, 0.02f, 0.08f, (g.vignettePm / 1000f).coerceIn(0f, 1f))
+            val clear = Color(0.02f, 0.02f, 0.08f, 0f)
+            val bx = w * 0.3f
+            val by = h * 0.3f
+            shapes.begin(ShapeRenderer.ShapeType.Filled)
+            shapes.rect(0f, 0f, w, by, dark, dark, clear, clear)
+            shapes.rect(0f, h - by, w, by, clear, clear, dark, dark)
+            shapes.rect(0f, 0f, bx, h, dark, clear, clear, dark)
+            shapes.rect(w - bx, 0f, bx, h, clear, dark, dark, clear)
+            shapes.end()
+        }
     }
 
     /** Night and weather over the world (spec 08). Presentation only. */
@@ -991,11 +1154,20 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         shapes.projectionMatrix = camera.combined
         Gdx.gl.glEnable(GL20.GL_BLEND)
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
-        if (dark > 0) {
+        // The colour of the hour (spec 08): the world is multiplied by the blue of the night, then by the warm light
+        // of dawn and dusk, so that colours keep their hue instead of going grey.
+        val grade = grading ?: io.github.progliodario.aethermoor.core.Grading()
+        val night = (dark / 1000f).coerceIn(0f, 1f)
+        val twilight = 0.75f * (1f - abs(time.lightPm - 550f) / 350f).coerceIn(0f, 1f)
+        for ((color, amount) in listOf(grade.night to night, grade.twilight to twilight)) {
+            if (amount <= 0f) continue
+            val tint = rgb(color, 1f)
+            Gdx.gl.glBlendFunc(GL20.GL_DST_COLOR, GL20.GL_ZERO)
             shapes.begin(ShapeRenderer.ShapeType.Filled)
-            shapes.color = Color(0.03f, 0.055f, 0.17f, dark * 0.69f / 1000f)
+            shapes.color = Color(1f + (tint.r - 1f) * amount, 1f + (tint.g - 1f) * amount, 1f + (tint.b - 1f) * amount, 1f)
             shapes.rect(0f, 0f, w, h)
             shapes.end()
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
         }
         val params = world.chunks?.params
         if (params != null && time.seasonIndex >= 0) { // the tint of the season (spec 08)
@@ -3540,7 +3712,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         private const val PROTAGONIST_ID = "base:protagonist/ren"
         private const val MAP_WORLD = "world"
         private const val SLOT_COUNT = 3
-        private const val BASE_TILE_PX = 48f
+        private const val BASE_TILE_PX = 64f
+        private val GROUND_SIDES = arrayOf(intArrayOf(-1, 0), intArrayOf(1, 0), intArrayOf(0, -1), intArrayOf(0, 1))
 
         /** Colors of the world map by biome code: water, beach, mountain, snow, desert, forest, plains. */
         private val MAP_COLORS = arrayOf(

@@ -2,335 +2,351 @@
   "$schema": "../../../../schemas/art_recipe.schema.json",
   "id": "base:art/prop/crate",
   "canvas": {
-    "w": 28,
-    "h": 26,
+    "w": 30,
+    "h": 30,
     "origin": [
-      14,
-      23
+      15,
+      26
     ]
   },
   "layers": [
     {
       "shape": {
         "ellipse": [
-          15,
-          24,
-          12,
-          2.6
+          16.5,
+          26,
+          14,
+          3.4
         ]
       },
       "fill": {
-        "color": "#000000"
+        "color": "#141030"
       },
-      "alpha": 0.28
+      "alpha": 0.4,
+      "blur": 1.19
     },
     {
       "shape": {
         "ellipse": [
-          15,
-          24,
-          8.64,
-          1.82
+          16.5,
+          26,
+          8.4,
+          1.87
         ]
       },
       "fill": {
-        "color": "#000000"
+        "color": "#141030"
       },
-      "alpha": 0.168
+      "alpha": 0.32,
+      "blur": 0.85
     },
     {
       "shape": {
-        "rect": [
-          3,
-          6,
-          22,
-          17
-        ]
+        "path": "M 3 9 L 9 4 L 27 4 L 27 21 L 21 26 L 3 26 Z"
       },
       "fill": {
-        "linear": {
-          "x0": 0,
-          "y0": 6,
-          "x1": 0,
-          "y1": 23,
+        "color": "$p.dark"
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.5
+      }
+    },
+    {
+      "shape": {
+        "path": "M 3 9 L 9 4 L 27 4 L 21 9 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 4,
+          "seed": 291,
+          "octaves": 3,
           "stops": [
             [
-              0,
-              "$p.light"
+              0.3,
+              "#AF8654"
             ],
             [
-              0.4,
-              "$p.wood"
+              0.5,
+              "#D0A064"
             ],
             [
-              1,
-              "$p.dark"
+              0.72,
+              "#D7AD7A"
             ]
           ]
         }
       },
       "stroke": {
-        "color": "$p.outline",
-        "width": 1.4
+        "color": "#1E1830",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 21 9 L 27 4 L 27 21 L 21 26 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 4,
+          "seed": 292,
+          "octaves": 3,
+          "stops": [
+            [
+              0.3,
+              "#664322"
+            ],
+            [
+              0.5,
+              "#7A5028"
+            ],
+            [
+              0.72,
+              "#8D6846"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.4
       }
     },
     {
       "shape": {
         "rect": [
           3,
-          6,
-          22,
-          3
+          9,
+          18,
+          17
         ]
       },
       "fill": {
-        "color": "$p.light"
+        "noise": {
+          "scale": 4,
+          "seed": 293,
+          "octaves": 3,
+          "stops": [
+            [
+              0.3,
+              "#946839"
+            ],
+            [
+              0.5,
+              "#B07C44"
+            ],
+            [
+              0.72,
+              "#BB8E5E"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 3.4 13.2 L 20.6 13.2"
+      },
+      "stroke": {
+        "color": "#3E2410",
+        "width": 0.35
       },
       "alpha": 0.7
     },
     {
       "shape": {
-        "path": "M 9 9 L 9 23"
+        "path": "M 3.4 17.4 L 20.6 17.4"
       },
       "stroke": {
-        "color": "$p.dark",
-        "width": 0.7
-      },
-      "alpha": 0.8
-    },
-    {
-      "shape": {
-        "path": "M 14 9 L 14 23"
-      },
-      "stroke": {
-        "color": "$p.dark",
-        "width": 0.7
-      },
-      "alpha": 0.8
-    },
-    {
-      "shape": {
-        "path": "M 19 9 L 19 23"
-      },
-      "stroke": {
-        "color": "$p.dark",
-        "width": 0.7
-      },
-      "alpha": 0.8
-    },
-    {
-      "shape": {
-        "path": "M 3.5 12.5 L 24.5 12.5"
-      },
-      "stroke": {
-        "color": "#72512C",
-        "width": 0.6
+        "color": "#3E2410",
+        "width": 0.35
       },
       "alpha": 0.7
     },
     {
       "shape": {
-        "path": "M 3.5 18 L 24.5 18"
+        "path": "M 3.4 21.6 L 20.6 21.6"
       },
       "stroke": {
-        "color": "#72512C",
-        "width": 0.6
+        "color": "#3E2410",
+        "width": 0.35
       },
       "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 3 9 L 6 9 L 21 23 L 21 26 L 18 26 L 3 12 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 4,
+          "seed": 294,
+          "octaves": 3,
+          "stops": [
+            [
+              0.3,
+              "#81572D"
+            ],
+            [
+              0.5,
+              "#9A6836"
+            ],
+            [
+              0.72,
+              "#A87D52"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.35
+      }
     },
     {
       "shape": {
         "rect": [
           3,
-          6,
-          22,
-          2.4
+          9,
+          3,
+          17
         ]
       },
       "fill": {
-        "color": "$p.dark"
+        "noise": {
+          "scale": 4,
+          "seed": 295,
+          "octaves": 3,
+          "stops": [
+            [
+              0.3,
+              "#A17443"
+            ],
+            [
+              0.5,
+              "#C08A50"
+            ],
+            [
+              0.72,
+              "#C99A68"
+            ]
+          ]
+        }
       },
-      "alpha": 0.5
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.35
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          18,
+          9,
+          3,
+          17
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 4,
+          "seed": 295,
+          "octaves": 3,
+          "stops": [
+            [
+              0.3,
+              "#A17443"
+            ],
+            [
+              0.5,
+              "#C08A50"
+            ],
+            [
+              0.72,
+              "#C99A68"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.35
+      }
     },
     {
       "shape": {
         "rect": [
           3,
-          20.6,
-          22,
-          2.4
+          9,
+          18,
+          1
         ]
       },
       "fill": {
-        "color": "$p.dark"
+        "color": "#FFF0D0"
       },
       "alpha": 0.4
     },
     {
       "shape": {
-        "path": "M 4 8 L 24 22"
-      },
-      "stroke": {
-        "color": "$p.outline",
-        "width": 3.4
-      }
-    },
-    {
-      "shape": {
-        "path": "M 4 8 L 24 22"
-      },
-      "stroke": {
-        "color": "$p.wood",
-        "width": 2.2
-      }
-    },
-    {
-      "shape": {
-        "path": "M 4 7.5 L 24 21.5"
-      },
-      "stroke": {
-        "color": "$p.light",
-        "width": 0.7
-      },
-      "alpha": 0.8
-    },
-    {
-      "shape": {
-        "path": "M 24 8 L 4 22"
-      },
-      "stroke": {
-        "color": "$p.outline",
-        "width": 3.4
-      }
-    },
-    {
-      "shape": {
-        "path": "M 24 8 L 4 22"
-      },
-      "stroke": {
-        "color": "$p.wood",
-        "width": 2.2
-      }
-    },
-    {
-      "shape": {
-        "path": "M 24 7.5 L 4 21.5"
-      },
-      "stroke": {
-        "color": "$p.light",
-        "width": 0.7
-      },
-      "alpha": 0.8
-    },
-    {
-      "shape": {
         "ellipse": [
-          5,
-          8,
-          0.8,
-          0.8
+          4.5,
+          10.8,
+          0.5,
+          0.5
         ]
       },
       "fill": {
-        "color": "#2E2E36"
+        "color": "#2A1608"
       }
     },
     {
       "shape": {
         "ellipse": [
-          4.8,
-          7.8,
-          0.3,
-          0.3
+          19.5,
+          10.8,
+          0.5,
+          0.5
         ]
       },
       "fill": {
-        "color": "#C0C0C8"
+        "color": "#2A1608"
       }
     },
     {
       "shape": {
         "ellipse": [
-          23,
-          8,
-          0.8,
-          0.8
+          4.5,
+          24.4,
+          0.5,
+          0.5
         ]
       },
       "fill": {
-        "color": "#2E2E36"
+        "color": "#2A1608"
       }
     },
     {
       "shape": {
         "ellipse": [
-          22.8,
-          7.8,
-          0.3,
-          0.3
+          19.5,
+          24.4,
+          0.5,
+          0.5
         ]
       },
       "fill": {
-        "color": "#C0C0C8"
-      }
-    },
-    {
-      "shape": {
-        "ellipse": [
-          5,
-          21.5,
-          0.8,
-          0.8
-        ]
-      },
-      "fill": {
-        "color": "#2E2E36"
-      }
-    },
-    {
-      "shape": {
-        "ellipse": [
-          4.8,
-          21.3,
-          0.3,
-          0.3
-        ]
-      },
-      "fill": {
-        "color": "#C0C0C8"
-      }
-    },
-    {
-      "shape": {
-        "ellipse": [
-          23,
-          21.5,
-          0.8,
-          0.8
-        ]
-      },
-      "fill": {
-        "color": "#2E2E36"
-      }
-    },
-    {
-      "shape": {
-        "ellipse": [
-          22.8,
-          21.3,
-          0.3,
-          0.3
-        ]
-      },
-      "fill": {
-        "color": "#C0C0C8"
+        "color": "#2A1608"
       }
     }
   ],
   "palette": {
     "wood": "#B07C44",
-    "light": "#D8A468",
-    "dark": "#6E4824",
-    "outline": "#2E1C0A"
+    "light": "#E8B878",
+    "dark": "#5E3C1E"
   }
 }

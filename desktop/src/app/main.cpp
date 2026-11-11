@@ -31,6 +31,7 @@
 #include "sim/chunk_store.hpp"
 #include "app/sound_board.hpp"
 #include "audio/director.hpp"
+#include "data/font.hpp"
 #include "data/lights.hpp"
 #include "data/world_data.hpp"
 #include "sim/profile.hpp"
@@ -38,6 +39,8 @@
 #include "sim/save_bundle.hpp"
 #include "sim/world_map.hpp"
 #include "sim/world.hpp"
+#include "vector/raster.hpp"
+#include "vector/recipe.hpp"
 #include "vector/rig.hpp"
 
 namespace {
@@ -49,7 +52,7 @@ constexpr int kWindowHeight = 720;
 constexpr int kSmokeTestFrames = 90;
 constexpr int kMaxTicksPerFrame = 5;
 constexpr double kMaxFrameSeconds = 0.25;
-constexpr float kBaseTilePx = 48.0F;
+constexpr float kBaseTilePx = 64.0F;
 constexpr const char* kProtagonistId = "base:protagonist/ren";
 // Who is played in this run (spec 18), chosen for a new game and kept in the folder of the slot.
 std::string g_protagonist_id = kProtagonistId;
@@ -64,6 +67,16 @@ constexpr double kAutosaveSeconds = 30.0;
 constexpr const char* kWorldId = "base:world/overworld";
 
 std::vector<aether::LightDef> g_lights;  // the props that shine at night (spec 08, "Lights")
+
+// The font of the interface (spec 13, "Font"): the glyphs of the pack, baked with the rasterizer of the art at the
+// sizes the screens ask for. The textures belong to a renderer: they are forgotten when it changes.
+struct UiFont {
+    aether::FontDef def;
+    SDL_Renderer* renderer = nullptr;
+    std::map<long long, SDL_Texture*> textures;  // by code point and size
+};
+UiFont g_font;
+aether::Grading g_grading;  // the colour of the hour (spec 08)
 
 struct Assets {
     aether::Pack pack;
@@ -196,6 +209,8 @@ bool load_assets(const fs::path& dir, Assets& out) {
     }
     out.pack = std::move(*pack);
     g_lights = aether::load_lights(out.pack);
+    g_font.def = aether::load_font(out.pack);
+    g_grading = aether::load_grading(out.pack);
 
     std::string error;
     const auto read = [&](std::string_view id) { return out.pack.read_document(id); };
@@ -335,9 +350,30 @@ struct DrawItem {
     const aether::NpcDef* npc = nullptr;
 };
 
-// The number of characters of a UTF-8 text (the debug font draws one character in 8 units, whatever its length in
-// bytes).
+// The glyph of a code point in the font of the pack: its own, or the one of '?'; null when the font has neither.
+const aether::FontGlyph* font_glyph(int code) {
+    auto found = g_font.def.glyphs.find(code);
+    if (found == g_font.def.glyphs.end()) {
+        found = g_font.def.glyphs.find('?');
+    }
+    return found == g_font.def.glyphs.end() ? nullptr : &found->second;
+}
+
+// The width of a UTF-8 text in columns of 8 units, the unit the screens are laid out with. With the font of the pack
+// it is the sum of the widths of the glyphs (they are not all as wide); without it, one column for each character (the
+// debug font of SDL).
 float text_columns(const std::string& text) {
+    if (g_font.def.loaded()) {
+        float width = 0.0F;
+        for (std::size_t i = 0; i < text.size();) {
+            int length = 1;
+            const int code = aether::utf8_code_point(text.c_str() + i, length);
+            i += static_cast<std::size_t>(length);
+            const aether::FontGlyph* glyph = font_glyph(code);
+            width += glyph != nullptr ? glyph->width : g_font.def.cell_w;
+        }
+        return width / 8.0F;
+    }
     std::size_t columns = 0;
     for (const char c : text) {
         if ((static_cast<unsigned char>(c) & 0xC0) != 0x80) {
@@ -347,10 +383,100 @@ float text_columns(const std::string& text) {
     return static_cast<float>(columns);
 }
 
+// The texture of a glyph, white, baked at `size` pixels for each font unit (a few sizes, so that the cache stays
+// small).
+SDL_Texture* glyph_texture(SDL_Renderer* renderer, int code, const aether::FontGlyph& glyph, int size_x2) {
+    if (g_font.renderer != renderer) {  // the textures of another renderer died with it
+        g_font.textures.clear();
+        g_font.renderer = renderer;
+    }
+    const long long key = static_cast<long long>(code) * 64 + size_x2;
+    const auto found = g_font.textures.find(key);
+    if (found != g_font.textures.end()) {
+        return found->second;
+    }
+    const float scale = static_cast<float>(size_x2) / 2.0F;
+    aether::Recipe recipe;
+    recipe.width = g_font.def.cell_w;
+    recipe.height = g_font.def.cell_h;
+    aether::Layer layer;
+    layer.shape.kind = aether::Shape::Kind::Path;
+    layer.shape.path = glyph.path;
+    layer.stroke.present = true;
+    layer.stroke.color = "#FFFFFF";
+    // a pen that is never thinner than a pixel and a bit, or small text fades
+    layer.stroke.width = std::max(g_font.def.stroke, 1.15F / scale);
+    recipe.layers.push_back(std::move(layer));
+    const aether::Bitmap bitmap = aether::rasterize(recipe, scale);
+    SDL_Texture* texture = nullptr;
+    if (SDL_Surface* surface = SDL_CreateSurfaceFrom(bitmap.width, bitmap.height, SDL_PIXELFORMAT_RGBA32,
+                                                     const_cast<std::uint8_t*>(bitmap.rgba.data()), bitmap.width * 4)) {
+        texture = SDL_CreateTextureFromSurface(renderer, surface);
+        SDL_DestroySurface(surface);
+        if (texture != nullptr) {
+            SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_LINEAR);
+            SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+        }
+    }
+    g_font.textures[key] = texture;
+    return texture;
+}
+
+// Draws a UTF-8 text with the font of the pack, in the current color, with its top left at (x, y) as the debug font of
+// SDL (so the screens keep their layout). False when the pack has no font.
+bool font_text(SDL_Renderer* renderer, float x, float y, const char* text) {
+    if (!g_font.def.loaded()) {
+        return false;
+    }
+    float scale_x = 1.0F;
+    float scale_y = 1.0F;
+    SDL_GetRenderScale(renderer, &scale_x, &scale_y);
+    // the size of the bake: the first of these that is at least the scale of the renderer, in half pixels for each unit
+    int size_x2 = 12;
+    for (const int candidate : {2, 3, 4, 6, 8, 12}) {
+        if (static_cast<float>(candidate) / 2.0F >= scale_x - 0.01F) {
+            size_x2 = candidate;
+            break;
+        }
+    }
+    Uint8 r = 255;
+    Uint8 g = 255;
+    Uint8 b = 255;
+    Uint8 a = 255;
+    SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);
+    float pen = x;
+    for (std::size_t i = 0; text[i] != 0;) {
+        int length = 1;
+        const int code = aether::utf8_code_point(text + i, length);
+        i += static_cast<std::size_t>(length);
+        const aether::FontGlyph* glyph = font_glyph(code);
+        if (glyph == nullptr) {
+            pen += g_font.def.cell_w;
+            continue;
+        }
+        if (!glyph->path.empty()) {
+            if (SDL_Texture* texture = glyph_texture(renderer, code, *glyph, size_x2)) {
+                // on whole pixels, or the thin strokes blur
+                const float left = std::round((pen - (g_font.def.cell_w - glyph->width) / 2.0F) * scale_x) / scale_x;
+                const float top = std::round((y - g_font.def.top) * scale_y) / scale_y;
+                const SDL_FRect dst{left, top, g_font.def.cell_w, g_font.def.cell_h};
+                SDL_SetTextureColorMod(texture, r, g, b);
+                SDL_SetTextureAlphaMod(texture, a);
+                SDL_RenderTexture(renderer, texture, nullptr, &dst);
+            }
+        }
+        pen += glyph->width;
+    }
+    return true;
+}
+
 // The debug font of SDL has the ASCII characters only (anything else is drawn as a block). The accented letters of the
 // Italian texts are drawn as the letter with a small accent, the quotation marks as ASCII ones, anything else as a
 // question mark. `text` is UTF-8.
 void debug_text(SDL_Renderer* renderer, float x, float y, const char* text) {
+    if (font_text(renderer, x, y, text)) {  // the font of the pack (spec 13, "Font"); what follows is the fallback
+        return;
+    }
     struct Accent {
         int code;
         char base;
@@ -472,25 +598,97 @@ void draw_bar(SDL_Renderer* renderer, float x, float y, float w, float h, float 
     }
 }
 
+// `flip` mirrors the picture about its origin (a beast that turns to face the player: spec 13, "Facing").
 void draw_sprite(SDL_Renderer* renderer, const aether::Sprite& sprite, float feet_x, float feet_y, float k,
-                 float squash = 1.0F) {
+                 float squash = 1.0F, bool flip = false) {
     const float w = sprite.width * k * (2.0F - squash);
     const float h = sprite.height * k * squash;
-    const SDL_FRect dst{feet_x - sprite.origin_x * k * (2.0F - squash), feet_y - sprite.origin_y * k * squash, w, h};
-    SDL_RenderTexture(renderer, sprite.texture, nullptr, &dst);
+    const float left = (flip ? sprite.width - sprite.origin_x : sprite.origin_x) * k * (2.0F - squash);
+    const SDL_FRect dst{feet_x - left, feet_y - sprite.origin_y * k * squash, w, h};
+    if (flip) {
+        SDL_RenderTextureRotated(renderer, sprite.texture, nullptr, &dst, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+    } else {
+        SDL_RenderTexture(renderer, sprite.texture, nullptr, &dst);
+    }
 }
 
+// A prop that the wind moves (spec 13, "Sway"): its foot stays, its top goes sideways by `shift` pixels (a shear).
+void draw_swaying(SDL_Renderer* renderer, const aether::Sprite& sprite, float feet_x, float feet_y, float k,
+                  float shift) {
+    const float x0 = feet_x - sprite.origin_x * k;
+    const float y0 = feet_y - sprite.origin_y * k;
+    const float x1 = x0 + sprite.width * k;
+    const float y1 = y0 + sprite.height * k;
+    const SDL_FColor white{1.0F, 1.0F, 1.0F, 1.0F};
+    const SDL_Vertex vertices[4] = {{{x0 + shift, y0}, white, {0.0F, 0.0F}},
+                                    {{x1 + shift, y0}, white, {1.0F, 0.0F}},
+                                    {{x1, y1}, white, {1.0F, 1.0F}},
+                                    {{x0, y1}, white, {0.0F, 1.0F}}};
+    const int indices[6] = {0, 1, 2, 0, 2, 3};
+    SDL_RenderGeometry(renderer, sprite.texture, vertices, 4, indices, 6);
+}
+
+// The part of a tile picture that the tile at (tx, ty) shows: all of it, or one cell of a macro tile (spec 13).
+SDL_FRect tile_source(const aether::Sprite& sprite, int tx, int ty) {
+    const int span = std::max(1, static_cast<int>(std::lround(sprite.width / 32.0F)));
+    const float cell_w = static_cast<float>(sprite.px_w) / static_cast<float>(span);
+    const float cell_h = static_cast<float>(sprite.px_h) / static_cast<float>(span);
+    return SDL_FRect{static_cast<float>(tx % span) * cell_w, static_cast<float>(ty % span) * cell_h, cell_w, cell_h};
+}
+
+// A ground of a higher rank fades over the edge of the tile at `dst` (spec 13, "Ground blending"): the picture of the
+// neighbour in the direction (dx, dy), opaque on the shared edge and gone at the middle of the tile.
+void draw_ground_blend(SDL_Renderer* renderer, const aether::Sprite& sprite, int tx, int ty, int dx, int dy,
+                       const SDL_FRect& dst) {
+    const SDL_FRect src = tile_source(sprite, tx, ty);
+    // the corners of the half next to the neighbour, in the unit square of the tile: two on the edge, two in the middle
+    float ex0 = 0.0F;
+    float ey0 = 0.0F;
+    float ex1 = 0.0F;
+    float ey1 = 1.0F;
+    float mx0 = 0.5F;
+    float my0 = 0.0F;
+    float mx1 = 0.5F;
+    float my1 = 1.0F;
+    if (dx > 0) {
+        ex0 = ex1 = 1.0F;
+    } else if (dy != 0) {
+        ex0 = 0.0F;
+        ex1 = 1.0F;
+        ey0 = ey1 = dy > 0 ? 1.0F : 0.0F;
+        mx0 = 0.0F;
+        mx1 = 1.0F;
+        my0 = my1 = 0.5F;
+    }
+    const auto vertex = [&](float ux, float uy, float alpha) {
+        return SDL_Vertex{{dst.x + ux * dst.w, dst.y + uy * dst.h},
+                          {1.0F, 1.0F, 1.0F, alpha},
+                          {(src.x + ux * src.w) / static_cast<float>(sprite.px_w),
+                           (src.y + uy * src.h) / static_cast<float>(sprite.px_h)}};
+    };
+    const SDL_Vertex vertices[4] = {vertex(ex0, ey0, 1.0F), vertex(ex1, ey1, 1.0F), vertex(mx1, my1, 0.0F),
+                                    vertex(mx0, my0, 0.0F)};
+    const int indices[6] = {0, 1, 2, 0, 2, 3};
+    SDL_RenderGeometry(renderer, sprite.texture, vertices, 4, indices, 6);
+}
+
+// `back`: the figure is seen from behind (spec 13): its parts use their `art_back` and `z_back`.
 void draw_character(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& assets, bool moving,
                     bool facing_left, int clip_tick, bool blink, std::string_view variant, float feet_x, float feet_y,
-                    float k, int tile_px) {
+                    float k, int tile_px, bool back = false) {
     const aether::Clip& clip = moving ? assets.walk : assets.idle;
     std::vector<aether::PosedPart> pose =
         aether::evaluate_pose(assets.rig, clip, static_cast<float>(clip_tick), facing_left);
+    if (back) {
+        for (aether::PosedPart& posed : pose) {
+            posed.z = assets.rig.parts[posed.part_index].z_back;
+        }
+    }
     std::stable_sort(pose.begin(), pose.end(),
                      [](const aether::PosedPart& a, const aether::PosedPart& b) { return a.z < b.z; });
     for (const aether::PosedPart& posed : pose) {
         const aether::RigPart& part = assets.rig.parts[posed.part_index];
-        const aether::Sprite* sprite = cache.get(part.art, tile_px, variant);
+        const aether::Sprite* sprite = cache.get(back ? part.art_back : part.art, tile_px, variant);
         if (sprite == nullptr) {
             continue;
         }
@@ -510,7 +708,7 @@ void draw_character(SDL_Renderer* renderer, aether::TextureCache& cache, const A
 }
 
 void draw_enemy(SDL_Renderer* renderer, aether::TextureCache& cache, const aether::Enemy& enemy, float feet_x,
-                float feet_y, float k, int tile_px, Uint64 now_ms) {
+                float feet_y, float k, int tile_px, Uint64 now_ms, float player_x) {
     const aether::Sprite* sprite = cache.get(enemy.def.art, tile_px);
     if (sprite == nullptr) {
         return;
@@ -521,7 +719,7 @@ void draw_enemy(SDL_Renderer* renderer, aether::TextureCache& cache, const aethe
     if (enemy.hit_flash > 0) {
         SDL_SetTextureColorMod(sprite->texture, 255, 120, 120);
     }
-    draw_sprite(renderer, *sprite, feet_x, feet_y, k, squash);
+    draw_sprite(renderer, *sprite, feet_x, feet_y, k, squash, sprite->faces_left && player_x > enemy.position.x);
     SDL_SetTextureColorMod(sprite->texture, 255, 255, 255);
     if (enemy.hp < enemy.def.hp) {
         const float bar_w = 28.0F * k;
@@ -1452,7 +1650,7 @@ void draw_lights(SDL_Renderer* renderer, const aether::WorldSim& sim, const aeth
         return;
     }
     constexpr int kSides = 24;
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_ADD);  // the lights are added to what the night darkened
     sim.for_each_prop(
         cam.x - 6.0F, cam.y - 6.0F, cam.x + view_w + 6.0F, cam.y + view_h + 6.0F, [&](const aether::Prop& prop) {
             for (const aether::LightDef& light : g_lights) {
@@ -1483,6 +1681,66 @@ void draw_lights(SDL_Renderer* renderer, const aether::WorldSim& sim, const aeth
                 SDL_RenderGeometry(renderer, nullptr, vertices, kSides + 1, indices, kSides * 3);
             }
         });
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+}
+
+// What drifts in the air and the dark edges of the screen (spec 08, "The colour of the hour"): dust in the sun by day,
+// fireflies by night, a vignette. Presentation only.
+void draw_ambience(SDL_Renderer* renderer, const aether::WorldSim& sim, int out_w, int out_h, float density,
+                   Uint64 now_ms) {
+    const auto time = sim.time();
+    const float w = static_cast<float>(out_w);
+    const float h = static_cast<float>(out_h);
+    const float night =
+        time ? std::clamp(static_cast<float>(1000 - time->effective_light_pm) / 1000.0F, 0.0F, 1.0F) : 0.0F;
+    if (g_grading.motes > 0 && (!time || time->rain_pm <= 0)) {
+        const float t = static_cast<float>(now_ms % 6000000ULL);
+        const bool fireflies = night > 0.5F;
+        const std::array<int, 3>& tint = fireflies ? g_grading.mote_night : g_grading.mote_day;
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_ADD);
+        for (int i = 0; i < g_grading.motes; ++i) {
+            const float fi = static_cast<float>(i);
+            const float a = fi * 0.6180339F - std::floor(fi * 0.6180339F);
+            const float b = fi * 0.7548777F - std::floor(fi * 0.7548777F);
+            const float drift_x = a + t * 0.000011F * (0.4F + b);
+            const float drift_y = b + t * 0.000006F * (0.5F + a) + 0.015F * std::sin(t * 0.0008F + fi * 1.3F);
+            const float x = (drift_x - std::floor(drift_x)) * w;
+            const float y = (drift_y - std::floor(drift_y)) * h;
+            const float pulse = std::sin(t * (fireflies ? 0.003F : 0.0015F) + fi * 2.1F);
+            const float alpha = fireflies ? night * std::max(0.0F, pulse) * std::max(0.0F, pulse) * 0.85F
+                                          : (1.0F - night) * (0.16F + 0.10F * pulse);
+            if (alpha <= 0.02F) {
+                continue;
+            }
+            const float size = (fireflies ? 2.0F : 1.5F) * density;
+            const auto level = static_cast<Uint8>(std::clamp(alpha, 0.0F, 1.0F) * 255.0F);
+            SDL_SetRenderDrawColor(renderer, static_cast<Uint8>(tint[0]), static_cast<Uint8>(tint[1]),
+                                   static_cast<Uint8>(tint[2]), static_cast<Uint8>(level / 3));
+            const SDL_FRect halo{x - size * 2.0F, y - size * 2.0F, size * 4.0F, size * 4.0F};
+            SDL_RenderFillRect(renderer, &halo);
+            SDL_SetRenderDrawColor(renderer, static_cast<Uint8>(tint[0]), static_cast<Uint8>(tint[1]),
+                                   static_cast<Uint8>(tint[2]), level);
+            const SDL_FRect core{x - size * 0.5F, y - size * 0.5F, size, size};
+            SDL_RenderFillRect(renderer, &core);
+        }
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    }
+    if (g_grading.vignette_pm > 0) {  // four bands that are dark on the edge of the screen and clear towards the middle
+        const float edge = std::clamp(static_cast<float>(g_grading.vignette_pm) / 1000.0F, 0.0F, 1.0F);
+        const float bx = w * 0.3F;
+        const float by = h * 0.3F;
+        const SDL_FColor dark{0.02F, 0.02F, 0.08F, edge};
+        const SDL_FColor clear{0.02F, 0.02F, 0.08F, 0.0F};
+        const SDL_FPoint uv{0.0F, 0.0F};
+        const SDL_Vertex vertices[16] = {
+            {{0.0F, 0.0F}, dark, uv}, {{w, 0.0F}, dark, uv}, {{w, by}, clear, uv},     {{0.0F, by}, clear, uv},
+            {{0.0F, h}, dark, uv},    {{w, h}, dark, uv},    {{w, h - by}, clear, uv}, {{0.0F, h - by}, clear, uv},
+            {{0.0F, 0.0F}, dark, uv}, {{0.0F, h}, dark, uv}, {{bx, h}, clear, uv},     {{bx, 0.0F}, clear, uv},
+            {{w, 0.0F}, dark, uv},    {{w, h}, dark, uv},    {{w - bx, h}, clear, uv}, {{w - bx, 0.0F}, clear, uv}};
+        const int indices[24] = {0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7, 8, 9, 10, 8, 10, 11, 12, 13, 14, 12, 14, 15};
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+        SDL_RenderGeometry(renderer, nullptr, vertices, 16, indices, 24);
+    }
 }
 
 // Night and weather over the world, and the clock (spec 08). Presentation only.
@@ -1492,13 +1750,26 @@ void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether:
     if (!time) {
         return;
     }
-    const int dark = 1000 - time->effective_light_pm;  // 0 = full daylight
-    if (dark > 0) {
-        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-        SDL_SetRenderDrawColor(renderer, 8, 14, 44, static_cast<Uint8>(dark * 175 / 1000));
+    // The colour of the hour (spec 08): the world is multiplied by the blue of the night, then by the warm light of
+    // dawn and dusk, so that colours keep their hue instead of going grey.
+    const float night = std::clamp(static_cast<float>(1000 - time->effective_light_pm) / 1000.0F, 0.0F, 1.0F);
+    const float twilight =
+        0.75F * std::clamp(1.0F - std::fabs(static_cast<float>(time->light_pm) - 550.0F) / 350.0F, 0.0F, 1.0F);
+    const auto multiply = [&](const std::array<int, 3>& color, float amount) {
+        if (amount <= 0.0F) {
+            return;
+        }
+        const auto channel = [amount](int c) {
+            return static_cast<Uint8>(std::clamp(255.0F + (static_cast<float>(c) - 255.0F) * amount, 0.0F, 255.0F));
+        };
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_MOD);
+        SDL_SetRenderDrawColor(renderer, channel(color[0]), channel(color[1]), channel(color[2]), 255);
         const SDL_FRect all{0.0F, 0.0F, static_cast<float>(out_w), static_cast<float>(out_h)};
         SDL_RenderFillRect(renderer, &all);
-    }
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    };
+    multiply(g_grading.night, night);
+    multiply(g_grading.twilight, twilight);
     if (time->season_index >= 0 && sim.chunks() != nullptr) {  // the tint of the season (spec 08)
         const aether::Season& season =
             sim.chunks()->params().time.seasons[static_cast<std::size_t>(time->season_index)];
@@ -3278,7 +3549,32 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
             const float sx1 = std::round((static_cast<float>(tx + 1) - cam.x) * tile);
             const float sy1 = std::round((static_cast<float>(ty + 1) - cam.y) * tile);
             const SDL_FRect dst{sx0, sy0, sx1 - sx0, sy1 - sy0};
-            SDL_RenderTexture(renderer, sprite->texture, nullptr, &dst);
+            const SDL_FRect src = tile_source(*sprite, tx, ty);
+            SDL_RenderTexture(renderer, sprite->texture, &src, &dst);
+        }
+    }
+    // The soft edges of the grounds (spec 13, "Ground blending"): a neighbour of a higher rank fades over the tile.
+    for (int ty = y0; ty < y1; ++ty) {
+        for (int tx = x0; tx < x1; ++tx) {
+            const auto def = assets.tileset.tiles.find(sim.gid_at(tx, ty));
+            if (def == assets.tileset.tiles.end() || def->second.blend <= 0) {
+                continue;
+            }
+            const float sx0 = std::round((static_cast<float>(tx) - cam.x) * tile);
+            const float sy0 = std::round((static_cast<float>(ty) - cam.y) * tile);
+            const float sx1 = std::round((static_cast<float>(tx + 1) - cam.x) * tile);
+            const float sy1 = std::round((static_cast<float>(ty + 1) - cam.y) * tile);
+            const SDL_FRect dst{sx0, sy0, sx1 - sx0, sy1 - sy0};
+            constexpr int kSides[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+            for (const auto& side : kSides) {
+                const auto other = assets.tileset.tiles.find(sim.gid_at(tx + side[0], ty + side[1]));
+                if (other == assets.tileset.tiles.end() || other->second.blend <= def->second.blend) {
+                    continue;
+                }
+                if (const aether::Sprite* over = cache.get(other->second.art, tile_px)) {
+                    draw_ground_blend(renderer, *over, tx, ty, side[0], side[1], dst);
+                }
+            }
         }
     }
 
@@ -3308,8 +3604,9 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
             const float fy = (sim.player().position.y - cam.y) * tile;
             const aether::Player& player = sim.player();
             const bool blink = player.iframes > 0 && (player.iframes / 4) % 2 == 0;
+            const bool back = player.facing.y < 0.0F && std::fabs(player.facing.y) > std::fabs(player.facing.x);
             draw_character(renderer, cache, assets, player.moving, player.facing_left, player.clip_tick, blink,
-                           g_art_variant, fx, fy, k, tile_px);
+                           g_art_variant, fx, fy, k, tile_px, back);
             draw_swing(renderer, sim, fx, fy, tile);
         } else if (item.kind ==
                    4) {  // the companion (spec 10), drawn with the art of its creature, a little smaller, bobbing
@@ -3318,7 +3615,8 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
                 const aether::Vec2& at = *sim.companion_position();
                 const float bob = std::sin(static_cast<float>(now_ms) / 160.0F) * 2.0F * k;
                 draw_sprite(renderer, *sprite, (at.x - cam.x) * tile, (at.y - cam.y) * tile + bob,
-                            k * static_cast<float>(def.scale_pct) / 100.0F);
+                            k * static_cast<float>(def.scale_pct) / 100.0F, 1.0F,
+                            sprite->faces_left && sim.player().position.x > at.x);
             }
         } else if (item.kind == 3) {
             const float fx = (item.npc->x - cam.x) * tile;
@@ -3327,15 +3625,23 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
                            static_cast<int>(now_ms / 16), false, item.npc->variant, fx, fy, k, tile_px);
         } else if (item.kind == 1) {
             draw_enemy(renderer, cache, *item.enemy, (item.enemy->position.x - cam.x) * tile,
-                       (item.enemy->position.y - cam.y) * tile, k, tile_px, now_ms);
+                       (item.enemy->position.y - cam.y) * tile, k, tile_px, now_ms, sim.player().position.x);
         } else if (const aether::Sprite* sprite = cache.get(item.prop->art, tile_px)) {
-            draw_sprite(renderer, *sprite, (item.prop->x - cam.x) * tile, (item.prop->y - cam.y) * tile, k);
+            const float fx = (item.prop->x - cam.x) * tile;
+            const float fy = (item.prop->y - cam.y) * tile;
+            if (sprite->sway > 0.0F) {
+                const float wave = std::sin(static_cast<float>(now_ms % 3895574ULL) / 620.0F + item.prop->x * 0.9F +
+                                            item.prop->y * 0.6F);
+                draw_swaying(renderer, *sprite, fx, fy, k, sprite->sway * k * wave);
+            } else {
+                draw_sprite(renderer, *sprite, fx, fy, k);
+            }
         }
     }
 
     for (const FloatingText& f : floating) {
         const float rise = static_cast<float>(f.age) * 0.6F * density;
-        const float sx = (f.x - cam.x) * tile - static_cast<float>(f.text.size()) * 4.0F;
+        const float sx = (f.x - cam.x) * tile - text_columns(f.text) * 4.0F;
         const float sy = (f.y - cam.y) * tile - tile - rise;
         if (f.on_player) {
             SDL_SetRenderDrawColor(renderer, 255, 90, 90, 255);
@@ -3349,6 +3655,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
 
     draw_atmosphere(renderer, assets, sim, ui, out_w, out_h, density, now_ms);
     draw_lights(renderer, sim, cam, tile, view_w, view_h, now_ms);
+    draw_ambience(renderer, sim, out_w, out_h, density, now_ms);
     draw_hud(renderer, assets, sim, ui, density);
     draw_quest_tracker(renderer, assets, sim, ui, out_w, density);
     draw_minimap(renderer, sim, ui, density);
@@ -3401,13 +3708,13 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     if (!sim.story().dialogue_active()) {
         if (const aether::NpcDef* npc = sim.story().npc_in_range()) {
             const std::string hint = assets.pack.text(ui.lang, "$i18n:ui.interact");
-            const float hx = (npc->x - cam.x) * tile - static_cast<float>(hint.size()) * 4.0F;
+            const float hx = (npc->x - cam.x) * tile - text_columns(hint) * 4.0F;
             const float hy = (npc->y - cam.y) * tile - 2.2F * tile;
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
             debug_text(renderer, hx, hy, hint.c_str());
             if (!npc->name.empty()) {
                 SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
-                debug_text(renderer, (npc->x - cam.x) * tile - static_cast<float>(npc->name.size()) * 4.0F, hy - 12.0F,
+                debug_text(renderer, (npc->x - cam.x) * tile - text_columns(npc->name) * 4.0F, hy - 12.0F,
                            npc->name.c_str());
             }
         }

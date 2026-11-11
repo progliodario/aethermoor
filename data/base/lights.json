@@ -30,5 +30,13 @@
       "strength_pm": 350,
       "flicker_pm": 120
     }
-  ]
+  ],
+  "grading": {
+    "night": "#5766C7",
+    "twilight": "#FFCC9E",
+    "vignette_pm": 280,
+    "motes": 26,
+    "mote_day": "#FFF6C8",
+    "mote_night": "#C8FF8A"
+  }
 }

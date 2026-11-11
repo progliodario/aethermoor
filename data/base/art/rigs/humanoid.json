@@ -13,64 +13,78 @@
       "art": "base:art/char/ren/shadow"
     },
     {
+      "id": "torso",
+      "parent": "shadow",
+      "offset": [
+        0,
+        -29
+      ],
+      "z": 4,
+      "art": "base:art/char/ren/torso",
+      "art_back": "base:art/char/ren/torso_back"
+    },
+    {
+      "id": "cape",
+      "parent": "torso",
+      "offset": [
+        0,
+        -16.6
+      ],
+      "z": 1,
+      "art": "base:art/char/ren/cape",
+      "art_back": "base:art/char/ren/cape_back",
+      "z_back": 6
+    },
+    {
       "id": "leg_l",
       "parent": "shadow",
       "offset": [
-        -4,
-        -14
+        -3.1,
+        -27
       ],
-      "z": 1,
+      "z": 2,
       "art": "base:art/char/ren/leg"
     },
     {
       "id": "leg_r",
       "parent": "shadow",
       "offset": [
-        4,
-        -14
+        3.1,
+        -27
       ],
-      "z": 1,
+      "z": 2,
       "art": "base:art/char/ren/leg"
     },
     {
       "id": "arm_l",
-      "parent": "shadow",
+      "parent": "torso",
       "offset": [
-        -10,
-        -28
+        -7.4,
+        -14.6
       ],
-      "z": 2,
+      "z": 3,
       "art": "base:art/char/ren/arm"
     },
     {
-      "id": "torso",
-      "parent": "shadow",
+      "id": "arm_r",
+      "parent": "torso",
       "offset": [
-        0,
-        -24
+        7.4,
+        -14.6
       ],
-      "z": 3,
-      "art": "base:art/char/ren/torso"
+      "z": 5,
+      "art": "base:art/char/ren/arm"
     },
     {
       "id": "head",
       "parent": "torso",
       "offset": [
         0,
-        -12
+        -16.6
       ],
-      "z": 5,
-      "art": "base:art/char/ren/head"
-    },
-    {
-      "id": "arm_r",
-      "parent": "shadow",
-      "offset": [
-        10,
-        -28
-      ],
-      "z": 4,
-      "art": "base:art/char/ren/arm"
+      "z": 7,
+      "art": "base:art/char/ren/head",
+      "art_back": "base:art/char/ren/head_back"
     }
   ]
 }

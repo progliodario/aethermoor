@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <cstdlib>
 #include <string>
 #include <utility>
@@ -284,6 +285,21 @@ std::vector<Polygon> stroke_polygons(const std::vector<Subpath>& subpaths, float
 
 // ---------------------------------------------------------------------------------- coverage
 
+// The coverage of a layer, and the box of the pixels that may be covered (x1 and y1 are exclusive). The buffer is
+// reused from a layer to the next: only the box is cleared.
+struct Mask {
+    std::vector<float> cov;
+    int width = 0;
+    int height = 0;
+    int x0 = 0;
+    int y0 = 0;
+    int x1 = 0;
+    int y1 = 0;
+
+    bool empty() const { return x1 <= x0 || y1 <= y0; }
+    float* row(int y) { return cov.data() + static_cast<std::size_t>(y) * static_cast<std::size_t>(width); }
+};
+
 void add_span(float* row, int width, float xa, float xb) {
     xa = std::max(xa, 0.0F);
     xb = std::min(xb, static_cast<float>(width));
@@ -301,13 +317,21 @@ void add_span(float* row, int width, float xa, float xb) {
     }
 }
 
-std::vector<float> coverage(const std::vector<Polygon>& polys, int width, int height) {
+void coverage(const std::vector<Polygon>& polys, Mask& mask) {
     struct Edge {
         float x0, y0, x1, y1;
         int dir;
         float ymin, ymax;
     };
+    for (int y = mask.y0; y < mask.y1; ++y) {  // forget the layer before
+        std::fill(mask.row(y) + mask.x0, mask.row(y) + mask.x1, 0.0F);
+    }
+    mask.x0 = mask.y0 = mask.x1 = mask.y1 = 0;
+    const int width = mask.width;
+    const int height = mask.height;
     std::vector<Edge> edges;
+    float min_x = 0.0F;
+    float max_x = 0.0F;
     float min_y = 0.0F;
     float max_y = 0.0F;
     bool any = false;
@@ -317,25 +341,32 @@ std::vector<float> coverage(const std::vector<Polygon>& polys, int width, int he
             const Pt& q = poly[(i + 1) % poly.size()];
             if (!any) {
                 min_y = max_y = p.y;
+                min_x = max_x = p.x;
                 any = true;
             }
             min_y = std::min({min_y, p.y, q.y});
             max_y = std::max({max_y, p.y, q.y});
+            min_x = std::min({min_x, p.x, q.x});
+            max_x = std::max({max_x, p.x, q.x});
             if (p.y == q.y) {
                 continue;
             }
             edges.push_back({p.x, p.y, q.x, q.y, q.y > p.y ? 1 : -1, std::min(p.y, q.y), std::max(p.y, q.y)});
         }
     }
-    std::vector<float> cov(static_cast<std::size_t>(width) * static_cast<std::size_t>(height), 0.0F);
     if (edges.empty()) {
-        return cov;
+        return;
     }
     const int row_begin = std::max(0, static_cast<int>(std::floor(min_y)));
     const int row_end = std::min(height - 1, static_cast<int>(std::floor(max_y)));
+    const int col_begin = std::max(0, static_cast<int>(std::floor(min_x)));
+    const int col_end = std::min(width, static_cast<int>(std::floor(max_x)) + 1);
+    if (row_end < row_begin || col_end <= col_begin) {
+        return;
+    }
     std::vector<Crossing> crossings;
     for (int r = row_begin; r <= row_end; ++r) {
-        float* row = cov.data() + static_cast<std::size_t>(r) * static_cast<std::size_t>(width);
+        float* row = mask.row(r);
         for (int k = 0; k < kSubScanlines; ++k) {
             const float ys = static_cast<float>(r) + (static_cast<float>(k) + 0.5F) / 4.0F;
             crossings.clear();
@@ -355,11 +386,77 @@ std::vector<float> coverage(const std::vector<Polygon>& polys, int width, int he
                 winding += crossings[i].dir;
             }
         }
+        for (int x = col_begin; x < col_end; ++x) {
+            row[x] = std::min(row[x], 1.0F);
+        }
     }
-    for (float& c : cov) {
-        c = std::min(c, 1.0F);
+    mask.x0 = col_begin;
+    mask.x1 = col_end;
+    mask.y0 = row_begin;
+    mask.y1 = row_end + 1;
+}
+
+// One box blur pass of a line (spec 13, step 3b): each value becomes the mean of the 2*rad+1 values around it, and what
+// is outside the line counts as 0.
+void box_pass(const std::vector<float>& in, std::vector<float>& out, int rad) {
+    const int n = static_cast<int>(in.size());
+    const float width = static_cast<float>(2 * rad + 1);
+    float total = 0.0F;
+    for (int i = 0; i <= std::min(rad, n - 1); ++i) {
+        total += in[static_cast<std::size_t>(i)];
     }
-    return cov;
+    for (int i = 0; i < n; ++i) {
+        out[static_cast<std::size_t>(i)] = total / width;
+        const int add = i + rad + 1;
+        if (add < n) {
+            total += in[static_cast<std::size_t>(add)];
+        }
+        const int drop = i - rad;
+        if (drop >= 0) {
+            total -= in[static_cast<std::size_t>(drop)];
+        }
+    }
+}
+
+// Blurs the coverage: three box passes along the rows, then three along the columns. Only the box of the mask, grown by
+// what the blur can reach, is touched: everything else is 0 before and after.
+void blur_mask(Mask& mask, int rad) {
+    if (rad < 1 || mask.empty()) {
+        return;
+    }
+    const int grow = 3 * rad;
+    const int x0 = std::max(0, mask.x0 - grow);
+    const int x1 = std::min(mask.width, mask.x1 + grow);
+    const int y0 = std::max(0, mask.y0 - grow);
+    const int y1 = std::min(mask.height, mask.y1 + grow);
+    // The passes run on whole rows and columns of the bitmap, so that the edge of the bitmap is where the spec says.
+    std::vector<float> line(static_cast<std::size_t>(mask.width));
+    std::vector<float> other(static_cast<std::size_t>(mask.width));
+    for (int y = mask.y0; y < mask.y1; ++y) {
+        float* row = mask.row(y);
+        std::copy(row, row + mask.width, line.begin());
+        box_pass(line, other, rad);
+        box_pass(other, line, rad);
+        box_pass(line, other, rad);
+        std::copy(other.begin(), other.end(), row);
+    }
+    line.assign(static_cast<std::size_t>(mask.height), 0.0F);
+    other.assign(static_cast<std::size_t>(mask.height), 0.0F);
+    for (int x = x0; x < x1; ++x) {
+        for (int y = 0; y < mask.height; ++y) {
+            line[static_cast<std::size_t>(y)] = mask.row(y)[x];
+        }
+        box_pass(line, other, rad);
+        box_pass(other, line, rad);
+        box_pass(line, other, rad);
+        for (int y = 0; y < mask.height; ++y) {
+            mask.row(y)[x] = other[static_cast<std::size_t>(y)];
+        }
+    }
+    mask.x0 = x0;
+    mask.x1 = x1;
+    mask.y0 = y0;
+    mask.y1 = y1;
 }
 
 // ------------------------------------------------------------------------------------- paint
@@ -387,6 +484,10 @@ struct ResolvedPaint {
     Color solid;
     float x0 = 0.0F, y0 = 0.0F, x1 = 0.0F, y1 = 0.0F;
     float cx = 0.0F, cy = 0.0F, r = 0.0F;
+    float noise_scale = 1.0F;
+    std::uint32_t noise_seed = 0;
+    int noise_octaves = 3;
+    int noise_period = 0;
     std::vector<ResolvedStop> stops;
 };
 
@@ -403,6 +504,10 @@ ResolvedPaint resolve_paint(const Paint& paint, const Palette& palette) {
     out.cx = paint.cx;
     out.cy = paint.cy;
     out.r = paint.r;
+    out.noise_scale = paint.noise_scale;
+    out.noise_seed = static_cast<std::uint32_t>(paint.noise_seed);
+    out.noise_octaves = std::clamp(paint.noise_octaves, 1, 6);
+    out.noise_period = std::max(paint.noise_period, 0);
     for (const GradientStop& s : paint.stops) {
         out.stops.push_back({s.t, resolve_color(s.color, palette)});
     }
@@ -434,6 +539,60 @@ Color color_from_stops(const std::vector<ResolvedStop>& stops, float t) {
     return stops.back().color;
 }
 
+// The lattice value of the noise fill (spec 13, "Noise"): a 32-bit mix of the cell and the seed, as a number in 0..1.
+float noise_hash(std::uint32_t ix, std::uint32_t iy, std::uint32_t seed) {
+    std::uint32_t h = ix * 0x9E3779B1U + iy * 0x85EBCA77U + seed * 0xC2B2AE3DU;
+    h ^= h >> 15U;
+    h *= 0x2C1B3C6DU;
+    h ^= h >> 12U;
+    h *= 0x297A2D39U;
+    h ^= h >> 15U;
+    return static_cast<float>(h >> 8U) / 16777215.0F;
+}
+
+float noise_value(const ResolvedPaint& paint, float px, float py) {
+    float total = 0.0F;
+    float norm = 0.0F;
+    float amp = 1.0F;
+    for (int o = 0; o < paint.noise_octaves; ++o) {
+        const float f = static_cast<float>(1 << o) / paint.noise_scale;
+        const float u = px * f;
+        const float v = py * f;
+        const float floor_u = std::floor(u);
+        const float floor_v = std::floor(v);
+        const float fu = u - floor_u;
+        const float fv = v - floor_v;
+        const float su = fu * fu * (3.0F - 2.0F * fu);
+        const float sv = fv * fv * (3.0F - 2.0F * fv);
+        std::int64_t ix = static_cast<std::int64_t>(floor_u);
+        std::int64_t iy = static_cast<std::int64_t>(floor_v);
+        std::int64_t ix1 = ix + 1;
+        std::int64_t iy1 = iy + 1;
+        if (paint.noise_period > 0) {
+            const std::int64_t per = static_cast<std::int64_t>(paint.noise_period) << o;
+            const auto wrap = [per](std::int64_t value) { return ((value % per) + per) % per; };
+            ix = wrap(ix);
+            iy = wrap(iy);
+            ix1 = wrap(ix1);
+            iy1 = wrap(iy1);
+        }
+        const std::uint32_t seed = paint.noise_seed + static_cast<std::uint32_t>(o);
+        const auto cell = [seed](std::int64_t x, std::int64_t y) {
+            return noise_hash(static_cast<std::uint32_t>(x), static_cast<std::uint32_t>(y), seed);
+        };
+        const float a = cell(ix, iy);
+        const float b = cell(ix1, iy);
+        const float c = cell(ix, iy1);
+        const float d = cell(ix1, iy1);
+        const float top = a + (b - a) * su;
+        const float bottom = c + (d - c) * su;
+        total += (top + (bottom - top) * sv) * amp;
+        norm += amp;
+        amp *= 0.5F;
+    }
+    return total / norm;
+}
+
 Color paint_at(const ResolvedPaint& paint, float px, float py) {
     switch (paint.kind) {
         case Paint::Kind::Solid:
@@ -451,31 +610,51 @@ Color paint_at(const ResolvedPaint& paint, float px, float py) {
             const float t = paint.r <= 0.0F ? 1.0F : clamp01(std::sqrt(ex * ex + ey * ey) / paint.r);
             return color_from_stops(paint.stops, t);
         }
+        case Paint::Kind::Noise:
+            return color_from_stops(paint.stops, paint.noise_scale <= 0.0F ? 0.5F : noise_value(paint, px, py));
         case Paint::Kind::None:
             break;
     }
     return {};
 }
 
-void composite(std::vector<float>& acc, const std::vector<float>& cov, const ResolvedPaint& paint, float layer_alpha,
-               int width, int height, float scale) {
-    for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; ++x) {
-            const std::size_t index =
-                static_cast<std::size_t>(y) * static_cast<std::size_t>(width) + static_cast<std::size_t>(x);
-            const float c = cov[index];
+void composite(std::vector<float>& acc, Mask& mask, const ResolvedPaint& paint, const Layer& layer, float scale) {
+    for (int y = mask.y0; y < mask.y1; ++y) {
+        const float* row = mask.row(y);
+        const float py = (static_cast<float>(y) + 0.5F) / scale;
+        for (int x = mask.x0; x < mask.x1; ++x) {
+            const float c = row[x];
             if (c <= 0.0F) {
                 continue;
             }
-            const Color color =
-                paint_at(paint, (static_cast<float>(x) + 0.5F) / scale, (static_cast<float>(y) + 0.5F) / scale);
-            const float a = (c * layer_alpha) * color.a;
-            float* dst = acc.data() + index * 4;
-            const float inv = 1.0F - a;
-            dst[0] = color.r * a + dst[0] * inv;
-            dst[1] = color.g * a + dst[1] * inv;
-            dst[2] = color.b * a + dst[2] * inv;
-            dst[3] = a + dst[3] * inv;
+            const Color color = paint_at(paint, (static_cast<float>(x) + 0.5F) / scale, py);
+            float a = (c * layer.alpha) * color.a;
+            float* dst =
+                acc.data() +
+                (static_cast<std::size_t>(y) * static_cast<std::size_t>(mask.width) + static_cast<std::size_t>(x)) * 4;
+            if (layer.blend == Layer::Blend::Multiply) {  // darkens what is there, never adds coverage
+                dst[0] *= 1.0F - a + a * color.r;
+                dst[1] *= 1.0F - a + a * color.g;
+                dst[2] *= 1.0F - a + a * color.b;
+                continue;
+            }
+            const float dst_alpha = dst[3];
+            if (layer.clip) {
+                a *= dst_alpha;
+            }
+            if (layer.blend == Layer::Blend::Add) {
+                dst[0] += color.r * a;
+                dst[1] += color.g * a;
+                dst[2] += color.b * a;
+            } else {
+                const float inv = 1.0F - a;
+                dst[0] = color.r * a + dst[0] * inv;
+                dst[1] = color.g * a + dst[1] * inv;
+                dst[2] = color.b * a + dst[2] * inv;
+            }
+            if (!layer.clip) {
+                dst[3] = a + dst_alpha * (1.0F - a);
+            }
         }
     }
 }
@@ -501,6 +680,10 @@ Bitmap rasterize(const Recipe& recipe, float scale, std::string_view variant) {
     bitmap.height = std::max(1, static_cast<int>(std::ceil(recipe.height * scale)));
     const std::size_t pixels = static_cast<std::size_t>(bitmap.width) * static_cast<std::size_t>(bitmap.height);
     std::vector<float> acc(pixels * 4, 0.0F);
+    Mask mask;
+    mask.width = bitmap.width;
+    mask.height = bitmap.height;
+    mask.cov.assign(pixels, 0.0F);
 
     const auto listed = [&](const std::vector<std::string>& names) {
         return std::find(names.begin(), names.end(), variant) != names.end();
@@ -510,6 +693,7 @@ Bitmap rasterize(const Recipe& recipe, float scale, std::string_view variant) {
             continue;
         }
         const std::vector<Subpath> subpaths = shape_subpaths(layer.shape, scale);
+        const int blur_rad = static_cast<int>(std::floor(layer.blur * scale + 0.5F));
         if (layer.fill.kind != Paint::Kind::None) {
             std::vector<Polygon> polys;
             for (const Subpath& sp : subpaths) {
@@ -517,16 +701,22 @@ Bitmap rasterize(const Recipe& recipe, float scale, std::string_view variant) {
                     polys.push_back(sp.pts);
                 }
             }
-            const std::vector<float> cov = coverage(polys, bitmap.width, bitmap.height);
-            composite(acc, cov, resolve_paint(layer.fill, palette), layer.alpha, bitmap.width, bitmap.height, scale);
+            coverage(polys, mask);
+            blur_mask(mask, blur_rad);
+            if (!mask.empty()) {
+                composite(acc, mask, resolve_paint(layer.fill, palette), layer, scale);
+            }
         }
         if (layer.stroke.present) {
             const std::vector<Polygon> polys = stroke_polygons(subpaths, layer.stroke.width * scale / 2.0F);
-            const std::vector<float> cov = coverage(polys, bitmap.width, bitmap.height);
-            ResolvedPaint paint;
-            paint.kind = Paint::Kind::Solid;
-            paint.solid = resolve_color(layer.stroke.color, palette);
-            composite(acc, cov, paint, layer.alpha, bitmap.width, bitmap.height, scale);
+            coverage(polys, mask);
+            blur_mask(mask, blur_rad);
+            if (!mask.empty()) {
+                ResolvedPaint paint;
+                paint.kind = Paint::Kind::Solid;
+                paint.solid = resolve_color(layer.stroke.color, palette);
+                composite(acc, mask, paint, layer, scale);
+            }
         }
     }
 

@@ -54,21 +54,47 @@ class Recipe:
         self.palette = dict(palette or {})
         self.layers: list[dict] = []
         self.variants: dict[str, dict] = {}
+        self.faces: str | None = None  # "left": the clients mirror the picture to face the player
+        self.sway: float = 0.0  # how far the top moves in the wind, in art units (spec 13, "Sway")
         self.rng = random.Random(f"{recipe_id}/{seed}")
 
     # --- layers
-    def add(self, shape: dict, fill=None, stroke=None, width: float = 1.0, alpha: float | None = None, only=None) -> "Recipe":
+    def add(self, shape: dict, fill=None, stroke=None, width: float = 1.0, alpha: float | None = None, only=None,
+            blur: float | None = None, clip: bool = False, blend: str | None = None, skip=None) -> "Recipe":
+        """A layer. `blur` softens its edge (art units), `clip` keeps it inside what is already painted, `blend` is
+        "multiply" (a shade) or "add" (a light); `only` and `skip` (the `except` of the format) are variant names."""
         layer: dict = {"shape": shape}
         if fill is not None:
             layer["fill"] = fill if isinstance(fill, dict) else {"color": fill}
         if stroke is not None:
-            layer["stroke"] = {"color": stroke, "width": width}
+            layer["stroke"] = {"color": stroke, "width": _n(width)}
         if alpha is not None and alpha < 1:
             layer["alpha"] = round(alpha, 3)
+        if blur:
+            layer["blur"] = _n(blur)
+        if clip:
+            layer["clip"] = True
+        if blend:
+            layer["blend"] = blend
         if only:
             layer["only"] = list(only)
+        if skip:
+            layer["except"] = list(skip)
         self.layers.append(layer)
         return self
+
+    # --- shading in the anime way: a flat tone, a hard shade, a soft shade, a rim of light (docs/design/art-style.md)
+    def shade(self, d: str, alpha: float = 0.42, color: str = "#5A4E9A", blur: float | None = None, **kw):
+        """A shade over what is painted: a cool violet multiplied on the colors, so that every palette keeps its hue."""
+        return self.add({"path": d}, color, alpha=alpha, blend="multiply", blur=blur, **kw)
+
+    def lit(self, d: str, alpha: float = 0.35, color: str = "#FFF4D8", blur: float | None = None, **kw):
+        """A light inside what is painted (a rim, a gloss)."""
+        return self.add({"path": d}, color, alpha=alpha, blend="add", clip=True, blur=blur, **kw)
+
+    def glow(self, cx, cy, r, color: str, alpha: float = 0.5):
+        """A soft light around a point, also outside what is painted (a flame, a rune)."""
+        return self.add({"ellipse": [_n(cx), _n(cy), _n(r * 0.6), _n(r * 0.6)]}, color, alpha=alpha, blend="add", blur=r * 0.4)
 
     def rect(self, x, y, w, h, fill=None, **kw):
         return self.add({"rect": [_n(x), _n(y), _n(w), _n(h)]}, fill, **kw)
@@ -85,10 +111,10 @@ class Recipe:
     def line(self, x0, y0, x1, y1, color, width=1.0, alpha=None):
         return self.add({"path": f"M {_n(x0)} {_n(y0)} L {_n(x1)} {_n(y1)}"}, None, stroke=color, width=width, alpha=alpha)
 
-    def shadow(self, cx, cy, rx, ry, alpha=0.28):
-        """The soft shadow of something standing on the ground."""
-        self.ellipse(cx, cy, rx, ry, "#000000", alpha=alpha)
-        self.ellipse(cx, cy, rx * 0.72, ry * 0.7, "#000000", alpha=alpha * 0.6)
+    def shadow(self, cx, cy, rx, ry, alpha=0.3):
+        """The soft shadow of something standing on the ground: a wide faint one and a darker core."""
+        self.ellipse(cx, cy, rx, ry, "#141030", alpha=alpha, blur=min(rx, ry) * 0.35)
+        self.ellipse(cx, cy, rx * 0.6, ry * 0.55, "#141030", alpha=alpha * 0.8, blur=min(rx, ry) * 0.25)
         return self
 
     # --- seeded details
@@ -147,6 +173,10 @@ class Recipe:
         }
         if self.variants:
             data["variants"] = self.variants
+        if self.faces:
+            data["faces"] = self.faces
+        if self.sway:
+            data["sway"] = _n(self.sway)
         return data
 
     def write(self, path: Path) -> None:
@@ -171,6 +201,15 @@ def linear(x0, y0, x1, y1, *stops):
 
 def radial(cx, cy, r, *stops):
     return {"radial": {"cx": _n(cx), "cy": _n(cy), "r": _n(r), "stops": [[t, c] for t, c in stops]}}
+
+
+def noise(scale, seed, *stops, octaves: int = 4, period: int = 0):
+    """A noise fill (spec 13): soft clouds of the stop colors, `scale` art units wide; `period` (in cells of `scale`)
+    makes it repeat, so that a tile joins itself."""
+    data = {"scale": _n(scale), "seed": int(seed), "octaves": octaves, "stops": [[t, c] for t, c in stops]}
+    if period:
+        data["period"] = int(period)
+    return {"noise": data}
 
 
 # ------------------------------------------------------------------------------------------------ moving layers
@@ -203,6 +242,8 @@ def _map_paint(fill: dict, s: float, dx: float, dy: float) -> dict:
         g = dict(fill["radial"])
         g.update(cx=_n(g["cx"] * s + dx), cy=_n(g["cy"] * s + dy), r=_n(g["r"] * s))
         return {"radial": g}
+    if "noise" in fill:
+        return {"noise": dict(fill["noise"], scale=_n(fill["noise"]["scale"] * s))}
     return fill
 
 
@@ -226,5 +267,7 @@ def transform_layers(layers: list[dict], s: float = 1.0, dx: float = 0.0, dy: fl
             new["fill"] = _map_paint(layer["fill"], s, dx, dy)
         if "stroke" in layer:
             new["stroke"] = dict(layer["stroke"], width=_n(layer["stroke"]["width"] * s))
+        if "blur" in layer:
+            new["blur"] = _n(layer["blur"] * s)
         out.append(new)
     return out

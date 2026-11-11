@@ -33,4 +33,31 @@ std::vector<LightDef> load_lights(const Pack& pack) {
     return out;
 }
 
+Grading load_grading(const Pack& pack) {
+    Grading out;
+    const auto text = pack.read_document("base:lights/all");
+    if (!text) {
+        return out;
+    }
+    const nlohmann::json doc = nlohmann::json::parse(*text, nullptr, /*allow_exceptions=*/false);
+    if (doc.is_discarded() || !doc.contains("grading") || !doc.at("grading").is_object()) {
+        return out;
+    }
+    const nlohmann::json& g = doc.at("grading");
+    const auto color = [&g](const char* key, std::array<int, 3>& into) {
+        const std::string value = g.value(key, "");
+        if (value.size() == 7 && value[0] == '#') {
+            into = {std::stoi(value.substr(1, 2), nullptr, 16), std::stoi(value.substr(3, 2), nullptr, 16),
+                    std::stoi(value.substr(5, 2), nullptr, 16)};
+        }
+    };
+    color("night", out.night);
+    color("twilight", out.twilight);
+    color("mote_day", out.mote_day);
+    color("mote_night", out.mote_night);
+    out.vignette_pm = g.value("vignette_pm", out.vignette_pm);
+    out.motes = g.value("motes", out.motes);
+    return out;
+}
+
 }  // namespace aether

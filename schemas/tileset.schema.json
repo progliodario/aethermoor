@@ -3,28 +3,67 @@
   "$id": "https://aethermoor.invalid/schemas/tileset.schema.json",
   "title": "Tileset: tile ids mapped to art recipes",
   "type": "object",
-  "required": ["id", "tiles"],
+  "required": [
+    "id",
+    "tiles"
+  ],
   "additionalProperties": false,
   "properties": {
-    "$schema": { "type": "string" },
-    "id": { "$ref": "#/$defs/id" },
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "$ref": "#/$defs/id"
+    },
     "tiles": {
       "type": "array",
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": ["gid", "art", "solid"],
+        "required": [
+          "gid",
+          "art",
+          "solid"
+        ],
         "additionalProperties": false,
         "properties": {
-          "gid": { "type": "integer", "minimum": 1 },
-          "art": { "$ref": "#/$defs/id" },
-          "solid": { "type": "boolean" },
-          "surface": { "enum": ["grass", "dirt", "sand", "snow", "stone", "wood", "water", "moss", "ash"] }
+          "gid": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "art": {
+            "$ref": "#/$defs/id"
+          },
+          "solid": {
+            "type": "boolean"
+          },
+          "surface": {
+            "enum": [
+              "grass",
+              "dirt",
+              "sand",
+              "snow",
+              "stone",
+              "wood",
+              "water",
+              "moss",
+              "ash"
+            ]
+          },
+          "blend": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000,
+            "description": "The rank of a soft ground: a ground with a higher rank fades over the edge of its neighbours of a lower rank (spec 13, \"Ground blending\"). 0 or absent: hard edges."
+          }
         }
       }
     }
   },
   "$defs": {
-    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$" }
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+    }
   }
 }

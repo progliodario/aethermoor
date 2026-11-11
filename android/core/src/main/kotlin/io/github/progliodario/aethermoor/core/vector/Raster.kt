@@ -265,6 +265,20 @@ private fun strokePolygons(subpaths: List<Subpath>, halfWidth: Float): List<List
 
 // ---------------------------------------------------------------------------------- coverage
 
+/**
+ * The coverage of a layer, and the box of the pixels that may be covered ([x1] and [y1] are exclusive). The buffer is
+ * reused from a layer to the next: only the box is cleared.
+ */
+private class Mask(val width: Int, val height: Int) {
+    val cov = FloatArray(width * height)
+    var x0 = 0
+    var y0 = 0
+    var x1 = 0
+    var y1 = 0
+
+    val isEmpty: Boolean get() = x1 <= x0 || y1 <= y0
+}
+
 private fun addSpan(cov: FloatArray, rowOffset: Int, width: Int, xaIn: Float, xbIn: Float) {
     val xa = max(xaIn, 0f)
     val xb = min(xbIn, width.toFloat())
@@ -278,8 +292,18 @@ private fun addSpan(cov: FloatArray, rowOffset: Int, width: Int, xaIn: Float, xb
     }
 }
 
-private fun coverage(polys: List<List<Pt>>, width: Int, height: Int): FloatArray {
+private fun coverage(polys: List<List<Pt>>, mask: Mask) {
+    val width = mask.width
+    val height = mask.height
+    val cov = mask.cov
+    for (y in mask.y0 until mask.y1) cov.fill(0f, y * width + mask.x0, y * width + mask.x1) // forget the layer before
+    mask.x0 = 0
+    mask.y0 = 0
+    mask.x1 = 0
+    mask.y1 = 0
     val edges = ArrayList<Edge>()
+    var minX = 0f
+    var maxX = 0f
     var minY = 0f
     var maxY = 0f
     var any = false
@@ -290,18 +314,24 @@ private fun coverage(polys: List<List<Pt>>, width: Int, height: Int): FloatArray
             if (!any) {
                 minY = p.y
                 maxY = p.y
+                minX = p.x
+                maxX = p.x
                 any = true
             }
             minY = min(minY, min(p.y, q.y))
             maxY = max(maxY, max(p.y, q.y))
+            minX = min(minX, min(p.x, q.x))
+            maxX = max(maxX, max(p.x, q.x))
             if (p.y == q.y) continue
             edges.add(Edge(p.x, p.y, q.x, q.y, if (q.y > p.y) 1 else -1))
         }
     }
-    val cov = FloatArray(width * height)
-    if (edges.isEmpty()) return cov
+    if (edges.isEmpty()) return
     val rowBegin = max(0, floor(minY).toInt())
     val rowEnd = min(height - 1, floor(maxY).toInt())
+    val colBegin = max(0, floor(minX).toInt())
+    val colEnd = min(width, floor(maxX).toInt() + 1)
+    if (rowEnd < rowBegin || colEnd <= colBegin) return
     val crossings = ArrayList<Crossing>()
     val order = Comparator<Crossing> { a, b -> if (a.x != b.x) a.x.compareTo(b.x) else a.dir.compareTo(b.dir) }
     for (r in rowBegin..rowEnd) {
@@ -321,9 +351,63 @@ private fun coverage(polys: List<List<Pt>>, width: Int, height: Int): FloatArray
                 winding += crossings[i].dir
             }
         }
+        for (x in colBegin until colEnd) cov[r * width + x] = min(cov[r * width + x], 1f)
     }
-    for (i in cov.indices) cov[i] = min(cov[i], 1f)
-    return cov
+    mask.x0 = colBegin
+    mask.x1 = colEnd
+    mask.y0 = rowBegin
+    mask.y1 = rowEnd + 1
+}
+
+/**
+ * One box blur pass of a line (spec 13, step 3b): each value becomes the mean of the 2*rad+1 values around it, and
+ * what is outside the line counts as 0.
+ */
+private fun boxPass(input: FloatArray, output: FloatArray, n: Int, rad: Int) {
+    val width = (2 * rad + 1).toFloat()
+    var total = 0f
+    for (i in 0..min(rad, n - 1)) total += input[i]
+    for (i in 0 until n) {
+        output[i] = total / width
+        val add = i + rad + 1
+        if (add < n) total += input[add]
+        val drop = i - rad
+        if (drop >= 0) total -= input[drop]
+    }
+}
+
+/** Blurs the coverage: three box passes along the rows, then three along the columns. */
+private fun blurMask(mask: Mask, rad: Int) {
+    if (rad < 1 || mask.isEmpty) return
+    val width = mask.width
+    val height = mask.height
+    val cov = mask.cov
+    val grow = 3 * rad
+    val x0 = max(0, mask.x0 - grow)
+    val x1 = min(width, mask.x1 + grow)
+    val y0 = max(0, mask.y0 - grow)
+    val y1 = min(height, mask.y1 + grow)
+    val size = max(width, height)
+    val line = FloatArray(size)
+    val other = FloatArray(size)
+    for (y in mask.y0 until mask.y1) {
+        System.arraycopy(cov, y * width, line, 0, width)
+        boxPass(line, other, width, rad)
+        boxPass(other, line, width, rad)
+        boxPass(line, other, width, rad)
+        System.arraycopy(other, 0, cov, y * width, width)
+    }
+    for (x in x0 until x1) {
+        for (y in 0 until height) line[y] = cov[y * width + x]
+        boxPass(line, other, height, rad)
+        boxPass(other, line, height, rad)
+        boxPass(line, other, height, rad)
+        for (y in 0 until height) cov[y * width + x] = other[y]
+    }
+    mask.x0 = x0
+    mask.x1 = x1
+    mask.y0 = y0
+    mask.y1 = y1
 }
 
 // ------------------------------------------------------------------------------------- paint
@@ -344,6 +428,8 @@ private sealed interface ResolvedPaint {
     class Linear(val x0: Float, val y0: Float, val x1: Float, val y1: Float, val stops: List<ResolvedStop>) : ResolvedPaint
 
     class Radial(val cx: Float, val cy: Float, val r: Float, val stops: List<ResolvedStop>) : ResolvedPaint
+
+    class Noise(val scale: Float, val seed: Int, val octaves: Int, val period: Int, val stops: List<ResolvedStop>) : ResolvedPaint
 }
 
 private fun resolveStops(stops: List<GradientStop>, palette: Palette) =
@@ -355,6 +441,9 @@ private fun resolvePaint(paint: Paint, palette: Palette): ResolvedPaint? =
         is Paint.Solid -> ResolvedPaint.Solid(resolveColor(paint.color, palette))
         is Paint.Linear -> ResolvedPaint.Linear(paint.x0, paint.y0, paint.x1, paint.y1, resolveStops(paint.stops, palette))
         is Paint.Radial -> ResolvedPaint.Radial(paint.cx, paint.cy, paint.r, resolveStops(paint.stops, palette))
+        is Paint.Noise -> ResolvedPaint.Noise(
+            paint.scale, paint.seed, paint.octaves.coerceIn(1, 6), max(paint.period, 0), resolveStops(paint.stops, palette),
+        )
     }
 
 private fun clamp01(v: Float) = if (v < 0f) 0f else if (v > 1f) 1f else v
@@ -380,6 +469,56 @@ private fun colorFromStops(stops: List<ResolvedStop>, t: Float): Color {
     return stops.last().color
 }
 
+/** The lattice value of the noise fill (spec 13, "Noise"): a 32-bit mix of the cell and the seed, in 0..1. */
+private fun noiseHash(ix: Int, iy: Int, seed: Int): Float {
+    var h = ix * 0x9E3779B1.toInt() + iy * 0x85EBCA77.toInt() + seed * 0xC2B2AE3D.toInt()
+    h = h xor (h ushr 15)
+    h *= 0x2C1B3C6D
+    h = h xor (h ushr 12)
+    h *= 0x297A2D39
+    h = h xor (h ushr 15)
+    return (h ushr 8).toFloat() / 16777215f
+}
+
+private fun noiseValue(paint: ResolvedPaint.Noise, px: Float, py: Float): Float {
+    var total = 0f
+    var norm = 0f
+    var amp = 1f
+    for (o in 0 until paint.octaves) {
+        val f = (1 shl o).toFloat() / paint.scale
+        val u = px * f
+        val v = py * f
+        val floorU = floor(u)
+        val floorV = floor(v)
+        val fu = u - floorU
+        val fv = v - floorV
+        val su = fu * fu * (3f - 2f * fu)
+        val sv = fv * fv * (3f - 2f * fv)
+        var ix = floorU.toLong()
+        var iy = floorV.toLong()
+        var ix1 = ix + 1
+        var iy1 = iy + 1
+        if (paint.period > 0) {
+            val per = paint.period.toLong() shl o
+            ix = ix.mod(per)
+            iy = iy.mod(per)
+            ix1 = ix1.mod(per)
+            iy1 = iy1.mod(per)
+        }
+        val seed = paint.seed + o
+        val a = noiseHash(ix.toInt(), iy.toInt(), seed)
+        val b = noiseHash(ix1.toInt(), iy.toInt(), seed)
+        val c = noiseHash(ix.toInt(), iy1.toInt(), seed)
+        val d = noiseHash(ix1.toInt(), iy1.toInt(), seed)
+        val top = a + (b - a) * su
+        val bottom = c + (d - c) * su
+        total += (top + (bottom - top) * sv) * amp
+        norm += amp
+        amp *= 0.5f
+    }
+    return total / norm
+}
+
 private fun paintAt(paint: ResolvedPaint, px: Float, py: Float): Color =
     when (paint) {
         is ResolvedPaint.Solid -> paint.color
@@ -396,22 +535,40 @@ private fun paintAt(paint: ResolvedPaint, px: Float, py: Float): Color =
             val t = if (paint.r <= 0f) 1f else clamp01(sqrt(ex * ex + ey * ey) / paint.r)
             colorFromStops(paint.stops, t)
         }
+        is ResolvedPaint.Noise -> colorFromStops(paint.stops, if (paint.scale <= 0f) 0.5f else noiseValue(paint, px, py))
     }
 
-private fun composite(acc: FloatArray, cov: FloatArray, paint: ResolvedPaint, layerAlpha: Float, width: Int, height: Int, scale: Float) {
-    for (y in 0 until height) {
-        for (x in 0 until width) {
+private fun composite(acc: FloatArray, mask: Mask, paint: ResolvedPaint, layer: Layer, scale: Float) {
+    val width = mask.width
+    val cov = mask.cov
+    for (y in mask.y0 until mask.y1) {
+        val py = (y.toFloat() + 0.5f) / scale
+        for (x in mask.x0 until mask.x1) {
             val index = y * width + x
             val c = cov[index]
             if (c <= 0f) continue
-            val color = paintAt(paint, (x.toFloat() + 0.5f) / scale, (y.toFloat() + 0.5f) / scale)
-            val a = (c * layerAlpha) * color.a
-            val inv = 1f - a
+            val color = paintAt(paint, (x.toFloat() + 0.5f) / scale, py)
+            var a = (c * layer.alpha) * color.a
             val o = index * 4
-            acc[o] = color.r * a + acc[o] * inv
-            acc[o + 1] = color.g * a + acc[o + 1] * inv
-            acc[o + 2] = color.b * a + acc[o + 2] * inv
-            acc[o + 3] = a + acc[o + 3] * inv
+            if (layer.blend == Blend.MULTIPLY) { // darkens what is there, never adds coverage
+                acc[o] *= 1f - a + a * color.r
+                acc[o + 1] *= 1f - a + a * color.g
+                acc[o + 2] *= 1f - a + a * color.b
+                continue
+            }
+            val dstAlpha = acc[o + 3]
+            if (layer.clip) a *= dstAlpha
+            if (layer.blend == Blend.ADD) {
+                acc[o] += color.r * a
+                acc[o + 1] += color.g * a
+                acc[o + 2] += color.b * a
+            } else {
+                val inv = 1f - a
+                acc[o] = color.r * a + acc[o] * inv
+                acc[o + 1] = color.g * a + acc[o + 1] * inv
+                acc[o + 2] = color.b * a + acc[o + 2] * inv
+            }
+            if (!layer.clip) acc[o + 3] = a + dstAlpha * (1f - a)
         }
     }
 }
@@ -427,18 +584,23 @@ fun rasterize(recipe: Recipe, scale: Float, variant: String? = null): Bitmap {
     val height = max(1, ceil(recipe.height * scale).toInt())
     val pixels = width * height
     val acc = FloatArray(pixels * 4)
+    val mask = Mask(width, height)
 
     for (layer in recipe.layers) {
         if ((layer.only.isNotEmpty() && variant !in layer.only) || (variant != null && variant in layer.except)) continue
         val subpaths = shapeSubpaths(layer.shape, scale)
+        val blurRad = floor(layer.blur * scale + 0.5f).toInt()
         resolvePaint(layer.fill, palette)?.let { paint ->
             val polys = subpaths.filter { it.pts.size >= 3 }.map { it.pts as List<Pt> }
-            composite(acc, coverage(polys, width, height), paint, layer.alpha, width, height, scale)
+            coverage(polys, mask)
+            blurMask(mask, blurRad)
+            if (!mask.isEmpty) composite(acc, mask, paint, layer, scale)
         }
         layer.stroke?.let { stroke ->
             val polys = strokePolygons(subpaths, stroke.width * scale / 2f)
-            val paint = ResolvedPaint.Solid(resolveColor(stroke.color, palette))
-            composite(acc, coverage(polys, width, height), paint, layer.alpha, width, height, scale)
+            coverage(polys, mask)
+            blurMask(mask, blurRad)
+            if (!mask.isEmpty) composite(acc, mask, ResolvedPaint.Solid(resolveColor(stroke.color, palette)), layer, scale)
         }
     }
 

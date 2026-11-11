@@ -3,29 +3,73 @@
   "$id": "https://aethermoor.invalid/schemas/rig.schema.json",
   "title": "Animation rig",
   "type": "object",
-  "required": ["id", "parts"],
+  "required": [
+    "id",
+    "parts"
+  ],
   "additionalProperties": false,
   "properties": {
-    "$schema": { "type": "string" },
-    "id": { "$ref": "#/$defs/id" },
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "$ref": "#/$defs/id"
+    },
     "parts": {
       "type": "array",
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": ["id", "parent", "offset", "z", "art"],
+        "required": [
+          "id",
+          "parent",
+          "offset",
+          "z",
+          "art"
+        ],
         "additionalProperties": false,
         "properties": {
-          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
-          "parent": { "type": ["string", "null"], "pattern": "^[a-z][a-z0-9_]*$" },
-          "offset": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 },
-          "z": { "type": "integer" },
-          "art": { "$ref": "#/$defs/id" }
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "parent": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "offset": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "z": {
+            "type": "integer"
+          },
+          "art": {
+            "$ref": "#/$defs/id"
+          },
+          "art_back": {
+            "$ref": "#/$defs/id",
+            "description": "The recipe of the part when the figure is seen from behind (default: `art`)."
+          },
+          "z_back": {
+            "type": "integer",
+            "description": "The draw order of the part when the figure is seen from behind (default: `z`)."
+          }
         }
       }
     }
   },
   "$defs": {
-    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$" }
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$"
+    }
   }
 }

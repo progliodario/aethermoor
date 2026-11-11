@@ -143,7 +143,7 @@ TEST_CASE("rig of the demo character has its parts parents-first", "[vector]") {
     INFO(error);
     REQUIRE(rig.has_value());
     REQUIRE(walk.has_value());
-    REQUIRE(rig->parts.size() == 7);
+    REQUIRE(rig->parts.size() == 8);
     const auto pose = aether::evaluate_pose(*rig, *walk, 0.0F, false);
     REQUIRE(pose.size() == rig->parts.size());
     const auto mirrored = aether::evaluate_pose(*rig, *walk, 0.0F, true);
