@@ -160,7 +160,7 @@
       "when": {
         "flag": "town_frostveil_king_thanked"
       },
-      "then": "after",
+      "then": "c3",
       "else": "thanks2"
     },
     "thanks2": {
@@ -209,6 +209,78 @@
             {
               "effect": "start_quest",
               "quest": "base:quest/side/frostveil_king"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c3": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/frostveil_antlers"
+      },
+      "then": "t3",
+      "else": "a3"
+    },
+    "t3": {
+      "type": "condition",
+      "when": {
+        "flag": "town_frostveil_antlers_thanked"
+      },
+      "then": "after",
+      "else": "thanks3"
+    },
+    "thanks3": {
+      "type": "say",
+      "speaker": "outpost_sculptor_henrik",
+      "text": "$i18n:dlg.town.henrik.frostveil_antlers.thanks",
+      "next": "flag3"
+    },
+    "flag3": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_frostveil_antlers_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a3": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/frostveil_antlers"
+      },
+      "then": "busy3",
+      "else": "offer3"
+    },
+    "busy3": {
+      "type": "say",
+      "speaker": "outpost_sculptor_henrik",
+      "text": "$i18n:dlg.town.henrik.frostveil_antlers.busy",
+      "next": "end"
+    },
+    "offer3": {
+      "type": "say",
+      "speaker": "outpost_sculptor_henrik",
+      "text": "$i18n:dlg.town.henrik.frostveil_antlers.offer",
+      "next": "choice3"
+    },
+    "choice3": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/frostveil_antlers"
             }
           ],
           "next": "end"

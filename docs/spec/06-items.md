@@ -25,10 +25,17 @@ the dead tree, the rock (stone, a little iron ore), the cactus (pulp) and the **
 - Presentation: a message with the items, and the sound `gather.<sound>` (the creature cue `gather`, spec 14). The conformance scenario `gather_nodes` covers the nearest prop, the cooldown, the reach and
   the draws.
 
+## Hunting
+
+Hunting is fighting creatures that are game: they are ordinary creatures (spec 05) of the fauna of the regions (spec 09), shy (the behavior `skittish`), weak and slow to anger, and what they leave is
+food and materials. The base pack has the **wild boar** (Verdalis, Whisperwood, Tidehaven: game meat, boar hide) and the **ridge elk** (Frostveil, Ironspine, Lumeria: game meat, elk antler), written by
+`tools/make_hunting.py`, with their art made from the body of the wolves. Game meat heals a little raw and more roasted at a campfire; hides and antlers make a hunter's jerkin and an antler spear
+at an anvil (see "Crafting").
+
 ## Crafting
 
 Materials can be made into things from the bag, anywhere, without a workshop. The recipes are `data/base/recipes.json` (schema `recipes`): each has an `id` (a short name),
-an `output` (`item`, `qty`) and `inputs` (a list of `item`, `qty`). The base pack has thirty (`tools/make_recipes.py`): tonics, small, medium and large health potions, small and medium mana potions, a travel ration, a honey cake, cooked dishes (a hearty stew, a fish stew, a royal feast, a miners' broth, grilled fish and a fisherman's stew from the fish of the reeds), the brews of the regions, a hand axe, an iron sword, a pike, a leather vest, a studded one, and five pieces of fine gear.
+an `output` (`item`, `qty`) and `inputs` (a list of `item`, `qty`). The base pack has thirty-four (`tools/make_recipes.py`): tonics, small, medium and large health potions, small and medium mana potions, a travel ration, a honey cake, cooked dishes (a hearty stew, a fish stew, a royal feast, a miners' broth, grilled fish and a fisherman's stew from the fish of the reeds, roast meat and a hunter's stew from the game), a hunter's jerkin and an antler spear at an anvil, the brews of the regions, a hand axe, an iron sword, a pike, a leather vest, a studded one, and five pieces of fine gear.
 
 `craft(id)` is refused, changing nothing, while a dialogue is open, when the recipe does not exist, and when the bag has less than the `qty` of any input. Otherwise it removes every input
 (an item that reaches 0 leaves the bag) and adds `qty` of the output (an item the bag did not have enters it). There is no random number, no time and no gold in it. A craft is a creature

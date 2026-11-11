@@ -122,6 +122,11 @@
                   "enemy": "base:enemy/myconid",
                   "drop": "base:item/spore_cap",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/wild_boar",
+                  "drop": "base:item/boar_hide",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -195,6 +200,11 @@
                 {
                   "enemy": "base:enemy/night_owl",
                   "drop": "base:item/owl_feather",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wild_boar",
+                  "drop": "base:item/boar_hide",
                   "weight": 2
                 }
               ],
@@ -293,6 +303,11 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/ridge_elk",
+                  "drop": "base:item/elk_antler",
                   "weight": 2
                 }
               ],
@@ -483,6 +498,11 @@
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/ridge_elk",
+                  "drop": "base:item/elk_antler",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -561,6 +581,11 @@
                   "enemy": "base:enemy/shore_crab",
                   "drop": "base:item/crab_shell",
                   "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/wild_boar",
+                  "drop": "base:item/boar_hide",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -794,6 +819,11 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/ridge_elk",
+                  "drop": "base:item/elk_antler",
                   "weight": 2
                 }
               ],
@@ -6294,7 +6324,7 @@
             2,
             "stockpile",
             "collect",
-            "base:item/slime_gel",
+            "base:item/mint_leaf",
             12,
             402,
             222,
@@ -6307,7 +6337,7 @@
             3,
             "stockpile",
             "collect",
-            "base:item/slime_gel",
+            "base:item/mint_leaf",
             15,
             656,
             356,
@@ -6333,7 +6363,7 @@
             1,
             "stockpile",
             "collect",
-            "base:item/tawny_fur",
+            "base:item/boar_hide",
             13,
             288,
             158,
@@ -6359,7 +6389,7 @@
             3,
             "purge",
             "kill",
-            "base:enemy/myconid",
+            "base:enemy/slime_green",
             12,
             752,
             416,
@@ -6372,7 +6402,7 @@
             0,
             "purge",
             "kill",
-            "base:enemy/slime_mint",
+            "base:enemy/slime_green",
             12,
             188,
             104,
@@ -6411,7 +6441,7 @@
             3,
             "gather",
             "collect",
-            "base:item/mint_leaf",
+            "base:item/boar_hide",
             5,
             212,
             112,
@@ -6424,7 +6454,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/slime_green",
+            "base:enemy/wolf_tawny",
             5,
             70,
             40,
@@ -6437,7 +6467,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/slime_green",
+            "base:enemy/wolf_tawny",
             5,
             140,
             80,
@@ -6450,7 +6480,7 @@
             2,
             "gather",
             "collect",
-            "base:item/mint_leaf",
+            "base:item/slime_gel",
             7,
             213,
             108,
@@ -6476,7 +6506,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/cave_bat",
+            "base:enemy/wolf_grey",
             5,
             70,
             40,
@@ -6489,7 +6519,7 @@
             1,
             "purge",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             10,
             320,
             180,
@@ -6502,7 +6532,7 @@
             2,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/bat_wing",
             4,
             132,
             72,
@@ -6528,7 +6558,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/slime_rust",
+            "base:enemy/cave_bat",
             6,
             82,
             46,
@@ -6541,7 +6571,7 @@
             1,
             "gather",
             "collect",
-            "base:item/dire_fang",
+            "base:item/slate_shard",
             8,
             160,
             80,
@@ -6554,7 +6584,7 @@
             2,
             "purge",
             "kill",
-            "base:enemy/stone_golem",
+            "base:enemy/cave_bat",
             8,
             396,
             228,
@@ -6567,7 +6597,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/slime_slate",
+            "base:enemy/slime_green",
             6,
             328,
             184,
@@ -6580,7 +6610,7 @@
             0,
             "purge",
             "kill",
-            "base:enemy/slime_green",
+            "base:enemy/slime_rust",
             12,
             188,
             104,
@@ -6593,7 +6623,7 @@
             1,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/rust_flake",
             6,
             124,
             64,
@@ -6606,7 +6636,7 @@
             2,
             "purge",
             "kill",
-            "base:enemy/cave_bat",
+            "base:enemy/slime_slate",
             10,
             480,
             270,
@@ -6619,7 +6649,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/slime_slate",
+            "base:enemy/cave_bat",
             3,
             184,
             112,
@@ -6632,7 +6662,7 @@
             0,
             "purge",
             "kill",
-            "base:enemy/slime_green",
+            "base:enemy/slime_slate",
             10,
             160,
             90,
@@ -6645,7 +6675,7 @@
             1,
             "purge",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/wolf_dire",
             11,
             348,
             194,
@@ -6658,7 +6688,7 @@
             2,
             "gather",
             "collect",
-            "base:item/slate_shard",
+            "base:item/bat_wing",
             8,
             240,
             120,
@@ -6671,7 +6701,7 @@
             3,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/slate_shard",
             8,
             320,
             160,
@@ -6684,7 +6714,7 @@
             0,
             "purge",
             "kill",
-            "base:enemy/wolf_frost",
+            "base:enemy/ridge_elk",
             9,
             146,
             83,
@@ -6710,7 +6740,7 @@
             2,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/ice_crystal",
             4,
             132,
             72,
@@ -6723,7 +6753,7 @@
             3,
             "purge",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/ridge_elk",
             8,
             528,
             304,
@@ -6736,7 +6766,7 @@
             0,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             6,
             62,
             32,
@@ -6749,7 +6779,7 @@
             1,
             "stockpile",
             "collect",
-            "base:item/ice_crystal",
+            "base:item/polar_fur",
             9,
             208,
             118,
@@ -6762,7 +6792,7 @@
             2,
             "purge",
             "kill",
-            "base:enemy/slime_green",
+            "base:enemy/wolf_frost",
             9,
             438,
             249,
@@ -6775,7 +6805,7 @@
             3,
             "stockpile",
             "collect",
-            "base:item/slime_gel",
+            "base:item/polar_fur",
             12,
             536,
             296,
@@ -6788,7 +6818,7 @@
             0,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/elk_antler",
             4,
             44,
             24,
@@ -6801,7 +6831,7 @@
             1,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/ice_crystal",
             4,
             88,
             48,
@@ -6814,7 +6844,7 @@
             2,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/elk_antler",
             8,
             240,
             120,
@@ -6827,7 +6857,7 @@
             3,
             "gather",
             "collect",
-            "base:item/polar_fur",
+            "base:item/slime_gel",
             6,
             248,
             128,
@@ -6840,7 +6870,7 @@
             0,
             "purge",
             "kill",
-            "base:enemy/slime_ice",
+            "base:enemy/slime_blue",
             11,
             174,
             97,
@@ -6853,7 +6883,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/wolf_frost",
+            "base:enemy/slime_green",
             4,
             116,
             68,
@@ -6879,7 +6909,7 @@
             3,
             "purge",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/ridge_elk",
             12,
             752,
             416,
@@ -6918,7 +6948,7 @@
             2,
             "stockpile",
             "collect",
-            "base:item/slime_gel",
+            "base:item/elk_antler",
             15,
             492,
             267,
@@ -6957,7 +6987,7 @@
             1,
             "stockpile",
             "collect",
-            "base:item/slime_gel",
+            "base:item/elk_antler",
             12,
             268,
             148,
@@ -6970,7 +7000,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_blue",
             6,
             246,
             138,
@@ -6983,7 +7013,7 @@
             3,
             "stockpile",
             "collect",
-            "base:item/slime_gel",
+            "base:item/rust_flake",
             15,
             656,
             356,
@@ -6996,7 +7026,7 @@
             0,
             "stockpile",
             "collect",
-            "base:item/slate_shard",
+            "base:item/elk_antler",
             15,
             164,
             89,
@@ -7035,7 +7065,7 @@
             3,
             "purge",
             "kill",
-            "base:enemy/slime_green",
+            "base:enemy/wolf_dire",
             9,
             584,
             332,
@@ -7048,7 +7078,7 @@
             0,
             "purge",
             "kill",
-            "base:enemy/slime_green",
+            "base:enemy/slime_rust",
             8,
             132,
             76,
@@ -7061,7 +7091,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/slime_green",
             4,
             116,
             68,
@@ -7074,7 +7104,7 @@
             2,
             "purge",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/slime_rust",
             8,
             396,
             228,
@@ -7100,7 +7130,7 @@
             0,
             "gather",
             "collect",
-            "base:item/spider_silk",
+            "base:item/slime_gel",
             5,
             53,
             28,
@@ -7113,7 +7143,7 @@
             1,
             "stockpile",
             "collect",
-            "base:item/rust_flake",
+            "base:item/spider_silk",
             9,
             208,
             118,
@@ -7126,7 +7156,7 @@
             2,
             "stockpile",
             "collect",
-            "base:item/slime_gel",
+            "base:item/wolf_fang",
             11,
             372,
             207,
@@ -7139,7 +7169,7 @@
             3,
             "purge",
             "kill",
-            "base:enemy/slime_slate",
+            "base:enemy/slime_green",
             8,
             528,
             304,
@@ -7152,7 +7182,7 @@
             0,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/rust_flake",
             7,
             71,
             36,
@@ -7165,7 +7195,7 @@
             1,
             "purge",
             "kill",
-            "base:enemy/cave_bat",
+            "base:enemy/slime_green",
             12,
             376,
             208,
@@ -7178,7 +7208,7 @@
             2,
             "purge",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_slate",
             10,
             480,
             270,
@@ -7191,7 +7221,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/stone_golem",
+            "base:enemy/slime_rust",
             5,
             280,
             160,
@@ -7204,7 +7234,7 @@
             0,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/wolf_fang",
             4,
             44,
             24,
@@ -7230,7 +7260,7 @@
             2,
             "gather",
             "collect",
-            "base:item/spider_silk",
+            "base:item/elk_antler",
             5,
             159,
             84,
@@ -7256,7 +7286,7 @@
             0,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slate_shard",
             4,
             44,
             24,
@@ -7269,7 +7299,7 @@
             1,
             "gather",
             "collect",
-            "base:item/slate_shard",
+            "base:item/bat_wing",
             7,
             142,
             72,
@@ -7282,7 +7312,7 @@
             2,
             "purge",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_grey",
             8,
             396,
             228,
@@ -7295,7 +7325,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/wolf_dire",
+            "base:enemy/wolf_grey",
             6,
             328,
             184,
@@ -7308,7 +7338,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/cave_bat",
+            "base:enemy/slime_moss",
             3,
             46,
             28,
@@ -7321,7 +7351,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/slime_green",
+            "base:enemy/wolf_dire",
             3,
             92,
             56,
@@ -7334,7 +7364,7 @@
             2,
             "stockpile",
             "collect",
-            "base:item/shade_wisp",
+            "base:item/slime_gel",
             13,
             432,
             237,
@@ -7347,7 +7377,7 @@
             3,
             "gather",
             "collect",
-            "base:item/spore_cap",
+            "base:item/dire_fang",
             6,
             248,
             128,
@@ -7360,7 +7390,7 @@
             0,
             "purge",
             "kill",
-            "base:enemy/myconid",
+            "base:enemy/slime_green",
             12,
             188,
             104,
@@ -7373,7 +7403,7 @@
             1,
             "purge",
             "kill",
-            "base:enemy/slime_green",
+            "base:enemy/slime_moss",
             10,
             320,
             180,
@@ -7386,7 +7416,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/slime_green",
+            "base:enemy/slime_moss",
             4,
             174,
             102,
@@ -7399,7 +7429,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/slime_green",
+            "base:enemy/cave_bat",
             5,
             280,
             160,
@@ -7412,7 +7442,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/wolf_shade",
+            "base:enemy/slime_green",
             3,
             46,
             28,
@@ -7425,7 +7455,7 @@
             1,
             "purge",
             "kill",
-            "base:enemy/wolf_dire",
+            "base:enemy/wolf_shade",
             12,
             376,
             208,
@@ -7438,7 +7468,7 @@
             2,
             "stockpile",
             "collect",
-            "base:item/spore_cap",
+            "base:item/wisp_ember",
             13,
             432,
             237,
@@ -7451,7 +7481,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/wisp",
+            "base:enemy/slime_green",
             4,
             232,
             136,
@@ -7464,7 +7494,7 @@
             0,
             "stockpile",
             "collect",
-            "base:item/spore_cap",
+            "base:item/shade_wisp",
             14,
             154,
             84,
@@ -7477,7 +7507,7 @@
             1,
             "purge",
             "kill",
-            "base:enemy/myconid",
+            "base:enemy/slime_green",
             10,
             320,
             180,
@@ -7490,7 +7520,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/cave_spider",
+            "base:enemy/slime_green",
             3,
             138,
             84,
@@ -7595,7 +7625,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.mint_leaf.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -7605,7 +7635,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/mint_leaf",
                     "count": 12
                   }
                 ],
@@ -7633,7 +7663,7 @@
             "kind": "guild",
             "args": {
               "count": "15",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.mint_leaf.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -7643,7 +7673,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/mint_leaf",
                     "count": 15
                   }
                 ],
@@ -7709,7 +7739,7 @@
             "kind": "guild",
             "args": {
               "count": "13",
-              "target": "$i18n:item.tawny_fur.name",
+              "target": "$i18n:item.boar_hide.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -7719,7 +7749,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/tawny_fur",
+                    "item": "base:item/boar_hide",
                     "count": 13
                   }
                 ],
@@ -7785,7 +7815,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:enemy.myconid.name",
+              "target": "$i18n:enemy.slime_green.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -7795,7 +7825,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/myconid",
+                    "enemy": "base:enemy/slime_green",
                     "count": 12
                   }
                 ],
@@ -7823,7 +7853,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:enemy.slime_mint.name",
+              "target": "$i18n:enemy.slime_green.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -7833,7 +7863,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_mint",
+                    "enemy": "base:enemy/slime_green",
                     "count": 12
                   }
                 ],
@@ -7937,7 +7967,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:item.mint_leaf.name",
+              "target": "$i18n:item.boar_hide.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -7947,7 +7977,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/mint_leaf",
+                    "item": "base:item/boar_hide",
                     "count": 5
                   }
                 ],
@@ -7975,7 +8005,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.slime_green.name",
+              "target": "$i18n:enemy.wolf_tawny.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -7985,7 +8015,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_green",
+                    "enemy": "base:enemy/wolf_tawny",
                     "count": 5
                   }
                 ],
@@ -8013,7 +8043,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.slime_green.name",
+              "target": "$i18n:enemy.wolf_tawny.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -8023,7 +8053,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_green",
+                    "enemy": "base:enemy/wolf_tawny",
                     "count": 5
                   }
                 ],
@@ -8051,7 +8081,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.mint_leaf.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -8061,7 +8091,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/mint_leaf",
+                    "item": "base:item/slime_gel",
                     "count": 7
                   }
                 ],
@@ -8127,7 +8157,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.cave_bat.name",
+              "target": "$i18n:enemy.wolf_grey.name",
               "place": "Ostaton"
             },
             "stages": [
@@ -8137,7 +8167,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/cave_bat",
+                    "enemy": "base:enemy/wolf_grey",
                     "count": 5
                   }
                 ],
@@ -8165,7 +8195,7 @@
             "kind": "guild",
             "args": {
               "count": "10",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Ostaton"
             },
             "stages": [
@@ -8175,7 +8205,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 10
                   }
                 ],
@@ -8203,7 +8233,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.bat_wing.name",
               "place": "Ostaton"
             },
             "stages": [
@@ -8213,7 +8243,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/bat_wing",
                     "count": 4
                   }
                 ],
@@ -8279,7 +8309,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.slime_rust.name",
+              "target": "$i18n:enemy.cave_bat.name",
               "place": "Ostaton"
             },
             "stages": [
@@ -8289,7 +8319,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_rust",
+                    "enemy": "base:enemy/cave_bat",
                     "count": 6
                   }
                 ],
@@ -8317,7 +8347,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:item.dire_fang.name",
+              "target": "$i18n:item.slate_shard.name",
               "place": "Ostaton"
             },
             "stages": [
@@ -8327,7 +8357,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/dire_fang",
+                    "item": "base:item/slate_shard",
                     "count": 8
                   }
                 ],
@@ -8355,7 +8385,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:enemy.stone_golem.name",
+              "target": "$i18n:enemy.cave_bat.name",
               "place": "Ostaton"
             },
             "stages": [
@@ -8365,7 +8395,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/stone_golem",
+                    "enemy": "base:enemy/cave_bat",
                     "count": 8
                   }
                 ],
@@ -8393,7 +8423,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.slime_slate.name",
+              "target": "$i18n:enemy.slime_green.name",
               "place": "Ostaton"
             },
             "stages": [
@@ -8403,7 +8433,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_slate",
+                    "enemy": "base:enemy/slime_green",
                     "count": 6
                   }
                 ],
@@ -8431,7 +8461,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:enemy.slime_green.name",
+              "target": "$i18n:enemy.slime_rust.name",
               "place": "Ostaton"
             },
             "stages": [
@@ -8441,7 +8471,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_green",
+                    "enemy": "base:enemy/slime_rust",
                     "count": 12
                   }
                 ],
@@ -8469,7 +8499,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.rust_flake.name",
               "place": "Ostaton"
             },
             "stages": [
@@ -8479,7 +8509,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/rust_flake",
                     "count": 6
                   }
                 ],
@@ -8507,7 +8537,7 @@
             "kind": "guild",
             "args": {
               "count": "10",
-              "target": "$i18n:enemy.cave_bat.name",
+              "target": "$i18n:enemy.slime_slate.name",
               "place": "Ostaton"
             },
             "stages": [
@@ -8517,7 +8547,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/cave_bat",
+                    "enemy": "base:enemy/slime_slate",
                     "count": 10
                   }
                 ],
@@ -8545,7 +8575,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.slime_slate.name",
+              "target": "$i18n:enemy.cave_bat.name",
               "place": "Ostaton"
             },
             "stages": [
@@ -8555,7 +8585,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_slate",
+                    "enemy": "base:enemy/cave_bat",
                     "count": 3
                   }
                 ],
@@ -8583,7 +8613,7 @@
             "kind": "guild",
             "args": {
               "count": "10",
-              "target": "$i18n:enemy.slime_green.name",
+              "target": "$i18n:enemy.slime_slate.name",
               "place": "Ostaton"
             },
             "stages": [
@@ -8593,7 +8623,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_green",
+                    "enemy": "base:enemy/slime_slate",
                     "count": 10
                   }
                 ],
@@ -8621,7 +8651,7 @@
             "kind": "guild",
             "args": {
               "count": "11",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.wolf_dire.name",
               "place": "Ostaton"
             },
             "stages": [
@@ -8631,7 +8661,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/wolf_dire",
                     "count": 11
                   }
                 ],
@@ -8659,7 +8689,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:item.slate_shard.name",
+              "target": "$i18n:item.bat_wing.name",
               "place": "Ostaton"
             },
             "stages": [
@@ -8669,7 +8699,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slate_shard",
+                    "item": "base:item/bat_wing",
                     "count": 8
                   }
                 ],
@@ -8697,7 +8727,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.slate_shard.name",
               "place": "Ostaton"
             },
             "stages": [
@@ -8707,7 +8737,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/slate_shard",
                     "count": 8
                   }
                 ],
@@ -8735,7 +8765,7 @@
             "kind": "guild",
             "args": {
               "count": "9",
-              "target": "$i18n:enemy.wolf_frost.name",
+              "target": "$i18n:enemy.ridge_elk.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -8745,7 +8775,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_frost",
+                    "enemy": "base:enemy/ridge_elk",
                     "count": 9
                   }
                 ],
@@ -8811,7 +8841,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.ice_crystal.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -8821,7 +8851,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/ice_crystal",
                     "count": 4
                   }
                 ],
@@ -8849,7 +8879,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.ridge_elk.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -8859,7 +8889,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/ridge_elk",
                     "count": 8
                   }
                 ],
@@ -8887,7 +8917,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -8897,7 +8927,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 6
                   }
                 ],
@@ -8925,7 +8955,7 @@
             "kind": "guild",
             "args": {
               "count": "9",
-              "target": "$i18n:item.ice_crystal.name",
+              "target": "$i18n:item.polar_fur.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -8935,7 +8965,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/ice_crystal",
+                    "item": "base:item/polar_fur",
                     "count": 9
                   }
                 ],
@@ -8963,7 +8993,7 @@
             "kind": "guild",
             "args": {
               "count": "9",
-              "target": "$i18n:enemy.slime_green.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -8973,7 +9003,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_green",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 9
                   }
                 ],
@@ -9001,7 +9031,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.polar_fur.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -9011,7 +9041,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/polar_fur",
                     "count": 12
                   }
                 ],
@@ -9039,7 +9069,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.elk_antler.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -9049,7 +9079,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/elk_antler",
                     "count": 4
                   }
                 ],
@@ -9077,7 +9107,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.ice_crystal.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -9087,7 +9117,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/ice_crystal",
                     "count": 4
                   }
                 ],
@@ -9115,7 +9145,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.elk_antler.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -9125,7 +9155,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/elk_antler",
                     "count": 8
                   }
                 ],
@@ -9153,7 +9183,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.polar_fur.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -9163,7 +9193,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/polar_fur",
+                    "item": "base:item/slime_gel",
                     "count": 6
                   }
                 ],
@@ -9191,7 +9221,7 @@
             "kind": "guild",
             "args": {
               "count": "11",
-              "target": "$i18n:enemy.slime_ice.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -9201,7 +9231,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_ice",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 11
                   }
                 ],
@@ -9229,7 +9259,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.wolf_frost.name",
+              "target": "$i18n:enemy.slime_green.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -9239,7 +9269,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_frost",
+                    "enemy": "base:enemy/slime_green",
                     "count": 4
                   }
                 ],
@@ -9305,7 +9335,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.ridge_elk.name",
               "place": "Ostelholm"
             },
             "stages": [
@@ -9315,7 +9345,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/ridge_elk",
                     "count": 12
                   }
                 ],
@@ -9419,7 +9449,7 @@
             "kind": "guild",
             "args": {
               "count": "15",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.elk_antler.name",
               "place": "Kelinford"
             },
             "stages": [
@@ -9429,7 +9459,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/elk_antler",
                     "count": 15
                   }
                 ],
@@ -9533,7 +9563,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.elk_antler.name",
               "place": "Kelinford"
             },
             "stages": [
@@ -9543,7 +9573,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/elk_antler",
                     "count": 12
                   }
                 ],
@@ -9571,7 +9601,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Kelinford"
             },
             "stages": [
@@ -9581,7 +9611,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 6
                   }
                 ],
@@ -9609,7 +9639,7 @@
             "kind": "guild",
             "args": {
               "count": "15",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.rust_flake.name",
               "place": "Kelinford"
             },
             "stages": [
@@ -9619,7 +9649,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/rust_flake",
                     "count": 15
                   }
                 ],
@@ -9647,7 +9677,7 @@
             "kind": "guild",
             "args": {
               "count": "15",
-              "target": "$i18n:item.slate_shard.name",
+              "target": "$i18n:item.elk_antler.name",
               "place": "Kelinford"
             },
             "stages": [
@@ -9657,7 +9687,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slate_shard",
+                    "item": "base:item/elk_antler",
                     "count": 15
                   }
                 ],
@@ -9761,7 +9791,7 @@
             "kind": "guild",
             "args": {
               "count": "9",
-              "target": "$i18n:enemy.slime_green.name",
+              "target": "$i18n:enemy.wolf_dire.name",
               "place": "Kelinford"
             },
             "stages": [
@@ -9771,7 +9801,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_green",
+                    "enemy": "base:enemy/wolf_dire",
                     "count": 9
                   }
                 ],
@@ -9799,7 +9829,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:enemy.slime_green.name",
+              "target": "$i18n:enemy.slime_rust.name",
               "place": "Kelinford"
             },
             "stages": [
@@ -9809,7 +9839,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_green",
+                    "enemy": "base:enemy/slime_rust",
                     "count": 8
                   }
                 ],
@@ -9837,7 +9867,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.slime_green.name",
               "place": "Kelinford"
             },
             "stages": [
@@ -9847,7 +9877,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/slime_green",
                     "count": 4
                   }
                 ],
@@ -9875,7 +9905,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.slime_rust.name",
               "place": "Kelinford"
             },
             "stages": [
@@ -9885,7 +9915,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/slime_rust",
                     "count": 8
                   }
                 ],
@@ -9951,7 +9981,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:item.spider_silk.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Ostinmere"
             },
             "stages": [
@@ -9961,7 +9991,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/spider_silk",
+                    "item": "base:item/slime_gel",
                     "count": 5
                   }
                 ],
@@ -9989,7 +10019,7 @@
             "kind": "guild",
             "args": {
               "count": "9",
-              "target": "$i18n:item.rust_flake.name",
+              "target": "$i18n:item.spider_silk.name",
               "place": "Ostinmere"
             },
             "stages": [
@@ -9999,7 +10029,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/rust_flake",
+                    "item": "base:item/spider_silk",
                     "count": 9
                   }
                 ],
@@ -10027,7 +10057,7 @@
             "kind": "guild",
             "args": {
               "count": "11",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.wolf_fang.name",
               "place": "Ostinmere"
             },
             "stages": [
@@ -10037,7 +10067,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/wolf_fang",
                     "count": 11
                   }
                 ],
@@ -10065,7 +10095,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:enemy.slime_slate.name",
+              "target": "$i18n:enemy.slime_green.name",
               "place": "Ostinmere"
             },
             "stages": [
@@ -10075,7 +10105,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_slate",
+                    "enemy": "base:enemy/slime_green",
                     "count": 8
                   }
                 ],
@@ -10103,7 +10133,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.rust_flake.name",
               "place": "Ostinmere"
             },
             "stages": [
@@ -10113,7 +10143,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/rust_flake",
                     "count": 7
                   }
                 ],
@@ -10141,7 +10171,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:enemy.cave_bat.name",
+              "target": "$i18n:enemy.slime_green.name",
               "place": "Ostinmere"
             },
             "stages": [
@@ -10151,7 +10181,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/cave_bat",
+                    "enemy": "base:enemy/slime_green",
                     "count": 12
                   }
                 ],
@@ -10179,7 +10209,7 @@
             "kind": "guild",
             "args": {
               "count": "10",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_slate.name",
               "place": "Ostinmere"
             },
             "stages": [
@@ -10189,7 +10219,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_slate",
                     "count": 10
                   }
                 ],
@@ -10217,7 +10247,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.stone_golem.name",
+              "target": "$i18n:enemy.slime_rust.name",
               "place": "Ostinmere"
             },
             "stages": [
@@ -10227,7 +10257,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/stone_golem",
+                    "enemy": "base:enemy/slime_rust",
                     "count": 5
                   }
                 ],
@@ -10255,7 +10285,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.wolf_fang.name",
               "place": "Ostinmere"
             },
             "stages": [
@@ -10265,7 +10295,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/wolf_fang",
                     "count": 4
                   }
                 ],
@@ -10331,7 +10361,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:item.spider_silk.name",
+              "target": "$i18n:item.elk_antler.name",
               "place": "Ostinmere"
             },
             "stages": [
@@ -10341,7 +10371,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/spider_silk",
+                    "item": "base:item/elk_antler",
                     "count": 5
                   }
                 ],
@@ -10407,7 +10437,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slate_shard.name",
               "place": "Ostinmere"
             },
             "stages": [
@@ -10417,7 +10447,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slate_shard",
                     "count": 4
                   }
                 ],
@@ -10445,7 +10475,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.slate_shard.name",
+              "target": "$i18n:item.bat_wing.name",
               "place": "Ostinmere"
             },
             "stages": [
@@ -10455,7 +10485,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slate_shard",
+                    "item": "base:item/bat_wing",
                     "count": 7
                   }
                 ],
@@ -10483,7 +10513,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_grey.name",
               "place": "Ostinmere"
             },
             "stages": [
@@ -10493,7 +10523,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_grey",
                     "count": 8
                   }
                 ],
@@ -10521,7 +10551,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.wolf_dire.name",
+              "target": "$i18n:enemy.wolf_grey.name",
               "place": "Ostinmere"
             },
             "stages": [
@@ -10531,7 +10561,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_dire",
+                    "enemy": "base:enemy/wolf_grey",
                     "count": 6
                   }
                 ],
@@ -10559,7 +10589,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.cave_bat.name",
+              "target": "$i18n:enemy.slime_moss.name",
               "place": "Wyninbrook"
             },
             "stages": [
@@ -10569,7 +10599,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/cave_bat",
+                    "enemy": "base:enemy/slime_moss",
                     "count": 3
                   }
                 ],
@@ -10597,7 +10627,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.slime_green.name",
+              "target": "$i18n:enemy.wolf_dire.name",
               "place": "Wyninbrook"
             },
             "stages": [
@@ -10607,7 +10637,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_green",
+                    "enemy": "base:enemy/wolf_dire",
                     "count": 3
                   }
                 ],
@@ -10635,7 +10665,7 @@
             "kind": "guild",
             "args": {
               "count": "13",
-              "target": "$i18n:item.shade_wisp.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Wyninbrook"
             },
             "stages": [
@@ -10645,7 +10675,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/shade_wisp",
+                    "item": "base:item/slime_gel",
                     "count": 13
                   }
                 ],
@@ -10673,7 +10703,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.spore_cap.name",
+              "target": "$i18n:item.dire_fang.name",
               "place": "Wyninbrook"
             },
             "stages": [
@@ -10683,7 +10713,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/spore_cap",
+                    "item": "base:item/dire_fang",
                     "count": 6
                   }
                 ],
@@ -10711,7 +10741,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:enemy.myconid.name",
+              "target": "$i18n:enemy.slime_green.name",
               "place": "Wyninbrook"
             },
             "stages": [
@@ -10721,7 +10751,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/myconid",
+                    "enemy": "base:enemy/slime_green",
                     "count": 12
                   }
                 ],
@@ -10749,7 +10779,7 @@
             "kind": "guild",
             "args": {
               "count": "10",
-              "target": "$i18n:enemy.slime_green.name",
+              "target": "$i18n:enemy.slime_moss.name",
               "place": "Wyninbrook"
             },
             "stages": [
@@ -10759,7 +10789,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_green",
+                    "enemy": "base:enemy/slime_moss",
                     "count": 10
                   }
                 ],
@@ -10787,7 +10817,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.slime_green.name",
+              "target": "$i18n:enemy.slime_moss.name",
               "place": "Wyninbrook"
             },
             "stages": [
@@ -10797,7 +10827,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_green",
+                    "enemy": "base:enemy/slime_moss",
                     "count": 4
                   }
                 ],
@@ -10825,7 +10855,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.slime_green.name",
+              "target": "$i18n:enemy.cave_bat.name",
               "place": "Wyninbrook"
             },
             "stages": [
@@ -10835,7 +10865,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_green",
+                    "enemy": "base:enemy/cave_bat",
                     "count": 5
                   }
                 ],
@@ -10863,7 +10893,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.wolf_shade.name",
+              "target": "$i18n:enemy.slime_green.name",
               "place": "Wyninbrook"
             },
             "stages": [
@@ -10873,7 +10903,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_shade",
+                    "enemy": "base:enemy/slime_green",
                     "count": 3
                   }
                 ],
@@ -10901,7 +10931,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:enemy.wolf_dire.name",
+              "target": "$i18n:enemy.wolf_shade.name",
               "place": "Wyninbrook"
             },
             "stages": [
@@ -10911,7 +10941,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_dire",
+                    "enemy": "base:enemy/wolf_shade",
                     "count": 12
                   }
                 ],
@@ -10939,7 +10969,7 @@
             "kind": "guild",
             "args": {
               "count": "13",
-              "target": "$i18n:item.spore_cap.name",
+              "target": "$i18n:item.wisp_ember.name",
               "place": "Wyninbrook"
             },
             "stages": [
@@ -10949,7 +10979,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/spore_cap",
+                    "item": "base:item/wisp_ember",
                     "count": 13
                   }
                 ],
@@ -10977,7 +11007,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.wisp.name",
+              "target": "$i18n:enemy.slime_green.name",
               "place": "Wyninbrook"
             },
             "stages": [
@@ -10987,7 +11017,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wisp",
+                    "enemy": "base:enemy/slime_green",
                     "count": 4
                   }
                 ],
@@ -11015,7 +11045,7 @@
             "kind": "guild",
             "args": {
               "count": "14",
-              "target": "$i18n:item.spore_cap.name",
+              "target": "$i18n:item.shade_wisp.name",
               "place": "Wyninbrook"
             },
             "stages": [
@@ -11025,7 +11055,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/spore_cap",
+                    "item": "base:item/shade_wisp",
                     "count": 14
                   }
                 ],
@@ -11053,7 +11083,7 @@
             "kind": "guild",
             "args": {
               "count": "10",
-              "target": "$i18n:enemy.myconid.name",
+              "target": "$i18n:enemy.slime_green.name",
               "place": "Wyninbrook"
             },
             "stages": [
@@ -11063,7 +11093,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/myconid",
+                    "enemy": "base:enemy/slime_green",
                     "count": 10
                   }
                 ],
@@ -11091,7 +11121,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.cave_spider.name",
+              "target": "$i18n:enemy.slime_green.name",
               "place": "Wyninbrook"
             },
             "stages": [
@@ -11101,7 +11131,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/cave_spider",
+                    "enemy": "base:enemy/slime_green",
                     "count": 3
                   }
                 ],
@@ -11345,6 +11375,11 @@
                   "enemy": "base:enemy/myconid",
                   "drop": "base:item/spore_cap",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/wild_boar",
+                  "drop": "base:item/boar_hide",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -11418,6 +11453,11 @@
                 {
                   "enemy": "base:enemy/night_owl",
                   "drop": "base:item/owl_feather",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wild_boar",
+                  "drop": "base:item/boar_hide",
                   "weight": 2
                 }
               ],
@@ -11516,6 +11556,11 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/ridge_elk",
+                  "drop": "base:item/elk_antler",
                   "weight": 2
                 }
               ],
@@ -11706,6 +11751,11 @@
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/ridge_elk",
+                  "drop": "base:item/elk_antler",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -11784,6 +11834,11 @@
                   "enemy": "base:enemy/shore_crab",
                   "drop": "base:item/crab_shell",
                   "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/wild_boar",
+                  "drop": "base:item/boar_hide",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -12017,6 +12072,11 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/ridge_elk",
+                  "drop": "base:item/elk_antler",
                   "weight": 2
                 }
               ],
@@ -17491,7 +17551,7 @@
             0,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/boar_hide",
             5,
             53,
             28,
@@ -17504,7 +17564,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/slime_green",
+            "base:enemy/wild_boar",
             6,
             164,
             92,
@@ -17530,7 +17590,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/slime_green",
+            "base:enemy/wild_boar",
             6,
             328,
             184,
@@ -17543,7 +17603,7 @@
             0,
             "purge",
             "kill",
-            "base:enemy/slime_green",
+            "base:enemy/myconid",
             11,
             174,
             97,
@@ -17569,7 +17629,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/slime_green",
+            "base:enemy/slime_mint",
             4,
             174,
             102,
@@ -17582,7 +17642,7 @@
             3,
             "purge",
             "kill",
-            "base:enemy/slime_green",
+            "base:enemy/slime_mint",
             8,
             528,
             304,
@@ -17595,7 +17655,7 @@
             0,
             "gather",
             "collect",
-            "base:item/spore_cap",
+            "base:item/slime_gel",
             7,
             71,
             36,
@@ -17608,7 +17668,7 @@
             1,
             "stockpile",
             "collect",
-            "base:item/slime_gel",
+            "base:item/boar_hide",
             10,
             228,
             128,
@@ -17621,7 +17681,7 @@
             2,
             "purge",
             "kill",
-            "base:enemy/slime_green",
+            "base:enemy/slime_mint",
             12,
             564,
             312,
@@ -17634,7 +17694,7 @@
             3,
             "gather",
             "collect",
-            "base:item/mint_leaf",
+            "base:item/boar_hide",
             7,
             284,
             144,
@@ -17647,7 +17707,7 @@
             0,
             "gather",
             "collect",
-            "base:item/mint_leaf",
+            "base:item/boar_hide",
             6,
             62,
             32,
@@ -17686,7 +17746,7 @@
             3,
             "stockpile",
             "collect",
-            "base:item/slime_gel",
+            "base:item/tawny_fur",
             14,
             616,
             336,
@@ -17699,7 +17759,7 @@
             0,
             "stockpile",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slate_shard",
             9,
             104,
             59,
@@ -17712,7 +17772,7 @@
             1,
             "purge",
             "kill",
-            "base:enemy/slime_green",
+            "base:enemy/slime_slate",
             9,
             292,
             166,
@@ -17725,7 +17785,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/slime_slate",
+            "base:enemy/slime_green",
             3,
             138,
             84,
@@ -17738,7 +17798,7 @@
             3,
             "purge",
             "kill",
-            "base:enemy/slime_rust",
+            "base:enemy/wolf_grey",
             8,
             528,
             304,
@@ -17751,7 +17811,7 @@
             0,
             "stockpile",
             "collect",
-            "base:item/slime_gel",
+            "base:item/golem_core",
             14,
             154,
             84,
@@ -17764,7 +17824,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/slime_slate",
+            "base:enemy/wolf_dire",
             4,
             116,
             68,
@@ -17790,7 +17850,7 @@
             3,
             "gather",
             "collect",
-            "base:item/rust_flake",
+            "base:item/golem_core",
             8,
             320,
             160,
@@ -17803,7 +17863,7 @@
             0,
             "stockpile",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/rust_flake",
             15,
             164,
             89,
@@ -17816,7 +17876,7 @@
             1,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/rust_flake",
             6,
             124,
             64,
@@ -17829,7 +17889,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/slime_green",
             3,
             138,
             84,
@@ -17842,7 +17902,7 @@
             3,
             "stockpile",
             "collect",
-            "base:item/bat_wing",
+            "base:item/rust_flake",
             14,
             616,
             336,
@@ -17855,7 +17915,7 @@
             0,
             "purge",
             "kill",
-            "base:enemy/cave_bat",
+            "base:enemy/slime_green",
             8,
             132,
             76,
@@ -17868,7 +17928,7 @@
             1,
             "stockpile",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slime_gel",
             11,
             248,
             138,
@@ -17894,7 +17954,7 @@
             3,
             "stockpile",
             "collect",
-            "base:item/rust_flake",
+            "base:item/wolf_fang",
             15,
             656,
             356,
@@ -17907,7 +17967,7 @@
             0,
             "gather",
             "collect",
-            "base:item/spider_silk",
+            "base:item/slate_shard",
             5,
             53,
             28,
@@ -17920,7 +17980,7 @@
             1,
             "gather",
             "collect",
-            "base:item/slate_shard",
+            "base:item/wolf_fang",
             5,
             106,
             56,
@@ -17933,7 +17993,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/wolf_grey",
             5,
             210,
             120,
@@ -17946,7 +18006,7 @@
             3,
             "gather",
             "collect",
-            "base:item/bat_wing",
+            "base:item/wolf_fang",
             5,
             212,
             112,
@@ -17959,7 +18019,7 @@
             0,
             "stockpile",
             "collect",
-            "base:item/slime_gel",
+            "base:item/bat_wing",
             9,
             104,
             59,
@@ -17972,7 +18032,7 @@
             1,
             "gather",
             "collect",
-            "base:item/bat_wing",
+            "base:item/wolf_fang",
             6,
             124,
             64,
@@ -17985,7 +18045,7 @@
             2,
             "stockpile",
             "collect",
-            "base:item/rust_flake",
+            "base:item/slate_shard",
             15,
             492,
             267,
@@ -17998,7 +18058,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/slime_rust",
+            "base:enemy/slime_blue",
             5,
             280,
             160,
@@ -18011,7 +18071,7 @@
             0,
             "gather",
             "collect",
-            "base:item/rust_flake",
+            "base:item/slime_gel",
             7,
             71,
             36,
@@ -18024,7 +18084,7 @@
             1,
             "purge",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/cave_bat",
             8,
             264,
             152,
@@ -18037,7 +18097,7 @@
             2,
             "gather",
             "collect",
-            "base:item/rust_flake",
+            "base:item/spider_silk",
             7,
             213,
             108,
@@ -18050,7 +18110,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_slate",
             6,
             328,
             184,
@@ -18063,7 +18123,7 @@
             0,
             "stockpile",
             "collect",
-            "base:item/rust_flake",
+            "base:item/elk_antler",
             10,
             114,
             64,
@@ -18076,7 +18136,7 @@
             1,
             "stockpile",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slime_gel",
             15,
             328,
             178,
@@ -18115,7 +18175,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/slime_slate",
+            "base:enemy/stone_golem",
             3,
             46,
             28,
@@ -18141,7 +18201,7 @@
             2,
             "purge",
             "kill",
-            "base:enemy/slime_green",
+            "base:enemy/slime_slate",
             11,
             522,
             291,
@@ -18154,7 +18214,7 @@
             3,
             "gather",
             "collect",
-            "base:item/golem_core",
+            "base:item/elk_antler",
             7,
             284,
             144,
@@ -18167,7 +18227,7 @@
             0,
             "stockpile",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slate_shard",
             14,
             154,
             84,
@@ -18180,7 +18240,7 @@
             1,
             "purge",
             "kill",
-            "base:enemy/cave_bat",
+            "base:enemy/stone_golem",
             11,
             348,
             194,
@@ -18193,7 +18253,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/cave_spider",
+            "base:enemy/ridge_elk",
             4,
             174,
             102,
@@ -18206,7 +18266,7 @@
             3,
             "stockpile",
             "collect",
-            "base:item/spider_silk",
+            "base:item/slime_gel",
             11,
             496,
             276,
@@ -18219,7 +18279,7 @@
             0,
             "gather",
             "collect",
-            "base:item/bat_wing",
+            "base:item/slime_gel",
             6,
             62,
             32,
@@ -18232,7 +18292,7 @@
             1,
             "stockpile",
             "collect",
-            "base:item/bat_wing",
+            "base:item/slime_gel",
             10,
             228,
             128,
@@ -18245,7 +18305,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/slime_slate",
+            "base:enemy/cave_bat",
             6,
             246,
             138,
@@ -18271,7 +18331,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/slime_slate",
+            "base:enemy/wolf_grey",
             5,
             70,
             40,
@@ -18284,7 +18344,7 @@
             1,
             "gather",
             "collect",
-            "base:item/dire_fang",
+            "base:item/slate_shard",
             4,
             88,
             48,
@@ -18310,7 +18370,7 @@
             3,
             "purge",
             "kill",
-            "base:enemy/slime_rust",
+            "base:enemy/wolf_grey",
             10,
             640,
             360,
@@ -18323,7 +18383,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/slime_ice",
+            "base:enemy/wolf_frost",
             6,
             82,
             46,
@@ -18336,7 +18396,7 @@
             1,
             "stockpile",
             "collect",
-            "base:item/slime_gel",
+            "base:item/frost_pelt",
             9,
             208,
             118,
@@ -18349,7 +18409,7 @@
             2,
             "purge",
             "kill",
-            "base:enemy/wolf_frost",
+            "base:enemy/night_owl",
             11,
             522,
             291,
@@ -18362,7 +18422,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/ridge_elk",
             6,
             328,
             184,
@@ -18375,7 +18435,7 @@
             0,
             "stockpile",
             "collect",
-            "base:item/slime_gel",
+            "base:item/ice_crystal",
             9,
             104,
             59,
@@ -18388,7 +18448,7 @@
             1,
             "stockpile",
             "collect",
-            "base:item/owl_feather",
+            "base:item/ice_crystal",
             11,
             248,
             138,
@@ -18401,7 +18461,7 @@
             2,
             "stockpile",
             "collect",
-            "base:item/frost_pelt",
+            "base:item/ice_crystal",
             12,
             402,
             222,
@@ -18440,7 +18500,7 @@
             1,
             "purge",
             "kill",
-            "base:enemy/wolf_polar",
+            "base:enemy/wolf_frost",
             12,
             376,
             208,
@@ -18466,7 +18526,7 @@
             3,
             "stockpile",
             "collect",
-            "base:item/owl_feather",
+            "base:item/frost_pelt",
             13,
             576,
             316,
@@ -18479,7 +18539,7 @@
             0,
             "purge",
             "kill",
-            "base:enemy/slime_ice",
+            "base:enemy/wolf_polar",
             12,
             188,
             104,
@@ -18505,7 +18565,7 @@
             2,
             "stockpile",
             "collect",
-            "base:item/frost_pelt",
+            "base:item/ice_crystal",
             14,
             462,
             252,
@@ -18531,7 +18591,7 @@
             0,
             "stockpile",
             "collect",
-            "base:item/rust_flake",
+            "base:item/elk_antler",
             14,
             154,
             84,
@@ -18557,7 +18617,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/cave_spider",
+            "base:enemy/slime_blue",
             3,
             138,
             84,
@@ -18570,7 +18630,7 @@
             3,
             "stockpile",
             "collect",
-            "base:item/slime_gel",
+            "base:item/wolf_fang",
             14,
             616,
             336,
@@ -18583,7 +18643,7 @@
             0,
             "purge",
             "kill",
-            "base:enemy/cave_spider",
+            "base:enemy/slime_blue",
             12,
             188,
             104,
@@ -18596,7 +18656,7 @@
             1,
             "stockpile",
             "collect",
-            "base:item/slate_shard",
+            "base:item/golem_core",
             12,
             268,
             148,
@@ -18609,7 +18669,7 @@
             2,
             "stockpile",
             "collect",
-            "base:item/dire_fang",
+            "base:item/elk_antler",
             9,
             312,
             177,
@@ -18635,7 +18695,7 @@
             0,
             "purge",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_rust",
             12,
             188,
             104,
@@ -18648,7 +18708,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/cave_spider",
+            "base:enemy/slime_green",
             4,
             116,
             68,
@@ -18661,7 +18721,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/cave_spider",
             5,
             210,
             120,
@@ -18674,7 +18734,7 @@
             3,
             "purge",
             "kill",
-            "base:enemy/stone_golem",
+            "base:enemy/slime_rust",
             9,
             584,
             332,
@@ -18687,7 +18747,7 @@
             0,
             "stockpile",
             "collect",
-            "base:item/slate_shard",
+            "base:item/rust_flake",
             15,
             164,
             89,
@@ -18700,7 +18760,7 @@
             1,
             "stockpile",
             "collect",
-            "base:item/rust_flake",
+            "base:item/wolf_fang",
             9,
             208,
             118,
@@ -18713,7 +18773,7 @@
             2,
             "stockpile",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/slate_shard",
             14,
             462,
             252,
@@ -18726,7 +18786,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/slime_slate",
+            "base:enemy/slime_blue",
             5,
             280,
             160,
@@ -18742,7 +18802,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.boar_hide.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -18752,7 +18812,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/boar_hide",
                     "count": 5
                   }
                 ],
@@ -18780,7 +18840,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.slime_green.name",
+              "target": "$i18n:enemy.wild_boar.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -18790,7 +18850,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_green",
+                    "enemy": "base:enemy/wild_boar",
                     "count": 6
                   }
                 ],
@@ -18856,7 +18916,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.slime_green.name",
+              "target": "$i18n:enemy.wild_boar.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -18866,7 +18926,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_green",
+                    "enemy": "base:enemy/wild_boar",
                     "count": 6
                   }
                 ],
@@ -18894,7 +18954,7 @@
             "kind": "guild",
             "args": {
               "count": "11",
-              "target": "$i18n:enemy.slime_green.name",
+              "target": "$i18n:enemy.myconid.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -18904,7 +18964,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_green",
+                    "enemy": "base:enemy/myconid",
                     "count": 11
                   }
                 ],
@@ -18970,7 +19030,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.slime_green.name",
+              "target": "$i18n:enemy.slime_mint.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -18980,7 +19040,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_green",
+                    "enemy": "base:enemy/slime_mint",
                     "count": 4
                   }
                 ],
@@ -19008,7 +19068,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:enemy.slime_green.name",
+              "target": "$i18n:enemy.slime_mint.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -19018,7 +19078,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_green",
+                    "enemy": "base:enemy/slime_mint",
                     "count": 8
                   }
                 ],
@@ -19046,7 +19106,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.spore_cap.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -19056,7 +19116,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/spore_cap",
+                    "item": "base:item/slime_gel",
                     "count": 7
                   }
                 ],
@@ -19084,7 +19144,7 @@
             "kind": "guild",
             "args": {
               "count": "10",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.boar_hide.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -19094,7 +19154,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/boar_hide",
                     "count": 10
                   }
                 ],
@@ -19122,7 +19182,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:enemy.slime_green.name",
+              "target": "$i18n:enemy.slime_mint.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -19132,7 +19192,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_green",
+                    "enemy": "base:enemy/slime_mint",
                     "count": 12
                   }
                 ],
@@ -19160,7 +19220,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.mint_leaf.name",
+              "target": "$i18n:item.boar_hide.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -19170,7 +19230,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/mint_leaf",
+                    "item": "base:item/boar_hide",
                     "count": 7
                   }
                 ],
@@ -19198,7 +19258,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.mint_leaf.name",
+              "target": "$i18n:item.boar_hide.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -19208,7 +19268,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/mint_leaf",
+                    "item": "base:item/boar_hide",
                     "count": 6
                   }
                 ],
@@ -19312,7 +19372,7 @@
             "kind": "guild",
             "args": {
               "count": "14",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.tawny_fur.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -19322,7 +19382,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/tawny_fur",
                     "count": 14
                   }
                 ],
@@ -19350,7 +19410,7 @@
             "kind": "guild",
             "args": {
               "count": "9",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slate_shard.name",
               "place": "Torelstead"
             },
             "stages": [
@@ -19360,7 +19420,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slate_shard",
                     "count": 9
                   }
                 ],
@@ -19388,7 +19448,7 @@
             "kind": "guild",
             "args": {
               "count": "9",
-              "target": "$i18n:enemy.slime_green.name",
+              "target": "$i18n:enemy.slime_slate.name",
               "place": "Torelstead"
             },
             "stages": [
@@ -19398,7 +19458,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_green",
+                    "enemy": "base:enemy/slime_slate",
                     "count": 9
                   }
                 ],
@@ -19426,7 +19486,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.slime_slate.name",
+              "target": "$i18n:enemy.slime_green.name",
               "place": "Torelstead"
             },
             "stages": [
@@ -19436,7 +19496,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_slate",
+                    "enemy": "base:enemy/slime_green",
                     "count": 3
                   }
                 ],
@@ -19464,7 +19524,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:enemy.slime_rust.name",
+              "target": "$i18n:enemy.wolf_grey.name",
               "place": "Torelstead"
             },
             "stages": [
@@ -19474,7 +19534,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_rust",
+                    "enemy": "base:enemy/wolf_grey",
                     "count": 8
                   }
                 ],
@@ -19502,7 +19562,7 @@
             "kind": "guild",
             "args": {
               "count": "14",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.golem_core.name",
               "place": "Torelstead"
             },
             "stages": [
@@ -19512,7 +19572,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/golem_core",
                     "count": 14
                   }
                 ],
@@ -19540,7 +19600,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.slime_slate.name",
+              "target": "$i18n:enemy.wolf_dire.name",
               "place": "Torelstead"
             },
             "stages": [
@@ -19550,7 +19610,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_slate",
+                    "enemy": "base:enemy/wolf_dire",
                     "count": 4
                   }
                 ],
@@ -19616,7 +19676,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:item.rust_flake.name",
+              "target": "$i18n:item.golem_core.name",
               "place": "Torelstead"
             },
             "stages": [
@@ -19626,7 +19686,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/rust_flake",
+                    "item": "base:item/golem_core",
                     "count": 8
                   }
                 ],
@@ -19654,7 +19714,7 @@
             "kind": "guild",
             "args": {
               "count": "15",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.rust_flake.name",
               "place": "Torelstead"
             },
             "stages": [
@@ -19664,7 +19724,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/rust_flake",
                     "count": 15
                   }
                 ],
@@ -19692,7 +19752,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.rust_flake.name",
               "place": "Torelstead"
             },
             "stages": [
@@ -19702,7 +19762,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/rust_flake",
                     "count": 6
                   }
                 ],
@@ -19730,7 +19790,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.slime_green.name",
               "place": "Torelstead"
             },
             "stages": [
@@ -19740,7 +19800,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/slime_green",
                     "count": 3
                   }
                 ],
@@ -19768,7 +19828,7 @@
             "kind": "guild",
             "args": {
               "count": "14",
-              "target": "$i18n:item.bat_wing.name",
+              "target": "$i18n:item.rust_flake.name",
               "place": "Torelstead"
             },
             "stages": [
@@ -19778,7 +19838,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/bat_wing",
+                    "item": "base:item/rust_flake",
                     "count": 14
                   }
                 ],
@@ -19806,7 +19866,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:enemy.cave_bat.name",
+              "target": "$i18n:enemy.slime_green.name",
               "place": "Torelstead"
             },
             "stages": [
@@ -19816,7 +19876,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/cave_bat",
+                    "enemy": "base:enemy/slime_green",
                     "count": 8
                   }
                 ],
@@ -19844,7 +19904,7 @@
             "kind": "guild",
             "args": {
               "count": "11",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Torelstead"
             },
             "stages": [
@@ -19854,7 +19914,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slime_gel",
                     "count": 11
                   }
                 ],
@@ -19920,7 +19980,7 @@
             "kind": "guild",
             "args": {
               "count": "15",
-              "target": "$i18n:item.rust_flake.name",
+              "target": "$i18n:item.wolf_fang.name",
               "place": "Torelstead"
             },
             "stages": [
@@ -19930,7 +19990,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/rust_flake",
+                    "item": "base:item/wolf_fang",
                     "count": 15
                   }
                 ],
@@ -19958,7 +20018,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:item.spider_silk.name",
+              "target": "$i18n:item.slate_shard.name",
               "place": "Feneton"
             },
             "stages": [
@@ -19968,7 +20028,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/spider_silk",
+                    "item": "base:item/slate_shard",
                     "count": 5
                   }
                 ],
@@ -19996,7 +20056,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:item.slate_shard.name",
+              "target": "$i18n:item.wolf_fang.name",
               "place": "Feneton"
             },
             "stages": [
@@ -20006,7 +20066,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slate_shard",
+                    "item": "base:item/wolf_fang",
                     "count": 5
                   }
                 ],
@@ -20034,7 +20094,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.wolf_grey.name",
               "place": "Feneton"
             },
             "stages": [
@@ -20044,7 +20104,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/wolf_grey",
                     "count": 5
                   }
                 ],
@@ -20072,7 +20132,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:item.bat_wing.name",
+              "target": "$i18n:item.wolf_fang.name",
               "place": "Feneton"
             },
             "stages": [
@@ -20082,7 +20142,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/bat_wing",
+                    "item": "base:item/wolf_fang",
                     "count": 5
                   }
                 ],
@@ -20110,7 +20170,7 @@
             "kind": "guild",
             "args": {
               "count": "9",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.bat_wing.name",
               "place": "Feneton"
             },
             "stages": [
@@ -20120,7 +20180,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/bat_wing",
                     "count": 9
                   }
                 ],
@@ -20148,7 +20208,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.bat_wing.name",
+              "target": "$i18n:item.wolf_fang.name",
               "place": "Feneton"
             },
             "stages": [
@@ -20158,7 +20218,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/bat_wing",
+                    "item": "base:item/wolf_fang",
                     "count": 6
                   }
                 ],
@@ -20186,7 +20246,7 @@
             "kind": "guild",
             "args": {
               "count": "15",
-              "target": "$i18n:item.rust_flake.name",
+              "target": "$i18n:item.slate_shard.name",
               "place": "Feneton"
             },
             "stages": [
@@ -20196,7 +20256,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/rust_flake",
+                    "item": "base:item/slate_shard",
                     "count": 15
                   }
                 ],
@@ -20224,7 +20284,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.slime_rust.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Feneton"
             },
             "stages": [
@@ -20234,7 +20294,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_rust",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 5
                   }
                 ],
@@ -20262,7 +20322,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.rust_flake.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Feneton"
             },
             "stages": [
@@ -20272,7 +20332,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/rust_flake",
+                    "item": "base:item/slime_gel",
                     "count": 7
                   }
                 ],
@@ -20300,7 +20360,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.cave_bat.name",
               "place": "Feneton"
             },
             "stages": [
@@ -20310,7 +20370,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/cave_bat",
                     "count": 8
                   }
                 ],
@@ -20338,7 +20398,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.rust_flake.name",
+              "target": "$i18n:item.spider_silk.name",
               "place": "Feneton"
             },
             "stages": [
@@ -20348,7 +20408,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/rust_flake",
+                    "item": "base:item/spider_silk",
                     "count": 7
                   }
                 ],
@@ -20376,7 +20436,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_slate.name",
               "place": "Feneton"
             },
             "stages": [
@@ -20386,7 +20446,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_slate",
                     "count": 6
                   }
                 ],
@@ -20414,7 +20474,7 @@
             "kind": "guild",
             "args": {
               "count": "10",
-              "target": "$i18n:item.rust_flake.name",
+              "target": "$i18n:item.elk_antler.name",
               "place": "Feneton"
             },
             "stages": [
@@ -20424,7 +20484,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/rust_flake",
+                    "item": "base:item/elk_antler",
                     "count": 10
                   }
                 ],
@@ -20452,7 +20512,7 @@
             "kind": "guild",
             "args": {
               "count": "15",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Feneton"
             },
             "stages": [
@@ -20462,7 +20522,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slime_gel",
                     "count": 15
                   }
                 ],
@@ -20566,7 +20626,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.slime_slate.name",
+              "target": "$i18n:enemy.stone_golem.name",
               "place": "Noribrook"
             },
             "stages": [
@@ -20576,7 +20636,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_slate",
+                    "enemy": "base:enemy/stone_golem",
                     "count": 3
                   }
                 ],
@@ -20642,7 +20702,7 @@
             "kind": "guild",
             "args": {
               "count": "11",
-              "target": "$i18n:enemy.slime_green.name",
+              "target": "$i18n:enemy.slime_slate.name",
               "place": "Noribrook"
             },
             "stages": [
@@ -20652,7 +20712,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_green",
+                    "enemy": "base:enemy/slime_slate",
                     "count": 11
                   }
                 ],
@@ -20680,7 +20740,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.golem_core.name",
+              "target": "$i18n:item.elk_antler.name",
               "place": "Noribrook"
             },
             "stages": [
@@ -20690,7 +20750,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/golem_core",
+                    "item": "base:item/elk_antler",
                     "count": 7
                   }
                 ],
@@ -20718,7 +20778,7 @@
             "kind": "guild",
             "args": {
               "count": "14",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slate_shard.name",
               "place": "Noribrook"
             },
             "stages": [
@@ -20728,7 +20788,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slate_shard",
                     "count": 14
                   }
                 ],
@@ -20756,7 +20816,7 @@
             "kind": "guild",
             "args": {
               "count": "11",
-              "target": "$i18n:enemy.cave_bat.name",
+              "target": "$i18n:enemy.stone_golem.name",
               "place": "Noribrook"
             },
             "stages": [
@@ -20766,7 +20826,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/cave_bat",
+                    "enemy": "base:enemy/stone_golem",
                     "count": 11
                   }
                 ],
@@ -20794,7 +20854,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.cave_spider.name",
+              "target": "$i18n:enemy.ridge_elk.name",
               "place": "Noribrook"
             },
             "stages": [
@@ -20804,7 +20864,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/cave_spider",
+                    "enemy": "base:enemy/ridge_elk",
                     "count": 4
                   }
                 ],
@@ -20832,7 +20892,7 @@
             "kind": "guild",
             "args": {
               "count": "11",
-              "target": "$i18n:item.spider_silk.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Noribrook"
             },
             "stages": [
@@ -20842,7 +20902,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/spider_silk",
+                    "item": "base:item/slime_gel",
                     "count": 11
                   }
                 ],
@@ -20870,7 +20930,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.bat_wing.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Noribrook"
             },
             "stages": [
@@ -20880,7 +20940,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/bat_wing",
+                    "item": "base:item/slime_gel",
                     "count": 6
                   }
                 ],
@@ -20908,7 +20968,7 @@
             "kind": "guild",
             "args": {
               "count": "10",
-              "target": "$i18n:item.bat_wing.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Noribrook"
             },
             "stages": [
@@ -20918,7 +20978,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/bat_wing",
+                    "item": "base:item/slime_gel",
                     "count": 10
                   }
                 ],
@@ -20946,7 +21006,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.slime_slate.name",
+              "target": "$i18n:enemy.cave_bat.name",
               "place": "Noribrook"
             },
             "stages": [
@@ -20956,7 +21016,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_slate",
+                    "enemy": "base:enemy/cave_bat",
                     "count": 6
                   }
                 ],
@@ -21022,7 +21082,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.slime_slate.name",
+              "target": "$i18n:enemy.wolf_grey.name",
               "place": "Noribrook"
             },
             "stages": [
@@ -21032,7 +21092,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_slate",
+                    "enemy": "base:enemy/wolf_grey",
                     "count": 5
                   }
                 ],
@@ -21060,7 +21120,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:item.dire_fang.name",
+              "target": "$i18n:item.slate_shard.name",
               "place": "Noribrook"
             },
             "stages": [
@@ -21070,7 +21130,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/dire_fang",
+                    "item": "base:item/slate_shard",
                     "count": 4
                   }
                 ],
@@ -21136,7 +21196,7 @@
             "kind": "guild",
             "args": {
               "count": "10",
-              "target": "$i18n:enemy.slime_rust.name",
+              "target": "$i18n:enemy.wolf_grey.name",
               "place": "Noribrook"
             },
             "stages": [
@@ -21146,7 +21206,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_rust",
+                    "enemy": "base:enemy/wolf_grey",
                     "count": 10
                   }
                 ],
@@ -21174,7 +21234,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.slime_ice.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Fenaton"
             },
             "stages": [
@@ -21184,7 +21244,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_ice",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 6
                   }
                 ],
@@ -21212,7 +21272,7 @@
             "kind": "guild",
             "args": {
               "count": "9",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Fenaton"
             },
             "stages": [
@@ -21222,7 +21282,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/frost_pelt",
                     "count": 9
                   }
                 ],
@@ -21250,7 +21310,7 @@
             "kind": "guild",
             "args": {
               "count": "11",
-              "target": "$i18n:enemy.wolf_frost.name",
+              "target": "$i18n:enemy.night_owl.name",
               "place": "Fenaton"
             },
             "stages": [
@@ -21260,7 +21320,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_frost",
+                    "enemy": "base:enemy/night_owl",
                     "count": 11
                   }
                 ],
@@ -21288,7 +21348,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.ridge_elk.name",
               "place": "Fenaton"
             },
             "stages": [
@@ -21298,7 +21358,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/ridge_elk",
                     "count": 6
                   }
                 ],
@@ -21326,7 +21386,7 @@
             "kind": "guild",
             "args": {
               "count": "9",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.ice_crystal.name",
               "place": "Fenaton"
             },
             "stages": [
@@ -21336,7 +21396,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/ice_crystal",
                     "count": 9
                   }
                 ],
@@ -21364,7 +21424,7 @@
             "kind": "guild",
             "args": {
               "count": "11",
-              "target": "$i18n:item.owl_feather.name",
+              "target": "$i18n:item.ice_crystal.name",
               "place": "Fenaton"
             },
             "stages": [
@@ -21374,7 +21434,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/owl_feather",
+                    "item": "base:item/ice_crystal",
                     "count": 11
                   }
                 ],
@@ -21402,7 +21462,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:item.frost_pelt.name",
+              "target": "$i18n:item.ice_crystal.name",
               "place": "Fenaton"
             },
             "stages": [
@@ -21412,7 +21472,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/frost_pelt",
+                    "item": "base:item/ice_crystal",
                     "count": 12
                   }
                 ],
@@ -21516,7 +21576,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:enemy.wolf_polar.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Fenaton"
             },
             "stages": [
@@ -21526,7 +21586,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_polar",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 12
                   }
                 ],
@@ -21592,7 +21652,7 @@
             "kind": "guild",
             "args": {
               "count": "13",
-              "target": "$i18n:item.owl_feather.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Fenaton"
             },
             "stages": [
@@ -21602,7 +21662,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/owl_feather",
+                    "item": "base:item/frost_pelt",
                     "count": 13
                   }
                 ],
@@ -21630,7 +21690,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:enemy.slime_ice.name",
+              "target": "$i18n:enemy.wolf_polar.name",
               "place": "Fenaton"
             },
             "stages": [
@@ -21640,7 +21700,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_ice",
+                    "enemy": "base:enemy/wolf_polar",
                     "count": 12
                   }
                 ],
@@ -21706,7 +21766,7 @@
             "kind": "guild",
             "args": {
               "count": "14",
-              "target": "$i18n:item.frost_pelt.name",
+              "target": "$i18n:item.ice_crystal.name",
               "place": "Fenaton"
             },
             "stages": [
@@ -21716,7 +21776,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/frost_pelt",
+                    "item": "base:item/ice_crystal",
                     "count": 14
                   }
                 ],
@@ -21782,7 +21842,7 @@
             "kind": "guild",
             "args": {
               "count": "14",
-              "target": "$i18n:item.rust_flake.name",
+              "target": "$i18n:item.elk_antler.name",
               "place": "Galostead"
             },
             "stages": [
@@ -21792,7 +21852,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/rust_flake",
+                    "item": "base:item/elk_antler",
                     "count": 14
                   }
                 ],
@@ -21858,7 +21918,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.cave_spider.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Galostead"
             },
             "stages": [
@@ -21868,7 +21928,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/cave_spider",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 3
                   }
                 ],
@@ -21896,7 +21956,7 @@
             "kind": "guild",
             "args": {
               "count": "14",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.wolf_fang.name",
               "place": "Galostead"
             },
             "stages": [
@@ -21906,7 +21966,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/wolf_fang",
                     "count": 14
                   }
                 ],
@@ -21934,7 +21994,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:enemy.cave_spider.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Galostead"
             },
             "stages": [
@@ -21944,7 +22004,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/cave_spider",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 12
                   }
                 ],
@@ -21972,7 +22032,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:item.slate_shard.name",
+              "target": "$i18n:item.golem_core.name",
               "place": "Galostead"
             },
             "stages": [
@@ -21982,7 +22042,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slate_shard",
+                    "item": "base:item/golem_core",
                     "count": 12
                   }
                 ],
@@ -22010,7 +22070,7 @@
             "kind": "guild",
             "args": {
               "count": "9",
-              "target": "$i18n:item.dire_fang.name",
+              "target": "$i18n:item.elk_antler.name",
               "place": "Galostead"
             },
             "stages": [
@@ -22020,7 +22080,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/dire_fang",
+                    "item": "base:item/elk_antler",
                     "count": 9
                   }
                 ],
@@ -22086,7 +22146,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_rust.name",
               "place": "Galostead"
             },
             "stages": [
@@ -22096,7 +22156,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_rust",
                     "count": 12
                   }
                 ],
@@ -22124,7 +22184,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.cave_spider.name",
+              "target": "$i18n:enemy.slime_green.name",
               "place": "Galostead"
             },
             "stages": [
@@ -22134,7 +22194,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/cave_spider",
+                    "enemy": "base:enemy/slime_green",
                     "count": 4
                   }
                 ],
@@ -22162,7 +22222,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.cave_spider.name",
               "place": "Galostead"
             },
             "stages": [
@@ -22172,7 +22232,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/cave_spider",
                     "count": 5
                   }
                 ],
@@ -22200,7 +22260,7 @@
             "kind": "guild",
             "args": {
               "count": "9",
-              "target": "$i18n:enemy.stone_golem.name",
+              "target": "$i18n:enemy.slime_rust.name",
               "place": "Galostead"
             },
             "stages": [
@@ -22210,7 +22270,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/stone_golem",
+                    "enemy": "base:enemy/slime_rust",
                     "count": 9
                   }
                 ],
@@ -22238,7 +22298,7 @@
             "kind": "guild",
             "args": {
               "count": "15",
-              "target": "$i18n:item.slate_shard.name",
+              "target": "$i18n:item.rust_flake.name",
               "place": "Galostead"
             },
             "stages": [
@@ -22248,7 +22308,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slate_shard",
+                    "item": "base:item/rust_flake",
                     "count": 15
                   }
                 ],
@@ -22276,7 +22336,7 @@
             "kind": "guild",
             "args": {
               "count": "9",
-              "target": "$i18n:item.rust_flake.name",
+              "target": "$i18n:item.wolf_fang.name",
               "place": "Galostead"
             },
             "stages": [
@@ -22286,7 +22346,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/rust_flake",
+                    "item": "base:item/wolf_fang",
                     "count": 9
                   }
                 ],
@@ -22314,7 +22374,7 @@
             "kind": "guild",
             "args": {
               "count": "14",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.slate_shard.name",
               "place": "Galostead"
             },
             "stages": [
@@ -22324,7 +22384,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/slate_shard",
                     "count": 14
                   }
                 ],
@@ -22352,7 +22412,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.slime_slate.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Galostead"
             },
             "stages": [
@@ -22362,7 +22422,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_slate",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 5
                   }
                 ],
@@ -22568,6 +22628,11 @@
                   "enemy": "base:enemy/myconid",
                   "drop": "base:item/spore_cap",
                   "weight": 1
+                },
+                {
+                  "enemy": "base:enemy/wild_boar",
+                  "drop": "base:item/boar_hide",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -22641,6 +22706,11 @@
                 {
                   "enemy": "base:enemy/night_owl",
                   "drop": "base:item/owl_feather",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wild_boar",
+                  "drop": "base:item/boar_hide",
                   "weight": 2
                 }
               ],
@@ -22739,6 +22809,11 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/ridge_elk",
+                  "drop": "base:item/elk_antler",
                   "weight": 2
                 }
               ],
@@ -22929,6 +23004,11 @@
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/ridge_elk",
+                  "drop": "base:item/elk_antler",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -23007,6 +23087,11 @@
                   "enemy": "base:enemy/shore_crab",
                   "drop": "base:item/crab_shell",
                   "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/wild_boar",
+                  "drop": "base:item/boar_hide",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -23240,6 +23325,11 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/ridge_elk",
+                  "drop": "base:item/elk_antler",
                   "weight": 2
                 }
               ],
@@ -28714,7 +28804,7 @@
             0,
             "purge",
             "kill",
-            "base:enemy/slime_mint",
+            "base:enemy/slime_green",
             12,
             188,
             104,
@@ -28727,7 +28817,7 @@
             1,
             "stockpile",
             "collect",
-            "base:item/slime_gel",
+            "base:item/boar_hide",
             12,
             268,
             148,
@@ -28740,7 +28830,7 @@
             2,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/boar_hide",
             8,
             240,
             120,
@@ -28753,7 +28843,7 @@
             3,
             "purge",
             "kill",
-            "base:enemy/myconid",
+            "base:enemy/slime_green",
             9,
             584,
             332,
@@ -28766,7 +28856,7 @@
             0,
             "stockpile",
             "collect",
-            "base:item/slime_gel",
+            "base:item/mint_leaf",
             10,
             114,
             64,
@@ -28779,7 +28869,7 @@
             1,
             "stockpile",
             "collect",
-            "base:item/mint_leaf",
+            "base:item/tawny_fur",
             11,
             248,
             138,
@@ -28818,7 +28908,7 @@
             0,
             "gather",
             "collect",
-            "base:item/tawny_fur",
+            "base:item/mint_leaf",
             5,
             53,
             28,
@@ -28844,7 +28934,7 @@
             2,
             "gather",
             "collect",
-            "base:item/mint_leaf",
+            "base:item/slime_gel",
             7,
             213,
             108,
@@ -28857,7 +28947,7 @@
             3,
             "stockpile",
             "collect",
-            "base:item/mint_leaf",
+            "base:item/slime_gel",
             15,
             656,
             356,
@@ -28870,7 +28960,7 @@
             0,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/boar_hide",
             7,
             71,
             36,
@@ -28896,7 +28986,7 @@
             2,
             "purge",
             "kill",
-            "base:enemy/wolf_tawny",
+            "base:enemy/slime_mint",
             9,
             438,
             249,
@@ -28922,7 +29012,7 @@
             0,
             "purge",
             "kill",
-            "base:enemy/night_owl",
+            "base:enemy/wolf_frost",
             11,
             174,
             97,
@@ -28935,7 +29025,7 @@
             1,
             "gather",
             "collect",
-            "base:item/ice_crystal",
+            "base:item/owl_feather",
             6,
             124,
             64,
@@ -28948,7 +29038,7 @@
             2,
             "purge",
             "kill",
-            "base:enemy/slime_ice",
+            "base:enemy/slime_green",
             9,
             438,
             249,
@@ -28961,7 +29051,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/slime_ice",
+            "base:enemy/wolf_frost",
             5,
             280,
             160,
@@ -28974,7 +29064,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/slime_ice",
+            "base:enemy/wolf_frost",
             3,
             46,
             28,
@@ -28987,7 +29077,7 @@
             1,
             "gather",
             "collect",
-            "base:item/polar_fur",
+            "base:item/slime_gel",
             7,
             142,
             72,
@@ -29000,7 +29090,7 @@
             2,
             "purge",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/slime_ice",
             10,
             480,
             270,
@@ -29013,7 +29103,7 @@
             3,
             "gather",
             "collect",
-            "base:item/slime_gel",
+            "base:item/bat_wing",
             5,
             212,
             112,
@@ -29026,7 +29116,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/wolf_polar",
+            "base:enemy/wolf_frost",
             3,
             46,
             28,
@@ -29039,7 +29129,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/slime_ice",
+            "base:enemy/wolf_frost",
             3,
             92,
             56,
@@ -29052,7 +29142,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/ridge_elk",
             4,
             174,
             102,
@@ -29078,7 +29168,7 @@
             0,
             "gather",
             "collect",
-            "base:item/ice_crystal",
+            "base:item/polar_fur",
             5,
             53,
             28,
@@ -29091,7 +29181,7 @@
             1,
             "purge",
             "kill",
-            "base:enemy/wolf_frost",
+            "base:enemy/wolf_polar",
             8,
             264,
             152,
@@ -29104,7 +29194,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/wolf_polar",
+            "base:enemy/wolf_frost",
             3,
             138,
             84,
@@ -29130,7 +29220,7 @@
             0,
             "purge",
             "kill",
-            "base:enemy/wolf_frost",
+            "base:enemy/night_owl",
             10,
             160,
             90,
@@ -29143,7 +29233,7 @@
             1,
             "purge",
             "kill",
-            "base:enemy/wolf_frost",
+            "base:enemy/slime_green",
             11,
             348,
             194,
@@ -29156,7 +29246,7 @@
             2,
             "stockpile",
             "collect",
-            "base:item/polar_fur",
+            "base:item/frost_pelt",
             13,
             432,
             237,
@@ -29169,7 +29259,7 @@
             3,
             "purge",
             "kill",
-            "base:enemy/wolf_polar",
+            "base:enemy/cave_bat",
             9,
             584,
             332,
@@ -29195,7 +29285,7 @@
             1,
             "purge",
             "kill",
-            "base:enemy/slime_blue",
+            "base:enemy/ridge_elk",
             12,
             376,
             208,
@@ -29208,7 +29298,7 @@
             2,
             "stockpile",
             "collect",
-            "base:item/owl_feather",
+            "base:item/slime_gel",
             14,
             462,
             252,
@@ -29221,7 +29311,7 @@
             3,
             "gather",
             "collect",
-            "base:item/frost_pelt",
+            "base:item/polar_fur",
             7,
             284,
             144,
@@ -29234,7 +29324,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/wolf_frost",
+            "base:enemy/ridge_elk",
             6,
             82,
             46,
@@ -29247,7 +29337,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/slime_ice",
+            "base:enemy/wolf_frost",
             6,
             164,
             92,
@@ -29260,7 +29350,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/cave_bat",
+            "base:enemy/slime_ice",
             4,
             174,
             102,
@@ -29273,7 +29363,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/slime_green",
+            "base:enemy/ridge_elk",
             5,
             280,
             160,
@@ -29286,7 +29376,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/slime_green",
+            "base:enemy/cave_bat",
             6,
             82,
             46,
@@ -29299,7 +29389,7 @@
             1,
             "stockpile",
             "collect",
-            "base:item/polar_fur",
+            "base:item/ice_crystal",
             11,
             248,
             138,
@@ -29325,7 +29415,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/night_owl",
+            "base:enemy/ridge_elk",
             6,
             328,
             184,
@@ -29338,7 +29428,7 @@
             0,
             "purge",
             "kill",
-            "base:enemy/cave_bat",
+            "base:enemy/slime_slate",
             10,
             160,
             90,
@@ -29351,7 +29441,7 @@
             1,
             "purge",
             "kill",
-            "base:enemy/stone_golem",
+            "base:enemy/wolf_grey",
             9,
             292,
             166,
@@ -29364,7 +29454,7 @@
             2,
             "gather",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/bat_wing",
             5,
             159,
             84,
@@ -29390,7 +29480,7 @@
             0,
             "gather",
             "collect",
-            "base:item/dire_fang",
+            "base:item/slate_shard",
             6,
             62,
             32,
@@ -29403,7 +29493,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_green",
             3,
             92,
             56,
@@ -29416,7 +29506,7 @@
             2,
             "stockpile",
             "collect",
-            "base:item/wolf_fang",
+            "base:item/bat_wing",
             9,
             312,
             177,
@@ -29429,7 +29519,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/slime_slate",
+            "base:enemy/slime_blue",
             5,
             280,
             160,
@@ -29442,7 +29532,7 @@
             0,
             "stockpile",
             "collect",
-            "base:item/slate_shard",
+            "base:item/wolf_fang",
             12,
             134,
             74,
@@ -29455,7 +29545,7 @@
             1,
             "cull",
             "kill",
-            "base:enemy/slime_rust",
+            "base:enemy/cave_bat",
             6,
             164,
             92,
@@ -29468,7 +29558,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/slime_rust",
+            "base:enemy/ridge_elk",
             5,
             210,
             120,
@@ -29481,7 +29571,7 @@
             3,
             "stockpile",
             "collect",
-            "base:item/golem_core",
+            "base:item/bat_wing",
             9,
             416,
             236,
@@ -29494,7 +29584,7 @@
             0,
             "stockpile",
             "collect",
-            "base:item/slate_shard",
+            "base:item/golem_core",
             14,
             154,
             84,
@@ -29520,7 +29610,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/slime_slate",
             4,
             174,
             102,
@@ -29533,7 +29623,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/stone_golem",
+            "base:enemy/slime_rust",
             5,
             280,
             160,
@@ -29546,7 +29636,7 @@
             0,
             "gather",
             "collect",
-            "base:item/ice_crystal",
+            "base:item/elk_antler",
             7,
             71,
             36,
@@ -29559,7 +29649,7 @@
             1,
             "gather",
             "collect",
-            "base:item/frost_pelt",
+            "base:item/elk_antler",
             7,
             142,
             72,
@@ -29572,7 +29662,7 @@
             2,
             "gather",
             "collect",
-            "base:item/ice_crystal",
+            "base:item/polar_fur",
             4,
             132,
             72,
@@ -29598,7 +29688,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/cave_bat",
+            "base:enemy/ridge_elk",
             5,
             70,
             40,
@@ -29611,7 +29701,7 @@
             1,
             "gather",
             "collect",
-            "base:item/ice_crystal",
+            "base:item/frost_pelt",
             8,
             160,
             80,
@@ -29624,7 +29714,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/wolf_frost",
+            "base:enemy/slime_blue",
             5,
             210,
             120,
@@ -29637,7 +29727,7 @@
             3,
             "stockpile",
             "collect",
-            "base:item/frost_pelt",
+            "base:item/slime_gel",
             12,
             536,
             296,
@@ -29650,7 +29740,7 @@
             0,
             "purge",
             "kill",
-            "base:enemy/wolf_frost",
+            "base:enemy/ridge_elk",
             12,
             188,
             104,
@@ -29663,7 +29753,7 @@
             1,
             "purge",
             "kill",
-            "base:enemy/wolf_frost",
+            "base:enemy/slime_ice",
             9,
             292,
             166,
@@ -29676,7 +29766,7 @@
             2,
             "gather",
             "collect",
-            "base:item/bat_wing",
+            "base:item/slime_gel",
             7,
             213,
             108,
@@ -29689,7 +29779,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/night_owl",
+            "base:enemy/slime_green",
             3,
             184,
             112,
@@ -29702,7 +29792,7 @@
             0,
             "purge",
             "kill",
-            "base:enemy/wolf_polar",
+            "base:enemy/slime_ice",
             12,
             188,
             104,
@@ -29728,7 +29818,7 @@
             2,
             "gather",
             "collect",
-            "base:item/frost_pelt",
+            "base:item/bat_wing",
             7,
             213,
             108,
@@ -29741,7 +29831,7 @@
             3,
             "cull",
             "kill",
-            "base:enemy/wolf_polar",
+            "base:enemy/slime_green",
             3,
             184,
             112,
@@ -29754,7 +29844,7 @@
             0,
             "stockpile",
             "collect",
-            "base:item/dire_fang",
+            "base:item/shade_wisp",
             14,
             154,
             84,
@@ -29767,7 +29857,7 @@
             1,
             "stockpile",
             "collect",
-            "base:item/spore_cap",
+            "base:item/wolf_fang",
             12,
             268,
             148,
@@ -29780,7 +29870,7 @@
             2,
             "purge",
             "kill",
-            "base:enemy/wisp",
+            "base:enemy/slime_moss",
             8,
             396,
             228,
@@ -29793,7 +29883,7 @@
             3,
             "stockpile",
             "collect",
-            "base:item/dire_fang",
+            "base:item/shade_wisp",
             12,
             536,
             296,
@@ -29806,7 +29896,7 @@
             0,
             "cull",
             "kill",
-            "base:enemy/slime_green",
+            "base:enemy/night_owl",
             3,
             46,
             28,
@@ -29819,7 +29909,7 @@
             1,
             "purge",
             "kill",
-            "base:enemy/night_owl",
+            "base:enemy/slime_moss",
             10,
             320,
             180,
@@ -29832,7 +29922,7 @@
             2,
             "cull",
             "kill",
-            "base:enemy/slime_green",
+            "base:enemy/wolf_shade",
             3,
             138,
             84,
@@ -29845,7 +29935,7 @@
             3,
             "gather",
             "collect",
-            "base:item/owl_feather",
+            "base:item/dire_fang",
             7,
             284,
             144,
@@ -29858,7 +29948,7 @@
             0,
             "purge",
             "kill",
-            "base:enemy/cave_bat",
+            "base:enemy/night_owl",
             10,
             160,
             90,
@@ -29871,7 +29961,7 @@
             1,
             "stockpile",
             "collect",
-            "base:item/dire_fang",
+            "base:item/slime_gel",
             10,
             228,
             128,
@@ -29884,7 +29974,7 @@
             2,
             "purge",
             "kill",
-            "base:enemy/slime_moss",
+            "base:enemy/wolf_grey",
             11,
             522,
             291,
@@ -29897,7 +29987,7 @@
             3,
             "gather",
             "collect",
-            "base:item/bat_wing",
+            "base:item/moss_clump",
             8,
             320,
             160,
@@ -29910,7 +30000,7 @@
             0,
             "stockpile",
             "collect",
-            "base:item/shade_wisp",
+            "base:item/boar_hide",
             10,
             114,
             64,
@@ -29923,7 +30013,7 @@
             1,
             "purge",
             "kill",
-            "base:enemy/slime_moss",
+            "base:enemy/wolf_grey",
             9,
             292,
             166,
@@ -29936,7 +30026,7 @@
             2,
             "purge",
             "kill",
-            "base:enemy/wisp",
+            "base:enemy/wolf_dire",
             9,
             438,
             249,
@@ -29949,7 +30039,7 @@
             3,
             "purge",
             "kill",
-            "base:enemy/wolf_grey",
+            "base:enemy/cave_spider",
             12,
             752,
             416,
@@ -29965,7 +30055,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:enemy.slime_mint.name",
+              "target": "$i18n:enemy.slime_green.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -29975,7 +30065,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_mint",
+                    "enemy": "base:enemy/slime_green",
                     "count": 12
                   }
                 ],
@@ -30003,7 +30093,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.boar_hide.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -30013,7 +30103,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/boar_hide",
                     "count": 12
                   }
                 ],
@@ -30041,7 +30131,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.boar_hide.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -30051,7 +30141,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/boar_hide",
                     "count": 8
                   }
                 ],
@@ -30079,7 +30169,7 @@
             "kind": "guild",
             "args": {
               "count": "9",
-              "target": "$i18n:enemy.myconid.name",
+              "target": "$i18n:enemy.slime_green.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -30089,7 +30179,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/myconid",
+                    "enemy": "base:enemy/slime_green",
                     "count": 9
                   }
                 ],
@@ -30117,7 +30207,7 @@
             "kind": "guild",
             "args": {
               "count": "10",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.mint_leaf.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -30127,7 +30217,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/mint_leaf",
                     "count": 10
                   }
                 ],
@@ -30155,7 +30245,7 @@
             "kind": "guild",
             "args": {
               "count": "11",
-              "target": "$i18n:item.mint_leaf.name",
+              "target": "$i18n:item.tawny_fur.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -30165,7 +30255,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/mint_leaf",
+                    "item": "base:item/tawny_fur",
                     "count": 11
                   }
                 ],
@@ -30269,7 +30359,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:item.tawny_fur.name",
+              "target": "$i18n:item.mint_leaf.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -30279,7 +30369,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/tawny_fur",
+                    "item": "base:item/mint_leaf",
                     "count": 5
                   }
                 ],
@@ -30345,7 +30435,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.mint_leaf.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -30355,7 +30445,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/mint_leaf",
+                    "item": "base:item/slime_gel",
                     "count": 7
                   }
                 ],
@@ -30383,7 +30473,7 @@
             "kind": "guild",
             "args": {
               "count": "15",
-              "target": "$i18n:item.mint_leaf.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -30393,7 +30483,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/mint_leaf",
+                    "item": "base:item/slime_gel",
                     "count": 15
                   }
                 ],
@@ -30421,7 +30511,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.boar_hide.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -30431,7 +30521,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/boar_hide",
                     "count": 7
                   }
                 ],
@@ -30497,7 +30587,7 @@
             "kind": "guild",
             "args": {
               "count": "9",
-              "target": "$i18n:enemy.wolf_tawny.name",
+              "target": "$i18n:enemy.slime_mint.name",
               "place": "Fenwick"
             },
             "stages": [
@@ -30507,7 +30597,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_tawny",
+                    "enemy": "base:enemy/slime_mint",
                     "count": 9
                   }
                 ],
@@ -30573,7 +30663,7 @@
             "kind": "guild",
             "args": {
               "count": "11",
-              "target": "$i18n:enemy.night_owl.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Holendale"
             },
             "stages": [
@@ -30583,7 +30673,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/night_owl",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 11
                   }
                 ],
@@ -30611,7 +30701,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.ice_crystal.name",
+              "target": "$i18n:item.owl_feather.name",
               "place": "Holendale"
             },
             "stages": [
@@ -30621,7 +30711,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/ice_crystal",
+                    "item": "base:item/owl_feather",
                     "count": 6
                   }
                 ],
@@ -30649,7 +30739,7 @@
             "kind": "guild",
             "args": {
               "count": "9",
-              "target": "$i18n:enemy.slime_ice.name",
+              "target": "$i18n:enemy.slime_green.name",
               "place": "Holendale"
             },
             "stages": [
@@ -30659,7 +30749,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_ice",
+                    "enemy": "base:enemy/slime_green",
                     "count": 9
                   }
                 ],
@@ -30687,7 +30777,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.slime_ice.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Holendale"
             },
             "stages": [
@@ -30697,7 +30787,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_ice",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 5
                   }
                 ],
@@ -30725,7 +30815,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.slime_ice.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Holendale"
             },
             "stages": [
@@ -30735,7 +30825,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_ice",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 3
                   }
                 ],
@@ -30763,7 +30853,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.polar_fur.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Holendale"
             },
             "stages": [
@@ -30773,7 +30863,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/polar_fur",
+                    "item": "base:item/slime_gel",
                     "count": 7
                   }
                 ],
@@ -30801,7 +30891,7 @@
             "kind": "guild",
             "args": {
               "count": "10",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.slime_ice.name",
               "place": "Holendale"
             },
             "stages": [
@@ -30811,7 +30901,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/slime_ice",
                     "count": 10
                   }
                 ],
@@ -30839,7 +30929,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:item.slime_gel.name",
+              "target": "$i18n:item.bat_wing.name",
               "place": "Holendale"
             },
             "stages": [
@@ -30849,7 +30939,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slime_gel",
+                    "item": "base:item/bat_wing",
                     "count": 5
                   }
                 ],
@@ -30877,7 +30967,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.wolf_polar.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Holendale"
             },
             "stages": [
@@ -30887,7 +30977,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_polar",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 3
                   }
                 ],
@@ -30915,7 +31005,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.slime_ice.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Holendale"
             },
             "stages": [
@@ -30925,7 +31015,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_ice",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 3
                   }
                 ],
@@ -30953,7 +31043,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.ridge_elk.name",
               "place": "Holendale"
             },
             "stages": [
@@ -30963,7 +31053,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/ridge_elk",
                     "count": 4
                   }
                 ],
@@ -31029,7 +31119,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:item.ice_crystal.name",
+              "target": "$i18n:item.polar_fur.name",
               "place": "Holendale"
             },
             "stages": [
@@ -31039,7 +31129,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/ice_crystal",
+                    "item": "base:item/polar_fur",
                     "count": 5
                   }
                 ],
@@ -31067,7 +31157,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:enemy.wolf_frost.name",
+              "target": "$i18n:enemy.wolf_polar.name",
               "place": "Holendale"
             },
             "stages": [
@@ -31077,7 +31167,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_frost",
+                    "enemy": "base:enemy/wolf_polar",
                     "count": 8
                   }
                 ],
@@ -31105,7 +31195,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.wolf_polar.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Holendale"
             },
             "stages": [
@@ -31115,7 +31205,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_polar",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 3
                   }
                 ],
@@ -31181,7 +31271,7 @@
             "kind": "guild",
             "args": {
               "count": "10",
-              "target": "$i18n:enemy.wolf_frost.name",
+              "target": "$i18n:enemy.night_owl.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -31191,7 +31281,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_frost",
+                    "enemy": "base:enemy/night_owl",
                     "count": 10
                   }
                 ],
@@ -31219,7 +31309,7 @@
             "kind": "guild",
             "args": {
               "count": "11",
-              "target": "$i18n:enemy.wolf_frost.name",
+              "target": "$i18n:enemy.slime_green.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -31229,7 +31319,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_frost",
+                    "enemy": "base:enemy/slime_green",
                     "count": 11
                   }
                 ],
@@ -31257,7 +31347,7 @@
             "kind": "guild",
             "args": {
               "count": "13",
-              "target": "$i18n:item.polar_fur.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -31267,7 +31357,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/polar_fur",
+                    "item": "base:item/frost_pelt",
                     "count": 13
                   }
                 ],
@@ -31295,7 +31385,7 @@
             "kind": "guild",
             "args": {
               "count": "9",
-              "target": "$i18n:enemy.wolf_polar.name",
+              "target": "$i18n:enemy.cave_bat.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -31305,7 +31395,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_polar",
+                    "enemy": "base:enemy/cave_bat",
                     "count": 9
                   }
                 ],
@@ -31371,7 +31461,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:enemy.slime_blue.name",
+              "target": "$i18n:enemy.ridge_elk.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -31381,7 +31471,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_blue",
+                    "enemy": "base:enemy/ridge_elk",
                     "count": 12
                   }
                 ],
@@ -31409,7 +31499,7 @@
             "kind": "guild",
             "args": {
               "count": "14",
-              "target": "$i18n:item.owl_feather.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -31419,7 +31509,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/owl_feather",
+                    "item": "base:item/slime_gel",
                     "count": 14
                   }
                 ],
@@ -31447,7 +31537,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.frost_pelt.name",
+              "target": "$i18n:item.polar_fur.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -31457,7 +31547,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/frost_pelt",
+                    "item": "base:item/polar_fur",
                     "count": 7
                   }
                 ],
@@ -31485,7 +31575,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.wolf_frost.name",
+              "target": "$i18n:enemy.ridge_elk.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -31495,7 +31585,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_frost",
+                    "enemy": "base:enemy/ridge_elk",
                     "count": 6
                   }
                 ],
@@ -31523,7 +31613,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.slime_ice.name",
+              "target": "$i18n:enemy.wolf_frost.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -31533,7 +31623,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_ice",
+                    "enemy": "base:enemy/wolf_frost",
                     "count": 6
                   }
                 ],
@@ -31561,7 +31651,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.cave_bat.name",
+              "target": "$i18n:enemy.slime_ice.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -31571,7 +31661,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/cave_bat",
+                    "enemy": "base:enemy/slime_ice",
                     "count": 4
                   }
                 ],
@@ -31599,7 +31689,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.slime_green.name",
+              "target": "$i18n:enemy.ridge_elk.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -31609,7 +31699,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_green",
+                    "enemy": "base:enemy/ridge_elk",
                     "count": 5
                   }
                 ],
@@ -31637,7 +31727,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.slime_green.name",
+              "target": "$i18n:enemy.cave_bat.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -31647,7 +31737,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_green",
+                    "enemy": "base:enemy/cave_bat",
                     "count": 6
                   }
                 ],
@@ -31675,7 +31765,7 @@
             "kind": "guild",
             "args": {
               "count": "11",
-              "target": "$i18n:item.polar_fur.name",
+              "target": "$i18n:item.ice_crystal.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -31685,7 +31775,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/polar_fur",
+                    "item": "base:item/ice_crystal",
                     "count": 11
                   }
                 ],
@@ -31751,7 +31841,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.night_owl.name",
+              "target": "$i18n:enemy.ridge_elk.name",
               "place": "Galenholm"
             },
             "stages": [
@@ -31761,7 +31851,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/night_owl",
+                    "enemy": "base:enemy/ridge_elk",
                     "count": 6
                   }
                 ],
@@ -31789,7 +31879,7 @@
             "kind": "guild",
             "args": {
               "count": "10",
-              "target": "$i18n:enemy.cave_bat.name",
+              "target": "$i18n:enemy.slime_slate.name",
               "place": "Velarstead"
             },
             "stages": [
@@ -31799,7 +31889,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/cave_bat",
+                    "enemy": "base:enemy/slime_slate",
                     "count": 10
                   }
                 ],
@@ -31827,7 +31917,7 @@
             "kind": "guild",
             "args": {
               "count": "9",
-              "target": "$i18n:enemy.stone_golem.name",
+              "target": "$i18n:enemy.wolf_grey.name",
               "place": "Velarstead"
             },
             "stages": [
@@ -31837,7 +31927,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/stone_golem",
+                    "enemy": "base:enemy/wolf_grey",
                     "count": 9
                   }
                 ],
@@ -31865,7 +31955,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.bat_wing.name",
               "place": "Velarstead"
             },
             "stages": [
@@ -31875,7 +31965,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/bat_wing",
                     "count": 5
                   }
                 ],
@@ -31941,7 +32031,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:item.dire_fang.name",
+              "target": "$i18n:item.slate_shard.name",
               "place": "Velarstead"
             },
             "stages": [
@@ -31951,7 +32041,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/dire_fang",
+                    "item": "base:item/slate_shard",
                     "count": 6
                   }
                 ],
@@ -31979,7 +32069,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_green.name",
               "place": "Velarstead"
             },
             "stages": [
@@ -31989,7 +32079,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_green",
                     "count": 3
                   }
                 ],
@@ -32017,7 +32107,7 @@
             "kind": "guild",
             "args": {
               "count": "9",
-              "target": "$i18n:item.wolf_fang.name",
+              "target": "$i18n:item.bat_wing.name",
               "place": "Velarstead"
             },
             "stages": [
@@ -32027,7 +32117,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/wolf_fang",
+                    "item": "base:item/bat_wing",
                     "count": 9
                   }
                 ],
@@ -32055,7 +32145,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.slime_slate.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Velarstead"
             },
             "stages": [
@@ -32065,7 +32155,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_slate",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 5
                   }
                 ],
@@ -32093,7 +32183,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:item.slate_shard.name",
+              "target": "$i18n:item.wolf_fang.name",
               "place": "Velarstead"
             },
             "stages": [
@@ -32103,7 +32193,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slate_shard",
+                    "item": "base:item/wolf_fang",
                     "count": 12
                   }
                 ],
@@ -32131,7 +32221,7 @@
             "kind": "guild",
             "args": {
               "count": "6",
-              "target": "$i18n:enemy.slime_rust.name",
+              "target": "$i18n:enemy.cave_bat.name",
               "place": "Velarstead"
             },
             "stages": [
@@ -32141,7 +32231,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_rust",
+                    "enemy": "base:enemy/cave_bat",
                     "count": 6
                   }
                 ],
@@ -32169,7 +32259,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.slime_rust.name",
+              "target": "$i18n:enemy.ridge_elk.name",
               "place": "Velarstead"
             },
             "stages": [
@@ -32179,7 +32269,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_rust",
+                    "enemy": "base:enemy/ridge_elk",
                     "count": 5
                   }
                 ],
@@ -32207,7 +32297,7 @@
             "kind": "guild",
             "args": {
               "count": "9",
-              "target": "$i18n:item.golem_core.name",
+              "target": "$i18n:item.bat_wing.name",
               "place": "Velarstead"
             },
             "stages": [
@@ -32217,7 +32307,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/golem_core",
+                    "item": "base:item/bat_wing",
                     "count": 9
                   }
                 ],
@@ -32245,7 +32335,7 @@
             "kind": "guild",
             "args": {
               "count": "14",
-              "target": "$i18n:item.slate_shard.name",
+              "target": "$i18n:item.golem_core.name",
               "place": "Velarstead"
             },
             "stages": [
@@ -32255,7 +32345,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/slate_shard",
+                    "item": "base:item/golem_core",
                     "count": 14
                   }
                 ],
@@ -32321,7 +32411,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.slime_slate.name",
               "place": "Velarstead"
             },
             "stages": [
@@ -32331,7 +32421,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/slime_slate",
                     "count": 4
                   }
                 ],
@@ -32359,7 +32449,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.stone_golem.name",
+              "target": "$i18n:enemy.slime_rust.name",
               "place": "Velarstead"
             },
             "stages": [
@@ -32369,7 +32459,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/stone_golem",
+                    "enemy": "base:enemy/slime_rust",
                     "count": 5
                   }
                 ],
@@ -32397,7 +32487,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.ice_crystal.name",
+              "target": "$i18n:item.elk_antler.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -32407,7 +32497,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/ice_crystal",
+                    "item": "base:item/elk_antler",
                     "count": 7
                   }
                 ],
@@ -32435,7 +32525,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.frost_pelt.name",
+              "target": "$i18n:item.elk_antler.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -32445,7 +32535,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/frost_pelt",
+                    "item": "base:item/elk_antler",
                     "count": 7
                   }
                 ],
@@ -32473,7 +32563,7 @@
             "kind": "guild",
             "args": {
               "count": "4",
-              "target": "$i18n:item.ice_crystal.name",
+              "target": "$i18n:item.polar_fur.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -32483,7 +32573,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/ice_crystal",
+                    "item": "base:item/polar_fur",
                     "count": 4
                   }
                 ],
@@ -32549,7 +32639,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.cave_bat.name",
+              "target": "$i18n:enemy.ridge_elk.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -32559,7 +32649,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/cave_bat",
+                    "enemy": "base:enemy/ridge_elk",
                     "count": 5
                   }
                 ],
@@ -32587,7 +32677,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:item.ice_crystal.name",
+              "target": "$i18n:item.frost_pelt.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -32597,7 +32687,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/ice_crystal",
+                    "item": "base:item/frost_pelt",
                     "count": 8
                   }
                 ],
@@ -32625,7 +32715,7 @@
             "kind": "guild",
             "args": {
               "count": "5",
-              "target": "$i18n:enemy.wolf_frost.name",
+              "target": "$i18n:enemy.slime_blue.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -32635,7 +32725,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_frost",
+                    "enemy": "base:enemy/slime_blue",
                     "count": 5
                   }
                 ],
@@ -32663,7 +32753,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:item.frost_pelt.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -32673,7 +32763,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/frost_pelt",
+                    "item": "base:item/slime_gel",
                     "count": 12
                   }
                 ],
@@ -32701,7 +32791,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:enemy.wolf_frost.name",
+              "target": "$i18n:enemy.ridge_elk.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -32711,7 +32801,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_frost",
+                    "enemy": "base:enemy/ridge_elk",
                     "count": 12
                   }
                 ],
@@ -32739,7 +32829,7 @@
             "kind": "guild",
             "args": {
               "count": "9",
-              "target": "$i18n:enemy.wolf_frost.name",
+              "target": "$i18n:enemy.slime_ice.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -32749,7 +32839,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_frost",
+                    "enemy": "base:enemy/slime_ice",
                     "count": 9
                   }
                 ],
@@ -32777,7 +32867,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.bat_wing.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -32787,7 +32877,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/bat_wing",
+                    "item": "base:item/slime_gel",
                     "count": 7
                   }
                 ],
@@ -32815,7 +32905,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.night_owl.name",
+              "target": "$i18n:enemy.slime_green.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -32825,7 +32915,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/night_owl",
+                    "enemy": "base:enemy/slime_green",
                     "count": 3
                   }
                 ],
@@ -32853,7 +32943,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:enemy.wolf_polar.name",
+              "target": "$i18n:enemy.slime_ice.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -32863,7 +32953,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_polar",
+                    "enemy": "base:enemy/slime_ice",
                     "count": 12
                   }
                 ],
@@ -32929,7 +33019,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.frost_pelt.name",
+              "target": "$i18n:item.bat_wing.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -32939,7 +33029,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/frost_pelt",
+                    "item": "base:item/bat_wing",
                     "count": 7
                   }
                 ],
@@ -32967,7 +33057,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.wolf_polar.name",
+              "target": "$i18n:enemy.slime_green.name",
               "place": "Dunovale"
             },
             "stages": [
@@ -32977,7 +33067,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_polar",
+                    "enemy": "base:enemy/slime_green",
                     "count": 3
                   }
                 ],
@@ -33005,7 +33095,7 @@
             "kind": "guild",
             "args": {
               "count": "14",
-              "target": "$i18n:item.dire_fang.name",
+              "target": "$i18n:item.shade_wisp.name",
               "place": "Kelelwick"
             },
             "stages": [
@@ -33015,7 +33105,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/dire_fang",
+                    "item": "base:item/shade_wisp",
                     "count": 14
                   }
                 ],
@@ -33043,7 +33133,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:item.spore_cap.name",
+              "target": "$i18n:item.wolf_fang.name",
               "place": "Kelelwick"
             },
             "stages": [
@@ -33053,7 +33143,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/spore_cap",
+                    "item": "base:item/wolf_fang",
                     "count": 12
                   }
                 ],
@@ -33081,7 +33171,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:enemy.wisp.name",
+              "target": "$i18n:enemy.slime_moss.name",
               "place": "Kelelwick"
             },
             "stages": [
@@ -33091,7 +33181,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wisp",
+                    "enemy": "base:enemy/slime_moss",
                     "count": 8
                   }
                 ],
@@ -33119,7 +33209,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:item.dire_fang.name",
+              "target": "$i18n:item.shade_wisp.name",
               "place": "Kelelwick"
             },
             "stages": [
@@ -33129,7 +33219,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/dire_fang",
+                    "item": "base:item/shade_wisp",
                     "count": 12
                   }
                 ],
@@ -33157,7 +33247,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.slime_green.name",
+              "target": "$i18n:enemy.night_owl.name",
               "place": "Kelelwick"
             },
             "stages": [
@@ -33167,7 +33257,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_green",
+                    "enemy": "base:enemy/night_owl",
                     "count": 3
                   }
                 ],
@@ -33195,7 +33285,7 @@
             "kind": "guild",
             "args": {
               "count": "10",
-              "target": "$i18n:enemy.night_owl.name",
+              "target": "$i18n:enemy.slime_moss.name",
               "place": "Kelelwick"
             },
             "stages": [
@@ -33205,7 +33295,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/night_owl",
+                    "enemy": "base:enemy/slime_moss",
                     "count": 10
                   }
                 ],
@@ -33233,7 +33323,7 @@
             "kind": "guild",
             "args": {
               "count": "3",
-              "target": "$i18n:enemy.slime_green.name",
+              "target": "$i18n:enemy.wolf_shade.name",
               "place": "Kelelwick"
             },
             "stages": [
@@ -33243,7 +33333,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_green",
+                    "enemy": "base:enemy/wolf_shade",
                     "count": 3
                   }
                 ],
@@ -33271,7 +33361,7 @@
             "kind": "guild",
             "args": {
               "count": "7",
-              "target": "$i18n:item.owl_feather.name",
+              "target": "$i18n:item.dire_fang.name",
               "place": "Kelelwick"
             },
             "stages": [
@@ -33281,7 +33371,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/owl_feather",
+                    "item": "base:item/dire_fang",
                     "count": 7
                   }
                 ],
@@ -33309,7 +33399,7 @@
             "kind": "guild",
             "args": {
               "count": "10",
-              "target": "$i18n:enemy.cave_bat.name",
+              "target": "$i18n:enemy.night_owl.name",
               "place": "Kelelwick"
             },
             "stages": [
@@ -33319,7 +33409,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/cave_bat",
+                    "enemy": "base:enemy/night_owl",
                     "count": 10
                   }
                 ],
@@ -33347,7 +33437,7 @@
             "kind": "guild",
             "args": {
               "count": "10",
-              "target": "$i18n:item.dire_fang.name",
+              "target": "$i18n:item.slime_gel.name",
               "place": "Kelelwick"
             },
             "stages": [
@@ -33357,7 +33447,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/dire_fang",
+                    "item": "base:item/slime_gel",
                     "count": 10
                   }
                 ],
@@ -33385,7 +33475,7 @@
             "kind": "guild",
             "args": {
               "count": "11",
-              "target": "$i18n:enemy.slime_moss.name",
+              "target": "$i18n:enemy.wolf_grey.name",
               "place": "Kelelwick"
             },
             "stages": [
@@ -33395,7 +33485,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_moss",
+                    "enemy": "base:enemy/wolf_grey",
                     "count": 11
                   }
                 ],
@@ -33423,7 +33513,7 @@
             "kind": "guild",
             "args": {
               "count": "8",
-              "target": "$i18n:item.bat_wing.name",
+              "target": "$i18n:item.moss_clump.name",
               "place": "Kelelwick"
             },
             "stages": [
@@ -33433,7 +33523,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/bat_wing",
+                    "item": "base:item/moss_clump",
                     "count": 8
                   }
                 ],
@@ -33461,7 +33551,7 @@
             "kind": "guild",
             "args": {
               "count": "10",
-              "target": "$i18n:item.shade_wisp.name",
+              "target": "$i18n:item.boar_hide.name",
               "place": "Kelelwick"
             },
             "stages": [
@@ -33471,7 +33561,7 @@
                 "objectives": [
                   {
                     "type": "collect",
-                    "item": "base:item/shade_wisp",
+                    "item": "base:item/boar_hide",
                     "count": 10
                   }
                 ],
@@ -33499,7 +33589,7 @@
             "kind": "guild",
             "args": {
               "count": "9",
-              "target": "$i18n:enemy.slime_moss.name",
+              "target": "$i18n:enemy.wolf_grey.name",
               "place": "Kelelwick"
             },
             "stages": [
@@ -33509,7 +33599,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/slime_moss",
+                    "enemy": "base:enemy/wolf_grey",
                     "count": 9
                   }
                 ],
@@ -33537,7 +33627,7 @@
             "kind": "guild",
             "args": {
               "count": "9",
-              "target": "$i18n:enemy.wisp.name",
+              "target": "$i18n:enemy.wolf_dire.name",
               "place": "Kelelwick"
             },
             "stages": [
@@ -33547,7 +33637,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wisp",
+                    "enemy": "base:enemy/wolf_dire",
                     "count": 9
                   }
                 ],
@@ -33575,7 +33665,7 @@
             "kind": "guild",
             "args": {
               "count": "12",
-              "target": "$i18n:enemy.wolf_grey.name",
+              "target": "$i18n:enemy.cave_spider.name",
               "place": "Kelelwick"
             },
             "stages": [
@@ -33585,7 +33675,7 @@
                 "objectives": [
                   {
                     "type": "kill",
-                    "enemy": "base:enemy/wolf_grey",
+                    "enemy": "base:enemy/cave_spider",
                     "count": 12
                   }
                 ],

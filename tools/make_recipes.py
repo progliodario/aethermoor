@@ -23,6 +23,11 @@ RECIPES = {
     "fish_stew": ("fish_stew", 1, {"crab_shell": 2, "mint_leaf": 1, "dry_branch": 1}),
     "grilled_fish": ("grilled_fish", 2, {"river_fish": 2, "dry_branch": 1}),
     "fishermans_stew": ("fish_stew", 2, {"river_fish": 3, "healing_herb": 1, "dry_branch": 1}),
+    # the hunt (spec 06, "Hunting"): meat over a fire, hides and antlers at an anvil
+    "roast_meat": ("roast_meat", 2, {"game_meat": 2, "dry_branch": 1}),
+    "hunters_stew": ("hunters_stew", 1, {"game_meat": 2, "healing_herb": 1, "mint_leaf": 1, "dry_branch": 1}),
+    "hunters_jerkin": ("hunters_jerkin", 1, {"leather_vest": 1, "boar_hide": 3, "elk_antler": 1}),
+    "antler_spear": ("antler_spear", 1, {"wood_log": 2, "elk_antler": 2, "iron_ore": 2}),
     "royal_feast": ("royal_feast", 1, {"hearty_stew": 1, "honey_cake": 1, "wild_berries": 5}),
     # stronger potions from the weaker ones
     "potion_large": ("potion_large", 1, {"potion_medium": 2, "spore_cap": 2, "pine_resin": 1}),
@@ -49,9 +54,9 @@ RECIPES = {
 
 
 # the cooked dishes are made next to a campfire (spec 06, "Stations"): Fenwick, Aldermere and every outpost have one
-AT_FIRE = ("hearty_stew", "fish_stew", "royal_feast", "miners_broth", "grilled_fish", "fishermans_stew")
+AT_FIRE = ("hearty_stew", "fish_stew", "royal_feast", "miners_broth", "grilled_fish", "fishermans_stew", "roast_meat", "hunters_stew")
 # the fine gear is made at an anvil
-AT_ANVIL = ("fine_iron_sword", "fine_hand_axe", "fine_pike", "fine_leather_vest", "fine_studded_leather",)
+AT_ANVIL = ("fine_iron_sword", "fine_hand_axe", "fine_pike", "fine_leather_vest", "fine_studded_leather", "hunters_jerkin", "antler_spear")
 
 
 def main() -> None:

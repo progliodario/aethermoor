@@ -2638,6 +2638,16 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
         lines.push_back({"  " + assets.pack.text(ui.lang, "$i18n:ui.journal_bond",
                                                  {{"bond", bond}, {"bonus", std::min<std::int64_t>(bond / 5, 10)}}),
                          2});
+        const aether::CompanionDef& c = *sim.combat().companion;
+        if (c.care_ticks > 0) {  // care (spec 10): what it does for the player, or the bond it needs
+            const bool cares = bond >= c.care_bond;
+            lines.push_back(
+                {"  " + assets.pack.text(ui.lang, cares ? "$i18n:ui.journal_care" : "$i18n:ui.journal_care_later",
+                                         {{"pct", static_cast<std::int64_t>(c.care_pct)},
+                                          {"seconds", static_cast<std::int64_t>(c.care_ticks / 60)},
+                                          {"bond", static_cast<std::int64_t>(c.care_bond)}}),
+                 2});
+        }
     }
     // The way of playing (spec 11): the counters, and the echoes of past games.
     if (!sim.counters().empty() || sim.combat().echo_pct > 0) {

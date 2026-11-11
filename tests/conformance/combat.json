@@ -20441,7 +20441,7 @@
               "kind": "guild",
               "args": {
                 "count": "3",
-                "target": "$i18n:enemy.cave_bat.name",
+                "target": "$i18n:enemy.slime_moss.name",
                 "place": "Wyninbrook"
               },
               "stages": [
@@ -20451,7 +20451,7 @@
                   "objectives": [
                     {
                       "type": "kill",
-                      "enemy": "base:enemy/cave_bat",
+                      "enemy": "base:enemy/slime_moss",
                       "count": 3
                     }
                   ],
@@ -20633,7 +20633,7 @@
                 "windup_ticks": 18,
                 "recovery_ticks": 30
               },
-              "id": "base:enemy/cave_bat"
+              "id": "base:enemy/slime_moss"
             }
           },
           {
@@ -20665,7 +20665,7 @@
                 "windup_ticks": 18,
                 "recovery_ticks": 30
               },
-              "id": "base:enemy/cave_bat"
+              "id": "base:enemy/slime_moss"
             }
           },
           {
@@ -20697,7 +20697,7 @@
                 "windup_ticks": 18,
                 "recovery_ticks": 30
               },
-              "id": "base:enemy/cave_bat"
+              "id": "base:enemy/slime_moss"
             }
           }
         ],
@@ -20828,7 +20828,7 @@
               "armor": ""
             },
             "bestiary": {
-              "base:enemy/cave_bat": 3
+              "base:enemy/slime_moss": 3
             },
             "titles": [
               "grown",
@@ -20890,7 +20890,7 @@
               "armor": ""
             },
             "bestiary": {
-              "base:enemy/cave_bat": 3
+              "base:enemy/slime_moss": 3
             },
             "titles": [
               "grown",

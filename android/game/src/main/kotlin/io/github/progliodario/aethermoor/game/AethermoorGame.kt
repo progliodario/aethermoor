@@ -1931,6 +1931,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             entries.add(Pair(data.pack.text(language, companion.name), 1))
             entries.add(Pair("  " + data.pack.text(language, if (world.companionStaying) "\$i18n:ui.companion_stays" else "\$i18n:ui.companion_follows"), 2))
             entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.journal_bond", mapOf("bond" to world.companionBond, "bonus" to minOf(world.companionBond / 5, 10))), 2))
+            if (companion.careTicks > 0) { // care (spec 10): what it does for the player, or the bond it needs
+                val key = if (world.companionBond >= companion.careBond) "\$i18n:ui.journal_care" else "\$i18n:ui.journal_care_later"
+                entries.add(Pair("  " + data.pack.text(language, key, mapOf("pct" to companion.carePct, "seconds" to companion.careTicks / 60, "bond" to companion.careBond)), 2))
+            }
         }
         // The way of playing (spec 11): the counters, and the echoes of past games.
         if (world.counters.isNotEmpty() || world.combat.echoPct > 0) {

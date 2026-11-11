@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/antler_spear",
+  "name": "$i18n:item.antler_spear.name",
+  "description": "$i18n:item.antler_spear.desc",
+  "kind": "weapon",
+  "rarity": "uncommon",
+  "price": 300,
+  "weapon": {
+    "atk": 16,
+    "matk": 0
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/wild_boar",
+  "name": "$i18n:enemy.wild_boar.name",
+  "level": 2,
+  "stats": {
+    "hp": 40,
+    "atk": 7,
+    "def": 2,
+    "mdef": 2,
+    "speed_x100": 300
+  },
+  "element": "none",
+  "sound": "wolf",
+  "weaknesses_pm": {
+    "fire": 1500
+  },
+  "xp": 10,
+  "drops": [
+    {
+      "item": "base:item/game_meat",
+      "qty_min": 1,
+      "qty_max": 2,
+      "weight_pm": 850
+    },
+    {
+      "item": "base:item/boar_hide",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 500
+    }
+  ],
+  "radius_x100": 38,
+  "behavior": "base:behavior/skittish",
+  "art": "base:art/creature/wild_boar"
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/frostveil_antlers",
+  "name": "$i18n:quest.frostveil_antlers.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.frostveil_antlers.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/ridge_elk",
+          "count": 4
+        },
+        {
+          "type": "collect",
+          "item": "base:item/elk_antler",
+          "count": 3
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 900
+    },
+    {
+      "effect": "add_gold",
+      "amount": 900
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 45
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/hunters_stew",
+      "qty": 3
+    }
+  ]
+}

@@ -17,6 +17,8 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Hunting** (spec 06, "Hunting"): two shy wild creatures live in the regions, the **wild boar** (Verdalis, Whisperwood, Tidehaven) and the **ridge elk** (Frostveil, Ironspine, Lumeria). They leave game meat, boar hides and elk antlers. Four new recipes: roast meat and a hunter's stew at a campfire, a hunter's jerkin and an antler spear at an anvil. Two hunting quests, for Pell (boars in the barley) and Henrik (antlers for his chisels). 70 creatures, 166 items, 34 recipes, 231 quests.
+- The journal says what the companion's care does ("It tends you: +5% health every 10 s"), or from which bond it will start.
 - **Companions take care of you** (spec 10, "Care"; both clients, conformance scenario `companion_care`): once a companion has ten kills with you, it heals 5% of your health every ten seconds when you are hurt.
 - **The guardian bar** (spec 05): near a guardian, a wide bar at the top of the screen shows its name and level, its health with a notch at every quarter, and its stagger.
 - **Quests that ask for something gathered point to it**: the goal and the "Go to" line go to the nearest reeds, bush, tree or rock around you that gives it (spec 07, "Places"), not to an outpost far away.

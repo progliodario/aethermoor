@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/roast_meat",
+  "name": "$i18n:item.roast_meat.name",
+  "description": "$i18n:item.roast_meat.desc",
+  "kind": "food",
+  "rarity": "common",
+  "price": 30,
+  "stack_max": 99,
+  "use": {
+    "effects": [
+      {
+        "effect": "heal",
+        "amount": 70
+      }
+    ]
+  }
+}

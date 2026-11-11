@@ -73,6 +73,8 @@
   "ui.journal_bestiary": "Bestiario",
   "ui.journal_companion": "Compagno",
   "ui.journal_bond": "Legame {bond} (attacco +{bonus})",
+  "ui.journal_care": "Si prende cura di te: +{pct}% di vita ogni {seconds} s",
+  "ui.journal_care_later": "Con legame {bond} si prenderà cura di te",
   "ui.journal_habits": "Il tuo modo",
   "ui.counter_gathered": "Raccolte: {count}",
   "ui.counter_crafted": "Cose create: {count}",
@@ -868,5 +870,11 @@
   "dlg.town.nella.tidehaven_catch.offer": "Reti intere e nessuno che le getti: dopo il tuo arrivo i pescatori sono diventati tutti avventurieri. Ah. Prova tra i canneti, Ospite. I pesci si nascondono lì, sul bordo dell'acqua.",
   "dlg.town.nella.tidehaven_catch.busy": "Sei pesci freschi, dai canneti sull'acqua.",
   "dlg.town.nella.tidehaven_catch.thanks": "Un Ospite che pesca! Lo dirò agli altri: si vergogneranno. Zuppa, e un elisir dalle perle della prima pesca.",
+  "dlg.town.pell.crossroads_boars.offer": "L'orzo sembra un campo di battaglia. Cinghiali, Ospite, una famiglia intera, e mangiano meglio dei miei muli. Cacciali, e stasera il campo mangia cinghiale.",
+  "dlg.town.pell.crossroads_boars.busy": "Cinque cinghiali, quattro tagli di carne.",
+  "dlg.town.pell.crossroads_boars.thanks": "Arrosto per tutti, e i primi piatti per te. I muli sono gelosi.",
+  "dlg.town.henrik.frostveil_antlers.offer": "I miei scalpelli hanno manici di pino, e il pino si spacca col freddo. Il corno d'alce mai. Tre, e scolpirò fino a primavera.",
+  "dlg.town.henrik.frostveil_antlers.busy": "Quattro alci dei crinali, tre corna.",
+  "dlg.town.henrik.frostveil_antlers.thanks": "Guarda che impugnatura. Ti scolpirò un alce, per ringraziarti, nel ghiaccio. Prima lo stufato: il freddo non aspetta.",
   "dlg.pip.story.gideon.done": "Tutto il villaggio è d'accordo: sei un buon re. Prendi la lama, non è per niente come la vecchia, ma ti sta bene."
 }

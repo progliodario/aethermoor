@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/hunters_jerkin",
+  "name": "$i18n:item.hunters_jerkin.name",
+  "description": "$i18n:item.hunters_jerkin.desc",
+  "kind": "armor",
+  "rarity": "uncommon",
+  "price": 260,
+  "armor": {
+    "def": 5,
+    "mdef": 2
+  }
+}
