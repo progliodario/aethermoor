@@ -1008,5 +1008,15 @@
   "quest.ashen_embers.task": "La forgia di Grael va a nuclei di brace, e li portano gli slime di brace delle Lande di Cenere.",
   "quest.ashen_char.name": "Carbone delle Lande",
   "quest.ashen_char.task": "Per il suo acciaio migliore Grael vuole il carbone degli slime carbonizzati delle Lande di Cenere.",
+  "item.fine_iron_sword.name": "Spada di ferro pregiata",
+  "item.fine_iron_sword.desc": "Ripiegata due volte sull'incudine. Ronza quando taglia.",
+  "item.fine_hand_axe.name": "Ascia pregiata",
+  "item.fine_hand_axe.desc": "Bilanciata così bene che sembra muoversi da sola.",
+  "item.fine_pike.name": "Picca pregiata",
+  "item.fine_pike.desc": "Una lunga punta d'acciaio temprato all'incudine.",
+  "item.fine_leather_vest.name": "Giubba di cuoio pregiata",
+  "item.fine_leather_vest.desc": "Cucita stretta con seta di ragno.",
+  "item.fine_studded_leather.name": "Cuoio borchiato pregiato",
+  "item.fine_studded_leather.desc": "Ogni borchia ribattuta a mano sull'incudine.",
   "quest.personal_gideon_2.task": "Quattro lupi fulvi e due pellicce: il villaggio, con garbo, chiede un tributo."
 }

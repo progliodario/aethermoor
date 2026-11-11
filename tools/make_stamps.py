@@ -89,6 +89,7 @@ LEGEND = {
     "!": {"prop": "base:art/prop/bush", "radius_x100": 30},
     "$": {"prop": "base:art/prop/bones", "radius_x100": 10},
     "?": {"prop": "base:art/prop/campfire", "radius_x100": 30},
+    "/": {"tile": 14, "prop": "base:art/prop/anvil", "radius_x100": 35},  # where fine gear is made
     "V": {"tile": 13, "npc": "villager"},
     "G": {"tile": 13, "npc": "guild_clerk"},
     "S": {"tile": 13, "npc": "shopkeeper"},
@@ -222,6 +223,7 @@ def town() -> dict:
     c.put(15, 13, "E")
     c.put(18, 10, "T")
     c.put(21, 14, "?")  # a campfire to cook at (spec 06, "Stations")
+    c.put(9, 14, "/")  # an anvil to make fine gear at
     # Guild hall (north-west), shop (north-east), inn (south-west) and houses.
     c.house(4, 4, 9, 5, {(1, 1): "b", (2, 1): "b", (6, 2): "G", (7, 1): "b"}, door=4)
     c.house(18, 4, 8, 5, {(1, 1): "b", (2, 1): "b", (5, 2): "S"}, door=4)

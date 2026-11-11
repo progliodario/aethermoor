@@ -1008,5 +1008,15 @@
   "quest.ashen_embers.task": "Grael's forge runs on ember cores, and the ember slimes of the Ashen Wastes carry them.",
   "quest.ashen_char.name": "Charcoal of the Wastes",
   "quest.ashen_char.task": "For his best steel Grael wants char from the char slimes of the Ashen Wastes.",
+  "item.fine_iron_sword.name": "Fine iron sword",
+  "item.fine_iron_sword.desc": "Folded twice at an anvil. It hums when it cuts.",
+  "item.fine_hand_axe.name": "Fine hand axe",
+  "item.fine_hand_axe.desc": "Balanced so well it seems to swing itself.",
+  "item.fine_pike.name": "Fine pike",
+  "item.fine_pike.desc": "A long point of anvil-hardened steel.",
+  "item.fine_leather_vest.name": "Fine leather vest",
+  "item.fine_leather_vest.desc": "Stitched tight with spider silk.",
+  "item.fine_studded_leather.name": "Fine studded leather",
+  "item.fine_studded_leather.desc": "Every stud riveted by hand at an anvil.",
   "quest.personal_gideon_2.task": "Four tawny wolves and two furs: the village, politely, asks for a tribute."
 }

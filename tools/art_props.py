@@ -376,5 +376,19 @@ def haybale() -> Recipe:
     return r
 
 
+def anvil() -> Recipe:
+    """An anvil on a stump, with a hammer: where fine gear is made (spec 06, "Stations")."""
+    r = prop("anvil", 32, 28, (16, 25), {"iron": "#5C6470", "light": "#A9B2BE", "dark": "#2E333A", "wood": "#8A5A2E", "outline": "#1A1C20"})
+    r.shadow(16, 25, 12, 2.6, 0.3)
+    r.rect(9, 15, 14, 10, linear(0, 15, 0, 25, (0, "#A06A38"), (1, "#5E3A1A")), stroke="$p.outline", width=1.2)
+    r.path("M 9 17 Q 16 15.5 23 17", None, stroke="#C08A50", width=0.7, alpha=0.8)
+    r.path("M 11 15 L 21 15 L 22 12 L 26 11 L 28 8 L 4 8 L 6 11 L 10 12 Z", linear(0, 8, 0, 15, (0, "$p.light"), (0.5, "$p.iron"), (1, "$p.dark")), stroke="$p.outline", width=1.2)
+    r.rect(4, 7, 24, 1.6, "#FFFFFF", alpha=0.3)
+    r.rect(20, 3, 2, 6, "$p.wood", stroke="$p.outline", width=0.8)
+    r.rect(17, 2, 8, 2.6, "$p.iron", stroke="$p.outline", width=0.8)
+    r.ellipse(8, 21, 1.4, 1.0, "#F2A03A", alpha=0.85)
+    return r
+
+
 def build_props() -> list[Recipe]:
-    return [tree_oak(), pine(), dead_tree(), bush(), rock(), cactus(), campfire(), crate(), barrel(), bones(), lamp(), signpost(), statue(), tent(), banner(), well(), threshold_stone(), stall(), haybale()]
+    return [tree_oak(), pine(), dead_tree(), bush(), rock(), cactus(), campfire(), crate(), barrel(), bones(), lamp(), signpost(), statue(), tent(), banner(), well(), threshold_stone(), stall(), haybale(), anvil()]

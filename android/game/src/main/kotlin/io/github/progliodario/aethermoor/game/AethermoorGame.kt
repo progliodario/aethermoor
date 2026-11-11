@@ -2436,7 +2436,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             font.color = if (can) Color(0.6f, 1f, 0.67f, 1f) else Color(0.7f, 0.6f, 0.6f, 1f)
             font.draw(batch, "${itemName(data, recipe.output, recipe.outputQty)} x${recipe.outputQty}", r[0] + 16f * density, r[1] + 2f * density)
             font.color = Color(0.67f, 0.75f, 0.85f, 1f)
-            val fire = if (recipe.station.isEmpty()) "" else "   " + data.pack.text(language, if (world.nearStation(recipe.station)) "\$i18n:ui.at_fire" else "\$i18n:ui.needs_fire")
+            val fire = if (recipe.station.isEmpty()) "" else "   " + data.pack.text(language, if (world.nearStation(recipe.station)) "\$i18n:ui.station_here" else "\$i18n:ui.station_${recipe.station.substringAfterLast('/')}")
             font.draw(batch, needs + fire, r[0] + 16f * density, r[1] + 2f * density + font.lineHeight * 1.2f)
         }
         font.color = Color(0.67f, 0.78f, 0.9f, 1f)

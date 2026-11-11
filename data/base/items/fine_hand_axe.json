@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/fine_hand_axe",
+  "name": "$i18n:item.fine_hand_axe.name",
+  "description": "$i18n:item.fine_hand_axe.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 620,
+  "weapon": {
+    "atk": 14,
+    "matk": 0
+  }
+}

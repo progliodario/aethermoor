@@ -2626,8 +2626,10 @@ void draw_craft(SDL_Renderer* renderer, const Assets& assets, const aether::Worl
                    (item_name(assets, ui, recipe.output, recipe.output_qty) + " x" + std::to_string(recipe.output_qty))
                        .c_str());
         if (!recipe.station.empty()) {  // made only next to a fire (spec 06, "Stations")
-            needs += "   " + assets.pack.text(ui.lang, sim.near_station(recipe.station) ? "$i18n:ui.at_fire"
-                                                                                        : "$i18n:ui.needs_fire");
+            needs += "   " + assets.pack.text(ui.lang, sim.near_station(recipe.station)
+                                                           ? std::string("$i18n:ui.station_here")
+                                                           : "$i18n:ui.station_" +
+                                                                 recipe.station.substr(recipe.station.rfind('/') + 1));
         }
         SDL_SetRenderDrawColor(renderer, 170, 190, 215, 255);
         debug_text(renderer, (x + 16.0F) / kScale, (ty + 8.0F * kScale + 4.0F) / kScale, needs.c_str());
