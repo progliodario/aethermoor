@@ -87,8 +87,11 @@ struct Ui {
     bool show_map = false;
     bool show_journal = false;
     bool show_settings = false;  // the volumes (spec 16, "Settings")
-    bool show_craft = false;     // the crafting panel (spec 06, "Crafting")
-    int craft_tab = 0;           // what the panel shows: 0 the recipes, 1 the talents (spec 11, "Talents")
+    bool show_keys = false;      // the keys panel (spec 16, "Configurable keys"): F4
+    int keys_cursor = 0;
+    bool keys_waiting = false;  // the next key pressed is given to the chosen action
+    bool show_craft = false;    // the crafting panel (spec 06, "Crafting")
+    int craft_tab = 0;          // what the panel shows: 0 the recipes, 1 the talents (spec 11, "Talents")
     int craft_cursor = 0;
     int settings_cursor = 0;
     int journal_scroll = 0;  // first visible line of the journal
@@ -237,7 +240,8 @@ constexpr Rebindable kRebindable[] = {
     {"interact", SDLK_E}, {"bag", SDLK_I},      {"journal", SDLK_Q},   {"map", SDLK_M},
     {"minimap", SDLK_N},  {"crafting", SDLK_C}, {"companion", SDLK_H}, {"analyze", SDLK_Z},
 };
-std::map<SDL_Keycode, SDL_Keycode> g_key_remap;  // a key the player chose -> the default key it stands for
+std::map<SDL_Keycode, SDL_Keycode> g_key_remap;   // a key the player chose -> the default key it stands for
+std::map<std::string, SDL_Keycode> g_key_choice;  // action -> the key the player chose for it
 std::map<SDL_Scancode, std::vector<SDL_Scancode>> g_held_remap;  // the same, by position, for the keys that are held
 
 // Gives a key event the key it stands for, when the player chose that key for an action.
@@ -1406,9 +1410,29 @@ void save_language(const std::string& lang) { write_settings(lang); }
 // player can fill it in; read at the start. A key is named as SDL names it ("F", "Space", "Left Ctrl", "Keypad 5").
 fs::path keys_file() { return save_dir().parent_path() / "keys.json"; }
 
+// Writes the keys file from the choices of the keys panel; a key with no name that JSON can hold is left out.
+void write_keys() {
+    std::string out = "{\n  \"keys\": {\n";
+    for (std::size_t i = 0; i < std::size(kRebindable); ++i) {
+        std::string name;
+        const auto chosen = g_key_choice.find(kRebindable[i].action);
+        if (chosen != g_key_choice.end()) {
+            name = SDL_GetKeyName(chosen->second);
+            if (name.find('"') != std::string::npos || name.find('\\') != std::string::npos) {
+                name.clear();
+            }
+        }
+        out += std::string("    \"") + kRebindable[i].action + "\": \"" + name + "\"" +
+               (i + 1 < std::size(kRebindable) ? ",\n" : "\n");
+    }
+    out += "  }\n}\n";
+    write_text_atomic(keys_file(), out);
+}
+
 void load_keys() {
     g_key_remap.clear();
     g_held_remap.clear();
+    g_key_choice.clear();
     const auto text = read_text_file(keys_file());
     if (!text) {
         std::string out = "{\n  \"keys\": {\n";
@@ -1437,6 +1461,7 @@ void load_keys() {
             continue;
         }
         g_key_remap[key] = entry.key;
+        g_key_choice[entry.action] = key;
         g_held_remap[SDL_GetScancodeFromKey(entry.key, nullptr)].push_back(SDL_GetScancodeFromKey(key, nullptr));
     }
 }
@@ -2320,6 +2345,80 @@ void handle_settings_key(Ui& ui, SDL_Keycode key) {
     }
 }
 
+// The keys panel (F4, spec 16): W/S choose an action, E waits for the key to give it, Backspace takes it away, Esc
+// closes.
+void handle_keys_key(Ui& ui, SDL_Keycode key) {
+    const int count = static_cast<int>(std::size(kRebindable));
+    if (ui.keys_waiting) {
+        ui.keys_waiting = false;
+        if (key == SDLK_ESCAPE) {
+            return;
+        }
+        const Rebindable& entry = kRebindable[static_cast<std::size_t>(ui.keys_cursor)];
+        if (key == SDLK_BACKSPACE || key == SDLK_DELETE || key == entry.key) {
+            g_key_choice.erase(entry.action);
+        } else {
+            g_key_choice[entry.action] = key;
+        }
+        write_keys();
+        load_keys();
+        return;
+    }
+    if (key == SDLK_ESCAPE || key == SDLK_F4) {
+        ui.show_keys = false;
+    } else if (key == SDLK_UP || key == SDLK_W) {
+        ui.keys_cursor = (ui.keys_cursor + count - 1) % count;
+    } else if (key == SDLK_DOWN || key == SDLK_S) {
+        ui.keys_cursor = (ui.keys_cursor + 1) % count;
+    } else if (key == SDLK_E || key == SDLK_RETURN || key == SDLK_KP_ENTER || key == SDLK_SPACE) {
+        ui.keys_waiting = true;
+    } else if (key == SDLK_BACKSPACE || key == SDLK_DELETE) {
+        g_key_choice.erase(kRebindable[static_cast<std::size_t>(ui.keys_cursor)].action);
+        write_keys();
+        load_keys();
+    }
+}
+
+void draw_keys(SDL_Renderer* renderer, const Assets& assets, const Ui& ui, int out_w, int out_h, float density) {
+    if (!ui.show_keys) {
+        return;
+    }
+    constexpr float kScale = 1.5F;
+    const float row = 8.0F * kScale + 8.0F;
+    const auto count = static_cast<float>(std::size(kRebindable));
+    const float w = std::min(static_cast<float>(out_w) - 40.0F, 620.0F * density);
+    const float h = std::min(static_cast<float>(out_h) - 40.0F, 90.0F + row * count);
+    const float x = (static_cast<float>(out_w) - w) / 2.0F;
+    const float y = (static_cast<float>(out_h) - h) / 2.0F;
+    draw_panel(renderer, x, y, w, h, 255, 215, 120, 245);
+    SDL_SetRenderScale(renderer, kScale, kScale);
+    SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
+    debug_text(renderer, (x + 16.0F) / kScale, (y + 14.0F) / kScale,
+               assets.pack.text(ui.lang, "$i18n:ui.keys").c_str());
+    for (std::size_t i = 0; i < std::size(kRebindable); ++i) {
+        const float ty = y + 44.0F + row * static_cast<float>(i);
+        if (ty + row > y + h - 30.0F) {
+            break;
+        }
+        const bool selected = static_cast<int>(i) == ui.keys_cursor;
+        const auto chosen = g_key_choice.find(kRebindable[i].action);
+        std::string keys = SDL_GetKeyName(kRebindable[i].key);
+        if (selected && ui.keys_waiting) {
+            keys += "  /  " + assets.pack.text(ui.lang, "$i18n:ui.keys_press");
+        } else if (chosen != g_key_choice.end()) {
+            keys += "  /  " + std::string(SDL_GetKeyName(chosen->second));
+        }
+        SDL_SetRenderDrawColor(renderer, selected ? 255 : 170, selected ? 255 : 190, selected ? 255 : 215, 255);
+        debug_text(renderer, (x + 16.0F) / kScale, ty / kScale,
+                   assets.pack.text(ui.lang, std::string("$i18n:ui.key_") + kRebindable[i].action).c_str());
+        debug_text(renderer, (x + w * 0.5F) / kScale, ty / kScale, keys.c_str());
+    }
+    SDL_SetRenderDrawColor(renderer, 150, 170, 200, 255);
+    debug_text(renderer, (x + 16.0F) / kScale, (y + h - 26.0F) / kScale,
+               assets.pack.text(ui.lang, "$i18n:ui.keys_hint").c_str());
+    SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+}
+
 void draw_settings(SDL_Renderer* renderer, const Assets& assets, const Ui& ui, int out_w, int out_h, float density) {
     if (!ui.show_settings) {
         return;
@@ -2885,6 +2984,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     draw_travel(renderer, assets, sim, ui, out_w, out_h, density);
     draw_journal(renderer, assets, sim, ui, out_w, out_h, density);
     draw_settings(renderer, assets, ui, out_w, out_h, density);
+    draw_keys(renderer, assets, ui, out_w, out_h, density);
     draw_craft(renderer, assets, sim, ui, out_w, out_h, density);
 
     if (debug) {
@@ -3537,6 +3637,19 @@ int main(int argc, char** argv) {
 
                 SDL_Event event;
                 while (SDL_PollEvent(&event)) {
+                    if (event.type == SDL_EVENT_KEY_DOWN && !smoke_test &&
+                        (ui.show_keys || (event.key.key == SDLK_F4 && !sim.story().dialogue_active()))) {
+                        if (!ui.show_keys) {  // F4 opens the keys panel; while it is open it takes every key, as it was
+                                              // pressed
+                            ui.show_keys = true;
+                            ui.keys_waiting = false;
+                            ui.show_settings = ui.show_craft = ui.show_map = ui.show_inventory = ui.show_journal =
+                                false;
+                        } else {
+                            handle_keys_key(ui, event.key.key);
+                        }
+                        continue;
+                    }
                     remap_key_event(event);  // the keys the player chose (spec 16)
                     if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE &&
                         (ui.show_map || ui.show_inventory || ui.show_journal || ui.show_settings || ui.show_craft ||
@@ -3781,7 +3894,7 @@ int main(int argc, char** argv) {
                     }
                     sim.tick(input.x, input.y, input.attack, input.dodge, input.strike, input.parry);
                 } else if (ui.show_inventory || ui.show_map || ui.show_journal || ui.show_settings || ui.show_craft ||
-                           sim.shop() != nullptr || sim.board() != nullptr || sim.travel() != nullptr) {
+                           ui.show_keys || sim.shop() != nullptr || sim.board() != nullptr || sim.travel() != nullptr) {
                     accumulator = 0.0;  // the bag, the map, the journal, the shop and the board pause the game
                 } else {
                     accumulator += frame_seconds;
