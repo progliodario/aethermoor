@@ -61,6 +61,7 @@ class _Enemy:
         self.speed = self.d["speed_x100"] / 100
         self.burn = self.burn_clock = self.chill = self.weaken = self.stun = 0  # ticks left; not saved
         self.stagger = self.broken = 0  # the stagger bar and the ticks left of being broken; not saved
+        self.marked = False  # the last creature the player hit: the companion goes for it first (spec 10, "Teamwork"); not saved
 
 
 class CombatSim:
@@ -308,7 +309,12 @@ class CombatSim:
             if enemy.state == DEAD:
                 continue
             d = math.sqrt((enemy.x - self.comp_x) ** 2 + (enemy.y - self.comp_y) ** 2)
-            if d <= c["range_x100"] / 100 + enemy.radius and (target is None or d < best):
+            if d > c["range_x100"] / 100 + enemy.radius:
+                continue
+            if enemy.marked:  # the creature the player hit last, when it is in reach, before any other
+                target = enemy
+                break
+            if target is None or d < best:
                 target, best = enemy, d
         if target is None:
             return
@@ -379,6 +385,8 @@ class CombatSim:
                 if dot < cos_half:
                     continue
             self.hit_set.add(index)
+            for other in self.enemies:  # the companion's next target (spec 10, "Teamwork")
+                other.marked = other is enemy
             variance = 950 + self.combat.next_bounded(101)
             crit = self.combat.next_bounded(1000) < self.derived["crit_chance_pm"]
             attack = self.derived["matk"] if s.get("kind") == "magical" else self.derived["atk"]

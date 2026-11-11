@@ -28,6 +28,11 @@ advanced and before the creatures are updated** (spec 03):
 
 A hit gives the same `hit` and `die` cues as the player's (spec 14), so the creature is heard, and a floating number. Drawn: the creature art, at `scale_pct`, bobbing a little, sorted with the others by its feet.
 
+## Teamwork
+
+Every hit of the player marks the creature it hit and unmarks every other one (not saved). In step 3, a marked living creature within reach is the target, whatever the distance of the others; otherwise the nearest one is, as
+above. So the companion fights what the player fights. Conformance: the scenario `companion_teamwork`.
+
 ## Commands
 
 The command `companion_stay` (desktop: `H`; Android: the `Stay` / `Follow` button) switches the companion between **following** and **staying**. While it stays, step 1 does not move it; it still hits what comes in its range.

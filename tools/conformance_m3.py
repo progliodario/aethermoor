@@ -297,6 +297,9 @@ def build_scenarios() -> list[dict]:
                   segment(1, do=[{"cmd": "companion_stay"}]), segment(240, move=(1, 0)), segment(60)], companion=COMPANION), "grid": arena(24, 9)},
         scenario("companion_bond", [enemy(3.0 + 0.3 * (i % 4), 3.9 + 0.4 * (i // 4), hp=8, **passive) for i in range(12)] + [enemy(4.6, 4.5, hp=200, **passive)],
                  [segment(200), segment(200), segment(200), segment(200), segment(200)], companion={**COMPANION, "cooldown_ticks": 12}),
+        # Teamwork (spec 10): the companion goes first for the creature the player hit last, even when another is nearer to it.
+        scenario("companion_teamwork", [enemy(3.6, 4.5, hp=400, **passive), enemy(1.6, 4.5, hp=400, **passive), enemy(2.2, 5.6, hp=400, **passive)],
+                 [segment(30, attack=True), segment(120), segment(1, move=(-1, 0)), segment(40, attack=True), segment(120)], companion=COMPANION),
         scenario("companion_follows", [enemy(10.5, 4.5, hp=30, **passive)],
                  [segment(60, move=(1, 0)), segment(60, move=(1, 0)), segment(100), segment(60, move=(0, 1)), segment(100)], companion=COMPANION),
         scenario("equip_changes_stats", [enemy(8.1, 4.5, atk=40)],

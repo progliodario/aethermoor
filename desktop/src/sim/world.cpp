@@ -633,7 +633,14 @@ void WorldSim::update_companion() {
         }
         const float d = std::sqrt((enemy.position.x - m_companion_pos_.x) * (enemy.position.x - m_companion_pos_.x) +
                                   (enemy.position.y - m_companion_pos_.y) * (enemy.position.y - m_companion_pos_.y));
-        if (d <= static_cast<float>(c.range_x100) / 100.0F + enemy.radius() && (target == nullptr || d < best)) {
+        if (d > static_cast<float>(c.range_x100) / 100.0F + enemy.radius()) {
+            continue;
+        }
+        if (enemy.marked) {  // the creature the player hit last, when it is in reach, before any other
+            target = &enemy;
+            break;
+        }
+        if (target == nullptr || d < best) {
             target = &enemy;
             best = d;
         }
@@ -1027,6 +1034,9 @@ void WorldSim::do_hits() {
             }
         }
         m_hit_set_[index] = true;
+        for (Enemy& other : m_enemies_) {  // the companion's next target (spec 10, "Teamwork")
+            other.marked = &other == &enemy;
+        }
         const std::int64_t variance = 950 + static_cast<std::int64_t>(m_combat_rng_.next_bounded(101));
         const bool crit = static_cast<std::int64_t>(m_combat_rng_.next_bounded(1000)) < m_derived_.crit_chance_pm;
         DamageInput in;
