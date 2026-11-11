@@ -17,6 +17,7 @@
 #include <iterator>
 #include <map>
 #include <optional>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -107,7 +108,8 @@ struct Ui {
     // The goal: a place of the world the player marked on the map (not saved); the HUD shows its direction and
     // distance.
     mutable bool has_goal = false;
-    mutable float goal_x = 0.0F;  // in tiles
+    std::set<std::string> guided;  // the quest stages that already set the goal once (spec 07, "Places")
+    mutable float goal_x = 0.0F;   // in tiles
     mutable float goal_y = 0.0F;
     mutable float map_view_x =
         0.0F;  // where the square view of the map was drawn, in pixels (to place a goal with the mouse)
@@ -4117,6 +4119,32 @@ int main(int argc, char** argv) {
                     --ui.message_frames;
                 }
                 since_autosave += frame_seconds;
+                // A quest stage with a place sets the goal there once, when the player has none (spec 07, "Places").
+                if (!ui.has_goal && sim.chunks() != nullptr) {
+                    for (const auto& [quest_id, progress] : sim.story().quests()) {
+                        const auto def = sim.story().setup().quests.find(quest_id);
+                        if (progress.done || def == sim.story().setup().quests.end()) {
+                            continue;
+                        }
+                        for (const aether::QuestStage& stage : def->second.stages) {
+                            const std::string key = quest_id + "/" + stage.id;
+                            if (stage.id != progress.stage || stage.place.empty() || ui.guided.count(key) != 0) {
+                                continue;
+                            }
+                            ui.guided.insert(key);
+                            const aether::WorldParams& params = sim.chunks()->params();
+                            for (const auto& landmark : params.landmarks) {
+                                if (landmark.id == stage.place) {
+                                    set_goal(sim, assets, ui,
+                                             static_cast<float>(params.width / 2 + landmark.dx) / aether::kMapCell,
+                                             static_cast<float>(params.height / 2 + landmark.dy) / aether::kMapCell);
+                                    notify(ui, assets.pack.text(ui.lang, "$i18n:ui.goal_quest",
+                                                                {{"place", landmark.name}}));
+                                }
+                            }
+                        }
+                    }
+                }
                 if (!smoke_test && since_autosave >= kAutosaveSeconds) {
                     since_autosave = 0.0;
                     save_game(sim, g_slot_dir / "auto.json");

@@ -35,6 +35,7 @@ Python scripts (3.12 or newer; the virtual environment of [`docs/dev/setup.md`](
 | `make_stories.py` (`stories_act2.py` to `stories_act4.py`) | writes the story in three acts and the epilogue of each protagonist: Sister Maren's dialogue in Aldermere, ten quests for each protagonist, their texts, two staves for the magic users and her line in the world data |
 | `make_talents.py` | writes the talents `data/base/talents.json` and their names (spec 11, "Talents") |
 | `make_echoes.py` | writes the Echoes, the personal bosses of the protagonists: their art (a guardian's, recoloured), the enemies, their names and the sanctums in `landmarks`; then run `make_stamps.py`, `make_stories.py`, `gen_conformance.py` |
+| `set_quest_places.py` | gives every quest stage that asks to defeat a guardian the `place` of that guardian, so that the goal of the map goes there (spec 07, "Places"); `make_stories.py` and `make_towns.py` run it |
 | `make_titles.py` | writes the titles `data/base/titles.json` and their names (spec 11) |
 | `make_prologues.py` | writes the prologue of each protagonist, `data/base/dialogues/<name>/prologue.json`, and its texts (spec 18, "Prologue") |
 | `make_gathering.py` | writes the gatherable materials (items and their texts) and `data/base/gathering.json` (spec 06, "Gathering") |

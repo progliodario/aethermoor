@@ -186,6 +186,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var message = ""
     private var messageFrames = 0
     private var sinceAutosave = 0f
+    private val guided = HashSet<String>() // the quest stages that already set the goal once (spec 07, "Places")
     private var seed = 0uL
     private var currentSlot = 0
 
@@ -686,6 +687,18 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
         if (messageFrames > 0) messageFrames--
         sinceAutosave += Gdx.graphics.deltaTime
+        if (!hasGoal) { // a quest stage with a place sets the goal there once, when the player has none (spec 07, "Places")
+            world.chunks?.params?.let { params ->
+                for ((questId, progress) in world.story.quests) {
+                    if (progress.done) continue
+                    val stage = world.story.questDef(questId)?.stages?.firstOrNull { it.id == progress.stage } ?: continue
+                    if (stage.place.isEmpty() || !guided.add("$questId/${stage.id}")) continue
+                    val landmark = params.landmarks.firstOrNull { it.id == stage.place } ?: continue
+                    setGoal(world, (params.width / 2 + landmark.dx).toFloat() / MAP_CELL, (params.height / 2 + landmark.dy).toFloat() / MAP_CELL)
+                    assets?.let { showNotice(it.pack.text(language, "\$i18n:ui.goal_quest", mapOf("place" to landmark.name))) }
+                }
+            }
+        }
         if (sinceAutosave >= AUTOSAVE_SECONDS) {
             sinceAutosave = 0f
             saveGame(world)

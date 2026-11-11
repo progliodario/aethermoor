@@ -59,6 +59,10 @@
           "next": {
             "type": "string",
             "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "place": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
           }
         }
       }

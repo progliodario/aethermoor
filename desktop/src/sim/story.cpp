@@ -129,6 +129,7 @@ QuestDef parse_quest_json(const Json& j) {
         stage.id = s.at("id").get<std::string>();
         stage.journal = s.value("journal", "");
         stage.next = s.at("next").get<std::string>();
+        stage.place = s.value("place", "");
         for (const Json& o : s.at("objectives")) {
             Objective objective;
             const std::string type = o.at("type").get<std::string>();

@@ -202,3 +202,10 @@ generated quest (see "Guild") appears like any other. With no quest it shows the
 
 The dialogue box shows the speaker (`speaker.<key>` text), the text and the visible choices. The quest tracker shows the quest name, the
 stage journal text and kill/collect progress as `current/total`.
+
+## Places
+
+A quest stage may have `place`: the ID of a landmark of the world data (spec 09) that the stage sends the player to. It is not a rule of the simulation: when the stage is the current one of a quest in
+progress, the player has no goal on the map and the stage has not done it before in this session, the client puts the goal of the map (spec 09, "The map view") on that landmark and says so
+(`ui.goal_quest`). A goal the player set is never moved. `tools/set_quest_places.py` gives every stage that asks to defeat a guardian the place of that guardian (54 quests of the base pack); the generators of
+quests run it.

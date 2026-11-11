@@ -271,3 +271,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+    __import__("set_quest_places").main()  # the guardians' places (spec 07, "Places")

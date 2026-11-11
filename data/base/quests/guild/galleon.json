@@ -14,7 +14,8 @@
           "count": 1
         }
       ],
-      "next": "report"
+      "next": "report",
+      "place": "tidehaven_galleon"
     },
     {
       "id": "report",
