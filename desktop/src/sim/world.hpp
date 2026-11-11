@@ -68,6 +68,7 @@ struct Enemy {
     int weaken = 0;
     int stun = 0;
     std::int64_t stagger = 0;  // the stagger bar (spec 05, "Stagger"); not saved
+    bool marked = false;       // the last creature the player hit: the companion goes for it first (spec 10)
     int broken = 0;            // ticks left of being broken: stunned, and hits do more; not saved
     int spawner_x = 0;         // streamed worlds: the spawner tile this enemy belongs to
     int spawner_y = 0;

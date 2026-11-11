@@ -129,6 +129,9 @@ class Enemy(val def: EnemyDef, var position: Vec2) {
 
     /** The stagger bar and the ticks left of being broken (spec 05, "Stagger"); not saved. */
     var stagger = 0L
+
+    /** The last creature the player hit: the companion goes for it first (spec 10, "Teamwork"); not saved. */
+    var marked = false
     var broken = 0
     val radius: Float get() = def.radiusX100 / 100f
 }
@@ -666,7 +669,12 @@ class WorldSim(
         for (enemy in enemies) {
             if (enemy.state == EnemyState.DEAD) continue
             val d = sqrt((enemy.position.x - pos.x) * (enemy.position.x - pos.x) + (enemy.position.y - pos.y) * (enemy.position.y - pos.y))
-            if (d <= c.rangeX100.toFloat() / 100f + enemy.radius && (target == null || d < best)) {
+            if (d > c.rangeX100.toFloat() / 100f + enemy.radius) continue
+            if (enemy.marked) { // the creature the player hit last, when it is in reach, before any other
+                target = enemy
+                break
+            }
+            if (target == null || d < best) {
                 target = enemy
                 best = d
             }
@@ -934,6 +942,7 @@ class WorldSim(
                 if (dot < cosHalf) continue
             }
             hitSet[index] = true
+            for (other in enemies) other.marked = other === enemy // the companion's next target (spec 10, "Teamwork")
             val variance = 950L + combatRng.nextBounded(101)
             val crit = combatRng.nextBounded(1000) < derived.critChancePm
             val rawAmount = damage(
