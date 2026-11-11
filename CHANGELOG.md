@@ -6,7 +6,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Fixed
 
-- CI: the Linux job could hang for hours installing the system packages (twice on 11 November 2026). Apt now has network timeouts, waits for the package lock for at most two minutes, every attempt has a time limit and is tried three times; the job fails after 90 minutes instead of blocking the pull request.
+- CI: the Linux job could hang for hours installing the system packages (twice on 11 November 2026). Apt now has network timeouts, waits for the package lock for at most two minutes, every attempt has a time limit and is tried three times; the job fails after 90 minutes instead of blocking the pull request. The `.deb` files are kept in the CI cache, so a later outage of the Ubuntu archive does not stop the Linux build.
 - Italian accents on desktop: the font of SDL draws the ASCII characters only, so every è, à, ù, ò and ì (about 430 in the texts) and the « » of the recipes were drawn as a block. They are now drawn as the letter with a small accent (and the quotation marks as ASCII ones). Found by looking at a frame of a dialogue.
 - Texts with accents on desktop are aligned by characters, not by bytes: the clock, the gold, the prices, the ranks, the map names and the title were a little too far to the left; the name of the region at the top uses the same accented font.
 - The desktop code is formatted with clang-format (`desktop/.clang-format`, 120 columns; 5 percent of the lines were longer than the 100 it asked for): only whitespace and the line breaks of comments changed, checked file by file. `tools/ship.py` formats the C++ files it commits from now on.
