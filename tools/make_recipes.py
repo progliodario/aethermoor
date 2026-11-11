@@ -29,17 +29,25 @@ RECIPES = {
     "leather_vest": ("leather_vest", 1, {"tawny_fur": 4, "spider_silk": 2}),
     "studded_leather": ("studded_leather", 1, {"leather_vest": 1, "iron_ore": 4}),
     "pike": ("pike", 1, {"iron_ore": 4, "wood_log": 3}),
+    # fine gear, at an anvil (every town has one): the plain piece and materials
+    "fine_iron_sword": ("fine_iron_sword", 1, {"iron_sword": 1, "iron_ore": 3, "golem_core": 1}),
+    "fine_hand_axe": ("fine_hand_axe", 1, {"hand_axe": 1, "iron_ore": 3, "wood_log": 3}),
+    "fine_pike": ("fine_pike", 1, {"pike": 1, "iron_ore": 4, "slate_shard": 3}),
+    "fine_leather_vest": ("fine_leather_vest", 1, {"leather_vest": 1, "tawny_fur": 2, "spider_silk": 2}),
+    "fine_studded_leather": ("fine_studded_leather", 1, {"studded_leather": 1, "iron_ore": 3, "spider_silk": 2}),
 }
 
 
 # the cooked dishes are made next to a campfire (spec 06, "Stations"): Fenwick, Aldermere and every outpost have one
 AT_FIRE = ("hearty_stew", "fish_stew", "royal_feast")
+# the fine gear is made at an anvil
+AT_ANVIL = ("fine_iron_sword", "fine_hand_axe", "fine_pike", "fine_leather_vest", "fine_studded_leather",)
 
 
 def main() -> None:
     recipes = [{"id": name, "output": {"item": f"base:item/{out}", "qty": qty},
                 "inputs": [{"item": f"base:item/{item}", "qty": n} for item, n in inputs.items()],
-                **({"station": "base:art/prop/campfire"} if name in AT_FIRE else {})}
+                **({"station": "base:art/prop/campfire"} if name in AT_FIRE else {"station": "base:art/prop/anvil"} if name in AT_ANVIL else {})}
                for name, (out, qty, inputs) in RECIPES.items()]
     OUT.write_text(json.dumps({"$schema": "../../schemas/recipes.schema.json", "id": "base:recipes/all", "recipes": recipes}, indent=2) + "\n", encoding="utf-8")
     print(f"wrote {len(recipes)} recipes")

@@ -300,6 +300,116 @@
           "qty": 3
         }
       ]
+    },
+    {
+      "id": "fine_iron_sword",
+      "output": {
+        "item": "base:item/fine_iron_sword",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/iron_sword",
+          "qty": 1
+        },
+        {
+          "item": "base:item/iron_ore",
+          "qty": 3
+        },
+        {
+          "item": "base:item/golem_core",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "fine_hand_axe",
+      "output": {
+        "item": "base:item/fine_hand_axe",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/hand_axe",
+          "qty": 1
+        },
+        {
+          "item": "base:item/iron_ore",
+          "qty": 3
+        },
+        {
+          "item": "base:item/wood_log",
+          "qty": 3
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "fine_pike",
+      "output": {
+        "item": "base:item/fine_pike",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/pike",
+          "qty": 1
+        },
+        {
+          "item": "base:item/iron_ore",
+          "qty": 4
+        },
+        {
+          "item": "base:item/slate_shard",
+          "qty": 3
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "fine_leather_vest",
+      "output": {
+        "item": "base:item/fine_leather_vest",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/leather_vest",
+          "qty": 1
+        },
+        {
+          "item": "base:item/tawny_fur",
+          "qty": 2
+        },
+        {
+          "item": "base:item/spider_silk",
+          "qty": 2
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "fine_studded_leather",
+      "output": {
+        "item": "base:item/fine_studded_leather",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/studded_leather",
+          "qty": 1
+        },
+        {
+          "item": "base:item/iron_ore",
+          "qty": 3
+        },
+        {
+          "item": "base:item/spider_silk",
+          "qty": 2
+        }
+      ],
+      "station": "base:art/prop/anvil"
     }
   ]
 }

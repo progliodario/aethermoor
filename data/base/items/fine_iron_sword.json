@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/fine_iron_sword",
+  "name": "$i18n:item.fine_iron_sword.name",
+  "description": "$i18n:item.fine_iron_sword.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 380,
+  "weapon": {
+    "atk": 11,
+    "matk": 0
+  }
+}

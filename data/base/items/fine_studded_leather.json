@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/fine_studded_leather",
+  "name": "$i18n:item.fine_studded_leather.name",
+  "description": "$i18n:item.fine_studded_leather.desc",
+  "kind": "armor",
+  "rarity": "rare",
+  "price": 520,
+  "armor": {
+    "def": 7,
+    "mdef": 3
+  }
+}
