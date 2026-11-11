@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/legend_colossus",
+  "name": "$i18n:quest.legend_colossus.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.legend_colossus.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/cinder_colossus",
+          "count": 1
+        }
+      ],
+      "next": "end",
+      "place": "ashen_citadel"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 1200
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1300
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 60
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/ember_brew",
+      "qty": 3
+    }
+  ]
+}

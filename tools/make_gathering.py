@@ -39,7 +39,7 @@ NODES = [
     {"prop": "base:art/prop/cactus", "sound": "plant", "cooldown_ticks": 9000, "reach_x100": 150,
      "drops": [("cactus_pulp", 1, 2, 900)]},
     # fishing: the reeds that grow on the beaches, where the fish hide
-    {"prop": "base:art/prop/reeds", "sound": "plant", "cooldown_ticks": 6000, "reach_x100": 150,
+    {"prop": "base:art/prop/reeds", "sound": "water", "cooldown_ticks": 6000, "reach_x100": 150,
      "drops": [("river_fish", 1, 2, 900), ("golden_carp", 1, 1, 60)]},
 ]
 

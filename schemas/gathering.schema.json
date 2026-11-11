@@ -16,7 +16,7 @@
         "additionalProperties": false,
         "properties": {
           "prop": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:art/prop/[a-z0-9_]+$" },
-          "sound": { "enum": ["plant", "wood", "stone"] },
+          "sound": { "enum": ["plant", "wood", "stone", "water"] },
           "cooldown_ticks": { "type": "integer", "minimum": 1 },
           "reach_x100": { "type": "integer", "minimum": 50, "maximum": 400 },
           "drops": {

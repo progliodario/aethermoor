@@ -79,6 +79,24 @@
       "parry_bonus": 8
     },
     {
+      "id": "boar_hunter",
+      "name": "$i18n:title.boar_hunter",
+      "kind": "kills_of",
+      "count": 10,
+      "atk_pct": 3,
+      "gather_bonus": 1,
+      "enemy": "base:enemy/wild_boar"
+    },
+    {
+      "id": "elk_stalker",
+      "name": "$i18n:title.elk_stalker",
+      "kind": "kills_of",
+      "count": 8,
+      "atk_pct": 3,
+      "xp_pct": 10,
+      "enemy": "base:enemy/ridge_elk"
+    },
+    {
       "id": "veteran",
       "name": "$i18n:title.veteran",
       "kind": "kills",

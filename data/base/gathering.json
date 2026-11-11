@@ -112,7 +112,7 @@
     },
     {
       "prop": "base:art/prop/reeds",
-      "sound": "plant",
+      "sound": "water",
       "cooldown_ticks": 6000,
       "reach_x100": 150,
       "drops": [

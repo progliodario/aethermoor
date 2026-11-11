@@ -11,7 +11,7 @@ The inventory is a map from item ID to a positive quantity (spec 12); an item wh
 ## Gathering
 
 The props of the world that look like something can be **gathered from**: pressing `E` (the interact button) with nobody to talk to and no Threshold Stone in reach picks the nearest of them.
-The table is `data/base/gathering.json` (schema `gathering`): for each prop art ID, the `sound` of gathering (`plant`, `wood` or `stone`), a `cooldown_ticks`, a `reach_x100`
+The table is `data/base/gathering.json` (schema `gathering`): for each prop art ID, the `sound` of gathering (`plant`, `wood`, `stone` or `water`), a `cooldown_ticks`, a `reach_x100`
 (how far from the prop the player may be, besides the radius of the prop) and `drops`. The base pack has the bush (berries, healing herbs), the oak and the pine (logs, resin, dry branches),
 the dead tree, the rock (stone, a little iron ore), the cactus (pulp) and the **reeds** of the beaches, where one fishes (fresh fish, and now and then a golden carp that merchants pay well for). The materials are items of kind `material` or `food`.
 
@@ -56,7 +56,7 @@ Conformance: the scenario `craft_at_fire`.
 
 - a dialogue is open;
 - the inventory does not hold the item, or the item has no `use` effects;
-- none of its effects would change anything right now: no `heal` (or one at full health) and no `restore_mp` (or one at full mana). An item with both effects is used when either one would change something.
+- none of its effects would change anything right now: no `heal` (or one at full health), no `restore_mp` (or one at full mana) and no `fortify`. An item with both effects is used when either one would change something.
 
 Otherwise the effects are applied in order and the quantity of the item drops by one. Supported effects:
 
@@ -64,6 +64,7 @@ Otherwise the effects are applied in order and the quantity of the item drops by
 |---|---|---|
 | `heal` | `amount` | `hp = min(max_hp, hp + amount)` |
 | `restore_mp` | `amount` (points) | `mp_u = min(max_mp * 6000, mp_u + amount * 6000)` (spec 05, "Mana") |
+| `fortify` | `amount` (percent), `ticks` | **Fortify**: `fortify_pct = amount`, `fortify = ticks` (a later meal replaces both). While `fortify > 0` the player's hits use `atk * (100 + title_attack_pct + fortify_pct) / 100` (spec 05, spec 11). `fortify` goes down by one every tick, where `weaken` does, and goes to 0 on death and on loading (not saved). An item with `fortify` is always useful, even at full health. Conformance: the scenario `fortify_meal`. |
 
 Using an item is instant: it takes no time, has no cooldown and does not interrupt an attack. An unknown effect counts as an effect that changes nothing.
 

@@ -6,6 +6,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Fixed
 
+- CI: the Linux job could hang for hours installing the system packages (twice on 11 November 2026). Apt now has network timeouts, waits for the package lock for at most two minutes, every attempt has a time limit and is tried three times; the job fails after 90 minutes instead of blocking the pull request. The `.deb` files are kept in the CI cache, so a later outage of the Ubuntu archive does not stop the Linux build.
 - Italian accents on desktop: the font of SDL draws the ASCII characters only, so every è, à, ù, ò and ì (about 430 in the texts) and the « » of the recipes were drawn as a block. They are now drawn as the letter with a small accent (and the quotation marks as ASCII ones). Found by looking at a frame of a dialogue.
 - Texts with accents on desktop are aligned by characters, not by bytes: the clock, the gold, the prices, the ranks, the map names and the title were a little too far to the left; the name of the region at the top uses the same accented font.
 - The desktop code is formatted with clang-format (`desktop/.clang-format`, 120 columns; 5 percent of the lines were longer than the 100 it asked for): only whitespace and the line breaks of comments changed, checked file by file. `tools/ship.py` formats the C++ files it commits from now on.
@@ -17,6 +18,13 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Meals that fortify** (spec 06, "Fortify"; a new item effect in the reference, the vectors and both clients, scenario `fortify_meal`): roast meat and fish stew give +10% attack for 30 seconds, the hunter's stew +20% and the royal feast +25% for a minute. They can be eaten at full health, and "Fortified" shows under your level while it lasts.
+- **Selwyn's Book of Legends** (Aldermere): after his first quest the archivist asks for the end of seven legends, one guardian of a great dungeon in every region, from the Barrow Warden to the Cinder Colossus. Each sets the goal of the map. 238 quests in all.
+- The journal shows how many kinds of creatures you have met out of all those of the world.
+- **The heirloom weapon** (spec 11, "Heirloom"; spec 12; both clients, suite `profile`): reincarnating a game now passes on, besides half of its gold, the weapon it had in hand. The next new game finds it in the bag.
+- **Two titles of the hunt**: Boar Hunter (ten wild boars; one more of every drop gathered) and Elk Stalker (eight ridge elks; +10% experience). 17 titles.
+- **Fishing sounds like water**: a splash when you fish in the reeds (a new gathering sound, `gather.water`).
+- **The shops sell the new food**: roast meat, the hunter's stew, fish stew and grilled fish in the regions where they belong.
 - **Hunting** (spec 06, "Hunting"): two shy wild creatures live in the regions, the **wild boar** (Verdalis, Whisperwood, Tidehaven) and the **ridge elk** (Frostveil, Ironspine, Lumeria). They leave game meat, boar hides and elk antlers. Four new recipes: roast meat and a hunter's stew at a campfire, a hunter's jerkin and an antler spear at an anvil. Two hunting quests, for Pell (boars in the barley) and Henrik (antlers for his chisels). 70 creatures, 166 items, 34 recipes, 231 quests.
 - The journal says what the companion's care does ("It tends you: +5% health every 10 s"), or from which bond it will start.
 - **Companions take care of you** (spec 10, "Care"; both clients, conformance scenario `companion_care`): once a companion has ten kills with you, it heals 5% of your health every ten seconds when you are hurt.

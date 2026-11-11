@@ -94,12 +94,17 @@ class Player(var position: Vec2) {
     var stun = 0
     var weaken = 0
 
+    /** A meal that fortifies (spec 06, "Fortify"): ticks left, and the attack it adds in percent; not saved. */
+    var fortify = 0
+    var fortifyPct = 0L
+
     fun clearStatus() {
         burn = 0
         burnClock = 0
         chill = 0
         stun = 0
         weaken = 0
+        fortify = 0
     }
 
     /** Ticks until the death save is ready again (spec 18). Not saved. */
@@ -633,8 +638,13 @@ class WorldSim(
         if ((inventory[itemId] ?: 0L) < 1L) return false
         val heal = item.effects.filter { it.effect == "heal" }.sumOf { it.amount } * combat.gift.healPct / 100
         val mana = item.effects.filter { it.effect == "restore_mp" }.sumOf { it.amount }
+        val fortify = item.effects.lastOrNull { it.effect == "fortify" } // spec 06, "Fortify": attack up for a while
         val fullMp = derived.maxMp * 6000L
-        if (!((heal > 0L && player.hp < derived.maxHp) || (mana > 0L && player.mpU < fullMp))) return false
+        if (!((heal > 0L && player.hp < derived.maxHp) || (mana > 0L && player.mpU < fullMp) || fortify != null)) return false
+        if (fortify != null) {
+            player.fortifyPct = fortify.amount
+            player.fortify = fortify.ticks
+        }
         if (heal > 0L) player.hp = minOf(derived.maxHp, player.hp + heal)
         if (mana > 0L) player.mpU = minOf(fullMp, player.mpU + mana * 6000L)
         val left = (inventory[itemId] ?: 0L) - 1L
@@ -914,6 +924,7 @@ class WorldSim(
         if (p.parryTicks > 0) p.parryTicks--
         if (p.chill > 0) p.chill--
         if (p.weaken > 0) p.weaken--
+        if (p.fortify > 0) p.fortify-- // a meal that fortifies (spec 06) wears off
     }
 
     private fun advanceAttack() {
@@ -956,7 +967,7 @@ class WorldSim(
             val crit = combatRng.nextBounded(1000) < derived.critChancePm
             val rawAmount = damage(
                 DamageInput(
-                    atk = ((if (s.magical) derived.matk else derived.atk) * (100 + titleAttackPct()) / 100).let { if (p.weaken > 0) it * 75 / 100 else it }, // titles (spec 11), then weaken
+                    atk = ((if (s.magical) derived.matk else derived.atk) * (100 + titleAttackPct() + (if (p.fortify > 0) p.fortifyPct else 0L)) / 100).let { if (p.weaken > 0) it * 75 / 100 else it }, // titles (spec 11), then weaken
                     powerPct = s.powerPct,
                     defTarget = enemy.def.def,
                     elemMultPm = elementMultiplier(enemy.def),

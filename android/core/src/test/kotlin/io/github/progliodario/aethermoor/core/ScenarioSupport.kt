@@ -187,7 +187,10 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
             val d = def.jsonObject
             ItemDef(
                 effects = d["effects"]?.jsonArray?.map {
-                    ItemEffect(it.jsonObject.getValue("effect").jsonPrimitive.content, it.jsonObject.getValue("amount").jsonPrimitive.long)
+                    ItemEffect(
+                        it.jsonObject.getValue("effect").jsonPrimitive.content, it.jsonObject.getValue("amount").jsonPrimitive.long,
+                        it.jsonObject["ticks"]?.jsonPrimitive?.int ?: 0,
+                    )
                 } ?: emptyList(),
                 kind = d["kind"]?.jsonPrimitive?.content ?: "",
                 price = d["price"]?.jsonPrimitive?.long ?: 0L,

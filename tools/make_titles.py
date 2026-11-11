@@ -20,6 +20,8 @@ TITLES = {
     "forager": ("gathered", 30, None, "Forager", "Raccoglitore"),
     "artisan": ("crafted", 15, None, "Artisan", "Artigiano"),
     "unbreakable": ("parried", 25, None, "Unbreakable Guard", "Guardia incrollabile"),
+    "boar_hunter": ("kills_of", 10, "wild_boar", "Boar Hunter", "Cacciatore di cinghiali"),
+    "elk_stalker": ("kills_of", 8, "ridge_elk", "Elk Stalker", "Cacciatore d'alci"),
     "veteran": ("kills", 150, None, "Veteran", "Veterano"),
     "gel_slayer": ("kills_of", 1, "gel_king", "Gel King's Bane", "Rovina del Re Gelatina"),
     "hero": ("level", 25, None, "Hero", "Eroe"),
@@ -31,7 +33,7 @@ TITLES = {
 # What a title adds to the attack of the player's hits, in percent, while it is earned (spec 11, "Titles with effects"); 3 when not listed.
 # What a title of a way of playing adds besides attack (spec 11): one more of every drop gathered, more of every recipe made.
 PERKS = {"forager": {"gather_bonus": 1}, "artisan": {"craft_bonus": 1}, "unbreakable": {"parry_bonus": 8},
-         "pest_control": {"xp_pct": 10}, "veteran": {"xp_pct": 15}, "legend": {"xp_pct": 25}}
+         "pest_control": {"xp_pct": 10}, "boar_hunter": {"gather_bonus": 1}, "elk_stalker": {"xp_pct": 10}, "veteran": {"xp_pct": 15}, "legend": {"xp_pct": 25}}
 ATTACK_PCT = {"newcomer": 2, "veteran": 5, "gel_slayer": 5, "hero": 8, "chronicler": 8, "legend": 10}
 
 

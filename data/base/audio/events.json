@@ -68,6 +68,12 @@
       ],
       "volume_pm": 900
     },
+    "gather.water": {
+      "sounds": [
+        "gather_water"
+      ],
+      "volume_pm": 900
+    },
     "crit": {
       "sounds": [
         "crit"

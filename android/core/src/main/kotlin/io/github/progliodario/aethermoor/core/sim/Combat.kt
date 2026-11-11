@@ -83,7 +83,8 @@ data class PlayerSetup(
 )
 
 /** One effect of using an item (spec 06): "heal" with an [amount]. */
-class ItemEffect(val effect: String, val amount: Long)
+/** [ticks]: how long it lasts (fortify, spec 06). */
+class ItemEffect(val effect: String, val amount: Long, val ticks: Int = 0)
 
 /** An item of the pack (spec 06): its effects when used, its price and, for equipment, its statistics. */
 class ItemDef(
@@ -147,7 +148,7 @@ class TitleDef(
 /** A prop that can be gathered from (spec 06, "Gathering"). */
 class GatherDrop(val item: String, val qtyMin: Long, val qtyMax: Long, val weightPm: Long)
 
-/** [sound]: plant, wood or stone, the sound of gathering. */
+/** [sound]: plant, wood, stone or water, the sound of gathering. */
 class GatherNode(val sound: String, val cooldownTicks: Int, val reachX100: Int, val drops: List<GatherDrop>)
 
 class CombatSetup(

@@ -92,7 +92,8 @@
                   "base:item/studded_leather",
                   "base:item/bronze_blade",
                   "base:item/tonic",
-                  "base:item/potion_mana_small"
+                  "base:item/potion_mana_small",
+                  "base:item/roast_meat"
                 ]
               }
             },
@@ -172,7 +173,8 @@
                   "base:item/silk_robe",
                   "base:item/travel_ration",
                   "base:item/potion_mana_small",
-                  "base:item/potion_mana_medium"
+                  "base:item/potion_mana_medium",
+                  "base:item/roast_meat"
                 ]
               },
               "bias": {
@@ -275,7 +277,9 @@
                   "base:item/pike",
                   "base:item/scale_mail",
                   "base:item/splint_mail",
-                  "base:item/potion_mana_small"
+                  "base:item/potion_mana_small",
+                  "base:item/hunters_stew",
+                  "base:item/roast_meat"
                 ]
               },
               "bias": {
@@ -363,7 +367,8 @@
                   "base:item/honey_cake",
                   "base:item/saber",
                   "base:item/studded_leather",
-                  "base:item/fish_stew"
+                  "base:item/fish_stew",
+                  "base:item/grilled_fish"
                 ]
               },
               "bias": {
@@ -469,7 +474,8 @@
                   "base:item/claymore",
                   "base:item/splint_mail",
                   "base:item/fish_stew",
-                  "base:item/potion_mana_small"
+                  "base:item/potion_mana_small",
+                  "base:item/hunters_stew"
                 ]
               },
               "bias": {
@@ -552,7 +558,9 @@
                   "base:item/knight_sword",
                   "base:item/saber",
                   "base:item/scale_mail",
-                  "base:item/travel_ration"
+                  "base:item/travel_ration",
+                  "base:item/fish_stew",
+                  "base:item/roast_meat"
                 ]
               },
               "bias": {
@@ -651,7 +659,8 @@
                   "base:item/war_axe",
                   "base:item/knight_plate",
                   "base:item/royal_feast",
-                  "base:item/dragon_scale_vest"
+                  "base:item/dragon_scale_vest",
+                  "base:item/hunters_stew"
                 ]
               },
               "bias": {
@@ -793,7 +802,8 @@
                   "base:item/silk_robe",
                   "base:item/travel_ration",
                   "base:item/potion_mana_small",
-                  "base:item/potion_mana_medium"
+                  "base:item/potion_mana_medium",
+                  "base:item/hunters_stew"
                 ]
               },
               "bias": {
@@ -6900,7 +6910,8 @@
                   "base:item/studded_leather",
                   "base:item/bronze_blade",
                   "base:item/tonic",
-                  "base:item/potion_mana_small"
+                  "base:item/potion_mana_small",
+                  "base:item/roast_meat"
                 ]
               }
             },
@@ -6980,7 +6991,8 @@
                   "base:item/silk_robe",
                   "base:item/travel_ration",
                   "base:item/potion_mana_small",
-                  "base:item/potion_mana_medium"
+                  "base:item/potion_mana_medium",
+                  "base:item/roast_meat"
                 ]
               },
               "bias": {
@@ -7083,7 +7095,9 @@
                   "base:item/pike",
                   "base:item/scale_mail",
                   "base:item/splint_mail",
-                  "base:item/potion_mana_small"
+                  "base:item/potion_mana_small",
+                  "base:item/hunters_stew",
+                  "base:item/roast_meat"
                 ]
               },
               "bias": {
@@ -7171,7 +7185,8 @@
                   "base:item/honey_cake",
                   "base:item/saber",
                   "base:item/studded_leather",
-                  "base:item/fish_stew"
+                  "base:item/fish_stew",
+                  "base:item/grilled_fish"
                 ]
               },
               "bias": {
@@ -7277,7 +7292,8 @@
                   "base:item/claymore",
                   "base:item/splint_mail",
                   "base:item/fish_stew",
-                  "base:item/potion_mana_small"
+                  "base:item/potion_mana_small",
+                  "base:item/hunters_stew"
                 ]
               },
               "bias": {
@@ -7360,7 +7376,9 @@
                   "base:item/knight_sword",
                   "base:item/saber",
                   "base:item/scale_mail",
-                  "base:item/travel_ration"
+                  "base:item/travel_ration",
+                  "base:item/fish_stew",
+                  "base:item/roast_meat"
                 ]
               },
               "bias": {
@@ -7459,7 +7477,8 @@
                   "base:item/war_axe",
                   "base:item/knight_plate",
                   "base:item/royal_feast",
-                  "base:item/dragon_scale_vest"
+                  "base:item/dragon_scale_vest",
+                  "base:item/hunters_stew"
                 ]
               },
               "bias": {
@@ -7601,7 +7620,8 @@
                   "base:item/silk_robe",
                   "base:item/travel_ration",
                   "base:item/potion_mana_small",
-                  "base:item/potion_mana_medium"
+                  "base:item/potion_mana_medium",
+                  "base:item/hunters_stew"
                 ]
               },
               "bias": {
@@ -13468,7 +13488,8 @@
                   "base:item/studded_leather",
                   "base:item/bronze_blade",
                   "base:item/tonic",
-                  "base:item/potion_mana_small"
+                  "base:item/potion_mana_small",
+                  "base:item/roast_meat"
                 ]
               }
             },
@@ -13548,7 +13569,8 @@
                   "base:item/silk_robe",
                   "base:item/travel_ration",
                   "base:item/potion_mana_small",
-                  "base:item/potion_mana_medium"
+                  "base:item/potion_mana_medium",
+                  "base:item/roast_meat"
                 ]
               },
               "bias": {
@@ -13651,7 +13673,9 @@
                   "base:item/pike",
                   "base:item/scale_mail",
                   "base:item/splint_mail",
-                  "base:item/potion_mana_small"
+                  "base:item/potion_mana_small",
+                  "base:item/hunters_stew",
+                  "base:item/roast_meat"
                 ]
               },
               "bias": {
@@ -13739,7 +13763,8 @@
                   "base:item/honey_cake",
                   "base:item/saber",
                   "base:item/studded_leather",
-                  "base:item/fish_stew"
+                  "base:item/fish_stew",
+                  "base:item/grilled_fish"
                 ]
               },
               "bias": {
@@ -13845,7 +13870,8 @@
                   "base:item/claymore",
                   "base:item/splint_mail",
                   "base:item/fish_stew",
-                  "base:item/potion_mana_small"
+                  "base:item/potion_mana_small",
+                  "base:item/hunters_stew"
                 ]
               },
               "bias": {
@@ -13928,7 +13954,9 @@
                   "base:item/knight_sword",
                   "base:item/saber",
                   "base:item/scale_mail",
-                  "base:item/travel_ration"
+                  "base:item/travel_ration",
+                  "base:item/fish_stew",
+                  "base:item/roast_meat"
                 ]
               },
               "bias": {
@@ -14027,7 +14055,8 @@
                   "base:item/war_axe",
                   "base:item/knight_plate",
                   "base:item/royal_feast",
-                  "base:item/dragon_scale_vest"
+                  "base:item/dragon_scale_vest",
+                  "base:item/hunters_stew"
                 ]
               },
               "bias": {
@@ -14169,7 +14198,8 @@
                   "base:item/silk_robe",
                   "base:item/travel_ration",
                   "base:item/potion_mana_small",
-                  "base:item/potion_mana_medium"
+                  "base:item/potion_mana_medium",
+                  "base:item/hunters_stew"
                 ]
               },
               "bias": {
@@ -20678,7 +20708,8 @@
                   "base:item/studded_leather",
                   "base:item/bronze_blade",
                   "base:item/tonic",
-                  "base:item/potion_mana_small"
+                  "base:item/potion_mana_small",
+                  "base:item/roast_meat"
                 ]
               }
             },
@@ -20758,7 +20789,8 @@
                   "base:item/silk_robe",
                   "base:item/travel_ration",
                   "base:item/potion_mana_small",
-                  "base:item/potion_mana_medium"
+                  "base:item/potion_mana_medium",
+                  "base:item/roast_meat"
                 ]
               },
               "bias": {
@@ -20861,7 +20893,9 @@
                   "base:item/pike",
                   "base:item/scale_mail",
                   "base:item/splint_mail",
-                  "base:item/potion_mana_small"
+                  "base:item/potion_mana_small",
+                  "base:item/hunters_stew",
+                  "base:item/roast_meat"
                 ]
               },
               "bias": {
@@ -20949,7 +20983,8 @@
                   "base:item/honey_cake",
                   "base:item/saber",
                   "base:item/studded_leather",
-                  "base:item/fish_stew"
+                  "base:item/fish_stew",
+                  "base:item/grilled_fish"
                 ]
               },
               "bias": {
@@ -21055,7 +21090,8 @@
                   "base:item/claymore",
                   "base:item/splint_mail",
                   "base:item/fish_stew",
-                  "base:item/potion_mana_small"
+                  "base:item/potion_mana_small",
+                  "base:item/hunters_stew"
                 ]
               },
               "bias": {
@@ -21138,7 +21174,9 @@
                   "base:item/knight_sword",
                   "base:item/saber",
                   "base:item/scale_mail",
-                  "base:item/travel_ration"
+                  "base:item/travel_ration",
+                  "base:item/fish_stew",
+                  "base:item/roast_meat"
                 ]
               },
               "bias": {
@@ -21237,7 +21275,8 @@
                   "base:item/war_axe",
                   "base:item/knight_plate",
                   "base:item/royal_feast",
-                  "base:item/dragon_scale_vest"
+                  "base:item/dragon_scale_vest",
+                  "base:item/hunters_stew"
                 ]
               },
               "bias": {
@@ -21379,7 +21418,8 @@
                   "base:item/silk_robe",
                   "base:item/travel_ration",
                   "base:item/potion_mana_small",
-                  "base:item/potion_mana_medium"
+                  "base:item/potion_mana_medium",
+                  "base:item/hunters_stew"
                 ]
               },
               "bias": {

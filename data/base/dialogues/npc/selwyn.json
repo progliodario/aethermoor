@@ -88,7 +88,7 @@
       "when": {
         "flag": "town_aldermere_curator_thanked"
       },
-      "then": "after",
+      "then": "c2",
       "else": "thanks1"
     },
     "thanks1": {
@@ -137,6 +137,510 @@
             {
               "effect": "start_quest",
               "quest": "base:quest/side/aldermere_curator"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/legend_barrow"
+      },
+      "then": "t2",
+      "else": "a2"
+    },
+    "t2": {
+      "type": "condition",
+      "when": {
+        "flag": "town_legend_barrow_thanked"
+      },
+      "then": "c3",
+      "else": "thanks2"
+    },
+    "thanks2": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.legend_barrow.thanks",
+      "next": "flag2"
+    },
+    "flag2": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_legend_barrow_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a2": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/legend_barrow"
+      },
+      "then": "busy2",
+      "else": "offer2"
+    },
+    "busy2": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.legend_barrow.busy",
+      "next": "end"
+    },
+    "offer2": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.legend_barrow.offer",
+      "next": "choice2"
+    },
+    "choice2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/legend_barrow"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c3": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/legend_moonshade"
+      },
+      "then": "t3",
+      "else": "a3"
+    },
+    "t3": {
+      "type": "condition",
+      "when": {
+        "flag": "town_legend_moonshade_thanked"
+      },
+      "then": "c4",
+      "else": "thanks3"
+    },
+    "thanks3": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.legend_moonshade.thanks",
+      "next": "flag3"
+    },
+    "flag3": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_legend_moonshade_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a3": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/legend_moonshade"
+      },
+      "then": "busy3",
+      "else": "offer3"
+    },
+    "busy3": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.legend_moonshade.busy",
+      "next": "end"
+    },
+    "offer3": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.legend_moonshade.offer",
+      "next": "choice3"
+    },
+    "choice3": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/legend_moonshade"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c4": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/legend_foreman"
+      },
+      "then": "t4",
+      "else": "a4"
+    },
+    "t4": {
+      "type": "condition",
+      "when": {
+        "flag": "town_legend_foreman_thanked"
+      },
+      "then": "c5",
+      "else": "thanks4"
+    },
+    "thanks4": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.legend_foreman.thanks",
+      "next": "flag4"
+    },
+    "flag4": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_legend_foreman_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a4": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/legend_foreman"
+      },
+      "then": "busy4",
+      "else": "offer4"
+    },
+    "busy4": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.legend_foreman.busy",
+      "next": "end"
+    },
+    "offer4": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.legend_foreman.offer",
+      "next": "choice4"
+    },
+    "choice4": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/legend_foreman"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c5": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/legend_regent"
+      },
+      "then": "t5",
+      "else": "a5"
+    },
+    "t5": {
+      "type": "condition",
+      "when": {
+        "flag": "town_legend_regent_thanked"
+      },
+      "then": "c6",
+      "else": "thanks5"
+    },
+    "thanks5": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.legend_regent.thanks",
+      "next": "flag5"
+    },
+    "flag5": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_legend_regent_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a5": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/legend_regent"
+      },
+      "then": "busy5",
+      "else": "offer5"
+    },
+    "busy5": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.legend_regent.busy",
+      "next": "end"
+    },
+    "offer5": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.legend_regent.offer",
+      "next": "choice5"
+    },
+    "choice5": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/legend_regent"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c6": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/legend_revenant"
+      },
+      "then": "t6",
+      "else": "a6"
+    },
+    "t6": {
+      "type": "condition",
+      "when": {
+        "flag": "town_legend_revenant_thanked"
+      },
+      "then": "c7",
+      "else": "thanks6"
+    },
+    "thanks6": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.legend_revenant.thanks",
+      "next": "flag6"
+    },
+    "flag6": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_legend_revenant_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a6": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/legend_revenant"
+      },
+      "then": "busy6",
+      "else": "offer6"
+    },
+    "busy6": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.legend_revenant.busy",
+      "next": "end"
+    },
+    "offer6": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.legend_revenant.offer",
+      "next": "choice6"
+    },
+    "choice6": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/legend_revenant"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c7": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/legend_sentinel"
+      },
+      "then": "t7",
+      "else": "a7"
+    },
+    "t7": {
+      "type": "condition",
+      "when": {
+        "flag": "town_legend_sentinel_thanked"
+      },
+      "then": "c8",
+      "else": "thanks7"
+    },
+    "thanks7": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.legend_sentinel.thanks",
+      "next": "flag7"
+    },
+    "flag7": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_legend_sentinel_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a7": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/legend_sentinel"
+      },
+      "then": "busy7",
+      "else": "offer7"
+    },
+    "busy7": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.legend_sentinel.busy",
+      "next": "end"
+    },
+    "offer7": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.legend_sentinel.offer",
+      "next": "choice7"
+    },
+    "choice7": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/legend_sentinel"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c8": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/legend_colossus"
+      },
+      "then": "t8",
+      "else": "a8"
+    },
+    "t8": {
+      "type": "condition",
+      "when": {
+        "flag": "town_legend_colossus_thanked"
+      },
+      "then": "after",
+      "else": "thanks8"
+    },
+    "thanks8": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.legend_colossus.thanks",
+      "next": "flag8"
+    },
+    "flag8": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_legend_colossus_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a8": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/legend_colossus"
+      },
+      "then": "busy8",
+      "else": "offer8"
+    },
+    "busy8": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.legend_colossus.busy",
+      "next": "end"
+    },
+    "offer8": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.town.selwyn.legend_colossus.offer",
+      "next": "choice8"
+    },
+    "choice8": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/legend_colossus"
             }
           ],
           "next": "end"

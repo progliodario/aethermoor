@@ -584,9 +584,20 @@ bool WorldSim::use_item(const std::string& item_id) {
         }
     }
     heal = heal * m_setup_.gift.heal_pct / 100;
+    const ItemEffect* fortify = nullptr;  // spec 06, "Fortify": attack up for a while
+    for (const ItemEffect& effect : item->second.effects) {
+        if (effect.effect == "fortify") {
+            fortify = &effect;
+        }
+    }
     const std::int64_t full_mp = m_derived_.max_mp * 6000;
-    if (!((heal > 0 && m_player_.hp < m_derived_.max_hp) || (mana > 0 && m_player_.mp_u < full_mp))) {
+    if (!((heal > 0 && m_player_.hp < m_derived_.max_hp) || (mana > 0 && m_player_.mp_u < full_mp) ||
+          fortify != nullptr)) {
         return false;
+    }
+    if (fortify != nullptr) {
+        m_player_.fortify_pct = fortify->amount;
+        m_player_.fortify = fortify->ticks;
     }
     if (heal > 0) {
         m_player_.hp = std::min(m_derived_.max_hp, m_player_.hp + heal);
@@ -993,6 +1004,9 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
     if (p.weaken > 0) {
         --p.weaken;
     }
+    if (p.fortify > 0) {  // a meal that fortifies (spec 06, "Fortify") wears off
+        --p.fortify;
+    }
 }
 
 void WorldSim::advance_attack() {
@@ -1051,7 +1065,9 @@ void WorldSim::do_hits() {
         const bool crit = static_cast<std::int64_t>(m_combat_rng_.next_bounded(1000)) < m_derived_.crit_chance_pm;
         DamageInput in;
         in.atk = s.magical ? m_derived_.matk : m_derived_.atk;
-        in.atk = in.atk * (100 + title_attack_pct()) / 100;  // the titles earned make the hits stronger (spec 11)
+        const std::int64_t fortify = p.fortify > 0 ? p.fortify_pct : 0;  // a meal that fortifies (spec 06)
+        in.atk =
+            in.atk * (100 + title_attack_pct() + fortify) / 100;  // the titles earned make the hits stronger (spec 11)
         if (p.weaken > 0) {
             in.atk = in.atk * 75 / 100;
         }
@@ -1381,7 +1397,7 @@ void WorldSim::hurt_player(Enemy& enemy) {
         p.dodge_cooldown = 0;
         p.parry_ticks = 0;
         p.parry_cooldown = 0;
-        p.burn = p.burn_clock = p.chill = p.stun = p.weaken = 0;
+        p.burn = p.burn_clock = p.chill = p.stun = p.weaken = p.fortify = 0;
         p.mp_u = m_derived_.max_mp * 6000;
         p.iframes = kRespawnIframes;
         return;
@@ -1540,7 +1556,7 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
     m_player_.dodge_cooldown = 0;
     m_player_.parry_ticks = 0;
     m_player_.parry_cooldown = 0;
-    m_player_.burn = m_player_.burn_clock = m_player_.chill = m_player_.stun = m_player_.weaken = 0;
+    m_player_.burn = m_player_.burn_clock = m_player_.chill = m_player_.stun = m_player_.weaken = m_player_.fortify = 0;
     m_player_.mp_u = m_derived_.max_mp * 6000;  // nor is the mana: a loaded game starts full
     m_player_.using_strike = false;
     m_combat_rng_.set_state(s.combat_state, s.combat_inc);

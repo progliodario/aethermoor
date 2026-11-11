@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/legend_moonshade",
+  "name": "$i18n:quest.legend_moonshade.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.legend_moonshade.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/moonshade_alpha",
+          "count": 1
+        }
+      ],
+      "next": "end",
+      "place": "whisperwood_hollow"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 700
+    },
+    {
+      "effect": "add_gold",
+      "amount": 700
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 35
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/moonmoss_draught",
+      "qty": 2
+    }
+  ]
+}

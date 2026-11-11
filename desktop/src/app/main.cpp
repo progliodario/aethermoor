@@ -667,6 +667,7 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
     add_status(p.chill, "$i18n:ui.status_chill");
     add_status(p.stun, "$i18n:ui.status_stun");
     add_status(p.weaken, "$i18n:ui.status_weaken");
+    add_status(p.fortify, "$i18n:ui.status_fortify");  // a meal that fortifies (spec 06)
     if (!status.empty()) {
         SDL_SetRenderDrawColor(renderer, 255, 150, 90, 255);
         outlined_text(renderer, x / 2.0F, (y + bar_h + 34.0F * density + below) / 2.0F, status.c_str());
@@ -1610,6 +1611,7 @@ struct SlotInfo {
     bool used = false;
     int level = 1;
     std::int64_t gold = 0;
+    std::string weapon;
 };
 
 SlotInfo read_slot(int slot) {
@@ -1619,6 +1621,7 @@ SlotInfo read_slot(int slot) {
             info.used = true;
             info.level = peek->level;
             info.gold = peek->gold;
+            info.weapon = peek->weapon;
         }
     }
     return info;
@@ -2686,8 +2689,10 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
     }
     if (!sim.bestiary().empty()) {
         lines.push_back({"", 2});
-        lines.push_back(
-            {assets.pack.text(ui.lang, "$i18n:ui.journal_bestiary") + " " + std::to_string(sim.bestiary().size()), 0});
+        lines.push_back({assets.pack.text(ui.lang, "$i18n:ui.journal_bestiary") + " " +
+                             std::to_string(sim.bestiary().size()) + "/" +
+                             std::to_string(std::max(sim.bestiary().size(), sim.combat().stream_enemies.size())),
+                         0});
         for (const auto& [id, count] : sim.bestiary()) {
             const std::size_t slash = id.rfind('/');
             const std::string key = "$i18n:enemy." + (slash == std::string::npos ? id : id.substr(slash + 1)) + ".name";
@@ -3502,7 +3507,8 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
                         notice = assets.pack.text(lang, "$i18n:ui.rebirth_too_early");
                     } else if (pending_rebirth == cursor &&
                                aether::reincarnate(reborn, slots[static_cast<std::size_t>(cursor)].level,
-                                                   slots[static_cast<std::size_t>(cursor)].gold)) {
+                                                   slots[static_cast<std::size_t>(cursor)].gold,
+                                                   slots[static_cast<std::size_t>(cursor)].weapon)) {
                         write_text_atomic(profile_file(), aether::profile_to_json(reborn));
                         clear_slot(cursor + 1);
                         slots[static_cast<std::size_t>(cursor)] = SlotInfo{};
@@ -4017,10 +4023,23 @@ int main(int argc, char** argv) {
                     const std::size_t slash = g_protagonist_id.rfind('/');
                     sim.story().begin_dialogue("base:dialogue/" + g_protagonist_id.substr(slash + 1) + "/prologue");
                     aether::Profile profile = read_profile();  // the heirloom of a past life (spec 11)
-                    if (const std::int64_t heirloom = aether::claim_heirloom(profile); heirloom > 0) {
+                    const std::string weapon = profile.heirloom_item;
+                    if (const std::int64_t heirloom = aether::claim_heirloom(profile);
+                        heirloom > 0 || !weapon.empty()) {
                         sim.story().set_gold(sim.story().gold() + heirloom);
                         write_text_atomic(profile_file(), aether::profile_to_json(profile));
-                        notify(ui, assets.pack.text(ui.lang, "$i18n:ui.heirloom", {{"gold", heirloom}}));
+                        if (!weapon.empty() &&
+                            assets.pack.read_document(weapon)) {  // the weapon of the past life, in the bag
+                            sim.give_item(weapon, 1);
+                            notify(ui, assets.pack.text(
+                                           ui.lang, "$i18n:ui.heirloom_weapon",
+                                           {{"gold", heirloom},
+                                            {"item", assets.pack.text(
+                                                         ui.lang, "$i18n:item." + weapon.substr(weapon.rfind('/') + 1) +
+                                                                      ".name")}}));
+                        } else {
+                            notify(ui, assets.pack.text(ui.lang, "$i18n:ui.heirloom", {{"gold", heirloom}}));
+                        }
                     }
                 }
             }

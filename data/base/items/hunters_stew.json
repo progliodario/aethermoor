@@ -12,6 +12,11 @@
       {
         "effect": "heal",
         "amount": 120
+      },
+      {
+        "effect": "fortify",
+        "amount": 20,
+        "ticks": 3600
       }
     ]
   }
