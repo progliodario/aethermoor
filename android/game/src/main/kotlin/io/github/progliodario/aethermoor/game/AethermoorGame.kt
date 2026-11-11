@@ -687,16 +687,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
         if (messageFrames > 0) messageFrames--
         sinceAutosave += Gdx.graphics.deltaTime
-        if (!hasGoal) { // a quest stage with a place sets the goal there once, when the player has none (spec 07, "Places")
-            world.chunks?.params?.let { params ->
-                for ((questId, progress) in world.story.quests) {
-                    if (progress.done) continue
-                    val stage = world.story.questDef(questId)?.stages?.firstOrNull { it.id == progress.stage } ?: continue
-                    if (stage.place.isEmpty() || !guided.add("$questId/${stage.id}")) continue
-                    val landmark = params.landmarks.firstOrNull { it.id == stage.place } ?: continue
-                    setGoal(world, (params.width / 2 + landmark.dx).toFloat() / MAP_CELL, (params.height / 2 + landmark.dy).toFloat() / MAP_CELL)
-                    assets?.let { showNotice(it.pack.text(language, "\$i18n:ui.goal_quest", mapOf("place" to landmark.name))) }
-                }
+        if (!hasGoal && world.chunks != null) { // every quest stage sets the goal of the map once, when the player has none (spec 07, "Places")
+            for ((questId, progress) in world.story.quests) {
+                if (progress.done || !guided.add("$questId/${progress.stage}")) continue
+                val stage = currentStage(world, questId, progress.stage) ?: continue
+                val place = questPlace(world, stage) ?: continue
+                setGoal(world, place.x / MAP_CELL, place.y / MAP_CELL)
+                assets?.let { showNotice(it.pack.text(language, "\$i18n:ui.goal_quest", mapOf("place" to placeLabel(it.pack, place.label)))) }
+                break
             }
         }
         if (sinceAutosave >= AUTOSAVE_SECONDS) {
@@ -1683,6 +1681,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             font.color = Color(0.435f, 0.89f, 1f, 1f)
             hudText(dialogueText(data.pack, def.name, def.args), x, y)
             y += font.lineHeight * 1.2f
+            questPlace(world, stage)?.let { place -> // where it sends the player (spec 07, "Places")
+                font.color = Color(1f, 0.71f, 0.35f, 1f)
+                hudText(data.pack.text(language, "\$i18n:ui.quest_place", mapOf("place" to placeLabel(data.pack, place.label))), x, y)
+                y += font.lineHeight * 1.2f
+            }
             font.color = Color(0.92f, 0.96f, 1f, 1f)
             layout.setText(font, dialogueText(data.pack, stage.journal, def.args), font.color, 280f * density, 0, true)
             font.draw(batch, layout, x, y)
@@ -1906,6 +1909,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 entries.add(Pair(dialogueText(data.pack, stage.journal, def.args), 2))
                 for ((i, objective) in stage.objectives.withIndex()) {
                     if (objective.kind != ObjectiveKind.TALK) entries.add(Pair("${progress.progress[i]}/${objective.count}", 2))
+                }
+                questPlace(world, stage)?.let { place -> // where it sends the player (spec 07, "Places")
+                    entries.add(Pair(data.pack.text(language, "\$i18n:ui.quest_place", mapOf("place" to placeLabel(data.pack, place.label))), 2))
                 }
             }
         }
@@ -2164,6 +2170,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (input.isKeyJustPressed(Input.Keys.RIGHT) || input.isKeyJustPressed(Input.Keys.D)) mapPan(store, step, 0f)
         if (input.isKeyJustPressed(Input.Keys.C)) mapCenterOnPlayer(world)
         if (input.isKeyJustPressed(Input.Keys.TAB)) mapNextPlace(world)
+        if (input.isKeyJustPressed(Input.Keys.Q)) mapNextQuest(world)
         if (input.isKeyJustPressed(Input.Keys.P)) setGoal(world, mapCx, mapCy)
         if (input.isKeyJustPressed(Input.Keys.X)) {
             hasGoal = false
@@ -2190,6 +2197,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                     setGoal(world, mapCx, mapCy)
                 }
                 6 -> mapNextPlace(world)
+                7 -> mapNextQuest(world)
             }
             return
         }
@@ -2229,6 +2237,53 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val dir = data.pack.text(language, "\$i18n:ui.dir_" + GOAL_DIRECTIONS[index])
         return data.pack.text(language, "\$i18n:ui.goal", mapOf("dir" to dir, "dist" to distance))
     }
+
+    /** Where a quest stage sends the player (spec 07, "Places"): x, y and a name or a text key. See the desktop `quest_place`. */
+    private class QuestPlace(val x: Float, val y: Float, val label: String)
+
+    private fun questPlace(world: WorldSim, stage: QuestStage): QuestPlace? {
+        val params = world.chunks?.params ?: return null
+        val cx = params.width / 2
+        val cy = params.height / 2
+        val px = world.player.position.x
+        val py = world.player.position.y
+        fun at(l: io.github.progliodario.aethermoor.core.Landmark) = QuestPlace((cx + l.dx).toFloat(), (cy + l.dy).toFloat(), l.name)
+        fun distance2(l: io.github.progliodario.aethermoor.core.Landmark): Float {
+            val dx = (cx + l.dx) - px
+            val dy = (cy + l.dy) - py
+            return dx * dx + dy * dy
+        }
+        if (stage.place.isNotEmpty()) params.landmarks.firstOrNull { it.id == stage.place }?.let { return at(it) }
+        val wanted = HashSet<String>() // the creatures that are the target, or that drop it
+        for (o in stage.objectives) {
+            when (o.kind) {
+                ObjectiveKind.TALK -> (world.story.setup.npcs + world.story.dynamicNpcs).firstOrNull { it.key == o.target }?.let { npc ->
+                    return QuestPlace(npc.x, npc.y, npc.name.ifEmpty { "\$i18n:speaker.${npc.key}" })
+                }
+                ObjectiveKind.KILL -> wanted.add(o.target)
+                ObjectiveKind.COLLECT -> {
+                    for ((id, def) in world.combat.streamEnemies) if (def.drops.any { it.item == o.target }) wanted.add(id)
+                    for (region in params.regions) for (f in region.fauna) if (f.drop == o.target) wanted.add(f.enemy)
+                }
+            }
+        }
+        val lair = params.landmarks.filter { l ->
+            val stamp = params.stamps[l.stamp] ?: return@filter false
+            stamp.legend.any { (ch, entry) -> entry.spawner in wanted && stamp.rows.any { row -> ch in row } }
+        }.minByOrNull { distance2(it) }
+        if (lair != null) return at(lair)
+        val outposts = params.landmarks.filter { it.kind == "hamlet" }
+        val home = outposts.filter { l -> params.regions[regionAt(params, cx + l.dx, cy + l.dy)].fauna.any { it.enemy in wanted } }.minByOrNull { distance2(it) }
+        if (home != null) return at(home)
+        return outposts.minByOrNull { distance2(it) }?.let { at(it) }
+    }
+
+    /** The words of a quest place: a text key is looked up, a name (of a landmark or a person) is shown as it is. */
+    private fun placeLabel(pack: io.github.progliodario.aethermoor.core.Pack, label: String): String =
+        if (label.startsWith("\$i18n:")) pack.text(language, label) else label
+
+    private fun currentStage(world: WorldSim, questId: String, stageId: String): QuestStage? =
+        world.story.questDef(questId)?.stages?.firstOrNull { it.id == stageId }
 
     /** Marks the goal at a map position (in cells), inside the world. */
     private fun setGoal(world: WorldSim, cellX: Float, cellY: Float) {
@@ -2677,6 +2732,26 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     }
 
     /** Moves the view to the next place found (settlements, dungeons, lairs), nearest to the player first, and says its name. */
+    private var questPick = -1 // the quest whose place the goal was last moved to, in the order of the quests
+
+    /** The [Quest] button (Q on a keyboard): the goal goes to the place of the next quest in progress, and the view with it (spec 07, "Places"). */
+    private fun mapNextQuest(world: WorldSim) {
+        val pack = assets?.pack ?: return
+        val places = world.story.quests.mapNotNull { (questId, progress) ->
+            if (progress.done) null else currentStage(world, questId, progress.stage)?.let { questPlace(world, it) }
+        }
+        if (places.isEmpty()) {
+            showNotice(pack.text(language, "\$i18n:ui.no_quest_place"))
+            return
+        }
+        questPick = (questPick + 1) % places.size
+        val place = places[questPick]
+        setGoal(world, place.x / MAP_CELL, place.y / MAP_CELL)
+        mapCx = place.x / MAP_CELL
+        mapCy = place.y / MAP_CELL
+        showNotice(pack.text(language, "\$i18n:ui.goal_quest", mapOf("place" to placeLabel(pack, place.label))))
+    }
+
     private fun mapNextPlace(world: WorldSim) {
         val store = world.chunks ?: return
         val px = world.player.position.x
@@ -2750,7 +2825,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             buttonsY = legendY + font.lineHeight * 1.8f
             val size = 48f * density
             val gap = 8f * density
-            val labels = listOf("+" to 0, "-" to 1, data.pack.text(language, "\$i18n:ui.map_btn_you") to 2, data.pack.text(language, "\$i18n:ui.map_btn_all") to 3, data.pack.text(language, "\$i18n:ui.map_btn_goal") to 5, data.pack.text(language, "\$i18n:ui.map_btn_next") to 6, "X" to 4)
+            val labels = listOf("+" to 0, "-" to 1, data.pack.text(language, "\$i18n:ui.map_btn_you") to 2, data.pack.text(language, "\$i18n:ui.map_btn_all") to 3, data.pack.text(language, "\$i18n:ui.map_btn_goal") to 5, data.pack.text(language, "\$i18n:ui.map_btn_next") to 6, data.pack.text(language, "\$i18n:ui.map_btn_quest") to 7, "X" to 4)
             var bx = panelX
             var by = buttonsY
             for ((label, action) in labels) {
@@ -2856,6 +2931,17 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             shapes.rect(dx - ps / 2f - 2f, dy - ps / 2f - 2f, ps + 4f, ps + 4f)
             shapes.color = if (off) Color(1f, 0.59f, 0.16f, 1f) else Color(1f, 0.2f, 0.2f, 1f)
             shapes.rect(dx - ps / 2f, dy - ps / 2f, ps, ps)
+            for ((questId, progress) in world.story.quests) { // where the quests in progress go: orange squares
+                if (progress.done) continue
+                val stage = currentStage(world, questId, progress.stage) ?: continue
+                val place = questPlace(world, stage) ?: continue
+                val qx = v.toX(place.x / MAP_CELL).coerceIn(v.x + margin, v.x + v.side - margin)
+                val qy = v.toY(place.y / MAP_CELL).coerceIn(v.y + margin, v.y + v.side - margin)
+                shapes.color = Color(0.08f, 0.08f, 0.12f, 1f)
+                shapes.rect(qx - 4f * density - 2f, qy - 4f * density - 2f, 8f * density + 4f, 8f * density + 4f)
+                shapes.color = Color(1f, 0.63f, 0.24f, 1f)
+                shapes.rect(qx - 4f * density, qy - 4f * density, 8f * density, 8f * density)
+            }
             if (hasGoal) { // the goal: a green square, and a line from the player, both kept inside the view
                 val gx = v.toX(goalX / MAP_CELL).coerceIn(v.x + margin, v.x + v.side - margin)
                 val gy = v.toY(goalY / MAP_CELL).coerceIn(v.y + margin, v.y + v.side - margin)
@@ -2873,8 +2959,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 shapes.rect(b.rect[0], b.rect[1], b.rect[2], b.rect[3])
             }
             val legendY = buttonsY - font.lineHeight * 1.8f
-            val squares = listOf(Color(1f, 0.2f, 0.2f, 1f), Color(1f, 0.92f, 0.59f, 1f), Color(0.8f, 0.47f, 1f, 1f), Color(0.55f, 1f, 0.92f, 1f), Color(0.35f, 1f, 0.47f, 1f))
-            val keys = listOf("\$i18n:ui.map_key_you", "\$i18n:ui.map_key_place", "\$i18n:ui.map_key_site", "\$i18n:ui.map_key_stone", "\$i18n:ui.map_key_goal")
+            val squares = listOf(Color(1f, 0.2f, 0.2f, 1f), Color(1f, 0.92f, 0.59f, 1f), Color(0.8f, 0.47f, 1f, 1f), Color(0.55f, 1f, 0.92f, 1f), Color(0.35f, 1f, 0.47f, 1f), Color(1f, 0.63f, 0.24f, 1f))
+            val keys = listOf("\$i18n:ui.map_key_you", "\$i18n:ui.map_key_place", "\$i18n:ui.map_key_site", "\$i18n:ui.map_key_stone", "\$i18n:ui.map_key_goal", "\$i18n:ui.map_key_quest")
             for (i in squares.indices) {
                 shapes.color = squares[i]
                 shapes.rect(lx, legendY + font.lineHeight * 0.15f, font.lineHeight * 0.7f, font.lineHeight * 0.7f)
@@ -2939,7 +3025,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             // The words of the legend, after the squares drawn above.
             var lx = panelX
             val legendY = buttonsY - font.lineHeight * 1.8f
-            val keys = listOf("\$i18n:ui.map_key_you", "\$i18n:ui.map_key_place", "\$i18n:ui.map_key_site", "\$i18n:ui.map_key_stone", "\$i18n:ui.map_key_goal")
+            val keys = listOf("\$i18n:ui.map_key_you", "\$i18n:ui.map_key_place", "\$i18n:ui.map_key_site", "\$i18n:ui.map_key_stone", "\$i18n:ui.map_key_goal", "\$i18n:ui.map_key_quest")
             font.color = Color(0.86f, 0.86f, 0.9f, 1f)
             for (key in keys) {
                 val label = data.pack.text(language, key)

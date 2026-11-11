@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/whisperwood_elder",
+  "name": "$i18n:quest.whisperwood_elder.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.whisperwood_elder.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/moss_elder",
+          "count": 1
+        }
+      ],
+      "next": "end",
+      "place": "whisperwood_moss"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 810
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1020
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 40
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/moonmoss_draught",
+      "qty": 2
+    }
+  ]
+}

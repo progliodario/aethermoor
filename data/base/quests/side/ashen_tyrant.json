@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/ashen_tyrant",
+  "name": "$i18n:quest.ashen_tyrant.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.ashen_tyrant.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/char_tyrant",
+          "count": 1
+        }
+      ],
+      "next": "end",
+      "place": "ashen_wastes_charpit"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 1890
+    },
+    {
+      "effect": "add_gold",
+      "amount": 2360
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 94
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/ember_brew",
+      "qty": 3
+    }
+  ]
+}

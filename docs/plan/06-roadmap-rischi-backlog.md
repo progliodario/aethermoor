@@ -264,7 +264,7 @@ Dopo l'approvazione, ogni voce diventerà un issue con descrizione, criteri di a
 
 ### 8.1 Dove siamo
 
-Aggiornato al 6 novembre 2026 (versione `0.0.1`, nessuna release pubblicata). Il gioco è giocabile su desktop con **otto protagonisti** (Ren, Sakura, Daichi, Haruka, Marco, Yuki, Lena, Gideon), un mondo di 16384² tile in streaming con otto regioni, 35 siti a mano, 60 creature, 135 oggetti e 110 missioni (`docs/design/catalog.md`).
+Aggiornato all'11 novembre 2026 (versione `0.0.1`, nessuna release pubblicata). Il gioco è giocabile su desktop e Android con **otto protagonisti** (Ren, Sakura, Daichi, Haruka, Marco, Yuki, Lena, Gideon), un mondo di 16384² tile in streaming con otto regioni, 44 siti a mano, 68 creature, 157 oggetti e 222 missioni (`docs/design/catalog.md`). **Ogni missione segna sulla mappa dove andare** (spec 07, "Places").
 
 | Milestone | Stato | Note |
 |---|---|---|
@@ -300,7 +300,7 @@ Il 5 novembre 2026 il proprietario ha affidato a Claude le decisioni di design (
 
 ### 8.3 Come si lavora
 
-1. Una tappa alla volta, con PR piccole e CI verde prima del merge.
+1. **PR grandi**: a ogni richiesta del proprietario si portano avanti molte voci della roadmap insieme, in un ramo e una PR sola, unita con la CI verde (il proprietario non vuole PR piccole).
 2. A ogni tappa si prepara una build da provare (artefatto della CI) e si raccolgono le impressioni.
 3. Aggiornare questa sezione a ogni milestone chiusa.
 

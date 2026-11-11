@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/crossroads_matron",
+  "name": "$i18n:quest.crossroads_matron.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.crossroads_matron.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/mint_matron",
+          "count": 1
+        }
+      ],
+      "next": "end",
+      "place": "verdalis_mint"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 270
+    },
+    {
+      "effect": "add_gold",
+      "amount": 330
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 13
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/minty_charm",
+      "qty": 1
+    }
+  ]
+}

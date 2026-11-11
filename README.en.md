@@ -43,7 +43,7 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 - Eight regions with their own land, creatures, shops and way of speaking; day and night, four seasons, weather.
 - About 130 settlements and 44 hand-made places (dungeons with a guardian, lairs, nests, outposts with a wayfarer and their story), and two hand-written towns: **Fenwick**, the village where you start, and **Aldermere**, the town of the mother guild, with named people and quests of their own.
 - Threshold Stones to heal and to travel between places you have visited.
-- A world map with zoom, a goal to mark and a small map; the land is revealed in a square of 5 x 5 cells (640 tiles) around you.
+- A world map with zoom, a goal to mark and a small map, and every quest sets its own goal (the place to go, marked in orange); the land is revealed in a square of 5 x 5 cells (640 tiles) around you.
 
 **Combat**
 
@@ -55,7 +55,7 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 
 **Life and progression**
 
-- An adventurers' guild with a board and commissions, 214 quests, shops, inns, jobs from the elders.
+- An adventurers' guild with a board and commissions, 222 quests, shops, inns, jobs from the elders.
 - 157 items; gathering from bushes, trees, rocks and cacti; 28 recipes (potions, brews and elixirs of the regions, dishes cooked at a fire, gear, and fine gear at the anvil of a town).
 - A companion for each protagonist: it follows you, fights, stays where you tell it, and its bond grows with its victories.
 - Titles of a way of playing that change the game: the Forager finds more, the Artisan makes more, the Unbreakable Guard parries longer, the Veteran earns more experience.
@@ -190,7 +190,7 @@ The project is developed by its owner together with Claude, an AI assistant that
 
 - **Spec first**, then reference, vectors, desktop and Android in the same change.
 - **Everything is data**: no names, texts or numbers in code; every text in Italian **and** English.
-- **Small PRs**, one concern each, merged only when CI is green.
+- **Big PRs**: at every request of the owner Claude moves **many** items of the roadmap forward together and ships them in one PR, merged only when CI is green.
 - Design decisions (story, tone, balance) are delegated to Claude; publishing and repository governance stay with the owner.
 - Play-testing, on Windows, Linux and Android, is done by the owner.
 

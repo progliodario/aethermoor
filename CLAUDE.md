@@ -94,7 +94,7 @@ cd android && gradle :core:test :app:assembleDebug
 - **Who tests what.** This machine has no C++ or Kotlin compiler: CI is the only build. The owner play-tests every change in depth on Windows, Linux and Android and reports what is wrong; the owner never edits files or runs tools. Still report honestly what was run and what was not (e.g. "desktop not built locally", "not seen on screen").
 - Tests of both clients count what the data holds (stamps, static people, tiles of the tileset, the gids of the start tile): grep `desktop/tests/` and `android/core/src/test/` and update them in the same change as the data, or CI fails.
 - A script whose strings hold a backslash (such as `\n`): create it with the Write tool, not with a shell heredoc (it loses the backslash).
-- Prefer small PRs, one concern each. Spec/format changes go alone.
+- **Big PRs, many roadmap items each.** At every prompt of the owner, do a lot: several roadmap items (features, content, fixes, docs) in one branch and one PR, shipped with `tools/ship.py` when CI is green. The owner explicitly does not want small PRs.
 
 ## Common tasks
 
@@ -110,7 +110,7 @@ cd android && gradle :core:test :app:assembleDebug
 ## Where things stand
 
 - **World:** a streamed 16384 x 16384 world with eight regions, about 130 generated settlements and 44 hand-made sites: dungeons and lairs with guardians, eight outposts, eight sanctums of the Echoes (`tools/make_echoes.py`), Fenwick (the home village) and Aldermere (the guild town). Fenwick, Aldermere and every outpost have named people with quests (`tools/make_towns.py`, `tools/towns_outposts.py`). Seasons, weather, Threshold Stones; the map reveals 5 x 5 cells around the player.
-- **People and content:** eight protagonists (Ren, Sakura, Daichi, Haruka, Marco, Yuki, Lena, Gideon: spec 18), each with a prologue, a companion, two personal quests, a story in three acts and an epilogue against their own Echo, a personal boss (`tools/make_stories.py`, `stories_act2.py` to `stories_act4.py`). 68 creatures, 157 items, 214 quests (see `docs/design/catalog.md`).
+- **People and content:** eight protagonists (Ren, Sakura, Daichi, Haruka, Marco, Yuki, Lena, Gideon: spec 18), each with a prologue, a companion, two personal quests, a story in three acts and an epilogue against their own Echo, a personal boss (`tools/make_stories.py`, `stories_act2.py` to `stories_act4.py`). 68 creatures, 157 items, 222 quests (see `docs/design/catalog.md`).
 - **Combat:** attack, power strike, dodge, parry, elements, status effects on creatures and on the player, stagger. The world difficulty is `enemy_hp_pct` 100 and `enemy_atk_pct` 70: easy on purpose.
 - **Progression:** levels, a tree of ten talents (`tools/make_talents.py`), 15 titles with effects (attack, gathering, crafting, parry, experience), a bestiary, a status window, a shared `profile.json` with echoes, past lives and the heirloom (reincarnation from the title screen at level 10).
 - **Life:** guild, shops, inns, gathering, crafting with 28 recipes and two stations (a campfire for dishes, an anvil in every town for fine gear), companions (stay/follow, bond).

@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/ironspine_baron",
+  "name": "$i18n:quest.ironspine_baron.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.ironspine_baron.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/rust_baron",
+          "count": 1
+        }
+      ],
+      "next": "end",
+      "place": "ironspine_rust"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 1080
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1350
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 54
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/miners_broth",
+      "qty": 3
+    }
+  ]
+}

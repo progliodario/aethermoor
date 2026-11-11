@@ -1,7 +1,7 @@
 """The named people of the eight outposts, one each beside the wayfarer: the table that `make_towns.py` adds to Fenwick and Aldermere.
 
-Same shape as `make_towns.PEOPLE`. Each person gives two quests about their region (its creatures and what they leave), with rewards that grow with
-the danger of the region. The tile is a free cobblestone of the outpost's plaza (checked by `tools/tests/test_content.py`)."""
+Same shape as `make_towns.PEOPLE`. Each person gives two quests about their region (its creatures and what they leave), then a third against the
+guardian of a lair of the region (`GUARDIAN_QUESTS`), with rewards that grow with the danger of the region. The tile is a free cobblestone of the outpost's plaza (checked by `tools/tests/test_content.py`)."""
 from __future__ import annotations
 
 
@@ -156,3 +156,90 @@ OUTPOST_PEOPLE = [
         ],
     },
 ]
+
+# The third quest of each person: the guardian of a lair of their region. `set_quest_places.py` gives it the place of the lair, so the goal of
+# the map goes there. Rewards: the second quest's, and a half again.
+GUARDIAN_QUESTS = {
+    "outpost_carter_pell": _quest(
+        "crossroads_matron", ("The Mother of Mint", "La madre della menta"),
+        ("Every mint slime of the Crossroads comes from one place: Mint Hollow, where the Mint Matron sits. Pell asks you to end it there.",
+         "Ogni slime alla menta del Crocevia viene da un posto solo: Mint Hollow, dove siede la Matrona di menta. Pell ti chiede di finirla lì."),
+        [_kill("mint_matron", 1)], 270, 330, {"base:item/minty_charm": 1},
+        ("The slimes are back. Fewer, but back. A traveller told me they all crawl out of a hollow to the west, from a great green mother. Mothers I respect. That one, no.",
+         "Gli slime sono tornati. Meno, ma tornati. Un viandante mi ha detto che escono tutti da una conca a ovest, da una grande madre verde. Le madri le rispetto. Quella no."),
+        ("The Mint Matron, in Mint Hollow. The map knows the way.", "La Matrona di menta, a Mint Hollow. La mappa sa la strada."),
+        ("No more green wheels, ever? Then this charm is yours; my mother gave it to me, and she would have liked you.",
+         "Mai più ruote verdi? Allora questo amuleto è tuo: me lo diede mia madre, e le saresti piaciuto.")),
+    "outpost_herbalist_wren": _quest(
+        "whisperwood_elder", ("The Moss Elder", "L'Anziano di muschio"),
+        ("The Moss Elder of the Mossy Den makes the wood sick around Hollow's Edge. Wren asks you to put it to rest.",
+         "L'Anziano di muschio di Mossy Den fa ammalare il bosco attorno a Hollow's Edge. Wren ti chiede di metterlo a riposo."),
+        [_kill("moss_elder", 1)], 810, 1020, {"base:item/moonmoss_draught": 2},
+        ("The herbs come up grey near the den to the west. Something old breathes there, and its breath is moss. I cannot cure a forest. You can cure what ails it.",
+         "Le erbe crescono grigie vicino alla tana a ovest. Lì respira qualcosa di vecchio, e il suo fiato è muschio. Non so curare un bosco. Tu puoi curare ciò che lo ammala."),
+        ("The Moss Elder, in the Mossy Den.", "L'Anziano di muschio, a Mossy Den."),
+        ("Green again, the real green. Take these draughts: I brewed them from the first clean moss.",
+         "Di nuovo verde, quello vero. Prendi queste pozioni: le ho distillate dal primo muschio pulito.")),
+    "outpost_cook_brakka": _quest(
+        "ironspine_baron", ("The Rust Baron", "Il Barone di ruggine"),
+        ("The rust slimes have a master: the Rust Baron of the Rust Pit. Brakka wants her kitchen clean for good.",
+         "Gli slime di ruggine hanno un padrone: il Barone di ruggine di Rust Pit. Brakka vuole la cucina pulita per sempre."),
+        [_kill("rust_baron", 1)], 1080, 1350, {"base:item/miners_broth": 3},
+        ("They came back, Guest. Smaller, angrier, rustier. The miners say a baron rules them from a pit near the mine. I do not cook for barons.",
+         "Sono tornati, Ospite. Più piccoli, più arrabbiati, più arrugginiti. I minatori dicono che un barone li comanda da una fossa vicino alla miniera. Io per i baroni non cucino."),
+        ("The Rust Baron, in the Rust Pit.", "Il Barone di ruggine, a Rust Pit."),
+        ("A clean pot, at last, and it will stay clean. Broth for the road; the miners swear by it.",
+         "Una pentola pulita, finalmente, e resterà pulita. Brodo per la strada: i minatori ci giurano.")),
+    "outpost_netmender_nella": _quest(
+        "tidehaven_empress", ("The Pearl Empress", "L'Imperatrice di perla"),
+        ("Out on the Pearl Shoal the Pearl Empress keeps the fish away from Brinewatch. Nella asks you to depose her.",
+         "A Pearl Shoal l'Imperatrice di perla tiene i pesci lontani da Brinewatch. Nella ti chiede di detronizzarla."),
+        [_kill("pearl_empress", 1)], 810, 1020, {"base:item/pearl_elixir": 2},
+        ("The nets are whole and empty. The fish have gone to court: there is an empress on the shoal, and they all swim to her. I want my fish back.",
+         "Le reti sono intere e vuote. I pesci sono andati a corte: c'è un'imperatrice sulla secca, e nuotano tutti da lei. Rivoglio i miei pesci."),
+        ("The Pearl Empress, on the Pearl Shoal.", "L'Imperatrice di perla, a Pearl Shoal."),
+        ("Full nets! The sea has no empress now, only a net-mender who owes you. These elixirs came up in the first haul.",
+         "Reti piene! Il mare non ha più un'imperatrice, solo una rammendatrice in debito con te. Questi elisir sono venuti su con la prima retata.")),
+    "outpost_sculptor_henrik": _quest(
+        "frostveil_king", ("The Polar King", "Il Re polare"),
+        ("The polar wolves follow a king, in the Polar Rookery north of Rimewatch. Henrik wants to carve him, after you are done.",
+         "I lupi polari seguono un re, a Polar Rookery, a nord di Rimewatch. Henrik vuole scolpirlo, dopo che avrai finito."),
+        [_kill("polar_king", 1)], 1350, 1650, {"base:item/frost_tonic": 3},
+        ("I have carved wolves all my life, and never their king. He sits in the rookery to the north and the wolves howl for him. I want to see him still. Very still.",
+         "Ho scolpito lupi per tutta la vita, e mai il loro re. Siede nel covo a nord e i lupi ululano per lui. Voglio vederlo fermo. Molto fermo."),
+        ("The Polar King, in the Polar Rookery.", "Il Re polare, a Polar Rookery."),
+        ("I will carve him as he was, proud and enormous, and you beside him, a little smaller. Tonics, against the cold.",
+         "Lo scolpirò com'era, fiero ed enorme, e tu accanto, un po' più piccolo. Tonici, contro il freddo.")),
+    "outpost_waterseller_farid": _quest(
+        "sunscar_mother", ("The Dune Mother", "La madre del branco"),
+        ("The dune wolves come from a den south of the Caravanserai, where the Dune Mother raises them. Farid asks you to end the litter.",
+         "I lupi delle dune vengono da una tana a sud del Caravanserraglio, dove li alleva la Madre del branco delle dune. Farid ti chiede di porre fine alla cucciolata."),
+        [_kill("dune_mother", 1)], 1080, 1350, {"base:item/desert_nectar": 3},
+        ("The pack is broken, and another one grows. There is a mother in the Dune Den, Guest, and she is not tired yet. I am.",
+         "Il branco è spezzato, e ne cresce un altro. C'è una madre a Dune Den, Ospite, e lei non è ancora stanca. Io sì."),
+        ("The Dune Mother, in the Dune Den.", "La Madre del branco delle dune, a Dune Den."),
+        ("Quiet dusks from now on. This nectar is the sweetest thing the desert makes; I keep it for friends.",
+         "D'ora in poi tramonti tranquilli. Questo nettare è la cosa più dolce che faccia il deserto: lo tengo per gli amici.")),
+    "outpost_stargazer_astra": _quest(
+        "lumeria_heart", ("The Nebula Heart", "Il cuore di nebulosa"),
+        ("A Nebula Heart beats in the Nebula Pool, and every beat blurs the sky of Lantern Rest. Astra asks you to still it.",
+         "Un Cuore di nebulosa batte a Nebula Pool, e ogni battito annebbia il cielo di Lantern Rest. Astra ti chiede di fermarlo."),
+        [_kill("nebula_heart", 1)], 1350, 1650, {"base:item/starlight_elixir": 2},
+        ("The storms are gone, and still the stars swim. There is a pool to the south where a piece of the sky fell and kept beating. It beats out of time, Guest.",
+         "Le tempeste sono finite, eppure le stelle tremolano. C'è una pozza a sud dove è caduto un pezzo di cielo che continua a battere. Batte fuori tempo, Ospite."),
+        ("The Nebula Heart, in the Nebula Pool.", "Il Cuore di nebulosa, a Nebula Pool."),
+        ("The sky is still. I can count again. These elixirs were brewed under the first clear night; they taste of it.",
+         "Il cielo è fermo. Posso tornare a contare. Questi elisir li ho fatti sotto la prima notte limpida: ne hanno il sapore.")),
+    "outpost_smith_grael": _quest(
+        "ashen_tyrant", ("The Char Tyrant", "Il tiranno di carbone"),
+        ("The char slimes answer to the Char Tyrant of the Char Pit. Grael asks you to bring the Wastes a little peace.",
+         "Gli slime carbonizzati obbediscono al Tiranno di carbone di Char Pit. Grael ti chiede di portare un po' di pace alle Lande."),
+        [_kill("char_tyrant", 1)], 1890, 2360, {"base:item/ember_brew": 3},
+        ("You made my last good blade. Now use it. The Char Tyrant sits in a pit north of here and burns everything that grows. Nothing grows here anyway. Still.",
+         "Hai fatto nascere la mia ultima buona lama. Ora usala. Il Tiranno di carbone siede in una fossa a nord di qui e brucia tutto ciò che cresce. Qui non cresce niente comunque. Però."),
+        ("The Char Tyrant, in the Char Pit.", "Il Tiranno di carbone, a Char Pit."),
+        ("Something green came up by the forge this morning. A weed. I have never been so happy to see a weed. Brew, from the caravans; drink it slowly.",
+         "Stamattina è spuntato qualcosa di verde vicino alla forgia. Un'erbaccia. Non sono mai stato così felice di vedere un'erbaccia. Birra delle carovane: bevila piano.")),
+}
+for _person in OUTPOST_PEOPLE:
+    _person["quests"].append(GUARDIAN_QUESTS[_person["key"]])
