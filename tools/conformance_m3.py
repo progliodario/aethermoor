@@ -42,6 +42,7 @@ ITEMS = {
     "base:item/bread": {"kind": "food", "price": 5, "effects": [{"effect": "heal", "amount": 30}]},
     "base:item/potion_mana_small": {"kind": "consumable", "price": 40, "effects": [{"effect": "restore_mp", "amount": 30}]},
     "base:item/slime_gel": {"kind": "material", "price": 3, "effects": []},
+    "base:item/cleansing_draught": {"kind": "food", "price": 60, "effects": [{"effect": "cleanse"}]},
     "base:item/windleaf_brew": {"kind": "food", "price": 90, "effects": [{"effect": "haste", "amount": 50, "ticks": 90}]},
     "base:item/honey_cake": {"kind": "food", "price": 20, "effects": [{"effect": "regen", "amount": 6, "ticks": 600}]},
     "base:item/frost_tonic": {"kind": "food", "price": 160, "effects": [{"effect": "ward", "amount": 400, "ticks": 300}]},
@@ -55,6 +56,7 @@ ITEMS = {
     "base:item/sun_blade": {"kind": "weapon", "price": 400, "weapon": {"atk": 7, "matk": 0, "element": "light"}},
     "base:item/leather_vest": {"kind": "armor", "price": 80, "armor": {"def": 2, "mdef": 1}},
     "base:item/chain_mail": {"kind": "armor", "price": 300, "armor": {"def": 5, "mdef": 2}},
+    "base:item/fang_necklace": {"kind": "accessory", "price": 200, "accessory": {"atk": 12, "max_hp": 40}},
 }
 BREAD = ITEMS
 COMPANION = {"atk_base": 12, "atk_per_level": 1, "range_x100": 300, "cooldown_ticks": 60, "speed_x100": 320, "follow_x100": 220}
@@ -327,6 +329,17 @@ def build_scenarios() -> list[dict]:
                     [segment(40, move=(1, 0)), segment(1, do=[{"cmd": "use", "item": "base:item/windleaf_brew"}]), segment(40, move=(1, 0)),
                      segment(60), segment(40, move=(1, 0))],
                     inventory={"base:item/windleaf_brew": 1}), "grid": arena(40, 9)},
+        # An accessory (spec 06, "Equipment"): a third slot; its flat bonuses come last, after the weapon, the armor and the talents. Equipping it again
+        # is refused, and it cannot be sold while it is the only one worn.
+        scenario("accessory_worn", [enemy(3.0, 4.5, hp=3000, **passive)],
+                 [segment(40, attack=True), segment(1, do=[{"cmd": "equip", "item": "base:item/fang_necklace"}, {"cmd": "equip", "item": "base:item/fang_necklace"}]),
+                  segment(40, attack=True)],
+                 inventory={"base:item/fang_necklace": 1}),
+        # Cleanse (spec 06): a draught with `cleanse` ends burn, chill, stun and weaken at once; with none of them it is refused and kept.
+        scenario("cleanse_draught", [enemy(4.2, 4.5, hp=900, atk=30, element="water")],
+                 [segment(1, do=[{"cmd": "use", "item": "base:item/cleansing_draught"}]), segment(150), segment(1, do=[{"cmd": "use", "item": "base:item/cleansing_draught"}]),
+                  segment(60, move=(-1, 0)), segment(100), segment(1, do=[{"cmd": "use", "item": "base:item/cleansing_draught"}]), segment(60, move=(-1, 0))],
+                 inventory={"base:item/cleansing_draught": 3}),
         scenario("companion_follows", [enemy(10.5, 4.5, hp=30, **passive)],
                  [segment(60, move=(1, 0)), segment(60, move=(1, 0)), segment(100), segment(60, move=(0, 1)), segment(100)], companion=COMPANION),
         scenario("equip_changes_stats", [enemy(8.1, 4.5, atk=40)],

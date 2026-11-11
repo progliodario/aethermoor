@@ -157,6 +157,7 @@ struct SaveState {
     std::map<std::string, std::int64_t> inventory;
     std::string equipped_weapon;  // spec 06
     std::string equipped_armor;
+    std::string equipped_accessory;  // spec 06, "Equipment"; empty: none
     StoryState story;
 };
 
@@ -270,6 +271,7 @@ public:
     const ShopDef* shop() const { return m_shop_ ? &*m_shop_ : nullptr; }
     const std::string& equipped_weapon() const { return m_equipped_weapon_; }
     const std::string& equipped_armor() const { return m_equipped_armor_; }
+    const std::string& equipped_accessory() const { return m_equipped_accessory_; }
     // Price of buying / selling an item in the open shop.
     std::int64_t buy_price(const std::string& item_id) const;
     std::int64_t sell_price(const std::string& item_id) const;
@@ -379,6 +381,7 @@ private:
     std::int64_t m_world_ticks_ = 0;
     std::string m_equipped_weapon_;
     std::string m_equipped_armor_;
+    std::string m_equipped_accessory_;
     std::optional<ShopDef> m_shop_;
     std::optional<Board> m_board_;
     std::vector<std::pair<int, int>> m_stones_;

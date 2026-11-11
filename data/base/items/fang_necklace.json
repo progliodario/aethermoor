@@ -1,0 +1,12 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/fang_necklace",
+  "name": "$i18n:item.fang_necklace.name",
+  "description": "$i18n:item.fang_necklace.desc",
+  "kind": "accessory",
+  "rarity": "uncommon",
+  "price": 180,
+  "accessory": {
+    "atk": 6
+  }
+}

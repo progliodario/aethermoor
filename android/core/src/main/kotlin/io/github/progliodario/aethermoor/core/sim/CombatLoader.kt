@@ -283,6 +283,7 @@ fun loadCombatSetup(
                     WeaponStats(it.getValue("atk").jsonPrimitive.long, it.getValue("matk").jsonPrimitive.long, it["element"]?.jsonPrimitive?.content ?: "none")
                 },
                 armor = doc["armor"]?.jsonObject?.let { ArmorStats(it.getValue("def").jsonPrimitive.long, it.getValue("mdef").jsonPrimitive.long) },
+                accessory = doc["accessory"]?.jsonObject?.let { accessoryOf(it) },
             )
         }
 

@@ -1930,7 +1930,8 @@ void bag_use(aether::WorldSim& sim, const Assets& assets, Ui& ui) {
         assets.pack.text(ui.lang, "$i18n:" + item_key(item_id) + ".name", {{"count", std::int64_t{1}}});
     const auto def = sim.combat().items.find(item_id);
     const bool wearable =
-        def != sim.combat().items.end() && (def->second.kind == "weapon" || def->second.kind == "armor");
+        def != sim.combat().items.end() &&
+        (def->second.kind == "weapon" || def->second.kind == "armor" || def->second.kind == "accessory");
     if (wearable && sim.equip(item_id)) {
         notify(ui, assets.pack.text(ui.lang, "$i18n:ui.item_equipped", {{"item", name}}));
     } else if (!wearable && sim.use_item(item_id)) {
@@ -2582,6 +2583,17 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
             {"  " + assets.pack.text(ui.lang, "$i18n:ui.status_purse",
                                      {{"gold", sim.story().gold()}, {"kills", static_cast<std::int64_t>(p.kills)}}),
              2});
+        // what the player wears (spec 06, "Equipment"): weapon, armor and accessory
+        std::string worn;
+        for (const std::string* id : {&sim.equipped_weapon(), &sim.equipped_armor(), &sim.equipped_accessory()}) {
+            if (!id->empty()) {
+                worn += (worn.empty() ? "" : ", ") +
+                        assets.pack.text(ui.lang, "$i18n:" + item_key(*id) + ".name", {{"count", std::int64_t{1}}});
+            }
+        }
+        if (!worn.empty()) {
+            lines.push_back({"  " + assets.pack.text(ui.lang, "$i18n:ui.status_worn", {{"list", worn}}), 2});
+        }
         // what the player ate and drank is still working (spec 06, "Fortify", "Ward", "Regen"): each with its seconds
         // left
         std::string effects;
@@ -3194,7 +3206,8 @@ void draw_inventory_and_notice(SDL_Renderer* renderer, const Assets& assets, con
             const std::string name =
                 assets.pack.text(ui.lang, "$i18n:" + key + ".name", {{"count", static_cast<std::int64_t>(quantity)}});
             std::string line = name + "  x" + std::to_string(quantity);
-            if (item_id == sim.equipped_weapon() || item_id == sim.equipped_armor()) {
+            if (item_id == sim.equipped_weapon() || item_id == sim.equipped_armor() ||
+                item_id == sim.equipped_accessory()) {
                 line += "  " + assets.pack.text(ui.lang, "$i18n:ui.worn");
             }
             if (index == cursor) {

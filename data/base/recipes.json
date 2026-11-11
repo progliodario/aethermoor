@@ -605,6 +605,114 @@
       ]
     },
     {
+      "id": "cleansing_draught",
+      "output": {
+        "item": "base:item/cleansing_draught",
+        "qty": 2
+      },
+      "inputs": [
+        {
+          "item": "base:item/healing_herb",
+          "qty": 2
+        },
+        {
+          "item": "base:item/spore_cap",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/campfire"
+    },
+    {
+      "id": "fang_necklace",
+      "output": {
+        "item": "base:item/fang_necklace",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/wolf_fang",
+          "qty": 4
+        },
+        {
+          "item": "base:item/spider_silk",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "pearl_pendant",
+      "output": {
+        "item": "base:item/pearl_pendant",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/tide_pearl",
+          "qty": 2
+        },
+        {
+          "item": "base:item/pearl_dust",
+          "qty": 2
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "owl_charm",
+      "output": {
+        "item": "base:item/owl_charm",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/owl_feather",
+          "qty": 3
+        },
+        {
+          "item": "base:item/shade_wisp",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "golem_amulet",
+      "output": {
+        "item": "base:item/golem_amulet",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/golem_core",
+          "qty": 1
+        },
+        {
+          "item": "base:item/slate_shard",
+          "qty": 3
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "star_brooch",
+      "output": {
+        "item": "base:item/star_brooch",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/star_dust",
+          "qty": 3
+        },
+        {
+          "item": "base:item/nebula_ash",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
       "id": "fine_iron_sword",
       "output": {
         "item": "base:item/fine_iron_sword",

@@ -43,6 +43,7 @@ The crafting recipes and the props that give materials are tables written by a s
 `tools/make_gathering.py` (the materials and, for each prop art, its drops with a chance and a range, and the ticks it takes to grow back), run the script and the validator. Rules: [spec 06](../spec/06-items.md), "Gathering" and "Crafting".
 
 A dish or a brew can do more than heal: `fortify` (attack, percent, for `ticks`) and `ward` (defense, percent, for `ticks`) in the item's `use.effects` (spec 06, "Fortify" and "Ward").
+An accessory is an item of kind `accessory` with `accessory {atk, matk, def, mdef, max_hp, crit_pm}` (spec 06, "Equipment"); add its recipe in `tools/make_recipes.py` (`AT_ANVIL`).
 Fishing is gathering from a prop that grows on the beaches (`base:art/prop/reeds`, sound `water`); a new kind of fish is a drop of its node in `tools/make_gathering.py`.
 
 ## Game to hunt

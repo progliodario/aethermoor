@@ -1,0 +1,12 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/star_brooch",
+  "name": "$i18n:item.star_brooch.name",
+  "description": "$i18n:item.star_brooch.desc",
+  "kind": "accessory",
+  "rarity": "uncommon",
+  "price": 320,
+  "accessory": {
+    "matk": 8
+  }
+}

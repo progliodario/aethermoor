@@ -62,6 +62,7 @@
   "ui.status_power": "Attack {atk}   Magic {matk}   Defense {def}   Magic defense {mdef}",
   "ui.status_more": "Critical {crit}%   Speed {speed}   Titles +{titles}% attack",
   "ui.status_purse": "Gold {gold}   Creatures defeated {kills}",
+  "ui.status_worn": "Wearing: {list}",
   "ui.status_effects": "Still working: {list}",
   "ui.journal_active": "In progress",
   "ui.journal_done": "Completed",

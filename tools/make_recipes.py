@@ -46,6 +46,13 @@ RECIPES = {
     "ember_brew": ("ember_brew", 1, {"ember_core": 1, "magma_shard": 1, "char_chunk": 1}),
     "starlight_elixir": ("starlight_elixir", 1, {"star_dust": 2, "nebula_ash": 1, "storm_feather": 1}),
     "windleaf_brew": ("windleaf_brew", 1, {"storm_feather": 1, "mint_leaf": 2}),
+    "cleansing_draught": ("cleansing_draught", 2, {"healing_herb": 2, "spore_cap": 1}),
+    # accessories (spec 06, "Equipment"), at an anvil
+    "fang_necklace": ("fang_necklace", 1, {"wolf_fang": 4, "spider_silk": 1}),
+    "pearl_pendant": ("pearl_pendant", 1, {"tide_pearl": 2, "pearl_dust": 2}),
+    "owl_charm": ("owl_charm", 1, {"owl_feather": 3, "shade_wisp": 1}),
+    "golem_amulet": ("golem_amulet", 1, {"golem_core": 1, "slate_shard": 3}),
+    "star_brooch": ("star_brooch", 1, {"star_dust": 3, "nebula_ash": 1}),
     # fine gear, at an anvil (every town has one): the plain piece and materials
     "fine_iron_sword": ("fine_iron_sword", 1, {"iron_sword": 1, "iron_ore": 3, "golem_core": 1}),
     "fine_hand_axe": ("fine_hand_axe", 1, {"hand_axe": 1, "iron_ore": 3, "wood_log": 3}),
@@ -56,9 +63,9 @@ RECIPES = {
 
 
 # the cooked dishes are made next to a campfire (spec 06, "Stations"): Fenwick, Aldermere and every outpost have one
-AT_FIRE = ("hearty_stew", "fish_stew", "royal_feast", "miners_broth", "grilled_fish", "fishermans_stew", "roast_meat", "hunters_stew")
+AT_FIRE = ("hearty_stew", "fish_stew", "royal_feast", "miners_broth", "grilled_fish", "fishermans_stew", "roast_meat", "hunters_stew", "cleansing_draught")
 # the fine gear is made at an anvil
-AT_ANVIL = ("fine_iron_sword", "fine_hand_axe", "fine_pike", "fine_leather_vest", "fine_studded_leather", "hunters_jerkin", "antler_spear", "fox_cloak")
+AT_ANVIL = ("fine_iron_sword", "fine_hand_axe", "fine_pike", "fine_leather_vest", "fine_studded_leather", "hunters_jerkin", "antler_spear", "fox_cloak", "fang_necklace", "pearl_pendant", "owl_charm", "golem_amulet", "star_brooch")
 
 
 def main() -> None:

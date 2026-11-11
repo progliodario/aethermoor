@@ -95,11 +95,21 @@ class ItemDef(
     val stackMax: Int = 0,
     val weapon: WeaponStats? = null,
     val armor: ArmorStats? = null,
+    /** An accessory (spec 06, "Equipment"): flat bonuses while it is worn. */
+    val accessory: AccessoryStats? = null,
 )
 
 class WeaponStats(val atk: Long, val matk: Long, val element: String = "none")
 
 class ArmorStats(val def: Long, val mdef: Long)
+
+class AccessoryStats(val atk: Long = 0, val matk: Long = 0, val def: Long = 0, val mdef: Long = 0, val maxHp: Long = 0, val critPm: Long = 0)
+
+/** The bonuses of an accessory document (`accessory` of an item). */
+fun accessoryOf(o: kotlinx.serialization.json.JsonObject): AccessoryStats {
+    fun n(k: String) = (o[k] as? kotlinx.serialization.json.JsonPrimitive)?.content?.toLongOrNull() ?: 0L
+    return AccessoryStats(n("atk"), n("matk"), n("def"), n("mdef"), n("max_hp"), n("crit_pm"))
+}
 
 /** What a shop sells: prices in permille of the base price. */
 class ShopDef(val pricePm: Int, val stock: List<String>)

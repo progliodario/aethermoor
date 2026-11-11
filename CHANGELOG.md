@@ -19,6 +19,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **A third equipment slot: the accessory** (spec 06, "Equipment"; spec 12; reference, vectors, both clients, scenario `accessory_worn`). Accessories add flat bonuses: the fang necklace (+6 attack), the pearl pendant (+40 health), the owl-feather charm (+6% critical chance), the golem amulet (+5 defense, +3 magic defense), the star brooch (+8 magic). They are made at an anvil and each is sold in one region. Equip them from the bag like weapons and armor; the save keeps the slot.
+- **The cleansing draught** (spec 06, "Cleanse"; a new item effect, scenario `cleanse_draught`): it ends burning, chill, stun and weakness at once and heals a little. Two healing herbs and a spore cap make two at a campfire; four regions sell it. 175 items, 42 recipes.
+- The status window shows what you wear ("Wearing: Iron sword, Leather vest, Fang necklace").
 - **A brew of haste** (spec 06, "Haste"; a new item effect in the reference, the vectors and both clients, scenario `haste_brew`): the windleaf brew (a storm feather and two mint leaves; sold in Lumeria and Verdalis) makes you walk 30% faster for a minute. "Hasted" shows under your level and in the status window.
 - **The game has voices of its own**: the wild boar grunts, the ridge elk bugles, the dune fox yips (twelve new sounds; music and ambience stay off).
 - **Three more titles** (20 in all): Seasoned Forager, Master Artisan, Great Hunter. The journal shows how far you are toward every title you have not earned yet ("??? 3/10").

@@ -110,6 +110,9 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
     }
     j["enemies"] = enemies;
     j["equipped"] = {{"weapon", s.equipped_weapon}, {"armor", s.equipped_armor}};
+    if (!s.equipped_accessory.empty()) {  // written only when one is worn (spec 12)
+        j["equipped"]["accessory"] = s.equipped_accessory;
+    }
     j["world_ticks"] = s.world_ticks;
     if (!s.bestiary.empty()) {
         Json bestiary = Json::object();
@@ -279,6 +282,7 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
         if (j.contains("equipped")) {
             s.equipped_weapon = j.at("equipped").value("weapon", "");
             s.equipped_armor = j.at("equipped").value("armor", "");
+            s.equipped_accessory = j.at("equipped").value("accessory", "");
         } else {
             s.equipped_weapon = "<start>";  // an old save: the starting weapon, no armor
         }

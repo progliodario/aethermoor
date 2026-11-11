@@ -627,9 +627,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val itemId = items[bagCursor.coerceIn(0, items.size - 1)]
         val name = pack.text(language, "\$i18n:${itemId.substringAfter(':').replace('/', '.')}.name", mapOf("count" to 1L))
         val kind = world.combat.items[itemId]?.kind
-        if ((kind == "weapon" || kind == "armor") && world.equip(itemId)) {
+        val wearable = kind == "weapon" || kind == "armor" || kind == "accessory"
+        if (wearable && world.equip(itemId)) {
             showNotice(pack.text(language, "\$i18n:ui.item_equipped", mapOf("item" to name)))
-        } else if (kind != "weapon" && kind != "armor" && world.useItem(itemId)) {
+        } else if (!wearable && world.useItem(itemId)) {
             showNotice(pack.text(language, "\$i18n:ui.item_used", mapOf("item" to name)))
             bagCursor = bagCursor.coerceIn(0, max(world.inventory.size - 1, 0))
         } else {
@@ -1906,6 +1907,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_power", mapOf("atk" to d.atk, "matk" to d.matk, "def" to d.def, "mdef" to d.mdef)), 2))
         entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_more", mapOf("crit" to d.critChancePm / 10, "speed" to d.moveSpeedX100, "titles" to world.titleAttackPct())), 2))
         entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_purse", mapOf("gold" to story.gold, "kills" to p.kills)), 2))
+        // what the player wears (spec 06, "Equipment"): weapon, armor and accessory
+        val worn = listOf(world.equippedWeapon, world.equippedArmor, world.equippedAccessory).filter { it.isNotEmpty() }.joinToString(", ") { itemName(data, it, 1L) }
+        if (worn.isNotEmpty()) entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_worn", mapOf("list" to worn)), 2))
         // what the player ate and drank is still working (spec 06, "Fortify", "Ward", "Regen"): each with its seconds left
         val effects = listOf(p.fortify to "fortify", p.ward to "ward", p.regen to "regen", p.haste to "haste").filter { it.first > 0 }
             .joinToString(", ") { "${data.pack.text(language, "\$i18n:ui.status_${it.second}")} ${(it.first + 59) / 60} s" }
@@ -3192,7 +3196,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 // "base:item/slime_gel" -> text key "item.slime_gel.name"
                 val key = itemId.substringAfter(':').replace('/', '.')
                 val name = data.pack.text(language, "\$i18n:$key.name", mapOf("count" to quantity))
-                val worn = if (itemId == world.equippedWeapon || itemId == world.equippedArmor) "  " + data.pack.text(language, "\$i18n:ui.worn") else ""
+                val worn = if (itemId == world.equippedWeapon || itemId == world.equippedArmor || itemId == world.equippedAccessory) "  " + data.pack.text(language, "\$i18n:ui.worn") else ""
                 if (index == cursor) {
                     selectedKey = key
                     font.color = Color.WHITE

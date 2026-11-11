@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/cleansing_draught",
+  "name": "$i18n:item.cleansing_draught.name",
+  "description": "$i18n:item.cleansing_draught.desc",
+  "kind": "food",
+  "rarity": "common",
+  "price": 45,
+  "stack_max": 99,
+  "use": {
+    "effects": [
+      {
+        "effect": "heal",
+        "amount": 30
+      },
+      {
+        "effect": "cleanse"
+      }
+    ]
+  }
+}

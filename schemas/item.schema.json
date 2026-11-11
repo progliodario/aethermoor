@@ -124,6 +124,37 @@
           "minimum": 0
         }
       }
+    },
+    "accessory": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "an accessory (spec 06, \"Equipment\"): flat bonuses added to the derived stats while it is worn",
+      "properties": {
+        "atk": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "matk": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "def": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "mdef": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_hp": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "crit_pm": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
     }
   },
   "$defs": {

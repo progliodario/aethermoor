@@ -279,6 +279,16 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
                 def.armor_def = item->at("armor").at("def").get<std::int64_t>();
                 def.armor_mdef = item->at("armor").at("mdef").get<std::int64_t>();
             }
+            if (item->contains("accessory")) {
+                const Json& a = item->at("accessory");
+                def.is_accessory = true;
+                def.acc_atk = a.value("atk", static_cast<std::int64_t>(0));
+                def.acc_matk = a.value("matk", static_cast<std::int64_t>(0));
+                def.acc_def = a.value("def", static_cast<std::int64_t>(0));
+                def.acc_mdef = a.value("mdef", static_cast<std::int64_t>(0));
+                def.acc_max_hp = a.value("max_hp", static_cast<std::int64_t>(0));
+                def.acc_crit_pm = a.value("crit_pm", static_cast<std::int64_t>(0));
+            }
             setup.items.emplace(id, std::move(def));
         } catch (const Json::exception& e) {
             error = id + ": " + e.what();

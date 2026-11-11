@@ -81,6 +81,8 @@ data class SaveState(
     /** The item ids worn (spec 06); null: not in the save (the starting weapon, no armor). */
     val equippedWeapon: String? = null,
     val equippedArmor: String = "",
+    /** The accessory worn (spec 06); empty: none, and then not written. */
+    val equippedAccessory: String = "",
     val inventory: Map<String, Long>,
     val story: StoryState,
 )
@@ -180,7 +182,14 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
             )
         }
         put("world_ticks", s.worldTicks)
-        put("equipped", buildJsonObject { put("weapon", s.equippedWeapon ?: ""); put("armor", s.equippedArmor) })
+        put(
+            "equipped",
+            buildJsonObject {
+                put("weapon", s.equippedWeapon ?: "")
+                put("armor", s.equippedArmor)
+                if (s.equippedAccessory.isNotEmpty()) put("accessory", s.equippedAccessory)
+            },
+        )
         if (s.talents.isNotEmpty()) put("talents", buildJsonObject { for ((id, rank) in s.talents) put(id, rank) })
         if (s.counters.isNotEmpty()) put("counters", buildJsonObject { for ((name, count) in s.counters) put(name, count) })
         if (s.bestiary.isNotEmpty()) put("bestiary", buildJsonObject { for ((id, count) in s.bestiary) put(id, count) })
@@ -300,6 +309,7 @@ fun saveFromJson(text: String): Result<SaveState> =
             worldTicks = j["world_ticks"]?.jsonPrimitive?.long ?: -1L,
             equippedWeapon = (j["equipped"] as? JsonObject)?.let { (it["weapon"] as? JsonPrimitive)?.content ?: "" },
             equippedArmor = (j["equipped"] as? JsonObject)?.let { (it["armor"] as? JsonPrimitive)?.content } ?: "",
+            equippedAccessory = (j["equipped"] as? JsonObject)?.let { (it["accessory"] as? JsonPrimitive)?.content } ?: "",
             explored = (j["explored"] as? JsonArray)?.map { c -> Pair(c.jsonArray[0].jsonPrimitive.int, c.jsonArray[1].jsonPrimitive.int) }
                 ?: emptyList(),
             companion = (j["companion"] as? JsonObject)?.let { c -> Triple(c.getValue("x").jsonPrimitive.float, c.getValue("y").jsonPrimitive.float, c.getValue("cooldown").jsonPrimitive.int) },

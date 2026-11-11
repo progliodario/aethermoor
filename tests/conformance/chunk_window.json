@@ -170,7 +170,9 @@
                   "base:item/tonic",
                   "base:item/potion_mana_small",
                   "base:item/roast_meat",
-                  "base:item/windleaf_brew"
+                  "base:item/windleaf_brew",
+                  "base:item/fang_necklace",
+                  "base:item/cleansing_draught"
                 ]
               }
             },
@@ -252,7 +254,8 @@
                   "base:item/potion_mana_small",
                   "base:item/potion_mana_medium",
                   "base:item/roast_meat",
-                  "base:item/hunters_jerkin"
+                  "base:item/hunters_jerkin",
+                  "base:item/owl_charm"
                 ]
               },
               "bias": {
@@ -358,7 +361,8 @@
                   "base:item/potion_mana_small",
                   "base:item/hunters_stew",
                   "base:item/roast_meat",
-                  "base:item/hunters_jerkin"
+                  "base:item/hunters_jerkin",
+                  "base:item/golem_amulet"
                 ]
               },
               "bias": {
@@ -561,7 +565,8 @@
                   "base:item/fish_stew",
                   "base:item/potion_mana_small",
                   "base:item/hunters_stew",
-                  "base:item/antler_spear"
+                  "base:item/antler_spear",
+                  "base:item/cleansing_draught"
                 ]
               },
               "bias": {
@@ -646,7 +651,9 @@
                   "base:item/scale_mail",
                   "base:item/travel_ration",
                   "base:item/fish_stew",
-                  "base:item/roast_meat"
+                  "base:item/roast_meat",
+                  "base:item/pearl_pendant",
+                  "base:item/cleansing_draught"
                 ]
               },
               "bias": {
@@ -751,7 +758,8 @@
                   "base:item/knight_plate",
                   "base:item/royal_feast",
                   "base:item/dragon_scale_vest",
-                  "base:item/hunters_stew"
+                  "base:item/hunters_stew",
+                  "base:item/cleansing_draught"
                 ]
               },
               "bias": {
@@ -895,7 +903,8 @@
                   "base:item/potion_mana_small",
                   "base:item/potion_mana_medium",
                   "base:item/hunters_stew",
-                  "base:item/windleaf_brew"
+                  "base:item/windleaf_brew",
+                  "base:item/star_brooch"
                 ]
               },
               "bias": {
@@ -6581,7 +6590,9 @@
                   "base:item/tonic",
                   "base:item/potion_mana_small",
                   "base:item/roast_meat",
-                  "base:item/windleaf_brew"
+                  "base:item/windleaf_brew",
+                  "base:item/fang_necklace",
+                  "base:item/cleansing_draught"
                 ]
               }
             },
@@ -6663,7 +6674,8 @@
                   "base:item/potion_mana_small",
                   "base:item/potion_mana_medium",
                   "base:item/roast_meat",
-                  "base:item/hunters_jerkin"
+                  "base:item/hunters_jerkin",
+                  "base:item/owl_charm"
                 ]
               },
               "bias": {
@@ -6769,7 +6781,8 @@
                   "base:item/potion_mana_small",
                   "base:item/hunters_stew",
                   "base:item/roast_meat",
-                  "base:item/hunters_jerkin"
+                  "base:item/hunters_jerkin",
+                  "base:item/golem_amulet"
                 ]
               },
               "bias": {
@@ -6972,7 +6985,8 @@
                   "base:item/fish_stew",
                   "base:item/potion_mana_small",
                   "base:item/hunters_stew",
-                  "base:item/antler_spear"
+                  "base:item/antler_spear",
+                  "base:item/cleansing_draught"
                 ]
               },
               "bias": {
@@ -7057,7 +7071,9 @@
                   "base:item/scale_mail",
                   "base:item/travel_ration",
                   "base:item/fish_stew",
-                  "base:item/roast_meat"
+                  "base:item/roast_meat",
+                  "base:item/pearl_pendant",
+                  "base:item/cleansing_draught"
                 ]
               },
               "bias": {
@@ -7162,7 +7178,8 @@
                   "base:item/knight_plate",
                   "base:item/royal_feast",
                   "base:item/dragon_scale_vest",
-                  "base:item/hunters_stew"
+                  "base:item/hunters_stew",
+                  "base:item/cleansing_draught"
                 ]
               },
               "bias": {
@@ -7306,7 +7323,8 @@
                   "base:item/potion_mana_small",
                   "base:item/potion_mana_medium",
                   "base:item/hunters_stew",
-                  "base:item/windleaf_brew"
+                  "base:item/windleaf_brew",
+                  "base:item/star_brooch"
                 ]
               },
               "bias": {
