@@ -43,7 +43,7 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 - Otto regioni con terreno, creature, negozi e modo di parlare propri; giorno e notte, quattro stagioni, meteo.
 - Circa 130 insediamenti, 44 luoghi fatti a mano (sotterranei con guardiano, tane, nidi, avamposti con un viandante e la sua storia), e due paesi scritti a mano: **Fenwick**, il villaggio dove cominci, e **Aldermere**, la città della gilda madre, con persone che hanno un nome e missioni proprie.
 - Pietre della Soglia per curarsi e viaggiare fra i posti già visitati.
-- Mappa del mondo con zoom, meta da segnare e mini mappa; si scopre la terra in un quadrato di 5 x 5 celle (640 caselle) intorno a te.
+- Mappa del mondo con zoom, meta da segnare e mini mappa, e ogni missione mette la sua meta (il luogo dove andare, segnato in arancione); si scopre la terra in un quadrato di 5 x 5 celle (640 caselle) intorno a te.
 
 **Combattimento**
 
@@ -55,7 +55,7 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 
 **Vita e progressione**
 
-- Gilda degli avventurieri con bacheca e commissioni, 214 missioni, negozi, locande, lavori degli anziani.
+- Gilda degli avventurieri con bacheca e commissioni, 222 missioni, negozi, locande, lavori degli anziani.
 - 157 oggetti; raccolta da cespugli, alberi, rocce e cactus; 28 ricette (pozioni, infusi ed elisir delle regioni, piatti cucinati al fuoco, equipaggiamento, ed equipaggiamento pregiato all'incudine delle città).
 - Un compagno per protagonista: ti segue, combatte, resta dove gli dici, e il suo legame cresce con le sue vittorie.
 - Titoli del modo di giocare che cambiano il gioco: il Raccoglitore trova di più, l'Artigiano crea di più, la Guardia incrollabile para più a lungo, il Veterano guadagna più esperienza.
@@ -190,7 +190,7 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 
 - **Prima la specifica**, poi riferimento, vettori, desktop e Android nella stessa modifica.
 - **Tutto è dato**: niente nomi, testi o numeri nel codice; ogni testo in italiano **e** inglese.
-- **PR piccole**, una cosa per volta, unite solo con la CI verde.
+- **PR grandi**: a ogni richiesta del proprietario Claude porta avanti **molte** voci della roadmap insieme e le spedisce in una PR sola, unita solo con la CI verde.
 - Le decisioni di design (storia, tono, bilanciamento) sono delegate a Claude; quelle di pubblicazione e di gestione del repository restano al proprietario.
 - Le prove in gioco, su Windows, Linux e Android, le fa il proprietario.
 

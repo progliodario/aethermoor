@@ -205,7 +205,23 @@ stage journal text and kill/collect progress as `current/total`.
 
 ## Places
 
-A quest stage may have `place`: the ID of a landmark of the world data (spec 09) that the stage sends the player to. It is not a rule of the simulation: when the stage is the current one of a quest in
-progress, the player has no goal on the map and the stage has not done it before in this session, the client puts the goal of the map (spec 09, "The map view") on that landmark and says so
-(`ui.goal_quest`). A goal the player set is never moved. `tools/set_quest_places.py` gives every stage that asks to defeat a guardian the place of that guardian (54 quests of the base pack); the generators of
-quests run it.
+Every quest stage sends the player somewhere. This is not a rule of the simulation (nothing here changes the state or the vectors): it is how the clients guide, and both find the place the same way,
+for the current stage of each quest in progress, in this order:
+
+1. `place`, when the stage has it: the ID of a landmark of the world data (spec 09). `tools/set_quest_places.py` gives every stage that asks to defeat a guardian the place of its lair (62 quests of the
+   base pack); the generators of quests run it.
+2. Else the first objective that tells where, in the order of the objectives:
+   - **talk**: the person to talk to (a person of the story data, or a person of a settlement), where they stand;
+   - **kill** or **collect**: the creatures that are the target, or that drop the item asked for (the drops of the enemies of the world and of the fauna of every region); the nearest landmark
+     whose stamp has a spawner of one of them; else the nearest outpost (a landmark of kind `hamlet`) in a region whose fauna has one of them.
+3. Else the nearest outpost: it covers what grows anywhere (berries, wood, ore).
+
+"Nearest" is measured from the player, in tiles (squared distance, the first in the order of the data on a tie). The name shown is the landmark's name, the person's name, or `speaker.<key>`.
+
+The clients use the place three times:
+
+- **The goal of the map** (spec 09, "The map view"): when the player has no goal, the first quest whose current stage has not done it before in this session puts the goal there and says so
+  (`ui.goal_quest`). A goal the player set is never moved, and each stage does it once.
+- **The quest tracker and the journal** show a line under each quest in progress: `ui.quest_place` ("Go to: Mint Hollow").
+- **Choosing the quest**: `Q` on the map (the [Quest] button on Android) moves the goal, and the view, to the place of the next quest in progress, in the order of the quests; with none it says `ui.no_quest_place`.
+- **The map view** draws an orange square on the place of every quest in progress, kept inside the view, with its key (`ui.map_key_quest`).

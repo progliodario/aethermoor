@@ -88,7 +88,7 @@
       "when": {
         "flag": "town_ashen_char_thanked"
       },
-      "then": "after",
+      "then": "c2",
       "else": "thanks1"
     },
     "thanks1": {
@@ -137,6 +137,78 @@
             {
               "effect": "start_quest",
               "quest": "base:quest/side/ashen_char"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/ashen_tyrant"
+      },
+      "then": "t2",
+      "else": "a2"
+    },
+    "t2": {
+      "type": "condition",
+      "when": {
+        "flag": "town_ashen_tyrant_thanked"
+      },
+      "then": "after",
+      "else": "thanks2"
+    },
+    "thanks2": {
+      "type": "say",
+      "speaker": "outpost_smith_grael",
+      "text": "$i18n:dlg.town.grael.ashen_tyrant.thanks",
+      "next": "flag2"
+    },
+    "flag2": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_ashen_tyrant_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a2": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/ashen_tyrant"
+      },
+      "then": "busy2",
+      "else": "offer2"
+    },
+    "busy2": {
+      "type": "say",
+      "speaker": "outpost_smith_grael",
+      "text": "$i18n:dlg.town.grael.ashen_tyrant.busy",
+      "next": "end"
+    },
+    "offer2": {
+      "type": "say",
+      "speaker": "outpost_smith_grael",
+      "text": "$i18n:dlg.town.grael.ashen_tyrant.offer",
+      "next": "choice2"
+    },
+    "choice2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/ashen_tyrant"
             }
           ],
           "next": "end"

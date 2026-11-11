@@ -32,7 +32,7 @@ open a panel, save, load. While a dialogue is open the movement and the attack o
 | Guild board | opened by the dialogue with a guild clerk; `W`/`S` move, `E`/`Enter` accept the work, `Esc` closes |
 | Threshold Stones | `E` next to a stone: wakes it and heals; the list of woken stones opens: `W`/`S` move, `E`/`Enter` travel, `Esc` closes |
 | Journal | `Q` opens and closes it; `W`/`S` scroll |
-| World map | `M` opens and closes it; open: `+`/`-` (or `=`) and the mouse wheel zoom, `W A S D` or the arrows and dragging with the left button move the view, `P` marks the goal at the center of the view (a right click at the pointer), `X` removes it, `Tab` jumps to the next place found, `C` goes back to the player, `0` or `Home` frames all that was explored (spec 09, "The map view") |
+| World map | `M` opens and closes it; open: `+`/`-` (or `=`) and the mouse wheel zoom, `W A S D` or the arrows and dragging with the left button move the view, `P` marks the goal at the center of the view (a right click at the pointer), `X` removes it, `Tab` jumps to the next place found, `Q` puts the goal on the place of the next quest in progress (spec 07, "Places"; the [Quest] button on Android), `C` goes back to the player, `0` or `Home` frames all that was explored (spec 09, "The map view") |
 | Language | `F2` switches between Italian and English at any time |
 | Saves | `F5` quick save, `F9` quick load, `F7` new game (a new world in the same game) |
 | Small map | `N` shows or hides the small map in the corner |

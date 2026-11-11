@@ -88,7 +88,7 @@
       "when": {
         "flag": "town_frostveil_polar_thanked"
       },
-      "then": "after",
+      "then": "c2",
       "else": "thanks1"
     },
     "thanks1": {
@@ -137,6 +137,78 @@
             {
               "effect": "start_quest",
               "quest": "base:quest/side/frostveil_polar"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/frostveil_king"
+      },
+      "then": "t2",
+      "else": "a2"
+    },
+    "t2": {
+      "type": "condition",
+      "when": {
+        "flag": "town_frostveil_king_thanked"
+      },
+      "then": "after",
+      "else": "thanks2"
+    },
+    "thanks2": {
+      "type": "say",
+      "speaker": "outpost_sculptor_henrik",
+      "text": "$i18n:dlg.town.henrik.frostveil_king.thanks",
+      "next": "flag2"
+    },
+    "flag2": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_frostveil_king_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a2": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/frostveil_king"
+      },
+      "then": "busy2",
+      "else": "offer2"
+    },
+    "busy2": {
+      "type": "say",
+      "speaker": "outpost_sculptor_henrik",
+      "text": "$i18n:dlg.town.henrik.frostveil_king.busy",
+      "next": "end"
+    },
+    "offer2": {
+      "type": "say",
+      "speaker": "outpost_sculptor_henrik",
+      "text": "$i18n:dlg.town.henrik.frostveil_king.offer",
+      "next": "choice2"
+    },
+    "choice2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/frostveil_king"
             }
           ],
           "next": "end"

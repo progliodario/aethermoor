@@ -122,6 +122,7 @@ struct Ui {
     mutable int mini_ox = 0;  // the tile of the top left sample
     mutable int mini_oy = 0;
     mutable int map_pick = -1;   // the place the view last jumped to (Tab), in order of distance
+    int quest_pick = -1;         // the quest whose place the goal was last moved to (Q), in the order of the quests
     int last_region = -1;        // the region the player was in, to say the name when it changes
     mutable int map_level = -1;  // -1: frame what was explored when the map is drawn next
     mutable float map_cx = 0.0F;
@@ -895,6 +896,137 @@ void fill_map_rect(SDL_Renderer* renderer, const MapGeometry& g, float x, float 
     }
 }
 
+// Where a quest stage sends the player (spec 07, "Places"): the landmark of its `place`; else, for its first objective,
+// the person to talk to, the nearest dungeon or lair whose creatures are the target (or drop the item asked for), the
+// nearest outpost of a region whose creatures are the target, and at last the nearest outpost. The label is a name or a
+// text key.
+struct QuestPlace {
+    float x = 0.0F;
+    float y = 0.0F;
+    std::string label;
+};
+
+std::optional<QuestPlace> quest_place(const aether::WorldSim& sim, const aether::QuestStage& stage) {
+    const aether::ChunkStore* store = sim.chunks();
+    if (store == nullptr) {
+        return std::nullopt;
+    }
+    const aether::WorldParams& params = store->params();
+    const int cx = params.width / 2;
+    const int cy = params.height / 2;
+    const float px = sim.player().position.x;
+    const float py = sim.player().position.y;
+    const auto at = [&](const aether::WorldParams::Landmark& l) {
+        return QuestPlace{static_cast<float>(cx + l.dx), static_cast<float>(cy + l.dy), l.name};
+    };
+    const auto distance2 = [&](const aether::WorldParams::Landmark& l) {
+        const float dx = static_cast<float>(cx + l.dx) - px;
+        const float dy = static_cast<float>(cy + l.dy) - py;
+        return dx * dx + dy * dy;
+    };
+    if (!stage.place.empty()) {
+        for (const auto& l : params.landmarks) {
+            if (l.id == stage.place) {
+                return at(l);
+            }
+        }
+    }
+    std::set<std::string> wanted;  // the creatures that are the target, or that drop it
+    for (const aether::Objective& o : stage.objectives) {
+        if (o.kind == aether::Objective::Kind::Talk) {
+            for (const std::vector<aether::NpcDef>* list : {&sim.story().setup().npcs, &sim.story().dynamic_npcs()}) {
+                for (const aether::NpcDef& npc : *list) {
+                    if (npc.key == o.target) {
+                        return QuestPlace{npc.x, npc.y, npc.name.empty() ? "$i18n:speaker." + npc.key : npc.name};
+                    }
+                }
+            }
+        } else if (o.kind == aether::Objective::Kind::Kill) {
+            wanted.insert(o.target);
+        } else {
+            for (const auto& [id, def] : sim.combat().stream_enemies) {
+                for (const aether::DropDef& drop : def.drops) {
+                    if (drop.item == o.target) {
+                        wanted.insert(id);
+                    }
+                }
+            }
+            for (const aether::Region& region : params.regions) {
+                for (const aether::FaunaEntry& f : region.fauna) {
+                    if (f.drop == o.target) {
+                        wanted.insert(f.enemy);
+                    }
+                }
+            }
+        }
+    }
+    const aether::WorldParams::Landmark* best = nullptr;
+    for (const auto& l : params.landmarks) {  // a dungeon or lair whose creatures are wanted
+        const auto stamp = params.stamps.find(l.stamp);
+        if (stamp == params.stamps.end()) {
+            continue;
+        }
+        bool spawns = false;
+        for (const auto& [ch, entry] : stamp->second.legend) {
+            if (!entry.spawner.empty() && wanted.count(entry.spawner) != 0) {
+                for (const std::string& row : stamp->second.rows) {
+                    spawns = spawns || row.find(ch) != std::string::npos;
+                }
+            }
+        }
+        if (spawns && (best == nullptr || distance2(l) < distance2(*best))) {
+            best = &l;
+        }
+    }
+    if (best == nullptr) {  // an outpost of a region whose creatures are wanted
+        for (const auto& l : params.landmarks) {
+            if (l.kind != "hamlet") {
+                continue;
+            }
+            const aether::Region& region =
+                params.regions[static_cast<std::size_t>(aether::region_at(params, cx + l.dx, cy + l.dy))];
+            bool lives = false;
+            for (const aether::FaunaEntry& f : region.fauna) {
+                lives = lives || wanted.count(f.enemy) != 0;
+            }
+            if (lives && (best == nullptr || distance2(l) < distance2(*best))) {
+                best = &l;
+            }
+        }
+    }
+    if (best == nullptr) {  // something that grows anywhere: the nearest outpost
+        for (const auto& l : params.landmarks) {
+            if (l.kind == "hamlet" && (best == nullptr || distance2(l) < distance2(*best))) {
+                best = &l;
+            }
+        }
+    }
+    if (best == nullptr) {
+        return std::nullopt;
+    }
+    return at(*best);
+}
+
+// The words of a quest place: a text key is looked up, a name (of a landmark or a person) is shown as it is.
+std::string place_label(const Assets& assets, const Ui& ui, const std::string& label) {
+    return label.rfind("$i18n:", 0) == 0 ? assets.pack.text(ui.lang, label) : label;
+}
+
+// The stage in progress of a quest, or nullptr.
+const aether::QuestStage* current_stage(const aether::Story& story, const std::string& quest_id,
+                                        const std::string& stage_id) {
+    const auto def = story.setup().quests.find(quest_id);
+    if (def == story.setup().quests.end()) {
+        return nullptr;
+    }
+    for (const aether::QuestStage& s : def->second.stages) {
+        if (s.id == stage_id) {
+            return &s;
+        }
+    }
+    return nullptr;
+}
+
 void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w,
                     int out_h, float density) {
     const aether::ChunkStore* store = sim.chunks();
@@ -1121,6 +1253,23 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
     fill_rect(renderer, dx - ps / 2.0F - 2.0F, dy - ps / 2.0F - 2.0F, ps + 4.0F, ps + 4.0F, 255, 255, 255, 255);
     fill_rect(renderer, dx - ps / 2.0F, dy - ps / 2.0F, ps, ps, 255, off ? 150 : 50, off ? 40 : 50, 255);
 
+    for (const auto& [quest_id, progress] : sim.story().quests()) {  // where the quests in progress go: orange squares
+        const aether::QuestStage* stage =
+            progress.done ? nullptr : current_stage(sim.story(), quest_id, progress.stage);
+        const std::optional<QuestPlace> place =
+            stage == nullptr ? std::optional<QuestPlace>{} : quest_place(sim, *stage);
+        if (!place) {
+            continue;
+        }
+        const float qx =
+            std::clamp(g.to_x(place->x / static_cast<float>(aether::kMapCell)), g.x + margin, g.x + g.side - margin);
+        const float qy =
+            std::clamp(g.to_y(place->y / static_cast<float>(aether::kMapCell)), g.y + margin, g.y + g.side - margin);
+        fill_rect(renderer, qx - 4.0F * density - 2.0F, qy - 4.0F * density - 2.0F, 8.0F * density + 4.0F,
+                  8.0F * density + 4.0F, 20, 20, 30, 255);
+        fill_rect(renderer, qx - 4.0F * density, qy - 4.0F * density, 8.0F * density, 8.0F * density, 255, 160, 60,
+                  255);
+    }
     if (ui.has_goal) {  // the goal: a green square, and a line from the player, both kept inside the view
         const float gx =
             std::clamp(g.to_x(ui.goal_x / static_cast<float>(aether::kMapCell)), g.x + margin, g.x + g.side - margin);
@@ -1163,6 +1312,7 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
     key(205, 120, 255, "$i18n:ui.map_key_site");
     key(140, 255, 235, "$i18n:ui.map_key_stone");
     key(90, 255, 120, "$i18n:ui.map_key_goal");
+    key(255, 160, 60, "$i18n:ui.map_key_quest");
 }
 
 // The lights at night (spec 08, "Lights"): a soft glow around every prop of the lights table, as strong as the night is
@@ -1864,6 +2014,31 @@ void map_next_place(const aether::WorldSim& sim, Ui& ui) {
     notify(ui, *place.name);
 }
 
+// Q on the map: the goal goes to the place of the next quest in progress, and the view with it (spec 07, "Places").
+void map_next_quest(const aether::WorldSim& sim, const Assets& assets, Ui& ui) {
+    std::vector<QuestPlace> places;
+    for (const auto& [quest_id, progress] : sim.story().quests()) {
+        const aether::QuestStage* stage =
+            progress.done ? nullptr : current_stage(sim.story(), quest_id, progress.stage);
+        if (stage != nullptr) {
+            if (auto place = quest_place(sim, *stage)) {
+                places.push_back(*place);
+            }
+        }
+    }
+    if (places.empty()) {
+        notify(ui, assets.pack.text(ui.lang, "$i18n:ui.no_quest_place"));
+        return;
+    }
+    ui.quest_pick = (ui.quest_pick + 1) % static_cast<int>(places.size());
+    const QuestPlace& place = places[static_cast<std::size_t>(ui.quest_pick)];
+    set_goal(sim, assets, ui, place.x / static_cast<float>(aether::kMapCell),
+             place.y / static_cast<float>(aether::kMapCell));
+    ui.map_cx = place.x / static_cast<float>(aether::kMapCell);
+    ui.map_cy = place.y / static_cast<float>(aether::kMapCell);
+    notify(ui, assets.pack.text(ui.lang, "$i18n:ui.goal_quest", {{"place", place_label(assets, ui, place.label)}}));
+}
+
 // The keys of the world map (spec 16): zoom, move the view, back to the player, frame everything explored.
 void handle_map_key(const aether::WorldSim& sim, const Assets& assets, Ui& ui, SDL_Keycode key) {
     const float step = ui.map_view_cells / 6.0F;
@@ -1881,6 +2056,8 @@ void handle_map_key(const aether::WorldSim& sim, const Assets& assets, Ui& ui, S
         map_pan(sim, ui, step, 0.0F);
     } else if (key == SDLK_TAB) {
         map_next_place(sim, ui);
+    } else if (key == SDLK_Q) {
+        map_next_quest(sim, assets, ui);
     } else if (key == SDLK_P) {
         set_goal(sim, assets, ui, ui.map_cx, ui.map_cy);
     } else if (key == SDLK_X) {
@@ -2073,6 +2250,14 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
         }
         SDL_SetRenderDrawColor(renderer, 111, 227, 255, 255);
         outlined_text(renderer, x, y, dialogue_text(assets.pack, ui.lang, def.name, def.args).c_str());
+        if (const auto place = quest_place(sim, *stage)) {  // where it sends the player (spec 07, "Places")
+            y += 12.0F;
+            SDL_SetRenderDrawColor(renderer, 255, 180, 90, 255);
+            outlined_text(
+                renderer, x, y,
+                assets.pack.text(ui.lang, "$i18n:ui.quest_place", {{"place", place_label(assets, ui, place->label)}})
+                    .c_str());
+        }
         y += 14.0F;
         SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
         for (const std::string& wrapped :
@@ -2309,6 +2494,11 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
                         {"  " + std::to_string(progress.progress[i]) + "/" + std::to_string(stage->objectives[i].count),
                          2});
                 }
+            }
+            if (const auto place = quest_place(sim, *stage)) {  // where it sends the player (spec 07, "Places")
+                lines.push_back({"  " + assets.pack.text(ui.lang, "$i18n:ui.quest_place",
+                                                         {{"place", place_label(assets, ui, place->label)}}),
+                                 2});
             }
             lines.push_back({"", 2});
         }
@@ -4119,29 +4309,20 @@ int main(int argc, char** argv) {
                     --ui.message_frames;
                 }
                 since_autosave += frame_seconds;
-                // A quest stage with a place sets the goal there once, when the player has none (spec 07, "Places").
+                // Every quest stage sets the goal of the map once, when the player has none (spec 07, "Places").
                 if (!ui.has_goal && sim.chunks() != nullptr) {
                     for (const auto& [quest_id, progress] : sim.story().quests()) {
-                        const auto def = sim.story().setup().quests.find(quest_id);
-                        if (progress.done || def == sim.story().setup().quests.end()) {
+                        const aether::QuestStage* stage = current_stage(sim.story(), quest_id, progress.stage);
+                        const std::string key = quest_id + "/" + progress.stage;
+                        if (progress.done || stage == nullptr || ui.guided.count(key) != 0) {
                             continue;
                         }
-                        for (const aether::QuestStage& stage : def->second.stages) {
-                            const std::string key = quest_id + "/" + stage.id;
-                            if (stage.id != progress.stage || stage.place.empty() || ui.guided.count(key) != 0) {
-                                continue;
-                            }
-                            ui.guided.insert(key);
-                            const aether::WorldParams& params = sim.chunks()->params();
-                            for (const auto& landmark : params.landmarks) {
-                                if (landmark.id == stage.place) {
-                                    set_goal(sim, assets, ui,
-                                             static_cast<float>(params.width / 2 + landmark.dx) / aether::kMapCell,
-                                             static_cast<float>(params.height / 2 + landmark.dy) / aether::kMapCell);
-                                    notify(ui, assets.pack.text(ui.lang, "$i18n:ui.goal_quest",
-                                                                {{"place", landmark.name}}));
-                                }
-                            }
+                        ui.guided.insert(key);
+                        if (const auto place = quest_place(sim, *stage)) {
+                            set_goal(sim, assets, ui, place->x / aether::kMapCell, place->y / aether::kMapCell);
+                            notify(ui, assets.pack.text(ui.lang, "$i18n:ui.goal_quest",
+                                                        {{"place", place_label(assets, ui, place->label)}}));
+                            break;
                         }
                     }
                 }

@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/sunscar_mother",
+  "name": "$i18n:quest.sunscar_mother.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.sunscar_mother.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/dune_mother",
+          "count": 1
+        }
+      ],
+      "next": "end",
+      "place": "sunscar_dune"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 1080
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1350
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 54
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/desert_nectar",
+      "qty": 3
+    }
+  ]
+}

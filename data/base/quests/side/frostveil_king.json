@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/frostveil_king",
+  "name": "$i18n:quest.frostveil_king.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.frostveil_king.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/polar_king",
+          "count": 1
+        }
+      ],
+      "next": "end",
+      "place": "frostveil_rookery"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 1350
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1650
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 67
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/frost_tonic",
+      "qty": 3
+    }
+  ]
+}

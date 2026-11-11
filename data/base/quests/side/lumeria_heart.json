@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/lumeria_heart",
+  "name": "$i18n:quest.lumeria_heart.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.lumeria_heart.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/nebula_heart",
+          "count": 1
+        }
+      ],
+      "next": "end",
+      "place": "lumeria_pool"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 1350
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1650
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 67
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/starlight_elixir",
+      "qty": 2
+    }
+  ]
+}
