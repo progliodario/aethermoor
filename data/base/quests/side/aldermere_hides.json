@@ -1,0 +1,39 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/aldermere_hides",
+  "name": "$i18n:quest.aldermere_hides.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.aldermere_hides.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/boar_hide",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 300
+    },
+    {
+      "effect": "add_gold",
+      "amount": 360
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 20
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/hunters_stew",
+      "qty": 2
+    }
+  ]
+}

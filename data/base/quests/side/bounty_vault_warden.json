@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/bounty_vault_warden",
+  "name": "$i18n:quest.bounty_vault_warden.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.bounty_vault_warden.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/vault_warden",
+          "count": 1
+        }
+      ],
+      "next": "end",
+      "place": "ashen_vault"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 1600
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1800
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 80
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/ember_brew",
+      "qty": 2
+    }
+  ]
+}

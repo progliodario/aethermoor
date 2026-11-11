@@ -2195,7 +2195,8 @@
                   "base:item/travel_ration",
                   "base:item/potion_mana_small",
                   "base:item/potion_mana_medium",
-                  "base:item/roast_meat"
+                  "base:item/roast_meat",
+                  "base:item/hunters_jerkin"
                 ]
               },
               "bias": {
@@ -2300,7 +2301,8 @@
                   "base:item/splint_mail",
                   "base:item/potion_mana_small",
                   "base:item/hunters_stew",
-                  "base:item/roast_meat"
+                  "base:item/roast_meat",
+                  "base:item/hunters_jerkin"
                 ]
               },
               "bias": {
@@ -2375,6 +2377,11 @@
                   "enemy": "base:enemy/dune_scorpion",
                   "drop": "base:item/scorpion_sting",
                   "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/dune_fox",
+                  "drop": "base:item/fox_pelt",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -2389,7 +2396,8 @@
                   "base:item/saber",
                   "base:item/studded_leather",
                   "base:item/fish_stew",
-                  "base:item/grilled_fish"
+                  "base:item/grilled_fish",
+                  "base:item/fox_cloak"
                 ]
               },
               "bias": {
@@ -2496,7 +2504,8 @@
                   "base:item/splint_mail",
                   "base:item/fish_stew",
                   "base:item/potion_mana_small",
-                  "base:item/hunters_stew"
+                  "base:item/hunters_stew",
+                  "base:item/antler_spear"
                 ]
               },
               "bias": {
@@ -2665,6 +2674,11 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/dune_fox",
+                  "drop": "base:item/fox_pelt",
                   "weight": 2
                 }
               ],
@@ -8595,50 +8609,50 @@
             15022,
             7790,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
           ],
           [
             15093,
             7777,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/dune_fox",
+            "base:item/fox_pelt"
           ],
           [
             15134,
             7805,
             6,
-            "base:enemy/slime_char",
-            "base:item/char_chunk"
+            "base:enemy/dune_scorpion",
+            "base:item/scorpion_sting"
           ],
           [
             15162,
             7806,
             6,
-            "base:enemy/slime_magma",
-            "base:item/magma_shard"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             15034,
             7824,
             6,
-            "base:enemy/wisp",
-            "base:item/wisp_ember"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             15039,
             7826,
             6,
-            "base:enemy/slime_char",
-            "base:item/char_chunk"
+            "base:enemy/dune_fox",
+            "base:item/fox_pelt"
           ],
           [
             15136,
             7832,
             6,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             15094,
@@ -8658,22 +8672,22 @@
             15119,
             7854,
             6,
-            "base:enemy/slime_char",
-            "base:item/char_chunk"
+            "base:enemy/stone_golem",
+            "base:item/golem_core"
           ],
           [
             15098,
             7889,
             6,
-            "base:enemy/slime_magma",
-            "base:item/magma_shard"
+            "base:enemy/dune_fox",
+            "base:item/fox_pelt"
           ],
           [
             15143,
             7891,
             6,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             7808,
@@ -9323,8 +9337,8 @@
             13422,
             11850,
             3,
-            "base:enemy/dune_scorpion",
-            "base:item/scorpion_sting"
+            "base:enemy/slime_amber",
+            "base:item/amber_drop"
           ],
           [
             13425,
@@ -9344,8 +9358,8 @@
             13443,
             11847,
             3,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_amber",
+            "base:item/amber_drop"
           ],
           [
             13448,
@@ -9505,22 +9519,22 @@
             13464,
             11905,
             3,
-            "base:enemy/slime_green",
+            "base:enemy/slime_sand",
             "base:item/slime_gel"
           ],
           [
             13467,
             11931,
             3,
-            "base:enemy/wolf_dune",
-            "base:item/dune_pelt"
+            "base:enemy/slime_amber",
+            "base:item/amber_drop"
           ],
           [
             13440,
             11935,
             3,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_dune",
+            "base:item/dune_pelt"
           ],
           [
             7813,
@@ -10310,15 +10324,15 @@
             14950,
             7780,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_char",
+            "base:item/char_chunk"
           ],
           [
             14952,
             7826,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             14951,
@@ -14090,7 +14104,8 @@
                   "base:item/travel_ration",
                   "base:item/potion_mana_small",
                   "base:item/potion_mana_medium",
-                  "base:item/roast_meat"
+                  "base:item/roast_meat",
+                  "base:item/hunters_jerkin"
                 ]
               },
               "bias": {
@@ -14195,7 +14210,8 @@
                   "base:item/splint_mail",
                   "base:item/potion_mana_small",
                   "base:item/hunters_stew",
-                  "base:item/roast_meat"
+                  "base:item/roast_meat",
+                  "base:item/hunters_jerkin"
                 ]
               },
               "bias": {
@@ -14270,6 +14286,11 @@
                   "enemy": "base:enemy/dune_scorpion",
                   "drop": "base:item/scorpion_sting",
                   "weight": 3
+                },
+                {
+                  "enemy": "base:enemy/dune_fox",
+                  "drop": "base:item/fox_pelt",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -14284,7 +14305,8 @@
                   "base:item/saber",
                   "base:item/studded_leather",
                   "base:item/fish_stew",
-                  "base:item/grilled_fish"
+                  "base:item/grilled_fish",
+                  "base:item/fox_cloak"
                 ]
               },
               "bias": {
@@ -14391,7 +14413,8 @@
                   "base:item/splint_mail",
                   "base:item/fish_stew",
                   "base:item/potion_mana_small",
-                  "base:item/hunters_stew"
+                  "base:item/hunters_stew",
+                  "base:item/antler_spear"
                 ]
               },
               "bias": {
@@ -14560,6 +14583,11 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/dune_fox",
+                  "drop": "base:item/fox_pelt",
                   "weight": 2
                 }
               ],
@@ -20420,29 +20448,29 @@
             13189,
             11873,
             3,
-            "base:enemy/slime_green",
+            "base:enemy/slime_sand",
             "base:item/slime_gel"
           ],
           [
             13209,
             11884,
             3,
-            "base:enemy/slime_amber",
-            "base:item/amber_drop"
+            "base:enemy/slime_sand",
+            "base:item/slime_gel"
           ],
           [
             13237,
             11895,
             3,
-            "base:enemy/wolf_dune",
-            "base:item/dune_pelt"
+            "base:enemy/slime_sand",
+            "base:item/slime_gel"
           ],
           [
             13226,
             11903,
             3,
-            "base:enemy/slime_amber",
-            "base:item/amber_drop"
+            "base:enemy/wolf_dune",
+            "base:item/dune_pelt"
           ],
           [
             7309,
@@ -20574,50 +20602,50 @@
             15012,
             7808,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/slime_char",
+            "base:item/char_chunk"
           ],
           [
             15121,
             7810,
             6,
-            "base:enemy/slime_magma",
-            "base:item/magma_shard"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             15118,
             7831,
             6,
-            "base:enemy/slime_char",
-            "base:item/char_chunk"
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
           ],
           [
             15008,
             7864,
             6,
-            "base:enemy/slime_magma",
-            "base:item/magma_shard"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             15018,
             7881,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
           ],
           [
             15099,
             7907,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             15123,
             7911,
             6,
-            "base:enemy/slime_char",
-            "base:item/char_chunk"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             7809,
@@ -21421,22 +21449,22 @@
             13462,
             11900,
             3,
-            "base:enemy/wolf_dune",
-            "base:item/dune_pelt"
+            "base:enemy/dune_fox",
+            "base:item/fox_pelt"
           ],
           [
             13418,
             11923,
             3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
+            "base:enemy/dune_scorpion",
+            "base:item/scorpion_sting"
           ],
           [
             13409,
             11927,
             3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
+            "base:enemy/slime_amber",
+            "base:item/amber_drop"
           ],
           [
             7813,
@@ -21666,15 +21694,15 @@
             15256,
             7805,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             15228,
             7812,
             6,
-            "base:enemy/dune_scorpion",
-            "base:item/scorpion_sting"
+            "base:enemy/slime_char",
+            "base:item/char_chunk"
           ],
           [
             12904,
@@ -21785,8 +21813,8 @@
             14982,
             8046,
             6,
-            "base:enemy/dune_scorpion",
-            "base:item/scorpion_sting"
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
           ],
           [
             14982,
@@ -22289,22 +22317,22 @@
             14952,
             7825,
             6,
-            "base:enemy/stone_golem",
-            "base:item/golem_core"
+            "base:enemy/dune_scorpion",
+            "base:item/scorpion_sting"
           ],
           [
             14978,
             7825,
             6,
-            "base:enemy/slime_char",
-            "base:item/char_chunk"
+            "base:enemy/stone_golem",
+            "base:item/golem_core"
           ],
           [
             14977,
             7835,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
           ],
           [
             8568,
@@ -23255,8 +23283,8 @@
             12935,
             11642,
             3,
-            "base:enemy/slime_sand",
-            "base:item/slime_gel"
+            "base:enemy/wolf_dune",
+            "base:item/dune_pelt"
           ],
           [
             12910,
@@ -23290,8 +23318,8 @@
             12936,
             11663,
             3,
-            "base:enemy/slime_amber",
-            "base:item/amber_drop"
+            "base:enemy/dune_scorpion",
+            "base:item/scorpion_sting"
           ],
           [
             7046,

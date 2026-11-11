@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/bounty_ice_warden",
+  "name": "$i18n:quest.bounty_ice_warden.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.bounty_ice_warden.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/ice_warden",
+          "count": 1
+        }
+      ],
+      "next": "end",
+      "place": "frostveil_pit"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 700
+    },
+    {
+      "effect": "add_gold",
+      "amount": 800
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 35
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/frost_tonic",
+      "qty": 2
+    }
+  ]
+}

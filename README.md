@@ -51,12 +51,12 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 - Sei elementi (fuoco, acqua, vento, terra, luce, buio): armi e abilità ne hanno uno, le creature hanno debolezze e resistenze.
 - Stati alterati su creature e giocatore: bruciatura, gelo, stordimento, indebolimento.
 - Stagger: i colpi riempiono una barra sotto la vita della creatura; piena, la creatura resta spezzata per due secondi e subisce più danno.
-- 70 creature con comportamenti diversi (anche selvaggina da cacciare: cinghiali e alci), 27 guardiani e 8 Echi, i boss personali dei protagonisti.
+- 71 creature con comportamenti diversi (anche selvaggina da cacciare: cinghiali, alci e volpi delle dune), 27 guardiani e 8 Echi, i boss personali dei protagonisti.
 
 **Vita e progressione**
 
-- Gilda degli avventurieri con bacheca e commissioni, 238 missioni (tra cui il Libro delle Leggende dell'archivista, un guardiano per regione), negozi, locande, lavori degli anziani.
-- 166 oggetti; raccolta da cespugli, alberi, rocce e cactus, **pesca** nei canneti delle spiagge e **caccia**; 34 ricette (i piatti migliori **fortificano**: più attacco per un po') (pozioni, infusi ed elisir delle regioni, piatti cucinati al fuoco, equipaggiamento, ed equipaggiamento pregiato all'incudine delle città).
+- Gilda degli avventurieri con bacheca e commissioni, 251 missioni (tra cui il Libro delle Leggende dell'archivista, un guardiano per regione, e le taglie della maestra della gilda su ogni altro guardiano), negozi, locande, lavori degli anziani.
+- 168 oggetti; raccolta da cespugli, alberi, rocce e cactus, **pesca** nei canneti delle spiagge e **caccia**; 35 ricette (i piatti migliori **fortificano**, più attacco per un po', e gli infusi delle regioni **proteggono**, più difesa) (pozioni, infusi ed elisir delle regioni, piatti cucinati al fuoco, equipaggiamento, ed equipaggiamento pregiato all'incudine delle città).
 - Un compagno per protagonista: ti segue, combatte, resta dove gli dici, e il suo legame cresce con le sue vittorie: dopo dieci, ti cura un po' ogni dieci secondi.
 - Titoli del modo di giocare che cambiano il gioco: il Raccoglitore trova di più, l'Artigiano crea di più, la Guardia incrollabile para più a lungo, il Veterano guadagna più esperienza.
 - Un albero di dieci talenti: un punto per livello, quattro radici (attacco, vita, mana, difesa), un secondo anello che si apre al rango 5 (critico, secondo fiato, magia, velocità) e una corona (Leggenda, Baluardo).

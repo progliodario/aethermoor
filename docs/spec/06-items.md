@@ -28,14 +28,14 @@ the dead tree, the rock (stone, a little iron ore), the cactus (pulp) and the **
 ## Hunting
 
 Hunting is fighting creatures that are game: they are ordinary creatures (spec 05) of the fauna of the regions (spec 09), shy (the behavior `skittish`), weak and slow to anger, and what they leave is
-food and materials. The base pack has the **wild boar** (Verdalis, Whisperwood, Tidehaven: game meat, boar hide) and the **ridge elk** (Frostveil, Ironspine, Lumeria: game meat, elk antler), written by
+food and materials. The base pack has the **wild boar** (Verdalis, Whisperwood, Tidehaven: game meat, boar hide) the **ridge elk** (Frostveil, Ironspine, Lumeria: game meat, elk antler) and the **dune fox** (Sunscar, the Ashen Wastes: game meat, fox pelt), written by
 `tools/make_hunting.py`, with their art made from the body of the wolves. Game meat heals a little raw and more roasted at a campfire; hides and antlers make a hunter's jerkin and an antler spear
 at an anvil (see "Crafting").
 
 ## Crafting
 
 Materials can be made into things from the bag, anywhere, without a workshop. The recipes are `data/base/recipes.json` (schema `recipes`): each has an `id` (a short name),
-an `output` (`item`, `qty`) and `inputs` (a list of `item`, `qty`). The base pack has thirty-four (`tools/make_recipes.py`): tonics, small, medium and large health potions, small and medium mana potions, a travel ration, a honey cake, cooked dishes (a hearty stew, a fish stew, a royal feast, a miners' broth, grilled fish and a fisherman's stew from the fish of the reeds, roast meat and a hunter's stew from the game), a hunter's jerkin and an antler spear at an anvil, the brews of the regions, a hand axe, an iron sword, a pike, a leather vest, a studded one, and five pieces of fine gear.
+an `output` (`item`, `qty`) and `inputs` (a list of `item`, `qty`). The base pack has thirty-five (`tools/make_recipes.py`): tonics, small, medium and large health potions, small and medium mana potions, a travel ration, a honey cake, cooked dishes (a hearty stew, a fish stew, a royal feast, a miners' broth, grilled fish and a fisherman's stew from the fish of the reeds, roast meat and a hunter's stew from the game), a hunter's jerkin, an antler spear and a fox-fur cloak at an anvil, the brews of the regions, a hand axe, an iron sword, a pike, a leather vest, a studded one, and five pieces of fine gear.
 
 `craft(id)` is refused, changing nothing, while a dialogue is open, when the recipe does not exist, and when the bag has less than the `qty` of any input. Otherwise it removes every input
 (an item that reaches 0 leaves the bag) and adds `qty` of the output (an item the bag did not have enters it). There is no random number, no time and no gold in it. A craft is a creature
@@ -56,7 +56,7 @@ Conformance: the scenario `craft_at_fire`.
 
 - a dialogue is open;
 - the inventory does not hold the item, or the item has no `use` effects;
-- none of its effects would change anything right now: no `heal` (or one at full health), no `restore_mp` (or one at full mana) and no `fortify`. An item with both effects is used when either one would change something.
+- none of its effects would change anything right now: no `heal` (or one at full health), no `restore_mp` (or one at full mana), no `fortify` and no `ward`. An item with both effects is used when either one would change something.
 
 Otherwise the effects are applied in order and the quantity of the item drops by one. Supported effects:
 
@@ -64,6 +64,7 @@ Otherwise the effects are applied in order and the quantity of the item drops by
 |---|---|---|
 | `heal` | `amount` | `hp = min(max_hp, hp + amount)` |
 | `restore_mp` | `amount` (points) | `mp_u = min(max_mp * 6000, mp_u + amount * 6000)` (spec 05, "Mana") |
+| `ward` | `amount` (percent), `ticks` | **Ward**: `ward_pct = amount`, `ward = ticks` (a later brew replaces both). While `ward > 0` the creatures' hits on the player use `def * (100 + ward_pct) / 100` as the player's defense (spec 05, "Hurting the player"). Like `fortify`, it goes down by one every tick, goes to 0 on death and on loading, and makes the item always useful. The regional brews ward: the miners' broth, the desert nectar and the pearl elixir +30% for 30 s, the frost tonic +40% and the ember brew +50% for a minute. Conformance: the scenario `ward_brew`. |
 | `fortify` | `amount` (percent), `ticks` | **Fortify**: `fortify_pct = amount`, `fortify = ticks` (a later meal replaces both). While `fortify > 0` the player's hits use `atk * (100 + title_attack_pct + fortify_pct) / 100` (spec 05, spec 11). `fortify` goes down by one every tick, where `weaken` does, and goes to 0 on death and on loading (not saved). An item with `fortify` is always useful, even at full health. Conformance: the scenario `fortify_meal`. |
 
 Using an item is instant: it takes no time, has no cooldown and does not interrupt an attack. An unknown effect counts as an effect that changes nothing.

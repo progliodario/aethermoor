@@ -315,6 +315,24 @@
       "station": "base:art/prop/anvil"
     },
     {
+      "id": "fox_cloak",
+      "output": {
+        "item": "base:item/fox_cloak",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/fox_pelt",
+          "qty": 4
+        },
+        {
+          "item": "base:item/spider_silk",
+          "qty": 2
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
       "id": "royal_feast",
       "output": {
         "item": "base:item/royal_feast",

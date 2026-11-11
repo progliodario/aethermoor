@@ -12,6 +12,11 @@
       {
         "effect": "restore_mp",
         "amount": 120
+      },
+      {
+        "effect": "ward",
+        "amount": 40,
+        "ticks": 3600
       }
     ]
   }

@@ -10,9 +10,12 @@ Gear by level: L1: weapon 3, armor 2/1, L4: weapon 7, armor 4/2, L8: weapon 12, 
 |---|---|---|---|
 | Green slime | 1 | 1 | 0.7 s / 1% |
 | Mint slime | 2 | 1 | 0.7 s / 1% |
+| Wild boar | 2 | 1 | 0.7 s / 1% |
+| Dune fox | 3 | 1 | 0.7 s / 2% |
 | Blue slime | 3 | 1 | 0.7 s / 2% |
 | Tawny wolf | 3 | 1 | 0.7 s / 3% |
 | Myconid | 4 | 1 | 0.7 s / 2% |
+| Ridge elk | 4 | 1 | 0.7 s / 2% |
 | Sand slime | 4 | 1 | 0.7 s / 2% |
 | Grey wolf | 4 | 1 | 0.7 s / 2% |
 | Mint Matron | 5 | 1 | 1.5 s / 4% |

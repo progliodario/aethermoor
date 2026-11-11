@@ -42,6 +42,15 @@ The eight base protagonists are the examples: `data/base/protagonists/<name>.jso
 The crafting recipes and the props that give materials are tables written by a script: change the table in `tools/make_recipes.py` (recipe: output, quantity, inputs; every item must exist) or in
 `tools/make_gathering.py` (the materials and, for each prop art, its drops with a chance and a range, and the ticks it takes to grow back), run the script and the validator. Rules: [spec 06](../spec/06-items.md), "Gathering" and "Crafting".
 
+A dish or a brew can do more than heal: `fortify` (attack, percent, for `ticks`) and `ward` (defense, percent, for `ticks`) in the item's `use.effects` (spec 06, "Fortify" and "Ward").
+Fishing is gathering from a prop that grows on the beaches (`base:art/prop/reeds`, sound `water`); a new kind of fish is a drop of its node in `tools/make_gathering.py`.
+
+## Game to hunt
+
+The game of the hunt is a table in `tools/make_hunting.py`: level, stats, palette (on the body of the wolves), drops, the fauna drop and the regions where it lives, and its items. Give it a look of its own
+in `tools/art_creature_looks.py` (`WOLVES`), then run `python tools/make_hunting.py`, `python tools/art_creatures.py`, `python tools/make_recipes.py` (for the recipes that use its drops) and
+`python tools/gen_conformance.py` (the fauna changes the world). Rules: [spec 06](../spec/06-items.md), "Hunting".
+
 ## A companion
 
 `tools/make_companions.py` has one line for each companion: whose it is, the creature art it is drawn with, its names, attack, range, cooldown and speed. Running it writes `data/base/companions/` and the

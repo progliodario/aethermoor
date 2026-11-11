@@ -106,7 +106,7 @@ class CombatSim:
         self.death_save_cd = 0
         self.dodge = scenario.get("dodge")  # {"ticks", "speed_mult_x100", "iframes", "cooldown"}, or None: no dodge (spec 05, "Dodge roll")
         self.dodge_ticks = 0
-        self.p_burn = self.p_burn_clock = self.p_chill = self.p_stun = self.p_weaken = self.p_fortify = self.p_fortify_pct = 0  # status effects on the player (spec 05)
+        self.p_burn = self.p_burn_clock = self.p_chill = self.p_stun = self.p_weaken = self.p_fortify = self.p_fortify_pct = self.p_ward = self.p_ward_pct = 0  # status effects on the player (spec 05)
         self.dodge_cooldown = 0
         self.parry_ticks = 0
         self.parry_cooldown = 0
@@ -272,6 +272,8 @@ class CombatSim:
             self.p_weaken -= 1
         if self.p_fortify > 0:  # a meal that fortifies (spec 06, "Fortify") wears off
             self.p_fortify -= 1
+        if self.p_ward > 0:  # and a brew that wards (spec 06, "Ward")
+            self.p_ward -= 1
 
     def _advance_attack(self) -> None:
         s = self.cur_skill
@@ -549,7 +551,8 @@ class CombatSim:
             return
         variance = 950 + self.combat.next_bounded(101)
         atk = e.d["atk"] * 75 // 100 if e.weaken > 0 else e.d["atk"]
-        damage = rules.damage(atk, 100, self.derived["def"], 1000, 0, e.d["level"], self.level,
+        defense = self.derived["def"] * (100 + self.p_ward_pct) // 100 if self.p_ward > 0 else self.derived["def"]  # a brew that wards (spec 06)
+        damage = rules.damage(atk, 100, defense, 1000, 0, e.d["level"], self.level,
                               variance, False, 1500, 1000)
         self.hp -= damage
         self.iframes = PLAYER_HIT_IFRAMES
@@ -562,7 +565,7 @@ class CombatSim:
             self.phase, self.phase_tick = NONE, 0
             self.dodge_ticks, self.dodge_cooldown = 0, 0
             self.parry_ticks = self.parry_cooldown = 0
-            self.p_burn = self.p_burn_clock = self.p_chill = self.p_stun = self.p_weaken = self.p_fortify = self.p_fortify_pct = 0
+            self.p_burn = self.p_burn_clock = self.p_chill = self.p_stun = self.p_weaken = self.p_fortify = self.p_fortify_pct = self.p_ward = self.p_ward_pct = 0
             self.mp_u = self.derived["max_mp"] * 6000
             self.iframes = RESPAWN_IFRAMES
             return
@@ -650,9 +653,13 @@ class CombatSim:
         heal = sum(e["amount"] for e in item["effects"] if e["effect"] == "heal") * self.gift.get("heal_pct", 100) // 100
         mana = sum(e["amount"] for e in item["effects"] if e["effect"] == "restore_mp")
         fortify = [e for e in item["effects"] if e["effect"] == "fortify"]  # spec 06, "Fortify": attack up for a while
+        ward = [e for e in item["effects"] if e["effect"] == "ward"]  # spec 06, "Ward": defense up for a while
         full_mp = self.derived["max_mp"] * 6000
-        if not ((heal > 0 and self.hp < self.derived["max_hp"]) or (mana > 0 and self.mp_u < full_mp) or fortify):
+        if not ((heal > 0 and self.hp < self.derived["max_hp"]) or (mana > 0 and self.mp_u < full_mp) or fortify or ward):
             return False
+        if ward:
+            self.p_ward_pct = ward[-1]["amount"]
+            self.p_ward = ward[-1].get("ticks", 0)
         if fortify:
             self.p_fortify_pct = fortify[-1]["amount"]
             self.p_fortify = fortify[-1].get("ticks", 0)
@@ -761,7 +768,7 @@ class CombatSim:
         self.hit_set = {i for i, hit in enumerate(p["hit_set"]) if hit}
         self.dodge_ticks, self.dodge_cooldown = 0, 0  # a roll in progress is not saved (spec 05)
         self.parry_ticks = self.parry_cooldown = 0
-        self.p_burn = self.p_burn_clock = self.p_chill = self.p_stun = self.p_weaken = self.p_fortify = self.p_fortify_pct = 0
+        self.p_burn = self.p_burn_clock = self.p_chill = self.p_stun = self.p_weaken = self.p_fortify = self.p_fortify_pct = self.p_ward = self.p_ward_pct = 0
         self.death_save_cd = 0
         self.mp_u, self.cur_skill = self.derived["max_mp"] * 6000, self.skill  # nor is the mana: a loaded game starts full
         for name, stream in (("combat", self.combat), ("loot", self.loot)):

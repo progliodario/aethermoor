@@ -1161,7 +1161,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         font.draw(batch, "${data.pack.text(language, "\$i18n:ui.hp")} ${p.hp}/${world.derived.maxHp}", 12f * density + 4f, 12f * density + 2f)
         font.draw(batch, data.pack.text(language, "\$i18n:ui.level", mapOf("level" to p.level)), 12f * density, 12f * density + 16f * density + 20f + 10f * density)
         // The status effects on the player (spec 05), one word each, under the level.
-        val status = listOf(p.burn to "burn", p.chill to "chill", p.stun to "stun", p.weaken to "weaken", p.fortify to "fortify")
+        val status = listOf(p.burn to "burn", p.chill to "chill", p.stun to "stun", p.weaken to "weaken", p.fortify to "fortify", p.ward to "ward")
             .filter { it.first > 0 }.joinToString("  ") { data.pack.text(language, "\$i18n:ui.status_${it.second}") }
         if (status.isNotEmpty()) {
             font.color = Color(1f, 0.59f, 0.35f, 1f)
@@ -2713,6 +2713,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         layout.setText(font, name)
         font.color = Color(1f, 0.86f, 0.59f, 1f)
         hudText(name, (width - layout.width) / 2f, y - font.lineHeight * 1.4f)
+        creatureElements(data.pack, boss.def).takeIf { it.isNotEmpty() }?.let { elements -> // weak to, resists (spec 05), under the bar
+            layout.setText(font, elements)
+            font.color = Color(0.78f, 0.86f, 1f, 1f)
+            hudText(elements, (width - layout.width) / 2f, y + h + 10f * density)
+        }
         batch.end()
     }
 

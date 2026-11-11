@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/bounty_drowned_captain",
+  "name": "$i18n:quest.bounty_drowned_captain.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.bounty_drowned_captain.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/drowned_captain",
+          "count": 1
+        }
+      ],
+      "next": "end",
+      "place": "tidehaven_galleon"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 1100
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1200
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 55
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/pearl_elixir",
+      "qty": 2
+    }
+  ]
+}

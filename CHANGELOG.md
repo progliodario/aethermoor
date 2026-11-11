@@ -6,6 +6,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Fixed
 
+- The wild boar and the ridge elk were drawn with the tawny wolf's stripes instead of their tusks and antlers (the art rebuild had stopped halfway); they now look like themselves.
 - CI: the Linux job could hang for hours installing the system packages (twice on 11 November 2026). Apt now has network timeouts, waits for the package lock for at most two minutes, every attempt has a time limit and is tried three times; the job fails after 90 minutes instead of blocking the pull request. The `.deb` files are kept in the CI cache, so a later outage of the Ubuntu archive does not stop the Linux build.
 - Italian accents on desktop: the font of SDL draws the ASCII characters only, so every è, à, ù, ò and ì (about 430 in the texts) and the « » of the recipes were drawn as a block. They are now drawn as the letter with a small accent (and the quotation marks as ASCII ones). Found by looking at a frame of a dialogue.
 - Texts with accents on desktop are aligned by characters, not by bytes: the clock, the gold, the prices, the ranks, the map names and the title were a little too far to the left; the name of the region at the top uses the same accented font.
@@ -18,6 +19,12 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Brews that ward** (spec 06, "Ward"; a new item effect in the reference, the vectors and both clients, scenario `ward_brew`): the brews of the regions raise your defense for a while (the miners' broth, the desert nectar and the pearl elixir +30% for 30 s, the frost tonic +40% and the ember brew +50% for a minute). "Warded" shows under your level.
+- **The dune fox**, game of Sunscar and the Ashen Wastes: game meat and fox pelts, and a fox-fur cloak at an anvil. 71 creatures, 168 items, 35 recipes.
+- **Hestia's bounties**: after her quests, the guildmaster of Aldermere posts a bounty on the nine guardians that had no quest of their own (from the Ice Warden to the Vault Warden). Each sets the goal of the map.
+- **Four quests of village life**: meat pies for Odile, the golden fish for Tobin, boar hides for Rook, the fish festival for Bran. 251 quests in all.
+- The guardian bar also says what the guardian is weak to and what it resists.
+- The shops of Whisperwood and Ironspine sell the hunter's jerkin, Sunscar the fox-fur cloak, Frostveil the antler spear.
 - **Meals that fortify** (spec 06, "Fortify"; a new item effect in the reference, the vectors and both clients, scenario `fortify_meal`): roast meat and fish stew give +10% attack for 30 seconds, the hunter's stew +20% and the royal feast +25% for a minute. They can be eaten at full health, and "Fortified" shows under your level while it lasts.
 - **Selwyn's Book of Legends** (Aldermere): after his first quest the archivist asks for the end of seven legends, one guardian of a great dungeon in every region, from the Barrow Warden to the Cinder Colossus. Each sets the goal of the map. 238 quests in all.
 - The journal shows how many kinds of creatures you have met out of all those of the world.

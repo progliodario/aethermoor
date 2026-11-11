@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/dune_fox",
+  "name": "$i18n:enemy.dune_fox.name",
+  "level": 3,
+  "stats": {
+    "hp": 45,
+    "atk": 8,
+    "def": 2,
+    "mdef": 2,
+    "speed_x100": 400
+  },
+  "element": "none",
+  "sound": "wolf",
+  "weaknesses_pm": {
+    "fire": 1500
+  },
+  "xp": 13,
+  "drops": [
+    {
+      "item": "base:item/game_meat",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 700
+    },
+    {
+      "item": "base:item/fox_pelt",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 550
+    }
+  ],
+  "radius_x100": 38,
+  "behavior": "base:behavior/skittish",
+  "art": "base:art/creature/dune_fox"
+}

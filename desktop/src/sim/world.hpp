@@ -52,6 +52,8 @@ struct Player {
     int weaken = 0;
     int fortify = 0;  // a meal that fortifies (spec 06): ticks left, and the attack it adds; not saved
     std::int64_t fortify_pct = 0;
+    int ward = 0;  // a brew that wards (spec 06): ticks left, and the defense it adds; not saved
+    std::int64_t ward_pct = 0;
     Vec2 dodge_dir{1.0F, 0.0F};
 };
 

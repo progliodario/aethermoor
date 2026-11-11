@@ -1,0 +1,40 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/bounty_amber_queen",
+  "name": "$i18n:quest.bounty_amber_queen.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.bounty_amber_queen.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/amber_queen",
+          "count": 1
+        }
+      ],
+      "next": "end",
+      "place": "sunscar_amber"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 650
+    },
+    {
+      "effect": "add_gold",
+      "amount": 700
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 32
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/desert_nectar",
+      "qty": 2
+    }
+  ]
+}
