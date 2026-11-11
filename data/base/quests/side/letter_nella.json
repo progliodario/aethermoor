@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/letter_nella",
+  "name": "$i18n:quest.letter_nella.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.letter_nella.task",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "outpost_netmender_nella"
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 260
+    },
+    {
+      "effect": "add_gold",
+      "amount": 300
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 13
+    }
+  ]
+}

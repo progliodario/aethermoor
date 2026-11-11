@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/letter_grael",
+  "name": "$i18n:quest.letter_grael.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.letter_grael.task",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "outpost_smith_grael"
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 360
+    },
+    {
+      "effect": "add_gold",
+      "amount": 420
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 18
+    }
+  ]
+}

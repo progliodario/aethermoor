@@ -204,6 +204,7 @@
     { "key": "outpost_sculptor_henrik", "dialogue": "base:dialogue/npc/henrik", "variant": "cream", "dx": -1151, "dy": -6529 },
     { "key": "outpost_waterseller_farid", "dialogue": "base:dialogue/npc/farid", "variant": "purple", "dx": 5505, "dy": 3969 },
     { "key": "outpost_stargazer_astra", "dialogue": "base:dialogue/npc/astra", "variant": "purple", "dx": -639, "dy": 6271 },
-    { "key": "outpost_smith_grael", "dialogue": "base:dialogue/npc/grael", "variant": "red", "dx": 6786, "dy": -385 }
+    { "key": "outpost_smith_grael", "dialogue": "base:dialogue/npc/grael", "variant": "red", "dx": 6786, "dy": -385 },
+    { "key": "aldermere_courier_wendel", "dialogue": "base:dialogue/npc/wendel", "variant": "teal", "dx": 384, "dy": -130 }
   ]
 }

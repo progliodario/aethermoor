@@ -42,6 +42,7 @@ ITEMS = {
     "base:item/bread": {"kind": "food", "price": 5, "effects": [{"effect": "heal", "amount": 30}]},
     "base:item/potion_mana_small": {"kind": "consumable", "price": 40, "effects": [{"effect": "restore_mp", "amount": 30}]},
     "base:item/slime_gel": {"kind": "material", "price": 3, "effects": []},
+    "base:item/honey_cake": {"kind": "food", "price": 20, "effects": [{"effect": "regen", "amount": 6, "ticks": 600}]},
     "base:item/frost_tonic": {"kind": "food", "price": 160, "effects": [{"effect": "ward", "amount": 400, "ticks": 300}]},
     "base:item/roast_meat": {"kind": "food", "price": 30, "effects": [{"effect": "heal", "amount": 20}, {"effect": "fortify", "amount": 50, "ticks": 200}]},
     "base:item/practice_sword": {"kind": "weapon", "price": 20, "weapon": {"atk": 3, "matk": 0}},
@@ -316,6 +317,10 @@ def build_scenarios() -> list[dict]:
         scenario("ward_brew", [enemy(3.0, 4.5, hp=5000, atk=40)],
                  [segment(1, do=[{"cmd": "use", "item": "base:item/frost_tonic"}]), segment(200), segment(200), segment(200)],
                  inventory={"base:item/frost_tonic": 1}),
+        # Regen (spec 06): a dish with `regen` gives back `amount` health every second (60 ticks) while it lasts, never above the maximum.
+        scenario("regen_cake", [enemy(3.0, 4.5, hp=200, atk=26)],
+                 [segment(150, attack=True), segment(1, do=[{"cmd": "use", "item": "base:item/honey_cake"}]), segment(150, attack=True), segment(300), segment(300)],
+                 inventory={"base:item/honey_cake": 1}),
         scenario("companion_follows", [enemy(10.5, 4.5, hp=30, **passive)],
                  [segment(60, move=(1, 0)), segment(60, move=(1, 0)), segment(100), segment(60, move=(0, 1)), segment(100)], companion=COMPANION),
         scenario("equip_changes_stats", [enemy(8.1, 4.5, atk=40)],

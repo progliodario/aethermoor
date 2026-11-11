@@ -4012,6 +4012,13 @@
               "variant": "red",
               "dx": 6786,
               "dy": -385
+            },
+            {
+              "key": "aldermere_courier_wendel",
+              "dialogue": "base:dialogue/npc/wendel",
+              "variant": "teal",
+              "dx": 384,
+              "dy": -130
             }
           ],
           "stamp_defs": {
@@ -15921,6 +15928,13 @@
               "variant": "red",
               "dx": 6786,
               "dy": -385
+            },
+            {
+              "key": "aldermere_courier_wendel",
+              "dialogue": "base:dialogue/npc/wendel",
+              "variant": "teal",
+              "dx": 384,
+              "dy": -130
             }
           ],
           "stamp_defs": {

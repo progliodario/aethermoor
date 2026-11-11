@@ -1161,7 +1161,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         font.draw(batch, "${data.pack.text(language, "\$i18n:ui.hp")} ${p.hp}/${world.derived.maxHp}", 12f * density + 4f, 12f * density + 2f)
         font.draw(batch, data.pack.text(language, "\$i18n:ui.level", mapOf("level" to p.level)), 12f * density, 12f * density + 16f * density + 20f + 10f * density)
         // The status effects on the player (spec 05), one word each, under the level.
-        val status = listOf(p.burn to "burn", p.chill to "chill", p.stun to "stun", p.weaken to "weaken", p.fortify to "fortify", p.ward to "ward")
+        val status = listOf(p.burn to "burn", p.chill to "chill", p.stun to "stun", p.weaken to "weaken", p.fortify to "fortify", p.ward to "ward", p.regen to "regen")
             .filter { it.first > 0 }.joinToString("  ") { data.pack.text(language, "\$i18n:ui.status_${it.second}") }
         if (status.isNotEmpty()) {
             font.color = Color(1f, 0.59f, 0.35f, 1f)
@@ -1906,6 +1906,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_power", mapOf("atk" to d.atk, "matk" to d.matk, "def" to d.def, "mdef" to d.mdef)), 2))
         entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_more", mapOf("crit" to d.critChancePm / 10, "speed" to d.moveSpeedX100, "titles" to world.titleAttackPct())), 2))
         entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_purse", mapOf("gold" to story.gold, "kills" to p.kills)), 2))
+        // what the player ate and drank is still working (spec 06, "Fortify", "Ward", "Regen"): each with its seconds left
+        val effects = listOf(p.fortify to "fortify", p.ward to "ward", p.regen to "regen").filter { it.first > 0 }
+            .joinToString(", ") { "${data.pack.text(language, "\$i18n:ui.status_${it.second}")} ${(it.first + 59) / 60} s" }
+        if (effects.isNotEmpty()) entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_effects", mapOf("list" to effects)), 2))
         entries.add(Pair("", 2))
         if (story.quests.isEmpty()) {
             entries.add(Pair(data.pack.text(language, "\$i18n:ui.journal_empty"), 2))

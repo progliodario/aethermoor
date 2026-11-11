@@ -400,6 +400,37 @@ for _person in PEOPLE:
     if _person["key"] in LIFE_QUESTS:
         _person["quests"].append(LIFE_QUESTS[_person["key"]])
 
+# Wendel, the courier of the guild in Aldermere: a letter for each of the eight outposts, one after the other (a talk objective: the goal of the
+# map goes to the person; spec 07, "Places").
+def _letter(qid, key, name, place, xp, gold, line_en, line_it) -> dict:
+    return _q(qid, (f"A Letter for {name}", f"Una lettera per {name}"),
+              (f"Wendel the courier has a letter for {name}, at {place}. Deliver it by hand.",
+               f"Il corriere Wendel ha una lettera per {name}, a {place}. Consegnala a mano."),
+              [{"type": "talk", "npc_key": key}], xp, gold, xp // 20, {},
+              (line_en + " Will you take it? My knees are older than the roads.", line_it + " La porti tu? Le mie ginocchia sono più vecchie delle strade."),
+              (f"The letter for {name}, at {place}.", f"La lettera per {name}, a {place}."),
+              ("Delivered! The guild pays its couriers. Here. And there is always another letter.",
+               "Consegnata! La gilda paga i suoi corrieri. Ecco. E c'è sempre un'altra lettera."))
+
+
+COURIER = {
+    "key": "aldermere_courier_wendel", "file": "wendel", "variant": "teal", "dx": 384, "dy": -130,
+    "name": ("Wendel, courier of the guild", "Wendel, corriere della gilda"),
+    "after": ("Every letter delivered, and not one lost. Not one! I am writing that down. And then I will need someone to deliver it.",
+              "Ogni lettera consegnata, e nessuna persa. Nessuna! Lo scrivo. E poi servirà qualcuno che lo consegni."),
+    "quests": [
+        _letter('letter_pell', 'outpost_carter_pell', 'Pell', 'Crossroads Camp', 80, 120, 'A bill of lading for Pell the carter. He will say he already paid. He did not.', 'Una bolla di carico per Pell il carrettiere. Dirà che ha già pagato. Non è vero.'),
+        _letter('letter_wren', 'outpost_herbalist_wren', 'Wren', "Hollow's Edge Camp", 220, 260, 'A list of herbs from the healer of Aldermere for Wren. Half of them are misspelled.', 'Una lista di erbe della guaritrice di Aldermere per Wren. Metà sono scritte male.'),
+        _letter('letter_brakka', 'outpost_cook_brakka', 'Brakka', 'Ironspine Waystation', 260, 300, 'A recipe for Brakka from her sister. It is for soup. It is always for soup.', 'Una ricetta per Brakka da sua sorella. È per la zuppa. È sempre per la zuppa.'),
+        _letter('letter_nella', 'outpost_netmender_nella', 'Nella', 'Brinewatch Post', 260, 300, 'A drawing for Nella from the children of Fenwick: a net full of fish, and a very large crab.', 'Un disegno per Nella dai bambini di Fenwick: una rete piena di pesci, e un granchio enorme.'),
+        _letter('letter_henrik', 'outpost_sculptor_henrik', 'Henrik', 'Rimewatch Hut', 300, 340, 'A commission for old Henrik: the mayor of Aldermere wants a statue. Of the mayor.', 'Una commissione per il vecchio Henrik: il sindaco di Aldermere vuole una statua. Del sindaco.'),
+        _letter('letter_farid', 'outpost_waterseller_farid', 'Farid', 'Dune Caravanserai', 300, 340, 'A contract for Farid: forty barrels of water for the next caravan. He will want forty-two.', "Un contratto per Farid: quaranta barili d'acqua per la prossima carovana. Ne vorrà quarantadue."),
+        _letter('letter_astra', 'outpost_stargazer_astra', 'Astra', 'Lantern Rest', 300, 340, 'A star chart for Astra from the archivist. He says she will know which star is wrong.', "Una carta del cielo per Astra dall'archivista. Dice che lei saprà quale stella è sbagliata."),
+        _letter('letter_grael', 'outpost_smith_grael', 'Grael', 'Ember Watch', 360, 420, 'An order for Grael: twelve horseshoes and one sword, the best he ever made. The guild says please.', 'Un ordine per Grael: dodici ferri di cavallo e una spada, la migliore che abbia mai fatto. La gilda dice per favore.'),
+    ],
+}
+PEOPLE.append(COURIER)
+
 def _outposts() -> list:
     from towns_outposts import OUTPOST_PEOPLE as people  # imported late: that table imports nothing from here, but keep the two files independent
 

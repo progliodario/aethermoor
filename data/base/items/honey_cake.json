@@ -12,6 +12,11 @@
       {
         "effect": "heal",
         "amount": 30
+      },
+      {
+        "effect": "regen",
+        "amount": 4,
+        "ticks": 1200
       }
     ]
   }

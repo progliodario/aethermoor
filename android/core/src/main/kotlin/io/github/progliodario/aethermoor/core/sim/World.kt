@@ -102,6 +102,10 @@ class Player(var position: Vec2) {
     var ward = 0
     var wardPct = 0L
 
+    /** A dish that heals over time (spec 06, "Regen"): ticks left, and the health given back every second; not saved. */
+    var regen = 0
+    var regenAmount = 0L
+
     fun clearStatus() {
         burn = 0
         burnClock = 0
@@ -110,6 +114,7 @@ class Player(var position: Vec2) {
         weaken = 0
         fortify = 0
         ward = 0
+        regen = 0
     }
 
     /** Ticks until the death save is ready again (spec 18). Not saved. */
@@ -645,8 +650,9 @@ class WorldSim(
         val mana = item.effects.filter { it.effect == "restore_mp" }.sumOf { it.amount }
         val fortify = item.effects.lastOrNull { it.effect == "fortify" } // spec 06, "Fortify": attack up for a while
         val ward = item.effects.lastOrNull { it.effect == "ward" } // spec 06, "Ward": defense up for a while
+        val regen = item.effects.lastOrNull { it.effect == "regen" } // spec 06, "Regen": health back over time
         val fullMp = derived.maxMp * 6000L
-        if (!((heal > 0L && player.hp < derived.maxHp) || (mana > 0L && player.mpU < fullMp) || fortify != null || ward != null)) return false
+        if (!((heal > 0L && player.hp < derived.maxHp) || (mana > 0L && player.mpU < fullMp) || fortify != null || ward != null || regen != null)) return false
         if (fortify != null) {
             player.fortifyPct = fortify.amount
             player.fortify = fortify.ticks
@@ -654,6 +660,10 @@ class WorldSim(
         if (ward != null) {
             player.wardPct = ward.amount
             player.ward = ward.ticks
+        }
+        if (regen != null) {
+            player.regenAmount = regen.amount
+            player.regen = regen.ticks
         }
         if (heal > 0L) player.hp = minOf(derived.maxHp, player.hp + heal)
         if (mana > 0L) player.mpU = minOf(fullMp, player.mpU + mana * 6000L)
@@ -936,6 +946,10 @@ class WorldSim(
         if (p.weaken > 0) p.weaken--
         if (p.fortify > 0) p.fortify-- // a meal that fortifies (spec 06) wears off
         if (p.ward > 0) p.ward-- // and a brew that wards (spec 06)
+        if (p.regen > 0) { // a dish that heals over time (spec 06): `amount` every second
+            p.regen--
+            if (p.regen % 60 == 0 && p.hp > 0 && p.hp < derived.maxHp) p.hp = minOf(derived.maxHp, p.hp + p.regenAmount)
+        }
     }
 
     private fun advanceAttack() {
