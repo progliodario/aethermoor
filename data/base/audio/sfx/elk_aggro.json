@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/elk_aggro",
+  "duration_ms": 700,
+  "volume_pm": 600,
+  "layers": [
+    {
+      "wave": "sine",
+      "freq_start": 600,
+      "freq_end": 1100,
+      "volume_pm": 550,
+      "attack_ms": 120,
+      "decay_ms": 520
+    },
+    {
+      "wave": "triangle",
+      "freq_start": 300,
+      "freq_end": 560,
+      "volume_pm": 250,
+      "attack_ms": 100,
+      "decay_ms": 520
+    }
+  ]
+}

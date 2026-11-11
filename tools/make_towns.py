@@ -403,12 +403,14 @@ for _person in PEOPLE:
 # Wendel, the courier of the guild in Aldermere: a letter for each of the eight outposts, one after the other (a talk objective: the goal of the
 # map goes to the person; spec 07, "Places").
 def _letter(qid, key, name, place, xp, gold, line_en, line_it) -> dict:
+    """`place` is a name ("Lantern Rest": "at Lantern Rest", "a Lantern Rest") or the two phrases (en, it) with their prepositions."""
+    at_en, at_it = place if isinstance(place, tuple) else (f"at {place}", f"a {place}")
     return _q(qid, (f"A Letter for {name}", f"Una lettera per {name}"),
-              (f"Wendel the courier has a letter for {name}, at {place}. Deliver it by hand.",
-               f"Il corriere Wendel ha una lettera per {name}, a {place}. Consegnala a mano."),
+              (f"Wendel the courier has a letter for {name}, {at_en}. Deliver it by hand.",
+               f"Il corriere Wendel ha una lettera per {name}, {at_it}. Consegnala a mano."),
               [{"type": "talk", "npc_key": key}], xp, gold, xp // 20, {},
               (line_en + " Will you take it? My knees are older than the roads.", line_it + " La porti tu? Le mie ginocchia sono più vecchie delle strade."),
-              (f"The letter for {name}, at {place}.", f"La lettera per {name}, a {place}."),
+              (f"The letter for {name}, {at_en}.", f"La lettera per {name}, {at_it}."),
               ("Delivered! The guild pays its couriers. Here. And there is always another letter.",
                "Consegnata! La gilda paga i suoi corrieri. Ecco. E c'è sempre un'altra lettera."))
 
@@ -427,6 +429,19 @@ COURIER = {
         _letter('letter_farid', 'outpost_waterseller_farid', 'Farid', 'Dune Caravanserai', 300, 340, 'A contract for Farid: forty barrels of water for the next caravan. He will want forty-two.', "Un contratto per Farid: quaranta barili d'acqua per la prossima carovana. Ne vorrà quarantadue."),
         _letter('letter_astra', 'outpost_stargazer_astra', 'Astra', 'Lantern Rest', 300, 340, 'A star chart for Astra from the archivist. He says she will know which star is wrong.', "Una carta del cielo per Astra dall'archivista. Dice che lei saprà quale stella è sbagliata."),
         _letter('letter_grael', 'outpost_smith_grael', 'Grael', 'Ember Watch', 360, 420, 'An order for Grael: twelve horseshoes and one sword, the best he ever made. The guild says please.', 'Un ordine per Grael: dodici ferri di cavallo e una spada, la migliore che abbia mai fatto. La gilda dice per favore.'),
+        # the second round: parcels close to home, for the people of the guild and of Fenwick
+        _letter("parcel_maren", "shrine_keeper_maren", "Maren", "Aldermere", 60, 80,
+                "Candles for Sister Maren, from the chandler. Fifty of them. They are heavier than they look.",
+                "Candele per Suor Maren, dal candelaio. Cinquanta. Pesano più di quanto sembri."),
+        _letter("parcel_mira", "guild_clerk_mira", "Mira", ("at the Threshold", "alla Soglia"), 50, 60,
+                "New ledgers for Mira, the clerk of the guild. She asked for them a year ago. She will say so.",
+                "Registri nuovi per Mira, la segretaria della gilda. Li aveva chiesti un anno fa. Lo dirà."),
+        _letter("parcel_pip", "tutor_pip", "Pip", ("at the Threshold", "alla Soglia"), 50, 60,
+                "A box of chalk for Pip. He goes through a box a week, explaining the world to Guests.",
+                "Una scatola di gessi per Pip. Ne consuma una a settimana, a spiegare il mondo agli Ospiti."),
+        _letter("parcel_bran", "fenwick_elder_bran", "Bran", "Fenwick", 60, 80,
+                "Seeds for Elder Bran, from the gardeners of Aldermere. He will plant them and tell everyone they are his.",
+                "Semi per l'anziano Bran, dai giardinieri di Aldermere. Li pianterà e dirà a tutti che sono suoi."),
     ],
 }
 PEOPLE.append(COURIER)

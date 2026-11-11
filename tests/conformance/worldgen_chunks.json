@@ -93,7 +93,8 @@
                   "base:item/bronze_blade",
                   "base:item/tonic",
                   "base:item/potion_mana_small",
-                  "base:item/roast_meat"
+                  "base:item/roast_meat",
+                  "base:item/windleaf_brew"
                 ]
               }
             },
@@ -817,7 +818,8 @@
                   "base:item/travel_ration",
                   "base:item/potion_mana_small",
                   "base:item/potion_mana_medium",
-                  "base:item/hunters_stew"
+                  "base:item/hunters_stew",
+                  "base:item/windleaf_brew"
                 ]
               },
               "bias": {
@@ -6932,7 +6934,8 @@
                   "base:item/bronze_blade",
                   "base:item/tonic",
                   "base:item/potion_mana_small",
-                  "base:item/roast_meat"
+                  "base:item/roast_meat",
+                  "base:item/windleaf_brew"
                 ]
               }
             },
@@ -7656,7 +7659,8 @@
                   "base:item/travel_ration",
                   "base:item/potion_mana_small",
                   "base:item/potion_mana_medium",
-                  "base:item/hunters_stew"
+                  "base:item/hunters_stew",
+                  "base:item/windleaf_brew"
                 ]
               },
               "bias": {
@@ -13531,7 +13535,8 @@
                   "base:item/bronze_blade",
                   "base:item/tonic",
                   "base:item/potion_mana_small",
-                  "base:item/roast_meat"
+                  "base:item/roast_meat",
+                  "base:item/windleaf_brew"
                 ]
               }
             },
@@ -14255,7 +14260,8 @@
                   "base:item/travel_ration",
                   "base:item/potion_mana_small",
                   "base:item/potion_mana_medium",
-                  "base:item/hunters_stew"
+                  "base:item/hunters_stew",
+                  "base:item/windleaf_brew"
                 ]
               },
               "bias": {
@@ -20772,7 +20778,8 @@
                   "base:item/bronze_blade",
                   "base:item/tonic",
                   "base:item/potion_mana_small",
-                  "base:item/roast_meat"
+                  "base:item/roast_meat",
+                  "base:item/windleaf_brew"
                 ]
               }
             },
@@ -21496,7 +21503,8 @@
                   "base:item/travel_ration",
                   "base:item/potion_mana_small",
                   "base:item/potion_mana_medium",
-                  "base:item/hunters_stew"
+                  "base:item/hunters_stew",
+                  "base:item/windleaf_brew"
                 ]
               },
               "bias": {

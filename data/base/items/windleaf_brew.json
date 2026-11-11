@@ -1,0 +1,19 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/windleaf_brew",
+  "name": "$i18n:item.windleaf_brew.name",
+  "description": "$i18n:item.windleaf_brew.desc",
+  "kind": "food",
+  "rarity": "uncommon",
+  "price": 90,
+  "stack_max": 99,
+  "use": {
+    "effects": [
+      {
+        "effect": "haste",
+        "amount": 30,
+        "ticks": 3600
+      }
+    ]
+  }
+}

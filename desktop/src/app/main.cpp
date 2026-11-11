@@ -670,6 +670,7 @@ void draw_hud(SDL_Renderer* renderer, const Assets& assets, const aether::WorldS
     add_status(p.fortify, "$i18n:ui.status_fortify");  // a meal that fortifies (spec 06)
     add_status(p.ward, "$i18n:ui.status_ward");        // a brew that wards (spec 06)
     add_status(p.regen, "$i18n:ui.status_regen");      // a dish that heals over time (spec 06)
+    add_status(p.haste, "$i18n:ui.status_haste");      // a brew of haste (spec 06)
     if (!status.empty()) {
         SDL_SetRenderDrawColor(renderer, 255, 150, 90, 255);
         outlined_text(renderer, x / 2.0F, (y + bar_h + 34.0F * density + below) / 2.0F, status.c_str());
@@ -2586,7 +2587,8 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
         std::string effects;
         for (const auto& [ticks, key] : {std::pair<int, const char*>{p.fortify, "$i18n:ui.status_fortify"},
                                          std::pair<int, const char*>{p.ward, "$i18n:ui.status_ward"},
-                                         std::pair<int, const char*>{p.regen, "$i18n:ui.status_regen"}}) {
+                                         std::pair<int, const char*>{p.regen, "$i18n:ui.status_regen"},
+                                         std::pair<int, const char*>{p.haste, "$i18n:ui.status_haste"}}) {
             if (ticks > 0) {
                 effects += (effects.empty() ? "" : ", ") + assets.pack.text(ui.lang, key) + " " +
                            std::to_string((ticks + 59) / 60) + " s";
@@ -2705,7 +2707,8 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
         for (const aether::TitleDef& title : sim.titles()) {
             const bool have = std::find(earned.begin(), earned.end(), title.id) != earned.end();
             lines.push_back({have ? assets.pack.text(ui.lang, title.name) + "  +" + std::to_string(title.atk_pct) + "%"
-                                  : std::string("???"),
+                                  : "???  " + std::to_string(std::min(sim.title_progress(title), title.count)) + "/" +
+                                        std::to_string(title.count),  // how far toward it
                              have ? 1 : 3});
         }
     }

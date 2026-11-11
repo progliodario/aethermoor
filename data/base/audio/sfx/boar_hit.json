@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/boar_hit",
+  "duration_ms": 220,
+  "volume_pm": 700,
+  "layers": [
+    {
+      "wave": "saw",
+      "freq_start": 300,
+      "freq_end": 140,
+      "volume_pm": 650,
+      "attack_ms": 0,
+      "decay_ms": 200,
+      "am_dhz": 60,
+      "am_depth_pm": 500
+    },
+    {
+      "wave": "noise",
+      "freq_start": 1200,
+      "freq_end": 600,
+      "volume_pm": 250,
+      "attack_ms": 0,
+      "decay_ms": 140
+    }
+  ]
+}

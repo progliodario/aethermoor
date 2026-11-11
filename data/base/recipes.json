@@ -588,6 +588,23 @@
       ]
     },
     {
+      "id": "windleaf_brew",
+      "output": {
+        "item": "base:item/windleaf_brew",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/storm_feather",
+          "qty": 1
+        },
+        {
+          "item": "base:item/mint_leaf",
+          "qty": 2
+        }
+      ]
+    },
+    {
       "id": "fine_iron_sword",
       "output": {
         "item": "base:item/fine_iron_sword",

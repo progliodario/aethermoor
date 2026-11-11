@@ -1,0 +1,26 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/boar_die",
+  "duration_ms": 520,
+  "volume_pm": 700,
+  "layers": [
+    {
+      "wave": "saw",
+      "freq_start": 220,
+      "freq_end": 50,
+      "volume_pm": 650,
+      "attack_ms": 0,
+      "decay_ms": 500,
+      "am_dhz": 30,
+      "am_depth_pm": 500
+    },
+    {
+      "wave": "noise",
+      "freq_start": 800,
+      "freq_end": 150,
+      "volume_pm": 300,
+      "attack_ms": 0,
+      "decay_ms": 400
+    }
+  ]
+}

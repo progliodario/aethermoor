@@ -106,7 +106,7 @@ class CombatSim:
         self.death_save_cd = 0
         self.dodge = scenario.get("dodge")  # {"ticks", "speed_mult_x100", "iframes", "cooldown"}, or None: no dodge (spec 05, "Dodge roll")
         self.dodge_ticks = 0
-        self.p_burn = self.p_burn_clock = self.p_chill = self.p_stun = self.p_weaken = self.p_fortify = self.p_fortify_pct = self.p_ward = self.p_ward_pct = self.p_regen = self.p_regen_amount = 0  # status effects on the player (spec 05)
+        self.p_burn = self.p_burn_clock = self.p_chill = self.p_stun = self.p_weaken = self.p_fortify = self.p_fortify_pct = self.p_ward = self.p_ward_pct = self.p_regen = self.p_regen_amount = self.p_haste = self.p_haste_pct = 0  # status effects on the player (spec 05)
         self.dodge_cooldown = 0
         self.parry_ticks = 0
         self.parry_cooldown = 0
@@ -182,6 +182,13 @@ class CombatSim:
     def speed(self) -> float:
         return self.derived["move_speed_x100"] / 100
 
+    def _walk_speed(self) -> float:
+        """The speed of walking: a brew of haste adds its percent while it lasts (spec 06, "Haste"); the dodge roll does not use it."""
+        x100 = self.derived["move_speed_x100"]
+        if self.p_haste > 0:
+            x100 = x100 * (100 + self.p_haste_pct) // 100
+        return x100 / 100
+
     # --------------------------------------------------------------------------------- tick
 
     def tick(self, raw_x: float, raw_y: float, attack: bool, dodge: bool = False, strike: bool = False, parry: bool = False) -> None:
@@ -246,7 +253,7 @@ class CombatSim:
                 self.moving, self.clip_tick = moving_now, 0
             else:
                 self.clip_tick += 1
-            self.x, self.y = mv.step(self.x, self.y, vx, vy, self.speed * mult, self.grid, self.props)
+            self.x, self.y = mv.step(self.x, self.y, vx, vy, self._walk_speed() * mult, self.grid, self.props)
 
             if self.phase == NONE and self.cooldown == 0:
                 if strike and self.strike is not None and self.mp_u >= self.strike["mp"] * 6000:
@@ -274,6 +281,8 @@ class CombatSim:
             self.p_fortify -= 1
         if self.p_ward > 0:  # and a brew that wards (spec 06, "Ward")
             self.p_ward -= 1
+        if self.p_haste > 0:  # a brew of haste (spec 06, "Haste") wears off
+            self.p_haste -= 1
         if self.p_regen > 0:  # a dish that heals over time (spec 06, "Regen"): `amount` every second
             self.p_regen -= 1
             if self.p_regen % 60 == 0 and 0 < self.hp < self.derived["max_hp"]:
@@ -569,7 +578,7 @@ class CombatSim:
             self.phase, self.phase_tick = NONE, 0
             self.dodge_ticks, self.dodge_cooldown = 0, 0
             self.parry_ticks = self.parry_cooldown = 0
-            self.p_burn = self.p_burn_clock = self.p_chill = self.p_stun = self.p_weaken = self.p_fortify = self.p_fortify_pct = self.p_ward = self.p_ward_pct = self.p_regen = self.p_regen_amount = 0
+            self.p_burn = self.p_burn_clock = self.p_chill = self.p_stun = self.p_weaken = self.p_fortify = self.p_fortify_pct = self.p_ward = self.p_ward_pct = self.p_regen = self.p_regen_amount = self.p_haste = self.p_haste_pct = 0
             self.mp_u = self.derived["max_mp"] * 6000
             self.iframes = RESPAWN_IFRAMES
             return
@@ -659,9 +668,13 @@ class CombatSim:
         fortify = [e for e in item["effects"] if e["effect"] == "fortify"]  # spec 06, "Fortify": attack up for a while
         ward = [e for e in item["effects"] if e["effect"] == "ward"]  # spec 06, "Ward": defense up for a while
         regen = [e for e in item["effects"] if e["effect"] == "regen"]  # spec 06, "Regen": health back over time
+        haste = [e for e in item["effects"] if e["effect"] == "haste"]  # spec 06, "Haste": faster on foot for a while
         full_mp = self.derived["max_mp"] * 6000
-        if not ((heal > 0 and self.hp < self.derived["max_hp"]) or (mana > 0 and self.mp_u < full_mp) or fortify or ward or regen):
+        if not ((heal > 0 and self.hp < self.derived["max_hp"]) or (mana > 0 and self.mp_u < full_mp) or fortify or ward or regen or haste):
             return False
+        if haste:
+            self.p_haste_pct = haste[-1]["amount"]
+            self.p_haste = haste[-1].get("ticks", 0)
         if regen:
             self.p_regen_amount = regen[-1]["amount"]
             self.p_regen = regen[-1].get("ticks", 0)
@@ -776,7 +789,7 @@ class CombatSim:
         self.hit_set = {i for i, hit in enumerate(p["hit_set"]) if hit}
         self.dodge_ticks, self.dodge_cooldown = 0, 0  # a roll in progress is not saved (spec 05)
         self.parry_ticks = self.parry_cooldown = 0
-        self.p_burn = self.p_burn_clock = self.p_chill = self.p_stun = self.p_weaken = self.p_fortify = self.p_fortify_pct = self.p_ward = self.p_ward_pct = self.p_regen = self.p_regen_amount = 0
+        self.p_burn = self.p_burn_clock = self.p_chill = self.p_stun = self.p_weaken = self.p_fortify = self.p_fortify_pct = self.p_ward = self.p_ward_pct = self.p_regen = self.p_regen_amount = self.p_haste = self.p_haste_pct = 0
         self.death_save_cd = 0
         self.mp_u, self.cur_skill = self.derived["max_mp"] * 6000, self.skill  # nor is the mana: a loaded game starts full
         for name, stream in (("combat", self.combat), ("loot", self.loot)):

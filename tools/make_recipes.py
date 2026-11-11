@@ -45,6 +45,7 @@ RECIPES = {
     "pearl_elixir": ("pearl_elixir", 1, {"pearl_dust": 2, "tide_pearl": 1, "coral_fragment": 1}),
     "ember_brew": ("ember_brew", 1, {"ember_core": 1, "magma_shard": 1, "char_chunk": 1}),
     "starlight_elixir": ("starlight_elixir", 1, {"star_dust": 2, "nebula_ash": 1, "storm_feather": 1}),
+    "windleaf_brew": ("windleaf_brew", 1, {"storm_feather": 1, "mint_leaf": 2}),
     # fine gear, at an anvil (every town has one): the plain piece and materials
     "fine_iron_sword": ("fine_iron_sword", 1, {"iron_sword": 1, "iron_ore": 3, "golem_core": 1}),
     "fine_hand_axe": ("fine_hand_axe", 1, {"hand_axe": 1, "iron_ore": 3, "wood_log": 3}),

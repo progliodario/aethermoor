@@ -587,6 +587,7 @@ bool WorldSim::use_item(const std::string& item_id) {
     const ItemEffect* fortify = nullptr;  // spec 06, "Fortify": attack up for a while
     const ItemEffect* ward = nullptr;     // spec 06, "Ward": defense up for a while
     const ItemEffect* regen = nullptr;    // spec 06, "Regen": health back over time
+    const ItemEffect* haste = nullptr;    // spec 06, "Haste": faster on foot for a while
     for (const ItemEffect& effect : item->second.effects) {
         if (effect.effect == "fortify") {
             fortify = &effect;
@@ -594,11 +595,13 @@ bool WorldSim::use_item(const std::string& item_id) {
             ward = &effect;
         } else if (effect.effect == "regen") {
             regen = &effect;
+        } else if (effect.effect == "haste") {
+            haste = &effect;
         }
     }
     const std::int64_t full_mp = m_derived_.max_mp * 6000;
     if (!((heal > 0 && m_player_.hp < m_derived_.max_hp) || (mana > 0 && m_player_.mp_u < full_mp) ||
-          fortify != nullptr || ward != nullptr || regen != nullptr)) {
+          fortify != nullptr || ward != nullptr || regen != nullptr || haste != nullptr)) {
         return false;
     }
     if (fortify != nullptr) {
@@ -612,6 +615,10 @@ bool WorldSim::use_item(const std::string& item_id) {
     if (regen != nullptr) {
         m_player_.regen_amount = regen->amount;
         m_player_.regen = regen->ticks;
+    }
+    if (haste != nullptr) {
+        m_player_.haste_pct = haste->amount;
+        m_player_.haste = haste->ticks;
     }
     if (heal > 0) {
         m_player_.hp = std::min(m_derived_.max_hp, m_player_.hp + heal);
@@ -960,7 +967,9 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
             const float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
             p.facing = {direction.x / length, direction.y / length};
         }
-        float speed = combat ? static_cast<float>(m_derived_.move_speed_x100) / 100.0F : m_speed_;
+        const std::int64_t walk_x100 = p.haste > 0 ? m_derived_.move_speed_x100 * (100 + p.haste_pct) / 100
+                                                   : m_derived_.move_speed_x100;  // a brew of haste (spec 06)
+        float speed = combat ? static_cast<float>(walk_x100) / 100.0F : m_speed_;
         if (combat && p.phase != AttackPhase::None) {
             speed *= kAttackMoveMult;
         }
@@ -1023,6 +1032,9 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
     }
     if (p.ward > 0) {  // and a brew that wards (spec 06, "Ward")
         --p.ward;
+    }
+    if (p.haste > 0) {  // a brew of haste (spec 06, "Haste") wears off
+        --p.haste;
     }
     if (p.regen > 0) {  // a dish that heals over time (spec 06, "Regen"): `amount` every second
         --p.regen;
@@ -1179,29 +1191,35 @@ void WorldSim::on_kill(Enemy& enemy) {
     m_story_.on_kill(enemy.def.id);
 }
 
-std::vector<std::string> WorldSim::earned_titles() const {
-    std::int64_t quests_done = 0;
-    for (const auto& entry : m_story_.quests()) {
-        quests_done += entry.second.done ? 1 : 0;
+std::int64_t WorldSim::title_progress(const TitleDef& t) const {
+    if (t.kind == "kills") {
+        return m_player_.kills;
     }
+    if (t.kind == "kills_of") {
+        const auto it = m_bestiary_.find(t.enemy);
+        return it == m_bestiary_.end() ? 0 : it->second;
+    }
+    if (t.kind == "level") {
+        return m_player_.level;
+    }
+    if (t.kind == "species") {
+        return static_cast<std::int64_t>(m_bestiary_.size());
+    }
+    if (t.kind == "quests") {
+        std::int64_t quests_done = 0;
+        for (const auto& entry : m_story_.quests()) {
+            quests_done += entry.second.done ? 1 : 0;
+        }
+        return quests_done;
+    }
+    const auto counter = m_counters_.find(t.kind);
+    return counter == m_counters_.end() ? 0 : counter->second;
+}
+
+std::vector<std::string> WorldSim::earned_titles() const {
     std::vector<std::string> earned;
     for (const TitleDef& t : m_setup_.titles) {
-        std::int64_t have = 0;
-        if (t.kind == "kills") {
-            have = m_player_.kills;
-        } else if (t.kind == "kills_of") {
-            const auto it = m_bestiary_.find(t.enemy);
-            have = it == m_bestiary_.end() ? 0 : it->second;
-        } else if (t.kind == "level") {
-            have = m_player_.level;
-        } else if (t.kind == "species") {
-            have = static_cast<std::int64_t>(m_bestiary_.size());
-        } else if (t.kind == "quests") {
-            have = quests_done;
-        } else if (const auto counter = m_counters_.find(t.kind); counter != m_counters_.end()) {
-            have = counter->second;
-        }
-        if (have >= t.count) {
+        if (title_progress(t) >= t.count) {
             earned.push_back(t.id);
         }
     }
@@ -1421,7 +1439,7 @@ void WorldSim::hurt_player(Enemy& enemy) {
         p.dodge_cooldown = 0;
         p.parry_ticks = 0;
         p.parry_cooldown = 0;
-        p.burn = p.burn_clock = p.chill = p.stun = p.weaken = p.fortify = p.ward = p.regen = 0;
+        p.burn = p.burn_clock = p.chill = p.stun = p.weaken = p.fortify = p.ward = p.regen = p.haste = 0;
         p.mp_u = m_derived_.max_mp * 6000;
         p.iframes = kRespawnIframes;
         return;
@@ -1581,7 +1599,7 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
     m_player_.parry_ticks = 0;
     m_player_.parry_cooldown = 0;
     m_player_.burn = m_player_.burn_clock = m_player_.chill = m_player_.stun = m_player_.weaken = m_player_.fortify =
-        m_player_.ward = m_player_.regen = 0;
+        m_player_.ward = m_player_.regen = m_player_.haste = 0;
     m_player_.mp_u = m_derived_.max_mp * 6000;  // nor is the mana: a loaded game starts full
     m_player_.using_strike = false;
     m_combat_rng_.set_state(s.combat_state, s.combat_inc);

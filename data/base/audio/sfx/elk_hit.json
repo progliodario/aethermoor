@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../schemas/sfx_recipe.schema.json",
+  "id": "base:audio/sfx/elk_hit",
+  "duration_ms": 220,
+  "volume_pm": 650,
+  "layers": [
+    {
+      "wave": "sine",
+      "freq_start": 900,
+      "freq_end": 420,
+      "volume_pm": 550,
+      "attack_ms": 0,
+      "decay_ms": 200
+    },
+    {
+      "wave": "triangle",
+      "freq_start": 450,
+      "freq_end": 220,
+      "volume_pm": 250,
+      "attack_ms": 0,
+      "decay_ms": 180
+    }
+  ]
+}

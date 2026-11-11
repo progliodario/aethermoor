@@ -637,6 +637,81 @@
       ],
       "volume_pm": 1000
     },
+    "enemy.boar.aggro": {
+      "sounds": [
+        "boar_aggro"
+      ],
+      "volume_pm": 1000,
+      "cooldown": 20
+    },
+    "enemy.boar.attack": {
+      "sounds": [
+        "boar_attack"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.boar.hit": {
+      "sounds": [
+        "boar_hit"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.boar.die": {
+      "sounds": [
+        "boar_die"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.elk.aggro": {
+      "sounds": [
+        "elk_aggro"
+      ],
+      "volume_pm": 1000,
+      "cooldown": 20
+    },
+    "enemy.elk.attack": {
+      "sounds": [
+        "elk_attack"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.elk.hit": {
+      "sounds": [
+        "elk_hit"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.elk.die": {
+      "sounds": [
+        "elk_die"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.fox.aggro": {
+      "sounds": [
+        "fox_aggro"
+      ],
+      "volume_pm": 1000,
+      "cooldown": 20
+    },
+    "enemy.fox.attack": {
+      "sounds": [
+        "fox_attack"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.fox.hit": {
+      "sounds": [
+        "fox_hit"
+      ],
+      "volume_pm": 1000
+    },
+    "enemy.fox.die": {
+      "sounds": [
+        "fox_die"
+      ],
+      "volume_pm": 1000
+    },
     "enemy.wisp.aggro": {
       "sounds": [
         "wisp_aggro"
