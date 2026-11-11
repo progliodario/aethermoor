@@ -251,10 +251,18 @@ def suite_worldmap() -> list[dict]:
             tx = nm.hash64(seed, i, 33) % 16384
             ty = nm.hash64(seed, i, 34) % 16384
             tiles.append([tx, ty, worldgen.biome_code_at(seed, params, tx, ty)])
+        # the map codes with rivers and roads: points along a line, so that some cross them, at three widths
+        map_codes = []
+        for i in range(120):
+            tx = 8192 + 900 + i * 7 if name == "from_the_spawn" else (nm.hash64(seed, i, 35) % 16384)
+            ty = 8192 - 300 + i * 3 if name == "from_the_spawn" else (nm.hash64(seed, i, 36) % 16384)
+            widen = (1, 4, 8)[i % 3]
+            map_codes.append([tx, ty, widen, worldgen.map_code_at(seed, params, tx, ty, widen)])
         cases.append({
             "name": f"worldmap_{name}",
             "input": {"op": "worldmap", "seed": h64(seed), "cell": worldgen.MAP_CELL, "positions": positions, "params": params},
-            "expect": {"explored_count": len(cells), "explored_digest": h64(worldgen.digest_cells(cells)), "biomes": samples, "tile_biomes": tiles},
+            "expect": {"explored_count": len(cells), "explored_digest": h64(worldgen.digest_cells(cells)), "biomes": samples, "tile_biomes": tiles,
+                       "map_codes": map_codes},
         })
     return cases
 

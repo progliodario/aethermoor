@@ -349,6 +349,10 @@ constexpr int kMapCell = 128;
 int biome_code(std::uint64_t seed, const WorldParams& params, int cell_x, int cell_y);
 // The same code for one tile: the map draws a zoomed cell as a grid of these (spec 09, "The map view").
 int biome_code_at(std::uint64_t seed, const WorldParams& params, int tile_x, int tile_y);
+
+// The code the map draws for a tile seen `widen` tiles wide: the biome, or 7 (a river) or 8 (a road) when the tile is
+// that close to one (spec 09, "The map view"). `widen` 0 is the biome only.
+int map_code_at(std::uint64_t seed, const WorldParams& params, int tile_x, int tile_y, int widen);
 // Marks the cell of the tile and its eight neighbours inside the world as explored.
 void explore(std::set<std::pair<int, int>>& cells, const WorldParams& params, int tile_x, int tile_y);
 std::uint64_t digest_cells(const std::set<std::pair<int, int>>& cells);

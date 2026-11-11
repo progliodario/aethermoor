@@ -257,7 +257,7 @@ chunks is updated, the cell of the player `(floor(x) / 128, floor(y) / 128)` and
 cells are never forgotten and are stored in the save (spec 12, `explored`).
 
 The map shows each explored cell with the biome of the tile at the center of the cell (`cell * 128 + 64`): code 0 water, 1 beach, 2 mountain, 3 snow, 4 desert,
-5 forest, 6 plains. Rivers and roads are not shown. A settlement is shown on the map cell that contains its site point as a marker, with its name, once the cell is explored. Unexplored cells are drawn dark. Clients open the map with the `M` key (and a button on touch screens);
+5 forest, 6 plains. Rivers and roads are shown from the middle zoom: when the map draws a cell as `n x n` samples with `n >= 4`, each sample is `map_code_at(x, y, widen)` with `widen = 128 / n / 2`: on land outside the spawn clearing, code 7 (a river) when `|river - 32768| < river.half_width * widen`, else code 8 (a road) when `|road - 32768| < road.half_width * widen`, else the biome; the small map samples every 16 tiles with `widen` 8. Conformance: `map_codes` of the suite `worldmap`. A settlement is shown on the map cell that contains its site point as a marker, with its name, once the cell is explored. Unexplored cells are drawn dark. Clients open the map with the `M` key (and a button on touch screens);
 the game is paused while it is open. The player is drawn as a dot at its position.
 
 ### The map view

@@ -761,15 +761,16 @@ void draw_minimap(SDL_Renderer* renderer, const aether::WorldSim& sim, const Ui&
                     sim.explored().count({tx / aether::kMapCell, ty / aether::kMapCell}) == 0) {
                     continue;
                 }
-                ui.mini_codes[static_cast<std::size_t>(j * kN + i)] =
-                    static_cast<std::uint8_t>(aether::biome_code_at(store->seed(), params, tx, ty));
+                ui.mini_codes[static_cast<std::size_t>(j * kN + i)] =  // rivers and roads too (spec 09)
+                    static_cast<std::uint8_t>(aether::map_code_at(store->seed(), params, tx, ty, kStep / 2));
             }
         }
         ui.mini_ox = ox;
         ui.mini_oy = oy;
     }
-    static const Uint8 kColors[7][3] = {{60, 110, 190},  {222, 206, 150}, {130, 130, 140}, {235, 240, 245},
-                                        {222, 206, 150}, {60, 130, 70},   {110, 180, 90}};
+    static const Uint8 kColors[9][3] = {{60, 110, 190},  {222, 206, 150}, {130, 130, 140},
+                                        {235, 240, 245}, {222, 206, 150}, {60, 130, 70},
+                                        {110, 180, 90},  {90, 160, 230},  {170, 130, 85}};  // ..., river, road
     const float cell = 3.0F * density;
     const float side = cell * static_cast<float>(kN);
     const float x0 = 10.0F * density;
@@ -930,8 +931,9 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
     fill_rect(renderer, g.x, g.y, g.side, g.side, 6, 12, 28, 255);  // beyond the edge of the world
     fill_map_rect(renderer, g, g.to_x(0.0F), g.to_y(0.0F), g.cell * static_cast<float>(columns),
                   g.cell * static_cast<float>(rows), 20, 36, 66, 255);  // the world, still unexplored
-    static const Uint8 kColors[7][3] = {{60, 110, 190},  {222, 206, 150}, {130, 130, 140}, {235, 240, 245},
-                                        {222, 206, 150}, {60, 130, 70},   {110, 180, 90}};
+    static const Uint8 kColors[9][3] = {{60, 110, 190},  {222, 206, 150}, {130, 130, 140},
+                                        {235, 240, 245}, {222, 206, 150}, {60, 130, 70},
+                                        {110, 180, 90},  {90, 160, 230},  {170, 130, 85}};  // ..., river, road
     // A cell is drawn as a grid of n x n sampled tiles (n = 1, 2, 4, 8, 16 from level 1), so that the squares stay
     // about 4 or 5 pixels whatever the zoom: the shape of coasts, mountains and deserts shows when the map is zoomed
     // in.
@@ -960,9 +962,10 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
             std::vector<std::uint8_t> codes(static_cast<std::size_t>(n) * static_cast<std::size_t>(n));
             for (int j = 0; j < n; ++j) {
                 for (int i = 0; i < n; ++i) {
-                    codes[static_cast<std::size_t>(j * n + i)] = static_cast<std::uint8_t>(aether::biome_code_at(
+                    codes[static_cast<std::size_t>(j * n + i)] = static_cast<std::uint8_t>(aether::map_code_at(
                         store->seed(), params, x * aether::kMapCell + (2 * i + 1) * aether::kMapCell / (2 * n),
-                        y * aether::kMapCell + (2 * j + 1) * aether::kMapCell / (2 * n)));
+                        y * aether::kMapCell + (2 * j + 1) * aether::kMapCell / (2 * n),
+                        n >= 4 ? aether::kMapCell / n / 2 : 0));  // rivers and roads from the middle zoom (spec 09)
                 }
             }
             detail = ui.map_detail.emplace(std::array<int, 3>{x, y, n}, std::move(codes)).first;
