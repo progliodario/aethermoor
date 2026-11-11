@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/ember_brew",
+  "name": "$i18n:item.ember_brew.name",
+  "description": "$i18n:item.ember_brew.desc",
+  "kind": "consumable",
+  "rarity": "uncommon",
+  "price": 320,
+  "stack_max": 99,
+  "use": {
+    "effects": [
+      {
+        "effect": "heal",
+        "amount": 400
+      }
+    ]
+  }
+}

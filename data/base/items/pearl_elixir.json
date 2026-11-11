@@ -1,0 +1,22 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/pearl_elixir",
+  "name": "$i18n:item.pearl_elixir.name",
+  "description": "$i18n:item.pearl_elixir.desc",
+  "kind": "consumable",
+  "rarity": "uncommon",
+  "price": 260,
+  "stack_max": 99,
+  "use": {
+    "effects": [
+      {
+        "effect": "heal",
+        "amount": 300
+      },
+      {
+        "effect": "restore_mp",
+        "amount": 60
+      }
+    ]
+  }
+}

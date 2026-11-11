@@ -1,0 +1,22 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/desert_nectar",
+  "name": "$i18n:item.desert_nectar.name",
+  "description": "$i18n:item.desert_nectar.desc",
+  "kind": "consumable",
+  "rarity": "uncommon",
+  "price": 170,
+  "stack_max": 99,
+  "use": {
+    "effects": [
+      {
+        "effect": "heal",
+        "amount": 220
+      },
+      {
+        "effect": "restore_mp",
+        "amount": 30
+      }
+    ]
+  }
+}

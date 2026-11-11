@@ -302,6 +302,146 @@
       ]
     },
     {
+      "id": "moonmoss_draught",
+      "output": {
+        "item": "base:item/moonmoss_draught",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/moss_clump",
+          "qty": 2
+        },
+        {
+          "item": "base:item/shade_wisp",
+          "qty": 1
+        },
+        {
+          "item": "base:item/owl_feather",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "id": "miners_broth",
+      "output": {
+        "item": "base:item/miners_broth",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/rust_flake",
+          "qty": 2
+        },
+        {
+          "item": "base:item/wolf_fang",
+          "qty": 2
+        },
+        {
+          "item": "base:item/healing_herb",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/campfire"
+    },
+    {
+      "id": "desert_nectar",
+      "output": {
+        "item": "base:item/desert_nectar",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/amber_drop",
+          "qty": 2
+        },
+        {
+          "item": "base:item/scorpion_sting",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "id": "frost_tonic",
+      "output": {
+        "item": "base:item/frost_tonic",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/ice_crystal",
+          "qty": 2
+        },
+        {
+          "item": "base:item/polar_fur",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "id": "pearl_elixir",
+      "output": {
+        "item": "base:item/pearl_elixir",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/pearl_dust",
+          "qty": 2
+        },
+        {
+          "item": "base:item/tide_pearl",
+          "qty": 1
+        },
+        {
+          "item": "base:item/coral_fragment",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "id": "ember_brew",
+      "output": {
+        "item": "base:item/ember_brew",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/ember_core",
+          "qty": 1
+        },
+        {
+          "item": "base:item/magma_shard",
+          "qty": 1
+        },
+        {
+          "item": "base:item/char_chunk",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "id": "starlight_elixir",
+      "output": {
+        "item": "base:item/starlight_elixir",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/star_dust",
+          "qty": 2
+        },
+        {
+          "item": "base:item/nebula_ash",
+          "qty": 1
+        },
+        {
+          "item": "base:item/storm_feather",
+          "qty": 1
+        }
+      ]
+    },
+    {
       "id": "fine_iron_sword",
       "output": {
         "item": "base:item/fine_iron_sword",

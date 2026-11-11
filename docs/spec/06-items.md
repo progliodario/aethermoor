@@ -40,7 +40,7 @@ button opens it; a tap on a recipe chooses it and a tap on the chosen one makes 
 ### Stations
 
 A recipe may have a `station`: the art of a prop it must be made next to. `craft` is then also refused unless a prop of that art is within `2 + its radius` tiles of the player (the distance between the centres). The base pack
-cooks its dishes (hearty stew, fish stew, royal feast) at a **campfire** (one in the plaza of every village and town, Fenwick and Aldermere among them, and of every outpost), and makes **fine gear** at an **anvil** (one in every town, Aldermere among them): a fine iron sword, hand axe and pike, a fine leather vest and studded leather, each from the plain piece and materials, with about half again its stats. The panels name the station next to such a recipe (`ui.station_<prop>`), or say that the player is at it.
+cooks its dishes (hearty stew, fish stew, royal feast, miner's broth) at a **campfire** (one in the plaza of every village and town, Fenwick and Aldermere among them, and of every outpost), and makes **fine gear** at an **anvil** (one in every town, Aldermere among them): a fine iron sword, hand axe and pike, a fine leather vest and studded leather, each from the plain piece and materials, with about half again its stats. The panels name the station next to such a recipe (`ui.station_<prop>`), or say that the player is at it.
 Conformance: the scenario `craft_at_fire`.
 
 ## Using an item
