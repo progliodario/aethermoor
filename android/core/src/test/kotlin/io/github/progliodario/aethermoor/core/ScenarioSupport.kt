@@ -197,6 +197,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
                 stackMax = d["stack_max"]?.jsonPrimitive?.int ?: 0,
                 weapon = d["weapon"]?.jsonObject?.let { WeaponStats(it.long("atk"), it.long("matk"), it["element"]?.jsonPrimitive?.content ?: "none") },
                 armor = d["armor"]?.jsonObject?.let { ArmorStats(it.long("def"), it.long("mdef")) },
+                accessory = d["accessory"]?.jsonObject?.let { accessoryOf(it) },
             )
         } ?: emptyMap(),
         startWeapon = input["equipped"]?.jsonObject?.get("weapon")?.jsonPrimitive?.content ?: "",
@@ -287,6 +288,7 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
     want["equipped"]?.jsonObject?.let {
         assertEquals(it.getValue("weapon").jsonPrimitive.content, sim.equippedWeapon, "$at equipped weapon")
         assertEquals(it.getValue("armor").jsonPrimitive.content, sim.equippedArmor, "$at equipped armor")
+        assertEquals(it["accessory"]?.jsonPrimitive?.content ?: "", sim.equippedAccessory, "$at equipped accessory")
     }
     val wantInventory = want.getValue("inventory").jsonObject
     assertEquals(wantInventory.size, sim.inventory.size, "$at inventory size")

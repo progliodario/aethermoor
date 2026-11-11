@@ -878,6 +878,16 @@ Scenario scenario_from_json(const Json& in) {
                 parsed.armor_def = integer(def.at("armor"), "def");
                 parsed.armor_mdef = integer(def.at("armor"), "mdef");
             }
+            if (def.contains("accessory")) {
+                const Json& a = def.at("accessory");
+                parsed.is_accessory = true;
+                parsed.acc_atk = a.value("atk", static_cast<std::int64_t>(0));
+                parsed.acc_matk = a.value("matk", static_cast<std::int64_t>(0));
+                parsed.acc_def = a.value("def", static_cast<std::int64_t>(0));
+                parsed.acc_mdef = a.value("mdef", static_cast<std::int64_t>(0));
+                parsed.acc_max_hp = a.value("max_hp", static_cast<std::int64_t>(0));
+                parsed.acc_crit_pm = a.value("crit_pm", static_cast<std::int64_t>(0));
+            }
             setup.items.emplace(item, std::move(parsed));
         }
     }
@@ -1009,6 +1019,7 @@ void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) 
     if (want.contains("equipped")) {
         REQUIRE(sim.equipped_weapon() == want.at("equipped").at("weapon").get<std::string>());
         REQUIRE(sim.equipped_armor() == want.at("equipped").at("armor").get<std::string>());
+        REQUIRE(sim.equipped_accessory() == want.at("equipped").value("accessory", ""));
     }
     const Json& inventory = want.at("inventory");
     REQUIRE(sim.inventory().size() == inventory.size());

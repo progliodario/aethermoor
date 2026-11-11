@@ -118,6 +118,13 @@ struct ItemDef {
     bool is_armor = false;
     std::int64_t armor_def = 0;
     std::int64_t armor_mdef = 0;
+    bool is_accessory = false;  // an accessory (spec 06, "Equipment"): flat bonuses while worn
+    std::int64_t acc_atk = 0;
+    std::int64_t acc_matk = 0;
+    std::int64_t acc_def = 0;
+    std::int64_t acc_mdef = 0;
+    std::int64_t acc_max_hp = 0;
+    std::int64_t acc_crit_pm = 0;
 };
 
 // What a shop sells: prices in permille of the base price (spec 06).

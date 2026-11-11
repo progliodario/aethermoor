@@ -1,0 +1,12 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/pearl_pendant",
+  "name": "$i18n:item.pearl_pendant.name",
+  "description": "$i18n:item.pearl_pendant.desc",
+  "kind": "accessory",
+  "rarity": "uncommon",
+  "price": 260,
+  "accessory": {
+    "max_hp": 40
+  }
+}

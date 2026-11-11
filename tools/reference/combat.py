@@ -122,7 +122,8 @@ class CombatSim:
         self.inventory: dict[str, int] = dict(scenario.get("inventory", {}))
         # item id -> {"kind", "price", "stack_max"?, "effects"?, "weapon"?: {"atk", "matk"}, "armor"?: {"def", "mdef"}}
         self.items: dict[str, dict] = scenario.get("items", {})
-        self.equipped = {"weapon": scenario.get("equipped", {}).get("weapon", ""), "armor": scenario.get("equipped", {}).get("armor", "")}
+        self.equipped = {"weapon": scenario.get("equipped", {}).get("weapon", ""), "armor": scenario.get("equipped", {}).get("armor", ""),
+                         "accessory": scenario.get("equipped", {}).get("accessory", "")}
         self.shop: dict | None = None  # the open shop: {"price_pm": ..., "stock": [...]}
         self.shop_def: dict | None = scenario.get("shop")  # what the shop of this place sells
         self.derived = self._derive()
@@ -157,7 +158,15 @@ class CombatSim:
             if rank > 0:
                 for key in TALENT_STATS[talent["stat"]]:
                     derived[key] = derived[key] * (100 + talent["pct_per_rank"] * rank) // 100
+        accessory = self.items.get(self.equipped["accessory"], {}).get("accessory")
+        if accessory:  # an accessory adds its flat bonuses last (spec 06, "Equipment")
+            for key, stat in (("atk", "atk"), ("matk", "matk"), ("def", "def"), ("mdef", "mdef"), ("max_hp", "max_hp"), ("crit_pm", "crit_chance_pm")):
+                derived[stat] += accessory.get(key, 0)
         return derived
+
+    def _equipped_out(self) -> dict:
+        """The equipment as the saves and the checkpoints write it: the accessory only when one is worn (spec 12)."""
+        return {k: v for k, v in self.equipped.items() if k != "accessory" or v}
 
     def talent_points(self) -> int:
         """The talent points not spent yet: one share for every level gained, less the ranks learned."""
@@ -669,9 +678,13 @@ class CombatSim:
         ward = [e for e in item["effects"] if e["effect"] == "ward"]  # spec 06, "Ward": defense up for a while
         regen = [e for e in item["effects"] if e["effect"] == "regen"]  # spec 06, "Regen": health back over time
         haste = [e for e in item["effects"] if e["effect"] == "haste"]  # spec 06, "Haste": faster on foot for a while
+        afflicted = self.p_burn > 0 or self.p_chill > 0 or self.p_stun > 0 or self.p_weaken > 0
+        cleanse = afflicted and any(e["effect"] == "cleanse" for e in item["effects"])  # spec 06, "Cleanse": the statuses go
         full_mp = self.derived["max_mp"] * 6000
-        if not ((heal > 0 and self.hp < self.derived["max_hp"]) or (mana > 0 and self.mp_u < full_mp) or fortify or ward or regen or haste):
+        if not ((heal > 0 and self.hp < self.derived["max_hp"]) or (mana > 0 and self.mp_u < full_mp) or fortify or ward or regen or haste or cleanse):
             return False
+        if cleanse:
+            self.p_burn = self.p_burn_clock = self.p_chill = self.p_stun = self.p_weaken = 0
         if haste:
             self.p_haste_pct = haste[-1]["amount"]
             self.p_haste = haste[-1].get("ticks", 0)
@@ -698,7 +711,7 @@ class CombatSim:
         item = self.items.get(item_id)
         if item is None or self.inventory.get(item_id, 0) < 1:
             return False
-        slot = {"weapon": "weapon", "armor": "armor"}.get(item.get("kind", ""))
+        slot = {"weapon": "weapon", "armor": "armor", "accessory": "accessory"}.get(item.get("kind", ""))
         if slot is None or slot not in item or self.equipped[slot] == item_id:
             return False
         self.equipped[slot] = item_id
@@ -770,7 +783,7 @@ class CombatSim:
             },
             "enemies": [{"x": e.x, "y": e.y, "hp": e.hp, "state": e.state, "state_tick": e.t} for e in self.enemies],
             "inventory": dict(sorted(self.inventory.items())),
-            "equipped": dict(self.equipped),
+            "equipped": self._equipped_out(),
             **({"bestiary": dict(sorted(self.bestiary.items()))} if self.bestiary else {}),
             **({"counters": dict(sorted(self.counters.items()))} if self.counters else {}),
             **({"talents": dict(sorted(self.talents.items()))} if self.talents else {}),
@@ -798,7 +811,7 @@ class CombatSim:
         for enemy, data in zip(self.enemies, save["enemies"]):
             enemy.x, enemy.y, enemy.hp, enemy.state, enemy.t = data["x"], data["y"], data["hp"], data["state"], data["state_tick"]
         self.inventory = dict(save["inventory"])
-        self.equipped = {"weapon": "", "armor": "", **save.get("equipped", {})}
+        self.equipped = {"weapon": "", "armor": "", "accessory": "", **save.get("equipped", {})}
         self.bestiary = dict(save.get("bestiary", {}))
         self.counters = dict(save.get("counters", {}))
         self.talents = dict(save.get("talents", {}))
@@ -815,7 +828,7 @@ class CombatSim:
             "enemies": [{"hp": e.hp, "state": e.state, "x": e.x, "y": e.y} for e in self.enemies],
             "kills": self.kills,
             "inventory": dict(sorted(self.inventory.items())),
-            "equipped": dict(self.equipped),
+            "equipped": self._equipped_out(),
             **({"talents": dict(sorted(self.talents.items())), "talent_points": self.talent_points(), "max_hp": self.derived["max_hp"],
                 "max_mp": self.derived["max_mp"], "matk": self.derived["matk"], "crit_chance_pm": self.derived["crit_chance_pm"],
                 "move_speed_x100": self.derived["move_speed_x100"]} if self.talent_defs else {}),

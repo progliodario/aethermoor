@@ -1,0 +1,12 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/owl_charm",
+  "name": "$i18n:item.owl_charm.name",
+  "description": "$i18n:item.owl_charm.desc",
+  "kind": "accessory",
+  "rarity": "uncommon",
+  "price": 240,
+  "accessory": {
+    "crit_pm": 60
+  }
+}

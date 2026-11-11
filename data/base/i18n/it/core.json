@@ -62,6 +62,7 @@
   "ui.status_power": "Attacco {atk}   Magia {matk}   Difesa {def}   Difesa magica {mdef}",
   "ui.status_more": "Critico {crit}%   Velocità {speed}   Titoli +{titles}% attacco",
   "ui.status_purse": "Oro {gold}   Creature sconfitte {kills}",
+  "ui.status_worn": "Equipaggiamento: {list}",
   "ui.status_effects": "Ancora attivi: {list}",
   "ui.journal_active": "In corso",
   "ui.journal_done": "Completate",

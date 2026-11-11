@@ -221,6 +221,10 @@ class WorldSim(
     var equippedArmor: String = combat.startArmor
         private set
 
+    /** The accessory worn (spec 06, "Equipment"); empty: none. */
+    var equippedAccessory: String = ""
+        private set
+
     /** The board of a settlement (spec 07, "Guild"): the settlement, the day and its offers. */
     class Board(val settlement: Settlement, val day: Long, val offers: List<Offer>)
 
@@ -479,6 +483,12 @@ class WorldSim(
                 else -> derived
             }
         }
+        combat.items[equippedAccessory]?.accessory?.let { a -> // its flat bonuses come last (spec 06)
+            derived = derived.copy(
+                atk = derived.atk + a.atk, matk = derived.matk + a.matk, def = derived.def + a.def, mdef = derived.mdef + a.mdef,
+                maxHp = derived.maxHp + a.maxHp, critChancePm = derived.critChancePm + a.critPm,
+            )
+        }
     }
 
     /** Puts the player at (x, y) in tiles, loading the chunks around (developer option, later the Threshold Stones). */
@@ -615,6 +625,8 @@ class WorldSim(
             equippedWeapon = itemId
         } else if (item.armor != null && item.kind == "armor" && equippedArmor != itemId) {
             equippedArmor = itemId
+        } else if (item.accessory != null && item.kind == "accessory" && equippedAccessory != itemId) {
+            equippedAccessory = itemId
         } else {
             return false
         }
@@ -640,7 +652,7 @@ class WorldSim(
         if (shop == null) return false
         val owned = inventory[itemId] ?: 0L
         if (owned < 1L || sellPrice(itemId) <= 0L) return false
-        if (owned == 1L && (itemId == equippedWeapon || itemId == equippedArmor)) return false
+        if (owned == 1L && (itemId == equippedWeapon || itemId == equippedArmor || itemId == equippedAccessory)) return false
         story.gold += sellPrice(itemId)
         if (owned == 1L) inventory.remove(itemId) else inventory[itemId] = owned - 1L
         return true
@@ -657,8 +669,10 @@ class WorldSim(
         val ward = item.effects.lastOrNull { it.effect == "ward" } // spec 06, "Ward": defense up for a while
         val regen = item.effects.lastOrNull { it.effect == "regen" } // spec 06, "Regen": health back over time
         val haste = item.effects.lastOrNull { it.effect == "haste" } // spec 06, "Haste": faster on foot for a while
+        val afflicted = player.burn > 0 || player.chill > 0 || player.stun > 0 || player.weaken > 0
+        val cleanse = afflicted && item.effects.any { it.effect == "cleanse" } // spec 06, "Cleanse": the statuses go
         val fullMp = derived.maxMp * 6000L
-        if (!((heal > 0L && player.hp < derived.maxHp) || (mana > 0L && player.mpU < fullMp) || fortify != null || ward != null || regen != null || haste != null)) return false
+        if (!((heal > 0L && player.hp < derived.maxHp) || (mana > 0L && player.mpU < fullMp) || fortify != null || ward != null || regen != null || haste != null || cleanse)) return false
         if (fortify != null) {
             player.fortifyPct = fortify.amount
             player.fortify = fortify.ticks
@@ -674,6 +688,13 @@ class WorldSim(
         if (haste != null) {
             player.hastePct = haste.amount
             player.haste = haste.ticks
+        }
+        if (cleanse) {
+            player.burn = 0
+            player.burnClock = 0
+            player.chill = 0
+            player.stun = 0
+            player.weaken = 0
         }
         if (heal > 0L) player.hp = minOf(derived.maxHp, player.hp + heal)
         if (mana > 0L) player.mpU = minOf(fullMp, player.mpU + mana * 6000L)
@@ -1316,6 +1337,7 @@ class WorldSim(
             companion = if (combat.companion != null) Triple((companionPosition ?: player.position).x, (companionPosition ?: player.position).y, companionCooldown) else null,
             equippedWeapon = equippedWeapon,
             equippedArmor = equippedArmor,
+            equippedAccessory = equippedAccessory,
             inventory = HashMap(inventory), story = story.capture(),
         )
     }
@@ -1410,6 +1432,7 @@ class WorldSim(
         inventory.putAll(s.inventory)
         equippedWeapon = s.equippedWeapon ?: combat.startWeapon
         equippedArmor = s.equippedArmor
+        equippedAccessory = s.equippedAccessory
         shop = null
         board = null
         travel = null

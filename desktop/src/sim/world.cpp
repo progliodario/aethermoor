@@ -325,6 +325,15 @@ void WorldSim::recompute_derived() {
             m_derived_.move_speed_x100 = m_derived_.move_speed_x100 * pct / 100;
         }
     }
+    const auto accessory = m_setup_.items.find(m_equipped_accessory_);  // its flat bonuses come last (spec 06)
+    if (accessory != m_setup_.items.end() && accessory->second.is_accessory) {
+        m_derived_.atk += accessory->second.acc_atk;
+        m_derived_.matk += accessory->second.acc_matk;
+        m_derived_.def += accessory->second.acc_def;
+        m_derived_.mdef += accessory->second.acc_mdef;
+        m_derived_.max_hp += accessory->second.acc_max_hp;
+        m_derived_.crit_chance_pm += accessory->second.acc_crit_pm;
+    }
 }
 
 int WorldSim::talent_points() const {
@@ -502,6 +511,8 @@ bool WorldSim::equip(const std::string& item_id) {
         m_equipped_weapon_ = item_id;
     } else if (item->second.is_armor && item->second.kind == "armor" && m_equipped_armor_ != item_id) {
         m_equipped_armor_ = item_id;
+    } else if (item->second.is_accessory && item->second.kind == "accessory" && m_equipped_accessory_ != item_id) {
+        m_equipped_accessory_ = item_id;
     } else {
         return false;
     }
@@ -552,7 +563,8 @@ bool WorldSim::sell(const std::string& item_id) {
         sell_price(item_id) <= 0) {
         return false;
     }
-    if (owned->second == 1 && (item_id == m_equipped_weapon_ || item_id == m_equipped_armor_)) {
+    if (owned->second == 1 &&
+        (item_id == m_equipped_weapon_ || item_id == m_equipped_armor_ || item_id == m_equipped_accessory_)) {
         return false;
     }
     m_story_.set_gold(m_story_.gold() + sell_price(item_id));
@@ -588,6 +600,7 @@ bool WorldSim::use_item(const std::string& item_id) {
     const ItemEffect* ward = nullptr;     // spec 06, "Ward": defense up for a while
     const ItemEffect* regen = nullptr;    // spec 06, "Regen": health back over time
     const ItemEffect* haste = nullptr;    // spec 06, "Haste": faster on foot for a while
+    bool cleanse = false;                 // spec 06, "Cleanse": the statuses go, when there is one
     for (const ItemEffect& effect : item->second.effects) {
         if (effect.effect == "fortify") {
             fortify = &effect;
@@ -597,11 +610,14 @@ bool WorldSim::use_item(const std::string& item_id) {
             regen = &effect;
         } else if (effect.effect == "haste") {
             haste = &effect;
+        } else if (effect.effect == "cleanse") {
+            cleanse = true;
         }
     }
+    cleanse = cleanse && (m_player_.burn > 0 || m_player_.chill > 0 || m_player_.stun > 0 || m_player_.weaken > 0);
     const std::int64_t full_mp = m_derived_.max_mp * 6000;
     if (!((heal > 0 && m_player_.hp < m_derived_.max_hp) || (mana > 0 && m_player_.mp_u < full_mp) ||
-          fortify != nullptr || ward != nullptr || regen != nullptr || haste != nullptr)) {
+          fortify != nullptr || ward != nullptr || regen != nullptr || haste != nullptr || cleanse)) {
         return false;
     }
     if (fortify != nullptr) {
@@ -619,6 +635,9 @@ bool WorldSim::use_item(const std::string& item_id) {
     if (haste != nullptr) {
         m_player_.haste_pct = haste->amount;
         m_player_.haste = haste->ticks;
+    }
+    if (cleanse) {
+        m_player_.burn = m_player_.burn_clock = m_player_.chill = m_player_.stun = m_player_.weaken = 0;
     }
     if (heal > 0) {
         m_player_.hp = std::min(m_derived_.max_hp, m_player_.hp + heal);
@@ -1527,6 +1546,7 @@ SaveState WorldSim::capture() const {
     s.inventory = m_inventory_;
     s.equipped_weapon = m_equipped_weapon_;
     s.equipped_armor = m_equipped_armor_;
+    s.equipped_accessory = m_equipped_accessory_;
     s.story = m_story_.capture();
     return s;
 }
@@ -1641,6 +1661,7 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
     m_inventory_ = s.inventory;
     m_equipped_weapon_ = s.equipped_weapon == "<start>" ? m_setup_.start_weapon : s.equipped_weapon;
     m_equipped_armor_ = s.equipped_armor;
+    m_equipped_accessory_ = s.equipped_accessory;
     m_shop_.reset();
     m_board_.reset();
     m_travel_.reset();
