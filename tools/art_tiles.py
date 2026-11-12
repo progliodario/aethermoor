@@ -127,6 +127,8 @@ def grass(name: str, tones=GRASS, seed: int = 11, flowers=None, clover=False, mu
             flower(r, x, y, r.rng.choice(flowers), r.rng.uniform(0.8, 1.1))
     if mushrooms:
         for x, y in cells(r, 1, 8):
+            if r.rng.random() > 0.3:  # a few rings of mushrooms in a meadow, not one in every tile
+                continue
             for (dx, dy, s) in ((0, 0, 1.0), (4.5, 2.5, 0.75), (-3.5, 3, 0.6)):
                 mx, my = x + dx, y + dy
                 r.ellipse(mx + 0.5, my + 3 * s, 3 * s, 1 * s, "#141030", alpha=0.3, blur=0.6)

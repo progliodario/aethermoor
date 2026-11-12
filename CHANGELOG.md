@@ -20,6 +20,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Fixed
 
+- Desktop: texts in the dialogues, the journal and the chooser broke their lines too early (they were still wrapped by counting characters, as with the old font of fixed width); they are now wrapped by the real width of the letters and fill their boxes.
+- The mushrooms of the meadows were one ring in every tile of that kind of grass, a carpet of them; now a few here and there.
+
 - The wild boar and the ridge elk were drawn with the tawny wolf's stripes instead of their tusks and antlers (the art rebuild had stopped halfway); they now look like themselves.
 - CI: the Linux job could hang for hours installing the system packages (twice on 11 November 2026). Apt now has network timeouts, waits for the package lock for at most two minutes, every attempt has a time limit and is tried three times; the job fails after 90 minutes instead of blocking the pull request. The `.deb` files are kept in the CI cache, so a later outage of the Ubuntu archive does not stop the Linux build.
 - Italian accents on desktop: the font of SDL draws the ASCII characters only, so every è, à, ù, ò and ì (about 430 in the texts) and the « » of the recipes were drawn as a block. They are now drawn as the letter with a small accent (and the quotation marks as ASCII ones). Found by looking at a frame of a dialogue.
