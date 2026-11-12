@@ -97,4 +97,4 @@ Il nome vive in **un solo file** (`data/base/pack.json` e `project.json`) e va c
 
 ## 7. Prossimo passo
 
-Fatto: M0 (fondazioni), M1 (specifiche e conformità), M2 (motore e arte), M3 (combattimento, quasi tutto: schivata, mana, magie), M4 (dialoghi, quest, salvataggi, otto protagonisti con la scelta all'inizio, quasi tutto), M5 (mondo aperto, quasi tutto) e l'inizio di M6 (oggetti, negozi, equipaggiamento, mana). Lo stato aggiornato, i prossimi passi in ordine e ciò che resta al proprietario (governance e pubblicazione) sono in [06-roadmap-rischi-backlog.md](06-roadmap-rischi-backlog.md), sezione 8.
+Fatto al 13 novembre 2026: M0, M1 e M3 completi; M2, M4, M5 e M9 quasi completi (mancano le persone viste di lato, la release Alpha 0.1, le prestazioni misurate su telefono, altre storie per regione); M6, M7, M8 e M10 avviati con una base giocabile (raccolta, pesca, caccia, ricette, compagni con cura, talenti, titoli, reincarnazione, effetti sonori). Lo stato aggiornato, i prossimi passi in ordine e ciò che resta al proprietario (governance e pubblicazione) sono in [06-roadmap-rischi-backlog.md](06-roadmap-rischi-backlog.md), sezione 8.

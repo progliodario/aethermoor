@@ -31,9 +31,23 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 |---|---|
 | Windows and Linux | built and tested by CI on every change; play-tested by the owner |
 | Android 11+ | debug APK built and tested by CI; play-tested by the owner |
-| Game rules | the same on both clients: 30 groups of conformance vectors (435 cases) run by both |
-| Languages | Italian and English, complete |
-| Sound | sound effects synthesized by the game; music and ambience loops are written but **switched off** until they sound right |
+| Game rules | the same on both clients: 30 groups of conformance vectors (490 cases) run by both |
+| Languages | Italian and English, complete (2621 texts) |
+| Sound | 174 sound effects synthesized by the game; music and ambience loops are written but **switched off** until they sound right |
+
+**Done and to do, one line per part** (the details, item by item, are in [section 8 of the roadmap](docs/plan/06-roadmap-rischi-backlog.md#8-stato-e-prossimi-passi-aggiornato-al-13-novembre-2026), in Italian):
+
+| Part | Done | To do |
+|---|---|---|
+| Foundations, rules, CI | all | — |
+| Graphics | anime art for everything, light, wind, water, shadows, font | people seen from the side, automatic checks of the frames |
+| Combat | complete (elements, statuses, parry, stagger, guardians) | balance touches, always toward easy fights |
+| World | huge, eight regions, towns and dungeons, weather that matters | performance measured on a phone |
+| Quests and stories | 263 quests, eight complete stories with an epilogue | more stories per region, the gifts still off |
+| Life | gathering, fishing, hunting, 51 recipes, dishes with effects, accessories | item quality, farming, a base and residents, a living economy |
+| Companions | one per protagonist, commands, bond, care | more commands, several companions at once, taming and commanding |
+| Progression | talents, 20 titles, bestiary, reincarnation with an heirloom | new skills in the tree, tags, achievements |
+| Release | test builds from CI | Alpha 0.1 release and then 1.0 (the owner decides) |
 
 ## What is in the game
 
@@ -51,12 +65,12 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 - Six elements (fire, water, wind, earth, light, dark): weapons and skills have one, creatures have weaknesses and resistances.
 - Status effects on creatures and on the player: burn, chill, stun, weaken.
 - Stagger: hits fill a bar under a creature's health; when it is full the creature is broken for two seconds and takes more damage.
-- 71 creatures with different behaviors (game to hunt too: boars, elks and dune foxes), 27 guardians and 8 Echoes, the personal bosses of the protagonists.
+- 75 creatures with different behaviors (game to hunt too: boars, elks and dune foxes), 27 guardians and 8 Echoes, the personal bosses of the protagonists.
 
 **Life and progression**
 
 - An adventurers' guild with a board and commissions, 263 quests (the archivist's Book of Legends among them, one guardian in every region, and the guildmaster's bounties on every other guardian), shops, inns, jobs from the elders.
-- 179 items; gathering from bushes, trees, rocks and cacti, mushrooms in the forests, **fishing** in the reeds of the beaches and **hunting**; 46 recipes (the best dishes **fortify** you, more attack for a while, the brews of the regions **ward** you, more defense, cakes and rations **regenerate** your health little by little, and the windleaf brew makes you **faster** on foot) (potions, brews and elixirs of the regions, dishes cooked at a fire, gear, and fine gear at the anvil of a town).
+- 187 items; gathering from bushes, trees, rocks, cacti, flowers, ferns, stumps, logs, driftwood and ice, mushrooms in the forests, **fishing** in the reeds of the beaches and **hunting**; 51 recipes (the best dishes **fortify** you, more attack for a while, the brews of the regions **ward** you, more defense, cakes and rations **regenerate** your health little by little, and the windleaf brew makes you **faster** on foot) (potions, brews and elixirs of the regions, dishes cooked at a fire, gear, and fine gear at the anvil of a town).
 - A companion for each protagonist: it follows you, fights, stays where you tell it, and its bond grows with its victories: after ten, it heals you a little every ten seconds.
 - Titles of a way of playing that change the game: the Forager finds more, the Artisan makes more, the Unbreakable Guard parries longer, the Veteran earns more experience.
 - A tree of ten talents: a point a level, four roots (attack, health, mana, defense), a second ring that opens at rank 5 (critical, second wind, magic, speed) and a crown (Legend, Bulwark).
@@ -211,9 +225,10 @@ The project is developed by its owner together with Claude, an AI assistant that
 
 What comes next, in order (details in the [roadmap](docs/plan/06-roadmap-rischi-backlog.md), in Italian):
 
-- **Soon:** more automatic checks on the graphics, the quality of crafted items.
-- **Toward Alpha 0.1:** new active skills in the tree, tags, a choice of what to carry into a reincarnation, item quality and workbenches, a better synthesizer to bring ambience and music back.
-- **Toward 1.0:** a base and residents, farming and fishing, a dynamic economy, accessibility, more languages, tools for modders.
+- **Soon:** the quality of crafted items; new commands and a second companion; new skills in the talent tree; reputation with the regions (lower prices where you helped); people seen from the side; balance touches; automatic checks of the frames.
+- **Medium term:** the gifts still off (Yuki's pocket, taming, a second life per dungeon); farming, a base and residents; a living economy and travelling merchants; tags, achievements, runes; more stories per region and Gideon's Dungeon mode; performance measured on a phone; a better synthesizer for music and ambience (only if the owner wants it).
+- **Toward 1.0:** a tutorial, accessibility, credits, signed packages, documentation for modders, more languages.
+- **The owner decides:** when to publish the first release (Alpha 0.1).
 
 ## Contributing and license
 

@@ -260,64 +260,153 @@ Rimangono fissi: i quattro vincoli (spec-first, data-driven, due client, parità
 
 Dopo l'approvazione, ogni voce diventerà un issue con descrizione, criteri di accettazione e label.
 
-## 8. Stato e prossimi passi (aggiornato a novembre 2026)
+## 8. Stato e prossimi passi (aggiornato al 13 novembre 2026)
 
-### 8.1 Dove siamo
+Questa sezione è la fotografia di **dove si è arrivati** e di **che cosa resta da fare**. Le sezioni 1-7 sono il piano di partenza e non vengono riscritte; qui si dice, voce per voce, che cosa è diventato realtà.
 
-Aggiornato al 12 novembre 2026 (versione `0.0.1`, nessuna release pubblicata). Il gioco è giocabile su desktop e Android con **otto protagonisti** (Ren, Sakura, Daichi, Haruka, Marco, Yuki, Lena, Gideon), un mondo di 16384² tile in streaming con otto regioni, 44 siti a mano, 75 creature, 187 oggetti e 263 missioni (`docs/design/catalog.md`). **Ogni missione segna sulla mappa dove andare** (spec 07, "Places").
+### 8.1 In breve
 
-| Milestone | Stato | Note |
+Versione `0.0.1`, **nessuna release pubblica** (la decisione di pubblicare è del proprietario, vedi 8.6). Il gioco si gioca dall'inizio alla fine della storia di ognuno degli **otto protagonisti** su Windows, Linux e Android, con le versioni di prova prodotte dalla CI.
+
+| Che cosa | Quanto | Dove si guarda |
 |---|---|---|
-| M0 Fondazioni | fatto | Repo, CI, ADR, schemi, scheletri dei due client |
-| M1 Spec core e conformità | fatto | Numerica intera, RNG, hash, rumore, formule, i18n, loader dei pack; 23 file di vettori |
-| M2 Motore base e arte vettoriale | fatto | Rasterizzatore proprio (ADR 0012), rig/clip, mappa, collisioni, camera. **Dal 12 novembre 2026 tutta l'arte è ridisegnata in stile anime** (ADR 0013, spec 13 v2): persone con proporzioni credibili e vista di spalle, terreni dipinti che sfumano l'uno nell'altro, creature e oggetti nuovi, luce dell'ora, vento, un font vero sul desktop |
-| M3 Combattimento | quasi fatto | Fendente, colpo potente con mana, **schivata** con invulnerabilità, abilità magiche (matk), regole dei doni (rigenerazione di mana, salvezza dalla morte, cure, aggro), Analizza di Ren, 60 creature con comportamenti diversi, boss ed élite, XP, livelli, difficoltà bilanciata dal modello (`docs/design/balance.md`). **Mancano:** parata, stati alterati, elementi e debolezze (sono nei dati ma senza effetto), stagger, **suoni** (non c'è audio) Poi elementi, stati alterati (creature e giocatore), parata e stagger con barra a schermo. |
-| M4 Dialoghi, quest, inventario, salvataggi | quasi fatto | Dialoghi e quest con condizioni ed effetti, PNG, salvataggi v1 con tre partite e il protagonista per partita, zaino, negozi, equipaggiamento, diario, lingua, gilda con bacheca, lavori degli anziani e dei locandieri, laboratori, locande, **scelta del protagonista** con storia personale. **Mancano:** profilo condiviso ed export dei salvataggi, altre impostazioni, Alpha 0.1 con Fenwick e Aldermere a mano Poi export e import delle partite su entrambi i client, i volumi nelle impostazioni e i prologhi. |
-| M5 Mondo aperto | quasi fatto | Streaming, otto regioni che modellano il terreno, insediamenti, siti, stagioni, meteo (solo grafica), routine dei PNG, Pietre della Soglia, **mappa del mondo** con zoom, dettaglio per tile, mini mappa, meta e frecce. **Mancano:** risorse da raccogliere, città chiave scritte a mano, fiumi e strade sulla mappa, luci 2D, altri effetti del meteo sul gioco (pioggia e notte nascondono il giocatore dal 12 novembre 2026, spec 08) |
-| M6 Sistemi di vita | iniziato | Oggetti usabili, mana e pozioni, negozi, equipaggiamento, locande, **raccolta** (cespugli, alberi, rocce, cactus) e **creazione dalla borsa** (16 ricette: pozioni, cucina, equipaggiamento). **Mancano:** agricoltura, qualità degli oggetti, banchi da lavoro, pesca, caccia, base e residenti, economia dinamica |
-| M7 Compagni | iniziato | Un compagno per protagonista che segue e combatte, comando resta/segui, legame che cresce con le uccisioni (spec 10). **Mancano:** altri comandi, più compagni insieme, i doni che ne dipendono (domare, comandare) |
-| M8 Progressione profonda | iniziato | Bestiario, contatori di stile, 15 titoli, `profile.json` condiviso ed echi (+1% di vita per titolo, spec 11 e 12). **Mancano:** alberi di abilità, tag e titoli con effetti, ranghi oltre la gilda, reincarnazione completa e Albero dell'Eredità |
-| M9 Contenuti | iniziato | Per ogni protagonista: storia, dono, due missioni personali. I prologhi, le storie complete in tre atti e l'epilogo contro l'Eco, il boss personale di ogni protagonista, ci sono (80 missioni, otto creature e otto santuari nuovi). Il Libro delle Leggende di Selwyn porta una storia in ogni regione (sette guardiani dei grandi dungeon, 11 novembre 2026). Mancano altre storie per regione |
-| M10-M12 | iniziato | Effetti sonori sintetizzati con il loro direttore (spec 14); musica e ambiente delle regioni scritti ma **spenti** su richiesta del proprietario (suonavano male). **Mancano:** rifinitura, un sintetizzatore con rumore filtrato, release 1.0 |
+| Mondo | 16384 x 16384 caselle in streaming, 8 regioni, circa 130 insediamenti generati, 44 luoghi fatti a mano | spec 09, `data/base/worlds/overworld.json` |
+| Persone con nome | 26 nel mondo (Fenwick, Aldermere, gli 8 avamposti, i viandanti, Mira, Pip, Suor Maren) | `tools/make_towns.py`, `tools/towns_outposts.py` |
+| Missioni | 263 (storie dei protagonisti, gilda, città, avamposti, leggende, taglie, lettere) | `docs/design/catalog.md` |
+| Creature | 75 (tra cui 27 guardiani, 8 Echi, la selvaggina) | `data/base/enemies/` |
+| Oggetti e ricette | 187 oggetti, 51 ricette, 2 stazioni (falò e incudine) | spec 06, `tools/make_recipes.py` |
+| Progressione | 20 titoli, 10 talenti, bestiario, profilo condiviso, reincarnazione | spec 11, spec 12 |
+| Testi | 2621 chiavi, in italiano **e** inglese | spec 17 |
+| Regole uguali sui due client | 30 file di vettori di conformità, 490 casi, eseguiti da C++ e Kotlin a ogni modifica | `tests/conformance/` |
+| Specifiche e decisioni | 18 specifiche, 13 ADR | `docs/spec/`, `docs/adr/` |
+| Suoni | 174 effetti sintetizzati; musica e ambiente **spenti** su richiesta del proprietario | spec 14 |
 
-Verificato finora: la CI (Windows MSVC, Linux GCC, Android: test JVM e `assembleDebug`), 23 file di vettori eseguiti dai due client, e centinaia di fotogrammi reali del client desktop (`aethermoor --smoke-test --screenshot-dir=...`: gioco, mappa, pannelli, schermata di scelta). **Prove in gioco:** il proprietario prova a fondo ogni modifica su Windows, Linux e Android e riferisce ciò che non va; da questa macchina non si può compilare né ascoltare, quindi ciò che non è coperto da vettori o fotogrammi resta da confermare con le sue prove.
+### 8.2 Stato delle milestone
 
-### 8.2 Direzione scelta: un mondo da isekai con molte storie
+Legenda: **fatto** = le consegne del piano ci sono e funzionano su tutti e due i client; **quasi** = manca poco e la parte mancante è scritta in "Manca"; **avviato** = c'è una base giocabile, ma una parte grande del piano è ancora da fare.
 
-Il primo test in gioco ha confermato che le basi funzionano, e che il gioco deve diventare **molto più complesso**: un mondo con tanti insediamenti, una gilda viva, fazioni, e molte storie possibili, non una sola quest. Per arrivarci senza riscrivere codice a ogni storia, si applica un principio a tutto ciò che resta da costruire:
+| Milestone | Stato | Che cosa c'è | Che cosa manca |
+|---|---|---|---|
+| M0 Fondazioni | fatto | repository, licenze, CI su Windows, Linux e Android, ADR, schemi, `CLAUDE.md`, `tools/ship.py` | nulla |
+| M1 Specifiche core e conformità | fatto | numerica intera, RNG, hash, rumore, formule, i18n, loader dei pack, riferimento Python, vettori in CI (`gen_conformance.py --check`) | nulla |
+| M2 Motore e arte | quasi | rasterizzatore proprio nei due client (ADR 0012) con sfumature, ritagli, fusioni e rumore (ADR 0013, spec 13 v2); arte da anime per persone, terreni, oggetti e creature; luce dell'ora, vento, acqua che si muove, ombre lunghe, font del pack sui due client, texture cotte a rate | persone viste di lato; golden visivi automatici; prova della perdita del contesto GL su Android |
+| M3 Combattimento | fatto | attacco, colpo potente, schivata, parata, sei elementi, stati alterati su creature e giocatore, stagger, barra del guardiano, Analizza di Ren, 75 creature con comportamenti, XP e livelli | ribilanciamento con il modello esteso (`docs/design/balance.md` segnala ancora dei casi fuori scala) |
+| M4 Dialoghi, missioni, inventario, salvataggi | quasi | dialoghi con condizioni ed effetti, missioni con meta sulla mappa, zaino, negozi, equipaggiamento a tre posti, diario e finestra di stato, gilda con ranghi F-S e bacheca, locande, tre partite, export e import, `profile.json`, volumi, tasti configurabili (desktop), Fenwick e Aldermere scritti a mano, otto prologhi | la **release Alpha 0.1** (tag e pacchetti: decisione del proprietario); la reputazione con regioni o fazioni |
+| M5 Mondo aperto | quasi | streaming dei chunk, regioni, insediamenti, siti, fiumi e strade, stagioni, meteo con pioggia, neve e notte che nascondono il giocatore, routine dei PNG, Pietre della Soglia, mappa del mondo e mini mappa, luci di notte | prestazioni misurate su un telefono reale; altri effetti del meteo sul gioco |
+| M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, 51 ricette al falò e all'incudine, cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori | qualità degli oggetti creati, agricoltura e allevamento, base e residenti, economia dinamica, mercanti ambulanti, ricettario |
+| M7 Compagni | avviato | un compagno per protagonista che segue, combatte, resta o segue a comando, cresce di legame e cura il giocatore | altri comandi, più compagni insieme, i doni che ne dipendono (domare per Haruka, comandare per Gideon), eventi di legame |
+| M8 Progressione profonda | avviato | bestiario con debolezze, 20 titoli con effetti e progressi visibili, albero di 10 talenti, echi, reincarnazione con eredità di oro e arma | abilità nuove nell'albero, tag, achievements, rune e affissi, sblocchi del profilo |
+| M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | altre storie per regione; i doni non ancora attivi (la tasca di Yuki, domare, una seconda vita per dungeon); la modalità Dungeon di Gideon |
+| M10 Rifinitura | avviato | effetti sonori, pannelli e barre ridisegnati, testi che vanno a capo per larghezza, niente scatti quando appare roba nuova | tutorial, accessibilità, un sintetizzatore migliore per riaccendere musica e ambiente, crediti, controllo delle traduzioni |
+| M11 Release 1.0 | da fare | — | pacchetti firmati, pagina di download, documentazione per chi fa mod (decisioni del proprietario) |
 
-> **Ampiezza dai dati e dai modelli.** Insediamenti, PNG, missioni, dialoghi e storie sono descritti da dati (stamp, ruoli, modelli di quest, tabelle di nomi) e generati in modo deterministico dal seme; il codice conosce solo i meccanismi. Il materiale scritto a mano (città chiave, trama dei protagonisti, boss) si innesta nello stesso sistema.
+### 8.3 Che cosa è stato fatto, per area
 
-Conseguenze sull'ordine del lavoro (tutte le tappe sono spec-first, in entrambi i client, con vettori di conformità):
+Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che è una regola di gioco esiste nei due client, nel riferimento Python e nei vettori.
 
-1. **Regioni e insediamenti (M5f, fatto).** Il mondo si divide in regioni con nome, tema e livello di pericolo (dati); villaggi e città sono posti dal seme su una griglia di siti e disegnati da **stamp** (case, strade, piazza, mura) con **ruoli** di PNG (gilda, bottega, locanda, abitanti). Sulla mappa del mondo compaiono come punti di interesse.
-2. **PNG di insediamento e dialoghi a ruoli (M5g, fatto).** I PNG compaiono e scompaiono con la finestra di chunk; hanno nome e aspetto generati; i dialoghi sono modelli con parametri (nome, insediamento, regione).
-3. **Gilda, bacheca e quest a modelli (M4c, fatto; manca la reputazione con le fazioni).** Ranghi F-S, punti gilda, bacheca con missioni generate (sconfiggi, raccogli, consegna, scorta), catene di quest scritte a mano che usano gli stessi meccanismi, reputazione con le fazioni.
-4. **Negozi, equipaggiamento, diario (M4d, fatto; mancano le impostazioni oltre alla lingua).** Monete e prezzi, comprare e vendere, slot di equipaggiamento (più armi e armature), diario delle quest, impostazioni e slot di salvataggio.
-5. **Alpha 0.1** con un villaggio scritto a mano (Fenwick) e la gilda di Aldermere dentro il sistema generale (da fare). M5 (Pietre della Soglia, routine dei PNG, stagioni, dungeon in ogni regione) è fatto; restano M6-M9 come da roadmap.
+**Mondo** (spec 08, 09)
 
-Il 5 novembre 2026 il proprietario ha affidato a Claude le decisioni di design (protagonisti, bilanciamento, storia): i protagonisti sono otto, la difficoltà è tarata con il modello e le storie personali sono scritte (vedi 8.1). Restano al proprietario governance e pubblicazione (8.4).
+- Mondo di 16384 x 16384 caselle generato da un seme, sempre uguale a parità di seme (interi e virgola fissa), caricato a pezzi mentre si cammina.
+- Otto regioni (Verdalis, Whisperwood, Ironspine, Sunscar, Frostveil, Tidehaven, Ashen Wastes, Lumeria) con terreno, creature, negozi e modo di parlare propri.
+- Circa 130 insediamenti generati; 44 luoghi a mano: sotterranei e tane con guardiano, otto avamposti, otto santuari degli Echi, Fenwick (il villaggio di partenza) e Aldermere (la città della gilda).
+- Fiumi e strade sulla mappa, giorno e notte con la luce dell'ora, quattro stagioni, meteo; la pioggia e la notte riducono la distanza da cui le creature ti notano; la neve cade a Frostveil.
+- Pietre della Soglia per curarsi e viaggiare; mappa con zoom, meta del giocatore e meta di ogni missione.
 
-### 8.3 Come si lavora
+**Combattimento** (spec 04, 05)
+
+- Attacco, colpo potente con mana, schivata con invulnerabilità, parata che stordisce.
+- Sei elementi su armi e abilità, debolezze e resistenze delle creature, stati alterati (bruciatura, gelo, stordimento, indebolimento) su creature e giocatore, stagger con barra.
+- Barra del guardiano in cima allo schermo (nome, livello, tacche, stagger, debolezze).
+- Difficoltà tenuta **bassa di proposito** (vita delle creature 100%, attacco 70%): è il tema dell'isekai.
+
+**Missioni e persone** (spec 07, 18)
+
+- 263 missioni: le storie degli otto protagonisti (prologo, due missioni personali, tre atti, epilogo), la gilda con bacheca generata, Fenwick e Aldermere, gli otto avamposti (tre o quattro missioni ognuno), il Libro delle Leggende di Selwyn, le taglie di Hestia, le lettere e i pacchi del corriere Wendel, caccia e pesca.
+- Ogni missione segna sulla mappa dove andare: un luogo, una persona, la tana delle creature giuste o la pianta più vicina.
+
+**Vita** (spec 06)
+
+- Raccolta da 15 tipi di oggetti di scena, pesca nei canneti, caccia a cinghiali, alci e volpi delle dune.
+- 51 ricette, al falò (piatti) e all'incudine (equipaggiamento pregiato e accessori).
+- Cibi e infusi con effetti a tempo: fortifica (attacco), protegge (difesa), rigenera (vita a ogni secondo), rapidità (velocità a piedi); la pozione purificante toglie gli stati alterati.
+- Tre posti di equipaggiamento: arma, armatura, accessorio (nove accessori, tra cui uno che restituisce vita a ogni colpo); i guardiani li lasciano.
+- Negozi per regione, locande, gilda con ranghi F-S.
+
+**Compagni** (spec 10)
+
+- Un compagno per protagonista: segue, combatte quello che colpisci, resta o segue a comando, il legame cresce con le sue vittorie; dal legame 10 ti cura un po' ogni dieci secondi.
+
+**Progressione** (spec 11, 12)
+
+- Livelli, albero di dieci talenti, 20 titoli con effetti (attacco, raccolta, creazione, parata, esperienza) e il progresso verso quelli mancanti, bestiario con debolezze e bottino.
+- Profilo comune a tutte le partite: echi (vita in più per ogni titolo e vita passata), reincarnazione dal livello 10 con eredità di metà dell'oro e dell'arma impugnata.
+
+**Grafica** (spec 13, ADR 0012 e 0013)
+
+- Rasterizzatore vettoriale scritto due volte (C++ e Kotlin) e verificato con le stesse sonde; arte da anime scritta da strumenti in Python.
+- Persone di 4,6 teste con vista di fronte e di spalle, terreni dipinti che sfumano, 29 oggetti di scena, 75 creature che si girano verso di te, ombre lunghe all'alba e al tramonto, acqua e vento che si muovono, luci di notte.
+
+**Suono** (spec 14)
+
+- 174 effetti sintetizzati dal gioco (colpi, passi, pannelli, voci delle creature, raccolta e pesca).
+- Musica e ambiente delle regioni: scritti ma **spenti**, perché al proprietario suonavano male; si riaccendono solo con il suo sì.
+
+**Interfaccia e salvataggi** (spec 12, 16, 17)
+
+- Tre partite, salvataggio automatico e rapido, export e import di una partita in un file, profilo condiviso.
+- Italiano e inglese completi; font del pack su desktop e Android; tasti configurabili sul desktop (`F4`), comandi touch su Android.
+
+**Qualità e strumenti**
+
+- CI su Windows (MSVC), Linux (GCC) e Android (test JVM e APK), con controllo dei dati e dei vettori; la CI non resta più bloccata ore se i server di Ubuntu non rispondono (mirror alternativi e copia dei pacchetti).
+- `tools/ship.py` spedisce una modifica in un comando (controlli, commit firmato, PR, attesa della CI, merge, build di prova aggiornata).
+- Catalogo dei contenuti e rapporto di bilanciamento generati dai dati; anteprime dell'arte in PNG senza avviare il gioco.
+
+### 8.4 Che cosa resta da fare, in ordine
+
+L'ordine tiene conto di quanto ogni pezzo cambia l'esperienza di chi gioca, di quanto è indipendente dagli altri e del rischio (si compila e si prova solo in CI). Ogni voce segue il flusso del progetto: spec, riferimento, vettori, desktop, Android, dati e testi nelle due lingue. Si fanno **molte voci insieme in ogni PR** (8.5).
+
+**A breve (le prossime PR)**
+
+1. **Qualità degli oggetti creati** (M6): una creazione riuscita bene dà la versione "pregiata", con una probabilità che cresce con i titoli da artigiano.
+2. **Comandi del compagno** (M7): "attacca quello", "torna da me", e la possibilità di avere un secondo compagno; prepara i doni di Haruka (domare) e Gideon (comandare).
+3. **Abilità nuove nell'albero dei talenti** (M8): rami che danno abilità attive, non solo percentuali.
+4. **Reputazione con le regioni** (M4): le missioni fatte in una regione abbassano i prezzi dei suoi negozi e aprono dialoghi.
+5. **Persone viste di lato** (M2): l'ultima parte della grafica da anime.
+6. **Ribilanciamento** (M3): sistemare i casi fuori scala del rapporto di bilanciamento, sempre verso scontri facili.
+7. **Controlli automatici della grafica**: confronto dei fotogrammi del test di fumo con immagini di riferimento, ktlint e detekt in CI.
+
+**A medio termine (verso Alpha 0.2 e Beta 0.5)**
+
+8. **Doni ancora non attivi** (M9, spec 18): la tasca di Yuki che nessuno può perquisire, domare le creature, una seconda vita per sotterraneo.
+9. **Agricoltura e allevamento, base e residenti** (M6).
+10. **Economia dinamica e mercanti ambulanti** (M6).
+11. **Tag, achievements, rune e affissi** (M8).
+12. **Altre storie per regione** (M9) e la **modalità Dungeon** di Gideon.
+13. **Prestazioni su Android** misurate su un telefono, e la prova della perdita del contesto grafico (R4, R6).
+14. **Un sintetizzatore con rumore filtrato**, per poter riaccendere musica e ambiente (solo se il proprietario lo vuole).
+
+**Verso la 1.0**
+
+15. Tutorial e accompagnamento dei primi minuti, accessibilità, crediti, controllo delle traduzioni (M10).
+16. Pacchetti firmati, pagina di download, documentazione per chi fa mod (M11).
+17. Dopo l'1.0: nuovi protagonisti, nuove regioni, nuove lingue, strumenti per i mod (M12+).
+
+**Non previsto:** una modalità difficile obbligatoria o un bilanciamento "più duro": gli scontri devono restare facili.
+
+### 8.5 Come si lavora
 
 1. **PR grandi**: a ogni richiesta del proprietario si portano avanti molte voci della roadmap insieme, in un ramo e una PR sola, unita con la CI verde (il proprietario non vuole PR piccole).
-2. A ogni tappa si prepara una build da provare (artefatto della CI) e si raccolgono le impressioni.
-3. Aggiornare questa sezione a ogni milestone chiusa.
+2. Ogni PR aggiorna nella stessa modifica le specifiche, il changelog, i README, il catalogo e questa sezione.
+3. Ogni PR unita produce una build di prova (artefatto della CI), che viene copiata nella cartella di gioco del proprietario.
 
-### 8.4 Prossimi passi (decisi il 6 novembre 2026)
+### 8.6 Chi decide che cosa
 
-L'ordine tiene conto di quanto ogni pezzo cambia l'esperienza di chi gioca, di quanto è indipendente dagli altri e del rischio (si può compilare e provare solo in CI). Ogni passo segue il flusso del progetto: spec, riferimento, vettori, desktop, Android, dati e testi in italiano e inglese.
+- **Claude** decide e fa tutto il resto: design (storia, tono, bilanciamento, contenuti), codice, dati, documenti, PR e merge con la CI verde. Il 5 e il 10 novembre 2026 il proprietario ha affidato a Claude la **piena autonomia**.
+- **Il proprietario** prova ogni modifica a fondo su Windows, Linux e Android e dice che cosa non va; non modifica file né usa strumenti. Decide su governance e pubblicazione: la release pubblica (Alpha 0.1), la protezione del ramo `main`, le impostazioni del repository, le licenze di materiale esterno, la firma del codice.
 
-1. **Audio sintetizzato** (spec 14, M3/M10). **Fatto il 6 novembre 2026: gli effetti** (14 ricette in `data/base/audio/sfx/`, la stessa sintesi in C++ e Kotlin, suite `audio`, riproduzione desktop con SDL e Android con libGDX, `F8` per il muto); **restano** passi, musica per regione, ambiente e le impostazioni di volume (passo 3). È la mancanza più grande: il gioco era muto. Una piccola sintesi in codice (onde, rumore, inviluppi) descritta nei dati: colpo, danno, schivata, mana, oggetto, passi, UI, e una musica d'ambiente per regione. Desktop con SDL audio, Android con libGDX. Prima si scrive la spec dei suoni come ricette (come le ricette d'arte); non si possono fare vettori di ascolto, quindi si controllano forma d'onda e durata.
-2. **Completare il combattimento** (M3). **Fatto il 9 novembre 2026:** elementi (l'arma ha un elemento, le creature debolezze e resistenze; spec 05 "Elements"), stati alterati sulle creature (bruciatura, gelo, stordimento, indebolimento; "Status effects") e la parata ("Parry": finestra, nessun danno, stordimento dell'attaccante), tutto con vettori in entrambi i client. Poi gli stati alterati sul giocatore ("Status effects on the player") e lo stagger ("Stagger": barra, creatura spezzata per 120 tick, danno +25%). Poi l'elemento delle abilità (sei seconde abilità ne hanno uno). La barra dello stagger è a schermo e i guardiani hanno la loro soglia (25%). **Fatto l'11 novembre 2026:** la barra del guardiano in cima allo schermo, con nome, livello, tacche a ogni quarto della vita e lo stagger. **Restano:** poi riprovare il bilanciamento con il modello esteso.
-3. **Profilo e impostazioni** (M4). **Fatto:** i quattro volumi in `settings.json` (pannello `F10` sul desktop, pulsante su Android). Export e import dei salvataggi ci sono su entrambi i client (su Android con pulsanti nella schermata del titolo, cartella `exports` dell'app). **Restano:** ~~`profile.json` condiviso fra le partite~~ (fatto: spec 12 "Profile"), export e import dei salvataggi (`.aethersave`), ~~tasti configurabili~~ (fatto sul desktop: `keys.json`, spec 16). Prerequisito della reincarnazione.
-4. **Alpha 0.1** (M4): Fenwick e Aldermere scritti a mano nel sistema dei siti (**fatto**: sei persone con nome e otto missioni, `tools/make_towns.py`), prologo breve per protagonista (**fatto**: otto prologhi, spec 18 "Prologue"), tag `v0.1.0` e artefatti di release (zip Windows, tar.gz Linux, APK di debug firmato in modo semplice). **Decisione del proprietario:** quando pubblicare (una release pubblica, la protezione del ramo `main`).
-5. **Verifica su dispositivo Android.** Il proprietario prova ogni versione su Android (e su Windows e Linux): le correzioni partono da ciò che riferisce. Non serve altro lavoro qui finché non segnala un problema.
-6. **Raccolta e mestieri** (M5/M6). **Fatto:** raccolta da cespugli, alberi, rocce e cactus, **pesca** nei canneti delle spiagge (pesce fresco, carpa dorata; l'11 novembre 2026), **caccia** (cinghiali, alci e volpi delle dune timidi: selvaggina, pelli, corna; arrosto, stufato, giubba e lancia), creazione dalla borsa con quarantasei ricette, un terzo posto d'equipaggiamento (l'accessorio), una pozione purificante, piatti che **fortificano**, infusi che **proteggono** dolci che **rigenerano** e un infuso di **rapidità** (pozioni, cucina, equipaggiamento, falò e incudine; spec 06). **Restano:** qualità degli oggetti creati, banchi da lavoro; il laboratorio degli anziani esiste già come base.
-7. **Compagni** (M7). **Fatto:** un compagno per protagonista che segue e combatte, il comando resta/segui, un legame che cresce con le sue uccisioni e la **cura** (dal legame 10 il compagno cura il 5% della vita ogni dieci secondi; spec 10, 11 novembre 2026). **Restano:** altri comandi, più compagni insieme; i doni di Haruka (domare) e Gideon (comandare) ne dipendono.
-8. **Progressione** (M8). **Fatto il 9 novembre 2026:** bestiario (conteggio delle uccisioni per creatura, salvato) e dodici titoli calcolati dallo stato (spec 11), mostrati nel diario. Poi i contatori di stile (raccolte, creazioni, parate) e tre titoli che li chiedono. Poi `profile.json` condiviso (spec 12) e gli "echi" (spec 11): ogni titolo del profilo dà +1% di vita massima, fino a +15%, a tutte le partite. Poi i titoli con effetti: ogni titolo ottenuto aggiunge attacco (dal 2 al 10%, spec 11). Poi i talenti, diventati un albero di dieci con rami che si aprono al rango 5 (spec 11, "Talents"). Poi la reincarnazione dalla schermata del titolo (livello 10, +3% di vita per vita passata) con l'eredità di metà dell'oro alla partita nuova successiva. L'11 novembre 2026 la reincarnazione passa alla partita nuova anche l'arma impugnata (l'eredità di oro e arma), e i titoli sono 17. **Restano:** tag veri e propri, alberi di abilità veri (rami, abilità nuove).
-9. **Qualità continua** (`gen_conformance.py --check` è ora in CI): CodeQL, ktlint e detekt, golden visivi dei fotogrammi del test di fumo, ~~fiumi e strade sulla mappa~~ (fatto, spec 09), ~~luci 2D~~ (fatto: lampioni, falò, pietre e incudini di notte, spec 08).
+### 8.7 Che cosa è verificato e che cosa no
 
-10. **Grafica da anime** (M2, richiesta del proprietario dell'11 novembre 2026: "una grafica estremamente più complessa, molto più simile a quella abbastanza realistica di molti anime"). **Fatto il 12 novembre 2026** (ADR 0013): il rasterizzatore dei due client sa sfumare, ritagliare, moltiplicare, sommare e riempire a rumore (spec 13 v2, con un rasterizzatore di riferimento in Python per i vettori e le anteprime); persone alte 4,6 teste con vista di fronte e di spalle, 30 terreni dipinti come tasselli di 4 x 4 tile con i bordi che sfumano, 22 oggetti, 71 creature; luce dell'ora, luci che illuminano, pulviscolo e lucciole, vignettatura, vento sulle piante; font del pack sul desktop. Poi, lo stesso giorno: il font del pack anche su Android, l'animazione del colpo, l'acqua che si muove, gli angoli arrotondati tra i terreni, pannelli e barre ridisegnati, sette oggetti di scena nuovi che crescono nel mondo e si raccolgono. Poi ancora: ombre lunghe all'alba e al tramonto, neve a Frostveil, texture cotte a rate (pochi millisecondi per fotogramma) per non fermare il gioco. **Restano:** le persone viste di lato.
-
-Le decisioni di design (storia, tono, bilanciamento, protagonisti) sono state affidate a Claude dal proprietario il 5 novembre 2026, e il 10 novembre 2026 il proprietario ha ribadito la **piena autonomia**: Claude fa tutto (decide, implementa, spedisce, prosegue con la roadmap) senza aspettare risposte; il proprietario prova il gioco sulle tre piattaforme ma non modifica nulla di persona. Principio di design: **gli scontri devono essere troppo facili**, perché il protagonista di un isekai è sovrapotente (difficoltà del mondo: vita 100%, attacco 70%). Restano **al proprietario** le decisioni su governance e pubblicazione (release pubblica, protezione del ramo, impostazioni del repository, licenze di materiale esterno, firma del codice).
+- **Verificato a ogni modifica:** i dati contro gli schemi, i testi nelle due lingue, i 490 casi di conformità sui due client, la compilazione di Windows, Linux e Android, un test di fumo del desktop con fotogrammi reali.
+- **Verificato dal proprietario:** come appare e come si gioca, sulle tre piattaforme.
+- **Non verificabile da qui:** il suono (non si ascolta), le prestazioni su un telefono reale, ciò che si vede solo giocando a lungo. Ogni PR lo dice esplicitamente.
