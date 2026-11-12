@@ -31,9 +31,23 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 |---|---|
 | Windows e Linux | compilati e provati dalla CI a ogni modifica; provati in gioco dal proprietario |
 | Android 11+ | APK di debug compilato e provato dalla CI; provato in gioco dal proprietario |
-| Regole di gioco | uguali sui due client: 30 gruppi di vettori di conformità (435 casi) eseguiti da entrambi |
-| Lingue | italiano e inglese, complete |
-| Suono | effetti sonori sintetizzati dal gioco; musica e suoni d'ambiente sono scritti ma **spenti** finché non suonano bene |
+| Regole di gioco | uguali sui due client: 30 gruppi di vettori di conformità (490 casi) eseguiti da entrambi |
+| Lingue | italiano e inglese, complete (2621 testi) |
+| Suono | 174 effetti sonori sintetizzati dal gioco; musica e suoni d'ambiente sono scritti ma **spenti** finché non suonano bene |
+
+**Fatto e da fare, in una riga per parte** (il dettaglio, voce per voce, è nella [sezione 8 della roadmap](docs/plan/06-roadmap-rischi-backlog.md#8-stato-e-prossimi-passi-aggiornato-al-13-novembre-2026)):
+
+| Parte | Fatto | Da fare |
+|---|---|---|
+| Fondamenta, regole, CI | tutto | — |
+| Grafica | arte da anime per tutto, luce, vento, acqua, ombre, font | persone viste di lato, controlli automatici dei fotogrammi |
+| Combattimento | completo (elementi, stati, parata, stagger, guardiani) | ritocchi di bilanciamento, sempre verso scontri facili |
+| Mondo | enorme, otto regioni, città e sotterranei, meteo che conta | prestazioni misurate su un telefono |
+| Missioni e storie | 263 missioni, otto storie complete con epilogo | altre storie per regione, i doni ancora spenti |
+| Vita | raccolta, pesca, caccia, 51 ricette, cibi con effetti, accessori | qualità degli oggetti, agricoltura, base e residenti, economia viva |
+| Compagni | uno per protagonista, comandi, legame, cura | altri comandi, più compagni insieme, domare e comandare |
+| Progressione | talenti, 20 titoli, bestiario, reincarnazione con eredità | abilità nuove nell'albero, tag, achievements |
+| Uscita | versioni di prova dalla CI | release Alpha 0.1 e poi 1.0 (decide il proprietario) |
 
 ## Che cosa c'è nel gioco
 
@@ -51,12 +65,12 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 - Sei elementi (fuoco, acqua, vento, terra, luce, buio): armi e abilità ne hanno uno, le creature hanno debolezze e resistenze.
 - Stati alterati su creature e giocatore: bruciatura, gelo, stordimento, indebolimento.
 - Stagger: i colpi riempiono una barra sotto la vita della creatura; piena, la creatura resta spezzata per due secondi e subisce più danno.
-- 71 creature con comportamenti diversi (anche selvaggina da cacciare: cinghiali, alci e volpi delle dune), 27 guardiani e 8 Echi, i boss personali dei protagonisti.
+- 75 creature con comportamenti diversi (anche selvaggina da cacciare: cinghiali, alci e volpi delle dune), 27 guardiani e 8 Echi, i boss personali dei protagonisti.
 
 **Vita e progressione**
 
 - Gilda degli avventurieri con bacheca e commissioni, 263 missioni (tra cui il Libro delle Leggende dell'archivista, un guardiano per regione, e le taglie della maestra della gilda su ogni altro guardiano), negozi, locande, lavori degli anziani.
-- 179 oggetti; raccolta da cespugli, alberi, rocce e cactus, funghi nei boschi, **pesca** nei canneti delle spiagge e **caccia**; 46 ricette (i piatti migliori **fortificano**, più attacco per un po', gli infusi delle regioni **proteggono**, più difesa, i dolci e le razioni **rigenerano** la vita poco a poco, e l'infuso di foglia di vento ti fa **correre** più veloce) (pozioni, infusi ed elisir delle regioni, piatti cucinati al fuoco, equipaggiamento, ed equipaggiamento pregiato all'incudine delle città).
+- 187 oggetti; raccolta da cespugli, alberi, rocce, cactus, fiori, felci, ceppi, tronchi, legni portati dal mare e ghiaccio, funghi nei boschi, **pesca** nei canneti delle spiagge e **caccia**; 51 ricette (i piatti migliori **fortificano**, più attacco per un po', gli infusi delle regioni **proteggono**, più difesa, i dolci e le razioni **rigenerano** la vita poco a poco, e l'infuso di foglia di vento ti fa **correre** più veloce) (pozioni, infusi ed elisir delle regioni, piatti cucinati al fuoco, equipaggiamento, ed equipaggiamento pregiato all'incudine delle città).
 - Un compagno per protagonista: ti segue, combatte, resta dove gli dici, e il suo legame cresce con le sue vittorie: dopo dieci, ti cura un po' ogni dieci secondi.
 - Titoli del modo di giocare che cambiano il gioco: il Raccoglitore trova di più, l'Artigiano crea di più, la Guardia incrollabile para più a lungo, il Veterano guadagna più esperienza.
 - Un albero di dieci talenti: un punto per livello, quattro radici (attacco, vita, mana, difesa), un secondo anello che si apre al rango 5 (critico, secondo fiato, magia, velocità) e una corona (Leggenda, Baluardo).
@@ -211,9 +225,10 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 
 Le prossime cose, in ordine (dettagli nella [roadmap](docs/plan/06-roadmap-rischi-backlog.md)):
 
-- **A breve:** più controlli automatici sulla grafica, la qualità degli oggetti creati.
-- **Verso l'Alpha 0.1:** abilità attive nuove nell'albero, tag, la scelta di cosa portare nella reincarnazione, qualità degli oggetti e banchi da lavoro, un sintetizzatore migliore per riaccendere ambiente e musica.
-- **Verso la 1.0:** base e residenti, agricoltura e pesca, economia dinamica, accessibilità, altre lingue, strumenti per chi fa mod.
+- **A breve:** qualità degli oggetti creati; comandi nuovi e un secondo compagno; abilità nuove nell'albero dei talenti; reputazione con le regioni (prezzi più bassi dove hai aiutato); persone viste di lato; ritocchi di bilanciamento; controlli automatici dei fotogrammi.
+- **A medio termine:** i doni ancora spenti (la tasca di Yuki, domare, una seconda vita per sotterraneo); agricoltura, base e residenti; economia viva e mercanti ambulanti; tag, achievements, rune; altre storie per regione e la modalità Dungeon di Gideon; prestazioni misurate su un telefono; un sintetizzatore migliore per musica e ambiente (solo se il proprietario lo vuole).
+- **Verso la 1.0:** tutorial, accessibilità, crediti, pacchetti firmati, documentazione per chi fa mod, altre lingue.
+- **Decide il proprietario:** quando pubblicare la prima release (Alpha 0.1).
 
 ## Contribuire e licenza
 

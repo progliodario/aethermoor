@@ -4,6 +4,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ## [Unreleased]
 
+### Documentation
+
+- **Where the project stands, made plain** (`docs/plan/06-roadmap-rischi-backlog.md`, section 8, rewritten): the numbers of the game in one table, the state of every milestone with what is there and what is missing, everything done grouped by area, what is left to do in order (soon, medium term, toward 1.0), who decides what, and what is checked and what is not. The old lines that said parry, stagger, sound, gathering and the rivers were missing are gone. The READMEs have a "done and to do" table with the same facts.
+
 ### Changed
 
 - **A new look for the whole game: anime art** (spec 13 v2, ADR 0013). Everything that is drawn was drawn again:
