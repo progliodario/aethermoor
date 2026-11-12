@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/slime_bloom",
+  "name": "$i18n:enemy.slime_bloom.name",
+  "level": 2,
+  "stats": {
+    "hp": 34,
+    "atk": 6,
+    "def": 2,
+    "mdef": 2,
+    "speed_x100": 250
+  },
+  "element": "earth",
+  "sound": "slime",
+  "weaknesses_pm": {
+    "fire": 1500
+  },
+  "xp": 9,
+  "drops": [
+    {
+      "item": "base:item/wildflowers",
+      "qty_min": 1,
+      "qty_max": 2,
+      "weight_pm": 800
+    },
+    {
+      "item": "base:item/slime_gel",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 500
+    }
+  ],
+  "radius_x100": 35,
+  "behavior": "base:behavior/melee_chaser_basic",
+  "art": "base:art/creature/slime_bloom"
+}

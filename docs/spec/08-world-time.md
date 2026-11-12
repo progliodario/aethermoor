@@ -95,9 +95,20 @@ rain_aggro_pm = 1000 - rain_pm * rain_aggro_cut_pm / 1000
 aggro distance = aggro_x100 * gift.aggro_pct / 100 * rain_aggro_pm / 1000          (integer divisions, in this order)
 ```
 
-The value is taken once at the start of a tick, after the clock advances. It only changes when an idle creature notices
+**The night hides you** in the same way: `time.night_aggro_cut_pm` (default 0; 250 in the base world) is what full
+darkness would cut, and the light of the sun `light_pm` (not dimmed by the weather) says how dark it is:
+
+```
+night_aggro_pm = 1000 - (1000 - light_pm) * night_aggro_cut_pm / 1000
+aggro distance = aggro_x100 * gift.aggro_pct / 100 * rain_aggro_pm / 1000 * night_aggro_pm / 1000
+```
+
+At the night of the base world (light 180) creatures notice from about a fifth less far. The lamps do not change it.
+
+Both values are taken once at the start of a tick, after the clock advances. They only change when an idle creature notices
 the player: one that is already chasing keeps chasing. In the conformance scenarios of `combat` (no clock) the rain is the
-`weather {rain_pm, rain_aggro_cut_pm}` of the scenario: `rain_hides`, `rain_light`, `rain_and_gift`.
+`weather {rain_pm, rain_aggro_cut_pm, light_pm, night_aggro_cut_pm}` of the scenario: `rain_hides`, `rain_light`, `rain_and_gift`,
+`night_hides`, `night_dusk`, `night_and_rain`.
 
 ## The colour of the hour
 
@@ -111,7 +122,13 @@ without it uses the defaults in brackets). With `n = (1000 - effective_light_pm)
 3. the lights of the next section are **added** over it (they light what the night darkened);
 4. `motes` [26] small lights drift over the world: dust in the sun by day (`mote_day`, faint), fireflies by night
    (`mote_night`, blinking), none while it rains;
-5. the edges of the screen are darkened by up to `vignette_pm` [280] permille (a vignette), under the interface.
+5. at dawn and dusk the props and the creatures cast a **long shadow**: their own picture, black, at `shadow_pm` [300]
+   permille times `w`, lying on the ground from their feet: it leans `(0.6 + 0.9 * w)` times their height to the left before
+   noon (`tod_pm < 500`) and to the right after it, and rises 0.18 times their height. People have only the round shadow
+   at their feet;
+6. in the regions of `snow_regions` [none] the rain is **snow**: `140 * rain_pm / 1000` flakes that fall slowly and sway,
+   instead of the streaks of the rain;
+7. the edges of the screen are darkened by up to `vignette_pm` [280] permille (a vignette), under the interface.
 
 The tint of the season is laid over as before.
 

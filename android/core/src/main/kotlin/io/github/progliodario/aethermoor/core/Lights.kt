@@ -45,6 +45,10 @@ class Grading(
     val motes: Int = 26,
     val moteDay: Int = 0xFFF6C8,
     val moteNight: Int = 0xC8FF8A,
+    /** How dark the long shadows of dawn and dusk are. */
+    val shadowPm: Int = 300,
+    /** The regions (by id) where the rain falls as snow. */
+    val snowRegions: List<String> = emptyList(),
 )
 
 /** The grading of the pack (`grading` of base:lights/all); the defaults for what it does not say. */
@@ -68,5 +72,8 @@ fun loadGrading(pack: Pack): Grading {
         motes = number("motes", defaults.motes),
         moteDay = color("mote_day", defaults.moteDay),
         moteNight = color("mote_night", defaults.moteNight),
+        shadowPm = number("shadow_pm", defaults.shadowPm),
+        snowRegions = (g["snow_regions"] as? kotlinx.serialization.json.JsonArray)
+            ?.mapNotNull { (it as? kotlinx.serialization.json.JsonPrimitive)?.content } ?: emptyList(),
     )
 }

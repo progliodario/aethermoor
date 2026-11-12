@@ -57,6 +57,14 @@ Grading load_grading(const Pack& pack) {
     color("mote_night", out.mote_night);
     out.vignette_pm = g.value("vignette_pm", out.vignette_pm);
     out.motes = g.value("motes", out.motes);
+    out.shadow_pm = g.value("shadow_pm", out.shadow_pm);
+    if (g.contains("snow_regions") && g.at("snow_regions").is_array()) {
+        for (const nlohmann::json& region : g.at("snow_regions")) {
+            if (region.is_string()) {
+                out.snow_regions.push_back(region.get<std::string>());
+            }
+        }
+    }
     return out;
 }
 

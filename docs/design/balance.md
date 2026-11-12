@@ -9,6 +9,7 @@ Gear by level: L1: weapon 3, armor 2/1, L4: weapon 7, armor 4/2, L8: weapon 12, 
 | Creature | Level | Comfortable at | At its own level: seconds to kill / health lost |
 |---|---|---|---|
 | Green slime | 1 | 1 | 0.7 s / 1% |
+| Blossom slime | 2 | 1 | 0.7 s / 1% |
 | Mint slime | 2 | 1 | 0.7 s / 1% |
 | Wild boar | 2 | 1 | 0.7 s / 1% |
 | Dune fox | 3 | 1 | 0.7 s / 2% |
@@ -39,11 +40,13 @@ Gear by level: L1: weapon 3, armor 2/1, L4: weapon 7, armor 4/2, L8: weapon 12, 
 | Ice slime | 8 | 1 | 1.1 s / 3% |
 | Dune wolf | 8 | 1 | 1.1 s / 3% |
 | Dune scorpion | 9 | 1 | 1.1 s / 4% |
+| Hollow armor | 9 | 1 | 1.4 s / 3% |
 | Pearl slime | 9 | 1 | 1.1 s / 3% |
 | Will-o'-the-wisp | 9 | 1 | 0.7 s / 2% |
 | Dire wolf | 9 | 2 | 1.1 s / 3% |
 | Amber Queen | 10 | 4 | 2.1 s / 7% |
 | Coral Matron | 10 | 4 | 2.1 s / 7% |
+| Frost wisp | 10 | 1 | 0.7 s / 2% |
 | Rust Baron | 10 | 4 | 2.1 s / 7% |
 | Magma slime | 10 | 2 | 1.4 s / 3% |
 | Polar wolf | 10 | 2 | 1.1 s / 3% |
@@ -60,6 +63,7 @@ Gear by level: L1: weapon 3, armor 2/1, L4: weapon 7, armor 4/2, L8: weapon 12, 
 | Magma Heart | 13 | 7 | 2.1 s / 8% |
 | Polar King | 13 | 6 | 2.1 s / 7% |
 | Storm Sovereign | 13 | 6 | 1.8 s / 7% |
+| Cinder wolf | 13 | 4 | 1.1 s / 3% |
 | Nebula Heart | 14 | 7 | 2.1 s / 7% |
 | Rime Revenant | 14 | 8 | 3.1 s / 11% |
 | Moonshade Alpha | 15 | 9 | 3.1 s / 11% |
@@ -80,7 +84,7 @@ Gear by level: L1: weapon 3, armor 2/1, L4: weapon 7, armor 4/2, L8: weapon 12, 
 | The Unfinished Equation | 24 | 16 | 3.2 s / 9% |
 | The Last Frame | 24 | 16 | 3.2 s / 9% |
 
-## Outliers (29)
+## Outliers (32)
 
 Creatures whose comfortable level differs from their level by more than 5 above or 6 below.
 
@@ -89,9 +93,11 @@ Creatures whose comfortable level differs from their level by more than 5 above 
 - Ice slime: level 8, comfortable at 1
 - Dune wolf: level 8, comfortable at 1
 - Dune scorpion: level 9, comfortable at 1
+- Hollow armor: level 9, comfortable at 1
 - Pearl slime: level 9, comfortable at 1
 - Will-o'-the-wisp: level 9, comfortable at 1
 - Dire wolf: level 9, comfortable at 2
+- Frost wisp: level 10, comfortable at 1
 - Magma slime: level 10, comfortable at 2
 - Polar wolf: level 10, comfortable at 2
 - Storm wolf: level 10, comfortable at 2
@@ -103,6 +109,7 @@ Creatures whose comfortable level differs from their level by more than 5 above 
 - Stone golem: level 12, comfortable at 4
 - Polar King: level 13, comfortable at 6
 - Storm Sovereign: level 13, comfortable at 6
+- Cinder wolf: level 13, comfortable at 4
 - Nebula Heart: level 14, comfortable at 7
 - Char Tyrant: level 16, comfortable at 8
 - Astral Curator: level 17, comfortable at 10

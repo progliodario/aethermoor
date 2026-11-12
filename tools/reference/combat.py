@@ -535,7 +535,8 @@ class CombatSim:
         dist = math.sqrt(dx * dx + dy * dy)
         if e.state == IDLE:
             rain_pm = 1000 - self.weather.get("rain_pm", 0) * self.weather.get("rain_aggro_cut_pm", 0) // 1000
-            if dist <= b["aggro_x100"] * self.gift.get("aggro_pct", 100) // 100 * rain_pm // 1000 / 100:
+            night_pm = 1000 - (1000 - self.weather.get("light_pm", 1000)) * self.weather.get("night_aggro_cut_pm", 0) // 1000
+            if dist <= b["aggro_x100"] * self.gift.get("aggro_pct", 100) // 100 * rain_pm // 1000 * night_pm // 1000 / 100:
                 e.state, e.t = CHASE, 0
         elif e.state == CHASE:
             if dist > b["leash_x100"] / 100:

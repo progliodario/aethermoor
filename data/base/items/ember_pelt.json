@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/ember_pelt",
+  "name": "$i18n:item.ember_pelt.name",
+  "description": "$i18n:item.ember_pelt.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 40,
+  "stack_max": 99
+}

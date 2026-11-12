@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/wolf_ember",
+  "name": "$i18n:enemy.wolf_ember.name",
+  "level": 13,
+  "stats": {
+    "hp": 180,
+    "atk": 33,
+    "def": 11,
+    "mdef": 9,
+    "speed_x100": 350
+  },
+  "element": "fire",
+  "sound": "wolf",
+  "weaknesses_pm": {
+    "water": 1500
+  },
+  "xp": 120,
+  "drops": [
+    {
+      "item": "base:item/ember_pelt",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 600
+    }
+  ],
+  "radius_x100": 40,
+  "behavior": "base:behavior/stalker",
+  "art": "base:art/creature/wolf_ember"
+}

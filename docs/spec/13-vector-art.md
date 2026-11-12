@@ -187,6 +187,11 @@ bucket `{32, 48, 64, 96, 128, 192, 256}` (the base size of a tile on screen is 6
 `(recipe id, variant, bucket)`; a change of bucket (zoom, screen density) re-bakes in the background. After a lost
 graphics context (Android) all textures are re-created from the CPU bitmaps.
 
+**Baking in instalments.** The first three frames of a game bake everything they show. After them a frame bakes until it
+has spent a few milliseconds (6 on desktop, 8 on Android), always at least one recipe; what is not baked yet is not drawn
+in that frame and appears in one of the next. Walking into a new place thus never freezes the game: new things pop in
+over a few frames instead.
+
 ## Overrides
 
 A file `data/<pack>/overrides/<recipe id with / replaced by ->.png|svg` replaces a recipe. Not implemented in M2.

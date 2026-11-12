@@ -1,22 +1,18 @@
-## A big batch: the rest of the anime art list, rain that matters, new scenery to gather
-
-Closes #181.
+## Another big batch: the night hides you, four creatures, long shadows, snow, no more baking freezes
 
 ### Rules
-- **Rain hides you** (spec 08): `aggro = aggro_x100 * gift.aggro_pct / 100 * (1000 - rain_pm * rain_aggro_cut_pm / 1000) / 1000`. Reference, three conformance scenarios (`rain_hides`, `rain_light`, `rain_and_gift`), desktop and Android. The base world cuts 30 percent in full rain.
+- **The night hides you** (spec 08): `aggro *= (1000 - (1000 - light_pm) * night_aggro_cut_pm / 1000) / 1000`, after the rain. Reference, three scenarios (`night_hides`, `night_dusk`, `night_and_rain`), desktop and Android. 250 in the base world.
 
 ### Content
-- Seven new props that the world generation scatters (flowers, stump, fern, log, driftwood, ice shard, dry shrub), all gatherable; four materials, two dishes, four recipes (50). The world vectors are regenerated: props are not where they were.
+- `tools/make_wildlife.py`: blossom slime, hollow armor, frost wisp, cinder wolf (enemies, art by family in `art_creatures.py`, names it/en, fauna of five regions), the ember pelt and the cinder cloak with its recipe. 75 creatures, 187 items, 51 recipes. Catalog and balance report regenerated.
 
 ### Presentation (both clients)
-- **Android draws its text with the font of the pack** (`PackFont.kt`: every glyph baked into one texture, a libGDX `BitmapFont` built from the metrics of the font).
-- **The blow**: a third clip, `humanoid_attack`, played during the phases of a skill.
-- **Water moves**: the water picture drawn twice more, shifted by whole tiles, fading in and out.
-- **Round corners** in the ground blending (diagonal neighbours).
-- **Panels and bars** redrawn.
+- **Long shadows** of props and creatures at dawn and dusk (`shadow_pm`).
+- **Snow** instead of rain in the regions of `snow_regions` (Frostveil).
+- **Baking in instalments** (spec 13): after three warm frames a frame bakes for 6 ms (desktop) or 8 ms (Android) at most; what is not ready appears in a later frame.
 
 ### Checked
-- `validate_data.py`, `ruff`, `pytest tools/tests`, `gen_conformance.py --check`: run locally. The new props were looked at with `tools/art_preview.py`.
-- Desktop and Android were **not** built locally: CI is the build. The Android font, in particular, has only been compiled, never seen on a device.
+- `validate_data.py`, `ruff`, `pytest tools/tests`, `gen_conformance.py --check` locally; the new creatures were looked at with `tools/art_preview.py`.
+- Desktop and Android **not** built locally: CI is the build. Shadows, snow and the night are not in the smoke-test screenshots (they are taken by day in Verdalis): not seen on screen.
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)

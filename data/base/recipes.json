@@ -701,6 +701,24 @@
       ]
     },
     {
+      "id": "ember_cloak",
+      "output": {
+        "item": "base:item/ember_cloak",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/ember_pelt",
+          "qty": 4
+        },
+        {
+          "item": "base:item/spider_silk",
+          "qty": 2
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
       "id": "fang_necklace",
       "output": {
         "item": "base:item/fang_necklace",

@@ -37,6 +37,10 @@
     "vignette_pm": 280,
     "motes": 26,
     "mote_day": "#FFF6C8",
-    "mote_night": "#C8FF8A"
+    "mote_night": "#C8FF8A",
+    "snow_regions": [
+      "frostveil"
+    ],
+    "shadow_pm": 300
   }
 }

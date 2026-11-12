@@ -79,6 +79,11 @@
                   "enemy": "base:enemy/wild_boar",
                   "drop": "base:item/boar_hide",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_bloom",
+                  "drop": "base:item/wildflowers",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -161,6 +166,11 @@
                 {
                   "enemy": "base:enemy/wild_boar",
                   "drop": "base:item/boar_hide",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/hollow_armor",
+                  "drop": "base:item/rust_flake",
                   "weight": 2
                 }
               ],
@@ -267,6 +277,11 @@
                 {
                   "enemy": "base:enemy/ridge_elk",
                   "drop": "base:item/elk_antler",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/hollow_armor",
+                  "drop": "base:item/rust_flake",
                   "weight": 2
                 }
               ],
@@ -475,6 +490,11 @@
                   "enemy": "base:enemy/ridge_elk",
                   "drop": "base:item/elk_antler",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/frost_wisp",
+                  "drop": "base:item/ice_crystal",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -670,6 +690,11 @@
                   "enemy": "base:enemy/dune_fox",
                   "drop": "base:item/fox_pelt",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wolf_ember",
+                  "drop": "base:item/ember_pelt",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -812,6 +837,11 @@
                 {
                   "enemy": "base:enemy/ridge_elk",
                   "drop": "base:item/elk_antler",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_bloom",
+                  "drop": "base:item/wildflowers",
                   "weight": 2
                 }
               ],
@@ -1709,6 +1739,7 @@
             "respawn_ticks": 36000
           },
           "time": {
+            "night_aggro_cut_pm": 250,
             "day_ticks": 72000,
             "start_tick": 24000,
             "light": [
@@ -6979,6 +7010,11 @@
                   "enemy": "base:enemy/wild_boar",
                   "drop": "base:item/boar_hide",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_bloom",
+                  "drop": "base:item/wildflowers",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -7061,6 +7097,11 @@
                 {
                   "enemy": "base:enemy/wild_boar",
                   "drop": "base:item/boar_hide",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/hollow_armor",
+                  "drop": "base:item/rust_flake",
                   "weight": 2
                 }
               ],
@@ -7167,6 +7208,11 @@
                 {
                   "enemy": "base:enemy/ridge_elk",
                   "drop": "base:item/elk_antler",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/hollow_armor",
+                  "drop": "base:item/rust_flake",
                   "weight": 2
                 }
               ],
@@ -7375,6 +7421,11 @@
                   "enemy": "base:enemy/ridge_elk",
                   "drop": "base:item/elk_antler",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/frost_wisp",
+                  "drop": "base:item/ice_crystal",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -7570,6 +7621,11 @@
                   "enemy": "base:enemy/dune_fox",
                   "drop": "base:item/fox_pelt",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wolf_ember",
+                  "drop": "base:item/ember_pelt",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -7712,6 +7768,11 @@
                 {
                   "enemy": "base:enemy/ridge_elk",
                   "drop": "base:item/elk_antler",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_bloom",
+                  "drop": "base:item/wildflowers",
                   "weight": 2
                 }
               ],
@@ -8609,6 +8670,7 @@
             "respawn_ticks": 36000
           },
           "time": {
+            "night_aggro_cut_pm": 250,
             "day_ticks": 72000,
             "start_tick": 24000,
             "light": [
@@ -13639,6 +13701,11 @@
                   "enemy": "base:enemy/wild_boar",
                   "drop": "base:item/boar_hide",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_bloom",
+                  "drop": "base:item/wildflowers",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -13721,6 +13788,11 @@
                 {
                   "enemy": "base:enemy/wild_boar",
                   "drop": "base:item/boar_hide",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/hollow_armor",
+                  "drop": "base:item/rust_flake",
                   "weight": 2
                 }
               ],
@@ -13827,6 +13899,11 @@
                 {
                   "enemy": "base:enemy/ridge_elk",
                   "drop": "base:item/elk_antler",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/hollow_armor",
+                  "drop": "base:item/rust_flake",
                   "weight": 2
                 }
               ],
@@ -14035,6 +14112,11 @@
                   "enemy": "base:enemy/ridge_elk",
                   "drop": "base:item/elk_antler",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/frost_wisp",
+                  "drop": "base:item/ice_crystal",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -14230,6 +14312,11 @@
                   "enemy": "base:enemy/dune_fox",
                   "drop": "base:item/fox_pelt",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wolf_ember",
+                  "drop": "base:item/ember_pelt",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -14372,6 +14459,11 @@
                 {
                   "enemy": "base:enemy/ridge_elk",
                   "drop": "base:item/elk_antler",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_bloom",
+                  "drop": "base:item/wildflowers",
                   "weight": 2
                 }
               ],
@@ -15269,6 +15361,7 @@
             "respawn_ticks": 36000
           },
           "time": {
+            "night_aggro_cut_pm": 250,
             "day_ticks": 72000,
             "start_tick": 24000,
             "light": [
@@ -20941,6 +21034,11 @@
                   "enemy": "base:enemy/wild_boar",
                   "drop": "base:item/boar_hide",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_bloom",
+                  "drop": "base:item/wildflowers",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -21023,6 +21121,11 @@
                 {
                   "enemy": "base:enemy/wild_boar",
                   "drop": "base:item/boar_hide",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/hollow_armor",
+                  "drop": "base:item/rust_flake",
                   "weight": 2
                 }
               ],
@@ -21129,6 +21232,11 @@
                 {
                   "enemy": "base:enemy/ridge_elk",
                   "drop": "base:item/elk_antler",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/hollow_armor",
+                  "drop": "base:item/rust_flake",
                   "weight": 2
                 }
               ],
@@ -21337,6 +21445,11 @@
                   "enemy": "base:enemy/ridge_elk",
                   "drop": "base:item/elk_antler",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/frost_wisp",
+                  "drop": "base:item/ice_crystal",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -21532,6 +21645,11 @@
                   "enemy": "base:enemy/dune_fox",
                   "drop": "base:item/fox_pelt",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wolf_ember",
+                  "drop": "base:item/ember_pelt",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -21674,6 +21792,11 @@
                 {
                   "enemy": "base:enemy/ridge_elk",
                   "drop": "base:item/elk_antler",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_bloom",
+                  "drop": "base:item/wildflowers",
                   "weight": 2
                 }
               ],
@@ -22571,6 +22694,7 @@
             "respawn_ticks": 36000
           },
           "time": {
+            "night_aggro_cut_pm": 250,
             "day_ticks": 72000,
             "start_tick": 24000,
             "light": [

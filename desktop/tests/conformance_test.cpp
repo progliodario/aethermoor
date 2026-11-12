@@ -744,6 +744,8 @@ Scenario scenario_from_json(const Json& in) {
     if (in.contains("weather")) {
         setup.rain_pm = in.at("weather").value("rain_pm", 0);
         setup.rain_aggro_cut_pm = in.at("weather").value("rain_aggro_cut_pm", 0);
+        setup.light_pm = in.at("weather").value("light_pm", 1000);
+        setup.night_aggro_cut_pm = in.at("weather").value("night_aggro_cut_pm", 0);
     }
     if (in.contains("gift")) {
         const Json& gift = in.at("gift");

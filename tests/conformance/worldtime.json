@@ -9,6 +9,7 @@
         "op": "worldtime",
         "seed": "0x0000000000000001",
         "time": {
+          "night_aggro_cut_pm": 250,
           "day_ticks": 72000,
           "start_tick": 24000,
           "light": [
@@ -475,6 +476,7 @@
         "op": "worldtime",
         "seed": "0x0000000000c0ffee",
         "time": {
+          "night_aggro_cut_pm": 250,
           "day_ticks": 72000,
           "start_tick": 24000,
           "light": [
@@ -941,6 +943,7 @@
         "op": "worldtime",
         "seed": "0xffffffffffffffff",
         "time": {
+          "night_aggro_cut_pm": 250,
           "day_ticks": 72000,
           "start_tick": 24000,
           "light": [

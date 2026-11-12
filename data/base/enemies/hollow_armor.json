@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/hollow_armor",
+  "name": "$i18n:enemy.hollow_armor.name",
+  "level": 9,
+  "stats": {
+    "hp": 200,
+    "atk": 24,
+    "def": 14,
+    "mdef": 5,
+    "speed_x100": 240
+  },
+  "element": "dark",
+  "sound": "knight",
+  "weaknesses_pm": {
+    "light": 1500
+  },
+  "xp": 85,
+  "drops": [
+    {
+      "item": "base:item/rust_flake",
+      "qty_min": 1,
+      "qty_max": 2,
+      "weight_pm": 700
+    },
+    {
+      "item": "base:item/iron_ore",
+      "qty_min": 1,
+      "qty_max": 2,
+      "weight_pm": 500
+    }
+  ],
+  "radius_x100": 48,
+  "behavior": "base:behavior/brute",
+  "art": "base:art/creature/hollow_armor"
+}
