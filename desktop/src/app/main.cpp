@@ -156,6 +156,9 @@ std::string detect_language() {
     return lang;
 }
 
+float text_columns(const std::string& text);
+
+// Breaks a text into lines of at most `width` columns of 8 units (measured with the font: letters are not all as wide).
 std::vector<std::string> wrap_text(const std::string& text, std::size_t width) {
     std::vector<std::string> lines;
     std::string line;
@@ -166,7 +169,7 @@ std::vector<std::string> wrap_text(const std::string& text, std::size_t width) {
             end = text.size();
         }
         const std::string word = text.substr(pos, end - pos);
-        if (!line.empty() && line.size() + 1 + word.size() > width) {
+        if (!line.empty() && text_columns(line + " " + word) > static_cast<float>(width)) {
             lines.push_back(line);
             line.clear();
         }
