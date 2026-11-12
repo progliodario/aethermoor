@@ -28,6 +28,8 @@ class TimeParams(
     val seasons: List<Season> = emptyList(),
     /** How much full rain shortens the aggro distance, in permille (spec 08, "Rain hides you"). */
     val rainAggroCutPm: Int = 0,
+    /** How much full darkness shortens the aggro distance, in permille (spec 08, "The night hides you"). */
+    val nightAggroCutPm: Int = 0,
 )
 
 class TimeSample(
@@ -111,6 +113,7 @@ fun parseTimeParams(time: JsonObject): TimeParams {
         periodTicks = weather.getValue("period_ticks").jsonPrimitive.int,
         fadeTicks = weather.getValue("fade_ticks").jsonPrimitive.int,
         rainAggroCutPm = weather["rain_aggro_cut_pm"]?.jsonPrimitive?.int ?: 0,
+        nightAggroCutPm = time["night_aggro_cut_pm"]?.jsonPrimitive?.int ?: 0,
         kinds = weather.getValue("kinds").jsonArray.map {
             val k = it.jsonObject
             WeatherKind(

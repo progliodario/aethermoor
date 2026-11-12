@@ -20,6 +20,11 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **The night hides you** (spec 08): in the dark creatures notice the player from a shorter distance, about a fifth less at night (`time.night_aggro_cut_pm`), together with the rain. Both clients, three more conformance scenarios.
+- **Four new creatures** (`tools/make_wildlife.py`): the blossom slime of Verdalis and Lumeria (it leaves wildflowers), the hollow armor of Ironspine and Whisperwood, the frost wisp of Frostveil and the cinder wolf of the Ashen Wastes, whose ember pelt makes the **cinder cloak** at an anvil (75 creatures, 187 items, 51 recipes).
+- **Long shadows at dawn and dusk** (spec 08): trees, rocks and creatures cast their own shadow along the ground, to the left in the morning and to the right in the evening.
+- **Snow**: in Frostveil the rain falls as snow (`snow_regions` in `data/base/lights.json`).
+- **No more freezes when new things come into view** (spec 13, "Baking in instalments"): after the first frames the pictures are prepared a few milliseconds at a time, and appear over a few frames instead of stopping the game for a moment. Both clients.
 - **Rain hides you** (spec 08): in the rain creatures notice the player from a shorter distance (30 percent shorter in full rain, less while it starts and stops; `time.weather.rain_aggro_cut_pm` in the world data). A creature that is already chasing keeps chasing. Both clients, three conformance scenarios.
 - **The small scenery of the wild**: seven new props grow by themselves in the world (spec 09): flowers and stumps in the plains, ferns, fallen logs and stumps in the forests, driftwood on the beaches, shards of ice in the snow, dry shrubs in the desert. All can be gathered from: four new materials (wildflowers, fern fronds, driftwood, sea shells), two new dishes (flower tea, fern salad) and four recipes (50 in all). Worlds are generated a little differently: props are not where they were.
 - **A blow you can see** (spec 13, "The blow"): the protagonist raises the arm and strikes when attacking, instead of standing still behind the arc of the blow. Both clients.

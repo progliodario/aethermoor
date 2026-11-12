@@ -102,6 +102,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private lateinit var shapes: ShapeRenderer
     private lateinit var font: BitmapFont
     private var packFont: PackFont? = null
+
+    /** Frames in which every picture in view is baked at once (a new game, a loaded one, a new size). */
+    private var warmFrames = 3
     private val sound = SoundBoard()
     private val soundDirector = SoundDirector()
     private var musicDirector: MusicDirector? = null
@@ -733,6 +736,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
         val tilePx = max(16, (BASE_TILE_PX * Gdx.graphics.density).roundToInt())
         cache.releaseOtherBuckets(tilePx)
+        // The first frames bake all they show (the world appears whole); after them a frame bakes for a few milliseconds
+        // at most, so that walking into new things never stops the game (spec 13, "Scale buckets").
+        cache.setBudget(if (warmFrames > 0) -1 else 8)
+        if (warmFrames > 0) warmFrames--
         draw(world, data, tilePx)
     }
 
@@ -879,7 +886,27 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         for (npc in world.story.setup.npcs + world.story.dynamicNpcs) items.add(Item(npc.y, null, null, npc))
         items.add(Item(world.player.position.y, null, null))
         world.companionPosition?.let { items.add(Item(it.y, null, null, null, true)) }
-        for (item in items.sortedBy { it.feetY }) {
+        val sorted = items.sortedBy { it.feetY }
+        // The long shadows of dawn and dusk (spec 08, "The colour of the hour"): props and creatures, before any of them.
+        val shadeTime = world.time()
+        val grade = gradingOf(data)
+        if (shadeTime != null && grade.shadowPm > 0) {
+            val low = (1f - abs(shadeTime.lightPm - 550f) / 350f).coerceIn(0f, 1f)
+            if (low > 0.02f) {
+                val alpha = grade.shadowPm / 1000f * low
+                val lean = (if (shadeTime.todPm < 500) -1f else 1f) * (0.6f + 0.9f * low)
+                for (item in sorted) {
+                    if (item.prop != null) {
+                        val sprite = cache.get(item.prop.art, tilePx) ?: continue
+                        drawLongShadow(sprite, (item.prop.x - cam.x) * tile, (item.prop.y - cam.y) * tile, k, lean, alpha)
+                    } else if (item.enemy != null) {
+                        val sprite = cache.get(item.enemy.def.art, tilePx) ?: continue
+                        drawLongShadow(sprite, (item.enemy.position.x - cam.x) * tile, (item.enemy.position.y - cam.y) * tile, k, lean, alpha)
+                    }
+                }
+            }
+        }
+        for (item in sorted) {
             when {
                 item.prop != null -> drawProp(item.prop, cam.x, cam.y, tilePx, tile, k)
                 item.enemy != null -> drawEnemy(item.enemy, cam.x, cam.y, tilePx, tile, k, world.player.position.x)
@@ -983,6 +1010,31 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         vertex(0.5f, cy, clear)
         vertex(0.5f, 0.5f, clear)
         vertex(cx, 0.5f, clear)
+        batch.draw(sprite.region.texture, blendVertices, 0, 20)
+    }
+
+    /**
+     * The long shadow of something at dawn or dusk (spec 08): its own picture above the feet, black, laid on the ground.
+     * It leans [lean] times its height sideways and rises 0.18 times its height.
+     */
+    private fun drawLongShadow(sprite: Sprite, feetX: Float, feetY: Float, k: Float, lean: Float, alpha: Float) {
+        val x0 = feetX - sprite.originX * k
+        val x1 = x0 + sprite.width * k
+        val tall = sprite.originY * k
+        val v = if (sprite.height > 0f) sprite.originY / sprite.height else 1f
+        val black = Color.toFloatBits(0.02f, 0.01f, 0.08f, alpha)
+        var i = 0
+        fun vertex(x: Float, y: Float, u: Float, tv: Float) {
+            blendVertices[i++] = x
+            blendVertices[i++] = y
+            blendVertices[i++] = black
+            blendVertices[i++] = u
+            blendVertices[i++] = tv
+        }
+        vertex(x0 + tall * lean, feetY - tall * 0.18f, 0f, 0f)
+        vertex(x0, feetY, 0f, v)
+        vertex(x1, feetY, 1f, v)
+        vertex(x1 + tall * lean, feetY - tall * 0.18f, 1f, 0f)
         batch.draw(sprite.region.texture, blendVertices, 0, 20)
     }
 
@@ -1248,7 +1300,25 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 shapes.end()
             }
         }
-        if (time.rainPm > 0) {
+        // in the cold regions the rain is snow (spec 08)
+        val store = world.chunks
+        val snowy = time.rainPm > 0 && store != null && grade.snowRegions.isNotEmpty() &&
+            store.params.regions[regionAt(store.params, floor(world.player.position.x).toInt(), floor(world.player.position.y).toInt())].id in grade.snowRegions
+        if (snowy) {
+            val density = Gdx.graphics.density
+            val t = (System.currentTimeMillis() % 6000000L).toFloat()
+            shapes.begin(ShapeRenderer.ShapeType.Filled)
+            for (i in 0 until 140 * time.rainPm / 1000) {
+                val a = i * 0.6180339f - floor(i * 0.6180339f)
+                val b = i * 0.7548777f - floor(i * 0.7548777f)
+                val driftX = a + 0.02f * sin(t * 0.0006f + i) + t * 0.000008f
+                val driftY = b + t * 0.00006f * (0.6f + a)
+                val size = (1.5f + 1.5f * b) * density
+                shapes.color = Color(1f, 1f, 1f, 0.59f + 0.35f * a)
+                shapes.rect((driftX - floor(driftX)) * w, (driftY - floor(driftY)) * h, size, size)
+            }
+            shapes.end()
+        } else if (time.rainPm > 0) {
             val density = Gdx.graphics.density
             val now = System.currentTimeMillis()
             val drops = 160 * time.rainPm / 1000

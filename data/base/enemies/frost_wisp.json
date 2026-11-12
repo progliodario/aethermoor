@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/frost_wisp",
+  "name": "$i18n:enemy.frost_wisp.name",
+  "level": 10,
+  "stats": {
+    "hp": 96,
+    "atk": 27,
+    "def": 2,
+    "mdef": 15,
+    "speed_x100": 320
+  },
+  "element": "water",
+  "sound": "wisp",
+  "weaknesses_pm": {
+    "fire": 1500
+  },
+  "xp": 70,
+  "drops": [
+    {
+      "item": "base:item/ice_crystal",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 600
+    }
+  ],
+  "radius_x100": 32,
+  "behavior": "base:behavior/lunger",
+  "art": "base:art/creature/frost_wisp"
+}

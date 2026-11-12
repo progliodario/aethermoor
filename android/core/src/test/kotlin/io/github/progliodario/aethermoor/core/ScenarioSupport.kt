@@ -108,6 +108,8 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         echoPct = input["echo_pct"]?.jsonPrimitive?.int ?: 0,
         rainPm = input["weather"]?.jsonObject?.get("rain_pm")?.jsonPrimitive?.int ?: 0,
         rainAggroCutPm = input["weather"]?.jsonObject?.get("rain_aggro_cut_pm")?.jsonPrimitive?.int ?: 0,
+        lightPm = input["weather"]?.jsonObject?.get("light_pm")?.jsonPrimitive?.int ?: 1000,
+        nightAggroCutPm = input["weather"]?.jsonObject?.get("night_aggro_cut_pm")?.jsonPrimitive?.int ?: 0,
         gift = input["gift"]?.jsonObject?.let { g ->
             fun pct(key: String, neutral: Int) = g[key]?.jsonPrimitive?.int ?: neutral
             GiftDef(pct("mp_regen_pct", 100), pct("aggro_pct", 100), pct("heal_pct", 100), pct("dodge_cooldown_pct", 100), pct("death_save_ticks", 0))

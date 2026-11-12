@@ -32,6 +32,8 @@ struct Grading {
     int motes = 26;
     std::array<int, 3> mote_day{0xFF, 0xF6, 0xC8};
     std::array<int, 3> mote_night{0xC8, 0xFF, 0x8A};
+    int shadow_pm = 300;                    // how dark the long shadows of dawn and dusk are
+    std::vector<std::string> snow_regions;  // the regions (by id) where the rain falls as snow
 };
 
 // The grading of the pack (`grading` of base:lights/all); the defaults for what it does not say.

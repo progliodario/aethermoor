@@ -901,11 +901,17 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
     {  // the rain hides the player (spec 08): creatures notice from a shorter distance
         int rain = m_setup_.rain_pm;
         int cut = m_setup_.rain_aggro_cut_pm;
+        int light = m_setup_.light_pm;
+        int night_cut = m_setup_.night_aggro_cut_pm;
         if (m_store_) {
-            rain = sample_time(m_store_->seed(), m_store_->params().time, m_world_ticks_).rain_pm;
+            const TimeSample sample = sample_time(m_store_->seed(), m_store_->params().time, m_world_ticks_);
+            rain = sample.rain_pm;
             cut = m_store_->params().time.rain_aggro_cut_pm;
+            light = sample.light_pm;
+            night_cut = m_store_->params().time.night_aggro_cut_pm;
         }
         m_rain_aggro_pm_ = 1000 - rain * cut / 1000;
+        m_night_aggro_pm_ = 1000 - (1000 - light) * night_cut / 1000;  // the night hides the player too
     }
     if (m_store_ && m_window_valid_ && time_of_day_pm() != m_routine_tod_) {
         refresh_people(m_window_x_, m_window_y_);  // somebody goes home or comes out (spec 08)
@@ -1376,8 +1382,9 @@ void WorldSim::behave_enemy(Enemy& enemy) {
     const float dist = distance(enemy.position.x, enemy.position.y, p.position.x, p.position.y);
     switch (enemy.state) {
         case EnemyState::Idle:
-            if (dist <=
-                static_cast<float>(b.aggro_x100 * m_setup_.gift.aggro_pct / 100 * m_rain_aggro_pm_ / 1000) / 100.0F) {
+            if (dist <= static_cast<float>(b.aggro_x100 * m_setup_.gift.aggro_pct / 100 * m_rain_aggro_pm_ / 1000 *
+                                           m_night_aggro_pm_ / 1000) /
+                            100.0F) {
                 enemy.state = EnemyState::Chase;
                 enemy.state_tick = 0;
                 m_cues_.push_back({"aggro", enemy.def.sound, enemy.position});

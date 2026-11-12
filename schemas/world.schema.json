@@ -482,6 +482,12 @@
               }
             }
           }
+        },
+        "night_aggro_cut_pm": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000,
+          "description": "How much full darkness (light 0) shortens the distance at which creatures notice the player, in permille (spec 08, \"The night hides you\")."
         }
       }
     },

@@ -40,6 +40,10 @@ const Sprite* TextureCache::get(const std::string& recipe_id, int tile_px, std::
         return found->second.failed ? nullptr : &found->second.sprite;
     }
 
+    if (m_budget_ns_ >= 0 && m_spent_ns_ > m_budget_ns_) {  // not this frame: the picture appears in one of the next
+        return nullptr;
+    }
+    const Uint64 bake_start = SDL_GetTicksNS();
     Entry entry;
     entry.bucket = bucket;
     entry.failed = true;
@@ -74,6 +78,7 @@ const Sprite* TextureCache::get(const std::string& recipe_id, int tile_px, std::
     if (entry.failed) {
         SDL_Log("Cannot bake art recipe '%s' %s", recipe_id.c_str(), error.c_str());
     }
+    m_spent_ns_ += static_cast<Sint64>(SDL_GetTicksNS() - bake_start);
     const auto inserted = m_entries_.emplace(key, entry);
     return entry.failed ? nullptr : &inserted.first->second.sprite;
 }

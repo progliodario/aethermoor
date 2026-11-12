@@ -656,6 +656,23 @@ void draw_ground_corner(SDL_Renderer* renderer, const aether::Sprite& sprite, in
     SDL_RenderGeometry(renderer, sprite.texture, vertices, 4, indices, 6);
 }
 
+// The long shadow of something at dawn or dusk (spec 08): its own picture above the feet, black, laid on the ground. It
+// leans `lean` times its height sideways and rises 0.18 times its height.
+void draw_long_shadow(SDL_Renderer* renderer, const aether::Sprite& sprite, float feet_x, float feet_y, float k,
+                      float lean, float alpha) {
+    const float x0 = feet_x - sprite.origin_x * k;
+    const float x1 = x0 + sprite.width * k;
+    const float tall = sprite.origin_y * k;
+    const float v = sprite.height > 0.0F ? sprite.origin_y / sprite.height : 1.0F;
+    const SDL_FColor black{0.02F, 0.01F, 0.08F, alpha};
+    const SDL_Vertex vertices[4] = {{{x0 + tall * lean, feet_y - tall * 0.18F}, black, {0.0F, 0.0F}},
+                                    {{x1 + tall * lean, feet_y - tall * 0.18F}, black, {1.0F, 0.0F}},
+                                    {{x1, feet_y}, black, {1.0F, v}},
+                                    {{x0, feet_y}, black, {0.0F, v}}};
+    const int indices[6] = {0, 1, 2, 0, 2, 3};
+    SDL_RenderGeometry(renderer, sprite.texture, vertices, 4, indices, 6);
+}
+
 // A prop that the wind moves (spec 13, "Sway"): its foot stays, its top goes sideways by `shift` pixels (a shear).
 void draw_swaying(SDL_Renderer* renderer, const aether::Sprite& sprite, float feet_x, float feet_y, float k,
                   float shift) {
@@ -1827,7 +1844,35 @@ void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether:
             SDL_RenderFillRect(renderer, &all);
         }
     }
-    if (time->rain_pm > 0) {
+    bool snow = false;  // in the cold regions the rain is snow (spec 08)
+    if (time->rain_pm > 0 && sim.chunks() != nullptr && !g_grading.snow_regions.empty()) {
+        const aether::WorldParams& world = sim.chunks()->params();
+        const std::string& here = world
+                                      .regions[static_cast<std::size_t>(aether::region_at(
+                                          world, static_cast<int>(std::floor(sim.player().position.x)),
+                                          static_cast<int>(std::floor(sim.player().position.y))))]
+                                      .id;
+        snow = std::find(g_grading.snow_regions.begin(), g_grading.snow_regions.end(), here) !=
+               g_grading.snow_regions.end();
+    }
+    if (snow) {
+        const int flakes = 140 * time->rain_pm / 1000;
+        const float t = static_cast<float>(now_ms % 6000000ULL);
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+        for (int i = 0; i < flakes; ++i) {
+            const float fi = static_cast<float>(i);
+            const float a = fi * 0.6180339F - std::floor(fi * 0.6180339F);
+            const float b = fi * 0.7548777F - std::floor(fi * 0.7548777F);
+            const float drift_x = a + 0.02F * std::sin(t * 0.0006F + fi) + t * 0.000008F;
+            const float drift_y = b + t * 0.00006F * (0.6F + a);
+            const float x = (drift_x - std::floor(drift_x)) * static_cast<float>(out_w);
+            const float y = (drift_y - std::floor(drift_y)) * static_cast<float>(out_h);
+            const float size = (1.5F + 1.5F * b) * density;
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, static_cast<Uint8>(150 + static_cast<int>(90.0F * a)));
+            const SDL_FRect flake{x, y, size, size};
+            SDL_RenderFillRect(renderer, &flake);
+        }
+    } else if (time->rain_pm > 0) {
         const int drops = 160 * time->rain_pm / 1000;
         SDL_SetRenderDrawColor(renderer, 170, 190, 230, 150);
         for (int i = 0; i < drops; ++i) {
@@ -3674,6 +3719,32 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     }
     std::stable_sort(items.begin(), items.end(),
                      [](const DrawItem& a, const DrawItem& b) { return a.feet_y < b.feet_y; });
+    // The long shadows of dawn and dusk (spec 08, "The colour of the hour"): props and creatures, before any of them.
+    if (const auto shade_time = sim.time(); shade_time && g_grading.shadow_pm > 0) {
+        const float low =
+            std::clamp(1.0F - std::fabs(static_cast<float>(shade_time->light_pm) - 550.0F) / 350.0F, 0.0F, 1.0F);
+        if (low > 0.02F) {
+            const float alpha = static_cast<float>(g_grading.shadow_pm) / 1000.0F * low;
+            const float lean = (shade_time->tod_pm < 500 ? -1.0F : 1.0F) * (0.6F + 0.9F * low);
+            for (const DrawItem& item : items) {
+                const aether::Sprite* sprite = nullptr;
+                float fx = 0.0F;
+                float fy = 0.0F;
+                if (item.kind == 0) {
+                    sprite = cache.get(item.prop->art, tile_px);
+                    fx = (item.prop->x - cam.x) * tile;
+                    fy = (item.prop->y - cam.y) * tile;
+                } else if (item.kind == 1) {
+                    sprite = cache.get(item.enemy->def.art, tile_px);
+                    fx = (item.enemy->position.x - cam.x) * tile;
+                    fy = (item.enemy->position.y - cam.y) * tile;
+                }
+                if (sprite != nullptr) {
+                    draw_long_shadow(renderer, *sprite, fx, fy, k, lean, alpha);
+                }
+            }
+        }
+    }
     for (const DrawItem& item : items) {
         if (item.kind == 2) {
             const float fx = (sim.player().position.x - cam.x) * tile;
@@ -4414,6 +4485,7 @@ int main(int argc, char** argv) {
 
         {
             aether::TextureCache cache(renderer, assets.pack);
+            int warm_frames = 3;  // frames in which every picture in view is baked at once
             aether::WorldSim sim(assets.map, assets.tileset, 0.0F, std::move(*combat), stream);
             if (start_at && g_map_name == "world") {
                 sim.teleport(start_at->first, start_at->second);
@@ -4931,6 +5003,13 @@ int main(int argc, char** argv) {
                 }
                 const int tile_px = std::max(16, static_cast<int>(std::lround(kBaseTilePx * density)));
                 cache.release_other_buckets(tile_px);
+                // The first frames bake all they show (the world appears whole); after them a frame bakes for a few
+                // milliseconds at most, so that walking into new things never stops the game (spec 13, "Scale
+                // buckets").
+                cache.set_budget(warm_frames > 0 ? -1 : 6);
+                if (warm_frames > 0) {
+                    --warm_frames;
+                }
                 std::string capture;
                 if (!screenshot_dir.empty() && smoke_test) {
                     std::error_code ec;

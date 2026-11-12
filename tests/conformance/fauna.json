@@ -2100,6 +2100,11 @@
                   "enemy": "base:enemy/wild_boar",
                   "drop": "base:item/boar_hide",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_bloom",
+                  "drop": "base:item/wildflowers",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -2182,6 +2187,11 @@
                 {
                   "enemy": "base:enemy/wild_boar",
                   "drop": "base:item/boar_hide",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/hollow_armor",
+                  "drop": "base:item/rust_flake",
                   "weight": 2
                 }
               ],
@@ -2288,6 +2298,11 @@
                 {
                   "enemy": "base:enemy/ridge_elk",
                   "drop": "base:item/elk_antler",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/hollow_armor",
+                  "drop": "base:item/rust_flake",
                   "weight": 2
                 }
               ],
@@ -2496,6 +2511,11 @@
                   "enemy": "base:enemy/ridge_elk",
                   "drop": "base:item/elk_antler",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/frost_wisp",
+                  "drop": "base:item/ice_crystal",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -2691,6 +2711,11 @@
                   "enemy": "base:enemy/dune_fox",
                   "drop": "base:item/fox_pelt",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wolf_ember",
+                  "drop": "base:item/ember_pelt",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -2833,6 +2858,11 @@
                 {
                   "enemy": "base:enemy/ridge_elk",
                   "drop": "base:item/elk_antler",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_bloom",
+                  "drop": "base:item/wildflowers",
                   "weight": 2
                 }
               ],
@@ -3730,6 +3760,7 @@
             "respawn_ticks": 36000
           },
           "time": {
+            "night_aggro_cut_pm": 250,
             "day_ticks": 72000,
             "start_tick": 24000,
             "light": [
@@ -8411,22 +8442,22 @@
             8169,
             8134,
             0,
-            "base:enemy/wolf_tawny",
-            "base:item/tawny_fur"
+            "base:enemy/slime_mint",
+            "base:item/mint_leaf"
           ],
           [
             8163,
             8159,
             0,
-            "base:enemy/slime_mint",
-            "base:item/mint_leaf"
+            "base:enemy/myconid",
+            "base:item/spore_cap"
           ],
           [
             8216,
             8129,
             0,
-            "base:enemy/slime_mint",
-            "base:item/mint_leaf"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             8242,
@@ -8446,50 +8477,50 @@
             3773,
             5528,
             1,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             3801,
             5516,
             1,
-            "base:enemy/wolf_shade",
-            "base:item/shade_wisp"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             3807,
             5528,
             1,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/night_owl",
+            "base:item/owl_feather"
           ],
           [
             3811,
             5509,
             1,
-            "base:enemy/wolf_shade",
-            "base:item/shade_wisp"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             3799,
             5577,
             1,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/slime_moss",
+            "base:item/moss_clump"
           ],
           [
             3777,
             5582,
             1,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/slime_moss",
+            "base:item/moss_clump"
           ],
           [
             3776,
             5598,
             1,
-            "base:enemy/cave_spider",
-            "base:item/spider_silk"
+            "base:enemy/slime_moss",
+            "base:item/moss_clump"
           ],
           [
             3684,
@@ -8509,98 +8540,98 @@
             3680,
             5628,
             1,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_shade",
+            "base:item/shade_wisp"
           ],
           [
             3714,
             5621,
             1,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/wisp",
+            "base:item/wisp_ember"
           ],
           [
             3824,
             5607,
             1,
-            "base:enemy/night_owl",
-            "base:item/owl_feather"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             12736,
             3543,
             2,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/ridge_elk",
+            "base:item/elk_antler"
           ],
           [
             12789,
             3524,
             2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             12791,
             3525,
             2,
-            "base:enemy/ridge_elk",
-            "base:item/elk_antler"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             12805,
             3542,
             2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
+            "base:enemy/hollow_armor",
+            "base:item/rust_flake"
           ],
           [
             12769,
             3558,
             2,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/ridge_elk",
+            "base:item/elk_antler"
           ],
           [
             12812,
             3559,
             2,
-            "base:enemy/ridge_elk",
-            "base:item/elk_antler"
+            "base:enemy/cave_bat",
+            "base:item/bat_wing"
           ],
           [
             12723,
             3589,
             2,
-            "base:enemy/slime_blue",
+            "base:enemy/slime_green",
             "base:item/slime_gel"
           ],
           [
             12721,
             3595,
             2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             12862,
             3619,
             2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
+            "base:enemy/ridge_elk",
+            "base:item/elk_antler"
           ],
           [
             12800,
             3648,
             2,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
           ],
           [
             7449,
             1468,
             4,
-            "base:enemy/slime_blue",
+            "base:enemy/slime_green",
             "base:item/slime_gel"
           ],
           [
@@ -8677,64 +8708,64 @@
             15022,
             7790,
             6,
-            "base:enemy/slime_magma",
-            "base:item/magma_shard"
+            "base:enemy/wolf_ember",
+            "base:item/ember_pelt"
           ],
           [
             15093,
             7777,
             6,
-            "base:enemy/dune_fox",
-            "base:item/fox_pelt"
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
           ],
           [
             15134,
             7805,
             6,
-            "base:enemy/dune_scorpion",
-            "base:item/scorpion_sting"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             15162,
             7806,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
           ],
           [
             15034,
             7824,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             15039,
             7826,
             6,
-            "base:enemy/dune_fox",
-            "base:item/fox_pelt"
+            "base:enemy/wolf_ember",
+            "base:item/ember_pelt"
           ],
           [
             15136,
             7832,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/wolf_ember",
+            "base:item/ember_pelt"
           ],
           [
             15094,
             7847,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             15081,
             7854,
             6,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             15119,
@@ -8747,8 +8778,8 @@
             15098,
             7889,
             6,
-            "base:enemy/dune_fox",
-            "base:item/fox_pelt"
+            "base:enemy/wisp",
+            "base:item/wisp_ember"
           ],
           [
             15143,
@@ -8768,29 +8799,29 @@
             7861,
             14657,
             7,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             7850,
             14685,
             7,
-            "base:enemy/slime_glow",
-            "base:item/star_dust"
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
           ],
           [
             7878,
             14658,
             7,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_glow",
+            "base:item/star_dust"
           ],
           [
             7916,
             14660,
             7,
-            "base:enemy/wisp",
-            "base:item/wisp_ember"
+            "base:enemy/wolf_storm",
+            "base:item/storm_feather"
           ],
           [
             7803,
@@ -8901,8 +8932,8 @@
             8250,
             8096,
             0,
-            "base:enemy/slime_mint",
-            "base:item/mint_leaf"
+            "base:enemy/wild_boar",
+            "base:item/boar_hide"
           ],
           [
             8246,
@@ -8971,8 +9002,8 @@
             8276,
             8144,
             0,
-            "base:enemy/wolf_tawny",
-            "base:item/tawny_fur"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             12662,
@@ -9006,8 +9037,8 @@
             12651,
             3704,
             2,
-            "base:enemy/cave_spider",
-            "base:item/spider_silk"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             12661,
@@ -9356,8 +9387,8 @@
             3739,
             5489,
             1,
-            "base:enemy/wolf_shade",
-            "base:item/shade_wisp"
+            "base:enemy/myconid",
+            "base:item/spore_cap"
           ],
           [
             3712,
@@ -9629,8 +9660,8 @@
             7828,
             14698,
             7,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/ridge_elk",
+            "base:item/elk_antler"
           ],
           [
             7823,
@@ -9678,8 +9709,8 @@
             7833,
             14728,
             7,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_glow",
+            "base:item/star_dust"
           ],
           [
             15228,
@@ -9832,15 +9863,15 @@
             12913,
             3432,
             2,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/cave_spider",
+            "base:item/spider_silk"
           ],
           [
             12918,
             3435,
             2,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/ridge_elk",
+            "base:item/elk_antler"
           ],
           [
             12910,
@@ -9895,8 +9926,8 @@
             12947,
             3450,
             2,
-            "base:enemy/slime_rust",
-            "base:item/rust_flake"
+            "base:enemy/stone_golem",
+            "base:item/golem_core"
           ],
           [
             12910,
@@ -9930,8 +9961,8 @@
             12903,
             3472,
             2,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/cave_bat",
+            "base:item/bat_wing"
           ],
           [
             14982,
@@ -10266,8 +10297,8 @@
             8050,
             14456,
             7,
-            "base:enemy/myconid",
-            "base:item/spore_cap"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             8058,
@@ -10329,8 +10360,8 @@
             12433,
             3448,
             2,
-            "base:enemy/ridge_elk",
-            "base:item/elk_antler"
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
           ],
           [
             12438,
@@ -10357,57 +10388,57 @@
             3942,
             5479,
             1,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/cave_spider",
+            "base:item/spider_silk"
           ],
           [
             3995,
             5519,
             1,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/myconid",
+            "base:item/spore_cap"
           ],
           [
             7533,
             14467,
             7,
-            "base:enemy/ridge_elk",
-            "base:item/elk_antler"
+            "base:enemy/slime_bloom",
+            "base:item/wildflowers"
           ],
           [
             7569,
             14482,
             7,
-            "base:enemy/wolf_storm",
-            "base:item/storm_feather"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             7552,
             14490,
             7,
-            "base:enemy/night_owl",
-            "base:item/owl_feather"
+            "base:enemy/slime_glow",
+            "base:item/star_dust"
           ],
           [
             14950,
             7780,
             6,
-            "base:enemy/slime_char",
-            "base:item/char_chunk"
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
           ],
           [
             14952,
             7826,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/wolf_ember",
+            "base:item/ember_pelt"
           ],
           [
             14951,
             7832,
             6,
-            "base:enemy/slime_magma",
-            "base:item/magma_shard"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             8574,
@@ -10434,8 +10465,8 @@
             8570,
             8337,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/myconid",
+            "base:item/spore_cap"
           ],
           [
             12146,
@@ -10875,15 +10906,15 @@
             6779,
             1936,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/night_owl",
+            "base:item/owl_feather"
           ],
           [
             6805,
             1939,
             4,
-            "base:enemy/wolf_polar",
-            "base:item/polar_fur"
+            "base:enemy/slime_ice",
+            "base:item/ice_crystal"
           ],
           [
             14717,
@@ -11064,8 +11095,8 @@
             8042,
             8312,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wild_boar",
+            "base:item/boar_hide"
           ],
           [
             8058,
@@ -11127,8 +11158,8 @@
             8053,
             8348,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_tawny",
+            "base:item/tawny_fur"
           ],
           [
             3450,
@@ -11365,15 +11396,15 @@
             7041,
             1129,
             4,
-            "base:enemy/slime_ice",
-            "base:item/ice_crystal"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             7061,
             1134,
             4,
-            "base:enemy/slime_ice",
-            "base:item/ice_crystal"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             7046,
@@ -11456,15 +11487,15 @@
             7053,
             1170,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/slime_ice",
+            "base:item/ice_crystal"
           ],
           [
             7054,
             1178,
             4,
-            "base:enemy/wolf_polar",
-            "base:item/polar_fur"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             1914,
@@ -11638,8 +11669,8 @@
             7531,
             14730,
             7,
-            "base:enemy/slime_glow",
-            "base:item/star_dust"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             14702,
@@ -11722,8 +11753,8 @@
             8563,
             8084,
             0,
-            "base:enemy/slime_mint",
-            "base:item/mint_leaf"
+            "base:enemy/myconid",
+            "base:item/spore_cap"
           ],
           [
             7523,
@@ -11743,8 +11774,8 @@
             7581,
             8562,
             0,
-            "base:enemy/myconid",
-            "base:item/spore_cap"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             7552,
@@ -11771,15 +11802,15 @@
             7834,
             7571,
             0,
-            "base:enemy/wolf_tawny",
-            "base:item/tawny_fur"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             7800,
             8850,
             0,
-            "base:enemy/wild_boar",
-            "base:item/boar_hide"
+            "base:enemy/slime_bloom",
+            "base:item/wildflowers"
           ],
           [
             7801,
@@ -11799,8 +11830,8 @@
             7835,
             8840,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_bloom",
+            "base:item/wildflowers"
           ],
           [
             7838,
@@ -11841,15 +11872,15 @@
             8604,
             8837,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wild_boar",
+            "base:item/boar_hide"
           ],
           [
             8584,
             8842,
             0,
-            "base:enemy/wolf_tawny",
-            "base:item/tawny_fur"
+            "base:enemy/wild_boar",
+            "base:item/boar_hide"
           ],
           [
             8832,
@@ -11862,8 +11893,8 @@
             8841,
             7834,
             0,
-            "base:enemy/slime_mint",
-            "base:item/mint_leaf"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             8863,
@@ -11876,8 +11907,8 @@
             8814,
             8547,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_mint",
+            "base:item/mint_leaf"
           ],
           [
             8805,
@@ -14077,6 +14108,11 @@
                   "enemy": "base:enemy/wild_boar",
                   "drop": "base:item/boar_hide",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_bloom",
+                  "drop": "base:item/wildflowers",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -14159,6 +14195,11 @@
                 {
                   "enemy": "base:enemy/wild_boar",
                   "drop": "base:item/boar_hide",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/hollow_armor",
+                  "drop": "base:item/rust_flake",
                   "weight": 2
                 }
               ],
@@ -14265,6 +14306,11 @@
                 {
                   "enemy": "base:enemy/ridge_elk",
                   "drop": "base:item/elk_antler",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/hollow_armor",
+                  "drop": "base:item/rust_flake",
                   "weight": 2
                 }
               ],
@@ -14473,6 +14519,11 @@
                   "enemy": "base:enemy/ridge_elk",
                   "drop": "base:item/elk_antler",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/frost_wisp",
+                  "drop": "base:item/ice_crystal",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -14668,6 +14719,11 @@
                   "enemy": "base:enemy/dune_fox",
                   "drop": "base:item/fox_pelt",
                   "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/wolf_ember",
+                  "drop": "base:item/ember_pelt",
+                  "weight": 2
                 }
               ],
               "shop": {
@@ -14810,6 +14866,11 @@
                 {
                   "enemy": "base:enemy/ridge_elk",
                   "drop": "base:item/elk_antler",
+                  "weight": 2
+                },
+                {
+                  "enemy": "base:enemy/slime_bloom",
+                  "drop": "base:item/wildflowers",
                   "weight": 2
                 }
               ],
@@ -15707,6 +15768,7 @@
             "respawn_ticks": 36000
           },
           "time": {
+            "night_aggro_cut_pm": 250,
             "day_ticks": 72000,
             "start_tick": 24000,
             "light": [
@@ -20388,8 +20450,8 @@
             8188,
             8136,
             0,
-            "base:enemy/wild_boar",
-            "base:item/boar_hide"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             8242,
@@ -20423,120 +20485,120 @@
             3681,
             5526,
             1,
-            "base:enemy/wild_boar",
-            "base:item/boar_hide"
+            "base:enemy/cave_bat",
+            "base:item/bat_wing"
           ],
           [
             3742,
             5514,
             1,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_moss",
+            "base:item/moss_clump"
           ],
           [
             3739,
             5556,
             1,
-            "base:enemy/wolf_shade",
-            "base:item/shade_wisp"
+            "base:enemy/cave_spider",
+            "base:item/spider_silk"
           ],
           [
             3695,
             5592,
             1,
-            "base:enemy/cave_spider",
-            "base:item/spider_silk"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             3820,
             5576,
             1,
-            "base:enemy/wolf_shade",
-            "base:item/shade_wisp"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             3832,
             5576,
             1,
-            "base:enemy/wolf_shade",
-            "base:item/shade_wisp"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             3830,
             5594,
             1,
-            "base:enemy/night_owl",
-            "base:item/owl_feather"
+            "base:enemy/wild_boar",
+            "base:item/boar_hide"
           ],
           [
             3782,
             5607,
             1,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             3801,
             5629,
             1,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/myconid",
+            "base:item/spore_cap"
           ],
           [
             3825,
             5623,
             1,
-            "base:enemy/night_owl",
-            "base:item/owl_feather"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             3813,
             5627,
             1,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_moss",
+            "base:item/moss_clump"
           ],
           [
             3732,
             5652,
             1,
-            "base:enemy/slime_moss",
-            "base:item/moss_clump"
-          ],
-          [
-            12747,
-            3528,
-            2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
-          ],
-          [
-            12817,
-            3595,
-            2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
-          ],
-          [
-            12715,
-            3619,
-            2,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
-          ],
-          [
-            12738,
-            3622,
-            2,
             "base:enemy/slime_green",
             "base:item/slime_gel"
           ],
           [
             12747,
+            3528,
+            2,
+            "base:enemy/ridge_elk",
+            "base:item/elk_antler"
+          ],
+          [
+            12817,
+            3595,
+            2,
+            "base:enemy/hollow_armor",
+            "base:item/rust_flake"
+          ],
+          [
+            12715,
+            3619,
+            2,
+            "base:enemy/cave_bat",
+            "base:item/bat_wing"
+          ],
+          [
+            12738,
+            3622,
+            2,
+            "base:enemy/ridge_elk",
+            "base:item/elk_antler"
+          ],
+          [
+            12747,
             3629,
             2,
-            "base:enemy/stone_golem",
-            "base:item/golem_core"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             12794,
@@ -20549,36 +20611,36 @@
             12781,
             3645,
             2,
-            "base:enemy/ridge_elk",
-            "base:item/elk_antler"
+            "base:enemy/cave_spider",
+            "base:item/spider_silk"
           ],
           [
             12833,
             3625,
             2,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             12733,
             3663,
             2,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/hollow_armor",
+            "base:item/rust_flake"
           ],
           [
             12750,
             3666,
             2,
-            "base:enemy/slime_rust",
-            "base:item/rust_flake"
+            "base:enemy/ridge_elk",
+            "base:item/elk_antler"
           ],
           [
             12786,
             3673,
             2,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
           ],
           [
             13189,
@@ -20612,22 +20674,22 @@
             7309,
             1534,
             4,
-            "base:enemy/slime_ice",
-            "base:item/ice_crystal"
+            "base:enemy/wolf_polar",
+            "base:item/polar_fur"
           ],
           [
             7381,
             1504,
             4,
-            "base:enemy/slime_ice",
+            "base:enemy/frost_wisp",
             "base:item/ice_crystal"
           ],
           [
             7446,
             1534,
             4,
-            "base:enemy/slime_ice",
-            "base:item/ice_crystal"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             7346,
@@ -20640,15 +20702,15 @@
             7397,
             1541,
             4,
-            "base:enemy/slime_ice",
-            "base:item/ice_crystal"
+            "base:enemy/night_owl",
+            "base:item/owl_feather"
           ],
           [
             7447,
             1548,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
           ],
           [
             2237,
@@ -20738,29 +20800,29 @@
             15012,
             7808,
             6,
-            "base:enemy/slime_char",
-            "base:item/char_chunk"
+            "base:enemy/wolf_ember",
+            "base:item/ember_pelt"
           ],
           [
             15121,
             7810,
             6,
-            "base:enemy/slime_ember",
-            "base:item/ember_core"
+            "base:enemy/dune_fox",
+            "base:item/fox_pelt"
           ],
           [
             15118,
             7831,
             6,
-            "base:enemy/slime_magma",
-            "base:item/magma_shard"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             15008,
             7864,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/wolf_ember",
+            "base:item/ember_pelt"
           ],
           [
             15018,
@@ -20773,22 +20835,22 @@
             15099,
             7907,
             6,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             15123,
             7911,
             6,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             7809,
             14681,
             7,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_bloom",
+            "base:item/wildflowers"
           ],
           [
             7808,
@@ -20801,22 +20863,22 @@
             7847,
             14670,
             7,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
           ],
           [
             7885,
             14676,
             7,
-            "base:enemy/wolf_storm",
-            "base:item/storm_feather"
+            "base:enemy/ridge_elk",
+            "base:item/elk_antler"
           ],
           [
             7933,
             14659,
             7,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_glow",
+            "base:item/star_dust"
           ],
           [
             7803,
@@ -20885,8 +20947,8 @@
             8113,
             8148,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_mint",
+            "base:item/mint_leaf"
           ],
           [
             8121,
@@ -21004,8 +21066,8 @@
             12686,
             3682,
             2,
-            "base:enemy/cave_spider",
-            "base:item/spider_silk"
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
           ],
           [
             12672,
@@ -21074,22 +21136,22 @@
             12667,
             3717,
             2,
-            "base:enemy/stone_golem",
-            "base:item/golem_core"
+            "base:enemy/slime_rust",
+            "base:item/rust_flake"
           ],
           [
             12673,
             3718,
             2,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
           ],
           [
             12686,
             3732,
             2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
+            "base:enemy/stone_golem",
+            "base:item/golem_core"
           ],
           [
             2167,
@@ -21669,15 +21731,15 @@
             7804,
             14737,
             7,
-            "base:enemy/wisp",
-            "base:item/wisp_ember"
+            "base:enemy/slime_glow",
+            "base:item/star_dust"
           ],
           [
             7833,
             14723,
             7,
-            "base:enemy/ridge_elk",
-            "base:item/elk_antler"
+            "base:enemy/slime_glow",
+            "base:item/star_dust"
           ],
           [
             15228,
@@ -21830,22 +21892,22 @@
             15256,
             7805,
             6,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_ember",
+            "base:item/ember_core"
           ],
           [
             15228,
             7812,
             6,
-            "base:enemy/slime_char",
-            "base:item/char_chunk"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             12904,
             3441,
             2,
-            "base:enemy/ridge_elk",
-            "base:item/elk_antler"
+            "base:enemy/wolf_dire",
+            "base:item/dire_fang"
           ],
           [
             12910,
@@ -21900,8 +21962,8 @@
             12939,
             3425,
             2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             12910,
@@ -21935,22 +21997,22 @@
             12943,
             3462,
             2,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
           ],
           [
             12928,
             3483,
             2,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/cave_bat",
+            "base:item/bat_wing"
           ],
           [
             14982,
             8046,
             6,
-            "base:enemy/slime_magma",
-            "base:item/magma_shard"
+            "base:enemy/wolf_ember",
+            "base:item/ember_pelt"
           ],
           [
             14982,
@@ -22278,8 +22340,8 @@
             7533,
             1676,
             4,
-            "base:enemy/slime_ice",
-            "base:item/ice_crystal"
+            "base:enemy/wolf_polar",
+            "base:item/polar_fur"
           ],
           [
             8058,
@@ -22348,8 +22410,8 @@
             8077,
             14453,
             7,
-            "base:enemy/slime_glow",
-            "base:item/star_dust"
+            "base:enemy/wolf_storm",
+            "base:item/storm_feather"
           ],
           [
             8066,
@@ -22369,36 +22431,36 @@
             8043,
             14480,
             7,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/wisp",
+            "base:item/wisp_ember"
           ],
           [
             8048,
             14490,
             7,
-            "base:enemy/wisp",
-            "base:item/wisp_ember"
+            "base:enemy/wolf_grey",
+            "base:item/wolf_fang"
           ],
           [
             8079,
             14466,
             7,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/night_owl",
+            "base:item/owl_feather"
           ],
           [
             12385,
             3439,
             2,
-            "base:enemy/slime_slate",
-            "base:item/slate_shard"
+            "base:enemy/stone_golem",
+            "base:item/golem_core"
           ],
           [
             12420,
             3473,
             2,
-            "base:enemy/cave_bat",
-            "base:item/bat_wing"
+            "base:enemy/slime_rust",
+            "base:item/rust_flake"
           ],
           [
             1935,
@@ -22418,50 +22480,50 @@
             7035,
             1670,
             4,
-            "base:enemy/wolf_frost",
-            "base:item/frost_pelt"
+            "base:enemy/slime_blue",
+            "base:item/slime_gel"
           ],
           [
             7063,
             1684,
             4,
-            "base:enemy/cave_bat",
-            "base:item/bat_wing"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             3955,
             5480,
             1,
-            "base:enemy/slime_moss",
-            "base:item/moss_clump"
+            "base:enemy/night_owl",
+            "base:item/owl_feather"
           ],
           [
             7562,
             14438,
             7,
-            "base:enemy/wolf_storm",
-            "base:item/storm_feather"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             7577,
             14486,
             7,
-            "base:enemy/wisp",
-            "base:item/wisp_ember"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             14952,
             7825,
             6,
-            "base:enemy/dune_scorpion",
-            "base:item/scorpion_sting"
+            "base:enemy/slime_char",
+            "base:item/char_chunk"
           ],
           [
             14978,
             7825,
             6,
-            "base:enemy/stone_golem",
-            "base:item/golem_core"
+            "base:enemy/slime_magma",
+            "base:item/magma_shard"
           ],
           [
             14977,
@@ -22481,22 +22543,22 @@
             8559,
             8327,
             0,
-            "base:enemy/wild_boar",
-            "base:item/boar_hide"
+            "base:enemy/myconid",
+            "base:item/spore_cap"
           ],
           [
             12130,
             3913,
             2,
-            "base:enemy/wolf_dire",
-            "base:item/dire_fang"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             12173,
             3915,
             2,
-            "base:enemy/cave_bat",
-            "base:item/bat_wing"
+            "base:enemy/ridge_elk",
+            "base:item/elk_antler"
           ],
           [
             12146,
@@ -22656,22 +22718,22 @@
             12180,
             3976,
             2,
-            "base:enemy/slime_blue",
+            "base:enemy/slime_green",
             "base:item/slime_gel"
           ],
           [
             12179,
             3977,
             2,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/hollow_armor",
+            "base:item/rust_flake"
           ],
           [
             12172,
             3995,
             2,
-            "base:enemy/ridge_elk",
-            "base:item/elk_antler"
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
           ],
           [
             2692,
@@ -22915,7 +22977,7 @@
             6811,
             1911,
             4,
-            "base:enemy/slime_blue",
+            "base:enemy/slime_green",
             "base:item/slime_gel"
           ],
           [
@@ -22936,15 +22998,15 @@
             6767,
             1932,
             4,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_frost",
+            "base:item/frost_pelt"
           ],
           [
             6786,
             1934,
             4,
-            "base:enemy/ridge_elk",
-            "base:item/elk_antler"
+            "base:enemy/slime_ice",
+            "base:item/ice_crystal"
           ],
           [
             14717,
@@ -23146,8 +23208,8 @@
             8079,
             8308,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wild_boar",
+            "base:item/boar_hide"
           ],
           [
             8064,
@@ -23181,8 +23243,8 @@
             8063,
             8331,
             0,
-            "base:enemy/slime_mint",
-            "base:item/mint_leaf"
+            "base:enemy/wild_boar",
+            "base:item/boar_hide"
           ],
           [
             3450,
@@ -23202,8 +23264,8 @@
             3435,
             5255,
             1,
-            "base:enemy/wolf_shade",
-            "base:item/shade_wisp"
+            "base:enemy/hollow_armor",
+            "base:item/rust_flake"
           ],
           [
             3452,
@@ -23356,8 +23418,8 @@
             12442,
             3726,
             2,
-            "base:enemy/wolf_grey",
-            "base:item/wolf_fang"
+            "base:enemy/slime_slate",
+            "base:item/slate_shard"
           ],
           [
             12430,
@@ -23622,8 +23684,8 @@
             7538,
             14698,
             7,
-            "base:enemy/slime_nebula",
-            "base:item/nebula_ash"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             7546,
@@ -23650,8 +23712,8 @@
             7539,
             14712,
             7,
-            "base:enemy/slime_glow",
-            "base:item/star_dust"
+            "base:enemy/slime_bloom",
+            "base:item/wildflowers"
           ],
           [
             7546,
@@ -23713,22 +23775,22 @@
             7527,
             14725,
             7,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_bloom",
+            "base:item/wildflowers"
           ],
           [
             7568,
             14736,
             7,
-            "base:enemy/slime_blue",
-            "base:item/slime_gel"
+            "base:enemy/slime_glow",
+            "base:item/star_dust"
           ],
           [
             7561,
             14740,
             7,
-            "base:enemy/slime_glow",
-            "base:item/star_dust"
+            "base:enemy/wolf_storm",
+            "base:item/storm_feather"
           ],
           [
             14702,
@@ -23811,36 +23873,36 @@
             8546,
             8052,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wild_boar",
+            "base:item/boar_hide"
           ],
           [
             8547,
             8075,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_mint",
+            "base:item/mint_leaf"
           ],
           [
             8595,
             8069,
             0,
-            "base:enemy/wild_boar",
-            "base:item/boar_hide"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             7538,
             7828,
             0,
-            "base:enemy/myconid",
-            "base:item/spore_cap"
+            "base:enemy/wild_boar",
+            "base:item/boar_hide"
           ],
           [
             7537,
             7834,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_mint",
+            "base:item/mint_leaf"
           ],
           [
             7552,
@@ -23860,8 +23922,8 @@
             7799,
             7563,
             0,
-            "base:enemy/slime_mint",
-            "base:item/mint_leaf"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             7808,
@@ -23874,22 +23936,22 @@
             7830,
             7556,
             0,
-            "base:enemy/wild_boar",
-            "base:item/boar_hide"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             7830,
             7559,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wolf_tawny",
+            "base:item/tawny_fur"
           ],
           [
             7802,
             8841,
             0,
-            "base:enemy/wild_boar",
-            "base:item/boar_hide"
+            "base:enemy/slime_green",
+            "base:item/slime_gel"
           ],
           [
             7807,
@@ -23916,22 +23978,22 @@
             7834,
             8844,
             0,
-            "base:enemy/myconid",
-            "base:item/spore_cap"
+            "base:enemy/wild_boar",
+            "base:item/boar_hide"
           ],
           [
             7818,
             8851,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_bloom",
+            "base:item/wildflowers"
           ],
           [
             8549,
             7567,
             0,
-            "base:enemy/wild_boar",
-            "base:item/boar_hide"
+            "base:enemy/slime_mint",
+            "base:item/mint_leaf"
           ],
           [
             8576,
@@ -23944,15 +24006,15 @@
             8596,
             7554,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_bloom",
+            "base:item/wildflowers"
           ],
           [
             8548,
             8820,
             0,
-            "base:enemy/slime_mint",
-            "base:item/mint_leaf"
+            "base:enemy/wild_boar",
+            "base:item/boar_hide"
           ],
           [
             8576,
@@ -23965,8 +24027,8 @@
             8827,
             7780,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/myconid",
+            "base:item/spore_cap"
           ],
           [
             8820,
@@ -23979,22 +24041,22 @@
             8816,
             7784,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/slime_bloom",
+            "base:item/wildflowers"
           ],
           [
             8838,
             7783,
             0,
-            "base:enemy/wild_boar",
-            "base:item/boar_hide"
+            "base:enemy/slime_mint",
+            "base:item/mint_leaf"
           ],
           [
             8808,
             7819,
             0,
-            "base:enemy/slime_mint",
-            "base:item/mint_leaf"
+            "base:enemy/wild_boar",
+            "base:item/boar_hide"
           ],
           [
             8832,
@@ -24007,8 +24069,8 @@
             8857,
             7819,
             0,
-            "base:enemy/slime_green",
-            "base:item/slime_gel"
+            "base:enemy/wild_boar",
+            "base:item/boar_hide"
           ],
           [
             8832,

@@ -215,6 +215,8 @@ struct CombatSetup {
     // reads both from its time instead.
     int rain_pm = 0;
     int rain_aggro_cut_pm = 0;
+    int light_pm = 1000;  // the same for the night (spec 08, "The night hides you")
+    int night_aggro_cut_pm = 0;
     std::vector<EnemySpawn> spawns;
     std::vector<std::int64_t> xp_table;  // table[level - 1] = XP to go from `level` to `level + 1`
     std::uint64_t seed = 0;

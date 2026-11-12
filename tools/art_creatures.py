@@ -6,7 +6,7 @@
 Every creature keeps the palette of its file (so a new creature is a copy of a file with its own colours, added to the tables
 below) and gets the body of its family and its own feature: slimes are jelly with a light inside; wolves, the game of the hunt
 and the alphas are seen from the side and look to the left (the clients turn them to face the player); the guardians in armor
-stand in front of you; the others are drawn one by one. The Echoes are not here: `make_echoes.py` recolours a guardian.
+stand in front of you; the others are drawn one by one (`make_hunting.py` and `make_wildlife.py` write the first file of theirs, with the palette). The Echoes are not here: `make_echoes.py` recolours a guardian.
 """
 from __future__ import annotations
 
@@ -192,7 +192,18 @@ def _colossus(r):
     r.path("M 18 5 Q 15 1.4 18.4 -1.6 Q 21 -4 19 -6.6", None, stroke="#8A8088", width=1.4, alpha=0.45, blur=0.7)
 
 
-FEATURES = {"green": _sprout, "blue": _drop, "ember": _flames, "ice": _ice, "magma": _cracks, "char": _char, "glow": _lure, "moss": _moss, "mint": _mint,
+def _bloom(r):
+    for x, y, c, s in ((12, 7.6, "#FFD860", 1.5), (18, 5, "#FFFFFF", 1.9), (24, 7.4, "#B07AE0", 1.5), (15, 3.4, "#FF9AC0", 1.1), (21.6, 3, "#FFE8A0", 1.0)):
+        r.line(x, y + 1.5, x, y + 3.4, "#2E7A3A", 0.5)
+        for k in range(5):
+            a = k * 2 * math.pi / 5 - 0.5
+            r.ellipse(x + math.cos(a) * s * 0.8, y + math.sin(a) * s * 0.75, s * 0.62, s * 0.52, c, stroke=OUT, width=0.2)
+        r.ellipse(x, y, s * 0.42, s * 0.38, "#FFB030")
+    for x, y in ((9, 19), (27, 16), (14.6, 23)):  # petals in the jelly
+        r.ellipse(x, y, 1.1, 0.6, "#FFFFFF", alpha=0.6, clip=True)
+
+
+FEATURES = {"bloom": _bloom, "green": _sprout, "blue": _drop, "ember": _flames, "ice": _ice, "magma": _cracks, "char": _char, "glow": _lure, "moss": _moss, "mint": _mint,
             "coral": _coral, "pearl": _pearl, "nebula": _nebula, "rust": _rust, "sand": _sand, "slate": _slate, "tide": _tide, "amber": _amber, "colossus": _colossus}
 ROYAL = {"amber_queen": "amber", "char_tyrant": "char", "coral_matron": "coral", "ice_warden": "ice", "magma_heart": "magma", "mint_matron": "mint",
          "moss_elder": "moss", "nebula_heart": "nebula", "pearl_empress": "pearl", "rust_baron": "rust", "cinder_colossus": "colossus"}
@@ -361,7 +372,17 @@ def _fox(r):
     r.path("M 13.6 19.6 Q 16 25 20 27 Q 21 22.6 18.6 18.6 Z", "#FFFFFF", alpha=0.85)
 
 
-BEASTS = {"wolf_grey": (_blaze, {}), "wolf_dire": (_scar, {}), "wolf_dune": (_scarf, {}), "wolf_frost": (_shards, {}), "wolf_polar": (_ruff, {}),
+def _embers(r):
+    for d in ("M 24 14.6 L 26.6 18 L 25 21 L 28 25", "M 33 14 L 35 18.6 L 33.6 22", "M 40 15.6 L 41.6 20 L 40 24", "M 46 16 L 49 11 L 50 7"):
+        r.path(d, None, stroke="#FF6A20", width=1.8, alpha=0.5, blend="add", blur=0.7)
+        r.path(d, None, stroke="#FFD080", width=0.5)
+    r.glow(11.9, 14.4, 5, "#FF9A30", 0.5)
+    for x, y in ((30, 8), (38, 6), (47, 2), (22, 9)):
+        r.glow(x, y, 2.2, "#FF8A30", 0.6)
+        r.ellipse(x, y, 0.45, 0.45, "#FFE080")
+
+
+BEASTS = {"wolf_ember": (_embers, {}), "wolf_grey": (_blaze, {}), "wolf_dire": (_scar, {}), "wolf_dune": (_scarf, {}), "wolf_frost": (_shards, {}), "wolf_polar": (_ruff, {}),
           "wolf_shade": (_wisps, {}), "wolf_storm": (_bolts, {}), "wolf_tawny": (_stripes, {}),
           "wild_boar": (_tusks, {"tail": "curl", "ears": 0.55, "snout": True}), "ridge_elk": (_antlers, {"tail": "stub", "ears": 0.7}),
           "dune_fox": (_fox, {"ears": 1.45})}
@@ -520,7 +541,16 @@ def _keys(r):
     r.path("M 24 3 L 28 -2.4 L 32 3 Z", "$p.glow", stroke=OUT, width=0.4)
 
 
-KNIGHTS = {"barrow_warden": _skull, "drowned_captain": _tricorn, "forge_tyrant": _hammer, "iron_foreman": _hardhat, "rime_revenant": _rime,
+def _hollow(r):
+    for x, y, rx in ((20, 27, 4), (35, 33, 3.4), (24, 46, 3), (41, 26, 2.6), (30, 8, 3)):  # rust that eats the plates
+        r.ellipse(x, y, rx, rx * 0.7, "#5A2A12", alpha=0.6, blur=0.6, clip=True)
+        r.ellipse(x - 0.6, y - 0.4, rx * 0.5, rx * 0.3, "#B86A30", alpha=0.6, clip=True)
+    r.path("M 24 22 L 27 27 L 25 31 L 28.6 36", None, stroke="$p.slit", width=0.7)  # a crack with the dark inside
+    r.path("M 33 4 L 34.6 8 L 33 11", None, stroke="$p.slit", width=0.6)
+    r.path("M 26 21 Q 28 15 31 13 Q 27 11 29 6", None, stroke="$p.glow", width=1.6, alpha=0.4, blend="add", blur=0.8)  # what moves it leaks out
+
+
+KNIGHTS = {"hollow_armor": _hollow, "barrow_warden": _skull, "drowned_captain": _tricorn, "forge_tyrant": _hammer, "iron_foreman": _hardhat, "rime_revenant": _rime,
            "sand_sentinel": _turban, "vault_warden": _keys}
 
 
@@ -721,8 +751,8 @@ def stone_golem() -> Recipe:
     return r
 
 
-def wisp() -> Recipe:
-    r = new("wisp", 36, 46, (18, 42))
+def wisp(name: str = "wisp") -> Recipe:
+    r = new(name, 36, 46, (18, 42))
     r.ellipse(18, 42, 8, 2, "#141030", alpha=0.2, blur=0.8)
     r.glow(18, 21, 14, "$p.halo", 0.5)
     for x, y, rad in ((8, 34, 0.8), (27, 31, 0.6), (12, 40, 0.5), (24, 38, 0.7)):
@@ -745,7 +775,7 @@ def build_creatures() -> list[Recipe]:
     out += [wolf(name, feature, **kw) for name, (feature, kw) in BEASTS.items()]
     out += [wolf(name, feature, alpha=True) for name, feature in ALPHAS.items()]
     out += [guardian(name, feature) for name, feature in KNIGHTS.items()]
-    out += [cave_bat(), cave_spider(), dune_scorpion(), shore_crab(), night_owl(), myconid(), stone_golem(), wisp()]
+    out += [cave_bat(), cave_spider(), dune_scorpion(), shore_crab(), night_owl(), myconid(), stone_golem(), wisp(), wisp("frost_wisp")]
     return out
 
 

@@ -33,7 +33,8 @@ struct TimeParams {
     std::vector<std::pair<int, int>> light;  // keyframes (time of day in permille, light in permille)
     int period_ticks = 18000;
     int fade_ticks = 600;
-    int rain_aggro_cut_pm = 0;  // how much full rain shortens the aggro distance (spec 08, "Rain hides you")
+    int night_aggro_cut_pm = 0;  // how much full darkness shortens the aggro distance (spec 08, "The night hides you")
+    int rain_aggro_cut_pm = 0;   // how much full rain shortens the aggro distance (spec 08, "Rain hides you")
     std::vector<WeatherKind> kinds;
     std::vector<Season> seasons;  // empty: no seasons
 };

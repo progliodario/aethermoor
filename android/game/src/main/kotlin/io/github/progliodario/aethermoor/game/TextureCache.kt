@@ -32,10 +32,25 @@ class TextureCache(private val pack: Pack) {
 
     val size: Int get() = entries.size
 
+    private var budgetNanos = -1L
+    private var spentNanos = 0L
+
+    /**
+     * How long [get] may still spend baking before this is called again, in milliseconds: once it is spent, a recipe that
+     * is not baked yet is not drawn (null) and appears in one of the next frames, so that a frame never waits for many
+     * pictures at once. A negative budget is no limit (the default).
+     */
+    fun setBudget(milliseconds: Int) {
+        budgetNanos = if (milliseconds < 0) -1L else milliseconds * 1_000_000L
+        spentNanos = 0L
+    }
+
     fun get(recipeId: String, tilePx: Int, variant: String? = null): Sprite? {
         val bucket = bucketFor(tilePx)
         val key = "$recipeId|${variant ?: ""}|$bucket"
         entries[key]?.let { return it.sprite }
+        if (budgetNanos >= 0 && spentNanos > budgetNanos) return null // not this frame: the picture appears in one of the next
+        val bakeStart = System.nanoTime()
 
         var entry = Entry(bucket, null, null, null)
         val text = pack.readDocument(recipeId)
@@ -59,6 +74,7 @@ class TextureCache(private val pack: Pack) {
             )
         }
         entries[key] = entry
+        spentNanos += System.nanoTime() - bakeStart
         return entry.sprite
     }
 

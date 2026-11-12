@@ -1,0 +1,274 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/creature/frost_wisp",
+  "canvas": {
+    "w": 36,
+    "h": 46,
+    "origin": [
+      18,
+      42
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          18,
+          42,
+          8,
+          2
+        ]
+      },
+      "fill": {
+        "color": "#141030"
+      },
+      "alpha": 0.2,
+      "blur": 0.8
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18,
+          21,
+          8.4,
+          8.4
+        ]
+      },
+      "fill": {
+        "color": "$p.halo"
+      },
+      "alpha": 0.5,
+      "blur": 5.6,
+      "blend": "add"
+    },
+    {
+      "shape": {
+        "ellipse": [
+          8,
+          34,
+          1.92,
+          1.92
+        ]
+      },
+      "fill": {
+        "color": "$p.halo"
+      },
+      "alpha": 0.6,
+      "blur": 1.28,
+      "blend": "add"
+    },
+    {
+      "shape": {
+        "ellipse": [
+          8,
+          34,
+          0.8,
+          0.8
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          27,
+          31,
+          1.44,
+          1.44
+        ]
+      },
+      "fill": {
+        "color": "$p.halo"
+      },
+      "alpha": 0.6,
+      "blur": 0.96,
+      "blend": "add"
+    },
+    {
+      "shape": {
+        "ellipse": [
+          27,
+          31,
+          0.6,
+          0.6
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          12,
+          40,
+          1.2,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "$p.halo"
+      },
+      "alpha": 0.6,
+      "blur": 0.8,
+      "blend": "add"
+    },
+    {
+      "shape": {
+        "ellipse": [
+          12,
+          40,
+          0.5,
+          0.5
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          24,
+          38,
+          1.68,
+          1.68
+        ]
+      },
+      "fill": {
+        "color": "$p.halo"
+      },
+      "alpha": 0.6,
+      "blur": 1.12,
+      "blend": "add"
+    },
+    {
+      "shape": {
+        "ellipse": [
+          24,
+          38,
+          0.7,
+          0.7
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      }
+    },
+    {
+      "shape": {
+        "path": "M 18 2.6 Q 21 9 26 14 Q 31 20 28.6 27 Q 25 34 18 34 Q 11 34 7.4 27 Q 5 20 10 14 Q 12 12 13 8 Q 15.6 10 16 13 Q 17.6 8 18 2.6 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 18,
+          "y0": 2,
+          "x1": 18,
+          "y1": 34,
+          "stops": [
+            [
+              0,
+              "$p.dark"
+            ],
+            [
+              0.5,
+              "$p.body"
+            ],
+            [
+              1,
+              "$p.light"
+            ]
+          ]
+        }
+      },
+      "blur": 0.5
+    },
+    {
+      "shape": {
+        "path": "M 18 12 Q 21 17 23 21 Q 25 26 22 30 Q 18 32 14 30 Q 11 26 13.6 21 Q 15.6 17 18 12 Z"
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.9,
+      "blur": 0.6
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18,
+          25,
+          4.6,
+          5
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      },
+      "alpha": 0.85,
+      "blur": 1.2
+    },
+    {
+      "shape": {
+        "ellipse": [
+          15.4,
+          23.6,
+          1.1,
+          1.7
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          15.1,
+          23,
+          0.35,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20.6,
+          23.6,
+          1.1,
+          1.7
+        ]
+      },
+      "fill": {
+        "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20.3,
+          23,
+          0.35,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "#FFFFFF"
+      }
+    }
+  ],
+  "palette": {
+    "body": "#BFE8FF",
+    "light": "#FFFFFF",
+    "dark": "#5A8AD8",
+    "outline": "#1E3A6A",
+    "eye": "#1E3A6A",
+    "halo": "#D8F4FF"
+  }
+}

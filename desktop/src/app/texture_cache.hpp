@@ -34,6 +34,14 @@ public:
     // Sprite for `recipe_id` baked for `tile_px` pixels per tile; nullptr if the recipe is unusable.
     const Sprite* get(const std::string& recipe_id, int tile_px, std::string_view variant = {});
 
+    // How long `get` may still spend baking before the next call, in milliseconds: once it is spent, a recipe that is
+    // not baked yet is not drawn (nullptr) and appears in one of the next frames, so that a frame never waits for many
+    // pictures at once. A negative budget is no limit (the default).
+    void set_budget(int milliseconds) {
+        m_budget_ns_ = milliseconds < 0 ? -1 : static_cast<Sint64>(milliseconds) * 1000000;
+        m_spent_ns_ = 0;
+    }
+
     // Destroys textures baked for other scale buckets than the one used by `tile_px`.
     void release_other_buckets(int tile_px);
 
@@ -48,6 +56,8 @@ private:
         bool failed = false;
     };
 
+    Sint64 m_budget_ns_ = -1;
+    Sint64 m_spent_ns_ = 0;
     SDL_Renderer* m_renderer_;
     const Pack& m_pack_;
     std::map<std::string, Entry, std::less<>> m_entries_;

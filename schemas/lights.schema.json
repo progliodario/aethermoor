@@ -90,6 +90,20 @@
           "type": "string",
           "pattern": "^#[0-9A-Fa-f]{6}$",
           "description": "The colour of the motes at night (fireflies)."
+        },
+        "snow_regions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "description": "The regions (by id) where the rain falls as snow."
+        },
+        "shadow_pm": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000,
+          "description": "How dark the long shadows of dawn and dusk are."
         }
       }
     }
