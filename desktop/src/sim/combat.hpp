@@ -211,6 +211,10 @@ struct CombatSetup {
     DodgeDef dodge;
     StrikeDef strike;
     GiftDef gift;
+    // The rain of a world without a clock (the conformance scenarios; spec 08, "Rain hides you"): a streamed world
+    // reads both from its time instead.
+    int rain_pm = 0;
+    int rain_aggro_cut_pm = 0;
     std::vector<EnemySpawn> spawns;
     std::vector<std::int64_t> xp_table;  // table[level - 1] = XP to go from `level` to `level + 1`
     std::uint64_t seed = 0;

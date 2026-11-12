@@ -152,6 +152,7 @@
             }
           ],
           "weather": {
+            "rain_aggro_cut_pm": 300,
             "period_ticks": 18000,
             "fade_ticks": 600,
             "kinds": [
@@ -617,6 +618,7 @@
             }
           ],
           "weather": {
+            "rain_aggro_cut_pm": 300,
             "period_ticks": 18000,
             "fade_ticks": 600,
             "kinds": [
@@ -1082,6 +1084,7 @@
             }
           ],
           "weather": {
+            "rain_aggro_cut_pm": 300,
             "period_ticks": 18000,
             "fade_ticks": 600,
             "kinds": [

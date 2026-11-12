@@ -205,6 +205,9 @@ class CombatSetup(
     val strike: StrikeDef = StrikeDef(),
     /** The gift rules of the protagonist (spec 18). */
     val gift: GiftDef = GiftDef(),
+    /** The rain of a world without a clock (the conformance scenarios; spec 08, "Rain hides you"). */
+    val rainPm: Int = 0,
+    val rainAggroCutPm: Int = 0,
     /** Percent added to the maximum health, from the profile of past games (spec 11, "Echoes"). */
     var echoPct: Int = 0,
     /** The talents that can be learned, in the order of the data (spec 11, "Talents"), and the points a level gives. */

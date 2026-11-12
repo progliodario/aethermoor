@@ -83,6 +83,7 @@ struct Assets {
     aether::Rig rig;
     aether::Clip idle;
     aether::Clip walk;
+    std::optional<aether::Clip> attack;  // the blow (spec 13, "The blow"); a pack may not have it
     aether::TileMap map;
     aether::Tileset tileset;
 };
@@ -238,6 +239,10 @@ bool load_assets(const fs::path& dir, Assets& out) {
     out.rig = std::move(*rig);
     out.idle = std::move(*idle);
     out.walk = std::move(*walk);
+    if (const auto attack_text = read("base:art/clip/humanoid_attack")) {
+        std::string attack_error;
+        out.attack = aether::parse_clip(*attack_text, attack_error);
+    }
     out.tileset = std::move(*tileset);
     out.map = std::move(*map);
     return true;
@@ -556,48 +561,63 @@ void fill_rect(SDL_Renderer* renderer, float x, float y, float w, float h, Uint8
     SDL_RenderFillRect(renderer, &rect);
 }
 
-// A panel with a soft shadow, a border in the accent color, a body that fades from lighter to darker, a thin light line
-// under the top edge and a stripe of the accent color on the top.
+// A panel of the interface: night-violet glass with a thread of the accent color around it, a soft shadow under it, a
+// sheen on its upper part and a small bracket of the accent in every corner.
 void draw_panel(SDL_Renderer* renderer, float x, float y, float w, float h, Uint8 ar, Uint8 ag, Uint8 ab, Uint8 alpha) {
-    fill_rect(renderer, x + 3.0F, y + 4.0F, w, h, 0, 0, 0, 90);
-    fill_rect(renderer, x - 2.0F, y - 2.0F, w + 4.0F, h + 4.0F, 4, 10, 24, 255);
-    fill_rect(renderer, x - 1.0F, y - 1.0F, w + 2.0F, h + 2.0F, static_cast<Uint8>(ar / 2), static_cast<Uint8>(ag / 2),
-              static_cast<Uint8>(ab / 2), 255);
-    const int strips = std::max(1, static_cast<int>(h / 4.0F));
+    for (int i = 0; i < 3; ++i) {  // the shadow: three veils, each a little wider
+        const float grow = static_cast<float>(i) * 2.0F;
+        fill_rect(renderer, x - 2.0F - grow + 2.0F, y - 2.0F - grow + 4.0F, w + 4.0F + grow * 2.0F,
+                  h + 4.0F + grow * 2.0F, 6, 4, 20, 34);
+    }
+    fill_rect(renderer, x - 3.0F, y - 3.0F, w + 6.0F, h + 6.0F, 10, 8, 26, 255);
+    fill_rect(renderer, x - 2.0F, y - 2.0F, w + 4.0F, h + 4.0F, static_cast<Uint8>(ar * 3 / 4),
+              static_cast<Uint8>(ag * 3 / 4), static_cast<Uint8>(ab * 3 / 4), 255);
+    fill_rect(renderer, x - 1.0F, y - 1.0F, w + 2.0F, h + 2.0F, 16, 13, 38, 255);
+    const int strips = std::max(1, static_cast<int>(h / 3.0F));
     for (int i = 0; i < strips; ++i) {
         const float t = static_cast<float>(i) / static_cast<float>(strips);
         const auto shade = [&](int top, int bottom) { return static_cast<Uint8>(top + (bottom - top) * t); };
-        const float sy = y + h * t;
-        fill_rect(renderer, x, sy, w, h / static_cast<float>(strips) + 0.5F, shade(22, 8), shade(48, 20), shade(88, 44),
-                  alpha);
+        fill_rect(renderer, x, y + h * t, w, h / static_cast<float>(strips) + 0.5F, shade(40, 13), shade(36, 12),
+                  shade(86, 36), alpha);
     }
-    fill_rect(renderer, x, y + 3.0F, w, 1.0F, 255, 255, 255, 40);
-    fill_rect(renderer, x, y, w, 3.0F, ar, ag, ab, 255);
-    // little studs in the corners
-    for (const float cx : {x + 5.0F, x + w - 8.0F}) {
-        for (const float cy : {y + 6.0F, y + h - 9.0F}) {
-            fill_rect(renderer, cx, cy, 3.0F, 3.0F, static_cast<Uint8>(ar / 2 + 40), static_cast<Uint8>(ag / 2 + 40),
-                      static_cast<Uint8>(ab / 2 + 40), 200);
+    fill_rect(renderer, x, y, w, std::min(h * 0.35F, 28.0F), 255, 255, 255, 12);  // the sheen
+    fill_rect(renderer, x, y, w, 1.0F, 255, 255, 255, 54);
+    fill_rect(renderer, x, y + h - 1.0F, w, 1.0F, 0, 0, 0, 70);
+    // a bracket in every corner
+    const float arm = std::min(10.0F, std::min(w, h) / 3.0F);
+    for (const bool right : {false, true}) {
+        for (const bool bottom : {false, true}) {
+            const float cx = right ? x + w - 3.0F - arm : x + 3.0F;
+            const float cy = bottom ? y + h - 4.0F : y + 3.0F;
+            fill_rect(renderer, cx, cy, arm, 1.0F, ar, ag, ab, 230);
+            fill_rect(renderer, right ? x + w - 4.0F : x + 3.0F, bottom ? y + h - 3.0F - arm : y + 3.0F, 1.0F, arm, ar,
+                      ag, ab, 230);
         }
     }
 }
 
-// A bar with a dark frame, a fill that is lighter on the top half and darker on the bottom, a gloss line and ticks.
+// A bar: a dark frame with a light rim, a fill that goes from light at the top to deep at the bottom with a gloss line
+// and a bright end, and faint ticks.
 void draw_bar(SDL_Renderer* renderer, float x, float y, float w, float h, float ratio, Uint8 r, Uint8 g, Uint8 b) {
-    fill_rect(renderer, x - 2.0F, y - 2.0F, w + 4.0F, h + 4.0F, 4, 10, 24, 235);
-    fill_rect(renderer, x - 1.0F, y - 1.0F, w + 2.0F, h + 2.0F, 70, 90, 120, 200);
-    fill_rect(renderer, x, y, w, h, 12, 22, 40, 255);
+    fill_rect(renderer, x - 2.0F, y - 2.0F, w + 4.0F, h + 4.0F, 10, 8, 26, 240);
+    fill_rect(renderer, x - 1.0F, y - 1.0F, w + 2.0F, h + 2.0F, 120, 112, 170, 220);
+    fill_rect(renderer, x, y, w, h, 18, 15, 40, 255);
     const float fw = w * std::clamp(ratio, 0.0F, 1.0F);
     if (fw > 0.0F) {
-        const auto lighter = [](Uint8 c, int k) { return static_cast<Uint8>(std::min(255, c + k)); };
-        const auto darker = [](Uint8 c, int k) { return static_cast<Uint8>(std::max(0, c - k)); };
-        fill_rect(renderer, x, y, fw, h * 0.55F, lighter(r, 40), lighter(g, 40), lighter(b, 40), 255);
-        fill_rect(renderer, x, y + h * 0.55F, fw, h * 0.45F, darker(r, 45), darker(g, 45), darker(b, 45), 255);
-        fill_rect(renderer, x, y + 1.0F, fw, std::max(1.0F, h * 0.14F), 255, 255, 255, 70);
-        fill_rect(renderer, x + fw - 1.0F, y, 1.0F, h, 255, 255, 255, 90);
+        const int rows = std::max(2, static_cast<int>(h));
+        for (int i = 0; i < rows; ++i) {  // light at the top, deep at the bottom
+            const float t = static_cast<float>(i) / static_cast<float>(rows - 1);
+            const auto tone = [t](Uint8 c) {
+                return static_cast<Uint8>(std::clamp(static_cast<float>(c) + 70.0F - 125.0F * t, 0.0F, 255.0F));
+            };
+            fill_rect(renderer, x, y + h * static_cast<float>(i) / static_cast<float>(rows), fw,
+                      h / static_cast<float>(rows) + 0.5F, tone(r), tone(g), tone(b), 255);
+        }
+        fill_rect(renderer, x, y + 1.0F, fw, std::max(1.0F, h * 0.16F), 255, 255, 255, 80);
+        fill_rect(renderer, x + fw - 1.5F, y, 1.5F, h, 255, 255, 255, 120);
     }
     for (int i = 1; i < 10; ++i) {
-        fill_rect(renderer, x + w * static_cast<float>(i) / 10.0F, y + h * 0.7F, 1.0F, h * 0.3F, 0, 0, 0, 70);
+        fill_rect(renderer, x + w * static_cast<float>(i) / 10.0F, y + h * 0.65F, 1.0F, h * 0.35F, 0, 0, 0, 60);
     }
 }
 
@@ -613,6 +633,27 @@ void draw_sprite(SDL_Renderer* renderer, const aether::Sprite& sprite, float fee
     } else {
         SDL_RenderTexture(renderer, sprite.texture, nullptr, &dst);
     }
+}
+
+SDL_FRect tile_source(const aether::Sprite& sprite, int tx, int ty);
+
+// The corner of a tile under a higher ground that touches it only there (spec 13, "Ground blending"): the picture of
+// that ground, opaque at the corner and gone at the middle of the two edges and of the tile.
+void draw_ground_corner(SDL_Renderer* renderer, const aether::Sprite& sprite, int tx, int ty, int dx, int dy,
+                        const SDL_FRect& dst) {
+    const SDL_FRect src = tile_source(sprite, tx, ty);
+    const float cx = dx > 0 ? 1.0F : 0.0F;
+    const float cy = dy > 0 ? 1.0F : 0.0F;
+    const auto vertex = [&](float ux, float uy, float alpha) {
+        return SDL_Vertex{{dst.x + ux * dst.w, dst.y + uy * dst.h},
+                          {1.0F, 1.0F, 1.0F, alpha},
+                          {(src.x + ux * src.w) / static_cast<float>(sprite.px_w),
+                           (src.y + uy * src.h) / static_cast<float>(sprite.px_h)}};
+    };
+    const SDL_Vertex vertices[4] = {vertex(cx, cy, 1.0F), vertex(0.5F, cy, 0.0F), vertex(0.5F, 0.5F, 0.0F),
+                                    vertex(cx, 0.5F, 0.0F)};
+    const int indices[6] = {0, 1, 2, 0, 2, 3};
+    SDL_RenderGeometry(renderer, sprite.texture, vertices, 4, indices, 6);
 }
 
 // A prop that the wind moves (spec 13, "Sway"): its foot stays, its top goes sideways by `shift` pixels (a shear).
@@ -678,10 +719,12 @@ void draw_ground_blend(SDL_Renderer* renderer, const aether::Sprite& sprite, int
 // `back`: the figure is seen from behind (spec 13): its parts use their `art_back` and `z_back`.
 void draw_character(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& assets, bool moving,
                     bool facing_left, int clip_tick, bool blink, std::string_view variant, float feet_x, float feet_y,
-                    float k, int tile_px, bool back = false) {
-    const aether::Clip& clip = moving ? assets.walk : assets.idle;
+                    float k, int tile_px, bool back = false, int attack_tick = -1) {
+    // `attack_tick` (0 or more): the figure is striking, and the clip of the blow is at that tick
+    const bool striking = attack_tick >= 0 && assets.attack.has_value();
+    const aether::Clip& clip = striking ? *assets.attack : (moving ? assets.walk : assets.idle);
     std::vector<aether::PosedPart> pose =
-        aether::evaluate_pose(assets.rig, clip, static_cast<float>(clip_tick), facing_left);
+        aether::evaluate_pose(assets.rig, clip, static_cast<float>(striking ? attack_tick : clip_tick), facing_left);
     if (back) {
         for (aether::PosedPart& posed : pose) {
             posed.z = assets.rig.parts[posed.part_index].z_back;
@@ -3554,6 +3597,19 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
             const SDL_FRect dst{sx0, sy0, sx1 - sx0, sy1 - sy0};
             const SDL_FRect src = tile_source(*sprite, tx, ty);
             SDL_RenderTexture(renderer, sprite->texture, &src, &dst);
+            if (def->second.surface == "water" && sprite->width > 48.0F) {
+                // Water moves (spec 13, "Water"): the same picture, shifted by whole tiles, fades in and out over it.
+                const float t = static_cast<float>(now_ms % 16336281ULL);
+                const float first = 0.26F + 0.22F * std::sin(t / 1300.0F);
+                const float second = 0.20F + 0.18F * std::sin(t / 2100.0F + 2.0F);
+                const SDL_FRect src_a = tile_source(*sprite, tx + 1, ty + 2);
+                const SDL_FRect src_b = tile_source(*sprite, tx + 2, ty + 3);
+                SDL_SetTextureAlphaMod(sprite->texture, static_cast<Uint8>(first * 255.0F));
+                SDL_RenderTexture(renderer, sprite->texture, &src_a, &dst);
+                SDL_SetTextureAlphaMod(sprite->texture, static_cast<Uint8>(second * 255.0F));
+                SDL_RenderTexture(renderer, sprite->texture, &src_b, &dst);
+                SDL_SetTextureAlphaMod(sprite->texture, 255);
+            }
         }
     }
     // The soft edges of the grounds (spec 13, "Ground blending"): a neighbour of a higher rank fades over the tile.
@@ -3576,6 +3632,23 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
                 }
                 if (const aether::Sprite* over = cache.get(other->second.art, tile_px)) {
                     draw_ground_blend(renderer, *over, tx, ty, side[0], side[1], dst);
+                }
+            }
+            // the corners: a higher ground that touches the tile only at a corner rounds that corner
+            const auto rank_at = [&](int x, int y) {
+                const auto found = assets.tileset.tiles.find(sim.gid_at(x, y));
+                return found == assets.tileset.tiles.end() ? 0 : found->second.blend;
+            };
+            constexpr int kCorners[4][2] = {{-1, -1}, {1, -1}, {-1, 1}, {1, 1}};
+            for (const auto& corner : kCorners) {
+                const auto other = assets.tileset.tiles.find(sim.gid_at(tx + corner[0], ty + corner[1]));
+                if (other == assets.tileset.tiles.end() || other->second.blend <= def->second.blend ||
+                    rank_at(tx + corner[0], ty) > def->second.blend ||
+                    rank_at(tx, ty + corner[1]) > def->second.blend) {
+                    continue;
+                }
+                if (const aether::Sprite* over = cache.get(other->second.art, tile_px)) {
+                    draw_ground_corner(renderer, *over, tx, ty, corner[0], corner[1], dst);
                 }
             }
         }
@@ -3608,8 +3681,17 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
             const aether::Player& player = sim.player();
             const bool blink = player.iframes > 0 && (player.iframes / 4) % 2 == 0;
             const bool back = player.facing.y < 0.0F && std::fabs(player.facing.y) > std::fabs(player.facing.x);
+            // the blow (spec 13): 5 ticks to raise the arm, 4 to bring it down, the rest to return
+            int attack_tick = -1;
+            if (player.phase == aether::AttackPhase::Startup) {
+                attack_tick = std::min(player.phase_tick, 5);
+            } else if (player.phase == aether::AttackPhase::Active) {
+                attack_tick = 5 + std::min(player.phase_tick, 4);
+            } else if (player.phase == aether::AttackPhase::Recovery) {
+                attack_tick = 9 + std::min(player.phase_tick, 21);
+            }
             draw_character(renderer, cache, assets, player.moving, player.facing_left, player.clip_tick, blink,
-                           g_art_variant, fx, fy, k, tile_px, back);
+                           g_art_variant, fx, fy, k, tile_px, back, attack_tick);
             draw_swing(renderer, sim, fx, fy, tile);
         } else if (item.kind ==
                    4) {  // the companion (spec 10), drawn with the art of its creature, a little smaller, bobbing

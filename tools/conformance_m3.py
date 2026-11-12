@@ -422,6 +422,10 @@ def build_scenarios() -> list[dict]:
                  [segment(150), segment(1, do=[{"cmd": "use", "item": "base:item/bread"}]), segment(10)],
                  inventory={"base:item/bread": 2}, gift={"heal_pct": 200}),
         scenario("gift_aggro", [enemy(6.2, 4.5)], [segment(200)], gift={"aggro_pct": 50}),
+        # the rain hides the player (spec 08): at 5.3 tiles a slime notices in fair weather and in light rain (5.46), not in full rain (6 * 0.7 = 4.2)
+        scenario("rain_hides", [enemy(7.5, 4.5)], [segment(120)], weather={"rain_pm": 1000, "rain_aggro_cut_pm": 300}),
+        scenario("rain_light", [enemy(7.5, 4.5)], [segment(120)], weather={"rain_pm": 300, "rain_aggro_cut_pm": 300}),
+        scenario("rain_and_gift", [enemy(4.9, 4.5)], [segment(120)], gift={"aggro_pct": 50}, weather={"rain_pm": 1000, "rain_aggro_cut_pm": 300}),
         scenario("gift_dodge_cooldown", [enemy(12.0, 7.5, **passive)], [segment(70, move=(1, 0), dodge=True)], dodge=DODGE,
                  gift={"dodge_cooldown_pct": 50}),
         scenario("leash_and_return", [enemy(4.0, 4.5, behavior_overrides={"leash_x100": 300})],

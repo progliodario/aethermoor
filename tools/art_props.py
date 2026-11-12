@@ -530,10 +530,130 @@ def threshold_stone() -> Recipe:
     return r
 
 
+# ------------------------------------------------------------------------------------------------ scenery of the wild
+def stump() -> Recipe:
+    r = prop("stump", 30, 24, (15, 20), {"wood": "#7A5236", "top": "#D8B080"})
+    r.shadow(16, 20, 13, 3.2, 0.36)
+    r.path("M 5 9 Q 4.4 16 2.6 20 L 8 19 L 11 21 L 15 19.4 L 20 21 L 23 19 L 27.6 20 Q 25.6 16 25 9 Z", wood(401, "#7A5236", 3), stroke=INK, width=0.45)
+    r.shade("M 16 9 L 25 9 Q 25.6 16 27.6 20 L 23 19 L 20 21 L 15.6 19.6 Z", 0.5, blur=0.6, clip=True)
+    for x in (8, 11.6, 19, 22):
+        r.line(x, 11, x + (0.4 if x > 15 else -0.4), 18.6, "#3E2410", 0.3, alpha=0.6)
+    r.ellipse(15, 8.6, 10, 3.6, noise(3, 402, (0.3, "#B88C5A"), (0.7, "$p.top"), octaves=2), stroke=INK, width=0.45)
+    for k in (7.4, 5, 2.6):
+        r.ellipse(15, 8.6, k, k * 0.36, None, stroke="#8A5A30", width=0.25, alpha=0.7)
+    r.path("M 15 8.6 L 22 6.6 M 15 8.6 L 9 10.6", None, stroke="#6A4020", width=0.25, alpha=0.7)
+    r.ellipse(7, 19.6, 4, 1.4, "#5E9A50", alpha=0.85, blur=0.5)
+    r.ellipse(20.6, 6.4, 1.6, 1.0, "#C8483A", stroke=INK, width=0.25)  # a small mushroom on the rim
+    r.ellipse(20.2, 6.1, 0.4, 0.3, "#FFFFFF")
+    return r
+
+
+def flowers() -> Recipe:
+    r = prop("flowers", 30, 22, (15, 19), {"petal": "#F06A9A", "petal2": "#FFD860", "petal3": "#8A7AF0", "leaf": "#3E8E45"})
+    r.shadow(15.5, 19, 12, 2.4, 0.26)
+    for _ in range(16):  # leaves and stems
+        x, top = r.rng.uniform(4, 26), r.rng.uniform(6, 13)
+        lean = r.rng.uniform(-2, 2)
+        r.path(f"M {x - 0.6:.2f} 19 Q {x + lean * 0.3:.2f} {(top + 19) / 2:.2f} {x + lean:.2f} {top:.2f} Q {x + lean * 0.5 + 0.5:.2f} {(top + 19) / 2:.2f} {x + 0.6:.2f} 19 Z",
+               mix("#2E7A40", "#8CD06A", r.rng.random()), stroke="#143A2A", width=0.2)
+    for i, (x, y) in enumerate(((6, 9), (11, 5.6), (16, 8.6), (21, 4.8), (25, 9.6), (13.6, 12), (19.6, 12.6), (8.6, 13.6))):
+        color = ("$p.petal", "$p.petal2", "$p.petal3")[i % 3]
+        size = r.rng.uniform(1.5, 2.1)
+        for k in range(5):
+            a = k * 2 * math.pi / 5 - 0.6
+            r.ellipse(x + math.cos(a) * size * 0.75, y + math.sin(a) * size * 0.7, size * 0.6, size * 0.5, color, stroke=INK, width=0.2)
+        r.ellipse(x - size * 0.2, y - size * 0.3, size * 0.7, size * 0.5, "#FFFFFF", alpha=0.3)
+        r.ellipse(x, y, size * 0.4, size * 0.36, "#FFF2A8", stroke="#A8741E", width=0.2)
+    return r
+
+
+def fern() -> Recipe:
+    r = prop("fern", 34, 26, (17, 22), {"leaf": "#3E8E45", "light": "#9AD86A", "dark": "#1F5A3A"})
+    r.shadow(17.5, 22, 13, 3, 0.3)
+    for a in (-1.25, -0.85, -0.45, -0.1, 0.25, 0.6, 0.95, 1.3):  # fronds, like a fan
+        length = r.rng.uniform(13, 17)
+        ex, ey = 17 + math.sin(a) * length, 21 - math.cos(a) * length * 0.95
+        mx, my = 17 + math.sin(a) * length * 0.55 + math.cos(a) * 1.4, 21 - math.cos(a) * length * 0.6
+        color = mix("#1F5A3A", "#6FBE64", r.rng.random())
+        nx, ny = math.cos(a) * 2.2, math.sin(a) * 2.2
+        r.path(f"M 17 21 Q {mx - nx:.2f} {my - ny:.2f} {ex:.2f} {ey:.2f} Q {mx + nx:.2f} {my + ny:.2f} 17 21 Z", color, stroke="#143A2A", width=0.3)
+        r.path(f"M 17 21 Q {mx:.2f} {my:.2f} {ex:.2f} {ey:.2f}", None, stroke="$p.light", width=0.3, alpha=0.7)
+        for t in (0.35, 0.55, 0.75):  # the notches of the leaflets
+            px, py = 17 + (mx - 17) * t * 1.4, 21 + (my - 21) * t * 1.4
+            r.line(px - nx * 0.7, py - ny * 0.7, px + nx * 0.7, py + ny * 0.7, "#143A2A", 0.2, alpha=0.6)
+    return r
+
+
+def log() -> Recipe:
+    r = prop("log", 46, 22, (23, 18), {"wood": "#6A4630", "top": "#D0A878", "moss": "#5E9A50"})
+    r.shadow(24, 18, 21, 3.4, 0.36)
+    r.path("M 6 8 L 38 6 Q 42 6 42 11 Q 42 16.6 38 17 L 6 18 Z", wood(411, "#6A4630", 4), stroke=INK, width=0.45)
+    for y in (9.6, 12, 14.6):
+        r.path(f"M 8 {y} Q 22 {y - 1.2} 38 {y - 1}", None, stroke="#2E1A0E", width=0.3, alpha=0.6)
+    r.shade("M 6 13 L 42 11.6 Q 42 16.6 38 17 L 6 18 Z", 0.5, blur=0.8, clip=True)
+    r.lit("M 6 8 L 38 6 Q 41 6 41.6 8 L 6 9.6 Z", 0.3, "#FFE8B8", blur=0.3)
+    r.ellipse(6, 13, 3.4, 5, noise(2, 412, (0.3, "#B88C5A"), (0.7, "$p.top"), octaves=2), stroke=INK, width=0.45)  # the cut end
+    for k in (3.4, 1.8):
+        r.ellipse(6, 13, k * 0.62, k, None, stroke="#8A5A30", width=0.25, alpha=0.7)
+    r.path("M 26 6.8 L 28 2.6 L 30 6.6", None, stroke=INK, width=1.9)  # the stub of a branch
+    r.path("M 26 6.8 L 28 2.6 L 30 6.6", None, stroke="#6A4630", width=1.1)
+    for x, w in ((14, 6), (33, 5), (22, 3.4)):
+        r.ellipse(x, 7.6, w, 1.7, "$p.moss", alpha=0.9, blur=0.5, clip=True)
+        r.ellipse(x - 1, 7.1, w * 0.5, 0.8, "#9AD86A", alpha=0.6, clip=True)
+    return r
+
+
+def driftwood() -> Recipe:
+    r = prop("driftwood", 40, 20, (20, 16), {"wood": "#B8A890", "dark": "#6A5E50"})
+    r.shadow(21, 16, 18, 2.8, 0.3)
+    for d, w in (("M 4 14 Q 14 8 26 10 Q 32 11 37 7", 3.4), ("M 20 10 Q 23 5 28 3", 2.0), ("M 12 11.6 Q 10 7 6 6", 1.6)):
+        r.path(d, None, stroke=INK, width=w + 0.9)
+        r.path(d, None, stroke="$p.wood", width=w)
+        r.path(d, None, stroke="#F2E8D6", width=w * 0.3, alpha=0.7)
+    r.path("M 8 13.6 Q 16 10.6 25 11.6", None, stroke="$p.dark", width=0.3, alpha=0.7)
+    r.ellipse(30, 15.4, 1.6, 1.1, radial(29.6, 15, 2, (0, "#FFFFFF"), (1, "#E8C8B8")), stroke="#A88070", width=0.2)  # a shell
+    r.ellipse(11, 15.6, 3, 0.8, "#3E7A6A", alpha=0.6, blur=0.4)  # seaweed
+    return r
+
+
+def ice_shard() -> Recipe:
+    r = prop("ice_shard", 30, 42, (15, 38), {"ice": "#BFE8FF", "deep": "#5A9ADC", "glow": "#A0E0FF"})
+    r.shadow(16, 38, 12, 3, 0.34)
+    r.glow(15, 22, 16, "$p.glow", 0.3)
+    for x, base, h, w, lean in ((8, 37, 16, 3.2, -2.4), (22, 37.4, 20, 3.6, 2.6), (15, 38, 33, 5, 0.6), (11.6, 38, 11, 2.4, -1), (19, 38, 9, 2.2, 1.2)):
+        tip = (x + lean, base - h)
+        r.poly([(x - w, base), tip, (x + w, base)], linear(x - w, base - h, x + w, base, (0, "#FFFFFF"), (0.45, "$p.ice"), (1, "$p.deep")), stroke="#2A5A9A", width=0.4)
+        r.poly([(x - w, base), tip, (x - w * 0.15, base)], "#FFFFFF", alpha=0.5)
+        r.line(x + w * 0.2, base - 1, tip[0], tip[1] + 2, "#2A5A9A", 0.25, alpha=0.5)
+    for x, y in ((6, 14), (24, 9), (20, 26)):
+        r.poly([(x, y - 1.6), (x + 0.4, y - 0.4), (x + 1.6, y), (x + 0.4, y + 0.4), (x, y + 1.6), (x - 0.4, y + 0.4), (x - 1.6, y), (x - 0.4, y - 0.4)], "#FFFFFF", alpha=0.9)
+    r.ellipse(15, 37.6, 11, 1.8, "#FFFFFF", alpha=0.8, blur=0.6)  # snow at its foot
+    return r
+
+
+def dry_shrub() -> Recipe:
+    r = prop("dry_shrub", 32, 26, (16, 22), {"twig": "#8A6A3E", "light": "#D8C088", "dark": "#4A3418"})
+    r.shadow(16.5, 22, 12, 2.6, 0.3)
+    for _ in range(22):  # a tangle of dry twigs
+        a = r.rng.uniform(-1.35, 1.35)
+        length = r.rng.uniform(8, 16)
+        ex, ey = 16 + math.sin(a) * length, 21.6 - math.cos(a) * length * 0.9
+        bend = r.rng.uniform(-3, 3)
+        d = f"M 16 21.6 Q {(16 + ex) / 2 + bend:.2f} {(21.6 + ey) / 2:.2f} {ex:.2f} {ey:.2f}"
+        r.path(d, None, stroke="$p.dark", width=0.9)
+        r.path(d, None, stroke=mix("#8A6A3E", "#D8C088", r.rng.random()), width=0.5)
+        if r.rng.random() < 0.5:
+            r.line(ex, ey, ex + r.rng.uniform(-2, 2), ey - r.rng.uniform(1, 3), "$p.twig", 0.4)
+    for x, y in ((9, 12), (22, 10), (16, 7), (12.6, 17)):
+        r.ellipse(x, y, 1.0, 0.7, "#B8C870", alpha=0.8)  # the last leaves
+    return r
+
+
 def build_props() -> list[Recipe]:
     props = [tree_oak(), pine(), dead_tree(), bush(), rock(), cactus(), campfire(), crate(), barrel(), bones(), lamp(), signpost(),
-             statue(), tent(), banner(), well(), threshold_stone(), stall(), haybale(), anvil(), reeds(), mushrooms()]
-    sway = {"tree_oak": 1.8, "pine": 1.1, "dead_tree": 0.5, "bush": 0.7, "reeds": 1.4, "banner": 0.5, "campfire": 0.6}  # what the wind moves
+             statue(), tent(), banner(), well(), threshold_stone(), stall(), haybale(), anvil(), reeds(), mushrooms(),
+             stump(), flowers(), fern(), log(), driftwood(), ice_shard(), dry_shrub()]
+    sway = {"tree_oak": 1.8, "pine": 1.1, "dead_tree": 0.5, "bush": 0.7, "reeds": 1.4, "banner": 0.5, "campfire": 0.6, "flowers": 0.9, "fern": 0.8, "dry_shrub": 0.6}  # what the wind moves
     for r in props:
         r.sway = sway.get(r.id.rsplit("/", 1)[1], 0.0)
     return props

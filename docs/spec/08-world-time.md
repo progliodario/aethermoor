@@ -85,6 +85,20 @@ Nothing respawns in front of the player, and an enemy killed in a chunk that sta
 `world_ticks` (integer) at the top level of the save, and `cleared_spawners` entries `[x, y, died_tick]`. A save without `world_ticks` starts at
 `time.start_tick`; an entry with two numbers has `died_tick` 0 (ready as soon as the world time allows).
 
+## Rain hides you
+
+`time.weather.rain_aggro_cut_pm` (default 0; 300 in the base world) says how much **full rain** shortens the distance at
+which creatures notice the player. With the `rain_pm` of the moment (it fades in and out with the weather):
+
+```
+rain_aggro_pm = 1000 - rain_pm * rain_aggro_cut_pm / 1000
+aggro distance = aggro_x100 * gift.aggro_pct / 100 * rain_aggro_pm / 1000          (integer divisions, in this order)
+```
+
+The value is taken once at the start of a tick, after the clock advances. It only changes when an idle creature notices
+the player: one that is already chasing keeps chasing. In the conformance scenarios of `combat` (no clock) the rain is the
+`weather {rain_pm, rain_aggro_cut_pm}` of the scenario: `rain_hides`, `rain_light`, `rain_and_gift`.
+
 ## The colour of the hour
 
 Presentation only, the same on both clients, with the colours of `grading` in `data/base/lights.json` (art direction; a pack

@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/sea_shell",
+  "name": "$i18n:item.sea_shell.name",
+  "description": "$i18n:item.sea_shell.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 8,
+  "stack_max": 99
+}

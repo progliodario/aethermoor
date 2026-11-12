@@ -1,0 +1,188 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/driftwood",
+  "canvas": {
+    "w": 40,
+    "h": 20,
+    "origin": [
+      20,
+      16
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          21,
+          16,
+          18,
+          2.8
+        ]
+      },
+      "fill": {
+        "color": "#141030"
+      },
+      "alpha": 0.3,
+      "blur": 0.98
+    },
+    {
+      "shape": {
+        "ellipse": [
+          21,
+          16,
+          10.8,
+          1.54
+        ]
+      },
+      "fill": {
+        "color": "#141030"
+      },
+      "alpha": 0.24,
+      "blur": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 4 14 Q 14 8 26 10 Q 32 11 37 7"
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 4.3
+      }
+    },
+    {
+      "shape": {
+        "path": "M 4 14 Q 14 8 26 10 Q 32 11 37 7"
+      },
+      "stroke": {
+        "color": "$p.wood",
+        "width": 3.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 4 14 Q 14 8 26 10 Q 32 11 37 7"
+      },
+      "stroke": {
+        "color": "#F2E8D6",
+        "width": 1.02
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 20 10 Q 23 5 28 3"
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 2.9
+      }
+    },
+    {
+      "shape": {
+        "path": "M 20 10 Q 23 5 28 3"
+      },
+      "stroke": {
+        "color": "$p.wood",
+        "width": 2
+      }
+    },
+    {
+      "shape": {
+        "path": "M 20 10 Q 23 5 28 3"
+      },
+      "stroke": {
+        "color": "#F2E8D6",
+        "width": 0.6
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 12 11.6 Q 10 7 6 6"
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 2.5
+      }
+    },
+    {
+      "shape": {
+        "path": "M 12 11.6 Q 10 7 6 6"
+      },
+      "stroke": {
+        "color": "$p.wood",
+        "width": 1.6
+      }
+    },
+    {
+      "shape": {
+        "path": "M 12 11.6 Q 10 7 6 6"
+      },
+      "stroke": {
+        "color": "#F2E8D6",
+        "width": 0.48
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 8 13.6 Q 16 10.6 25 11.6"
+      },
+      "stroke": {
+        "color": "$p.dark",
+        "width": 0.3
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "ellipse": [
+          30,
+          15.4,
+          1.6,
+          1.1
+        ]
+      },
+      "fill": {
+        "radial": {
+          "cx": 29.6,
+          "cy": 15,
+          "r": 2,
+          "stops": [
+            [
+              0,
+              "#FFFFFF"
+            ],
+            [
+              1,
+              "#E8C8B8"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#A88070",
+        "width": 0.2
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          11,
+          15.6,
+          3,
+          0.8
+        ]
+      },
+      "fill": {
+        "color": "#3E7A6A"
+      },
+      "alpha": 0.6,
+      "blur": 0.4
+    }
+  ],
+  "palette": {
+    "wood": "#B8A890",
+    "dark": "#6A5E50"
+  }
+}

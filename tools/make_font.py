@@ -204,7 +204,8 @@ def build() -> dict:
             entry["d"] = shift(d, (CELL_W - w) / 2, TOP)
         data[ch] = entry
     return {"$schema": "../../../schemas/font.schema.json", "id": "base:font/aether",
-            "cell": {"w": CELL_W, "h": CELL_H, "top": TOP}, "stroke": STROKE, "glyphs": data}
+            "cell": {"w": CELL_W, "h": CELL_H, "top": TOP, "cap_top": TOP + 1, "cap_height": 6, "x_height": 4, "line": 9.8},
+            "stroke": STROKE, "glyphs": data}
 
 
 def show(font: dict, text: str, target: Path, scales=(1, 1.5, 2, 3)) -> None:

@@ -741,6 +741,10 @@ Scenario scenario_from_json(const Json& in) {
     setup.skill.magical = skill.value("kind", "physical") == "magical";
     setup.skill.element = skill.value("element", "none");
     setup.echo_pct = in.value("echo_pct", 0);
+    if (in.contains("weather")) {
+        setup.rain_pm = in.at("weather").value("rain_pm", 0);
+        setup.rain_aggro_cut_pm = in.at("weather").value("rain_aggro_cut_pm", 0);
+    }
     if (in.contains("gift")) {
         const Json& gift = in.at("gift");
         setup.gift.mp_regen_pct = gift.value("mp_regen_pct", 100);

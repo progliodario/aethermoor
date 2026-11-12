@@ -18,6 +18,19 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 - **A real font on desktop** (spec 13, "Font"): the interface was written with the 8 x 8 debug font of SDL; it now has its own font, `data/base/fonts/aether.json`, drawn stroke by stroke by `tools/make_font.py` (131 glyphs, with the accents of Italian) and baked by the rasterizer of the art at the size each screen needs. Letters have their own widths, so texts are narrower and centred properly. Android keeps the font of libGDX for now: [progliodario/aethermoor#181](https://github.com/progliodario/aethermoor/issues/181).
 - Tools: `tools/reference/raster.py` is a reference rasterizer in Python (it builds the new conformance probes); `tools/art_preview.py` draws real PNG pictures with it (`--figures`, `--scene`); `art_tiles.py`, `art_props.py`, `art_chars.py`, `art_looks.py` and `art_creatures.py` were rewritten (`art_creature_looks.py` and `art_single_looks.py` are gone).
 
+### Added
+
+- **Rain hides you** (spec 08): in the rain creatures notice the player from a shorter distance (30 percent shorter in full rain, less while it starts and stops; `time.weather.rain_aggro_cut_pm` in the world data). A creature that is already chasing keeps chasing. Both clients, three conformance scenarios.
+- **The small scenery of the wild**: seven new props grow by themselves in the world (spec 09): flowers and stumps in the plains, ferns, fallen logs and stumps in the forests, driftwood on the beaches, shards of ice in the snow, dry shrubs in the desert. All can be gathered from: four new materials (wildflowers, fern fronds, driftwood, sea shells), two new dishes (flower tea, fern salad) and four recipes (50 in all). Worlds are generated a little differently: props are not where they were.
+- **A blow you can see** (spec 13, "The blow"): the protagonist raises the arm and strikes when attacking, instead of standing still behind the arc of the blow. Both clients.
+- **Water moves** (spec 13, "Water"): glints come and go and light drifts over lakes, rivers and the sea. Both clients.
+- **Android has the font of the pack** (spec 13, "Font"): the same font as the desktop, baked at the size of the screen, instead of the scaled bitmap font of libGDX. Closes [progliodario/aethermoor#181](https://github.com/progliodario/aethermoor/issues/181).
+
+### Changed
+
+- **Panels and bars** of both clients: night-violet glass with a thread of the accent colour, a soft shadow, a sheen and a small bracket in each corner; bars shade from light to deep.
+- **Round corners between grounds** (spec 13, "Ground blending"): where a higher ground touches a tile only at a corner, the corner is rounded, so shores and paths no longer have notches.
+
 ### Fixed
 
 - Desktop: texts in the dialogues, the journal and the chooser broke their lines too early (they were still wrapped by counting characters, as with the old font of fixed width); they are now wrapped by the real width of the letters and fill their boxes.

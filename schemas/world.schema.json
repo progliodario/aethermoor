@@ -419,6 +419,12 @@
                   }
                 }
               }
+            },
+            "rain_aggro_cut_pm": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000,
+              "description": "How much full rain shortens the distance at which creatures notice the player, in permille (spec 08, \"Rain hides you\")."
             }
           }
         },
@@ -632,9 +638,21 @@
             "additionalProperties": false,
             "description": "Added to the elevation, temperature and moisture fields near the center of the region (spec 09, Regions).",
             "properties": {
-              "elevation": { "type": "integer", "minimum": -30000, "maximum": 30000 },
-              "temperature": { "type": "integer", "minimum": -30000, "maximum": 30000 },
-              "moisture": { "type": "integer", "minimum": -30000, "maximum": 30000 }
+              "elevation": {
+                "type": "integer",
+                "minimum": -30000,
+                "maximum": 30000
+              },
+              "temperature": {
+                "type": "integer",
+                "minimum": -30000,
+                "maximum": 30000
+              },
+              "moisture": {
+                "type": "integer",
+                "minimum": -30000,
+                "maximum": 30000
+              }
             }
           },
           "ground": {
@@ -643,7 +661,10 @@
             "additionalProperties": {
               "type": "array",
               "minItems": 1,
-              "items": { "type": "integer", "minimum": 1 }
+              "items": {
+                "type": "integer",
+                "minimum": 1
+              }
             }
           },
           "props": {
@@ -653,12 +674,25 @@
               "type": "array",
               "items": {
                 "type": "object",
-                "required": ["art", "radius_x100", "per_mille"],
+                "required": [
+                  "art",
+                  "radius_x100",
+                  "per_mille"
+                ],
                 "additionalProperties": false,
                 "properties": {
-                  "art": { "type": "string" },
-                  "radius_x100": { "type": "integer", "minimum": 1 },
-                  "per_mille": { "type": "integer", "minimum": 1, "maximum": 1000 }
+                  "art": {
+                    "type": "string"
+                  },
+                  "radius_x100": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "per_mille": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000
+                  }
                 }
               }
             }

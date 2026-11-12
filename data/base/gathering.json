@@ -137,6 +137,134 @@
       ]
     },
     {
+      "prop": "base:art/prop/flowers",
+      "sound": "plant",
+      "cooldown_ticks": 6000,
+      "reach_x100": 130,
+      "drops": [
+        {
+          "item": "base:item/wildflowers",
+          "qty_min": 1,
+          "qty_max": 3,
+          "weight_pm": 1000
+        },
+        {
+          "item": "base:item/healing_herb",
+          "qty_min": 1,
+          "qty_max": 1,
+          "weight_pm": 200
+        }
+      ]
+    },
+    {
+      "prop": "base:art/prop/fern",
+      "sound": "plant",
+      "cooldown_ticks": 6000,
+      "reach_x100": 130,
+      "drops": [
+        {
+          "item": "base:item/fern_frond",
+          "qty_min": 1,
+          "qty_max": 3,
+          "weight_pm": 1000
+        }
+      ]
+    },
+    {
+      "prop": "base:art/prop/stump",
+      "sound": "wood",
+      "cooldown_ticks": 12000,
+      "reach_x100": 150,
+      "drops": [
+        {
+          "item": "base:item/wood_log",
+          "qty_min": 1,
+          "qty_max": 1,
+          "weight_pm": 800
+        },
+        {
+          "item": "base:item/moss_clump",
+          "qty_min": 1,
+          "qty_max": 1,
+          "weight_pm": 300
+        },
+        {
+          "item": "base:item/spore_cap",
+          "qty_min": 1,
+          "qty_max": 1,
+          "weight_pm": 250
+        }
+      ]
+    },
+    {
+      "prop": "base:art/prop/log",
+      "sound": "wood",
+      "cooldown_ticks": 12000,
+      "reach_x100": 160,
+      "drops": [
+        {
+          "item": "base:item/wood_log",
+          "qty_min": 2,
+          "qty_max": 3,
+          "weight_pm": 1000
+        },
+        {
+          "item": "base:item/spore_cap",
+          "qty_min": 1,
+          "qty_max": 2,
+          "weight_pm": 400
+        }
+      ]
+    },
+    {
+      "prop": "base:art/prop/driftwood",
+      "sound": "wood",
+      "cooldown_ticks": 9000,
+      "reach_x100": 150,
+      "drops": [
+        {
+          "item": "base:item/driftwood",
+          "qty_min": 1,
+          "qty_max": 2,
+          "weight_pm": 1000
+        },
+        {
+          "item": "base:item/sea_shell",
+          "qty_min": 1,
+          "qty_max": 1,
+          "weight_pm": 350
+        }
+      ]
+    },
+    {
+      "prop": "base:art/prop/dry_shrub",
+      "sound": "plant",
+      "cooldown_ticks": 7000,
+      "reach_x100": 140,
+      "drops": [
+        {
+          "item": "base:item/dry_branch",
+          "qty_min": 1,
+          "qty_max": 3,
+          "weight_pm": 1000
+        }
+      ]
+    },
+    {
+      "prop": "base:art/prop/ice_shard",
+      "sound": "stone",
+      "cooldown_ticks": 14000,
+      "reach_x100": 150,
+      "drops": [
+        {
+          "item": "base:item/ice_crystal",
+          "qty_min": 1,
+          "qty_max": 2,
+          "weight_pm": 900
+        }
+      ]
+    },
+    {
       "prop": "base:art/prop/reeds",
       "sound": "water",
       "cooldown_ticks": 6000,

@@ -346,6 +346,9 @@ class WorldSim(
     }
 
     /** Day, light and weather of the streamed world now (spec 08); null on a fixed map. */
+    /** What the rain leaves of the aggro distance, this tick (spec 08, "Rain hides you"). */
+    private var rainAggroPm = 1000
+
     fun time(): TimeSample? = chunks?.let { sampleTime(it.seed, it.params.time, worldTicks) }
 
     /** The gid at the tile on whichever map is played, 0 when unknown. */
@@ -877,6 +880,13 @@ class WorldSim(
     fun tick(rawXIn: Float, rawYIn: Float, attackIn: Boolean = false, dodgeIn: Boolean = false, strikeIn: Boolean = false, parryIn: Boolean = false) {
         worldTicks++
         syncWindow()
+        // the rain hides the player (spec 08): creatures notice from a shorter distance
+        val store = chunks
+        rainAggroPm = if (store != null) {
+            1000 - sampleTime(store.seed, store.params.time, worldTicks).rainPm * store.params.time.rainAggroCutPm / 1000
+        } else {
+            1000 - combat.rainPm * combat.rainAggroCutPm / 1000
+        }
         if (chunks != null && windowValid && timeOfDayPm() != routineTod) refreshPeople(windowX, windowY) // somebody goes home or comes out (spec 08)
         markExplored()
         val frozen = story.dialogueActive
@@ -1191,7 +1201,7 @@ class WorldSim(
         val p = player
         val dist = distance(enemy.position.x, enemy.position.y, p.position.x, p.position.y)
         when (enemy.state) {
-            EnemyState.IDLE -> if (dist <= (b.aggroX100 * combat.gift.aggroPct / 100).toFloat() / 100f) {
+            EnemyState.IDLE -> if (dist <= (b.aggroX100 * combat.gift.aggroPct / 100 * rainAggroPm / 1000).toFloat() / 100f) {
                 enemy.state = EnemyState.CHASE
                 enemy.stateTick = 0
                 cues.add(SimCue("aggro", enemy.def.sound, enemy.position))

@@ -1158,6 +1158,16 @@
                 "art": "base:art/prop/bush",
                 "radius_x100": 28,
                 "per_mille": 20
+              },
+              {
+                "art": "base:art/prop/flowers",
+                "radius_x100": 8,
+                "per_mille": 16
+              },
+              {
+                "art": "base:art/prop/stump",
+                "radius_x100": 22,
+                "per_mille": 4
               }
             ],
             "forest": [
@@ -1175,6 +1185,21 @@
                 "art": "base:art/prop/mushrooms",
                 "radius_x100": 15,
                 "per_mille": 15
+              },
+              {
+                "art": "base:art/prop/fern",
+                "radius_x100": 10,
+                "per_mille": 30
+              },
+              {
+                "art": "base:art/prop/log",
+                "radius_x100": 30,
+                "per_mille": 6
+              },
+              {
+                "art": "base:art/prop/stump",
+                "radius_x100": 22,
+                "per_mille": 8
               }
             ],
             "snow": [
@@ -1192,6 +1217,11 @@
                 "art": "base:art/prop/bones",
                 "radius_x100": 8,
                 "per_mille": 3
+              },
+              {
+                "art": "base:art/prop/ice_shard",
+                "radius_x100": 20,
+                "per_mille": 6
               }
             ],
             "desert": [
@@ -1209,6 +1239,11 @@
                 "art": "base:art/prop/bones",
                 "radius_x100": 8,
                 "per_mille": 4
+              },
+              {
+                "art": "base:art/prop/dry_shrub",
+                "radius_x100": 16,
+                "per_mille": 14
               }
             ],
             "beach": [
@@ -1216,6 +1251,11 @@
                 "art": "base:art/prop/reeds",
                 "radius_x100": 18,
                 "per_mille": 25
+              },
+              {
+                "art": "base:art/prop/driftwood",
+                "radius_x100": 22,
+                "per_mille": 8
               }
             ]
           },
@@ -1450,6 +1490,7 @@
               }
             ],
             "weather": {
+              "rain_aggro_cut_pm": 300,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -6578,8 +6619,8 @@
           ]
         ],
         "tile_count": 7680,
-        "prop_count": 490,
-        "prop_digest": "0x06cc879c731b2888",
+        "prop_count": 557,
+        "prop_digest": "0x42df4066f85cdeb9",
         "spawner_count": 4,
         "spawner_digest": "0x1b471b8dc377221b",
         "spawn": [
@@ -7901,6 +7942,16 @@
                 "art": "base:art/prop/bush",
                 "radius_x100": 28,
                 "per_mille": 20
+              },
+              {
+                "art": "base:art/prop/flowers",
+                "radius_x100": 8,
+                "per_mille": 16
+              },
+              {
+                "art": "base:art/prop/stump",
+                "radius_x100": 22,
+                "per_mille": 4
               }
             ],
             "forest": [
@@ -7918,6 +7969,21 @@
                 "art": "base:art/prop/mushrooms",
                 "radius_x100": 15,
                 "per_mille": 15
+              },
+              {
+                "art": "base:art/prop/fern",
+                "radius_x100": 10,
+                "per_mille": 30
+              },
+              {
+                "art": "base:art/prop/log",
+                "radius_x100": 30,
+                "per_mille": 6
+              },
+              {
+                "art": "base:art/prop/stump",
+                "radius_x100": 22,
+                "per_mille": 8
               }
             ],
             "snow": [
@@ -7935,6 +8001,11 @@
                 "art": "base:art/prop/bones",
                 "radius_x100": 8,
                 "per_mille": 3
+              },
+              {
+                "art": "base:art/prop/ice_shard",
+                "radius_x100": 20,
+                "per_mille": 6
               }
             ],
             "desert": [
@@ -7952,6 +8023,11 @@
                 "art": "base:art/prop/bones",
                 "radius_x100": 8,
                 "per_mille": 4
+              },
+              {
+                "art": "base:art/prop/dry_shrub",
+                "radius_x100": 16,
+                "per_mille": 14
               }
             ],
             "beach": [
@@ -7959,6 +8035,11 @@
                 "art": "base:art/prop/reeds",
                 "radius_x100": 18,
                 "per_mille": 25
+              },
+              {
+                "art": "base:art/prop/driftwood",
+                "radius_x100": 22,
+                "per_mille": 8
               }
             ]
           },
@@ -8193,6 +8274,7 @@
               }
             ],
             "weather": {
+              "rain_aggro_cut_pm": 300,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -13317,8 +13399,8 @@
           ]
         ],
         "tile_count": 5760,
-        "prop_count": 276,
-        "prop_digest": "0x8ce2062ed3299f82",
+        "prop_count": 299,
+        "prop_digest": "0x6a1e1c42dfc5fbe4",
         "spawner_count": 1,
         "spawner_digest": "0xc37f51744e98b683",
         "spawn": [
@@ -14640,6 +14722,16 @@
                 "art": "base:art/prop/bush",
                 "radius_x100": 28,
                 "per_mille": 20
+              },
+              {
+                "art": "base:art/prop/flowers",
+                "radius_x100": 8,
+                "per_mille": 16
+              },
+              {
+                "art": "base:art/prop/stump",
+                "radius_x100": 22,
+                "per_mille": 4
               }
             ],
             "forest": [
@@ -14657,6 +14749,21 @@
                 "art": "base:art/prop/mushrooms",
                 "radius_x100": 15,
                 "per_mille": 15
+              },
+              {
+                "art": "base:art/prop/fern",
+                "radius_x100": 10,
+                "per_mille": 30
+              },
+              {
+                "art": "base:art/prop/log",
+                "radius_x100": 30,
+                "per_mille": 6
+              },
+              {
+                "art": "base:art/prop/stump",
+                "radius_x100": 22,
+                "per_mille": 8
               }
             ],
             "snow": [
@@ -14674,6 +14781,11 @@
                 "art": "base:art/prop/bones",
                 "radius_x100": 8,
                 "per_mille": 3
+              },
+              {
+                "art": "base:art/prop/ice_shard",
+                "radius_x100": 20,
+                "per_mille": 6
               }
             ],
             "desert": [
@@ -14691,6 +14803,11 @@
                 "art": "base:art/prop/bones",
                 "radius_x100": 8,
                 "per_mille": 4
+              },
+              {
+                "art": "base:art/prop/dry_shrub",
+                "radius_x100": 16,
+                "per_mille": 14
               }
             ],
             "beach": [
@@ -14698,6 +14815,11 @@
                 "art": "base:art/prop/reeds",
                 "radius_x100": 18,
                 "per_mille": 25
+              },
+              {
+                "art": "base:art/prop/driftwood",
+                "radius_x100": 22,
+                "per_mille": 8
               }
             ]
           },
@@ -14932,6 +15054,7 @@
               }
             ],
             "weather": {
+              "rain_aggro_cut_pm": 300,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -20068,8 +20191,8 @@
           ]
         ],
         "tile_count": 8448,
-        "prop_count": 367,
-        "prop_digest": "0x0d0e69a3c58a299d",
+        "prop_count": 404,
+        "prop_digest": "0x11a961322224b451",
         "spawner_count": 3,
         "spawner_digest": "0xb04be13d0666112c",
         "spawn": [

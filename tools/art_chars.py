@@ -231,7 +231,20 @@ def write_rig() -> None:
         },
         "events": [{"tick": 7, "event": "footstep"}, {"tick": 21, "event": "footstep"}],
     }
-    for name, clip in (("humanoid_idle", idle), ("humanoid_walk", walk)):
+    # a blow (spec 13, "The blow"): the arm goes back in the first 5 ticks, comes down in the next 4, then returns
+    attack = {
+        "$schema": "../../../../schemas/clip.schema.json", "id": "base:art/clip/humanoid_attack", "rig": "base:art/rig/humanoid", "loop": False, "length_ticks": 30,
+        "tracks": {
+            "torso": {"rot": [[0, 0], [5, -6], [9, 8], [16, 3], [30, 0]], "pos": [[0, 0, 0], [5, -0.6, 0], [9, 1.2, 0.4], [30, 0, 0]]},
+            "head": {"rot": [[0, 0], [5, -3], [9, 4], [30, 0]]},
+            "arm_r": {"rot": [[0, -4], [5, -150], [9, 42], [15, 26], [30, -4]]},
+            "arm_l": {"rot": [[0, 4], [5, 14], [9, -22], [30, 4]]},
+            "leg_l": {"rot": [[0, 0], [9, 8], [30, 0]]},
+            "leg_r": {"rot": [[0, 0], [9, -10], [30, 0]]},
+            "cape": {"rot": [[0, 0], [9, -8], [30, 0]]},
+        },
+    }
+    for name, clip in (("humanoid_idle", idle), ("humanoid_walk", walk), ("humanoid_attack", attack)):
         (ART / "clips" / f"{name}.json").write_text(json.dumps(clip, indent=2) + "\n", encoding="utf-8")
 
 
