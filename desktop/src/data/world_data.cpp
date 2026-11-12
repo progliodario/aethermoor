@@ -136,6 +136,7 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
         const Json& weather = time.at("weather");
         p.time.period_ticks = weather.at("period_ticks").get<int>();
         p.time.fade_ticks = weather.at("fade_ticks").get<int>();
+        p.time.rain_aggro_cut_pm = weather.value("rain_aggro_cut_pm", 0);
         for (const Json& kind : weather.at("kinds")) {
             p.time.kinds.push_back({kind.at("id").get<std::string>(), kind.at("weight").get<int>(),
                                     kind.at("rain_pm").get<int>(), kind.at("dim_pm").get<int>()});

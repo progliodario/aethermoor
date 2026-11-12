@@ -102,6 +102,7 @@ class CombatSim:
         self.talent_points_per_level = scenario.get("talent_points_per_level", 1)
         self.talents: dict[str, int] = {}  # talent id -> rank
         self.echo_pct = scenario.get("echo_pct", 0)  # +percent of the maximum health, from the profile (spec 11, "Echoes")
+        self.weather = scenario.get("weather", {})  # the rain of the scenario (spec 08, "Rain hides you")
         self.gift = scenario.get("gift", {})  # percentages and the death save of the protagonist (spec 18, "Gift rules")
         self.death_save_cd = 0
         self.dodge = scenario.get("dodge")  # {"ticks", "speed_mult_x100", "iframes", "cooldown"}, or None: no dodge (spec 05, "Dodge roll")
@@ -533,7 +534,8 @@ class CombatSim:
         dx, dy = self.x - e.x, self.y - e.y
         dist = math.sqrt(dx * dx + dy * dy)
         if e.state == IDLE:
-            if dist <= b["aggro_x100"] * self.gift.get("aggro_pct", 100) // 100 / 100:
+            rain_pm = 1000 - self.weather.get("rain_pm", 0) * self.weather.get("rain_aggro_cut_pm", 0) // 1000
+            if dist <= b["aggro_x100"] * self.gift.get("aggro_pct", 100) // 100 * rain_pm // 1000 / 100:
                 e.state, e.t = CHASE, 0
         elif e.state == CHASE:
             if dist > b["leash_x100"] / 100:

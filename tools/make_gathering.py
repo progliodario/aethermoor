@@ -22,6 +22,13 @@ ITEMS = {
     # fishing in the reeds of the shores
     "river_fish": ("food", 6, [("heal", 15)], "Fresh fish", "Pesce fresco", "Still wet. Better grilled, but it will do raw. Restores a little health.", "Ancora bagnato. Meglio alla griglia, ma va bene anche crudo. Ripristina un po' di salute."),
     "golden_carp": ("material", 80, [], "Golden carp", "Carpa dorata", "A rare fish with scales like coins. Merchants pay well for it.", "Un pesce raro con le squame come monete. I mercanti lo pagano bene."),
+    # the small things of the wild: flowers, ferns, what the sea leaves on the beach
+    "wildflowers": ("material", 3, [], "Wildflowers", "Fiori di campo", "A handful of small bright flowers. They smell of honey.", "Una manciata di piccoli fiori vivaci. Profumano di miele."),
+    "fern_frond": ("material", 2, [], "Fern frond", "Fronda di felce", "Young, tender and curled at the tip.", "Giovane, tenera e arricciata in punta."),
+    "driftwood": ("material", 4, [], "Driftwood", "Legno di mare", "Wood the sea has polished white. Light and hard.", "Legno che il mare ha levigato fino a sbiancarlo. Leggero e duro."),
+    "sea_shell": ("material", 8, [], "Sea shell", "Conchiglia", "Pink inside. Hold it to your ear and it is still the sea.", "Rosa all'interno. Accostata all'orecchio, c'è ancora il mare."),
+    "flower_tea": ("food", 14, [("heal", 25)], "Flower tea", "Tè di fiori", "Warm, golden and sweet without sugar. Restores some health.", "Caldo, dorato e dolce senza zucchero. Ripristina un po' di salute."),
+    "fern_salad": ("food", 9, [("heal", 18)], "Fern salad", "Insalata di felci", "Crisp fronds and berries. Restores some health.", "Fronde croccanti e bacche. Ripristina un po' di salute."),
 }
 
 # prop art -> what it gives; every drop rolls on its own (`weight_pm` out of 1000), `qty` is a range
@@ -42,6 +49,21 @@ NODES = [
     # the mushroom patches of the forests: spore caps, herbs, and now and then a clump of moss
     {"prop": "base:art/prop/mushrooms", "sound": "plant", "cooldown_ticks": 8000, "reach_x100": 150,
      "drops": [("spore_cap", 1, 2, 750), ("healing_herb", 1, 1, 400), ("moss_clump", 1, 1, 150)]},
+    # the small scenery of the wild (flowers, ferns, stumps, logs, driftwood, dry shrubs, shards of ice)
+    {"prop": "base:art/prop/flowers", "sound": "plant", "cooldown_ticks": 6000, "reach_x100": 130,
+     "drops": [("wildflowers", 1, 3, 1000), ("healing_herb", 1, 1, 200)]},
+    {"prop": "base:art/prop/fern", "sound": "plant", "cooldown_ticks": 6000, "reach_x100": 130,
+     "drops": [("fern_frond", 1, 3, 1000)]},
+    {"prop": "base:art/prop/stump", "sound": "wood", "cooldown_ticks": 12000, "reach_x100": 150,
+     "drops": [("wood_log", 1, 1, 800), ("moss_clump", 1, 1, 300), ("spore_cap", 1, 1, 250)]},
+    {"prop": "base:art/prop/log", "sound": "wood", "cooldown_ticks": 12000, "reach_x100": 160,
+     "drops": [("wood_log", 2, 3, 1000), ("spore_cap", 1, 2, 400)]},
+    {"prop": "base:art/prop/driftwood", "sound": "wood", "cooldown_ticks": 9000, "reach_x100": 150,
+     "drops": [("driftwood", 1, 2, 1000), ("sea_shell", 1, 1, 350)]},
+    {"prop": "base:art/prop/dry_shrub", "sound": "plant", "cooldown_ticks": 7000, "reach_x100": 140,
+     "drops": [("dry_branch", 1, 3, 1000)]},
+    {"prop": "base:art/prop/ice_shard", "sound": "stone", "cooldown_ticks": 14000, "reach_x100": 150,
+     "drops": [("ice_crystal", 1, 2, 900)]},
     {"prop": "base:art/prop/reeds", "sound": "water", "cooldown_ticks": 6000, "reach_x100": 150,
      "drops": [("river_fish", 1, 2, 900), ("golden_carp", 1, 1, 60)]},
 ]

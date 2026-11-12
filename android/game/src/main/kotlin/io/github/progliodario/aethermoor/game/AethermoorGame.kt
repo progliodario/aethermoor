@@ -85,6 +85,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val rig: Rig,
         val idle: Clip,
         val walk: Clip,
+        /** The blow (spec 13, "The blow"); a pack may not have it. */
+        val attack: Clip?,
         val map: TileMap,
         val tileset: Tileset,
         val worldParams: WorldParams,
@@ -99,6 +101,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private lateinit var batch: SpriteBatch
     private lateinit var shapes: ShapeRenderer
     private lateinit var font: BitmapFont
+    private var packFont: PackFont? = null
     private val sound = SoundBoard()
     private val soundDirector = SoundDirector()
     private var musicDirector: MusicDirector? = null
@@ -216,6 +219,12 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
         val loaded = loadAssets() ?: return
         assets = loaded
+        // the font of the pack (spec 13, "Font"), with capitals as tall as those of the font it replaces
+        PackFont.build(loaded.pack, 11f * max(1f, Gdx.graphics.density * 0.9f))?.let {
+            font.dispose()
+            packFont = it
+            font = it.font
+        }
         cache = TextureCache(loaded.pack)
         sound.open(loaded.pack)
         loadVolumes()
@@ -320,6 +329,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 rig = parseRig(doc("base:art/rig/humanoid")).getOrThrow(),
                 idle = parseClip(doc("base:art/clip/humanoid_idle")).getOrThrow(),
                 walk = parseClip(doc("base:art/clip/humanoid_walk")).getOrThrow(),
+                attack = pack.readDocument("base:art/clip/humanoid_attack")?.let { parseClip(it).getOrNull() },
                 map = makeStreamMap(worldParams),
                 tileset = parseTileset(doc("base:tileset/overworld")).getOrThrow(),
                 worldParams = worldParams,
@@ -819,6 +829,19 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 val u = (tx % span).toFloat() / span
                 val v = (ty % span).toFloat() / span
                 batch.draw(sprite.region.texture, sx0, sy0, sx1 - sx0, sy1 - sy0, u, v, u + 1f / span, v + 1f / span)
+                if (def.surface == "water" && span > 1) {
+                    // Water moves (spec 13, "Water"): the same picture, shifted by whole tiles, fades in and out over it.
+                    val t = (System.currentTimeMillis() % 16336281L).toFloat()
+                    val shifts = intArrayOf(1, 2, 2, 3)
+                    val alphas = floatArrayOf(0.26f + 0.22f * sin(t / 1300f), 0.20f + 0.18f * sin(t / 2100f + 2f))
+                    for (layer in 0..1) {
+                        val su = ((tx + shifts[layer * 2]) % span).toFloat() / span
+                        val sv = ((ty + shifts[layer * 2 + 1]) % span).toFloat() / span
+                        batch.setColor(1f, 1f, 1f, alphas[layer])
+                        batch.draw(sprite.region.texture, sx0, sy0, sx1 - sx0, sy1 - sy0, su, sv, su + 1f / span, sv + 1f / span)
+                    }
+                    batch.setColor(1f, 1f, 1f, 1f)
+                }
             }
         }
         // The soft edges of the grounds (spec 13, "Ground blending"): a neighbour of a higher rank fades over the tile.
@@ -835,6 +858,15 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                     if (other.blend <= def.blend) continue
                     val over = cache.get(other.art, tilePx) ?: continue
                     drawGroundBlend(over, tx, ty, side[0], side[1], sx0, sy0, sx1 - sx0, sy1 - sy0)
+                }
+                // the corners: a higher ground that touches the tile only at a corner rounds that corner
+                for (corner in GROUND_CORNERS) {
+                    val other = data.tileset.tiles[world.gidAt(tx + corner[0], ty + corner[1])] ?: continue
+                    if (other.blend <= def.blend) continue
+                    if ((data.tileset.tiles[world.gidAt(tx + corner[0], ty)]?.blend ?: 0) > def.blend) continue
+                    if ((data.tileset.tiles[world.gidAt(tx, ty + corner[1])]?.blend ?: 0) > def.blend) continue
+                    val over = cache.get(other.art, tilePx) ?: continue
+                    drawGroundCorner(over, tx, ty, corner[0], corner[1], sx0, sy0, sx1 - sx0, sy1 - sy0)
                 }
             }
         }
@@ -926,6 +958,34 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         batch.draw(sprite.region.texture, blendVertices, 0, 20)
     }
 
+    /**
+     * The corner of a tile under a higher ground that touches it only there (spec 13, "Ground blending"): the picture
+     * of that ground, opaque at the corner and gone at the middle of the two edges and of the tile.
+     */
+    private fun drawGroundCorner(sprite: Sprite, tx: Int, ty: Int, dx: Int, dy: Int, x: Float, y: Float, w: Float, h: Float) {
+        val span = max(1, (sprite.width / 32f).roundToInt())
+        val u0 = (tx % span).toFloat() / span
+        val v0 = (ty % span).toFloat() / span
+        val cell = 1f / span
+        val cx = if (dx > 0) 1f else 0f
+        val cy = if (dy > 0) 1f else 0f
+        val opaque = Color.WHITE.toFloatBits()
+        val clear = Color.toFloatBits(1f, 1f, 1f, 0f)
+        var i = 0
+        fun vertex(ux: Float, uy: Float, color: Float) {
+            blendVertices[i++] = x + ux * w
+            blendVertices[i++] = y + uy * h
+            blendVertices[i++] = color
+            blendVertices[i++] = u0 + ux * cell
+            blendVertices[i++] = v0 + uy * cell
+        }
+        vertex(cx, cy, opaque)
+        vertex(0.5f, cy, clear)
+        vertex(0.5f, 0.5f, clear)
+        vertex(cx, 0.5f, clear)
+        batch.draw(sprite.region.texture, blendVertices, 0, 20)
+    }
+
     private fun drawProp(prop: Prop, camX: Float, camY: Float, tilePx: Int, tile: Float, k: Float) {
         val sprite = cache.get(prop.art, tilePx) ?: return
         val fx = (prop.x - camX) * tile
@@ -994,9 +1054,16 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val player = world.player
         val blink = player.iframes > 0 && (player.iframes / 4) % 2 == 0
         val back = player.facing.y < 0f && abs(player.facing.y) > abs(player.facing.x)
+        // the blow (spec 13): 5 ticks to raise the arm, 4 to bring it down, the rest to return
+        val attackTick = when (player.phase) {
+            AttackPhase.STARTUP -> min(player.phaseTick, 5)
+            AttackPhase.ACTIVE -> 5 + min(player.phaseTick, 4)
+            AttackPhase.RECOVERY -> 9 + min(player.phaseTick, 21)
+            else -> -1
+        }
         drawCharacter(
             data, player.moving, player.facingLeft, player.clipTick, blink, playerVariant,
-            (player.position.x - camX) * tile, (player.position.y - camY) * tile, tilePx, k, back,
+            (player.position.x - camX) * tile, (player.position.y - camY) * tile, tilePx, k, back, attackTick,
         )
     }
 
@@ -1028,11 +1095,13 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     private fun drawCharacter(
         data: Assets, moving: Boolean, facingLeft: Boolean, clipTick: Int, blink: Boolean, variant: String?,
-        feetX: Float, feetY: Float, tilePx: Int, k: Float, back: Boolean = false,
+        feetX: Float, feetY: Float, tilePx: Int, k: Float, back: Boolean = false, attackTick: Int = -1,
     ) {
-        val clip = if (moving) data.walk else data.idle
+        // attackTick (0 or more): the figure is striking, and the clip of the blow is at that tick
+        val blow = if (attackTick >= 0) data.attack else null
+        val clip = blow ?: if (moving) data.walk else data.idle
         // seen from behind (spec 13), the parts use their own recipe and draw order
-        val pose = evaluatePose(data.rig, clip, clipTick.toFloat(), facingLeft)
+        val pose = evaluatePose(data.rig, clip, (if (blow != null) attackTick else clipTick).toFloat(), facingLeft)
             .sortedBy { if (back) data.rig.parts[it.partIndex].zBack else it.z }
         batch.setColor(1f, 1f, 1f, if (blink) 0.47f else 1f)
         for (posed in pose) {
@@ -1195,52 +1264,69 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     }
 
 
-    /** A panel with a soft shadow, a border in the accent color, a body that fades from lighter to darker, a light line under the top edge and a stripe of the accent color on top. Call it inside a Filled batch. */
+    /**
+     * A panel of the interface: night-violet glass with a thread of the accent color around it, a soft shadow under it, a
+     * sheen on its upper part and a small bracket of the accent in every corner. Call it inside a Filled batch.
+     */
     private fun drawPanel(x: Float, y: Float, w: Float, h: Float, accent: Color, alpha: Float) {
-        val density = Gdx.graphics.density
-        shapes.color = Color(0f, 0f, 0f, 0.35f)
-        shapes.rect(x + 3f * density, y + 4f * density, w, h)
-        shapes.color = Color(0.016f, 0.04f, 0.094f, 1f)
-        shapes.rect(x - 2f * density, y - 2f * density, w + 4f * density, h + 4f * density)
-        shapes.color = Color(accent.r / 2f, accent.g / 2f, accent.b / 2f, 1f)
-        shapes.rect(x - density, y - density, w + 2f * density, h + 2f * density)
-        val strips = maxOf(1, (h / (4f * density)).toInt())
+        val d = Gdx.graphics.density
+        for (i in 0..2) { // the shadow: three veils, each a little wider
+            val grow = i * 2f * d
+            shapes.color = Color(0.024f, 0.016f, 0.078f, 0.13f)
+            shapes.rect(x - grow, y + 2f * d - grow, w + grow * 2f, h + 4f * d + grow * 2f)
+        }
+        shapes.color = Color(0.039f, 0.031f, 0.102f, 1f)
+        shapes.rect(x - 3f * d, y - 3f * d, w + 6f * d, h + 6f * d)
+        shapes.color = Color(accent.r * 0.75f, accent.g * 0.75f, accent.b * 0.75f, 1f)
+        shapes.rect(x - 2f * d, y - 2f * d, w + 4f * d, h + 4f * d)
+        shapes.color = Color(0.063f, 0.051f, 0.149f, 1f)
+        shapes.rect(x - d, y - d, w + 2f * d, h + 2f * d)
+        val strips = maxOf(1, (h / (3f * d)).toInt())
         for (i in 0 until strips) {
             val t = i.toFloat() / strips.toFloat()
-            shapes.color = Color(0.086f + (0.031f - 0.086f) * t, 0.188f + (0.078f - 0.188f) * t, 0.345f + (0.172f - 0.345f) * t, alpha)
+            shapes.color = Color(0.157f + (0.051f - 0.157f) * t, 0.141f + (0.047f - 0.141f) * t, 0.337f + (0.141f - 0.337f) * t, alpha)
             shapes.rect(x, y + h * t, w, h / strips + 0.5f)
         }
-        shapes.color = Color(1f, 1f, 1f, 0.16f)
-        shapes.rect(x, y + 3f * density, w, density)
-        shapes.color = accent
-        shapes.rect(x, y, w, 3f * density)
-        shapes.color = Color(accent.r / 2f + 0.16f, accent.g / 2f + 0.16f, accent.b / 2f + 0.16f, 0.8f)
-        for (cx in floatArrayOf(x + 5f * density, x + w - 8f * density)) {
-            for (cy in floatArrayOf(y + 6f * density, y + h - 9f * density)) shapes.rect(cx, cy, 3f * density, 3f * density)
+        shapes.color = Color(1f, 1f, 1f, 0.047f) // the sheen
+        shapes.rect(x, y, w, minOf(h * 0.35f, 28f * d))
+        shapes.color = Color(1f, 1f, 1f, 0.21f)
+        shapes.rect(x, y, w, d)
+        shapes.color = Color(0f, 0f, 0f, 0.27f)
+        shapes.rect(x, y + h - d, w, d)
+        // a bracket in every corner
+        val arm = minOf(10f * d, minOf(w, h) / 3f)
+        shapes.color = Color(accent.r, accent.g, accent.b, 0.9f)
+        for (right in booleanArrayOf(false, true)) {
+            for (bottom in booleanArrayOf(false, true)) {
+                shapes.rect(if (right) x + w - 3f * d - arm else x + 3f * d, if (bottom) y + h - 4f * d else y + 3f * d, arm, d)
+                shapes.rect(if (right) x + w - 4f * d else x + 3f * d, if (bottom) y + h - 3f * d - arm else y + 3f * d, d, arm)
+            }
         }
     }
 
-    /** A bar with a dark frame, a fill that is lighter on the top half and darker on the bottom, a gloss line and ticks. Call it inside a Filled batch. */
+    /**
+     * A bar: a dark frame with a light rim, a fill that goes from light at the top to deep at the bottom with a gloss line
+     * and a bright end, and faint ticks. Call it inside a Filled batch.
+     */
     private fun drawBar(x: Float, y: Float, w: Float, h: Float, ratio: Float, color: Color) {
-        shapes.color = Color(0.016f, 0.04f, 0.094f, 0.92f)
+        shapes.color = Color(0.039f, 0.031f, 0.102f, 0.94f)
         shapes.rect(x - 2f, y - 2f, w + 4f, h + 4f)
-        shapes.color = Color(0.27f, 0.35f, 0.47f, 0.8f)
+        shapes.color = Color(0.47f, 0.44f, 0.67f, 0.86f)
         shapes.rect(x - 1f, y - 1f, w + 2f, h + 2f)
-        shapes.color = Color(0.047f, 0.086f, 0.157f, 1f)
+        shapes.color = Color(0.071f, 0.059f, 0.157f, 1f)
         shapes.rect(x, y, w, h)
         val fw = w * ratio.coerceIn(0f, 1f)
         if (fw > 0f) {
-            shapes.color = Color((color.r + 0.16f).coerceAtMost(1f), (color.g + 0.16f).coerceAtMost(1f), (color.b + 0.16f).coerceAtMost(1f), 1f)
-            shapes.rect(x, y, fw, h * 0.55f)
-            shapes.color = Color((color.r - 0.18f).coerceAtLeast(0f), (color.g - 0.18f).coerceAtLeast(0f), (color.b - 0.18f).coerceAtLeast(0f), 1f)
-            shapes.rect(x, y + h * 0.55f, fw, h * 0.45f)
-            shapes.color = Color(1f, 1f, 1f, 0.27f)
-            shapes.rect(x, y + 1f, fw, maxOf(1f, h * 0.14f))
-            shapes.color = Color(1f, 1f, 1f, 0.35f)
-            shapes.rect(x + fw - 1f, y, 1f, h)
+            val top = Color((color.r + 0.27f).coerceAtMost(1f), (color.g + 0.27f).coerceAtMost(1f), (color.b + 0.27f).coerceAtMost(1f), 1f)
+            val bottom = Color((color.r - 0.22f).coerceAtLeast(0f), (color.g - 0.22f).coerceAtLeast(0f), (color.b - 0.22f).coerceAtLeast(0f), 1f)
+            shapes.rect(x, y, fw, h, top, top, bottom, bottom) // light at the top, deep at the bottom
+            shapes.color = Color(1f, 1f, 1f, 0.31f)
+            shapes.rect(x, y + 1f, fw, maxOf(1f, h * 0.16f))
+            shapes.color = Color(1f, 1f, 1f, 0.47f)
+            shapes.rect(x + fw - 1.5f, y, 1.5f, h)
         }
-        shapes.color = Color(0f, 0f, 0f, 0.27f)
-        for (i in 1..9) shapes.rect(x + w * i / 10f, y + h * 0.7f, 1f, h * 0.3f)
+        shapes.color = Color(0f, 0f, 0f, 0.24f)
+        for (i in 1..9) shapes.rect(x + w * i / 10f, y + h * 0.65f, 1f, h * 0.35f)
     }
 
     private fun drawOverlays(world: WorldSim, camX: Float, camY: Float, tile: Float, k: Float) {
@@ -3702,7 +3788,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     override fun dispose() {
         batch.dispose()
         shapes.dispose()
-        font.dispose()
+        packFont?.dispose() ?: font.dispose()
         if (::cache.isInitialized) cache.dispose()
         sound.dispose()
     }
@@ -3714,6 +3800,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         private const val SLOT_COUNT = 3
         private const val BASE_TILE_PX = 64f
         private val GROUND_SIDES = arrayOf(intArrayOf(-1, 0), intArrayOf(1, 0), intArrayOf(0, -1), intArrayOf(0, 1))
+        private val GROUND_CORNERS = arrayOf(intArrayOf(-1, -1), intArrayOf(1, -1), intArrayOf(-1, 1), intArrayOf(1, 1))
 
         /** Colors of the world map by biome code: water, beach, mountain, snow, desert, forest, plains. */
         private val MAP_COLORS = arrayOf(

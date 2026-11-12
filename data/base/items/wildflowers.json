@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/wildflowers",
+  "name": "$i18n:item.wildflowers.name",
+  "description": "$i18n:item.wildflowers.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 3,
+  "stack_max": 99
+}

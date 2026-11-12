@@ -1525,6 +1525,16 @@
                 "art": "base:art/prop/bush",
                 "radius_x100": 28,
                 "per_mille": 20
+              },
+              {
+                "art": "base:art/prop/flowers",
+                "radius_x100": 8,
+                "per_mille": 16
+              },
+              {
+                "art": "base:art/prop/stump",
+                "radius_x100": 22,
+                "per_mille": 4
               }
             ],
             "forest": [
@@ -1542,6 +1552,21 @@
                 "art": "base:art/prop/mushrooms",
                 "radius_x100": 15,
                 "per_mille": 15
+              },
+              {
+                "art": "base:art/prop/fern",
+                "radius_x100": 10,
+                "per_mille": 30
+              },
+              {
+                "art": "base:art/prop/log",
+                "radius_x100": 30,
+                "per_mille": 6
+              },
+              {
+                "art": "base:art/prop/stump",
+                "radius_x100": 22,
+                "per_mille": 8
               }
             ],
             "snow": [
@@ -1559,6 +1584,11 @@
                 "art": "base:art/prop/bones",
                 "radius_x100": 8,
                 "per_mille": 3
+              },
+              {
+                "art": "base:art/prop/ice_shard",
+                "radius_x100": 20,
+                "per_mille": 6
               }
             ],
             "desert": [
@@ -1576,6 +1606,11 @@
                 "art": "base:art/prop/bones",
                 "radius_x100": 8,
                 "per_mille": 4
+              },
+              {
+                "art": "base:art/prop/dry_shrub",
+                "radius_x100": 16,
+                "per_mille": 14
               }
             ],
             "beach": [
@@ -1583,6 +1618,11 @@
                 "art": "base:art/prop/reeds",
                 "radius_x100": 18,
                 "per_mille": 25
+              },
+              {
+                "art": "base:art/prop/driftwood",
+                "radius_x100": 22,
+                "per_mille": 8
               }
             ]
           },
@@ -1817,6 +1857,7 @@
               }
             ],
             "weather": {
+              "rain_aggro_cut_pm": 300,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -9681,6 +9722,16 @@
                 "art": "base:art/prop/bush",
                 "radius_x100": 28,
                 "per_mille": 20
+              },
+              {
+                "art": "base:art/prop/flowers",
+                "radius_x100": 8,
+                "per_mille": 16
+              },
+              {
+                "art": "base:art/prop/stump",
+                "radius_x100": 22,
+                "per_mille": 4
               }
             ],
             "forest": [
@@ -9698,6 +9749,21 @@
                 "art": "base:art/prop/mushrooms",
                 "radius_x100": 15,
                 "per_mille": 15
+              },
+              {
+                "art": "base:art/prop/fern",
+                "radius_x100": 10,
+                "per_mille": 30
+              },
+              {
+                "art": "base:art/prop/log",
+                "radius_x100": 30,
+                "per_mille": 6
+              },
+              {
+                "art": "base:art/prop/stump",
+                "radius_x100": 22,
+                "per_mille": 8
               }
             ],
             "snow": [
@@ -9715,6 +9781,11 @@
                 "art": "base:art/prop/bones",
                 "radius_x100": 8,
                 "per_mille": 3
+              },
+              {
+                "art": "base:art/prop/ice_shard",
+                "radius_x100": 20,
+                "per_mille": 6
               }
             ],
             "desert": [
@@ -9732,6 +9803,11 @@
                 "art": "base:art/prop/bones",
                 "radius_x100": 8,
                 "per_mille": 4
+              },
+              {
+                "art": "base:art/prop/dry_shrub",
+                "radius_x100": 16,
+                "per_mille": 14
               }
             ],
             "beach": [
@@ -9739,6 +9815,11 @@
                 "art": "base:art/prop/reeds",
                 "radius_x100": 18,
                 "per_mille": 25
+              },
+              {
+                "art": "base:art/prop/driftwood",
+                "radius_x100": 22,
+                "per_mille": 8
               }
             ]
           },
@@ -9973,6 +10054,7 @@
               }
             ],
             "weather": {
+              "rain_aggro_cut_pm": 300,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -16502,6 +16584,16 @@
                 "art": "base:art/prop/bush",
                 "radius_x100": 28,
                 "per_mille": 20
+              },
+              {
+                "art": "base:art/prop/flowers",
+                "radius_x100": 8,
+                "per_mille": 16
+              },
+              {
+                "art": "base:art/prop/stump",
+                "radius_x100": 22,
+                "per_mille": 4
               }
             ],
             "forest": [
@@ -16519,6 +16611,21 @@
                 "art": "base:art/prop/mushrooms",
                 "radius_x100": 15,
                 "per_mille": 15
+              },
+              {
+                "art": "base:art/prop/fern",
+                "radius_x100": 10,
+                "per_mille": 30
+              },
+              {
+                "art": "base:art/prop/log",
+                "radius_x100": 30,
+                "per_mille": 6
+              },
+              {
+                "art": "base:art/prop/stump",
+                "radius_x100": 22,
+                "per_mille": 8
               }
             ],
             "snow": [
@@ -16536,6 +16643,11 @@
                 "art": "base:art/prop/bones",
                 "radius_x100": 8,
                 "per_mille": 3
+              },
+              {
+                "art": "base:art/prop/ice_shard",
+                "radius_x100": 20,
+                "per_mille": 6
               }
             ],
             "desert": [
@@ -16553,6 +16665,11 @@
                 "art": "base:art/prop/bones",
                 "radius_x100": 8,
                 "per_mille": 4
+              },
+              {
+                "art": "base:art/prop/dry_shrub",
+                "radius_x100": 16,
+                "per_mille": 14
               }
             ],
             "beach": [
@@ -16560,6 +16677,11 @@
                 "art": "base:art/prop/reeds",
                 "radius_x100": 18,
                 "per_mille": 25
+              },
+              {
+                "art": "base:art/prop/driftwood",
+                "radius_x100": 22,
+                "per_mille": 8
               }
             ]
           },
@@ -16794,6 +16916,7 @@
               }
             ],
             "weather": {
+              "rain_aggro_cut_pm": 300,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [

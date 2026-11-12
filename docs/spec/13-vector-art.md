@@ -124,6 +124,17 @@ the middle of `T`. The picture of `N` is cut at the cell of `T` (`tx mod n, ty m
 simply goes on. Grass (rank 80) thus fades over a path (40), a path over sand (30), sand over water (10). Tiles of the same
 rank do not blend (they are the same ground). Presentation only.
 
+**Corners.** A diagonal neighbour `N` of a higher rank, when neither of the two tiles between them (`(tx + dx, ty)` and
+`(tx, ty + dy)`) has a rank higher than `T`, rounds the corner of `T`: the picture of `N` over the quarter of `T` next to it,
+opaque at the corner and fading to nothing at the middle of the two edges and at the middle of the tile.
+
+## Water
+
+A macro tile whose tileset `surface` is `water` moves: after the tile, the clients draw the same picture twice more over
+it, cut at the cells `(tx + 1, ty + 2)` and `(tx + 2, ty + 3)` (so each copy is the whole water shifted by whole tiles and
+joins itself), with opacity `0.26 + 0.22 * sin(t / 1300)` and `0.20 + 0.18 * sin(t / 2100 + 2)` (`t` in milliseconds). The
+glints of the picture come and go and the dark and light of the water drift. Presentation only.
+
 ## Sway
 
 A recipe may have `"sway": a` (art units): the wind moves it. The clients draw it with its foot still and its top moved
@@ -137,9 +148,11 @@ not move. The trees, the bushes, the reeds, the banners and the flame of the cam
 `w` and its strokes `d`, a path in a cell of `cell.w x cell.h` font units, drawn with a round pen of the `stroke` width by the
 rasterizer above (one layer with a stroke and no fill), white, at the size a screen needs, and tinted with the colour of the
 text. A line of text is its glyphs one after the other, each taking its `w`; a glyph is placed with its cell centred on that
-width. A character the font does not have is drawn as `?`. `tools/make_font.py` writes the file. The desktop client draws
-all its text with it (its screens are laid out in columns of 8 units: `cell.top` is the room that accents take above the
-line); the Android client still uses the bitmap font of libGDX (parity debt: [progliodario/aethermoor#181](https://github.com/progliodario/aethermoor/issues/181)).
+width. A character the font does not have is drawn as `?`. `tools/make_font.py` writes the file. Both clients draw
+all their text with it. The desktop lays its screens out in columns of 8 units (`cell.top` is the room that accents take
+above the line) and bakes a glyph when a size first needs it; Android bakes all the glyphs once into one texture, at the
+size of its screen (capitals `11 * max(1, 0.9 * density)` pixels tall), and makes a libGDX font of them with the metrics of
+`cell` (`cap_top`, `cap_height`, `x_height`, `line`): a text is drawn with the top of its capitals where it is asked.
 
 ## Facing
 
@@ -150,6 +163,11 @@ mirrored when the player is to the right of the creature, so that it faces the p
 
 A **rig** lists parts (parents first): `id`, `parent` (or null), `offset [x, y]` (joint position in the parent's
 space, art units), `z` (draw order) and `art` (the recipe of the part; the recipe `canvas.origin` is the pivot).
+**The blow.** `base:art/clip/humanoid_attack` (optional, not looping, 30 ticks) is played on the player while a skill
+is in its phases (spec 05), instead of the idle or walk clip: its tick is `min(phase_tick, 5)` during the startup,
+`5 + min(phase_tick, 4)` while the blow is active and `9 + min(phase_tick, 21)` during the recovery. The arm goes back,
+comes down and returns. Presentation only: the hitbox and the timing are those of the skill.
+
 A part may have `art_back` and `z_back`: the recipe and the draw order used when the figure is **seen from behind**; a part
 without them uses `art` and `z`. The pose is the same in both views. The clients show the player from behind while the last
 movement was mostly upward (`facing.y < 0` and `|facing.y| > |facing.x|`), and the other people always from the front.

@@ -26,7 +26,7 @@
         "top"
       ],
       "additionalProperties": false,
-      "description": "The cell every glyph is drawn in, in font units; `top` is the room above the top of the caps.",
+      "description": "The cell every glyph is drawn in, in font units; `top` is the room that accents take above the line; `cap_top`, `cap_height` and `x_height` say where the capitals and the lower case are in the cell; `line` is the distance between two lines.",
       "properties": {
         "w": {
           "type": "number",
@@ -37,6 +37,22 @@
           "exclusiveMinimum": 0
         },
         "top": {
+          "type": "number",
+          "minimum": 0
+        },
+        "cap_top": {
+          "type": "number",
+          "minimum": 0
+        },
+        "cap_height": {
+          "type": "number",
+          "minimum": 0
+        },
+        "x_height": {
+          "type": "number",
+          "minimum": 0
+        },
+        "line": {
           "type": "number",
           "minimum": 0
         }

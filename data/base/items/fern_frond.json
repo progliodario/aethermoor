@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/fern_frond",
+  "name": "$i18n:item.fern_frond.name",
+  "description": "$i18n:item.fern_frond.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 2,
+  "stack_max": 99
+}

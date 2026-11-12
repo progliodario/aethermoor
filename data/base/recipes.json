@@ -623,6 +623,84 @@
       "station": "base:art/prop/campfire"
     },
     {
+      "id": "flower_tea",
+      "output": {
+        "item": "base:item/flower_tea",
+        "qty": 2
+      },
+      "inputs": [
+        {
+          "item": "base:item/wildflowers",
+          "qty": 3
+        },
+        {
+          "item": "base:item/healing_herb",
+          "qty": 1
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/campfire"
+    },
+    {
+      "id": "fern_salad",
+      "output": {
+        "item": "base:item/fern_salad",
+        "qty": 2
+      },
+      "inputs": [
+        {
+          "item": "base:item/fern_frond",
+          "qty": 3
+        },
+        {
+          "item": "base:item/wild_berries",
+          "qty": 2
+        }
+      ]
+    },
+    {
+      "id": "shell_broth",
+      "output": {
+        "item": "base:item/fish_stew",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/sea_shell",
+          "qty": 2
+        },
+        {
+          "item": "base:item/river_fish",
+          "qty": 1
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/campfire"
+    },
+    {
+      "id": "driftwood_pike",
+      "output": {
+        "item": "base:item/pike",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/driftwood",
+          "qty": 4
+        },
+        {
+          "item": "base:item/iron_ore",
+          "qty": 3
+        }
+      ]
+    },
+    {
       "id": "fang_necklace",
       "output": {
         "item": "base:item/fang_necklace",

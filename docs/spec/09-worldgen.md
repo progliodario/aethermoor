@@ -117,6 +117,7 @@ own, so a stamp puts it on terrain that is not a wall.
 
 The plains pick one of six ground tiles (`tiles.plains` of the world data: two grasses, daisies, clover, dry grass and a mushroom patch).
 
+The small scenery of the wild (12 November 2026): flowers (16 per mille, radius 0.08) and stumps (4, 0.22) in the plains, ferns (30, 0.10), fallen logs (6, 0.30) and stumps (8) in the forest, driftwood on the beaches (8, 0.22), shards of ice in the snow (6, 0.20) and dry shrubs in the desert (14, 0.16); all of them can be gathered from (spec 06, "Gathering").
 The random props of the biomes include the new ones: bushes in the plains (20 per mille) and the forest (40), rocks and bones in the desert (10 and 4) and in the snow (10 and 3), mushroom patches in the forests (15 per mille, radius 0.15) and reeds on the beaches (25 per mille, radius 0.18), where one fishes (spec 06, "Gathering").
 
 Settlements have more than one look: `settlements.kinds[].stamps` lists the stamps of a kind and the site picks one of them (step 3 above). Hamlets have four (`hamlet`, `hamlet_b` with two houses, `hamlet_c` with a barn and `hamlet_d` a crossroads), villages four (`village`, `village_b` four houses around a square, `village_c` a main street and `village_d` a long street) and towns three (`town` walled, `town_b` open around a big plaza and `town_c` with the guild hall on the square). All of a kind keep the same roles.
