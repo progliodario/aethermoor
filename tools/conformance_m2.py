@@ -47,6 +47,14 @@ def suite_rig_pose() -> list[dict]:
                     f"pose_{'loop' if loop else 'once'}_{'mirror' if mirror else 'plain'}_{tick}",
                     {"op": "pose", "rig": POSE_RIG, "clip": clip, "tick": tick, "mirror": mirror},
                     {"parts": pose.evaluate_pose(POSE_RIG, clip, tick, mirror), "tol": 0.001}))
+    # seen from the side (spec 13): a part with an `offset_side` hangs from there
+    side_rig = {"id": POSE_RIG["id"], "parts": [dict(p, **({"offset_side": [0.5, -1]} if p["id"] == "arm" else {})) for p in POSE_RIG["parts"]]}
+    for mirror in (False, True):
+        for tick in (0, 6, 18):
+            cases.append(case(
+                f"pose_side_{'mirror' if mirror else 'plain'}_{tick}",
+                {"op": "pose", "rig": side_rig, "clip": POSE_CLIP, "tick": tick, "mirror": mirror, "side": True},
+                {"parts": pose.evaluate_pose(side_rig, POSE_CLIP, tick, mirror, side=True), "tol": 0.001}))
     return cases
 
 

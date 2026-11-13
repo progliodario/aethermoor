@@ -20,6 +20,7 @@ Regole per tutta l'arte del gioco (ricette vettoriali in `data/base/art/`, forma
 - **Bordi sfumati.** Nel tileset ogni terreno naturale ha un rango `blend`: il terreno di rango più alto sfuma sul bordo del vicino (l'erba sul sentiero, la sabbia sull'acqua). Lo fanno i client (spec 13, "Ground blending"): nelle ricette non serve nulla.
 - **Oggetti:** l'origine è ai piedi (ordine di disegno e collisione). Alberi: 96 x 128, origine (48, 120).
 - **Persone:** alte circa 59 unità (1,8 tile) e 4,6 teste. Le parti del rig `humanoid` sono ombra, gambe, braccia, busto, testa e `cape` (mantelli e capelli lunghi dietro il corpo); busto, testa e mantello hanno una seconda ricetta per la **vista di spalle** (`art_back`), usata quando il giocatore cammina verso l'alto.
+- **Tre viste.** La persona è disegnata di fronte, di spalle (`art_back`) e **di lato** (`art_side`, guarda a destra e viene specchiata): di lato hanno un disegno proprio testa, busto e mantello, mentre braccia e gambe sono quelle di fronte, appese quasi allo stesso punto (`offset_side`). I look di lato sono in `tools/art_looks_side.py` (`@side("nome", "parte")`): un personaggio nuovo ha bisogno anche di quelli.
 - **Bestie:** lupi, selvaggina e alfa sono visti di lato e guardano a sinistra (`"faces": "left"`): i client li specchiano perché guardino il giocatore.
 
 ## Come si fa

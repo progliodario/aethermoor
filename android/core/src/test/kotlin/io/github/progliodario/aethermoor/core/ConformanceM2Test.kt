@@ -52,7 +52,7 @@ class ConformanceM2Test {
             val expect = c.getValue("expect").jsonObject
             val rig = parseRig(input.getValue("rig").toString()).getOrThrow()
             val clip = parseClip(input.getValue("clip").toString()).getOrThrow()
-            val pose = evaluatePose(rig, clip, input.getValue("tick").num(), input.getValue("mirror").jsonPrimitive.boolean)
+            val pose = evaluatePose(rig, clip, input.getValue("tick").num(), input.getValue("mirror").jsonPrimitive.boolean, input["side"]?.jsonPrimitive?.boolean ?: false)
             val parts = expect.getValue("parts").jsonArray
             val tol = expect.getValue("tol").num()
             assertEquals(parts.size, pose.size, label)

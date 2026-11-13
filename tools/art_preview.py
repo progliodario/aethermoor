@@ -132,15 +132,15 @@ def baked(recipe_id: str, scale: float, variant: str | None = None):
 
 
 def draw_figure(image: Image, feet: tuple[float, float], scale: float, variant: str | None, tick: float = 0.0,
-                clip_name: str = "humanoid_idle", mirror: bool = False, back: bool = False) -> None:
+                clip_name: str = "humanoid_idle", mirror: bool = False, back: bool = False, side: bool = False) -> None:
     rig = json.loads((ART / "rigs" / "humanoid.json").read_text(encoding="utf-8"))
     clip = json.loads((ART / "clips" / f"{clip_name}.json").read_text(encoding="utf-8"))
-    posed = pose.evaluate_pose(rig, clip, tick, mirror)
+    posed = pose.evaluate_pose(rig, clip, tick, mirror, side)
     parts = {p["id"]: p for p in rig["parts"]}
     order = sorted(posed, key=lambda q: parts[q["part"]].get("z_back" if back else "z", parts[q["part"]]["z"]))
     for item in order:
         part = parts[item["part"]]
-        art = part.get("art_back", part["art"]) if back else part["art"]
+        art = part.get("art_back", part["art"]) if back else part.get("art_side", part["art"]) if side else part["art"]
         recipe, sprite = baked(art, scale, variant)
         ox, oy = recipe["canvas"]["origin"]
         image.blit_rotated(sprite, (ox * scale, oy * scale), (feet[0] + item["x"] * scale, feet[1] + item["y"] * scale), item["rot"], mirror)
@@ -173,10 +173,12 @@ def pack(sprites: list[tuple[int, int, bytes]], width: int, gap: int = 12) -> Im
 
 def _figure_one(job: tuple[str | None, float, str]) -> str:
     variant, scale, out = job
-    image = Image(int(150 * scale), int(84 * scale), (0.32, 0.45, 0.30, 1.0))
-    draw_figure(image, (28 * scale, 76 * scale), scale, variant)
-    draw_figure(image, (75 * scale, 76 * scale), scale, variant, tick=6, clip_name="humanoid_walk", mirror=True)
-    draw_figure(image, (120 * scale, 76 * scale), scale, variant, back=True)
+    image = Image(int(200 * scale), int(84 * scale), (0.32, 0.45, 0.30, 1.0))
+    draw_figure(image, (26 * scale, 76 * scale), scale, variant)
+    draw_figure(image, (68 * scale, 76 * scale), scale, variant, side=True)
+    draw_figure(image, (108 * scale, 76 * scale), scale, variant, tick=4, clip_name="humanoid_walk", mirror=True, side=True)
+    draw_figure(image, (148 * scale, 76 * scale), scale, variant, tick=7, clip_name="humanoid_attack", side=True)
+    draw_figure(image, (180 * scale, 76 * scale), scale, variant, back=True)
     image.save(Path(out))
     return out
 

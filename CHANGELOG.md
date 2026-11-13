@@ -24,6 +24,8 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **People seen from the side** (spec 13): the protagonist is drawn in profile when walking left or right (head, torso and cape have a side picture; arms and legs swing from the same point, so the walk and the blow read as they should), from behind when walking up and from the front when walking down. Every protagonist and villager has their side look (`tools/art_looks_side.py`). Both clients; six more `rig_pose` vectors.
+- **Five new quests** at the outposts, about the new creatures and the scenery: blossom slimes for Pell, hollow armors for Wren, driftwood and shells for Nella, frost wisps for Henrik and cinder wolves for Grael, who makes the cinder cloak (268 quests).
 - **The night hides you** (spec 08): in the dark creatures notice the player from a shorter distance, about a fifth less at night (`time.night_aggro_cut_pm`), together with the rain. Both clients, three more conformance scenarios.
 - **Four new creatures** (`tools/make_wildlife.py`): the blossom slime of Verdalis and Lumeria (it leaves wildflowers), the hollow armor of Ironspine and Whisperwood, the frost wisp of Frostveil and the cinder wolf of the Ashen Wastes, whose ember pelt makes the **cinder cloak** at an anvil (75 creatures, 187 items, 51 recipes).
 - **Long shadows at dawn and dusk** (spec 08): trees, rocks and creatures cast their own shadow along the ground, to the left in the morning and to the right in the evening.

@@ -169,8 +169,12 @@ is in its phases (spec 05), instead of the idle or walk clip: its tick is `min(p
 comes down and returns. Presentation only: the hitbox and the timing are those of the skill.
 
 A part may have `art_back` and `z_back`: the recipe and the draw order used when the figure is **seen from behind**; a part
-without them uses `art` and `z`. The pose is the same in both views. The clients show the player from behind while the last
-movement was mostly upward (`facing.y < 0` and `|facing.y| > |facing.x|`), and the other people always from the front.
+without them uses `art` and `z`. In the same way `art_side`, `z_side` and `offset_side` are the recipe, the draw order and the
+joint used when the figure is **seen from the side**: the side pictures look to the right and are mirrored to look left, and
+with `side` the pose is computed with `offset_side` in place of `offset` for the parts that have it (the two arms and the two
+legs hang almost from the same point). The clips are the same in every view. The clients show the player from the side
+while the last movement was mostly sideways (`|facing.x| >= |facing.y|`), from behind while it was upward, from the front
+while it was downward, and the other people always from the front.
 
 A **clip** has `loop`, `length_ticks` and per-part `tracks`: `rot [[tick, degrees], ...]` and
 `pos [[tick, x, y], ...]` keyframes, linearly interpolated and clamped outside the key range. `events` mark

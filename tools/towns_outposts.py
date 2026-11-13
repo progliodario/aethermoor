@@ -278,3 +278,61 @@ OUTPOST_PEOPLE[4]["quests"].append(_quest(
     ("Look at that grip. I will carve you an elk, in thanks, out of ice. Stew first; the cold does not wait.",
      "Guarda che impugnatura. Ti scolpirò un alce, per ringraziarti, nel ghiaccio. Prima lo stufato: il freddo non aspetta.")))
 assert OUTPOST_PEOPLE[0]["key"] == "outpost_carter_pell" and OUTPOST_PEOPLE[4]["key"] == "outpost_sculptor_henrik"
+
+# The small scenery and the new creatures of 12 November 2026 (spec 09, `make_wildlife.py`): one more quest each for five people.
+WILD_QUESTS = {
+    "outpost_carter_pell": _quest(
+        "crossroads_blossoms", ("Flowers on the Road", "Fiori sulla strada"),
+        ("Blossom slimes have taken a liking to the road by the Crossroads. Pell asks you to move six along and bring him their flowers.",
+         "Gli slime in fiore si sono affezionati alla strada del Crocevia. Pell ti chiede di farne sloggiare sei e di portargli i loro fiori."),
+        [_kill("slime_bloom", 6), _collect("wildflowers", 5)], 200, 220, {"base:item/flower_tea": 4},
+        ("Pink slimes with a garden on their backs, sitting in the middle of my road as if it were a meadow. The mules will not step on flowers. Mules have principles.",
+         "Slime rosa con un giardino sulla schiena, seduti in mezzo alla mia strada come fosse un prato. I muli non calpestano i fiori. I muli hanno dei principi."),
+        ("Six blossom slimes, five handfuls of wildflowers.", "Sei slime in fiore, cinque manciate di fiori di campo."),
+        ("The road is a road again. I made tea with the flowers; it turns out mules like tea. Here, before they finish it.",
+         "La strada è di nuovo una strada. Ho fatto il tè con i fiori: a quanto pare ai muli il tè piace. Tieni, prima che lo finiscano.")),
+    "outpost_herbalist_wren": _quest(
+        "whisperwood_hollow", ("Nobody Home", "Non c'è nessuno"),
+        ("Suits of armor walk the paths of Whisperwood with nobody inside. Wren asks you to lay four of them down and bring her the rust.",
+         "Armature camminano per i sentieri di Whisperwood senza nessuno dentro. Wren ti chiede di metterne a terra quattro e di portarle la ruggine."),
+        [_kill("hollow_armor", 4), _collect("rust_flake", 3)], 700, 800, {"base:item/potion_large": 2},
+        ("I knocked on one, to be polite. It rang like a bell. Whatever walks in those suits is not sick and not well, and I do not have a salve for that. You have a sword.",
+         "Ho bussato a una, per educazione. Ha suonato come una campana. Qualunque cosa cammini in quelle armature non è né malata né sana, e io un unguento per questo non ce l'ho. Tu hai una spada."),
+        ("Four hollow armors, three flakes of rust.", "Quattro armature vuote, tre scaglie di ruggine."),
+        ("Rust is good for the blood, in a very small dose. The rest of them I buried, in case somebody comes back for them. Take these.",
+         "La ruggine fa bene al sangue, a dosi piccolissime. Il resto l'ho seppellito, nel caso qualcuno torni a prenderle. Prendi queste.")),
+    "outpost_netmender_nella": _quest(
+        "tidehaven_driftwood", ("What the Sea Leaves", "Ciò che lascia il mare"),
+        ("Nella makes her floats from driftwood and her needles from shells. Walk the beaches of Tidehaven and bring her both.",
+         "Nella fa i galleggianti con il legno di mare e gli aghi con le conchiglie. Percorri le spiagge di Tidehaven e portale entrambi."),
+        [_collect("driftwood", 6), _collect("sea_shell", 3)], 420, 500, {"base:item/fish_stew": 4},
+        ("The sea takes my nets and gives back wood and shells. A fair trade, if somebody walks the beach for me. My knees stopped doing that years ago.",
+         "Il mare si prende le mie reti e restituisce legno e conchiglie. Uno scambio equo, se qualcuno fa la spiaggia al posto mio. Le mie ginocchia hanno smesso anni fa."),
+        ("Six pieces of driftwood, three shells. They lie on the sand, near the reeds.", "Sei pezzi di legno di mare, tre conchiglie. Sono sulla sabbia, vicino ai canneti."),
+        ("White wood, pink shells. The floats will be the prettiest on the coast. Stew for the walker.",
+         "Legno bianco, conchiglie rosa. Saranno i galleggianti più belli della costa. Zuppa per chi ha camminato.")),
+    "outpost_sculptor_henrik": _quest(
+        "frostveil_wisps", ("Cold Lights", "Luci fredde"),
+        ("Frost wisps drift around Henrik's ice garden and melt nothing, but freeze the chisel to his hand. Put out five and bring the ice they leave.",
+         "I fuochi fatui del gelo girano attorno al giardino di ghiaccio di Henrik: non sciolgono nulla, ma gli incollano lo scalpello alla mano. Spegnine cinque e porta il ghiaccio che lasciano."),
+        [_kill("frost_wisp", 5), _collect("ice_crystal", 4)], 1100, 1100, {"base:item/frost_tonic": 3},
+        ("A fire that makes you colder. I have lived here sixty years and that still seems to me bad manners.",
+         "Un fuoco che ti fa venire più freddo. Vivo qui da sessant'anni e mi sembra ancora maleducazione."),
+        ("Five frost wisps, four ice crystals.", "Cinque fuochi fatui del gelo, quattro cristalli di ghiaccio."),
+        ("The clearest ice I ever saw came out of the rudest fire. There is a lesson there and I am too old for it. Drink this, it warms.",
+         "Il ghiaccio più limpido che abbia mai visto è uscito dal fuoco più maleducato. C'è una lezione, e io sono troppo vecchio per impararla. Bevi, scalda.")),
+    "outpost_smith_grael": _quest(
+        "ashen_cinder_wolves", ("A Cloak That Does Not Burn", "Un mantello che non brucia"),
+        ("The cinder wolves of the Ashen Wastes walk through fire and their fur does not burn. Grael wants pelts, and will make you a cloak of them.",
+         "I lupi delle braci delle Lande Cineree camminano nel fuoco e il loro pelo non brucia. Grael vuole le pellicce, e te ne farà un mantello."),
+        [_kill("wolf_ember", 5), _collect("ember_pelt", 4)], 1600, 1600, {"base:item/ember_cloak": 1},
+        ("Twenty years at a forge and my apron is more hole than apron. Then I saw a wolf lie down in a lava bed to sleep. I want that fur, Guest. I want it badly.",
+         "Vent'anni alla forgia e il mio grembiule è più buco che grembiule. Poi ho visto un lupo sdraiarsi a dormire in un letto di lava. Voglio quel pelo, Ospite. Lo voglio tanto."),
+        ("Five cinder wolves, four ember pelts.", "Cinque lupi delle braci, quattro pellicce di brace."),
+        ("One for my apron, and the rest is this: a cloak. It will be warm for a hundred years. Do not sleep in it.",
+         "Una per il mio grembiule, e il resto è questo: un mantello. Resterà caldo per cent'anni. Non dormirci dentro.")),
+}
+for _person in OUTPOST_PEOPLE:
+    if _person["key"] in WILD_QUESTS:
+        _person["quests"].append(WILD_QUESTS[_person["key"]])
+

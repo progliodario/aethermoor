@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/tidehaven_driftwood",
+  "name": "$i18n:quest.tidehaven_driftwood.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.tidehaven_driftwood.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/driftwood",
+          "count": 6
+        },
+        {
+          "type": "collect",
+          "item": "base:item/sea_shell",
+          "count": 3
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 420
+    },
+    {
+      "effect": "add_gold",
+      "amount": 500
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 21
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/fish_stew",
+      "qty": 4
+    }
+  ]
+}

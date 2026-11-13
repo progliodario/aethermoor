@@ -232,7 +232,7 @@
       "when": {
         "flag": "town_frostveil_antlers_thanked"
       },
-      "then": "after",
+      "then": "c4",
       "else": "thanks3"
     },
     "thanks3": {
@@ -281,6 +281,78 @@
             {
               "effect": "start_quest",
               "quest": "base:quest/side/frostveil_antlers"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c4": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/frostveil_wisps"
+      },
+      "then": "t4",
+      "else": "a4"
+    },
+    "t4": {
+      "type": "condition",
+      "when": {
+        "flag": "town_frostveil_wisps_thanked"
+      },
+      "then": "after",
+      "else": "thanks4"
+    },
+    "thanks4": {
+      "type": "say",
+      "speaker": "outpost_sculptor_henrik",
+      "text": "$i18n:dlg.town.henrik.frostveil_wisps.thanks",
+      "next": "flag4"
+    },
+    "flag4": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_frostveil_wisps_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a4": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/frostveil_wisps"
+      },
+      "then": "busy4",
+      "else": "offer4"
+    },
+    "busy4": {
+      "type": "say",
+      "speaker": "outpost_sculptor_henrik",
+      "text": "$i18n:dlg.town.henrik.frostveil_wisps.busy",
+      "next": "end"
+    },
+    "offer4": {
+      "type": "say",
+      "speaker": "outpost_sculptor_henrik",
+      "text": "$i18n:dlg.town.henrik.frostveil_wisps.offer",
+      "next": "choice4"
+    },
+    "choice4": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/frostveil_wisps"
             }
           ],
           "next": "end"

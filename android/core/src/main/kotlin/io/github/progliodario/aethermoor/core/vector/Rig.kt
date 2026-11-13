@@ -27,6 +27,11 @@ data class RigPart(
     val artBack: String = art,
     /** The draw order when seen from behind; the same as [z] if not given. */
     val zBack: Int = z,
+    /** Seen from the side (spec 13): the recipe, the draw order and the joint; each the same as from the front if not given. */
+    val artSide: String = art,
+    val zSide: Int = z,
+    val offsetSideX: Float = offsetX,
+    val offsetSideY: Float = offsetY,
 )
 
 /** Parts are listed parents first. */
@@ -60,6 +65,10 @@ fun parseRig(jsonText: String): Result<Rig> =
                 art = art,
                 artBack = p["art_back"]?.jsonPrimitive?.content ?: art,
                 zBack = p["z_back"]?.jsonPrimitive?.int ?: z,
+                artSide = p["art_side"]?.jsonPrimitive?.content ?: art,
+                zSide = p["z_side"]?.jsonPrimitive?.int ?: z,
+                offsetSideX = p["offset_side"]?.jsonArray?.get(0)?.f() ?: p.getValue("offset").jsonArray[0].f(),
+                offsetSideY = p["offset_side"]?.jsonArray?.get(1)?.f() ?: p.getValue("offset").jsonArray[1].f(),
             )
         }
         Rig((j["id"] as? JsonPrimitive)?.contentOrNull ?: "", parts)
@@ -103,7 +112,7 @@ private fun interpolate(ticks: FloatArray, values: Array<FloatArray>, t: Float, 
 }
 
 /** World placement of every part at [tick]; [mirror] negates x and rotation (facing left). */
-fun evaluatePose(rig: Rig, clip: Clip, tick: Float, mirror: Boolean): List<PosedPart> {
+fun evaluatePose(rig: Rig, clip: Clip, tick: Float, mirror: Boolean, side: Boolean = false): List<PosedPart> {
     val length = clip.lengthTicks.toFloat()
     var t = tick
     if (clip.loop) {
@@ -136,8 +145,8 @@ fun evaluatePose(rig: Rig, clip: Clip, tick: Float, mirror: Boolean): List<Posed
                 py = v[1]
             }
         }
-        val lx = part.offsetX + px
-        val ly = part.offsetY + py
+        val lx = (if (side) part.offsetSideX else part.offsetX) + px
+        val ly = (if (side) part.offsetSideY else part.offsetY) + py
         val parent = if (part.parent.isEmpty()) null else index[part.parent]
         if (parent == null) {
             worldX[i] = lx

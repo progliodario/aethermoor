@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/frostveil_wisps",
+  "name": "$i18n:quest.frostveil_wisps.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.frostveil_wisps.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/frost_wisp",
+          "count": 5
+        },
+        {
+          "type": "collect",
+          "item": "base:item/ice_crystal",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 1100
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1100
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 55
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/frost_tonic",
+      "qty": 3
+    }
+  ]
+}
