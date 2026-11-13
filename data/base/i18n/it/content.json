@@ -1202,5 +1202,15 @@
   "quest.parcel_pip.task": "Il corriere Wendel ha una lettera per Pip, alla Soglia. Consegnala a mano.",
   "quest.parcel_bran.name": "Una lettera per Bran",
   "quest.parcel_bran.task": "Il corriere Wendel ha una lettera per Bran, a Fenwick. Consegnala a mano.",
+  "quest.crossroads_blossoms.name": "Fiori sulla strada",
+  "quest.crossroads_blossoms.task": "Gli slime in fiore si sono affezionati alla strada del Crocevia. Pell ti chiede di farne sloggiare sei e di portargli i loro fiori.",
+  "quest.whisperwood_hollow.name": "Non c'è nessuno",
+  "quest.whisperwood_hollow.task": "Armature camminano per i sentieri di Whisperwood senza nessuno dentro. Wren ti chiede di metterne a terra quattro e di portarle la ruggine.",
+  "quest.tidehaven_driftwood.name": "Ciò che lascia il mare",
+  "quest.tidehaven_driftwood.task": "Nella fa i galleggianti con il legno di mare e gli aghi con le conchiglie. Percorri le spiagge di Tidehaven e portale entrambi.",
+  "quest.frostveil_wisps.name": "Luci fredde",
+  "quest.frostveil_wisps.task": "I fuochi fatui del gelo girano attorno al giardino di ghiaccio di Henrik: non sciolgono nulla, ma gli incollano lo scalpello alla mano. Spegnine cinque e porta il ghiaccio che lasciano.",
+  "quest.ashen_cinder_wolves.name": "Un mantello che non brucia",
+  "quest.ashen_cinder_wolves.task": "I lupi delle braci delle Lande Cineree camminano nel fuoco e il loro pelo non brucia. Grael vuole le pellicce, e te ne farà un mantello.",
   "quest.personal_gideon_2.task": "Quattro lupi fulvi e due pellicce: il villaggio, con garbo, chiede un tributo."
 }

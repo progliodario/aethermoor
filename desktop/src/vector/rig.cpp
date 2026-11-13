@@ -75,6 +75,14 @@ std::optional<Rig> parse_rig(std::string_view json_text, std::string& error) {
             part.art = p.at("art").get<std::string>();
             part.art_back = p.value("art_back", part.art);
             part.z_back = p.value("z_back", part.z);
+            part.art_side = p.value("art_side", part.art);
+            part.z_side = p.value("z_side", part.z);
+            part.offset_side_x = part.offset_x;
+            part.offset_side_y = part.offset_y;
+            if (p.contains("offset_side")) {
+                part.offset_side_x = p.at("offset_side").at(0).get<float>();
+                part.offset_side_y = p.at("offset_side").at(1).get<float>();
+            }
             rig.parts.push_back(std::move(part));
         }
         return rig;
@@ -113,7 +121,7 @@ std::optional<Clip> parse_clip(std::string_view json_text, std::string& error) {
     }
 }
 
-std::vector<PosedPart> evaluate_pose(const Rig& rig, const Clip& clip, float tick, bool mirror) {
+std::vector<PosedPart> evaluate_pose(const Rig& rig, const Clip& clip, float tick, bool mirror, bool side) {
     float t = tick;
     const auto length = static_cast<float>(clip.length_ticks);
     if (clip.loop) {
@@ -149,8 +157,8 @@ std::vector<PosedPart> evaluate_pose(const Rig& rig, const Clip& clip, float tic
                 interpolate(track->second.pos, t, pick_pos, 2, pos);
             }
         }
-        const float lx = part.offset_x + pos[0];
-        const float ly = part.offset_y + pos[1];
+        const float lx = (side ? part.offset_side_x : part.offset_x) + pos[0];
+        const float ly = (side ? part.offset_side_y : part.offset_y) + pos[1];
         World w;
         const auto parent = part.parent.empty() ? index.end() : index.find(part.parent);
         if (parent == index.end()) {

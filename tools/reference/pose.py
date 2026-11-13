@@ -27,8 +27,9 @@ def clip_time(clip: dict, tick: float) -> float:
     return min(tick, float(length))
 
 
-def evaluate_pose(rig: dict, clip: dict, tick: float, mirror: bool) -> list[dict]:
-    """World placement of every rig part at `tick`. Parts must be listed parents first."""
+def evaluate_pose(rig: dict, clip: dict, tick: float, mirror: bool, side: bool = False) -> list[dict]:
+    """World placement of every rig part at `tick`. Parts must be listed parents first. `side`: the figure is seen
+    from the side, and a part that has an `offset_side` uses it instead of its `offset`."""
     t = clip_time(clip, tick)
     tracks = clip.get("tracks", {})
     world: dict[str, tuple[float, float, float]] = {}
@@ -37,8 +38,9 @@ def evaluate_pose(rig: dict, clip: dict, tick: float, mirror: bool) -> list[dict
         track = tracks.get(part["id"], {})
         rot = _interp(track.get("rot", []), t, 1)[0]
         px, py = _interp(track.get("pos", []), t, 2)
-        lx = part["offset"][0] + px
-        ly = part["offset"][1] + py
+        offset = part.get("offset_side", part["offset"]) if side else part["offset"]
+        lx = offset[0] + px
+        ly = offset[1] + py
         parent = part.get("parent")
         if parent is None:
             wx, wy, wrot = lx, ly, rot

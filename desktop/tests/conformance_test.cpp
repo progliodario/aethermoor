@@ -250,7 +250,8 @@ TEST_CASE("conformance: rig_pose", "[conformance]") {
         INFO(error);
         REQUIRE(rig.has_value());
         REQUIRE(clip.has_value());
-        const auto pose = aether::evaluate_pose(*rig, *clip, in.at("tick").get<float>(), in.at("mirror").get<bool>());
+        const auto pose = aether::evaluate_pose(*rig, *clip, in.at("tick").get<float>(), in.at("mirror").get<bool>(),
+                                                in.value("side", false));
         const Json& expect = c.at("expect");
         const float tol = expect.at("tol").get<float>();
         const Json& parts = expect.at("parts");

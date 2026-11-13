@@ -736,22 +736,25 @@ void draw_ground_blend(SDL_Renderer* renderer, const aether::Sprite& sprite, int
 // `back`: the figure is seen from behind (spec 13): its parts use their `art_back` and `z_back`.
 void draw_character(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& assets, bool moving,
                     bool facing_left, int clip_tick, bool blink, std::string_view variant, float feet_x, float feet_y,
-                    float k, int tile_px, bool back = false, int attack_tick = -1) {
+                    float k, int tile_px, bool back = false, int attack_tick = -1, bool side = false) {
+    // `side`: the figure is seen from the side (spec 13): side recipes, side joints; it looks right unless mirrored
     // `attack_tick` (0 or more): the figure is striking, and the clip of the blow is at that tick
     const bool striking = attack_tick >= 0 && assets.attack.has_value();
     const aether::Clip& clip = striking ? *assets.attack : (moving ? assets.walk : assets.idle);
-    std::vector<aether::PosedPart> pose =
-        aether::evaluate_pose(assets.rig, clip, static_cast<float>(striking ? attack_tick : clip_tick), facing_left);
-    if (back) {
+    std::vector<aether::PosedPart> pose = aether::evaluate_pose(
+        assets.rig, clip, static_cast<float>(striking ? attack_tick : clip_tick), facing_left, side);
+    if (back || side) {
         for (aether::PosedPart& posed : pose) {
-            posed.z = assets.rig.parts[posed.part_index].z_back;
+            const aether::RigPart& part = assets.rig.parts[posed.part_index];
+            posed.z = side ? part.z_side : part.z_back;
         }
     }
     std::stable_sort(pose.begin(), pose.end(),
                      [](const aether::PosedPart& a, const aether::PosedPart& b) { return a.z < b.z; });
     for (const aether::PosedPart& posed : pose) {
         const aether::RigPart& part = assets.rig.parts[posed.part_index];
-        const aether::Sprite* sprite = cache.get(back ? part.art_back : part.art, tile_px, variant);
+        const aether::Sprite* sprite =
+            cache.get(side ? part.art_side : (back ? part.art_back : part.art), tile_px, variant);
         if (sprite == nullptr) {
             continue;
         }
@@ -3751,7 +3754,9 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
             const float fy = (sim.player().position.y - cam.y) * tile;
             const aether::Player& player = sim.player();
             const bool blink = player.iframes > 0 && (player.iframes / 4) % 2 == 0;
-            const bool back = player.facing.y < 0.0F && std::fabs(player.facing.y) > std::fabs(player.facing.x);
+            // from the side when the last movement was mostly sideways, from behind when it was upward (spec 13)
+            const bool side = std::fabs(player.facing.x) >= std::fabs(player.facing.y);
+            const bool back = !side && player.facing.y < 0.0F;
             // the blow (spec 13): 5 ticks to raise the arm, 4 to bring it down, the rest to return
             int attack_tick = -1;
             if (player.phase == aether::AttackPhase::Startup) {
@@ -3762,7 +3767,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
                 attack_tick = 9 + std::min(player.phase_tick, 21);
             }
             draw_character(renderer, cache, assets, player.moving, player.facing_left, player.clip_tick, blink,
-                           g_art_variant, fx, fy, k, tile_px, back, attack_tick);
+                           g_art_variant, fx, fy, k, tile_px, back, attack_tick, side);
             draw_swing(renderer, sim, fx, fy, tile);
         } else if (item.kind ==
                    4) {  // the companion (spec 10), drawn with the art of its creature, a little smaller, bobbing

@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/crossroads_blossoms",
+  "name": "$i18n:quest.crossroads_blossoms.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.crossroads_blossoms.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_bloom",
+          "count": 6
+        },
+        {
+          "type": "collect",
+          "item": "base:item/wildflowers",
+          "count": 5
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 200
+    },
+    {
+      "effect": "add_gold",
+      "amount": 220
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 10
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/flower_tea",
+      "qty": 4
+    }
+  ]
+}

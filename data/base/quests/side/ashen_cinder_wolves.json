@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/ashen_cinder_wolves",
+  "name": "$i18n:quest.ashen_cinder_wolves.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.ashen_cinder_wolves.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/wolf_ember",
+          "count": 5
+        },
+        {
+          "type": "collect",
+          "item": "base:item/ember_pelt",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 1600
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1600
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 80
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/ember_cloak",
+      "qty": 1
+    }
+  ]
+}

@@ -1105,7 +1105,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val tile = tilePx.toFloat()
         val player = world.player
         val blink = player.iframes > 0 && (player.iframes / 4) % 2 == 0
-        val back = player.facing.y < 0f && abs(player.facing.y) > abs(player.facing.x)
+        // from the side when the last movement was mostly sideways, from behind when it was upward (spec 13)
+        val side = abs(player.facing.x) >= abs(player.facing.y)
+        val back = !side && player.facing.y < 0f
         // the blow (spec 13): 5 ticks to raise the arm, 4 to bring it down, the rest to return
         val attackTick = when (player.phase) {
             AttackPhase.STARTUP -> min(player.phaseTick, 5)
@@ -1115,7 +1117,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
         drawCharacter(
             data, player.moving, player.facingLeft, player.clipTick, blink, playerVariant,
-            (player.position.x - camX) * tile, (player.position.y - camY) * tile, tilePx, k, back, attackTick,
+            (player.position.x - camX) * tile, (player.position.y - camY) * tile, tilePx, k, back, attackTick, side,
         )
     }
 
@@ -1147,18 +1149,19 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     private fun drawCharacter(
         data: Assets, moving: Boolean, facingLeft: Boolean, clipTick: Int, blink: Boolean, variant: String?,
-        feetX: Float, feetY: Float, tilePx: Int, k: Float, back: Boolean = false, attackTick: Int = -1,
+        feetX: Float, feetY: Float, tilePx: Int, k: Float, back: Boolean = false, attackTick: Int = -1, side: Boolean = false,
     ) {
         // attackTick (0 or more): the figure is striking, and the clip of the blow is at that tick
         val blow = if (attackTick >= 0) data.attack else null
         val clip = blow ?: if (moving) data.walk else data.idle
         // seen from behind (spec 13), the parts use their own recipe and draw order
-        val pose = evaluatePose(data.rig, clip, (if (blow != null) attackTick else clipTick).toFloat(), facingLeft)
-            .sortedBy { if (back) data.rig.parts[it.partIndex].zBack else it.z }
+        // seen from the side, the parts hang from their side joints and the figure looks right unless mirrored
+        val pose = evaluatePose(data.rig, clip, (if (blow != null) attackTick else clipTick).toFloat(), facingLeft, side)
+            .sortedBy { if (side) data.rig.parts[it.partIndex].zSide else if (back) data.rig.parts[it.partIndex].zBack else it.z }
         batch.setColor(1f, 1f, 1f, if (blink) 0.47f else 1f)
         for (posed in pose) {
             val part = data.rig.parts[posed.partIndex]
-            val sprite = cache.get(if (back) part.artBack else part.art, tilePx, variant) ?: continue
+            val sprite = cache.get(if (side) part.artSide else if (back) part.artBack else part.art, tilePx, variant) ?: continue
             val px = feetX + posed.x * k
             val py = feetY + posed.y * k
             val pivotX = sprite.originX * k

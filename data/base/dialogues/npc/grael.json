@@ -160,7 +160,7 @@
       "when": {
         "flag": "town_ashen_tyrant_thanked"
       },
-      "then": "after",
+      "then": "c3",
       "else": "thanks2"
     },
     "thanks2": {
@@ -209,6 +209,78 @@
             {
               "effect": "start_quest",
               "quest": "base:quest/side/ashen_tyrant"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c3": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/ashen_cinder_wolves"
+      },
+      "then": "t3",
+      "else": "a3"
+    },
+    "t3": {
+      "type": "condition",
+      "when": {
+        "flag": "town_ashen_cinder_wolves_thanked"
+      },
+      "then": "after",
+      "else": "thanks3"
+    },
+    "thanks3": {
+      "type": "say",
+      "speaker": "outpost_smith_grael",
+      "text": "$i18n:dlg.town.grael.ashen_cinder_wolves.thanks",
+      "next": "flag3"
+    },
+    "flag3": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_ashen_cinder_wolves_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a3": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/ashen_cinder_wolves"
+      },
+      "then": "busy3",
+      "else": "offer3"
+    },
+    "busy3": {
+      "type": "say",
+      "speaker": "outpost_smith_grael",
+      "text": "$i18n:dlg.town.grael.ashen_cinder_wolves.busy",
+      "next": "end"
+    },
+    "offer3": {
+      "type": "say",
+      "speaker": "outpost_smith_grael",
+      "text": "$i18n:dlg.town.grael.ashen_cinder_wolves.offer",
+      "next": "choice3"
+    },
+    "choice3": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/ashen_cinder_wolves"
             }
           ],
           "next": "end"

@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/whisperwood_hollow",
+  "name": "$i18n:quest.whisperwood_hollow.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.whisperwood_hollow.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/hollow_armor",
+          "count": 4
+        },
+        {
+          "type": "collect",
+          "item": "base:item/rust_flake",
+          "count": 3
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 700
+    },
+    {
+      "effect": "add_gold",
+      "amount": 800
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 35
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/potion_large",
+      "qty": 2
+    }
+  ]
+}

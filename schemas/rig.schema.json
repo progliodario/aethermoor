@@ -61,6 +61,23 @@
           "z_back": {
             "type": "integer",
             "description": "The draw order of the part when the figure is seen from behind (default: `z`)."
+          },
+          "art_side": {
+            "$ref": "#/$defs/id",
+            "description": "The recipe of the part when the figure is seen from the side, looking right (default: `art`)."
+          },
+          "z_side": {
+            "type": "integer",
+            "description": "The draw order of the part when the figure is seen from the side (default: `z`)."
+          },
+          "offset_side": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2,
+            "description": "The joint of the part when the figure is seen from the side (default: `offset`)."
           }
         }
       }

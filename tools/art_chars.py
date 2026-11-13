@@ -14,6 +14,7 @@ from __future__ import annotations
 import json
 
 from art_looks import LOOKS, PEOPLE, PROTAGONISTS
+from art_looks_side import SIDE
 from artkit import ART, ROOT, Recipe, linear, transform_layers
 
 OUT = "$p.outline"
@@ -43,7 +44,7 @@ CANVAS = {"head": (44, 50, 22, 38), "torso": (40, 52, 20, 22), "arm": (14, 26, 7
 
 
 def part(name: str) -> Recipe:
-    w, h, _, _ = CANVAS[name.replace("_back", "")]
+    w, h, _, _ = CANVAS[name.replace("_back", "").replace("_side", "")]
     return Recipe(f"base:art/char/ren/{name}", w, h, (0, 0), seed="v3")
 
 
@@ -102,6 +103,53 @@ def head_back() -> Recipe:
     r.shade("M 1 -16 Q 7 -15.8 6.3 -7 Q 6.2 -2.2 3.4 -1.2 Q 0 -0.4 -3.4 -1.2 Q 3 -3 3.2 -8 Q 3.4 -12 1 -16 Z", 0.4)
     r.path("M -4.8 -12 Q -1.5 -14.4 2.6 -13.2", None, stroke="#FFFFFF", width=0.9, alpha=0.3, blend="add", clip=True)
     r.path("M -3 -3 Q -3.6 -8 -2.6 -13 M 0 -1.6 Q -0.4 -8 0.2 -14.6 M 3 -2.6 Q 3.8 -8 2.8 -13", None, stroke=OUT, width=0.22, alpha=0.5)
+    return r
+
+
+# ------------------------------------------------------------------------------------------------ the side view
+# the figure looks to the right; the clients mirror it to look left (spec 13)
+PROFILE = ("M 0 -13.7 Q 4.6 -13.7 5.3 -9.6 L 5.5 -7.2 L 6.7 -5.2 L 5.6 -4.6 L 5.7 -3.3 L 5.1 -2.7 Q 5.3 -1 3.7 -0.5 L 0.8 -0.9 "
+           "Q -1.6 -1.6 -2.2 -4 L -2.6 -9 Q -2.2 -13.7 0 -13.7 Z")
+HAIR_SIDE = ("M -6.4 -7 Q -7.1 -16 0.4 -16 Q 5.9 -15.8 6.2 -10.8 Q 5 -11.8 3.9 -11.6 L 3.5 -8.6 Q 2.6 -10.6 1.6 -10.8 L 1.6 -7.4 "
+             "Q 0.6 -8.8 -0.6 -8.4 L -1 -3.4 Q -3.2 -2.2 -5.6 -3 Q -6.4 -4.6 -6.4 -7 Z")
+BODY_SIDE = "M -3.6 -16.2 Q 0 -17 3 -16 Q 4.9 -12 4.4 -7 Q 3.8 -3 4.2 0 L 4.6 4.2 Q 0 5.4 -4.4 4.2 L -4 0 Q -3.6 -3 -4.2 -7 Q -4.9 -12 -3.6 -16.2 Z"
+
+
+def head_side() -> Recipe:
+    r = part("head_side")
+    r.rect(-1.6, -2.4, 3.2, 3.2, "$p.skin")  # the neck under the jaw
+    r.path(PROFILE, "$p.skin", stroke=OUT, width=0.45)
+    r.shade("M 0 -13.7 Q -2.2 -13.7 -2.6 -9 L -2.2 -4 Q -1.6 -1.6 0.8 -0.9 L 3.7 -0.5 Q 1 -2 0.4 -5 Q 0 -9 0 -13.7 Z", 0.2, "#B06A80")
+    r.ellipse(-0.6, -6.1, 1.1, 1.6, "$p.skin", stroke=OUT, width=0.35)  # the ear
+    r.ellipse(-0.5, -6.0, 0.5, 0.8, "#C8607A", alpha=0.3)
+    r.ellipse(2.4, -4.0, 1.2, 0.6, "#F06A7A", alpha=0.3, blur=0.35)
+    # the eye, narrower from the side
+    r.ellipse(3.5, -6.3, 1.0, 1.5, "#FFFFFF")
+    r.ellipse(3.7, -6.2, 0.75, 1.35, linear(3.7, -7.6, 3.7, -4.8, (0, OUT), (0.35, "$p.eye"), (1, "#FFFFFF")))
+    r.ellipse(3.7, -6.2, 0.75, 1.35, "$p.eye", alpha=0.45)
+    r.ellipse(3.85, -6.3, 0.32, 0.7, OUT)
+    r.ellipse(3.4, -6.8, 0.3, 0.3, "#FFFFFF")
+    r.path("M 2.3 -6.8 Q 3 -8.1 4 -8 Q 4.7 -7.8 4.9 -6.9", None, stroke=OUT, width=0.5)
+    r.path("M 2 -9.2 Q 3.4 -9.7 4.9 -9", None, stroke=OUT, width=0.32, alpha=0.85)
+    r.path("M 4.5 -2.5 Q 5 -2.3 5.4 -2.6", None, stroke="#A84A5A", width=0.35)
+    r.path(HAIR_SIDE, "$p.hair", stroke=OUT, width=0.45)
+    r.shade("M -6.4 -7 Q -7.1 -16 -1 -16 Q -4.4 -12 -3.6 -7 Q -3.2 -3.6 -5.6 -3 Q -6.4 -4.6 -6.4 -7 Z", 0.4)
+    r.path("M -3.4 -12.6 Q 0.4 -14.6 4.2 -13.2", None, stroke="#FFFFFF", width=0.9, alpha=0.3, blend="add", clip=True)
+    r.path("M -2 -9 L -1.6 -12 M 0.6 -9.4 L 1 -12.6 M -4.4 -5 L -4.6 -9", None, stroke=OUT, width=0.2, alpha=0.5)
+    return r
+
+
+def torso_side() -> Recipe:
+    r = part("torso_side")
+    r.rect(-1.3, -19.4, 3.0, 4, "$p.skin", stroke=OUT, width=0.35)  # the neck
+    r.path(BODY_SIDE, linear(0, -16, 0, 5, (0, "$p.shirt"), (1, "$p.shirt_dark")), stroke=OUT, width=0.45)
+    r.shade("M -3.6 -16.2 Q -4.9 -12 -4.2 -7 Q -3.6 -3 -4 0 L -4.4 4.2 L -1.6 5 Q -0.6 -6 -1.4 -16.8 Z", 0.32)
+    r.path("M 1 -16.6 L 3.4 -13.4 L 3.2 -16 Z", "$p.shirt", stroke=OUT, width=0.3)  # the collar
+    r.path("M 3.6 -12.6 Q 4.2 -6 4 -0.2", None, stroke=OUT, width=0.25, alpha=0.5)
+    r.path("M -2.6 -9 Q -1.8 -6 -2.6 -2.6", None, stroke=OUT, width=0.22, alpha=0.4)
+    r.path("M -4.1 -0.3 Q 0 0.7 4.3 -0.3 L 4.4 1.6 Q 0 2.6 -4.3 1.6 Z", "#4A3426", stroke=OUT, width=0.35)  # the belt
+    r.rect(2.6, 0.1, 1.6, 1.9, "#E0BE60", stroke=OUT, width=0.3)
+    r.path("M -4.4 2 Q 0 3 4.5 2 L 4.6 4.2 Q 0 5.4 -4.4 4.2 Z", "$p.pants", stroke=OUT, width=0.4)
     return r
 
 
@@ -192,6 +240,10 @@ RIG = [
     ("arm_r", "torso", (7.4, -14.6), 5, None, "arm", None),
     ("head", "torso", (0, -16.6), 7, None, "head", "head_back"),
 ]
+# seen from the side (spec 13): the parts that have a picture of their own, and where the limbs hang (the far arm and leg
+# are a little behind the near ones)
+SIDE_ART = {"head": "head_side", "torso": "torso_side", "cape": "cape_side"}
+SIDE_OFFSET = {"leg_l": (-0.9, -27), "leg_r": (0.7, -27), "arm_l": (-0.9, -14.6), "arm_r": (0.6, -14.6), "head": (0.4, -16.6)}
 
 
 def write_rig() -> None:
@@ -205,6 +257,10 @@ def write_rig() -> None:
             item["art_back"] = f"base:art/char/ren/{art_back}"
         if z_back is not None:
             item["z_back"] = z_back
+        if pid in SIDE_ART:
+            item["art_side"] = f"base:art/char/ren/{SIDE_ART[pid]}"
+        if pid in SIDE_OFFSET:
+            item["offset_side"] = list(SIDE_OFFSET[pid])
         parts.append(item)
     rig = {"$schema": "../../../../schemas/rig.schema.json", "id": "base:art/rig/humanoid", "parts": parts}
     (ART / "rigs" / "humanoid.json").write_text(json.dumps(rig, indent=2) + "\n", encoding="utf-8")
@@ -250,12 +306,16 @@ def write_rig() -> None:
 
 def finish(recipe: Recipe, name: str) -> None:
     """Applies the looks, moves the drawing from joint units to the canvas and writes the file."""
-    base = name.replace("_back", "")
+    base = name.replace("_back", "").replace("_side", "")
     back = name.endswith("_back")
+    from_side = name.endswith("_side")
     for person in [*PROTAGONISTS, *PEOPLE, "ren"]:
-        for behind, build in LOOKS.get((person, base), []):
+        for behind, build in (SIDE if from_side else LOOKS).get((person, base), []):
             x = Recipe("x", recipe.w, recipe.h, seed=person + name)
-            build(x, back)
+            if from_side:
+                build(x)
+            else:
+                build(x, back)
             for layer in x.layers:
                 if person == "ren":
                     layer["except"] = [*PROTAGONISTS, *PEOPLE]
@@ -282,6 +342,9 @@ def main() -> None:
     finish(leg(), "leg")
     finish(part("cape"), "cape")
     finish(part("cape_back"), "cape_back")
+    finish(head_side(), "head_side")
+    finish(torso_side(), "torso_side")
+    finish(part("cape_side"), "cape_side")
     shadow().write(CHAR / "shadow.json")
     write_rig()
     print("rig and clips written under", (ART / "rigs").relative_to(ROOT))

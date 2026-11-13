@@ -232,7 +232,7 @@
       "when": {
         "flag": "town_tidehaven_catch_thanked"
       },
-      "then": "after",
+      "then": "c4",
       "else": "thanks3"
     },
     "thanks3": {
@@ -281,6 +281,78 @@
             {
               "effect": "start_quest",
               "quest": "base:quest/side/tidehaven_catch"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c4": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/tidehaven_driftwood"
+      },
+      "then": "t4",
+      "else": "a4"
+    },
+    "t4": {
+      "type": "condition",
+      "when": {
+        "flag": "town_tidehaven_driftwood_thanked"
+      },
+      "then": "after",
+      "else": "thanks4"
+    },
+    "thanks4": {
+      "type": "say",
+      "speaker": "outpost_netmender_nella",
+      "text": "$i18n:dlg.town.nella.tidehaven_driftwood.thanks",
+      "next": "flag4"
+    },
+    "flag4": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "town_tidehaven_driftwood_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a4": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/tidehaven_driftwood"
+      },
+      "then": "busy4",
+      "else": "offer4"
+    },
+    "busy4": {
+      "type": "say",
+      "speaker": "outpost_netmender_nella",
+      "text": "$i18n:dlg.town.nella.tidehaven_driftwood.busy",
+      "next": "end"
+    },
+    "offer4": {
+      "type": "say",
+      "speaker": "outpost_netmender_nella",
+      "text": "$i18n:dlg.town.nella.tidehaven_driftwood.offer",
+      "next": "choice4"
+    },
+    "choice4": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/tidehaven_driftwood"
             }
           ],
           "next": "end"

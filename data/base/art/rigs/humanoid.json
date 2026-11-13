@@ -21,7 +21,8 @@
       ],
       "z": 4,
       "art": "base:art/char/ren/torso",
-      "art_back": "base:art/char/ren/torso_back"
+      "art_back": "base:art/char/ren/torso_back",
+      "art_side": "base:art/char/ren/torso_side"
     },
     {
       "id": "cape",
@@ -33,7 +34,8 @@
       "z": 1,
       "art": "base:art/char/ren/cape",
       "art_back": "base:art/char/ren/cape_back",
-      "z_back": 6
+      "z_back": 6,
+      "art_side": "base:art/char/ren/cape_side"
     },
     {
       "id": "leg_l",
@@ -43,7 +45,11 @@
         -27
       ],
       "z": 2,
-      "art": "base:art/char/ren/leg"
+      "art": "base:art/char/ren/leg",
+      "offset_side": [
+        -0.9,
+        -27
+      ]
     },
     {
       "id": "leg_r",
@@ -53,7 +59,11 @@
         -27
       ],
       "z": 2,
-      "art": "base:art/char/ren/leg"
+      "art": "base:art/char/ren/leg",
+      "offset_side": [
+        0.7,
+        -27
+      ]
     },
     {
       "id": "arm_l",
@@ -63,7 +73,11 @@
         -14.6
       ],
       "z": 3,
-      "art": "base:art/char/ren/arm"
+      "art": "base:art/char/ren/arm",
+      "offset_side": [
+        -0.9,
+        -14.6
+      ]
     },
     {
       "id": "arm_r",
@@ -73,7 +87,11 @@
         -14.6
       ],
       "z": 5,
-      "art": "base:art/char/ren/arm"
+      "art": "base:art/char/ren/arm",
+      "offset_side": [
+        0.6,
+        -14.6
+      ]
     },
     {
       "id": "head",
@@ -84,7 +102,12 @@
       ],
       "z": 7,
       "art": "base:art/char/ren/head",
-      "art_back": "base:art/char/ren/head_back"
+      "art_back": "base:art/char/ren/head_back",
+      "art_side": "base:art/char/ren/head_side",
+      "offset_side": [
+        0.4,
+        -16.6
+      ]
     }
   ]
 }
