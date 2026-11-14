@@ -37,6 +37,9 @@ data class GiftDef(
     val healPct: Int = 100,
     val dodgeCooldownPct: Int = 100,
     val deathSaveTicks: Int = 0,
+    /** The attack of the companion, in percent (a gift of command), and what a kill of the companion adds to its bond (a gift of taming). */
+    val companionAtkPct: Int = 100,
+    val bondGain: Int = 1,
 )
 
 data class DropDef(val item: String, val qtyMin: Long, val qtyMax: Long, val weightPm: Long)
@@ -122,7 +125,15 @@ fun accessoryOf(o: kotlinx.serialization.json.JsonObject): AccessoryStats {
 
 /** What a shop sells: prices in permille of the base price. */
 /** [renownStepPm]: what every quest finished in the region takes off the prices, up to [renownMaxPm] (spec 07, "Renown"). */
-class ShopDef(val pricePm: Int, val stock: List<String>, val renownStepPm: Int = 0, val renownMaxPm: Int = 0)
+/** [marketSwingPm]: how far the prices swing with the day (spec 06, "Market days"); [renownStock]: item and renown, sold only to somebody that well known. */
+class ShopDef(
+    val pricePm: Int,
+    val stock: List<String>,
+    val renownStepPm: Int = 0,
+    val renownMaxPm: Int = 0,
+    val marketSwingPm: Int = 0,
+    val renownStock: List<Pair<String, Int>> = emptyList(),
+)
 
 /** A companion that follows the player and fights (spec 10). [name] is an $i18n: key, [art] the creature art it is drawn with. */
 class CompanionDef(
@@ -160,7 +171,20 @@ class RecipeDef(
  * A talent (spec 11, "Talents"): every rank multiplies a kind of stat. [stat]: attack, health, mana, defense, magic, critical or speed;
  * or an ability (spec 11, "Abilities"): riposte, kill_heal, kill_mana or whirl, whose power is [pctPerRank] times the rank.
  */
-class TalentDef(val id: String, val name: String, val stat: String, val pctPerRank: Long, val maxRank: Int, val requiresTalent: String = "", val requiresRank: Int = 0)
+class TalentDef(
+    val id: String,
+    val name: String,
+    val stat: String,
+    val pctPerRank: Long,
+    val maxRank: Int,
+    val requiresTalent: String = "",
+    val requiresRank: Int = 0,
+    /** An active ability (spec 11, "Active abilities"; stat burst or mend): used on command, for mana, then it waits; a burst reaches [activeRadiusX100]. */
+    val hasActive: Boolean = false,
+    val activeMp: Long = 0,
+    val activeCooldown: Int = 0,
+    val activeRadiusX100: Int = 0,
+)
 
 class TitleDef(
     val id: String,
@@ -233,6 +257,8 @@ class CombatSetup(
     val talentPointsPerLevel: Int = 1,
     /** The region of a world without regions: the renown is counted by region (spec 07, "Renown"). */
     val region: String = "",
+    /** The length of a day of a world without a clock, for the market (spec 06, "Market days"); 0: always day 1. */
+    val dayTicks: Int = 0,
 )
 
 enum class AttackPhase { NONE, STARTUP, ACTIVE, RECOVERY }

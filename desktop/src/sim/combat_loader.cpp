@@ -104,6 +104,8 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
     setup.gift.heal_pct = protagonist->heal_pct;
     setup.gift.dodge_cooldown_pct = protagonist->dodge_cooldown_pct;
     setup.gift.death_save_ticks = protagonist->death_save_ticks;
+    setup.gift.companion_atk_pct = protagonist->companion_atk_pct;
+    setup.gift.bond_gain = protagonist->bond_gain;
     if (!protagonist->companion.empty()) {  // the companion of the protagonist (spec 10)
         if (const auto companion_text = pack.read_document(protagonist->companion)) {
             const Json c = Json::parse(*companion_text, nullptr, /*allow_exceptions=*/false);
@@ -329,6 +331,12 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
                 if (t.contains("requires")) {
                     talent.requires_talent = t.at("requires").at("talent").get<std::string>();
                     talent.requires_rank = t.at("requires").at("rank").get<int>();
+                }
+                if (t.contains("active")) {
+                    talent.has_active = true;
+                    talent.active_mp = t.at("active").at("mp").get<std::int64_t>();
+                    talent.active_cooldown = t.at("active").at("cooldown_ticks").get<int>();
+                    talent.active_radius_x100 = t.at("active").value("radius_x100", 0);
                 }
                 setup.talents.push_back(std::move(talent));
             }

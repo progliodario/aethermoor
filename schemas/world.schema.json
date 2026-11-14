@@ -725,6 +725,32 @@
                 "minimum": 0,
                 "maximum": 900
               },
+              "market_swing_pm": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 500
+              },
+              "renown_stock": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "item",
+                    "renown"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "item": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]*:item/[a-z0-9_]+$"
+                    },
+                    "renown": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  }
+                }
+              },
               "stock": {
                 "type": "array",
                 "items": {

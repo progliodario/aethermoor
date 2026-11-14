@@ -755,6 +755,8 @@ Scenario scenario_from_json(const Json& in) {
         setup.gift.heal_pct = gift.value("heal_pct", 100);
         setup.gift.dodge_cooldown_pct = gift.value("dodge_cooldown_pct", 100);
         setup.gift.death_save_ticks = gift.value("death_save_ticks", 0);
+        setup.gift.companion_atk_pct = gift.value("companion_atk_pct", 100);
+        setup.gift.bond_gain = gift.value("bond_gain", 1);
     }
     if (in.contains("strike")) {
         const Json& strike = in.at("strike");
@@ -831,6 +833,12 @@ Scenario scenario_from_json(const Json& in) {
             if (t.contains("requires")) {
                 talent.requires_talent = t.at("requires").at("talent").get<std::string>();
                 talent.requires_rank = t.at("requires").at("rank").get<int>();
+            }
+            if (t.contains("active")) {
+                talent.has_active = true;
+                talent.active_mp = integer(t.at("active"), "mp");
+                talent.active_cooldown = t.at("active").at("cooldown_ticks").get<int>();
+                talent.active_radius_x100 = t.at("active").value("radius_x100", 0);
             }
             setup.talents.push_back(std::move(talent));
         }
@@ -912,12 +920,19 @@ Scenario scenario_from_json(const Json& in) {
         shop.price_pm = in.at("shop").at("price_pm").get<int>();
         shop.renown_step_pm = in.at("shop").value("renown_step_pm", 0);
         shop.renown_max_pm = in.at("shop").value("renown_max_pm", 0);
+        shop.market_swing_pm = in.at("shop").value("market_swing_pm", 0);
+        if (in.at("shop").contains("renown_stock")) {
+            for (const Json& ware : in.at("shop").at("renown_stock")) {
+                shop.renown_stock.emplace_back(ware.at("item").get<std::string>(), ware.at("renown").get<int>());
+            }
+        }
         for (const Json& item : in.at("shop").at("stock")) {
             shop.stock.push_back(item.get<std::string>());
         }
         setup.shop = std::move(shop);
     }
     setup.region = in.value("region", "");
+    setup.day_ticks = in.value("day_ticks", 0);
     sc.start_gold = in.value("start_gold", static_cast<std::int64_t>(0));
     if (in.contains("story")) {
         std::string story_error;
@@ -951,6 +966,8 @@ void run_segment(aether::WorldSim& sim, const Json& segment) {
                 sim.companion_stay();
             } else if (cmd == "companion_recall") {
                 sim.companion_recall();
+            } else if (cmd == "ability") {
+                sim.use_ability(command.at("kind").get<std::string>());
             } else if (cmd == "craft") {
                 sim.craft(command.at("recipe").get<std::string>());
             } else if (cmd == "equip") {

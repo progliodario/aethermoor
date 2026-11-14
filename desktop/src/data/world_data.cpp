@@ -196,6 +196,13 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
             region.shop_price_pm = r.at("shop").at("price_pm").get<int>();
             region.shop_renown_step_pm = r.at("shop").value("renown_step_pm", 0);
             region.shop_renown_max_pm = r.at("shop").value("renown_max_pm", 0);
+            region.shop_market_swing_pm = r.at("shop").value("market_swing_pm", 0);
+            if (r.at("shop").contains("renown_stock")) {
+                for (const auto& ware : r.at("shop").at("renown_stock")) {
+                    region.shop_renown_stock.emplace_back(ware.at("item").get<std::string>(),
+                                                          ware.at("renown").get<int>());
+                }
+            }
             for (const Json& item : r.at("shop").at("stock")) {
                 region.shop_stock.push_back(item.get<std::string>());
             }

@@ -37,6 +37,8 @@ std::optional<ProtagonistDef> parse_protagonist(std::string_view json_text, std:
             def.heal_pct = rules.value("heal_pct", 100);
             def.dodge_cooldown_pct = rules.value("dodge_cooldown_pct", 100);
             def.death_save_ticks = rules.value("death_save_ticks", 0);
+            def.companion_atk_pct = rules.value("companion_atk_pct", 100);
+            def.bond_gain = rules.value("bond_gain", 1);
         }
         def.art_variant = j.value("art_variant", "");
         def.companion = j.value("companion", "");

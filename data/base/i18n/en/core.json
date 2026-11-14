@@ -1007,5 +1007,16 @@
   "ui.talent_kill_heal": "health back for each kill",
   "ui.talent_kill_mana": "mana back for each kill",
   "ui.talent_whirl": "reach: the power strike hits all around",
+  "ui.talent_burst": "of the attack to every creature around, on command",
+  "ui.talent_mend": "of the health back, on command",
+  "ui.key_burst": "Ability: shockwave",
+  "ui.key_mend": "Ability: mend",
+  "ui.ability_burst": "Shockwave!",
+  "ui.ability_mend": "Your wounds close",
+  "ui.ability_refused": "Not ready yet",
+  "ui.ability_burst_button": "Wave",
+  "ui.ability_mend_button": "Mend",
+  "ui.shop_dear": "Today +{pct}%",
+  "ui.shop_cheap": "Today -{pct}%",
   "dlg.pip.story.gideon.done": "The whole village agrees: you are a good king. Take the blade, it is nothing like the old one, but it suits you."
 }

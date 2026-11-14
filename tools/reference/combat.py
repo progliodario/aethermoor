@@ -43,6 +43,8 @@ TALENT_STATS = {"attack": ("atk", "matk"), "health": ("max_hp",), "mana": ("max_
 # riposte: a parry hits the attacker back with that percent of the attack; kill_heal / kill_mana: a kill gives back that percent of the maximum
 # health / mana; whirl: the power strike hits all around, and that percent farther.
 TALENT_ABILITIES = ("riposte", "kill_heal", "kill_mana", "whirl")
+# Talents with an `active` block are used on command (spec 11, "Active abilities"): burst hurts every creature around, mend heals the player.
+TALENT_ACTIVES = ("burst", "mend")
 COMPANION_BOND_STEP = 5   # kills of the companion for one more point of attack
 COMPANION_BOND_MAX = 10   # the most the bond adds
 
@@ -94,6 +96,8 @@ class CombatSim:
         self.bestiary: dict[str, int] = {}  # creature id -> how many were killed (spec 11)
         self.recipes = {r["id"]: r for r in scenario.get("recipes", [])}  # crafting (spec 06, "Crafting")
         self.last_craft_fine = False  # the last recipe made came out fine (spec 06, "Quality"); presentation only
+        self.ability_cd: dict[str, int] = {}  # ticks until an active ability is ready again, by kind (spec 11, "Active abilities"); not saved
+        self.day_ticks = scenario.get("day_ticks", 0)  # the length of a day for the market (spec 06, "Market days"); 0: always day 1
         self.region = scenario.get("region", "")  # the region of the scenario: the renown is counted by region (spec 07, "Renown")
         self.combat = nm.derive_stream(seed, "combat")
         self.loot = nm.derive_stream(seed, "loot")
@@ -225,6 +229,9 @@ class CombatSim:
             self.parry_cooldown -= 1
         if self.death_save_cd > 0:
             self.death_save_cd -= 1
+        for kind in self.ability_cd:
+            if self.ability_cd[kind] > 0:
+                self.ability_cd[kind] -= 1
         self.mp_u = min(self.derived["max_mp"] * 6000, self.mp_u + self.derived["mp_regen_x100"] * self.gift.get("mp_regen_pct", 100) // 100)
 
         if self.p_burn > 0:  # status effects on the player (spec 05, "Status effects on the player")
@@ -364,13 +371,14 @@ class CombatSim:
         if target is None:
             return
         atk = c["atk_base"] + c["atk_per_level"] * (self.level - 1) + min(self.comp_bond // COMPANION_BOND_STEP, COMPANION_BOND_MAX)
+        atk = atk * self.gift.get("companion_atk_pct", 100) // 100  # a gift of command (spec 18)
         damage = rules.damage(atk, 100, target.d["def"], 1000, 0, self.level, target.d["level"], 1000, False, 1500, 1000)
         target.hp -= damage
         self.comp_cooldown = c["cooldown_ticks"]
         if target.hp <= 0:
             target.hp = 0
             target.state = DEAD
-            self.comp_bond += 1
+            self.comp_bond += self.gift.get("bond_gain", 1)  # a gift of taming makes the bond grow faster (spec 18)
             self._on_kill(target)
 
     def companion_stay(self) -> bool:
@@ -378,6 +386,35 @@ class CombatSim:
         if self.companion is None:
             return False
         self.comp_stay = not self.comp_stay
+        return True
+
+    def use_ability(self, kind: str) -> bool:
+        """Uses an active ability of the talents (spec 11, "Active abilities"). Returns False, changing nothing, when it is refused."""
+        if (self.story is not None and self.story.dialogue_active) or self.p_stun > 0 or kind not in TALENT_ACTIVES:
+            return False
+        talent = next((t for t in self.talent_defs if t["stat"] == kind and "active" in t and self.talents.get(t["id"], 0) > 0), None)
+        if talent is None or self.ability_cd.get(kind, 0) > 0:
+            return False
+        active, power = talent["active"], self.talent_power(kind)
+        full = self.derived["max_hp"]
+        if self.mp_u < active["mp"] * 6000 or (kind == "mend" and not 0 < self.hp < full):
+            return False
+        self.mp_u -= active["mp"] * 6000
+        self.ability_cd[kind] = active["cooldown_ticks"]
+        if kind == "mend":
+            self.hp = min(full, self.hp + max(1, full * power // 100))
+            return True
+        for enemy in self.enemies:  # burst: every creature around, in order, with no roll
+            if enemy.state == DEAD:
+                continue
+            if math.sqrt((enemy.x - self.x) ** 2 + (enemy.y - self.y) ** 2) > active.get("radius_x100", 0) / 100 + enemy.radius:
+                continue
+            enemy.hp -= rules.damage(max(self.derived["atk"], self.derived["matk"]) * power // 100, 100, enemy.d["def"], 1000, 0, self.level,
+                                     enemy.d["level"], 1000, False, 1500, 1000)
+            if enemy.hp <= 0:
+                enemy.hp = 0
+                enemy.state = DEAD
+                self._on_kill(enemy)
         return True
 
     def companion_recall(self) -> bool:
@@ -790,7 +827,8 @@ class CombatSim:
         """Opens the shop of the place (the `open_shop` dialogue effect)."""
         if self.shop_def is None:
             return False
-        self.shop = self.shop_def
+        known = [w["item"] for w in self.shop_def.get("renown_stock", []) if self.renown_here() >= w["renown"]]  # spec 07, "Renown": wares for friends
+        self.shop = {**self.shop_def, "stock": list(self.shop_def["stock"]) + known}
         return True
 
     def close_shop(self) -> None:
@@ -819,9 +857,19 @@ class CombatSim:
             return 0
         return min(self.shop.get("renown_max_pm", 0), self.renown_here() * self.shop.get("renown_step_pm", 0))
 
+    def market_pm(self) -> int:
+        """What the market of the day does to the prices of the open shop, in permille (spec 06, "Market days"): 1000 is a plain day."""
+        swing = self.shop.get("market_swing_pm", 0) if self.shop is not None else 0
+        if swing <= 0:
+            return 1000
+        day = self.world_ticks // self.day_ticks + 1 if self.day_ticks > 0 else 1
+        h = nm.hash64(nm.fnv1a64(("market:" + self.region).encode()) ^ self.seed, day)
+        return 1000 - swing + h % (2 * swing + 1)
+
     def buy_price(self, item_id: str) -> int:
-        """The price of an item in the open shop: the price of the region, less the renown (spec 06, spec 07 "Renown"); at least 1."""
+        """The price of an item in the open shop: the price of the region, the market of the day, less the renown (spec 06, spec 07 "Renown")."""
         price = max(1, self.items[item_id]["price"] * self.shop["price_pm"] // 1000)
+        price = max(1, price * self.market_pm() // 1000)
         return max(1, price * (1000 - self.renown_discount_pm()) // 1000)
 
     def sell(self, item_id: str) -> bool:
@@ -834,7 +882,7 @@ class CombatSim:
             return False
         if owned == 1 and item_id in self.equipped.values():
             return False
-        self.story.gold += max(1, item["price"] // 2)
+        self.story.gold += max(1, item["price"] // 2 * self.market_pm() // 1000)  # the market of the day pays more or less
         self.inventory[item_id] = owned - 1
         if self.inventory[item_id] == 0:
             del self.inventory[item_id]
@@ -931,6 +979,9 @@ def run_segment(sim: CombatSim, segment: dict) -> None:
             continue
         if command["cmd"] == "companion_recall":
             sim.companion_recall()
+            continue
+        if command["cmd"] == "ability":
+            sim.use_ability(command["kind"])
             continue
         if command["cmd"] == "craft":
             sim.craft(command["recipe"])

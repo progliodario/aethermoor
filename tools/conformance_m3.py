@@ -97,6 +97,11 @@ ABILITIES = [
     {"id": "flow", "name": "t", "stat": "kill_mana", "pct_per_rank": 30, "max_rank": 2},
     {"id": "whirl", "name": "t", "stat": "whirl", "pct_per_rank": 10, "max_rank": 2},
 ]
+# Talents used on command (spec 11, "Active abilities").
+ACTIVES = [
+    {"id": "shock", "name": "t", "stat": "burst", "pct_per_rank": 100, "max_rank": 2, "active": {"mp": 20, "cooldown_ticks": 120, "radius_x100": 300}},
+    {"id": "mend", "name": "t", "stat": "mend", "pct_per_rank": 25, "max_rank": 2, "active": {"mp": 10, "cooldown_ticks": 60}},
+]
 GATHER_NODES = [
     {"prop": "base:art/prop/bush", "sound": "plant", "cooldown_ticks": 60, "reach_x100": 150,
      "drops": [{"item": "base:item/wild_berries", "qty_min": 1, "qty_max": 3, "weight_pm": 800}, {"item": "base:item/healing_herb", "qty_min": 1, "qty_max": 2, "weight_pm": 400}]},
@@ -506,6 +511,47 @@ def build_scenarios() -> list[dict]:
                          "known": {"type": "say", "speaker": "elder", "text": "t.known", "next": "end"},
                          "stranger": {"type": "say", "speaker": "elder", "text": "t.stranger", "next": "end"}}}},
                      "npcs": [{"key": "elder", "pos": [4.0, 4.5], "dialogue": "test:dialogue/elder"}]}),
+        # Gifts for the companion (spec 18): with `companion_atk_pct` 200 its blows are twice as strong, with `bond_gain` 3 every creature it kills
+        # counts three for the bond; the same script as `companion_bond`.
+        scenario("gift_companion", [enemy(3.0 + 0.3 * (i % 4), 3.9 + 0.4 * (i // 4), hp=8, **passive) for i in range(12)] + [enemy(4.6, 4.5, hp=400, **passive)],
+                 [segment(200), segment(200), segment(200)], companion={**COMPANION, "cooldown_ticks": 12}, gift={"companion_atk_pct": 200, "bond_gain": 3}),
+        # Active abilities (spec 11): refused before the talent is learned; the burst costs 20 mana and hurts every creature within 3 tiles (not the far
+        # one), with no roll; a second one is refused while its 120 ticks run; at rank 2 it is twice as strong, and the last one kills. An unknown kind
+        # is refused.
+        scenario("ability_burst", [enemy(3.5, 4.5, hp=100, **passive), enemy(2.2, 6.5, hp=100, **passive), enemy(8.0, 4.5, hp=100, **passive)],
+                 [segment(1, do=[{"cmd": "ability", "kind": "burst"}]), segment(1, do=[{"cmd": "talent", "talent": "shock"}, {"cmd": "ability", "kind": "burst"}]),
+                  segment(60, do=[{"cmd": "ability", "kind": "burst"}, {"cmd": "ability", "kind": "whirl"}]), segment(70, do=[{"cmd": "ability", "kind": "burst"}]),
+                  segment(130, do=[{"cmd": "talent", "talent": "shock"}, {"cmd": "ability", "kind": "burst"}]), segment(1, do=[{"cmd": "ability", "kind": "burst"}])],
+                 player={"level": 3}, talents=ACTIVES, talent_points_per_level=2),
+        # The burst needs its mana: with a cost of 200 points it is refused, and the creature is not hurt.
+        scenario("ability_without_mana", [enemy(3.5, 4.5, hp=150, **passive)],
+                 [segment(1, do=[{"cmd": "talent", "talent": "shock"}, {"cmd": "ability", "kind": "burst"}]), segment(10)],
+                 player={"level": 3}, talents=[{**ACTIVES[0], "active": {**ACTIVES[0]["active"], "mp": 200}}], talent_points_per_level=2),
+        # Mend: refused at full health; hurt by the slime, it gives back a quarter of the health for each rank, then waits 60 ticks.
+        scenario("ability_mend", [enemy(8.1, 4.5, atk=60, hp=900)],
+                 [segment(1, do=[{"cmd": "talent", "talent": "mend"}, {"cmd": "ability", "kind": "mend"}]), segment(150),
+                  segment(1, do=[{"cmd": "ability", "kind": "mend"}]), segment(1, do=[{"cmd": "ability", "kind": "mend"}]), segment(120),
+                  segment(1, do=[{"cmd": "talent", "talent": "mend"}, {"cmd": "ability", "kind": "mend"}])],
+                 player={"level": 3}, talents=ACTIVES, talent_points_per_level=2),
+        # Market days (spec 06): the prices of the shop swing with the day, up to 200 permille either way, for buying and for selling; a day is 30 ticks
+        # here. A mana potion (40) is bought and a gel (3, sold for 1) is sold on four days.
+        scenario("market_days", [enemy(12.0, 7.5, **passive)],
+                 [s for _ in range(4) for s in (segment(1, do=[{"cmd": "open_shop"}, {"cmd": "buy", "item": "base:item/potion_mana_small"},
+                                                               {"cmd": "sell", "item": "base:item/slime_gel"}]), segment(29))],
+                 inventory={"base:item/slime_gel": 4}, start_gold=1000, region="vale", day_ticks=30, story=EMPTY_STORY,
+                 shop={"price_pm": 1000, "stock": ["base:item/potion_mana_small"], "market_swing_pm": 200}),
+        # Wares for friends (spec 07, "Renown"): the chain mail is on the shelves only for somebody with two quests in the region, from the next time
+        # the shop opens.
+        scenario("renown_wares", [enemy(12.0, 7.5, **passive)],
+                 [segment(1, do=[{"cmd": "open_shop"}, {"cmd": "buy", "item": "base:item/chain_mail"}]),
+                  segment(1, do=[{"cmd": "start_quest", "quest": "test:quest/a"}, {"cmd": "start_quest", "quest": "test:quest/b"},
+                                 {"cmd": "buy", "item": "base:item/chain_mail"}]),
+                  segment(1, do=[{"cmd": "close_shop"}, {"cmd": "open_shop"}, {"cmd": "buy", "item": "base:item/chain_mail"}])],
+                 inventory={"base:item/slime_gel": 1}, start_gold=400, region="vale",
+                 story={"quests": {f"test:quest/{q}": {"id": f"test:quest/{q}", "stages": [
+                     {"id": "have", "journal": "q", "objectives": [{"type": "collect", "item": "base:item/slime_gel", "count": 1}], "next": "end"}],
+                     "rewards": []} for q in "ab"}, "dialogues": {}, "npcs": []},
+                 shop={"price_pm": 1000, "stock": ["base:item/bread"], "renown_stock": [{"item": "base:item/chain_mail", "renown": 2}]}),
         scenario("leash_and_return", [enemy(4.0, 4.5, behavior_overrides={"leash_x100": 300})],
                  [segment(20, attack=True), segment(150, move=(1, 0)), segment(250)]),
     ]

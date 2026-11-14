@@ -268,7 +268,7 @@ constexpr Rebindable kRebindable[] = {
     {"up", SDLK_W},      {"down", SDLK_S},   {"left", SDLK_A},    {"right", SDLK_D},    {"attack", SDLK_J},
     {"strike", SDLK_K},  {"dodge", SDLK_L},  {"parry", SDLK_U},   {"interact", SDLK_E}, {"bag", SDLK_I},
     {"journal", SDLK_Q}, {"map", SDLK_M},    {"minimap", SDLK_N}, {"crafting", SDLK_C}, {"companion", SDLK_H},
-    {"analyze", SDLK_Z}, {"recall", SDLK_G},
+    {"analyze", SDLK_Z}, {"recall", SDLK_G}, {"burst", SDLK_R},   {"mend", SDLK_T},
 };
 std::map<SDL_Keycode, SDL_Keycode> g_key_remap;   // a key the player chose -> the default key it stands for
 std::map<std::string, SDL_Keycode> g_key_choice;  // action -> the key the player chose for it
@@ -2801,6 +2801,11 @@ void draw_shop(SDL_Renderer* renderer, const Assets& assets, const aether::World
     if (!ui.shop_sell && sim.renown_discount_pm() > 0) {  // the renown lowers the prices (spec 07, "Renown")
         title += "   " + assets.pack.text(ui.lang, "$i18n:ui.shop_renown", {{"pct", sim.renown_discount_pm() / 10}});
     }
+    if (sim.market_pm() != 1000) {  // the market of the day (spec 06, "Market days")
+        const std::int64_t swing = sim.market_pm() - 1000;
+        title += "   " + assets.pack.text(ui.lang, swing > 0 ? "$i18n:ui.shop_dear" : "$i18n:ui.shop_cheap",
+                                          {{"pct", (swing > 0 ? swing : -swing) / 10}});
+    }
     debug_text(renderer, (x + 16.0F) / kScale, (y + 12.0F) / kScale, title.c_str());
     const std::string gold =
         assets.pack.text(ui.lang, "$i18n:ui.gold", {{"gold", static_cast<std::int64_t>(sim.story().gold())}});
@@ -4636,6 +4641,15 @@ int main(int argc, char** argv) {
                                !ui.show_map && !sim.story().dialogue_active()) {
                         if (sim.companion_recall()) {  // the companion comes back at once (spec 10, "Commands")
                             notify(ui, assets.pack.text(ui.lang, "$i18n:ui.companion_recalled"));
+                        }
+                    } else if (event.type == SDL_EVENT_KEY_DOWN &&
+                               (event.key.key == SDLK_R || event.key.key == SDLK_T) && !smoke_test && !ui.show_map &&
+                               !sim.story().dialogue_active()) {
+                        // the active abilities of the talents (spec 11, "Active abilities"): nothing without the talent
+                        const std::string kind = event.key.key == SDLK_R ? "burst" : "mend";
+                        if (sim.ability_talent(kind) != nullptr) {
+                            notify(ui, assets.pack.text(ui.lang, sim.use_ability(kind) ? "$i18n:ui.ability_" + kind
+                                                                                       : "$i18n:ui.ability_refused"));
                         }
                     } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_N && !smoke_test &&
                                !ui.show_map) {

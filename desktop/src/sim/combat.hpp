@@ -49,6 +49,8 @@ struct GiftDef {
     int heal_pct = 100;
     int dodge_cooldown_pct = 100;
     int death_save_ticks = 0;
+    int companion_atk_pct = 100;  // the attack of the companion, in percent (a gift of command)
+    int bond_gain = 1;            // what a kill of the companion adds to its bond (a gift of taming)
 };
 
 struct DropDef {
@@ -132,8 +134,10 @@ struct ItemDef {
 struct ShopDef {
     int price_pm = 1000;
     std::vector<std::string> stock;
-    int renown_step_pm = 0;  // what every quest finished in the region takes off the prices (spec 07, "Renown")
-    int renown_max_pm = 0;   // and the most the renown takes off
+    int renown_step_pm = 0;   // what every quest finished in the region takes off the prices (spec 07, "Renown")
+    int renown_max_pm = 0;    // and the most the renown takes off
+    int market_swing_pm = 0;  // how far the prices swing with the day, either way (spec 06, "Market days")
+    std::vector<std::pair<std::string, int>> renown_stock;  // item, renown: sold only to somebody that well known
 };
 
 // A prop that can be gathered from (spec 06, "Gathering").
@@ -206,6 +210,11 @@ struct TalentDef {
     std::string
         requires_talent;  // the talent that must have `requires_rank` first (the branches of the tree); empty: none
     int requires_rank = 0;
+    // An active ability (spec 11, "Active abilities"; stat burst or mend): used on command, for mana, then it waits.
+    bool has_active = false;
+    std::int64_t active_mp = 0;
+    int active_cooldown = 0;
+    int active_radius_x100 = 0;  // burst: how far it reaches
 };
 
 struct CombatSetup {
@@ -239,6 +248,7 @@ struct CombatSetup {
     std::vector<RecipeDef> recipes;                  // crafting recipes, in the order of the data
     std::optional<CompanionDef> companion;           // the companion of the protagonist (spec 10)
     std::vector<TitleDef> titles;                    // the titles that can be earned (spec 11), in order of rank
+    int day_ticks = 0;   // the length of a day of a world without a clock, for the market (spec 06); 0: always day 1
     std::string region;  // the region of a world without regions: the renown is counted by region (spec 07, "Renown")
 };
 

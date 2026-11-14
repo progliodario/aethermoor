@@ -2111,6 +2111,17 @@
                 "price_pm": 1000,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "market_swing_pm": 80,
+                "renown_stock": [
+                  {
+                    "item": "base:item/elder_bark_vest",
+                    "renown": 5
+                  },
+                  {
+                    "item": "base:item/fang_dagger",
+                    "renown": 10
+                  }
+                ],
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
@@ -2201,6 +2212,17 @@
                 "price_pm": 1100,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "market_swing_pm": 100,
+                "renown_stock": [
+                  {
+                    "item": "base:item/wisp_mantle",
+                    "renown": 5
+                  },
+                  {
+                    "item": "base:item/lamplighters_hook",
+                    "renown": 10
+                  }
+                ],
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
@@ -2314,6 +2336,17 @@
                 "price_pm": 900,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "market_swing_pm": 60,
+                "renown_stock": [
+                  {
+                    "item": "base:item/slate_cleaver",
+                    "renown": 5
+                  },
+                  {
+                    "item": "base:item/foreman_maul",
+                    "renown": 10
+                  }
+                ],
                 "stock": [
                   "base:item/iron_sword",
                   "base:item/steel_sword",
@@ -2415,6 +2448,17 @@
                 "price_pm": 1300,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "market_swing_pm": 200,
+                "renown_stock": [
+                  {
+                    "item": "base:item/amber_plate",
+                    "renown": 5
+                  },
+                  {
+                    "item": "base:item/queens_stinger",
+                    "renown": 10
+                  }
+                ],
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
@@ -2530,6 +2574,17 @@
                 "price_pm": 1200,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "market_swing_pm": 80,
+                "renown_stock": [
+                  {
+                    "item": "base:item/frostfur_coat",
+                    "renown": 5
+                  },
+                  {
+                    "item": "base:item/icefishers_spear",
+                    "renown": 10
+                  }
+                ],
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
@@ -2619,6 +2674,17 @@
                 "price_pm": 1000,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "market_swing_pm": 150,
+                "renown_stock": [
+                  {
+                    "item": "base:item/coralweave_vest",
+                    "renown": 5
+                  },
+                  {
+                    "item": "base:item/pearl_rapier",
+                    "renown": 10
+                  }
+                ],
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
@@ -2734,6 +2800,17 @@
                 "price_pm": 1500,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "market_swing_pm": 120,
+                "renown_stock": [
+                  {
+                    "item": "base:item/ashwardens_plate",
+                    "renown": 5
+                  },
+                  {
+                    "item": "base:item/ember_greatsword",
+                    "renown": 10
+                  }
+                ],
                 "stock": [
                   "base:item/potion_small",
                   "base:item/steel_sword",
@@ -2884,6 +2961,17 @@
                 "price_pm": 1100,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "market_swing_pm": 100,
+                "renown_stock": [
+                  {
+                    "item": "base:item/starlit_vestment",
+                    "renown": 5
+                  },
+                  {
+                    "item": "base:item/nebula_staff",
+                    "renown": 10
+                  }
+                ],
                 "stock": [
                   "base:item/potion_small",
                   "base:item/iron_sword",
@@ -14135,6 +14223,17 @@
                 "price_pm": 1000,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "market_swing_pm": 80,
+                "renown_stock": [
+                  {
+                    "item": "base:item/elder_bark_vest",
+                    "renown": 5
+                  },
+                  {
+                    "item": "base:item/fang_dagger",
+                    "renown": 10
+                  }
+                ],
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
@@ -14225,6 +14324,17 @@
                 "price_pm": 1100,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "market_swing_pm": 100,
+                "renown_stock": [
+                  {
+                    "item": "base:item/wisp_mantle",
+                    "renown": 5
+                  },
+                  {
+                    "item": "base:item/lamplighters_hook",
+                    "renown": 10
+                  }
+                ],
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
@@ -14338,6 +14448,17 @@
                 "price_pm": 900,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "market_swing_pm": 60,
+                "renown_stock": [
+                  {
+                    "item": "base:item/slate_cleaver",
+                    "renown": 5
+                  },
+                  {
+                    "item": "base:item/foreman_maul",
+                    "renown": 10
+                  }
+                ],
                 "stock": [
                   "base:item/iron_sword",
                   "base:item/steel_sword",
@@ -14439,6 +14560,17 @@
                 "price_pm": 1300,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "market_swing_pm": 200,
+                "renown_stock": [
+                  {
+                    "item": "base:item/amber_plate",
+                    "renown": 5
+                  },
+                  {
+                    "item": "base:item/queens_stinger",
+                    "renown": 10
+                  }
+                ],
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
@@ -14554,6 +14686,17 @@
                 "price_pm": 1200,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "market_swing_pm": 80,
+                "renown_stock": [
+                  {
+                    "item": "base:item/frostfur_coat",
+                    "renown": 5
+                  },
+                  {
+                    "item": "base:item/icefishers_spear",
+                    "renown": 10
+                  }
+                ],
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
@@ -14643,6 +14786,17 @@
                 "price_pm": 1000,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "market_swing_pm": 150,
+                "renown_stock": [
+                  {
+                    "item": "base:item/coralweave_vest",
+                    "renown": 5
+                  },
+                  {
+                    "item": "base:item/pearl_rapier",
+                    "renown": 10
+                  }
+                ],
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
@@ -14758,6 +14912,17 @@
                 "price_pm": 1500,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "market_swing_pm": 120,
+                "renown_stock": [
+                  {
+                    "item": "base:item/ashwardens_plate",
+                    "renown": 5
+                  },
+                  {
+                    "item": "base:item/ember_greatsword",
+                    "renown": 10
+                  }
+                ],
                 "stock": [
                   "base:item/potion_small",
                   "base:item/steel_sword",
@@ -14908,6 +15073,17 @@
                 "price_pm": 1100,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "market_swing_pm": 100,
+                "renown_stock": [
+                  {
+                    "item": "base:item/starlit_vestment",
+                    "renown": 5
+                  },
+                  {
+                    "item": "base:item/nebula_staff",
+                    "renown": 10
+                  }
+                ],
                 "stock": [
                   "base:item/potion_small",
                   "base:item/iron_sword",

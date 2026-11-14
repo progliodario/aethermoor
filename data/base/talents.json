@@ -140,6 +140,37 @@
         "talent": "guard",
         "rank": 3
       }
+    },
+    {
+      "id": "shockwave",
+      "name": "$i18n:talent.shockwave.name",
+      "stat": "burst",
+      "pct_per_rank": 60,
+      "max_rank": 5,
+      "requires": {
+        "talent": "might",
+        "rank": 5
+      },
+      "active": {
+        "mp": 12,
+        "cooldown_ticks": 480,
+        "radius_x100": 350
+      }
+    },
+    {
+      "id": "mend",
+      "name": "$i18n:talent.mend.name",
+      "stat": "mend",
+      "pct_per_rank": 15,
+      "max_rank": 5,
+      "requires": {
+        "talent": "vigor",
+        "rank": 5
+      },
+      "active": {
+        "mp": 10,
+        "cooldown_ticks": 900
+      }
     }
   ]
 }

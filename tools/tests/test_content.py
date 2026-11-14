@@ -172,3 +172,19 @@ def test_quality_abilities_and_renown_point_at_things_that_exist():
     titles = json.loads((DATA / "titles.json").read_text(encoding="utf-8"))["titles"]
     renown = [t["kind"].split(":", 1)[1] for t in titles if t["kind"].startswith("renown:")]
     assert sorted(renown) == sorted(regions)
+
+
+def test_market_wares_actives_and_gifts_of_the_companions():
+    """Spec 06 "Market days", spec 07 "Renown", spec 11 "Active abilities", spec 18: the data of each exists and points at real things."""
+    items = load_all("items")
+    world = json.loads((DATA / "worlds" / "overworld.json").read_text(encoding="utf-8"))
+    for region in world["regions"]:
+        shop = region["shop"]
+        assert shop["market_swing_pm"] > 0, region["id"]
+        assert [w["renown"] for w in shop["renown_stock"]] == [5, 10], region["id"]
+        assert all(w["item"] in items and w["item"] not in shop["stock"] for w in shop["renown_stock"]), region["id"]
+    talents = json.loads((DATA / "talents.json").read_text(encoding="utf-8"))["talents"]
+    active = {t["stat"]: t["active"] for t in talents if "active" in t}
+    assert set(active) == {"burst", "mend"} and "radius_x100" in active["burst"]
+    gifts = {p.stem: json.loads(p.read_text(encoding="utf-8")).get("gift_rules", {}) for p in (DATA / "protagonists").glob("*.json")}
+    assert gifts["haruka"]["bond_gain"] > 1 and gifts["gideon"]["companion_atk_pct"] > 100

@@ -26,7 +26,9 @@
         "aggro_pct": { "type": "integer", "minimum": 0, "maximum": 1000 },
         "heal_pct": { "type": "integer", "minimum": 0, "maximum": 1000 },
         "dodge_cooldown_pct": { "type": "integer", "minimum": 0, "maximum": 1000 },
-        "death_save_ticks": { "type": "integer", "minimum": 0, "maximum": 100000 }
+        "death_save_ticks": { "type": "integer", "minimum": 0, "maximum": 100000 },
+        "companion_atk_pct": { "type": "integer", "minimum": 1, "maximum": 1000 },
+        "bond_gain": { "type": "integer", "minimum": 1, "maximum": 100 }
       }
     },
     "starting_items": {

@@ -35134,6 +35134,3249 @@
       }
     },
     {
+      "name": "combat_gift_companion",
+      "input": {
+        "op": "combat",
+        "companion": {
+          "atk_base": 12,
+          "atk_per_level": 1,
+          "range_x100": 300,
+          "cooldown_ticks": 12,
+          "speed_x100": 320,
+          "follow_x100": 220
+        },
+        "gift": {
+          "companion_atk_pct": 200,
+          "bond_gain": 3
+        },
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            2.2,
+            4.5
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              3.0,
+              3.9
+            ],
+            "def": {
+              "hp": 8,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          },
+          {
+            "pos": [
+              3.3,
+              3.9
+            ],
+            "def": {
+              "hp": 8,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          },
+          {
+            "pos": [
+              3.6,
+              3.9
+            ],
+            "def": {
+              "hp": 8,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          },
+          {
+            "pos": [
+              3.9,
+              3.9
+            ],
+            "def": {
+              "hp": 8,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          },
+          {
+            "pos": [
+              3.0,
+              4.3
+            ],
+            "def": {
+              "hp": 8,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          },
+          {
+            "pos": [
+              3.3,
+              4.3
+            ],
+            "def": {
+              "hp": 8,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          },
+          {
+            "pos": [
+              3.6,
+              4.3
+            ],
+            "def": {
+              "hp": 8,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          },
+          {
+            "pos": [
+              3.9,
+              4.3
+            ],
+            "def": {
+              "hp": 8,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          },
+          {
+            "pos": [
+              3.0,
+              4.7
+            ],
+            "def": {
+              "hp": 8,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          },
+          {
+            "pos": [
+              3.3,
+              4.7
+            ],
+            "def": {
+              "hp": 8,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          },
+          {
+            "pos": [
+              3.6,
+              4.7
+            ],
+            "def": {
+              "hp": 8,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          },
+          {
+            "pos": [
+              3.9,
+              4.7
+            ],
+            "def": {
+              "hp": 8,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          },
+          {
+            "pos": [
+              4.6,
+              4.5
+            ],
+            "def": {
+              "hp": 400,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 200,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 200,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 200,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          }
+        ]
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 162,
+              "level": 2,
+              "xp": 19,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.0,
+                "y": 3.9
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.3,
+                "y": 3.9
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6,
+                "y": 3.9
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.9,
+                "y": 3.9
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.0,
+                "y": 4.3
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.3,
+                "y": 4.3
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6,
+                "y": 4.3
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.9,
+                "y": 4.3
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.0,
+                "y": 4.7
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.3,
+                "y": 4.7
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.9,
+                "y": 4.7
+              },
+              {
+                "hp": 240,
+                "state": "idle",
+                "x": 4.6,
+                "y": 4.5
+              }
+            ],
+            "kills": 12,
+            "inventory": {
+              "base:item/slime_gel": 12
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.2,
+              "y": 4.5,
+              "stay": false,
+              "bond": 36
+            }
+          },
+          {
+            "player": {
+              "hp": 162,
+              "level": 2,
+              "xp": 24,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.0,
+                "y": 3.9
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.3,
+                "y": 3.9
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6,
+                "y": 3.9
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.9,
+                "y": 3.9
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.0,
+                "y": 4.3
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.3,
+                "y": 4.3
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6,
+                "y": 4.3
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.9,
+                "y": 4.3
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.0,
+                "y": 4.7
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.3,
+                "y": 4.7
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.9,
+                "y": 4.7
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.6,
+                "y": 4.5
+              }
+            ],
+            "kills": 13,
+            "inventory": {
+              "base:item/slime_gel": 14
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.2,
+              "y": 4.5,
+              "stay": false,
+              "bond": 39
+            }
+          },
+          {
+            "player": {
+              "hp": 162,
+              "level": 2,
+              "xp": 24,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.0,
+                "y": 3.9
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.3,
+                "y": 3.9
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6,
+                "y": 3.9
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.9,
+                "y": 3.9
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.0,
+                "y": 4.3
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.3,
+                "y": 4.3
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6,
+                "y": 4.3
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.9,
+                "y": 4.3
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.0,
+                "y": 4.7
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.3,
+                "y": 4.7
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6,
+                "y": 4.7
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.9,
+                "y": 4.7
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.6,
+                "y": 4.5
+              }
+            ],
+            "kills": 13,
+            "inventory": {
+              "base:item/slime_gel": 14
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.2,
+              "y": 4.5,
+              "stay": false,
+              "bond": 39
+            }
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
+      "name": "combat_ability_burst",
+      "input": {
+        "op": "combat",
+        "talents": [
+          {
+            "id": "shock",
+            "name": "t",
+            "stat": "burst",
+            "pct_per_rank": 100,
+            "max_rank": 2,
+            "active": {
+              "mp": 20,
+              "cooldown_ticks": 120,
+              "radius_x100": 300
+            }
+          },
+          {
+            "id": "mend",
+            "name": "t",
+            "stat": "mend",
+            "pct_per_rank": 25,
+            "max_rank": 2,
+            "active": {
+              "mp": 10,
+              "cooldown_ticks": 60
+            }
+          }
+        ],
+        "talent_points_per_level": 2,
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            2.2,
+            4.5
+          ],
+          "level": 3,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              3.5,
+              4.5
+            ],
+            "def": {
+              "hp": 100,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          },
+          {
+            "pos": [
+              2.2,
+              6.5
+            ],
+            "def": {
+              "hp": 100,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          },
+          {
+            "pos": [
+              8.0,
+              4.5
+            ],
+            "def": {
+              "hp": 100,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "ability",
+                "kind": "burst"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "talent",
+                "talent": "shock"
+              },
+              {
+                "cmd": "ability",
+                "kind": "burst"
+              }
+            ]
+          },
+          {
+            "ticks": 60,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "ability",
+                "kind": "burst"
+              },
+              {
+                "cmd": "ability",
+                "kind": "whirl"
+              }
+            ]
+          },
+          {
+            "ticks": 70,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "ability",
+                "kind": "burst"
+              }
+            ]
+          },
+          {
+            "ticks": 130,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "talent",
+                "talent": "shock"
+              },
+              {
+                "cmd": "ability",
+                "kind": "burst"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "ability",
+                "kind": "burst"
+              }
+            ]
+          }
+        ]
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 182,
+              "level": 3,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 100,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 100,
+                "state": "idle",
+                "x": 2.2,
+                "y": 6.5
+              },
+              {
+                "hp": 100,
+                "state": "idle",
+                "x": 8.0,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "talents": {},
+            "talent_points": 4,
+            "max_hp": 182,
+            "max_mp": 128,
+            "matk": 22,
+            "crit_chance_pm": 315,
+            "move_speed_x100": 408
+          },
+          {
+            "player": {
+              "hp": 182,
+              "level": 3,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 76,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 76,
+                "state": "idle",
+                "x": 2.2,
+                "y": 6.5
+              },
+              {
+                "hp": 100,
+                "state": "idle",
+                "x": 8.0,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "talents": {
+              "shock": 1
+            },
+            "talent_points": 3,
+            "max_hp": 182,
+            "max_mp": 128,
+            "matk": 22,
+            "crit_chance_pm": 315,
+            "move_speed_x100": 408
+          },
+          {
+            "player": {
+              "hp": 182,
+              "level": 3,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 76,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 76,
+                "state": "idle",
+                "x": 2.2,
+                "y": 6.5
+              },
+              {
+                "hp": 100,
+                "state": "idle",
+                "x": 8.0,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "talents": {
+              "shock": 1
+            },
+            "talent_points": 3,
+            "max_hp": 182,
+            "max_mp": 128,
+            "matk": 22,
+            "crit_chance_pm": 315,
+            "move_speed_x100": 408
+          },
+          {
+            "player": {
+              "hp": 182,
+              "level": 3,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 76,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 76,
+                "state": "idle",
+                "x": 2.2,
+                "y": 6.5
+              },
+              {
+                "hp": 100,
+                "state": "idle",
+                "x": 8.0,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "talents": {
+              "shock": 1
+            },
+            "talent_points": 3,
+            "max_hp": 182,
+            "max_mp": 128,
+            "matk": 22,
+            "crit_chance_pm": 315,
+            "move_speed_x100": 408
+          },
+          {
+            "player": {
+              "hp": 182,
+              "level": 3,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 27,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 27,
+                "state": "idle",
+                "x": 2.2,
+                "y": 6.5
+              },
+              {
+                "hp": 100,
+                "state": "idle",
+                "x": 8.0,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "talents": {
+              "shock": 2
+            },
+            "talent_points": 2,
+            "max_hp": 182,
+            "max_mp": 128,
+            "matk": 22,
+            "crit_chance_pm": 315,
+            "move_speed_x100": 408
+          },
+          {
+            "player": {
+              "hp": 182,
+              "level": 3,
+              "xp": 8,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 2.2,
+                "y": 6.5
+              },
+              {
+                "hp": 100,
+                "state": "idle",
+                "x": 8.0,
+                "y": 4.5
+              }
+            ],
+            "kills": 2,
+            "inventory": {
+              "base:item/slime_gel": 3
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "talents": {
+              "shock": 2
+            },
+            "talent_points": 2,
+            "max_hp": 182,
+            "max_mp": 128,
+            "matk": 22,
+            "crit_chance_pm": 315,
+            "move_speed_x100": 408
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
+      "name": "combat_ability_without_mana",
+      "input": {
+        "op": "combat",
+        "talents": [
+          {
+            "id": "shock",
+            "name": "t",
+            "stat": "burst",
+            "pct_per_rank": 100,
+            "max_rank": 2,
+            "active": {
+              "mp": 200,
+              "cooldown_ticks": 120,
+              "radius_x100": 300
+            }
+          }
+        ],
+        "talent_points_per_level": 2,
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            2.2,
+            4.5
+          ],
+          "level": 3,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              3.5,
+              4.5
+            ],
+            "def": {
+              "hp": 150,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "talent",
+                "talent": "shock"
+              },
+              {
+                "cmd": "ability",
+                "kind": "burst"
+              }
+            ]
+          },
+          {
+            "ticks": 10,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          }
+        ]
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 182,
+              "level": 3,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 150,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "talents": {
+              "shock": 1
+            },
+            "talent_points": 3,
+            "max_hp": 182,
+            "max_mp": 128,
+            "matk": 22,
+            "crit_chance_pm": 315,
+            "move_speed_x100": 408
+          },
+          {
+            "player": {
+              "hp": 182,
+              "level": 3,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 150,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "talents": {
+              "shock": 1
+            },
+            "talent_points": 3,
+            "max_hp": 182,
+            "max_mp": 128,
+            "matk": 22,
+            "crit_chance_pm": 315,
+            "move_speed_x100": 408
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
+      "name": "combat_ability_mend",
+      "input": {
+        "op": "combat",
+        "talents": [
+          {
+            "id": "shock",
+            "name": "t",
+            "stat": "burst",
+            "pct_per_rank": 100,
+            "max_rank": 2,
+            "active": {
+              "mp": 20,
+              "cooldown_ticks": 120,
+              "radius_x100": 300
+            }
+          },
+          {
+            "id": "mend",
+            "name": "t",
+            "stat": "mend",
+            "pct_per_rank": 25,
+            "max_rank": 2,
+            "active": {
+              "mp": 10,
+              "cooldown_ticks": 60
+            }
+          }
+        ],
+        "talent_points_per_level": 2,
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            2.2,
+            4.5
+          ],
+          "level": 3,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              8.1,
+              4.5
+            ],
+            "def": {
+              "hp": 900,
+              "atk": 60,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 250,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 600,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "talent",
+                "talent": "mend"
+              },
+              {
+                "cmd": "ability",
+                "kind": "mend"
+              }
+            ]
+          },
+          {
+            "ticks": 150,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "ability",
+                "kind": "mend"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "ability",
+                "kind": "mend"
+              }
+            ]
+          },
+          {
+            "ticks": 120,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "talent",
+                "talent": "mend"
+              },
+              {
+                "cmd": "ability",
+                "kind": "mend"
+              }
+            ]
+          }
+        ]
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 182,
+              "level": 3,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 900,
+                "state": "chase",
+                "x": 8.1,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "talents": {
+              "mend": 1
+            },
+            "talent_points": 3,
+            "max_hp": 182,
+            "max_mp": 128,
+            "matk": 22,
+            "crit_chance_pm": 315,
+            "move_speed_x100": 408
+          },
+          {
+            "player": {
+              "hp": 131,
+              "level": 3,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 900,
+                "state": "attack",
+                "x": 3.3916666666666413,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "talents": {
+              "mend": 1
+            },
+            "talent_points": 3,
+            "max_hp": 182,
+            "max_mp": 128,
+            "matk": 22,
+            "crit_chance_pm": 315,
+            "move_speed_x100": 408
+          },
+          {
+            "player": {
+              "hp": 176,
+              "level": 3,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 900,
+                "state": "attack",
+                "x": 3.3916666666666413,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "talents": {
+              "mend": 1
+            },
+            "talent_points": 3,
+            "max_hp": 182,
+            "max_mp": 128,
+            "matk": 22,
+            "crit_chance_pm": 315,
+            "move_speed_x100": 408
+          },
+          {
+            "player": {
+              "hp": 176,
+              "level": 3,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 900,
+                "state": "attack",
+                "x": 3.3916666666666413,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "talents": {
+              "mend": 1
+            },
+            "talent_points": 3,
+            "max_hp": 182,
+            "max_mp": 128,
+            "matk": 22,
+            "crit_chance_pm": 315,
+            "move_speed_x100": 408
+          },
+          {
+            "player": {
+              "hp": 76,
+              "level": 3,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 900,
+                "state": "attack",
+                "x": 3.3916666666666413,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "talents": {
+              "mend": 1
+            },
+            "talent_points": 3,
+            "max_hp": 182,
+            "max_mp": 128,
+            "matk": 22,
+            "crit_chance_pm": 315,
+            "move_speed_x100": 408
+          },
+          {
+            "player": {
+              "hp": 167,
+              "level": 3,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 900,
+                "state": "attack",
+                "x": 3.3916666666666413,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "talents": {
+              "mend": 2
+            },
+            "talent_points": 2,
+            "max_hp": 182,
+            "max_mp": 128,
+            "matk": 22,
+            "crit_chance_pm": 315,
+            "move_speed_x100": 408
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
+      "name": "combat_market_days",
+      "input": {
+        "op": "combat",
+        "start_gold": 1000,
+        "region": "vale",
+        "day_ticks": 30,
+        "story": {
+          "quests": {},
+          "dialogues": {},
+          "npcs": []
+        },
+        "shop": {
+          "price_pm": 1000,
+          "stock": [
+            "base:item/potion_mana_small"
+          ],
+          "market_swing_pm": 200
+        },
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            2.2,
+            4.5
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              12.0,
+              7.5
+            ],
+            "def": {
+              "hp": 28,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "open_shop"
+              },
+              {
+                "cmd": "buy",
+                "item": "base:item/potion_mana_small"
+              },
+              {
+                "cmd": "sell",
+                "item": "base:item/slime_gel"
+              }
+            ]
+          },
+          {
+            "ticks": 29,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "open_shop"
+              },
+              {
+                "cmd": "buy",
+                "item": "base:item/potion_mana_small"
+              },
+              {
+                "cmd": "sell",
+                "item": "base:item/slime_gel"
+              }
+            ]
+          },
+          {
+            "ticks": 29,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "open_shop"
+              },
+              {
+                "cmd": "buy",
+                "item": "base:item/potion_mana_small"
+              },
+              {
+                "cmd": "sell",
+                "item": "base:item/slime_gel"
+              }
+            ]
+          },
+          {
+            "ticks": 29,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "open_shop"
+              },
+              {
+                "cmd": "buy",
+                "item": "base:item/potion_mana_small"
+              },
+              {
+                "cmd": "sell",
+                "item": "base:item/slime_gel"
+              }
+            ]
+          },
+          {
+            "ticks": 29,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          }
+        ],
+        "inventory": {
+          "base:item/slime_gel": 4
+        },
+        "items": {
+          "base:item/bread": {
+            "kind": "food",
+            "price": 5,
+            "effects": [
+              {
+                "effect": "heal",
+                "amount": 30
+              }
+            ]
+          },
+          "base:item/potion_mana_small": {
+            "kind": "consumable",
+            "price": 40,
+            "effects": [
+              {
+                "effect": "restore_mp",
+                "amount": 30
+              }
+            ]
+          },
+          "base:item/slime_gel": {
+            "kind": "material",
+            "price": 3,
+            "effects": []
+          },
+          "base:item/cleansing_draught": {
+            "kind": "food",
+            "price": 60,
+            "effects": [
+              {
+                "effect": "cleanse"
+              }
+            ]
+          },
+          "base:item/windleaf_brew": {
+            "kind": "food",
+            "price": 90,
+            "effects": [
+              {
+                "effect": "haste",
+                "amount": 50,
+                "ticks": 90
+              }
+            ]
+          },
+          "base:item/honey_cake": {
+            "kind": "food",
+            "price": 20,
+            "effects": [
+              {
+                "effect": "regen",
+                "amount": 6,
+                "ticks": 600
+              }
+            ]
+          },
+          "base:item/frost_tonic": {
+            "kind": "food",
+            "price": 160,
+            "effects": [
+              {
+                "effect": "ward",
+                "amount": 400,
+                "ticks": 300
+              }
+            ]
+          },
+          "base:item/roast_meat": {
+            "kind": "food",
+            "price": 30,
+            "effects": [
+              {
+                "effect": "heal",
+                "amount": 20
+              },
+              {
+                "effect": "fortify",
+                "amount": 50,
+                "ticks": 200
+              }
+            ]
+          },
+          "base:item/practice_sword": {
+            "kind": "weapon",
+            "price": 20,
+            "weapon": {
+              "atk": 3,
+              "matk": 0
+            }
+          },
+          "base:item/iron_sword": {
+            "kind": "weapon",
+            "price": 150,
+            "weapon": {
+              "atk": 7,
+              "matk": 0
+            }
+          },
+          "base:item/ember_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "fire"
+            }
+          },
+          "base:item/frost_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "water"
+            }
+          },
+          "base:item/storm_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "wind"
+            }
+          },
+          "base:item/quake_hammer": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "earth"
+            }
+          },
+          "base:item/sun_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "light"
+            }
+          },
+          "base:item/leather_vest": {
+            "kind": "armor",
+            "price": 80,
+            "armor": {
+              "def": 2,
+              "mdef": 1
+            }
+          },
+          "base:item/chain_mail": {
+            "kind": "armor",
+            "price": 300,
+            "armor": {
+              "def": 5,
+              "mdef": 2
+            }
+          },
+          "base:item/fang_necklace": {
+            "kind": "accessory",
+            "price": 200,
+            "accessory": {
+              "atk": 12,
+              "max_hp": 40
+            }
+          },
+          "base:item/bat_charm": {
+            "kind": "accessory",
+            "price": 200,
+            "accessory": {
+              "drain_pm": 300
+            }
+          }
+        }
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/potion_mana_small": 1,
+              "base:item/slime_gel": 3
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 956,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/potion_mana_small": 1,
+              "base:item/slime_gel": 3
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 956,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/potion_mana_small": 2,
+              "base:item/slime_gel": 2
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 910,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/potion_mana_small": 2,
+              "base:item/slime_gel": 2
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 910,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/potion_mana_small": 3,
+              "base:item/slime_gel": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 869,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/potion_mana_small": 3,
+              "base:item/slime_gel": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 869,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/potion_mana_small": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 837,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/potion_mana_small": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 837,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
+      "name": "combat_renown_wares",
+      "input": {
+        "op": "combat",
+        "start_gold": 400,
+        "region": "vale",
+        "story": {
+          "quests": {
+            "test:quest/a": {
+              "id": "test:quest/a",
+              "stages": [
+                {
+                  "id": "have",
+                  "journal": "q",
+                  "objectives": [
+                    {
+                      "type": "collect",
+                      "item": "base:item/slime_gel",
+                      "count": 1
+                    }
+                  ],
+                  "next": "end"
+                }
+              ],
+              "rewards": []
+            },
+            "test:quest/b": {
+              "id": "test:quest/b",
+              "stages": [
+                {
+                  "id": "have",
+                  "journal": "q",
+                  "objectives": [
+                    {
+                      "type": "collect",
+                      "item": "base:item/slime_gel",
+                      "count": 1
+                    }
+                  ],
+                  "next": "end"
+                }
+              ],
+              "rewards": []
+            }
+          },
+          "dialogues": {},
+          "npcs": []
+        },
+        "shop": {
+          "price_pm": 1000,
+          "stock": [
+            "base:item/bread"
+          ],
+          "renown_stock": [
+            {
+              "item": "base:item/chain_mail",
+              "renown": 2
+            }
+          ]
+        },
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            2.2,
+            4.5
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              12.0,
+              7.5
+            ],
+            "def": {
+              "hp": 28,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "open_shop"
+              },
+              {
+                "cmd": "buy",
+                "item": "base:item/chain_mail"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "start_quest",
+                "quest": "test:quest/a"
+              },
+              {
+                "cmd": "start_quest",
+                "quest": "test:quest/b"
+              },
+              {
+                "cmd": "buy",
+                "item": "base:item/chain_mail"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "close_shop"
+              },
+              {
+                "cmd": "open_shop"
+              },
+              {
+                "cmd": "buy",
+                "item": "base:item/chain_mail"
+              }
+            ]
+          }
+        ],
+        "inventory": {
+          "base:item/slime_gel": 1
+        },
+        "items": {
+          "base:item/bread": {
+            "kind": "food",
+            "price": 5,
+            "effects": [
+              {
+                "effect": "heal",
+                "amount": 30
+              }
+            ]
+          },
+          "base:item/potion_mana_small": {
+            "kind": "consumable",
+            "price": 40,
+            "effects": [
+              {
+                "effect": "restore_mp",
+                "amount": 30
+              }
+            ]
+          },
+          "base:item/slime_gel": {
+            "kind": "material",
+            "price": 3,
+            "effects": []
+          },
+          "base:item/cleansing_draught": {
+            "kind": "food",
+            "price": 60,
+            "effects": [
+              {
+                "effect": "cleanse"
+              }
+            ]
+          },
+          "base:item/windleaf_brew": {
+            "kind": "food",
+            "price": 90,
+            "effects": [
+              {
+                "effect": "haste",
+                "amount": 50,
+                "ticks": 90
+              }
+            ]
+          },
+          "base:item/honey_cake": {
+            "kind": "food",
+            "price": 20,
+            "effects": [
+              {
+                "effect": "regen",
+                "amount": 6,
+                "ticks": 600
+              }
+            ]
+          },
+          "base:item/frost_tonic": {
+            "kind": "food",
+            "price": 160,
+            "effects": [
+              {
+                "effect": "ward",
+                "amount": 400,
+                "ticks": 300
+              }
+            ]
+          },
+          "base:item/roast_meat": {
+            "kind": "food",
+            "price": 30,
+            "effects": [
+              {
+                "effect": "heal",
+                "amount": 20
+              },
+              {
+                "effect": "fortify",
+                "amount": 50,
+                "ticks": 200
+              }
+            ]
+          },
+          "base:item/practice_sword": {
+            "kind": "weapon",
+            "price": 20,
+            "weapon": {
+              "atk": 3,
+              "matk": 0
+            }
+          },
+          "base:item/iron_sword": {
+            "kind": "weapon",
+            "price": 150,
+            "weapon": {
+              "atk": 7,
+              "matk": 0
+            }
+          },
+          "base:item/ember_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "fire"
+            }
+          },
+          "base:item/frost_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "water"
+            }
+          },
+          "base:item/storm_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "wind"
+            }
+          },
+          "base:item/quake_hammer": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "earth"
+            }
+          },
+          "base:item/sun_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "light"
+            }
+          },
+          "base:item/leather_vest": {
+            "kind": "armor",
+            "price": 80,
+            "armor": {
+              "def": 2,
+              "mdef": 1
+            }
+          },
+          "base:item/chain_mail": {
+            "kind": "armor",
+            "price": 300,
+            "armor": {
+              "def": 5,
+              "mdef": 2
+            }
+          },
+          "base:item/fang_necklace": {
+            "kind": "accessory",
+            "price": 200,
+            "accessory": {
+              "atk": 12,
+              "max_hp": 40
+            }
+          },
+          "base:item/bat_charm": {
+            "kind": "accessory",
+            "price": 200,
+            "accessory": {
+              "drain_pm": 300
+            }
+          }
+        }
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/slime_gel": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 400,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/slime_gel": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 400,
+              "guild_points": 0,
+              "quests": {
+                "test:quest/a": {
+                  "stage": "have",
+                  "done": true,
+                  "progress": [
+                    1
+                  ]
+                },
+                "test:quest/b": {
+                  "stage": "have",
+                  "done": true,
+                  "progress": [
+                    1
+                  ]
+                }
+              },
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/chain_mail": 1,
+              "base:item/slime_gel": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 100,
+              "guild_points": 0,
+              "quests": {
+                "test:quest/a": {
+                  "stage": "have",
+                  "done": true,
+                  "progress": [
+                    1
+                  ]
+                },
+                "test:quest/b": {
+                  "stage": "have",
+                  "done": true,
+                  "progress": [
+                    1
+                  ]
+                }
+              },
+              "dialogue": null
+            }
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
       "name": "combat_leash_and_return",
       "input": {
         "op": "combat",

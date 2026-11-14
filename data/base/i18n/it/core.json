@@ -1007,5 +1007,16 @@
   "ui.talent_kill_heal": "di vita per ogni uccisione",
   "ui.talent_kill_mana": "di mana per ogni uccisione",
   "ui.talent_whirl": "di portata: il colpo potente colpisce tutto intorno",
+  "ui.talent_burst": "dell'attacco a ogni creatura intorno, a comando",
+  "ui.talent_mend": "di vita recuperata, a comando",
+  "ui.key_burst": "Abilità: onda d'urto",
+  "ui.key_mend": "Abilità: rimarginare",
+  "ui.ability_burst": "Onda d'urto!",
+  "ui.ability_mend": "Le tue ferite si chiudono",
+  "ui.ability_refused": "Non è ancora pronta",
+  "ui.ability_burst_button": "Onda",
+  "ui.ability_mend_button": "Cura",
+  "ui.shop_dear": "Oggi +{pct}%",
+  "ui.shop_cheap": "Oggi -{pct}%",
   "dlg.pip.story.gideon.done": "Tutto il villaggio è d'accordo: sei un buon re. Prendi la lama, non è per niente come la vecchia, ma ti sta bene."
 }

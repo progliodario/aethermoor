@@ -39,6 +39,9 @@ class Region(val id: String, /** An $i18n: key. */ val name: String, val xPm: In
     /** What every quest finished here takes off the prices of the shops, and the most (spec 07, "Renown"). */
     val shopRenownStepPm: Int = 0,
     val shopRenownMaxPm: Int = 0,
+    /** How far the prices swing with the day (spec 06, "Market days"), and the wares for friends of the region: item and renown. */
+    val shopMarketSwingPm: Int = 0,
+    val shopRenownStock: List<Pair<String, Int>> = emptyList(),
 )
 
 class SettlementKind(val id: String, val weight: Int, val stamps: List<String>)
@@ -943,6 +946,10 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
                     }.also { list -> require(list.isNotEmpty() && list.all { it.weight >= 1 }) { "a region needs fauna with positive weights" } },
                     shopRenownStepPm = r.getValue("shop").jsonObject["renown_step_pm"]?.jsonPrimitive?.int ?: 0,
                     shopRenownMaxPm = r.getValue("shop").jsonObject["renown_max_pm"]?.jsonPrimitive?.int ?: 0,
+                    shopMarketSwingPm = r.getValue("shop").jsonObject["market_swing_pm"]?.jsonPrimitive?.int ?: 0,
+                    shopRenownStock = r.getValue("shop").jsonObject["renown_stock"]?.jsonArray?.map { w ->
+                        Pair(w.jsonObject.getValue("item").jsonPrimitive.content, w.jsonObject.getValue("renown").jsonPrimitive.int)
+                    } ?: emptyList(),
                     biasElevation = r["bias"]?.jsonObject?.get("elevation")?.jsonPrimitive?.int ?: 0,
                     biasTemperature = r["bias"]?.jsonObject?.get("temperature")?.jsonPrimitive?.int ?: 0,
                     biasMoisture = r["bias"]?.jsonObject?.get("moisture")?.jsonPrimitive?.int ?: 0,

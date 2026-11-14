@@ -110,6 +110,9 @@ class Player(var position: Vec2) {
     var haste = 0
     var hastePct = 0L
 
+    /** Ticks until an active ability is ready again, by kind (spec 11, "Active abilities"); not saved. */
+    val abilityCd = HashMap<String, Int>()
+
     fun clearStatus() {
         burn = 0
         burnClock = 0
@@ -330,9 +333,74 @@ class WorldSim(
         private set
 
     /** The counter that holds the renown of the region where the player stands (spec 07, "Renown"). */
-    fun renownKey(): String {
-        val store = chunks ?: return "renown:" + combat.region
-        return "renown:" + store.params.regions[regionAt(store.params, floor(player.position.x).toInt(), floor(player.position.y).toInt())].id
+    fun renownKey(): String = "renown:" + regionId()
+
+    /** The region where the player stands; of a world without regions, the one of the setup. */
+    fun regionId(): String {
+        val store = chunks ?: return combat.region
+        return store.params.regions[regionAt(store.params, floor(player.position.x).toInt(), floor(player.position.y).toInt())].id
+    }
+
+    /** What the market of the day does to the prices of the open shop, in permille (spec 06, "Market days"): 1000 is a plain day. */
+    fun marketPm(): Long {
+        val swing = (shop?.marketSwingPm ?: 0).toLong()
+        if (swing <= 0L) return 1000L
+        val dayTicks = chunks?.params?.time?.dayTicks?.toLong() ?: combat.dayTicks.toLong()
+        val day = if (dayTicks > 0L) worldTicks / dayTicks + 1L else 1L
+        val h = hash64(fnv1a64("market:" + regionId()) xor combat.seed, day)
+        return 1000L - swing + (h % (2L * swing + 1L).toULong()).toLong()
+    }
+
+    /** The talent that gives the active ability of [kind] (burst or mend) once it has a rank, or null (spec 11, "Active abilities"). */
+    fun abilityTalent(kind: String): TalentDef? = combat.talents.firstOrNull { it.stat == kind && it.hasActive && (talents[it.id] ?: 0) > 0 }
+
+    /** The ticks until the active ability of [kind] is ready again. */
+    fun abilityCooldown(kind: String): Int = player.abilityCd[kind] ?: 0
+
+    /** Uses the active ability of [kind]; false, changing nothing, when it is refused. */
+    fun useAbility(kind: String): Boolean {
+        val p = player
+        if (story.dialogueActive || p.stun > 0 || (kind != "burst" && kind != "mend")) return false
+        val talent = abilityTalent(kind) ?: return false
+        if (abilityCooldown(kind) > 0) return false
+        val power = talentPower(kind)
+        val full = derived.maxHp
+        if (p.mpU < talent.activeMp * 6000L || (kind == "mend" && !(p.hp > 0L && p.hp < full))) return false
+        p.mpU -= talent.activeMp * 6000L
+        p.abilityCd[kind] = talent.activeCooldown
+        if (kind == "mend") {
+            p.hp = minOf(full, p.hp + maxOf(1L, full * power / 100))
+            cues.add(SimCue("craft", "", p.position))
+            return true
+        }
+        val reach = talent.activeRadiusX100.toFloat() / 100f
+        for (enemy in enemies) { // burst: every creature around, in order, with no roll
+            if (enemy.state == EnemyState.DEAD) continue
+            if (distance(enemy.position.x, enemy.position.y, p.position.x, p.position.y) > reach + enemy.radius) continue
+            val amount = damage(
+                DamageInput(
+                    atk = maxOf(derived.atk, derived.matk) * power / 100,
+                    powerPct = 100,
+                    defTarget = enemy.def.def,
+                    lvlAttacker = p.level,
+                    lvlTarget = enemy.def.level,
+                    variancePm = 1000,
+                    crit = false,
+                    critMultPm = 1500,
+                ),
+            )
+            enemy.hp -= amount
+            enemy.hitFlash = HIT_FLASH_TICKS
+            events.add(DamageEvent(enemy.position, amount, false, false))
+            cues.add(SimCue("hit", enemy.def.sound, enemy.position))
+            if (enemy.hp <= 0) {
+                enemy.hp = 0
+                enemy.state = EnemyState.DEAD
+                cues.add(SimCue("die", enemy.def.sound, enemy.position))
+                onKill(enemy)
+            }
+        }
+        return true
     }
 
     override fun renownHere(): Long = (counters[renownKey()] ?: 0).toLong()
@@ -625,11 +693,15 @@ class WorldSim(
 
     override fun openShop() {
         val store = chunks
-        shop = if (store != null) {
+        val base = if (store != null) {
             val region = store.params.regions[regionAt(store.params, floor(player.position.x).toInt(), floor(player.position.y).toInt())]
-            ShopDef(region.shopPricePm, region.shopStock, region.shopRenownStepPm, region.shopRenownMaxPm)
+            ShopDef(region.shopPricePm, region.shopStock, region.shopRenownStepPm, region.shopRenownMaxPm, region.shopMarketSwingPm, region.shopRenownStock)
         } else {
             combat.shop
+        }
+        // wares for friends of the region (spec 07, "Renown")
+        shop = base?.let { b ->
+            ShopDef(b.pricePm, b.stock + b.renownStock.filter { renownHere() >= it.second }.map { it.first }, b.renownStepPm, b.renownMaxPm, b.marketSwingPm, b.renownStock)
         }
     }
 
@@ -645,13 +717,14 @@ class WorldSim(
         val item = combat.items[itemId] ?: return 0L
         val open = shop ?: return 0L
         if (item.price <= 0) return 0L
-        return maxOf(1L, maxOf(1L, item.price * open.pricePm / 1000) * (1000 - renownDiscountPm()) / 1000) // the renown (spec 07)
+        val today = maxOf(1L, maxOf(1L, item.price * open.pricePm / 1000) * marketPm() / 1000) // the market of the day (spec 06)
+        return maxOf(1L, today * (1000 - renownDiscountPm()) / 1000) // the renown (spec 07)
     }
 
     /** What the shop pays for an item, 0 when it cannot be sold. */
     fun sellPrice(itemId: String): Long {
         val item = combat.items[itemId] ?: return 0L
-        return if (item.price <= 0) 0L else maxOf(1L, item.price / 2)
+        return if (item.price <= 0) 0L else maxOf(1L, item.price / 2 * marketPm() / 1000) // the market of the day (spec 06)
     }
 
     /** Equips a weapon or an armor of the inventory (spec 06). Returns false, changing nothing, when refused. */
@@ -789,7 +862,7 @@ class WorldSim(
         val hit = target ?: return
         val amount = damage(
             DamageInput(
-                atk = c.atkBase + c.atkPerLevel * (p.level - 1) + minOf(companionBond / 5, 10), // the bond (spec 10)
+                atk = (c.atkBase + c.atkPerLevel * (p.level - 1) + minOf(companionBond / 5, 10)) * combat.gift.companionAtkPct / 100, // the bond (spec 10), a gift of command (spec 18)
                 powerPct = 100,
                 defTarget = hit.def.def,
                 lvlAttacker = p.level,
@@ -808,7 +881,7 @@ class WorldSim(
             hit.hp = 0
             hit.state = EnemyState.DEAD
             cues.add(SimCue("die", hit.def.sound, hit.position))
-            companionBond++
+            companionBond += combat.gift.bondGain // a gift of taming makes the bond grow faster (spec 18)
             onKill(hit)
         }
     }
@@ -948,6 +1021,7 @@ class WorldSim(
         if (p.dodgeCooldown > 0) p.dodgeCooldown--
         if (p.parryCooldown > 0) p.parryCooldown--
         if (p.deathSaveCd > 0) p.deathSaveCd--
+        for (entry in p.abilityCd.entries) if (entry.value > 0) entry.setValue(entry.value - 1)
         p.mpU = minOf(derived.maxMp * 6000L, p.mpU + derived.mpRegenX100 * combat.gift.mpRegenPct / 100)
 
         if (p.burn > 0) { // status effects on the player (spec 05)

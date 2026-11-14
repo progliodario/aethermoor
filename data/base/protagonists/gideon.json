@@ -27,7 +27,8 @@
   "art_variant": "gideon",
   "gift_rules": {
     "aggro_pct": 30,
-    "heal_pct": 60
+    "heal_pct": 60,
+    "companion_atk_pct": 180
   },
   "starting_items": [
     {

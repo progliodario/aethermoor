@@ -45,7 +45,7 @@ earned at once by those who already satisfy it. The last title earned is the one
   `attack` is `atk` and `matk`, `health` is `max_hp`, `mana` is `max_mp`, `defense` is `def` and `mdef`, `magic` is `matk`, `critical` is `crit_chance_pm`, `speed` is `move_speed_x100`.
 - **Save.** `talents` in the save document (spec 12) is an object from talent ID to rank; absent when nothing was learned.
 
-The base pack has a tree of fourteen talents (ten that multiply a stat, and the four abilities below) and one point a level (`tools/make_talents.py`): four roots of ten ranks, Might (attack, 5 percent a rank), Vigor (health, 6), Focus (mana, 8) and Guard (defense, 8); a second ring of five ranks that opens at rank 5 of its root, Keen Eye (critical, 15; after Might), Second Wind (health, 8; after Vigor), Arcana (magic, 10; after Focus) and Fleet Foot (speed, 4; after Guard); and a crown, Legend (attack, 10; after Keen Eye 5) and Bulwark (defense, 12; after Second Wind 5).
+The base pack has a tree of sixteen talents (ten that multiply a stat, the four abilities and the two active abilities below) and one point a level (`tools/make_talents.py`): four roots of ten ranks, Might (attack, 5 percent a rank), Vigor (health, 6), Focus (mana, 8) and Guard (defense, 8); a second ring of five ranks that opens at rank 5 of its root, Keen Eye (critical, 15; after Might), Second Wind (health, 8; after Vigor), Arcana (magic, 10; after Focus) and Fleet Foot (speed, 4; after Guard); and a crown, Legend (attack, 10; after Keen Eye 5) and Bulwark (defense, 12; after Second Wind 5).
 Both clients show them in the crafting panel (`Tab` on a keyboard, a button of the panel on Android). Conformance: the scenarios `talents_learned` and `talent_tree` (their checkpoints carry `talents`, `talent_points`, `max_hp`, `max_mp`, `matk`, `crit_chance_pm`, `move_speed_x100`). The panels show what opens a closed branch.
 
 ### Abilities
@@ -58,6 +58,15 @@ Four more kinds of `stat` multiply nothing: they are **abilities**, and `pct_per
 - `whirl`: the power strike hits **all around** (the test of the angle is skipped) and its radius is `radius_x100 * (100 + power) / 100`. The basic attack is not changed.
 
 The base pack opens one at rank 3 of each root (`tools/make_talents.py`): Whirlwind (whirl, 10 a rank, three ranks; after Might), Battle Hunger (kill_heal, 4, five ranks; after Vigor), Flow (kill_mana, 8, five ranks; after Focus) and Riposte (60, five ranks; after Guard). The panels describe them with the text `ui.talent_<stat>`. Conformance: the scenarios `talent_riposte`, `talent_kill_gifts`, `talent_kill_gifts_without` and `talent_whirl`.
+
+### Active abilities
+
+A talent may have an `active` block, `{mp, cooldown_ticks, radius_x100?}`: its ability is **used on command**, `use_ability(kind)`, where `kind` is its `stat`: `burst` or `mend`. The power is `pct_per_rank * rank`, as for the other abilities. The command is refused, changing nothing, while a dialogue is open, while the player is stunned, for another kind, when no talent of that kind with an `active` block has a rank, while its wait runs, when the mana is less than `mp`, and, for `mend`, when the player is at full health. Otherwise the mana drops by `mp`, the ability waits `cooldown_ticks` ticks (a counter that goes down by one every tick; it is not saved, and a loaded game has every ability ready), and:
+
+- `burst`: every living creature within `radius_x100 / 100 + its radius` tiles, in the order of the world, takes `damage(max(atk, matk) * power / 100, power 100%, its defense, the levels, variance 1000, no critical)`. No random number is drawn, no status and no stagger come of it; a creature that dies is a kill like any other.
+- `mend`: the player gets `max(1, max_hp * power / 100)` health back, up to the maximum.
+
+The base pack has two, each after rank 5 of a root (`tools/make_talents.py`): Shockwave (burst, 60 a rank, five ranks, 12 mana, 8 seconds, 3.5 tiles; after Might) and Mend (15 a rank, five ranks, 10 mana, 15 seconds; after Vigor). Desktop: `R` and `T`, both among the configurable keys; Android: a button for each one that was learned, dim while it waits. Conformance: the scenarios `ability_burst`, `ability_without_mana` and `ability_mend`.
 
 ## Titles with effects
 
