@@ -19,6 +19,10 @@
           "next": "shop"
         },
         {
+          "text": "$i18n:dlg.role.caravan",
+          "next": "caravan"
+        },
+        {
           "text": "$i18n:dlg.role.craft.ask",
           "when": {
             "not": {
@@ -140,6 +144,17 @@
       "speaker": "npc",
       "text": "$i18n:dlg.role.shopkeeper.warm.known",
       "next": "menu"
+    },
+    "caravan": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "open_shop",
+          "region": "ironspine",
+          "markup_pct": 125
+        }
+      ],
+      "next": "end"
     }
   }
 }

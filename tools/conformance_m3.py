@@ -552,6 +552,28 @@ def build_scenarios() -> list[dict]:
                      {"id": "have", "journal": "q", "objectives": [{"type": "collect", "item": "base:item/slime_gel", "count": 1}], "next": "end"}],
                      "rewards": []} for q in "ab"}, "dialogues": {}, "npcs": []},
                  shop={"price_pm": 1000, "stock": ["base:item/bread"], "renown_stock": [{"item": "base:item/chain_mail", "renown": 2}]}),
+        # Taming (spec 18): refused while the creature is above half of its health and for one out of reach; hurt below half, the nearest one leaves in
+        # peace, which is a kill (experience, drops, the bestiary), the bond grows by 2 and the counter `tamed` by one. Without the gift nothing happens.
+        *[scenario(name, [enemy(3.5, 4.5, hp=120, id="base:enemy/slime_green", **passive), enemy(9.0, 4.5, hp=10, **passive)],
+                   [segment(1, do=[{"cmd": "tame"}]), segment(60, attack=True), segment(1, do=[{"cmd": "tame"}]), segment(60, attack=True),
+                    segment(1, do=[{"cmd": "tame"}, {"cmd": "tame"}]), segment(30)],
+                   companion={**COMPANION, "atk_base": 0, "atk_per_level": 0, "range_x100": 10}, gift=gift,
+                   titles=[{"id": "friend", "name": "t", "kind": "tamed", "count": 1}])
+          for name, gift in (("gift_tame", {"tame_hp_pct": 50, "tame_range_x100": 250, "tame_bond": 2}), ("gift_tame_without", {}))],
+        # Goods from afar (spec 06): the effect `open_shop` with a region opens the shop of that region at a markup; bread costs 5 here and
+        # 5 * 2000 / 1000 * 125 / 100 = 12 from the north (price_pm 2000 * 125 / 100 = 2500); an unknown region is the shop of the place.
+        scenario("goods_from_afar", [enemy(12.0, 7.5, **passive)],
+                 [segment(1, do=[{"cmd": "open_shop"}, {"cmd": "buy", "item": "base:item/bread"}, {"cmd": "buy", "item": "base:item/chain_mail"}]),
+                  segment(1, do=[{"cmd": "interact"}]), segment(1, do=[{"cmd": "advance"}]),
+                  segment(1, do=[{"cmd": "buy", "item": "base:item/bread"}, {"cmd": "buy", "item": "base:item/chain_mail"}]),
+                  segment(1, do=[{"cmd": "open_shop", "region": "nowhere", "markup_pct": 300}, {"cmd": "buy", "item": "base:item/bread"}])],
+                 inventory={}, start_gold=1000, player={"start": [3.4, 4.5]},
+                 story={"quests": {}, "dialogues": {"test:dialogue/pedlar": {"id": "test:dialogue/pedlar", "start": "start", "nodes": {
+                     "start": {"type": "say", "speaker": "pedlar", "text": "t.far", "next": "open"},
+                     "open": {"type": "effects", "effects": [{"effect": "open_shop", "region": "north", "markup_pct": 125}], "next": "end"}}}},
+                     "npcs": [{"key": "pedlar", "pos": [4.0, 4.5], "dialogue": "test:dialogue/pedlar"}]},
+                 shop={"price_pm": 1000, "stock": ["base:item/bread"]},
+                 far_shops={"north": {"price_pm": 2000, "stock": ["base:item/bread", "base:item/chain_mail"]}}),
         scenario("leash_and_return", [enemy(4.0, 4.5, behavior_overrides={"leash_x100": 300})],
                  [segment(20, attack=True), segment(150, move=(1, 0)), segment(250)]),
     ]

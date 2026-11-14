@@ -1018,5 +1018,10 @@
   "ui.ability_mend_button": "Cura",
   "ui.shop_dear": "Oggi +{pct}%",
   "ui.shop_cheap": "Oggi -{pct}%",
+  "ui.craft_fine": "pregiato {pct}%",
+  "ui.key_tame": "Doma una creatura ferita",
+  "ui.ability_tame": "La creatura si calma e se ne va in pace",
+  "ui.tame_refused": "Nessuna creatura abbastanza ferita qui vicino",
+  "ui.ability_tame_button": "Doma",
   "dlg.pip.story.gideon.done": "Tutto il villaggio è d'accordo: sei un buon re. Prendi la lama, non è per niente come la vecchia, ma ti sta bene."
 }

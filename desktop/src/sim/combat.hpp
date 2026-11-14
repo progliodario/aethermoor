@@ -51,6 +51,11 @@ struct GiftDef {
     int death_save_ticks = 0;
     int companion_atk_pct = 100;  // the attack of the companion, in percent (a gift of command)
     int bond_gain = 1;            // what a kill of the companion adds to its bond (a gift of taming)
+    // Taming (spec 18): a creature at this percent of its health or less, within this distance, can be tamed, and the
+    // bond of the companion grows by `tame_bond`; 0 percent: the protagonist cannot tame.
+    int tame_hp_pct = 0;
+    int tame_range_x100 = 0;
+    int tame_bond = 0;
 };
 
 struct DropDef {
@@ -243,6 +248,7 @@ struct CombatSetup {
     std::string start_weapon;                             // the weapon worn in a new game (an item ID, or empty)
     std::string start_armor;                              // the armor worn in a new game (an item ID, or empty)
     std::optional<ShopDef> shop;  // the shop of fixed maps and scenarios (streamed worlds use their regions)
+    std::map<std::string, ShopDef> far_shops;  // the same for the shops of other regions (spec 06, "Goods from afar")
     std::map<std::string, EnemyDef> stream_enemies;  // the enemies of the fauna of a streamed world, by ID
     std::map<std::string, GatherNode> gather_nodes;  // the props that can be gathered from, by art ID
     std::vector<RecipeDef> recipes;                  // crafting recipes, in the order of the data

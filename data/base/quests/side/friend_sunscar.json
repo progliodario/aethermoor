@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/friend_sunscar",
+  "name": "$i18n:quest.friend_sunscar.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "hunt",
+      "journal": "$i18n:quest.friend_sunscar.hunt",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/dune_scorpion",
+          "count": 6
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

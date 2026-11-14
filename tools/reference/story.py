@@ -69,7 +69,10 @@ class Story:
         elif kind == "add_guild_points":
             self.guild_points += effect["amount"]
         elif kind == "open_shop":
-            self.host.open_shop()
+            if effect.get("region"):  # the goods of another region (spec 06, "Goods from afar")
+                self.host.open_shop(effect["region"], effect.get("markup_pct", 100))
+            else:
+                self.host.open_shop()
         elif kind == "open_board":
             self.host.open_board()
         elif kind == "add_item":

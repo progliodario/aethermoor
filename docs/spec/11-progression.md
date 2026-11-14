@@ -16,7 +16,7 @@ Ren's Analyze panel (spec 18) shows the same line of elements for the creature i
 ## Counters
 
 Three **counters** tell how one plays: `gathered` goes up by one for every gathering that finds a prop (spec 06, even when it gives nothing), `crafted` for every recipe made (a refused one does not count),
-`parried` for every attack stopped by a parry (spec 05). Two more kinds of counter came later: `crafted_fine` for every recipe that came out fine (spec 06, "Quality"), and `renown:<region id>` for every quest finished in a region (spec 07, "Renown"). They are saved (`counters` in the save document, spec 12; a counter at zero is absent). These are the first step of the tags: a title can ask for them.
+`parried` for every attack stopped by a parry (spec 05). Two more kinds of counter came later: `crafted_fine` for every recipe that came out fine (spec 06, "Quality"), and `renown:<region id>` for every quest finished in a region (spec 07, "Renown"); `tamed` for every creature tamed (spec 18). They are saved (`counters` in the save document, spec 12; a counter at zero is absent). These are the first step of the tags: a title can ask for them.
 
 ## Titles
 

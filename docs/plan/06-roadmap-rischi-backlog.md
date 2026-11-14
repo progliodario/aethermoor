@@ -272,12 +272,12 @@ Versione `0.0.1`, **nessuna release pubblica** (la decisione di pubblicare è de
 |---|---|---|
 | Mondo | 16384 x 16384 caselle in streaming, 8 regioni, circa 130 insediamenti generati, 44 luoghi fatti a mano | spec 09, `data/base/worlds/overworld.json` |
 | Persone con nome | 26 nel mondo (Fenwick, Aldermere, gli 8 avamposti, i viandanti, Mira, Pip, Suor Maren) | `tools/make_towns.py`, `tools/towns_outposts.py` |
-| Missioni | 268 (storie dei protagonisti, gilda, città, avamposti, leggende, taglie, lettere) | `docs/design/catalog.md` |
+| Missioni | 276 (storie dei protagonisti, gilda, città, avamposti, leggende, taglie, lettere, compiti da amico) | `docs/design/catalog.md` |
 | Creature | 75 (tra cui 27 guardiani, 8 Echi, la selvaggina) | `data/base/enemies/` |
 | Oggetti e ricette | 187 oggetti, 51 ricette, 2 stazioni (falò e incudine) | spec 06, `tools/make_recipes.py` |
 | Progressione | 29 titoli, 16 talenti (4 abilità, 2 a comando), bestiario, profilo condiviso, reincarnazione | spec 11, spec 12 |
-| Testi | 2705 chiavi, in italiano **e** inglese | spec 17 |
-| Regole uguali sui due client | 30 file di vettori di conformità, 511 casi, eseguiti da C++ e Kotlin a ogni modifica | `tests/conformance/` |
+| Testi | 2754 chiavi, in italiano **e** inglese | spec 17 |
+| Regole uguali sui due client | 30 file di vettori di conformità, 514 casi, eseguiti da C++ e Kotlin a ogni modifica | `tests/conformance/` |
 | Specifiche e decisioni | 18 specifiche, 13 ADR | `docs/spec/`, `docs/adr/` |
 | Suoni | 174 effetti sintetizzati; musica e ambiente **spenti** su richiesta del proprietario | spec 14 |
 
@@ -293,8 +293,8 @@ Legenda: **fatto** = le consegne del piano ci sono e funzionano su tutti e due i
 | M3 Combattimento | fatto | attacco, colpo potente, schivata, parata, sei elementi, stati alterati su creature e giocatore, stagger, barra del guardiano, Analizza di Ren, 75 creature con comportamenti, XP e livelli | nulla di aperto: nessuno scontro del modello dura più di tre secondi al proprio livello (`docs/design/balance.md`); si ricontrolla a ogni creatura nuova |
 | M4 Dialoghi, missioni, inventario, salvataggi | quasi | dialoghi con condizioni ed effetti, missioni con meta sulla mappa, zaino, negozi, equipaggiamento a tre posti, diario e finestra di stato, gilda con ranghi F-S e bacheca, locande, tre partite, export e import, `profile.json`, volumi, tasti configurabili (desktop), Fenwick e Aldermere scritti a mano, otto prologhi | la **release Alpha 0.1** (tag e pacchetti: decisione del proprietario); la fama per fazioni (quella per regione c'è) |
 | M5 Mondo aperto | quasi | streaming dei chunk, regioni, insediamenti, siti, fiumi e strade, stagioni, meteo con pioggia, neve e notte che nascondono il giocatore, routine dei PNG, Pietre della Soglia, mappa del mondo e mini mappa, luci di notte | prestazioni misurate su un telefono reale; altri effetti del meteo sul gioco |
-| M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, 51 ricette al falò e all'incudine, cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato | agricoltura e allevamento, base e residenti, mercanti ambulanti, ricettario |
-| M7 Compagni | avviato | un compagno per protagonista che segue, combatte, resta, segue o torna a comando, cresce di legame e cura il giocatore; i doni di Haruka (legame più rapido) e di Gideon (compagno più forte) | più compagni insieme, domare una creatura incontrata, i doni che ne dipendono (domare per Haruka, comandare per Gideon), eventi di legame |
+| M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, 51 ricette al falò e all'incudine, cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane | agricoltura e allevamento, base e residenti, ricettario |
+| M7 Compagni | avviato | un compagno per protagonista che segue, combatte, resta, segue o torna a comando, cresce di legame e cura il giocatore; i doni di Haruka (legame più rapido) e di Gideon (compagno più forte) ; Haruka doma le creature ferite | più compagni insieme (una creatura domata che resta), i doni che ne dipendono (domare per Haruka, comandare per Gideon), eventi di legame |
 | M8 Progressione profonda | avviato | bestiario con debolezze, 29 titoli con effetti e progressi visibili, albero di 16 talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma | tag, achievements, rune e affissi, sblocchi del profilo |
 | M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | altre storie per regione; i doni non ancora attivi (la tasca di Yuki, domare, una seconda vita per dungeon); la modalità Dungeon di Gideon |
 | M10 Rifinitura | avviato | effetti sonori, pannelli e barre ridisegnati, testi che vanno a capo per larghezza, niente scatti quando appare roba nuova | tutorial, accessibilità, un sintetizzatore migliore per riaccendere musica e ambiente, crediti, controllo delle traduzioni |
@@ -321,7 +321,7 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 
 **Missioni e persone** (spec 07, 18)
 
-- 268 missioni: le storie degli otto protagonisti (prologo, due missioni personali, tre atti, epilogo), la gilda con bacheca generata, Fenwick e Aldermere, gli otto avamposti (tre o quattro missioni ognuno), il Libro delle Leggende di Selwyn, le taglie di Hestia, le lettere e i pacchi del corriere Wendel, caccia e pesca.
+- 276 missioni (otto sono i compiti da amico degli anziani, per chi ha otto missioni nella regione): le storie degli otto protagonisti (prologo, due missioni personali, tre atti, epilogo), la gilda con bacheca generata, Fenwick e Aldermere, gli otto avamposti (tre o quattro missioni ognuno), il Libro delle Leggende di Selwyn, le taglie di Hestia, le lettere e i pacchi del corriere Wendel, caccia e pesca.
 - Ogni missione segna sulla mappa dove andare: un luogo, una persona, la tana delle creature giuste o la pianta più vicina.
 - **Fama** (dal 14 novembre): ogni missione finita in una regione vale un punto di fama lì; i negozi della regione scontano l'1,5% per punto fino al 25%, anziani e bottegai salutano un amico da tre missioni, i locandieri danno un letto gratis da cinque; otto titoli "Amico di ...". Ogni regione tiene due pezzi rari per chi ha cinque e dieci missioni lì.
 - **Giorni di mercato** (dal 14 novembre): i prezzi di ogni regione oscillano con il giorno, per comprare e per vendere (dal 6% di Ironspine al 20% di Sunscar).
@@ -373,17 +373,19 @@ L'ordine tiene conto di quanto ogni pezzo cambia l'esperienza di chi gioca, di q
 
 Nella seconda PR dello stesso giorno: abilità con un tasto proprio (Onda d'urto, Rimarginare), giorni di mercato, merci riservate a chi è conosciuto, i doni dei compagni di Haruka e Gideon.
 
+Nella terza PR dello stesso giorno: Haruka doma le creature ferite, un compito da amico dall'anziano di ogni regione (otto missioni), le merci di un'altra regione in ogni bottega, la probabilità di opera pregiata nel pannello di creazione.
+
 **A breve (le prossime PR)**
 
-1. **Secondo compagno e domare** (M7): più compagni insieme; Haruka doma una creatura incontrata.
-2. **Fama che apre missioni** (M4): missioni riservate a chi è conosciuto in una regione; fama per fazioni.
-3. **Ricettario** (M6): le ricette si scoprono, e il pannello dice quali riescono pregiate più spesso.
-4. **Mercanti ambulanti** (M6): un mercante che gira tra gli insediamenti con merci di altre regioni.
+1. **Secondo compagno** (M7): una creatura domata che resta al fianco, più compagni insieme.
+2. **Ricettario** (M6): le ricette si scoprono (serve un campo nuovo nel salvataggio).
+3. **Fama per fazioni** (M4), oltre a quella per regione.
+4. **I doni che mancano** (M9): la tasca di Yuki, una seconda vita per sotterraneo.
 5. **Controlli automatici della grafica**: confronto dei fotogrammi del test di fumo con immagini di riferimento, ktlint e detekt in CI.
 
 **A medio termine (verso Alpha 0.2 e Beta 0.5)**
 
-8. **Doni ancora non attivi** (M9, spec 18): la tasca di Yuki che nessuno può perquisire, domare le creature, una seconda vita per sotterraneo.
+8. **Tag e achievements** (M8).
 9. **Agricoltura e allevamento, base e residenti** (M6).
 10. **Economia che reagisce a ciò che compri e vendi** (M6; i giorni di mercato ci sono).
 11. **Tag, achievements, rune e affissi** (M8).
@@ -412,6 +414,6 @@ Nella seconda PR dello stesso giorno: abilità con un tasto proprio (Onda d'urto
 
 ### 8.7 Che cosa è verificato e che cosa no
 
-- **Verificato a ogni modifica:** i dati contro gli schemi, i testi nelle due lingue, i 511 casi di conformità sui due client, la compilazione di Windows, Linux e Android, un test di fumo del desktop con fotogrammi reali.
+- **Verificato a ogni modifica:** i dati contro gli schemi, i testi nelle due lingue, i 514 casi di conformità sui due client, la compilazione di Windows, Linux e Android, un test di fumo del desktop con fotogrammi reali.
 - **Verificato dal proprietario:** come appare e come si gioca, sulle tre piattaforme.
 - **Non verificabile da qui:** il suono (non si ascolta), le prestazioni su un telefono reale, ciò che si vede solo giocando a lungo. Ogni PR lo dice esplicitamente.

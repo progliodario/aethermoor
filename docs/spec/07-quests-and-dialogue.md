@@ -39,7 +39,7 @@ An effect is an object with `effect` plus parameters, applied in list order:
 | `start_quest` | `quest` | starts the quest (ignored when it already exists) |
 | `add_guild_points` | `amount` | `guild_points += amount` |
 | `open_board` | none | opens the board of the settlement the player is in (see "Guild"); nothing when there is none |
-| `open_shop` | none | opens the shop of the place (spec 06); nothing changes when the world has no shop there |
+| `open_shop` | optional `region`, `markup_pct` | opens the shop of the place (spec 06); nothing changes when the world has no shop there. With a `region` it opens the goods of that region at `markup_pct` percent (default 100) of its prices (spec 06, "Goods from afar") |
 
 ## Quests
 
@@ -199,6 +199,7 @@ The **renown** of a region is the number of quests the player finished while sta
 
 - **Prices.** A shop has `renown_step_pm` and `renown_max_pm` (`regions[].shop` in the world data, spec 09): while it is open the renown of the region takes `discount_pm = min(renown_max_pm, renown * renown_step_pm)` off the buying prices (spec 06, "Shops"); selling is not changed. The base pack takes 15 permille for each quest, up to 250 (a quarter off after seventeen quests), in every region.
 - **Wares for friends.** A shop may have `renown_stock`, a list of `{item, renown}`: when the shop opens, every item whose `renown` the renown of the region has reached joins the stock, after the usual goods; a quest finished while the shop is open counts from the next time it opens. In the base pack every region keeps two rare or epic pieces of its own for somebody with five and with ten quests there.
+- **A task for a friend.** In the base pack the elder of every settlement offers one more quest to somebody with eight quests in the region (`base:quest/side/friend_<region>`, `tools/make_friend_quests.py`): a hunt of a strong creature of the region, offered, followed and paid like the errands (the flag `friend_<region>_paid`), for `150 * danger` experience, `400 + 200 * danger` gold and two large potions.
 - **Dialogue.** The condition `renown_at_least` holds when the renown of the region where the player stands is at least its value. In the base pack (`tools/make_renown_talk.py`) the elder and the shopkeeper of every settlement greet as a friend somebody with three quests in the region, and the innkeeper gives a bed for nothing (the effect `heal_full`) from five.
 - **Titles.** A title can ask for the counter of a region (`kind` `renown:<region id>`): the base pack has a "Friend of ..." for each of the eight regions, at ten quests.
 - **Presentation.** The shop panel says how much the renown takes off ("Renown -15%"), and the status window the quests finished in the region where the player is.

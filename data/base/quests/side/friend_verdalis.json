@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/friend_verdalis",
+  "name": "$i18n:quest.friend_verdalis.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "hunt",
+      "journal": "$i18n:quest.friend_verdalis.hunt",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/wolf_tawny",
+          "count": 6
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

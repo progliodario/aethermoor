@@ -52,7 +52,7 @@ A recipe may have `fine_pm`, the chance in permille that what is made comes out 
 2. the piece is fine when `mix64(h) % 1000 < fine_pm + sum of fine_pm of the earned titles` (spec 11, "Titles with effects");
 3. a fine recipe with a `fine_item` gives that item instead of the output, in the same quantity; without one it gives one more of the output. The counter `crafted_fine` goes up by one.
 
-The roll uses no random stream, so nothing is added to the save: the same game makes the same fine pieces in the same order. A recipe without `fine_pm` never rolls. In the base pack (`tools/make_recipes.py`) every dish, potion and brew has `fine_pm` 150, and so have the plain iron sword, hand axe, pike, leather vest and studded leather, whose fine piece is the fine gear of the anvil; the accessories, the cloaks and the fine gear itself have no quality. The titles of an artisan add 100 (Artisan), 150 (Master Artisan) and 150 (Fine Hand, ten fine pieces), up to 550 permille. The clients say "Fine work!" in place of the usual notice. Conformance: the scenario `craft_quality`.
+The roll uses no random stream, so nothing is added to the save: the same game makes the same fine pieces in the same order. A recipe without `fine_pm` never rolls. In the base pack (`tools/make_recipes.py`) every dish, potion and brew has `fine_pm` 150, and so have the plain iron sword, hand axe, pike, leather vest and studded leather, whose fine piece is the fine gear of the anvil; the accessories, the cloaks and the fine gear itself have no quality. The titles of an artisan add 100 (Artisan), 150 (Master Artisan) and 150 (Fine Hand, ten fine pieces), up to 550 permille. The clients say "Fine work!" in place of the usual notice, and the crafting panel shows the chance of every recipe that has one ("fine 25%": `fine_pm` plus the titles, at most 1000). Conformance: the scenario `craft_quality`.
 
 ### Stations
 
@@ -108,6 +108,10 @@ A region sells goods: `regions[].shop` is `{price_pm, stock}` (spec 09); a settl
 A shop may have `market_swing_pm` (`regions[].shop`, spec 09): its prices move with the day, the same way for buying and for selling. `market_pm = 1000 - swing + hash64(fnv1a64("market:" + region id) ^ seed, day) % (2 * swing + 1)`, where `day` is the day of the world (spec 08; `world_ticks / day_ticks + 1`, and 1 on a map without a clock) and the hash is unsigned. Without a swing, or with no shop open, `market_pm` is 1000. Nothing is saved: the day gives the price. In the base pack the swing goes from 60 permille in Ironspine ("prices fixed") to 200 in Sunscar, where one haggles. The shop panel says "Today +7%" or "Today -12%". Conformance: the scenario `market_days`.
 
 A shop may also have `renown_stock`, wares for the friends of the region (spec 07, "Renown").
+
+### Goods from afar
+
+The effect `open_shop` may name a `region` and a `markup_pct` (spec 07): the shop that opens then sells the stock of that region at `price_pm * markup_pct / 100` (integer division) of its prices, with its own swing of the market; it has no wares for friends, and the market of the day and the renown are still those of the region where the player stands. A region the world does not have opens the shop of the place. In the base pack the shopkeeper of every settlement also sells "what the caravan brought": the goods of the next region along the ring of the wayfarers (Verdalis sells those of Ironspine, Ironspine of the Ashen Wastes, then Sunscar, Lumeria, Tidehaven, Frostveil, Whisperwood and Verdalis again), at 125 percent (`tools/make_friend_quests.py`). In a conformance scenario the far shops are `far_shops`, by region. Conformance: the scenario `goods_from_afar`.
 
 ## Bag screen
 

@@ -75,6 +75,8 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 - Titles of a way of playing that change the game: the Forager finds more, the Artisan makes more, the Unbreakable Guard parries longer, the Veteran earns more experience.
 - A tree of sixteen talents, with two abilities used on command (Shockwave and Mend): a point a level, four roots (attack, health, mana, defense), a second ring that opens at rank 5 (critical, second wind, magic, speed), a crown (Legend, Bulwark) and four abilities that open at rank 3 of each root: Whirlwind (the power strike hits all around), Battle Hunger (health for every kill), Flow (mana for every kill), Riposte (a parry hits back).
 - Renown in the regions: every quest finished in a region lowers the prices of its shops (up to a quarter), changes how elders and shopkeepers greet you and, after five, is worth a free bed at the inn.
+- Haruka tames: she calms a hurt creature, which leaves in peace and counts as a victory.
+- A task for a friend from the elder of every region, and in every shop the goods the caravan brought from another region.
 - Market days: the prices of every region change with the day, for buying and for selling; and every region keeps two rare pieces for somebody who is known there.
 - Fine work: what you make can come out fine (one more of it, or the fine piece instead of the plain one), more often with the titles of an artisan.
 - Three equipment slots: weapon, armor and **accessory** (nine: necklaces, pendants, rings and amulets made at an anvil or left by the guardians, with bonuses to attack, health, critical chance, defense, magic, or that give back health with every hit); and a draught that **cleanses** burning, chill, stun and weakness.

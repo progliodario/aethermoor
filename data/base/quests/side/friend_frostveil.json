@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/friend_frostveil",
+  "name": "$i18n:quest.friend_frostveil.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "hunt",
+      "journal": "$i18n:quest.friend_frostveil.hunt",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/wolf_polar",
+          "count": 6
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

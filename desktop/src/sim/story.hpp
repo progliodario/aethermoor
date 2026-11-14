@@ -173,6 +173,8 @@ public:
     virtual float player_x() const = 0;
     virtual float player_y() const = 0;
     virtual void open_shop() = 0;
+    // The goods of another region at `markup_pct` percent of its prices (spec 06, "Goods from afar").
+    virtual void open_shop_of(const std::string& /*region*/, std::int64_t /*markup_pct*/) { open_shop(); }
     virtual void open_board() = 0;
     virtual void heal_full() = 0;
     virtual std::string season_id() const = 0;  // the season of the day, empty without seasons

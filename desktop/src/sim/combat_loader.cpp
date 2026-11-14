@@ -106,6 +106,9 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
     setup.gift.death_save_ticks = protagonist->death_save_ticks;
     setup.gift.companion_atk_pct = protagonist->companion_atk_pct;
     setup.gift.bond_gain = protagonist->bond_gain;
+    setup.gift.tame_hp_pct = protagonist->tame_hp_pct;
+    setup.gift.tame_range_x100 = protagonist->tame_range_x100;
+    setup.gift.tame_bond = protagonist->tame_bond;
     if (!protagonist->companion.empty()) {  // the companion of the protagonist (spec 10)
         if (const auto companion_text = pack.read_document(protagonist->companion)) {
             const Json c = Json::parse(*companion_text, nullptr, /*allow_exceptions=*/false);

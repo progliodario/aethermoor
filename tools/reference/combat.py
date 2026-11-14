@@ -137,6 +137,7 @@ class CombatSim:
                          "accessory": scenario.get("equipped", {}).get("accessory", "")}
         self.shop: dict | None = None  # the open shop: {"price_pm": ..., "stock": [...]}
         self.shop_def: dict | None = scenario.get("shop")  # what the shop of this place sells
+        self.far_shops: dict[str, dict] = scenario.get("far_shops", {})  # the shops of other regions, by region (spec 06, "Goods from afar")
         self.derived = self._derive()
         self.hp = self.derived["max_hp"]
         self.mp_u = self.derived["max_mp"] * 6000  # mana in units of 1/6000 of a point
@@ -416,6 +417,38 @@ class CombatSim:
                 enemy.state = DEAD
                 self._on_kill(enemy)
         return True
+
+    def tame(self) -> bool:
+        """Tames the nearest hurt creature (spec 18, the gift `tame_hp_pct`): it leaves in peace, which counts as a kill in every way, and the bond of
+        the companion grows. Returns False, changing nothing, when it is refused."""
+        pct = self.gift.get("tame_hp_pct", 0)
+        if pct <= 0 or (self.story is not None and self.story.dialogue_active) or self.p_stun > 0:
+            return False
+        best, best_dist = None, 0.0
+        for enemy in self.enemies:
+            if enemy.state == DEAD or enemy.hp * 100 > enemy.d["hp"] * pct:
+                continue
+            dist = math.sqrt((enemy.x - self.x) ** 2 + (enemy.y - self.y) ** 2)
+            if dist > self.gift.get("tame_range_x100", 0) / 100 + enemy.radius:
+                continue
+            if best is None or dist < best_dist:
+                best, best_dist = enemy, dist
+        if best is None:
+            return False
+        best.hp = 0
+        best.state = DEAD
+        self.counters["tamed"] = self.counters.get("tamed", 0) + 1
+        if self.companion is not None:
+            self.comp_bond += self.gift.get("tame_bond", 0)
+        self._on_kill(best)
+        return True
+
+    def fine_chance_pm(self, recipe_id: str) -> int:
+        """The chance in permille that a recipe comes out fine now (spec 06, "Quality"); 0 for a recipe without quality. Presentation only."""
+        recipe = self.recipes.get(recipe_id)
+        if recipe is None or recipe.get("fine_pm", 0) <= 0:
+            return 0
+        return min(1000, recipe["fine_pm"] + self.title_bonus("fine_pm"))
 
     def companion_recall(self) -> bool:
         """Calls the companion back (spec 10, "Commands"): it is next to the player at once and follows again. False when there is no companion."""
@@ -823,8 +856,13 @@ class CombatSim:
         item = self.items[item_id]
         return item.get("stack_max", 1 if item.get("kind") in ("weapon", "armor", "accessory") else 99)
 
-    def open_shop(self) -> bool:
-        """Opens the shop of the place (the `open_shop` dialogue effect)."""
+    def open_shop(self, region: str = "", markup_pct: int = 100) -> bool:
+        """Opens the shop of the place (the `open_shop` dialogue effect), or with `region` the goods of another region at `markup_pct` percent of
+        its prices (spec 06, "Goods from afar"); an unknown region is the shop of the place."""
+        if region and region in self.far_shops:
+            far = self.far_shops[region]  # no wares for friends there: the renown is of the place where the player stands
+            self.shop = {**far, "price_pm": far["price_pm"] * markup_pct // 100, "stock": list(far["stock"])}
+            return True
         if self.shop_def is None:
             return False
         known = [w["item"] for w in self.shop_def.get("renown_stock", []) if self.renown_here() >= w["renown"]]  # spec 07, "Renown": wares for friends
@@ -993,7 +1031,10 @@ def run_segment(sim: CombatSim, segment: dict) -> None:
             sim.story.start_quest(command["quest"])
             continue
         if command["cmd"] == "open_shop":
-            sim.open_shop()
+            sim.open_shop(command.get("region", ""), command.get("markup_pct", 100))
+            continue
+        if command["cmd"] == "tame":
+            sim.tame()
             continue
         if command["cmd"] == "close_shop":
             sim.close_shop()

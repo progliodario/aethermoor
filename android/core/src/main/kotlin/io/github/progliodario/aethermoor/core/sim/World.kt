@@ -320,6 +320,50 @@ class WorldSim(
         return true
     }
 
+    /** Taming (spec 18, the gift `tame_hp_pct`): the nearest hurt creature in reach leaves in peace, which counts as a kill, and the bond grows. */
+    fun tame(): Boolean {
+        val gift = combat.gift
+        val p = player
+        if (gift.tameHpPct <= 0 || story.dialogueActive || p.stun > 0) return false
+        var best: Enemy? = null
+        var bestDist = 0f
+        for (enemy in enemies) {
+            if (enemy.state == EnemyState.DEAD || enemy.hp * 100 > enemy.def.hp * gift.tameHpPct) continue
+            val dist = distance(enemy.position.x, enemy.position.y, p.position.x, p.position.y)
+            if (dist > gift.tameRangeX100.toFloat() / 100f + enemy.radius) continue
+            if (best == null || dist < bestDist) {
+                best = enemy
+                bestDist = dist
+            }
+        }
+        val tamed = best ?: return false
+        tamed.hp = 0
+        tamed.state = EnemyState.DEAD
+        count("tamed")
+        if (combat.companion != null) companionBond += gift.tameBond
+        cues.add(SimCue("die", tamed.def.sound, tamed.position))
+        onKill(tamed)
+        return true
+    }
+
+    /** The chance in permille that a recipe comes out fine now; 0 without quality (presentation only). */
+    fun fineChancePm(recipe: RecipeDef): Long = if (recipe.finePm > 0) minOf(1000L, recipe.finePm + titleFinePm()) else 0L
+
+    override fun openShopOf(region: String, markupPct: Long) {
+        val store = chunks
+        // no wares for friends there: the renown is of the place where the player stands
+        val far = if (store != null) {
+            store.params.regions.firstOrNull { it.id == region }?.let { ShopDef(it.shopPricePm, it.shopStock, it.shopRenownStepPm, it.shopRenownMaxPm, it.shopMarketSwingPm) }
+        } else {
+            combat.farShops[region]
+        }
+        if (far == null) {
+            openShop() // an unknown region is the shop of the place
+            return
+        }
+        shop = ShopDef((far.pricePm * markupPct / 100).toInt(), far.stock, far.renownStepPm, far.renownMaxPm, far.marketSwingPm)
+    }
+
     /** Calls the companion back (spec 10, "Commands"): it is next to the player at once and follows again; false when there is none. */
     fun companionRecall(): Boolean {
         if (combat.companion == null) return false

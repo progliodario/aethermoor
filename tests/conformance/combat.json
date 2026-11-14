@@ -38377,6 +38377,1541 @@
       }
     },
     {
+      "name": "combat_gift_tame",
+      "input": {
+        "op": "combat",
+        "companion": {
+          "atk_base": 0,
+          "atk_per_level": 0,
+          "range_x100": 10,
+          "cooldown_ticks": 60,
+          "speed_x100": 320,
+          "follow_x100": 220
+        },
+        "gift": {
+          "tame_hp_pct": 50,
+          "tame_range_x100": 250,
+          "tame_bond": 2
+        },
+        "titles": [
+          {
+            "id": "friend",
+            "name": "t",
+            "kind": "tamed",
+            "count": 1
+          }
+        ],
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            2.2,
+            4.5
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              3.5,
+              4.5
+            ],
+            "def": {
+              "hp": 120,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              },
+              "id": "base:enemy/slime_green"
+            }
+          },
+          {
+            "pos": [
+              9.0,
+              4.5
+            ],
+            "def": {
+              "hp": 10,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "tame"
+              }
+            ]
+          },
+          {
+            "ticks": 60,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "tame"
+              }
+            ]
+          },
+          {
+            "ticks": 60,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "tame"
+              },
+              {
+                "cmd": "tame"
+              }
+            ]
+          },
+          {
+            "ticks": 30,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          }
+        ]
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 120,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 10,
+                "state": "idle",
+                "x": 9.0,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.2,
+              "y": 4.5,
+              "stay": false,
+              "bond": 0
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 67,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 10,
+                "state": "idle",
+                "x": 9.0,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.2,
+              "y": 4.5,
+              "stay": false,
+              "bond": 0
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 67,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 10,
+                "state": "idle",
+                "x": 9.0,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.2,
+              "y": 4.5,
+              "stay": false,
+              "bond": 0
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 15,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 10,
+                "state": "idle",
+                "x": 9.0,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.2,
+              "y": 4.5,
+              "stay": false,
+              "bond": 0
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 6,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 10,
+                "state": "idle",
+                "x": 9.0,
+                "y": 4.5
+              }
+            ],
+            "kills": 1,
+            "inventory": {
+              "base:item/slime_gel": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.2,
+              "y": 4.5,
+              "stay": false,
+              "bond": 2
+            },
+            "bestiary": {
+              "base:enemy/slime_green": 1
+            },
+            "titles": [
+              "friend"
+            ],
+            "counters": {
+              "tamed": 1
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 6,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 10,
+                "state": "idle",
+                "x": 9.0,
+                "y": 4.5
+              }
+            ],
+            "kills": 1,
+            "inventory": {
+              "base:item/slime_gel": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.2,
+              "y": 4.5,
+              "stay": false,
+              "bond": 2
+            },
+            "bestiary": {
+              "base:enemy/slime_green": 1
+            },
+            "titles": [
+              "friend"
+            ],
+            "counters": {
+              "tamed": 1
+            }
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
+      "name": "combat_gift_tame_without",
+      "input": {
+        "op": "combat",
+        "companion": {
+          "atk_base": 0,
+          "atk_per_level": 0,
+          "range_x100": 10,
+          "cooldown_ticks": 60,
+          "speed_x100": 320,
+          "follow_x100": 220
+        },
+        "gift": {},
+        "titles": [
+          {
+            "id": "friend",
+            "name": "t",
+            "kind": "tamed",
+            "count": 1
+          }
+        ],
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            2.2,
+            4.5
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              3.5,
+              4.5
+            ],
+            "def": {
+              "hp": 120,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              },
+              "id": "base:enemy/slime_green"
+            }
+          },
+          {
+            "pos": [
+              9.0,
+              4.5
+            ],
+            "def": {
+              "hp": 10,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "tame"
+              }
+            ]
+          },
+          {
+            "ticks": 60,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "tame"
+              }
+            ]
+          },
+          {
+            "ticks": 60,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "tame"
+              },
+              {
+                "cmd": "tame"
+              }
+            ]
+          },
+          {
+            "ticks": 30,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          }
+        ]
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 120,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 10,
+                "state": "idle",
+                "x": 9.0,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.2,
+              "y": 4.5,
+              "stay": false,
+              "bond": 0
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 67,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 10,
+                "state": "idle",
+                "x": 9.0,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.2,
+              "y": 4.5,
+              "stay": false,
+              "bond": 0
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 67,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 10,
+                "state": "idle",
+                "x": 9.0,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.2,
+              "y": 4.5,
+              "stay": false,
+              "bond": 0
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 15,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 10,
+                "state": "idle",
+                "x": 9.0,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.2,
+              "y": 4.5,
+              "stay": false,
+              "bond": 0
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 15,
+                "state": "idle",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 10,
+                "state": "idle",
+                "x": 9.0,
+                "y": 4.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.2,
+              "y": 4.5,
+              "stay": false,
+              "bond": 0
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 6,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.5,
+                "y": 4.5
+              },
+              {
+                "hp": 10,
+                "state": "idle",
+                "x": 9.0,
+                "y": 4.5
+              }
+            ],
+            "kills": 1,
+            "inventory": {
+              "base:item/slime_gel": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.2,
+              "y": 4.5,
+              "stay": false,
+              "bond": 0
+            },
+            "bestiary": {
+              "base:enemy/slime_green": 1
+            },
+            "titles": [],
+            "counters": {}
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
+      "name": "combat_goods_from_afar",
+      "input": {
+        "op": "combat",
+        "start_gold": 1000,
+        "story": {
+          "quests": {},
+          "dialogues": {
+            "test:dialogue/pedlar": {
+              "id": "test:dialogue/pedlar",
+              "start": "start",
+              "nodes": {
+                "start": {
+                  "type": "say",
+                  "speaker": "pedlar",
+                  "text": "t.far",
+                  "next": "open"
+                },
+                "open": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "open_shop",
+                      "region": "north",
+                      "markup_pct": 125
+                    }
+                  ],
+                  "next": "end"
+                }
+              }
+            }
+          },
+          "npcs": [
+            {
+              "key": "pedlar",
+              "pos": [
+                4.0,
+                4.5
+              ],
+              "dialogue": "test:dialogue/pedlar"
+            }
+          ]
+        },
+        "shop": {
+          "price_pm": 1000,
+          "stock": [
+            "base:item/bread"
+          ]
+        },
+        "far_shops": {
+          "north": {
+            "price_pm": 2000,
+            "stock": [
+              "base:item/bread",
+              "base:item/chain_mail"
+            ]
+          }
+        },
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            3.4,
+            4.5
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              12.0,
+              7.5
+            ],
+            "def": {
+              "hp": 28,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "open_shop"
+              },
+              {
+                "cmd": "buy",
+                "item": "base:item/bread"
+              },
+              {
+                "cmd": "buy",
+                "item": "base:item/chain_mail"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "advance"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "buy",
+                "item": "base:item/bread"
+              },
+              {
+                "cmd": "buy",
+                "item": "base:item/chain_mail"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "open_shop",
+                "region": "nowhere",
+                "markup_pct": 300
+              },
+              {
+                "cmd": "buy",
+                "item": "base:item/bread"
+              }
+            ]
+          }
+        ],
+        "inventory": {},
+        "items": {
+          "base:item/bread": {
+            "kind": "food",
+            "price": 5,
+            "effects": [
+              {
+                "effect": "heal",
+                "amount": 30
+              }
+            ]
+          },
+          "base:item/potion_mana_small": {
+            "kind": "consumable",
+            "price": 40,
+            "effects": [
+              {
+                "effect": "restore_mp",
+                "amount": 30
+              }
+            ]
+          },
+          "base:item/slime_gel": {
+            "kind": "material",
+            "price": 3,
+            "effects": []
+          },
+          "base:item/cleansing_draught": {
+            "kind": "food",
+            "price": 60,
+            "effects": [
+              {
+                "effect": "cleanse"
+              }
+            ]
+          },
+          "base:item/windleaf_brew": {
+            "kind": "food",
+            "price": 90,
+            "effects": [
+              {
+                "effect": "haste",
+                "amount": 50,
+                "ticks": 90
+              }
+            ]
+          },
+          "base:item/honey_cake": {
+            "kind": "food",
+            "price": 20,
+            "effects": [
+              {
+                "effect": "regen",
+                "amount": 6,
+                "ticks": 600
+              }
+            ]
+          },
+          "base:item/frost_tonic": {
+            "kind": "food",
+            "price": 160,
+            "effects": [
+              {
+                "effect": "ward",
+                "amount": 400,
+                "ticks": 300
+              }
+            ]
+          },
+          "base:item/roast_meat": {
+            "kind": "food",
+            "price": 30,
+            "effects": [
+              {
+                "effect": "heal",
+                "amount": 20
+              },
+              {
+                "effect": "fortify",
+                "amount": 50,
+                "ticks": 200
+              }
+            ]
+          },
+          "base:item/practice_sword": {
+            "kind": "weapon",
+            "price": 20,
+            "weapon": {
+              "atk": 3,
+              "matk": 0
+            }
+          },
+          "base:item/iron_sword": {
+            "kind": "weapon",
+            "price": 150,
+            "weapon": {
+              "atk": 7,
+              "matk": 0
+            }
+          },
+          "base:item/ember_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "fire"
+            }
+          },
+          "base:item/frost_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "water"
+            }
+          },
+          "base:item/storm_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "wind"
+            }
+          },
+          "base:item/quake_hammer": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "earth"
+            }
+          },
+          "base:item/sun_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "light"
+            }
+          },
+          "base:item/leather_vest": {
+            "kind": "armor",
+            "price": 80,
+            "armor": {
+              "def": 2,
+              "mdef": 1
+            }
+          },
+          "base:item/chain_mail": {
+            "kind": "armor",
+            "price": 300,
+            "armor": {
+              "def": 5,
+              "mdef": 2
+            }
+          },
+          "base:item/fang_necklace": {
+            "kind": "accessory",
+            "price": 200,
+            "accessory": {
+              "atk": 12,
+              "max_hp": 40
+            }
+          },
+          "base:item/bat_charm": {
+            "kind": "accessory",
+            "price": 200,
+            "accessory": {
+              "drain_pm": 300
+            }
+          }
+        }
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 3.4,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/bread": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 995,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 3.4,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/bread": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 995,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": {
+                "type": "say",
+                "speaker": "pedlar",
+                "text": "t.far"
+              }
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 3.4,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/bread": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 995,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 3.4,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/bread": 2,
+              "base:item/chain_mail": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 233,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 3.4,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/bread": 3,
+              "base:item/chain_mail": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 228,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
       "name": "combat_leash_and_return",
       "input": {
         "op": "combat",
