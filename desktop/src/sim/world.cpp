@@ -383,16 +383,99 @@ std::int64_t WorldSim::talent_power(const std::string& stat) const {
     return power;
 }
 
-std::string WorldSim::renown_key() const {
+std::string WorldSim::region_id() const {
     if (!m_store_) {
-        return "renown:" + m_setup_.region;
+        return m_setup_.region;
     }
     const WorldParams& params = m_store_->params();
-    return "renown:" +
-           params
-               .regions[static_cast<std::size_t>(region_at(params, static_cast<int>(std::floor(m_player_.position.x)),
-                                                           static_cast<int>(std::floor(m_player_.position.y))))]
-               .id;
+    return params
+        .regions[static_cast<std::size_t>(region_at(params, static_cast<int>(std::floor(m_player_.position.x)),
+                                                    static_cast<int>(std::floor(m_player_.position.y))))]
+        .id;
+}
+
+std::string WorldSim::renown_key() const { return "renown:" + region_id(); }
+
+std::int64_t WorldSim::market_pm() const {
+    const std::int64_t swing = m_shop_ ? m_shop_->market_swing_pm : 0;
+    if (swing <= 0) {
+        return 1000;
+    }
+    const std::int64_t day_ticks = m_store_ ? m_store_->params().time.day_ticks : m_setup_.day_ticks;
+    const std::int64_t day = day_ticks > 0 ? m_world_ticks_ / day_ticks + 1 : 1;
+    const std::uint64_t h = hash64(fnv1a64("market:" + region_id()) ^ m_setup_.seed, day);
+    return 1000 - swing + static_cast<std::int64_t>(h % static_cast<std::uint64_t>(2 * swing + 1));
+}
+
+const TalentDef* WorldSim::ability_talent(const std::string& kind) const {
+    for (const TalentDef& talent : m_setup_.talents) {
+        if (talent.stat != kind || !talent.has_active) {
+            continue;
+        }
+        const auto learned = m_talents_.find(talent.id);
+        if (learned != m_talents_.end() && learned->second > 0) {
+            return &talent;
+        }
+    }
+    return nullptr;
+}
+
+int WorldSim::ability_cooldown(const std::string& kind) const {
+    const auto found = m_player_.ability_cd.find(kind);
+    return found == m_player_.ability_cd.end() ? 0 : found->second;
+}
+
+bool WorldSim::use_ability(const std::string& kind) {
+    Player& p = m_player_;
+    if (m_story_.dialogue_active() || p.stun > 0 || (kind != "burst" && kind != "mend")) {
+        return false;
+    }
+    const TalentDef* talent = ability_talent(kind);
+    if (talent == nullptr || ability_cooldown(kind) > 0) {
+        return false;
+    }
+    const std::int64_t power = talent_power(kind);
+    const std::int64_t full = m_derived_.max_hp;
+    if (p.mp_u < talent->active_mp * 6000 || (kind == "mend" && !(p.hp > 0 && p.hp < full))) {
+        return false;
+    }
+    p.mp_u -= talent->active_mp * 6000;
+    p.ability_cd[kind] = talent->active_cooldown;
+    if (kind == "mend") {
+        p.hp = std::min(full, p.hp + std::max<std::int64_t>(1, full * power / 100));
+        m_cues_.push_back({"craft", "", p.position});
+        return true;
+    }
+    const float reach = static_cast<float>(talent->active_radius_x100) / 100.0F;
+    for (Enemy& enemy : m_enemies_) {  // burst: every creature around, in order, with no roll
+        if (enemy.state == EnemyState::Dead) {
+            continue;
+        }
+        if (distance(enemy.position.x, enemy.position.y, p.position.x, p.position.y) > reach + enemy.radius()) {
+            continue;
+        }
+        DamageInput in;
+        in.atk = std::max(m_derived_.atk, m_derived_.matk) * power / 100;
+        in.power_pct = 100;
+        in.def_target = enemy.def.def;
+        in.lvl_attacker = p.level;
+        in.lvl_target = enemy.def.level;
+        in.variance_pm = 1000;
+        in.crit = false;
+        in.crit_mult_pm = 1500;
+        const std::int64_t amount = damage(in);
+        enemy.hp -= amount;
+        enemy.hit_flash = kHitFlashTicks;
+        m_events_.push_back({enemy.position, amount, false, false});
+        m_cues_.push_back({"hit", enemy.def.sound, enemy.position});
+        if (enemy.hp <= 0) {
+            enemy.hp = 0;
+            enemy.state = EnemyState::Dead;
+            m_cues_.push_back({"die", enemy.def.sound, enemy.position});
+            on_kill(enemy);
+        }
+    }
+    return true;
 }
 
 std::int64_t WorldSim::renown_here() const {
@@ -485,15 +568,25 @@ bool WorldSim::travel_to(int index) {
 }
 
 void WorldSim::open_shop() {
+    std::optional<ShopDef> shop;
     if (m_store_) {
         const Region& region = m_store_->params().regions[static_cast<std::size_t>(
             region_at(m_store_->params(), static_cast<int>(std::floor(m_player_.position.x)),
                       static_cast<int>(std::floor(m_player_.position.y))))];
-        m_shop_ =
-            ShopDef{region.shop_price_pm, region.shop_stock, region.shop_renown_step_pm, region.shop_renown_max_pm};
+        shop = ShopDef{region.shop_price_pm,      region.shop_stock,           region.shop_renown_step_pm,
+                       region.shop_renown_max_pm, region.shop_market_swing_pm, region.shop_renown_stock};
     } else if (m_setup_.shop) {
-        m_shop_ = m_setup_.shop;
+        shop = m_setup_.shop;
     }
+    if (!shop) {
+        return;
+    }
+    for (const auto& [item, renown] : shop->renown_stock) {  // wares for friends of the region (spec 07, "Renown")
+        if (renown_here() >= renown) {
+            shop->stock.push_back(item);
+        }
+    }
+    m_shop_ = std::move(shop);
 }
 
 namespace {
@@ -567,7 +660,8 @@ std::int64_t WorldSim::buy_price(const std::string& item_id) const {
     if (!m_shop_ || item == m_setup_.items.end() || item->second.price <= 0) {
         return 0;
     }
-    const std::int64_t price = std::max<std::int64_t>(1, item->second.price * m_shop_->price_pm / 1000);
+    std::int64_t price = std::max<std::int64_t>(1, item->second.price * m_shop_->price_pm / 1000);
+    price = std::max<std::int64_t>(1, price * market_pm() / 1000);                   // the market of the day (spec 06)
     return std::max<std::int64_t>(1, price * (1000 - renown_discount_pm()) / 1000);  // the renown (spec 07)
 }
 
@@ -576,7 +670,7 @@ std::int64_t WorldSim::sell_price(const std::string& item_id) const {
     if (item == m_setup_.items.end() || item->second.price <= 0) {
         return 0;
     }
-    return std::max<std::int64_t>(1, item->second.price / 2);
+    return std::max<std::int64_t>(1, item->second.price / 2 * market_pm() / 1000);  // the market of the day (spec 06)
 }
 
 bool WorldSim::buy(const std::string& item_id) {
@@ -753,6 +847,7 @@ void WorldSim::update_companion() {
     }
     DamageInput in;
     in.atk = c.atk_base + c.atk_per_level * (p.level - 1) + std::min(m_companion_bond_ / 5, 10);  // the bond (spec 10)
+    in.atk = in.atk * m_setup_.gift.companion_atk_pct / 100;  // a gift of command (spec 18)
     in.power_pct = 100;
     in.def_target = target->def.def;
     in.lvl_attacker = p.level;
@@ -770,7 +865,7 @@ void WorldSim::update_companion() {
         target->hp = 0;
         target->state = EnemyState::Dead;
         m_cues_.push_back({"die", target->def.sound, target->position});
-        ++m_companion_bond_;
+        m_companion_bond_ += m_setup_.gift.bond_gain;  // a gift of taming makes the bond grow faster (spec 18)
         on_kill(*target);
     }
 }
@@ -1008,6 +1103,11 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
     }
     if (p.death_save_cd > 0) {
         --p.death_save_cd;
+    }
+    for (auto& [kind, ticks] : p.ability_cd) {
+        if (ticks > 0) {
+            --ticks;
+        }
     }
     p.mp_u = std::min(m_derived_.max_mp * 6000, p.mp_u + m_derived_.mp_regen_x100 * m_setup_.gift.mp_regen_pct / 100);
 

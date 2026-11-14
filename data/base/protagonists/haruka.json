@@ -50,7 +50,8 @@
   ],
   "initially_available": true,
   "gift_rules": {
-    "aggro_pct": 50
+    "aggro_pct": 50,
+    "bond_gain": 3
   },
   "companion": "base:companion/pip"
 }

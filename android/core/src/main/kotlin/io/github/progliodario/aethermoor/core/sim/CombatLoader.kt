@@ -55,6 +55,10 @@ private fun loadTalents(pack: Pack): Pair<List<TalentDef>, Int> {
                 maxRank = t.getValue("max_rank").jsonPrimitive.int,
                 requiresTalent = t["requires"]?.jsonObject?.getValue("talent")?.jsonPrimitive?.content ?: "",
                 requiresRank = t["requires"]?.jsonObject?.getValue("rank")?.jsonPrimitive?.int ?: 0,
+                hasActive = t["active"] != null,
+                activeMp = t["active"]?.jsonObject?.get("mp")?.jsonPrimitive?.long ?: 0L,
+                activeCooldown = t["active"]?.jsonObject?.get("cooldown_ticks")?.jsonPrimitive?.int ?: 0,
+                activeRadiusX100 = t["active"]?.jsonObject?.get("radius_x100")?.jsonPrimitive?.int ?: 0,
             )
         },
         doc["points_per_level"]?.jsonPrimitive?.int ?: 1,

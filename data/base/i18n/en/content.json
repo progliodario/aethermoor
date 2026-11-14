@@ -612,7 +612,7 @@
   "protagonist.daichi.story": "Daichi Okabe heard someone call from the third floor, and the floor did not hold. He woke up with an axe in his hands and the same feeling as always: someone is in trouble and it is his turn. He does not know where he is or why, but he knows what to do with a village on fire, and in this world there seems to be one every few days.",
   "protagonist.haruka.name": "Haruka Aizawa",
   "protagonist.haruka.tagline": "A vet who stopped for a hurt dog on the road.",
-  "protagonist.haruka.gift": "Universal Tamer: creatures notice her late (half the distance), and she is fast, lucky and well supplied with bread and potions (taming will come later). Light blows with her stick and a wind strike in a wide fan.",
+  "protagonist.haruka.gift": "Universal Tamer: creatures notice her late (half the distance), and she is fast, lucky and well supplied with bread and potions, and her companion grows close to her three times as fast. Light blows with her stick and a wind strike in a wide fan.",
   "protagonist.haruka.story": "Haruka Aizawa braked for a dog in the rain, and the other car did not. The Threshold dropped her somewhere with a lot of grass and a great many creatures that looked at her with a familiar expression: the one of animals that hurt and are too proud to say so. She has not understood the world yet, but she has a feeling that the slimes are less dangerous than they look and much more lonely.",
   "skill.sakura.spark.name": "Spark",
   "skill.sakura.spark.desc": "A bolt of light in front of you: magic, it uses intelligence.",
@@ -710,7 +710,7 @@
   "protagonist.lena.story": "Lena Voss has seen a great many ways to die and was a little too curious about hers. She woke up on a meadow with the memory of the last thing she saw, the habit of noticing what kills, and a clear feeling that the world is giving her another try. She has not decided yet what to do with it. She is taking notes.",
   "protagonist.gideon.name": "Gideon Valmor",
   "protagonist.gideon.tagline": "The Demon King, reincarnated, and slightly embarrassed.",
-  "protagonist.gideon.gift": "Lord of Darkness: creatures fear him and notice him only from a third of the usual distance, and he is strong and tough, but healing works on him at a little over half (the dark makes poor medicine). A black blade, and Dominion, a wide blow that costs 10 mana and hits all around him.",
+  "protagonist.gideon.gift": "Lord of Darkness: creatures fear him and notice him only from a third of the usual distance, and he is strong and tough, but healing works on him at a little over half (the dark makes poor medicine). A black blade, and Dominion, a wide blow that costs 10 mana and hits all around him. His companion obeys a lord: it hits almost twice as hard.",
   "protagonist.gideon.story": "Gideon Valmor ruled the Ashen Wastes for three hundred years and lost to a goddess called Lyra in a single afternoon. She sent him back as a Guest, in a meadow, with a black sword and a village that has never heard of him. The villagers are polite. He finds that he likes it more than he expected, which is the most alarming thing that has happened to him.",
   "skill.lena.incision.name": "Incision",
   "skill.lena.incision.desc": "A neat, short cut.",
@@ -1225,5 +1225,7 @@
   "talent.bloodlust.name": "Battle Hunger",
   "talent.flow.name": "Flow",
   "talent.riposte.name": "Riposte",
+  "talent.shockwave.name": "Shockwave",
+  "talent.mend.name": "Mend",
   "quest.personal_gideon_2.task": "Four tawny wolves and two furs: the village, politely, asks for a tribute."
 }

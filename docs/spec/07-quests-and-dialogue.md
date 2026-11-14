@@ -198,11 +198,12 @@ Rewards are `add_xp`, `add_gold` and `add_guild_points` of the quest, scaled by 
 The **renown** of a region is the number of quests the player finished while standing in it: when a quest becomes done (its last stage is complete, before its rewards are applied) the counter `renown:<region id>` goes up by one (spec 11, "Counters"; a map without regions counts under `renown:`, a conformance scenario under `renown:<region>` of its `region`). Every quest counts: the stories, the errands, the board of the guild. It is saved with the other counters, so the save format does not change.
 
 - **Prices.** A shop has `renown_step_pm` and `renown_max_pm` (`regions[].shop` in the world data, spec 09): while it is open the renown of the region takes `discount_pm = min(renown_max_pm, renown * renown_step_pm)` off the buying prices (spec 06, "Shops"); selling is not changed. The base pack takes 15 permille for each quest, up to 250 (a quarter off after seventeen quests), in every region.
+- **Wares for friends.** A shop may have `renown_stock`, a list of `{item, renown}`: when the shop opens, every item whose `renown` the renown of the region has reached joins the stock, after the usual goods; a quest finished while the shop is open counts from the next time it opens. In the base pack every region keeps two rare or epic pieces of its own for somebody with five and with ten quests there.
 - **Dialogue.** The condition `renown_at_least` holds when the renown of the region where the player stands is at least its value. In the base pack (`tools/make_renown_talk.py`) the elder and the shopkeeper of every settlement greet as a friend somebody with three quests in the region, and the innkeeper gives a bed for nothing (the effect `heal_full`) from five.
 - **Titles.** A title can ask for the counter of a region (`kind` `renown:<region id>`): the base pack has a "Friend of ..." for each of the eight regions, at ten quests.
 - **Presentation.** The shop panel says how much the renown takes off ("Renown -15%"), and the status window the quests finished in the region where the player is.
 
-Conformance: the scenarios `renown_prices` and `renown_dialogue`.
+Conformance: the scenarios `renown_prices`, `renown_dialogue` and `renown_wares`.
 
 ## Journal
 

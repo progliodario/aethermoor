@@ -56,7 +56,9 @@ struct Player {
     std::int64_t ward_pct = 0;
     int regen = 0;  // a dish that heals over time (spec 06): ticks left, and the health every second; not saved
     std::int64_t regen_amount = 0;
-    int haste = 0;  // a brew of haste (spec 06): ticks left, and the speed of walking it adds; not saved
+    std::map<std::string, int>
+        ability_cd;  // ticks until an active ability is ready again, by kind (spec 11); not saved
+    int haste = 0;   // a brew of haste (spec 06): ticks left, and the speed of walking it adds; not saved
     std::int64_t haste_pct = 0;
     Vec2 dodge_dir{1.0F, 0.0F};
 };
@@ -210,6 +212,12 @@ public:
     // The power of an ability of the talents (spec 11, "Abilities"): the percent of every rank learned, summed over
     // the talents of that kind (riposte, kill_heal, kill_mana, whirl).
     std::int64_t talent_power(const std::string& stat) const;
+    // Active abilities (spec 11, "Active abilities"): `use_ability` uses the one of that kind (burst or mend) and
+    // returns false, changing nothing, when it is refused; `ability_talent` is the talent that gives it once it has a
+    // rank, or nullptr; `ability_cooldown` the ticks until it is ready again.
+    bool use_ability(const std::string& kind);
+    const TalentDef* ability_talent(const std::string& kind) const;
+    int ability_cooldown(const std::string& kind) const;
     const std::vector<TitleDef>& titles() const { return m_setup_.titles; }
     const DerivedStats& derived() const { return m_derived_; }
     bool streamed() const { return m_store_ != nullptr; }
@@ -280,6 +288,10 @@ public:
     // them, and what they take off the prices of the open shop, in permille.
     std::int64_t renown_here() const override;
     std::string renown_key() const;
+    std::string region_id()
+        const;  // the region where the player stands; of a world without regions, the one of the setup
+    // What the market of the day does to the prices of the open shop, in permille (spec 06, "Market days").
+    std::int64_t market_pm() const;
     std::int64_t renown_discount_pm() const;
     // Price of buying / selling an item in the open shop.
     std::int64_t buy_price(const std::string& item_id) const;

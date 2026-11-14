@@ -24,10 +24,12 @@ A protagonist may have `gift_rules`, an object of integers with these keys (all 
 | `heal_pct` | 100 | the health that an item restores (`heal`, spec 06) is `amount * heal_pct / 100` (integer division, applied to the sum of the `heal` effects) |
 | `dodge_cooldown_pct` | 100 | the cooldown of the dodge roll is `cooldown * dodge_cooldown_pct / 100` (integer division, spec 05) |
 | `death_save_ticks` | 0 | when a blow would bring the health to 0 or less and the **death save** is ready, the health becomes 1 instead and the death save is not ready for `death_save_ticks` ticks; 0 disables it |
+| `companion_atk_pct` | 100 | the attack of the companion (spec 10), with what the bond adds, is multiplied by `companion_atk_pct / 100` (integer division) |
+| `bond_gain` | 1 | what a creature killed by the companion adds to its bond (spec 10, "Bond") |
 
-The death save is not saved (a loaded game has it ready). In scenarios the object is `gift`. The conformance scenarios are `gift_death_save`, `gift_mp_regen`, `gift_heal`, `gift_aggro` and `gift_dodge_cooldown`.
+The death save is not saved (a loaded game has it ready). In scenarios the object is `gift`. The conformance scenarios are `gift_death_save`, `gift_mp_regen`, `gift_heal`, `gift_aggro`, `gift_dodge_cooldown` and `gift_companion`.
 
-The base roster uses them: Sakura `mp_regen_pct` 300; Daichi `death_save_ticks` 1800 (the Eternal Aegis: one blow survived every thirty seconds); Haruka `aggro_pct` 50 (the creatures notice her late); Marco `heal_pct` 200 (food and potions work twice as well); Yuki `dodge_cooldown_pct` 50. Ren's gift is the Analyze panel (a presentation feature). Gifts that are not in these knobs (the pocket that never fills, taming, a second life per dungeon) are not implemented; their texts say what each gift is today.
+The base roster uses them: Sakura `mp_regen_pct` 300; Daichi `death_save_ticks` 1800 (the Eternal Aegis: one blow survived every thirty seconds); Haruka `aggro_pct` 50 (the creatures notice her late) and `bond_gain` 3 (the Universal Tamer: her companion grows close three times as fast); Gideon `companion_atk_pct` 180 (a lord is obeyed: his companion hits almost twice as hard); Marco `heal_pct` 200 (food and potions work twice as well); Yuki `dodge_cooldown_pct` 50. Ren's gift is the Analyze panel (a presentation feature). Gifts that are not in these knobs (the pocket that never fills, taming a creature met in the wild, a second life per dungeon) are not implemented; their texts say what each gift is today.
 
 
 ## Choosing and keeping

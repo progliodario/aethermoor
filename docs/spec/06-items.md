@@ -98,10 +98,16 @@ the derived statistics are recomputed at once and the current hit points are cap
 A region sells goods: `regions[].shop` is `{price_pm, stock}` (spec 09); a settlement shop sells the stock of its region, so prices and goods differ across the world. Shops open from a dialogue with the effect
 `open_shop` (spec 07). While a shop is open the game is paused and the player can buy, sell and close it. A shop closes when it is closed, and it is not saved.
 
-- **Prices.** Item `price` is its base value. Buying costs `max(1, price * price_pm / 1000)` (integer division), then the renown of the region takes its share off (spec 07, "Renown"): `max(1, that * (1000 - discount_pm) / 1000)`; selling gives `max(1, price / 2)`. An item with `price` 0 cannot be bought or sold.
+- **Prices.** Item `price` is its base value. Buying costs `max(1, price * price_pm / 1000)` (integer division), then the market of the day moves it (below): `max(1, that * market_pm / 1000)`, then the renown of the region takes its share off (spec 07, "Renown"): `max(1, that * (1000 - discount_pm) / 1000)`; selling gives `max(1, price / 2 * market_pm / 1000)`. An item with `price` 0 cannot be bought or sold.
 - `buy(id)` is refused unless the shop is open, the item is in its stock, the gold is at least the price, and the inventory holds fewer than the stack limit of the item (`stack_max`,
   default 1 for weapons, armor and accessories and 99 for the rest). Otherwise gold drops by the price and the inventory gets one more.
 - `sell(id)` is refused unless the shop is open, the inventory holds the item, and it has a price; it is also refused for the last copy of an item that is equipped. Otherwise gold grows and the inventory loses one.
+
+### Market days
+
+A shop may have `market_swing_pm` (`regions[].shop`, spec 09): its prices move with the day, the same way for buying and for selling. `market_pm = 1000 - swing + hash64(fnv1a64("market:" + region id) ^ seed, day) % (2 * swing + 1)`, where `day` is the day of the world (spec 08; `world_ticks / day_ticks + 1`, and 1 on a map without a clock) and the hash is unsigned. Without a swing, or with no shop open, `market_pm` is 1000. Nothing is saved: the day gives the price. In the base pack the swing goes from 60 permille in Ironspine ("prices fixed") to 200 in Sunscar, where one haggles. The shop panel says "Today +7%" or "Today -12%". Conformance: the scenario `market_days`.
+
+A shop may also have `renown_stock`, wares for the friends of the region (spec 07, "Renown").
 
 ## Bag screen
 

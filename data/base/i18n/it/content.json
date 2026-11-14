@@ -612,7 +612,7 @@
   "protagonist.daichi.story": "Daichi Okabe ha sentito qualcuno chiamare dal terzo piano, e il piano non ha retto. Si è svegliato con un'ascia in mano e la solita sensazione: qualcuno è nei guai e tocca a lui. Non sa dove si trova né perché, ma sa che cosa fare con un villaggio in fiamme, e in questo mondo sembra che ce ne sia uno ogni pochi giorni.",
   "protagonist.haruka.name": "Haruka Aizawa",
   "protagonist.haruka.tagline": "Una veterinaria che si è fermata per un cane ferito sulla strada.",
-  "protagonist.haruka.gift": "Domatrice Universale: le creature si accorgono tardi di lei (metà distanza), ed è veloce, fortunata e ben fornita di pane e pozioni (domare arriverà più avanti). Colpi leggeri con il bastone e un colpo di vento a ventaglio.",
+  "protagonist.haruka.gift": "Domatrice Universale: le creature si accorgono tardi di lei (metà distanza), ed è veloce, fortunata e ben fornita di pane e pozioni, e il suo compagno si lega a lei tre volte più in fretta. Colpi leggeri con il bastone e un colpo di vento a ventaglio.",
   "protagonist.haruka.story": "Haruka Aizawa ha frenato per un cane sotto la pioggia, e l'altra auto no. La Soglia l'ha lasciata in un posto con tanta erba e moltissime creature che la guardavano con un'espressione familiare: quella degli animali che soffrono e sono troppo orgogliosi per dirlo. Non ha ancora capito il mondo, ma ha il sospetto che gli slime siano meno pericolosi di come sembrano e molto più soli.",
   "skill.sakura.spark.name": "Scintilla",
   "skill.sakura.spark.desc": "Un lampo di luce davanti a te: è magia, usa l'intelligenza.",
@@ -710,7 +710,7 @@
   "protagonist.lena.story": "Lena Voss ha visto moltissimi modi di morire ed è stata un po' troppo curiosa del suo. Si è svegliata in un prato con il ricordo dell'ultima cosa che ha visto, l'abitudine di notare ciò che uccide e la chiara sensazione che il mondo le stia dando un altro tentativo. Non ha ancora deciso che cosa farne. Prende appunti.",
   "protagonist.gideon.name": "Gideon Valmor",
   "protagonist.gideon.tagline": "Il Re dei Demoni, reincarnato e un po' in imbarazzo.",
-  "protagonist.gideon.gift": "Sovrano delle Tenebre: le creature lo temono e lo notano solo a un terzo della distanza solita, ed è forte e robusto, ma le cure funzionano su di lui poco più della metà (il buio è una pessima medicina). Una lama nera, e Dominio, un colpo ampio che costa 10 mana e colpisce tutto intorno.",
+  "protagonist.gideon.gift": "Sovrano delle Tenebre: le creature lo temono e lo notano solo a un terzo della distanza solita, ed è forte e robusto, ma le cure funzionano su di lui poco più della metà (il buio è una pessima medicina). Una lama nera, e Dominio, un colpo ampio che costa 10 mana e colpisce tutto intorno. Il suo compagno obbedisce a un sovrano: colpisce quasi il doppio.",
   "protagonist.gideon.story": "Gideon Valmor ha governato le Terre Ardenti per trecento anni e ha perso contro una dea di nome Lyra in un solo pomeriggio. Lei lo ha rimandato come Ospite, in un prato, con una spada nera e un villaggio che non ha mai sentito parlare di lui. Gli abitanti sono educati. Scopre che gli piace più di quanto si aspettasse, che è la cosa più allarmante che gli sia capitata.",
   "skill.lena.incision.name": "Incisione",
   "skill.lena.incision.desc": "Un taglio netto e breve.",
@@ -1225,5 +1225,7 @@
   "talent.bloodlust.name": "Fame di battaglia",
   "talent.flow.name": "Flusso",
   "talent.riposte.name": "Risposta",
+  "talent.shockwave.name": "Onda d'urto",
+  "talent.mend.name": "Rimarginare",
   "quest.personal_gideon_2.task": "Quattro lupi fulvi e due pellicce: il villaggio, con garbo, chiede un tributo."
 }

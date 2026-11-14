@@ -50,6 +50,7 @@ fun parseProtagonist(jsonText: String): Result<ProtagonistDef> =
                 fun pct(key: String, neutral: Int) = (g[key] as? JsonPrimitive)?.contentOrNull?.toIntOrNull() ?: neutral
                 io.github.progliodario.aethermoor.core.sim.GiftDef(
                     pct("mp_regen_pct", 100), pct("aggro_pct", 100), pct("heal_pct", 100), pct("dodge_cooldown_pct", 100), pct("death_save_ticks", 0),
+                    pct("companion_atk_pct", 100), pct("bond_gain", 1),
                 )
             } ?: io.github.progliodario.aethermoor.core.sim.GiftDef(),
             initiallyAvailable = (j["initially_available"] as? JsonPrimitive)?.contentOrNull?.toBooleanStrictOrNull() ?: true,

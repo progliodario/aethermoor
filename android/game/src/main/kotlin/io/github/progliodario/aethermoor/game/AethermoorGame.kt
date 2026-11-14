@@ -152,6 +152,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var craftPanel: FloatArray? = null
     private var craftRowRects: List<FloatArray> = emptyList()
     private var craftRect: FloatArray? = null
+    private var abilityRects: List<Pair<String, FloatArray>> = emptyList() // the buttons of the active abilities (spec 11, "Active abilities")
     private var recallRect: FloatArray? = null // the button that calls the companion back (spec 10, "Commands")
     private var companionRect: FloatArray? = null // the button that tells the companion to stay or to follow (spec 10)
     private var journalScroll = 0
@@ -931,6 +932,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         drawParryButton(world, data)
         drawCraft(world, data)
         drawCompanionButton(world, data)
+        drawAbilityButtons(world, data)
         drawAnalyze(world, data)
         drawGuardianBar(world, data)
         drawStick()
@@ -1900,6 +1902,13 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                     }
                     return
                 }
+                for ((kind, r) in abilityRects) {
+                    if (x >= r[0] && x <= r[0] + r[2] && y >= r[1] && y <= r[1] + r[3]) {
+                        val used = world.useAbility(kind)
+                        assets?.let { showNotice(it.pack.text(language, if (used) "\$i18n:ui.ability_$kind" else "\$i18n:ui.ability_refused")) }
+                        return
+                    }
+                }
                 val recallButton = recallRect
                 if (recallButton != null && x >= recallButton[0] && x <= recallButton[0] + recallButton[2] && y >= recallButton[1] && y <= recallButton[1] + recallButton[3]) {
                     if (world.companionRecall()) assets?.let { showNotice(it.pack.text(language, "\$i18n:ui.companion_recalled")) }
@@ -2152,7 +2161,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         font.color = Color(1f, 0.84f, 0.47f, 1f)
         // the renown lowers the prices (spec 07, "Renown")
         val renown = if (world.renownDiscountPm() > 0) data.pack.text(language, "\$i18n:ui.shop_renown", mapOf("pct" to world.renownDiscountPm() / 10)) + "   " else ""
-        val gold = renown + data.pack.text(language, "\$i18n:ui.gold", mapOf("gold" to world.story.gold))
+        val swing = world.marketPm() - 1000L // the market of the day (spec 06, "Market days")
+        val market = if (swing != 0L) data.pack.text(language, if (swing > 0L) "\$i18n:ui.shop_dear" else "\$i18n:ui.shop_cheap", mapOf("pct" to kotlin.math.abs(swing) / 10)) + "   " else ""
+        val gold = market + renown + data.pack.text(language, "\$i18n:ui.gold", mapOf("gold" to world.story.gold))
         layout.setText(font, gold)
         font.draw(batch, gold, panelX + panelW - layout.width - 14f * density, tabY + (tabH - font.lineHeight) / 2f)
         if (entries.isEmpty()) {
@@ -2783,6 +2794,33 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         } else {
             showNotice(pack.text(language, "\$i18n:ui.cannot_craft"))
         }
+    }
+
+    /** The buttons of the active abilities that were learned (spec 11, "Active abilities"), in a third row; dim while one waits. */
+    private fun drawAbilityButtons(world: WorldSim, data: Assets) {
+        val density = Gdx.graphics.density
+        val kinds = listOf("burst", "mend").filter { world.abilityTalent(it) != null }
+        if (kinds.isEmpty() || showCraft || world.story.dialogueActive || showMap || showInventory || showJournal) {
+            abilityRects = emptyList()
+            return
+        }
+        val rects = kinds.mapIndexed { i, kind -> Pair(kind, floatArrayOf(12f * density + i * 104f * density, 194f * density, 96f * density, 34f * density)) }
+        abilityRects = rects
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        for ((kind, r) in rects) {
+            shapes.color = if (world.abilityCooldown(kind) > 0) Color(0.12f, 0.12f, 0.14f, 0.7f) else Color(0.30f, 0.10f, 0.32f, 0.85f)
+            shapes.rect(r[0], r[1], r[2], r[3])
+        }
+        shapes.end()
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        font.color = Color.WHITE
+        for ((kind, r) in rects) {
+            font.draw(batch, data.pack.text(language, "\$i18n:ui.ability_${kind}_button"), r[0] + 8f * density, r[1] + (r[3] - font.lineHeight) / 2f)
+        }
+        batch.end()
     }
 
     /** The button that tells the companion to stay or to follow (spec 10, "Commands"), in a second row under the other buttons. */

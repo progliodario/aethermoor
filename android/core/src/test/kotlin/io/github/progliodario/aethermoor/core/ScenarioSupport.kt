@@ -112,7 +112,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         nightAggroCutPm = input["weather"]?.jsonObject?.get("night_aggro_cut_pm")?.jsonPrimitive?.int ?: 0,
         gift = input["gift"]?.jsonObject?.let { g ->
             fun pct(key: String, neutral: Int) = g[key]?.jsonPrimitive?.int ?: neutral
-            GiftDef(pct("mp_regen_pct", 100), pct("aggro_pct", 100), pct("heal_pct", 100), pct("dodge_cooldown_pct", 100), pct("death_save_ticks", 0))
+            GiftDef(pct("mp_regen_pct", 100), pct("aggro_pct", 100), pct("heal_pct", 100), pct("dodge_cooldown_pct", 100), pct("death_save_ticks", 0), pct("companion_atk_pct", 100), pct("bond_gain", 1))
         } ?: GiftDef(),
         strike = input["strike"]?.jsonObject?.let { d ->
             StrikeDef(
@@ -161,6 +161,10 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
                 o.getValue("id").jsonPrimitive.content, o.getValue("name").jsonPrimitive.content, o.getValue("stat").jsonPrimitive.content,
                 o.long("pct_per_rank"), o.getValue("max_rank").jsonPrimitive.int,
                 o["requires"]?.jsonObject?.getValue("talent")?.jsonPrimitive?.content ?: "", o["requires"]?.jsonObject?.getValue("rank")?.jsonPrimitive?.int ?: 0,
+                hasActive = o["active"] != null,
+                activeMp = o["active"]?.jsonObject?.get("mp")?.jsonPrimitive?.long ?: 0L,
+                activeCooldown = o["active"]?.jsonObject?.get("cooldown_ticks")?.jsonPrimitive?.int ?: 0,
+                activeRadiusX100 = o["active"]?.jsonObject?.get("radius_x100")?.jsonPrimitive?.int ?: 0,
             )
         } ?: emptyList(),
         talentPointsPerLevel = input["talent_points_per_level"]?.jsonPrimitive?.int ?: 1,
@@ -214,9 +218,12 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
             ShopDef(
                 shop.getValue("price_pm").jsonPrimitive.int, shop.getValue("stock").jsonArray.map { it.jsonPrimitive.content },
                 shop["renown_step_pm"]?.jsonPrimitive?.int ?: 0, shop["renown_max_pm"]?.jsonPrimitive?.int ?: 0,
+                shop["market_swing_pm"]?.jsonPrimitive?.int ?: 0,
+                shop["renown_stock"]?.jsonArray?.map { w -> Pair(w.jsonObject.getValue("item").jsonPrimitive.content, w.jsonObject.getValue("renown").jsonPrimitive.int) } ?: emptyList(),
             )
         },
         region = input["region"]?.jsonPrimitive?.content ?: "",
+        dayTicks = input["day_ticks"]?.jsonPrimitive?.int ?: 0,
     )
     return ScenarioWorld(map, tileset, combat, input["start_gold"]?.jsonPrimitive?.long ?: 0L)
 }
@@ -240,6 +247,7 @@ internal fun runSegment(sim: WorldSim, segment: JsonObject) {
             "talent" -> sim.learnTalent(cmd.getValue("talent").jsonPrimitive.content)
             "companion_stay" -> sim.companionStay()
             "companion_recall" -> sim.companionRecall()
+            "ability" -> sim.useAbility(cmd.getValue("kind").jsonPrimitive.content)
             "craft" -> sim.craft(cmd.getValue("recipe").jsonPrimitive.content)
             "equip" -> sim.equip(cmd.getValue("item").jsonPrimitive.content)
             "buy" -> sim.buy(cmd.getValue("item").jsonPrimitive.content)
