@@ -996,5 +996,16 @@
   "dlg.town.grael.ashen_cinder_wolves.offer": "Twenty years at a forge and my apron is more hole than apron. Then I saw a wolf lie down in a lava bed to sleep. I want that fur, Guest. I want it badly.",
   "dlg.town.grael.ashen_cinder_wolves.busy": "Five cinder wolves, four ember pelts.",
   "dlg.town.grael.ashen_cinder_wolves.thanks": "One for my apron, and the rest is this: a cloak. It will be warm for a hundred years. Do not sleep in it.",
+  "ui.crafted_fine": "Fine work! Made: {item}",
+  "ui.companion_recalled": "Your companion comes back to you",
+  "ui.companion_recall_button": "Come",
+  "ui.key_recall": "Companion: come back",
+  "ui.shop_renown": "Renown -{pct}%",
+  "ui.status_renown": "Renown here: {count} quests",
+  "ui.talent_speed": "speed",
+  "ui.talent_riposte": "of the attack back on a parry",
+  "ui.talent_kill_heal": "health back for each kill",
+  "ui.talent_kill_mana": "mana back for each kill",
+  "ui.talent_whirl": "reach: the power strike hits all around",
   "dlg.pip.story.gideon.done": "The whole village agrees: you are a good king. Take the blade, it is nothing like the old one, but it suits you."
 }

@@ -121,7 +121,8 @@ fun accessoryOf(o: kotlinx.serialization.json.JsonObject): AccessoryStats {
 }
 
 /** What a shop sells: prices in permille of the base price. */
-class ShopDef(val pricePm: Int, val stock: List<String>)
+/** [renownStepPm]: what every quest finished in the region takes off the prices, up to [renownMaxPm] (spec 07, "Renown"). */
+class ShopDef(val pricePm: Int, val stock: List<String>, val renownStepPm: Int = 0, val renownMaxPm: Int = 0)
 
 /** A companion that follows the player and fights (spec 10). [name] is an $i18n: key, [art] the creature art it is drawn with. */
 class CompanionDef(
@@ -143,10 +144,22 @@ class CompanionDef(
 
 /** A crafting recipe (spec 06, "Crafting"). */
 /** [station]: the art of the prop it must be made next to (spec 06, "Stations"); empty: anywhere. */
-class RecipeDef(val id: String, val output: String, val outputQty: Long, val inputs: List<Pair<String, Long>>, val station: String = "")
+/** [finePm]: the chance in permille that it comes out fine (spec 06, "Quality"), 0: never; [fineItem]: what a fine one gives instead of the output (empty: one more of it). */
+class RecipeDef(
+    val id: String,
+    val output: String,
+    val outputQty: Long,
+    val inputs: List<Pair<String, Long>>,
+    val station: String = "",
+    val finePm: Long = 0,
+    val fineItem: String = "",
+)
 
 /** A title (spec 11): earned when its condition holds. [kind]: kills, kills_of, level, species or quests; [enemy] for kills_of only. */
-/** A talent (spec 11, "Talents"): every rank multiplies a kind of stat. [stat]: attack, health, mana or defense. */
+/**
+ * A talent (spec 11, "Talents"): every rank multiplies a kind of stat. [stat]: attack, health, mana, defense, magic, critical or speed;
+ * or an ability (spec 11, "Abilities"): riposte, kill_heal, kill_mana or whirl, whose power is [pctPerRank] times the rank.
+ */
 class TalentDef(val id: String, val name: String, val stat: String, val pctPerRank: Long, val maxRank: Int, val requiresTalent: String = "", val requiresRank: Int = 0)
 
 class TitleDef(
@@ -162,6 +175,8 @@ class TitleDef(
     /** Ticks added to the parry window, and percent more experience from a kill. */
     val parryBonus: Long = 0,
     val xpPct: Long = 0,
+    /** Permille added to the chance of a fine piece (spec 06, "Quality"). */
+    val finePm: Long = 0,
 )
 
 /** A prop that can be gathered from (spec 06, "Gathering"). */
@@ -216,6 +231,8 @@ class CombatSetup(
     /** The talents that can be learned, in the order of the data (spec 11, "Talents"), and the points a level gives. */
     val talents: List<TalentDef> = emptyList(),
     val talentPointsPerLevel: Int = 1,
+    /** The region of a world without regions: the renown is counted by region (spec 07, "Renown"). */
+    val region: String = "",
 )
 
 enum class AttackPhase { NONE, STARTUP, ACTIVE, RECOVERY }

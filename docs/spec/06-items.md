@@ -35,7 +35,7 @@ at an anvil (see "Crafting").
 ## Crafting
 
 Materials can be made into things from the bag, anywhere, without a workshop. The recipes are `data/base/recipes.json` (schema `recipes`): each has an `id` (a short name),
-an `output` (`item`, `qty`) and `inputs` (a list of `item`, `qty`). The base pack has forty-six (`tools/make_recipes.py`): tonics, small, medium and large health potions, small and medium mana potions, a travel ration, a honey cake, cooked dishes (a hearty stew, a fish stew, a royal feast, a miners' broth, grilled fish and a fisherman's stew from the fish of the reeds, roast meat and a hunter's stew from the game), a hunter's jerkin, an antler spear and a fox-fur cloak at an anvil, the brews of the regions, a hand axe, an iron sword, a pike, a leather vest, a studded one, and five pieces of fine gear.
+an `output` (`item`, `qty`) and `inputs` (a list of `item`, `qty`). The base pack has fifty-one (`tools/make_recipes.py`): tonics, small, medium and large health potions, small and medium mana potions, a travel ration, a honey cake, cooked dishes (a hearty stew, a fish stew, a royal feast, a miners' broth, grilled fish and a fisherman's stew from the fish of the reeds, roast meat and a hunter's stew from the game), a hunter's jerkin, an antler spear and a fox-fur cloak at an anvil, the brews of the regions, a hand axe, an iron sword, a pike, a leather vest, a studded one, and five pieces of fine gear.
 
 `craft(id)` is refused, changing nothing, while a dialogue is open, when the recipe does not exist, and when the bag has less than the `qty` of any input. Otherwise it removes every input
 (an item that reaches 0 leaves the bag) and adds `qty` of the output (an item the bag did not have enters it). There is no random number, no time and no gold in it. A craft is a creature
@@ -43,6 +43,16 @@ cue `craft` for the sound director (spec 14, event `craft`). The conformance sce
 
 Desktop: `C` opens a panel with the recipes (green when the bag has everything), `W`/`S` choose, `E` makes, `Esc` or `C` closes; the game pauses meanwhile. Android: a button next to the sound
 button opens it; a tap on a recipe chooses it and a tap on the chosen one makes it. On both clients a list longer than the panel scrolls with the chosen recipe. The unique pieces that a shopkeeper makes from monster parts (spec 07, "Workshops") are a different thing and stay.
+
+### Quality
+
+A recipe may have `fine_pm`, the chance in permille that what is made comes out **fine**, and `fine_item`. When a recipe with `fine_pm` is made:
+
+1. `h = hash64(fnv1a64("craft") ^ seed, crafted)`, where `crafted` is the counter of the recipes made so far (spec 11), before this one;
+2. the piece is fine when `mix64(h) % 1000 < fine_pm + sum of fine_pm of the earned titles` (spec 11, "Titles with effects");
+3. a fine recipe with a `fine_item` gives that item instead of the output, in the same quantity; without one it gives one more of the output. The counter `crafted_fine` goes up by one.
+
+The roll uses no random stream, so nothing is added to the save: the same game makes the same fine pieces in the same order. A recipe without `fine_pm` never rolls. In the base pack (`tools/make_recipes.py`) every dish, potion and brew has `fine_pm` 150, and so have the plain iron sword, hand axe, pike, leather vest and studded leather, whose fine piece is the fine gear of the anvil; the accessories, the cloaks and the fine gear itself have no quality. The titles of an artisan add 100 (Artisan), 150 (Master Artisan) and 150 (Fine Hand, ten fine pieces), up to 550 permille. The clients say "Fine work!" in place of the usual notice. Conformance: the scenario `craft_quality`.
 
 ### Stations
 
@@ -88,7 +98,7 @@ the derived statistics are recomputed at once and the current hit points are cap
 A region sells goods: `regions[].shop` is `{price_pm, stock}` (spec 09); a settlement shop sells the stock of its region, so prices and goods differ across the world. Shops open from a dialogue with the effect
 `open_shop` (spec 07). While a shop is open the game is paused and the player can buy, sell and close it. A shop closes when it is closed, and it is not saved.
 
-- **Prices.** Item `price` is its base value. Buying costs `max(1, price * price_pm / 1000)` (integer division); selling gives `max(1, price / 2)`. An item with `price` 0 cannot be bought or sold.
+- **Prices.** Item `price` is its base value. Buying costs `max(1, price * price_pm / 1000)` (integer division), then the renown of the region takes its share off (spec 07, "Renown"): `max(1, that * (1000 - discount_pm) / 1000)`; selling gives `max(1, price / 2)`. An item with `price` 0 cannot be bought or sold.
 - `buy(id)` is refused unless the shop is open, the item is in its stock, the gold is at least the price, and the inventory holds fewer than the stack limit of the item (`stack_max`,
   default 1 for weapons, armor and accessories and 99 for the rest). Otherwise gold drops by the price and the inventory gets one more.
 - `sell(id)` is refused unless the shop is open, the inventory holds the item, and it has a price; it is also refused for the last copy of an item that is equipped. Otherwise gold grows and the inventory loses one.

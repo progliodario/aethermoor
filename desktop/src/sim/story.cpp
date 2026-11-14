@@ -65,6 +65,9 @@ Condition parse_condition(const Json& j) {
         c.kind = Condition::Kind::TodBetween;
         c.n = value.at(0).get<std::int64_t>();
         c.m = value.at(1).get<std::int64_t>();
+    } else if (key == "renown_at_least") {
+        c.kind = Condition::Kind::RenownAtLeast;
+        c.n = value.get<std::int64_t>();
     } else {
         throw std::runtime_error("unknown condition " + key);
     }
@@ -335,6 +338,8 @@ bool Story::holds(const Condition& c) const {
             const std::int64_t tod = m_host_.tod_pm();
             return c.n <= c.m ? (tod >= c.n && tod < c.m) : (tod >= c.n || tod < c.m);
         }
+        case Condition::Kind::RenownAtLeast:
+            return m_host_.renown_here() >= c.n;
     }
     return false;
 }
@@ -447,6 +452,7 @@ void Story::refresh(const std::string& quest_id) {
         }
         if (stage.next == "end") {
             q.done = true;
+            m_host_.quest_done();  // the renown of the region grows (spec 07, "Renown")
             // Copy: applying a reward can change the quest table through other effects.
             const std::vector<Effect> rewards = m_setup_.quests.at(quest_id).rewards;
             for (const Effect& reward : rewards) {

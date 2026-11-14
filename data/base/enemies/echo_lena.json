@@ -4,7 +4,7 @@
   "name": "$i18n:enemy.echo_lena.name",
   "level": 24,
   "stats": {
-    "hp": 1450,
+    "hp": 1160,
     "atk": 52,
     "def": 21,
     "mdef": 20,

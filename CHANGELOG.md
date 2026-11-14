@@ -10,6 +10,8 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Changed
 
+- **Guardians fall sooner** (the balance report, `docs/design/balance.md`): the fifteen fights that lasted more than three seconds at their own level in the model have less health (the eight Echoes, the Vault Warden, the Cinder Colossus, the Drowned Captain, the Forge Tyrant, the Frost Sovereign, the Moonshade Alpha and the Rime Revenant). Fights stay easy on purpose.
+- The talent panel has words for the talents of speed (they showed the name of the text).
 - **A new look for the whole game: anime art** (spec 13 v2, ADR 0013). Everything that is drawn was drawn again:
   - **People** are no longer mascots: about 1.8 tiles tall and 4.6 heads, with large eyes in the colour of each person, hair with a ring of light, clothes with folds, a hard violet shade away from the light and a thin line. The eight protagonists and the seven kinds of villagers each have their own hair, hat and clothes (Sakura's tails and lab coat, Daichi's helmet and turnout coat, Gideon's horns and cape...), and everyone is drawn **from behind** when walking up the screen. New walk and idle animations.
   - **The ground is painted**: grass, forest floor, moss, sand, snow, ash, savanna, water and the others are large pictures of 4 x 4 tiles made of soft clouds of colour with tufts, flowers, stones and patches of sun, so the ground no longer repeats at every tile; one ground **fades into the next** (grass over a path, sand over water) instead of ending in squares.
@@ -23,6 +25,12 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 - Tools: `tools/reference/raster.py` is a reference rasterizer in Python (it builds the new conformance probes); `tools/art_preview.py` draws real PNG pictures with it (`--figures`, `--scene`); `art_tiles.py`, `art_props.py`, `art_chars.py`, `art_looks.py` and `art_creatures.py` were rewritten (`art_creature_looks.py` and `art_single_looks.py` are gone).
 
 ### Added
+
+- **Fine work** (spec 06, "Quality"): what you make can come out fine. A fine dish, potion or brew is one more of it; a fine iron sword, hand axe, pike, leather vest or studded leather is the fine piece of the anvil, straight away. The chance starts at 15 percent and grows with the titles of an artisan (Artisan, Master Artisan and the new **Fine Hand**, ten fine pieces), up to 55 percent. The roll comes from the seed of the game and the number of things made, so nothing new is saved.
+- **Renown** (spec 07, "Renown"): every quest finished in a region makes you known there. The shops of that region lower their prices, 1.5 percent for each quest up to a quarter off (the shop panel says how much, the status window says how many quests); the elders and the shopkeepers greet a friend after three quests, and the innkeepers give a bed for nothing after five (new lines in the eight voices of the regions, `tools/make_renown_talk.py`). Eight new titles, "Friend of ..." one for each region, at ten quests. A new dialogue condition, `renown_at_least`.
+- **Talents that are abilities** (spec 11, "Abilities"), one after rank 3 of each root of the tree: **Whirlwind** (the power strike hits all around, and farther), **Battle Hunger** (every kill gives health back), **Flow** (every kill gives mana back) and **Riposte** (a parry hits the attacker back). The tree has fourteen talents.
+- **Come back!** (spec 10, "Commands"): a command calls the companion to your side at once, wherever you left it (`G` on desktop, among the configurable keys; the `Come` button on Android).
+- Fourteen new conformance scenarios for the above, run by both clients.
 
 - **People seen from the side** (spec 13): the protagonist is drawn in profile when walking left or right (head, torso and cape have a side picture; arms and legs swing from the same point, so the walk and the blow read as they should), from behind when walking up and from the front when walking down. Every protagonist and villager has their side look (`tools/art_looks_side.py`). Both clients; six more `rig_pose` vectors.
 - **Five new quests** at the outposts, about the new creatures and the scenery: blossom slimes for Pell, hollow armors for Wren, driftwood and shells for Nella, frost wisps for Henrik and cinder wolves for Grael, who makes the cinder cloak (268 quests).

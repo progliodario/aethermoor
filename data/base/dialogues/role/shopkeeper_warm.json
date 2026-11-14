@@ -4,10 +4,12 @@
   "start": "start",
   "nodes": {
     "start": {
-      "type": "say",
-      "speaker": "npc",
-      "text": "$i18n:dlg.role.shopkeeper.warm.hello",
-      "next": "menu"
+      "type": "condition",
+      "when": {
+        "renown_at_least": 3
+      },
+      "then": "known",
+      "else": "hello"
     },
     "menu": {
       "type": "choice",
@@ -126,6 +128,18 @@
       "speaker": "npc",
       "text": "$i18n:dlg.craft.warm.done",
       "next": "end"
+    },
+    "hello": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.shopkeeper.warm.hello",
+      "next": "menu"
+    },
+    "known": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.shopkeeper.warm.known",
+      "next": "menu"
     }
   }
 }

@@ -199,13 +199,17 @@ public:
     std::int64_t title_progress(const TitleDef& title) const;
     // The percent that the earned titles add to the attack of the player's hits (spec 11, "Titles with effects").
     std::int64_t title_attack_pct() const;
-    // What the earned titles add (spec 11): "gather", "craft", "parry" (window ticks) or "xp" (percent).
+    // What the earned titles add (spec 11): "gather", "craft", "parry" (window ticks), "fine" (permille) or "xp"
+    // (percent).
     std::int64_t title_bonus(const std::string& what) const;
     const std::map<std::string, int>& counters() const { return m_counters_; }
     // Talents (spec 11): the ranks learned, the points left, and spending one point on a rank (false when refused).
     const std::map<std::string, int>& talents() const { return m_talents_; }
     int talent_points() const;
     bool learn_talent(const std::string& talent_id);
+    // The power of an ability of the talents (spec 11, "Abilities"): the percent of every rank learned, summed over
+    // the talents of that kind (riposte, kill_heal, kill_mana, whirl).
+    std::int64_t talent_power(const std::string& stat) const;
     const std::vector<TitleDef>& titles() const { return m_setup_.titles; }
     const DerivedStats& derived() const { return m_derived_; }
     bool streamed() const { return m_store_ != nullptr; }
@@ -272,6 +276,11 @@ public:
     const std::string& equipped_weapon() const { return m_equipped_weapon_; }
     const std::string& equipped_armor() const { return m_equipped_armor_; }
     const std::string& equipped_accessory() const { return m_equipped_accessory_; }
+    // Renown (spec 07, "Renown"): the quests finished in the region where the player stands, the counter that holds
+    // them, and what they take off the prices of the open shop, in permille.
+    std::int64_t renown_here() const override;
+    std::string renown_key() const;
+    std::int64_t renown_discount_pm() const;
     // Price of buying / selling an item in the open shop.
     std::int64_t buy_price(const std::string& item_id) const;
     std::int64_t sell_price(const std::string& item_id) const;
@@ -291,10 +300,14 @@ public:
     std::optional<std::pair<float, float>> gather_near() const;
     // Makes a recipe from the bag (spec 06, "Crafting"). Returns false, changing nothing, when it is refused.
     bool craft(const std::string& recipe_id);
+    // Whether the last recipe made came out fine (spec 06, "Quality"); presentation only.
+    bool last_craft_fine() const { return m_last_craft_fine_; }
     // The companion (spec 10): where it is, or nullptr when the protagonist has none.
     const Vec2* companion_position() const { return m_setup_.companion ? &m_companion_pos_ : nullptr; }
     // Tells the companion to stay where it is, or to follow again (spec 10, "Commands"); false when there is none.
     bool companion_stay();
+    // Calls the companion back: it is next to the player at once and follows again; false when there is none.
+    bool companion_recall();
     bool companion_staying() const { return m_companion_stay_; }
     int companion_bond() const { return m_companion_bond_; }
     const Story& story() const { return m_story_; }
@@ -346,6 +359,7 @@ private:
     void heal_full() override { m_player_.hp = m_derived_.max_hp; }
     std::string season_id() const override;
     int tod_pm() const override { return m_store_ ? time_of_day_pm() : 0; }
+    void quest_done() override;
     // The enemy the spawner on a tile makes (spec 09, "Fauna").
     const EnemyDef& stream_enemy_at(int x, int y) const;
 
@@ -370,6 +384,7 @@ private:
     bool m_companion_stay_ = false;
     int m_companion_bond_ = 0;
     int m_companion_care_ = 0;  // ticks since it last tended the player (spec 10, "Care"); not saved
+    bool m_last_craft_fine_ = false;
     void update_companion();
     std::map<std::pair<int, int>, std::pair<std::int64_t, int>>
         m_gathered_;  // (x100, y100) -> (tick it grows back, times); not saved

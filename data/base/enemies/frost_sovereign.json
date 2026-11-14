@@ -4,7 +4,7 @@
   "name": "$i18n:enemy.frost_sovereign.name",
   "level": 20,
   "stats": {
-    "hp": 1050,
+    "hp": 970,
     "atk": 45,
     "def": 21,
     "mdef": 18,

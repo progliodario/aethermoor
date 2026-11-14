@@ -78,6 +78,7 @@ private fun loadTitles(pack: Pack): List<TitleDef> {
             craftBonus = t["craft_bonus"]?.jsonPrimitive?.long ?: 0L,
             parryBonus = t["parry_bonus"]?.jsonPrimitive?.long ?: 0L,
             xpPct = t["xp_pct"]?.jsonPrimitive?.long ?: 0L,
+            finePm = t["fine_pm"]?.jsonPrimitive?.long ?: 0L,
         )
     }
 }
@@ -95,6 +96,8 @@ private fun loadRecipes(pack: Pack): List<RecipeDef> {
             outputQty = output.getValue("qty").jsonPrimitive.long,
             inputs = r.getValue("inputs").jsonArray.map { Pair(it.jsonObject.getValue("item").jsonPrimitive.content, it.jsonObject.getValue("qty").jsonPrimitive.long) },
             station = r["station"]?.jsonPrimitive?.content ?: "",
+            finePm = r["fine_pm"]?.jsonPrimitive?.long ?: 0L,
+            fineItem = r["fine_item"]?.jsonPrimitive?.content ?: "",
         )
     }
 }

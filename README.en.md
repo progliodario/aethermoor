@@ -46,7 +46,7 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 | Quests and stories | 263 quests, eight complete stories with an epilogue | more stories per region, the gifts still off |
 | Life | gathering, fishing, hunting, 51 recipes, dishes with effects, accessories | item quality, farming, a base and residents, a living economy |
 | Companions | one per protagonist, commands, bond, care | more commands, several companions at once, taming and commanding |
-| Progression | talents, 20 titles, bestiary, reincarnation with an heirloom | new skills in the tree, tags, achievements |
+| Progression | talents (abilities too), 29 titles, bestiary, reincarnation with an heirloom | tags, achievements, runes |
 | Release | test builds from CI | Alpha 0.1 release and then 1.0 (the owner decides) |
 
 ## What is in the game
@@ -73,9 +73,11 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 - 187 items; gathering from bushes, trees, rocks, cacti, flowers, ferns, stumps, logs, driftwood and ice, mushrooms in the forests, **fishing** in the reeds of the beaches and **hunting**; 51 recipes (the best dishes **fortify** you, more attack for a while, the brews of the regions **ward** you, more defense, cakes and rations **regenerate** your health little by little, and the windleaf brew makes you **faster** on foot) (potions, brews and elixirs of the regions, dishes cooked at a fire, gear, and fine gear at the anvil of a town).
 - A companion for each protagonist: it follows you, fights, stays where you tell it, and its bond grows with its victories: after ten, it heals you a little every ten seconds.
 - Titles of a way of playing that change the game: the Forager finds more, the Artisan makes more, the Unbreakable Guard parries longer, the Veteran earns more experience.
-- A tree of ten talents: a point a level, four roots (attack, health, mana, defense), a second ring that opens at rank 5 (critical, second wind, magic, speed) and a crown (Legend, Bulwark).
+- A tree of fourteen talents: a point a level, four roots (attack, health, mana, defense), a second ring that opens at rank 5 (critical, second wind, magic, speed), a crown (Legend, Bulwark) and four abilities that open at rank 3 of each root: Whirlwind (the power strike hits all around), Battle Hunger (health for every kill), Flow (mana for every kill), Riposte (a parry hits back).
+- Renown in the regions: every quest finished in a region lowers the prices of its shops (up to a quarter), changes how elders and shopkeepers greet you and, after five, is worth a free bed at the inn.
+- Fine work: what you make can come out fine (one more of it, or the fine piece instead of the plain one), more often with the titles of an artisan.
 - Three equipment slots: weapon, armor and **accessory** (nine: necklaces, pendants, rings and amulets made at an anvil or left by the guardians, with bonuses to attack, health, critical chance, defense, magic, or that give back health with every hit); and a draught that **cleanses** burning, chill, stun and weakness.
-- A bestiary that tells what every creature you defeated is weak to, what it resists and what it leaves, 20 titles that raise your attack (hunters' ones too), and a profile shared by all your games: every title you ever earned gives a little more health to every game (the "echoes"), and a game that reached level 10 can be **reincarnated**: it ends, every past life gives +3% health to all the ones after it, and half of its gold, with the weapon in its hand, is an heirloom for your next new game.
+- A bestiary that tells what every creature you defeated is weak to, what it resists and what it leaves, 29 titles that raise your attack (hunters' ones too), and a profile shared by all your games: every title you ever earned gives a little more health to every game (the "echoes"), and a game that reached level 10 can be **reincarnated**: it ends, every past life gives +3% health to all the ones after it, and half of its gold, with the weapon in its hand, is an heirloom for your next new game.
 - Three separate games, automatic saving, export and import of a game as one file.
 
 The full catalog of the content, generated from the data, is in [`docs/design/catalog.md`](docs/design/catalog.md).

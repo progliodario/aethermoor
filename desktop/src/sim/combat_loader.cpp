@@ -306,6 +306,8 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
                 recipe.output = r.at("output").at("item").get<std::string>();
                 recipe.output_qty = r.at("output").at("qty").get<std::int64_t>();
                 recipe.station = r.value("station", "");
+                recipe.fine_pm = r.value("fine_pm", static_cast<std::int64_t>(0));
+                recipe.fine_item = r.value("fine_item", "");
                 for (const Json& i : r.at("inputs")) {
                     recipe.inputs.emplace_back(i.at("item").get<std::string>(), i.at("qty").get<std::int64_t>());
                 }
@@ -347,6 +349,7 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
                 title.craft_bonus = t.value("craft_bonus", static_cast<std::int64_t>(0));
                 title.parry_bonus = t.value("parry_bonus", static_cast<std::int64_t>(0));
                 title.xp_pct = t.value("xp_pct", static_cast<std::int64_t>(0));
+                title.fine_pm = t.value("fine_pm", static_cast<std::int64_t>(0));
                 setup.titles.push_back(std::move(title));
             }
         }

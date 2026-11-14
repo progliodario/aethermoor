@@ -4,7 +4,7 @@
   "name": "$i18n:enemy.echo_sakura.name",
   "level": 24,
   "stats": {
-    "hp": 1300,
+    "hp": 1220,
     "atk": 50,
     "def": 16,
     "mdef": 26,

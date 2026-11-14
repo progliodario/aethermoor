@@ -152,6 +152,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var craftPanel: FloatArray? = null
     private var craftRowRects: List<FloatArray> = emptyList()
     private var craftRect: FloatArray? = null
+    private var recallRect: FloatArray? = null // the button that calls the companion back (spec 10, "Commands")
     private var companionRect: FloatArray? = null // the button that tells the companion to stay or to follow (spec 10)
     private var journalScroll = 0
     private var journalRect: FloatArray? = null
@@ -1899,6 +1900,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                     }
                     return
                 }
+                val recallButton = recallRect
+                if (recallButton != null && x >= recallButton[0] && x <= recallButton[0] + recallButton[2] && y >= recallButton[1] && y <= recallButton[1] + recallButton[3]) {
+                    if (world.companionRecall()) assets?.let { showNotice(it.pack.text(language, "\$i18n:ui.companion_recalled")) }
+                    return
+                }
                 val craftButton = craftRect
                 if (craftButton != null && x >= craftButton[0] && x <= craftButton[0] + craftButton[2] && y >= craftButton[1] && y <= craftButton[1] + craftButton[3]) {
                     showCraft = true
@@ -2144,7 +2150,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         font.draw(batch, data.pack.text(language, "\$i18n:ui.shop_buy"), shopBuyTab!![0] + 10f * density, tabY + (tabH - font.lineHeight) / 2f)
         font.draw(batch, data.pack.text(language, "\$i18n:ui.shop_sell"), shopSellTab!![0] + 10f * density, tabY + (tabH - font.lineHeight) / 2f)
         font.color = Color(1f, 0.84f, 0.47f, 1f)
-        val gold = data.pack.text(language, "\$i18n:ui.gold", mapOf("gold" to world.story.gold))
+        // the renown lowers the prices (spec 07, "Renown")
+        val renown = if (world.renownDiscountPm() > 0) data.pack.text(language, "\$i18n:ui.shop_renown", mapOf("pct" to world.renownDiscountPm() / 10)) + "   " else ""
+        val gold = renown + data.pack.text(language, "\$i18n:ui.gold", mapOf("gold" to world.story.gold))
         layout.setText(font, gold)
         font.draw(batch, gold, panelX + panelW - layout.width - 14f * density, tabY + (tabH - font.lineHeight) / 2f)
         if (entries.isEmpty()) {
@@ -2238,6 +2246,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_power", mapOf("atk" to d.atk, "matk" to d.matk, "def" to d.def, "mdef" to d.mdef)), 2))
         entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_more", mapOf("crit" to d.critChancePm / 10, "speed" to d.moveSpeedX100, "titles" to world.titleAttackPct())), 2))
         entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_purse", mapOf("gold" to story.gold, "kills" to p.kills)), 2))
+        if (world.renownHere() > 0) entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_renown", mapOf("count" to world.renownHere())), 2)) // spec 07, "Renown"
         // what the player wears (spec 06, "Equipment"): weapon, armor and accessory
         val worn = listOf(world.equippedWeapon, world.equippedArmor, world.equippedAccessory).filter { it.isNotEmpty() }.joinToString(", ") { itemName(data, it, 1L) }
         if (worn.isNotEmpty()) entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_worn", mapOf("list" to worn)), 2))
@@ -2765,7 +2774,12 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
         val recipe = world.combat.recipes.getOrNull(craftCursor) ?: return
         if (world.craft(recipe.id)) {
-            showNotice(pack.text(language, "\$i18n:ui.crafted", mapOf("item" to itemName(data, recipe.output, recipe.outputQty))))
+            if (world.lastCraftFine) { // it came out fine (spec 06, "Quality"): the fine piece, or one more
+                val piece = recipe.fineItem.isNotEmpty()
+                showNotice(pack.text(language, "\$i18n:ui.crafted_fine", mapOf("item" to itemName(data, if (piece) recipe.fineItem else recipe.output, if (piece) recipe.outputQty else recipe.outputQty + 1))))
+            } else {
+                showNotice(pack.text(language, "\$i18n:ui.crafted", mapOf("item" to itemName(data, recipe.output, recipe.outputQty))))
+            }
         } else {
             showNotice(pack.text(language, "\$i18n:ui.cannot_craft"))
         }
@@ -2777,18 +2791,24 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val button = floatArrayOf(12f * density, 154f * density, 96f * density, 34f * density)
         if (world.combat.companion == null || showCraft || world.story.dialogueActive || showMap || showInventory || showJournal) {
             companionRect = null
+            recallRect = null
             return
         }
         companionRect = button
+        val recall = floatArrayOf(12f * density + 104f * density, 154f * density, 96f * density, 34f * density)
+        recallRect = recall
         shapes.projectionMatrix = camera.combined
         Gdx.gl.glEnable(GL20.GL_BLEND)
         shapes.begin(ShapeRenderer.ShapeType.Filled)
         shapes.color = if (world.companionStaying) Color(0.35f, 0.25f, 0.06f, 0.85f) else Color(0.04f, 0.12f, 0.23f, 0.8f)
         shapes.rect(button[0], button[1], button[2], button[3])
+        shapes.color = Color(0.04f, 0.12f, 0.23f, 0.8f)
+        shapes.rect(recall[0], recall[1], recall[2], recall[3])
         shapes.end()
         batch.projectionMatrix = camera.combined
         batch.begin()
         font.color = Color.WHITE
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.companion_recall_button"), recall[0] + 8f * density, recall[1] + (recall[3] - font.lineHeight) / 2f)
         font.draw(batch, data.pack.text(language, if (world.companionStaying) "\$i18n:ui.companion_follow_button" else "\$i18n:ui.companion_stay_button"), button[0] + 8f * density, button[1] + (button[3] - font.lineHeight) / 2f)
         batch.end()
     }

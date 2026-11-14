@@ -996,5 +996,16 @@
   "dlg.town.grael.ashen_cinder_wolves.offer": "Vent'anni alla forgia e il mio grembiule è più buco che grembiule. Poi ho visto un lupo sdraiarsi a dormire in un letto di lava. Voglio quel pelo, Ospite. Lo voglio tanto.",
   "dlg.town.grael.ashen_cinder_wolves.busy": "Cinque lupi delle braci, quattro pellicce di brace.",
   "dlg.town.grael.ashen_cinder_wolves.thanks": "Una per il mio grembiule, e il resto è questo: un mantello. Resterà caldo per cent'anni. Non dormirci dentro.",
+  "ui.crafted_fine": "Opera pregiata! Creato: {item}",
+  "ui.companion_recalled": "Il tuo compagno torna da te",
+  "ui.companion_recall_button": "Vieni",
+  "ui.key_recall": "Compagno: torna da me",
+  "ui.shop_renown": "Fama -{pct}%",
+  "ui.status_renown": "Fama qui: {count} missioni",
+  "ui.talent_speed": "velocità",
+  "ui.talent_riposte": "dell'attacco restituito a ogni parata",
+  "ui.talent_kill_heal": "di vita per ogni uccisione",
+  "ui.talent_kill_mana": "di mana per ogni uccisione",
+  "ui.talent_whirl": "di portata: il colpo potente colpisce tutto intorno",
   "dlg.pip.story.gideon.done": "Tutto il villaggio è d'accordo: sei un buon re. Prendi la lama, non è per niente come la vecchia, ma ti sta bene."
 }

@@ -68,7 +68,8 @@
       "kind": "crafted",
       "count": 15,
       "atk_pct": 3,
-      "craft_bonus": 1
+      "craft_bonus": 1,
+      "fine_pm": 100
     },
     {
       "id": "unbreakable",
@@ -118,7 +119,8 @@
       "kind": "crafted",
       "count": 40,
       "atk_pct": 3,
-      "craft_bonus": 1
+      "craft_bonus": 1,
+      "fine_pm": 150
     },
     {
       "id": "great_hunter",
@@ -157,6 +159,70 @@
       "count": 40,
       "atk_pct": 10,
       "xp_pct": 25
+    },
+    {
+      "id": "fine_hand",
+      "name": "$i18n:title.fine_hand",
+      "kind": "crafted_fine",
+      "count": 10,
+      "atk_pct": 3,
+      "fine_pm": 150
+    },
+    {
+      "id": "friend_verdalis",
+      "name": "$i18n:title.friend_verdalis",
+      "kind": "renown:verdalis",
+      "count": 10,
+      "atk_pct": 3
+    },
+    {
+      "id": "friend_whisperwood",
+      "name": "$i18n:title.friend_whisperwood",
+      "kind": "renown:whisperwood",
+      "count": 10,
+      "atk_pct": 3
+    },
+    {
+      "id": "friend_ironspine",
+      "name": "$i18n:title.friend_ironspine",
+      "kind": "renown:ironspine",
+      "count": 10,
+      "atk_pct": 3
+    },
+    {
+      "id": "friend_sunscar",
+      "name": "$i18n:title.friend_sunscar",
+      "kind": "renown:sunscar",
+      "count": 10,
+      "atk_pct": 3
+    },
+    {
+      "id": "friend_frostveil",
+      "name": "$i18n:title.friend_frostveil",
+      "kind": "renown:frostveil",
+      "count": 10,
+      "atk_pct": 3
+    },
+    {
+      "id": "friend_tidehaven",
+      "name": "$i18n:title.friend_tidehaven",
+      "kind": "renown:tidehaven",
+      "count": 10,
+      "atk_pct": 3
+    },
+    {
+      "id": "friend_ashen_wastes",
+      "name": "$i18n:title.friend_ashen_wastes",
+      "kind": "renown:ashen_wastes",
+      "count": 10,
+      "atk_pct": 3
+    },
+    {
+      "id": "friend_lumeria",
+      "name": "$i18n:title.friend_lumeria",
+      "kind": "renown:lumeria",
+      "count": 10,
+      "atk_pct": 3
     }
   ]
 }

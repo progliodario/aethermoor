@@ -127,6 +127,10 @@
           },
           "minItems": 2,
           "maxItems": 2
+        },
+        "renown_at_least": {
+          "type": "integer",
+          "minimum": 1
         }
       }
     },

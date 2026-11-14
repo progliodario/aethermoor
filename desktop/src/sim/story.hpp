@@ -26,7 +26,8 @@ struct Condition {
         LevelAtLeast,
         GoldAtLeast,
         Season,
-        TodBetween
+        TodBetween,
+        RenownAtLeast
     };
     Kind kind = Kind::Flag;
     std::string a;       // flag / quest / item
@@ -176,6 +177,9 @@ public:
     virtual void heal_full() = 0;
     virtual std::string season_id() const = 0;  // the season of the day, empty without seasons
     virtual int tod_pm() const = 0;             // the time of day in permille, 0 without world time
+    // Renown (spec 07, "Renown"): a quest was finished, and the quests finished in the region where the player stands.
+    virtual void quest_done() {}
+    virtual std::int64_t renown_here() const { return 0; }
 };
 
 class Story {

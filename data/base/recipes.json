@@ -17,7 +17,8 @@
           "item": "base:item/wild_berries",
           "qty": 2
         }
-      ]
+      ],
+      "fine_pm": 150
     },
     {
       "id": "potion_small",
@@ -34,7 +35,8 @@
           "item": "base:item/slime_gel",
           "qty": 1
         }
-      ]
+      ],
+      "fine_pm": 150
     },
     {
       "id": "potion_medium",
@@ -55,7 +57,8 @@
           "item": "base:item/pine_resin",
           "qty": 1
         }
-      ]
+      ],
+      "fine_pm": 150
     },
     {
       "id": "potion_mana_small",
@@ -72,7 +75,8 @@
           "item": "base:item/healing_herb",
           "qty": 1
         }
-      ]
+      ],
+      "fine_pm": 150
     },
     {
       "id": "travel_ration",
@@ -89,7 +93,8 @@
           "item": "base:item/dry_branch",
           "qty": 1
         }
-      ]
+      ],
+      "fine_pm": 150
     },
     {
       "id": "honey_cake",
@@ -106,7 +111,8 @@
           "item": "base:item/pine_resin",
           "qty": 1
         }
-      ]
+      ],
+      "fine_pm": 150
     },
     {
       "id": "hand_axe",
@@ -123,7 +129,9 @@
           "item": "base:item/wood_log",
           "qty": 2
         }
-      ]
+      ],
+      "fine_pm": 150,
+      "fine_item": "base:item/fine_hand_axe"
     },
     {
       "id": "iron_sword",
@@ -140,7 +148,9 @@
           "item": "base:item/wood_log",
           "qty": 2
         }
-      ]
+      ],
+      "fine_pm": 150,
+      "fine_item": "base:item/fine_iron_sword"
     },
     {
       "id": "hearty_stew",
@@ -162,7 +172,8 @@
           "qty": 1
         }
       ],
-      "station": "base:art/prop/campfire"
+      "station": "base:art/prop/campfire",
+      "fine_pm": 150
     },
     {
       "id": "fish_stew",
@@ -184,7 +195,8 @@
           "qty": 1
         }
       ],
-      "station": "base:art/prop/campfire"
+      "station": "base:art/prop/campfire",
+      "fine_pm": 150
     },
     {
       "id": "grilled_fish",
@@ -202,7 +214,8 @@
           "qty": 1
         }
       ],
-      "station": "base:art/prop/campfire"
+      "station": "base:art/prop/campfire",
+      "fine_pm": 150
     },
     {
       "id": "fishermans_stew",
@@ -224,7 +237,8 @@
           "qty": 1
         }
       ],
-      "station": "base:art/prop/campfire"
+      "station": "base:art/prop/campfire",
+      "fine_pm": 150
     },
     {
       "id": "roast_meat",
@@ -242,7 +256,8 @@
           "qty": 1
         }
       ],
-      "station": "base:art/prop/campfire"
+      "station": "base:art/prop/campfire",
+      "fine_pm": 150
     },
     {
       "id": "hunters_stew",
@@ -268,7 +283,8 @@
           "qty": 1
         }
       ],
-      "station": "base:art/prop/campfire"
+      "station": "base:art/prop/campfire",
+      "fine_pm": 150
     },
     {
       "id": "hunters_jerkin",
@@ -352,7 +368,8 @@
           "qty": 5
         }
       ],
-      "station": "base:art/prop/campfire"
+      "station": "base:art/prop/campfire",
+      "fine_pm": 150
     },
     {
       "id": "potion_large",
@@ -373,7 +390,8 @@
           "item": "base:item/pine_resin",
           "qty": 1
         }
-      ]
+      ],
+      "fine_pm": 150
     },
     {
       "id": "potion_mana_medium",
@@ -394,7 +412,8 @@
           "item": "base:item/wisp_ember",
           "qty": 1
         }
-      ]
+      ],
+      "fine_pm": 150
     },
     {
       "id": "leather_vest",
@@ -411,7 +430,9 @@
           "item": "base:item/spider_silk",
           "qty": 2
         }
-      ]
+      ],
+      "fine_pm": 150,
+      "fine_item": "base:item/fine_leather_vest"
     },
     {
       "id": "studded_leather",
@@ -428,7 +449,9 @@
           "item": "base:item/iron_ore",
           "qty": 4
         }
-      ]
+      ],
+      "fine_pm": 150,
+      "fine_item": "base:item/fine_studded_leather"
     },
     {
       "id": "pike",
@@ -445,7 +468,9 @@
           "item": "base:item/wood_log",
           "qty": 3
         }
-      ]
+      ],
+      "fine_pm": 150,
+      "fine_item": "base:item/fine_pike"
     },
     {
       "id": "moonmoss_draught",
@@ -466,7 +491,8 @@
           "item": "base:item/owl_feather",
           "qty": 1
         }
-      ]
+      ],
+      "fine_pm": 150
     },
     {
       "id": "miners_broth",
@@ -488,7 +514,8 @@
           "qty": 1
         }
       ],
-      "station": "base:art/prop/campfire"
+      "station": "base:art/prop/campfire",
+      "fine_pm": 150
     },
     {
       "id": "desert_nectar",
@@ -505,7 +532,8 @@
           "item": "base:item/scorpion_sting",
           "qty": 1
         }
-      ]
+      ],
+      "fine_pm": 150
     },
     {
       "id": "frost_tonic",
@@ -522,7 +550,8 @@
           "item": "base:item/polar_fur",
           "qty": 1
         }
-      ]
+      ],
+      "fine_pm": 150
     },
     {
       "id": "pearl_elixir",
@@ -543,7 +572,8 @@
           "item": "base:item/coral_fragment",
           "qty": 1
         }
-      ]
+      ],
+      "fine_pm": 150
     },
     {
       "id": "ember_brew",
@@ -564,7 +594,8 @@
           "item": "base:item/char_chunk",
           "qty": 1
         }
-      ]
+      ],
+      "fine_pm": 150
     },
     {
       "id": "starlight_elixir",
@@ -585,7 +616,8 @@
           "item": "base:item/storm_feather",
           "qty": 1
         }
-      ]
+      ],
+      "fine_pm": 150
     },
     {
       "id": "windleaf_brew",
@@ -602,7 +634,8 @@
           "item": "base:item/mint_leaf",
           "qty": 2
         }
-      ]
+      ],
+      "fine_pm": 150
     },
     {
       "id": "cleansing_draught",
@@ -620,7 +653,8 @@
           "qty": 1
         }
       ],
-      "station": "base:art/prop/campfire"
+      "station": "base:art/prop/campfire",
+      "fine_pm": 150
     },
     {
       "id": "flower_tea",
@@ -642,7 +676,8 @@
           "qty": 1
         }
       ],
-      "station": "base:art/prop/campfire"
+      "station": "base:art/prop/campfire",
+      "fine_pm": 150
     },
     {
       "id": "fern_salad",
@@ -659,7 +694,8 @@
           "item": "base:item/wild_berries",
           "qty": 2
         }
-      ]
+      ],
+      "fine_pm": 150
     },
     {
       "id": "shell_broth",
@@ -681,7 +717,8 @@
           "qty": 1
         }
       ],
-      "station": "base:art/prop/campfire"
+      "station": "base:art/prop/campfire",
+      "fine_pm": 150
     },
     {
       "id": "driftwood_pike",
@@ -698,7 +735,9 @@
           "item": "base:item/iron_ore",
           "qty": 3
         }
-      ]
+      ],
+      "fine_pm": 150,
+      "fine_item": "base:item/fine_pike"
     },
     {
       "id": "ember_cloak",

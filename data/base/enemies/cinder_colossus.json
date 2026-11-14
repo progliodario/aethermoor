@@ -4,7 +4,7 @@
   "name": "$i18n:enemy.cinder_colossus.name",
   "level": 20,
   "stats": {
-    "hp": 1100,
+    "hp": 980,
     "atk": 46,
     "def": 20,
     "mdef": 14,

@@ -72,6 +72,15 @@
           "station": {
             "type": "string",
             "pattern": "^[a-z][a-z0-9_]*:art/prop/[a-z0-9_]+$"
+          },
+          "fine_pm": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000
+          },
+          "fine_item": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*:item/[a-z0-9_]+$"
           }
         }
       }

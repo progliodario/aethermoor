@@ -39,6 +39,10 @@ COMPANION_RADIUS = 0.25
 # Talents (spec 11, "Talents"): what each kind of talent multiplies.
 TALENT_STATS = {"attack": ("atk", "matk"), "health": ("max_hp",), "mana": ("max_mp",), "defense": ("def", "mdef"), "magic": ("matk",),
                 "critical": ("crit_chance_pm",), "speed": ("move_speed_x100",)}
+# Talents that are abilities (spec 11, "Abilities"): they multiply no stat; `pct_per_rank` times the rank is their power.
+# riposte: a parry hits the attacker back with that percent of the attack; kill_heal / kill_mana: a kill gives back that percent of the maximum
+# health / mana; whirl: the power strike hits all around, and that percent farther.
+TALENT_ABILITIES = ("riposte", "kill_heal", "kill_mana", "whirl")
 COMPANION_BOND_STEP = 5   # kills of the companion for one more point of attack
 COMPANION_BOND_MAX = 10   # the most the bond adds
 
@@ -89,6 +93,8 @@ class CombatSim:
         self.counters: dict[str, int] = {}  # gathered, crafted, parried (spec 11)
         self.bestiary: dict[str, int] = {}  # creature id -> how many were killed (spec 11)
         self.recipes = {r["id"]: r for r in scenario.get("recipes", [])}  # crafting (spec 06, "Crafting")
+        self.last_craft_fine = False  # the last recipe made came out fine (spec 06, "Quality"); presentation only
+        self.region = scenario.get("region", "")  # the region of the scenario: the renown is counted by region (spec 07, "Renown")
         self.combat = nm.derive_stream(seed, "combat")
         self.loot = nm.derive_stream(seed, "loot")
         pl = scenario["player"]
@@ -157,7 +163,7 @@ class CombatSim:
         for talent in self.talent_defs:  # the talents, in the order of the data (spec 11, "Talents")
             rank = self.talents.get(talent["id"], 0)
             if rank > 0:
-                for key in TALENT_STATS[talent["stat"]]:
+                for key in TALENT_STATS.get(talent["stat"], ()):
                     derived[key] = derived[key] * (100 + talent["pct_per_rank"] * rank) // 100
         accessory = self.items.get(self.equipped["accessory"], {}).get("accessory")
         if accessory:  # an accessory adds its flat bonuses last (spec 06, "Equipment")
@@ -168,6 +174,10 @@ class CombatSim:
     def _equipped_out(self) -> dict:
         """The equipment as the saves and the checkpoints write it: the accessory only when one is worn (spec 12)."""
         return {k: v for k, v in self.equipped.items() if k != "accessory" or v}
+
+    def talent_power(self, stat: str) -> int:
+        """The power of an ability of the talents (spec 11, "Abilities"): the percent of every rank learned, summed over the talents of that kind."""
+        return sum(t["pct_per_rank"] * self.talents.get(t["id"], 0) for t in self.talent_defs if t["stat"] == stat)
 
     def talent_points(self) -> int:
         """The talent points not spent yet: one share for every level gained, less the ranks learned."""
@@ -370,6 +380,14 @@ class CombatSim:
         self.comp_stay = not self.comp_stay
         return True
 
+    def companion_recall(self) -> bool:
+        """Calls the companion back (spec 10, "Commands"): it is next to the player at once and follows again. False when there is no companion."""
+        if self.companion is None:
+            return False
+        self.comp_x, self.comp_y = self.x, self.y
+        self.comp_stay = False
+        return True
+
     def _hit_element(self) -> str:
         """The element of the hit in progress (spec 05, "Elements"): the skill's own, or the weapon's when the skill has none."""
         element = self.cur_skill.get("element", "none")
@@ -408,14 +426,16 @@ class CombatSim:
     def _do_hits(self) -> None:
         s = self.cur_skill
         cos_half = math.cos(math.radians(s["angle_deg"] / 2))
+        whirl = self.talent_power("whirl") if self.strike is not None and s is self.strike else 0  # spec 11, "Abilities": all around, and farther
+        reach = s["radius_x100"] * (100 + whirl) // 100
         for index, enemy in enumerate(self.enemies):
             if enemy.state == DEAD or index in self.hit_set:
                 continue
             dx, dy = enemy.x - self.x, enemy.y - self.y
             dist = math.sqrt(dx * dx + dy * dy)
-            if dist > s["radius_x100"] / 100 + enemy.radius:
+            if dist > reach / 100 + enemy.radius:
                 continue
-            if dist > 0:
+            if dist > 0 and whirl == 0:
                 dot = (dx * self.facing[0] + dy * self.facing[1]) / dist
                 if dot < cos_half:
                     continue
@@ -486,6 +506,20 @@ class CombatSim:
         self.grant_xp(rules.xp_gain(enemy.d["xp"], enemy.d["level"], self.level) * (100 + self.title_bonus("xp_pct")) // 100)  # a veteran's titles
         if self.story is not None:
             self.story.on_kill(enemy.d.get("id", ""))
+        heal, mana = self.talent_power("kill_heal"), self.talent_power("kill_mana")  # spec 11, "Abilities": a kill gives back health and mana
+        if heal > 0 and 0 < self.hp < self.derived["max_hp"]:
+            self.hp = min(self.derived["max_hp"], self.hp + max(1, self.derived["max_hp"] * heal // 100))
+        if mana > 0:
+            self.mp_u = min(self.derived["max_mp"] * 6000, self.mp_u + self.derived["max_mp"] * 60 * mana)
+
+    def quest_done(self, quest_id: str) -> None:
+        """A quest was finished (spec 07, "Renown"): the renown of the region where the player stands grows by one."""
+        key = "renown:" + self.region
+        self.counters[key] = self.counters.get(key, 0) + 1
+
+    def renown_here(self) -> int:
+        """The renown in the region where the player stands (spec 07, "Renown"): the quests finished there."""
+        return self.counters.get("renown:" + self.region, 0)
 
     def season_id(self) -> str:
         return ""  # a combat scenario has no world time
@@ -549,6 +583,8 @@ class CombatSim:
             e.t += 1
             if e.t == b["windup_ticks"] and dist <= b["hit_range_x100"] / 100 and self.iframes == 0:
                 self._hurt_player(e)
+                if e.state == DEAD:  # a riposte killed it (spec 11, "Abilities")
+                    return
             if e.t >= b["windup_ticks"] + b["recovery_ticks"]:
                 e.state, e.t = CHASE, 0
         elif e.state == RETURN:
@@ -576,6 +612,15 @@ class CombatSim:
             e.stun = PARRY_STUN
             self.counters["parried"] = self.counters.get("parried", 0) + 1
             self.iframes = max(self.iframes, PARRY_IFRAMES)
+            riposte = self.talent_power("riposte")
+            if riposte > 0:  # spec 11, "Abilities": the parry hits back, with no roll
+                damage = rules.damage(max(self.derived["atk"], self.derived["matk"]) * riposte // 100, 100, e.d["def"], 1000, 0, self.level,
+                                      e.d["level"], 1000, False, 1500, 1000)
+                e.hp -= damage
+                if e.hp <= 0:
+                    e.hp = 0
+                    e.state = DEAD
+                    self._on_kill(e)
             return
         variance = 950 + self.combat.next_bounded(101)
         atk = e.d["atk"] * 75 // 100 if e.weaken > 0 else e.d["atk"]
@@ -626,7 +671,19 @@ class CombatSim:
             if self.inventory[i["item"]] == 0:
                 del self.inventory[i["item"]]
         out = recipe["output"]
-        self.inventory[out["item"]] = self.inventory.get(out["item"], 0) + out["qty"] + self.title_bonus("craft_bonus")  # the titles of an artisan
+        item, qty = out["item"], out["qty"] + self.title_bonus("craft_bonus")  # the titles of an artisan
+        fine = False
+        if recipe.get("fine_pm", 0) > 0:  # quality (spec 06, "Quality"): a roll from the seed and the number of things made so far
+            h = nm.hash64(nm.fnv1a64(b"craft") ^ self.seed, self.counters.get("crafted", 0))
+            fine = nm.mix64(h) % 1000 < recipe["fine_pm"] + self.title_bonus("fine_pm")
+        if fine:
+            if recipe.get("fine_item"):
+                item = recipe["fine_item"]  # the fine piece instead of the plain one
+            else:
+                qty += 1  # one more of what is made
+            self.counters["crafted_fine"] = self.counters.get("crafted_fine", 0) + 1
+        self.last_craft_fine = fine
+        self.inventory[item] = self.inventory.get(item, 0) + qty
         self.counters["crafted"] = self.counters.get("crafted", 0) + 1
         return True
 
@@ -749,12 +806,23 @@ class CombatSim:
         item = self.items.get(item_id)
         if item is None or item.get("price", 0) <= 0 or self.inventory.get(item_id, 0) >= self._stack_max(item_id):
             return False
-        price = max(1, item["price"] * self.shop["price_pm"] // 1000)
+        price = self.buy_price(item_id)
         if self.story.gold < price:
             return False
         self.story.gold -= price
         self.inventory[item_id] = self.inventory.get(item_id, 0) + 1
         return True
+
+    def renown_discount_pm(self) -> int:
+        """What the renown takes off the prices of the open shop, in permille (spec 07, "Renown")."""
+        if self.shop is None:
+            return 0
+        return min(self.shop.get("renown_max_pm", 0), self.renown_here() * self.shop.get("renown_step_pm", 0))
+
+    def buy_price(self, item_id: str) -> int:
+        """The price of an item in the open shop: the price of the region, less the renown (spec 06, spec 07 "Renown"); at least 1."""
+        price = max(1, self.items[item_id]["price"] * self.shop["price_pm"] // 1000)
+        return max(1, price * (1000 - self.renown_discount_pm()) // 1000)
 
     def sell(self, item_id: str) -> bool:
         """Sells one item of the inventory to the open shop (spec 06). Returns False, changing nothing, when refused."""
@@ -860,6 +928,9 @@ def run_segment(sim: CombatSim, segment: dict) -> None:
             continue
         if command["cmd"] == "companion_stay":
             sim.companion_stay()
+            continue
+        if command["cmd"] == "companion_recall":
+            sim.companion_recall()
             continue
         if command["cmd"] == "craft":
             sim.craft(command["recipe"])

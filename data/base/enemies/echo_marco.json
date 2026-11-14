@@ -4,7 +4,7 @@
   "name": "$i18n:enemy.echo_marco.name",
   "level": 24,
   "stats": {
-    "hp": 1550,
+    "hp": 1150,
     "atk": 53,
     "def": 23,
     "mdef": 12,

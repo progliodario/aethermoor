@@ -19,14 +19,14 @@ LIGHTEN_PCT = 20
 # protagonist: (legend char, art of the guardian it copies, sound family, element, level, hp, atk, def, mdef, speed_x100, radius_x100,
 #               sanctum (dx, dy), name en, name it, sanctum name)
 ECHOES = {
-    "ren": ("<", "vault_warden", "knight", "none", 24, 1500, 52, 24, 18, 260, 60, (-640, -384), "The Overtime", "Lo Straordinario", "Sanctum of Numbers"),
-    "sakura": (">", "nebula_heart", "matron", "light", 24, 1300, 50, 16, 26, 260, 56, (-640, 384), "The Unfinished Equation", "L'Equazione Incompiuta", "Sanctum of Light"),
-    "daichi": ("[", "magma_heart", "matron", "fire", 24, 1500, 54, 20, 14, 250, 58, (-384, -640), "The Third Floor", "Il Terzo Piano", "Sanctum of Embers"),
-    "haruka": ("]", "moonshade_alpha", "alpha", "water", 24, 1400, 50, 18, 18, 340, 52, (-384, 640), "The Rain on the Road", "La Pioggia sulla Strada", "Sanctum of Rain"),
-    "marco": ("{", "forge_tyrant", "knight", "fire", 24, 1550, 53, 23, 12, 260, 60, (384, -640), "The Sealed Pot", "La Pentola Sigillata", "Sanctum of Steam"),
-    "yuki": ("}", "pearl_empress", "matron", "dark", 24, 1300, 52, 17, 20, 280, 54, (384, 640), "The Last Frame", "L'Ultima Cornice", "Sanctum of Frames"),
-    "lena": ("|", "rime_revenant", "knight", "water", 24, 1450, 52, 21, 20, 250, 58, (640, -384), "The Final Report", "Il Referto Finale", "Sanctum of Silence"),
-    "gideon": ("`", "char_tyrant", "king", "dark", 24, 1600, 55, 22, 18, 260, 62, (640, 384), "The Throne That Was", "Il Trono che Fu", "Sanctum of Ash"),
+    "ren": ("<", "vault_warden", "knight", "none", 24, 1140, 52, 24, 18, 260, 60, (-640, -384), "The Overtime", "Lo Straordinario", "Sanctum of Numbers"),
+    "sakura": (">", "nebula_heart", "matron", "light", 24, 1220, 50, 16, 26, 260, 56, (-640, 384), "The Unfinished Equation", "L'Equazione Incompiuta", "Sanctum of Light"),
+    "daichi": ("[", "magma_heart", "matron", "fire", 24, 1170, 54, 20, 14, 250, 58, (-384, -640), "The Third Floor", "Il Terzo Piano", "Sanctum of Embers"),
+    "haruka": ("]", "moonshade_alpha", "alpha", "water", 24, 1200, 50, 18, 18, 340, 52, (-384, 640), "The Rain on the Road", "La Pioggia sulla Strada", "Sanctum of Rain"),
+    "marco": ("{", "forge_tyrant", "knight", "fire", 24, 1150, 53, 23, 12, 260, 60, (384, -640), "The Sealed Pot", "La Pentola Sigillata", "Sanctum of Steam"),
+    "yuki": ("}", "pearl_empress", "matron", "dark", 24, 1210, 52, 17, 20, 280, 54, (384, 640), "The Last Frame", "L'Ultima Cornice", "Sanctum of Frames"),
+    "lena": ("|", "rime_revenant", "knight", "water", 24, 1160, 52, 21, 20, 250, 58, (640, -384), "The Final Report", "Il Referto Finale", "Sanctum of Silence"),
+    "gideon": ("`", "char_tyrant", "king", "dark", 24, 1160, 55, 22, 18, 260, 62, (640, 384), "The Throne That Was", "Il Trono che Fu", "Sanctum of Ash"),
 }
 DROPS = [("potion_large", 2, 3, 1000), ("potion_mana_medium", 1, 2, 1000)]
 

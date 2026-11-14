@@ -38,6 +38,8 @@ above. So the companion fights what the player fights. Conformance: the scenario
 The command `companion_stay` (desktop: `H`; Android: the `Stay` / `Follow` button) switches the companion between **following** and **staying**. While it stays, step 1 does not move it; it still hits what comes in its range.
 When the player is more than 8 tiles away the companion is put on the player's position as in step 1 and follows again. The command does nothing without a companion.
 
+The command `companion_recall` (desktop: `G`, an action of the configurable keys; Android: the `Come` button next to `Stay`) calls the companion back: it is put on the player's position at once and follows again, whatever it was doing. It does nothing without a companion. Conformance: the scenarios `companion_recall` and `companion_recall_without`.
+
 ## Bond
 
 Every creature killed by a hit of the companion adds one to its **bond**, before the kill is handled. Its attack is `atk_base + atk_per_level * (player level - 1) + min(bond / 5, 10)`: one more point every five kills,

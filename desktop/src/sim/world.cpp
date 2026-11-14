@@ -369,6 +369,46 @@ bool WorldSim::learn_talent(const std::string& talent_id) {
     return true;
 }
 
+std::int64_t WorldSim::talent_power(const std::string& stat) const {
+    std::int64_t power = 0;
+    for (const TalentDef& talent : m_setup_.talents) {
+        if (talent.stat != stat) {
+            continue;
+        }
+        const auto learned = m_talents_.find(talent.id);
+        if (learned != m_talents_.end()) {
+            power += talent.pct_per_rank * learned->second;
+        }
+    }
+    return power;
+}
+
+std::string WorldSim::renown_key() const {
+    if (!m_store_) {
+        return "renown:" + m_setup_.region;
+    }
+    const WorldParams& params = m_store_->params();
+    return "renown:" +
+           params
+               .regions[static_cast<std::size_t>(region_at(params, static_cast<int>(std::floor(m_player_.position.x)),
+                                                           static_cast<int>(std::floor(m_player_.position.y))))]
+               .id;
+}
+
+std::int64_t WorldSim::renown_here() const {
+    const auto found = m_counters_.find(renown_key());
+    return found == m_counters_.end() ? 0 : found->second;
+}
+
+void WorldSim::quest_done() { ++m_counters_[renown_key()]; }
+
+std::int64_t WorldSim::renown_discount_pm() const {
+    if (!m_shop_) {
+        return 0;
+    }
+    return std::min<std::int64_t>(m_shop_->renown_max_pm, renown_here() * m_shop_->renown_step_pm);
+}
+
 void WorldSim::teleport(float x, float y) {
     m_player_.position = {x, y};
     if (m_store_) {
@@ -449,7 +489,8 @@ void WorldSim::open_shop() {
         const Region& region = m_store_->params().regions[static_cast<std::size_t>(
             region_at(m_store_->params(), static_cast<int>(std::floor(m_player_.position.x)),
                       static_cast<int>(std::floor(m_player_.position.y))))];
-        m_shop_ = ShopDef{region.shop_price_pm, region.shop_stock};
+        m_shop_ =
+            ShopDef{region.shop_price_pm, region.shop_stock, region.shop_renown_step_pm, region.shop_renown_max_pm};
     } else if (m_setup_.shop) {
         m_shop_ = m_setup_.shop;
     }
@@ -526,7 +567,8 @@ std::int64_t WorldSim::buy_price(const std::string& item_id) const {
     if (!m_shop_ || item == m_setup_.items.end() || item->second.price <= 0) {
         return 0;
     }
-    return std::max<std::int64_t>(1, item->second.price * m_shop_->price_pm / 1000);
+    const std::int64_t price = std::max<std::int64_t>(1, item->second.price * m_shop_->price_pm / 1000);
+    return std::max<std::int64_t>(1, price * (1000 - renown_discount_pm()) / 1000);  // the renown (spec 07)
 }
 
 std::int64_t WorldSim::sell_price(const std::string& item_id) const {
@@ -741,6 +783,15 @@ bool WorldSim::companion_stay() {
     return true;
 }
 
+bool WorldSim::companion_recall() {
+    if (!m_setup_.companion) {
+        return false;
+    }
+    m_companion_pos_ = m_player_.position;
+    m_companion_stay_ = false;
+    return true;
+}
+
 bool WorldSim::near_station(const std::string& art) const {
     if (art.empty()) {
         return true;
@@ -781,7 +832,25 @@ bool WorldSim::craft(const std::string& recipe_id) {
             m_inventory_.erase(owned);
         }
     }
-    m_inventory_[recipe->output] += recipe->output_qty + title_bonus("craft");  // the titles of an artisan (spec 11)
+    std::string made = recipe->output;
+    std::int64_t qty = recipe->output_qty + title_bonus("craft");  // the titles of an artisan (spec 11)
+    bool fine = false;
+    if (recipe->fine_pm > 0) {  // quality (spec 06): a roll from the seed and the number of things made so far
+        const auto count = m_counters_.find("crafted");
+        const std::uint64_t h =
+            hash64(fnv1a64("craft") ^ m_setup_.seed, count == m_counters_.end() ? 0 : count->second);
+        fine = static_cast<std::int64_t>(mix64(h) % 1000U) < recipe->fine_pm + title_bonus("fine");
+    }
+    if (fine) {
+        if (!recipe->fine_item.empty()) {
+            made = recipe->fine_item;  // the fine piece instead of the plain one
+        } else {
+            ++qty;  // one more of what is made
+        }
+        ++m_counters_["crafted_fine"];
+    }
+    m_last_craft_fine_ = fine;
+    m_inventory_[made] += qty;
     ++m_counters_["crafted"];
     m_cues_.push_back({"craft", "", m_player_.position});
     return true;
@@ -1109,6 +1178,9 @@ void WorldSim::do_hits() {
     Player& p = m_player_;
     const SkillDef& s = m_player_.using_strike ? m_setup_.strike.skill : m_setup_.skill;
     const auto cos_half = static_cast<float>(std::cos(static_cast<double>(s.angle_deg) / 2.0 * kPi / 180.0));
+    // Whirl (spec 11, "Abilities"): the power strike hits all around, and farther.
+    const std::int64_t whirl = p.using_strike ? talent_power("whirl") : 0;
+    const std::int64_t reach_x100 = s.radius_x100 * (100 + whirl) / 100;
     for (std::size_t index = 0; index < m_enemies_.size(); ++index) {
         Enemy& enemy = m_enemies_[index];
         if (enemy.state == EnemyState::Dead || m_hit_set_[index]) {
@@ -1117,10 +1189,10 @@ void WorldSim::do_hits() {
         const float dx = enemy.position.x - p.position.x;
         const float dy = enemy.position.y - p.position.y;
         const float dist = std::sqrt(dx * dx + dy * dy);
-        if (dist > static_cast<float>(s.radius_x100) / 100.0F + enemy.radius()) {
+        if (dist > static_cast<float>(reach_x100) / 100.0F + enemy.radius()) {
             continue;
         }
-        if (dist > 0.0F) {
+        if (dist > 0.0F && whirl == 0) {
             const float dot = (dx * p.facing.x + dy * p.facing.y) / dist;
             if (dot < cos_half) {
                 continue;
@@ -1228,6 +1300,15 @@ void WorldSim::on_kill(Enemy& enemy) {
     grant_xp(xp_gain(enemy.def.xp, enemy.def.level, p.level) * (100 + title_bonus("xp")) /
              100);  // a veteran's titles (spec 11)
     m_story_.on_kill(enemy.def.id);
+    // A kill gives back health and mana (spec 11, "Abilities").
+    const std::int64_t heal = talent_power("kill_heal");
+    if (heal > 0 && p.hp > 0 && p.hp < m_derived_.max_hp) {
+        p.hp = std::min(m_derived_.max_hp, p.hp + std::max<std::int64_t>(1, m_derived_.max_hp * heal / 100));
+    }
+    const std::int64_t mana = talent_power("kill_mana");
+    if (mana > 0) {
+        p.mp_u = std::min(m_derived_.max_mp * 6000, p.mp_u + m_derived_.max_mp * 60 * mana);
+    }
 }
 
 std::int64_t WorldSim::title_progress(const TitleDef& t) const {
@@ -1273,6 +1354,7 @@ std::int64_t WorldSim::title_bonus(const std::string& what) const {
             bonus += what == "gather"  ? t.gather_bonus
                      : what == "craft" ? t.craft_bonus
                      : what == "parry" ? t.parry_bonus
+                     : what == "fine"  ? t.fine_pm
                                        : t.xp_pct;
         }
     }
@@ -1406,6 +1488,9 @@ void WorldSim::behave_enemy(Enemy& enemy) {
             if (enemy.state_tick == b.windup_ticks && dist <= static_cast<float>(b.hit_range_x100) / 100.0F &&
                 p.iframes == 0) {
                 hurt_player(enemy);
+                if (enemy.state == EnemyState::Dead) {  // a riposte killed it (spec 11, "Abilities")
+                    break;
+                }
             }
             if (enemy.state_tick >= b.windup_ticks + b.recovery_ticks) {
                 enemy.state = EnemyState::Chase;
@@ -1449,6 +1534,28 @@ void WorldSim::hurt_player(Enemy& enemy) {
         ++m_counters_["parried"];
         m_player_.iframes = std::max(m_player_.iframes, kParryIframes);
         m_cues_.push_back({"parry", enemy.def.sound, enemy.position});
+        const std::int64_t riposte = talent_power("riposte");
+        if (riposte > 0) {  // the parry hits back, with no roll (spec 11, "Abilities")
+            DamageInput back;
+            back.atk = std::max(m_derived_.atk, m_derived_.matk) * riposte / 100;
+            back.power_pct = 100;
+            back.def_target = enemy.def.def;
+            back.lvl_attacker = m_player_.level;
+            back.lvl_target = enemy.def.level;
+            back.variance_pm = 1000;
+            back.crit = false;
+            back.crit_mult_pm = 1500;
+            const std::int64_t amount = damage(back);
+            enemy.hp -= amount;
+            enemy.hit_flash = kHitFlashTicks;
+            m_events_.push_back({enemy.position, amount, false, false});
+            if (enemy.hp <= 0) {
+                enemy.hp = 0;
+                enemy.state = EnemyState::Dead;
+                m_cues_.push_back({"die", enemy.def.sound, enemy.position});
+                on_kill(enemy);
+            }
+        }
         return;
     }
     Player& p = m_player_;

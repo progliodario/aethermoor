@@ -811,6 +811,8 @@ Scenario scenario_from_json(const Json& in) {
             recipe.output = r.at("output").at("item").get<std::string>();
             recipe.output_qty = integer(r.at("output"), "qty");
             recipe.station = r.value("station", "");
+            recipe.fine_pm = r.value("fine_pm", static_cast<std::int64_t>(0));
+            recipe.fine_item = r.value("fine_item", "");
             for (const Json& i : r.at("inputs")) {
                 recipe.inputs.emplace_back(i.at("item").get<std::string>(), integer(i, "qty"));
             }
@@ -846,6 +848,7 @@ Scenario scenario_from_json(const Json& in) {
             title.craft_bonus = t.value("craft_bonus", static_cast<std::int64_t>(0));
             title.parry_bonus = t.value("parry_bonus", static_cast<std::int64_t>(0));
             title.xp_pct = t.value("xp_pct", static_cast<std::int64_t>(0));
+            title.fine_pm = t.value("fine_pm", static_cast<std::int64_t>(0));
             setup.titles.push_back(std::move(title));
         }
     }
@@ -907,11 +910,14 @@ Scenario scenario_from_json(const Json& in) {
     if (in.contains("shop")) {
         aether::ShopDef shop;
         shop.price_pm = in.at("shop").at("price_pm").get<int>();
+        shop.renown_step_pm = in.at("shop").value("renown_step_pm", 0);
+        shop.renown_max_pm = in.at("shop").value("renown_max_pm", 0);
         for (const Json& item : in.at("shop").at("stock")) {
             shop.stock.push_back(item.get<std::string>());
         }
         setup.shop = std::move(shop);
     }
+    setup.region = in.value("region", "");
     sc.start_gold = in.value("start_gold", static_cast<std::int64_t>(0));
     if (in.contains("story")) {
         std::string story_error;
@@ -943,6 +949,8 @@ void run_segment(aether::WorldSim& sim, const Json& segment) {
                 sim.learn_talent(command.at("talent").get<std::string>());
             } else if (cmd == "companion_stay") {
                 sim.companion_stay();
+            } else if (cmd == "companion_recall") {
+                sim.companion_recall();
             } else if (cmd == "craft") {
                 sim.craft(command.at("recipe").get<std::string>());
             } else if (cmd == "equip") {
