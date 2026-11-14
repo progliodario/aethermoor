@@ -20,7 +20,8 @@ Python scripts (3.12 or newer; the virtual environment of [`docs/dev/setup.md`](
 | Script | What it writes |
 |---|---|
 | `make_stamps.py` (`--show`) | `data/base/stamps/`: the hand-made pieces of the world, drawn with characters; `--show` draws them in the terminal |
-| `make_role_dialogues.py` | the role dialogues of the settlement people and their texts (`dialogues/role/`, `i18n/*/roles.json`) |
+| `make_role_dialogues.py` | the first version of the role dialogues of the settlement people and their texts (`dialogues/role/`, `i18n/*/roles.json`). **Do not run it**: the dialogues have grown since (errands, hunts, favors, workshops, inns, renown) and it would write them over |
+| `make_renown_talk.py` | adds the talk of the renown to the role dialogues, in place, and its texts (spec 07, "Renown"): the greeting of the elders and the shopkeepers to a friend of the region, the free bed of the innkeepers; it can be run any number of times |
 | `make_demo_map.py` (`--check`) | `data/base/maps/demo.tmj`, the demo map |
 | `make_catalog.py` | `docs/design/catalog.md`: regions, creatures, items, quests, sites and their world positions |
 | `balance_report.py` | `docs/design/balance.md`: a rough model of every fight, with the difficulty of the world data |

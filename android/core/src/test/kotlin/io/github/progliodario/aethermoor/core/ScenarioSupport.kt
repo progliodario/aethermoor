@@ -171,6 +171,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
                 o.long("count"), o["enemy"]?.jsonPrimitive?.content ?: "", o["atk_pct"]?.jsonPrimitive?.long ?: 0L,
                 o["gather_bonus"]?.jsonPrimitive?.long ?: 0L, o["craft_bonus"]?.jsonPrimitive?.long ?: 0L,
                 o["parry_bonus"]?.jsonPrimitive?.long ?: 0L, o["xp_pct"]?.jsonPrimitive?.long ?: 0L,
+                finePm = o["fine_pm"]?.jsonPrimitive?.long ?: 0L,
             )
         } ?: emptyList(),
         recipes = input["recipes"]?.jsonArray?.map { r ->
@@ -179,6 +180,8 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
                 o.getValue("id").jsonPrimitive.content, o.getValue("output").jsonObject.getValue("item").jsonPrimitive.content, o.getValue("output").jsonObject.long("qty"),
                 o.getValue("inputs").jsonArray.map { i -> Pair(i.jsonObject.getValue("item").jsonPrimitive.content, i.jsonObject.long("qty")) },
                 o["station"]?.jsonPrimitive?.content ?: "",
+                finePm = o["fine_pm"]?.jsonPrimitive?.long ?: 0L,
+                fineItem = o["fine_item"]?.jsonPrimitive?.content ?: "",
             )
         } ?: emptyList(),
         gatherNodes = input["gather_nodes"]?.jsonArray?.associate { n ->
@@ -208,8 +211,12 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         startWeapon = input["equipped"]?.jsonObject?.get("weapon")?.jsonPrimitive?.content ?: "",
         startArmor = input["equipped"]?.jsonObject?.get("armor")?.jsonPrimitive?.content ?: "",
         shop = input["shop"]?.jsonObject?.let { shop ->
-            ShopDef(shop.getValue("price_pm").jsonPrimitive.int, shop.getValue("stock").jsonArray.map { it.jsonPrimitive.content })
+            ShopDef(
+                shop.getValue("price_pm").jsonPrimitive.int, shop.getValue("stock").jsonArray.map { it.jsonPrimitive.content },
+                shop["renown_step_pm"]?.jsonPrimitive?.int ?: 0, shop["renown_max_pm"]?.jsonPrimitive?.int ?: 0,
+            )
         },
+        region = input["region"]?.jsonPrimitive?.content ?: "",
     )
     return ScenarioWorld(map, tileset, combat, input["start_gold"]?.jsonPrimitive?.long ?: 0L)
 }
@@ -232,6 +239,7 @@ internal fun runSegment(sim: WorldSim, segment: JsonObject) {
             "gather" -> sim.gather()
             "talent" -> sim.learnTalent(cmd.getValue("talent").jsonPrimitive.content)
             "companion_stay" -> sim.companionStay()
+            "companion_recall" -> sim.companionRecall()
             "craft" -> sim.craft(cmd.getValue("recipe").jsonPrimitive.content)
             "equip" -> sim.equip(cmd.getValue("item").jsonPrimitive.content)
             "buy" -> sim.buy(cmd.getValue("item").jsonPrimitive.content)

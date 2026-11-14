@@ -30,14 +30,25 @@ TITLES = {
     "hero": ("level", 25, None, "Hero", "Eroe"),
     "chronicler": ("species", 30, None, "Chronicler of Beasts", "Cronista delle bestie"),
     "legend": ("quests", 40, None, "Legend of the Realm", "Leggenda del reame"),
+    "fine_hand": ("crafted_fine", 10, None, "Fine Hand", "Mano fine"),
+    # renown (spec 07, "Renown"): ten quests finished in a region
+    "friend_verdalis": ("renown:verdalis", 10, None, "Friend of Verdalis", "Amico di Verdalis"),
+    "friend_whisperwood": ("renown:whisperwood", 10, None, "Friend of Whisperwood", "Amico del Bosco dei Sussurri"),
+    "friend_ironspine": ("renown:ironspine", 10, None, "Friend of Ironspine", "Amico della Dorsale di Ferro"),
+    "friend_sunscar": ("renown:sunscar", 10, None, "Friend of Sunscar", "Amico della Cicatrice del Sole"),
+    "friend_frostveil": ("renown:frostveil", 10, None, "Friend of Frostveil", "Amico del Velo di Gelo"),
+    "friend_tidehaven": ("renown:tidehaven", 10, None, "Friend of Tidehaven", "Amico del Porto della Marea"),
+    "friend_ashen_wastes": ("renown:ashen_wastes", 10, None, "Friend of the Ashen Wastes", "Amico delle Terre di Cenere"),
+    "friend_lumeria": ("renown:lumeria", 10, None, "Friend of Lumeria", "Amico di Lumeria"),
 }
 
 
 # What a title adds to the attack of the player's hits, in percent, while it is earned (spec 11, "Titles with effects"); 3 when not listed.
 # What a title of a way of playing adds besides attack (spec 11): one more of every drop gathered, more of every recipe made.
-PERKS = {"forager": {"gather_bonus": 1}, "artisan": {"craft_bonus": 1}, "unbreakable": {"parry_bonus": 8},
+# `fine_pm`: permille added to the chance that a recipe comes out fine (spec 06, "Quality").
+PERKS = {"forager": {"gather_bonus": 1}, "artisan": {"craft_bonus": 1, "fine_pm": 100}, "unbreakable": {"parry_bonus": 8}, "fine_hand": {"fine_pm": 150},
          "pest_control": {"xp_pct": 10}, "boar_hunter": {"gather_bonus": 1}, "elk_stalker": {"xp_pct": 10},
-         "seasoned_forager": {"gather_bonus": 1}, "master_artisan": {"craft_bonus": 1}, "great_hunter": {"xp_pct": 15}, "veteran": {"xp_pct": 15}, "legend": {"xp_pct": 25}}
+         "seasoned_forager": {"gather_bonus": 1}, "master_artisan": {"craft_bonus": 1, "fine_pm": 150}, "great_hunter": {"xp_pct": 15}, "veteran": {"xp_pct": 15}, "legend": {"xp_pct": 25}}
 ATTACK_PCT = {"newcomer": 2, "veteran": 5, "great_hunter": 6, "gel_slayer": 5, "hero": 8, "chronicler": 8, "legend": 10}
 
 

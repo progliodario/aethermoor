@@ -265,10 +265,10 @@ struct Rebindable {
     SDL_Keycode key;  // the default key of the action
 };
 constexpr Rebindable kRebindable[] = {
-    {"up", SDLK_W},       {"down", SDLK_S},     {"left", SDLK_A},      {"right", SDLK_D},
-    {"attack", SDLK_J},   {"strike", SDLK_K},   {"dodge", SDLK_L},     {"parry", SDLK_U},
-    {"interact", SDLK_E}, {"bag", SDLK_I},      {"journal", SDLK_Q},   {"map", SDLK_M},
-    {"minimap", SDLK_N},  {"crafting", SDLK_C}, {"companion", SDLK_H}, {"analyze", SDLK_Z},
+    {"up", SDLK_W},      {"down", SDLK_S},   {"left", SDLK_A},    {"right", SDLK_D},    {"attack", SDLK_J},
+    {"strike", SDLK_K},  {"dodge", SDLK_L},  {"parry", SDLK_U},   {"interact", SDLK_E}, {"bag", SDLK_I},
+    {"journal", SDLK_Q}, {"map", SDLK_M},    {"minimap", SDLK_N}, {"crafting", SDLK_C}, {"companion", SDLK_H},
+    {"analyze", SDLK_Z}, {"recall", SDLK_G},
 };
 std::map<SDL_Keycode, SDL_Keycode> g_key_remap;   // a key the player chose -> the default key it stands for
 std::map<std::string, SDL_Keycode> g_key_choice;  // action -> the key the player chose for it
@@ -2796,8 +2796,11 @@ void draw_shop(SDL_Renderer* renderer, const Assets& assets, const aether::World
     draw_panel(renderer, x, y, w, h, 255, 215, 120, 245);
     SDL_SetRenderScale(renderer, kScale, kScale);
     SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
-    const std::string title = assets.pack.text(ui.lang, "$i18n:ui.shop") + " - " +
-                              assets.pack.text(ui.lang, ui.shop_sell ? "$i18n:ui.shop_sell" : "$i18n:ui.shop_buy");
+    std::string title = assets.pack.text(ui.lang, "$i18n:ui.shop") + " - " +
+                        assets.pack.text(ui.lang, ui.shop_sell ? "$i18n:ui.shop_sell" : "$i18n:ui.shop_buy");
+    if (!ui.shop_sell && sim.renown_discount_pm() > 0) {  // the renown lowers the prices (spec 07, "Renown")
+        title += "   " + assets.pack.text(ui.lang, "$i18n:ui.shop_renown", {{"pct", sim.renown_discount_pm() / 10}});
+    }
     debug_text(renderer, (x + 16.0F) / kScale, (y + 12.0F) / kScale, title.c_str());
     const std::string gold =
         assets.pack.text(ui.lang, "$i18n:ui.gold", {{"gold", static_cast<std::int64_t>(sim.story().gold())}});
@@ -2948,6 +2951,10 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
             {"  " + assets.pack.text(ui.lang, "$i18n:ui.status_purse",
                                      {{"gold", sim.story().gold()}, {"kills", static_cast<std::int64_t>(p.kills)}}),
              2});
+        if (sim.renown_here() > 0) {  // the quests finished in this region (spec 07, "Renown")
+            lines.push_back(
+                {"  " + assets.pack.text(ui.lang, "$i18n:ui.status_renown", {{"count", sim.renown_here()}}), 2});
+        }
         // what the player wears (spec 06, "Equipment"): weapon, armor and accessory
         std::string worn;
         for (const std::string* id : {&sim.equipped_weapon(), &sim.equipped_armor(), &sim.equipped_accessory()}) {
@@ -3326,8 +3333,15 @@ void handle_craft_key(aether::WorldSim& sim, const Assets& assets, Ui& ui, SDL_K
     } else if (key == SDLK_E || key == SDLK_RETURN || key == SDLK_KP_ENTER || key == SDLK_SPACE) {
         const aether::RecipeDef& recipe = recipes[static_cast<std::size_t>(ui.craft_cursor)];
         if (sim.craft(recipe.id)) {
-            notify(ui, assets.pack.text(ui.lang, "$i18n:ui.crafted",
-                                        {{"item", item_name(assets, ui, recipe.output, recipe.output_qty)}}));
+            if (sim.last_craft_fine()) {  // it came out fine (spec 06, "Quality"): the fine piece, or one more
+                const bool piece = !recipe.fine_item.empty();
+                notify(ui, assets.pack.text(ui.lang, "$i18n:ui.crafted_fine",
+                                            {{"item", item_name(assets, ui, piece ? recipe.fine_item : recipe.output,
+                                                                piece ? recipe.output_qty : recipe.output_qty + 1)}}));
+            } else {
+                notify(ui, assets.pack.text(ui.lang, "$i18n:ui.crafted",
+                                            {{"item", item_name(assets, ui, recipe.output, recipe.output_qty)}}));
+            }
         } else {
             notify(ui, assets.pack.text(ui.lang, "$i18n:ui.cannot_craft"));
         }
@@ -4617,6 +4631,11 @@ int main(int argc, char** argv) {
                             notify(ui,
                                    assets.pack.text(ui.lang, sim.companion_staying() ? "$i18n:ui.companion_stays"
                                                                                      : "$i18n:ui.companion_follows"));
+                        }
+                    } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_G && !smoke_test &&
+                               !ui.show_map && !sim.story().dialogue_active()) {
+                        if (sim.companion_recall()) {  // the companion comes back at once (spec 10, "Commands")
+                            notify(ui, assets.pack.text(ui.lang, "$i18n:ui.companion_recalled"));
                         }
                     } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_N && !smoke_test &&
                                !ui.show_map) {

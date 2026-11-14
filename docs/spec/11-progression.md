@@ -16,7 +16,7 @@ Ren's Analyze panel (spec 18) shows the same line of elements for the creature i
 ## Counters
 
 Three **counters** tell how one plays: `gathered` goes up by one for every gathering that finds a prop (spec 06, even when it gives nothing), `crafted` for every recipe made (a refused one does not count),
-`parried` for every attack stopped by a parry (spec 05). They are saved (`counters` in the save document, spec 12; a counter at zero is absent). These are the first step of the tags: a title can ask for them.
+`parried` for every attack stopped by a parry (spec 05). Two more kinds of counter came later: `crafted_fine` for every recipe that came out fine (spec 06, "Quality"), and `renown:<region id>` for every quest finished in a region (spec 07, "Renown"). They are saved (`counters` in the save document, spec 12; a counter at zero is absent). These are the first step of the tags: a title can ask for them.
 
 ## Titles
 
@@ -36,7 +36,7 @@ earned at once by those who already satisfy it. The last title earned is the one
 
 ## Talents
 
-`data/base/talents.json` (ID `base:talents/all`, schema `talents`) lists the talents and `points_per_level`. A talent has an `id`, a `name`, a `stat` (`attack`, `health`, `mana`, `defense`, `magic`, `critical` or `speed`), `pct_per_rank`, `max_rank` and, for the branches of the tree, `requires` (`{talent, rank}`).
+`data/base/talents.json` (ID `base:talents/all`, schema `talents`) lists the talents and `points_per_level`. A talent has an `id`, a `name`, a `stat` (`attack`, `health`, `mana`, `defense`, `magic`, `critical` or `speed`, or one of the abilities below), `pct_per_rank`, `max_rank` and, for the branches of the tree, `requires` (`{talent, rank}`).
 
 - **Points.** The player has `(level - 1) * points_per_level` points in all; the points left are that number less the ranks learned.
 - **Learning.** `learn_talent(id)` is refused, changing nothing, while a dialogue is open, when the talent does not exist, when no point is left, when the talent is at `max_rank`, and when it `requires` a talent that has not reached that rank yet (its branch is closed). Otherwise the rank goes up by one, the derived stats
@@ -45,14 +45,27 @@ earned at once by those who already satisfy it. The last title earned is the one
   `attack` is `atk` and `matk`, `health` is `max_hp`, `mana` is `max_mp`, `defense` is `def` and `mdef`, `magic` is `matk`, `critical` is `crit_chance_pm`, `speed` is `move_speed_x100`.
 - **Save.** `talents` in the save document (spec 12) is an object from talent ID to rank; absent when nothing was learned.
 
-The base pack has a tree of ten talents and one point a level (`tools/make_talents.py`): four roots of ten ranks, Might (attack, 5 percent a rank), Vigor (health, 6), Focus (mana, 8) and Guard (defense, 8); a second ring of five ranks that opens at rank 5 of its root, Keen Eye (critical, 15; after Might), Second Wind (health, 8; after Vigor), Arcana (magic, 10; after Focus) and Fleet Foot (speed, 4; after Guard); and a crown, Legend (attack, 10; after Keen Eye 5) and Bulwark (defense, 12; after Second Wind 5).
+The base pack has a tree of fourteen talents (ten that multiply a stat, and the four abilities below) and one point a level (`tools/make_talents.py`): four roots of ten ranks, Might (attack, 5 percent a rank), Vigor (health, 6), Focus (mana, 8) and Guard (defense, 8); a second ring of five ranks that opens at rank 5 of its root, Keen Eye (critical, 15; after Might), Second Wind (health, 8; after Vigor), Arcana (magic, 10; after Focus) and Fleet Foot (speed, 4; after Guard); and a crown, Legend (attack, 10; after Keen Eye 5) and Bulwark (defense, 12; after Second Wind 5).
 Both clients show them in the crafting panel (`Tab` on a keyboard, a button of the panel on Android). Conformance: the scenarios `talents_learned` and `talent_tree` (their checkpoints carry `talents`, `talent_points`, `max_hp`, `max_mp`, `matk`, `crit_chance_pm`, `move_speed_x100`). The panels show what opens a closed branch.
+
+### Abilities
+
+Four more kinds of `stat` multiply nothing: they are **abilities**, and `pct_per_rank * rank`, summed over the talents of that kind, is their **power** (0 when none is learned).
+
+- `riposte`: when a parry stops an attack (spec 05, "Parry"), after the stun, the attacker takes `damage(max(atk, matk) * power / 100, power 100%, its defense, the levels, variance 1000, no critical)`: no random number is drawn. A creature that dies of it is a kill like any other, and does nothing more in that tick.
+- `kill_heal`: after every kill (by the player, the companion or a burn), at the end of what a kill does, a player who is alive and below the maximum health gets `max(1, max_hp * power / 100)` back, up to the maximum.
+- `kill_mana`: after every kill the mana grows by `max_mp * power / 100` points, up to the maximum (in units of 1/6000 of a point: `max_mp * 60 * power`).
+- `whirl`: the power strike hits **all around** (the test of the angle is skipped) and its radius is `radius_x100 * (100 + power) / 100`. The basic attack is not changed.
+
+The base pack opens one at rank 3 of each root (`tools/make_talents.py`): Whirlwind (whirl, 10 a rank, three ranks; after Might), Battle Hunger (kill_heal, 4, five ranks; after Vigor), Flow (kill_mana, 8, five ranks; after Focus) and Riposte (60, five ranks; after Guard). The panels describe them with the text `ui.talent_<stat>`. Conformance: the scenarios `talent_riposte`, `talent_kill_gifts`, `talent_kill_gifts_without` and `talent_whirl`.
 
 ## Titles with effects
 
 A title may have `atk_pct`: while the title is earned, the attack of every hit of the player (the `atk`, or the `matk` of a magical skill) is `atk * (100 + sum of atk_pct of the earned titles) / 100`, computed
 before a weaken on the player takes its quarter (spec 05). The sum is read at each hit, so a title earned in the middle of a fight counts from the next blow. The companion's hits are not changed. In the base pack every title
 is worth 3 percent, the first one 2, and the rare ones 5, 8 or 10 (`tools/make_titles.py`): with the first fifteen the hits are 65 percent stronger. The hunt adds two (the Boar Hunter, one more of every drop gathered; the Elk Stalker, +10% experience), and the long way three more (the Seasoned Forager, 150 gatherings; the Master Artisan, 40 recipes; the Great Hunter, 45 kinds of creatures, +6% attack and +15% experience): 20 in all. The journal shows each title not yet earned as `???` with how far the player is toward it (`count` of its kind, at most the goal). Conformance: the scenario `title_attack`.
+
+A title may have `fine_pm`, permille added to the chance that a recipe with quality comes out fine (spec 06, "Quality"), and its `kind` may be `crafted_fine` or `renown:<region id>` (the counters above).
 
 A title may also have `gather_bonus` (every drop that a gathering finds gives that many more, spec 06) and `craft_bonus` (every recipe made gives that many more of its output), summed over the earned titles at the moment of the gathering or the craft; `parry_bonus` (ticks added to the parry window when it opens, spec 05) and `xp_pct` (the experience of a kill is `xp * (100 + xp_pct) / 100`, after the rule of spec 04; quest rewards are not changed). These are the titles of a way of playing, the first tags: in the base pack Forager (30 gatherings) gives one more of every drop, Artisan (15 recipes) one more of every recipe, Unbreakable Guard (25 parries) 8 more ticks of parry, and Pest Control, Veteran and Legend of the Realm 10, 15 and 25 percent more experience from kills. Conformance: the scenarios `counter_titles` and `title_parry`.
 

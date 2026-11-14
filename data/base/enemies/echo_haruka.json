@@ -4,7 +4,7 @@
   "name": "$i18n:enemy.echo_haruka.name",
   "level": 24,
   "stats": {
-    "hp": 1400,
+    "hp": 1200,
     "atk": 50,
     "def": 18,
     "mdef": 18,

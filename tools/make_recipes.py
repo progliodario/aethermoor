@@ -77,11 +77,28 @@ AT_FIRE = ("hearty_stew", "fish_stew", "royal_feast", "miners_broth", "grilled_f
 # the fine gear is made at an anvil
 AT_ANVIL = ("ember_cloak", "fine_iron_sword", "fine_hand_axe", "fine_pike", "fine_leather_vest", "fine_studded_leather", "hunters_jerkin", "antler_spear", "fox_cloak", "fang_necklace", "pearl_pendant", "owl_charm", "golem_amulet", "star_brooch", "bat_charm", "ember_ring", "frost_locket", "sand_charm")
 
+# Quality (spec 06, "Quality"): the chance in permille that a recipe comes out fine, before the titles of an artisan add theirs.
+FINE_PM = 150
+# A fine piece of plain gear is the fine gear itself; every other recipe that has quality gives one more of what it makes.
+FINE_PIECE = {"iron_sword": "fine_iron_sword", "hand_axe": "fine_hand_axe", "pike": "fine_pike", "driftwood_pike": "fine_pike",
+              "leather_vest": "fine_leather_vest", "studded_leather": "fine_studded_leather"}
+# No quality: gear that has no fine version (one more sword would be no gift), and the fine gear itself.
+NO_QUALITY = ("hunters_jerkin", "antler_spear", "fox_cloak", "ember_cloak", "fang_necklace", "pearl_pendant", "owl_charm", "golem_amulet", "star_brooch",
+              "bat_charm", "ember_ring", "frost_locket", "sand_charm", "fine_iron_sword", "fine_hand_axe", "fine_pike", "fine_leather_vest",
+              "fine_studded_leather")
+
+
+def quality(name: str) -> dict:
+    if name in NO_QUALITY:
+        return {}
+    return {"fine_pm": FINE_PM, **({"fine_item": f"base:item/{FINE_PIECE[name]}"} if name in FINE_PIECE else {})}
+
 
 def main() -> None:
     recipes = [{"id": name, "output": {"item": f"base:item/{out}", "qty": qty},
                 "inputs": [{"item": f"base:item/{item}", "qty": n} for item, n in inputs.items()],
-                **({"station": "base:art/prop/campfire"} if name in AT_FIRE else {"station": "base:art/prop/anvil"} if name in AT_ANVIL else {})}
+                **({"station": "base:art/prop/campfire"} if name in AT_FIRE else {"station": "base:art/prop/anvil"} if name in AT_ANVIL else {}),
+                **quality(name)}
                for name, (out, qty, inputs) in RECIPES.items()]
     OUT.write_text(json.dumps({"$schema": "../../schemas/recipes.schema.json", "id": "base:recipes/all", "recipes": recipes}, indent=2) + "\n", encoding="utf-8")
     print(f"wrote {len(recipes)} recipes")

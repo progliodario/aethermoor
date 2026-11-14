@@ -258,7 +258,10 @@ class WorldSim(
         return true
     }
 
-    /** The counters of spec 11: how many times the player gathered, crafted and parried. */
+    /** The power of an ability of the talents (spec 11, "Abilities"): the percent of every rank learned, summed over the talents of that kind. */
+    fun talentPower(stat: String): Long = combat.talents.filter { it.stat == stat }.sumOf { it.pctPerRank * (talents[it.id] ?: 0) }
+
+    /** The counters of spec 11: how many times the player gathered, crafted and parried, and the renown of the regions. */
     val counters = java.util.TreeMap<String, Int>()
 
     private fun count(name: String) {
@@ -313,6 +316,35 @@ class WorldSim(
         companionStaying = !companionStaying
         return true
     }
+
+    /** Calls the companion back (spec 10, "Commands"): it is next to the player at once and follows again; false when there is none. */
+    fun companionRecall(): Boolean {
+        if (combat.companion == null) return false
+        companionPosition = player.position
+        companionStaying = false
+        return true
+    }
+
+    /** Whether the last recipe made came out fine (spec 06, "Quality"); presentation only. */
+    var lastCraftFine = false
+        private set
+
+    /** The counter that holds the renown of the region where the player stands (spec 07, "Renown"). */
+    fun renownKey(): String {
+        val store = chunks ?: return "renown:" + combat.region
+        return "renown:" + store.params.regions[regionAt(store.params, floor(player.position.x).toInt(), floor(player.position.y).toInt())].id
+    }
+
+    override fun renownHere(): Long = (counters[renownKey()] ?: 0).toLong()
+
+    override fun questDone() = count(renownKey())
+
+    /** What the renown takes off the prices of the open shop, in permille. */
+    fun renownDiscountPm(): Long {
+        val open = shop ?: return 0L
+        return minOf(open.renownMaxPm.toLong(), renownHere() * open.renownStepPm)
+    }
+
     private val gathered = HashMap<Pair<Int, Int>, Pair<Long, Int>>() // (x100, y100) -> (tick it grows back, times); not saved
 
     val story = Story(combat.story, this)
@@ -595,7 +627,7 @@ class WorldSim(
         val store = chunks
         shop = if (store != null) {
             val region = store.params.regions[regionAt(store.params, floor(player.position.x).toInt(), floor(player.position.y).toInt())]
-            ShopDef(region.shopPricePm, region.shopStock)
+            ShopDef(region.shopPricePm, region.shopStock, region.shopRenownStepPm, region.shopRenownMaxPm)
         } else {
             combat.shop
         }
@@ -612,7 +644,8 @@ class WorldSim(
     fun buyPrice(itemId: String): Long {
         val item = combat.items[itemId] ?: return 0L
         val open = shop ?: return 0L
-        return if (item.price <= 0) 0L else maxOf(1L, item.price * open.pricePm / 1000)
+        if (item.price <= 0) return 0L
+        return maxOf(1L, maxOf(1L, item.price * open.pricePm / 1000) * (1000 - renownDiscountPm()) / 1000) // the renown (spec 07)
     }
 
     /** What the shop pays for an item, 0 when it cannot be sold. */
@@ -801,7 +834,19 @@ class WorldSim(
             val left = (inventory[item] ?: 0L) - qty
             if (left == 0L) inventory.remove(item) else inventory[item] = left
         }
-        inventory[recipe.output] = (inventory[recipe.output] ?: 0L) + recipe.outputQty + titleBonus(gather = false) // the titles of an artisan (spec 11)
+        var made = recipe.output
+        var qty = recipe.outputQty + titleBonus(gather = false) // the titles of an artisan (spec 11)
+        var fine = false
+        if (recipe.finePm > 0) { // quality (spec 06): a roll from the seed and the number of things made so far
+            val h = hash64(fnv1a64("craft") xor combat.seed, (counters["crafted"] ?: 0).toLong())
+            fine = (mix64(h) % 1000uL).toLong() < recipe.finePm + titleFinePm()
+        }
+        if (fine) {
+            if (recipe.fineItem.isNotEmpty()) made = recipe.fineItem else qty++ // the fine piece, or one more of what is made
+            count("crafted_fine")
+        }
+        lastCraftFine = fine
+        inventory[made] = (inventory[made] ?: 0L) + qty
         count("crafted")
         cues.add(SimCue("craft", "", player.position))
         return true
@@ -1023,13 +1068,15 @@ class WorldSim(
         val p = player
         val s = if (p.usingStrike) combat.strike.skill else combat.skill
         val cosHalf = cos(s.angleDeg.toDouble() / 2.0 * PI / 180.0).toFloat()
+        val whirl = if (p.usingStrike) talentPower("whirl") else 0L // spec 11, "Abilities": the power strike hits all around, and farther
+        val reachX100 = s.radiusX100 * (100 + whirl) / 100
         for ((index, enemy) in enemies.withIndex()) {
             if (enemy.state == EnemyState.DEAD || hitSet[index]) continue
             val dx = enemy.position.x - p.position.x
             val dy = enemy.position.y - p.position.y
             val dist = sqrt(dx * dx + dy * dy)
-            if (dist > s.radiusX100.toFloat() / 100f + enemy.radius) continue
-            if (dist > 0f) {
+            if (dist > reachX100.toFloat() / 100f + enemy.radius) continue
+            if (dist > 0f && whirl == 0L) {
                 val dot = (dx * p.facing.x + dy * p.facing.y) / dist
                 if (dot < cosHalf) continue
             }
@@ -1105,6 +1152,11 @@ class WorldSim(
         }
         grantXp(xpGain(enemy.def.xp, enemy.def.level, p.level) * (100 + titleXpPct()) / 100) // a veteran's titles (spec 11)
         story.onKill(enemy.def.id)
+        // A kill gives back health and mana (spec 11, "Abilities").
+        val heal = talentPower("kill_heal")
+        if (heal > 0 && p.hp > 0 && p.hp < derived.maxHp) p.hp = minOf(derived.maxHp, p.hp + maxOf(1L, derived.maxHp * heal / 100))
+        val mana = talentPower("kill_mana")
+        if (mana > 0) p.mpU = minOf(derived.maxMp * 6000L, p.mpU + derived.maxMp * 60L * mana)
     }
 
     /** The ids of the titles whose condition holds, in the order of the data (spec 11). */
@@ -1128,6 +1180,8 @@ class WorldSim(
 
     /** What the earned titles add to the parry window (ticks) and to the experience of a kill (percent). */
     private fun titleParryBonus(): Int = earnedTitles().toSet().let { earned -> combat.titles.filter { it.id in earned }.sumOf { it.parryBonus } }.toInt()
+
+    private fun titleFinePm(): Long = earnedTitles().toSet().let { earned -> combat.titles.filter { it.id in earned }.sumOf { it.finePm } }
 
     private fun titleXpPct(): Long = earnedTitles().toSet().let { earned -> combat.titles.filter { it.id in earned }.sumOf { it.xpPct } }
 
@@ -1226,7 +1280,8 @@ class WorldSim(
                 if (enemy.stateTick == b.windupTicks && dist <= b.hitRangeX100.toFloat() / 100f && p.iframes == 0) {
                     hurtPlayer(enemy)
                 }
-                if (enemy.stateTick >= b.windupTicks + b.recoveryTicks) {
+                // not when a riposte killed it (spec 11, "Abilities")
+                if (enemy.state != EnemyState.DEAD && enemy.stateTick >= b.windupTicks + b.recoveryTicks) {
                     enemy.state = EnemyState.CHASE
                     enemy.stateTick = 0
                 }
@@ -1270,6 +1325,30 @@ class WorldSim(
             count("parried")
             player.iframes = maxOf(player.iframes, PARRY_IFRAMES)
             cues.add(SimCue("parry", enemy.def.sound, player.position))
+            val riposte = talentPower("riposte")
+            if (riposte > 0) { // the parry hits back, with no roll (spec 11, "Abilities")
+                val back = damage(
+                    DamageInput(
+                        atk = maxOf(derived.atk, derived.matk) * riposte / 100,
+                        powerPct = 100,
+                        defTarget = enemy.def.def,
+                        lvlAttacker = player.level,
+                        lvlTarget = enemy.def.level,
+                        variancePm = 1000,
+                        crit = false,
+                        critMultPm = 1500,
+                    ),
+                )
+                enemy.hp -= back
+                enemy.hitFlash = HIT_FLASH_TICKS
+                events.add(DamageEvent(enemy.position, back, false, false))
+                if (enemy.hp <= 0) {
+                    enemy.hp = 0
+                    enemy.state = EnemyState.DEAD
+                    cues.add(SimCue("die", enemy.def.sound, enemy.position))
+                    onKill(enemy)
+                }
+            }
             return
         }
         val p = player

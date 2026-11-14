@@ -4,7 +4,7 @@
   "name": "$i18n:enemy.vault_warden.name",
   "level": 22,
   "stats": {
-    "hp": 1250,
+    "hp": 1010,
     "atk": 50,
     "def": 24,
     "mdef": 16,

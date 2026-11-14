@@ -54,6 +54,8 @@ class Story:
             start, end = value
             tod = self.host.tod_pm()
             return start <= tod < end if start <= end else tod >= start or tod < end
+        if key == "renown_at_least":
+            return getattr(self.host, "renown_here", lambda: 0)() >= value  # a host without regions has no renown
         raise ValueError(f"unknown condition {key}")
 
     # --------------------------------------------------------------------------------- effects
@@ -127,6 +129,9 @@ class Story:
                 return
             if stage["next"] == "end":
                 q["done"] = True
+                done = getattr(self.host, "quest_done", None)  # the renown of the region grows (spec 07, "Renown")
+                if done is not None:
+                    done(quest_id)
                 for reward in self.quest_defs[quest_id].get("rewards", []):
                     self.apply(reward)
                 return

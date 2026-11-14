@@ -65,26 +65,26 @@ Gear by level: L1: weapon 3, armor 2/1, L4: weapon 7, armor 4/2, L8: weapon 12, 
 | Storm Sovereign | 13 | 6 | 1.8 s / 7% |
 | Cinder wolf | 13 | 4 | 1.1 s / 3% |
 | Nebula Heart | 14 | 7 | 2.1 s / 7% |
-| Rime Revenant | 14 | 8 | 3.1 s / 11% |
-| Moonshade Alpha | 15 | 9 | 3.1 s / 11% |
+| Rime Revenant | 14 | 8 | 2.8 s / 10% |
+| Moonshade Alpha | 15 | 8 | 2.8 s / 9% |
 | Char Tyrant | 16 | 8 | 2.0 s / 7% |
-| Forge Tyrant | 16 | 11 | 3.3 s / 12% |
+| Forge Tyrant | 16 | 11 | 3.0 s / 11% |
 | Sand Sentinel | 16 | 10 | 3.0 s / 10% |
 | Astral Curator | 17 | 10 | 3.0 s / 9% |
-| Drowned Captain | 18 | 12 | 3.7 s / 13% |
-| Cinder Colossus | 20 | 14 | 3.7 s / 12% |
-| Frost Sovereign | 20 | 13 | 3.3 s / 10% |
-| Vault Warden | 22 | 16 | 4.0 s / 13% |
-| The Third Floor | 24 | 17 | 3.8 s / 12% |
-| The Throne That Was | 24 | 18 | 4.1 s / 13% |
-| The Rain on the Road | 24 | 16 | 3.5 s / 10% |
-| The Final Report | 24 | 17 | 3.8 s / 11% |
-| The Sealed Pot | 24 | 18 | 4.1 s / 13% |
-| The Overtime | 24 | 17 | 3.8 s / 11% |
-| The Unfinished Equation | 24 | 16 | 3.2 s / 9% |
-| The Last Frame | 24 | 16 | 3.2 s / 9% |
+| Drowned Captain | 18 | 12 | 3.0 s / 10% |
+| Cinder Colossus | 20 | 13 | 3.0 s / 10% |
+| Frost Sovereign | 20 | 13 | 3.0 s / 9% |
+| Vault Warden | 22 | 15 | 3.0 s / 10% |
+| The Third Floor | 24 | 16 | 2.9 s / 9% |
+| The Throne That Was | 24 | 16 | 2.9 s / 9% |
+| The Rain on the Road | 24 | 16 | 2.9 s / 9% |
+| The Final Report | 24 | 16 | 2.9 s / 9% |
+| The Sealed Pot | 24 | 16 | 2.9 s / 9% |
+| The Overtime | 24 | 16 | 2.9 s / 9% |
+| The Unfinished Equation | 24 | 16 | 2.9 s / 9% |
+| The Last Frame | 24 | 16 | 2.9 s / 9% |
 
-## Outliers (32)
+## Outliers (37)
 
 Creatures whose comfortable level differs from their level by more than 5 above or 6 below.
 
@@ -111,12 +111,17 @@ Creatures whose comfortable level differs from their level by more than 5 above 
 - Storm Sovereign: level 13, comfortable at 6
 - Cinder wolf: level 13, comfortable at 4
 - Nebula Heart: level 14, comfortable at 7
+- Moonshade Alpha: level 15, comfortable at 8
 - Char Tyrant: level 16, comfortable at 8
 - Astral Curator: level 17, comfortable at 10
+- Cinder Colossus: level 20, comfortable at 13
 - Frost Sovereign: level 20, comfortable at 13
-- The Third Floor: level 24, comfortable at 17
+- Vault Warden: level 22, comfortable at 15
+- The Third Floor: level 24, comfortable at 16
+- The Throne That Was: level 24, comfortable at 16
 - The Rain on the Road: level 24, comfortable at 16
-- The Final Report: level 24, comfortable at 17
-- The Overtime: level 24, comfortable at 17
+- The Final Report: level 24, comfortable at 16
+- The Sealed Pot: level 24, comfortable at 16
+- The Overtime: level 24, comfortable at 16
 - The Unfinished Equation: level 24, comfortable at 16
 - The Last Frame: level 24, comfortable at 16

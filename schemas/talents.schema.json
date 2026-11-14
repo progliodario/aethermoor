@@ -50,13 +50,17 @@
               "defense",
               "magic",
               "critical",
-              "speed"
+              "speed",
+              "riposte",
+              "kill_heal",
+              "kill_mana",
+              "whirl"
             ]
           },
           "pct_per_rank": {
             "type": "integer",
             "minimum": 1,
-            "maximum": 100
+            "maximum": 300
           },
           "max_rank": {
             "type": "integer",

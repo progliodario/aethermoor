@@ -36,16 +36,8 @@
             "type": "string"
           },
           "kind": {
-            "enum": [
-              "kills",
-              "kills_of",
-              "level",
-              "species",
-              "quests",
-              "gathered",
-              "crafted",
-              "parried"
-            ]
+            "type": "string",
+            "pattern": "^(kills|kills_of|level|species|quests|gathered|crafted|crafted_fine|parried|renown:[a-z][a-z0-9_]*)$"
           },
           "count": {
             "type": "integer",
@@ -79,6 +71,11 @@
             "type": "integer",
             "minimum": 0,
             "maximum": 200
+          },
+          "fine_pm": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000
           }
         }
       }

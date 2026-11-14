@@ -51,6 +51,8 @@ struct Region {
     std::string tone;          // the voice of the people of the region
     int shop_price_pm = 1000;  // what the shops of the region sell (spec 06)
     std::vector<std::string> shop_stock;
+    int shop_renown_step_pm = 0;    // what every quest finished here takes off the prices (spec 07, "Renown")
+    int shop_renown_max_pm = 0;     // and the most the renown takes off
     std::vector<FaunaEntry> fauna;  // the enemies of the spawners of the region, by weight
     int bias_elevation = 0;         // pull on the fields of the terrain near its center (spec 09, "Regions")
     int bias_temperature = 0;

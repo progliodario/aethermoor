@@ -715,6 +715,16 @@
                 "type": "integer",
                 "minimum": 1
               },
+              "renown_step_pm": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000
+              },
+              "renown_max_pm": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 900
+              },
               "stock": {
                 "type": "array",
                 "items": {

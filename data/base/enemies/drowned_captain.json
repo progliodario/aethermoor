@@ -4,7 +4,7 @@
   "name": "$i18n:enemy.drowned_captain.name",
   "level": 18,
   "stats": {
-    "hp": 980,
+    "hp": 870,
     "atk": 43,
     "def": 18,
     "mdef": 16,

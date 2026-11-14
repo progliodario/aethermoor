@@ -96,6 +96,50 @@
         "talent": "second_wind",
         "rank": 5
       }
+    },
+    {
+      "id": "whirlwind",
+      "name": "$i18n:talent.whirlwind.name",
+      "stat": "whirl",
+      "pct_per_rank": 10,
+      "max_rank": 3,
+      "requires": {
+        "talent": "might",
+        "rank": 3
+      }
+    },
+    {
+      "id": "bloodlust",
+      "name": "$i18n:talent.bloodlust.name",
+      "stat": "kill_heal",
+      "pct_per_rank": 4,
+      "max_rank": 5,
+      "requires": {
+        "talent": "vigor",
+        "rank": 3
+      }
+    },
+    {
+      "id": "flow",
+      "name": "$i18n:talent.flow.name",
+      "stat": "kill_mana",
+      "pct_per_rank": 8,
+      "max_rank": 5,
+      "requires": {
+        "talent": "focus",
+        "rank": 3
+      }
+    },
+    {
+      "id": "riposte",
+      "name": "$i18n:talent.riposte.name",
+      "stat": "riposte",
+      "pct_per_rank": 60,
+      "max_rank": 5,
+      "requires": {
+        "talent": "guard",
+        "rank": 3
+      }
     }
   ]
 }

@@ -90,6 +90,13 @@ TALENT_TREE = [
     {"id": "swift", "name": "t", "stat": "speed", "pct_per_rank": 15, "max_rank": 2, "requires": {"talent": "might", "rank": 3}},
     {"id": "arcane", "name": "t", "stat": "magic", "pct_per_rank": 40, "max_rank": 2},
 ]
+# Talents that are abilities (spec 11, "Abilities"): their percent is a power, not a stat.
+ABILITIES = [
+    {"id": "riposte", "name": "t", "stat": "riposte", "pct_per_rank": 150, "max_rank": 2},
+    {"id": "second_wind", "name": "t", "stat": "kill_heal", "pct_per_rank": 10, "max_rank": 2},
+    {"id": "flow", "name": "t", "stat": "kill_mana", "pct_per_rank": 30, "max_rank": 2},
+    {"id": "whirl", "name": "t", "stat": "whirl", "pct_per_rank": 10, "max_rank": 2},
+]
 GATHER_NODES = [
     {"prop": "base:art/prop/bush", "sound": "plant", "cooldown_ticks": 60, "reach_x100": 150,
      "drops": [{"item": "base:item/wild_berries", "qty_min": 1, "qty_max": 3, "weight_pm": 800}, {"item": "base:item/healing_herb", "qty_min": 1, "qty_max": 2, "weight_pm": 400}]},
@@ -433,6 +440,72 @@ def build_scenarios() -> list[dict]:
         scenario("rain_and_gift", [enemy(4.9, 4.5)], [segment(120)], gift={"aggro_pct": 50}, weather={"rain_pm": 1000, "rain_aggro_cut_pm": 300}),
         scenario("gift_dodge_cooldown", [enemy(12.0, 7.5, **passive)], [segment(70, move=(1, 0), dodge=True)], dodge=DODGE,
                  gift={"dodge_cooldown_pct": 50}),
+        # Quality (spec 06): a recipe with `fine_pm` rolls from the seed and the number of things made; a fine tonic is one more tonic, a fine sword is
+        # the fine sword instead of the plain one. After three things made the title adds 400 permille to the chance. A recipe without `fine_pm` never rolls.
+        scenario("craft_quality", [enemy(12.0, 7.5, **passive)],
+                 [segment(1, do=[{"cmd": "craft", "recipe": name}]) for name in
+                  ("tonic_q", "sword_q", "tonic", "tonic_q", "sword_q", "tonic_q", "sword_q", "tonic_q", "sword_q", "tonic_q", "sword_q", "tonic_q")],
+                 inventory={"base:item/healing_herb": 12, "base:item/wild_berries": 24, "base:item/slime_gel": 9},
+                 recipes=RECIPES + [
+                     {"id": "tonic_q", "output": {"item": "base:item/tonic", "qty": 2}, "fine_pm": 400,
+                      "inputs": [{"item": "base:item/healing_herb", "qty": 1}, {"item": "base:item/wild_berries", "qty": 2}]},
+                     {"id": "sword_q", "output": {"item": "base:item/iron_sword", "qty": 1}, "fine_pm": 400, "fine_item": "base:item/fine_iron_sword",
+                      "inputs": [{"item": "base:item/slime_gel", "qty": 1}]}],
+                 titles=[{"id": "maker", "name": "t", "kind": "crafted", "count": 3, "fine_pm": 400},
+                         {"id": "master", "name": "t", "kind": "crafted_fine", "count": 2}]),
+        # Recall (spec 10, "Commands"): told to stay, the companion is left five tiles behind; called back it is next to the player at once and follows again.
+        # Without a companion the command does nothing.
+        {**scenario("companion_recall", [enemy(20.5, 6.5, hp=30, **passive)],
+                    [segment(1, do=[{"cmd": "companion_stay"}]), segment(75, move=(1, 0)), segment(1, do=[{"cmd": "companion_recall"}]),
+                     segment(60, move=(1, 0)), segment(30)], companion=COMPANION), "grid": arena(24, 9)},
+        scenario("companion_recall_without", [enemy(12.0, 7.5, **passive)], [segment(1, do=[{"cmd": "companion_recall"}]), segment(10)]),
+        # Abilities of the talents (spec 11): riposte, a parry hits the attacker back with the attack times the power of the talent, with no roll, and
+        # can kill it; before the talent the same parry only stuns.
+        scenario("talent_riposte", [enemy(4.2, 4.5, atk=60, hp=150)],
+                 [segment(6), segment(1, parry=True), segment(77), segment(1, do=[{"cmd": "talent", "talent": "riposte"}, {"cmd": "talent", "talent": "riposte"}]),
+                  *[s for _ in range(5) for s in (segment(1, parry=True), segment(77))]],
+                 player={"level": 3}, talents=ABILITIES, talent_points_per_level=2),
+        # A kill gives back health and mana: the slime bites, then the strikes kill it and the next one; with the talents the health comes back at each kill
+        # and the mana lets the second strike (60 of 100 points) start as soon as its cooldown ends.
+        *[scenario(name, [enemy(8.1, 4.5, atk=40, hp=20), enemy(3.4, 5.4, hp=20, **passive), enemy(3.4, 3.6, hp=900, **passive)],
+                   [segment(150), segment(1, do=[{"cmd": "talent", "talent": t} for t in learned]), segment(100, strike=True), segment(100, strike=True),
+                    segment(100, strike=True)],
+                   player={"level": 3}, talents=ABILITIES, talent_points_per_level=2, strike={**STRIKE, "mp": 60})
+          for name, learned in (("talent_kill_gifts", ("second_wind", "second_wind", "flow", "flow")), ("talent_kill_gifts_without", ()))],
+        # Whirl: the power strike hits all around and farther; the creature behind the player and the one just out of reach are hit only with the talent.
+        scenario("talent_whirl", [enemy(3.5, 4.5, hp=900, **passive), enemy(1.5, 4.5, hp=900, **passive), enemy(4.7, 4.5, hp=900, **passive)],
+                 [segment(40, strike=True), segment(60), segment(1, do=[{"cmd": "talent", "talent": "whirl"}, {"cmd": "talent", "talent": "whirl"}]),
+                  segment(40, strike=True), segment(100, attack=True)],
+                 player={"level": 3}, talents=ABILITIES, talent_points_per_level=2, strike=STRIKE),
+        # Renown (spec 07): every quest finished adds one to the renown of the region; the shop takes `renown_step_pm` off its prices for each, up to
+        # `renown_max_pm`. Bread costs 6, then 5 (one quest, 50 permille), an iron sword 158 (three quests, the cap of 120 permille), and selling does
+        # not change. The counter of the region earns a title.
+        scenario("renown_prices", [enemy(12.0, 7.5, **passive)],
+                 [segment(1, do=[{"cmd": "open_shop"}, {"cmd": "buy", "item": "base:item/bread"}]),
+                  segment(1, do=[{"cmd": "start_quest", "quest": "test:quest/a"}, {"cmd": "buy", "item": "base:item/bread"}]),
+                  segment(1, do=[{"cmd": "start_quest", "quest": "test:quest/b"}, {"cmd": "start_quest", "quest": "test:quest/c"},
+                                 {"cmd": "buy", "item": "base:item/iron_sword"}, {"cmd": "sell", "item": "base:item/slime_gel"}]),
+                  segment(1, do=[{"cmd": "start_quest", "quest": "test:quest/d"}, {"cmd": "buy", "item": "base:item/bread"}])],
+                 inventory={"base:item/slime_gel": 2}, start_gold=400, region="vale",
+                 story={"quests": {f"test:quest/{q}": {"id": f"test:quest/{q}", "stages": [
+                     {"id": "have", "journal": "q", "objectives": [{"type": "collect", "item": "base:item/slime_gel", "count": 1}], "next": "end"}],
+                     "rewards": []} for q in "abcd"}, "dialogues": {}, "npcs": []},
+                 shop={"price_pm": 1200, "stock": ["base:item/bread", "base:item/iron_sword"], "renown_step_pm": 50, "renown_max_pm": 120},
+                 titles=[{"id": "known", "name": "t", "kind": "renown:vale", "count": 2}]),
+        # The `renown_at_least` condition: the elder greets a stranger, and then somebody known, after two quests.
+        scenario("renown_dialogue", [enemy(12.0, 7.5, **passive)],
+                 [segment(1, do=[{"cmd": "interact"}]), segment(1, do=[{"cmd": "advance"}]),
+                  segment(1, do=[{"cmd": "start_quest", "quest": "test:quest/a"}, {"cmd": "interact"}]), segment(1, do=[{"cmd": "advance"}]),
+                  segment(1, do=[{"cmd": "start_quest", "quest": "test:quest/b"}, {"cmd": "interact"}]), segment(1, do=[{"cmd": "advance"}])],
+                 inventory={"base:item/slime_gel": 1}, player={"start": [3.4, 4.5]},
+                 story={"quests": {f"test:quest/{q}": {"id": f"test:quest/{q}", "stages": [
+                     {"id": "have", "journal": "q", "objectives": [{"type": "collect", "item": "base:item/slime_gel", "count": 1}], "next": "end"}],
+                     "rewards": []} for q in "ab"},
+                     "dialogues": {"test:dialogue/elder": {"id": "test:dialogue/elder", "start": "start", "nodes": {
+                         "start": {"type": "condition", "when": {"renown_at_least": 2}, "then": "known", "else": "stranger"},
+                         "known": {"type": "say", "speaker": "elder", "text": "t.known", "next": "end"},
+                         "stranger": {"type": "say", "speaker": "elder", "text": "t.stranger", "next": "end"}}}},
+                     "npcs": [{"key": "elder", "pos": [4.0, 4.5], "dialogue": "test:dialogue/elder"}]}),
         scenario("leash_and_return", [enemy(4.0, 4.5, behavior_overrides={"leash_x100": 300})],
                  [segment(20, attack=True), segment(150, move=(1, 0)), segment(250)]),
     ]

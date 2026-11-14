@@ -132,6 +132,8 @@ struct ItemDef {
 struct ShopDef {
     int price_pm = 1000;
     std::vector<std::string> stock;
+    int renown_step_pm = 0;  // what every quest finished in the region takes off the prices (spec 07, "Renown")
+    int renown_max_pm = 0;   // and the most the renown takes off
 };
 
 // A prop that can be gathered from (spec 06, "Gathering").
@@ -172,7 +174,9 @@ struct RecipeDef {
     std::string output;
     std::int64_t output_qty = 1;
     std::vector<std::pair<std::string, std::int64_t>> inputs;
-    std::string station;  // the art of the prop it must be made next to (spec 06, "Stations"); empty: anywhere
+    std::string station;       // the art of the prop it must be made next to (spec 06, "Stations"); empty: anywhere
+    std::int64_t fine_pm = 0;  // the chance in permille that it comes out fine (spec 06, "Quality"); 0: never
+    std::string fine_item;     // what a fine one gives instead of the output; empty: one more of the output
 };
 
 // A title (spec 11): earned when its condition holds. kind: kills, kills_of, level, species or quests.
@@ -187,9 +191,12 @@ struct TitleDef {
     std::int64_t craft_bonus = 0;   // more of the output of every recipe
     std::int64_t parry_bonus = 0;   // ticks added to the parry window
     std::int64_t xp_pct = 0;        // percent more experience from a kill
+    std::int64_t fine_pm = 0;       // permille added to the chance of a fine piece (spec 06, "Quality")
 };
 
-// A talent (spec 11, "Talents"): every rank multiplies a kind of stat. stat: attack, health, mana or defense.
+// A talent (spec 11, "Talents"): every rank multiplies a kind of stat. stat: attack, health, mana, defense, magic,
+// critical or speed; or an ability (spec 11, "Abilities"): riposte, kill_heal, kill_mana or whirl, whose power is
+// `pct_per_rank` times the rank.
 struct TalentDef {
     std::string id;
     std::string name;
@@ -232,6 +239,7 @@ struct CombatSetup {
     std::vector<RecipeDef> recipes;                  // crafting recipes, in the order of the data
     std::optional<CompanionDef> companion;           // the companion of the protagonist (spec 10)
     std::vector<TitleDef> titles;                    // the titles that can be earned (spec 11), in order of rank
+    std::string region;  // the region of a world without regions: the renown is counted by region (spec 07, "Renown")
 };
 
 enum class AttackPhase { None, Startup, Active, Recovery };

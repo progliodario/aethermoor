@@ -4,7 +4,7 @@
   "name": "$i18n:enemy.echo_daichi.name",
   "level": 24,
   "stats": {
-    "hp": 1500,
+    "hp": 1170,
     "atk": 54,
     "def": 20,
     "mdef": 14,

@@ -4,7 +4,7 @@
   "name": "$i18n:enemy.echo_yuki.name",
   "level": 24,
   "stats": {
-    "hp": 1300,
+    "hp": 1210,
     "atk": 52,
     "def": 17,
     "mdef": 20,

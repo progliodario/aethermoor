@@ -36,6 +36,9 @@ class Region(val id: String, /** An $i18n: key. */ val name: String, val xPm: In
     val ground: Map<String, List<Int>> = emptyMap(),
     /** Random props by biome, instead of the ones of the world. */
     val props: Map<String, List<PropOption>> = emptyMap(),
+    /** What every quest finished here takes off the prices of the shops, and the most (spec 07, "Renown"). */
+    val shopRenownStepPm: Int = 0,
+    val shopRenownMaxPm: Int = 0,
 )
 
 class SettlementKind(val id: String, val weight: Int, val stamps: List<String>)
@@ -938,6 +941,8 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
                         val e = f.jsonObject
                         FaunaEntry(e.getValue("enemy").jsonPrimitive.content, e.getValue("drop").jsonPrimitive.content, e.getValue("weight").jsonPrimitive.int)
                     }.also { list -> require(list.isNotEmpty() && list.all { it.weight >= 1 }) { "a region needs fauna with positive weights" } },
+                    shopRenownStepPm = r.getValue("shop").jsonObject["renown_step_pm"]?.jsonPrimitive?.int ?: 0,
+                    shopRenownMaxPm = r.getValue("shop").jsonObject["renown_max_pm"]?.jsonPrimitive?.int ?: 0,
                     biasElevation = r["bias"]?.jsonObject?.get("elevation")?.jsonPrimitive?.int ?: 0,
                     biasTemperature = r["bias"]?.jsonObject?.get("temperature")?.jsonPrimitive?.int ?: 0,
                     biasMoisture = r["bias"]?.jsonObject?.get("moisture")?.jsonPrimitive?.int ?: 0,

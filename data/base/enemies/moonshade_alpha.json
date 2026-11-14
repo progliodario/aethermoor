@@ -4,7 +4,7 @@
   "name": "$i18n:enemy.moonshade_alpha.name",
   "level": 15,
   "stats": {
-    "hp": 700,
+    "hp": 660,
     "atk": 37,
     "def": 15,
     "mdef": 14,

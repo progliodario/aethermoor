@@ -4,7 +4,7 @@
   "name": "$i18n:enemy.rime_revenant.name",
   "level": 14,
   "stats": {
-    "hp": 640,
+    "hp": 630,
     "atk": 35,
     "def": 16,
     "mdef": 10,

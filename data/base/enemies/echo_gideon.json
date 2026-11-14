@@ -4,7 +4,7 @@
   "name": "$i18n:enemy.echo_gideon.name",
   "level": 24,
   "stats": {
-    "hp": 1600,
+    "hp": 1160,
     "atk": 55,
     "def": 22,
     "mdef": 18,

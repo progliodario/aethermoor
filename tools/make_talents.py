@@ -9,7 +9,10 @@ from make_towns import DATA, set_texts
 POINTS_PER_LEVEL = 1
 # id: (stat, percent for each rank, ranks, name en, name it, requires (talent, rank) or None)
 # stat: attack (atk and matk), health, mana, defense (def and mdef), magic (matk), critical (the chance), speed (walking)
-# Four roots, then a second ring that opens at rank 5 of its root, then a crown that opens at rank 5 of a second-ring talent.
+# Abilities (spec 11, "Abilities"): riposte (a parry hits back with that percent of the attack), kill_heal and kill_mana (a kill gives back
+# that percent of the maximum health or mana), whirl (the power strike hits all around, and that percent farther).
+# Four roots, then a second ring that opens at rank 5 of its root, then a crown that opens at rank 5 of a second-ring talent; every root
+# also opens an ability at rank 3.
 TALENTS = {
     "might": ("attack", 5, 10, "Might", "Potenza", None),
     "vigor": ("health", 6, 10, "Vigor", "Vigore", None),
@@ -21,6 +24,10 @@ TALENTS = {
     "fleet_foot": ("speed", 4, 5, "Fleet Foot", "Piede lesto", ("guard", 5)),
     "legend": ("attack", 10, 5, "Legend", "Leggenda", ("keen_eye", 5)),
     "bulwark": ("defense", 12, 5, "Bulwark", "Baluardo", ("second_wind", 5)),
+    "whirlwind": ("whirl", 10, 3, "Whirlwind", "Turbine", ("might", 3)),
+    "bloodlust": ("kill_heal", 4, 5, "Battle Hunger", "Fame di battaglia", ("vigor", 3)),
+    "flow": ("kill_mana", 8, 5, "Flow", "Flusso", ("focus", 3)),
+    "riposte": ("riposte", 60, 5, "Riposte", "Risposta", ("guard", 3)),
 }
 
 

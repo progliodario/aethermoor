@@ -4,7 +4,7 @@
   "name": "$i18n:enemy.echo_ren.name",
   "level": 24,
   "stats": {
-    "hp": 1500,
+    "hp": 1140,
     "atk": 52,
     "def": 24,
     "mdef": 18,

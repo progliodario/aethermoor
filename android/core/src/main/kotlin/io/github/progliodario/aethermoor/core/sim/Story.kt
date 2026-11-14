@@ -44,6 +44,9 @@ sealed interface Condition {
 
     /** The time of day in permille is in [from, to); from > to crosses midnight. */
     data class TodBetween(val from: Int, val to: Int) : Condition
+
+    /** The quests finished in the region where the player stands are at least [count] (spec 07, "Renown"). */
+    data class RenownAtLeast(val count: Long) : Condition
 }
 
 sealed interface Effect {
@@ -187,6 +190,11 @@ interface StoryHost {
 
     /** The time of day in permille, 0 without world time. */
     fun todPm(): Int
+
+    /** Renown (spec 07, "Renown"): a quest was finished, and the quests finished in the region where the player stands. */
+    fun questDone() {}
+
+    fun renownHere(): Long = 0L
 }
 
 // ------------------------------------------------------------------------------------ parsing
@@ -212,6 +220,7 @@ private fun parseCondition(element: JsonElement): Condition {
         "gold_at_least" -> Condition.GoldAtLeast(value.jsonPrimitive.long)
         "season" -> Condition.Season(value.jsonPrimitive.content)
         "tod_between" -> Condition.TodBetween(value.jsonArray[0].jsonPrimitive.int, value.jsonArray[1].jsonPrimitive.int)
+        "renown_at_least" -> Condition.RenownAtLeast(value.jsonPrimitive.long)
         else -> throw IllegalArgumentException("unknown condition $key")
     }
 }
@@ -348,6 +357,7 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
                 val tod = host.todPm()
                 if (c.from <= c.to) tod >= c.from && tod < c.to else tod >= c.from || tod < c.to
             }
+            is Condition.RenownAtLeast -> host.renownHere() >= c.count
         }
 
     fun apply(effect: Effect) {
@@ -405,6 +415,7 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
             }
             if (stage.next == "end") {
                 q.done = true
+                host.questDone() // the renown of the region grows (spec 07, "Renown")
                 for (reward in ArrayList(questDef(questId)!!.rewards)) apply(reward)
                 return
             }

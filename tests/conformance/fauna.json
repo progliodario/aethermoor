@@ -2109,6 +2109,8 @@
               ],
               "shop": {
                 "price_pm": 1000,
+                "renown_step_pm": 15,
+                "renown_max_pm": 250,
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
@@ -2197,6 +2199,8 @@
               ],
               "shop": {
                 "price_pm": 1100,
+                "renown_step_pm": 15,
+                "renown_max_pm": 250,
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
@@ -2308,6 +2312,8 @@
               ],
               "shop": {
                 "price_pm": 900,
+                "renown_step_pm": 15,
+                "renown_max_pm": 250,
                 "stock": [
                   "base:item/iron_sword",
                   "base:item/steel_sword",
@@ -2407,6 +2413,8 @@
               ],
               "shop": {
                 "price_pm": 1300,
+                "renown_step_pm": 15,
+                "renown_max_pm": 250,
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
@@ -2520,6 +2528,8 @@
               ],
               "shop": {
                 "price_pm": 1200,
+                "renown_step_pm": 15,
+                "renown_max_pm": 250,
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
@@ -2607,6 +2617,8 @@
               ],
               "shop": {
                 "price_pm": 1000,
+                "renown_step_pm": 15,
+                "renown_max_pm": 250,
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
@@ -2720,6 +2732,8 @@
               ],
               "shop": {
                 "price_pm": 1500,
+                "renown_step_pm": 15,
+                "renown_max_pm": 250,
                 "stock": [
                   "base:item/potion_small",
                   "base:item/steel_sword",
@@ -2868,6 +2882,8 @@
               ],
               "shop": {
                 "price_pm": 1100,
+                "renown_step_pm": 15,
+                "renown_max_pm": 250,
                 "stock": [
                   "base:item/potion_small",
                   "base:item/iron_sword",
@@ -14117,6 +14133,8 @@
               ],
               "shop": {
                 "price_pm": 1000,
+                "renown_step_pm": 15,
+                "renown_max_pm": 250,
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
@@ -14205,6 +14223,8 @@
               ],
               "shop": {
                 "price_pm": 1100,
+                "renown_step_pm": 15,
+                "renown_max_pm": 250,
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
@@ -14316,6 +14336,8 @@
               ],
               "shop": {
                 "price_pm": 900,
+                "renown_step_pm": 15,
+                "renown_max_pm": 250,
                 "stock": [
                   "base:item/iron_sword",
                   "base:item/steel_sword",
@@ -14415,6 +14437,8 @@
               ],
               "shop": {
                 "price_pm": 1300,
+                "renown_step_pm": 15,
+                "renown_max_pm": 250,
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
@@ -14528,6 +14552,8 @@
               ],
               "shop": {
                 "price_pm": 1200,
+                "renown_step_pm": 15,
+                "renown_max_pm": 250,
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
@@ -14615,6 +14641,8 @@
               ],
               "shop": {
                 "price_pm": 1000,
+                "renown_step_pm": 15,
+                "renown_max_pm": 250,
                 "stock": [
                   "base:item/bread",
                   "base:item/potion_small",
@@ -14728,6 +14756,8 @@
               ],
               "shop": {
                 "price_pm": 1500,
+                "renown_step_pm": 15,
+                "renown_max_pm": 250,
                 "stock": [
                   "base:item/potion_small",
                   "base:item/steel_sword",
@@ -14876,6 +14906,8 @@
               ],
               "shop": {
                 "price_pm": 1100,
+                "renown_step_pm": 15,
+                "renown_max_pm": 250,
                 "stock": [
                   "base:item/potion_small",
                   "base:item/iron_sword",

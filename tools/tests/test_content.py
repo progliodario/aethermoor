@@ -152,3 +152,23 @@ def test_every_protagonist_is_complete():
             json.loads((root / "items" / (i["item"].rsplit("/", 1)[1] + ".json")).read_text(encoding="utf-8"))["kind"] == "weapon" for i in pr["starting_items"]), name
         if pr.get("art_variant"):
             assert all(pr["art_variant"] in v for v in variants), name
+
+
+def test_quality_abilities_and_renown_point_at_things_that_exist():
+    """Spec 06 "Quality", spec 11 "Abilities", spec 07 "Renown": the fine pieces, the talents asked for and the regions of the titles exist."""
+    items = load_all("items")
+    recipes = json.loads((DATA / "recipes.json").read_text(encoding="utf-8"))["recipes"]
+    assert any("fine_pm" in r for r in recipes) and any("fine_item" in r for r in recipes)
+    for r in recipes:
+        assert "fine_item" not in r or ("fine_pm" in r and r["fine_item"] in items), r["id"]
+    talents = json.loads((DATA / "talents.json").read_text(encoding="utf-8"))["talents"]
+    names = [t["id"] for t in talents]
+    for t in talents:
+        assert "requires" not in t or names.index(t["requires"]["talent"]) < names.index(t["id"]), t["id"]
+    assert {"riposte", "kill_heal", "kill_mana", "whirl"} <= {t["stat"] for t in talents}
+    world = json.loads((DATA / "worlds" / "overworld.json").read_text(encoding="utf-8"))
+    regions = {r["id"] for r in world["regions"]}
+    assert all(0 < r["shop"]["renown_step_pm"] <= r["shop"]["renown_max_pm"] for r in world["regions"])
+    titles = json.loads((DATA / "titles.json").read_text(encoding="utf-8"))["titles"]
+    renown = [t["kind"].split(":", 1)[1] for t in titles if t["kind"].startswith("renown:")]
+    assert sorted(renown) == sorted(regions)
