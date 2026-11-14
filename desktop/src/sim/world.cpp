@@ -589,6 +589,27 @@ void WorldSim::open_shop() {
     m_shop_ = std::move(shop);
 }
 
+void WorldSim::open_shop_of(const std::string& region_name, std::int64_t markup_pct) {
+    std::optional<ShopDef> far;  // no wares for friends there: the renown is of the place where the player stands
+    if (m_store_) {
+        for (const Region& region : m_store_->params().regions) {
+            if (region.id == region_name) {
+                far = ShopDef{region.shop_price_pm,      region.shop_stock,           region.shop_renown_step_pm,
+                              region.shop_renown_max_pm, region.shop_market_swing_pm, {}};
+            }
+        }
+    } else if (const auto found = m_setup_.far_shops.find(region_name); found != m_setup_.far_shops.end()) {
+        far = found->second;
+        far->renown_stock.clear();
+    }
+    if (!far) {
+        open_shop();  // an unknown region is the shop of the place
+        return;
+    }
+    far->price_pm = static_cast<int>(far->price_pm * markup_pct / 100);
+    m_shop_ = std::move(far);
+}
+
 namespace {
 
 int stack_limit(const ItemDef& item) {
@@ -876,6 +897,45 @@ bool WorldSim::companion_stay() {
     }
     m_companion_stay_ = !m_companion_stay_;
     return true;
+}
+
+bool WorldSim::tame() {
+    const GiftDef& gift = m_setup_.gift;
+    Player& p = m_player_;
+    if (gift.tame_hp_pct <= 0 || m_story_.dialogue_active() || p.stun > 0) {
+        return false;
+    }
+    Enemy* best = nullptr;
+    float best_dist = 0.0F;
+    for (Enemy& enemy : m_enemies_) {
+        if (enemy.state == EnemyState::Dead || enemy.hp * 100 > enemy.def.hp * gift.tame_hp_pct) {
+            continue;
+        }
+        const float dist = distance(enemy.position.x, enemy.position.y, p.position.x, p.position.y);
+        if (dist > static_cast<float>(gift.tame_range_x100) / 100.0F + enemy.radius()) {
+            continue;
+        }
+        if (best == nullptr || dist < best_dist) {
+            best = &enemy;
+            best_dist = dist;
+        }
+    }
+    if (best == nullptr) {
+        return false;
+    }
+    best->hp = 0;
+    best->state = EnemyState::Dead;
+    ++m_counters_["tamed"];
+    if (m_setup_.companion) {
+        m_companion_bond_ += gift.tame_bond;
+    }
+    m_cues_.push_back({"die", best->def.sound, best->position});
+    on_kill(*best);
+    return true;
+}
+
+std::int64_t WorldSim::fine_chance_pm(const RecipeDef& recipe) const {
+    return recipe.fine_pm > 0 ? std::min<std::int64_t>(1000, recipe.fine_pm + title_bonus("fine")) : 0;
 }
 
 bool WorldSim::companion_recall() {

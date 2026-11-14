@@ -68,7 +68,8 @@ sealed interface Effect {
     data class StartQuest(val quest: String) : Effect
 
     /** Opens the shop of the place (spec 06). */
-    data object OpenShop : Effect
+    /** With a [region], the goods of that region at [markupPct] percent of its prices (spec 06, "Goods from afar"). */
+    data class OpenShop(val region: String = "", val markupPct: Long = 100) : Effect
 
     data class AddGuildPoints(val amount: Long) : Effect
 
@@ -181,6 +182,9 @@ interface StoryHost {
 
     fun openShop()
 
+    /** The goods of another region at [markupPct] percent of its prices (spec 06, "Goods from afar"). */
+    fun openShopOf(region: String, markupPct: Long) = openShop()
+
     fun openBoard()
 
     fun healFull()
@@ -236,7 +240,7 @@ private fun parseEffect(element: JsonElement): Effect {
         "remove_item" -> Effect.RemoveItem(o.str("item"), o.getValue("qty").jsonPrimitive.long)
         "set_flag" -> Effect.SetFlag(o.str("flag"), o.getValue("value").jsonPrimitive.boolean)
         "start_quest" -> Effect.StartQuest(o.str("quest"))
-        "open_shop" -> Effect.OpenShop
+        "open_shop" -> Effect.OpenShop(optStr(o, "region"), (o["markup_pct"] as? JsonPrimitive)?.contentOrNull?.toLongOrNull() ?: 100L)
         "open_board" -> Effect.OpenBoard
         "add_guild_points" -> Effect.AddGuildPoints(o.getValue("amount").jsonPrimitive.long)
         else -> throw IllegalArgumentException("unknown effect $kind")
@@ -378,7 +382,7 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
             }
             is Effect.SetFlag -> flags[effect.flag] = effect.value
             is Effect.StartQuest -> startQuest(effect.quest)
-            is Effect.OpenShop -> host.openShop()
+            is Effect.OpenShop -> if (effect.region.isEmpty()) host.openShop() else host.openShopOf(effect.region, effect.markupPct)
             is Effect.OpenBoard -> host.openBoard()
             is Effect.AddGuildPoints -> guildPoints += effect.amount
         }

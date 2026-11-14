@@ -268,7 +268,7 @@ constexpr Rebindable kRebindable[] = {
     {"up", SDLK_W},      {"down", SDLK_S},   {"left", SDLK_A},    {"right", SDLK_D},    {"attack", SDLK_J},
     {"strike", SDLK_K},  {"dodge", SDLK_L},  {"parry", SDLK_U},   {"interact", SDLK_E}, {"bag", SDLK_I},
     {"journal", SDLK_Q}, {"map", SDLK_M},    {"minimap", SDLK_N}, {"crafting", SDLK_C}, {"companion", SDLK_H},
-    {"analyze", SDLK_Z}, {"recall", SDLK_G}, {"burst", SDLK_R},   {"mend", SDLK_T},
+    {"analyze", SDLK_Z}, {"recall", SDLK_G}, {"burst", SDLK_R},   {"mend", SDLK_T},     {"tame", SDLK_B},
 };
 std::map<SDL_Keycode, SDL_Keycode> g_key_remap;   // a key the player chose -> the default key it stands for
 std::map<std::string, SDL_Keycode> g_key_choice;  // action -> the key the player chose for it
@@ -3446,6 +3446,10 @@ void draw_craft(SDL_Renderer* renderer, const Assets& assets, const aether::Worl
                                                            : "$i18n:ui.station_" +
                                                                  recipe.station.substr(recipe.station.rfind('/') + 1));
         }
+        if (sim.fine_chance_pm(recipe) > 0) {  // how often it comes out fine (spec 06, "Quality")
+            needs +=
+                "   " + assets.pack.text(ui.lang, "$i18n:ui.craft_fine", {{"pct", sim.fine_chance_pm(recipe) / 10}});
+        }
         SDL_SetRenderDrawColor(renderer, 170, 190, 215, 255);
         debug_text(renderer, (x + 16.0F) / kScale, (ty + 8.0F * kScale + 4.0F) / kScale, needs.c_str());
     }
@@ -4651,6 +4655,11 @@ int main(int argc, char** argv) {
                             notify(ui, assets.pack.text(ui.lang, sim.use_ability(kind) ? "$i18n:ui.ability_" + kind
                                                                                        : "$i18n:ui.ability_refused"));
                         }
+                    } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_B && !smoke_test &&
+                               !ui.show_map && !sim.story().dialogue_active() && sim.combat().gift.tame_hp_pct > 0) {
+                        // taming, the gift of the Universal Tamer (spec 18)
+                        notify(ui, assets.pack.text(ui.lang,
+                                                    sim.tame() ? "$i18n:ui.ability_tame" : "$i18n:ui.tame_refused"));
                     } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_N && !smoke_test &&
                                !ui.show_map) {
                         ui.show_minimap = !ui.show_minimap;

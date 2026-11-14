@@ -278,7 +278,13 @@ public:
     bool sell(const std::string& item_id);
     void close_shop() { m_shop_.reset(); }
     // The `open_shop` dialogue effect, callable on its own (scenarios).
-    void open_shop_for_test() { open_shop(); }
+    void open_shop_for_test(const std::string& region = "", std::int64_t markup_pct = 100) {
+        if (region.empty()) {
+            open_shop();
+        } else {
+            open_shop_of(region, markup_pct);
+        }
+    }
     // The shop that is open now, or nullptr.
     const ShopDef* shop() const { return m_shop_ ? &*m_shop_ : nullptr; }
     const std::string& equipped_weapon() const { return m_equipped_weapon_; }
@@ -314,12 +320,17 @@ public:
     bool craft(const std::string& recipe_id);
     // Whether the last recipe made came out fine (spec 06, "Quality"); presentation only.
     bool last_craft_fine() const { return m_last_craft_fine_; }
+    // The chance in permille that a recipe comes out fine now; 0 without quality (presentation only).
+    std::int64_t fine_chance_pm(const RecipeDef& recipe) const;
     // The companion (spec 10): where it is, or nullptr when the protagonist has none.
     const Vec2* companion_position() const { return m_setup_.companion ? &m_companion_pos_ : nullptr; }
     // Tells the companion to stay where it is, or to follow again (spec 10, "Commands"); false when there is none.
     bool companion_stay();
     // Calls the companion back: it is next to the player at once and follows again; false when there is none.
     bool companion_recall();
+    // Taming (spec 18, the gift `tame_hp_pct`): the nearest hurt creature in reach leaves in peace, which counts as a
+    // kill, and the bond of the companion grows; false, changing nothing, when it is refused.
+    bool tame();
     bool companion_staying() const { return m_companion_stay_; }
     int companion_bond() const { return m_companion_bond_; }
     const Story& story() const { return m_story_; }
@@ -367,6 +378,7 @@ private:
     float player_x() const override { return m_player_.position.x; }
     float player_y() const override { return m_player_.position.y; }
     void open_shop() override;
+    void open_shop_of(const std::string& region, std::int64_t markup_pct) override;
     void open_board() override;
     void heal_full() override { m_player_.hp = m_derived_.max_hp; }
     std::string season_id() const override;

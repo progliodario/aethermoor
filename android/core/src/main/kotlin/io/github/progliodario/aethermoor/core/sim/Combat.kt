@@ -40,6 +40,13 @@ data class GiftDef(
     /** The attack of the companion, in percent (a gift of command), and what a kill of the companion adds to its bond (a gift of taming). */
     val companionAtkPct: Int = 100,
     val bondGain: Int = 1,
+    /**
+     * Taming (spec 18): a creature at [tameHpPct] percent of its health or less, within [tameRangeX100], can be tamed, and the bond of the
+     * companion grows by [tameBond]; 0 percent: the protagonist cannot tame.
+     */
+    val tameHpPct: Int = 0,
+    val tameRangeX100: Int = 0,
+    val tameBond: Int = 0,
 )
 
 data class DropDef(val item: String, val qtyMin: Long, val qtyMax: Long, val weightPm: Long)
@@ -259,6 +266,8 @@ class CombatSetup(
     val region: String = "",
     /** The length of a day of a world without a clock, for the market (spec 06, "Market days"); 0: always day 1. */
     val dayTicks: Int = 0,
+    /** The shops of other regions of a world without regions, by region (spec 06, "Goods from afar"). */
+    val farShops: Map<String, ShopDef> = emptyMap(),
 )
 
 enum class AttackPhase { NONE, STARTUP, ACTIVE, RECOVERY }

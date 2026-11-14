@@ -26,6 +26,11 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Haruka tames** (spec 18): the Universal Tamer can calm a creature hurt to half of its health (`B`, or the `Tame` button on Android): it leaves in peace, which counts as a victory in every way (experience, what it would have left, the quests), and her companion grows closer.
+- **A task for a friend** (spec 07, "Renown"): the elder of every settlement has one more quest for somebody with eight quests in the region, a hunt that pays well. Eight new quests, in the eight voices (`tools/make_friend_quests.py`).
+- **Goods from afar** (spec 06): every shopkeeper also sells what the caravan brought, the goods of the next region along the road of the wayfarers, a quarter dearer. The dialogue effect `open_shop` takes a `region` and a `markup_pct`.
+- The crafting panel shows how often each recipe comes out fine ("fine 25%").
+- Three more conformance scenarios.
 - **Abilities with their own key** (spec 11, "Active abilities"): two talents are used on command, for mana, and then wait. **Shockwave** (after Might 5; `R`, or the `Wave` button on Android) hurts every creature within three and a half tiles; **Mend** (after Vigor 5; `T`, or the `Mend` button) gives health back. Both keys can be changed with `F4`. The tree has sixteen talents.
 - **Market days** (spec 06, "Market days"): the prices of every region move with the day, for buying and for selling, a little in Ironspine and up to a fifth in Sunscar. The shop says "Today +7%" or "Today -12%": buy on a cheap day, sell on a dear one.
 - **Wares for friends** (spec 07, "Renown"): every region keeps two rare or epic pieces of its own for somebody with five and with ten quests finished there.

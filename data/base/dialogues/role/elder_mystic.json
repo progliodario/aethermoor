@@ -15,6 +15,52 @@
       "type": "choice",
       "choices": [
         {
+          "text": "$i18n:dlg.role.friend.ask",
+          "next": "friend_offer",
+          "when": {
+            "all": [
+              {
+                "renown_at_least": 8
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/friend_whisperwood"
+                    },
+                    {
+                      "quest_done": "base:quest/side/friend_whisperwood"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "text": "$i18n:dlg.role.friend.status",
+          "when": {
+            "quest_active": "base:quest/side/friend_whisperwood"
+          },
+          "next": "friend_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.friend.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/friend_whisperwood"
+              },
+              {
+                "not": {
+                  "flag": "friend_whisperwood_paid"
+                }
+              }
+            ]
+          },
+          "next": "friend_paid"
+        },
+        {
           "text": "$i18n:dlg.role.errand.ask",
           "when": {
             "not": {
@@ -390,6 +436,67 @@
       "speaker": "npc",
       "text": "$i18n:dlg.role.elder.mystic.known",
       "next": "menu"
+    },
+    "friend_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.friend.mystic.offer",
+      "next": "friend_choice"
+    },
+    "friend_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.errand.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/friend_whisperwood"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.errand.later",
+          "next": "end"
+        }
+      ]
+    },
+    "friend_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.friend.mystic.busy",
+      "next": "end"
+    },
+    "friend_paid": {
+      "type": "effects",
+      "next": "friend_thanks",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "friend_whisperwood_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 450
+        },
+        {
+          "effect": "add_gold",
+          "amount": 1000
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_large",
+          "qty": 2
+        }
+      ]
+    },
+    "friend_thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.friend.mystic.thanks",
+      "next": "end"
     }
   }
 }

@@ -112,7 +112,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         nightAggroCutPm = input["weather"]?.jsonObject?.get("night_aggro_cut_pm")?.jsonPrimitive?.int ?: 0,
         gift = input["gift"]?.jsonObject?.let { g ->
             fun pct(key: String, neutral: Int) = g[key]?.jsonPrimitive?.int ?: neutral
-            GiftDef(pct("mp_regen_pct", 100), pct("aggro_pct", 100), pct("heal_pct", 100), pct("dodge_cooldown_pct", 100), pct("death_save_ticks", 0), pct("companion_atk_pct", 100), pct("bond_gain", 1))
+            GiftDef(pct("mp_regen_pct", 100), pct("aggro_pct", 100), pct("heal_pct", 100), pct("dodge_cooldown_pct", 100), pct("death_save_ticks", 0), pct("companion_atk_pct", 100), pct("bond_gain", 1), pct("tame_hp_pct", 0), pct("tame_range_x100", 0), pct("tame_bond", 0))
         } ?: GiftDef(),
         strike = input["strike"]?.jsonObject?.let { d ->
             StrikeDef(
@@ -224,6 +224,9 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         },
         region = input["region"]?.jsonPrimitive?.content ?: "",
         dayTicks = input["day_ticks"]?.jsonPrimitive?.int ?: 0,
+        farShops = input["far_shops"]?.jsonObject?.mapValues { (_, far) ->
+            ShopDef(far.jsonObject.getValue("price_pm").jsonPrimitive.int, far.jsonObject.getValue("stock").jsonArray.map { it.jsonPrimitive.content })
+        } ?: emptyMap(),
     )
     return ScenarioWorld(map, tileset, combat, input["start_gold"]?.jsonPrimitive?.long ?: 0L)
 }
@@ -252,7 +255,11 @@ internal fun runSegment(sim: WorldSim, segment: JsonObject) {
             "equip" -> sim.equip(cmd.getValue("item").jsonPrimitive.content)
             "buy" -> sim.buy(cmd.getValue("item").jsonPrimitive.content)
             "sell" -> sim.sell(cmd.getValue("item").jsonPrimitive.content)
-            "open_shop" -> sim.openShop()
+            "open_shop" -> {
+                val region = cmd["region"]?.jsonPrimitive?.content ?: ""
+                if (region.isEmpty()) sim.openShop() else sim.openShopOf(region, cmd["markup_pct"]?.jsonPrimitive?.long ?: 100L)
+            }
+            "tame" -> sim.tame()
             "close_shop" -> sim.closeShop()
             "interact" -> sim.story.interact()
             "advance" -> sim.story.advance()

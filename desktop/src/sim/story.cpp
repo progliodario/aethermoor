@@ -102,6 +102,8 @@ Effect parse_effect(const Json& j) {
         e.a = j.at("quest").get<std::string>();
     } else if (kind == "open_shop") {
         e.kind = Effect::Kind::OpenShop;
+        e.a = j.value("region", "");  // the goods of another region, at a markup (spec 06, "Goods from afar")
+        e.n = j.value("markup_pct", static_cast<std::int64_t>(100));
     } else if (kind == "open_board") {
         e.kind = Effect::Kind::OpenBoard;
     } else if (kind == "add_guild_points") {
@@ -381,7 +383,11 @@ void Story::apply(const Effect& effect) {
             start_quest(effect.a);
             break;
         case Effect::Kind::OpenShop:
-            m_host_.open_shop();
+            if (effect.a.empty()) {
+                m_host_.open_shop();
+            } else {
+                m_host_.open_shop_of(effect.a, effect.n);
+            }
             break;
         case Effect::Kind::OpenBoard:
             m_host_.open_board();

@@ -1018,5 +1018,10 @@
   "ui.ability_mend_button": "Mend",
   "ui.shop_dear": "Today +{pct}%",
   "ui.shop_cheap": "Today -{pct}%",
+  "ui.craft_fine": "fine {pct}%",
+  "ui.key_tame": "Tame a hurt creature",
+  "ui.ability_tame": "The creature calms down and leaves in peace",
+  "ui.tame_refused": "No creature hurt enough is near",
+  "ui.ability_tame_button": "Tame",
   "dlg.pip.story.gideon.done": "The whole village agrees: you are a good king. Take the blade, it is nothing like the old one, but it suits you."
 }

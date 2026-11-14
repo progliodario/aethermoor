@@ -1904,8 +1904,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 }
                 for ((kind, r) in abilityRects) {
                     if (x >= r[0] && x <= r[0] + r[2] && y >= r[1] && y <= r[1] + r[3]) {
-                        val used = world.useAbility(kind)
-                        assets?.let { showNotice(it.pack.text(language, if (used) "\$i18n:ui.ability_$kind" else "\$i18n:ui.ability_refused")) }
+                        val used = if (kind == "tame") world.tame() else world.useAbility(kind)
+                        val refused = if (kind == "tame") "\$i18n:ui.tame_refused" else "\$i18n:ui.ability_refused"
+                        assets?.let { showNotice(it.pack.text(language, if (used) "\$i18n:ui.ability_$kind" else refused)) }
                         return
                     }
                 }
@@ -2799,7 +2800,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     /** The buttons of the active abilities that were learned (spec 11, "Active abilities"), in a third row; dim while one waits. */
     private fun drawAbilityButtons(world: WorldSim, data: Assets) {
         val density = Gdx.graphics.density
-        val kinds = listOf("burst", "mend").filter { world.abilityTalent(it) != null }
+        // the abilities that were learned, and taming for the protagonist who has that gift (spec 18)
+        val kinds = listOf("burst", "mend").filter { world.abilityTalent(it) != null } + if (world.combat.gift.tameHpPct > 0) listOf("tame") else emptyList()
         if (kinds.isEmpty() || showCraft || world.story.dialogueActive || showMap || showInventory || showJournal) {
             abilityRects = emptyList()
             return
@@ -2981,7 +2983,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             font.draw(batch, "${itemName(data, recipe.output, recipe.outputQty)} x${recipe.outputQty}", r[0] + 16f * density, r[1] + 2f * density)
             font.color = Color(0.67f, 0.75f, 0.85f, 1f)
             val fire = if (recipe.station.isEmpty()) "" else "   " + data.pack.text(language, if (world.nearStation(recipe.station)) "\$i18n:ui.station_here" else "\$i18n:ui.station_${recipe.station.substringAfterLast('/')}")
-            font.draw(batch, needs + fire, r[0] + 16f * density, r[1] + 2f * density + font.lineHeight * 1.2f)
+            // how often it comes out fine (spec 06, "Quality")
+            val fine = if (world.fineChancePm(recipe) > 0) "   " + data.pack.text(language, "\$i18n:ui.craft_fine", mapOf("pct" to world.fineChancePm(recipe) / 10)) else ""
+            font.draw(batch, needs + fire + fine, r[0] + 16f * density, r[1] + 2f * density + font.lineHeight * 1.2f)
         }
         font.color = Color(0.67f, 0.78f, 0.9f, 1f)
         font.draw(batch, data.pack.text(language, "\$i18n:ui.craft_hint"), panelX + 16f * density, panelY + panelH - font.lineHeight * 1.5f)

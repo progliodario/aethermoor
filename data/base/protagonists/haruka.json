@@ -51,7 +51,10 @@
   "initially_available": true,
   "gift_rules": {
     "aggro_pct": 50,
-    "bond_gain": 3
+    "bond_gain": 3,
+    "tame_hp_pct": 50,
+    "tame_range_x100": 250,
+    "tame_bond": 2
   },
   "companion": "base:companion/pip"
 }

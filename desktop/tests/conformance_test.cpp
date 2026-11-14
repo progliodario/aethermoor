@@ -757,6 +757,9 @@ Scenario scenario_from_json(const Json& in) {
         setup.gift.death_save_ticks = gift.value("death_save_ticks", 0);
         setup.gift.companion_atk_pct = gift.value("companion_atk_pct", 100);
         setup.gift.bond_gain = gift.value("bond_gain", 1);
+        setup.gift.tame_hp_pct = gift.value("tame_hp_pct", 0);
+        setup.gift.tame_range_x100 = gift.value("tame_range_x100", 0);
+        setup.gift.tame_bond = gift.value("tame_bond", 0);
     }
     if (in.contains("strike")) {
         const Json& strike = in.at("strike");
@@ -932,6 +935,16 @@ Scenario scenario_from_json(const Json& in) {
         setup.shop = std::move(shop);
     }
     setup.region = in.value("region", "");
+    if (in.contains("far_shops")) {  // the shops of other regions (spec 06, "Goods from afar")
+        for (const auto& [region, def] : in.at("far_shops").items()) {
+            aether::ShopDef far;
+            far.price_pm = def.at("price_pm").get<int>();
+            for (const Json& item : def.at("stock")) {
+                far.stock.push_back(item.get<std::string>());
+            }
+            setup.far_shops.emplace(region, std::move(far));
+        }
+    }
     setup.day_ticks = in.value("day_ticks", 0);
     sc.start_gold = in.value("start_gold", static_cast<std::int64_t>(0));
     if (in.contains("story")) {
@@ -977,7 +990,10 @@ void run_segment(aether::WorldSim& sim, const Json& segment) {
             } else if (cmd == "sell") {
                 sim.sell(command.at("item").get<std::string>());
             } else if (cmd == "open_shop") {
-                sim.open_shop_for_test();
+                sim.open_shop_for_test(command.value("region", ""),
+                                       command.value("markup_pct", static_cast<std::int64_t>(100)));
+            } else if (cmd == "tame") {
+                sim.tame();
             } else if (cmd == "close_shop") {
                 sim.close_shop();
             } else if (cmd == "interact") {
