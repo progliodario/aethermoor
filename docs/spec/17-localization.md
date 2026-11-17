@@ -33,3 +33,7 @@ Data fields hold `$i18n:<key>`. Resolution happens at display time with the curr
 ## Adding a language
 
 Create `data/base/i18n/<lang>/`, translate every key, add `<lang>` to `languages` in `pack.json`.
+
+## Checking the translations
+
+`tools/check_translations.py` writes `docs/design/translations.md`: the keys whose Italian text is the same as the English one (names of people and places are allowed), the Italian texts that hold two or more common English words and the English texts that hold two or more common Italian ones. A test of the tools fails when it finds anything, so a text left untranslated does not get in.

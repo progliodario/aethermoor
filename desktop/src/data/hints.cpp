@@ -32,4 +32,30 @@ std::vector<HintDef> load_hints(const Pack& pack) {
     return out;
 }
 
+std::vector<CreditLine> load_credits(const Pack& pack) {
+    std::vector<CreditLine> out;
+    const auto text = pack.read_document("base:credits/all");
+    if (!text) {
+        return out;
+    }
+    const nlohmann::json doc = nlohmann::json::parse(*text, nullptr, /*allow_exceptions=*/false);
+    if (doc.is_discarded() || !doc.contains("sections") || !doc.at("sections").is_array()) {
+        return out;
+    }
+    for (const nlohmann::json& section : doc.at("sections")) {
+        if (!section.is_object()) {
+            continue;
+        }
+        out.push_back({section.value("heading", ""), true});
+        if (section.contains("lines") && section.at("lines").is_array()) {
+            for (const nlohmann::json& line : section.at("lines")) {
+                if (line.is_string()) {
+                    out.push_back({line.get<std::string>(), false});
+                }
+            }
+        }
+    }
+    return out;
+}
+
 }  // namespace aether

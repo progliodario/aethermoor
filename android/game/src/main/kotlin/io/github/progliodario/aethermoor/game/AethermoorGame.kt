@@ -32,6 +32,8 @@ import io.github.progliodario.aethermoor.core.worldEnemyIds
 import io.github.progliodario.aethermoor.core.loadPack
 import io.github.progliodario.aethermoor.core.HintDef
 import io.github.progliodario.aethermoor.core.loadHints
+import io.github.progliodario.aethermoor.core.CreditLine
+import io.github.progliodario.aethermoor.core.loadCredits
 import io.github.progliodario.aethermoor.core.parseProtagonist
 import io.github.progliodario.aethermoor.core.loadWorldParams
 import io.github.progliodario.aethermoor.core.sim.AttackPhase
@@ -95,6 +97,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val worldParams: WorldParams,
         /** The hints of the first minutes (spec 16, "Hints"). */
         val hints: List<HintDef> = emptyList(),
+        /** The credits (spec 16, "Credits"). */
+        val credits: List<CreditLine> = emptyList(),
     )
 
     private class SlotSummary(val used: Boolean, val level: Int, val gold: Long, val weapon: String = "")
@@ -349,6 +353,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 tileset = parseTileset(doc("base:tileset/overworld")).getOrThrow(),
                 worldParams = worldParams,
                 hints = loadHints(pack),
+                credits = loadCredits(pack),
             )
         } catch (e: IllegalArgumentException) {
             error = e.message
@@ -705,7 +710,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 return
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.BACK) || Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-                Gdx.app.exit() // Back on the title screen closes the game
+                if (showCredits) showCredits = false else Gdx.app.exit() // Back closes the credits, or the game from the title screen
                 return
             }
             handleTitleInput(data, slots)
@@ -3760,6 +3765,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     /** The title screen (spec 12, "Slots"): a tap or Enter on a game plays it, the cross or D deletes it after a second confirmation. */
     private fun handleTitleInput(data: Assets, slots: List<SlotSummary>) {
         val input = Gdx.input
+        if (showCredits) { // the credits are open: a tap, C or Back closes them (spec 16, "Credits")
+            if (input.justTouched() || input.isKeyJustPressed(Input.Keys.C) || input.isKeyJustPressed(Input.Keys.ESCAPE) || input.isKeyJustPressed(Input.Keys.BACK)) showCredits = false
+            return
+        }
+        if (input.isKeyJustPressed(Input.Keys.C) || (input.justTouched() && creditsRect.let { r -> r != null && input.x.toFloat() >= r[0] && input.x.toFloat() <= r[0] + r[2] && input.y.toFloat() >= r[1] && input.y.toFloat() <= r[1] + r[3] })) {
+            showCredits = true
+            return
+        }
         if (input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W)) {
             titleCursor = (titleCursor + SLOT_COUNT - 1) % SLOT_COUNT
             titlePendingDelete = -1
@@ -3932,10 +3945,44 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
     }
 
+    /** Whether the credits are shown on the title screen, and the button that opens them (spec 16, "Credits"). */
+    private var showCredits = false
+    private var creditsRect: FloatArray? = null
+
+    /** The credits, centred, a heading in gold over its lines. */
+    private fun drawCredits(data: Assets) {
+        val density = Gdx.graphics.density
+        val width = Gdx.graphics.width.toFloat()
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        var y = Gdx.graphics.height * 0.06f
+        val title = data.pack.text(language, "\$i18n:credits.title")
+        layout.setText(font, title)
+        font.color = Color(1f, 0.84f, 0.47f, 1f)
+        font.draw(batch, title, (width - layout.width) / 2f, y)
+        y += font.lineHeight * 2f
+        for (line in data.credits) {
+            val shown = if (line.text.startsWith("\$i18n:")) data.pack.text(language, line.text) else line.text
+            if (line.heading) y += font.lineHeight * 0.6f
+            font.color = if (line.heading) Color(1f, 0.84f, 0.47f, 1f) else Color(0.86f, 0.92f, 0.98f, 1f)
+            layout.setText(font, shown, font.color, width - 40f * density, com.badlogic.gdx.utils.Align.center, true)
+            font.draw(batch, layout, 20f * density, y)
+            y += layout.height + font.lineHeight * 0.5f
+        }
+        font.color = Color.WHITE
+        batch.end()
+    }
+
     private fun drawTitle(data: Assets, slots: List<SlotSummary>) {
         val density = Gdx.graphics.density
         val width = Gdx.graphics.width.toFloat()
         val height = Gdx.graphics.height.toFloat()
+        if (showCredits) {
+            drawCredits(data)
+            return
+        }
+        val credits = floatArrayOf(width - 140f * density, 16f * density, 124f * density, 36f * density)
+        creditsRect = credits
         val panelW = min(width - 40f, 560f * density)
         val panelX = (width - panelW) / 2f
         val rowH = 56f * density
@@ -4034,6 +4081,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
         font.color = Color(0.67f, 0.78f, 0.9f, 1f)
         font.draw(batch, data.pack.text(language, "\$i18n:ui.title_hint_touch"), panelX, height - font.lineHeight * 2.4f)
+        val creditsLabel = data.pack.text(language, "\$i18n:ui.credits_button") // the button of the credits, top right
+        layout.setText(font, creditsLabel)
+        font.draw(batch, creditsLabel, credits[0] + (credits[2] - layout.width) / 2f, credits[1] + (credits[3] - font.lineHeight) / 2f)
         val profile = readProfile()
         if (profile.bestiary.size + profile.titles.size > 0) { // the records of all the games (spec 12, "Profile")
             font.color = Color(1f, 0.84f, 0.47f, 1f)

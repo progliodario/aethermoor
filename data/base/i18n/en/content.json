@@ -1290,5 +1290,9 @@
   "title.beast_friend": "Friend of Beasts",
   "title.bottomless": "Bottomless Pocket",
   "title.well_fed": "Well Fed",
+  "item.guild_signet.name": "Guild signet",
+  "item.guild_signet.desc": "The ring the Guild gives to those it trusts. Attack +14, critical chance +5%.",
+  "item.folk_charm.name": "Folk charm",
+  "item.folk_charm.desc": "Knotted from a thread of every village you helped. Health +80, defense +4.",
   "quest.personal_gideon_2.task": "Four tawny wolves and two furs: the village, politely, asks for a tribute."
 }

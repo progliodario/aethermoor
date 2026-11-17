@@ -131,6 +131,24 @@
         "renown_at_least": {
           "type": "integer",
           "minimum": 1
+        },
+        "faction_at_least": {
+          "type": "object",
+          "required": [
+            "faction",
+            "count"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "faction": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]*$"
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
         }
       }
     },

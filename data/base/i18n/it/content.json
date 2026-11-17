@@ -1290,5 +1290,9 @@
   "title.beast_friend": "Amica delle bestie",
   "title.bottomless": "Tasca senza fondo",
   "title.well_fed": "Ben pasciuto",
+  "item.guild_signet.name": "Sigillo della Gilda",
+  "item.guild_signet.desc": "L'anello che la Gilda dà a chi gode della sua fiducia. Attacco +14, probabilità di critico +5%.",
+  "item.folk_charm.name": "Amuleto della Gente",
+  "item.folk_charm.desc": "Annodato con un filo di ogni villaggio che hai aiutato. Vita +80, difesa +4.",
   "quest.personal_gideon_2.task": "Quattro lupi fulvi e due pellicce: il villaggio, con garbo, chiede un tributo."
 }

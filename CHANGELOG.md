@@ -26,6 +26,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **The factions give** (spec 07, "Factions"): the guild clerks give the Guild signet to somebody with ten quests of the guild, the elders the Folk charm to somebody with twenty of the folk, with a line in each of the eight voices. A new dialogue condition, `faction_at_least`.
+- **Credits** (spec 16, "Credits"): from the title screen, `C` on desktop or the `Credits` button on Android.
+- **The translations are checked** (spec 17): `tools/check_translations.py` finds texts left in the other language; it found none, and a test keeps it so.
+- Two new accessories (197 items) and one more conformance scenario.
 - **Factions** (spec 07, "Factions"): every quest counts for the Guild, the Ring of Wayfarers, the Chroniclers or the Folk (the stories of the protagonists for none). The status window shows the standing with each, and four titles reward it: Champion of the Guild, Ring-walker, Keeper of Legends and Heart of the Folk (36 titles in all).
 - **The tamed friend obeys** (spec 10): "stay" and "come back" work on Haruka's tamed friend too, and the save remembers it.
 - **Accessibility** (spec 16): the hints, the damage numbers and the red flash of a creature that is hit can be turned off, in the settings panel on desktop and at the bottom of the journal on Android.

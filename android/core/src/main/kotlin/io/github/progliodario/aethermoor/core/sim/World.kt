@@ -522,6 +522,8 @@ class WorldSim(
         return true
     }
 
+    override fun counter(name: String): Long = (counters[name] ?: 0).toLong()
+
     override fun renownHere(): Long = (counters[renownKey()] ?: 0).toLong()
 
     override fun questDone(faction: String) {

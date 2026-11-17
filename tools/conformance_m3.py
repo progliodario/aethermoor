@@ -617,6 +617,21 @@ def build_scenarios() -> list[dict]:
                      {"id": "have", "journal": "q", "objectives": [{"type": "collect", "item": "base:item/slime_gel", "count": 1}], "next": "end"}],
                      "rewards": []} for q, f in (("a", "guild"), ("b", "guild"), ("c", ""))}, "dialogues": {}, "npcs": []},
                  titles=[{"id": "champion", "name": "t", "kind": "faction:guild", "count": 2}]),
+        # The `faction_at_least` condition (spec 07, "Factions"): the clerk greets a stranger, then (two guild quests later) a champion; a quest of
+        # another faction does not count.
+        scenario("faction_dialogue", [enemy(12.0, 7.5, **passive)],
+                 [segment(1, do=[{"cmd": "start_quest", "quest": "test:quest/a"}, {"cmd": "start_quest", "quest": "test:quest/c"}, {"cmd": "interact"}]),
+                  segment(1, do=[{"cmd": "advance"}]),
+                  segment(1, do=[{"cmd": "start_quest", "quest": "test:quest/b"}, {"cmd": "interact"}]), segment(1, do=[{"cmd": "advance"}])],
+                 inventory={"base:item/slime_gel": 1}, player={"start": [3.4, 4.5]},
+                 story={"quests": {f"test:quest/{q}": {"id": f"test:quest/{q}", "faction": f, "stages": [
+                     {"id": "have", "journal": "q", "objectives": [{"type": "collect", "item": "base:item/slime_gel", "count": 1}], "next": "end"}],
+                     "rewards": []} for q, f in (("a", "guild"), ("b", "guild"), ("c", "folk"))},
+                     "dialogues": {"test:dialogue/clerk": {"id": "test:dialogue/clerk", "start": "start", "nodes": {
+                         "start": {"type": "condition", "when": {"faction_at_least": {"faction": "guild", "count": 2}}, "then": "champion", "else": "stranger"},
+                         "champion": {"type": "say", "speaker": "clerk", "text": "t.champion", "next": "end"},
+                         "stranger": {"type": "say", "speaker": "clerk", "text": "t.stranger", "next": "end"}}}},
+                     "npcs": [{"key": "clerk", "pos": [4.0, 4.5], "dialogue": "test:dialogue/clerk"}]}),
         scenario("leash_and_return", [enemy(4.0, 4.5, behavior_overrides={"leash_x100": 300})],
                  [segment(20, attack=True), segment(150, move=(1, 0)), segment(250)]),
     ]

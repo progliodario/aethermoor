@@ -226,3 +226,11 @@ def test_every_quest_but_the_stories_counts_for_a_faction():
         else:
             assert faction in ("guild", "wayfarers", "chroniclers", "folk"), quest_id
             assert f"faction.{faction}.name" in texts
+
+
+def test_every_text_looks_translated():
+    """Spec 17: no Italian text is left in English, or the other way round (tools/check_translations.py)."""
+    import sys
+    sys.path.insert(0, str(DATA.parent.parent / "tools"))
+    import check_translations
+    assert check_translations.findings() == ([], [], [])

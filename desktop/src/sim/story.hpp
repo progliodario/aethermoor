@@ -27,7 +27,8 @@ struct Condition {
         GoldAtLeast,
         Season,
         TodBetween,
-        RenownAtLeast
+        RenownAtLeast,
+        FactionAtLeast
     };
     Kind kind = Kind::Flag;
     std::string a;       // flag / quest / item
@@ -183,6 +184,8 @@ public:
     // Renown (spec 07, "Renown"): a quest was finished, and the quests finished in the region where the player stands.
     virtual void quest_done(const std::string& /*faction*/) {}
     virtual std::int64_t renown_here() const { return 0; }
+    // A counter of the player (spec 11, "Counters"): the standing with a faction is `faction:<id>`.
+    virtual std::int64_t counter(const std::string& /*name*/) const { return 0; }
 };
 
 class Story {

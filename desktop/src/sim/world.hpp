@@ -299,6 +299,10 @@ public:
     // Renown (spec 07, "Renown"): the quests finished in the region where the player stands, the counter that holds
     // them, and what they take off the prices of the open shop, in permille.
     std::int64_t renown_here() const override;
+    std::int64_t counter(const std::string& name) const override {
+        const auto found = m_counters_.find(name);
+        return found == m_counters_.end() ? 0 : found->second;
+    }
     std::string renown_key() const;
     std::string region_id()
         const;  // the region where the player stands; of a world without regions, the one of the setup

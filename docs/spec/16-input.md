@@ -98,6 +98,10 @@ The first minutes are explained by **hints** (`data/base/hints.json`, ID `base:h
 
 Three options, all on by default, are kept in the settings file as booleans: `hints` (the hints of the first minutes), `damage_numbers` (the numbers that rise from a hit) and `flashes` (the red flash of a creature that is hit). Desktop: three more rows in the settings panel, `A`/`D` or `E` switch them. Android: three buttons at the bottom of the open journal. They change nothing of the game.
 
+## Credits
+
+The credits are `data/base/credits.json` (ID `base:credits/all`, schema `credits`): a list of sections, each a `heading` and its `lines`; a heading or a line that starts with `$i18n:` is a text key, any other line is shown as it is (the names of the libraries). They open from the title screen: `C` on desktop (again, or `Esc`, closes them), a `Credits` button at the top right on Android (a tap or Back closes them). Presentation only.
+
 ## Orientation (Android)
 
 The app allows portrait and landscape (`fullUser`) and handles configuration changes itself (no activity restart).
