@@ -89,6 +89,7 @@ LEGEND = {
     "!": {"prop": "base:art/prop/bush", "radius_x100": 30},
     "$": {"prop": "base:art/prop/bones", "radius_x100": 10},
     "?": {"prop": "base:art/prop/campfire", "radius_x100": 30},
+    ",": {"prop": "base:art/prop/garden_plot", "radius_x100": 20},  # a plot to sow (spec 06, "Farming")
     "/": {"tile": 14, "prop": "base:art/prop/anvil", "radius_x100": 35},  # where fine gear is made
     "V": {"tile": 13, "npc": "villager"},
     "G": {"tile": 13, "npc": "guild_clerk"},
@@ -199,6 +200,8 @@ def village() -> dict:
     c.put(10, 8, "E")
     c.put(12, 6, "T")
     c.put(17, 8, "?")  # a campfire to cook at (spec 06, "Stations")
+    for x in (14, 16, 18):  # plots to sow (spec 06, "Farming")
+        c.put(x, 9, ",")
     c.house(1, 1, 6, 4, {(1, 1): "b", (3, 1): "V"})
     c.house(13, 1, 7, 5, {(1, 1): "b", (2, 1): "b", (5, 2): "S"}, door=3)
     c.house(1, 9, 6, 4, {(2, 1): "V"})

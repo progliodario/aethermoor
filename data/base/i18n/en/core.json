@@ -1068,5 +1068,10 @@
   "credits.thanks_player": "To you, for playing",
   "ui.credits_button": "Credits",
   "ui.credits_hint": "C or Esc to close",
+  "ui.touch_tend": "Tend",
+  "ui.harvested": "Harvested: {item} x{qty}",
+  "ui.sown": "Sown: {item}",
+  "ui.plot_growing": "It is still growing",
+  "ui.plot_no_seed": "You have no seeds to sow",
   "dlg.pip.story.gideon.done": "The whole village agrees: you are a good king. Take the blade, it is nothing like the old one, but it suits you."
 }

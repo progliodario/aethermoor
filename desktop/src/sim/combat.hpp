@@ -163,6 +163,21 @@ struct GatherNode {
     std::vector<GatherDrop> drops;
 };
 
+// Farming (spec 06, "Farming"): what a seed grows into, how much and in how many ticks; the plot prop and its reach.
+struct FarmCrop {
+    std::string seed;
+    std::string crop;
+    std::int64_t qty_min = 1;
+    std::int64_t qty_max = 1;
+    std::int64_t grow_ticks = 1;
+};
+
+struct FarmingDef {
+    std::string plot;  // the art of the plot prop
+    int reach_x100 = 150;
+    std::vector<FarmCrop> crops;  // in the order of the data: a bare plot takes the first seed the bag holds
+};
+
 // A companion that follows the player and fights (spec 10).
 struct CompanionDef {
     std::string id;
@@ -255,6 +270,7 @@ struct CombatSetup {
     std::string start_armor;                              // the armor worn in a new game (an item ID, or empty)
     std::optional<ShopDef> shop;  // the shop of fixed maps and scenarios (streamed worlds use their regions)
     std::map<std::string, ShopDef> far_shops;  // the same for the shops of other regions (spec 06, "Goods from afar")
+    std::optional<FarmingDef> farming;         // the plots and the crops (spec 06, "Farming"); none: no farming
     std::map<std::string, EnemyDef> stream_enemies;  // the enemies of the fauna of a streamed world, by ID
     std::map<std::string, GatherNode> gather_nodes;  // the props that can be gathered from, by art ID
     std::vector<RecipeDef> recipes;                  // crafting recipes, in the order of the data

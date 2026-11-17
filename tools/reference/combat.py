@@ -89,6 +89,9 @@ class CombatSim:
         self.gather_props = [(g["art"], g["x"], g["y"], g["radius"]) for g in scenario.get("gather_props", [])]
         self.props += [(x, y, r) for _, x, y, r in self.gather_props]
         self.gathered: dict[tuple[int, int], tuple[int, int]] = {}
+        # Farming (spec 06, "Farming"): the plot prop, its reach and the crops; the plots that are sown: (x100, y100) -> (seed, tick it is ripe)
+        self.farming = scenario.get("farming")
+        self.plots: dict[tuple[int, int], tuple[str, int]] = {}
         self.world_ticks = 0
         self.companion = scenario.get("companion")  # the definition of the companion (spec 10), or None
         self.comp_x, self.comp_y = scenario["player"]["start"]
@@ -857,6 +860,53 @@ class CombatSim:
         self.counters["gathered"] = self.counters.get("gathered", 0) + 1
         return found
 
+    def _plot_near(self):
+        """The nearest plot in reach (spec 06, "Farming"): (distance, x, y, key), or None."""
+        if self.farming is None:
+            return None
+        best = None
+        for art, x, y, radius in self.gather_props:
+            if art != self.farming["plot"]:
+                continue
+            dist = math.sqrt((x - self.x) ** 2 + (y - self.y) ** 2)
+            if dist > self.farming["reach_x100"] / 100 + radius:
+                continue
+            candidate = (dist, x, y, (math.floor(x * 100 + 0.5), math.floor(y * 100 + 0.5)))
+            if best is None or candidate[:3] < best[:3]:
+                best = candidate
+        return best
+
+    def tend(self) -> tuple[str, str, int] | None:
+        """Tends the nearest plot (spec 06, "Farming"): harvests it when it is ripe, sows it when it is bare and the bag has a seed.
+        Returns ("harvested", crop, qty) or ("sown", seed, 1), or None when nothing could be done."""
+        if self.story is not None and self.story.dialogue_active:
+            return None
+        near = self._plot_near()
+        if near is None:
+            return None
+        key = near[3]
+        crops = {c["seed"]: c for c in self.farming["crops"]}
+        if key in self.plots:
+            seed, ripe = self.plots[key]
+            if self.world_ticks < ripe:
+                return None
+            crop = crops[seed]
+            h = nm.hash64(nm.fnv1a64(b"harvest") ^ self.seed, key[0], key[1], ripe)
+            qty = crop["qty_min"] + nm.mix64(h) % (crop["qty_max"] - crop["qty_min"] + 1) + self.title_bonus("gather_bonus")
+            self.inventory[crop["crop"]] = self.inventory.get(crop["crop"], 0) + qty
+            del self.plots[key]
+            self.counters["harvested"] = self.counters.get("harvested", 0) + 1
+            return ("harvested", crop["crop"], qty)
+        for crop in self.farming["crops"]:  # the first seed of the data that the bag holds
+            if self.inventory.get(crop["seed"], 0) > 0:
+                self.inventory[crop["seed"]] -= 1
+                if self.inventory[crop["seed"]] == 0:
+                    del self.inventory[crop["seed"]]
+                self.plots[key] = (crop["seed"], self.world_ticks + crop["grow_ticks"])
+                self.counters["sown"] = self.counters.get("sown", 0) + 1
+                return ("sown", crop["seed"], 1)
+        return None
+
     def use_item(self, item_id: str) -> bool:
         """Uses one item of the inventory (docs/spec/06-items.md). Returns False, changing nothing, when it is refused."""
         if self.story is not None and self.story.dialogue_active:
@@ -1058,6 +1108,7 @@ class CombatSim:
                 "max_mp": self.derived["max_mp"], "matk": self.derived["matk"], "crit_chance_pm": self.derived["crit_chance_pm"],
                 "move_speed_x100": self.derived["move_speed_x100"]} if self.talent_defs else {}),
             **({"companion": {"x": self.comp_x, "y": self.comp_y, "stay": self.comp_stay, "bond": self.comp_bond}} if self.companion is not None else {}),
+            **({"plots": [[k[0], k[1], seed, ripe] for k, (seed, ripe) in sorted(self.plots.items())]} if self.farming is not None else {}),
             **({"friend": {"enemy": self.friend["d"].get("id", ""), "x": self.friend["x"], "y": self.friend["y"], "stay": self.friend["stay"]}}
                if self.friend is not None else {}),
             **({"bestiary": dict(sorted(self.bestiary.items())), "titles": self.earned_titles(),
@@ -1102,6 +1153,9 @@ def run_segment(sim: CombatSim, segment: dict) -> None:
             continue
         if command["cmd"] == "tame":
             sim.tame()
+            continue
+        if command["cmd"] == "tend":
+            sim.tend()
             continue
         if command["cmd"] == "close_shop":
             sim.close_shop()

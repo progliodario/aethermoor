@@ -632,6 +632,19 @@ def build_scenarios() -> list[dict]:
                          "champion": {"type": "say", "speaker": "clerk", "text": "t.champion", "next": "end"},
                          "stranger": {"type": "say", "speaker": "clerk", "text": "t.stranger", "next": "end"}}}},
                      "npcs": [{"key": "clerk", "pos": [4.0, 4.5], "dialogue": "test:dialogue/clerk"}]}),
+        # Farming (spec 06): a bare plot takes the first seed of the data that the bag holds; it is refused while it grows; ripe, it gives its crop
+        # (an amount from the seed, the plot and the tick it ripened) and is bare again. A plot out of reach, or a bag with no seed, does nothing.
+        scenario("farming_plots", [enemy(12.0, 7.5, **passive)],
+                 [segment(1, do=[{"cmd": "tend"}, {"cmd": "tend"}]), segment(100), segment(1, do=[{"cmd": "tend"}]), segment(200),
+                  segment(1, do=[{"cmd": "tend"}, {"cmd": "tend"}]), segment(1, do=[{"cmd": "tend"}]), segment(400),
+                  segment(1, do=[{"cmd": "tend"}, {"cmd": "tend"}, {"cmd": "tend"}]), segment(60, move=(1, 0)), segment(1, do=[{"cmd": "tend"}])],
+                 inventory={"base:item/healing_herb": 1, "base:item/mint_leaf": 2}, story=EMPTY_STORY,
+                 gather_props=[{"art": "base:art/prop/garden_plot", "x": 2.8, "y": 5.4, "radius": 0.2},
+                               {"art": "base:art/prop/garden_plot", "x": 10.0, "y": 4.5, "radius": 0.2}],
+                 farming={"plot": "base:art/prop/garden_plot", "reach_x100": 150, "crops": [
+                     {"seed": "base:item/healing_herb", "crop": "base:item/wild_berries", "qty_min": 2, "qty_max": 4, "grow_ticks": 240},
+                     {"seed": "base:item/mint_leaf", "crop": "base:item/spore_cap", "qty_min": 3, "qty_max": 3, "grow_ticks": 300}]},
+                 titles=[{"id": "farmer", "name": "t", "kind": "harvested", "count": 2}]),
         scenario("leash_and_return", [enemy(4.0, 4.5, behavior_overrides={"leash_x100": 300})],
                  [segment(20, attack=True), segment(150, move=(1, 0)), segment(250)]),
     ]

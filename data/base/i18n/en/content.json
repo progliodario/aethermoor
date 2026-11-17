@@ -1294,5 +1294,17 @@
   "item.guild_signet.desc": "The ring the Guild gives to those it trusts. Attack +14, critical chance +5%.",
   "item.folk_charm.name": "Folk charm",
   "item.folk_charm.desc": "Knotted from a thread of every village you helped. Health +80, defense +4.",
+  "item.herb_seeds.name": "Herb seeds",
+  "item.herb_seeds.desc": "Sow them in a garden plot: in a minute they give healing herbs.",
+  "item.berry_seeds.name": "Berry seeds",
+  "item.berry_seeds.desc": "Sow them in a garden plot: in a minute and a half they give wild berries.",
+  "item.mint_seeds.name": "Mint seeds",
+  "item.mint_seeds.desc": "Sow them in a garden plot: in a minute and a half they give mint leaves.",
+  "item.mushroom_spores.name": "Mushroom spores",
+  "item.mushroom_spores.desc": "Sow them in a garden plot: in two minutes they give spore caps.",
+  "item.wayfarers_band.name": "Wayfarer's band",
+  "item.wayfarers_band.desc": "Woven by the wayfarers of the Ring for one of their own. Health +40, magic defense +8.",
+  "item.archivists_quill.name": "Archivist's quill",
+  "item.archivists_quill.desc": "A quill that has written five legends, and remembers them. Magic attack +12, critical chance +4%.",
   "quest.personal_gideon_2.task": "Four tawny wolves and two furs: the village, politely, asks for a tribute."
 }

@@ -25,6 +25,16 @@ the dead tree, the rock (stone, a little iron ore), the cactus (pulp), the **mus
 - Presentation: a message with the items, and the sound `gather.<sound>` (the creature cue `gather`, spec 14). The conformance scenario `gather_nodes` covers the nearest prop, the cooldown, the reach and
   the draws.
 
+## Farming
+
+`data/base/farming.json` (ID `base:farming/all`, schema `farming`) names the **plot** prop, the reach of the player and the **crops**, in order: each a `seed` item, a `crop` item, `qty_min`, `qty_max` and `grow_ticks`. `tend()`:
+
+- is refused, changing nothing, while a dialogue is open and when no plot is within `reach_x100 / 100 + its radius` tiles of the player (the nearest one, then the smaller x, then the smaller y, like gathering);
+- on a **sown** plot that is not ripe yet (`world_ticks < ripe`) it is refused; on a **ripe** one it **harvests**: `qty = qty_min + mix64(hash64(fnv1a64("harvest") ^ seed, x100, y100, ripe)) % (qty_max - qty_min + 1)`, plus the `gather_bonus` of the earned titles, of the crop go into the bag, the plot is bare again and the counter `harvested` goes up by one;
+- on a **bare** plot it **sows** the first crop of the data whose seed the bag holds: one seed leaves the bag, the plot is ripe at `world_ticks + grow_ticks`, and the counter `sown` goes up by one; with no seed it is refused.
+
+The sown plots are saved (`plots` in the save document, spec 12): `[x100, y100, seed, ripe]`, where `x100` and `y100` are the position of the plot in hundredths of a tile. The base pack has a **garden plot** (art `base:art/prop/garden_plot`): three of them by the campfire of every village of the `village` stamp, Fenwick among them, and four seeds sold by every shop: herb seeds (healing herbs in a minute), berry seeds, mint seeds (a minute and a half) and mushroom spores (spore caps in two minutes). The clients tend a plot with the action of talking (`E`, or the `Tend` button), and draw sprouts on a growing plot and flowers on a ripe one. Conformance: the scenario `farming_plots` (its checkpoints carry `plots`).
+
 ## Hunting
 
 Hunting is fighting creatures that are game: they are ordinary creatures (spec 05) of the fauna of the regions (spec 09), shy (the behavior `skittish`), weak and slow to anger, and what they leave is

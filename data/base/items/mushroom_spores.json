@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/mushroom_spores",
+  "name": "$i18n:item.mushroom_spores.name",
+  "description": "$i18n:item.mushroom_spores.desc",
+  "kind": "material",
+  "rarity": "common",
+  "price": 16,
+  "stack_max": 99
+}

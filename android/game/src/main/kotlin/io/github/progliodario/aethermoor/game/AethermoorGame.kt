@@ -1084,6 +1084,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val fy = (prop.y - camY) * tile
         if (sprite.sway <= 0f) {
             batch.draw(sprite.region, fx - sprite.originX * k, fy - sprite.originY * k, sprite.width * k, sprite.height * k)
+            drawCrop(prop, fx, fy, tilePx, k)
             return
         }
         // the wind moves it (spec 13, "Sway"): the foot stays, the top goes sideways (a shear)
@@ -1122,6 +1123,18 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         } else {
             batch.draw(sprite.region, fx - sprite.originX * s, fy - sprite.originY * s, sprite.width * s, sprite.height * s)
         }
+    }
+
+    /** A sown plot (spec 06, "Farming"): sprouts while it grows, flowers when it is ripe. */
+    private fun drawCrop(prop: Prop, fx: Float, fy: Float, tilePx: Int, k: Float) {
+        val world = sim ?: return
+        val farming = world.combat.farming ?: return
+        if (prop.art != farming.plot) return
+        val sown = world.plots[Pair(kotlin.math.floor(prop.x * 100f + 0.5f).toInt(), kotlin.math.floor(prop.y * 100f + 0.5f).toInt())] ?: return
+        val ripe = world.worldTicks >= sown.second
+        val crop = cache.get(if (ripe) "base:art/prop/flowers" else "base:art/prop/fern", tilePx) ?: return
+        val s = k * if (ripe) 0.7f else 0.5f
+        batch.draw(crop.region, fx - crop.originX * s, fy - 2f * k - crop.originY * s, crop.width * s, crop.height * s)
     }
 
     /** The tamed friend (spec 10), its creature a little smaller, bobbing. */
@@ -1697,6 +1710,17 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (!story.dialogueView().active && story.npcInRange() == null && world.useStone()) {
             val travel = world.travel
             travelCursor = if (travel != null && travel.here == 0 && travel.stops.size > 1) 1 else 0
+        } else if (story.npcInRange() == null && !story.dialogueView().active && world.plotNear() != null) { // a plot to tend (spec 06, "Farming")
+            val pack = assets?.pack ?: return
+            val tended = world.tend()
+            val name = if (tended.item.isEmpty()) "" else pack.text(language, "\$i18n:${tended.item.substringAfter(':').replace('/', '.')}.name", mapOf("count" to tended.qty))
+            showNotice(
+                when (tended.kind) {
+                    "harvested" -> pack.text(language, "\$i18n:ui.harvested", mapOf("item" to name, "qty" to tended.qty))
+                    "sown" -> pack.text(language, "\$i18n:ui.sown", mapOf("item" to name))
+                    else -> pack.text(language, if (world.plotNear()?.state == 1) "\$i18n:ui.plot_growing" else "\$i18n:ui.plot_no_seed")
+                },
+            )
         } else if (story.npcInRange() == null && !story.dialogueView().active) { // a prop to gather from (spec 06, "Gathering")
             val pack = assets?.pack ?: return
             val found = world.gather()
@@ -1711,7 +1735,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
     }
 
-    private fun canInteract(world: WorldSim) = world.story.npcInRange() != null || world.stoneNear() != null || world.gatherNear()
+    private fun canInteract(world: WorldSim) = world.story.npcInRange() != null || world.stoneNear() != null || world.plotNear() != null || world.gatherNear()
 
     private fun travelConfirm(world: WorldSim) {
         val pack = assets?.pack ?: return
@@ -2119,6 +2143,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             val what = when {
                 world.story.npcInRange() != null -> "talk"
                 world.stoneNear() != null -> "stone"
+                world.plotNear() != null -> "tend"
                 else -> "gather"
             }
             font.draw(

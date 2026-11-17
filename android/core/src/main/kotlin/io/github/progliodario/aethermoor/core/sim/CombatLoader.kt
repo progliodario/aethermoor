@@ -109,6 +109,21 @@ private fun loadRecipes(pack: Pack): List<RecipeDef> {
 }
 
 /** The props that can be gathered from (spec 06, "Gathering"); none when the pack has no table. */
+/** The plots and the crops (spec 06, "Farming"); null when the pack has no table. */
+private fun loadFarming(pack: Pack): FarmingDef? {
+    val text = pack.readDocument("base:farming/all") ?: return null
+    val doc = Json.parseToJsonElement(text).jsonObject
+    return FarmingDef(
+        plot = doc["plot"]?.jsonPrimitive?.content ?: "",
+        reachX100 = doc["reach_x100"]?.jsonPrimitive?.int ?: 150,
+        crops = doc.getValue("crops").jsonArray.map { c ->
+            val o = c.jsonObject
+            FarmCrop(o.getValue("seed").jsonPrimitive.content, o.getValue("crop").jsonPrimitive.content, o.getValue("qty_min").jsonPrimitive.long,
+                o.getValue("qty_max").jsonPrimitive.long, o.getValue("grow_ticks").jsonPrimitive.long)
+        },
+    )
+}
+
 private fun loadGatherNodes(pack: Pack): Map<String, GatherNode> {
     val text = pack.readDocument("base:gathering/nodes") ?: return emptyMap()
     val nodes = Json.parseToJsonElement(text).jsonObject["nodes"]?.jsonArray ?: return emptyMap()
@@ -314,6 +329,7 @@ fun loadCombatSetup(
             },
             items = items,
             gatherNodes = loadGatherNodes(pack),
+            farming = loadFarming(pack),
             recipes = loadRecipes(pack),
             titles = loadTitles(pack),
             talents = loadTalents(pack).first,

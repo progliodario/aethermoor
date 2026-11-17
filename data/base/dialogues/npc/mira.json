@@ -1,7 +1,7 @@
 {
   "$schema": "../../../../schemas/dialogue.schema.json",
   "id": "base:dialogue/npc/mira",
-  "start": "start",
+  "start": "faction_gift_check",
   "nodes": {
     "start": {
       "type": "condition",
@@ -1153,6 +1153,48 @@
       "speaker": "guild_clerk_mira",
       "text": "$i18n:dlg.mira.ring_thanks",
       "next": "end"
+    },
+    "faction_gift_check": {
+      "type": "condition",
+      "when": {
+        "all": [
+          {
+            "faction_at_least": {
+              "faction": "wayfarers",
+              "count": 12
+            }
+          },
+          {
+            "not": {
+              "flag": "faction_gift_wayfarers"
+            }
+          }
+        ]
+      },
+      "then": "faction_gift",
+      "else": "start"
+    },
+    "faction_gift": {
+      "type": "effects",
+      "next": "faction_gift_said",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "faction_gift_wayfarers",
+          "value": true
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/wayfarers_band",
+          "qty": 1
+        }
+      ]
+    },
+    "faction_gift_said": {
+      "type": "say",
+      "speaker": "guild_clerk_mira",
+      "text": "$i18n:dlg.faction_gift.wayfarers",
+      "next": "start"
     }
   }
 }

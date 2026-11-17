@@ -44,7 +44,7 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 | Combattimento | completo (elementi, stati, parata, stagger, guardiani) | ritocchi di bilanciamento, sempre verso scontri facili |
 | Mondo | enorme, otto regioni, città e sotterranei, meteo che conta | prestazioni misurate su un telefono |
 | Missioni e storie | 263 missioni, otto storie complete con epilogo | altre storie per regione, i doni ancora spenti |
-| Vita | raccolta, pesca, caccia, 59 ricette (otto segrete, da imparare), cibi con effetti, accessori | qualità degli oggetti, agricoltura, base e residenti, economia viva |
+| Vita | raccolta, pesca, caccia, 59 ricette (otto segrete, da imparare), cibi con effetti, accessori | allevamento, base e residenti, un'economia che reagisce |
 | Compagni | uno per protagonista, comandi, legame, cura | altri comandi, più compagni insieme, domare e comandare |
 | Progressione | talenti (anche abilità, due con un tasto proprio), 36 titoli, bestiario, reincarnazione con eredità | tag, achievements, rune |
 | Uscita | versioni di prova dalla CI | release Alpha 0.1 e poi 1.0 (decide il proprietario) |
@@ -70,11 +70,12 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 **Vita e progressione**
 
 - Gilda degli avventurieri con bacheca e commissioni, 263 missioni (tra cui il Libro delle Leggende dell'archivista, un guardiano per regione, e le taglie della maestra della gilda su ogni altro guardiano), negozi, locande, lavori degli anziani.
-- 197 oggetti; raccolta da cespugli, alberi, rocce, cactus, fiori, felci, ceppi, tronchi, legni portati dal mare e ghiaccio, funghi nei boschi, **pesca** nei canneti delle spiagge e **caccia**; 51 ricette (i piatti migliori **fortificano**, più attacco per un po', gli infusi delle regioni **proteggono**, più difesa, i dolci e le razioni **rigenerano** la vita poco a poco, e l'infuso di foglia di vento ti fa **correre** più veloce) (pozioni, infusi ed elisir delle regioni, piatti cucinati al fuoco, equipaggiamento, ed equipaggiamento pregiato all'incudine delle città).
+- 203 oggetti; raccolta da cespugli, alberi, rocce, cactus, fiori, felci, ceppi, tronchi, legni portati dal mare e ghiaccio, funghi nei boschi, **pesca** nei canneti delle spiagge e **caccia**; 51 ricette (i piatti migliori **fortificano**, più attacco per un po', gli infusi delle regioni **proteggono**, più difesa, i dolci e le razioni **rigenerano** la vita poco a poco, e l'infuso di foglia di vento ti fa **correre** più veloce) (pozioni, infusi ed elisir delle regioni, piatti cucinati al fuoco, equipaggiamento, ed equipaggiamento pregiato all'incudine delle città).
 - Un compagno per protagonista: ti segue, combatte, resta dove gli dici, e il suo legame cresce con le sue vittorie: dopo dieci, ti cura un po' ogni dieci secondi.
 - Titoli del modo di giocare che cambiano il gioco: il Raccoglitore trova di più, l'Artigiano crea di più, la Guardia incrollabile para più a lungo, il Veterano guadagna più esperienza.
 - Un albero di sedici talenti, con due abilità da usare a comando (Onda d'urto e Rimarginare): un punto per livello, quattro radici (attacco, vita, mana, difesa), un secondo anello che si apre al rango 5 (critico, secondo fiato, magia, velocità), una corona (Leggenda, Baluardo) e quattro abilità che si aprono al rango 3 di ogni radice: Turbine (il colpo potente colpisce tutto intorno), Fame di battaglia (vita a ogni uccisione), Flusso (mana a ogni uccisione), Risposta (la parata restituisce il colpo).
 - Fama nelle regioni: ogni missione finita in una regione abbassa i prezzi dei suoi negozi (fino a un quarto), cambia il saluto di anziani e bottegai e, dopo cinque, vale un letto gratis alla locanda.
+- Un orto in ogni villaggio: semi da piantare, raccolto in un paio di minuti.
 - I cancellieri della Gilda e gli anziani premiano chi è stimato dalla loro fazione; i crediti si aprono dalla schermata iniziale.
 - Quattro fazioni (la Gilda, l'Anello dei Viandanti, i Cronisti, la Gente): ogni missione conta per una di loro, con i suoi titoli.
 - Consigli, numeri dei danni e lampi si possono spegnere.
@@ -236,9 +237,9 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 
 Le prossime cose, in ordine (dettagli nella [roadmap](docs/plan/06-roadmap-rischi-backlog.md)):
 
-- **A breve:** qualità degli oggetti creati; comandi nuovi e un secondo compagno; abilità nuove nell'albero dei talenti; reputazione con le regioni (prezzi più bassi dove hai aiutato); persone viste di lato; ritocchi di bilanciamento; controlli automatici dei fotogrammi.
-- **A medio termine:** i doni ancora spenti (la tasca di Yuki, domare, una seconda vita per sotterraneo); agricoltura, base e residenti; economia viva e mercanti ambulanti; tag, achievements, rune; altre storie per regione e la modalità Dungeon di Gideon; prestazioni misurate su un telefono; un sintetizzatore migliore per musica e ambiente (solo se il proprietario lo vuole).
-- **Verso la 1.0:** tutorial, accessibilità, crediti, pacchetti firmati, documentazione per chi fa mod, altre lingue.
+- **A breve:** testo più grande; allevamento accanto agli orti; altre storie per regione; controlli automatici dei fotogrammi.
+- **A medio termine:** base e residenti; un'economia che reagisce a ciò che compri e vendi; tag, achievements, rune; la modalità Dungeon di Gideon; prestazioni misurate su un telefono; un sintetizzatore migliore per musica e ambiente (solo se il proprietario lo vuole).
+- **Verso la 1.0:** pacchetti firmati, documentazione per chi fa mod, altre lingue.
 - **Decide il proprietario:** quando pubblicare la prima release (Alpha 0.1).
 
 ## Contribuire e licenza

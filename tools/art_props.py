@@ -649,10 +649,28 @@ def dry_shrub() -> Recipe:
     return r
 
 
+def garden_plot() -> Recipe:
+    """A bed of tilled earth in a frame of planks, with furrows: where seeds are sown (spec 06, "Farming")."""
+    r = prop("garden_plot", 40, 26, (20, 20), {"soil": "#6A4A30", "wet": "#4A3220", "plank": "#9A6A3E"})
+    r.shadow(20, 20, 18, 3.4, 0.3)
+    r.path("M 3 8 L 37 8 L 39 21 L 1 21 Z", wood(431, "#9A6A3E", 3), stroke=INK, width=0.45)  # the frame
+    r.path("M 5 10 L 35 10 L 36.6 19 L 3.4 19 Z", noise(3, 432, (0.3, "$p.wet"), (0.55, "$p.soil"), (0.8, "#8A6646"), octaves=3), stroke="#2E1E12", width=0.3)
+    for k in range(4):  # the furrows
+        y = 11.6 + k * 2.1
+        r.path(f"M {5.4 - k * 0.3:.2f} {y:.2f} Q 20 {y - 0.8:.2f} {34.6 + k * 0.3:.2f} {y:.2f}", None, stroke="#3A2616", width=0.5, alpha=0.8)
+        r.path(f"M {5.4 - k * 0.3:.2f} {y - 0.6:.2f} Q 20 {y - 1.4:.2f} {34.6 + k * 0.3:.2f} {y - 0.6:.2f}", None, stroke="#A07A56", width=0.3, alpha=0.6)
+    for _ in range(10):  # pebbles and clods
+        x, y = r.rng.uniform(6, 34), r.rng.uniform(11, 18.4)
+        r.ellipse(x, y, r.rng.uniform(0.4, 0.8), r.rng.uniform(0.3, 0.5), r.rng.choice(["#8A7A6A", "#5A3E28", "#B09070"]), alpha=0.9)
+    r.shade("M 24 8 L 37 8 L 39 21 L 22 21 Z", 0.32, blur=1.0, clip=True)
+    r.lit(box(3, 8, 34, 1.2), 0.4, "#FFE8C0")
+    return r
+
+
 def build_props() -> list[Recipe]:
     props = [tree_oak(), pine(), dead_tree(), bush(), rock(), cactus(), campfire(), crate(), barrel(), bones(), lamp(), signpost(),
              statue(), tent(), banner(), well(), threshold_stone(), stall(), haybale(), anvil(), reeds(), mushrooms(),
-             stump(), flowers(), fern(), log(), driftwood(), ice_shard(), dry_shrub()]
+             stump(), flowers(), fern(), log(), driftwood(), ice_shard(), dry_shrub(), garden_plot()]
     sway = {"tree_oak": 1.8, "pine": 1.1, "dead_tree": 0.5, "bush": 0.7, "reeds": 1.4, "banner": 0.5, "campfire": 0.6, "flowers": 0.9, "fern": 0.8, "dry_shrub": 0.6}  # what the wind moves
     for r in props:
         r.sway = sway.get(r.id.rsplit("/", 1)[1], 0.0)

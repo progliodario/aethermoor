@@ -1,0 +1,36 @@
+{
+  "$schema": "../../schemas/farming.schema.json",
+  "id": "base:farming/all",
+  "plot": "base:art/prop/garden_plot",
+  "reach_x100": 150,
+  "crops": [
+    {
+      "seed": "base:item/herb_seeds",
+      "crop": "base:item/healing_herb",
+      "qty_min": 4,
+      "qty_max": 6,
+      "grow_ticks": 3600
+    },
+    {
+      "seed": "base:item/berry_seeds",
+      "crop": "base:item/wild_berries",
+      "qty_min": 5,
+      "qty_max": 8,
+      "grow_ticks": 5400
+    },
+    {
+      "seed": "base:item/mint_seeds",
+      "crop": "base:item/mint_leaf",
+      "qty_min": 3,
+      "qty_max": 5,
+      "grow_ticks": 5400
+    },
+    {
+      "seed": "base:item/mushroom_spores",
+      "crop": "base:item/spore_cap",
+      "qty_min": 2,
+      "qty_max": 4,
+      "grow_ticks": 7200
+    }
+  ]
+}

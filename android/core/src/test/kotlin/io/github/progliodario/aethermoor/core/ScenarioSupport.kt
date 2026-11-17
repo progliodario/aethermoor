@@ -8,6 +8,8 @@ import io.github.progliodario.aethermoor.core.sim.DodgeDef
 import io.github.progliodario.aethermoor.core.sim.DropDef
 import io.github.progliodario.aethermoor.core.sim.EnemyDef
 import io.github.progliodario.aethermoor.core.sim.EnemySpawn
+import io.github.progliodario.aethermoor.core.sim.FarmCrop
+import io.github.progliodario.aethermoor.core.sim.FarmingDef
 import io.github.progliodario.aethermoor.core.sim.GatherDrop
 import io.github.progliodario.aethermoor.core.sim.GatherNode
 import io.github.progliodario.aethermoor.core.sim.GiftDef
@@ -189,6 +191,15 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
                 requiresFlag = o["requires_flag"]?.jsonPrimitive?.content ?: "",
             )
         } ?: emptyList(),
+        farming = input["farming"]?.jsonObject?.let { f ->
+            FarmingDef(
+                f.getValue("plot").jsonPrimitive.content, f.getValue("reach_x100").jsonPrimitive.int,
+                f.getValue("crops").jsonArray.map { c ->
+                    val o = c.jsonObject
+                    FarmCrop(o.getValue("seed").jsonPrimitive.content, o.getValue("crop").jsonPrimitive.content, o.long("qty_min"), o.long("qty_max"), o.long("grow_ticks"))
+                },
+            )
+        },
         gatherNodes = input["gather_nodes"]?.jsonArray?.associate { n ->
             val o = n.jsonObject
             o.getValue("prop").jsonPrimitive.content to GatherNode(
@@ -261,6 +272,7 @@ internal fun runSegment(sim: WorldSim, segment: JsonObject) {
                 if (region.isEmpty()) sim.openShop() else sim.openShopOf(region, cmd["markup_pct"]?.jsonPrimitive?.long ?: 100L)
             }
             "tame" -> sim.tame()
+            "tend" -> sim.tend()
             "close_shop" -> sim.closeShop()
             "interact" -> sim.story.interact()
             "advance" -> sim.story.advance()
@@ -300,6 +312,10 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
         assertEquals(want.long("matk"), sim.derived.matk, "$at matk")
         assertEquals(want.long("crit_chance_pm"), sim.derived.critChancePm, "$at crit")
         assertEquals(want.long("move_speed_x100"), sim.derived.moveSpeedX100, "$at speed")
+    }
+    want["plots"]?.jsonArray?.let { wp -> // the sown plots (spec 06, "Farming")
+        val got = sim.plots.map { (key, plot) -> listOf(key.first.toString(), key.second.toString(), plot.first, plot.second.toString()) }
+        assertEquals(wp.map { p -> p.jsonArray.map { it.jsonPrimitive.content } }, got, "$at plots")
     }
     val wf = want["friend"]?.jsonObject // the tamed friend (spec 10)
     if (wf != null) {

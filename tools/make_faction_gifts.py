@@ -81,6 +81,40 @@ def patch(faction: str, role: str, at: int, item: str, tone: str) -> None:
     write_json(path, doc, raw)
 
 
+# The gifts of the factions that have a single person (spec 07, "Factions"): Mira for the Ring of Wayfarers, Selwyn for the Chroniclers. Their
+# dialogue opens with the gift, once, and then goes on as before.
+# faction: (dialogue file, standing asked, item, accessory, price, name en, name it, description en, description it, line en, line it)
+PERSON_GIFTS = {
+    "wayfarers": ("mira", 12, "wayfarers_band", {"max_hp": 40, "mdef": 8}, 1500, "Wayfarer's band", "Fascia del viandante",
+                  "Woven by the wayfarers of the Ring for one of their own. Health +40, magic defense +8.",
+                  "Intessuta dai viandanti dell'Anello per uno dei loro. Vita +40, difesa magica +8.",
+                  "The wayfarers asked me to give you this. They say you walk the Ring as if you had always walked it.",
+                  "I viandanti mi hanno chiesto di darti questa. Dicono che percorri l'Anello come se l'avessi sempre fatto."),
+    "chroniclers": ("selwyn", 5, "archivists_quill", {"matk": 12, "crit_pm": 40}, 1500, "Archivist's quill", "Penna dell'archivista",
+                    "A quill that has written five legends, and remembers them. Magic attack +12, critical chance +4%.",
+                    "Una penna che ha scritto cinque leggende, e se le ricorda. Attacco magico +12, probabilità di critico +4%.",
+                    "Five legends written, five legends true. The Chroniclers would like you to have this quill. Mind the ink: it is old.",
+                    "Cinque leggende scritte, cinque leggende vere. I Cronisti vogliono che questa penna sia tua. Attento all'inchiostro: è vecchio."),
+}
+
+
+def patch_person(faction: str, name: str, at: int, item: str) -> None:
+    path = DATA / "dialogues" / "npc" / f"{name}.json"
+    raw = path.read_text(encoding="utf-8", newline="")
+    doc = json.loads(raw)
+    nodes = doc["nodes"]
+    flag = f"faction_gift_{faction}"
+    first = nodes["faction_gift_check"]["else"] if doc["start"] == "faction_gift_check" else doc["start"]
+    nodes["faction_gift_check"] = {"type": "condition", "when": {"all": [{"faction_at_least": {"faction": faction, "count": at}}, {"not": {"flag": flag}}]},
+                                   "then": "faction_gift", "else": first}
+    nodes["faction_gift"] = {"type": "effects", "next": "faction_gift_said",
+                             "effects": [{"effect": "set_flag", "flag": flag, "value": True}, {"effect": "add_item", "item": f"base:item/{item}", "qty": 1}]}
+    nodes["faction_gift_said"] = {"type": "say", "speaker": next(n["speaker"] for n in nodes.values() if n["type"] == "say" and n.get("speaker")),
+                                  "text": f"$i18n:dlg.faction_gift.{faction}", "next": first}
+    doc["start"] = "faction_gift_check"
+    write_json(path, doc, raw)
+
+
 def main() -> None:
     for faction, (role, at, item, bonus, price, name_en, name_it, desc_en, desc_it) in GIFTS.items():
         write_json(DATA / "items" / f"{item}.json", {
@@ -97,7 +131,15 @@ def main() -> None:
             texts[f"dlg.faction_gift.guild.{tone}"] = clerk
             texts[f"dlg.faction_gift.folk.{tone}"] = elder
         set_texts("roles.json", lang, texts)
-    print(f"wrote {len(GIFTS)} gifts of the factions")
+    for faction, (name, at, item, bonus, price, name_en, name_it, desc_en, desc_it, line_en, line_it) in PERSON_GIFTS.items():
+        write_json(DATA / "items" / f"{item}.json", {
+            "$schema": "../../../schemas/item.schema.json", "id": f"base:item/{item}", "name": f"$i18n:item.{item}.name",
+            "description": f"$i18n:item.{item}.desc", "kind": "accessory", "rarity": "epic", "price": price, "accessory": bonus})
+        for lang, item_name, desc, line in (("en", name_en, desc_en, line_en), ("it", name_it, desc_it, line_it)):
+            set_texts("content.json", lang, {f"item.{item}.name": item_name, f"item.{item}.desc": desc})
+            set_texts("roles.json", lang, {f"dlg.faction_gift.{faction}": line})
+        patch_person(faction, name, at, item)
+    print(f"wrote {len(GIFTS) + len(PERSON_GIFTS)} gifts of the factions")
 
 
 if __name__ == "__main__":
