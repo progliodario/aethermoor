@@ -2262,6 +2262,18 @@ void activate_dialogue(aether::WorldSim& sim, const Assets& assets, Ui& ui) {
         if (story.npc_in_range() == nullptr && sim.use_stone()) {  // a Threshold Stone (spec 09)
             const aether::WorldSim::Travel* travel = sim.travel();
             ui.travel_cursor = travel->here == 0 && travel->stops.size() > 1 ? 1 : 0;
+        } else if (story.npc_in_range() == nullptr && sim.plot_near()) {  // a plot to tend (spec 06, "Farming")
+            const aether::WorldSim::TendResult tended = sim.tend();
+            const std::string& item = tended.item;
+            const std::string name =
+                item.empty() ? std::string()
+                             : assets.pack.text(ui.lang, "$i18n:item." + item.substr(item.rfind('/') + 1) + ".name",
+                                                {{"count", tended.qty}});
+            notify(ui, tended.kind == "harvested"
+                           ? assets.pack.text(ui.lang, "$i18n:ui.harvested", {{"item", name}, {"qty", tended.qty}})
+                       : tended.kind == "sown"       ? assets.pack.text(ui.lang, "$i18n:ui.sown", {{"item", name}})
+                       : sim.plot_near()->state == 1 ? assets.pack.text(ui.lang, "$i18n:ui.plot_growing")
+                                                     : assets.pack.text(ui.lang, "$i18n:ui.plot_no_seed"));
         } else if (story.npc_in_range() == nullptr) {  // a prop to gather from (spec 06, "Gathering")
             const aether::WorldSim::GatherResult found = sim.gather();
             if (found.node) {
@@ -4002,6 +4014,18 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
                 draw_swaying(renderer, *sprite, fx, fy, k, sprite->sway * k * wave);
             } else {
                 draw_sprite(renderer, *sprite, fx, fy, k);
+            }
+            // a sown plot (spec 06, "Farming"): sprouts while it grows, flowers when it is ripe
+            if (sim.combat().farming && item.prop->art == sim.combat().farming->plot) {
+                const auto sown = sim.plots().find({static_cast<int>(std::floor(item.prop->x * 100.0F + 0.5F)),
+                                                    static_cast<int>(std::floor(item.prop->y * 100.0F + 0.5F))});
+                if (sown != sim.plots().end()) {
+                    const bool ripe = sim.world_ticks() >= sown->second.second;
+                    if (const aether::Sprite* crop =
+                            cache.get(ripe ? "base:art/prop/flowers" : "base:art/prop/fern", tile_px)) {
+                        draw_sprite(renderer, *crop, fx, fy - 2.0F * k, k * (ripe ? 0.7F : 0.5F));
+                    }
+                }
             }
         }
     }

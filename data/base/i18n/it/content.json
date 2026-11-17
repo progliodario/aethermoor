@@ -1294,5 +1294,17 @@
   "item.guild_signet.desc": "L'anello che la Gilda dà a chi gode della sua fiducia. Attacco +14, probabilità di critico +5%.",
   "item.folk_charm.name": "Amuleto della Gente",
   "item.folk_charm.desc": "Annodato con un filo di ogni villaggio che hai aiutato. Vita +80, difesa +4.",
+  "item.herb_seeds.name": "Semi di erbe",
+  "item.herb_seeds.desc": "Seminali in un orto: in un minuto danno erbe curative.",
+  "item.berry_seeds.name": "Semi di bacche",
+  "item.berry_seeds.desc": "Seminali in un orto: in un minuto e mezzo danno bacche selvatiche.",
+  "item.mint_seeds.name": "Semi di menta",
+  "item.mint_seeds.desc": "Seminali in un orto: in un minuto e mezzo danno foglie di menta.",
+  "item.mushroom_spores.name": "Spore di funghi",
+  "item.mushroom_spores.desc": "Seminale in un orto: in due minuti danno cappelli di spore.",
+  "item.wayfarers_band.name": "Fascia del viandante",
+  "item.wayfarers_band.desc": "Intessuta dai viandanti dell'Anello per uno dei loro. Vita +40, difesa magica +8.",
+  "item.archivists_quill.name": "Penna dell'archivista",
+  "item.archivists_quill.desc": "Una penna che ha scritto cinque leggende, e se le ricorda. Attacco magico +12, probabilità di critico +4%.",
   "quest.personal_gideon_2.task": "Quattro lupi fulvi e due pellicce: il villaggio, con garbo, chiede un tributo."
 }

@@ -531,5 +531,7 @@
   "dlg.faction_gift.folk.grim": "The villages that are still standing made you this. That says enough.",
   "dlg.faction_gift.guild.scholarly": "By resolution of the Guild, recorded in triplicate: the signet is conferred upon you. Congratulations, formally.",
   "dlg.faction_gift.folk.scholarly": "A charm, woven by every village you assisted. I have catalogued the threads; there are a great many.",
+  "dlg.faction_gift.wayfarers": "The wayfarers asked me to give you this. They say you walk the Ring as if you had always walked it.",
+  "dlg.faction_gift.chroniclers": "Five legends written, five legends true. The Chroniclers would like you to have this quill. Mind the ink: it is old.",
   "dlg.seasonal.scholarly.wait": "The solstice is in summer. Do return then; the instruments are not ready."
 }

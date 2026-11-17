@@ -159,6 +159,10 @@
                   }
                 ],
                 "stock": [
+                  "base:item/herb_seeds",
+                  "base:item/berry_seeds",
+                  "base:item/mint_seeds",
+                  "base:item/mushroom_spores",
                   "base:item/bread",
                   "base:item/potion_small",
                   "base:item/iron_sword",
@@ -260,6 +264,10 @@
                   }
                 ],
                 "stock": [
+                  "base:item/herb_seeds",
+                  "base:item/berry_seeds",
+                  "base:item/mint_seeds",
+                  "base:item/mushroom_spores",
                   "base:item/bread",
                   "base:item/potion_small",
                   "base:item/leather_vest",
@@ -384,6 +392,10 @@
                   }
                 ],
                 "stock": [
+                  "base:item/herb_seeds",
+                  "base:item/berry_seeds",
+                  "base:item/mint_seeds",
+                  "base:item/mushroom_spores",
                   "base:item/iron_sword",
                   "base:item/steel_sword",
                   "base:item/chain_mail",
@@ -496,6 +508,10 @@
                   }
                 ],
                 "stock": [
+                  "base:item/herb_seeds",
+                  "base:item/berry_seeds",
+                  "base:item/mint_seeds",
+                  "base:item/mushroom_spores",
                   "base:item/bread",
                   "base:item/potion_small",
                   "base:item/iron_sword",
@@ -622,6 +638,10 @@
                   }
                 ],
                 "stock": [
+                  "base:item/herb_seeds",
+                  "base:item/berry_seeds",
+                  "base:item/mint_seeds",
+                  "base:item/mushroom_spores",
                   "base:item/bread",
                   "base:item/potion_small",
                   "base:item/chain_mail",
@@ -722,6 +742,10 @@
                   }
                 ],
                 "stock": [
+                  "base:item/herb_seeds",
+                  "base:item/berry_seeds",
+                  "base:item/mint_seeds",
+                  "base:item/mushroom_spores",
                   "base:item/bread",
                   "base:item/potion_small",
                   "base:item/iron_sword",
@@ -848,6 +872,10 @@
                   }
                 ],
                 "stock": [
+                  "base:item/herb_seeds",
+                  "base:item/berry_seeds",
+                  "base:item/mint_seeds",
+                  "base:item/mushroom_spores",
                   "base:item/potion_small",
                   "base:item/steel_sword",
                   "base:item/chain_mail",
@@ -1009,6 +1037,10 @@
                   }
                 ],
                 "stock": [
+                  "base:item/herb_seeds",
+                  "base:item/berry_seeds",
+                  "base:item/mint_seeds",
+                  "base:item/mushroom_spores",
                   "base:item/potion_small",
                   "base:item/iron_sword",
                   "base:item/chain_mail",
@@ -2577,7 +2609,7 @@
                 "........ccccT........",
                 "========ccwcc========",
                 "........ccEcc....?..t",
-                ".:':'::.lcccl........",
+                ".:':'::.lcccl.,.,.,..",
                 ".:_V__:...=...:':'::.",
                 ".'____:...=...:b___:.",
                 ".:::;::...=...'__V_:.",
@@ -2587,6 +2619,10 @@
               "legend": {
                 "'": {
                   "tile": 36
+                },
+                ",": {
+                  "prop": "base:art/prop/garden_plot",
+                  "radius_x100": 20
                 },
                 ":": {
                   "tile": 35
@@ -7944,6 +7980,10 @@
                   }
                 ],
                 "stock": [
+                  "base:item/herb_seeds",
+                  "base:item/berry_seeds",
+                  "base:item/mint_seeds",
+                  "base:item/mushroom_spores",
                   "base:item/bread",
                   "base:item/potion_small",
                   "base:item/iron_sword",
@@ -8045,6 +8085,10 @@
                   }
                 ],
                 "stock": [
+                  "base:item/herb_seeds",
+                  "base:item/berry_seeds",
+                  "base:item/mint_seeds",
+                  "base:item/mushroom_spores",
                   "base:item/bread",
                   "base:item/potion_small",
                   "base:item/leather_vest",
@@ -8169,6 +8213,10 @@
                   }
                 ],
                 "stock": [
+                  "base:item/herb_seeds",
+                  "base:item/berry_seeds",
+                  "base:item/mint_seeds",
+                  "base:item/mushroom_spores",
                   "base:item/iron_sword",
                   "base:item/steel_sword",
                   "base:item/chain_mail",
@@ -8281,6 +8329,10 @@
                   }
                 ],
                 "stock": [
+                  "base:item/herb_seeds",
+                  "base:item/berry_seeds",
+                  "base:item/mint_seeds",
+                  "base:item/mushroom_spores",
                   "base:item/bread",
                   "base:item/potion_small",
                   "base:item/iron_sword",
@@ -8407,6 +8459,10 @@
                   }
                 ],
                 "stock": [
+                  "base:item/herb_seeds",
+                  "base:item/berry_seeds",
+                  "base:item/mint_seeds",
+                  "base:item/mushroom_spores",
                   "base:item/bread",
                   "base:item/potion_small",
                   "base:item/chain_mail",
@@ -8507,6 +8563,10 @@
                   }
                 ],
                 "stock": [
+                  "base:item/herb_seeds",
+                  "base:item/berry_seeds",
+                  "base:item/mint_seeds",
+                  "base:item/mushroom_spores",
                   "base:item/bread",
                   "base:item/potion_small",
                   "base:item/iron_sword",
@@ -8633,6 +8693,10 @@
                   }
                 ],
                 "stock": [
+                  "base:item/herb_seeds",
+                  "base:item/berry_seeds",
+                  "base:item/mint_seeds",
+                  "base:item/mushroom_spores",
                   "base:item/potion_small",
                   "base:item/steel_sword",
                   "base:item/chain_mail",
@@ -8794,6 +8858,10 @@
                   }
                 ],
                 "stock": [
+                  "base:item/herb_seeds",
+                  "base:item/berry_seeds",
+                  "base:item/mint_seeds",
+                  "base:item/mushroom_spores",
                   "base:item/potion_small",
                   "base:item/iron_sword",
                   "base:item/chain_mail",
@@ -10362,7 +10430,7 @@
                 "........ccccT........",
                 "========ccwcc========",
                 "........ccEcc....?..t",
-                ".:':'::.lcccl........",
+                ".:':'::.lcccl.,.,.,..",
                 ".:_V__:...=...:':'::.",
                 ".'____:...=...:b___:.",
                 ".:::;::...=...'__V_:.",
@@ -10372,6 +10440,10 @@
               "legend": {
                 "'": {
                   "tile": 36
+                },
+                ",": {
+                  "prop": "base:art/prop/garden_plot",
+                  "radius_x100": 20
                 },
                 ":": {
                   "tile": 35

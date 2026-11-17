@@ -1218,6 +1218,88 @@ WorldSim::GatherResult WorldSim::gather() {
     return result;
 }
 
+std::optional<WorldSim::PlotNear> WorldSim::plot_near() const {
+    if (!m_setup_.farming || m_story_.dialogue_active()) {
+        return std::nullopt;
+    }
+    const FarmingDef& farming = *m_setup_.farming;
+    const Vec2 at = m_player_.position;
+    std::optional<PlotNear> best;
+    float best_d = 0.0F;
+    const float far = static_cast<float>(farming.reach_x100) / 100.0F + 1.0F;
+    for_each_prop(at.x - far, at.y - far, at.x + far, at.y + far, [&](const Prop& prop) {
+        if (prop.art != farming.plot) {
+            return;
+        }
+        const float d = distance(prop.x, prop.y, at.x, at.y);
+        if (d > static_cast<float>(farming.reach_x100) / 100.0F + prop.radius) {
+            return;
+        }
+        if (!best || d < best_d || (d == best_d && (prop.x < best->x || (prop.x == best->x && prop.y < best->y)))) {
+            best = PlotNear{prop.x, prop.y, 0};
+            best_d = d;
+        }
+    });
+    if (best) {
+        const std::pair<int, int> key{static_cast<int>(std::floor(best->x * 100.0F + 0.5F)),
+                                      static_cast<int>(std::floor(best->y * 100.0F + 0.5F))};
+        const auto sown = m_plots_.find(key);
+        if (sown != m_plots_.end()) {
+            best->state = m_world_ticks_ >= sown->second.second ? 2 : 1;
+        }
+    }
+    return best;
+}
+
+WorldSim::TendResult WorldSim::tend() {
+    TendResult result;
+    const auto near = plot_near();
+    if (!near) {
+        return result;
+    }
+    const FarmingDef& farming = *m_setup_.farming;
+    const std::pair<int, int> key{static_cast<int>(std::floor(near->x * 100.0F + 0.5F)),
+                                  static_cast<int>(std::floor(near->y * 100.0F + 0.5F))};
+    const auto sown = m_plots_.find(key);
+    if (sown != m_plots_.end()) {
+        if (m_world_ticks_ < sown->second.second) {
+            return result;  // still growing
+        }
+        const auto crop = std::find_if(farming.crops.begin(), farming.crops.end(),
+                                       [&](const FarmCrop& c) { return c.seed == sown->second.first; });
+        if (crop == farming.crops.end()) {
+            m_plots_.erase(sown);
+            return result;
+        }
+        const std::uint64_t h = hash64(fnv1a64("harvest") ^ m_setup_.seed, key.first, key.second, sown->second.second);
+        const std::int64_t qty =
+            crop->qty_min +
+            static_cast<std::int64_t>(mix64(h) % static_cast<std::uint64_t>(crop->qty_max - crop->qty_min + 1)) +
+            title_bonus("gather");
+        m_inventory_[crop->crop] += qty;
+        m_plots_.erase(sown);
+        ++m_counters_["harvested"];
+        m_cues_.push_back({"gather", "plant", m_player_.position});
+        result = {"harvested", crop->crop, qty};
+        return result;
+    }
+    for (const FarmCrop& crop : farming.crops) {  // the first seed of the data that the bag holds
+        const auto owned = m_inventory_.find(crop.seed);
+        if (owned == m_inventory_.end() || owned->second < 1) {
+            continue;
+        }
+        if (--owned->second == 0) {
+            m_inventory_.erase(owned);
+        }
+        m_plots_[key] = {crop.seed, m_world_ticks_ + crop.grow_ticks};
+        ++m_counters_["sown"];
+        m_cues_.push_back({"gather", "plant", m_player_.position});
+        result = {"sown", crop.seed, 1};
+        return result;
+    }
+    return result;
+}
+
 std::vector<SimCue> WorldSim::take_cues() { return std::exchange(m_cues_, {}); }
 
 void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool strike, bool parry) {
@@ -1925,6 +2007,7 @@ SaveState WorldSim::capture() const {
     s.bestiary = m_bestiary_;
     s.counters = m_counters_;
     s.talents = m_talents_;
+    s.plots = m_plots_;
     if (m_setup_.companion) {
         s.has_companion = true;
         s.companion_x = m_companion_pos_.x;
@@ -2072,6 +2155,7 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
     m_bestiary_ = s.bestiary;
     m_counters_ = s.counters;
     m_talents_ = s.talents;
+    m_plots_ = s.plots;
     recompute_derived();       // the talents change the derived stats
     if (m_setup_.companion) {  // a save without a companion (an older one) puts it next to the player
         m_companion_pos_ = s.has_companion ? Vec2{s.companion_x, s.companion_y} : s.position;

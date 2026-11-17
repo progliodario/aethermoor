@@ -354,6 +354,10 @@
       "additionalProperties": false,
       "properties": { "x": { "type": "number" }, "y": { "type": "number" }, "cooldown": { "type": "integer", "minimum": 0 }, "stay": { "type": "boolean" }, "bond": { "type": "integer", "minimum": 0 } }
     },
+    "plots": {
+      "type": "array",
+      "items": { "type": "array", "minItems": 4, "maxItems": 4 }
+    },
     "friend": {
       "type": "object",
       "required": ["enemy", "x", "y", "cooldown"],

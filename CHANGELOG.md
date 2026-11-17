@@ -26,6 +26,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Farming** (spec 06, "Farming"): every village has three garden plots by its campfire. Sow herb, berry or mint seeds or mushroom spores (sold by every shop) with the action of talking (`E`, or `Tend` on Android), come back in a minute or two, and harvest healing herbs, berries, mint or spore caps. Sprouts grow on the plot, and flowers show when it is ripe. The sown plots are kept in the save (`plots`).
+- **All four factions give**: Mira gives the Wayfarer's band to a friend of the Ring, Selwyn the Archivist's quill to a keeper of legends.
+- A new prop (the garden plot), four seeds and two more accessories (203 items); one more conformance scenario.
 - **The factions give** (spec 07, "Factions"): the guild clerks give the Guild signet to somebody with ten quests of the guild, the elders the Folk charm to somebody with twenty of the folk, with a line in each of the eight voices. A new dialogue condition, `faction_at_least`.
 - **Credits** (spec 16, "Credits"): from the title screen, `C` on desktop or the `Credits` button on Android.
 - **The translations are checked** (spec 17): `tools/check_translations.py` finds texts left in the other language; it found none, and a test keeps it so.

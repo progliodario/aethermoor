@@ -1,7 +1,7 @@
 {
   "$schema": "../../../../schemas/dialogue.schema.json",
   "id": "base:dialogue/npc/selwyn",
-  "start": "c0",
+  "start": "faction_gift_check",
   "nodes": {
     "c0": {
       "type": "condition",
@@ -656,6 +656,48 @@
       "speaker": "aldermere_archivist_selwyn",
       "text": "$i18n:dlg.town.selwyn.after",
       "next": "end"
+    },
+    "faction_gift_check": {
+      "type": "condition",
+      "when": {
+        "all": [
+          {
+            "faction_at_least": {
+              "faction": "chroniclers",
+              "count": 5
+            }
+          },
+          {
+            "not": {
+              "flag": "faction_gift_chroniclers"
+            }
+          }
+        ]
+      },
+      "then": "faction_gift",
+      "else": "c0"
+    },
+    "faction_gift": {
+      "type": "effects",
+      "next": "faction_gift_said",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "faction_gift_chroniclers",
+          "value": true
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/archivists_quill",
+          "qty": 1
+        }
+      ]
+    },
+    "faction_gift_said": {
+      "type": "say",
+      "speaker": "aldermere_archivist_selwyn",
+      "text": "$i18n:dlg.faction_gift.chroniclers",
+      "next": "c0"
     }
   }
 }

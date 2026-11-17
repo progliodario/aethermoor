@@ -274,10 +274,10 @@ Versione `0.0.1`, **nessuna release pubblica** (la decisione di pubblicare è de
 | Persone con nome | 26 nel mondo (Fenwick, Aldermere, gli 8 avamposti, i viandanti, Mira, Pip, Suor Maren) | `tools/make_towns.py`, `tools/towns_outposts.py` |
 | Missioni | 276 (storie dei protagonisti, gilda, città, avamposti, leggende, taglie, lettere, compiti da amico) | `docs/design/catalog.md` |
 | Creature | 75 (tra cui 27 guardiani, 8 Echi, la selvaggina) | `data/base/enemies/` |
-| Oggetti e ricette | 197 oggetti, 59 ricette (8 segrete), 2 stazioni (falò e incudine) | spec 06, `tools/make_recipes.py` |
+| Oggetti e ricette | 203 oggetti, 59 ricette (8 segrete), 2 stazioni (falò e incudine) | spec 06, `tools/make_recipes.py` |
 | Progressione | 36 titoli, 16 talenti (4 abilità, 2 a comando), bestiario, profilo condiviso, reincarnazione | spec 11, spec 12 |
-| Testi | 2895 chiavi, in italiano **e** inglese | spec 17 |
-| Regole uguali sui due client | 30 file di vettori di conformità, 521 casi, eseguiti da C++ e Kotlin a ogni modifica | `tests/conformance/` |
+| Testi | 2914 chiavi, in italiano **e** inglese | spec 17 |
+| Regole uguali sui due client | 30 file di vettori di conformità, 522 casi, eseguiti da C++ e Kotlin a ogni modifica | `tests/conformance/` |
 | Specifiche e decisioni | 18 specifiche, 13 ADR | `docs/spec/`, `docs/adr/` |
 | Suoni | 174 effetti sintetizzati; musica e ambiente **spenti** su richiesta del proprietario | spec 14 |
 
@@ -293,7 +293,7 @@ Legenda: **fatto** = le consegne del piano ci sono e funzionano su tutti e due i
 | M3 Combattimento | fatto | attacco, colpo potente, schivata, parata, sei elementi, stati alterati su creature e giocatore, stagger, barra del guardiano, Analizza di Ren, 75 creature con comportamenti, XP e livelli | nulla di aperto: nessuno scontro del modello dura più di tre secondi al proprio livello (`docs/design/balance.md`); si ricontrolla a ogni creatura nuova |
 | M4 Dialoghi, missioni, inventario, salvataggi | quasi | dialoghi con condizioni ed effetti, missioni con meta sulla mappa, zaino, negozi, equipaggiamento a tre posti, diario e finestra di stato, gilda con ranghi F-S e bacheca, locande, tre partite, export e import, `profile.json`, volumi, tasti configurabili (desktop), Fenwick e Aldermere scritti a mano, otto prologhi | la **release Alpha 0.1** (tag e pacchetti: decisione del proprietario) |
 | M5 Mondo aperto | quasi | streaming dei chunk, regioni, insediamenti, siti, fiumi e strade, stagioni, meteo con pioggia, neve e notte che nascondono il giocatore, routine dei PNG, Pietre della Soglia, mappa del mondo e mini mappa, luci di notte | prestazioni misurate su un telefono reale; altri effetti del meteo sul gioco |
-| M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, 59 ricette al falò e all'incudine (otto segrete, insegnate dai bottegai), cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane | agricoltura e allevamento, base e residenti |
+| M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, 59 ricette al falò e all'incudine (otto segrete, insegnate dai bottegai), cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane, orti nei villaggi | allevamento, base e residenti |
 | M7 Compagni | avviato | un compagno per protagonista che segue, combatte, resta, segue o torna a comando, cresce di legame e cura il giocatore; i doni di Haruka (legame più rapido) e di Gideon (compagno più forte) ; Haruka doma le creature ferite e l'ultima resta con lei come secondo compagno ; momenti del legame; il compagno domato obbedisce a resta e torna | più compagni scelti dal giocatore |
 | M8 Progressione profonda | avviato | bestiario con debolezze, 36 titoli con effetti e progressi visibili, albero di 16 talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma | tag, achievements, rune e affissi, sblocchi del profilo |
 | M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | altre storie per regione; la modalità Dungeon di Gideon |
@@ -383,17 +383,19 @@ Il 17 novembre, terza PR: quattro fazioni con i loro titoli, il compagno domato 
 
 Il 17 novembre, quarta PR: i doni delle fazioni (sigillo della Gilda, amuleto della Gente) e la condizione `faction_at_least`, i crediti, il controllo delle traduzioni. La "seconda vita per sotterraneo" del piano non si fa: i doni di Daichi e Lena (sopravvivere a un colpo mortale) ne coprono già l'idea.
 
+Il 17 novembre, quinta PR: gli orti dei villaggi (semi, crescita, raccolto, salvati nella partita), i doni dell'Anello (Mira) e dei Cronisti (Selwyn).
+
 **A breve (le prossime PR)**
 
 1. **Testo più grande** (M10), un'opzione che ingrandisce l'interfaccia.
-2. **Doni dell'Anello e dei Cronisti** (M4): anche le altre due fazioni premiano chi le aiuta.
+2. **Allevamento** (M6): animali da cortile accanto agli orti, che danno uova e latte.
 3. **Altre storie per regione** (M9).
 4. **Controlli automatici della grafica**: confronto dei fotogrammi del test di fumo con immagini di riferimento, ktlint e detekt in CI.
 
 **A medio termine (verso Alpha 0.2 e Beta 0.5)**
 
 8. **Tag e achievements** (M8).
-9. **Agricoltura e allevamento, base e residenti** (M6).
+9. **Allevamento, base e residenti** (M6; gli orti ci sono).
 10. **Economia che reagisce a ciò che compri e vendi** (M6; i giorni di mercato ci sono).
 11. **Tag, achievements, rune e affissi** (M8).
 12. **Altre storie per regione** (M9) e la **modalità Dungeon** di Gideon.
@@ -421,6 +423,6 @@ Il 17 novembre, quarta PR: i doni delle fazioni (sigillo della Gilda, amuleto de
 
 ### 8.7 Che cosa è verificato e che cosa no
 
-- **Verificato a ogni modifica:** i dati contro gli schemi, i testi nelle due lingue, i 521 casi di conformità sui due client, la compilazione di Windows, Linux e Android, un test di fumo del desktop con fotogrammi reali.
+- **Verificato a ogni modifica:** i dati contro gli schemi, i testi nelle due lingue, i 522 casi di conformità sui due client, la compilazione di Windows, Linux e Android, un test di fumo del desktop con fotogrammi reali.
 - **Verificato dal proprietario:** come appare e come si gioca, sulle tre piattaforme.
 - **Non verificabile da qui:** il suono (non si ascolta), le prestazioni su un telefono reale, ciò che si vede solo giocando a lungo. Ogni PR lo dice esplicitamente.

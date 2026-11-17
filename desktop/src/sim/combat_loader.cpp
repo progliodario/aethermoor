@@ -373,6 +373,20 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
             }
         }
     }
+    if (const auto farm = pack.read_document("base:farming/all")) {  // the plots and the crops (spec 06, "Farming")
+        const Json parsed = Json::parse(*farm, nullptr, /*allow_exceptions=*/false);
+        if (!parsed.is_discarded() && parsed.contains("crops")) {
+            FarmingDef farming;
+            farming.plot = parsed.value("plot", "");
+            farming.reach_x100 = parsed.value("reach_x100", 150);
+            for (const Json& c : parsed.at("crops")) {
+                farming.crops.push_back({c.at("seed").get<std::string>(), c.at("crop").get<std::string>(),
+                                         c.at("qty_min").get<std::int64_t>(), c.at("qty_max").get<std::int64_t>(),
+                                         c.at("grow_ticks").get<std::int64_t>()});
+            }
+            setup.farming = std::move(farming);
+        }
+    }
     if (const auto nodes =
             pack.read_document("base:gathering/nodes")) {  // the props that can be gathered from (spec 06)
         const Json parsed = Json::parse(*nodes, nullptr, /*allow_exceptions=*/false);

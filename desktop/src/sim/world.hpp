@@ -162,6 +162,8 @@ struct SaveState {
     std::map<std::string, int> bestiary;  // creature ID -> how many were killed (spec 11)
     std::map<std::string, int> counters;  // gathered, crafted, parried (spec 11)
     std::map<std::string, int> talents;   // talent ID -> rank (spec 11, "Talents")
+    // the sown plots (spec 06, "Farming"): (x100, y100) -> (seed, tick it is ripe)
+    std::map<std::pair<int, int>, std::pair<std::string, std::int64_t>> plots;
     std::map<std::string, std::int64_t> inventory;
     std::string equipped_weapon;  // spec 06
     std::string equipped_armor;
@@ -322,6 +324,23 @@ public:
         std::vector<std::pair<std::string, std::int64_t>> items;
     };
     GatherResult gather();
+    // Farming (spec 06, "Farming"): tends the nearest plot in reach, harvesting it when ripe or sowing it when bare
+    // with the first seed of the data that the bag holds. `kind` is "harvested", "sown" or empty (nothing could be
+    // done).
+    struct TendResult {
+        std::string kind;
+        std::string item;
+        std::int64_t qty = 0;
+    };
+    TendResult tend();
+    // The nearest plot in reach and its state: 0 bare, 1 growing, 2 ripe; nullopt: none.
+    struct PlotNear {
+        float x = 0.0F;
+        float y = 0.0F;
+        int state = 0;
+    };
+    std::optional<PlotNear> plot_near() const;
+    const std::map<std::pair<int, int>, std::pair<std::string, std::int64_t>>& plots() const { return m_plots_; }
     // Whether a prop of that art is within 2 tiles (plus its radius); an empty art is everywhere (spec 06, "Stations").
     bool near_station(const std::string& art) const;
     // Where the prop that `gather` would gather from is, if there is one (for the hint of the interface).
@@ -435,6 +454,7 @@ private:
     std::optional<Friend> m_friend_;
     std::map<std::pair<int, int>, std::pair<std::int64_t, int>>
         m_gathered_;  // (x100, y100) -> (tick it grows back, times); not saved
+    std::map<std::pair<int, int>, std::pair<std::string, std::int64_t>> m_plots_;  // sown plots (spec 06, "Farming")
     Story m_story_;
     bool m_window_valid_ = false;
     int m_window_x_ = 0;  // chunk of the player the enemies were synchronized for

@@ -44,7 +44,7 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 | Combat | complete (elements, statuses, parry, stagger, guardians) | balance touches, always toward easy fights |
 | World | huge, eight regions, towns and dungeons, weather that matters | performance measured on a phone |
 | Quests and stories | 263 quests, eight complete stories with an epilogue | more stories per region, the gifts still off |
-| Life | gathering, fishing, hunting, 59 recipes (eight secret, to be learned), dishes with effects, accessories | item quality, farming, a base and residents, a living economy |
+| Life | gathering, fishing, hunting, 59 recipes (eight secret, to be learned), dishes with effects, accessories | animals, a base and residents, an economy that reacts |
 | Companions | one per protagonist, commands, bond, care | more commands, several companions at once, taming and commanding |
 | Progression | talents (abilities too, two with a key of their own), 36 titles, bestiary, reincarnation with an heirloom | tags, achievements, runes |
 | Release | test builds from CI | Alpha 0.1 release and then 1.0 (the owner decides) |
@@ -70,11 +70,12 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 **Life and progression**
 
 - An adventurers' guild with a board and commissions, 263 quests (the archivist's Book of Legends among them, one guardian in every region, and the guildmaster's bounties on every other guardian), shops, inns, jobs from the elders.
-- 197 items; gathering from bushes, trees, rocks, cacti, flowers, ferns, stumps, logs, driftwood and ice, mushrooms in the forests, **fishing** in the reeds of the beaches and **hunting**; 51 recipes (the best dishes **fortify** you, more attack for a while, the brews of the regions **ward** you, more defense, cakes and rations **regenerate** your health little by little, and the windleaf brew makes you **faster** on foot) (potions, brews and elixirs of the regions, dishes cooked at a fire, gear, and fine gear at the anvil of a town).
+- 203 items; gathering from bushes, trees, rocks, cacti, flowers, ferns, stumps, logs, driftwood and ice, mushrooms in the forests, **fishing** in the reeds of the beaches and **hunting**; 51 recipes (the best dishes **fortify** you, more attack for a while, the brews of the regions **ward** you, more defense, cakes and rations **regenerate** your health little by little, and the windleaf brew makes you **faster** on foot) (potions, brews and elixirs of the regions, dishes cooked at a fire, gear, and fine gear at the anvil of a town).
 - A companion for each protagonist: it follows you, fights, stays where you tell it, and its bond grows with its victories: after ten, it heals you a little every ten seconds.
 - Titles of a way of playing that change the game: the Forager finds more, the Artisan makes more, the Unbreakable Guard parries longer, the Veteran earns more experience.
 - A tree of sixteen talents, with two abilities used on command (Shockwave and Mend): a point a level, four roots (attack, health, mana, defense), a second ring that opens at rank 5 (critical, second wind, magic, speed), a crown (Legend, Bulwark) and four abilities that open at rank 3 of each root: Whirlwind (the power strike hits all around), Battle Hunger (health for every kill), Flow (mana for every kill), Riposte (a parry hits back).
 - Renown in the regions: every quest finished in a region lowers the prices of its shops (up to a quarter), changes how elders and shopkeepers greet you and, after five, is worth a free bed at the inn.
+- A garden in every village: seeds to sow, a harvest in a minute or two.
 - The guild clerks and the elders reward whoever their faction esteems; the credits open from the title screen.
 - Four factions (the Guild, the Ring of Wayfarers, the Chroniclers, the Folk): every quest counts for one of them, with its titles.
 - Hints, damage numbers and flashes can be turned off.
@@ -236,9 +237,9 @@ The project is developed by its owner together with Claude, an AI assistant that
 
 What comes next, in order (details in the [roadmap](docs/plan/06-roadmap-rischi-backlog.md), in Italian):
 
-- **Soon:** the quality of crafted items; new commands and a second companion; new skills in the talent tree; reputation with the regions (lower prices where you helped); people seen from the side; balance touches; automatic checks of the frames.
-- **Medium term:** the gifts still off (Yuki's pocket, taming, a second life per dungeon); farming, a base and residents; a living economy and travelling merchants; tags, achievements, runes; more stories per region and Gideon's Dungeon mode; performance measured on a phone; a better synthesizer for music and ambience (only if the owner wants it).
-- **Toward 1.0:** a tutorial, accessibility, credits, signed packages, documentation for modders, more languages.
+- **Soon:** a larger text; animals next to the gardens; more stories per region; automatic checks of the frames.
+- **Medium term:** a base and residents; an economy that reacts to what you buy and sell; tags, achievements, runes; Gideon's Dungeon mode; performance measured on a phone; a better synthesizer for music and ambience (only if the owner wants it).
+- **Toward 1.0:** signed packages, documentation for modders, more languages.
 - **The owner decides:** when to publish the first release (Alpha 0.1).
 
 ## Contributing and license

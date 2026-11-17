@@ -1,0 +1,352 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/garden_plot",
+  "canvas": {
+    "w": 40,
+    "h": 26,
+    "origin": [
+      20,
+      20
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          20,
+          20,
+          18,
+          3.4
+        ]
+      },
+      "fill": {
+        "color": "#141030"
+      },
+      "alpha": 0.3,
+      "blur": 1.19
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20,
+          20,
+          10.8,
+          1.87
+        ]
+      },
+      "fill": {
+        "color": "#141030"
+      },
+      "alpha": 0.24,
+      "blur": 0.85
+    },
+    {
+      "shape": {
+        "path": "M 3 8 L 37 8 L 39 21 L 1 21 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 431,
+          "octaves": 3,
+          "stops": [
+            [
+              0.3,
+              "#815934"
+            ],
+            [
+              0.5,
+              "#9A6A3E"
+            ],
+            [
+              0.72,
+              "#A87F59"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.45
+      }
+    },
+    {
+      "shape": {
+        "path": "M 5 10 L 35 10 L 36.6 19 L 3.4 19 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 432,
+          "octaves": 3,
+          "stops": [
+            [
+              0.3,
+              "$p.wet"
+            ],
+            [
+              0.55,
+              "$p.soil"
+            ],
+            [
+              0.8,
+              "#8A6646"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#2E1E12",
+        "width": 0.3
+      }
+    },
+    {
+      "shape": {
+        "path": "M 5.40 11.60 Q 20 10.80 34.60 11.60"
+      },
+      "stroke": {
+        "color": "#3A2616",
+        "width": 0.5
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "path": "M 5.40 11.00 Q 20 10.20 34.60 11.00"
+      },
+      "stroke": {
+        "color": "#A07A56",
+        "width": 0.3
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 5.10 13.70 Q 20 12.90 34.90 13.70"
+      },
+      "stroke": {
+        "color": "#3A2616",
+        "width": 0.5
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "path": "M 5.10 13.10 Q 20 12.30 34.90 13.10"
+      },
+      "stroke": {
+        "color": "#A07A56",
+        "width": 0.3
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 4.80 15.80 Q 20 15.00 35.20 15.80"
+      },
+      "stroke": {
+        "color": "#3A2616",
+        "width": 0.5
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "path": "M 4.80 15.20 Q 20 14.40 35.20 15.20"
+      },
+      "stroke": {
+        "color": "#A07A56",
+        "width": 0.3
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 4.50 17.90 Q 20 17.10 35.50 17.90"
+      },
+      "stroke": {
+        "color": "#3A2616",
+        "width": 0.5
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "path": "M 4.50 17.30 Q 20 16.50 35.50 17.30"
+      },
+      "stroke": {
+        "color": "#A07A56",
+        "width": 0.3
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "ellipse": [
+          19.26,
+          15.24,
+          0.54,
+          0.35
+        ]
+      },
+      "fill": {
+        "color": "#5A3E28"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          25.92,
+          11.74,
+          0.75,
+          0.38
+        ]
+      },
+      "fill": {
+        "color": "#5A3E28"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          24.32,
+          13.44,
+          0.66,
+          0.48
+        ]
+      },
+      "fill": {
+        "color": "#8A7A6A"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          19.89,
+          11.19,
+          0.54,
+          0.39
+        ]
+      },
+      "fill": {
+        "color": "#5A3E28"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          17.05,
+          16.85,
+          0.69,
+          0.3
+        ]
+      },
+      "fill": {
+        "color": "#5A3E28"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          23.82,
+          14.4,
+          0.61,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "#5A3E28"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          26.12,
+          11.52,
+          0.65,
+          0.42
+        ]
+      },
+      "fill": {
+        "color": "#8A7A6A"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          33.51,
+          13.54,
+          0.57,
+          0.43
+        ]
+      },
+      "fill": {
+        "color": "#B09070"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          17.75,
+          13.88,
+          0.74,
+          0.32
+        ]
+      },
+      "fill": {
+        "color": "#8A7A6A"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20.83,
+          15.57,
+          0.5,
+          0.39
+        ]
+      },
+      "fill": {
+        "color": "#B09070"
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "path": "M 24 8 L 37 8 L 39 21 L 22 21 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.32,
+      "blur": 1,
+      "clip": true,
+      "blend": "multiply"
+    },
+    {
+      "shape": {
+        "path": "M 3.00 8.00 L 37.00 8.00 L 37.00 9.20 L 3.00 9.20 Z"
+      },
+      "fill": {
+        "color": "#FFE8C0"
+      },
+      "alpha": 0.4,
+      "clip": true,
+      "blend": "add"
+    }
+  ],
+  "palette": {
+    "soil": "#6A4A30",
+    "wet": "#4A3220",
+    "plank": "#9A6A3E"
+  }
+}

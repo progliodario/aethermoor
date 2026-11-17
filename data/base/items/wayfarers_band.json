@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/wayfarers_band",
+  "name": "$i18n:item.wayfarers_band.name",
+  "description": "$i18n:item.wayfarers_band.desc",
+  "kind": "accessory",
+  "rarity": "epic",
+  "price": 1500,
+  "accessory": {
+    "max_hp": 40,
+    "mdef": 8
+  }
+}

@@ -73,6 +73,8 @@ data class SaveState(
     val counters: Map<String, Int> = emptyMap(),
     /** The talents learned (spec 11): talent id -> rank. */
     val talents: Map<String, Int> = emptyMap(),
+    /** The sown plots (spec 06, "Farming"), in order. */
+    val plots: List<PlotSave> = emptyList(),
     /** The companion (spec 10): x, y and cooldown; null: no companion in the save. */
     val companion: Triple<Float, Float, Int>? = null,
     /** The companion was told to stay, and the creatures it has killed (spec 10). */
@@ -101,6 +103,9 @@ class SaveMeta(
 /** The seed and map name of a save, read without building a world (to rebuild the same world first). */
 /** [weapon]: the weapon in hand, for the heirloom of a reincarnation (spec 11). */
 class SavePeek(val seed: ULong, val map: String, val level: Int = 1, val gold: Long = 0, val weapon: String = "")
+
+/** A sown plot (spec 06, "Farming"): where (hundredths of a tile), the seed and the tick it is ripe. */
+class PlotSave(val x: Int, val y: Int, val seed: String, val ripe: Long)
 
 /** What a save keeps of the tamed friend (spec 10, "The tamed friend"). */
 class FriendSave(val enemy: String, val x: Float, val y: Float, val cooldown: Int, val stay: Boolean = false)
@@ -195,6 +200,9 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
                 if (s.equippedAccessory.isNotEmpty()) put("accessory", s.equippedAccessory)
             },
         )
+        if (s.plots.isNotEmpty()) {
+            put("plots", JsonArray(s.plots.map { p -> JsonArray(listOf(JsonPrimitive(p.x), JsonPrimitive(p.y), JsonPrimitive(p.seed), JsonPrimitive(p.ripe))) }))
+        }
         if (s.talents.isNotEmpty()) put("talents", buildJsonObject { for ((id, rank) in s.talents) put(id, rank) })
         if (s.counters.isNotEmpty()) put("counters", buildJsonObject { for ((name, count) in s.counters) put(name, count) })
         if (s.bestiary.isNotEmpty()) put("bestiary", buildJsonObject { for ((id, count) in s.bestiary) put(id, count) })
@@ -320,6 +328,10 @@ fun saveFromJson(text: String): Result<SaveState> =
                 ?: emptyList(),
             companion = (j["companion"] as? JsonObject)?.let { c -> Triple(c.getValue("x").jsonPrimitive.float, c.getValue("y").jsonPrimitive.float, c.getValue("cooldown").jsonPrimitive.int) },
             talents = (j["talents"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
+            plots = (j["plots"] as? JsonArray)?.map { p ->
+                val a = p.jsonArray
+                PlotSave(a[0].jsonPrimitive.int, a[1].jsonPrimitive.int, a[2].jsonPrimitive.content, a[3].jsonPrimitive.long)
+            } ?: emptyList(),
             counters = (j["counters"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
             companionStay = ((j["companion"] as? JsonObject)?.get("stay") as? JsonPrimitive)?.content == "true",
             companionBond = ((j["companion"] as? JsonObject)?.get("bond") as? JsonPrimitive)?.content?.toIntOrNull() ?: 0,

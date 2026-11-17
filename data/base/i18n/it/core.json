@@ -1068,5 +1068,10 @@
   "credits.thanks_player": "A te, che giochi",
   "ui.credits_button": "Crediti",
   "ui.credits_hint": "C o Esc per chiudere",
+  "ui.touch_tend": "Coltiva",
+  "ui.harvested": "Raccolto: {item} x{qty}",
+  "ui.sown": "Seminato: {item}",
+  "ui.plot_growing": "Sta ancora crescendo",
+  "ui.plot_no_seed": "Non hai semi da piantare",
   "dlg.pip.story.gideon.done": "Tutto il villaggio è d'accordo: sei un buon re. Prendi la lama, non è per niente come la vecchia, ma ti sta bene."
 }

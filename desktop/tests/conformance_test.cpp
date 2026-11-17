@@ -866,6 +866,17 @@ Scenario scenario_from_json(const Json& in) {
             setup.titles.push_back(std::move(title));
         }
     }
+    if (in.contains("farming")) {  // the plots and the crops (spec 06, "Farming")
+        const Json& f = in.at("farming");
+        aether::FarmingDef farming;
+        farming.plot = f.at("plot").get<std::string>();
+        farming.reach_x100 = f.at("reach_x100").get<int>();
+        for (const Json& c : f.at("crops")) {
+            farming.crops.push_back({c.at("seed").get<std::string>(), c.at("crop").get<std::string>(),
+                                     integer(c, "qty_min"), integer(c, "qty_max"), integer(c, "grow_ticks")});
+        }
+        setup.farming = std::move(farming);
+    }
     if (in.contains("gather_nodes")) {
         for (const Json& n : in.at("gather_nodes")) {
             aether::GatherNode node;
@@ -995,6 +1006,8 @@ void run_segment(aether::WorldSim& sim, const Json& segment) {
             } else if (cmd == "open_shop") {
                 sim.open_shop_for_test(command.value("region", ""),
                                        command.value("markup_pct", static_cast<std::int64_t>(100)));
+            } else if (cmd == "tend") {
+                sim.tend();
             } else if (cmd == "tame") {
                 sim.tame();
             } else if (cmd == "close_shop") {
@@ -1043,6 +1056,18 @@ void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) 
         REQUIRE(sim.derived().matk == integer(want, "matk"));
         REQUIRE(sim.derived().crit_chance_pm == integer(want, "crit_chance_pm"));
         REQUIRE(sim.derived().move_speed_x100 == integer(want, "move_speed_x100"));
+    }
+    if (want.contains("plots")) {  // the sown plots (spec 06, "Farming")
+        const Json& wp = want.at("plots");
+        REQUIRE(sim.plots().size() == wp.size());
+        std::size_t i = 0;
+        for (const auto& [key, plot] : sim.plots()) {
+            REQUIRE(key.first == wp[i].at(0).get<int>());
+            REQUIRE(key.second == wp[i].at(1).get<int>());
+            REQUIRE(plot.first == wp[i].at(2).get<std::string>());
+            REQUIRE(plot.second == wp[i].at(3).get<std::int64_t>());
+            ++i;
+        }
     }
     if (want.contains("friend")) {  // the tamed friend (spec 10)
         const Json& wf = want.at("friend");

@@ -537,6 +537,70 @@ class WorldSim(
         return minOf(open.renownMaxPm.toLong(), renownHere() * open.renownStepPm)
     }
 
+    /** The sown plots (spec 06, "Farming"): (x100, y100) -> (seed, tick it is ripe), in order. */
+    val plots = java.util.TreeMap<Pair<Int, Int>, Pair<String, Long>>(compareBy({ it.first }, { it.second }))
+
+    /** The nearest plot in reach and its state: 0 bare, 1 growing, 2 ripe; null: none. */
+    class PlotNear(val x: Float, val y: Float, val state: Int)
+
+    fun plotNear(): PlotNear? {
+        val farming = combat.farming ?: return null
+        if (story.dialogueActive) return null
+        val at = player.position
+        var bestX = 0f
+        var bestY = 0f
+        var bestD = -1f
+        val far = farming.reachX100 / 100f + 1f
+        forEachProp(at.x - far, at.y - far, at.x + far, at.y + far) { prop ->
+            if (prop.art != farming.plot) return@forEachProp
+            val d = distance(prop.x, prop.y, at.x, at.y)
+            if (d > farming.reachX100 / 100f + prop.radius) return@forEachProp
+            if (bestD < 0f || d < bestD || (d == bestD && (prop.x < bestX || (prop.x == bestX && prop.y < bestY)))) {
+                bestX = prop.x
+                bestY = prop.y
+                bestD = d
+            }
+        }
+        if (bestD < 0f) return null
+        val sown = plots[plotKey(bestX, bestY)]
+        return PlotNear(bestX, bestY, if (sown == null) 0 else if (worldTicks >= sown.second) 2 else 1)
+    }
+
+    private fun plotKey(x: Float, y: Float) = Pair(floor(x * 100f + 0.5f).toInt(), floor(y * 100f + 0.5f).toInt())
+
+    /** What tending did: [kind] is "harvested", "sown" or empty (nothing could be done). */
+    class TendResult(val kind: String, val item: String = "", val qty: Long = 0)
+
+    /** Tends the nearest plot in reach: harvests it when ripe, sows it when bare with the first seed of the data the bag holds (spec 06, "Farming"). */
+    fun tend(): TendResult {
+        val near = plotNear() ?: return TendResult("")
+        val farming = combat.farming ?: return TendResult("")
+        val key = plotKey(near.x, near.y)
+        val sown = plots[key]
+        if (sown != null) {
+            if (worldTicks < sown.second) return TendResult("") // still growing
+            val crop = farming.crops.firstOrNull { it.seed == sown.first }
+            plots.remove(key)
+            if (crop == null) return TendResult("")
+            val h = hash64(fnv1a64("harvest") xor combat.seed, key.first.toLong(), key.second.toLong(), sown.second)
+            val qty = crop.qtyMin + (mix64(h) % (crop.qtyMax - crop.qtyMin + 1).toULong()).toLong() + titleBonus(gather = true)
+            inventory[crop.crop] = (inventory[crop.crop] ?: 0L) + qty
+            count("harvested")
+            cues.add(SimCue("gather", "plant", player.position))
+            return TendResult("harvested", crop.crop, qty)
+        }
+        for (crop in farming.crops) { // the first seed of the data that the bag holds
+            val owned = inventory[crop.seed] ?: 0L
+            if (owned < 1L) continue
+            if (owned == 1L) inventory.remove(crop.seed) else inventory[crop.seed] = owned - 1L
+            plots[key] = Pair(crop.seed, worldTicks + crop.growTicks)
+            count("sown")
+            cues.add(SimCue("gather", "plant", player.position))
+            return TendResult("sown", crop.seed, 1)
+        }
+        return TendResult("")
+    }
+
     private val gathered = HashMap<Pair<Int, Int>, Pair<Long, Int>>() // (x100, y100) -> (tick it grows back, times); not saved
 
     val story = Story(combat.story, this)
@@ -1637,6 +1701,7 @@ class WorldSim(
             tamedFriend = tamedFriend?.let { FriendSave(it.def.id, it.position.x, it.position.y, it.cooldown, it.stay) },
             counters = counters.toMap(),
             talents = talents.toMap(),
+            plots = plots.map { (key, plot) -> PlotSave(key.first, key.second, plot.first, plot.second) },
             companion = if (combat.companion != null) Triple((companionPosition ?: player.position).x, (companionPosition ?: player.position).y, companionCooldown) else null,
             equippedWeapon = equippedWeapon,
             equippedArmor = equippedArmor,
@@ -1747,6 +1812,8 @@ class WorldSim(
         counters.putAll(s.counters)
         talents.clear()
         talents.putAll(s.talents)
+        plots.clear()
+        for (p in s.plots) plots[Pair(p.x, p.y)] = Pair(p.seed, p.ripe)
         recomputeDerived() // the talents change the derived stats
         combat.companion?.let { c -> // a save without a companion (an older one) puts it next to the player
             val saved = s.companion
