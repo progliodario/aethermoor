@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/forge_stew",
+  "name": "$i18n:item.forge_stew.name",
+  "description": "$i18n:item.forge_stew.desc",
+  "kind": "food",
+  "rarity": "rare",
+  "price": 160,
+  "stack_max": 99,
+  "use": {
+    "effects": [
+      {
+        "effect": "fortify",
+        "amount": 40,
+        "ticks": 1800
+      },
+      {
+        "effect": "ward",
+        "amount": 300,
+        "ticks": 1800
+      }
+    ]
+  }
+}

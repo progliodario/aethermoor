@@ -31,7 +31,8 @@
         "bond_gain": { "type": "integer", "minimum": 1, "maximum": 100 },
         "tame_hp_pct": { "type": "integer", "minimum": 0, "maximum": 100 },
         "tame_range_x100": { "type": "integer", "minimum": 0, "maximum": 2000 },
-        "tame_bond": { "type": "integer", "minimum": 0, "maximum": 100 }
+        "tame_bond": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "pocket_keep_pm": { "type": "integer", "minimum": 0, "maximum": 1000 }
       }
     },
     "starting_items": {

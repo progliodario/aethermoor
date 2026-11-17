@@ -19,6 +19,15 @@
           "next": "shop"
         },
         {
+          "text": "$i18n:dlg.role.recipe.ask",
+          "when": {
+            "not": {
+              "flag": "recipe_moonlit_tea"
+            }
+          },
+          "next": "recipe_offer"
+        },
+        {
           "text": "$i18n:dlg.role.caravan",
           "next": "caravan"
         },
@@ -154,6 +163,60 @@
           "markup_pct": 125
         }
       ],
+      "next": "end"
+    },
+    "recipe_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.recipe.mystic.offer",
+      "next": "recipe_choice"
+    },
+    "recipe_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.recipe.learn",
+          "next": "recipe_pay"
+        },
+        {
+          "text": "$i18n:dlg.role.recipe.later",
+          "next": "end"
+        }
+      ]
+    },
+    "recipe_pay": {
+      "type": "condition",
+      "when": {
+        "gold_at_least": 400
+      },
+      "then": "recipe_taught",
+      "else": "recipe_poor"
+    },
+    "recipe_taught": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "spend_gold",
+          "amount": 400
+        },
+        {
+          "effect": "set_flag",
+          "flag": "recipe_moonlit_tea",
+          "value": true
+        }
+      ],
+      "next": "recipe_learned"
+    },
+    "recipe_learned": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.recipe.mystic.learned",
+      "next": "end"
+    },
+    "recipe_poor": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.recipe.mystic.poor",
       "next": "end"
     }
   }

@@ -112,7 +112,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         nightAggroCutPm = input["weather"]?.jsonObject?.get("night_aggro_cut_pm")?.jsonPrimitive?.int ?: 0,
         gift = input["gift"]?.jsonObject?.let { g ->
             fun pct(key: String, neutral: Int) = g[key]?.jsonPrimitive?.int ?: neutral
-            GiftDef(pct("mp_regen_pct", 100), pct("aggro_pct", 100), pct("heal_pct", 100), pct("dodge_cooldown_pct", 100), pct("death_save_ticks", 0), pct("companion_atk_pct", 100), pct("bond_gain", 1), pct("tame_hp_pct", 0), pct("tame_range_x100", 0), pct("tame_bond", 0))
+            GiftDef(pct("mp_regen_pct", 100), pct("aggro_pct", 100), pct("heal_pct", 100), pct("dodge_cooldown_pct", 100), pct("death_save_ticks", 0), pct("companion_atk_pct", 100), pct("bond_gain", 1), pct("tame_hp_pct", 0), pct("tame_range_x100", 0), pct("tame_bond", 0), pct("pocket_keep_pm", 0))
         } ?: GiftDef(),
         strike = input["strike"]?.jsonObject?.let { d ->
             StrikeDef(
@@ -186,6 +186,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
                 o["station"]?.jsonPrimitive?.content ?: "",
                 finePm = o["fine_pm"]?.jsonPrimitive?.long ?: 0L,
                 fineItem = o["fine_item"]?.jsonPrimitive?.content ?: "",
+                requiresFlag = o["requires_flag"]?.jsonPrimitive?.content ?: "",
             )
         } ?: emptyList(),
         gatherNodes = input["gather_nodes"]?.jsonArray?.associate { n ->

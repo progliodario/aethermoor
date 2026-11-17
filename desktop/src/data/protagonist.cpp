@@ -42,6 +42,7 @@ std::optional<ProtagonistDef> parse_protagonist(std::string_view json_text, std:
             def.tame_hp_pct = rules.value("tame_hp_pct", 0);
             def.tame_range_x100 = rules.value("tame_range_x100", 0);
             def.tame_bond = rules.value("tame_bond", 0);
+            def.pocket_keep_pm = rules.value("pocket_keep_pm", 0);
         }
         def.art_variant = j.value("art_variant", "");
         def.companion = j.value("companion", "");

@@ -734,6 +734,8 @@ class CombatSim:
         recipe = self.recipes.get(recipe_id)
         if recipe is None or any(self.inventory.get(i["item"], 0) < i["qty"] for i in recipe["inputs"]):
             return False
+        if not self.recipe_known(recipe):  # a recipe that must be taught first (spec 06, "Recipe book")
+            return False
         if not self.near_station(recipe.get("station", "")):  # cooking needs a fire (spec 06, "Stations")
             return False
         for i in recipe["inputs"]:
@@ -756,6 +758,11 @@ class CombatSim:
         self.inventory[item] = self.inventory.get(item, 0) + qty
         self.counters["crafted"] = self.counters.get("crafted", 0) + 1
         return True
+
+    def recipe_known(self, recipe: dict) -> bool:
+        """Whether a recipe can be made: one without `requires_flag` always, the others once the story has that flag (spec 06, "Recipe book")."""
+        flag = recipe.get("requires_flag", "")
+        return not flag or (self.story is not None and self.story.flags.get(flag, False))
 
     def near_station(self, art: str) -> bool:
         """Whether a prop of that art is within 2 tiles of the player (plus its radius); an empty art is everywhere (spec 06, "Stations")."""
@@ -816,6 +823,11 @@ class CombatSim:
         full_mp = self.derived["max_mp"] * 6000
         if not ((heal > 0 and self.hp < self.derived["max_hp"]) or (mana > 0 and self.mp_u < full_mp) or fortify or ward or regen or haste or cleanse):
             return False
+        used = self.counters.get("used", 0)  # the pocket of Yuki (spec 18): a roll from the seed and the number of items used so far
+        self.counters["used"] = used + 1
+        keep = self.gift.get("pocket_keep_pm", 0) > 0 and nm.mix64(nm.hash64(nm.fnv1a64(b"pocket") ^ self.seed, used)) % 1000 < self.gift["pocket_keep_pm"]
+        if keep:
+            self.counters["pocket_kept"] = self.counters.get("pocket_kept", 0) + 1
         if cleanse:
             self.p_burn = self.p_burn_clock = self.p_chill = self.p_stun = self.p_weaken = 0
         if haste:
@@ -834,9 +846,10 @@ class CombatSim:
             self.hp = min(self.derived["max_hp"], self.hp + heal)
         if mana > 0:
             self.mp_u = min(full_mp, self.mp_u + mana * 6000)
-        self.inventory[item_id] -= 1
-        if self.inventory[item_id] == 0:
-            del self.inventory[item_id]
+        if not keep:
+            self.inventory[item_id] -= 1
+            if self.inventory[item_id] == 0:
+                del self.inventory[item_id]
         return True
 
     def equip(self, item_id: str) -> bool:

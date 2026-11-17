@@ -1,0 +1,28 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/starlight_souffle",
+  "name": "$i18n:item.starlight_souffle.name",
+  "description": "$i18n:item.starlight_souffle.desc",
+  "kind": "food",
+  "rarity": "rare",
+  "price": 200,
+  "stack_max": 99,
+  "use": {
+    "effects": [
+      {
+        "effect": "restore_mp",
+        "amount": 120
+      },
+      {
+        "effect": "haste",
+        "amount": 40,
+        "ticks": 1200
+      },
+      {
+        "effect": "regen",
+        "amount": 6,
+        "ticks": 1200
+      }
+    ]
+  }
+}

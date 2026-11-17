@@ -574,6 +574,26 @@ def build_scenarios() -> list[dict]:
                      "npcs": [{"key": "pedlar", "pos": [4.0, 4.5], "dialogue": "test:dialogue/pedlar"}]},
                  shop={"price_pm": 1000, "stock": ["base:item/bread"]},
                  far_shops={"north": {"price_pm": 2000, "stock": ["base:item/bread", "base:item/chain_mail"]}}),
+        # The pocket of Yuki (spec 18): with `pocket_keep_pm` 500 about every second bread used stays in the bag; the counter `used` counts every use
+        # and `pocket_kept` the kept ones. Without the gift every use costs one. Refused uses count nothing.
+        *[scenario(name, [enemy(8.1, 4.5, atk=40, hp=900)],
+                   [segment(150), *[s for _ in range(6) for s in (segment(1, do=[{"cmd": "use", "item": "base:item/bread"}]), segment(60))],
+                    segment(1, do=[{"cmd": "use", "item": "base:item/slime_gel"}])],
+                   inventory={"base:item/bread": 6, "base:item/slime_gel": 1}, gift=gift,
+                   titles=[{"id": "pocket", "name": "t", "kind": "pocket_kept", "count": 2}])
+          for name, gift in (("gift_pocket", {"pocket_keep_pm": 500}), ("gift_pocket_without", {}))],
+        # The recipe book (spec 06): a recipe with `requires_flag` is refused until the story has the flag; the trader teaches it for 50 gold.
+        scenario("recipe_taught", [enemy(12.0, 7.5, **passive)],
+                 [segment(1, do=[{"cmd": "craft", "recipe": "secret"}]), segment(1, do=[{"cmd": "interact"}]), segment(1, do=[{"cmd": "advance"}]),
+                  segment(1, do=[{"cmd": "craft", "recipe": "secret"}, {"cmd": "craft", "recipe": "secret"}])],
+                 inventory={"base:item/slime_gel": 3}, start_gold=60, player={"start": [3.4, 4.5]},
+                 recipes=RECIPES + [{"id": "secret", "output": {"item": "base:item/tonic", "qty": 1}, "requires_flag": "recipe_secret",
+                                     "inputs": [{"item": "base:item/slime_gel", "qty": 2}]}],
+                 story={"quests": {}, "dialogues": {"test:dialogue/cook": {"id": "test:dialogue/cook", "start": "start", "nodes": {
+                     "start": {"type": "say", "speaker": "cook", "text": "t.teach", "next": "pay"},
+                     "pay": {"type": "effects", "effects": [{"effect": "spend_gold", "amount": 50},
+                                                            {"effect": "set_flag", "flag": "recipe_secret", "value": True}], "next": "end"}}}},
+                     "npcs": [{"key": "cook", "pos": [4.0, 4.5], "dialogue": "test:dialogue/cook"}]}),
         scenario("leash_and_return", [enemy(4.0, 4.5, behavior_overrides={"leash_x100": 300})],
                  [segment(20, attack=True), segment(150, move=(1, 0)), segment(250)]),
     ]

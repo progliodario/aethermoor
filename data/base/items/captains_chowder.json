@@ -1,0 +1,27 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/captains_chowder",
+  "name": "$i18n:item.captains_chowder.name",
+  "description": "$i18n:item.captains_chowder.desc",
+  "kind": "food",
+  "rarity": "rare",
+  "price": 150,
+  "stack_max": 99,
+  "use": {
+    "effects": [
+      {
+        "effect": "heal",
+        "amount": 100
+      },
+      {
+        "effect": "regen",
+        "amount": 10,
+        "ticks": 600
+      },
+      {
+        "effect": "restore_mp",
+        "amount": 30
+      }
+    ]
+  }
+}

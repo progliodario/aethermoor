@@ -44,7 +44,7 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 | Combattimento | completo (elementi, stati, parata, stagger, guardiani) | ritocchi di bilanciamento, sempre verso scontri facili |
 | Mondo | enorme, otto regioni, città e sotterranei, meteo che conta | prestazioni misurate su un telefono |
 | Missioni e storie | 263 missioni, otto storie complete con epilogo | altre storie per regione, i doni ancora spenti |
-| Vita | raccolta, pesca, caccia, 51 ricette, cibi con effetti, accessori | qualità degli oggetti, agricoltura, base e residenti, economia viva |
+| Vita | raccolta, pesca, caccia, 59 ricette (otto segrete, da imparare), cibi con effetti, accessori | qualità degli oggetti, agricoltura, base e residenti, economia viva |
 | Compagni | uno per protagonista, comandi, legame, cura | altri comandi, più compagni insieme, domare e comandare |
 | Progressione | talenti (anche abilità, due con un tasto proprio), 29 titoli, bestiario, reincarnazione con eredità | tag, achievements, rune |
 | Uscita | versioni di prova dalla CI | release Alpha 0.1 e poi 1.0 (decide il proprietario) |
@@ -70,11 +70,13 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 **Vita e progressione**
 
 - Gilda degli avventurieri con bacheca e commissioni, 263 missioni (tra cui il Libro delle Leggende dell'archivista, un guardiano per regione, e le taglie della maestra della gilda su ogni altro guardiano), negozi, locande, lavori degli anziani.
-- 187 oggetti; raccolta da cespugli, alberi, rocce, cactus, fiori, felci, ceppi, tronchi, legni portati dal mare e ghiaccio, funghi nei boschi, **pesca** nei canneti delle spiagge e **caccia**; 51 ricette (i piatti migliori **fortificano**, più attacco per un po', gli infusi delle regioni **proteggono**, più difesa, i dolci e le razioni **rigenerano** la vita poco a poco, e l'infuso di foglia di vento ti fa **correre** più veloce) (pozioni, infusi ed elisir delle regioni, piatti cucinati al fuoco, equipaggiamento, ed equipaggiamento pregiato all'incudine delle città).
+- 195 oggetti; raccolta da cespugli, alberi, rocce, cactus, fiori, felci, ceppi, tronchi, legni portati dal mare e ghiaccio, funghi nei boschi, **pesca** nei canneti delle spiagge e **caccia**; 51 ricette (i piatti migliori **fortificano**, più attacco per un po', gli infusi delle regioni **proteggono**, più difesa, i dolci e le razioni **rigenerano** la vita poco a poco, e l'infuso di foglia di vento ti fa **correre** più veloce) (pozioni, infusi ed elisir delle regioni, piatti cucinati al fuoco, equipaggiamento, ed equipaggiamento pregiato all'incudine delle città).
 - Un compagno per protagonista: ti segue, combatte, resta dove gli dici, e il suo legame cresce con le sue vittorie: dopo dieci, ti cura un po' ogni dieci secondi.
 - Titoli del modo di giocare che cambiano il gioco: il Raccoglitore trova di più, l'Artigiano crea di più, la Guardia incrollabile para più a lungo, il Veterano guadagna più esperienza.
 - Un albero di sedici talenti, con due abilità da usare a comando (Onda d'urto e Rimarginare): un punto per livello, quattro radici (attacco, vita, mana, difesa), un secondo anello che si apre al rango 5 (critico, secondo fiato, magia, velocità), una corona (Leggenda, Baluardo) e quattro abilità che si aprono al rango 3 di ogni radice: Turbine (il colpo potente colpisce tutto intorno), Fame di battaglia (vita a ogni uccisione), Flusso (mana a ogni uccisione), Risposta (la parata restituisce il colpo).
 - Fama nelle regioni: ogni missione finita in una regione abbassa i prezzi dei suoi negozi (fino a un quarto), cambia il saluto di anziani e bottegai e, dopo cinque, vale un letto gratis alla locanda.
+- Consigli per i primi minuti, uno alla volta, quando servono.
+- Un piatto segreto per regione, che il bottegaio insegna a pagamento; la tasca di Yuki non ha fondo.
 - Haruka doma: calma una creatura ferita, che se ne va in pace e vale come una vittoria.
 - Un compito da amico dall'anziano di ogni regione, e in ogni bottega le merci portate dalla carovana da un'altra regione.
 - Giorni di mercato: i prezzi di ogni regione cambiano con il giorno, per comprare e per vendere; e ogni regione tiene da parte due pezzi rari per chi vi è conosciuto.

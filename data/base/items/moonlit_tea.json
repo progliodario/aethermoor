@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/moonlit_tea",
+  "name": "$i18n:item.moonlit_tea.name",
+  "description": "$i18n:item.moonlit_tea.desc",
+  "kind": "food",
+  "rarity": "rare",
+  "price": 140,
+  "stack_max": 99,
+  "use": {
+    "effects": [
+      {
+        "effect": "restore_mp",
+        "amount": 60
+      },
+      {
+        "effect": "haste",
+        "amount": 30,
+        "ticks": 1800
+      }
+    ]
+  }
+}

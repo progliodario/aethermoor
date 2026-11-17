@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aethermoor.invalid/schemas/hints.schema.json",
+  "title": "The hints of the first minutes (spec 16, \"Hints\")",
+  "type": "object",
+  "required": [
+    "id",
+    "hints"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:hints/[a-z0-9_]+$"
+    },
+    "hints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "when",
+          "text"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "when": {
+            "enum": [
+              "start",
+              "quest",
+              "enemy_near",
+              "gather",
+              "hurt",
+              "stone",
+              "talent_points",
+              "night",
+              "companion",
+              "renown"
+            ]
+          },
+          "text": {
+            "type": "string"
+          },
+          "text_touch": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

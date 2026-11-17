@@ -81,6 +81,10 @@
           "fine_item": {
             "type": "string",
             "pattern": "^[a-z][a-z0-9_]*:item/[a-z0-9_]+$"
+          },
+          "requires_flag": {
+            "type": "string",
+            "pattern": "^[a-z0-9_.]+$"
           }
         }
       }

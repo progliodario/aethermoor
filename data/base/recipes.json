@@ -1028,6 +1028,230 @@
         }
       ],
       "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "grandmothers_pie",
+      "output": {
+        "item": "base:item/grandmothers_pie",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/wild_berries",
+          "qty": 4
+        },
+        {
+          "item": "base:item/honey_cake",
+          "qty": 1
+        },
+        {
+          "item": "base:item/healing_herb",
+          "qty": 2
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/campfire",
+      "fine_pm": 150,
+      "requires_flag": "recipe_grandmothers_pie"
+    },
+    {
+      "id": "moonlit_tea",
+      "output": {
+        "item": "base:item/moonlit_tea",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/moss_clump",
+          "qty": 2
+        },
+        {
+          "item": "base:item/mint_leaf",
+          "qty": 2
+        },
+        {
+          "item": "base:item/shade_wisp",
+          "qty": 1
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/campfire",
+      "fine_pm": 150,
+      "requires_flag": "recipe_moonlit_tea"
+    },
+    {
+      "id": "forge_stew",
+      "output": {
+        "item": "base:item/forge_stew",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/game_meat",
+          "qty": 2
+        },
+        {
+          "item": "base:item/rust_flake",
+          "qty": 2
+        },
+        {
+          "item": "base:item/iron_ore",
+          "qty": 1
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/campfire",
+      "fine_pm": 150,
+      "requires_flag": "recipe_forge_stew"
+    },
+    {
+      "id": "sunfire_skewers",
+      "output": {
+        "item": "base:item/sunfire_skewers",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/game_meat",
+          "qty": 2
+        },
+        {
+          "item": "base:item/amber_drop",
+          "qty": 1
+        },
+        {
+          "item": "base:item/cactus_pulp",
+          "qty": 2
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/campfire",
+      "fine_pm": 150,
+      "requires_flag": "recipe_sunfire_skewers"
+    },
+    {
+      "id": "hearth_broth",
+      "output": {
+        "item": "base:item/hearth_broth",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/game_meat",
+          "qty": 1
+        },
+        {
+          "item": "base:item/polar_fur",
+          "qty": 1
+        },
+        {
+          "item": "base:item/healing_herb",
+          "qty": 3
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/campfire",
+      "fine_pm": 150,
+      "requires_flag": "recipe_hearth_broth"
+    },
+    {
+      "id": "captains_chowder",
+      "output": {
+        "item": "base:item/captains_chowder",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/river_fish",
+          "qty": 2
+        },
+        {
+          "item": "base:item/crab_shell",
+          "qty": 2
+        },
+        {
+          "item": "base:item/sea_shell",
+          "qty": 1
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/campfire",
+      "fine_pm": 150,
+      "requires_flag": "recipe_captains_chowder"
+    },
+    {
+      "id": "ember_chili",
+      "output": {
+        "item": "base:item/ember_chili",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/game_meat",
+          "qty": 2
+        },
+        {
+          "item": "base:item/ember_core",
+          "qty": 1
+        },
+        {
+          "item": "base:item/char_chunk",
+          "qty": 1
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/campfire",
+      "fine_pm": 150,
+      "requires_flag": "recipe_ember_chili"
+    },
+    {
+      "id": "starlight_souffle",
+      "output": {
+        "item": "base:item/starlight_souffle",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/star_dust",
+          "qty": 2
+        },
+        {
+          "item": "base:item/wild_berries",
+          "qty": 3
+        },
+        {
+          "item": "base:item/mint_leaf",
+          "qty": 2
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/campfire",
+      "fine_pm": 150,
+      "requires_flag": "recipe_starlight_souffle"
     }
   ]
 }

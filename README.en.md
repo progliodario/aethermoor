@@ -44,7 +44,7 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 | Combat | complete (elements, statuses, parry, stagger, guardians) | balance touches, always toward easy fights |
 | World | huge, eight regions, towns and dungeons, weather that matters | performance measured on a phone |
 | Quests and stories | 263 quests, eight complete stories with an epilogue | more stories per region, the gifts still off |
-| Life | gathering, fishing, hunting, 51 recipes, dishes with effects, accessories | item quality, farming, a base and residents, a living economy |
+| Life | gathering, fishing, hunting, 59 recipes (eight secret, to be learned), dishes with effects, accessories | item quality, farming, a base and residents, a living economy |
 | Companions | one per protagonist, commands, bond, care | more commands, several companions at once, taming and commanding |
 | Progression | talents (abilities too, two with a key of their own), 29 titles, bestiary, reincarnation with an heirloom | tags, achievements, runes |
 | Release | test builds from CI | Alpha 0.1 release and then 1.0 (the owner decides) |
@@ -70,11 +70,13 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 **Life and progression**
 
 - An adventurers' guild with a board and commissions, 263 quests (the archivist's Book of Legends among them, one guardian in every region, and the guildmaster's bounties on every other guardian), shops, inns, jobs from the elders.
-- 187 items; gathering from bushes, trees, rocks, cacti, flowers, ferns, stumps, logs, driftwood and ice, mushrooms in the forests, **fishing** in the reeds of the beaches and **hunting**; 51 recipes (the best dishes **fortify** you, more attack for a while, the brews of the regions **ward** you, more defense, cakes and rations **regenerate** your health little by little, and the windleaf brew makes you **faster** on foot) (potions, brews and elixirs of the regions, dishes cooked at a fire, gear, and fine gear at the anvil of a town).
+- 195 items; gathering from bushes, trees, rocks, cacti, flowers, ferns, stumps, logs, driftwood and ice, mushrooms in the forests, **fishing** in the reeds of the beaches and **hunting**; 51 recipes (the best dishes **fortify** you, more attack for a while, the brews of the regions **ward** you, more defense, cakes and rations **regenerate** your health little by little, and the windleaf brew makes you **faster** on foot) (potions, brews and elixirs of the regions, dishes cooked at a fire, gear, and fine gear at the anvil of a town).
 - A companion for each protagonist: it follows you, fights, stays where you tell it, and its bond grows with its victories: after ten, it heals you a little every ten seconds.
 - Titles of a way of playing that change the game: the Forager finds more, the Artisan makes more, the Unbreakable Guard parries longer, the Veteran earns more experience.
 - A tree of sixteen talents, with two abilities used on command (Shockwave and Mend): a point a level, four roots (attack, health, mana, defense), a second ring that opens at rank 5 (critical, second wind, magic, speed), a crown (Legend, Bulwark) and four abilities that open at rank 3 of each root: Whirlwind (the power strike hits all around), Battle Hunger (health for every kill), Flow (mana for every kill), Riposte (a parry hits back).
 - Renown in the regions: every quest finished in a region lowers the prices of its shops (up to a quarter), changes how elders and shopkeepers greet you and, after five, is worth a free bed at the inn.
+- Hints for the first minutes, one at a time, when they are needed.
+- A secret dish for every region, taught by the shopkeeper for gold; Yuki's pocket has no bottom.
 - Haruka tames: she calms a hurt creature, which leaves in peace and counts as a victory.
 - A task for a friend from the elder of every region, and in every shop the goods the caravan brought from another region.
 - Market days: the prices of every region change with the day, for buying and for selling; and every region keeps two rare pieces for somebody who is known there.

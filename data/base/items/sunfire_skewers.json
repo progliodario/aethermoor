@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/sunfire_skewers",
+  "name": "$i18n:item.sunfire_skewers.name",
+  "description": "$i18n:item.sunfire_skewers.desc",
+  "kind": "food",
+  "rarity": "rare",
+  "price": 160,
+  "stack_max": 99,
+  "use": {
+    "effects": [
+      {
+        "effect": "heal",
+        "amount": 80
+      },
+      {
+        "effect": "fortify",
+        "amount": 60,
+        "ticks": 1200
+      }
+    ]
+  }
+}

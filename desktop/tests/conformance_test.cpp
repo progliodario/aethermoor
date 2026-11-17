@@ -760,6 +760,7 @@ Scenario scenario_from_json(const Json& in) {
         setup.gift.tame_hp_pct = gift.value("tame_hp_pct", 0);
         setup.gift.tame_range_x100 = gift.value("tame_range_x100", 0);
         setup.gift.tame_bond = gift.value("tame_bond", 0);
+        setup.gift.pocket_keep_pm = gift.value("pocket_keep_pm", 0);
     }
     if (in.contains("strike")) {
         const Json& strike = in.at("strike");
@@ -818,6 +819,7 @@ Scenario scenario_from_json(const Json& in) {
             recipe.station = r.value("station", "");
             recipe.fine_pm = r.value("fine_pm", static_cast<std::int64_t>(0));
             recipe.fine_item = r.value("fine_item", "");
+            recipe.requires_flag = r.value("requires_flag", "");
             for (const Json& i : r.at("inputs")) {
                 recipe.inputs.emplace_back(i.at("item").get<std::string>(), integer(i, "qty"));
             }
