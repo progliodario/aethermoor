@@ -2041,6 +2041,7 @@
             ],
             "weather": {
               "rain_aggro_cut_pm": 300,
+              "rain_slow_pm": 250,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -2261,6 +2262,62 @@
               "variant": "teal",
               "dx": 387,
               "dy": -127
+            },
+            {
+              "key": "pedlar_hobb",
+              "dialogue": "base:dialogue/npc/hobb",
+              "variant": "brown",
+              "dx": 382,
+              "dy": 128
+            },
+            {
+              "key": "pedlar_fennick",
+              "dialogue": "base:dialogue/npc/fennick",
+              "variant": "green",
+              "dx": -4226,
+              "dy": -2688
+            },
+            {
+              "key": "pedlar_garrow",
+              "dialogue": "base:dialogue/npc/garrow",
+              "variant": "red",
+              "dx": 4222,
+              "dy": -4736
+            },
+            {
+              "key": "pedlar_marisol",
+              "dialogue": "base:dialogue/npc/marisol",
+              "variant": "teal",
+              "dx": -6273,
+              "dy": 4223
+            },
+            {
+              "key": "pedlar_ylva",
+              "dialogue": "base:dialogue/npc/ylva",
+              "variant": "cream",
+              "dx": -1154,
+              "dy": -6528
+            },
+            {
+              "key": "pedlar_rashid",
+              "dialogue": "base:dialogue/npc/rashid",
+              "variant": "ochre",
+              "dx": 5503,
+              "dy": 3967
+            },
+            {
+              "key": "pedlar_celeste",
+              "dialogue": "base:dialogue/npc/celeste",
+              "variant": "purple",
+              "dx": -642,
+              "dy": 6272
+            },
+            {
+              "key": "pedlar_tarn",
+              "dialogue": "base:dialogue/npc/tarn",
+              "variant": "",
+              "dx": 6782,
+              "dy": -384
             }
           ],
           "stamp_defs": {
@@ -10482,6 +10539,7 @@
             ],
             "weather": {
               "rain_aggro_cut_pm": 300,
+              "rain_slow_pm": 250,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -10702,6 +10760,62 @@
               "variant": "teal",
               "dx": 387,
               "dy": -127
+            },
+            {
+              "key": "pedlar_hobb",
+              "dialogue": "base:dialogue/npc/hobb",
+              "variant": "brown",
+              "dx": 382,
+              "dy": 128
+            },
+            {
+              "key": "pedlar_fennick",
+              "dialogue": "base:dialogue/npc/fennick",
+              "variant": "green",
+              "dx": -4226,
+              "dy": -2688
+            },
+            {
+              "key": "pedlar_garrow",
+              "dialogue": "base:dialogue/npc/garrow",
+              "variant": "red",
+              "dx": 4222,
+              "dy": -4736
+            },
+            {
+              "key": "pedlar_marisol",
+              "dialogue": "base:dialogue/npc/marisol",
+              "variant": "teal",
+              "dx": -6273,
+              "dy": 4223
+            },
+            {
+              "key": "pedlar_ylva",
+              "dialogue": "base:dialogue/npc/ylva",
+              "variant": "cream",
+              "dx": -1154,
+              "dy": -6528
+            },
+            {
+              "key": "pedlar_rashid",
+              "dialogue": "base:dialogue/npc/rashid",
+              "variant": "ochre",
+              "dx": 5503,
+              "dy": 3967
+            },
+            {
+              "key": "pedlar_celeste",
+              "dialogue": "base:dialogue/npc/celeste",
+              "variant": "purple",
+              "dx": -642,
+              "dy": 6272
+            },
+            {
+              "key": "pedlar_tarn",
+              "dialogue": "base:dialogue/npc/tarn",
+              "variant": "",
+              "dx": 6782,
+              "dy": -384
             }
           ],
           "stamp_defs": {
@@ -17588,6 +17702,7 @@
             ],
             "weather": {
               "rain_aggro_cut_pm": 300,
+              "rain_slow_pm": 250,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -17808,6 +17923,62 @@
               "variant": "teal",
               "dx": 387,
               "dy": -127
+            },
+            {
+              "key": "pedlar_hobb",
+              "dialogue": "base:dialogue/npc/hobb",
+              "variant": "brown",
+              "dx": 382,
+              "dy": 128
+            },
+            {
+              "key": "pedlar_fennick",
+              "dialogue": "base:dialogue/npc/fennick",
+              "variant": "green",
+              "dx": -4226,
+              "dy": -2688
+            },
+            {
+              "key": "pedlar_garrow",
+              "dialogue": "base:dialogue/npc/garrow",
+              "variant": "red",
+              "dx": 4222,
+              "dy": -4736
+            },
+            {
+              "key": "pedlar_marisol",
+              "dialogue": "base:dialogue/npc/marisol",
+              "variant": "teal",
+              "dx": -6273,
+              "dy": 4223
+            },
+            {
+              "key": "pedlar_ylva",
+              "dialogue": "base:dialogue/npc/ylva",
+              "variant": "cream",
+              "dx": -1154,
+              "dy": -6528
+            },
+            {
+              "key": "pedlar_rashid",
+              "dialogue": "base:dialogue/npc/rashid",
+              "variant": "ochre",
+              "dx": 5503,
+              "dy": 3967
+            },
+            {
+              "key": "pedlar_celeste",
+              "dialogue": "base:dialogue/npc/celeste",
+              "variant": "purple",
+              "dx": -642,
+              "dy": 6272
+            },
+            {
+              "key": "pedlar_tarn",
+              "dialogue": "base:dialogue/npc/tarn",
+              "variant": "",
+              "dx": 6782,
+              "dy": -384
             }
           ],
           "stamp_defs": {

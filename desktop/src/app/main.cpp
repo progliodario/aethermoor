@@ -73,9 +73,13 @@ std::vector<aether::CreditLine> g_credits;  // the credits, shown from the title
 std::vector<aether::DeedDef> g_deeds;       // the deeds of all the games (spec 11, "Deeds")
 std::vector<std::string> g_new_deeds;       // deeds done by the last save, still to be told to the player
 // The options of accessibility (spec 16, "Settings"): hints, damage numbers, the flash of a creature that is hit.
-constexpr int kOptions = 3;
-bool g_option[kOptions] = {true, true, true};
-const char* const kOptionKeys[kOptions] = {"hints", "damage_numbers", "flashes"};
+constexpr int kOptions = 4;
+bool g_option[kOptions] = {true, true, true, false};
+const char* const kOptionKeys[kOptions] = {"hints", "damage_numbers", "flashes", "large_text"};
+constexpr float kLargeText = 1.25F;  // how much larger the text is with the option `large_text` (spec 16, "Settings")
+
+// The size of the text against the layout: 1, or larger with the option `large_text`.
+float text_zoom() { return g_option[3] ? kLargeText : 1.0F; }
 
 // The font of the interface (spec 13, "Font"): the glyphs of the pack, baked with the rasterizer of the art at the
 // sizes the screens ask for. The textures belong to a renderer: they are forgotten when it changes.
@@ -397,7 +401,7 @@ float text_columns(const std::string& text) {
             const aether::FontGlyph* glyph = font_glyph(code);
             width += glyph != nullptr ? glyph->width : g_font.def.cell_w;
         }
-        return width / 8.0F;
+        return width * text_zoom() / 8.0F;
     }
     std::size_t columns = 0;
     for (const char c : text) {
@@ -456,10 +460,13 @@ bool font_text(SDL_Renderer* renderer, float x, float y, const char* text) {
     float scale_x = 1.0F;
     float scale_y = 1.0F;
     SDL_GetRenderScale(renderer, &scale_x, &scale_y);
+    // larger text (spec 16, "Settings"): the glyphs grow around the middle of their line of 8 units
+    const float zoom = text_zoom();
+    y -= 4.0F * (zoom - 1.0F);
     // the size of the bake: the first of these that is at least the scale of the renderer, in half pixels for each unit
     int size_x2 = 12;
     for (const int candidate : {2, 3, 4, 6, 8, 12}) {
-        if (static_cast<float>(candidate) / 2.0F >= scale_x - 0.01F) {
+        if (static_cast<float>(candidate) / 2.0F >= scale_x * zoom - 0.01F) {
             size_x2 = candidate;
             break;
         }
@@ -476,21 +483,22 @@ bool font_text(SDL_Renderer* renderer, float x, float y, const char* text) {
         i += static_cast<std::size_t>(length);
         const aether::FontGlyph* glyph = font_glyph(code);
         if (glyph == nullptr) {
-            pen += g_font.def.cell_w;
+            pen += g_font.def.cell_w * zoom;
             continue;
         }
         if (!glyph->path.empty()) {
             if (SDL_Texture* texture = glyph_texture(renderer, code, *glyph, size_x2)) {
                 // on whole pixels, or the thin strokes blur
-                const float left = std::round((pen - (g_font.def.cell_w - glyph->width) / 2.0F) * scale_x) / scale_x;
-                const float top = std::round((y - g_font.def.top) * scale_y) / scale_y;
-                const SDL_FRect dst{left, top, g_font.def.cell_w, g_font.def.cell_h};
+                const float left =
+                    std::round((pen - (g_font.def.cell_w - glyph->width) * zoom / 2.0F) * scale_x) / scale_x;
+                const float top = std::round((y - g_font.def.top * zoom) * scale_y) / scale_y;
+                const SDL_FRect dst{left, top, g_font.def.cell_w * zoom, g_font.def.cell_h * zoom};
                 SDL_SetTextureColorMod(texture, r, g, b);
                 SDL_SetTextureAlphaMod(texture, a);
                 SDL_RenderTexture(renderer, texture, nullptr, &dst);
             }
         }
-        pen += glyph->width;
+        pen += glyph->width * zoom;
     }
     return true;
 }
@@ -2241,7 +2249,10 @@ void update_profile(const aether::WorldSim& sim) {
     }
 }
 
-int echo_percent(const aether::Profile& profile) { return aether::profile_echo_pct(profile); }
+// The echoes of a profile: its titles, its past lives and its deeds (spec 11, "Echoes", "Deeds").
+int echo_percent(const aether::Profile& profile) {
+    return aether::profile_echo_pct(profile, static_cast<int>(aether::profile_deeds(profile, g_deeds).size()));
+}
 
 bool save_game(const aether::WorldSim& sim, const fs::path& file) {
     update_profile(sim);
@@ -3355,7 +3366,7 @@ void draw_settings(SDL_Renderer* renderer, const Assets& assets, const Ui& ui, i
         debug_text(renderer, (x + w - 70.0F) / kScale, ty / kScale, (std::to_string(g_volume[i] / 10) + "%").c_str());
     }
     static const char* const kOptionLabels[kOptions] = {"$i18n:ui.option_hints", "$i18n:ui.option_numbers",
-                                                        "$i18n:ui.option_flashes"};
+                                                        "$i18n:ui.option_flashes", "$i18n:ui.option_large_text"};
     for (int i = 0; i < kOptions; ++i) {  // the options of accessibility (spec 16, "Settings")
         const int index = kVolumeKinds + i;
         const float ty = y + 48.0F + row * static_cast<float>(index);
@@ -4315,10 +4326,9 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
                         clear_slot(cursor + 1);
                         slots[static_cast<std::size_t>(cursor)] = SlotInfo{};
                         pending_rebirth = -1;
-                        notice =
-                            assets.pack.text(lang, "$i18n:ui.reborn",
-                                             {{"lives", static_cast<std::int64_t>(reborn.lives)},
-                                              {"pct", static_cast<std::int64_t>(aether::profile_echo_pct(reborn))}});
+                        notice = assets.pack.text(lang, "$i18n:ui.reborn",
+                                                  {{"lives", static_cast<std::int64_t>(reborn.lives)},
+                                                   {"pct", static_cast<std::int64_t>(echo_percent(reborn))}});
                     } else {
                         pending_rebirth = cursor;
                         pending_delete = -1;
@@ -4464,7 +4474,7 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
                                  {{"species", static_cast<std::int64_t>(profile.bestiary.size())},
                                   {"titles", static_cast<std::int64_t>(profile.titles.size())},
                                   {"lives", static_cast<std::int64_t>(profile.lives)},
-                                  {"pct", static_cast<std::int64_t>(aether::profile_echo_pct(profile))},
+                                  {"pct", static_cast<std::int64_t>(echo_percent(profile))},
                                   {"deeds", static_cast<std::int64_t>(aether::profile_deeds(profile, g_deeds).size())},
                                   {"all", static_cast<std::int64_t>(g_deeds.size())}}),
                 255, 215, 120);

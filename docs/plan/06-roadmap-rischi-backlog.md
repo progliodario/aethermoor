@@ -271,8 +271,8 @@ Versione `0.0.1`, **nessuna release pubblica** (la decisione di pubblicare è de
 | Che cosa | Quanto | Dove si guarda |
 |---|---|---|
 | Mondo | 16384 x 16384 caselle in streaming, 8 regioni, circa 130 insediamenti generati, 44 luoghi fatti a mano | spec 09, `data/base/worlds/overworld.json` |
-| Persone con nome | 28 nel mondo (Fenwick con Nonna Brin, Aldermere con Corvin, gli 8 avamposti, i viandanti, Mira, Pip, Suor Maren) | `tools/make_towns.py`, `tools/towns_outposts.py` |
-| Missioni | 295 (storie dei protagonisti, gilda, città, avamposti, leggende, taglie, lettere, compiti da amico, storie dei paesani) | `docs/design/catalog.md` |
+| Persone con nome | 36 nel mondo (Fenwick con Nonna Brin, Aldermere con Corvin, gli 8 avamposti con i loro venditori ambulanti, i viandanti, Mira, Pip, Suor Maren) | `tools/make_towns.py`, `tools/towns_outposts.py` |
+| Missioni | 303 (storie dei protagonisti, gilda, città, avamposti, leggende, taglie, lettere, compiti da amico, storie dei paesani) | `docs/design/catalog.md` |
 | Creature | 75 (tra cui 27 guardiani, 8 Echi, la selvaggina) | `data/base/enemies/` |
 | Oggetti e ricette | 209 oggetti, 63 ricette (8 segrete), 2 stazioni (falò e incudine) | spec 06, `tools/make_recipes.py` |
 | Progressione | 37 titoli, 16 talenti (4 abilità, 2 a comando), bestiario, profilo condiviso, reincarnazione, 22 imprese | spec 11, spec 12 |
@@ -321,7 +321,7 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 
 **Missioni e persone** (spec 07, 18)
 
-- 292 missioni (sedici sono le storie dei paesani, due per regione; otto sono i compiti da amico degli anziani, per chi ha otto missioni nella regione): le storie degli otto protagonisti (prologo, due missioni personali, tre atti, epilogo), la gilda con bacheca generata, Fenwick e Aldermere, gli otto avamposti (tre o quattro missioni ognuno), il Libro delle Leggende di Selwyn, le taglie di Hestia, le lettere e i pacchi del corriere Wendel, caccia e pesca.
+- 303 missioni (ventiquattro sono le storie dei paesani, tre per regione; otto sono i compiti da amico degli anziani, per chi ha otto missioni nella regione): le storie degli otto protagonisti (prologo, due missioni personali, tre atti, epilogo), la gilda con bacheca generata, Fenwick e Aldermere, gli otto avamposti (tre o quattro missioni ognuno), il Libro delle Leggende di Selwyn, le taglie di Hestia, le lettere e i pacchi del corriere Wendel, caccia e pesca.
 - Ogni missione segna sulla mappa dove andare: un luogo, una persona, la tana delle creature giuste o la pianta più vicina.
 - **Fama** (dal 14 novembre): ogni missione finita in una regione vale un punto di fama lì; i negozi della regione scontano l'1,5% per punto fino al 25%, anziani e bottegai salutano un amico da tre missioni, i locandieri danno un letto gratis da cinque; otto titoli "Amico di ...". Ogni regione tiene due pezzi rari per chi ha cinque e dieci missioni lì.
 - **Giorni di mercato** (dal 14 novembre): i prezzi di ogni regione oscillano con il giorno, per comprare e per vendere (dal 6% di Ironspine al 20% di Sunscar).
@@ -386,13 +386,15 @@ Il 17 novembre, quarta PR: i doni delle fazioni (sigillo della Gilda, amuleto de
 
 Il 17 novembre, quinta PR: gli orti dei villaggi (semi, crescita, raccolto, salvati nella partita), i doni dell'Anello (Mira) e dei Cronisti (Selwyn).
 
+Il 17 novembre, ottava PR: testo grande (un'opzione di accessibilità, sui due client), la pioggia e la neve rallentano le creature, otto venditori ambulanti agli avamposti, le imprese diventano echi (+1% di salute ciascuna), una terza storia dei paesani per regione (otto missioni).
+
 Il 17 novembre, settima PR: un baule in ogni villaggio e città, che tiene le stesse cose dappertutto (salvato nella partita); Nonna Brin a Fenwick (riposo gratis e tre favori); Corvin, il venditore ambulante di Aldermere, che porta le merci di una regione al giorno (condizione `day_mod`); 22 imprese di tutte le partite lette dal profilo; la pioggia fa crescere prima gli orti; Odile non sta più su un orto.
 
 Il 17 novembre, sesta PR: pollai e recinti delle capre nei villaggi (uova, latte, tre piatti), sedici storie dei paesani (due per regione), i negozi che pagano meno se vendi troppo, un consiglio per gli orti, il titolo Pollice verde; il rapporto di bilanciamento segnala solo gli scontri troppo duri o lenti (nessuno).
 
 **A breve (le prossime PR)**
 
-1. **Testo più grande** (M10), un'opzione che ingrandisce l'interfaccia.
+1. **Controlli automatici della grafica** (prima voce, vedi sotto).
 2. **Una casa tutta del giocatore** (M6; bauli, Nonna Brin e il riposo ci sono): una casa da arredare a Fenwick.
 3. **Tag** (M8; le imprese ci sono): tratti guadagnati da come si gioca, e premi per le imprese.
 4. **Controlli automatici della grafica**: confronto dei fotogrammi del test di fumo con immagini di riferimento, ktlint e detekt in CI.
@@ -401,15 +403,15 @@ Il 17 novembre, sesta PR: pollai e recinti delle capre nei villaggi (uova, latte
 
 8. **Rune e affissi** (M8; tag e imprese prima).
 9. **Altri residenti** (M6; Nonna Brin e Corvin ci sono): persone che si trasferiscono nei villaggi aiutati.
-10. **Altri mercanti ambulanti** (M6; Corvin c'è): uno per regione, sulle strade.
-11. **Altri effetti del meteo** (M5; la pioggia nasconde e fa crescere gli orti): il vento, la neve.
+10. **Mercanti che viaggiano davvero** (M6; Corvin e gli otto venditori degli avamposti ci sono): carri che si spostano lungo le strade.
+11. **Altri effetti del meteo** (M5; la pioggia nasconde, rallenta le creature e fa crescere gli orti): il vento.
 12. **La modalità Dungeon** di Gideon (M9; le storie dei paesani ci sono).
 13. **Prestazioni su Android** misurate su un telefono, e la prova della perdita del contesto grafico (R4, R6).
 14. **Un sintetizzatore con rumore filtrato**, per poter riaccendere musica e ambiente (solo se il proprietario lo vuole).
 
 **Verso la 1.0**
 
-15. Testo più grande e un sintetizzatore migliore (M10; consigli, crediti e traduzioni ci sono).
+15. Un sintetizzatore migliore (M10; consigli, crediti, traduzioni e testo grande ci sono).
 16. Pacchetti firmati, pagina di download, documentazione per chi fa mod (M11).
 17. Dopo l'1.0: nuovi protagonisti, nuove regioni, nuove lingue, strumenti per i mod (M12+).
 

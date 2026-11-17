@@ -65,7 +65,7 @@ fun reincarnate(profile: Profile, level: Long, gold: Long = 0, weapon: String = 
 fun claimHeirloom(profile: Profile): Pair<Long, Profile> = Pair(profile.heirloom, Profile(profile.bestiary, profile.titles, profile.lives, 0, ""))
 
 /** The percent of maximum health that the profile gives to every game: one for each title (up to 15), three for each past life (up to 10). */
-fun profileEchoPct(profile: Profile): Int = minOf(profile.titles.size, 15) + 3 * minOf(profile.lives, 10)
+fun profileEchoPct(profile: Profile, deeds: Int = 0): Int = minOf(profile.titles.size, 15) + 3 * minOf(profile.lives, 10) + maxOf(0, deeds)
 
 fun profileToJson(profile: Profile): String =
     buildJsonObject {

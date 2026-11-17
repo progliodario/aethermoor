@@ -729,7 +729,10 @@ class CombatSim:
     def _move_enemy(self, e: _Enemy, tx: float, ty: float) -> None:
         dx, dy = tx - e.x, ty - e.y
         dist = math.sqrt(dx * dx + dy * dy)
-        step = (e.speed / 2 if e.chill > 0 else e.speed) * mv.TICK_DT
+        # the rain makes the ground heavy (spec 08, "Rain slows"): the speed of the data, in hundredths, cut by the rain of the moment
+        slow_pm = 1000 - self.weather.get("rain_pm", 0) * self.weather.get("rain_slow_pm", 0) // 1000
+        speed = e.d["speed_x100"] * slow_pm // 1000 / 100
+        step = (speed / 2 if e.chill > 0 else speed) * mv.TICK_DT
         if dist > 0:
             if dist <= step:
                 e.x, e.y = tx, ty

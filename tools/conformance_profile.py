@@ -47,6 +47,7 @@ def _deeds(name: str, text, bestiary: dict, titles: list) -> dict:
     merged = {k: case["expect"][k] for k in ("bestiary", "titles", "lives", "heirloom", "heirloom_item")}
     case["input"]["deeds"] = DEEDS
     case["expect"]["deeds"] = profile.deeds(merged, DEEDS)
+    case["expect"]["echo_pct_deeds"] = profile.echo_pct(merged, len(case["expect"]["deeds"]))  # every deed done is an echo too
     return case
 
 

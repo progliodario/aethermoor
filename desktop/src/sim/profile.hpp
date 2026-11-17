@@ -39,7 +39,7 @@ std::int64_t claim_heirloom(Profile& profile);
 
 // The percent of maximum health that the profile gives to every game: one for each title (up to 15) and three for each
 // past life (up to 10). Spec 11, "Echoes".
-int profile_echo_pct(const Profile& profile);
+int profile_echo_pct(const Profile& profile, int deeds = 0);  // `deeds`: the deeds done, one percent each
 
 // A deed (spec 11, "Deeds"): a fact about all the games, read from the profile. `kind` is `kills`, `kinds`, `titles` or
 // `lives` (with `count`), `defeated` (every creature of `list`) or `earned` (every title of `list`).

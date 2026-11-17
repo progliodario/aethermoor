@@ -442,6 +442,9 @@ def build_scenarios() -> list[dict]:
         scenario("night_dusk", [enemy(7.5, 4.5)], [segment(120)], weather={"light_pm": 700, "night_aggro_cut_pm": 250}),
         scenario("night_and_rain", [enemy(5.6, 4.5)], [segment(120)],
                  weather={"rain_pm": 1000, "rain_aggro_cut_pm": 300, "light_pm": 180, "night_aggro_cut_pm": 250}),
+        # Rain slows (spec 08): in full rain with a cut of 400 the chasing slime walks at 60 percent of its speed; in a light rain a little faster.
+        scenario("rain_slows", [enemy(6.5, 4.5)], [segment(90)], weather={"rain_pm": 1000, "rain_slow_pm": 400}),
+        scenario("rain_slows_light", [enemy(6.5, 4.5)], [segment(90)], weather={"rain_pm": 350, "rain_slow_pm": 400}),
         scenario("rain_and_gift", [enemy(4.9, 4.5)], [segment(120)], gift={"aggro_pct": 50}, weather={"rain_pm": 1000, "rain_aggro_cut_pm": 300}),
         scenario("gift_dodge_cooldown", [enemy(12.0, 7.5, **passive)], [segment(70, move=(1, 0), dodge=True)], dodge=DODGE,
                  gift={"dodge_cooldown_pct": 50}),

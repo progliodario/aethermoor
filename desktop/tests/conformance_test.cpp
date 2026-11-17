@@ -609,6 +609,8 @@ TEST_CASE("conformance: profile", "[conformance]") {
             const std::vector<std::string> deeds =
                 aether::profile_deeds(got, aether::parse_deeds(in.at("deeds").dump()));
             REQUIRE(deeds == expect.at("deeds").get<std::vector<std::string>>());
+            REQUIRE(aether::profile_echo_pct(got, static_cast<int>(deeds.size())) ==
+                    expect.at("echo_pct_deeds").get<int>());
         }
         const aether::Profile again =
             aether::parse_profile(aether::profile_to_json(got));  // writing and reading it back changes nothing
@@ -750,6 +752,7 @@ Scenario scenario_from_json(const Json& in) {
     if (in.contains("weather")) {
         setup.rain_pm = in.at("weather").value("rain_pm", 0);
         setup.rain_aggro_cut_pm = in.at("weather").value("rain_aggro_cut_pm", 0);
+        setup.rain_slow_pm = in.at("weather").value("rain_slow_pm", 0);
         setup.light_pm = in.at("weather").value("light_pm", 1000);
         setup.night_aggro_cut_pm = in.at("weather").value("night_aggro_cut_pm", 0);
     }

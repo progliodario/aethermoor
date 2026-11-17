@@ -110,6 +110,20 @@ the player: one that is already chasing keeps chasing. In the conformance scenar
 `weather {rain_pm, rain_aggro_cut_pm, light_pm, night_aggro_cut_pm}` of the scenario: `rain_hides`, `rain_light`, `rain_and_gift`,
 `night_hides`, `night_dusk`, `night_and_rain`.
 
+## Rain slows
+
+`time.weather.rain_slow_pm` (default 0; 250 in the base world) says how much **full rain** (snow too, which is rain drawn
+otherwise) slows the creatures: the ground is heavy. With the `rain_pm` of the moment, taken at the start of a tick like the
+values above:
+
+```
+rain_slow_pm = 1000 - rain_pm * rain_slow_pm / 1000
+speed = speed_x100 * rain_slow_pm / 1000 / 100                                      (the first division is an integer one)
+```
+
+and a chilled creature walks at half of that. The player, the companion and the tamed friend are not slowed. In the
+scenarios the cut is `weather.rain_slow_pm`: `rain_slows`, `rain_slows_light`.
+
 ## The colour of the hour
 
 Presentation only, the same on both clients, with the colours of `grading` in `data/base/lights.json` (art direction; a pack

@@ -99,6 +99,67 @@ CORVIN = {
 }
 
 
+# The pedlars of the roads (spec 07, "People of the towns"): one at the outpost of every region. Their carts go round the same cycle as
+# Corvin's, each a day ahead of the one before, so that on any day the eight sell the goods of eight different regions.
+# key, file, variant, (dx, dy), offset in the cycle, (name, greeting) in en and it
+PEDLARS = [
+    ("pedlar_hobb", "hobb", "brown", 382, 128, 1, {
+        "en": ("Hobb, pedlar of the Verdalis road", "Hobb's the name, carts are the game. Every day a new region in the back. Have a look, have two."),
+        "it": ("Hobb, venditore della strada di Verdalis", "Mi chiamo Hobb, e i carri sono il mio mestiere. Ogni giorno una regione nuova sul retro. Guarda pure, anche due volte.")}),
+    ("pedlar_fennick", "fennick", "green", -4226, -2688, 2, {
+        "en": ("Fennick, pedlar of Whisperwood", "Quietly, quietly. The trees listen. I sell a different land every day, and the trees never buy."),
+        "it": ("Fennick, venditore di Whisperwood", "Piano, piano. Gli alberi ascoltano. Ogni giorno vendo una terra diversa, e gli alberi non comprano mai.")}),
+    ("pedlar_garrow", "garrow", "red", 4222, -4736, 3, {
+        "en": ("Garrow, pedlar of Ironspine", "Two mules, one cart, no complaints. Today's load is on the board. Pay, take, go."),
+        "it": ("Garrow, venditore di Ironspine", "Due muli, un carro, nessuna lamentela. Il carico di oggi è sul banco. Paghi, prendi, vai.")}),
+    ("pedlar_marisol", "marisol", "teal", -6273, 4223, 4, {
+        "en": ("Marisol, pedlar of Tidehaven", "The tide brings ships, the ships bring goods, and I bring them to you. A new coast every day, love."),
+        "it": ("Marisol, venditrice di Tidehaven", "La marea porta le navi, le navi portano le merci, e io le porto a te. Ogni giorno una costa nuova, caro.")}),
+    ("pedlar_ylva", "ylva", "cream", -1154, -6528, 5, {
+        "en": ("Ylva, pedlar of Frostveil", "Cold hands, fair prices. The sled goes somewhere new every day. Buy before it freezes."),
+        "it": ("Ylva, venditrice di Frostveil", "Mani fredde, prezzi giusti. La slitta va in un posto nuovo ogni giorno. Compra prima che geli.")}),
+    ("pedlar_rashid", "rashid", "ochre", 5503, 3967, 6, {
+        "en": ("Rashid, pedlar of Sunscar", "Welcome, friend of the dunes! Every sunrise my camels bring another land. Today's is the finest, as always."),
+        "it": ("Rashid, venditore di Sunscar", "Benvenuto, amico delle dune! A ogni alba i miei cammelli portano un'altra terra. Quella di oggi è la migliore, come sempre.")}),
+    ("pedlar_celeste", "celeste", "purple", -642, 6272, 7, {
+        "en": ("Celeste, pedlar of Lumeria", "I have charted the roads of all eight regions. Each day, one of them fills my cart. Today's is written here."),
+        "it": ("Celeste, venditrice di Lumeria", "Ho tracciato le strade di tutte e otto le regioni. Ogni giorno una di loro riempie il mio carro. Quella di oggi è scritta qui.")}),
+    ("pedlar_tarn", "tarn", "", 6782, -384, 0, {
+        "en": ("Tarn, pedlar of the Ashen Wastes", "Few come this far. Fewer buy. The cart still goes round, a region a day. Take what you need."),
+        "it": ("Tarn, venditore delle Terre di Cenere", "Pochi arrivano fin qui. Ancora meno comprano. Il carro gira lo stesso, una regione al giorno. Prendi quello che ti serve.")}),
+]
+PEDLAR_MARKUP_PCT = 115
+# what every pedlar says of the goods of the day
+PEDLAR_GOODS = {
+    "en": {"verdalis": "Today: bread, herbs and the green things of Verdalis.", "whisperwood": "Today: moss, mushrooms and the shadows of Whisperwood.",
+           "ironspine": "Today: ore and iron from Ironspine.", "tidehaven": "Today: salt and nets from Tidehaven.",
+           "frostveil": "Today: furs and ice from Frostveil.", "sunscar": "Today: spice and sand from Sunscar.",
+           "lumeria": "Today: inks and crystals from Lumeria.", "ashen_wastes": "Today: ash and embers from the Ashen Wastes."},
+    "it": {"verdalis": "Oggi: pane, erbe e le cose verdi di Verdalis.", "whisperwood": "Oggi: muschio, funghi e le ombre di Whisperwood.",
+           "ironspine": "Oggi: minerale e ferro da Ironspine.", "tidehaven": "Oggi: sale e reti da Tidehaven.",
+           "frostveil": "Oggi: pellicce e ghiaccio da Frostveil.", "sunscar": "Oggi: spezie e sabbia da Sunscar.",
+           "lumeria": "Oggi: inchiostri e cristalli da Lumeria.", "ashen_wastes": "Oggi: cenere e braci dalle Terre di Cenere."},
+}
+
+
+def pedlar_dialogue(key: str, file: str, offset: int) -> dict:
+    """A pedlar of the roads: a greeting the first time, then the goods of the region of the day, `offset` days ahead of Corvin."""
+    nodes: dict[str, dict] = {
+        "c_known": {"type": "condition", "when": {"flag": f"{file}_met"}, "then": "d0", "else": "hello"},
+        "hello": say(key, f"dlg.pedlar.{file}.hello", "met"),
+        "met": {"type": "effects", "effects": [{"effect": "set_flag", "flag": f"{file}_met", "value": True}], "next": "d0"},
+    }
+    for at in range(len(CYCLE)):
+        region = CYCLE[(at + offset) % len(CYCLE)]
+        if at + 1 < len(CYCLE):
+            nodes[f"d{at}"] = {"type": "condition", "when": {"day_mod": {"every": len(CYCLE), "at": at}}, "then": f"s{at}",
+                               "else": f"d{at + 1}" if at + 2 < len(CYCLE) else f"s{at + 1}"}
+        nodes[f"s{at}"] = say(key, f"dlg.pedlar.goods.{region}", f"shop{at}")
+        nodes[f"shop{at}"] = {"type": "effects", "effects": [{"effect": "open_shop", "region": region, "markup_pct": PEDLAR_MARKUP_PCT}],
+                              "next": "end"}
+    return {"$schema": "../../../../schemas/dialogue.schema.json", "id": f"base:dialogue/npc/{file}", "start": "c_known", "nodes": nodes}
+
+
 def say(speaker: str, key: str, nxt: str) -> dict:
     return {"type": "say", "speaker": speaker, "text": f"$i18n:{key}", "next": nxt}
 
@@ -171,9 +232,9 @@ def write_json(path, data) -> None:
 
 
 def patch_world() -> None:
-    """Adds the two people to `npcs` of the world data, one line each, after the last person; a second run changes nothing."""
+    """Adds the people to `npcs` of the world data, one line each, after the last person; a second run changes nothing."""
     raw = WORLD.read_text(encoding="utf-8", newline="")
-    for key, file, variant, dx, dy in PEOPLE:
+    for key, file, variant, dx, dy in PEOPLE + [p[:5] for p in PEDLARS]:
         line = f'{{ "key": "{key}", "dialogue": "base:dialogue/npc/{file}", "variant": "{variant}", "dx": {dx}, "dy": {dy} }}'
         if f'"key": "{key}"' in raw:
             raw = re.sub(r'\{ "key": "' + key + r'"[^\n]*\}', line, raw)
@@ -188,6 +249,8 @@ def patch_world() -> None:
 def main() -> None:
     write_json(DATA / "dialogues" / "npc" / "brin.json", brin_dialogue())
     write_json(DATA / "dialogues" / "npc" / "corvin.json", corvin_dialogue())
+    for key, file, _variant, _dx, _dy, offset, _words in PEDLARS:
+        write_json(DATA / "dialogues" / "npc" / f"{file}.json", pedlar_dialogue(key, file, offset))
     for qid, item, count, rewards, _texts in FAVOURS:
         path = DATA / "quests" / "side" / f"{qid}.json"
         data = quest(qid, item, count, rewards)
@@ -198,6 +261,10 @@ def main() -> None:
         core = dict(SPEAKERS[lang])
         core.update({f"dlg.home.brin.{k}": v for k, v in BRIN[lang].items()})
         core.update({f"dlg.home.corvin.{k}": v for k, v in CORVIN[lang].items()})
+        core.update({f"dlg.pedlar.goods.{k}": v for k, v in PEDLAR_GOODS[lang].items()})
+        for key, file, _variant, _dx, _dy, _offset, words in PEDLARS:
+            core[f"speaker.{key}"] = words[lang][0]
+            core[f"dlg.pedlar.{file}.hello"] = words[lang][1]
         content = {}
         for qid, _item, _count, _rewards, texts in FAVOURS:
             name, task, offer, busy, thanks = texts[lang]
@@ -209,7 +276,7 @@ def main() -> None:
         set_texts("core.json", lang, core)
         set_texts("content.json", lang, content)
     patch_world()
-    print(f"wrote 2 people, {len(FAVOURS)} quests")
+    print(f"wrote {len(PEOPLE) + len(PEDLARS)} people, {len(FAVOURS)} quests")
 
 
 if __name__ == "__main__":

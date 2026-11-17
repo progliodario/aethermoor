@@ -1,0 +1,245 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/npc/tarn",
+  "start": "c_known",
+  "nodes": {
+    "c_known": {
+      "type": "condition",
+      "when": {
+        "flag": "tarn_met"
+      },
+      "then": "d0",
+      "else": "hello"
+    },
+    "hello": {
+      "type": "say",
+      "speaker": "pedlar_tarn",
+      "text": "$i18n:dlg.pedlar.tarn.hello",
+      "next": "met"
+    },
+    "met": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "tarn_met",
+          "value": true
+        }
+      ],
+      "next": "d0"
+    },
+    "d0": {
+      "type": "condition",
+      "when": {
+        "day_mod": {
+          "every": 8,
+          "at": 0
+        }
+      },
+      "then": "s0",
+      "else": "d1"
+    },
+    "s0": {
+      "type": "say",
+      "speaker": "pedlar_tarn",
+      "text": "$i18n:dlg.pedlar.goods.verdalis",
+      "next": "shop0"
+    },
+    "shop0": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "open_shop",
+          "region": "verdalis",
+          "markup_pct": 115
+        }
+      ],
+      "next": "end"
+    },
+    "d1": {
+      "type": "condition",
+      "when": {
+        "day_mod": {
+          "every": 8,
+          "at": 1
+        }
+      },
+      "then": "s1",
+      "else": "d2"
+    },
+    "s1": {
+      "type": "say",
+      "speaker": "pedlar_tarn",
+      "text": "$i18n:dlg.pedlar.goods.whisperwood",
+      "next": "shop1"
+    },
+    "shop1": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "open_shop",
+          "region": "whisperwood",
+          "markup_pct": 115
+        }
+      ],
+      "next": "end"
+    },
+    "d2": {
+      "type": "condition",
+      "when": {
+        "day_mod": {
+          "every": 8,
+          "at": 2
+        }
+      },
+      "then": "s2",
+      "else": "d3"
+    },
+    "s2": {
+      "type": "say",
+      "speaker": "pedlar_tarn",
+      "text": "$i18n:dlg.pedlar.goods.ironspine",
+      "next": "shop2"
+    },
+    "shop2": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "open_shop",
+          "region": "ironspine",
+          "markup_pct": 115
+        }
+      ],
+      "next": "end"
+    },
+    "d3": {
+      "type": "condition",
+      "when": {
+        "day_mod": {
+          "every": 8,
+          "at": 3
+        }
+      },
+      "then": "s3",
+      "else": "d4"
+    },
+    "s3": {
+      "type": "say",
+      "speaker": "pedlar_tarn",
+      "text": "$i18n:dlg.pedlar.goods.tidehaven",
+      "next": "shop3"
+    },
+    "shop3": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "open_shop",
+          "region": "tidehaven",
+          "markup_pct": 115
+        }
+      ],
+      "next": "end"
+    },
+    "d4": {
+      "type": "condition",
+      "when": {
+        "day_mod": {
+          "every": 8,
+          "at": 4
+        }
+      },
+      "then": "s4",
+      "else": "d5"
+    },
+    "s4": {
+      "type": "say",
+      "speaker": "pedlar_tarn",
+      "text": "$i18n:dlg.pedlar.goods.frostveil",
+      "next": "shop4"
+    },
+    "shop4": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "open_shop",
+          "region": "frostveil",
+          "markup_pct": 115
+        }
+      ],
+      "next": "end"
+    },
+    "d5": {
+      "type": "condition",
+      "when": {
+        "day_mod": {
+          "every": 8,
+          "at": 5
+        }
+      },
+      "then": "s5",
+      "else": "d6"
+    },
+    "s5": {
+      "type": "say",
+      "speaker": "pedlar_tarn",
+      "text": "$i18n:dlg.pedlar.goods.sunscar",
+      "next": "shop5"
+    },
+    "shop5": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "open_shop",
+          "region": "sunscar",
+          "markup_pct": 115
+        }
+      ],
+      "next": "end"
+    },
+    "d6": {
+      "type": "condition",
+      "when": {
+        "day_mod": {
+          "every": 8,
+          "at": 6
+        }
+      },
+      "then": "s6",
+      "else": "s7"
+    },
+    "s6": {
+      "type": "say",
+      "speaker": "pedlar_tarn",
+      "text": "$i18n:dlg.pedlar.goods.lumeria",
+      "next": "shop6"
+    },
+    "shop6": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "open_shop",
+          "region": "lumeria",
+          "markup_pct": 115
+        }
+      ],
+      "next": "end"
+    },
+    "s7": {
+      "type": "say",
+      "speaker": "pedlar_tarn",
+      "text": "$i18n:dlg.pedlar.goods.ashen_wastes",
+      "next": "shop7"
+    },
+    "shop7": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "open_shop",
+          "region": "ashen_wastes",
+          "markup_pct": 115
+        }
+      ],
+      "next": "end"
+    }
+  }
+}

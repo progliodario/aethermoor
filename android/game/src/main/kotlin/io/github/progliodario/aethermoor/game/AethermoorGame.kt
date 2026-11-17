@@ -243,15 +243,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
         val loaded = loadAssets() ?: return
         assets = loaded
-        // the font of the pack (spec 13, "Font"), with capitals as tall as those of the font it replaces
-        PackFont.build(loaded.pack, 11f * max(1f, Gdx.graphics.density * 0.9f))?.let {
-            font.dispose()
-            packFont = it
-            font = it.font
-        }
         cache = TextureCache(loaded.pack)
         sound.open(loaded.pack)
         loadVolumes()
+        buildFont(loaded.pack)
         migrateLegacySaves()
         titleSlots = readSlots()
         Gdx.input.setCatchKey(Input.Keys.BACK, true) // Back leaves a game for the title screen (spec 12, "Slots")
@@ -322,7 +317,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 Gdx.app.error(TAG, "Cannot build the combat setup: ${it.message}")
                 return
             }
-        combat.echoPct = profileEchoPct(readProfile()) // the echoes of past games and lives (spec 11)
+        combat.echoPct = echoPercent(readProfile()) // the echoes of past games, lives and deeds (spec 11)
         val world = WorldSim(loaded.map, loaded.tileset, 0f, combat, StreamConfig(loaded.worldParams, seed))
         sim = world
         loadAutosave(world, loaded.pack)
@@ -493,7 +488,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
         titlePendingRebirth = -1
         titleSlots = readSlots()
-        titleNotice = data.pack.text(language, "\$i18n:ui.reborn", mapOf("lives" to reborn.lives, "pct" to profileEchoPct(reborn)))
+        titleNotice = data.pack.text(language, "\$i18n:ui.reborn", mapOf("lives" to reborn.lives, "pct" to echoPercent(reborn)))
     }
 
     /** The export or import button of a row of the title screen. */
@@ -527,6 +522,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     /** Writes the autosave (a temporary file first, then a move over the old save). */
     private fun profileFile() = Gdx.files.local("profile.json")
+
+    /** The echoes of a profile: its titles, its past lives and its deeds (spec 11, "Echoes", "Deeds"). */
+    private fun echoPercent(profile: Profile): Int = profileEchoPct(profile, profileDeeds(profile, assets?.deeds ?: emptyList()).size)
 
     private fun readProfile(): Profile =
         try {
@@ -618,9 +616,23 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             null
         }
 
-    /** The options of accessibility (spec 16, "Settings"): hints, damage numbers, the flash of a creature that is hit. */
-    private val optionKeys = arrayOf("hints", "damage_numbers", "flashes")
-    private val options = booleanArrayOf(true, true, true)
+    /** The font of the pack (spec 13, "Font"), with capitals as tall as those of the font it replaces, larger with the option `large_text`
+     *  (spec 16, "Settings"); built again when the option changes. */
+    private fun buildFont(pack: Pack) {
+        val zoom = if (options[3]) LARGE_TEXT else 1f
+        val built = PackFont.build(pack, 11f * max(1f, Gdx.graphics.density * 0.9f) * zoom)
+        if (built != null) {
+            packFont?.dispose() ?: font.dispose()
+            packFont = built
+            font = built.font
+        } else {
+            font.data.setScale(max(1f, Gdx.graphics.density * 0.9f) * zoom)
+        }
+    }
+
+    /** The options of accessibility (spec 16, "Settings"): hints, damage numbers, the flash of a creature that is hit, larger text. */
+    private val optionKeys = arrayOf("hints", "damage_numbers", "flashes", "large_text")
+    private val options = booleanArrayOf(true, true, true, false)
     private var optionRects: List<FloatArray> = emptyList()
 
     private val volumeKeys = arrayOf("volume_master_pm", "volume_effects_pm", "volume_ambience_pm", "volume_music_pm")
@@ -1881,6 +1893,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 if (option >= 0) { // an option of accessibility, at the bottom of the journal (spec 16, "Settings")
                     options[option] = !options[option]
                     writeSettings()
+                    if (option == 3) assets?.let { buildFont(it.pack) } // larger text: the font is built again
                 } else if (panel == null || x < panel[0] || x > panel[0] + panel[2] || y < panel[1] || y > panel[1] + panel[3]) {
                     showJournal = false
                     showCraft = false
@@ -2533,9 +2546,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             optionRects = emptyList()
             return
         }
-        val optionW = (panelW - 32f * density - 16f * density) / 3f
+        val optionW = (panelW - 32f * density - 24f * density) / 4f
         val optionY = panelY + panelH - font.lineHeight * 2.2f - 40f * density
-        optionRects = List(3) { i -> floatArrayOf(panelX + 16f * density + i * (optionW + 8f * density), optionY, optionW, 34f * density) }
+        optionRects = List(4) { i -> floatArrayOf(panelX + 16f * density + i * (optionW + 8f * density), optionY, optionW, 34f * density) }
         shapes.begin(ShapeRenderer.ShapeType.Filled)
         for ((i, r) in optionRects.withIndex()) {
             shapes.color = if (options[i]) Color(0.16f, 0.35f, 0.55f, 1f) else Color(0.2f, 0.2f, 0.24f, 1f)
@@ -2543,7 +2556,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
         shapes.end()
         batch.begin()
-        val labels = arrayOf("\$i18n:ui.option_hints", "\$i18n:ui.option_numbers", "\$i18n:ui.option_flashes")
+        val labels = arrayOf("\$i18n:ui.option_hints", "\$i18n:ui.option_numbers", "\$i18n:ui.option_flashes", "\$i18n:ui.option_large_text")
         for ((i, r) in optionRects.withIndex()) {
             val label = data.pack.text(language, labels[i]) + ": " + data.pack.text(language, if (options[i]) "\$i18n:ui.option_on" else "\$i18n:ui.option_off")
             font.draw(batch, label, r[0] + 6f * density, r[1] + (r[3] - font.lineHeight) / 2f, r[2] - 12f * density, com.badlogic.gdx.utils.Align.left, false)
@@ -4196,7 +4209,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val profile = readProfile()
         if (profile.bestiary.size + profile.titles.size > 0) { // the records of all the games (spec 12, "Profile")
             font.color = Color(1f, 0.84f, 0.47f, 1f)
-            font.draw(batch, data.pack.text(language, "\$i18n:ui.profile_line", mapOf("species" to profile.bestiary.size, "titles" to profile.titles.size, "lives" to profile.lives, "pct" to profileEchoPct(profile), "deeds" to profileDeeds(profile, data.deeds).size, "all" to data.deeds.size)), panelX, height - font.lineHeight * 4f)
+            font.draw(batch, data.pack.text(language, "\$i18n:ui.profile_line", mapOf("species" to profile.bestiary.size, "titles" to profile.titles.size, "lives" to profile.lives, "pct" to echoPercent(profile), "deeds" to profileDeeds(profile, data.deeds).size, "all" to data.deeds.size)), panelX, height - font.lineHeight * 4f)
         }
         font.color = Color.WHITE
         batch.end()
@@ -4239,6 +4252,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         private const val MAP_MAX_LEVEL = 4
         private val GOAL_DIRECTIONS = arrayOf("e", "se", "s", "sw", "w", "nw", "n", "ne")
         private const val MAX_FRAME_SECONDS = 0.25f
+
+        /** How much larger the text is with the option `large_text` (spec 16, "Settings"). */
+        private const val LARGE_TEXT = 1.3f
         private const val FLOATING_TEXT_FRAMES = 50
         private const val AUTOSAVE_SECONDS = 30f
     }

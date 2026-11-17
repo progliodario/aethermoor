@@ -98,6 +98,52 @@
           "next": "tale_paid_2"
         },
         {
+          "text": "$i18n:dlg.role.tale.ask",
+          "when": {
+            "all": [
+              {
+                "flag": "tale_sunscar_2_paid"
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/tale_sunscar_3"
+                    },
+                    {
+                      "quest_done": "base:quest/side/tale_sunscar_3"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "tale_offer_3"
+        },
+        {
+          "text": "$i18n:dlg.role.tale.status",
+          "when": {
+            "quest_active": "base:quest/side/tale_sunscar_3"
+          },
+          "next": "tale_busy_3"
+        },
+        {
+          "text": "$i18n:dlg.role.tale.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/tale_sunscar_3"
+              },
+              {
+                "not": {
+                  "flag": "tale_sunscar_3_paid"
+                }
+              }
+            ]
+          },
+          "next": "tale_paid_3"
+        },
+        {
           "text": "$i18n:dlg.role.rumor",
           "next": "rumor"
         },
@@ -335,6 +381,67 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.tale.flowery.thanks_2",
+      "next": "end"
+    },
+    "tale_offer_3": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tale.flowery.offer_3",
+      "next": "tale_choice_3"
+    },
+    "tale_choice_3": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.tale.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/tale_sunscar_3"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.tale.later",
+          "next": "end"
+        }
+      ]
+    },
+    "tale_busy_3": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tale.flowery.busy_3",
+      "next": "end"
+    },
+    "tale_paid_3": {
+      "type": "effects",
+      "next": "tale_thanks_3",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "tale_sunscar_3_paid",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 600
+        },
+        {
+          "effect": "add_gold",
+          "amount": 820
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/potion_medium",
+          "qty": 3
+        }
+      ]
+    },
+    "tale_thanks_3": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.tale.flowery.thanks_3",
       "next": "end"
     }
   }

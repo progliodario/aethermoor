@@ -96,8 +96,8 @@ std::int64_t claim_heirloom(Profile& profile) {
     return std::exchange(profile.heirloom, 0);
 }
 
-int profile_echo_pct(const Profile& profile) {
-    return std::min(static_cast<int>(profile.titles.size()), 15) + 3 * std::min(profile.lives, 10);
+int profile_echo_pct(const Profile& profile, int deeds) {
+    return std::min(static_cast<int>(profile.titles.size()), 15) + 3 * std::min(profile.lives, 10) + std::max(0, deeds);
 }
 
 std::vector<DeedDef> parse_deeds(std::string_view text) {

@@ -216,7 +216,7 @@ The base pack has four (`tools/set_factions.py`, which gives every quest its fac
 
 ## Tales of the villagers
 
-The villagers of every region have a trouble of their own, told in two quests one after the other (`base:quest/side/tale_<region>_1` and `_2`, `tools/make_region_tales.py`): each asks to hunt some creatures of the region and to bring back what they leave (the mint slimes of the kitchen gardens of Verdalis, the owls that fell silent in Whisperwood, the bats in the shafts of Ironspine, the picnic thieves of Sunscar...). Any villager of the region offers them, follows them and pays them, like the elders' errands: the second opens once the first is paid (the flags `tale_<region>_<n>_paid`); the reward is experience and gold that grow with the danger of the region, and medium potions. Sixteen quests, all for the Folk.
+The villagers of every region have a trouble of their own, told in three quests one after the other (`base:quest/side/tale_<region>_1`, `_2` and `_3`, `tools/make_region_tales.py`): each asks to hunt some creatures of the region and to bring back what they leave (the mint slimes of the kitchen gardens of Verdalis, the owls that fell silent in Whisperwood, the bats in the shafts of Ironspine, the picnic thieves of Sunscar...). Any villager of the region offers them, follows them and pays them, like the elders' errands: each opens once the one before is paid (the flags `tale_<region>_<n>_paid`); the reward is experience and gold that grow with the danger of the region and with the tale, and medium potions. The third tale is a harder hunt (the boars in the turnips of Verdalis, the golems in the quarries of Ironspine, the nebula slimes in the observatory domes of Lumeria...). Twenty-four quests, all for the Folk.
 
 ## People of the towns
 
@@ -224,6 +224,7 @@ Fenwick and Aldermere have people with names (`tools/make_towns.py`), and two mo
 
 - **Nana Brin**, in the house of Fenwick with the chest (spec 06, "Chests"): she lets the Guest sleep by her hearth for free (`heal_full`) and asks three small favours, one after the other, each a collection paid with gold, experience and something from her kitchen: ten logs of wood (`base:quest/side/brin_firewood`), eight bunches of wildflowers (`brin_posies`) and three boar hides (`brin_hides`). They count for the Folk.
 - **Corvin the pedlar**, on the square of Aldermere: his cart goes round the eight regions, one a day, in a cycle of eight days (the condition `day_mod` with `every` 8), and he opens the shop of the region of the day (`open_shop` with a `region` and `markup_pct` 110, spec 06, "Goods from afar"). Conformance of the condition: the scenario `day_cycle`.
+- **The pedlars of the roads**: one at the outpost of every region (Hobb, Fennick, Garrow, Marisol, Ylva, Rashid, Celeste and Tarn). Their carts go round the same cycle as Corvin's, each a day ahead of the one before, so that on any day the pedlars sell the goods of different regions, at 115 percent. Each greets the Guest the first time (the flag `<name>_met`).
 
 ## Journal
 
