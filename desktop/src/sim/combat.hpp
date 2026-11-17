@@ -178,6 +178,7 @@ struct FarmingDef {
     std::string plot;  // the art of the plot prop
     int reach_x100 = 150;
     std::vector<FarmCrop> crops;  // in the order of the data: a bare plot takes the first seed the bag holds
+    int rain_grow_cut_pm = 0;     // how much full rain shortens the growing of a seed sown in it
 };
 
 // A companion that follows the player and fights (spec 10).
@@ -273,6 +274,8 @@ struct CombatSetup {
     std::optional<ShopDef> shop;  // the shop of fixed maps and scenarios (streamed worlds use their regions)
     std::map<std::string, ShopDef> far_shops;  // the same for the shops of other regions (spec 06, "Goods from afar")
     std::optional<FarmingDef> farming;         // the plots and the crops (spec 06, "Farming"); none: no farming
+    std::string chest_art;                     // the chest prop (spec 06, "Chests"); empty: no chests
+    int chest_reach_x100 = 200;
     std::map<std::string, EnemyDef> stream_enemies;  // the enemies of the fauna of a streamed world, by ID
     std::map<std::string, GatherNode> gather_nodes;  // the props that can be gathered from, by art ID
     std::vector<RecipeDef> recipes;                  // crafting recipes, in the order of the data

@@ -115,6 +115,13 @@ def test_the_people_of_the_overworld_stand_on_open_floor():
             if x0 <= x < x0 + stamp["w"] and y0 <= y < y0 + stamp["h"]:
                 entry = stamp["legend"].get(stamp["rows"][y - y0][x - x0])
                 assert entry is not None and entry.get("tile") == 14 and not {"prop", "spawner", "npc"} & set(entry), (npc["key"], entry)
+        home = world["home"]  # the people of Fenwick stand on the open ground or on a floor, never on a wall, a prop or a person
+        stamp = params["stamp_defs"][home["stamp"]]
+        x0 = cx + home["dx"] - stamp["anchor"][0]
+        y0 = cy + home["dy"] - stamp["anchor"][1]
+        if x0 <= x < x0 + stamp["w"] and y0 <= y < y0 + stamp["h"]:
+            entry = stamp["legend"].get(stamp["rows"][y - y0][x - x0])
+            assert entry is None or (entry.get("tile") in (13, 14) and not {"prop", "spawner", "npc"} & set(entry)), (npc["key"], entry)
 
 
 # --------------------------------------------------------------------------------- protagonists (spec 18)
@@ -234,3 +241,18 @@ def test_every_text_looks_translated():
     sys.path.insert(0, str(DATA.parent.parent / "tools"))
     import check_translations
     assert check_translations.findings() == ([], [], [])
+
+
+def test_the_deeds_name_real_titles_and_creatures():
+    """Every deed (spec 11, "Deeds") asks for titles and creatures the pack has, and a count where its kind needs one."""
+    deeds = json.loads((DATA / "deeds.json").read_text(encoding="utf-8"))["deeds"]
+    titles = {t["id"] for t in json.loads((DATA / "titles.json").read_text(encoding="utf-8"))["titles"]}
+    assert len({d["id"] for d in deeds}) == len(deeds)
+    for deed in deeds:
+        if deed["kind"] == "earned":
+            assert set(deed["titles"]) <= titles, deed["id"]
+        elif deed["kind"] == "defeated":
+            for enemy in deed["enemies"]:
+                assert (DATA / "enemies" / f"{enemy.rsplit('/', 1)[1]}.json").exists(), (deed["id"], enemy)
+        else:
+            assert deed.get("count", 0) >= 1, deed["id"]

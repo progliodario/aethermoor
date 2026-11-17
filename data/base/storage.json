@@ -1,0 +1,6 @@
+{
+  "$schema": "../../schemas/storage.schema.json",
+  "id": "base:storage/chests",
+  "chest": "base:art/prop/chest",
+  "reach_x100": 200
+}

@@ -44,9 +44,9 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 | Combattimento | completo (elementi, stati, parata, stagger, guardiani) | ritocchi di bilanciamento, sempre verso scontri facili |
 | Mondo | enorme, otto regioni, città e sotterranei, meteo che conta | prestazioni misurate su un telefono |
 | Missioni e storie | 263 missioni, otto storie complete con epilogo | altre storie per regione, i doni ancora spenti |
-| Vita | raccolta, pesca, caccia, orti e animali, 63 ricette (otto segrete, da imparare), cibi con effetti, accessori | base e residenti |
+| Vita | raccolta, pesca, caccia, orti e animali, bauli condivisi in ogni villaggio, un venditore ambulante, 63 ricette (otto segrete, da imparare), cibi con effetti, accessori | una casa tutta del giocatore |
 | Compagni | uno per protagonista, comandi, legame, cura | altri comandi, più compagni insieme, domare e comandare |
-| Progressione | talenti (anche abilità, due con un tasto proprio), 37 titoli, bestiario, reincarnazione con eredità | tag, achievements, rune |
+| Progressione | talenti (anche abilità, due con un tasto proprio), 37 titoli, bestiario, reincarnazione con eredità, 22 imprese di tutte le partite | tag, rune |
 | Uscita | versioni di prova dalla CI | release Alpha 0.1 e poi 1.0 (decide il proprietario) |
 
 ## Che cosa c'è nel gioco

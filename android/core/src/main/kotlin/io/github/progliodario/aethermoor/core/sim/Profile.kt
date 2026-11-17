@@ -76,3 +76,38 @@ fun profileToJson(profile: Profile): String =
         put("heirloom", profile.heirloom)
         if (profile.heirloomItem.isNotEmpty()) put("heirloom_item", profile.heirloomItem)
     }.toString()
+
+/** A deed (spec 11, "Deeds"): a fact about all the games, read from the profile. [kind] is `kills`, `kinds`, `titles` or `lives` (with [count]),
+ *  `defeated` (every creature of [list]) or `earned` (every title of [list]); [name] and [text] are for the clients. */
+class DeedDef(val id: String, val kind: String, val count: Long = 0, val list: List<String> = emptyList(), val name: String = "", val text: String = "")
+
+/** The deeds of a text: the array, or the object of `data/base/deeds.json` with its `deeds`; a broken text has none. */
+fun parseDeeds(text: String?): List<DeedDef> {
+    if (text.isNullOrEmpty()) return emptyList()
+    val doc = runCatching { Json.parseToJsonElement(text) }.getOrNull() ?: return emptyList()
+    val list = (doc as? JsonArray) ?: ((doc as? JsonObject)?.get("deeds") as? JsonArray) ?: return emptyList()
+    return list.mapNotNull { element ->
+        val d = element as? JsonObject ?: return@mapNotNull null
+        val id = (d["id"] as? JsonPrimitive)?.takeIf { it.isString }?.content ?: return@mapNotNull null
+        fun str(key: String) = (d[key] as? JsonPrimitive)?.takeIf { it.isString }?.content ?: ""
+        val count = (d["count"] as? JsonPrimitive)?.takeIf { !it.isString }?.content?.toLongOrNull() ?: 0L
+        val names = listOf("enemies", "titles").flatMap { key ->
+            (d[key] as? JsonArray)?.mapNotNull { (it as? JsonPrimitive)?.takeIf { p -> p.isString }?.content } ?: emptyList()
+        }
+        DeedDef(id, str("kind"), count, names, str("name"), str("text"))
+    }
+}
+
+/** The deeds the profile has done, in the order of [defs]; a kind the rules do not know is never done. */
+fun profileDeeds(profile: Profile, defs: List<DeedDef>): List<String> =
+    defs.filter { deed ->
+        when (deed.kind) {
+            "kills" -> profile.bestiary.values.sumOf { it.toLong() } >= deed.count
+            "kinds" -> profile.bestiary.size.toLong() >= deed.count
+            "titles" -> profile.titles.size.toLong() >= deed.count
+            "lives" -> profile.lives.toLong() >= deed.count
+            "defeated" -> deed.list.all { (profile.bestiary[it] ?: 0) >= 1 }
+            "earned" -> deed.list.all { it in profile.titles }
+            else -> false
+        }
+    }.map { it.id }

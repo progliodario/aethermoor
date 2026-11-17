@@ -1,0 +1,292 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/npc/brin",
+  "start": "c_known",
+  "nodes": {
+    "c_known": {
+      "type": "condition",
+      "when": {
+        "flag": "brin_met"
+      },
+      "then": "known",
+      "else": "hello"
+    },
+    "hello": {
+      "type": "say",
+      "speaker": "fenwick_nana_brin",
+      "text": "$i18n:dlg.home.brin.hello",
+      "next": "met"
+    },
+    "met": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "brin_met",
+          "value": true
+        }
+      ],
+      "next": "menu"
+    },
+    "known": {
+      "type": "say",
+      "speaker": "fenwick_nana_brin",
+      "text": "$i18n:dlg.home.brin.known",
+      "next": "menu"
+    },
+    "menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.home.brin.rest",
+          "next": "rest"
+        },
+        {
+          "text": "$i18n:dlg.home.brin.help",
+          "next": "c0"
+        },
+        {
+          "text": "$i18n:dlg.home.brin.bye",
+          "next": "end"
+        }
+      ]
+    },
+    "rest": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "heal_full"
+        }
+      ],
+      "next": "slept"
+    },
+    "slept": {
+      "type": "say",
+      "speaker": "fenwick_nana_brin",
+      "text": "$i18n:dlg.home.brin.slept",
+      "next": "end"
+    },
+    "nothing": {
+      "type": "say",
+      "speaker": "fenwick_nana_brin",
+      "text": "$i18n:dlg.home.brin.nothing",
+      "next": "end"
+    },
+    "c0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/brin_firewood"
+      },
+      "then": "t0",
+      "else": "a0"
+    },
+    "t0": {
+      "type": "condition",
+      "when": {
+        "flag": "brin_firewood_thanked"
+      },
+      "then": "c1",
+      "else": "thanks0"
+    },
+    "thanks0": {
+      "type": "say",
+      "speaker": "fenwick_nana_brin",
+      "text": "$i18n:dlg.home.brin.brin_firewood.thanks",
+      "next": "flag0"
+    },
+    "flag0": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "brin_firewood_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a0": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/brin_firewood"
+      },
+      "then": "busy0",
+      "else": "offer0"
+    },
+    "busy0": {
+      "type": "say",
+      "speaker": "fenwick_nana_brin",
+      "text": "$i18n:dlg.home.brin.brin_firewood.busy",
+      "next": "end"
+    },
+    "offer0": {
+      "type": "say",
+      "speaker": "fenwick_nana_brin",
+      "text": "$i18n:dlg.home.brin.brin_firewood.offer",
+      "next": "choice0"
+    },
+    "choice0": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/brin_firewood"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c1": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/brin_posies"
+      },
+      "then": "t1",
+      "else": "a1"
+    },
+    "t1": {
+      "type": "condition",
+      "when": {
+        "flag": "brin_posies_thanked"
+      },
+      "then": "c2",
+      "else": "thanks1"
+    },
+    "thanks1": {
+      "type": "say",
+      "speaker": "fenwick_nana_brin",
+      "text": "$i18n:dlg.home.brin.brin_posies.thanks",
+      "next": "flag1"
+    },
+    "flag1": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "brin_posies_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/brin_posies"
+      },
+      "then": "busy1",
+      "else": "offer1"
+    },
+    "busy1": {
+      "type": "say",
+      "speaker": "fenwick_nana_brin",
+      "text": "$i18n:dlg.home.brin.brin_posies.busy",
+      "next": "end"
+    },
+    "offer1": {
+      "type": "say",
+      "speaker": "fenwick_nana_brin",
+      "text": "$i18n:dlg.home.brin.brin_posies.offer",
+      "next": "choice1"
+    },
+    "choice1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/brin_posies"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/brin_hides"
+      },
+      "then": "t2",
+      "else": "a2"
+    },
+    "t2": {
+      "type": "condition",
+      "when": {
+        "flag": "brin_hides_thanked"
+      },
+      "then": "nothing",
+      "else": "thanks2"
+    },
+    "thanks2": {
+      "type": "say",
+      "speaker": "fenwick_nana_brin",
+      "text": "$i18n:dlg.home.brin.brin_hides.thanks",
+      "next": "flag2"
+    },
+    "flag2": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "brin_hides_thanked",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "a2": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/brin_hides"
+      },
+      "then": "busy2",
+      "else": "offer2"
+    },
+    "busy2": {
+      "type": "say",
+      "speaker": "fenwick_nana_brin",
+      "text": "$i18n:dlg.home.brin.brin_hides.busy",
+      "next": "end"
+    },
+    "offer2": {
+      "type": "say",
+      "speaker": "fenwick_nana_brin",
+      "text": "$i18n:dlg.home.brin.brin_hides.offer",
+      "next": "choice2"
+    },
+    "choice2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/brin_hides"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    }
+  }
+}

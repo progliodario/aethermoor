@@ -73,6 +73,7 @@ can reach (`Android/data/<package>/files/exports`; the private folder when the d
 - `talents` (spec 11, "Talents") is an object from talent ID to the rank learned; absent when empty and in older saves.
 - `counters` (spec 11) is an object from counter name (`gathered`, `crafted`, `parried`) to a count; absent when empty and in older saves.
 - `bestiary` (spec 11) is an object from creature ID to kills; absent when empty and in older saves.
+- `chest` (spec 06, "Chests") is an object from item ID to the quantity the chests hold; absent when they are empty and in older saves.
 - `plots` (spec 06, "Farming") is a list of `[x100, y100, seed, ripe]`, the sown plots in order of `x100` then `y100`; absent when none is sown.
 - `friend` (spec 10, "The tamed friend") is `{"enemy", "x", "y", "cooldown"}`: the ID of the creature, where it is and how many ticks until it hits again, with `stay` when it was told to stay; absent when there is none.
 - `companion` (a protagonist with a companion, spec 10) is `{"x", "y", "cooldown"}`: where the companion is and how many ticks until it hits again, with `stay` (true when it was told to stay) and `bond` (its kills) when they are not false and 0; absent in older saves (it is put next to the player).
@@ -111,7 +112,7 @@ can reach (`Android/data/<package>/files/exports`; the private folder when the d
 - `heirloom_item` is the weapon that waits for it too (an item ID); absent or not a string, it is empty, and it is written only when it is not empty.
 - `lives` is the number of games that were reincarnated (spec 11, "Reincarnation"); absent, negative or not an integer, it is 0.
 - Reading is forgiving: a missing file, text that is not JSON, not an object or with a `profile_version` other than 1 is an empty profile; in a valid one, a bestiary entry that is not an integer of at least 1 and a title that is not a string are dropped, and a repeated title counts once.
-- The title screen shows `ui.profile_line` (kinds of creatures, titles) when the profile is not empty.
+- The title screen shows `ui.profile_line` (kinds of creatures, titles, past lives, echoes and the deeds done, spec 11, "Deeds") when the profile is not empty. The deeds are read from the profile, never written in it.
 
 Reference: `tools/reference/profile.py`; conformance: the suite `profile`. The profile is not part of the `.aethersave` bundle.
 

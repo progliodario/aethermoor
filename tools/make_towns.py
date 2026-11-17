@@ -49,7 +49,7 @@ PEOPLE = [
         ],
     },
     {
-        "key": "fenwick_baker_odile", "file": "odile", "variant": "ochre", "dx": 40, "dy": 42,
+        "key": "fenwick_baker_odile", "file": "odile", "variant": "ochre", "dx": 41, "dy": 42,
         "name": ("Odile, baker of Fenwick", "Odile, fornaia di Fenwick"),
         "after": ("The oven is warm and the door is open. That is all a village needs.", "Il forno è caldo e la porta è aperta. A un villaggio non serve altro."),
         "quests": [

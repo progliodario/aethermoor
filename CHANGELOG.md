@@ -10,6 +10,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Changed
 
+- Odile, the baker of Fenwick, stood on a garden plot since the plots were added: she now stands beside them, and a test checks the people of Fenwick too.
 - **The balance report** (`tools/balance_report.py`) only flags fights that are too hard or too slow: a creature much easier than its level is the design, not an outlier. It finds none.
 - **Guardians fall sooner** (the balance report, `docs/design/balance.md`): the fifteen fights that lasted more than three seconds at their own level in the model have less health (the eight Echoes, the Vault Warden, the Cinder Colossus, the Drowned Captain, the Forge Tyrant, the Frost Sovereign, the Moonshade Alpha and the Rime Revenant). Fights stay easy on purpose.
 - The talent panel has words for the talents of speed (they showed the name of the text).
@@ -27,6 +28,11 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Chests** (spec 06, "Chests"): a chest in a house of every village and in the inn of every town. Press E (or touch `Chest`) to open it: one tab takes, one stores, and E moves a whole stack. Every chest holds the same things, so what you leave in Fenwick waits for you in any town. A worn weapon or armour keeps one copy in the bag. A hint explains it the first time.
+- **Nana Brin of Fenwick**: the grandmother of the house with the chest lets you sleep by her hearth for free and asks three small favours (logs, wildflowers, boar hides), paid with gold and things from her kitchen.
+- **Corvin the pedlar** in the square of Aldermere: his cart brings the goods of another region every day, all eight in turn (a new dialogue condition, `day_mod`, spec 07).
+- **Deeds** (spec 11, "Deeds"): 22 achievements of all your games, read from the shared profile: blows, kinds of creature, the great guardians, the Echo of every protagonist, titles, the friendship of every region, past lives. The game tells you when one is done; the title screen lists them (`A`, or the `Deeds` button) and counts them.
+- **Rain on the plots** (spec 06): a seed sown in the rain grows sooner, up to half the time in a downpour.
 - **Animals in the villages** (spec 06, "Animals"): every village keeps a hen coop and a goat pen. Gather eggs and hen feathers from the coop and fresh milk from the pen; at a campfire they become an omelette, a goat cheese or berry pancakes, and six feathers make an owl charm at an anvil.
 - **Tales of the villagers** (spec 07): the villagers of every region now have a trouble of their own, told in two quests (sixteen in all, in the eight voices, Italian and English): the mint slimes in the kitchen gardens of Verdalis, the owls that fell silent in Whisperwood, the rust slimes eating the tools of Ironspine, the fox picnic thieves of Sunscar, the frozen wells of Frostveil, the crabs in the nets of Tidehaven, the char in the grain stores of the Ashen Wastes, the glow slimes spoiling the measurements of Lumeria, and what comes after.
 - **The glut** (spec 06, "Glut"): a shop pays less for an item the more of it you sold that day (8 percent less for every copy, down to 40 percent of the price); the next day it pays full price again.

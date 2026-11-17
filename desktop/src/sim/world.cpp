@@ -1272,6 +1272,57 @@ std::optional<WorldSim::PlotNear> WorldSim::plot_near() const {
     return best;
 }
 
+bool WorldSim::chest_near() const {
+    if (m_setup_.chest_art.empty()) {
+        return false;
+    }
+    const Vec2 at = m_player_.position;
+    const float reach = static_cast<float>(m_setup_.chest_reach_x100) / 100.0F;
+    bool found = false;
+    for_each_prop(
+        at.x - reach - 1.0F, at.y - reach - 1.0F, at.x + reach + 1.0F, at.y + reach + 1.0F, [&](const Prop& prop) {
+            if (prop.art == m_setup_.chest_art && distance(prop.x, prop.y, at.x, at.y) <= reach + prop.radius) {
+                found = true;
+            }
+        });
+    return found;
+}
+
+bool WorldSim::open_chest() {
+    if (m_story_.dialogue_active() || !chest_near()) {
+        return false;
+    }
+    m_chest_open_ = true;
+    return true;
+}
+
+bool WorldSim::chest_put(const std::string& item_id) {
+    const auto owned = m_inventory_.find(item_id);
+    const std::int64_t keep =
+        item_id == m_equipped_weapon_ || item_id == m_equipped_armor_ || item_id == m_equipped_accessory_ ? 1 : 0;
+    if (!m_chest_open_ || owned == m_inventory_.end() || owned->second - keep < 1) {
+        return false;
+    }
+    m_chest_[item_id] += owned->second - keep;
+    if (keep > 0) {
+        owned->second = keep;
+    } else {
+        m_inventory_.erase(owned);
+    }
+    return true;
+}
+
+bool WorldSim::chest_take(const std::string& item_id) {
+    const auto held = m_chest_.find(item_id);
+    if (!m_chest_open_ || held == m_chest_.end() || held->second < 1) {
+        return false;
+    }
+    m_inventory_[item_id] += held->second;
+    m_chest_.erase(held);
+    m_story_.refresh_quests();  // an item in the bag may finish a quest that collects it
+    return true;
+}
+
 WorldSim::TendResult WorldSim::tend() {
     TendResult result;
     const auto near = plot_near();
@@ -1312,7 +1363,12 @@ WorldSim::TendResult WorldSim::tend() {
         if (--owned->second == 0) {
             m_inventory_.erase(owned);
         }
-        m_plots_[key] = {crop.seed, m_world_ticks_ + crop.grow_ticks};
+        int rain = m_setup_.rain_pm;  // the rain of the moment waters the seed (spec 06, "Rain on the plots")
+        if (m_store_) {
+            rain = sample_time(m_store_->seed(), m_store_->params().time, m_world_ticks_).rain_pm;
+        }
+        const std::int64_t rain_cut = static_cast<std::int64_t>(rain) * m_setup_.farming->rain_grow_cut_pm / 1000;
+        m_plots_[key] = {crop.seed, m_world_ticks_ + crop.grow_ticks * (1000 - rain_cut) / 1000};
         ++m_counters_["sown"];
         m_cues_.push_back({"gather", "plant", m_player_.position});
         result = {"sown", crop.seed, 1};
@@ -2029,6 +2085,7 @@ SaveState WorldSim::capture() const {
     s.counters = m_counters_;
     s.talents = m_talents_;
     s.plots = m_plots_;
+    s.chest = m_chest_;
     if (m_setup_.companion) {
         s.has_companion = true;
         s.companion_x = m_companion_pos_.x;
@@ -2177,6 +2234,8 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
     m_counters_ = s.counters;
     m_talents_ = s.talents;
     m_plots_ = s.plots;
+    m_chest_ = s.chest;
+    m_chest_open_ = false;
     recompute_derived();       // the talents change the derived stats
     if (m_setup_.companion) {  // a save without a companion (an older one) puts it next to the player
         m_companion_pos_ = s.has_companion ? Vec2{s.companion_x, s.companion_y} : s.position;

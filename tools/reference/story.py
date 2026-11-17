@@ -54,6 +54,8 @@ class Story:
             start, end = value
             tod = self.host.tod_pm()
             return start <= tod < end if start <= end else tod >= start or tod < end
+        if key == "day_mod":  # a day of a cycle (spec 07): (day - 1) % every == at
+            return (self.host.day() - 1) % value["every"] == value["at"]
         if key == "faction_at_least":  # the standing with a faction (spec 07, "Factions")
             return getattr(self.host, "counters", {}).get("faction:" + value["faction"], 0) >= value["count"]
         if key == "renown_at_least":

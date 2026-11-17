@@ -571,6 +571,56 @@ class WorldSim(
     /** What tending did: [kind] is "harvested", "sown" or empty (nothing could be done). */
     class TendResult(val kind: String, val item: String = "", val qty: Long = 0)
 
+    /** What the chests hold, shared by all of them (spec 06, "Chests"), and whether they are open. */
+    val chest = java.util.TreeMap<String, Long>()
+    var chestOpen = false
+        private set
+
+    /** Whether a chest is in reach of the player. */
+    fun chestNear(): Boolean {
+        if (combat.chestArt.isEmpty()) return false
+        val at = player.position
+        val reach = combat.chestReachX100 / 100f
+        var found = false
+        forEachProp(at.x - reach - 1f, at.y - reach - 1f, at.x + reach + 1f, at.y + reach + 1f) { prop ->
+            if (prop.art == combat.chestArt && distance(prop.x, prop.y, at.x, at.y) <= reach + prop.radius) found = true
+        }
+        return found
+    }
+
+    /** Opens the chests; refused while a dialogue is open or with no chest in reach. */
+    fun openChest(): Boolean {
+        if (story.dialogueActive || !chestNear()) return false
+        chestOpen = true
+        return true
+    }
+
+    fun closeChest() {
+        chestOpen = false
+    }
+
+    /** Moves the whole stack of an item into the chest (the last copy of a worn item stays); false, changing nothing, when refused. */
+    fun chestPut(itemId: String): Boolean {
+        val owned = inventory[itemId] ?: 0L
+        val keep = if (itemId == equippedWeapon || itemId == equippedArmor || itemId == equippedAccessory) 1L else 0L
+        if (!chestOpen || owned - keep < 1L) return false
+        chest[itemId] = (chest[itemId] ?: 0L) + owned - keep
+        if (keep > 0L) inventory[itemId] = keep else inventory.remove(itemId)
+        return true
+    }
+
+    /** Moves the whole stack of an item from the chest into the bag; false, changing nothing, when refused. */
+    fun chestTake(itemId: String): Boolean {
+        val held = chest[itemId] ?: 0L
+        if (!chestOpen || held < 1L) return false
+        inventory[itemId] = (inventory[itemId] ?: 0L) + held
+        chest.remove(itemId)
+        story.refreshQuests() // an item in the bag may finish a quest that collects it
+        return true
+    }
+
+    override fun day(): Long = dayNow()
+
     /** Tends the nearest plot in reach: harvests it when ripe, sows it when bare with the first seed of the data the bag holds (spec 06, "Farming"). */
     fun tend(): TendResult {
         val near = plotNear() ?: return TendResult("")
@@ -593,7 +643,10 @@ class WorldSim(
             val owned = inventory[crop.seed] ?: 0L
             if (owned < 1L) continue
             if (owned == 1L) inventory.remove(crop.seed) else inventory[crop.seed] = owned - 1L
-            plots[key] = Pair(crop.seed, worldTicks + crop.growTicks)
+            val store = chunks // the rain of the moment waters the seed (spec 06, "Rain on the plots")
+            val rain = if (store != null) sampleTime(store.seed, store.params.time, worldTicks).rainPm else combat.rainPm
+            val rainCut = rain.toLong() * farming.rainGrowCutPm / 1000
+            plots[key] = Pair(crop.seed, worldTicks + crop.growTicks * (1000 - rainCut) / 1000)
             count("sown")
             cues.add(SimCue("gather", "plant", player.position))
             return TendResult("sown", crop.seed, 1)
@@ -1722,6 +1775,7 @@ class WorldSim(
             counters = counters.toMap(),
             talents = talents.toMap(),
             plots = plots.map { (key, plot) -> PlotSave(key.first, key.second, plot.first, plot.second) },
+            chest = chest.toMap(),
             companion = if (combat.companion != null) Triple((companionPosition ?: player.position).x, (companionPosition ?: player.position).y, companionCooldown) else null,
             equippedWeapon = equippedWeapon,
             equippedArmor = equippedArmor,
@@ -1832,6 +1886,9 @@ class WorldSim(
         counters.putAll(s.counters)
         talents.clear()
         talents.putAll(s.talents)
+        chest.clear()
+        chest.putAll(s.chest)
+        chestOpen = false
         plots.clear()
         for (p in s.plots) plots[Pair(p.x, p.y)] = Pair(p.seed, p.ripe)
         recomputeDerived() // the talents change the derived stats

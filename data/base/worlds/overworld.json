@@ -202,7 +202,7 @@
     { "key": "wayfarer_kessa", "dialogue": "base:dialogue/npc/kessa", "variant": "red", "dx": 6784, "dy": -383 },
     { "key": "wayfarer_ottavio", "dialogue": "base:dialogue/npc/ottavio", "variant": "", "dx": -640, "dy": 6273 },
     { "key": "fenwick_elder_bran", "dialogue": "base:dialogue/npc/bran", "variant": "brown", "dx": 33, "dy": 41 },
-    { "key": "fenwick_baker_odile", "dialogue": "base:dialogue/npc/odile", "variant": "ochre", "dx": 40, "dy": 42 },
+    { "key": "fenwick_baker_odile", "dialogue": "base:dialogue/npc/odile", "variant": "ochre", "dx": 41, "dy": 42 },
     { "key": "fenwick_child_tobin", "dialogue": "base:dialogue/npc/tobin", "variant": "teal", "dx": 41, "dy": 39 },
     { "key": "aldermere_guildmaster_hestia", "dialogue": "base:dialogue/npc/hestia", "variant": "red", "dx": 382, "dy": -130 },
     { "key": "aldermere_quartermaster_rook", "dialogue": "base:dialogue/npc/rook", "variant": "green", "dx": 386, "dy": -127 },
@@ -216,6 +216,8 @@
     { "key": "outpost_waterseller_farid", "dialogue": "base:dialogue/npc/farid", "variant": "purple", "dx": 5505, "dy": 3969 },
     { "key": "outpost_stargazer_astra", "dialogue": "base:dialogue/npc/astra", "variant": "purple", "dx": -639, "dy": 6271 },
     { "key": "outpost_smith_grael", "dialogue": "base:dialogue/npc/grael", "variant": "red", "dx": 6786, "dy": -385 },
-    { "key": "aldermere_courier_wendel", "dialogue": "base:dialogue/npc/wendel", "variant": "teal", "dx": 384, "dy": -130 }
+    { "key": "aldermere_courier_wendel", "dialogue": "base:dialogue/npc/wendel", "variant": "teal", "dx": 384, "dy": -130 },
+    { "key": "fenwick_nana_brin", "dialogue": "base:dialogue/npc/brin", "variant": "cream", "dx": 28, "dy": 36 },
+    { "key": "aldermere_pedlar_corvin", "dialogue": "base:dialogue/npc/corvin", "variant": "teal", "dx": 387, "dy": -127 }
   ]
 }

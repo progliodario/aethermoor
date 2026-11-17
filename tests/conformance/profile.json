@@ -611,6 +611,310 @@
       }
     },
     {
+      "name": "deeds_none",
+      "input": {
+        "text": null,
+        "bestiary": {},
+        "titles": [],
+        "deeds": [
+          {
+            "id": "first",
+            "kind": "kills",
+            "count": 1
+          },
+          {
+            "id": "fifty",
+            "kind": "kills",
+            "count": 50
+          },
+          {
+            "id": "three_kinds",
+            "kind": "kinds",
+            "count": 3
+          },
+          {
+            "id": "two_titles",
+            "kind": "titles",
+            "count": 2
+          },
+          {
+            "id": "reborn",
+            "kind": "lives",
+            "count": 1
+          },
+          {
+            "id": "wolves",
+            "kind": "defeated",
+            "enemies": [
+              "base:enemy/wolf_grey",
+              "base:enemy/wolf_tawny"
+            ]
+          },
+          {
+            "id": "friends",
+            "kind": "earned",
+            "titles": [
+              "hero",
+              "legend"
+            ]
+          },
+          {
+            "id": "unknown",
+            "kind": "dances",
+            "count": 0
+          }
+        ]
+      },
+      "expect": {
+        "bestiary": {},
+        "titles": [],
+        "lives": 0,
+        "heirloom": 0,
+        "heirloom_item": "",
+        "echo_pct": 0,
+        "deeds": []
+      }
+    },
+    {
+      "name": "deeds_first_kill",
+      "input": {
+        "text": null,
+        "bestiary": {
+          "base:enemy/slime_green": 1
+        },
+        "titles": [
+          "newcomer"
+        ],
+        "deeds": [
+          {
+            "id": "first",
+            "kind": "kills",
+            "count": 1
+          },
+          {
+            "id": "fifty",
+            "kind": "kills",
+            "count": 50
+          },
+          {
+            "id": "three_kinds",
+            "kind": "kinds",
+            "count": 3
+          },
+          {
+            "id": "two_titles",
+            "kind": "titles",
+            "count": 2
+          },
+          {
+            "id": "reborn",
+            "kind": "lives",
+            "count": 1
+          },
+          {
+            "id": "wolves",
+            "kind": "defeated",
+            "enemies": [
+              "base:enemy/wolf_grey",
+              "base:enemy/wolf_tawny"
+            ]
+          },
+          {
+            "id": "friends",
+            "kind": "earned",
+            "titles": [
+              "hero",
+              "legend"
+            ]
+          },
+          {
+            "id": "unknown",
+            "kind": "dances",
+            "count": 0
+          }
+        ]
+      },
+      "expect": {
+        "bestiary": {
+          "base:enemy/slime_green": 1
+        },
+        "titles": [
+          "newcomer"
+        ],
+        "lives": 0,
+        "heirloom": 0,
+        "heirloom_item": "",
+        "echo_pct": 1,
+        "deeds": [
+          "first"
+        ]
+      }
+    },
+    {
+      "name": "deeds_counts",
+      "input": {
+        "text": "{\"profile_version\": 1, \"bestiary\": {\"base:enemy/slime_green\": 30, \"base:enemy/wolf_grey\": 12}, \"titles\": [\"hero\"], \"lives\": 1}",
+        "bestiary": {
+          "base:enemy/wolf_tawny": 8,
+          "base:enemy/wolf_grey": 3
+        },
+        "titles": [
+          "legend"
+        ],
+        "deeds": [
+          {
+            "id": "first",
+            "kind": "kills",
+            "count": 1
+          },
+          {
+            "id": "fifty",
+            "kind": "kills",
+            "count": 50
+          },
+          {
+            "id": "three_kinds",
+            "kind": "kinds",
+            "count": 3
+          },
+          {
+            "id": "two_titles",
+            "kind": "titles",
+            "count": 2
+          },
+          {
+            "id": "reborn",
+            "kind": "lives",
+            "count": 1
+          },
+          {
+            "id": "wolves",
+            "kind": "defeated",
+            "enemies": [
+              "base:enemy/wolf_grey",
+              "base:enemy/wolf_tawny"
+            ]
+          },
+          {
+            "id": "friends",
+            "kind": "earned",
+            "titles": [
+              "hero",
+              "legend"
+            ]
+          },
+          {
+            "id": "unknown",
+            "kind": "dances",
+            "count": 0
+          }
+        ]
+      },
+      "expect": {
+        "bestiary": {
+          "base:enemy/slime_green": 30,
+          "base:enemy/wolf_grey": 12,
+          "base:enemy/wolf_tawny": 8
+        },
+        "titles": [
+          "hero",
+          "legend"
+        ],
+        "lives": 1,
+        "heirloom": 0,
+        "heirloom_item": "",
+        "echo_pct": 5,
+        "deeds": [
+          "first",
+          "fifty",
+          "three_kinds",
+          "two_titles",
+          "reborn",
+          "wolves",
+          "friends"
+        ]
+      }
+    },
+    {
+      "name": "deeds_one_wolf_is_not_enough",
+      "input": {
+        "text": null,
+        "bestiary": {
+          "base:enemy/wolf_grey": 60
+        },
+        "titles": [
+          "hero",
+          "newcomer"
+        ],
+        "deeds": [
+          {
+            "id": "first",
+            "kind": "kills",
+            "count": 1
+          },
+          {
+            "id": "fifty",
+            "kind": "kills",
+            "count": 50
+          },
+          {
+            "id": "three_kinds",
+            "kind": "kinds",
+            "count": 3
+          },
+          {
+            "id": "two_titles",
+            "kind": "titles",
+            "count": 2
+          },
+          {
+            "id": "reborn",
+            "kind": "lives",
+            "count": 1
+          },
+          {
+            "id": "wolves",
+            "kind": "defeated",
+            "enemies": [
+              "base:enemy/wolf_grey",
+              "base:enemy/wolf_tawny"
+            ]
+          },
+          {
+            "id": "friends",
+            "kind": "earned",
+            "titles": [
+              "hero",
+              "legend"
+            ]
+          },
+          {
+            "id": "unknown",
+            "kind": "dances",
+            "count": 0
+          }
+        ]
+      },
+      "expect": {
+        "bestiary": {
+          "base:enemy/wolf_grey": 60
+        },
+        "titles": [
+          "hero",
+          "newcomer"
+        ],
+        "lives": 0,
+        "heirloom": 0,
+        "heirloom_item": "",
+        "echo_pct": 2,
+        "deeds": [
+          "first",
+          "fifty",
+          "two_titles"
+        ]
+      }
+    },
+    {
       "name": "bad_heirloom_is_zero",
       "input": {
         "text": "{\"profile_version\": 1, \"bestiary\": {}, \"titles\": [], \"heirloom\": -50}",

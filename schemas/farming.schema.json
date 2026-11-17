@@ -60,6 +60,12 @@
           }
         }
       }
+    },
+    "rain_grow_cut_pm": {
+      "description": "How much full rain shortens the growing of a seed sown in it, in permille (spec 06, \"Rain on the plots\")",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1000
     }
   }
 }

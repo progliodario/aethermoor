@@ -75,6 +75,8 @@ data class SaveState(
     val talents: Map<String, Int> = emptyMap(),
     /** The sown plots (spec 06, "Farming"), in order. */
     val plots: List<PlotSave> = emptyList(),
+    /** What the chests hold (spec 06, "Chests"). */
+    val chest: Map<String, Long> = emptyMap(),
     /** The companion (spec 10): x, y and cooldown; null: no companion in the save. */
     val companion: Triple<Float, Float, Int>? = null,
     /** The companion was told to stay, and the creatures it has killed (spec 10). */
@@ -200,6 +202,7 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
                 if (s.equippedAccessory.isNotEmpty()) put("accessory", s.equippedAccessory)
             },
         )
+        if (s.chest.isNotEmpty()) put("chest", buildJsonObject { for ((item, qty) in s.chest.toSortedMap()) put(item, qty) })
         if (s.plots.isNotEmpty()) {
             put("plots", JsonArray(s.plots.map { p -> JsonArray(listOf(JsonPrimitive(p.x), JsonPrimitive(p.y), JsonPrimitive(p.seed), JsonPrimitive(p.ripe))) }))
         }
@@ -328,6 +331,7 @@ fun saveFromJson(text: String): Result<SaveState> =
                 ?: emptyList(),
             companion = (j["companion"] as? JsonObject)?.let { c -> Triple(c.getValue("x").jsonPrimitive.float, c.getValue("y").jsonPrimitive.float, c.getValue("cooldown").jsonPrimitive.int) },
             talents = (j["talents"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
+            chest = (j["chest"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.long } ?: emptyMap(),
             plots = (j["plots"] as? JsonArray)?.map { p ->
                 val a = p.jsonArray
                 PlotSave(a[0].jsonPrimitive.int, a[1].jsonPrimitive.int, a[2].jsonPrimitive.content, a[3].jsonPrimitive.long)

@@ -28,7 +28,8 @@ struct Condition {
         Season,
         TodBetween,
         RenownAtLeast,
-        FactionAtLeast
+        FactionAtLeast,
+        DayMod
     };
     Kind kind = Kind::Flag;
     std::string a;       // flag / quest / item
@@ -186,6 +187,8 @@ public:
     virtual std::int64_t renown_here() const { return 0; }
     // A counter of the player (spec 11, "Counters"): the standing with a faction is `faction:<id>`.
     virtual std::int64_t counter(const std::string& /*name*/) const { return 0; }
+    // The day of the world (spec 08): 1 without a clock.
+    virtual std::int64_t day() const { return 1; }
 };
 
 class Story {
@@ -198,6 +201,8 @@ public:
     void start_quest(const std::string& quest_id);
     void on_kill(std::string_view enemy_id);
     void on_talk(std::string_view npc_key);
+    // Updates the quests that collect items after the bag changed outside the story (spec 06, "Chests").
+    void refresh_quests() { refresh_all(); }
 
     bool dialogue_active() const { return m_dialogue_active_; }
     // Opens a dialogue that no one in the world starts (the prologue, spec 18); false when it does not exist or one is

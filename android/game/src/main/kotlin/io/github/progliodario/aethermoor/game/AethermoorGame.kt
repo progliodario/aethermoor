@@ -46,7 +46,10 @@ import io.github.progliodario.aethermoor.core.sim.QuestStage
 import io.github.progliodario.aethermoor.core.sim.Profile
 import io.github.progliodario.aethermoor.core.sim.SaveMeta
 import io.github.progliodario.aethermoor.core.sim.claimHeirloom
+import io.github.progliodario.aethermoor.core.sim.DeedDef
 import io.github.progliodario.aethermoor.core.sim.mergeProfile
+import io.github.progliodario.aethermoor.core.sim.parseDeeds
+import io.github.progliodario.aethermoor.core.sim.profileDeeds
 import io.github.progliodario.aethermoor.core.sim.parseProfile
 import io.github.progliodario.aethermoor.core.sim.profileEchoPct
 import io.github.progliodario.aethermoor.core.sim.profileToJson
@@ -99,6 +102,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val hints: List<HintDef> = emptyList(),
         /** The credits (spec 16, "Credits"). */
         val credits: List<CreditLine> = emptyList(),
+        /** The deeds of all the games (spec 11, "Deeds"). */
+        val deeds: List<DeedDef> = emptyList(),
     )
 
     private class SlotSummary(val used: Boolean, val level: Int, val gold: Long, val weapon: String = "")
@@ -282,7 +287,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val back = Gdx.input.isKeyJustPressed(Input.Keys.BACK)
         val escape = Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)
         if (!back && !escape) return false
-        val panelOpen = showInventory || showMap || showJournal || showCraft || world.shop != null || world.board != null || world.travel != null
+        val panelOpen = showInventory || showMap || showJournal || showCraft || world.shop != null || world.chestOpen || world.board != null || world.travel != null
         if (panelOpen) {
             if (back) {
                 showInventory = false
@@ -290,6 +295,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 showJournal = false
                 showCraft = false
                 world.closeShop()
+                world.closeChest()
                 world.closeBoard()
                 world.closeTravel()
             }
@@ -354,6 +360,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 worldParams = worldParams,
                 hints = loadHints(pack),
                 credits = loadCredits(pack),
+                deeds = parseDeeds(pack.readDocument("base:deeds/all")),
             )
         } catch (e: IllegalArgumentException) {
             error = e.message
@@ -532,7 +539,12 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     /** Adds what the game in progress has reached to the profile (spec 12, "Profile"), whenever the game is saved. */
     private fun updateProfile(world: WorldSim) {
         try {
-            profileFile().writeString(profileToJson(mergeProfile(readProfile(), world.bestiary, world.earnedTitles())), false, "UTF-8")
+            val before = readProfile()
+            val merged = mergeProfile(before, world.bestiary, world.earnedTitles())
+            profileFile().writeString(profileToJson(merged), false, "UTF-8")
+            val deeds = assets?.deeds ?: emptyList() // the deeds this save has done (spec 11, "Deeds")
+            val had = profileDeeds(before, deeds)
+            newDeeds.addAll(profileDeeds(merged, deeds).filter { it !in had })
         } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
             Gdx.app.error(TAG, "Cannot write the profile: ${e.message}")
         }
@@ -710,7 +722,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 return
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.BACK) || Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-                if (showCredits) showCredits = false else Gdx.app.exit() // Back closes the credits, or the game from the title screen
+                if (showCredits) showCredits = false else if (showDeeds) showDeeds = false else Gdx.app.exit() // Back closes the credits or the deeds, or the game from the title screen
                 return
             }
             handleTitleInput(data, slots)
@@ -725,7 +737,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (handleBack(world)) return
         handleStoryInput(world)
         val frame = input.read()
-        if (showInventory || showMap || showJournal || showCraft || world.shop != null || world.board != null || world.travel != null) {
+        if (showInventory || showMap || showJournal || showCraft || world.shop != null || world.chestOpen || world.board != null || world.travel != null) {
             accumulator = 0f // the bag, the map, the journal, the shop, the board and the stones pause the game
         } else {
             accumulator += min(Gdx.graphics.deltaTime, MAX_FRAME_SECONDS)
@@ -738,7 +750,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             if (ticks == MAX_TICKS_PER_FRAME) accumulator = 0f
         }
         if (messageFrames > 0) messageFrames--
-        val free = !(showInventory || showMap || showJournal || showCraft || world.shop != null || world.board != null || world.travel != null || world.story.dialogueActive)
+        val free = !(showInventory || showMap || showJournal || showCraft || world.shop != null || world.chestOpen || world.board != null || world.travel != null || world.story.dialogueActive)
+        if (newDeeds.isNotEmpty() && messageFrames <= 0) { // a deed done (spec 11, "Deeds"), one at a time
+            val id = newDeeds.removeAt(0)
+            data.deeds.firstOrNull { it.id == id }?.let { showNotice(data.pack.text(language, "\$i18n:ui.deed_done", mapOf("deed" to data.pack.text(language, it.name)))) }
+        }
         if (options[0]) updateHints(world, data, free) // unless the hints are turned off (spec 16, "Settings")
         world.combat.companion?.let { c -> // moments of the bond, once a game (spec 10)
             val moment = c.moments.firstOrNull { (bond, _) -> world.companionBond >= bond && world.story.flags["moment_${c.id}_$bond"] != true }
@@ -1605,6 +1621,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     /** What the open shop lists: (item id, price), what it sells or what the player can sell (spec 06). */
     private fun shopEntries(world: WorldSim): List<Pair<String, Long>> {
+        if (world.chestOpen) { // the chest (spec 06, "Chests"): what it holds, or the bag, with the quantity of each
+            return (if (shopSell) world.inventory else world.chest).filter { it.value > 0L }.map { Pair(it.key, it.value) }
+        }
         val shop = world.shop ?: return emptyList()
         return if (!shopSell) {
             shop.stock.map { Pair(it, world.buyPrice(it)) }
@@ -1619,6 +1638,15 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (entries.isEmpty()) return
         val itemId = entries[shopCursor.coerceIn(0, entries.size - 1)].first
         val name = pack.text(language, "\$i18n:${itemId.substringAfter(':').replace('/', '.')}.name", mapOf("count" to 1L))
+        if (world.chestOpen) {
+            if (if (shopSell) world.chestPut(itemId) else world.chestTake(itemId)) {
+                showNotice(pack.text(language, if (shopSell) "\$i18n:ui.chest_stored" else "\$i18n:ui.chest_taken", mapOf("item" to name)))
+                shopCursor = shopCursor.coerceIn(0, max(shopEntries(world).size - 1, 0))
+            } else {
+                showNotice(pack.text(language, "\$i18n:ui.cannot_do"))
+            }
+            return
+        }
         val done = if (shopSell) world.sell(itemId) else world.buy(itemId)
         if (done) {
             showNotice(pack.text(language, if (shopSell) "\$i18n:ui.sold" else "\$i18n:ui.bought", mapOf("item" to name)))
@@ -1633,6 +1661,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val count = shopEntries(world).size
         if (input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             world.closeShop()
+            world.closeChest()
         } else if (input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W)) {
             if (count > 0) shopCursor = (shopCursor.coerceIn(0, count - 1) + count - 1) % count
         } else if (input.isKeyJustPressed(Input.Keys.DOWN) || input.isKeyJustPressed(Input.Keys.S)) {
@@ -1656,6 +1685,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 shopCursor = 0
             } else if (row < 0) {
                 world.closeShop()
+                world.closeChest()
             } else if (row == shopCursor) {
                 shopConfirm(world)
             } else {
@@ -1710,6 +1740,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (!story.dialogueView().active && story.npcInRange() == null && world.useStone()) {
             val travel = world.travel
             travelCursor = if (travel != null && travel.here == 0 && travel.stops.size > 1) 1 else 0
+        } else if (story.npcInRange() == null && !story.dialogueView().active && world.openChest()) { // a chest (spec 06, "Chests")
+            shopSell = false // the chest opens on what it holds
+            shopCursor = 0
         } else if (story.npcInRange() == null && !story.dialogueView().active && world.plotNear() != null) { // a plot to tend (spec 06, "Farming")
             val pack = assets?.pack ?: return
             val tended = world.tend()
@@ -1735,7 +1768,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
     }
 
-    private fun canInteract(world: WorldSim) = world.story.npcInRange() != null || world.stoneNear() != null || world.plotNear() != null || world.gatherNear()
+    private fun canInteract(world: WorldSim) = world.story.npcInRange() != null || world.stoneNear() != null || world.chestNear() || world.plotNear() != null || world.gatherNear()
 
     private fun travelConfirm(world: WorldSim) {
         val pack = assets?.pack ?: return
@@ -1787,7 +1820,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             handleBoardInput(world)
             return
         }
-        if (world.shop != null) {
+        if (world.shop != null || world.chestOpen) {
             handleShopInput(world)
             return
         }
@@ -2143,6 +2176,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             val what = when {
                 world.story.npcInRange() != null -> "talk"
                 world.stoneNear() != null -> "stone"
+                world.chestNear() -> "chest"
                 world.plotNear() != null -> "tend"
                 else -> "gather"
             }
@@ -2195,10 +2229,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     /** The shop (spec 06): buy / sell tabs, the entries with their price and the gold. */
     private fun drawShop(world: WorldSim, data: Assets) {
-        if (world.shop == null) {
+        if (world.shop == null && !world.chestOpen) {
             shopRowRects = emptyList()
             return
         }
+        val chest = world.chestOpen // the chest borrows the panel of the shop (spec 06, "Chests")
         val density = Gdx.graphics.density
         val width = Gdx.graphics.width.toFloat()
         val height = Gdx.graphics.height.toFloat()
@@ -2238,19 +2273,19 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         batch.projectionMatrix = camera.combined
         batch.begin()
         font.color = Color.WHITE
-        font.draw(batch, data.pack.text(language, "\$i18n:ui.shop_buy"), shopBuyTab!![0] + 10f * density, tabY + (tabH - font.lineHeight) / 2f)
-        font.draw(batch, data.pack.text(language, "\$i18n:ui.shop_sell"), shopSellTab!![0] + 10f * density, tabY + (tabH - font.lineHeight) / 2f)
+        font.draw(batch, data.pack.text(language, if (chest) "\$i18n:ui.chest_take" else "\$i18n:ui.shop_buy"), shopBuyTab!![0] + 10f * density, tabY + (tabH - font.lineHeight) / 2f)
+        font.draw(batch, data.pack.text(language, if (chest) "\$i18n:ui.chest_put" else "\$i18n:ui.shop_sell"), shopSellTab!![0] + 10f * density, tabY + (tabH - font.lineHeight) / 2f)
         font.color = Color(1f, 0.84f, 0.47f, 1f)
         // the renown lowers the prices (spec 07, "Renown")
-        val renown = if (world.renownDiscountPm() > 0) data.pack.text(language, "\$i18n:ui.shop_renown", mapOf("pct" to world.renownDiscountPm() / 10)) + "   " else ""
+        val renown = if (!chest && world.renownDiscountPm() > 0) data.pack.text(language, "\$i18n:ui.shop_renown", mapOf("pct" to world.renownDiscountPm() / 10)) + "   " else ""
         val swing = world.marketPm() - 1000L // the market of the day (spec 06, "Market days")
-        val market = if (swing != 0L) data.pack.text(language, if (swing > 0L) "\$i18n:ui.shop_dear" else "\$i18n:ui.shop_cheap", mapOf("pct" to kotlin.math.abs(swing) / 10)) + "   " else ""
-        val gold = market + renown + data.pack.text(language, "\$i18n:ui.gold", mapOf("gold" to world.story.gold))
+        val market = if (!chest && swing != 0L) data.pack.text(language, if (swing > 0L) "\$i18n:ui.shop_dear" else "\$i18n:ui.shop_cheap", mapOf("pct" to kotlin.math.abs(swing) / 10)) + "   " else ""
+        val gold = if (chest) data.pack.text(language, "\$i18n:ui.chest") else market + renown + data.pack.text(language, "\$i18n:ui.gold", mapOf("gold" to world.story.gold))
         layout.setText(font, gold)
         font.draw(batch, gold, panelX + panelW - layout.width - 14f * density, tabY + (tabH - font.lineHeight) / 2f)
         if (entries.isEmpty()) {
             font.color = Color(0.92f, 0.96f, 1f, 1f)
-            font.draw(batch, data.pack.text(language, "\$i18n:ui.shop_empty"), panelX + 16f * density, firstRowY)
+            font.draw(batch, data.pack.text(language, if (chest) "\$i18n:ui.chest_empty" else "\$i18n:ui.shop_empty"), panelX + 16f * density, firstRowY)
         }
         for ((i, entry) in entries.withIndex()) {
             if (i < first || i >= first + visible) continue
@@ -2259,7 +2294,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             font.color = if (i == cursor) Color.WHITE else Color(0.92f, 0.96f, 1f, 1f)
             font.draw(batch, (if (i == cursor) "> " else "  ") + name, panelX + 14f * density, firstRowY + (i - first) * rowH)
             font.color = Color(1f, 0.84f, 0.47f, 1f)
-            val price = entry.second.toString()
+            val price = (if (chest) "x" else "") + entry.second.toString()
             layout.setText(font, price)
             font.draw(batch, price, panelX + panelW - layout.width - 14f * density, firstRowY + (i - first) * rowH)
         }
@@ -2919,6 +2954,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         "companion" -> world.combat.companion != null
         "renown" -> world.renownHere() > 0
         "plot" -> world.plotNear() != null
+        "chest" -> world.chestNear()
         else -> false
     }
 
@@ -3795,6 +3831,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             if (input.justTouched() || input.isKeyJustPressed(Input.Keys.C) || input.isKeyJustPressed(Input.Keys.ESCAPE) || input.isKeyJustPressed(Input.Keys.BACK)) showCredits = false
             return
         }
+        if (showDeeds) { // the deeds are open: a tap, A or Back closes them (spec 11, "Deeds")
+            if (input.justTouched() || input.isKeyJustPressed(Input.Keys.A) || input.isKeyJustPressed(Input.Keys.ESCAPE) || input.isKeyJustPressed(Input.Keys.BACK)) showDeeds = false
+            return
+        }
+        if (input.isKeyJustPressed(Input.Keys.A) || (input.justTouched() && deedsRect.let { r -> r != null && input.x.toFloat() >= r[0] && input.x.toFloat() <= r[0] + r[2] && input.y.toFloat() >= r[1] && input.y.toFloat() <= r[1] + r[3] })) {
+            showDeeds = true
+            return
+        }
         if (input.isKeyJustPressed(Input.Keys.C) || (input.justTouched() && creditsRect.let { r -> r != null && input.x.toFloat() >= r[0] && input.x.toFloat() <= r[0] + r[2] && input.y.toFloat() >= r[1] && input.y.toFloat() <= r[1] + r[3] })) {
             showCredits = true
             return
@@ -3975,6 +4019,36 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var showCredits = false
     private var creditsRect: FloatArray? = null
 
+    /** Whether the deeds are shown on the title screen, and the button that opens them (spec 11, "Deeds"); the deeds done by the last save. */
+    private var showDeeds = false
+    private var deedsRect: FloatArray? = null
+    private val newDeeds = ArrayList<String>()
+
+    /** The deeds, each with its text, in gold when done. */
+    private fun drawDeeds(data: Assets) {
+        val density = Gdx.graphics.density
+        val width = Gdx.graphics.width.toFloat()
+        val done = profileDeeds(readProfile(), data.deeds)
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        var y = Gdx.graphics.height * 0.04f
+        val title = data.pack.text(language, "\$i18n:ui.deeds_title", mapOf("done" to done.size, "all" to data.deeds.size))
+        layout.setText(font, title)
+        font.color = Color(1f, 0.84f, 0.47f, 1f)
+        font.draw(batch, title, (width - layout.width) / 2f, y)
+        y += font.lineHeight * 1.6f
+        for (deed in data.deeds) {
+            val isDone = deed.id in done
+            val line = (if (isDone) "+ " else "- ") + data.pack.text(language, deed.name) + ": " + data.pack.text(language, deed.text)
+            font.color = if (isDone) Color(1f, 0.84f, 0.47f, 1f) else Color(0.59f, 0.67f, 0.78f, 1f)
+            layout.setText(font, line, font.color, width - 40f * density, com.badlogic.gdx.utils.Align.left, true)
+            font.draw(batch, layout, 20f * density, y)
+            y += layout.height + font.lineHeight * 0.3f
+        }
+        font.color = Color.WHITE
+        batch.end()
+    }
+
     /** The credits, centred, a heading in gold over its lines. */
     private fun drawCredits(data: Assets) {
         val density = Gdx.graphics.density
@@ -4007,8 +4081,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             drawCredits(data)
             return
         }
+        if (showDeeds) {
+            drawDeeds(data)
+            return
+        }
         val credits = floatArrayOf(width - 140f * density, 16f * density, 124f * density, 36f * density)
         creditsRect = credits
+        val deedsButton = floatArrayOf(width - 280f * density, 16f * density, 124f * density, 36f * density) // left of the credits
+        deedsRect = deedsButton
         val panelW = min(width - 40f, 560f * density)
         val panelX = (width - panelW) / 2f
         val rowH = 56f * density
@@ -4110,10 +4190,13 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val creditsLabel = data.pack.text(language, "\$i18n:ui.credits_button") // the button of the credits, top right
         layout.setText(font, creditsLabel)
         font.draw(batch, creditsLabel, credits[0] + (credits[2] - layout.width) / 2f, credits[1] + (credits[3] - font.lineHeight) / 2f)
+        val deedsLabel = data.pack.text(language, "\$i18n:ui.deeds_button") // the button of the deeds, left of the credits
+        layout.setText(font, deedsLabel)
+        font.draw(batch, deedsLabel, deedsButton[0] + (deedsButton[2] - layout.width) / 2f, deedsButton[1] + (deedsButton[3] - font.lineHeight) / 2f)
         val profile = readProfile()
         if (profile.bestiary.size + profile.titles.size > 0) { // the records of all the games (spec 12, "Profile")
             font.color = Color(1f, 0.84f, 0.47f, 1f)
-            font.draw(batch, data.pack.text(language, "\$i18n:ui.profile_line", mapOf("species" to profile.bestiary.size, "titles" to profile.titles.size, "lives" to profile.lives, "pct" to profileEchoPct(profile))), panelX, height - font.lineHeight * 4f)
+            font.draw(batch, data.pack.text(language, "\$i18n:ui.profile_line", mapOf("species" to profile.bestiary.size, "titles" to profile.titles.size, "lives" to profile.lives, "pct" to profileEchoPct(profile), "deeds" to profileDeeds(profile, data.deeds).size, "all" to data.deeds.size)), panelX, height - font.lineHeight * 4f)
         }
         font.color = Color.WHITE
         batch.end()

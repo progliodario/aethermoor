@@ -346,6 +346,7 @@
       }
     },
     "talents": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 1 } },
+    "chest": { "description": "What the chests hold, shared by all of them (spec 06, \"Chests\")", "type": "object", "additionalProperties": { "type": "integer", "minimum": 1 } },
     "counters": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 1 } },
     "bestiary": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 1 } },
     "companion": {

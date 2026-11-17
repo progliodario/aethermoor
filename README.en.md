@@ -44,9 +44,9 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 | Combat | complete (elements, statuses, parry, stagger, guardians) | balance touches, always toward easy fights |
 | World | huge, eight regions, towns and dungeons, weather that matters | performance measured on a phone |
 | Quests and stories | 263 quests, eight complete stories with an epilogue | more stories per region, the gifts still off |
-| Life | gathering, fishing, hunting, gardens and animals, 63 recipes (eight secret, to be learned), dishes with effects, accessories | a base and residents |
+| Life | gathering, fishing, hunting, gardens and animals, shared chests in every village, a travelling pedlar, 63 recipes (eight secret, to be learned), dishes with effects, accessories | a house all of the player's own |
 | Companions | one per protagonist, commands, bond, care | more commands, several companions at once, taming and commanding |
-| Progression | talents (abilities too, two with a key of their own), 37 titles, bestiary, reincarnation with an heirloom | tags, achievements, runes |
+| Progression | talents (abilities too, two with a key of their own), 37 titles, bestiary, reincarnation with an heirloom, 22 deeds across all games | tags, runes |
 | Release | test builds from CI | Alpha 0.1 release and then 1.0 (the owner decides) |
 
 ## What is in the game

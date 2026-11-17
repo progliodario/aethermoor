@@ -121,6 +121,13 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
         }
         j["bestiary"] = bestiary;
     }
+    if (!s.chest.empty()) {  // what the chests hold (spec 06, "Chests")
+        Json chest = Json::object();
+        for (const auto& [item, qty] : s.chest) {
+            chest[item] = qty;
+        }
+        j["chest"] = chest;
+    }
     if (!s.plots.empty()) {  // the sown plots (spec 06, "Farming"): [x100, y100, seed, ripe tick], in order
         Json plots = Json::array();
         for (const auto& [key, plot] : s.plots) {
@@ -281,6 +288,11 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
             s.friend_y = f.at("y").get<float>();
             s.friend_cooldown = f.at("cooldown").get<int>();
             s.friend_stay = f.value("stay", false);
+        }
+        if (j.contains("chest")) {
+            for (const auto& [item, qty] : j.at("chest").items()) {
+                s.chest[item] = qty.get<std::int64_t>();
+            }
         }
         if (j.contains("plots")) {
             for (const Json& plot : j.at("plots")) {

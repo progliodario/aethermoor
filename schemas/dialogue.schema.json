@@ -132,6 +132,25 @@
           "type": "integer",
           "minimum": 1
         },
+        "day_mod": {
+          "description": "A day of a cycle (spec 07): holds when (day - 1) % every == at",
+          "type": "object",
+          "required": [
+            "every",
+            "at"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "every": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "at": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
         "faction_at_least": {
           "type": "object",
           "required": [

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aethermoor.invalid/schemas/storage.schema.json",
+  "title": "The chests (spec 06, \"Chests\"): every chest of the world holds the same things",
+  "type": "object",
+  "required": [
+    "id",
+    "chest",
+    "reach_x100"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:storage/[a-z0-9_]+$"
+    },
+    "chest": {
+      "description": "The prop of a chest: E within reach of one opens them",
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:art/prop/[a-z0-9_]+$"
+    },
+    "reach_x100": {
+      "description": "How far from the edge of the chest the player can open it, in hundredths of a tile",
+      "type": "integer",
+      "minimum": 0
+    }
+  }
+}

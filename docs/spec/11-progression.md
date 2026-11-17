@@ -103,10 +103,26 @@ The maximum health of the player is `max_hp * (100 + echo_pct) / 100` (integer d
 same in all the games and are not saved in them (the profile is read when the game is built). The titles soften a new life; the past lives are what makes a Guest who has lived many times plainly stronger than one who has not.
 Reference: `CombatSim._derive` (`echo_pct` of the scenario) and `echo_pct`, `reincarnate` in `tools/reference/profile.py`; conformance: the scenario `echo_health` and the suite `profile`.
 
+## Deeds
+
+The **deeds** are facts about all the games, read from the profile (spec 12, "Profile"): nothing is saved for them, so a deed is done as soon as the profile says so and never undone. `data/base/deeds.json` (ID `base:deeds/all`, schema `deeds`, `tools/make_deeds.py`) lists them in order, each with `id`, `kind`, `name`, `text` and:
+
+| `kind` | with | done when |
+|---|---|---|
+| `kills` | `count` | the best counts of the bestiary of the profile add up to at least `count` |
+| `kinds` | `count` | at least `count` kinds of creature are in the bestiary |
+| `titles` | `count` | at least `count` titles were earned |
+| `lives` | `count` | at least `count` games were reincarnated |
+| `defeated` | `enemies` | every creature of the list is in the bestiary |
+| `earned` | `titles` | every title of the list was earned |
+
+A kind the rules do not know is never done. The deeds are listed in the order of the data. The base pack has 22: blows (1, 100, 1000), kinds of creature (10, 30, 60), the great guardians (the Gel King, the three Wardens, the two Sovereigns, the two Tyrants, the Drowned Captain with the Cinder Colossus, the Echo of every protagonist), titles (5, 15, 30, Hero and Legend, a friend of every region, the four factions, the titles of the quiet life, Beast Friend with Well Fed) and lives (1, 5). When a save makes the profile do a deed it did not do before, the clients say so ("Deed done: ..."); the title screen shows how many are done and lists them all (`A` on a keyboard, the `Deeds` button on a touch screen), the ones done in gold.
+Reference: `deeds` in `tools/reference/profile.py`; conformance: the cases `deeds_*` of the suite `profile` (their input carries `deeds`, their expectation the ids done).
+
 ## Display
 
 The journal (spec 07) shows, after the quests, the companion (name, whether it stays or follows, its bond and the attack the bond adds, spec 10), the counters and the echoes, then the titles (the ones not earned yet as `???`) and the bestiary (name and kills, by ID). The name of a creature is the text key `enemy.<name>.name`.
 
 ## Later
 
-Tags (traits earned by how one plays), a chosen carry-over for the reincarnation (today a past life gives health to every game and half of its gold to the next one), and titles with other effects than attack.
+Tags (traits earned by how one plays), rewards for the deeds, a chosen carry-over for the reincarnation (today a past life gives health to every game and half of its gold to the next one), and titles with other effects than attack.

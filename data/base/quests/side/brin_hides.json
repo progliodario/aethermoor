@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/brin_hides",
+  "name": "$i18n:quest.brin_hides.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.brin_hides.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/boar_hide",
+          "count": 3
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 60
+    },
+    {
+      "effect": "add_gold",
+      "amount": 60
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/hearty_stew",
+      "qty": 3
+    }
+  ]
+}

@@ -144,6 +144,7 @@ SAVE_SPLITS = {
     "player_death": (1,),             # after a death and respawn
     "leash_and_return": (2,),         # the slime is walking home
     "trader_conditions_and_effects": (2, 5),  # inventory, flags and an open dialogue
+    "chest_storage": (3, 5),          # things in the chest (spec 06, "Chests"); a loaded game has it closed
 }
 
 

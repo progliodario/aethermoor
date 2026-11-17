@@ -21,6 +21,7 @@ A condition is a JSON object with exactly one key:
 | `gold_at_least` | integer | the gold is at least that value |
 | `season` | season ID | the season of the day is that one (spec 08); never true in a world without seasons or on a map without world time |
 | `tod_between` | `[from_pm, to_pm]` | the time of day (permille, 0 = midnight) is in `[from_pm, to_pm)`; when `from_pm > to_pm` the range crosses midnight (`[800, 250]` is the night); always `from_pm == 0` on a map without world time |
+| `day_mod` | `{every, at}` | the day of the world is the day `at` of a cycle of `every` days: `(day - 1) % every == at`, where `day` is the day of the world (spec 08; 1 on a map without world time) |
 | `faction_at_least` | `{faction, count}` | the standing with the faction (the counter `faction:<faction>`, see "Factions") is at least `count` |
 | `renown_at_least` | integer | the renown of the region where the player stands is at least that value (see "Renown") |
 
@@ -216,6 +217,13 @@ The base pack has four (`tools/set_factions.py`, which gives every quest its fac
 ## Tales of the villagers
 
 The villagers of every region have a trouble of their own, told in two quests one after the other (`base:quest/side/tale_<region>_1` and `_2`, `tools/make_region_tales.py`): each asks to hunt some creatures of the region and to bring back what they leave (the mint slimes of the kitchen gardens of Verdalis, the owls that fell silent in Whisperwood, the bats in the shafts of Ironspine, the picnic thieves of Sunscar...). Any villager of the region offers them, follows them and pays them, like the elders' errands: the second opens once the first is paid (the flags `tale_<region>_<n>_paid`); the reward is experience and gold that grow with the danger of the region, and medium potions. Sixteen quests, all for the Folk.
+
+## People of the towns
+
+Fenwick and Aldermere have people with names (`tools/make_towns.py`), and two more written by `tools/make_home.py`:
+
+- **Nana Brin**, in the house of Fenwick with the chest (spec 06, "Chests"): she lets the Guest sleep by her hearth for free (`heal_full`) and asks three small favours, one after the other, each a collection paid with gold, experience and something from her kitchen: ten logs of wood (`base:quest/side/brin_firewood`), eight bunches of wildflowers (`brin_posies`) and three boar hides (`brin_hides`). They count for the Folk.
+- **Corvin the pedlar**, on the square of Aldermere: his cart goes round the eight regions, one a day, in a cycle of eight days (the condition `day_mod` with `every` 8), and he opens the shop of the region of the day (`open_shop` with a `region` and `markup_pct` 110, spec 06, "Goods from afar"). Conformance of the condition: the scenario `day_cycle`.
 
 ## Journal
 
