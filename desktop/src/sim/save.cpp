@@ -283,9 +283,9 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
             s.friend_stay = f.value("stay", false);
         }
         if (j.contains("plots")) {
-            for (const Json& p : j.at("plots")) {
-                s.plots[{p.at(0).get<int>(), p.at(1).get<int>()}] = {p.at(2).get<std::string>(),
-                                                                     p.at(3).get<std::int64_t>()};
+            for (const Json& plot : j.at("plots")) {
+                s.plots[{plot.at(0).get<int>(), plot.at(1).get<int>()}] = {plot.at(2).get<std::string>(),
+                                                                           plot.at(3).get<std::int64_t>()};
             }
         }
         if (j.contains("talents")) {
