@@ -67,6 +67,31 @@
       "next": "end"
     },
     "nothing": {
+      "type": "condition",
+      "when": {
+        "flag": "cottage_given"
+      },
+      "then": "nothing_left",
+      "else": "gift"
+    },
+    "gift": {
+      "type": "say",
+      "speaker": "fenwick_nana_brin",
+      "text": "$i18n:dlg.home.brin.gift",
+      "next": "given"
+    },
+    "given": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "cottage_given",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "nothing_left": {
       "type": "say",
       "speaker": "fenwick_nana_brin",
       "text": "$i18n:dlg.home.brin.nothing",

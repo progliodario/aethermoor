@@ -270,12 +270,12 @@ Versione `0.0.1`, **nessuna release pubblica** (la decisione di pubblicare è de
 
 | Che cosa | Quanto | Dove si guarda |
 |---|---|---|
-| Mondo | 16384 x 16384 caselle in streaming, 8 regioni, circa 130 insediamenti generati, 44 luoghi fatti a mano | spec 09, `data/base/worlds/overworld.json` |
+| Mondo | 16384 x 16384 caselle in streaming, 8 regioni, circa 130 insediamenti generati, 45 luoghi fatti a mano | spec 09, `data/base/worlds/overworld.json` |
 | Persone con nome | 36 nel mondo (Fenwick con Nonna Brin, Aldermere con Corvin, gli 8 avamposti con i loro venditori ambulanti, i viandanti, Mira, Pip, Suor Maren) | `tools/make_towns.py`, `tools/towns_outposts.py` |
-| Missioni | 303 (storie dei protagonisti, gilda, città, avamposti, leggende, taglie, lettere, compiti da amico, storie dei paesani) | `docs/design/catalog.md` |
+| Missioni | 319 (storie dei protagonisti, gilda, città, avamposti, leggende, taglie, lettere, compiti da amico, storie dei paesani) | `docs/design/catalog.md` |
 | Creature | 75 (tra cui 27 guardiani, 8 Echi, la selvaggina) | `data/base/enemies/` |
 | Oggetti e ricette | 209 oggetti, 63 ricette (8 segrete), 2 stazioni (falò e incudine) | spec 06, `tools/make_recipes.py` |
-| Progressione | 37 titoli, 16 talenti (4 abilità, 2 a comando), bestiario, profilo condiviso, reincarnazione, 22 imprese | spec 11, spec 12 |
+| Progressione | 42 titoli, 16 talenti (4 abilità, 2 a comando), bestiario, profilo condiviso, reincarnazione, 25 imprese | spec 11, spec 12 |
 | Testi | 3014 chiavi, in italiano **e** inglese | spec 17 |
 | Regole uguali sui due client | 30 file di vettori di conformità, 523 casi, eseguiti da C++ e Kotlin a ogni modifica | `tests/conformance/` |
 | Specifiche e decisioni | 18 specifiche, 13 ADR | `docs/spec/`, `docs/adr/` |
@@ -295,8 +295,8 @@ Legenda: **fatto** = le consegne del piano ci sono e funzionano su tutti e due i
 | M5 Mondo aperto | quasi | streaming dei chunk, regioni, insediamenti, siti, fiumi e strade, stagioni, meteo con pioggia, neve e notte che nascondono il giocatore, routine dei PNG, Pietre della Soglia, mappa del mondo e mini mappa, luci di notte | prestazioni misurate su un telefono reale; altri effetti del meteo sul gioco |
 | M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, 63 ricette al falò e all'incudine (otto segrete, insegnate dai bottegai), cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane, orti (che crescono prima con la pioggia), pollai e recinti nei villaggi, negozi che pagano meno se vendi troppo, bauli condivisi in ogni villaggio e città, Nonna Brin, il venditore ambulante Corvin | una casa tutta del giocatore |
 | M7 Compagni | avviato | un compagno per protagonista che segue, combatte, resta, segue o torna a comando, cresce di legame e cura il giocatore; i doni di Haruka (legame più rapido) e di Gideon (compagno più forte) ; Haruka doma le creature ferite e l'ultima resta con lei come secondo compagno ; momenti del legame; il compagno domato obbedisce a resta e torna | più compagni scelti dal giocatore |
-| M8 Progressione profonda | avviato | bestiario con debolezze, 37 titoli con effetti e progressi visibili, albero di 16 talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma, 22 imprese di tutte le partite lette dal profilo | tag, rune e affissi, premi per le imprese |
-| M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | altre storie per protagonista; la modalità Dungeon di Gideon |
+| M8 Progressione profonda | avviato | bestiario con debolezze, 42 titoli con effetti e progressi visibili, albero di 16 talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma, 25 imprese di tutte le partite lette dal profilo | tag, rune e affissi, premi per le imprese |
+| M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo e quinto atto, epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | altre storie per protagonista; la modalità Dungeon di Gideon |
 | M10 Rifinitura | avviato | effetti sonori, pannelli e barre ridisegnati, testi che vanno a capo per larghezza, niente scatti quando appare roba nuova, consigli per i primi minuti, opzioni di accessibilità (consigli, numeri, lampi), crediti, traduzioni controllate da uno strumento | testo più grande, un sintetizzatore migliore per riaccendere musica e ambiente |
 | M11 Release 1.0 | da fare | — | pacchetti firmati, pagina di download, documentazione per chi fa mod (decisioni del proprietario) |
 
@@ -321,7 +321,7 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 
 **Missioni e persone** (spec 07, 18)
 
-- 303 missioni (ventiquattro sono le storie dei paesani, tre per regione; otto sono i compiti da amico degli anziani, per chi ha otto missioni nella regione): le storie degli otto protagonisti (prologo, due missioni personali, tre atti, epilogo), la gilda con bacheca generata, Fenwick e Aldermere, gli otto avamposti (tre o quattro missioni ognuno), il Libro delle Leggende di Selwyn, le taglie di Hestia, le lettere e i pacchi del corriere Wendel, caccia e pesca.
+- 319 missioni (ventiquattro sono le storie dei paesani, tre per regione; otto sono i compiti da amico degli anziani, per chi ha otto missioni nella regione): le storie degli otto protagonisti (prologo, due missioni personali, tre atti, epilogo), la gilda con bacheca generata, Fenwick e Aldermere, gli otto avamposti (tre o quattro missioni ognuno), il Libro delle Leggende di Selwyn, le taglie di Hestia, le lettere e i pacchi del corriere Wendel, caccia e pesca.
 - Ogni missione segna sulla mappa dove andare: un luogo, una persona, la tana delle creature giuste o la pianta più vicina.
 - **Fama** (dal 14 novembre): ogni missione finita in una regione vale un punto di fama lì; i negozi della regione scontano l'1,5% per punto fino al 25%, anziani e bottegai salutano un amico da tre missioni, i locandieri danno un letto gratis da cinque; otto titoli "Amico di ...". Ogni regione tiene due pezzi rari per chi ha cinque e dieci missioni lì.
 - **Giorni di mercato** (dal 14 novembre): i prezzi di ogni regione oscillano con il giorno, per comprare e per vendere (dal 6% di Ironspine al 20% di Sunscar).
@@ -343,7 +343,7 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 **Progressione** (spec 11, 12)
 
 - Livelli, albero di quattordici talenti, di cui quattro abilità (dal 14 novembre: Turbine, Fame di battaglia, Flusso, Risposta) e due a comando con il loro tasto (Onda d'urto, Rimarginare), 29 titoli con effetti (attacco, raccolta, creazione, opere pregiate, parata, esperienza) e il progresso verso quelli mancanti, bestiario con debolezze e bottino.
-- Profilo comune a tutte le partite: echi (vita in più per ogni titolo e vita passata), reincarnazione dal livello 10 con eredità di metà dell'oro e dell'arma impugnata, 22 imprese (dal 17 novembre) lette dal profilo e elencate dalla schermata del titolo.
+- Profilo comune a tutte le partite: echi (vita in più per ogni titolo e vita passata), reincarnazione dal livello 10 con eredità di metà dell'oro e dell'arma impugnata, 25 imprese (dal 17 novembre) lette dal profilo e elencate dalla schermata del titolo.
 
 **Grafica** (spec 13, ADR 0012 e 0013)
 
@@ -386,16 +386,18 @@ Il 17 novembre, quarta PR: i doni delle fazioni (sigillo della Gilda, amuleto de
 
 Il 17 novembre, quinta PR: gli orti dei villaggi (semi, crescita, raccolto, salvati nella partita), i doni dell'Anello (Mira) e dei Cronisti (Selwyn).
 
+Il 17 novembre, nona PR: il cottage dell'Ospite a est di Fenwick (baule, falò, incudine, orti, pollaio, recinto, Pietra della Soglia) con il vecchio Tam, che Nonna Brin regala dopo i suoi tre favori; un quinto atto per ogni protagonista, "Una vita qui" (sedici missioni); cinque titoli e tre imprese nuovi.
+
 Il 17 novembre, ottava PR: testo grande (un'opzione di accessibilità, sui due client), la pioggia e la neve rallentano le creature, otto venditori ambulanti agli avamposti, le imprese diventano echi (+1% di salute ciascuna), una terza storia dei paesani per regione (otto missioni).
 
-Il 17 novembre, settima PR: un baule in ogni villaggio e città, che tiene le stesse cose dappertutto (salvato nella partita); Nonna Brin a Fenwick (riposo gratis e tre favori); Corvin, il venditore ambulante di Aldermere, che porta le merci di una regione al giorno (condizione `day_mod`); 22 imprese di tutte le partite lette dal profilo; la pioggia fa crescere prima gli orti; Odile non sta più su un orto.
+Il 17 novembre, settima PR: un baule in ogni villaggio e città, che tiene le stesse cose dappertutto (salvato nella partita); Nonna Brin a Fenwick (riposo gratis e tre favori); Corvin, il venditore ambulante di Aldermere, che porta le merci di una regione al giorno (condizione `day_mod`); 25 imprese di tutte le partite lette dal profilo; la pioggia fa crescere prima gli orti; Odile non sta più su un orto.
 
 Il 17 novembre, sesta PR: pollai e recinti delle capre nei villaggi (uova, latte, tre piatti), sedici storie dei paesani (due per regione), i negozi che pagano meno se vendi troppo, un consiglio per gli orti, il titolo Pollice verde; il rapporto di bilanciamento segnala solo gli scontri troppo duri o lenti (nessuno).
 
 **A breve (le prossime PR)**
 
 1. **Controlli automatici della grafica** (prima voce, vedi sotto).
-2. **Una casa tutta del giocatore** (M6; bauli, Nonna Brin e il riposo ci sono): una casa da arredare a Fenwick.
+2. **Arredare il cottage** (M6; il cottage dell'Ospite c'è, con baule, orti e animali): mobili da comprare e posare.
 3. **Tag** (M8; le imprese ci sono): tratti guadagnati da come si gioca, e premi per le imprese.
 4. **Controlli automatici della grafica**: confronto dei fotogrammi del test di fumo con immagini di riferimento, ktlint e detekt in CI.
 

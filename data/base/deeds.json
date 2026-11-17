@@ -95,6 +95,26 @@
       "text": "$i18n:deed.deep_waters.text"
     },
     {
+      "id": "night_hunters",
+      "kind": "defeated",
+      "enemies": [
+        "base:enemy/moonshade_alpha",
+        "base:enemy/rime_revenant"
+      ],
+      "name": "$i18n:deed.night_hunters.name",
+      "text": "$i18n:deed.night_hunters.text"
+    },
+    {
+      "id": "kings_of_beasts",
+      "kind": "defeated",
+      "enemies": [
+        "base:enemy/polar_king",
+        "base:enemy/dire_alpha"
+      ],
+      "name": "$i18n:deed.kings_of_beasts.name",
+      "text": "$i18n:deed.kings_of_beasts.text"
+    },
+    {
       "id": "every_echo",
       "kind": "defeated",
       "enemies": [
@@ -130,6 +150,13 @@
       "count": 30,
       "name": "$i18n:deed.thirty_titles.name",
       "text": "$i18n:deed.thirty_titles.text"
+    },
+    {
+      "id": "forty_titles",
+      "kind": "titles",
+      "count": 40,
+      "name": "$i18n:deed.forty_titles.name",
+      "text": "$i18n:deed.forty_titles.text"
     },
     {
       "id": "hero_and_legend",

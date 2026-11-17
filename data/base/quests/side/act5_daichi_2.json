@@ -1,0 +1,39 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/act5_daichi_2",
+  "name": "$i18n:quest.act5_daichi_2.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.act5_daichi_2.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_ember",
+          "count": 8
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 4000
+    },
+    {
+      "effect": "add_gold",
+      "amount": 3500
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 240
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/frost_tonic",
+      "qty": 3
+    }
+  ]
+}

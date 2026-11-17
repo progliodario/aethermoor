@@ -1392,6 +1392,14 @@
               "dy": -128
             },
             {
+              "id": "guest_cottage",
+              "name": "The Guest's Cottage",
+              "stamp": "base:stamp/hamlet_home",
+              "kind": "hamlet",
+              "dx": 72,
+              "dy": 44
+            },
+            {
               "id": "sanctum_ren",
               "name": "Sanctum of Numbers",
               "stamp": "base:stamp/sanctum_ren",
@@ -2361,6 +2369,13 @@
               "variant": "",
               "dx": 6782,
               "dy": -384
+            },
+            {
+              "key": "cottage_keeper_tam",
+              "dialogue": "base:dialogue/npc/tam",
+              "variant": "brown",
+              "dx": 74,
+              "dy": 45
             }
           ],
           "stamp_defs": {
@@ -6248,6 +6263,108 @@
                 }
               },
               "spots": []
+            },
+            "base:stamp/hamlet_home": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hamlet_home",
+              "w": 15,
+              "h": 11,
+              "anchor": [
+                5,
+                7
+              ],
+              "rows": [
+                "t.............t",
+                ".:':':'::......",
+                ".:~\\__b_:.?./..",
+                ".'______:......",
+                ".:_____b:......",
+                ".::::;:::.,.,.,",
+                ".....=.l.......",
+                "===============",
+                ".....=.c.......",
+                ".-.\".=......T..",
+                ".....=...t....t"
+              ],
+              "legend": {
+                "\"": {
+                  "prop": "base:art/prop/pen",
+                  "radius_x100": 45
+                },
+                "'": {
+                  "tile": 36
+                },
+                ",": {
+                  "prop": "base:art/prop/garden_plot",
+                  "radius_x100": 20
+                },
+                "-": {
+                  "prop": "base:art/prop/coop",
+                  "radius_x100": 40
+                },
+                "/": {
+                  "tile": 14,
+                  "prop": "base:art/prop/anvil",
+                  "radius_x100": 35
+                },
+                ":": {
+                  "tile": 35
+                },
+                ";": {
+                  "tile": 37
+                },
+                "=": {
+                  "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "\\": {
+                  "tile": 13,
+                  "prop": "base:art/prop/chest",
+                  "radius_x100": 30
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
+                }
+              },
+              "spots": [
+                [
+                  4,
+                  7
+                ],
+                [
+                  6,
+                  7
+                ]
+              ]
             },
             "base:stamp/sanctum_ren": {
               "$schema": "../../../schemas/stamp.schema.json",
@@ -13134,6 +13251,14 @@
               "dy": -128
             },
             {
+              "id": "guest_cottage",
+              "name": "The Guest's Cottage",
+              "stamp": "base:stamp/hamlet_home",
+              "kind": "hamlet",
+              "dx": 72,
+              "dy": 44
+            },
+            {
               "id": "sanctum_ren",
               "name": "Sanctum of Numbers",
               "stamp": "base:stamp/sanctum_ren",
@@ -14103,6 +14228,13 @@
               "variant": "",
               "dx": 6782,
               "dy": -384
+            },
+            {
+              "key": "cottage_keeper_tam",
+              "dialogue": "base:dialogue/npc/tam",
+              "variant": "brown",
+              "dx": 74,
+              "dy": 45
             }
           ],
           "stamp_defs": {
@@ -17990,6 +18122,108 @@
                 }
               },
               "spots": []
+            },
+            "base:stamp/hamlet_home": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hamlet_home",
+              "w": 15,
+              "h": 11,
+              "anchor": [
+                5,
+                7
+              ],
+              "rows": [
+                "t.............t",
+                ".:':':'::......",
+                ".:~\\__b_:.?./..",
+                ".'______:......",
+                ".:_____b:......",
+                ".::::;:::.,.,.,",
+                ".....=.l.......",
+                "===============",
+                ".....=.c.......",
+                ".-.\".=......T..",
+                ".....=...t....t"
+              ],
+              "legend": {
+                "\"": {
+                  "prop": "base:art/prop/pen",
+                  "radius_x100": 45
+                },
+                "'": {
+                  "tile": 36
+                },
+                ",": {
+                  "prop": "base:art/prop/garden_plot",
+                  "radius_x100": 20
+                },
+                "-": {
+                  "prop": "base:art/prop/coop",
+                  "radius_x100": 40
+                },
+                "/": {
+                  "tile": 14,
+                  "prop": "base:art/prop/anvil",
+                  "radius_x100": 35
+                },
+                ":": {
+                  "tile": 35
+                },
+                ";": {
+                  "tile": 37
+                },
+                "=": {
+                  "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "\\": {
+                  "tile": 13,
+                  "prop": "base:art/prop/chest",
+                  "radius_x100": 30
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
+                }
+              },
+              "spots": [
+                [
+                  4,
+                  7
+                ],
+                [
+                  6,
+                  7
+                ]
+              ]
             },
             "base:stamp/sanctum_ren": {
               "$schema": "../../../schemas/stamp.schema.json",
@@ -24876,6 +25110,14 @@
               "dy": -128
             },
             {
+              "id": "guest_cottage",
+              "name": "The Guest's Cottage",
+              "stamp": "base:stamp/hamlet_home",
+              "kind": "hamlet",
+              "dx": 72,
+              "dy": 44
+            },
+            {
               "id": "sanctum_ren",
               "name": "Sanctum of Numbers",
               "stamp": "base:stamp/sanctum_ren",
@@ -25845,6 +26087,13 @@
               "variant": "",
               "dx": 6782,
               "dy": -384
+            },
+            {
+              "key": "cottage_keeper_tam",
+              "dialogue": "base:dialogue/npc/tam",
+              "variant": "brown",
+              "dx": 74,
+              "dy": 45
             }
           ],
           "stamp_defs": {
@@ -29732,6 +29981,108 @@
                 }
               },
               "spots": []
+            },
+            "base:stamp/hamlet_home": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/hamlet_home",
+              "w": 15,
+              "h": 11,
+              "anchor": [
+                5,
+                7
+              ],
+              "rows": [
+                "t.............t",
+                ".:':':'::......",
+                ".:~\\__b_:.?./..",
+                ".'______:......",
+                ".:_____b:......",
+                ".::::;:::.,.,.,",
+                ".....=.l.......",
+                "===============",
+                ".....=.c.......",
+                ".-.\".=......T..",
+                ".....=...t....t"
+              ],
+              "legend": {
+                "\"": {
+                  "prop": "base:art/prop/pen",
+                  "radius_x100": 45
+                },
+                "'": {
+                  "tile": 36
+                },
+                ",": {
+                  "prop": "base:art/prop/garden_plot",
+                  "radius_x100": 20
+                },
+                "-": {
+                  "prop": "base:art/prop/coop",
+                  "radius_x100": 40
+                },
+                "/": {
+                  "tile": 14,
+                  "prop": "base:art/prop/anvil",
+                  "radius_x100": 35
+                },
+                ":": {
+                  "tile": 35
+                },
+                ";": {
+                  "tile": 37
+                },
+                "=": {
+                  "tile": 11
+                },
+                "?": {
+                  "prop": "base:art/prop/campfire",
+                  "radius_x100": 30
+                },
+                "T": {
+                  "tile": 14,
+                  "prop": "base:art/prop/threshold_stone",
+                  "radius_x100": 35
+                },
+                "\\": {
+                  "tile": 13,
+                  "prop": "base:art/prop/chest",
+                  "radius_x100": 30
+                },
+                "_": {
+                  "tile": 13
+                },
+                "b": {
+                  "tile": 13,
+                  "prop": "base:art/prop/barrel",
+                  "radius_x100": 25
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                },
+                "t": {
+                  "prop": "base:art/prop/tree_oak",
+                  "radius_x100": 30
+                },
+                "~": {
+                  "prop": "base:art/prop/crate",
+                  "radius_x100": 30
+                }
+              },
+              "spots": [
+                [
+                  4,
+                  7
+                ],
+                [
+                  6,
+                  7
+                ]
+              ]
             },
             "base:stamp/sanctum_ren": {
               "$schema": "../../../schemas/stamp.schema.json",

@@ -1,0 +1,138 @@
+"""The fifth act of the story of each protagonist, "A Life Here": two quests that `make_stories.py` adds after the epilogue.
+
+The Echo is gone and nothing of the old world is left to chase. What is left is the new one: a home, a trade, people. Sister Maren gives two
+small errands to each Guest, the first steps of the life they choose to live here. Same shape as the acts."""
+from __future__ import annotations
+
+KILL, COLLECT = "kill", "collect"
+
+ACT5 = {
+    "ren": {
+        "done": ("A shop with a counter and a ledger nobody checks twice. Lyra has ordered a pair of boots from you. She will pay late, she says, on purpose, to see what you do. Do nothing, Ren. That is the lesson.",
+                 "Una bottega con un banco e un registro che nessuno ricontrolla. Lyra ti ha ordinato un paio di stivali. Pagherà in ritardo, dice, apposta, per vedere che cosa fai. Non fare niente, Ren. È questa la lezione."),
+        "quests": [
+            (("An Honest Counter", "Un banco onesto"), ("Ren wants to open a small shop in Fenwick. A counter needs wood: bring ten logs.", "Ren vuole aprire una piccola bottega a Fenwick. Un banco ha bisogno di legno: porta dieci ceppi."),
+             [(COLLECT, "wood_log", 10)], {"xp": 3000, "gold": 2500, "items": {"potion_medium": 3}},
+             ("You keep counting things that do not need counting, Ren. Count something you chose. A shop, perhaps? Fenwick has none of its own. A counter first: ten logs.", "Continui a contare cose che non hanno bisogno di essere contate, Ren. Conta qualcosa che hai scelto tu. Una bottega, magari? Fenwick non ne ha una sua. Prima un banco: dieci ceppi."),
+             ("Ten logs. Straight ones, if the trees allow.", "Dieci ceppi. Dritti, se gli alberi lo permettono."),
+             ("A counter, and you sanded it twice. Nobody will ever audit it. You look almost disappointed.", "Un banco, e l'hai levigato due volte. Nessuno lo controllerà mai. Sembri quasi deluso.")),
+            (("The First Customers", "I primi clienti"), ("The slimes around Fenwick scare the customers away. Clear ten green slimes from the road.", "Gli slime intorno a Fenwick spaventano i clienti. Togli dieci slime verdi dalla strada."),
+             [(KILL, "slime_green", 10)], {"xp": 4000, "gold": 3500, "items": {"honey_cake": 4}},
+             ("A shop needs a road, and the road to Fenwick is full of slimes. Ten of them, and the first customers will come.", "Una bottega ha bisogno di una strada, e la strada per Fenwick è piena di slime. Dieci, e i primi clienti arriveranno."),
+             ("Ten green slimes on the road to Fenwick.", "Dieci slime verdi sulla strada per Fenwick."),
+             ("Your first customer was Tobin, with a single copper coin. You wrote it in the ledger in your best hand.", "Il tuo primo cliente è stato Tobin, con una sola moneta di rame. L'hai scritta nel registro con la tua calligrafia migliore.")),
+        ],
+    },
+    "sakura": {
+        "done": ("Your school has four pupils and one blackboard, and the blackboard is a door. Lyra asked to sit in. She raised her hand. You made her wait her turn. She loved it.",
+                 "La tua scuola ha quattro allievi e una lavagna, e la lavagna è una porta. Lyra ha chiesto di assistere. Ha alzato la mano. Le hai fatto aspettare il suo turno. Le è piaciuto moltissimo."),
+        "quests": [
+            (("Chalk and Ink", "Gesso e inchiostro"), ("Sakura wants to teach the children of Fenwick. Bring star dust for chalk and owl feathers for pens.", "Sakura vuole insegnare ai bambini di Fenwick. Porta polvere di stelle per il gesso e piume di gufo per le penne."),
+             [(COLLECT, "star_dust", 3), (COLLECT, "owl_feather", 3)], {"xp": 3000, "gold": 2500, "items": {"potion_mana_medium": 3}},
+             ("The children of Fenwick ask Tobin what numbers are for, and Tobin says 'gold'. You can do better. Chalk from star dust, pens from owl feathers.", "I bambini di Fenwick chiedono a Tobin a cosa servono i numeri, e Tobin dice 'all'oro'. Tu puoi fare di meglio. Gesso dalla polvere di stelle, penne dalle piume di gufo."),
+             ("Three pinches of star dust, three owl feathers.", "Tre pizzichi di polvere di stelle, tre piume di gufo."),
+             ("Chalk that glows faintly in the dark. The children will never sleep again. Wonderful.", "Un gesso che brilla un po' al buio. I bambini non dormiranno mai più. Meraviglioso.")),
+            (("A Field Trip", "Una gita"), ("Sakura takes her pupils to see the glow slimes of Lumeria. Make the path safe: defeat six of them first.", "Sakura porta gli allievi a vedere gli slime luminosi di Lumeria. Rendi sicuro il sentiero: sconfiggine sei prima."),
+             [(KILL, "slime_glow", 6)], {"xp": 4000, "gold": 3500, "items": {"starlight_elixir": 1}},
+             ("A lesson about light needs light. The glow slimes of Lumeria are the best teachers, but they bite. Six of them, before the children arrive.", "Una lezione sulla luce ha bisogno di luce. Gli slime luminosi di Lumeria sono i migliori insegnanti, ma mordono. Sei, prima che arrivino i bambini."),
+             ("Six glow slimes, in Lumeria.", "Sei slime luminosi, a Lumeria."),
+             ("Four pupils, four notebooks full, and one of them wants to be a scientist. You cried a little. Do not deny it.", "Quattro allievi, quattro quaderni pieni, e uno di loro vuole fare la scienziata. Hai pianto un po'. Non negarlo.")),
+        ],
+    },
+    "daichi": {
+        "done": ("A fire watch on the hill, a bell, and a bucket line of volunteers who practise every Sunday. Lyra rang the bell once, by accident. Everybody came. You timed them. They were fast.",
+                 "Una torre di guardia sulla collina, una campana e una catena di secchi di volontari che si esercitano ogni domenica. Lyra ha suonato la campana una volta, per sbaglio. Sono venuti tutti. Li hai cronometrati. Erano veloci."),
+        "quests": [
+            (("A Bell for the Watch", "Una campana per la guardia"), ("Daichi wants a fire watch above Fenwick. A bell needs iron: bring six iron ores.", "Daichi vuole una torre di guardia sopra Fenwick. Una campana ha bisogno di ferro: porta sei minerali di ferro."),
+             [(COLLECT, "iron_ore", 6)], {"xp": 3000, "gold": 2500, "items": {"potion_large": 2}},
+             ("You still wake at night listening for an alarm. Then let there be one, and let it be yours. A bell, on a watch above Fenwick. Iron first.", "Ti svegli ancora di notte aspettando un allarme. Allora che ce ne sia uno, e che sia tuo. Una campana, su una torre sopra Fenwick. Prima il ferro."),
+             ("Six iron ores. The rocks of Ironspine give them.", "Sei minerali di ferro. Le rocce di Ironspine li danno."),
+             ("The smith cast it and you rang it once to test it. Half of Fenwick came running with buckets. Good drill.", "Il fabbro l'ha fusa e tu l'hai suonata una volta per provarla. Mezza Fenwick è accorsa con i secchi. Buona esercitazione.")),
+            (("No Fire in the Fields", "Niente fuoco nei campi"), ("Ember slimes drift toward the fields in the dry season. Put out eight of them.", "Nella stagione secca gli slime di brace si avvicinano ai campi. Spegnine otto."),
+             [(KILL, "slime_ember", 8)], {"xp": 4000, "gold": 3500, "items": {"frost_tonic": 3}},
+             ("The ember slimes of the Ashen Wastes have learned the way west. Eight of them, before the harvest. You know what fire does to a field.", "Gli slime di brace delle Terre di Cenere hanno imparato la strada verso ovest. Otto, prima del raccolto. Sai che cosa fa il fuoco a un campo."),
+             ("Eight ember slimes, in the Ashen Wastes.", "Otto slime di brace, nelle Terre di Cenere."),
+             ("Not a single field burned this year. The farmers brought you a cake shaped like a bucket. You ate the handle first.", "Quest'anno non è bruciato un solo campo. I contadini ti hanno portato una torta a forma di secchio. Hai mangiato prima il manico.")),
+        ],
+    },
+    "haruka": {
+        "done": ("A post road, a cart and a route that goes through every village of Verdalis twice a week. Lyra's cat rides on the seat beside you. It has learned to bark at slimes. Nobody knows how.",
+                 "Una strada postale, un carro e un giro che passa per ogni villaggio di Verdalis due volte alla settimana. Il gatto di Lyra viaggia sul sedile accanto a te. Ha imparato ad abbaiare agli slime. Nessuno sa come."),
+        "quests": [
+            (("A Cart for the Road", "Un carro per la strada"), ("Haruka wants to carry the post between the villages. A cart needs wood and a cover: bring eight logs and four boar hides.", "Haruka vuole portare la posta tra i villaggi. Un carro ha bisogno di legno e di una copertura: porta otto ceppi e quattro pelli di cinghiale."),
+             [(COLLECT, "wood_log", 8), (COLLECT, "boar_hide", 4)], {"xp": 3000, "gold": 2500, "items": {"travel_ration": 6}},
+             ("You drove for a living, and you miss the road. Verdalis has letters and nobody to carry them. Build a cart: logs, and hides for the cover.", "Guidavi per vivere, e ti manca la strada. Verdalis ha lettere e nessuno che le porti. Costruisci un carro: ceppi, e pelli per la copertura."),
+             ("Eight logs and four boar hides.", "Otto ceppi e quattro pelli di cinghiale."),
+             ("The cart is small, the wheels squeak, and the cat has already claimed the seat. Perfect.", "Il carro è piccolo, le ruote cigolano e il gatto ha già preso il sedile. Perfetto.")),
+            (("A Safe Route", "Un giro sicuro"), ("Tawny wolves wait along the post road. Drive off six of them.", "I lupi fulvi aspettano lungo la strada postale. Scacciane sei."),
+             [(KILL, "wolf_tawny", 6)], {"xp": 4000, "gold": 3500, "items": {"potion_medium": 4}},
+             ("The road between the villages has wolves, and wolves do not respect the post. Six tawny wolves, and the route is yours.", "La strada tra i villaggi ha i lupi, e i lupi non rispettano la posta. Sei lupi fulvi, e il giro è tuo."),
+             ("Six tawny wolves, along the roads of Verdalis.", "Sei lupi fulvi, lungo le strade di Verdalis."),
+             ("First delivery: a letter from Tobin to Aldermere, and the reply on the way back. On time. You checked the time twice.", "Prima consegna: una lettera di Tobin per Aldermere, e la risposta al ritorno. In orario. Hai controllato l'ora due volte.")),
+        ],
+    },
+    "marco": {
+        "done": ("A tavern with nine tables and a menu that changes with the seasons. Lyra has her own table, by the window. She never orders. She says she trusts the chef. You make her something new every time.",
+                 "Una taverna con nove tavoli e un menu che cambia con le stagioni. Lyra ha il suo tavolo, vicino alla finestra. Non ordina mai. Dice che si fida dello chef. Tu le prepari qualcosa di nuovo ogni volta."),
+        "quests": [
+            (("A Kitchen of One's Own", "Una cucina tutta mia"), ("Marco wants to open a tavern in Aldermere. The pantry needs eggs, milk and herbs.", "Marco vuole aprire una taverna ad Aldermere. La dispensa ha bisogno di uova, latte ed erbe."),
+             [(COLLECT, "egg", 6), (COLLECT, "fresh_milk", 4), (COLLECT, "healing_herb", 4)], {"xp": 3000, "gold": 2500, "items": {"royal_feast": 1}},
+             ("You cooked for forty in a sanctum. Now cook for a town. A tavern, Marco. The pantry first: the hens and the goats of the villages will help.", "Hai cucinato per quaranta in un santuario. Ora cucina per una città. Una taverna, Marco. Prima la dispensa: le galline e le capre dei villaggi ti aiuteranno."),
+             ("Six eggs, four bowls of milk, four healing herbs.", "Sei uova, quattro ciotole di latte, quattro erbe curative."),
+             ("The pantry is full and you rearranged it three times. By colour, then by season, then by colour again.", "La dispensa è piena e l'hai risistemata tre volte. Per colore, poi per stagione, poi di nuovo per colore.")),
+            (("Game for the Opening", "Selvaggina per l'apertura"), ("The opening night needs a roast. Hunt five wild boars.", "La serata d'apertura ha bisogno di un arrosto. Caccia cinque cinghiali."),
+             [(KILL, "wild_boar", 5)], {"xp": 4000, "gold": 3500, "items": {"hearty_stew": 4}},
+             ("An opening without a roast is a funeral with napkins. Five wild boars, from the woods of Verdalis.", "Un'apertura senza arrosto è un funerale con i tovaglioli. Cinque cinghiali, dai boschi di Verdalis."),
+             ("Five wild boars.", "Cinque cinghiali."),
+             ("Nine tables, ninety guests, and Hestia asked for the recipe. You said no. She said nobody says no to her. You said 'buonanotte'.", "Nove tavoli, novanta ospiti, e Hestia ha chiesto la ricetta. Hai detto di no. Ha detto che nessuno le dice di no. Hai detto 'buonanotte'.")),
+        ],
+    },
+    "yuki": {
+        "done": ("A gallery in Aldermere, with nothing stolen in it. Every painting was given, by the people who painted it. Lyra brought one: a door, slightly open. You hung it by the entrance.",
+                 "Una galleria ad Aldermere, senza niente di rubato. Ogni quadro è stato donato da chi lo ha dipinto. Lyra ne ha portato uno: una porta, un po' aperta. L'hai appeso all'ingresso."),
+        "quests": [
+            (("Colours of Verdalis", "I colori di Verdalis"), ("Yuki wants to teach painting. Paints need wildflowers, berries and moss.", "Yuki vuole insegnare a dipingere. I colori hanno bisogno di fiori di campo, bacche e muschio."),
+             [(COLLECT, "wildflowers", 5), (COLLECT, "wild_berries", 5), (COLLECT, "moss_clump", 3)], {"xp": 3000, "gold": 2500, "items": {"potion_medium": 3}},
+             ("You took paintings, once. Now make the people who paint them. Paints first: yellow from flowers, red from berries, green from moss.", "Un tempo prendevi i quadri. Ora crea le persone che li dipingono. Prima i colori: giallo dai fiori, rosso dalle bacche, verde dal muschio."),
+             ("Five bunches of wildflowers, five handfuls of berries, three clumps of moss.", "Cinque mazzi di fiori di campo, cinque manciate di bacche, tre ciuffi di muschio."),
+             ("You ground the colours yourself and stained your fingers to the wrist. You have never looked happier.", "Hai macinato i colori da sola e ti sei macchiata le dita fino al polso. Non sei mai sembrata così felice.")),
+            (("Nothing Taken", "Niente di preso"), ("Shadow wolves prowl near the gallery at night. Hunt six in Whisperwood, so that nothing is ever taken from it.", "Di notte i lupi d'ombra si aggirano vicino alla galleria. Cacciane sei a Whisperwood, perché niente le venga mai preso."),
+             [(KILL, "wolf_shade", 6)], {"xp": 4000, "gold": 3500, "items": {"shadow_dagger": 1}},
+             ("The irony is not lost on me, Yuki: a gallery that needs a guard. The shade wolves of Whisperwood come at night. Six of them.", "L'ironia non mi sfugge, Yuki: una galleria che ha bisogno di una guardia. I lupi d'ombra di Whisperwood vengono di notte. Sei."),
+             ("Six shade wolves, in Whisperwood.", "Sei lupi d'ombra, a Whisperwood."),
+             ("Nothing taken, and the doors open all night. You sleep on a bench inside, just in case. Old habits.", "Niente preso, e le porte aperte tutta la notte. Dormi su una panca dentro, per ogni evenienza. Vecchie abitudini.")),
+        ],
+    },
+    "lena": {
+        "done": ("An infirmary with six beds, and all six empty most days. That is the point, you say. Lyra came for her check-up. You found nothing wrong. She was disappointed. You prescribed a walk.",
+                 "Un'infermeria con sei letti, e tutti e sei vuoti quasi sempre. È questo lo scopo, dici. Lyra è venuta per il controllo. Non hai trovato niente. Era delusa. Le hai prescritto una passeggiata."),
+        "quests": [
+            (("Six Beds", "Sei letti"), ("Lena wants an infirmary in Aldermere. Bring healing herbs and spider silk for bandages.", "Lena vuole un'infermeria ad Aldermere. Porta erbe curative e seta di ragno per le bende."),
+             [(COLLECT, "healing_herb", 8), (COLLECT, "spider_silk", 4)], {"xp": 3000, "gold": 2500, "items": {"potion_large": 3}},
+             ("You were a doctor of the dead. Be one of the living. An infirmary, small, clean. Herbs, and silk for bandages.", "Eri una dottoressa dei morti. Sii una dei vivi. Un'infermeria, piccola, pulita. Erbe, e seta per le bende."),
+             ("Eight healing herbs and four threads of spider silk.", "Otto erbe curative e quattro fili di seta di ragno."),
+             ("Six beds, made with the corners tucked the hospital way. You showed Maren how. She will never do it right.", "Sei letti, rifatti con gli angoli rimboccati come in ospedale. Hai mostrato a Maren come si fa. Non lo farà mai bene.")),
+            (("Clean Water", "Acqua pulita"), ("Moss slimes have fouled the wells around Aldermere. Clear eight, so that the infirmary stays empty.", "Gli slime di muschio hanno sporcato i pozzi intorno ad Aldermere. Liberane otto, perché l'infermeria resti vuota."),
+             [(KILL, "slime_moss", 8)], {"xp": 4000, "gold": 3500, "items": {"cleansing_draught": 3}},
+             ("Most sickness comes from water, you told me. The moss slimes of Whisperwood have found the wells. Eight of them.", "Quasi tutte le malattie vengono dall'acqua, mi hai detto. Gli slime di muschio di Whisperwood hanno trovato i pozzi. Otto."),
+             ("Eight moss slimes, in Whisperwood.", "Otto slime di muschio, a Whisperwood."),
+             ("Not one patient this month. You wrote it on the door in red. It is the happiest report you have ever signed.", "Nemmeno un paziente questo mese. L'hai scritto sulla porta in rosso. È il referto più felice che tu abbia mai firmato.")),
+        ],
+    },
+    "gideon": {
+        "done": ("A workshop in Fenwick, a sign that says 'Repairs', and a waiting list of three weeks. You fixed Lyra's shrine door. It still creaks, because she asked you to leave the creak. She likes knowing when people come.",
+                 "Una bottega a Fenwick, un'insegna che dice 'Riparazioni' e una lista d'attesa di tre settimane. Hai aggiustato la porta del santuario di Lyra. Cigola ancora, perché lei ti ha chiesto di lasciare il cigolio. Le piace sapere quando arriva qualcuno."),
+        "quests": [
+            (("Tools, not Crowns", "Attrezzi, non corone"), ("Gideon wants a workshop in Fenwick. Bring iron ore and stone for the tools and the forge.", "Gideon vuole una bottega a Fenwick. Porta minerale di ferro e pietra per gli attrezzi e la forgia."),
+             [(COLLECT, "iron_ore", 6), (COLLECT, "stone_chunk", 6)], {"xp": 3000, "gold": 2500, "items": {"foreman_maul": 1}},
+             ("You fix roofs with your hands and a borrowed hammer. A lord should own his tools, even a lord of nothing. Iron, and stone for a forge.", "Aggiusti i tetti con le mani e un martello in prestito. Un signore dovrebbe avere i suoi attrezzi, anche un signore di niente. Ferro, e pietra per una forgia."),
+             ("Six iron ores and six stone chunks.", "Sei minerali di ferro e sei pezzi di pietra."),
+             ("Hammer, tongs, chisel, all made by you. You hung them on the wall in a row, like a court. Old habits.", "Martello, tenaglie, scalpello, tutti fatti da te. Li hai appesi al muro in fila, come una corte. Vecchie abitudini.")),
+            (("The Golems Want Work", "I golem vogliono lavorare"), ("Stone golems wander out of Ironspine and break fences. Stop four of them.", "I golem di pietra escono da Ironspine e rompono gli steccati. Fermane quattro."),
+             [(KILL, "stone_golem", 4)], {"xp": 4000, "gold": 3500, "items": {"golem_amulet": 1}},
+             ("The golems of Ironspine have nothing to do and do it loudly, through fences. Four of them. Then the fences are your work, and paid.", "I golem di Ironspine non hanno niente da fare e lo fanno rumorosamente, attraverso gli steccati. Quattro. Poi gli steccati sono lavoro tuo, e pagato."),
+             ("Four stone golems, in Ironspine.", "Quattro golem di pietra, a Ironspine."),
+             ("Twenty fences mended, twenty farmers who call you 'Mister Gideon'. One of them called you 'Your Majesty' by mistake. You fixed his gate for free.", "Venti steccati riparati, venti contadini che ti chiamano 'signor Gideon'. Uno ti ha chiamato 'Maestà' per sbaglio. Gli hai aggiustato il cancello gratis.")),
+        ],
+    },
+}
