@@ -121,13 +121,16 @@ def patch_elder(region: str, tone: str, danger: int) -> None:
     quest = f"base:quest/side/friend_{region}"
     paid = f"friend_{region}_paid"
     mine = ("friend_offer", "friend_busy", "friend_paid")
-    choices = [c for c in nodes["menu"]["choices"] if c.get("next") not in mine]
-    nodes["menu"]["choices"] = [
+    old = nodes["menu"]["choices"]
+    # the choices of this tool keep their place in the menu (first, the first time), so that running it again changes nothing
+    at = next((i for i, c in enumerate(old) if c.get("next") in mine), 0)
+    choices = [c for c in old if c.get("next") not in mine]
+    nodes["menu"]["choices"] = [*choices[:at],
         {"text": "$i18n:dlg.role.friend.ask", "next": "friend_offer",
          "when": {"all": [{"renown_at_least": FRIEND_AT}, {"not": {"any": [{"quest_active": quest}, {"quest_done": quest}]}}]}},
         {"text": "$i18n:dlg.role.friend.status", "when": {"quest_active": quest}, "next": "friend_busy"},
         {"text": "$i18n:dlg.role.friend.report", "when": {"all": [{"quest_done": quest}, {"not": {"flag": paid}}]}, "next": "friend_paid"},
-        *choices]
+        *choices[at:]]
     nodes["friend_offer"] = {"type": "say", "speaker": "npc", "text": f"$i18n:dlg.friend.{tone}.offer", "next": "friend_choice"}
     nodes["friend_choice"] = {"type": "choice", "choices": [
         {"text": "$i18n:dlg.role.errand.accept", "effects": [{"effect": "start_quest", "quest": quest}], "next": "end"},
@@ -145,8 +148,11 @@ def patch_shopkeeper(tone: str, far: str) -> None:
     raw = path.read_text(encoding="utf-8", newline="")
     doc = json.loads(raw)
     nodes = doc["nodes"]
-    choices = [c for c in nodes["menu"]["choices"] if c.get("next") != "caravan"]
-    at = next(i for i, c in enumerate(choices) if c.get("next") == "shop") + 1
+    old = nodes["menu"]["choices"]
+    # the choice keeps its place in the menu (after the wares, the first time), so that running the tool again changes nothing
+    kept = next((i for i, c in enumerate(old) if c.get("next") == "caravan"), None)
+    choices = [c for c in old if c.get("next") != "caravan"]
+    at = kept if kept is not None else next(i for i, c in enumerate(choices) if c.get("next") == "shop") + 1
     nodes["menu"]["choices"] = [*choices[:at], {"text": "$i18n:dlg.role.caravan", "next": "caravan"}, *choices[at:]]
     nodes["caravan"] = {"type": "effects", "effects": [{"effect": "open_shop", "region": far, "markup_pct": MARKUP_PCT}], "next": "end"}
     write_json(path, doc, raw)

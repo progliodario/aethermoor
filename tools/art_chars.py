@@ -263,7 +263,7 @@ def write_rig() -> None:
             item["offset_side"] = list(SIDE_OFFSET[pid])
         parts.append(item)
     rig = {"$schema": "../../../../schemas/rig.schema.json", "id": "base:art/rig/humanoid", "parts": parts}
-    (ART / "rigs" / "humanoid.json").write_text(json.dumps(rig, indent=2) + "\n", encoding="utf-8")
+    (ART / "rigs" / "humanoid.json").write_text(json.dumps(rig, indent=2) + "\n", encoding="utf-8", newline="\n")
     idle = {
         "$schema": "../../../../schemas/clip.schema.json", "id": "base:art/clip/humanoid_idle", "rig": "base:art/rig/humanoid", "loop": True, "length_ticks": 90,
         "tracks": {
@@ -301,7 +301,7 @@ def write_rig() -> None:
         },
     }
     for name, clip in (("humanoid_idle", idle), ("humanoid_walk", walk), ("humanoid_attack", attack)):
-        (ART / "clips" / f"{name}.json").write_text(json.dumps(clip, indent=2) + "\n", encoding="utf-8")
+        (ART / "clips" / f"{name}.json").write_text(json.dumps(clip, indent=2) + "\n", encoding="utf-8", newline="\n")
 
 
 def finish(recipe: Recipe, name: str) -> None:

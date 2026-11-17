@@ -18,97 +18,101 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 - [Come è fatto il progetto](#come-è-fatto-il-progetto)
 - [Struttura delle cartelle](#struttura-delle-cartelle)
 - [Per chi sviluppa](#per-chi-sviluppa)
-- [Come si lavora qui](#come-si-lavora-qui)
+- [Come si lavora qui (anche con un'AI)](#come-si-lavora-qui-anche-con-unai)
 - [Documentazione](#documentazione)
 - [Che cosa manca](#che-cosa-manca)
 - [Contribuire e licenza](#contribuire-e-licenza)
 
 ## A che punto è
 
-**Versione di prova giocabile** (0.0.1, non ancora pubblicata come release). Si gioca dall'inizio su tre piattaforme: Windows, Linux e Android.
+**Versione di prova giocabile** (0.0.1, non ancora pubblicata come release). Si gioca dall'inizio alla fine su Windows, Linux e Android 11+: la CI compila e prova i tre a ogni modifica, e il proprietario li prova in gioco.
 
-| | Stato |
+I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `python tools/make_facts.py`, e un test fallisce se sono vecchi):
+
+<!-- facts:begin -->
+| Che cosa | Quanti (contati dai dati da `tools/make_facts.py`) |
 |---|---|
-| Windows e Linux | compilati e provati dalla CI a ogni modifica; provati in gioco dal proprietario |
-| Android 11+ | APK di debug compilato e provato dalla CI; provato in gioco dal proprietario |
-| Regole di gioco | uguali sui due client: 30 gruppi di vettori di conformità (490 casi) eseguiti da entrambi |
-| Lingue | italiano e inglese, complete (2621 testi) |
-| Suono | 174 effetti sonori sintetizzati dal gioco; musica e suoni d'ambiente sono scritti ma **spenti** finché non suonano bene |
+| Mondo | 8 regioni, 45 luoghi fatti a mano (sotterranei, tane, avamposti, santuari, Fenwick, il cottage dell'Ospite, Aldermere) e circa 130 insediamenti generati |
+| Protagonisti | 8, ognuno con un compagno (8 compagni) e una storia in cinque atti (96 missioni di storia) |
+| Creature | 75, di cui 27 guardiani e 8 Echi |
+| Missioni | 319 (24 storie dei paesani) |
+| Oggetti e ricette | 209 oggetti, 63 ricette (8 segrete) |
+| Progressione | 42 titoli, 16 talenti, 25 imprese |
+| Persone con nome | 37 nei dati del mondo, oltre ai paesani generati |
+| Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
+| Testi | 3278 chiavi, in italiano e inglese |
+| Regole uguali sui due client | 30 file di vettori di conformità, 534 casi, eseguiti dai test C++ e Kotlin |
+| Documenti | 18 specifiche, 13 ADR |
+<!-- facts:end -->
 
-**Fatto e da fare, in una riga per parte** (il dettaglio, voce per voce, è nella [sezione 8 della roadmap](docs/plan/06-roadmap-rischi-backlog.md#8-stato-e-prossimi-passi-aggiornato-al-13-novembre-2026)):
+**Fatto e da fare, in una riga per parte** (il dettaglio voce per voce è nella [sezione 8 della roadmap](docs/plan/06-roadmap-rischi-backlog.md#8-stato-e-prossimi-passi)):
 
 | Parte | Fatto | Da fare |
 |---|---|---|
-| Fondamenta, regole, CI | tutto | — |
-| Grafica | arte da anime per tutto, luce, vento, acqua, ombre, font | persone viste di lato, controlli automatici dei fotogrammi |
-| Combattimento | completo (elementi, stati, parata, stagger, guardiani) | ritocchi di bilanciamento, sempre verso scontri facili |
-| Mondo | enorme, otto regioni, città e sotterranei, meteo che conta | prestazioni misurate su un telefono |
-| Missioni e storie | 263 missioni, otto storie complete con epilogo | altre storie per regione, i doni ancora spenti |
-| Vita | raccolta, pesca, caccia, orti e animali, bauli condivisi in ogni villaggio, un venditore ambulante, 63 ricette (otto segrete, da imparare), cibi con effetti, accessori | una casa tutta del giocatore |
-| Compagni | uno per protagonista, comandi, legame, cura | altri comandi, più compagni insieme, domare e comandare |
-| Progressione | talenti (anche abilità, due con un tasto proprio), 42 titoli, bestiario, reincarnazione con eredità, 25 imprese di tutte le partite | tag, rune |
+| Fondamenta, regole, CI | tutto | controlli automatici dei fotogrammi, ktlint e detekt in CI |
+| Grafica | arte da anime per tutto, persone viste di fronte, di lato e di spalle, luce dell'ora, vento, acqua, ombre, font del pack | — |
+| Combattimento | completo: elementi, stati, parata, stagger, guardiani, abilità a comando | ritocchi, sempre verso scontri facili |
+| Mondo | enorme, otto regioni, città, sotterranei, meteo che nasconde e rallenta | prestazioni misurate su un telefono, il vento |
+| Missioni e storie | storie in cinque atti per ogni protagonista, storie dei paesani, gilda, leggende, taglie | la modalità Dungeon di Gideon |
+| Vita | raccolta, pesca, caccia, orti, animali, bauli condivisi, il cottage dell'Ospite, venditori ambulanti, ricette segrete, cibi con effetti | arredare il cottage, mercanti che viaggiano davvero |
+| Compagni | uno per protagonista con comandi, legame e cura; Haruka doma un secondo compagno | più compagni scelti dal giocatore |
+| Progressione | talenti con abilità, titoli con effetti, bestiario, reincarnazione con eredità, imprese che danno echi | tag, rune e affissi |
+| Accessibilità | consigli, numeri dei danni e lampi disattivabili, testo grande, tasti configurabili | — |
 | Uscita | versioni di prova dalla CI | release Alpha 0.1 e poi 1.0 (decide il proprietario) |
 
 ## Che cosa c'è nel gioco
 
+Il catalogo completo, generato dai dati, è in [`docs/design/catalog.md`](docs/design/catalog.md).
+
 **Mondo**
 
-- Un mondo aperto di 16384 x 16384 caselle generato da un seme, sempre uguale a parità di seme, caricato a pezzi mentre cammini.
-- Otto regioni con terreno, creature, negozi e modo di parlare propri; giorno e notte, quattro stagioni, meteo.
-- Circa 130 insediamenti, 44 luoghi fatti a mano (sotterranei con guardiano, tane, nidi, avamposti con un viandante e la sua storia), e due paesi scritti a mano: **Fenwick**, il villaggio dove cominci, e **Aldermere**, la città della gilda madre, con persone che hanno un nome e missioni proprie.
-- Pietre della Soglia per curarsi e viaggiare fra i posti già visitati.
-- Mappa del mondo con zoom, meta da segnare e mini mappa, e ogni missione mette la sua meta (il luogo dove andare, segnato in arancione); si scopre la terra in un quadrato di 5 x 5 celle (640 caselle) intorno a te.
+- Un mondo aperto di 16384 x 16384 caselle generato da un seme (sempre uguale a parità di seme), caricato a pezzi mentre cammini; otto regioni con terreno, creature, negozi e modo di parlare propri.
+- Giorno e notte, quattro stagioni, meteo: la pioggia e la notte ti nascondono alle creature, pioggia e neve le rallentano, la pioggia fa crescere prima gli orti.
+- Insediamenti generati e luoghi fatti a mano: sotterranei e tane con guardiano, nidi, otto avamposti (con un viandante, un abitante del posto e un venditore ambulante), otto santuari degli Echi, **Fenwick** (dove cominci), **il cottage dell'Ospite** a est di Fenwick e **Aldermere**, la città della gilda madre.
+- Pietre della Soglia per curarsi e viaggiare; mappa del mondo con zoom, meta da segnare e mini mappa; ogni missione segna dove andare.
 
 **Combattimento**
 
-- Attacco, colpo potente che costa mana, schivata con un momento di invulnerabilità, parata che stordisce chi ti colpisce.
-- Sei elementi (fuoco, acqua, vento, terra, luce, buio): armi e abilità ne hanno uno, le creature hanno debolezze e resistenze.
-- Stati alterati su creature e giocatore: bruciatura, gelo, stordimento, indebolimento.
-- Stagger: i colpi riempiono una barra sotto la vita della creatura; piena, la creatura resta spezzata per due secondi e subisce più danno.
-- 75 creature con comportamenti diversi (anche selvaggina da cacciare: cinghiali, alci e volpi delle dune), 27 guardiani e 8 Echi, i boss personali dei protagonisti.
+- Attacco, colpo potente che costa mana, schivata con un attimo di invulnerabilità, parata che stordisce.
+- Sei elementi con debolezze e resistenze, stati alterati (bruciatura, gelo, stordimento, indebolimento) su creature e giocatore, stagger.
+- Guardiani con la loro barra in cima allo schermo, e otto Echi, i boss personali dei protagonisti.
+- Facile di proposito: il protagonista è fortissimo, ed è il tema del gioco.
 
-**Vita e progressione**
+**Persone e missioni**
 
-- Gilda degli avventurieri con bacheca e commissioni, 263 missioni (tra cui il Libro delle Leggende dell'archivista, un guardiano per regione, e le taglie della maestra della gilda su ogni altro guardiano), negozi, locande, lavori degli anziani.
-- 209 oggetti; raccolta da cespugli, alberi, rocce, cactus, fiori, felci, ceppi, tronchi, legni portati dal mare e ghiaccio, funghi nei boschi, **pesca** nei canneti delle spiagge e **caccia**; 51 ricette (i piatti migliori **fortificano**, più attacco per un po', gli infusi delle regioni **proteggono**, più difesa, i dolci e le razioni **rigenerano** la vita poco a poco, e l'infuso di foglia di vento ti fa **correre** più veloce) (pozioni, infusi ed elisir delle regioni, piatti cucinati al fuoco, equipaggiamento, ed equipaggiamento pregiato all'incudine delle città).
-- Un compagno per protagonista: ti segue, combatte, resta dove gli dici, e il suo legame cresce con le sue vittorie: dopo dieci, ti cura un po' ogni dieci secondi.
-- Titoli del modo di giocare che cambiano il gioco: il Raccoglitore trova di più, l'Artigiano crea di più, la Guardia incrollabile para più a lungo, il Veterano guadagna più esperienza.
-- Un albero di sedici talenti, con due abilità da usare a comando (Onda d'urto e Rimarginare): un punto per livello, quattro radici (attacco, vita, mana, difesa), un secondo anello che si apre al rango 5 (critico, secondo fiato, magia, velocità), una corona (Leggenda, Baluardo) e quattro abilità che si aprono al rango 3 di ogni radice: Turbine (il colpo potente colpisce tutto intorno), Fame di battaglia (vita a ogni uccisione), Flusso (mana a ogni uccisione), Risposta (la parata restituisce il colpo).
-- Fama nelle regioni: ogni missione finita in una regione abbassa i prezzi dei suoi negozi (fino a un quarto), cambia il saluto di anziani e bottegai e, dopo cinque, vale un letto gratis alla locanda.
-- Pollaio e recinto delle capre in ogni villaggio: uova, latte, frittate, formaggio e frittelle.
-- I paesani di ogni regione raccontano un loro guaio in due missioni (sedici storie nuove).
-- I negozi pagano meno se vendi troppo della stessa cosa nello stesso giorno.
-- Un orto in ogni villaggio: semi da piantare, raccolto in un paio di minuti.
-- I cancellieri della Gilda e gli anziani premiano chi è stimato dalla loro fazione; i crediti si aprono dalla schermata iniziale.
-- Quattro fazioni (la Gilda, l'Anello dei Viandanti, i Cronisti, la Gente): ogni missione conta per una di loro, con i suoi titoli.
-- Consigli, numeri dei danni e lampi si possono spegnere.
-- Consigli per i primi minuti, uno alla volta, quando servono.
-- Un piatto segreto per regione, che il bottegaio insegna a pagamento; la tasca di Yuki non ha fondo.
-- Haruka doma, e l'ultima creatura domata resta con lei come secondo compagno.
-- Haruka doma: calma una creatura ferita, che se ne va in pace e vale come una vittoria.
-- Un compito da amico dall'anziano di ogni regione, e in ogni bottega le merci portate dalla carovana da un'altra regione.
-- Giorni di mercato: i prezzi di ogni regione cambiano con il giorno, per comprare e per vendere; e ogni regione tiene da parte due pezzi rari per chi vi è conosciuto.
-- Opere pregiate: ciò che crei può riuscire pregiato (una porzione in più, o il pezzo pregiato al posto di quello semplice), più spesso con i titoli da artigiano.
-- Tre posti per l'equipaggiamento: arma, armatura e **accessorio** (nove: collane, pendenti, anelli e amuleti fatti all'incudine o lasciati dai guardiani, con bonus a attacco, vita, critico, difesa, magia, o che ti restituiscono vita a ogni colpo); e una pozione che **purifica** da bruciature, gelo, stordimento e indebolimento.
-- Un bestiario che dice a cosa è debole ogni creatura sconfitta, a cosa resiste e cosa lascia, 42 titoli che aumentano l'attacco (anche per i cacciatori), e un profilo comune a tutte le partite: ogni titolo mai ottenuto dà un po' di vita in più a ogni partita (gli "echi"), e una partita arrivata al livello 10 può **reincarnarsi**: finisce, ogni vita passata dà +3% di vita a tutte le successive, e metà del suo oro, con l'arma che impugnava, passa in eredità alla prossima partita nuova.
-- Tre partite separate, salvataggio automatico, esportazione e importazione di una partita in un file.
+- Gilda con ranghi e bacheca, negozi, locande, lavori degli anziani, favori dei locandieri, botteghe, il Libro delle Leggende, le taglie su ogni guardiano.
+- I paesani di ogni regione raccontano i loro guai in tre missioni; persone con nome a Fenwick (Bran, Odile, Tobin, Nonna Brin), ad Aldermere (Hestia, Rook, Selwyn, Wendel, Suor Maren, Corvin) e negli avamposti.
+- Quattro fazioni (la Gilda, l'Anello dei Viandanti, i Cronisti, la Gente) con titoli e doni; la fama nelle regioni abbassa i prezzi e cambia il saluto della gente.
 
-Il catalogo completo dei contenuti, generato dai dati, è in [`docs/design/catalog.md`](docs/design/catalog.md).
+**Vita**
+
+- Raccolta da alberi, cespugli, rocce e dalla scenografia selvatica; pesca nei canneti; caccia a cinghiali, alci e volpi delle dune.
+- Orti in ogni villaggio, pollai e recinti delle capre; ricette al falò e all'incudine, opere pregiate, un piatto segreto per regione insegnato dal bottegaio.
+- Cibi e infusi che fortificano, proteggono, rigenerano o fanno correre; una pozione che purifica.
+- Un **baule** in ogni villaggio e città: tutti tengono le stesse cose.
+- Il **cottage dell'Ospite**: baule, falò, incudine, orti, galline, una capra e una Pietra della Soglia; Nonna Brin te lo regala dopo i suoi tre favori.
+- Negozi con giorni di mercato, merci di altre regioni, pezzi rari per gli amici; pagano meno se vendi troppo della stessa cosa. Corvin ad Aldermere e un venditore in ogni avamposto portano ogni giorno le merci di una regione diversa.
+
+**Progressione**
+
+- Livelli, un albero di talenti con abilità (due da usare con un tasto), titoli che cambiano il gioco, un bestiario con le debolezze.
+- Un profilo comune a tutte le partite: titoli, vite passate e **imprese** danno "echi" (salute in più a ogni partita); dal livello 10 una partita può **reincarnarsi** e lasciare in eredità metà dell'oro e l'arma.
+- Un compagno per protagonista che segue, combatte, resta, torna e cura; Haruka doma le creature e l'ultima resta con lei.
 
 ## I protagonisti
 
-Ognuno ha un prologo con Lyra, un dono, due abilità d'attacco, due missioni personali e una storia completa in tre atti, un epilogo e un quinto atto, "Una vita qui", data da Suor Maren ad Aldermere: "Il primo eco" a Verdalis, "Il secondo eco" e "L'ultimo eco" in altre regioni (Ren nelle miniere di Ironspine e nella Cripta di Ossidiana, Sakura all'osservatorio di Lumeria, Gideon nel suo vecchio regno...), tre missioni per atto, ognuno chiuso da un guardiano, e un epilogo contro il proprio **Eco**: il momento che lo ha portato su Aethermoor, diventato una creatura, in uno degli otto santuari intorno alla partenza.
+Ognuno ha un prologo con Lyra, un dono, due abilità d'attacco, due missioni personali e una storia in cinque atti data da Suor Maren ad Aldermere: "Il primo eco" a Verdalis, il secondo e il terzo in altre regioni, l'epilogo contro il proprio **Eco** (il momento che lo ha portato qui, diventato una creatura, in uno degli otto santuari intorno alla partenza) e "Una vita qui", i primi passi della vita nuova.
 
 | Protagonista | Chi era | Dono | Tono | Compagno |
 |---|---|---|---|---|
 | Ren Takahashi | impiegato, investito da un camion | vede i numeri di ciò che lo attacca (Analizza) | commedia leggera | Orbe, un fuoco fatuo |
 | Sakura Mori | studentessa di fisica | mana enorme, colpisce con la magia | comica | Newton, un gufo |
 | Daichi Okabe | vigile del fuoco | uno scudo che lo salva dalla morte | dramma | Brace, un lupo |
-| Haruka Aizawa | veterinaria | capisce e cura le creature | accogliente | Pip, uno slime |
+| Haruka Aizawa | veterinaria | capisce, cura e doma le creature | accogliente | Pip, uno slime |
 | Marco Ferri | ingegnere e cuoco | il sapere del mondo moderno | avventura | Pentola, un granchio |
 | Yuki Shirogane | ladra d'arte | una tasca che nessuno può perquisire | noir | Ombra, un pipistrello |
 | Lena Voss | medico legale | vede ciò che uccide, e ha un'altra possibilità | cupo | Mortina, un ragno |
-| Gideon Valmor | il Re Demone, reincarnato | le creature lo temono | commedia nera | Tenebra, un lupo d'ombra |
+| Gideon Valmor | il Re Demone, reincarnato | le creature lo temono, il suo compagno colpisce il doppio | commedia nera | Tenebra, un lupo d'ombra |
 
 Regole e numeri di ognuno: [spec 18](docs/spec/18-protagonists.md).
 
@@ -122,31 +126,32 @@ Non c'è ancora una release: le versioni di prova sono gli **artifact della CI**
 | Linux | `aethermoor-linux-gcc` | scompatta e avvia `./aethermoor`, con la cartella `data` accanto |
 | Android 11+ | `aethermoor-debug-apk` | installa l'APK (serve permettere le app da origini sconosciute) |
 
-Il gioco sceglie italiano o inglese dalla lingua del sistema (`F2` la cambia). Si apre su tre partite: una partita nuova chiede chi essere. Il file [`desktop/PLAY.txt`](desktop/PLAY.txt), incluso nella versione di prova, elenca tutti i comandi e che cosa provare.
+Il gioco sceglie italiano o inglese dalla lingua del sistema (`F2` la cambia). Si apre su tre partite; una partita nuova chiede chi essere. Il file [`desktop/PLAY.txt`](desktop/PLAY.txt), incluso nella versione di prova, elenca tutti i comandi e che cosa provare.
 
 ## Comandi
 
-**Tastiera** (il gamepad è supportato: levetta sinistra, `A` attacca, `X` parla, `RB` colpo potente, `LB` parata, `B` schivata)
+**Tastiera** (anche gamepad: levetta sinistra, `A` attacca, `X` parla, `RB` colpo potente, `LB` parata, `B` schivata)
 
 | Azione | Tasto | Azione | Tasto |
 |---|---|---|---|
 | Muoversi | `WASD` o frecce | Zaino | `I` |
 | Attaccare | `J` o `Spazio` | Diario con stato, titoli, bestiario | `Q` o `V` |
-| Colpo potente | `K` | Mappa del mondo | `M` |
-| Schivata | `L` o `Maiusc` | Mini mappa | `N` |
-| Parata | `U` | Creazione, e talenti con `Tab` | `C` |
-| Parlare, toccare una pietra, raccogliere | `E` | Compagno: resta / segui | `H` |
-| Analizza (Ren) | `Z` | Volumi | `F10` |
-| Salvataggio rapido / carica | `F5` / `F9` | Suono sì / no | `F8` |
-| Chiudere un pannello, tornare alle partite | `Esc` | Lingua | `F2` |
+| Colpo potente | `K` | Mappa del mondo / mini mappa | `M` / `N` |
+| Schivata | `L` o `Maiusc` | Creazione, e talenti con `Tab` | `C` |
+| Parata | `U` | Compagno: resta / segui, torna | `H`, `G` |
+| Parlare, toccare una pietra, raccogliere, coltivare, aprire un baule | `E` | Onda d'urto / Rimarginare (talenti) | `R` / `T` |
+| Analizza (Ren) | `Z` | Domare (Haruka) | `B` |
+| Salvataggio rapido / carica | `F5` / `F9` | Impostazioni (volumi, accessibilità, testo grande) | `F10` |
+| Tasti a scelta | `F4` | Suono sì / no, lingua | `F8`, `F2` |
+| Chiudere un pannello, tornare alle partite | `Esc` | Imprese (schermata delle partite) | `A` |
 
-La scritta sopra ciò che hai vicino dice che cosa farà `E`: *Parla*, *Tocca la pietra* o *Raccogli*. Ogni azione può avere un tasto in più a tua scelta: `F4` nel gioco apre il pannello dei tasti (oppure si compila il file `keys.json` accanto alle impostazioni).
+La scritta sopra ciò che hai vicino dice che cosa farà `E`. Ogni azione può avere un tasto in più a tua scelta (`F4`, oppure il file `keys.json` accanto alle impostazioni).
 
-**Android:** la metà sinistra dello schermo è una levetta che compare dove tocchi; un tocco a destra attacca; i pulsanti in basso a destra sono schivata, colpo potente e parata; in alto a sinistra ci sono zaino, mappa, diario, lingua, suono, creazione e il pulsante del compagno. Il tasto Indietro chiude un pannello o torna alle partite. Tutti i dettagli: [spec 16](docs/spec/16-input.md).
+**Android:** la metà sinistra dello schermo è una levetta che compare dove tocchi; un tocco a destra attacca; i pulsanti in basso a destra sono schivata, colpo potente e parata; in alto ci sono zaino, mappa, diario, lingua, suono, creazione e compagno; le opzioni di accessibilità sono in fondo al diario. Il tasto Indietro chiude un pannello o torna alle partite. Tutti i dettagli: [spec 16](docs/spec/16-input.md).
 
 ## Come è fatto il progetto
 
-Due programmi **separati**, scritti in due linguaggi, che devono comportarsi in modo **identico**:
+Due programmi **separati**, in due linguaggi, che devono comportarsi in modo **identico**:
 
 | Client | Cartella | Tecnologia |
 |---|---|---|
@@ -155,28 +160,28 @@ Due programmi **separati**, scritti in due linguaggi, che devono comportarsi in 
 
 Quello che li tiene uguali:
 
-1. **Le specifiche** in [`docs/spec/`](docs/spec): ogni regola di gioco è scritta lì prima del codice.
+1. **Le specifiche** in [`docs/spec/`](docs/spec/README.md): ogni regola di gioco è scritta lì prima del codice.
 2. **Un'implementazione di riferimento in Python** in [`tools/reference/`](tools/reference), che esegue le stesse regole.
-3. **I vettori di conformità** in [`tests/conformance/`](tests/conformance): casi con ingressi e risultati attesi, generati dal riferimento. I test dei due client li eseguono tutti; se un client devia, la CI fallisce.
-4. **I dati** in [`data/`](data): creature, oggetti, missioni, dialoghi, arte, suoni, mondo e testi sono file JSON letti da entrambi i client. Nel codice non ci sono nomi, testi o numeri di bilanciamento.
+3. **I vettori di conformità** in [`tests/conformance/`](tests/conformance): ingressi e risultati attesi generati dal riferimento ed eseguiti dai test dei due client; se un client devia, la CI fallisce.
+4. **I dati** in [`data/`](data): creature, oggetti, missioni, dialoghi, arte, suoni, mondo e testi sono JSON letti da entrambi i client. Nel codice non ci sono nomi, testi o numeri di bilanciamento.
 
-Altre scelte importanti: la matematica di gioco è **solo intera** (percentuali e permille), la generazione del mondo è **deterministica** (interi e virgola fissa, niente `float`), la grafica è fatta di **ricette vettoriali** in JSON disegnate dal rasterizzatore, e anche i suoni sono ricette sintetizzate dal gioco. Le decisioni di architettura sono negli [ADR](docs/adr/README.md).
+La matematica di gioco è **solo intera** (percentuali e permille), la generazione del mondo è **deterministica** (interi e virgola fissa), la grafica è fatta di **ricette vettoriali** in JSON scritte da strumenti Python, e anche i suoni sono ricette sintetizzate. Le decisioni di architettura sono negli [ADR](docs/adr/README.md).
 
 ## Struttura delle cartelle
 
 ```text
-docs/        documentazione
-  plan/        piano del progetto, roadmap, rischi (italiano)
+AGENTS.md, CLAUDE.md  regole di lavoro per gli assistenti AI (e utili a chiunque modifichi il progetto)
+docs/        documentazione (indice: docs/index.md)
+  plan/        piano del progetto, roadmap e stato (italiano)
   spec/        regole normative per i due client (inglese)
-  design/      stile grafico, catalogo dei contenuti e rapporto di bilanciamento (generati)
+  design/      stile grafico; catalogo, bilanciamento e traduzioni (generati)
   adr/         decisioni di architettura
   guides/      come aggiungere contenuti
   dev/         come preparare l'ambiente e compilare
 schemas/     JSON Schema di ogni tipo di dato
-data/base/   il pacchetto ufficiale: arte, suoni, creature, oggetti, abilità, protagonisti, compagni,
-             missioni, dialoghi, mondo, ricette, titoli, testi in italiano e inglese
+data/base/   il pacchetto ufficiale: arte, suoni, creature, oggetti, missioni, dialoghi, mondo, testi (it, en)
 tests/       vettori di conformità condivisi (generati: non si modificano a mano)
-tools/       script Python: validazione, riferimento delle regole, generatori di dati e arte, ship.py
+tools/       Python: validazione, riferimento delle regole, generatori, ship.py (guida: tools/README.md)
 desktop/     client Windows e Linux (C++, CMake, vcpkg)
 android/     client Android (Kotlin, Gradle): core (regole, JVM pura), game (libGDX), app (avvio)
 ```
@@ -188,7 +193,8 @@ Serve Python 3.12 o più recente per dati e strumenti; per compilare i client se
 ```bash
 python -m venv .venv
 .venv/Scripts/pip install -r tools/requirements.txt   # su Linux: .venv/bin/pip
-python tools/validate_data.py                         # controlla dati, schemi e testi
+python tools/validate_data.py                         # dati, schemi, riferimenti, testi
+python -m pytest -q tools/tests                       # riferimento, contenuti, documenti
 python tools/gen_conformance.py --check               # i vettori corrispondono al riferimento?
 ```
 
@@ -202,46 +208,37 @@ ctest --preset windows-release
 cd android && gradle :core:test :app:assembleDebug
 ```
 
-Gli script di tutti i giorni sono descritti in [`tools/README.md`](tools/README.md). I più usati:
+Che cosa fa ogni script, quale si può rilanciare e che cosa lanciare dopo aver cambiato qualcosa: [`tools/README.md`](tools/README.md). Per aggiungere un oggetto, una creatura, una missione, una ricetta, un titolo, un luogo, una regione o una lingua c'è la [guida](docs/guides/add-content.md): quasi tutto è solo dati.
 
-| Script | A che cosa serve |
-|---|---|
-| `validate_data.py` | controlla ogni file di dati contro il suo schema, gli ID e i testi nelle due lingue |
-| `gen_conformance.py` | rigenera i vettori di conformità dal riferimento Python |
-| `make_*.py` | generatori di dati da tabelle nel codice (ricette, titoli, compagni, prologhi, suoni, arte, timbri dei luoghi) |
-| `make_catalog.py`, `balance_report.py` | scrivono il catalogo dei contenuti e il rapporto di bilanciamento |
-| `ship.py` | controlli, commit firmato, PR, attesa della CI e merge in un solo comando |
+## Come si lavora qui (anche con un'AI)
 
-Per aggiungere un oggetto, una creatura, una missione, una ricetta, un titolo, un luogo, una regione o una lingua c'è la [guida](docs/guides/add-content.md): quasi tutto è solo dati.
-
-## Come si lavora qui
-
-Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI che scrive codice, dati e documenti. Le regole di lavoro sono in [`CLAUDE.md`](CLAUDE.md); in breve:
+Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI che scrive codice, dati e documenti. Le regole di lavoro sono in [`CLAUDE.md`](CLAUDE.md) (e [`AGENTS.md`](AGENTS.md) rimanda lì per gli altri assistenti); in breve:
 
 - **Prima la specifica**, poi riferimento, vettori, desktop e Android nella stessa modifica.
 - **Tutto è dato**: niente nomi, testi o numeri nel codice; ogni testo in italiano **e** inglese.
-- **PR grandi**: a ogni richiesta del proprietario Claude porta avanti **molte** voci della roadmap insieme e le spedisce in una PR sola, unita solo con la CI verde.
-- Le decisioni di design (storia, tono, bilanciamento) sono delegate a Claude; quelle di pubblicazione e di gestione del repository restano al proprietario.
-- Le prove in gioco, su Windows, Linux e Android, le fa il proprietario.
+- **Generato è generato**: i vettori, il catalogo, i numeri dei README e molti dati escono da strumenti; si cambia la fonte e si rilancia lo strumento.
+- **PR grandi**: a ogni richiesta Claude porta avanti molte voci della roadmap insieme e le spedisce in una PR sola con `tools/ship.py`, unita solo con la CI verde.
+- Le decisioni di design sono delegate a Claude; pubblicazione e gestione del repository restano al proprietario, che prova ogni modifica in gioco.
 
 ## Documentazione
 
 | Che cosa cerchi | Dove |
 |---|---|
+| Indice di tutta la documentazione | [`docs/index.md`](docs/index.md) |
 | Il piano, la roadmap e lo stato delle milestone | [`docs/plan/`](docs/plan/README.md) (italiano) |
 | Le regole di gioco, una per documento | [`docs/spec/`](docs/spec/README.md) |
 | Tutti i contenuti in tabelle | [`docs/design/catalog.md`](docs/design/catalog.md) |
 | Come aggiungere contenuti | [`docs/guides/add-content.md`](docs/guides/add-content.md) |
+| Che cosa fa ogni script | [`tools/README.md`](tools/README.md) |
 | Perché il progetto è fatto così | [`docs/adr/`](docs/adr/README.md) |
 | Che cosa è cambiato | [`CHANGELOG.md`](CHANGELOG.md) |
-| Indice di tutta la documentazione | [`docs/index.md`](docs/index.md) |
 
 ## Che cosa manca
 
-Le prossime cose, in ordine (dettagli nella [roadmap](docs/plan/06-roadmap-rischi-backlog.md)):
+Le prossime cose, in ordine (dettagli nella [roadmap](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine)):
 
-- **A breve:** testo più grande; base e residenti; controlli automatici dei fotogrammi.
-- **A medio termine:** tag, achievements, rune; la modalità Dungeon di Gideon; prestazioni misurate su un telefono; un sintetizzatore migliore per musica e ambiente (solo se il proprietario lo vuole).
+- **A breve:** controlli automatici della grafica; arredare il cottage; tag.
+- **A medio termine:** rune e affissi; altri residenti e mercanti che viaggiano; la modalità Dungeon di Gideon; prestazioni misurate su un telefono; un sintetizzatore migliore per musica e ambiente (solo se il proprietario lo vuole).
 - **Verso la 1.0:** pacchetti firmati, documentazione per chi fa mod, altre lingue.
 - **Decide il proprietario:** quando pubblicare la prima release (Alpha 0.1).
 

@@ -112,3 +112,13 @@ A new folder `data/base/i18n/<lang>/` with `core.json`, `content.json` and `role
 ## What the clients check by hard-coded numbers
 
 Some tests of the clients count things (stamps, people of the world, tiles of the tileset, the gid of the start tile). If CI fails after a data change, look there first.
+
+## After adding content
+
+```bash
+python tools/validate_data.py        # schemas, references, texts of both languages
+python tools/gen_conformance.py      # the vectors, if a rule or the world data changed
+python tools/make_catalog.py         # docs/design/catalog.md
+python tools/make_facts.py           # the numbers of the game in the READMEs, CLAUDE.md and the roadmap
+python -m pytest -q tools/tests      # the content tests and the documents
+```

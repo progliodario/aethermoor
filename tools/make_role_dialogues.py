@@ -281,10 +281,10 @@ def main() -> None:
     for role in ROLES:
         for tone in TONES:
             data = dialogue(role, tone)
-            (out_dir / f"{role}_{tone}.json").write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+            (out_dir / f"{role}_{tone}.json").write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
     for lang in ("en", "it"):
         path = DATA / "i18n" / lang / "roles.json"
-        path.write_text(json.dumps({"$schema": "../../../../schemas/i18n.schema.json", **texts(lang)}, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        path.write_text(json.dumps({"$schema": "../../../../schemas/i18n.schema.json", **texts(lang)}, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
     print(f"wrote {len(ROLES) * len(TONES)} dialogues and {len(texts('en'))} texts per language")
     print("people names:", json.dumps(PEOPLE_NAMES))
 

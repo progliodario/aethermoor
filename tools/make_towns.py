@@ -549,13 +549,13 @@ def main() -> None:
     content = {"en": {}, "it": {}}
     quests = 0
     for p in PEOPLE + OUTPOST_PEOPLE:
-        (DATA / "dialogues" / "npc" / f"{p['file']}.json").write_text(json.dumps(dialogue_of(p), indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        (DATA / "dialogues" / "npc" / f"{p['file']}.json").write_text(json.dumps(dialogue_of(p), indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
         for i, lang in enumerate(("en", "it")):
             core[lang][f"speaker.{p['key']}"] = p["name"][i]
             core[lang][f"dlg.town.{p['file']}.after"] = p["after"][i]
         for q in p["quests"]:
             quests += 1
-            (DATA / "quests" / "side" / f"{q['id']}.json").write_text(json.dumps(quest_of(q), indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+            (DATA / "quests" / "side" / f"{q['id']}.json").write_text(json.dumps(quest_of(q), indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
             for i, lang in enumerate(("en", "it")):
                 for part in ("offer", "busy", "thanks"):
                     core[lang][f"dlg.town.{p['file']}.{q['id']}.{part}"] = q[part][i]
@@ -572,3 +572,4 @@ if __name__ == "__main__":
     main()
     __import__("set_quest_places").main()  # the guardians' places (spec 07, "Places")
     __import__("set_factions").main()  # the faction of every quest (spec 07, "Factions")
+    __import__("make_faction_gifts").main()  # Selwyn's gift, which the dialogue written here leaves out (spec 07, "Factions")

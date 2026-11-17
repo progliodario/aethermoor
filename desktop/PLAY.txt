@@ -4,100 +4,89 @@ Aethermoor (working title) - playable test build / versione di prova
 EN
 --
 Run aethermoor (aethermoor.exe on Windows). Keep the "data" folder next to it.
-The game picks Italian or English from your system language.
+The game picks Italian or English from your system language (F2 switches).
 
   Move ............ WASD or arrow keys, or the left stick of a gamepad
   Attack .......... J or Space (gamepad: A)
-  Power strike .... K (gamepad: RB): a heavy blow that costs 10 mana (the blue bar)
-  Analyze ......... Z: level, health, attack, defense and drops of the nearest creature
+  Power strike .... K (gamepad: RB): a heavy blow that costs mana (the blue bar)
   Dodge roll ...... L or Left Shift (gamepad: B): a quick roll, you cannot be hurt for a moment
-  Talk / confirm .. E or Enter (gamepad: X), choices with W/S or 1-9
-  Bag ............. I (W/S to choose, E to use or wear)
-  Journal ......... Q (W/S to scroll); V too: it opens with your status (level, health, attack, defense...)       Language ..... F2 (Italian/English)
-  Shop ............ talk to a shopkeeper and pick the wares; Tab buy/sell, E confirm
-  Guild board ..... talk to a guild clerk in a town and choose the day's work; E accept
-  Threshold Stone . E next to a glowing stone: heals you and lets you travel to stones you woke
-  World map ....... M (then + / - or the wheel to zoom, WASD or drag to move, C = where I am, 0 = all, P or right click = mark a goal, X = remove it, Tab = next place found)
-  Close a panel ... Esc
-  Quick save ...... F5       Quick load .. F9       New game ......... F7
-  Small map ....... N (shows or hides the map in the corner)
-  Debug info ...... F3       Title ........ Esc (with no panel open)
-  Sound on or off . F8       Volumes ...... F10
-  Your own keys ... F4 in a game: choose an action, press E, then the key you want (or edit keys.json next to settings.json)
-  Reincarnate ..... R on the title screen, on a game of level 10 or more (twice): it ends, and all your games get stronger
-  Export a game ... X on the title screen (a file in the exports folder)   Import ... I
-  Crafting ........ C (make potions, rations, tools from what you gather)
-  Talents ......... C, then Tab: spend the point of each level on attack, health, mana or defense
-  Gather .......... E near a bush, a tree, a rock or a cactus (berries, herbs, wood, stone...)
-  Companion ....... H (stay here / follow me)
   Parry ........... U (just before a creature hits: no damage, and it is stunned; gamepad: LB)
+  Talk / use ...... E or Enter (gamepad: X): talk, choose (W/S or 1-9), touch a Threshold Stone, gather,
+                    tend a garden plot, open a chest. The words above what is near you say what E will do.
+  Analyze ......... Z (Ren): level, health, attack, defense and drops of the nearest creature
+  Abilities ....... R Shockwave, T Mend (once learned in the talent tree)
+  Companion ....... H stay here / follow me, G come back to me
+  Tame ............ B (Haruka): calm a creature hurt to half of its health
+  Bag ............. I (W/S to choose, E to use or wear)
+  Journal ......... Q or V: quests, your status, companion, titles, bestiary (W/S to scroll)
+  Crafting ........ C (Tab: the talents, one point each level)
+  World map ....... M (+ / - or the wheel to zoom, WASD or drag to move, C = where I am, 0 = all,
+                    P or right click = mark a goal, X = remove it, Tab = next place found)
+  Small map ....... N
+  Shop / chest .... Tab switches buy/sell (take/store), E confirms
+  Settings ........ F10: volumes and options (hints, damage numbers, flashes, large text)
+  Your own keys ... F4 in a game (or edit keys.json next to settings.json)
+  Sound on / off .. F8       Quick save .. F5       Quick load .. F9       New game .. F7
+  Close a panel ... Esc      Debug info .. F3
 
-The game opens on a list of three games, each with its own world and its own hero: a new game asks who to be
-(Ren, Sakura, Daichi, Haruka, Marco, Yuki, Lena or Gideon; W/S, E or the number keys). Pick one
-(W/S and E, the number keys 1-3 or the mouse); D twice deletes the selected game.
-Esc in a game saves it and comes back to this list; Esc here (or closing the window) quits.
-The game saves by itself every 30 seconds and when you quit; it continues
-where you left off (same world).
-Saves are in your user data folder.
+The title screen lists three games, each with its own world and its own hero; a new game asks who to be
+(Ren, Sakura, Daichi, Haruka, Marco, Yuki, Lena or Gideon). On this screen:
+  W/S, E or 1-3 .. choose and play      D twice ...... delete a game
+  R twice ........ reincarnate a game of level 10 or more (it ends, and all your games get stronger)
+  X / I .......... export a game to a file / import one      A ...... deeds      C ...... credits      Esc ... quit
+Esc in a game saves it and comes back to the list. The game saves by itself every 30 seconds and when you quit.
 
-What to try: head south-east to Fenwick, the village near the start: Elder Bran, Odile the baker and little Tobin have work for you;
-then go east (a little north) to Aldermere, the town of the mother guild, and meet Guildmaster Hestia, Quartermaster Rook and Archivist Selwyn.
-Talk to the other people too (each region has its own way of speaking),
-talk to the guild clerk Mira next to you and accept her quest,
-fight the green slimes, walk far away (the world is 16384 x 16384 tiles),
-open the map (M) and watch the day turn to night and the weather change.
-Pip, next to Mira, answers the questions of a newcomer. Elders, innkeepers, shopkeepers and guild clerks all have something to ask or
-offer (jobs, a bed for the night, things made from monster parts, commissions); the seasons change what people say and offer.
-Far from the start, each region has dungeons, lairs and nests, and an outpost with a shop, an inn, a Threshold Stone and a wayfarer with a story:
-the letters they send each other go round the whole world. Beside each wayfarer works someone of the place (a cook, a smith, a stargazer...) with two jobs of their own. Wake the stones of the towns you pass: they bring you home.
-Around the start, about 750 tiles away in every direction, stand eight sanctums, each with an Echo: the moment that brought one of the
-heroes here. Sister Maren in Aldermere tells each hero's story in three acts, and the last quest sends them to their own Echo.
+What to try: Mira, the guild clerk next to you, has your first quest, and Pip answers the questions of a newcomer.
+Head south-east to Fenwick: Elder Bran, Odile the baker, little Tobin and Nana Brin have work for you (do Nana's three
+favours: she gives you a cottage of your own, east of the village). Then go east, a little north, to Aldermere, the town
+of the mother guild: Guildmaster Hestia, Quartermaster Rook, Archivist Selwyn, Sister Maren (your hero's story) and
+Corvin the pedlar, who sells the goods of a different region every day. Fights are meant to be easy: you are the hero.
+Far from the start each region has dungeons, lairs, nests and an outpost with a wayfarer, a local and a pedlar.
+Wake the Threshold Stones you pass: they bring you home.
 
-Please tell me what feels wrong: speed, camera, combat, controls, the world.
+Please tell me what feels wrong: speed, camera, combat, controls, texts, the world.
 
 IT
 --
 Avvia aethermoor (aethermoor.exe su Windows). Tieni la cartella "data" accanto.
-Il gioco sceglie italiano o inglese dalla lingua del sistema.
+Il gioco sceglie italiano o inglese dalla lingua del sistema (F2 la cambia).
 
-  Muoversi ........ WASD o frecce, o stick sinistro del gamepad
+  Muoversi ........ WASD o frecce, o la levetta sinistra del gamepad
   Attaccare ....... J o Spazio (gamepad: A)
-  Colpo potente ... K (gamepad: RB): un colpo pesante che costa 10 mana (la barra blu)
-  Analizza ........ Z: livello, salute, attacco, difesa e bottino della creatura più vicina
+  Colpo potente ... K (gamepad: RB): un colpo pesante che costa mana (la barra blu)
   Capriola ........ L o Maiusc sinistro (gamepad: B): una rapida capriola, per un attimo nulla ti ferisce
-  Parlare/confermare  E o Invio (gamepad: X), scelte con W/S o 1-9
-  Zaino ........... I (W/S per scegliere, E per usare o indossare)
-  Diario .......... Q (W/S per scorrere)    Lingua ....... F2 (italiano/inglese)
-  Negozio ......... parla con il bottegaio e scegli la merce; Tab compra/vendi, E conferma
-  Bacheca ......... parla con l'impiegato della gilda in una citta e scegli il lavoro; E accetta
-  Pietra Soglia ... E vicino a una pietra luminosa: ti cura e viaggia verso le pietre risvegliate
-  Mappa del mondo . M (poi + / - o la rotella per lo zoom, WASD o trascina per muoverti, C = dove sono, 0 = tutto, P o clic destro = segna una meta, X = toglila, Tab = prossimo luogo scoperto)
-  Chiudere un pannello  Esc
-  Salvataggio rapido  F5     Carica ...... F9          Nuova partita ........ F7
-  Mini mappa ...... N (mostra o nasconde la mappa nell'angolo)
-  Info di debug ... F3       Titolo ....... Esc (senza pannelli aperti)
-  Suoni sì o no ... F8       Volumi ....... F10
-  Esportare ....... X nella schermata del titolo (un file nella cartella exports)   Importare ... I
-  Costruire ....... C (crea pozioni, razioni, attrezzi con ciò che raccogli)
-  Raccogliere ..... E vicino a un cespuglio, un albero, una roccia o un cactus (bacche, erbe, legno, pietra...)
   Parata .......... U (un attimo prima del colpo di una creatura: niente danno e la stordisci; gamepad: LB)
+  Parlare / usare . E o Invio (gamepad: X): parlare, scegliere (W/S o 1-9), toccare una Pietra della Soglia,
+                    raccogliere, coltivare un orto, aprire un baule. La scritta sopra ciò che hai vicino dice che cosa farà E.
+  Analizza ........ Z (Ren): livello, salute, attacco, difesa e bottino della creatura più vicina
+  Abilità ......... R Onda d'urto, T Rimarginare (una volta imparate nell'albero dei talenti)
+  Compagno ........ H resta qui / seguimi, G torna da me
+  Domare .......... B (Haruka): calma una creatura ferita a metà della salute
+  Zaino ........... I (W/S per scegliere, E per usare o indossare)
+  Diario .......... Q o V: missioni, il tuo stato, compagno, titoli, bestiario (W/S per scorrere)
+  Creazione ....... C (Tab: i talenti, un punto per livello)
+  Mappa del mondo . M (+ / - o la rotella per lo zoom, WASD o trascina per muoverti, C = dove sono, 0 = tutto,
+                    P o clic destro = segna una meta, X = toglila, Tab = prossimo luogo scoperto)
+  Mini mappa ...... N
+  Negozio / baule . Tab passa da compra a vendi (prendi a riponi), E conferma
+  Impostazioni .... F10: volumi e opzioni (consigli, numeri dei danni, lampi, testo grande)
+  Tasti a scelta .. F4 in una partita (oppure il file keys.json accanto a settings.json)
+  Suono sì / no ... F8       Salvataggio rapido .. F5       Carica .. F9       Nuova partita .. F7
+  Chiudere ........ Esc      Info di debug ....... F3
 
-All'avvio vedi un elenco di tre partite, ognuna con il suo mondo e il suo eroe: una nuova partita chiede chi vuoi essere
-(Ren, Sakura, Daichi, Haruka, Marco, Yuki, Lena o Gideon; W/S, E o i tasti numerici). Scegline una
-(W/S ed E, i tasti 1-3 o il mouse); D due volte cancella la partita selezionata.
-Esc in una partita la salva e torna a questo elenco; Esc qui (o chiudere la finestra) esce.
-Il gioco salva da solo ogni 30 secondi e quando esci, e riprende da dove avevi
-lasciato (stesso mondo).
-I salvataggi sono nella cartella dati dell'utente.
+La schermata iniziale elenca tre partite, ognuna con il suo mondo e il suo eroe; una partita nuova chiede chi vuoi essere
+(Ren, Sakura, Daichi, Haruka, Marco, Yuki, Lena o Gideon). In questa schermata:
+  W/S, E o 1-3 ... scegli e gioca          D due volte .. cancella una partita
+  R due volte .... reincarna una partita di livello 10 o più (finisce, e tutte le tue partite diventano più forti)
+  X / I .......... esporta una partita in un file / importane una      A ...... imprese      C ...... crediti      Esc ... esci
+Esc in una partita la salva e torna all'elenco. Il gioco salva da solo ogni 30 secondi e quando esci.
 
-Cosa provare: vai a sud-est, al villaggio vicino al punto di partenza, e parla con la gente
-(ogni regione ha il suo modo di parlare); parla con l'impiegata della gilda Mira, qui accanto, e accetta la
-sua missione; combatti gli slime verdi; allontanati (il mondo e' di
-16384 x 16384 tile); apri la mappa (M) e guarda il giorno che diventa notte
-e il meteo che cambia.
-Pip, vicino a Mira, risponde alle domande di chi arriva. Anziani, locandieri, bottegai e impiegati della gilda hanno tutti qualcosa da chiedere
-o da offrire (lavori, un letto per la notte, oggetti fatti con parti di mostri, commissioni); le stagioni cambiano ciò che la gente dice e offre.
-Lontano dal punto di partenza, ogni regione ha sotterranei, tane e nidi, e un avamposto con negozio, locanda, Pietra della Soglia e un viandante con una storia:
-le lettere che si scrivono fanno il giro del mondo. Risveglia le pietre delle città che attraversi: ti riportano a casa.
+Che cosa provare: Mira, l'impiegata della gilda accanto a te, ha la tua prima missione, e Pip risponde alle domande di chi arriva.
+Vai a sud-est, a Fenwick: l'anziano Bran, la fornaia Odile, il piccolo Tobin e Nonna Brin hanno lavoro per te (fai i tre favori
+di Nonna Brin: ti regala un cottage tutto tuo, a est del villaggio). Poi vai a est, un po' a nord, ad Aldermere, la città della
+gilda madre: la maestra Hestia, il quartiermastro Rook, l'archivista Selwyn, Suor Maren (la storia del tuo eroe) e Corvin,
+il venditore ambulante che ogni giorno vende le merci di una regione diversa. Gli scontri sono fatti per essere facili: l'eroe sei tu.
+Lontano dalla partenza ogni regione ha sotterranei, tane, nidi e un avamposto con un viandante, un abitante e un venditore.
+Risveglia le Pietre della Soglia che incontri: ti riportano a casa.
 
-Dimmi cosa non va: velocita', camera, combattimento, comandi, mondo.
+Dimmi che cosa non va: velocità, camera, combattimento, comandi, testi, mondo.

@@ -44,7 +44,7 @@ def main() -> None:
                         **({"active": {"mp": ACTIVE[name][0], "cooldown_ticks": ACTIVE[name][1],
                                        **({"radius_x100": ACTIVE[name][2]} if ACTIVE[name][2] else {})}} if name in ACTIVE else {})}
                        for name, (stat, pct, ranks, _, _, req) in TALENTS.items()]}
-    (DATA / "talents.json").write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
+    (DATA / "talents.json").write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8", newline="\n")
     set_texts("content.json", "en", {f"talent.{name}.name": t[3] for name, t in TALENTS.items()})
     set_texts("content.json", "it", {f"talent.{name}.name": t[4] for name, t in TALENTS.items()})
     print(f"wrote {len(TALENTS)} talents")

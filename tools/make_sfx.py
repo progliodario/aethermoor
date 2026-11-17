@@ -300,7 +300,7 @@ def write() -> None:
         if loop:
             doc["loop"] = True
         doc["layers"] = layers
-        (sfx / f"{name}.json").write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
+        (sfx / f"{name}.json").write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8", newline="\n")
     for event, entry in EVENTS.items():
         for sound in entry["sounds"]:
             assert sound in SOUNDS, (event, sound)
@@ -308,7 +308,7 @@ def write() -> None:
         for entry in rule:
             assert entry["sound"] in SOUNDS
     table = {"$schema": "../../../schemas/audio_events.schema.json", "id": "base:audio/events", "events": EVENTS, "ambience": AMBIENCE_RULES}
-    (OUT / "events.json").write_text(json.dumps(table, indent=2) + "\n", encoding="utf-8")
+    (OUT / "events.json").write_text(json.dumps(table, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(f"wrote {len(SOUNDS)} sounds and {len(EVENTS)} events")
 
 

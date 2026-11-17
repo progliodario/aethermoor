@@ -30,7 +30,7 @@ def main() -> None:
                     changed = True
         if changed:
             count += 1
-            path.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+            path.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
     print(f"gave a place to {count} quests")
 
 

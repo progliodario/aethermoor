@@ -260,7 +260,9 @@ Rimangono fissi: i quattro vincoli (spec-first, data-driven, due client, parità
 
 Dopo l'approvazione, ogni voce diventerà un issue con descrizione, criteri di accettazione e label.
 
-## 8. Stato e prossimi passi (aggiornato al 14 novembre 2026)
+## 8. Stato e prossimi passi
+
+Aggiornato al 17 novembre 2026.
 
 Questa sezione è la fotografia di **dove si è arrivati** e di **che cosa resta da fare**. Le sezioni 1-7 sono il piano di partenza e non vengono riscritte; qui si dice, voce per voce, che cosa è diventato realtà.
 
@@ -268,18 +270,23 @@ Questa sezione è la fotografia di **dove si è arrivati** e di **che cosa resta
 
 Versione `0.0.1`, **nessuna release pubblica** (la decisione di pubblicare è del proprietario, vedi 8.6). Il gioco si gioca dall'inizio alla fine della storia di ognuno degli **otto protagonisti** su Windows, Linux e Android, con le versioni di prova prodotte dalla CI.
 
-| Che cosa | Quanto | Dove si guarda |
-|---|---|---|
-| Mondo | 16384 x 16384 caselle in streaming, 8 regioni, circa 130 insediamenti generati, 45 luoghi fatti a mano | spec 09, `data/base/worlds/overworld.json` |
-| Persone con nome | 36 nel mondo (Fenwick con Nonna Brin, Aldermere con Corvin, gli 8 avamposti con i loro venditori ambulanti, i viandanti, Mira, Pip, Suor Maren) | `tools/make_towns.py`, `tools/towns_outposts.py` |
-| Missioni | 319 (storie dei protagonisti, gilda, città, avamposti, leggende, taglie, lettere, compiti da amico, storie dei paesani) | `docs/design/catalog.md` |
-| Creature | 75 (tra cui 27 guardiani, 8 Echi, la selvaggina) | `data/base/enemies/` |
-| Oggetti e ricette | 209 oggetti, 63 ricette (8 segrete), 2 stazioni (falò e incudine) | spec 06, `tools/make_recipes.py` |
-| Progressione | 42 titoli, 16 talenti (4 abilità, 2 a comando), bestiario, profilo condiviso, reincarnazione, 25 imprese | spec 11, spec 12 |
-| Testi | 3014 chiavi, in italiano **e** inglese | spec 17 |
-| Regole uguali sui due client | 30 file di vettori di conformità, 523 casi, eseguiti da C++ e Kotlin a ogni modifica | `tests/conformance/` |
-| Specifiche e decisioni | 18 specifiche, 13 ADR | `docs/spec/`, `docs/adr/` |
-| Suoni | 174 effetti sintetizzati; musica e ambiente **spenti** su richiesta del proprietario | spec 14 |
+I numeri, contati dai dati da `tools/make_facts.py` (dove si guarda: il [catalogo](../design/catalog.md), le [specifiche](../spec/README.md), `tests/conformance/`):
+
+<!-- facts:begin -->
+| Che cosa | Quanti (contati dai dati da `tools/make_facts.py`) |
+|---|---|
+| Mondo | 8 regioni, 45 luoghi fatti a mano (sotterranei, tane, avamposti, santuari, Fenwick, il cottage dell'Ospite, Aldermere) e circa 130 insediamenti generati |
+| Protagonisti | 8, ognuno con un compagno (8 compagni) e una storia in cinque atti (96 missioni di storia) |
+| Creature | 75, di cui 27 guardiani e 8 Echi |
+| Missioni | 319 (24 storie dei paesani) |
+| Oggetti e ricette | 209 oggetti, 63 ricette (8 segrete) |
+| Progressione | 42 titoli, 16 talenti, 25 imprese |
+| Persone con nome | 37 nei dati del mondo, oltre ai paesani generati |
+| Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
+| Testi | 3278 chiavi, in italiano e inglese |
+| Regole uguali sui due client | 30 file di vettori di conformità, 534 casi, eseguiti dai test C++ e Kotlin |
+| Documenti | 18 specifiche, 13 ADR |
+<!-- facts:end -->
 
 ### 8.2 Stato delle milestone
 
@@ -386,6 +393,8 @@ Il 17 novembre, quarta PR: i doni delle fazioni (sigillo della Gilda, amuleto de
 
 Il 17 novembre, quinta PR: gli orti dei villaggi (semi, crescita, raccolto, salvati nella partita), i doni dell'Anello (Mira) e dei Cronisti (Selwyn).
 
+Il 17 novembre, decima PR: il repository riordinato per chiunque lo legga, lo usi o lo cambi, persone o AI (README riscritti, `AGENTS.md`, una mappa dei file in `CLAUDE.md`, i numeri del gioco contati dai dati da `tools/make_facts.py`, test che tengono veri i documenti, generatori che si possono rilanciare senza cambiare nulla).
+
 Il 17 novembre, nona PR: il cottage dell'Ospite a est di Fenwick (baule, falò, incudine, orti, pollaio, recinto, Pietra della Soglia) con il vecchio Tam, che Nonna Brin regala dopo i suoi tre favori; un quinto atto per ogni protagonista, "Una vita qui" (sedici missioni); cinque titoli e tre imprese nuovi.
 
 Il 17 novembre, ottava PR: testo grande (un'opzione di accessibilità, sui due client), la pioggia e la neve rallentano le creature, otto venditori ambulanti agli avamposti, le imprese diventano echi (+1% di salute ciascuna), una terza storia dei paesani per regione (otto missioni).
@@ -396,26 +405,25 @@ Il 17 novembre, sesta PR: pollai e recinti delle capre nei villaggi (uova, latte
 
 **A breve (le prossime PR)**
 
-1. **Controlli automatici della grafica** (prima voce, vedi sotto).
+1. **Controlli automatici della grafica** (M2, M10): confronto dei fotogrammi del test di fumo con immagini di riferimento; ktlint e detekt in CI.
 2. **Arredare il cottage** (M6; il cottage dell'Ospite c'è, con baule, orti e animali): mobili da comprare e posare.
-3. **Tag** (M8; le imprese ci sono): tratti guadagnati da come si gioca, e premi per le imprese.
-4. **Controlli automatici della grafica**: confronto dei fotogrammi del test di fumo con immagini di riferimento, ktlint e detekt in CI.
+3. **Tag** (M8; titoli e imprese ci sono): tratti guadagnati da come si gioca.
 
 **A medio termine (verso Alpha 0.2 e Beta 0.5)**
 
-8. **Rune e affissi** (M8; tag e imprese prima).
-9. **Altri residenti** (M6; Nonna Brin e Corvin ci sono): persone che si trasferiscono nei villaggi aiutati.
-10. **Mercanti che viaggiano davvero** (M6; Corvin e gli otto venditori degli avamposti ci sono): carri che si spostano lungo le strade.
-11. **Altri effetti del meteo** (M5; la pioggia nasconde, rallenta le creature e fa crescere gli orti): il vento.
-12. **La modalità Dungeon** di Gideon (M9; le storie dei paesani ci sono).
-13. **Prestazioni su Android** misurate su un telefono, e la prova della perdita del contesto grafico (R4, R6).
-14. **Un sintetizzatore con rumore filtrato**, per poter riaccendere musica e ambiente (solo se il proprietario lo vuole).
+4. **Rune e affissi** (M8).
+5. **Altri residenti** (M6; Nonna Brin, Tam e Corvin ci sono): persone che si trasferiscono nei villaggi aiutati.
+6. **Mercanti che viaggiano davvero** (M6; Corvin e gli otto venditori degli avamposti ci sono): carri che si spostano lungo le strade.
+7. **Altri effetti del meteo** (M5; la pioggia nasconde, rallenta le creature e fa crescere gli orti): il vento.
+8. **Più compagni scelti dal giocatore** (M7; il compagno di ognuno e la creatura domata di Haruka ci sono).
+9. **La modalità Dungeon** di Gideon (M9): una variante semplificata, ondate di eroi invasori contro la sua base.
+10. **Prestazioni su Android** misurate su un telefono, e la prova della perdita del contesto grafico (R4, R6).
+11. **Un sintetizzatore con rumore filtrato**, per poter riaccendere musica e ambiente (solo se il proprietario lo vuole).
 
 **Verso la 1.0**
 
-15. Un sintetizzatore migliore (M10; consigli, crediti, traduzioni e testo grande ci sono).
-16. Pacchetti firmati, pagina di download, documentazione per chi fa mod (M11).
-17. Dopo l'1.0: nuovi protagonisti, nuove regioni, nuove lingue, strumenti per i mod (M12+).
+12. Pacchetti firmati, pagina di download, documentazione per chi fa mod (M11).
+13. Dopo l'1.0: nuovi protagonisti, nuove regioni, nuove lingue, strumenti per i mod (M12+).
 
 **Non previsto:** una modalità difficile obbligatoria o un bilanciamento "più duro": gli scontri devono restare facili.
 

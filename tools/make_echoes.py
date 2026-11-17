@@ -47,7 +47,7 @@ def main() -> None:
         source = (DATA / "art" / "creatures" / f"{art}.json").read_text(encoding="utf-8")
         recipe = json.loads(re.sub(r"#[0-9A-Fa-f]{6}(?:[0-9A-Fa-f]{2})?\b", tint, source))
         recipe["id"] = f"base:art/creature/echo_{who}"
-        (DATA / "art" / "creatures" / f"echo_{who}.json").write_text(json.dumps(recipe, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        (DATA / "art" / "creatures" / f"echo_{who}.json").write_text(json.dumps(recipe, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
         enemy = {
             "$schema": "../../../schemas/enemy.schema.json", "id": f"base:enemy/echo_{who}", "name": f"$i18n:enemy.echo_{who}.name", "level": level,
             "stats": {"hp": hp, "atk": atk, "def": df, "mdef": mdf, "speed_x100": speed}, "element": element, "stagger_pct": 20, "sound": sound,
@@ -55,7 +55,7 @@ def main() -> None:
             "drops": [{"item": f"base:item/{item}", "qty_min": lo, "qty_max": hi, "weight_pm": w} for item, lo, hi, w in DROPS],
             "radius_x100": radius, "behavior": "base:behavior/guardian", "art": f"base:art/creature/echo_{who}",
         }
-        (DATA / "enemies" / f"echo_{who}.json").write_text(json.dumps(enemy, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        (DATA / "enemies" / f"echo_{who}.json").write_text(json.dumps(enemy, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
         names_en[f"enemy.echo_{who}.name"], names_it[f"enemy.echo_{who}.name"] = name_en, name_it
     set_texts("content.json", "en", names_en)
     set_texts("content.json", "it", names_it)

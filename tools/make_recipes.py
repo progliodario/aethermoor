@@ -112,7 +112,7 @@ def main() -> None:
                 **quality(name),
                 **({"requires_flag": f"recipe_{name}"} if name in AT_FIRE_SECRET else {})}
                for name, (out, qty, inputs) in RECIPES.items()]
-    OUT.write_text(json.dumps({"$schema": "../../schemas/recipes.schema.json", "id": "base:recipes/all", "recipes": recipes}, indent=2) + "\n", encoding="utf-8")
+    OUT.write_text(json.dumps({"$schema": "../../schemas/recipes.schema.json", "id": "base:recipes/all", "recipes": recipes}, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(f"wrote {len(recipes)} recipes")
 
 

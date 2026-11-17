@@ -74,7 +74,7 @@ def main() -> int:
         found = sum(len(k) for k in findings())
         print(f"{'FAIL' if found else 'OK'}: {found} texts to look at")
         return 1 if found else 0
-    OUT.write_text(report(), encoding="utf-8")
+    OUT.write_text(report(), encoding="utf-8", newline="\n")
     print(f"wrote {OUT.relative_to(ROOT)}: {sum(len(k) for k in findings())} texts to look at")
     return 0
 

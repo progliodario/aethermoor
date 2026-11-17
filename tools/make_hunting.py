@@ -52,7 +52,7 @@ ITEMS = {
 
 def write_json(path: Path, doc: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    path.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
 
 
 def set_texts(lang: str, entries: dict[str, str]) -> None:
@@ -114,7 +114,7 @@ def main() -> None:
             end = world.index("]", fauna)
             if f"base:enemy/{name}" not in world[fauna:end]:
                 world = world[:end] + ", " + entry + world[end:]
-    world_path.write_text(world, encoding="utf-8")
+    world_path.write_text(world, encoding="utf-8", newline="\n")
     for name, spec in ITEMS.items():
         write_json(DATA / "items" / f"{name}.json", item_doc(name, spec))
         en[f"item.{name}.name"], it[f"item.{name}.name"] = spec[4], spec[5]

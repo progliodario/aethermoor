@@ -239,7 +239,7 @@ def show(font: dict, text: str, target: Path, scales=(1, 1.5, 2, 3)) -> None:
 def main() -> int:
     font = build()
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(font, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    OUT.write_text(json.dumps(font, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
     print(f"wrote {len(font['glyphs'])} glyphs to {OUT.relative_to(ROOT)}")
     if "--show" in sys.argv:
         at = sys.argv.index("--show")

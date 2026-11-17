@@ -148,7 +148,7 @@ def main() -> None:
         }
         path = DATA / "dialogues" / name / "prologue.json"
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        path.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
         for node, (text_en, text_it) in lines.items():
             en[key(node)], it[key(node)] = text_en, text_it
     add_texts("en", en)
