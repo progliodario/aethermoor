@@ -32,6 +32,7 @@ struct ProtagonistDef {
     int tame_range_x100 = 0;
     int tame_bond = 0;
     int pocket_keep_pm = 0;
+    int friend_atk_pct = 0;
     std::string art_variant;  // palette variant of the character art ("" for the default)
     std::string companion;    // the ID of the companion that follows this protagonist (spec 10), or empty
     bool initially_available = true;

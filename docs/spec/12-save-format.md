@@ -73,6 +73,7 @@ can reach (`Android/data/<package>/files/exports`; the private folder when the d
 - `talents` (spec 11, "Talents") is an object from talent ID to the rank learned; absent when empty and in older saves.
 - `counters` (spec 11) is an object from counter name (`gathered`, `crafted`, `parried`) to a count; absent when empty and in older saves.
 - `bestiary` (spec 11) is an object from creature ID to kills; absent when empty and in older saves.
+- `friend` (spec 10, "The tamed friend") is `{"enemy", "x", "y", "cooldown"}`: the ID of the creature, where it is and how many ticks until it hits again; absent when there is none.
 - `companion` (a protagonist with a companion, spec 10) is `{"x", "y", "cooldown"}`: where the companion is and how many ticks until it hits again, with `stay` (true when it was told to stay) and `bond` (its kills) when they are not false and 0; absent in older saves (it is put next to the player).
 - `stones` (streamed world) is the list of the tiles `[x, y]` of the Threshold Stones that were used, in the order they were woken (spec 09); absent in old saves.
 - `story.guild_points` is the guild points of the player (spec 07); absent in old saves (0). Quests whose id starts with `board:` are generated quests: only their progress is saved.

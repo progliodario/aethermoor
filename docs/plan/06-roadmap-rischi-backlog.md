@@ -275,9 +275,9 @@ Versione `0.0.1`, **nessuna release pubblica** (la decisione di pubblicare è de
 | Missioni | 276 (storie dei protagonisti, gilda, città, avamposti, leggende, taglie, lettere, compiti da amico) | `docs/design/catalog.md` |
 | Creature | 75 (tra cui 27 guardiani, 8 Echi, la selvaggina) | `data/base/enemies/` |
 | Oggetti e ricette | 195 oggetti, 59 ricette (8 segrete), 2 stazioni (falò e incudine) | spec 06, `tools/make_recipes.py` |
-| Progressione | 29 titoli, 16 talenti (4 abilità, 2 a comando), bestiario, profilo condiviso, reincarnazione | spec 11, spec 12 |
-| Testi | 2817 chiavi, in italiano **e** inglese | spec 17 |
-| Regole uguali sui due client | 30 file di vettori di conformità, 517 casi, eseguiti da C++ e Kotlin a ogni modifica | `tests/conformance/` |
+| Progressione | 32 titoli, 16 talenti (4 abilità, 2 a comando), bestiario, profilo condiviso, reincarnazione | spec 11, spec 12 |
+| Testi | 2845 chiavi, in italiano **e** inglese | spec 17 |
+| Regole uguali sui due client | 30 file di vettori di conformità, 518 casi, eseguiti da C++ e Kotlin a ogni modifica | `tests/conformance/` |
 | Specifiche e decisioni | 18 specifiche, 13 ADR | `docs/spec/`, `docs/adr/` |
 | Suoni | 174 effetti sintetizzati; musica e ambiente **spenti** su richiesta del proprietario | spec 14 |
 
@@ -294,8 +294,8 @@ Legenda: **fatto** = le consegne del piano ci sono e funzionano su tutti e due i
 | M4 Dialoghi, missioni, inventario, salvataggi | quasi | dialoghi con condizioni ed effetti, missioni con meta sulla mappa, zaino, negozi, equipaggiamento a tre posti, diario e finestra di stato, gilda con ranghi F-S e bacheca, locande, tre partite, export e import, `profile.json`, volumi, tasti configurabili (desktop), Fenwick e Aldermere scritti a mano, otto prologhi | la **release Alpha 0.1** (tag e pacchetti: decisione del proprietario); la fama per fazioni (quella per regione c'è) |
 | M5 Mondo aperto | quasi | streaming dei chunk, regioni, insediamenti, siti, fiumi e strade, stagioni, meteo con pioggia, neve e notte che nascondono il giocatore, routine dei PNG, Pietre della Soglia, mappa del mondo e mini mappa, luci di notte | prestazioni misurate su un telefono reale; altri effetti del meteo sul gioco |
 | M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, 59 ricette al falò e all'incudine (otto segrete, insegnate dai bottegai), cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane | agricoltura e allevamento, base e residenti |
-| M7 Compagni | avviato | un compagno per protagonista che segue, combatte, resta, segue o torna a comando, cresce di legame e cura il giocatore; i doni di Haruka (legame più rapido) e di Gideon (compagno più forte) ; Haruka doma le creature ferite | più compagni insieme (una creatura domata che resta), eventi di legame |
-| M8 Progressione profonda | avviato | bestiario con debolezze, 29 titoli con effetti e progressi visibili, albero di 16 talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma | tag, achievements, rune e affissi, sblocchi del profilo |
+| M7 Compagni | avviato | un compagno per protagonista che segue, combatte, resta, segue o torna a comando, cresce di legame e cura il giocatore; i doni di Haruka (legame più rapido) e di Gideon (compagno più forte) ; Haruka doma le creature ferite e l'ultima resta con lei come secondo compagno ; momenti del legame | comandi per il secondo compagno |
+| M8 Progressione profonda | avviato | bestiario con debolezze, 32 titoli con effetti e progressi visibili, albero di 16 talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma | tag, achievements, rune e affissi, sblocchi del profilo |
 | M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | altre storie per regione; l'ultimo dono che manca (una seconda vita per sotterraneo); la modalità Dungeon di Gideon |
 | M10 Rifinitura | avviato | effetti sonori, pannelli e barre ridisegnati, testi che vanno a capo per larghezza, niente scatti quando appare roba nuova, consigli per i primi minuti | accessibilità, un sintetizzatore migliore per riaccendere musica e ambiente, crediti, controllo delle traduzioni |
 | M11 Release 1.0 | da fare | — | pacchetti firmati, pagina di download, documentazione per chi fa mod (decisioni del proprietario) |
@@ -377,12 +377,14 @@ Nella terza PR dello stesso giorno: Haruka doma le creature ferite, un compito d
 
 Il 17 novembre: consigli per i primi minuti, il ricettario con un piatto segreto per regione, la tasca di Yuki.
 
+Il 17 novembre, seconda PR: la creatura domata da Haruka resta con lei come secondo compagno (salvato nella partita), tre titoli nuovi, i momenti del legame dei compagni.
+
 **A breve (le prossime PR)**
 
-1. **Secondo compagno** (M7): una creatura domata che resta al fianco, più compagni insieme.
-2. **Fama per fazioni** (M4), oltre a quella per regione.
-3. **Una seconda vita per sotterraneo** (M9), l'ultimo dono descritto nel piano.
-4. **Accessibilità** (M10): testo più grande, colori leggibili, scuotimenti dello schermo spegnibili.
+1. **Fama per fazioni** (M4), oltre a quella per regione.
+2. **Una seconda vita per sotterraneo** (M9), l'ultimo dono descritto nel piano.
+3. **Accessibilità** (M10): testo più grande, colori leggibili.
+4. **Comandi per il secondo compagno** (M7): resta e torna anche per la creatura domata.
 5. **Controlli automatici della grafica**: confronto dei fotogrammi del test di fumo con immagini di riferimento, ktlint e detekt in CI.
 
 **A medio termine (verso Alpha 0.2 e Beta 0.5)**
@@ -416,6 +418,6 @@ Il 17 novembre: consigli per i primi minuti, il ricettario con un piatto segreto
 
 ### 8.7 Che cosa è verificato e che cosa no
 
-- **Verificato a ogni modifica:** i dati contro gli schemi, i testi nelle due lingue, i 517 casi di conformità sui due client, la compilazione di Windows, Linux e Android, un test di fumo del desktop con fotogrammi reali.
+- **Verificato a ogni modifica:** i dati contro gli schemi, i testi nelle due lingue, i 518 casi di conformità sui due client, la compilazione di Windows, Linux e Android, un test di fumo del desktop con fotogrammi reali.
 - **Verificato dal proprietario:** come appare e come si gioca, sulle tre piattaforme.
 - **Non verificabile da qui:** il suono (non si ascolta), le prestazioni su un telefono reale, ciò che si vede solo giocando a lungo. Ogni PR lo dice esplicitamente.

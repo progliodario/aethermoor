@@ -358,7 +358,7 @@ struct InputDevices {
 
 struct DrawItem {
     float feet_y = 0.0F;
-    int kind = 0;  // 0 prop, 1 enemy, 2 player, 3 npc, 4 companion
+    int kind = 0;  // 0 prop, 1 enemy, 2 player, 3 npc, 4 companion, 5 the tamed friend
     const aether::Prop* prop = nullptr;
     const aether::Enemy* enemy = nullptr;
     const aether::NpcDef* npc = nullptr;
@@ -3060,6 +3060,15 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
         lines.push_back({"  " + assets.pack.text(ui.lang, "$i18n:ui.journal_bond",
                                                  {{"bond", bond}, {"bonus", std::min<std::int64_t>(bond / 5, 10)}}),
                          2});
+        if (const aether::WorldSim::Friend* tamed = sim.tamed_friend()) {  // the tamed friend (spec 10)
+            const std::string& id = tamed->def.id;
+            lines.push_back(
+                {"  " + assets.pack.text(
+                            ui.lang, "$i18n:ui.journal_friend",
+                            {{"name",
+                              assets.pack.text(ui.lang, "$i18n:enemy." + id.substr(id.rfind('/') + 1) + ".name")}}),
+                 2});
+        }
         const aether::CompanionDef& c = *sim.combat().companion;
         if (c.care_ticks > 0) {  // care (spec 10): what it does for the player, or the bond it needs
             const bool cares = bond >= c.care_bond;
@@ -3856,6 +3865,9 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     if (const aether::Vec2* companion = sim.companion_position()) {
         items.push_back({companion->y, 4, nullptr, nullptr, nullptr});
     }
+    if (const aether::WorldSim::Friend* tamed = sim.tamed_friend()) {
+        items.push_back({tamed->position.y, 5, nullptr, nullptr, nullptr});
+    }
     std::stable_sort(items.begin(), items.end(),
                      [](const DrawItem& a, const DrawItem& b) { return a.feet_y < b.feet_y; });
     // The long shadows of dawn and dusk (spec 08, "The colour of the hour"): props and creatures, before any of them.
@@ -3914,6 +3926,14 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
                 draw_sprite(renderer, *sprite, (at.x - cam.x) * tile, (at.y - cam.y) * tile + bob,
                             k * static_cast<float>(def.scale_pct) / 100.0F, 1.0F,
                             sprite->faces_left && sim.player().position.x > at.x);
+            }
+        } else if (item.kind == 5) {  // the tamed friend (spec 10), its creature a little smaller, bobbing
+            const aether::WorldSim::Friend& tamed = *sim.tamed_friend();
+            if (const aether::Sprite* sprite = cache.get(tamed.def.art, tile_px)) {
+                const float bob = std::sin(static_cast<float>(now_ms) / 190.0F + 1.3F) * 2.0F * k;
+                draw_sprite(renderer, *sprite, (tamed.position.x - cam.x) * tile,
+                            (tamed.position.y - cam.y) * tile + bob, k * 0.75F, 1.0F,
+                            sprite->faces_left && sim.player().position.x > tamed.position.x);
             }
         } else if (item.kind == 3) {
             const float fx = (item.npc->x - cam.x) * tile;
@@ -5134,6 +5154,22 @@ int main(int argc, char** argv) {
 
                 if (ui.message_frames > 0) {
                     --ui.message_frames;
+                }
+                if (sim.combat().companion && !smoke_test) {  // moments of the bond, once a game (spec 10)
+                    const aether::CompanionDef& c = *sim.combat().companion;
+                    for (const auto& [bond, text] : c.moments) {
+                        const std::string flag = "moment_" + c.id + "_" + std::to_string(bond);
+                        const auto seen = sim.story().flags().find(flag);
+                        if (sim.companion_bond() >= bond && (seen == sim.story().flags().end() || !seen->second)) {
+                            aether::Effect remember;
+                            remember.kind = aether::Effect::Kind::SetFlag;
+                            remember.a = flag;
+                            remember.value = true;
+                            sim.story().apply(remember);
+                            notify(ui, assets.pack.text(ui.lang, text));
+                            break;
+                        }
+                    }
                 }
                 if (!smoke_test) {  // the hints of the first minutes, when nothing else is open (spec 16, "Hints")
                     update_hints(sim, assets, ui,

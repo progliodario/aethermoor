@@ -42,6 +42,12 @@ private const val PARRY_TICKS = 14
 // The companion (spec 10): it never comes farther than this from the player, and its body is this big.
 private const val COMPANION_LEASH = 8f
 private const val COMPANION_RADIUS = 0.25f
+
+// The tamed friend (spec 10, "The tamed friend"): how near it keeps, its least speed, how far it hits and how often.
+private const val FRIEND_FOLLOW = 1.6f
+private const val FRIEND_SPEED_MIN_X100 = 320
+private const val FRIEND_RANGE = 2f
+private const val FRIEND_COOLDOWN = 50
 private const val PARRY_COOLDOWN = 70
 private const val PARRY_STUN = 60
 private const val STAGGER_TICKS = 120 // spec 05, "Stagger"
@@ -343,7 +349,67 @@ class WorldSim(
         if (combat.companion != null) companionBond += gift.tameBond
         cues.add(SimCue("die", tamed.def.sound, tamed.position))
         onKill(tamed)
+        if (gift.friendAtkPct > 0) tamedFriend = Friend(tamed.def, tamed.position, FRIEND_COOLDOWN) // it stays, in place of the one before (spec 10)
         return true
+    }
+
+    /** The tamed friend (spec 10, "The tamed friend"): the creature that stayed, where it is and when it hits again. */
+    class Friend(val def: EnemyDef, var position: Vec2, var cooldown: Int)
+
+    var tamedFriend: Friend? = null
+        private set
+
+    /** The tamed friend follows the player and hits the nearest creature in its reach now and then (spec 10). */
+    private fun updateFriend() {
+        val f = tamedFriend ?: return
+        val p = player
+        val dx = p.position.x - f.position.x
+        val dy = p.position.y - f.position.y
+        val dist = sqrt(dx * dx + dy * dy)
+        if (dist > COMPANION_LEASH) {
+            f.position = p.position
+        } else if (dist > FRIEND_FOLLOW) {
+            val speed = maxOf(f.def.speedX100, FRIEND_SPEED_MIN_X100).toFloat() / 100f
+            val step = min(speed * TICK_DT, dist - FRIEND_FOLLOW)
+            f.position = collision.resolve(Vec2(f.position.x + dx / dist * step, f.position.y + dy / dist * step), f.def.radiusX100 / 100f)
+        }
+        if (f.cooldown > 0) f.cooldown--
+        if (f.cooldown > 0) return
+        var target: Enemy? = null
+        var best = 0f
+        for (enemy in enemies) {
+            if (enemy.state == EnemyState.DEAD) continue
+            val d = distance(enemy.position.x, enemy.position.y, f.position.x, f.position.y)
+            if (d > FRIEND_RANGE + enemy.radius) continue
+            if (target == null || d < best) {
+                target = enemy
+                best = d
+            }
+        }
+        val hit = target ?: return
+        val amount = damage(
+            DamageInput(
+                atk = f.def.atk * combat.gift.friendAtkPct / 100,
+                powerPct = 100,
+                defTarget = hit.def.def,
+                lvlAttacker = p.level,
+                lvlTarget = hit.def.level,
+                variancePm = 1000,
+                crit = false,
+                critMultPm = 1500,
+            ),
+        )
+        hit.hp -= amount
+        hit.hitFlash = HIT_FLASH_TICKS
+        events.add(DamageEvent(hit.position, amount, false, false))
+        cues.add(SimCue("hit", hit.def.sound, hit.position))
+        f.cooldown = FRIEND_COOLDOWN
+        if (hit.hp <= 0) {
+            hit.hp = 0
+            hit.state = EnemyState.DEAD
+            cues.add(SimCue("die", hit.def.sound, hit.position))
+            onKill(hit)
+        }
     }
 
     /** The chance in permille that a recipe comes out fine now; 0 without quality (presentation only). */
@@ -1157,6 +1223,7 @@ class WorldSim(
         }
         advanceAttack()
         updateCompanion()
+        updateFriend()
         for (enemy in enemies) {
             updateEnemy(enemy)
             if (enemy.hitFlash > 0) enemy.hitFlash--
@@ -1556,6 +1623,7 @@ class WorldSim(
             bestiary = bestiary.toMap(),
             companionStay = companionStaying,
             companionBond = companionBond,
+            tamedFriend = tamedFriend?.let { FriendSave(it.def.id, it.position.x, it.position.y, it.cooldown) },
             counters = counters.toMap(),
             talents = talents.toMap(),
             companion = if (combat.companion != null) Triple((companionPosition ?: player.position).x, (companionPosition ?: player.position).y, companionCooldown) else null,
@@ -1675,6 +1743,11 @@ class WorldSim(
             companionCooldown = saved?.third ?: c.cooldownTicks
             companionStaying = saved != null && s.companionStay
             companionBond = if (saved != null) s.companionBond else 0
+        }
+        // the tamed friend: its creature from the fauna of the world, or from the creatures of the map
+        tamedFriend = s.tamedFriend?.let { saved ->
+            val def = combat.streamEnemies[saved.enemy] ?: combat.spawns.firstOrNull { it.def.id == saved.enemy }?.def
+            def?.let { Friend(it, Vec2(saved.x, saved.y), saved.cooldown) }
         }
         recomputeDerived()
         player.hp = minOf(s.hp, derived.maxHp)

@@ -354,6 +354,12 @@
       "additionalProperties": false,
       "properties": { "x": { "type": "number" }, "y": { "type": "number" }, "cooldown": { "type": "integer", "minimum": 0 }, "stay": { "type": "boolean" }, "bond": { "type": "integer", "minimum": 0 } }
     },
+    "friend": {
+      "type": "object",
+      "required": ["enemy", "x", "y", "cooldown"],
+      "additionalProperties": false,
+      "properties": { "enemy": { "type": "string" }, "x": { "type": "number" }, "y": { "type": "number" }, "cooldown": { "type": "integer", "minimum": 0 } }
+    },
     "stones": {
       "type": "array",
       "items": {

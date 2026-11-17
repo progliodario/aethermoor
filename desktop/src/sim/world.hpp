@@ -151,8 +151,13 @@ struct SaveState {
     float companion_x = 0.0F;
     float companion_y = 0.0F;
     int companion_cooldown = 0;
-    bool companion_stay = false;          // told to stay (spec 10, "Commands")
-    int companion_bond = 0;               // the creatures it has killed (spec 10, "Bond")
+    bool companion_stay = false;  // told to stay (spec 10, "Commands")
+    int companion_bond = 0;       // the creatures it has killed (spec 10, "Bond")
+    bool has_friend = false;      // the tamed friend (spec 10, "The tamed friend"): its creature, where, cooldown
+    std::string friend_enemy;
+    float friend_x = 0.0F;
+    float friend_y = 0.0F;
+    int friend_cooldown = 0;
     std::map<std::string, int> bestiary;  // creature ID -> how many were killed (spec 11)
     std::map<std::string, int> counters;  // gathered, crafted, parried (spec 11)
     std::map<std::string, int> talents;   // talent ID -> rank (spec 11, "Talents")
@@ -329,6 +334,13 @@ public:
     const Vec2* companion_position() const { return m_setup_.companion ? &m_companion_pos_ : nullptr; }
     // Tells the companion to stay where it is, or to follow again (spec 10, "Commands"); false when there is none.
     bool companion_stay();
+    // The tamed friend (spec 10, "The tamed friend"): the creature that stayed, where it is and when it hits again.
+    struct Friend {
+        EnemyDef def;
+        Vec2 position;
+        int cooldown = 0;
+    };
+    const Friend* tamed_friend() const { return m_friend_ ? &*m_friend_ : nullptr; }
     // Calls the companion back: it is next to the player at once and follows again; false when there is none.
     bool companion_recall();
     // Taming (spec 18, the gift `tame_hp_pct`): the nearest hurt creature in reach leaves in peace, which counts as a
@@ -413,6 +425,8 @@ private:
     int m_companion_care_ = 0;  // ticks since it last tended the player (spec 10, "Care"); not saved
     bool m_last_craft_fine_ = false;
     void update_companion();
+    void update_friend();
+    std::optional<Friend> m_friend_;
     std::map<std::pair<int, int>, std::pair<std::int64_t, int>>
         m_gathered_;  // (x100, y100) -> (tick it grows back, times); not saved
     Story m_story_;

@@ -45,6 +45,11 @@ TALENT_STATS = {"attack": ("atk", "matk"), "health": ("max_hp",), "mana": ("max_
 TALENT_ABILITIES = ("riposte", "kill_heal", "kill_mana", "whirl")
 # Talents with an `active` block are used on command (spec 11, "Active abilities"): burst hurts every creature around, mend heals the player.
 TALENT_ACTIVES = ("burst", "mend")
+# The tamed friend (spec 10, "The tamed friend"): how near it keeps, its least speed, how far it hits and how often.
+FRIEND_FOLLOW = 1.6
+FRIEND_SPEED_MIN_X100 = 320
+FRIEND_RANGE = 2.0
+FRIEND_COOLDOWN = 50
 COMPANION_BOND_STEP = 5   # kills of the companion for one more point of attack
 COMPANION_BOND_MAX = 10   # the most the bond adds
 
@@ -91,6 +96,7 @@ class CombatSim:
         self.comp_stay = False  # told to stay where it is (spec 10, "Commands")
         self.comp_bond = 0      # the creatures it has killed (spec 10, "Bond")
         self.comp_care = 0      # ticks since it last tended the player (spec 10, "Care"); not saved
+        self.friend: dict | None = None  # the tamed friend (spec 10): {"d": the creature, "x", "y", "cd"}, or None
         self.titles = scenario.get("titles", [])  # titles (spec 11)
         self.counters: dict[str, int] = {}  # gathered, crafted, parried (spec 11)
         self.bestiary: dict[str, int] = {}  # creature id -> how many were killed (spec 11)
@@ -296,6 +302,8 @@ class CombatSim:
         self._advance_attack()
         if self.companion is not None:
             self._update_companion()
+        if self.friend is not None:
+            self._update_friend()
 
         for index, enemy in enumerate(self.enemies):
             self._update_enemy(index, enemy)
@@ -441,7 +449,43 @@ class CombatSim:
         if self.companion is not None:
             self.comp_bond += self.gift.get("tame_bond", 0)
         self._on_kill(best)
+        if self.gift.get("friend_atk_pct", 0) > 0:  # it stays as the tamed friend, in place of the one before (spec 10)
+            self.friend = {"d": best.d, "x": best.x, "y": best.y, "cd": FRIEND_COOLDOWN}
         return True
+
+    def _update_friend(self) -> None:
+        """The tamed friend follows the player and hits the nearest creature in its reach now and then (spec 10, "The tamed friend")."""
+        f = self.friend
+        radius = f["d"]["radius_x100"] / 100
+        dx, dy = self.x - f["x"], self.y - f["y"]
+        dist = math.sqrt(dx * dx + dy * dy)
+        if dist > COMPANION_LEASH:
+            f["x"], f["y"] = self.x, self.y
+        elif dist > FRIEND_FOLLOW:
+            step = min(max(f["d"]["speed_x100"], FRIEND_SPEED_MIN_X100) / 100 * mv.TICK_DT, dist - FRIEND_FOLLOW)
+            f["x"], f["y"] = mv.resolve(f["x"] + dx / dist * step, f["y"] + dy / dist * step, self.grid, self.props, radius)
+        if f["cd"] > 0:
+            f["cd"] -= 1
+        if f["cd"] > 0:
+            return
+        target, best = None, 0.0
+        for enemy in self.enemies:
+            if enemy.state == DEAD:
+                continue
+            d = math.sqrt((enemy.x - f["x"]) ** 2 + (enemy.y - f["y"]) ** 2)
+            if d > FRIEND_RANGE + enemy.radius:
+                continue
+            if target is None or d < best:
+                target, best = enemy, d
+        if target is None:
+            return
+        atk = f["d"]["atk"] * self.gift["friend_atk_pct"] // 100
+        target.hp -= rules.damage(atk, 100, target.d["def"], 1000, 0, self.level, target.d["level"], 1000, False, 1500, 1000)
+        f["cd"] = FRIEND_COOLDOWN
+        if target.hp <= 0:
+            target.hp = 0
+            target.state = DEAD
+            self._on_kill(target)
 
     def fine_chance_pm(self, recipe_id: str) -> int:
         """The chance in permille that a recipe comes out fine now (spec 06, "Quality"); 0 for a recipe without quality. Presentation only."""
@@ -1006,6 +1050,7 @@ class CombatSim:
                 "max_mp": self.derived["max_mp"], "matk": self.derived["matk"], "crit_chance_pm": self.derived["crit_chance_pm"],
                 "move_speed_x100": self.derived["move_speed_x100"]} if self.talent_defs else {}),
             **({"companion": {"x": self.comp_x, "y": self.comp_y, "stay": self.comp_stay, "bond": self.comp_bond}} if self.companion is not None else {}),
+            **({"friend": {"enemy": self.friend["d"].get("id", ""), "x": self.friend["x"], "y": self.friend["y"]}} if self.friend is not None else {}),
             **({"bestiary": dict(sorted(self.bestiary.items())), "titles": self.earned_titles(),
                 "counters": dict(sorted(self.counters.items()))} if self.titles else {}),
             **({"story": self.story.snapshot()} if self.story is not None else {}),

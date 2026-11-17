@@ -31,6 +31,9 @@ TITLES = {
     "chronicler": ("species", 30, None, "Chronicler of Beasts", "Cronista delle bestie"),
     "legend": ("quests", 40, None, "Legend of the Realm", "Leggenda del reame"),
     "fine_hand": ("crafted_fine", 10, None, "Fine Hand", "Mano fine"),
+    "beast_friend": ("tamed", 10, None, "Friend of Beasts", "Amica delle bestie"),
+    "bottomless": ("pocket_kept", 25, None, "Bottomless Pocket", "Tasca senza fondo"),
+    "well_fed": ("used", 100, None, "Well Fed", "Ben pasciuto"),
     # renown (spec 07, "Renown"): ten quests finished in a region
     "friend_verdalis": ("renown:verdalis", 10, None, "Friend of Verdalis", "Amico di Verdalis"),
     "friend_whisperwood": ("renown:whisperwood", 10, None, "Friend of Whisperwood", "Amico del Bosco dei Sussurri"),

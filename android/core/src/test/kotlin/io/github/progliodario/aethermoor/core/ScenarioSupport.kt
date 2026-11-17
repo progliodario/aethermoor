@@ -112,7 +112,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         nightAggroCutPm = input["weather"]?.jsonObject?.get("night_aggro_cut_pm")?.jsonPrimitive?.int ?: 0,
         gift = input["gift"]?.jsonObject?.let { g ->
             fun pct(key: String, neutral: Int) = g[key]?.jsonPrimitive?.int ?: neutral
-            GiftDef(pct("mp_regen_pct", 100), pct("aggro_pct", 100), pct("heal_pct", 100), pct("dodge_cooldown_pct", 100), pct("death_save_ticks", 0), pct("companion_atk_pct", 100), pct("bond_gain", 1), pct("tame_hp_pct", 0), pct("tame_range_x100", 0), pct("tame_bond", 0), pct("pocket_keep_pm", 0))
+            GiftDef(pct("mp_regen_pct", 100), pct("aggro_pct", 100), pct("heal_pct", 100), pct("dodge_cooldown_pct", 100), pct("death_save_ticks", 0), pct("companion_atk_pct", 100), pct("bond_gain", 1), pct("tame_hp_pct", 0), pct("tame_range_x100", 0), pct("tame_bond", 0), pct("pocket_keep_pm", 0), pct("friend_atk_pct", 0))
         } ?: GiftDef(),
         strike = input["strike"]?.jsonObject?.let { d ->
             StrikeDef(
@@ -300,6 +300,15 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
         assertEquals(want.long("matk"), sim.derived.matk, "$at matk")
         assertEquals(want.long("crit_chance_pm"), sim.derived.critChancePm, "$at crit")
         assertEquals(want.long("move_speed_x100"), sim.derived.moveSpeedX100, "$at speed")
+    }
+    val wf = want["friend"]?.jsonObject // the tamed friend (spec 10)
+    if (wf != null) {
+        val f = sim.tamedFriend ?: error("$at no tamed friend")
+        assertEquals(wf.getValue("enemy").jsonPrimitive.content, f.def.id, "$at friend enemy")
+        assertNear(wf.getValue("x").num(), f.position.x, tol, "$at friend x")
+        assertNear(wf.getValue("y").num(), f.position.y, tol, "$at friend y")
+    } else {
+        assertTrue(sim.tamedFriend == null, "$at no friend expected")
     }
     want["companion"]?.jsonObject?.let { wc ->
         val pos = sim.companionPosition ?: error("$at no companion")

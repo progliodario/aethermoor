@@ -56,7 +56,9 @@ struct GiftDef {
     int tame_hp_pct = 0;
     int tame_range_x100 = 0;
     int tame_bond = 0;
-    int pocket_keep_pm = 0;  // the pocket of Yuki: the chance in permille that an item used stays in the bag
+    int pocket_keep_pm = 0;
+    int friend_atk_pct = 0;  // above 0 a tamed creature stays as the tamed friend, hitting with this percent of its
+                             // attack  // the pocket of Yuki: the chance in permille that an item used stays in the bag
 };
 
 struct DropDef {
@@ -176,6 +178,8 @@ struct CompanionDef {
     int care_bond = 0;   // care (spec 10): from this bond on it heals the player
     int care_ticks = 0;  // every so many ticks; 0: never
     int care_pct = 0;    // by this share of the maximum health
+    // Moments of the bond (spec 10): at this bond the companion shows a line, once a game ($i18n: keys). Presentation.
+    std::vector<std::pair<int, std::string>> moments;
 };
 
 // A crafting recipe (spec 06, "Crafting").
