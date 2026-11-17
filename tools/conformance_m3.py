@@ -594,6 +594,14 @@ def build_scenarios() -> list[dict]:
                      "pay": {"type": "effects", "effects": [{"effect": "spend_gold", "amount": 50},
                                                             {"effect": "set_flag", "flag": "recipe_secret", "value": True}], "next": "end"}}}},
                      "npcs": [{"key": "cook", "pos": [4.0, 4.5], "dialogue": "test:dialogue/cook"}]}),
+        # The tamed friend (spec 10): with `friend_atk_pct` the tamed slime stays, follows the player to the east and hits the slime there every 50
+        # ticks with twice its attack; it kills it, and the kill is the player's. A second tame puts the new creature in its place.
+        {**scenario("gift_tame_friend", [enemy(3.5, 4.5, hp=120, id="base:enemy/slime_green", atk=8, **passive),
+                                         enemy(11.0, 4.5, hp=60, id="base:enemy/slime_mint", **passive),
+                                         enemy(15.5, 6.5, hp=150, id="base:enemy/slime_blue", atk=10, **passive)],
+                    [segment(60, attack=True), segment(60, attack=True), segment(1, do=[{"cmd": "tame"}]), segment(150, move=(1, 0)), segment(200),
+                     segment(200), segment(60, move=(1, 0.5)), segment(330), segment(1, do=[{"cmd": "tame"}]), segment(60)],
+                    gift={"tame_hp_pct": 50, "tame_range_x100": 250, "friend_atk_pct": 200}), "grid": arena(24, 9)},
         scenario("leash_and_return", [enemy(4.0, 4.5, behavior_overrides={"leash_x100": 300})],
                  [segment(20, attack=True), segment(150, move=(1, 0)), segment(250)]),
     ]

@@ -169,6 +169,27 @@
       "fine_pm": 150
     },
     {
+      "id": "beast_friend",
+      "name": "$i18n:title.beast_friend",
+      "kind": "tamed",
+      "count": 10,
+      "atk_pct": 3
+    },
+    {
+      "id": "bottomless",
+      "name": "$i18n:title.bottomless",
+      "kind": "pocket_kept",
+      "count": 25,
+      "atk_pct": 3
+    },
+    {
+      "id": "well_fed",
+      "name": "$i18n:title.well_fed",
+      "kind": "used",
+      "count": 100,
+      "atk_pct": 3
+    },
+    {
       "id": "friend_verdalis",
       "name": "$i18n:title.friend_verdalis",
       "kind": "renown:verdalis",

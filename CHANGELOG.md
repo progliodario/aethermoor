@@ -26,6 +26,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Haruka's tamed friend** (spec 10, "The tamed friend"): the last creature Haruka tames stays with her as a second companion. It follows her, hits the creatures near it with one and a half times its own attack, and is kept in the save (`friend`). A new tame takes its place. The journal names it.
+- **Moments of the bond** (spec 10): every companion shows what it feels when the bond reaches 5, 15 and 30, a small scene of its own, once a game (24 new lines in Italian and English).
+- **Three new titles** (32 in all): Friend of Beasts (ten creatures tamed), Bottomless Pocket (25 things kept by Yuki's pocket) and Well Fed (a hundred things eaten or drunk).
+- One more conformance scenario.
 - **Hints for the first minutes** (spec 16, "Hints"): ten short hints, each shown once a game when its moment comes (the first steps, the first quest, the first creature that sees you, something to gather, low health, a Threshold Stone, talent points, the companion, the night, the first renown), with words for a keyboard and for a touch screen.
 - **The recipe book** (spec 06, "Recipe book"): a recipe can be taught first (`requires_flag`). The shopkeeper of every region teaches its secret dish for gold: eight new dishes with two or three effects at once (a grandmother's pie, a moonlit tea, a forge stew, sunfire skewers, a hearth broth, a captain's chowder, an ember chili, a starlight soufflé), cooked at a campfire. The crafting panel lists only what you know.
 - **Yuki's pocket has no bottom** (spec 18): a quarter of what she eats or drinks is still in the bag afterwards (`pocket_keep_pm`).

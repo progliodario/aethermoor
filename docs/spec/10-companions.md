@@ -40,6 +40,19 @@ When the player is more than 8 tiles away the companion is put on the player's p
 
 The command `companion_recall` (desktop: `G`, an action of the configurable keys; Android: the `Come` button next to `Stay`) calls the companion back: it is put on the player's position at once and follows again, whatever it was doing. It does nothing without a companion. Conformance: the scenarios `companion_recall` and `companion_recall_without`.
 
+## Moments of the bond
+
+A companion may have `moments`, a list of `{bond, text}` (presentation only): when its bond reaches `bond`, the client shows the `text` as a notice, once a game (the story flag `moment_<companion id>_<bond>` remembers it; one moment a frame). In the base pack every companion has three, at bonds 5, 15 and 30 (`tools/make_companions.py`): a small scene in its own manner (Pip shares its lunch, a leaf; Mort spins a bandage of silk).
+
+## The tamed friend
+
+A protagonist with the gift `friend_atk_pct` (spec 18) keeps the last creature it tamed as a **tamed friend**, a second companion: when `tame` succeeds (after everything a kill does), the friend becomes that creature (its definition, at its position, with a cooldown of 50 ticks), in place of the one before. Every tick, after the companion:
+
+1. **Follow.** Farther than 8 tiles from the player it is put on the player's position; else, farther than 1.6 tiles, it moves toward the player by `max(speed_x100 of its creature, 320) / 100 * tick` tiles (never closer than 1.6), and is resolved against the world with the radius of its creature. It never stays.
+2. **Hit.** Its cooldown goes down by one; at 0 it hits the nearest living creature whose centre is within `2.0 + its radius` tiles (the first one in the order of the world, of two at the same distance): `damage(atk of its creature * friend_atk_pct / 100, power 100%, the defense of the target, the levels of the player and of the target, variance 1000, no critical)`, and the cooldown is 50 again. A creature it kills is a kill of the player.
+
+Creatures never attack it; it cannot die. A save keeps it (`friend` in the save document, spec 12); a save of a creature the world no longer knows loses it. The checkpoints of the scenarios carry `friend` (`enemy`, `x`, `y`) when there is one. The clients draw it with the art of its creature, three quarters of its size, and name it in the journal. Conformance: the scenario `gift_tame_friend`.
+
 ## Bond
 
 Every creature killed by a hit of the companion adds one to its **bond**, before the kill is handled. Its attack is `atk_base + atk_per_level * (player level - 1) + min(bond / 5, 10)`: one more point every five kills,

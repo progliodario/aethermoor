@@ -1043,5 +1043,6 @@
   "hint.night.touch": "È scesa la notte: al buio le creature si accorgono di te più tardi. Le luci dei villaggi sono sicure.",
   "hint.renown": "Ora qui ti conoscono: ogni missione finita in una regione abbassa i prezzi dei suoi negozi, e apre altro.",
   "hint.renown.touch": "Ora qui ti conoscono: ogni missione finita in una regione abbassa i prezzi dei suoi negozi, e apre altro.",
+  "ui.journal_friend": "Amico domato: {name}",
   "dlg.pip.story.gideon.done": "Tutto il villaggio è d'accordo: sei un buon re. Prendi la lama, non è per niente come la vecchia, ma ti sta bene."
 }

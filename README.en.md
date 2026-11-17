@@ -46,7 +46,7 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 | Quests and stories | 263 quests, eight complete stories with an epilogue | more stories per region, the gifts still off |
 | Life | gathering, fishing, hunting, 59 recipes (eight secret, to be learned), dishes with effects, accessories | item quality, farming, a base and residents, a living economy |
 | Companions | one per protagonist, commands, bond, care | more commands, several companions at once, taming and commanding |
-| Progression | talents (abilities too, two with a key of their own), 29 titles, bestiary, reincarnation with an heirloom | tags, achievements, runes |
+| Progression | talents (abilities too, two with a key of their own), 32 titles, bestiary, reincarnation with an heirloom | tags, achievements, runes |
 | Release | test builds from CI | Alpha 0.1 release and then 1.0 (the owner decides) |
 
 ## What is in the game
@@ -77,12 +77,13 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 - Renown in the regions: every quest finished in a region lowers the prices of its shops (up to a quarter), changes how elders and shopkeepers greet you and, after five, is worth a free bed at the inn.
 - Hints for the first minutes, one at a time, when they are needed.
 - A secret dish for every region, taught by the shopkeeper for gold; Yuki's pocket has no bottom.
+- Haruka tames, and the last creature she tamed stays with her as a second companion.
 - Haruka tames: she calms a hurt creature, which leaves in peace and counts as a victory.
 - A task for a friend from the elder of every region, and in every shop the goods the caravan brought from another region.
 - Market days: the prices of every region change with the day, for buying and for selling; and every region keeps two rare pieces for somebody who is known there.
 - Fine work: what you make can come out fine (one more of it, or the fine piece instead of the plain one), more often with the titles of an artisan.
 - Three equipment slots: weapon, armor and **accessory** (nine: necklaces, pendants, rings and amulets made at an anvil or left by the guardians, with bonuses to attack, health, critical chance, defense, magic, or that give back health with every hit); and a draught that **cleanses** burning, chill, stun and weakness.
-- A bestiary that tells what every creature you defeated is weak to, what it resists and what it leaves, 29 titles that raise your attack (hunters' ones too), and a profile shared by all your games: every title you ever earned gives a little more health to every game (the "echoes"), and a game that reached level 10 can be **reincarnated**: it ends, every past life gives +3% health to all the ones after it, and half of its gold, with the weapon in its hand, is an heirloom for your next new game.
+- A bestiary that tells what every creature you defeated is weak to, what it resists and what it leaves, 32 titles that raise your attack (hunters' ones too), and a profile shared by all your games: every title you ever earned gives a little more health to every game (the "echoes"), and a game that reached level 10 can be **reincarnated**: it ends, every past life gives +3% health to all the ones after it, and half of its gold, with the weapon in its hand, is an heirloom for your next new game.
 - Three separate games, automatic saving, export and import of a game as one file.
 
 The full catalog of the content, generated from the data, is in [`docs/design/catalog.md`](docs/design/catalog.md).

@@ -726,6 +726,13 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (messageFrames > 0) messageFrames--
         val free = !(showInventory || showMap || showJournal || showCraft || world.shop != null || world.board != null || world.travel != null || world.story.dialogueActive)
         updateHints(world, data, free)
+        world.combat.companion?.let { c -> // moments of the bond, once a game (spec 10)
+            val moment = c.moments.firstOrNull { (bond, _) -> world.companionBond >= bond && world.story.flags["moment_${c.id}_$bond"] != true }
+            if (moment != null) {
+                world.story.apply(Effect.SetFlag("moment_${c.id}_${moment.first}", true))
+                showNotice(data.pack.text(language, moment.second))
+            }
+        }
         sinceAutosave += Gdx.graphics.deltaTime
         if (!hasGoal && world.chunks != null) { // every quest stage sets the goal of the map once, when the player has none (spec 07, "Places")
             for ((questId, progress) in world.story.quests) {
@@ -894,13 +901,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
 
         // Props, enemies and the player, sorted by feet y (smaller first; ties keep list order, the player last).
-        class Item(val feetY: Float, val prop: Prop?, val enemy: Enemy?, val npc: NpcDef? = null, val companion: Boolean = false)
+        class Item(val feetY: Float, val prop: Prop?, val enemy: Enemy?, val npc: NpcDef? = null, val companion: Boolean = false, val friend: Boolean = false)
         val items = ArrayList<Item>()
         world.forEachProp(cam.x - 2f, cam.y - 1f, cam.x + viewW + 2f, cam.y + viewH + 4f) { prop -> items.add(Item(prop.y, prop, null)) }
         for (enemy in world.enemies) if (enemy.state != EnemyState.DEAD) items.add(Item(enemy.position.y, null, enemy))
         for (npc in world.story.setup.npcs + world.story.dynamicNpcs) items.add(Item(npc.y, null, null, npc))
         items.add(Item(world.player.position.y, null, null))
         world.companionPosition?.let { items.add(Item(it.y, null, null, null, true)) }
+        world.tamedFriend?.let { items.add(Item(it.position.y, null, null, null, friend = true)) }
         val sorted = items.sortedBy { it.feetY }
         // The long shadows of dawn and dusk (spec 08, "The colour of the hour"): props and creatures, before any of them.
         val shadeTime = world.time()
@@ -927,6 +935,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 item.enemy != null -> drawEnemy(item.enemy, cam.x, cam.y, tilePx, tile, k, world.player.position.x)
                 item.npc != null -> drawNpc(world, data, item.npc, cam.x, cam.y, tilePx, k)
                 item.companion -> drawCompanion(world, cam.x, cam.y, tilePx, tile, k)
+                item.friend -> drawFriend(world, cam.x, cam.y, tilePx, tile, k)
                 else -> drawPlayer(world, data, cam.x, cam.y, tilePx, k)
             }
         }
@@ -1095,6 +1104,21 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val fx = (at.x - camX) * tile
         val fy = (at.y - camY) * tile + bob
         if (sprite.facesLeft && world.player.position.x > at.x) { // it turns to face the player (spec 13, "Facing")
+            batch.draw(sprite.region, fx + sprite.originX * s, fy - sprite.originY * s, -sprite.width * s, sprite.height * s)
+        } else {
+            batch.draw(sprite.region, fx - sprite.originX * s, fy - sprite.originY * s, sprite.width * s, sprite.height * s)
+        }
+    }
+
+    /** The tamed friend (spec 10), its creature a little smaller, bobbing. */
+    private fun drawFriend(world: WorldSim, camX: Float, camY: Float, tilePx: Int, tile: Float, k: Float) {
+        val tamed = world.tamedFriend ?: return
+        val sprite = cache.get(tamed.def.art, tilePx) ?: return
+        val s = k * 0.75f
+        val bob = sin(System.currentTimeMillis() / 190f + 1.3f) * 2f * k
+        val fx = (tamed.position.x - camX) * tile
+        val fy = (tamed.position.y - camY) * tile + bob
+        if (sprite.facesLeft && world.player.position.x > tamed.position.x) {
             batch.draw(sprite.region, fx + sprite.originX * s, fy - sprite.originY * s, -sprite.width * s, sprite.height * s)
         } else {
             batch.draw(sprite.region, fx - sprite.originX * s, fy - sprite.originY * s, sprite.width * s, sprite.height * s)
@@ -2315,6 +2339,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             entries.add(Pair(data.pack.text(language, companion.name), 1))
             entries.add(Pair("  " + data.pack.text(language, if (world.companionStaying) "\$i18n:ui.companion_stays" else "\$i18n:ui.companion_follows"), 2))
             entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.journal_bond", mapOf("bond" to world.companionBond, "bonus" to minOf(world.companionBond / 5, 10))), 2))
+            world.tamedFriend?.let { tamed -> // the tamed friend (spec 10)
+                val name = data.pack.text(language, "\$i18n:enemy.${tamed.def.id.substringAfterLast('/')}.name")
+                entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.journal_friend", mapOf("name" to name)), 2))
+            }
             if (companion.careTicks > 0) { // care (spec 10): what it does for the player, or the bond it needs
                 val key = if (world.companionBond >= companion.careBond) "\$i18n:ui.journal_care" else "\$i18n:ui.journal_care_later"
                 entries.add(Pair("  " + data.pack.text(language, key, mapOf("pct" to companion.carePct, "seconds" to companion.careTicks / 60, "bond" to companion.careBond)), 2))

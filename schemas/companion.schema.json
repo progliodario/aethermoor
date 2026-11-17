@@ -73,6 +73,26 @@
       "minimum": 0,
       "description": "how often it heals the player; 0: never"
     },
+    "moments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "bond",
+          "text"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "bond": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "text": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "care_pct": {
       "type": "integer",
       "minimum": 0,

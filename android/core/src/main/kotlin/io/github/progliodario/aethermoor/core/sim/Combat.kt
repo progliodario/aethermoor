@@ -49,6 +49,8 @@ data class GiftDef(
     val tameBond: Int = 0,
     /** The pocket of Yuki: the chance in permille that an item used stays in the bag. */
     val pocketKeepPm: Int = 0,
+    /** Above 0 a tamed creature stays as the tamed friend (spec 10), hitting with this percent of its attack. */
+    val friendAtkPct: Int = 0,
 )
 
 data class DropDef(val item: String, val qtyMin: Long, val qtyMax: Long, val weightPm: Long)
@@ -160,6 +162,8 @@ class CompanionDef(
     val careBond: Int = 0,
     val careTicks: Int = 0,
     val carePct: Int = 0,
+    /** Moments of the bond (spec 10): at this bond the companion shows a line, once a game ($i18n: keys). Presentation. */
+    val moments: List<Pair<Int, String>> = emptyList(),
 )
 
 /** A crafting recipe (spec 06, "Crafting"). */

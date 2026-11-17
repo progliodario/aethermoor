@@ -12,5 +12,19 @@
   "follow_x100": 220,
   "care_bond": 10,
   "care_ticks": 600,
-  "care_pct": 5
+  "care_pct": 5,
+  "moments": [
+    {
+      "bond": 5,
+      "text": "$i18n:companion.mort.moment_5"
+    },
+    {
+      "bond": 15,
+      "text": "$i18n:companion.mort.moment_15"
+    },
+    {
+      "bond": 30,
+      "text": "$i18n:companion.mort.moment_30"
+    }
+  ]
 }

@@ -761,6 +761,7 @@ Scenario scenario_from_json(const Json& in) {
         setup.gift.tame_range_x100 = gift.value("tame_range_x100", 0);
         setup.gift.tame_bond = gift.value("tame_bond", 0);
         setup.gift.pocket_keep_pm = gift.value("pocket_keep_pm", 0);
+        setup.gift.friend_atk_pct = gift.value("friend_atk_pct", 0);
     }
     if (in.contains("strike")) {
         const Json& strike = in.at("strike");
@@ -1042,6 +1043,15 @@ void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) 
         REQUIRE(sim.derived().matk == integer(want, "matk"));
         REQUIRE(sim.derived().crit_chance_pm == integer(want, "crit_chance_pm"));
         REQUIRE(sim.derived().move_speed_x100 == integer(want, "move_speed_x100"));
+    }
+    if (want.contains("friend")) {  // the tamed friend (spec 10)
+        const Json& wf = want.at("friend");
+        REQUIRE(sim.tamed_friend() != nullptr);
+        REQUIRE(sim.tamed_friend()->def.id == wf.at("enemy").get<std::string>());
+        REQUIRE(sim.tamed_friend()->position.x == Catch::Approx(wf.at("x").get<float>()).margin(tol));
+        REQUIRE(sim.tamed_friend()->position.y == Catch::Approx(wf.at("y").get<float>()).margin(tol));
+    } else {
+        REQUIRE(sim.tamed_friend() == nullptr);
     }
     if (want.contains("companion")) {
         const Json& wc = want.at("companion");

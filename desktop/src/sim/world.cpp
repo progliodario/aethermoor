@@ -16,6 +16,11 @@ constexpr int kParryTicks = 14;
 // The companion (spec 10): it never comes farther than this from the player, and its body is this big.
 constexpr float kCompanionLeash = 8.0F;
 constexpr float kCompanionRadius = 0.25F;
+// The tamed friend (spec 10, "The tamed friend"): how near it keeps, its least speed, how far it hits and how often.
+constexpr float kFriendFollow = 1.6F;
+constexpr int kFriendSpeedMinX100 = 320;
+constexpr float kFriendRange = 2.0F;
+constexpr int kFriendCooldown = 50;
 constexpr int kParryCooldown = 70;
 constexpr int kParryStun = 60;
 constexpr int kStaggerTicks = 120;  // spec 05, "Stagger"
@@ -939,7 +944,73 @@ bool WorldSim::tame() {
     }
     m_cues_.push_back({"die", best->def.sound, best->position});
     on_kill(*best);
+    if (gift.friend_atk_pct > 0) {  // it stays as the tamed friend, in place of the one before (spec 10)
+        m_friend_ = Friend{best->def, best->position, kFriendCooldown};
+    }
     return true;
+}
+
+// The tamed friend follows the player and hits the nearest creature in its reach now and then (spec 10).
+void WorldSim::update_friend() {
+    Friend& f = *m_friend_;
+    const Player& p = m_player_;
+    const float dx = p.position.x - f.position.x;
+    const float dy = p.position.y - f.position.y;
+    const float dist = std::sqrt(dx * dx + dy * dy);
+    if (dist > kCompanionLeash) {
+        f.position = p.position;
+    } else if (dist > kFriendFollow) {
+        const float speed = static_cast<float>(std::max(f.def.speed_x100, kFriendSpeedMinX100)) / 100.0F;
+        const float step = std::min(speed * kTickDt, dist - kFriendFollow);
+        f.position.x += dx / dist * step;
+        f.position.y += dy / dist * step;
+        m_collision_.resolve(f.position.x, f.position.y, static_cast<float>(f.def.radius_x100) / 100.0F);
+    }
+    if (f.cooldown > 0) {
+        --f.cooldown;
+    }
+    if (f.cooldown > 0) {
+        return;
+    }
+    Enemy* target = nullptr;
+    float best = 0.0F;
+    for (Enemy& enemy : m_enemies_) {
+        if (enemy.state == EnemyState::Dead) {
+            continue;
+        }
+        const float d = distance(enemy.position.x, enemy.position.y, f.position.x, f.position.y);
+        if (d > kFriendRange + enemy.radius()) {
+            continue;
+        }
+        if (target == nullptr || d < best) {
+            target = &enemy;
+            best = d;
+        }
+    }
+    if (target == nullptr) {
+        return;
+    }
+    DamageInput in;
+    in.atk = f.def.atk * m_setup_.gift.friend_atk_pct / 100;
+    in.power_pct = 100;
+    in.def_target = target->def.def;
+    in.lvl_attacker = p.level;
+    in.lvl_target = target->def.level;
+    in.variance_pm = 1000;
+    in.crit = false;
+    in.crit_mult_pm = 1500;
+    const std::int64_t amount = damage(in);
+    target->hp -= amount;
+    target->hit_flash = kHitFlashTicks;
+    m_events_.push_back({target->position, amount, false, false});
+    m_cues_.push_back({"hit", target->def.sound, target->position});
+    f.cooldown = kFriendCooldown;
+    if (target->hp <= 0) {
+        target->hp = 0;
+        target->state = EnemyState::Dead;
+        m_cues_.push_back({"die", target->def.sound, target->position});
+        on_kill(*target);
+    }
 }
 
 std::int64_t WorldSim::fine_chance_pm(const RecipeDef& recipe) const {
@@ -1293,6 +1364,9 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
     advance_attack();
     if (m_setup_.companion) {
         update_companion();
+    }
+    if (m_friend_) {
+        update_friend();
     }
     for (Enemy& enemy : m_enemies_) {
         update_enemy(enemy);
@@ -1846,6 +1920,13 @@ SaveState WorldSim::capture() const {
         s.companion_stay = m_companion_stay_;
         s.companion_bond = m_companion_bond_;
     }
+    if (m_friend_) {
+        s.has_friend = true;
+        s.friend_enemy = m_friend_->def.id;
+        s.friend_x = m_friend_->position.x;
+        s.friend_y = m_friend_->position.y;
+        s.friend_cooldown = m_friend_->cooldown;
+    }
     s.explored.assign(m_explored_.begin(), m_explored_.end());
     std::sort(s.explored.begin(), s.explored.end(), [](const auto& a, const auto& b) {  // rows first (spec 12)
         return a.second != b.second ? a.second < b.second : a.first < b.first;
@@ -1983,6 +2064,21 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
         m_companion_cooldown_ = s.has_companion ? s.companion_cooldown : m_setup_.companion->cooldown_ticks;
         m_companion_stay_ = s.has_companion && s.companion_stay;
         m_companion_bond_ = s.has_companion ? s.companion_bond : 0;
+    }
+    m_friend_.reset();  // the tamed friend: its creature from the fauna of the world, or from the creatures of the map
+    if (s.has_friend) {
+        std::optional<EnemyDef> def;
+        if (const auto found = m_setup_.stream_enemies.find(s.friend_enemy); found != m_setup_.stream_enemies.end()) {
+            def = found->second;
+        }
+        for (const EnemySpawn& spawn : m_setup_.spawns) {
+            if (!def && spawn.def.id == s.friend_enemy) {
+                def = spawn.def;
+            }
+        }
+        if (def) {
+            m_friend_ = Friend{*def, Vec2{s.friend_x, s.friend_y}, s.friend_cooldown};
+        }
     }
     recompute_derived();
     m_player_.hp = std::min(s.hp, m_derived_.max_hp);

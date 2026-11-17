@@ -1043,5 +1043,6 @@
   "hint.night.touch": "Night has fallen: creatures notice you later in the dark. The lights of the villages are safe.",
   "hint.renown": "People here know you now: every quest finished in a region lowers the prices of its shops, and opens more.",
   "hint.renown.touch": "People here know you now: every quest finished in a region lowers the prices of its shops, and opens more.",
+  "ui.journal_friend": "Tamed friend: {name}",
   "dlg.pip.story.gideon.done": "The whole village agrees: you are a good king. Take the blade, it is nothing like the old one, but it suits you."
 }

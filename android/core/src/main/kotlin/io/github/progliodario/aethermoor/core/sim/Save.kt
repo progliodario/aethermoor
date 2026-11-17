@@ -78,6 +78,8 @@ data class SaveState(
     /** The companion was told to stay, and the creatures it has killed (spec 10). */
     val companionStay: Boolean = false,
     val companionBond: Int = 0,
+    /** The tamed friend (spec 10): its creature, where it is and its cooldown; null: none. */
+    val tamedFriend: FriendSave? = null,
     /** The item ids worn (spec 06); null: not in the save (the starting weapon, no armor). */
     val equippedWeapon: String? = null,
     val equippedArmor: String = "",
@@ -99,6 +101,9 @@ class SaveMeta(
 /** The seed and map name of a save, read without building a world (to rebuild the same world first). */
 /** [weapon]: the weapon in hand, for the heirloom of a reincarnation (spec 11). */
 class SavePeek(val seed: ULong, val map: String, val level: Int = 1, val gold: Long = 0, val weapon: String = "")
+
+/** What a save keeps of the tamed friend (spec 10, "The tamed friend"). */
+class FriendSave(val enemy: String, val x: Float, val y: Float, val cooldown: Int)
 
 fun savePeek(text: String): Result<SavePeek> =
     runCatching {
@@ -193,6 +198,7 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
         if (s.talents.isNotEmpty()) put("talents", buildJsonObject { for ((id, rank) in s.talents) put(id, rank) })
         if (s.counters.isNotEmpty()) put("counters", buildJsonObject { for ((name, count) in s.counters) put(name, count) })
         if (s.bestiary.isNotEmpty()) put("bestiary", buildJsonObject { for ((id, count) in s.bestiary) put(id, count) })
+        s.tamedFriend?.let { f -> put("friend", buildJsonObject { put("enemy", f.enemy); put("x", f.x); put("y", f.y); put("cooldown", f.cooldown) }) }
         s.companion?.let { c -> put("companion", buildJsonObject { put("x", c.first); put("y", c.second); put("cooldown", c.third); if (s.companionStay) put("stay", true); if (s.companionBond > 0) put("bond", s.companionBond) }) }
         if (meta.map == "world") {
             put("explored", JsonArray(s.explored.map { JsonArray(listOf(JsonPrimitive(it.first), JsonPrimitive(it.second))) }))
@@ -317,6 +323,9 @@ fun saveFromJson(text: String): Result<SaveState> =
             counters = (j["counters"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
             companionStay = ((j["companion"] as? JsonObject)?.get("stay") as? JsonPrimitive)?.content == "true",
             companionBond = ((j["companion"] as? JsonObject)?.get("bond") as? JsonPrimitive)?.content?.toIntOrNull() ?: 0,
+            tamedFriend = (j["friend"] as? JsonObject)?.let { f ->
+                FriendSave(f.getValue("enemy").jsonPrimitive.content, f.getValue("x").jsonPrimitive.float, f.getValue("y").jsonPrimitive.float, f.getValue("cooldown").jsonPrimitive.int)
+            },
             bestiary = (j["bestiary"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
             stones = (j["stones"] as? JsonArray)?.map { c -> Pair(c.jsonArray[0].jsonPrimitive.int, c.jsonArray[1].jsonPrimitive.int) }
                 ?: emptyList(),

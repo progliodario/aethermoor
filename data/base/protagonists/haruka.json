@@ -54,7 +54,8 @@
     "bond_gain": 3,
     "tame_hp_pct": 50,
     "tame_range_x100": 250,
-    "tame_bond": 2
+    "tame_bond": 2,
+    "friend_atk_pct": 150
   },
   "companion": "base:companion/pip"
 }

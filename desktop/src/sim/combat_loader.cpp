@@ -110,6 +110,7 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
     setup.gift.tame_range_x100 = protagonist->tame_range_x100;
     setup.gift.tame_bond = protagonist->tame_bond;
     setup.gift.pocket_keep_pm = protagonist->pocket_keep_pm;
+    setup.gift.friend_atk_pct = protagonist->friend_atk_pct;
     if (!protagonist->companion.empty()) {  // the companion of the protagonist (spec 10)
         if (const auto companion_text = pack.read_document(protagonist->companion)) {
             const Json c = Json::parse(*companion_text, nullptr, /*allow_exceptions=*/false);
@@ -128,6 +129,11 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
                 def.care_bond = c.value("care_bond", 0);
                 def.care_ticks = c.value("care_ticks", 0);
                 def.care_pct = c.value("care_pct", 0);
+                if (c.contains("moments")) {
+                    for (const Json& m : c.at("moments")) {
+                        def.moments.emplace_back(m.at("bond").get<int>(), m.at("text").get<std::string>());
+                    }
+                }
                 setup.companion = std::move(def);
             }
         }
