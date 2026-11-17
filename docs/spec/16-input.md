@@ -96,7 +96,7 @@ The first minutes are explained by **hints** (`data/base/hints.json`, ID `base:h
 
 ### Accessibility
 
-Three options, all on by default, are kept in the settings file as booleans: `hints` (the hints of the first minutes), `damage_numbers` (the numbers that rise from a hit) and `flashes` (the red flash of a creature that is hit). Desktop: three more rows in the settings panel, `A`/`D` or `E` switch them. Android: three buttons at the bottom of the open journal. They change nothing of the game.
+Four options are kept in the settings file as booleans: `hints` (the hints of the first minutes), `damage_numbers` (the numbers that rise from a hit) and `flashes` (the red flash of a creature that is hit), on by default, and `large_text`, off by default: the text of the interface is larger (a quarter larger on desktop, where the glyphs grow around the middle of their line and the widths of the texts grow with them; on Android the font of the pack is baked again, three tenths larger). Desktop: four more rows in the settings panel, `A`/`D` or `E` switch them. Android: four buttons at the bottom of the open journal. They change nothing of the game.
 
 ## Credits
 

@@ -1674,6 +1674,7 @@
             ],
             "weather": {
               "rain_aggro_cut_pm": 300,
+              "rain_slow_pm": 250,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -1894,6 +1895,62 @@
               "variant": "teal",
               "dx": 387,
               "dy": -127
+            },
+            {
+              "key": "pedlar_hobb",
+              "dialogue": "base:dialogue/npc/hobb",
+              "variant": "brown",
+              "dx": 382,
+              "dy": 128
+            },
+            {
+              "key": "pedlar_fennick",
+              "dialogue": "base:dialogue/npc/fennick",
+              "variant": "green",
+              "dx": -4226,
+              "dy": -2688
+            },
+            {
+              "key": "pedlar_garrow",
+              "dialogue": "base:dialogue/npc/garrow",
+              "variant": "red",
+              "dx": 4222,
+              "dy": -4736
+            },
+            {
+              "key": "pedlar_marisol",
+              "dialogue": "base:dialogue/npc/marisol",
+              "variant": "teal",
+              "dx": -6273,
+              "dy": 4223
+            },
+            {
+              "key": "pedlar_ylva",
+              "dialogue": "base:dialogue/npc/ylva",
+              "variant": "cream",
+              "dx": -1154,
+              "dy": -6528
+            },
+            {
+              "key": "pedlar_rashid",
+              "dialogue": "base:dialogue/npc/rashid",
+              "variant": "ochre",
+              "dx": 5503,
+              "dy": 3967
+            },
+            {
+              "key": "pedlar_celeste",
+              "dialogue": "base:dialogue/npc/celeste",
+              "variant": "purple",
+              "dx": -642,
+              "dy": 6272
+            },
+            {
+              "key": "pedlar_tarn",
+              "dialogue": "base:dialogue/npc/tarn",
+              "variant": "",
+              "dx": 6782,
+              "dy": -384
             }
           ],
           "stamp_defs": {
@@ -7011,6 +7068,46 @@
             "aldermere_pedlar_corvin",
             111488,
             -22144
+          ],
+          [
+            "pedlar_hobb",
+            110208,
+            43136
+          ],
+          [
+            "pedlar_fennick",
+            -1069440,
+            -677760
+          ],
+          [
+            "pedlar_garrow",
+            1093248,
+            -1202048
+          ],
+          [
+            "pedlar_marisol",
+            -1593472,
+            1091456
+          ],
+          [
+            "pedlar_ylva",
+            -283008,
+            -1660800
+          ],
+          [
+            "pedlar_rashid",
+            1421184,
+            1025920
+          ],
+          [
+            "pedlar_celeste",
+            -151936,
+            1616000
+          ],
+          [
+            "pedlar_tarn",
+            1748608,
+            -87936
           ]
         ],
         "gid_histogram": {
@@ -8712,6 +8809,7 @@
             ],
             "weather": {
               "rain_aggro_cut_pm": 300,
+              "rain_slow_pm": 250,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -8932,6 +9030,62 @@
               "variant": "teal",
               "dx": 387,
               "dy": -127
+            },
+            {
+              "key": "pedlar_hobb",
+              "dialogue": "base:dialogue/npc/hobb",
+              "variant": "brown",
+              "dx": 382,
+              "dy": 128
+            },
+            {
+              "key": "pedlar_fennick",
+              "dialogue": "base:dialogue/npc/fennick",
+              "variant": "green",
+              "dx": -4226,
+              "dy": -2688
+            },
+            {
+              "key": "pedlar_garrow",
+              "dialogue": "base:dialogue/npc/garrow",
+              "variant": "red",
+              "dx": 4222,
+              "dy": -4736
+            },
+            {
+              "key": "pedlar_marisol",
+              "dialogue": "base:dialogue/npc/marisol",
+              "variant": "teal",
+              "dx": -6273,
+              "dy": 4223
+            },
+            {
+              "key": "pedlar_ylva",
+              "dialogue": "base:dialogue/npc/ylva",
+              "variant": "cream",
+              "dx": -1154,
+              "dy": -6528
+            },
+            {
+              "key": "pedlar_rashid",
+              "dialogue": "base:dialogue/npc/rashid",
+              "variant": "ochre",
+              "dx": 5503,
+              "dy": 3967
+            },
+            {
+              "key": "pedlar_celeste",
+              "dialogue": "base:dialogue/npc/celeste",
+              "variant": "purple",
+              "dx": -642,
+              "dy": 6272
+            },
+            {
+              "key": "pedlar_tarn",
+              "dialogue": "base:dialogue/npc/tarn",
+              "variant": "",
+              "dx": 6782,
+              "dy": -384
             }
           ],
           "stamp_defs": {
@@ -14045,6 +14199,46 @@
             "aldermere_pedlar_corvin",
             109440,
             -23168
+          ],
+          [
+            "pedlar_hobb",
+            108160,
+            42112
+          ],
+          [
+            "pedlar_fennick",
+            -1071488,
+            -678784
+          ],
+          [
+            "pedlar_garrow",
+            1091200,
+            -1203072
+          ],
+          [
+            "pedlar_marisol",
+            -1595520,
+            1090432
+          ],
+          [
+            "pedlar_ylva",
+            -285056,
+            -1661824
+          ],
+          [
+            "pedlar_rashid",
+            1419136,
+            1024896
+          ],
+          [
+            "pedlar_celeste",
+            -153984,
+            1614976
+          ],
+          [
+            "pedlar_tarn",
+            1746560,
+            -88960
           ]
         ],
         "gid_histogram": {
@@ -15746,6 +15940,7 @@
             ],
             "weather": {
               "rain_aggro_cut_pm": 300,
+              "rain_slow_pm": 250,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -15966,6 +16161,62 @@
               "variant": "teal",
               "dx": 387,
               "dy": -127
+            },
+            {
+              "key": "pedlar_hobb",
+              "dialogue": "base:dialogue/npc/hobb",
+              "variant": "brown",
+              "dx": 382,
+              "dy": 128
+            },
+            {
+              "key": "pedlar_fennick",
+              "dialogue": "base:dialogue/npc/fennick",
+              "variant": "green",
+              "dx": -4226,
+              "dy": -2688
+            },
+            {
+              "key": "pedlar_garrow",
+              "dialogue": "base:dialogue/npc/garrow",
+              "variant": "red",
+              "dx": 4222,
+              "dy": -4736
+            },
+            {
+              "key": "pedlar_marisol",
+              "dialogue": "base:dialogue/npc/marisol",
+              "variant": "teal",
+              "dx": -6273,
+              "dy": 4223
+            },
+            {
+              "key": "pedlar_ylva",
+              "dialogue": "base:dialogue/npc/ylva",
+              "variant": "cream",
+              "dx": -1154,
+              "dy": -6528
+            },
+            {
+              "key": "pedlar_rashid",
+              "dialogue": "base:dialogue/npc/rashid",
+              "variant": "ochre",
+              "dx": 5503,
+              "dy": 3967
+            },
+            {
+              "key": "pedlar_celeste",
+              "dialogue": "base:dialogue/npc/celeste",
+              "variant": "purple",
+              "dx": -642,
+              "dy": 6272
+            },
+            {
+              "key": "pedlar_tarn",
+              "dialogue": "base:dialogue/npc/tarn",
+              "variant": "",
+              "dx": 6782,
+              "dy": -384
             }
           ],
           "stamp_defs": {
@@ -21091,6 +21342,46 @@
             "aldermere_pedlar_corvin",
             110464,
             -20096
+          ],
+          [
+            "pedlar_hobb",
+            109184,
+            45184
+          ],
+          [
+            "pedlar_fennick",
+            -1070464,
+            -675712
+          ],
+          [
+            "pedlar_garrow",
+            1092224,
+            -1200000
+          ],
+          [
+            "pedlar_marisol",
+            -1594496,
+            1093504
+          ],
+          [
+            "pedlar_ylva",
+            -284032,
+            -1658752
+          ],
+          [
+            "pedlar_rashid",
+            1420160,
+            1027968
+          ],
+          [
+            "pedlar_celeste",
+            -152960,
+            1618048
+          ],
+          [
+            "pedlar_tarn",
+            1747584,
+            -85888
           ]
         ],
         "gid_histogram": {

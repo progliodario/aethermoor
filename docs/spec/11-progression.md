@@ -98,7 +98,7 @@ replaces it, one without a weapon keeps it. The next new game finds it in its ba
 
 ## Echoes
 
-What the player reached in past games is not lost: every title in the profile (spec 12, "Profile") is an **echo**, and so is every past life: a game that starts, or is loaded, has `echo_pct = min(number of titles in the profile, 15) + 3 * min(lives, 10)`, 45 at most.
+What the player reached in past games is not lost: every title in the profile (spec 12, "Profile") is an **echo**, and so is every past life: a game that starts, or is loaded, has `echo_pct = min(number of titles in the profile, 15) + 3 * min(lives, 10) + deeds`, where `deeds` is the number of deeds the profile has done (see "Deeds"; 22 at most in the base pack, so 67 at most).
 The maximum health of the player is `max_hp * (100 + echo_pct) / 100` (integer division), computed after the formula of spec 04 and before anything else uses it (healing, burn, the death save). The echoes are the
 same in all the games and are not saved in them (the profile is read when the game is built). The titles soften a new life; the past lives are what makes a Guest who has lived many times plainly stronger than one who has not.
 Reference: `CombatSim._derive` (`echo_pct` of the scenario) and `echo_pct`, `reincarnate` in `tools/reference/profile.py`; conformance: the scenario `echo_health` and the suite `profile`.
@@ -116,7 +116,7 @@ The **deeds** are facts about all the games, read from the profile (spec 12, "Pr
 | `defeated` | `enemies` | every creature of the list is in the bestiary |
 | `earned` | `titles` | every title of the list was earned |
 
-A kind the rules do not know is never done. The deeds are listed in the order of the data. The base pack has 22: blows (1, 100, 1000), kinds of creature (10, 30, 60), the great guardians (the Gel King, the three Wardens, the two Sovereigns, the two Tyrants, the Drowned Captain with the Cinder Colossus, the Echo of every protagonist), titles (5, 15, 30, Hero and Legend, a friend of every region, the four factions, the titles of the quiet life, Beast Friend with Well Fed) and lives (1, 5). When a save makes the profile do a deed it did not do before, the clients say so ("Deed done: ..."); the title screen shows how many are done and lists them all (`A` on a keyboard, the `Deeds` button on a touch screen), the ones done in gold.
+A kind the rules do not know is never done. The deeds are listed in the order of the data. The base pack has 22: blows (1, 100, 1000), kinds of creature (10, 30, 60), the great guardians (the Gel King, the three Wardens, the two Sovereigns, the two Tyrants, the Drowned Captain with the Cinder Colossus, the Echo of every protagonist), titles (5, 15, 30, Hero and Legend, a friend of every region, the four factions, the titles of the quiet life, Beast Friend with Well Fed) and lives (1, 5). Every deed done is also an **echo**: one percent more maximum health in every game, from the next one that is built or loaded (see "Echoes"). When a save makes the profile do a deed it did not do before, the clients say so ("Deed done: ..."); the title screen shows how many are done and lists them all (`A` on a keyboard, the `Deeds` button on a touch screen), the ones done in gold.
 Reference: `deeds` in `tools/reference/profile.py`; conformance: the cases `deeds_*` of the suite `profile` (their input carries `deeds`, their expectation the ids done).
 
 ## Display
@@ -125,4 +125,4 @@ The journal (spec 07) shows, after the quests, the companion (name, whether it s
 
 ## Later
 
-Tags (traits earned by how one plays), rewards for the deeds, a chosen carry-over for the reincarnation (today a past life gives health to every game and half of its gold to the next one), and titles with other effects than attack.
+Tags (traits earned by how one plays), a chosen carry-over for the reincarnation (today a past life gives health to every game and half of its gold to the next one), and titles with other effects than attack.

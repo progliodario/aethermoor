@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Writes the tales of the regions (spec 07, "Tales of the villagers"): the villagers of every region tell of a trouble of theirs, in two
-quests, one after the other: `base:quest/side/tale_<region>_1` and `_2`, each a hunt of a creature of the region and a collection of what it
+quests, one after the other: `base:quest/side/tale_<region>_1`, `_2` and `_3`, each a hunt of a creature of the region and a collection of what it
 leaves, paid by the villager who is asked (the flags `tale_<region>_<n>_paid`).
 
 It writes the quests and their texts, and changes the role dialogues of the villagers in place (the nodes written here are written again, so
@@ -128,6 +128,78 @@ TALES = {
 }
 
 
+# The third tale of every region: a harder hunt, offered once the second is paid. region: (enemy, kills, drop, count)
+THIRD = {
+    "verdalis": ("wild_boar", 4, "boar_hide", 2),
+    "whisperwood": ("cave_spider", 5, "spider_silk", 3),
+    "ironspine": ("stone_golem", 3, "golem_core", 2),
+    "sunscar": ("dune_scorpion", 4, "scorpion_sting", 3),
+    "frostveil": ("wolf_polar", 4, "polar_fur", 3),
+    "tidehaven": ("slime_tide", 5, "tide_pearl", 3),
+    "ashen_wastes": ("wolf_ember", 4, "ember_pelt", 2),
+    "lumeria": ("slime_nebula", 4, "nebula_ash", 3),
+}
+THIRD_TEXTS = {
+    "en": {
+        "warm": ("And now the boars! Four of them dig up the turnips every night, and the turnips were the last thing we had to worry about. Bring two hides, the cobbler wants them.",
+                 "The boars are still in the turnips. They look very pleased with themselves.", "Turnips for the winter, and shoes for the children! You're one of us now. Take this, and come for supper.",
+                 "Boars in the turnips", "Drive off the boars that dig up the turnip fields of Verdalis and bring back their hides."),
+        "mystic": ("The spiders of the old wood weave across the paths, and the paths forget where they lead. Five of them. Their silk will remember for us.",
+                   "The webs still hold the paths.", "The paths remember again. The wood is grateful, and so am I. Take this, and the wood's thanks.",
+                   "The paths that forgot", "Clear the spiders that weave across the paths of Whisperwood and bring back their silk."),
+        "gruff": ("Golems. Three of them, walking into the quarry like they own it. They don't. Two cores; the smith wants them for the forge.",
+                  "Golems still in the quarry.", "Quarry's ours again. You hit harder than a landslide. Take it.",
+                  "The quarry's new owners", "Break the stone golems that took the quarries of Ironspine and bring back their cores."),
+        "flowery": ("Scorpions, darling, under every cushion of the bazaar! Four of the horrid things, and three stings for the apothecary, who swears they make a cure for wrinkles!",
+                    "I still shake out every cushion twice, darling!", "The bazaar is safe for cushions again! And the apothecary's cream works wonders. Here, for you, with kisses!",
+                    "Under the cushions", "Rid the bazaars of Sunscar of the scorpions under the cushions and bring back their stings."),
+        "stoic": ("Polar wolves. Four. They follow the sleds. Bring three furs. The children need coats.",
+                  "They still follow the sleds.", "The sleds come home. The children have coats. Thank you. This is yours.",
+                  "Behind the sleds", "Hunt the polar wolves that follow the sleds of Frostveil and bring back their fur."),
+        "salty": ("Tide slimes in the oyster beds, matey! Five of the slippery thieves, and three pearls they swallowed. The pearls are mine, the slimes are yours!",
+                  "Still slimes in the oyster beds, matey!", "Pearls back and oysters happy! Here's your share, and the first oyster of the season.",
+                  "The oyster thieves", "Clear the tide slimes from the oyster beds of Tidehaven and bring back the pearls they swallowed."),
+        "grim": ("Ember wolves came down from the ridge. Four. They burn what they bite. Two pelts; they keep a house warm a whole winter.",
+                 "The wolves still burn the fences.", "The ridge is quiet. Warm houses this winter. That has not happened in a while. Take this.",
+                 "Wolves from the ridge", "Hunt the ember wolves that come down from the ridges of the Ashen Wastes and bring back their pelts."),
+        "scholarly": ("Nebula slimes have settled in the observatory dome, and frankly they are more interesting than the sky. Four, regrettably, and three samples of their ash for analysis.",
+                      "The dome remains occupied by the subjects.", "The dome is clear and the samples are extraordinary! A paper, perhaps two. Your fee, with gratitude.",
+                      "Guests in the dome", "Remove the nebula slimes from the observatory domes of Lumeria and bring back samples of their ash."),
+    },
+    "it": {
+        "warm": ("E adesso i cinghiali! Quattro di loro scavano le rape ogni notte, e le rape erano l'ultima delle nostre preoccupazioni. Porta due pelli, le vuole il calzolaio.",
+                 "I cinghiali sono ancora nelle rape. Hanno un'aria molto soddisfatta.", "Rape per l'inverno e scarpe per i bambini! Ormai sei dei nostri. Prendi questo, e vieni a cena.",
+                 "Cinghiali nelle rape", "Scaccia i cinghiali che scavano i campi di rape di Verdalis e riporta le loro pelli."),
+        "mystic": ("I ragni del bosco antico tessono attraverso i sentieri, e i sentieri dimenticano dove portano. Cinque. La loro seta ricorderà per noi.",
+                   "Le ragnatele trattengono ancora i sentieri.", "I sentieri ricordano di nuovo. Il bosco ti è grato, e anch'io. Prendi questo, e il grazie del bosco.",
+                   "I sentieri che dimenticavano", "Libera i sentieri di Whisperwood dai ragni che li attraversano e riporta la loro seta."),
+        "gruff": ("Golem. Tre, entrati nella cava come se fosse loro. Non lo è. Due nuclei; il fabbro li vuole per la forgia.",
+                  "Golem ancora nella cava.", "La cava è di nuovo nostra. Picchi più forte di una frana. Prendi.",
+                  "I nuovi padroni della cava", "Spezza i golem di pietra che hanno preso le cave della Dorsale di Ferro e riporta i loro nuclei."),
+        "flowery": ("Scorpioni, tesoro, sotto ogni cuscino del bazar! Quattro di quegli orrori, e tre pungiglioni per lo speziale, che giura ci faccia una crema contro le rughe!",
+                    "Scuoto ancora ogni cuscino due volte, tesoro!", "Il bazar è di nuovo sicuro per i cuscini! E la crema dello speziale fa miracoli. Ecco, per te, con baci!",
+                    "Sotto i cuscini", "Libera i bazar della Cicatrice del Sole dagli scorpioni sotto i cuscini e riporta i loro pungiglioni."),
+        "stoic": ("Lupi polari. Quattro. Seguono le slitte. Porta tre pellicce. Ai bambini servono cappotti.",
+                  "Seguono ancora le slitte.", "Le slitte tornano a casa. I bambini hanno i cappotti. Grazie. Questo è tuo.",
+                  "Dietro le slitte", "Caccia i lupi polari che seguono le slitte del Velo di Gelo e riporta la loro pelliccia."),
+        "salty": ("Melme di marea nei banchi di ostriche, mozzo! Cinque di quei ladri scivolosi, e tre perle che hanno ingoiato. Le perle sono mie, le melme tue!",
+                  "Ancora melme nei banchi di ostriche, mozzo!", "Perle tornate e ostriche felici! Ecco la tua parte, e la prima ostrica della stagione.",
+                  "I ladri di ostriche", "Libera i banchi di ostriche del Porto della Marea dalle melme di marea e riporta le perle che hanno ingoiato."),
+        "grim": ("Sono scesi i lupi di brace dalla cresta. Quattro. Bruciano quello che mordono. Due pelli; tengono calda una casa per tutto l'inverno.",
+                 "I lupi bruciano ancora gli steccati.", "La cresta è tranquilla. Case calde quest'inverno. Non succedeva da tempo. Prendi questo.",
+                 "Lupi dalla cresta", "Caccia i lupi di brace che scendono dalle creste delle Terre di Cenere e riporta le loro pelli."),
+        "scholarly": ("Le melme di nebulosa si sono stabilite nella cupola dell'osservatorio e, francamente, sono più interessanti del cielo. Quattro, purtroppo, e tre campioni della loro cenere da analizzare.",
+                      "La cupola resta occupata dai soggetti.", "La cupola è libera e i campioni sono straordinari! Un articolo, forse due. Il tuo onorario, con gratitudine.",
+                      "Ospiti nella cupola", "Allontana le melme di nebulosa dalle cupole degli osservatori di Lumeria e riporta campioni della loro cenere."),
+    },
+}
+for _region, _hunt in THIRD.items():
+    REGIONS[_region][2].append(_hunt)
+for _lang, _by_tone in THIRD_TEXTS.items():
+    for _tone, _tale in _by_tone.items():
+        TALES[_lang][_tone].append(_tale)
+
+
 def write_json(path, doc, like: str | None = None) -> None:
     newline = "\r\n" if like is not None and "\r\n" in like else "\n"
     path.write_text((json.dumps(doc, indent=2, ensure_ascii=False) + "\n").replace("\n", newline), encoding="utf-8", newline="")
@@ -137,19 +209,19 @@ def quest_id(region: str, n: int) -> str:
     return f"base:quest/side/tale_{region}_{n}"
 
 
-def patch_villager(region: str, tone: str, danger: int) -> None:
+def patch_villager(region: str, tone: str, danger: int, count: int) -> None:
     path = DATA / "dialogues" / "role" / f"villager_{tone}.json"
     raw = path.read_text(encoding="utf-8", newline="")
     doc = json.loads(raw)
     nodes = doc["nodes"]
-    mine = {"tale_offer_1", "tale_offer_2", "tale_busy_1", "tale_busy_2", "tale_paid_1", "tale_paid_2"}
+    mine = {f"tale_{kind}_{n}" for kind in ("offer", "busy", "paid") for n in range(1, count + 1)}
     choices = [c for c in nodes["menu"]["choices"] if c.get("next") not in mine]
     added = []
-    for n in (1, 2):
+    for n in range(1, count + 1):
         q = quest_id(region, n)
         paid = f"tale_{region}_{n}_paid"
         untouched = {"not": {"any": [{"quest_active": q}, {"quest_done": q}]}}
-        offer_when = untouched if n == 1 else {"all": [{"flag": f"tale_{region}_1_paid"}, untouched]}
+        offer_when = untouched if n == 1 else {"all": [{"flag": f"tale_{region}_{n - 1}_paid"}, untouched]}
         added += [{"text": "$i18n:dlg.role.tale.ask", "when": offer_when, "next": f"tale_offer_{n}"},
                   {"text": "$i18n:dlg.role.tale.status", "when": {"quest_active": q}, "next": f"tale_busy_{n}"},
                   {"text": "$i18n:dlg.role.tale.report", "when": {"all": [{"quest_done": q}, {"not": {"flag": paid}}]}, "next": f"tale_paid_{n}"}]
@@ -176,7 +248,7 @@ def main() -> None:
                          {"type": "kill", "enemy": f"base:enemy/{enemy}", "count": kills},
                          {"type": "collect", "item": f"base:item/{drop}", "count": count}], "next": "end"}], "rewards": []}
             write_json(DATA / "quests" / "side" / f"tale_{region}_{n}.json", quest)
-        patch_villager(region, tone, danger)
+        patch_villager(region, tone, danger, len(tales))
         for lang in ("en", "it"):
             for n, (offer, busy, thanks, name, journal) in enumerate(TALES[lang][tone], start=1):
                 texts[lang].update({f"dlg.tale.{tone}.offer_{n}": offer, f"dlg.tale.{tone}.busy_{n}": busy, f"dlg.tale.{tone}.thanks_{n}": thanks})
@@ -185,7 +257,7 @@ def main() -> None:
         set_texts("roles.json", lang, texts[lang])
         set_texts("content.json", lang, content[lang])
     __import__("set_factions").main()  # the tales count for the Folk (spec 07, "Factions")
-    print(f"wrote {2 * len(REGIONS)} tales of the regions")
+    print(f"wrote {sum(len(t[2]) for t in REGIONS.values())} tales of the regions")
 
 
 if __name__ == "__main__":

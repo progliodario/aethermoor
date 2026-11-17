@@ -68,9 +68,10 @@ def claim_heirloom(profile: dict) -> tuple[int, dict]:
     return profile.get("heirloom", 0), {**profile, "heirloom": 0, "heirloom_item": ""}
 
 
-def echo_pct(profile: dict) -> int:
-    """The percent of maximum health that the profile gives to every game (spec 11, "Echoes")."""
-    return min(len(profile["titles"]), ECHO_TITLES_MAX) + ECHO_PER_LIFE * min(profile.get("lives", 0), ECHO_LIVES_MAX)
+def echo_pct(profile: dict, deeds: int = 0) -> int:
+    """The percent of maximum health that the profile gives to every game (spec 11, "Echoes"): with `deeds`, the number of deeds the profile
+    has done (spec 11, "Deeds"), one more for each."""
+    return min(len(profile["titles"]), ECHO_TITLES_MAX) + ECHO_PER_LIFE * min(profile.get("lives", 0), ECHO_LIVES_MAX) + max(0, deeds)
 
 
 def deeds(profile: dict, defs: list[dict]) -> list[str]:

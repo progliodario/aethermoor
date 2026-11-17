@@ -1,0 +1,27 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/tale_whisperwood_3",
+  "name": "$i18n:quest.tale_whisperwood_3.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "hunt",
+      "journal": "$i18n:quest.tale_whisperwood_3.hunt",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/cave_spider",
+          "count": 5
+        },
+        {
+          "type": "collect",
+          "item": "base:item/spider_silk",
+          "count": 3
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

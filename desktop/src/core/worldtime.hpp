@@ -35,6 +35,7 @@ struct TimeParams {
     int fade_ticks = 600;
     int night_aggro_cut_pm = 0;  // how much full darkness shortens the aggro distance (spec 08, "The night hides you")
     int rain_aggro_cut_pm = 0;   // how much full rain shortens the aggro distance (spec 08, "Rain hides you")
+    int rain_slow_pm = 0;        // how much full rain slows the creatures (spec 08, "Rain slows")
     std::vector<WeatherKind> kinds;
     std::vector<Season> seasons;  // empty: no seasons
 };

@@ -1387,16 +1387,20 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
     {  // the rain hides the player (spec 08): creatures notice from a shorter distance
         int rain = m_setup_.rain_pm;
         int cut = m_setup_.rain_aggro_cut_pm;
+        int slow = m_setup_.rain_slow_pm;
         int light = m_setup_.light_pm;
         int night_cut = m_setup_.night_aggro_cut_pm;
         if (m_store_) {
             const TimeSample sample = sample_time(m_store_->seed(), m_store_->params().time, m_world_ticks_);
             rain = sample.rain_pm;
             cut = m_store_->params().time.rain_aggro_cut_pm;
+            slow = m_store_->params().time.rain_slow_pm;
             light = sample.light_pm;
             night_cut = m_store_->params().time.night_aggro_cut_pm;
         }
         m_rain_aggro_pm_ = 1000 - rain * cut / 1000;
+        m_rain_slow_pm_ =
+            1000 - rain * slow / 1000;  // and the heavy ground slows the creatures (spec 08, "Rain slows")
         m_night_aggro_pm_ = 1000 - (1000 - light) * night_cut / 1000;  // the night hides the player too
     }
     if (m_store_ && m_window_valid_ && time_of_day_pm() != m_routine_tod_) {
@@ -1940,7 +1944,8 @@ void WorldSim::move_enemy(Enemy& enemy, float target_x, float target_y) {
     const float dx = target_x - enemy.position.x;
     const float dy = target_y - enemy.position.y;
     const float dist = std::sqrt(dx * dx + dy * dy);
-    const float speed = static_cast<float>(enemy.def.speed_x100) / 100.0F;
+    const float speed =
+        static_cast<float>(static_cast<std::int64_t>(enemy.def.speed_x100) * m_rain_slow_pm_ / 1000) / 100.0F;
     const float step = (enemy.chill > 0 ? speed / 2.0F : speed) * kTickDt;
     if (dist > 0.0F) {
         if (dist <= step) {

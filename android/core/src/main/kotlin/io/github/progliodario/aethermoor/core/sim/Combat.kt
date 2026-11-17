@@ -276,6 +276,8 @@ class CombatSetup(
     /** The rain of a world without a clock (the conformance scenarios; spec 08, "Rain hides you"). */
     val rainPm: Int = 0,
     val rainAggroCutPm: Int = 0,
+    /** How much full rain slows the creatures (spec 08, "Rain slows"). */
+    val rainSlowPm: Int = 0,
     /** The same for the night (spec 08, "The night hides you"). */
     val lightPm: Int = 1000,
     val nightAggroCutPm: Int = 0,

@@ -236,7 +236,9 @@ class ConformanceAudioDirectorTest {
             assertEquals(expect.getValue("lives").jsonPrimitive.int, got.lives, "$label lives")
             assertEquals(expect.getValue("echo_pct").jsonPrimitive.int, profileEchoPct(got), "$label echoes")
             input["deeds"]?.let { defs -> // the deeds of the profile (spec 11, "Deeds")
-                assertEquals(expect.getValue("deeds").jsonArray.map { it.jsonPrimitive.content }, profileDeeds(got, parseDeeds(defs.toString())), "$label deeds")
+                val deeds = profileDeeds(got, parseDeeds(defs.toString()))
+                assertEquals(expect.getValue("deeds").jsonArray.map { it.jsonPrimitive.content }, deeds, "$label deeds")
+                assertEquals(expect.getValue("echo_pct_deeds").jsonPrimitive.int, profileEchoPct(got, deeds.size), "$label echoes with deeds")
             }
             assertEquals(expect.getValue("bestiary").jsonObject.mapValues { it.value.jsonPrimitive.int }, got.bestiary.toMap(), "$label bestiary")
             assertEquals(expect.getValue("titles").jsonArray.map { it.jsonPrimitive.content }, got.titles, "$label titles")

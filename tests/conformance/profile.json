@@ -672,7 +672,8 @@
         "heirloom": 0,
         "heirloom_item": "",
         "echo_pct": 0,
-        "deeds": []
+        "deeds": [],
+        "echo_pct_deeds": 0
       }
     },
     {
@@ -747,7 +748,8 @@
         "echo_pct": 1,
         "deeds": [
           "first"
-        ]
+        ],
+        "echo_pct_deeds": 2
       }
     },
     {
@@ -832,7 +834,8 @@
           "reborn",
           "wolves",
           "friends"
-        ]
+        ],
+        "echo_pct_deeds": 12
       }
     },
     {
@@ -911,7 +914,8 @@
           "first",
           "fifty",
           "two_titles"
-        ]
+        ],
+        "echo_pct_deeds": 5
       }
     },
     {

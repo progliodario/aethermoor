@@ -480,7 +480,9 @@ private:
     std::map<std::pair<int, int>, std::int64_t> m_cleared_;  // spawner tile -> world tick of the death
     std::int64_t m_world_ticks_ = 0;
     int m_night_aggro_pm_ = 1000;  // and what the night leaves of it
-    int m_rain_aggro_pm_ = 1000;   // what the rain leaves of the aggro distance, this tick (spec 08, "Rain hides you")
+    int m_rain_slow_pm_ =
+        1000;  // what the rain leaves of the speed of the creatures, this tick (spec 08, "Rain slows")
+    int m_rain_aggro_pm_ = 1000;  // what the rain leaves of the aggro distance, this tick (spec 08, "Rain hides you")
     std::string m_equipped_weapon_;
     std::string m_equipped_armor_;
     std::string m_equipped_accessory_;

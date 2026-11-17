@@ -689,6 +689,7 @@ class WorldSim(
     /** Day, light and weather of the streamed world now (spec 08); null on a fixed map. */
     /** What the rain leaves of the aggro distance, this tick (spec 08, "Rain hides you"). */
     private var rainAggroPm = 1000
+    private var rainSlowPm = 1000 // what the rain leaves of the speed of the creatures, this tick (spec 08, "Rain slows")
     private var nightAggroPm = 1000
 
     fun time(): TimeSample? = chunks?.let { sampleTime(it.seed, it.params.time, worldTicks) }
@@ -1273,9 +1274,11 @@ class WorldSim(
         if (store != null) {
             val sample = sampleTime(store.seed, store.params.time, worldTicks)
             rainAggroPm = 1000 - sample.rainPm * store.params.time.rainAggroCutPm / 1000
+            rainSlowPm = 1000 - sample.rainPm * store.params.time.rainSlowPm / 1000
             nightAggroPm = 1000 - (1000 - sample.lightPm) * store.params.time.nightAggroCutPm / 1000 // the night hides the player too
         } else {
             rainAggroPm = 1000 - combat.rainPm * combat.rainAggroCutPm / 1000
+            rainSlowPm = 1000 - combat.rainPm * combat.rainSlowPm / 1000
             nightAggroPm = 1000 - (1000 - combat.lightPm) * combat.nightAggroCutPm / 1000
         }
         if (chunks != null && windowValid && timeOfDayPm() != routineTod) refreshPeople(windowX, windowY) // somebody goes home or comes out (spec 08)
@@ -1647,7 +1650,7 @@ class WorldSim(
         val dx = targetX - enemy.position.x
         val dy = targetY - enemy.position.y
         val dist = sqrt(dx * dx + dy * dy)
-        val speed = enemy.def.speedX100.toFloat() / 100f
+        val speed = (enemy.def.speedX100.toLong() * rainSlowPm / 1000).toFloat() / 100f
         val step = (if (enemy.chill > 0) speed / 2f else speed) * TICK_DT
         var x = enemy.position.x
         var y = enemy.position.y

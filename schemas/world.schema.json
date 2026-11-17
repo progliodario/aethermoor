@@ -425,6 +425,12 @@
               "minimum": 0,
               "maximum": 1000,
               "description": "How much full rain shortens the distance at which creatures notice the player, in permille (spec 08, \"Rain hides you\")."
+            },
+            "rain_slow_pm": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000,
+              "description": "How much full rain (and snow) slows the creatures, in permille (spec 08, \"Rain slows\")."
             }
           }
         },

@@ -28,6 +28,11 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Large text** (spec 16, "Settings"): a new option of accessibility makes the text of the interface larger, a quarter on desktop (settings panel, `F10`) and three tenths on Android (a fourth button at the bottom of the journal). Off by default.
+- **Rain slows the creatures** (spec 08, "Rain slows"): in full rain or snow the ground is heavy and creatures walk a quarter slower; you are not slowed.
+- **Eight pedlars on the roads**: one at the outpost of every region, each selling the goods of a different region every day, at 115%.
+- **Deeds are echoes** (spec 11): every deed done gives one percent more health to every game you load.
+- **A third tale of the villagers** in every region (eight new quests): boars in the turnips, spiders across the paths, golems in the quarry, scorpions under the cushions, polar wolves behind the sleds, oyster thieves, ember wolves from the ridge, guests in the observatory dome.
 - **Chests** (spec 06, "Chests"): a chest in a house of every village and in the inn of every town. Press E (or touch `Chest`) to open it: one tab takes, one stores, and E moves a whole stack. Every chest holds the same things, so what you leave in Fenwick waits for you in any town. A worn weapon or armour keeps one copy in the bag. A hint explains it the first time.
 - **Nana Brin of Fenwick**: the grandmother of the house with the chest lets you sleep by her hearth for free and asks three small favours (logs, wildflowers, boar hides), paid with gold and things from her kitchen.
 - **Corvin the pedlar** in the square of Aldermere: his cart brings the goods of another region every day, all eight in turn (a new dialogue condition, `day_mod`, spec 07).
