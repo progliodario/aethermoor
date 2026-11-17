@@ -938,6 +938,8 @@ Scenario scenario_from_json(const Json& in) {
         shop.renown_step_pm = in.at("shop").value("renown_step_pm", 0);
         shop.renown_max_pm = in.at("shop").value("renown_max_pm", 0);
         shop.market_swing_pm = in.at("shop").value("market_swing_pm", 0);
+        shop.glut_step_pm = in.at("shop").value("glut_step_pm", 0);
+        shop.glut_floor_pm = in.at("shop").value("glut_floor_pm", 1000);
         if (in.at("shop").contains("renown_stock")) {
             for (const Json& ware : in.at("shop").at("renown_stock")) {
                 shop.renown_stock.emplace_back(ware.at("item").get<std::string>(), ware.at("renown").get<int>());

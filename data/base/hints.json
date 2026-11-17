@@ -57,6 +57,12 @@
       "text_touch": "$i18n:hint.night.touch"
     },
     {
+      "id": "farm",
+      "when": "plot",
+      "text": "$i18n:hint.farm",
+      "text_touch": "$i18n:hint.farm.touch"
+    },
+    {
       "id": "renown",
       "when": "renown",
       "text": "$i18n:hint.renown",

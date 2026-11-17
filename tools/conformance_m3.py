@@ -645,6 +645,14 @@ def build_scenarios() -> list[dict]:
                      {"seed": "base:item/healing_herb", "crop": "base:item/wild_berries", "qty_min": 2, "qty_max": 4, "grow_ticks": 240},
                      {"seed": "base:item/mint_leaf", "crop": "base:item/spore_cap", "qty_min": 3, "qty_max": 3, "grow_ticks": 300}]},
                  titles=[{"id": "farmer", "name": "t", "kind": "harvested", "count": 2}]),
+        # The glut (spec 06): every chain mail sold the same day is paid 150 permille less, down to half; another item has its own glut; on the
+        # next day (30 ticks here) the shop pays full price again.
+        scenario("shop_glut", [enemy(12.0, 7.5, **passive)],
+                 [segment(1, do=[{"cmd": "open_shop"}] + [{"cmd": "sell", "item": "base:item/chain_mail"}] * 5 + [{"cmd": "sell", "item": "base:item/iron_sword"}]),
+                  segment(30), segment(1, do=[{"cmd": "sell", "item": "base:item/chain_mail"}])],
+                 inventory={"base:item/chain_mail": 7, "base:item/iron_sword": 1}, start_gold=0, day_ticks=30, story=EMPTY_STORY,
+                 items={**ITEMS, "base:item/chain_mail": {**ITEMS["base:item/chain_mail"], "stack_max": 9}},
+                 shop={"price_pm": 1000, "stock": [], "glut_step_pm": 150, "glut_floor_pm": 500}),
         scenario("leash_and_return", [enemy(4.0, 4.5, behavior_overrides={"leash_x100": 300})],
                  [segment(20, attack=True), segment(150, move=(1, 0)), segment(250)]),
     ]

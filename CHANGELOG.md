@@ -10,6 +10,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Changed
 
+- **The balance report** (`tools/balance_report.py`) only flags fights that are too hard or too slow: a creature much easier than its level is the design, not an outlier. It finds none.
 - **Guardians fall sooner** (the balance report, `docs/design/balance.md`): the fifteen fights that lasted more than three seconds at their own level in the model have less health (the eight Echoes, the Vault Warden, the Cinder Colossus, the Drowned Captain, the Forge Tyrant, the Frost Sovereign, the Moonshade Alpha and the Rime Revenant). Fights stay easy on purpose.
 - The talent panel has words for the talents of speed (they showed the name of the text).
 - **A new look for the whole game: anime art** (spec 13 v2, ADR 0013). Everything that is drawn was drawn again:
@@ -25,6 +26,12 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 - Tools: `tools/reference/raster.py` is a reference rasterizer in Python (it builds the new conformance probes); `tools/art_preview.py` draws real PNG pictures with it (`--figures`, `--scene`); `art_tiles.py`, `art_props.py`, `art_chars.py`, `art_looks.py` and `art_creatures.py` were rewritten (`art_creature_looks.py` and `art_single_looks.py` are gone).
 
 ### Added
+
+- **Animals in the villages** (spec 06, "Animals"): every village keeps a hen coop and a goat pen. Gather eggs and hen feathers from the coop and fresh milk from the pen; at a campfire they become an omelette, a goat cheese or berry pancakes, and six feathers make an owl charm at an anvil.
+- **Tales of the villagers** (spec 07): the villagers of every region now have a trouble of their own, told in two quests (sixteen in all, in the eight voices, Italian and English): the mint slimes in the kitchen gardens of Verdalis, the owls that fell silent in Whisperwood, the rust slimes eating the tools of Ironspine, the fox picnic thieves of Sunscar, the frozen wells of Frostveil, the crabs in the nets of Tidehaven, the char in the grain stores of the Ashen Wastes, the glow slimes spoiling the measurements of Lumeria, and what comes after.
+- **The glut** (spec 06, "Glut"): a shop pays less for an item the more of it you sold that day (8 percent less for every copy, down to 40 percent of the price); the next day it pays full price again.
+- A hint for the garden plots, and a new title, Green Thumb (twenty harvests: one more of everything gathered). 37 titles, 209 items, 292 quests, 63 recipes.
+- Three more conformance scenarios.
 
 - **Farming** (spec 06, "Farming"): every village has three garden plots by its campfire. Sow herb, berry or mint seeds or mushroom spores (sold by every shop) with the action of talking (`E`, or `Tend` on Android), come back in a minute or two, and harvest healing herbs, berries, mint or spore caps. Sprouts grow on the plot, and flowers show when it is ripe. The sown plots are kept in the save (`plots`).
 - **All four factions give**: Mira gives the Wayfarer's band to a friend of the Ring, Selwyn the Archivist's quill to a keeper of legends.

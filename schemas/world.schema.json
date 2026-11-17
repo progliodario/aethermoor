@@ -725,6 +725,16 @@
                 "minimum": 0,
                 "maximum": 900
               },
+              "glut_step_pm": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000
+              },
+              "glut_floor_pm": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000
+              },
               "market_swing_pm": {
                 "type": "integer",
                 "minimum": 0,

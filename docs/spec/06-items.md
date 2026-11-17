@@ -35,6 +35,10 @@ the dead tree, the rock (stone, a little iron ore), the cactus (pulp), the **mus
 
 The sown plots are saved (`plots` in the save document, spec 12): `[x100, y100, seed, ripe]`, where `x100` and `y100` are the position of the plot in hundredths of a tile. The base pack has a **garden plot** (art `base:art/prop/garden_plot`): three of them by the campfire of every village of the `village` stamp, Fenwick among them, and four seeds sold by every shop: herb seeds (healing herbs in a minute), berry seeds, mint seeds (a minute and a half) and mushroom spores (spore caps in two minutes). The clients tend a plot with the action of talking (`E`, or the `Tend` button), and draw sprouts on a growing plot and flowers on a ripe one. Conformance: the scenario `farming_plots` (its checkpoints carry `plots`).
 
+## Animals
+
+Every village of the `village` stamp keeps animals by its houses: a **hen coop** (art `base:art/prop/coop`) and a **goat pen** (`base:art/prop/pen`). They are props to gather from (see "Gathering"; `tools/make_gathering.py`): the coop gives two to four eggs and now and then a hen feather every minute and a half, the pen one to three bowls of fresh milk every two minutes. Eggs and milk restore a little health, and at a campfire they become an omelette (two eggs and an herb), a goat cheese (three bowls of milk) and berry pancakes (an egg, a bowl of milk and berries); six hen feathers and some silk make an owl charm at an anvil. No rule is new: the animals are gathering nodes.
+
 ## Hunting
 
 Hunting is fighting creatures that are game: they are ordinary creatures (spec 05) of the fauna of the regions (spec 09), shy (the behavior `skittish`), weak and slow to anger, and what they leave is
@@ -45,7 +49,7 @@ at an anvil (see "Crafting").
 ## Crafting
 
 Materials can be made into things from the bag, anywhere, without a workshop. The recipes are `data/base/recipes.json` (schema `recipes`): each has an `id` (a short name),
-an `output` (`item`, `qty`) and `inputs` (a list of `item`, `qty`). The base pack has fifty-nine (`tools/make_recipes.py`; eight of them are the secret dishes below): tonics, small, medium and large health potions, small and medium mana potions, a travel ration, a honey cake, cooked dishes (a hearty stew, a fish stew, a royal feast, a miners' broth, grilled fish and a fisherman's stew from the fish of the reeds, roast meat and a hunter's stew from the game), a hunter's jerkin, an antler spear and a fox-fur cloak at an anvil, the brews of the regions, a hand axe, an iron sword, a pike, a leather vest, a studded one, and five pieces of fine gear.
+an `output` (`item`, `qty`) and `inputs` (a list of `item`, `qty`). The base pack has sixty-three (`tools/make_recipes.py`; eight of them are the secret dishes below, three are made of eggs and milk): tonics, small, medium and large health potions, small and medium mana potions, a travel ration, a honey cake, cooked dishes (a hearty stew, a fish stew, a royal feast, a miners' broth, grilled fish and a fisherman's stew from the fish of the reeds, roast meat and a hunter's stew from the game), a hunter's jerkin, an antler spear and a fox-fur cloak at an anvil, the brews of the regions, a hand axe, an iron sword, a pike, a leather vest, a studded one, and five pieces of fine gear.
 
 `craft(id)` is refused, changing nothing, while a dialogue is open, when the recipe does not exist, and when the bag has less than the `qty` of any input. Otherwise it removes every input
 (an item that reaches 0 leaves the bag) and adds `qty` of the output (an item the bag did not have enters it). There is no random number, no time and no gold in it. A craft is a creature
@@ -118,6 +122,10 @@ A region sells goods: `regions[].shop` is `{price_pm, stock}` (spec 09); a settl
 - `buy(id)` is refused unless the shop is open, the item is in its stock, the gold is at least the price, and the inventory holds fewer than the stack limit of the item (`stack_max`,
   default 1 for weapons, armor and accessories and 99 for the rest). Otherwise gold drops by the price and the inventory gets one more.
 - `sell(id)` is refused unless the shop is open, the inventory holds the item, and it has a price; it is also refused for the last copy of an item that is equipped. Otherwise gold grows and the inventory loses one.
+
+### Glut
+
+A shop may have `glut_step_pm` and `glut_floor_pm` (`regions[].shop`, spec 09): it pays less for an item the more of it the player has sold to any shop that day. The selling price is `max(1, price * max(glut_floor_pm, 1000 - glut_step_pm * sold) / 1000)`, where `price` is the selling price of "Shops" and "Market days" and `sold` the copies of that item sold since the day began (the day of the world, spec 08; 1 on a map without a clock). A new day forgets them. Nothing of it is saved: a loaded game starts the day afresh. In the base pack every shop takes 80 permille off for every copy sold, down to 400: selling one sword is a good trade, selling twenty of the same pelt is not. Conformance: the scenario `shop_glut`.
 
 ### Market days
 

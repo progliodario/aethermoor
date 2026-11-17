@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/fresh_milk",
+  "name": "$i18n:item.fresh_milk.name",
+  "description": "$i18n:item.fresh_milk.desc",
+  "kind": "food",
+  "rarity": "common",
+  "price": 6,
+  "stack_max": 99,
+  "use": {
+    "effects": [
+      {
+        "effect": "heal",
+        "amount": 15
+      }
+    ]
+  }
+}

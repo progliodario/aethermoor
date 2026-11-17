@@ -144,6 +144,9 @@ class ShopDef(
     val renownMaxPm: Int = 0,
     val marketSwingPm: Int = 0,
     val renownStock: List<Pair<String, Int>> = emptyList(),
+    /** The glut (spec 06, "Glut"): what every one of an item sold the same day takes off its price, and the least it pays, in permille. */
+    val glutStepPm: Int = 0,
+    val glutFloorPm: Int = 1000,
 )
 
 /** Farming (spec 06, "Farming"): what a seed grows into, how much and in how many ticks. */

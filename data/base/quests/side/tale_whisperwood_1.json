@@ -1,0 +1,27 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/tale_whisperwood_1",
+  "name": "$i18n:quest.tale_whisperwood_1.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "hunt",
+      "journal": "$i18n:quest.tale_whisperwood_1.hunt",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/night_owl",
+          "count": 4
+        },
+        {
+          "type": "collect",
+          "item": "base:item/owl_feather",
+          "count": 3
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

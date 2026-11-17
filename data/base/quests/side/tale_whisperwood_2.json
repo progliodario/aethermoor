@@ -1,0 +1,27 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/tale_whisperwood_2",
+  "name": "$i18n:quest.tale_whisperwood_2.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "hunt",
+      "journal": "$i18n:quest.tale_whisperwood_2.hunt",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/wisp",
+          "count": 4
+        },
+        {
+          "type": "collect",
+          "item": "base:item/wisp_ember",
+          "count": 2
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

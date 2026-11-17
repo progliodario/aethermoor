@@ -758,6 +758,93 @@
       "station": "base:art/prop/anvil"
     },
     {
+      "id": "omelette",
+      "output": {
+        "item": "base:item/omelette",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/egg",
+          "qty": 2
+        },
+        {
+          "item": "base:item/healing_herb",
+          "qty": 1
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/campfire",
+      "fine_pm": 150
+    },
+    {
+      "id": "goat_cheese",
+      "output": {
+        "item": "base:item/goat_cheese",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/fresh_milk",
+          "qty": 3
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/campfire",
+      "fine_pm": 150
+    },
+    {
+      "id": "berry_pancakes",
+      "output": {
+        "item": "base:item/berry_pancakes",
+        "qty": 2
+      },
+      "inputs": [
+        {
+          "item": "base:item/egg",
+          "qty": 1
+        },
+        {
+          "item": "base:item/fresh_milk",
+          "qty": 1
+        },
+        {
+          "item": "base:item/wild_berries",
+          "qty": 3
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/campfire",
+      "fine_pm": 150
+    },
+    {
+      "id": "feather_pillow_charm",
+      "output": {
+        "item": "base:item/owl_charm",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/hen_feather",
+          "qty": 6
+        },
+        {
+          "item": "base:item/spider_silk",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
       "id": "fang_necklace",
       "output": {
         "item": "base:item/fang_necklace",

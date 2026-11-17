@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/goat_cheese",
+  "name": "$i18n:item.goat_cheese.name",
+  "description": "$i18n:item.goat_cheese.desc",
+  "kind": "food",
+  "rarity": "common",
+  "price": 28,
+  "stack_max": 99,
+  "use": {
+    "effects": [
+      {
+        "effect": "heal",
+        "amount": 80
+      }
+    ]
+  }
+}

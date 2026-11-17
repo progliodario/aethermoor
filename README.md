@@ -44,9 +44,9 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 | Combattimento | completo (elementi, stati, parata, stagger, guardiani) | ritocchi di bilanciamento, sempre verso scontri facili |
 | Mondo | enorme, otto regioni, città e sotterranei, meteo che conta | prestazioni misurate su un telefono |
 | Missioni e storie | 263 missioni, otto storie complete con epilogo | altre storie per regione, i doni ancora spenti |
-| Vita | raccolta, pesca, caccia, 59 ricette (otto segrete, da imparare), cibi con effetti, accessori | allevamento, base e residenti, un'economia che reagisce |
+| Vita | raccolta, pesca, caccia, orti e animali, 63 ricette (otto segrete, da imparare), cibi con effetti, accessori | base e residenti |
 | Compagni | uno per protagonista, comandi, legame, cura | altri comandi, più compagni insieme, domare e comandare |
-| Progressione | talenti (anche abilità, due con un tasto proprio), 36 titoli, bestiario, reincarnazione con eredità | tag, achievements, rune |
+| Progressione | talenti (anche abilità, due con un tasto proprio), 37 titoli, bestiario, reincarnazione con eredità | tag, achievements, rune |
 | Uscita | versioni di prova dalla CI | release Alpha 0.1 e poi 1.0 (decide il proprietario) |
 
 ## Che cosa c'è nel gioco
@@ -70,11 +70,14 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 **Vita e progressione**
 
 - Gilda degli avventurieri con bacheca e commissioni, 263 missioni (tra cui il Libro delle Leggende dell'archivista, un guardiano per regione, e le taglie della maestra della gilda su ogni altro guardiano), negozi, locande, lavori degli anziani.
-- 203 oggetti; raccolta da cespugli, alberi, rocce, cactus, fiori, felci, ceppi, tronchi, legni portati dal mare e ghiaccio, funghi nei boschi, **pesca** nei canneti delle spiagge e **caccia**; 51 ricette (i piatti migliori **fortificano**, più attacco per un po', gli infusi delle regioni **proteggono**, più difesa, i dolci e le razioni **rigenerano** la vita poco a poco, e l'infuso di foglia di vento ti fa **correre** più veloce) (pozioni, infusi ed elisir delle regioni, piatti cucinati al fuoco, equipaggiamento, ed equipaggiamento pregiato all'incudine delle città).
+- 209 oggetti; raccolta da cespugli, alberi, rocce, cactus, fiori, felci, ceppi, tronchi, legni portati dal mare e ghiaccio, funghi nei boschi, **pesca** nei canneti delle spiagge e **caccia**; 51 ricette (i piatti migliori **fortificano**, più attacco per un po', gli infusi delle regioni **proteggono**, più difesa, i dolci e le razioni **rigenerano** la vita poco a poco, e l'infuso di foglia di vento ti fa **correre** più veloce) (pozioni, infusi ed elisir delle regioni, piatti cucinati al fuoco, equipaggiamento, ed equipaggiamento pregiato all'incudine delle città).
 - Un compagno per protagonista: ti segue, combatte, resta dove gli dici, e il suo legame cresce con le sue vittorie: dopo dieci, ti cura un po' ogni dieci secondi.
 - Titoli del modo di giocare che cambiano il gioco: il Raccoglitore trova di più, l'Artigiano crea di più, la Guardia incrollabile para più a lungo, il Veterano guadagna più esperienza.
 - Un albero di sedici talenti, con due abilità da usare a comando (Onda d'urto e Rimarginare): un punto per livello, quattro radici (attacco, vita, mana, difesa), un secondo anello che si apre al rango 5 (critico, secondo fiato, magia, velocità), una corona (Leggenda, Baluardo) e quattro abilità che si aprono al rango 3 di ogni radice: Turbine (il colpo potente colpisce tutto intorno), Fame di battaglia (vita a ogni uccisione), Flusso (mana a ogni uccisione), Risposta (la parata restituisce il colpo).
 - Fama nelle regioni: ogni missione finita in una regione abbassa i prezzi dei suoi negozi (fino a un quarto), cambia il saluto di anziani e bottegai e, dopo cinque, vale un letto gratis alla locanda.
+- Pollaio e recinto delle capre in ogni villaggio: uova, latte, frittate, formaggio e frittelle.
+- I paesani di ogni regione raccontano un loro guaio in due missioni (sedici storie nuove).
+- I negozi pagano meno se vendi troppo della stessa cosa nello stesso giorno.
 - Un orto in ogni villaggio: semi da piantare, raccolto in un paio di minuti.
 - I cancellieri della Gilda e gli anziani premiano chi è stimato dalla loro fazione; i crediti si aprono dalla schermata iniziale.
 - Quattro fazioni (la Gilda, l'Anello dei Viandanti, i Cronisti, la Gente): ogni missione conta per una di loro, con i suoi titoli.
@@ -87,7 +90,7 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 - Giorni di mercato: i prezzi di ogni regione cambiano con il giorno, per comprare e per vendere; e ogni regione tiene da parte due pezzi rari per chi vi è conosciuto.
 - Opere pregiate: ciò che crei può riuscire pregiato (una porzione in più, o il pezzo pregiato al posto di quello semplice), più spesso con i titoli da artigiano.
 - Tre posti per l'equipaggiamento: arma, armatura e **accessorio** (nove: collane, pendenti, anelli e amuleti fatti all'incudine o lasciati dai guardiani, con bonus a attacco, vita, critico, difesa, magia, o che ti restituiscono vita a ogni colpo); e una pozione che **purifica** da bruciature, gelo, stordimento e indebolimento.
-- Un bestiario che dice a cosa è debole ogni creatura sconfitta, a cosa resiste e cosa lascia, 36 titoli che aumentano l'attacco (anche per i cacciatori), e un profilo comune a tutte le partite: ogni titolo mai ottenuto dà un po' di vita in più a ogni partita (gli "echi"), e una partita arrivata al livello 10 può **reincarnarsi**: finisce, ogni vita passata dà +3% di vita a tutte le successive, e metà del suo oro, con l'arma che impugnava, passa in eredità alla prossima partita nuova.
+- Un bestiario che dice a cosa è debole ogni creatura sconfitta, a cosa resiste e cosa lascia, 37 titoli che aumentano l'attacco (anche per i cacciatori), e un profilo comune a tutte le partite: ogni titolo mai ottenuto dà un po' di vita in più a ogni partita (gli "echi"), e una partita arrivata al livello 10 può **reincarnarsi**: finisce, ogni vita passata dà +3% di vita a tutte le successive, e metà del suo oro, con l'arma che impugnava, passa in eredità alla prossima partita nuova.
 - Tre partite separate, salvataggio automatico, esportazione e importazione di una partita in un file.
 
 Il catalogo completo dei contenuti, generato dai dati, è in [`docs/design/catalog.md`](docs/design/catalog.md).
@@ -237,8 +240,8 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 
 Le prossime cose, in ordine (dettagli nella [roadmap](docs/plan/06-roadmap-rischi-backlog.md)):
 
-- **A breve:** testo più grande; allevamento accanto agli orti; altre storie per regione; controlli automatici dei fotogrammi.
-- **A medio termine:** base e residenti; un'economia che reagisce a ciò che compri e vendi; tag, achievements, rune; la modalità Dungeon di Gideon; prestazioni misurate su un telefono; un sintetizzatore migliore per musica e ambiente (solo se il proprietario lo vuole).
+- **A breve:** testo più grande; base e residenti; controlli automatici dei fotogrammi.
+- **A medio termine:** tag, achievements, rune; la modalità Dungeon di Gideon; prestazioni misurate su un telefono; un sintetizzatore migliore per musica e ambiente (solo se il proprietario lo vuole).
 - **Verso la 1.0:** pacchetti firmati, documentazione per chi fa mod, altre lingue.
 - **Decide il proprietario:** quando pubblicare la prima release (Alpha 0.1).
 

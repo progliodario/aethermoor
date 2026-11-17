@@ -157,6 +157,40 @@
       ]
     },
     {
+      "prop": "base:art/prop/coop",
+      "sound": "plant",
+      "cooldown_ticks": 5400,
+      "reach_x100": 170,
+      "drops": [
+        {
+          "item": "base:item/egg",
+          "qty_min": 2,
+          "qty_max": 4,
+          "weight_pm": 1000
+        },
+        {
+          "item": "base:item/hen_feather",
+          "qty_min": 1,
+          "qty_max": 2,
+          "weight_pm": 500
+        }
+      ]
+    },
+    {
+      "prop": "base:art/prop/pen",
+      "sound": "plant",
+      "cooldown_ticks": 7200,
+      "reach_x100": 180,
+      "drops": [
+        {
+          "item": "base:item/fresh_milk",
+          "qty_min": 1,
+          "qty_max": 3,
+          "weight_pm": 1000
+        }
+      ]
+    },
+    {
       "prop": "base:art/prop/fern",
       "sound": "plant",
       "cooldown_ticks": 6000,

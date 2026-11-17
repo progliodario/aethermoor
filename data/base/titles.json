@@ -190,6 +190,14 @@
       "atk_pct": 3
     },
     {
+      "id": "green_thumb",
+      "name": "$i18n:title.green_thumb",
+      "kind": "harvested",
+      "count": 20,
+      "atk_pct": 3,
+      "gather_bonus": 1
+    },
+    {
       "id": "guild_champion",
       "name": "$i18n:title.guild_champion",
       "kind": "faction:guild",

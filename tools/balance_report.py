@@ -27,6 +27,7 @@ LAND_PCT = 60
 COMFORT_PCT = 40
 SLASH_TICKS = 24  # cooldown of the basic slash
 MAX_LEVEL = 40
+SLOW_SECONDS = 3.0  # a fight at the creature's own level should be over in this many seconds
 
 
 def load(folder: str) -> list[dict]:
@@ -82,9 +83,11 @@ def main() -> int:
     outliers = []
     for enemy, name, suggested, seconds, lost in rows:
         out.append(f"| {name} | {enemy['level']} | {suggested if suggested <= MAX_LEVEL else '>' + str(MAX_LEVEL)} | {seconds:.1f} s / {lost * 100:.0f}% |")
-        if suggested > enemy["level"] + 5 or suggested < enemy["level"] - 6:
+        if suggested > enemy["level"] + 2 or seconds > SLOW_SECONDS:  # too hard or too slow; too easy is the design (CLAUDE.md)
             outliers.append((name, enemy["level"], suggested))
-    out += ["", f"## Outliers ({len(outliers)})", "", "Creatures whose comfortable level differs from their level by more than 5 above or 6 below.", ""]
+    out += ["", f"## Outliers ({len(outliers)})", "",
+            f"Creatures that need more than two levels above their own to be comfortable, or more than {SLOW_SECONDS} seconds at their own level. "
+            "A creature far easier than its level is not an outlier: the protagonist is meant to be overpowered.", ""]
     out += [f"- {name}: level {level}, comfortable at {suggested if suggested <= MAX_LEVEL else '>' + str(MAX_LEVEL)}" for name, level, suggested in outliers] or ["- none"]
     OUT.write_bytes(("\n".join(out) + "\n").encode("utf-8"))
     print(f"wrote {OUT.relative_to(ROOT)}: {len(rows)} creatures, {len(outliers)} outliers")

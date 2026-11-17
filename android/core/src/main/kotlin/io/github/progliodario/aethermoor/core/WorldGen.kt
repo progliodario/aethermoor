@@ -42,6 +42,9 @@ class Region(val id: String, /** An $i18n: key. */ val name: String, val xPm: In
     /** How far the prices swing with the day (spec 06, "Market days"), and the wares for friends of the region: item and renown. */
     val shopMarketSwingPm: Int = 0,
     val shopRenownStock: List<Pair<String, Int>> = emptyList(),
+    /** The glut (spec 06, "Glut"). */
+    val shopGlutStepPm: Int = 0,
+    val shopGlutFloorPm: Int = 1000,
 )
 
 class SettlementKind(val id: String, val weight: Int, val stamps: List<String>)
@@ -947,6 +950,8 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
                     shopRenownStepPm = r.getValue("shop").jsonObject["renown_step_pm"]?.jsonPrimitive?.int ?: 0,
                     shopRenownMaxPm = r.getValue("shop").jsonObject["renown_max_pm"]?.jsonPrimitive?.int ?: 0,
                     shopMarketSwingPm = r.getValue("shop").jsonObject["market_swing_pm"]?.jsonPrimitive?.int ?: 0,
+                    shopGlutStepPm = r.getValue("shop").jsonObject["glut_step_pm"]?.jsonPrimitive?.int ?: 0,
+                    shopGlutFloorPm = r.getValue("shop").jsonObject["glut_floor_pm"]?.jsonPrimitive?.int ?: 1000,
                     shopRenownStock = r.getValue("shop").jsonObject["renown_stock"]?.jsonArray?.map { w ->
                         Pair(w.jsonObject.getValue("item").jsonPrimitive.content, w.jsonObject.getValue("renown").jsonPrimitive.int)
                     } ?: emptyList(),

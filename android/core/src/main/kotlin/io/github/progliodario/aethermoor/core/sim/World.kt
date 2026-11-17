@@ -421,7 +421,7 @@ class WorldSim(
         val store = chunks
         // no wares for friends there: the renown is of the place where the player stands
         val far = if (store != null) {
-            store.params.regions.firstOrNull { it.id == region }?.let { ShopDef(it.shopPricePm, it.shopStock, it.shopRenownStepPm, it.shopRenownMaxPm, it.shopMarketSwingPm) }
+            store.params.regions.firstOrNull { it.id == region }?.let { ShopDef(it.shopPricePm, it.shopStock, it.shopRenownStepPm, it.shopRenownMaxPm, it.shopMarketSwingPm, emptyList(), it.shopGlutStepPm, it.shopGlutFloorPm) }
         } else {
             combat.farShops[region]
         }
@@ -429,7 +429,7 @@ class WorldSim(
             openShop() // an unknown region is the shop of the place
             return
         }
-        shop = ShopDef((far.pricePm * markupPct / 100).toInt(), far.stock, far.renownStepPm, far.renownMaxPm, far.marketSwingPm)
+        shop = ShopDef((far.pricePm * markupPct / 100).toInt(), far.stock, far.renownStepPm, far.renownMaxPm, far.marketSwingPm, emptyList(), far.glutStepPm, far.glutFloorPm)
     }
 
     /** Whether a recipe can be made: one without `requires_flag` always, the others once the story has that flag (spec 06, "Recipe book"). */
@@ -883,13 +883,13 @@ class WorldSim(
         val store = chunks
         val base = if (store != null) {
             val region = store.params.regions[regionAt(store.params, floor(player.position.x).toInt(), floor(player.position.y).toInt())]
-            ShopDef(region.shopPricePm, region.shopStock, region.shopRenownStepPm, region.shopRenownMaxPm, region.shopMarketSwingPm, region.shopRenownStock)
+            ShopDef(region.shopPricePm, region.shopStock, region.shopRenownStepPm, region.shopRenownMaxPm, region.shopMarketSwingPm, region.shopRenownStock, region.shopGlutStepPm, region.shopGlutFloorPm)
         } else {
             combat.shop
         }
         // wares for friends of the region (spec 07, "Renown")
         shop = base?.let { b ->
-            ShopDef(b.pricePm, b.stock + b.renownStock.filter { renownHere() >= it.second }.map { it.first }, b.renownStepPm, b.renownMaxPm, b.marketSwingPm, b.renownStock)
+            ShopDef(b.pricePm, b.stock + b.renownStock.filter { renownHere() >= it.second }.map { it.first }, b.renownStepPm, b.renownMaxPm, b.marketSwingPm, b.renownStock, b.glutStepPm, b.glutFloorPm)
         }
     }
 
@@ -912,8 +912,23 @@ class WorldSim(
     /** What the shop pays for an item, 0 when it cannot be sold. */
     fun sellPrice(itemId: String): Long {
         val item = combat.items[itemId] ?: return 0L
-        return if (item.price <= 0) 0L else maxOf(1L, item.price / 2 * marketPm() / 1000) // the market of the day (spec 06)
+        if (item.price <= 0) return 0L
+        val price = maxOf(1L, item.price / 2 * marketPm() / 1000) // the market of the day (spec 06)
+        val open = shop ?: return price
+        if (open.glutStepPm <= 0) return price
+        val count = if (soldDay != dayNow()) 0L else soldToday[itemId] ?: 0L // the glut (spec 06, "Glut"): less for every one sold today
+        return maxOf(1L, price * maxOf(open.glutFloorPm.toLong(), 1000L - open.glutStepPm * count) / 1000)
     }
+
+    /** The day of the world (spec 08): world ticks / day ticks + 1, and 1 without a clock. */
+    fun dayNow(): Long {
+        val dayTicks = chunks?.params?.time?.dayTicks?.toLong() ?: combat.dayTicks.toLong()
+        return if (dayTicks > 0L) worldTicks / dayTicks + 1L else 1L
+    }
+
+    /** The glut (spec 06): the items sold on [soldDay]; not saved. */
+    private val soldToday = HashMap<String, Long>()
+    private var soldDay = 0L
 
     /** Equips a weapon or an armor of the inventory (spec 06). Returns false, changing nothing, when refused. */
     fun equip(itemId: String): Boolean {
@@ -952,6 +967,11 @@ class WorldSim(
         if (owned < 1L || sellPrice(itemId) <= 0L) return false
         if (owned == 1L && (itemId == equippedWeapon || itemId == equippedArmor || itemId == equippedAccessory)) return false
         story.gold += sellPrice(itemId)
+        if (soldDay != dayNow()) { // a new day: the glut is forgotten (spec 06, "Glut")
+            soldDay = dayNow()
+            soldToday.clear()
+        }
+        soldToday[itemId] = (soldToday[itemId] ?: 0L) + 1L
         if (owned == 1L) inventory.remove(itemId) else inventory[itemId] = owned - 1L
         return true
     }
