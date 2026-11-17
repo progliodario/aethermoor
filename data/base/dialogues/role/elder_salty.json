@@ -15,6 +15,25 @@
       "type": "choice",
       "choices": [
         {
+          "text": "$i18n:dlg.role.faction_gift.folk",
+          "next": "faction_gift",
+          "when": {
+            "all": [
+              {
+                "faction_at_least": {
+                  "faction": "folk",
+                  "count": 20
+                }
+              },
+              {
+                "not": {
+                  "flag": "faction_gift_folk"
+                }
+              }
+            ]
+          }
+        },
+        {
           "text": "$i18n:dlg.role.friend.ask",
           "next": "friend_offer",
           "when": {
@@ -496,6 +515,28 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.friend.salty.thanks",
+      "next": "end"
+    },
+    "faction_gift": {
+      "type": "effects",
+      "next": "faction_gift_said",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "faction_gift_folk",
+          "value": true
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/folk_charm",
+          "qty": 1
+        }
+      ]
+    },
+    "faction_gift_said": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.faction_gift.folk.salty",
       "next": "end"
     }
   }

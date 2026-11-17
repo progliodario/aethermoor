@@ -14,6 +14,21 @@ import kotlinx.serialization.json.jsonPrimitive
  */
 class HintDef(val id: String, val whenKind: String, val text: String, val textTouch: String)
 
+/** A line of the credits (spec 16, "Credits"): an $i18n: key or a text shown as it is; [heading] marks the title of a section. */
+class CreditLine(val text: String, val heading: Boolean)
+
+/** The credits of the pack, the lines in order; none when it has no table or the table is broken. */
+fun loadCredits(pack: Pack): List<CreditLine> {
+    val text = pack.readDocument("base:credits/all") ?: return emptyList()
+    val doc = runCatching { Json.parseToJsonElement(text).jsonObject }.getOrNull() ?: return emptyList()
+    val sections = runCatching { doc.getValue("sections").jsonArray }.getOrNull() ?: return emptyList()
+    return sections.flatMap { element ->
+        val s = element as? JsonObject ?: return@flatMap emptyList()
+        listOf(CreditLine(s["heading"]?.jsonPrimitive?.content ?: "", true)) +
+            (runCatching { s.getValue("lines").jsonArray }.getOrNull() ?: emptyList()).map { CreditLine(it.jsonPrimitive.content, false) }
+    }
+}
+
 /** The hints of the pack in the order of the data; none when it has no table or the table is broken. */
 fun loadHints(pack: Pack): List<HintDef> {
     val text = pack.readDocument("base:hints/all") ?: return emptyList()

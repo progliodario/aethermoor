@@ -274,10 +274,10 @@ Versione `0.0.1`, **nessuna release pubblica** (la decisione di pubblicare è de
 | Persone con nome | 26 nel mondo (Fenwick, Aldermere, gli 8 avamposti, i viandanti, Mira, Pip, Suor Maren) | `tools/make_towns.py`, `tools/towns_outposts.py` |
 | Missioni | 276 (storie dei protagonisti, gilda, città, avamposti, leggende, taglie, lettere, compiti da amico) | `docs/design/catalog.md` |
 | Creature | 75 (tra cui 27 guardiani, 8 Echi, la selvaggina) | `data/base/enemies/` |
-| Oggetti e ricette | 195 oggetti, 59 ricette (8 segrete), 2 stazioni (falò e incudine) | spec 06, `tools/make_recipes.py` |
+| Oggetti e ricette | 197 oggetti, 59 ricette (8 segrete), 2 stazioni (falò e incudine) | spec 06, `tools/make_recipes.py` |
 | Progressione | 36 titoli, 16 talenti (4 abilità, 2 a comando), bestiario, profilo condiviso, reincarnazione | spec 11, spec 12 |
-| Testi | 2859 chiavi, in italiano **e** inglese | spec 17 |
-| Regole uguali sui due client | 30 file di vettori di conformità, 520 casi, eseguiti da C++ e Kotlin a ogni modifica | `tests/conformance/` |
+| Testi | 2895 chiavi, in italiano **e** inglese | spec 17 |
+| Regole uguali sui due client | 30 file di vettori di conformità, 521 casi, eseguiti da C++ e Kotlin a ogni modifica | `tests/conformance/` |
 | Specifiche e decisioni | 18 specifiche, 13 ADR | `docs/spec/`, `docs/adr/` |
 | Suoni | 174 effetti sintetizzati; musica e ambiente **spenti** su richiesta del proprietario | spec 14 |
 
@@ -296,8 +296,8 @@ Legenda: **fatto** = le consegne del piano ci sono e funzionano su tutti e due i
 | M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, 59 ricette al falò e all'incudine (otto segrete, insegnate dai bottegai), cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane | agricoltura e allevamento, base e residenti |
 | M7 Compagni | avviato | un compagno per protagonista che segue, combatte, resta, segue o torna a comando, cresce di legame e cura il giocatore; i doni di Haruka (legame più rapido) e di Gideon (compagno più forte) ; Haruka doma le creature ferite e l'ultima resta con lei come secondo compagno ; momenti del legame; il compagno domato obbedisce a resta e torna | più compagni scelti dal giocatore |
 | M8 Progressione profonda | avviato | bestiario con debolezze, 36 titoli con effetti e progressi visibili, albero di 16 talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma | tag, achievements, rune e affissi, sblocchi del profilo |
-| M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | altre storie per regione; l'ultimo dono che manca (una seconda vita per sotterraneo); la modalità Dungeon di Gideon |
-| M10 Rifinitura | avviato | effetti sonori, pannelli e barre ridisegnati, testi che vanno a capo per larghezza, niente scatti quando appare roba nuova, consigli per i primi minuti, opzioni di accessibilità (consigli, numeri, lampi) | testo più grande, un sintetizzatore migliore per riaccendere musica e ambiente, crediti, controllo delle traduzioni |
+| M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | altre storie per regione; la modalità Dungeon di Gideon |
+| M10 Rifinitura | avviato | effetti sonori, pannelli e barre ridisegnati, testi che vanno a capo per larghezza, niente scatti quando appare roba nuova, consigli per i primi minuti, opzioni di accessibilità (consigli, numeri, lampi), crediti, traduzioni controllate da uno strumento | testo più grande, un sintetizzatore migliore per riaccendere musica e ambiente |
 | M11 Release 1.0 | da fare | — | pacchetti firmati, pagina di download, documentazione per chi fa mod (decisioni del proprietario) |
 
 ### 8.3 Che cosa è stato fatto, per area
@@ -381,13 +381,14 @@ Il 17 novembre, seconda PR: la creatura domata da Haruka resta con lei come seco
 
 Il 17 novembre, terza PR: quattro fazioni con i loro titoli, il compagno domato obbedisce ai comandi, opzioni di accessibilità.
 
+Il 17 novembre, quarta PR: i doni delle fazioni (sigillo della Gilda, amuleto della Gente) e la condizione `faction_at_least`, i crediti, il controllo delle traduzioni. La "seconda vita per sotterraneo" del piano non si fa: i doni di Daichi e Lena (sopravvivere a un colpo mortale) ne coprono già l'idea.
+
 **A breve (le prossime PR)**
 
-1. **Una seconda vita per sotterraneo** (M9), l'ultimo dono descritto nel piano.
-2. **Testo più grande** (M10), un'opzione che ingrandisce l'interfaccia.
-3. **Fazioni che aprono altro** (M4): dialoghi e merci per chi è stimato da una fazione.
-4. **Crediti e controllo delle traduzioni** (M10).
-5. **Controlli automatici della grafica**: confronto dei fotogrammi del test di fumo con immagini di riferimento, ktlint e detekt in CI.
+1. **Testo più grande** (M10), un'opzione che ingrandisce l'interfaccia.
+2. **Doni dell'Anello e dei Cronisti** (M4): anche le altre due fazioni premiano chi le aiuta.
+3. **Altre storie per regione** (M9).
+4. **Controlli automatici della grafica**: confronto dei fotogrammi del test di fumo con immagini di riferimento, ktlint e detekt in CI.
 
 **A medio termine (verso Alpha 0.2 e Beta 0.5)**
 
@@ -401,7 +402,7 @@ Il 17 novembre, terza PR: quattro fazioni con i loro titoli, il compagno domato 
 
 **Verso la 1.0**
 
-15. Crediti e controllo delle traduzioni (M10; i consigli dei primi minuti ci sono).
+15. Testo più grande e un sintetizzatore migliore (M10; consigli, crediti e traduzioni ci sono).
 16. Pacchetti firmati, pagina di download, documentazione per chi fa mod (M11).
 17. Dopo l'1.0: nuovi protagonisti, nuove regioni, nuove lingue, strumenti per i mod (M12+).
 
@@ -420,6 +421,6 @@ Il 17 novembre, terza PR: quattro fazioni con i loro titoli, il compagno domato 
 
 ### 8.7 Che cosa è verificato e che cosa no
 
-- **Verificato a ogni modifica:** i dati contro gli schemi, i testi nelle due lingue, i 520 casi di conformità sui due client, la compilazione di Windows, Linux e Android, un test di fumo del desktop con fotogrammi reali.
+- **Verificato a ogni modifica:** i dati contro gli schemi, i testi nelle due lingue, i 521 casi di conformità sui due client, la compilazione di Windows, Linux e Android, un test di fumo del desktop con fotogrammi reali.
 - **Verificato dal proprietario:** come appare e come si gioca, sulle tre piattaforme.
 - **Non verificabile da qui:** il suono (non si ascolta), le prestazioni su un telefono reale, ciò che si vede solo giocando a lungo. Ogni PR lo dice esplicitamente.

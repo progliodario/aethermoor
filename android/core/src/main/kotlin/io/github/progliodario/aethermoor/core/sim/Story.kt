@@ -47,6 +47,9 @@ sealed interface Condition {
 
     /** The quests finished in the region where the player stands are at least [count] (spec 07, "Renown"). */
     data class RenownAtLeast(val count: Long) : Condition
+
+    /** The standing with [faction] is at least [count] (spec 07, "Factions"). */
+    data class FactionAtLeast(val faction: String, val count: Long) : Condition
 }
 
 sealed interface Effect {
@@ -202,6 +205,9 @@ interface StoryHost {
     fun questDone(faction: String) {}
 
     fun renownHere(): Long = 0L
+
+    /** A counter of the player (spec 11, "Counters"): the standing with a faction is `faction:<id>`. */
+    fun counter(name: String): Long = 0L
 }
 
 // ------------------------------------------------------------------------------------ parsing
@@ -228,6 +234,7 @@ private fun parseCondition(element: JsonElement): Condition {
         "season" -> Condition.Season(value.jsonPrimitive.content)
         "tod_between" -> Condition.TodBetween(value.jsonArray[0].jsonPrimitive.int, value.jsonArray[1].jsonPrimitive.int)
         "renown_at_least" -> Condition.RenownAtLeast(value.jsonPrimitive.long)
+        "faction_at_least" -> Condition.FactionAtLeast(value.jsonObject.str("faction"), value.jsonObject.getValue("count").jsonPrimitive.long)
         else -> throw IllegalArgumentException("unknown condition $key")
     }
 }
@@ -365,6 +372,7 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
                 if (c.from <= c.to) tod >= c.from && tod < c.to else tod >= c.from || tod < c.to
             }
             is Condition.RenownAtLeast -> host.renownHere() >= c.count
+            is Condition.FactionAtLeast -> host.counter("faction:${c.faction}") >= c.count
         }
 
     fun apply(effect: Effect) {

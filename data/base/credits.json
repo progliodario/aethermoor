@@ -1,0 +1,42 @@
+{
+  "$schema": "../../schemas/credits.schema.json",
+  "id": "base:credits/all",
+  "sections": [
+    {
+      "heading": "$i18n:credits.game",
+      "lines": [
+        "$i18n:credits.by"
+      ]
+    },
+    {
+      "heading": "$i18n:credits.made",
+      "lines": [
+        "$i18n:credits.claude",
+        "$i18n:credits.art"
+      ]
+    },
+    {
+      "heading": "$i18n:credits.libraries",
+      "lines": [
+        "SDL3 (zlib)",
+        "nlohmann/json (MIT)",
+        "libGDX (Apache-2.0)",
+        "Kotlin, kotlinx.serialization (Apache-2.0)",
+        "Catch2 (BSL-1.0), JUnit (EPL-2.0)"
+      ]
+    },
+    {
+      "heading": "$i18n:credits.licenses",
+      "lines": [
+        "$i18n:credits.code_license",
+        "$i18n:credits.content_license"
+      ]
+    },
+    {
+      "heading": "$i18n:credits.thanks",
+      "lines": [
+        "$i18n:credits.thanks_player"
+      ]
+    }
+  ]
+}

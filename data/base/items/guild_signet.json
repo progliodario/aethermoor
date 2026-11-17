@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/guild_signet",
+  "name": "$i18n:item.guild_signet.name",
+  "description": "$i18n:item.guild_signet.desc",
+  "kind": "accessory",
+  "rarity": "epic",
+  "price": 1500,
+  "accessory": {
+    "atk": 14,
+    "crit_pm": 50
+  }
+}

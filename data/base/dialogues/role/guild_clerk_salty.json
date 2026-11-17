@@ -13,6 +13,25 @@
       "type": "choice",
       "choices": [
         {
+          "text": "$i18n:dlg.role.faction_gift.guild",
+          "next": "faction_gift",
+          "when": {
+            "all": [
+              {
+                "faction_at_least": {
+                  "faction": "guild",
+                  "count": 10
+                }
+              },
+              {
+                "not": {
+                  "flag": "faction_gift_guild"
+                }
+              }
+            ]
+          }
+        },
+        {
           "text": "$i18n:dlg.role.work",
           "next": "board"
         },
@@ -367,6 +386,28 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.comm.salty.thanks",
+      "next": "end"
+    },
+    "faction_gift": {
+      "type": "effects",
+      "next": "faction_gift_said",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "faction_gift_guild",
+          "value": true
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/guild_signet",
+          "qty": 1
+        }
+      ]
+    },
+    "faction_gift_said": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.faction_gift.guild.salty",
       "next": "end"
     }
   }

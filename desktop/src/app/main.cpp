@@ -67,8 +67,9 @@ constexpr int kFloatingTextFrames = 50;
 constexpr double kAutosaveSeconds = 30.0;
 constexpr const char* kWorldId = "base:world/overworld";
 
-std::vector<aether::LightDef> g_lights;  // the props that shine at night (spec 08, "Lights")
-std::vector<aether::HintDef> g_hints;    // the hints of the first minutes (spec 16, "Hints")
+std::vector<aether::LightDef> g_lights;     // the props that shine at night (spec 08, "Lights")
+std::vector<aether::HintDef> g_hints;       // the hints of the first minutes (spec 16, "Hints")
+std::vector<aether::CreditLine> g_credits;  // the credits, shown from the title screen (spec 16, "Credits")
 // The options of accessibility (spec 16, "Settings"): hints, damage numbers, the flash of a creature that is hit.
 constexpr int kOptions = 3;
 bool g_option[kOptions] = {true, true, true};
@@ -223,6 +224,7 @@ bool load_assets(const fs::path& dir, Assets& out) {
     out.pack = std::move(*pack);
     g_lights = aether::load_lights(out.pack);
     g_hints = aether::load_hints(out.pack);
+    g_credits = aether::load_credits(out.pack);
     g_font.def = aether::load_font(out.pack);
     g_grading = aether::load_grading(out.pack);
 
@@ -4146,6 +4148,7 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
     int pending_delete = -1;
     int pending_rebirth =
         -1;  // the game that `R` asked to reincarnate; a second `R` does it (spec 11, "Reincarnation")
+    bool show_credits = false;  // the credits (spec 16, "Credits"): C opens and closes them
     std::string notice;
     for (;;) {
         menu_sound();
@@ -4178,6 +4181,16 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
             if (event.type == SDL_EVENT_KEY_DOWN) {
                 const SDL_Keycode key = event.key.key;
                 const int digit = static_cast<int>(key) - static_cast<int>(SDLK_1);
+                if (show_credits) {  // the credits are open: C or Esc closes them, nothing else
+                    if (key == SDLK_C || key == SDLK_ESCAPE) {
+                        show_credits = false;
+                    }
+                    continue;
+                }
+                if (key == SDLK_C) {
+                    show_credits = true;
+                    continue;
+                }
                 if (key == SDLK_ESCAPE) {
                     if (!event.key.repeat) {  // the Esc that left a game may still be held
                         return 0;
@@ -4269,6 +4282,33 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
             debug_text(renderer, px / scale, py / scale, line.c_str());
             SDL_SetRenderScale(renderer, 1.0F, 1.0F);
         };
+
+        if (show_credits) {  // the credits (spec 16, "Credits"), centred, a heading in gold over its lines
+            SDL_SetRenderDrawColor(renderer, 11, 31, 58, 255);
+            SDL_RenderClear(renderer);
+            const float scale = 1.5F * density;
+            float cy = static_cast<float>(out_h) * 0.08F;
+            const std::string heading = assets.pack.text(lang, "$i18n:credits.title");
+            draw_text(scale * 1.5F, (static_cast<float>(out_w) - text_columns(heading) * 12.0F * scale) / 2.0F, cy,
+                      heading, 255, 215, 120);
+            cy += 40.0F * density;
+            for (const aether::CreditLine& line : g_credits) {
+                const std::string shown =
+                    line.text.rfind("$i18n:", 0) == 0 ? assets.pack.text(lang, line.text) : line.text;
+                if (line.heading) {
+                    cy += 10.0F * density;
+                }
+                draw_text(scale, (static_cast<float>(out_w) - text_columns(shown) * 8.0F * scale) / 2.0F, cy, shown,
+                          line.heading ? Uint8{255} : Uint8{220}, line.heading ? Uint8{215} : Uint8{235},
+                          line.heading ? Uint8{120} : Uint8{250});
+                cy += 22.0F * density;
+            }
+            const std::string hint = assets.pack.text(lang, "$i18n:ui.credits_hint");
+            draw_text(1.25F * density, (static_cast<float>(out_w) - text_columns(hint) * 10.0F * density) / 2.0F,
+                      static_cast<float>(out_h) - 36.0F * density, hint, 170, 200, 230);
+            SDL_RenderPresent(renderer);
+            continue;
+        }
         SDL_SetRenderDrawColor(renderer, 11, 31, 58, 255);
         SDL_RenderClear(renderer);
         const aether::Profile profile = read_profile();
