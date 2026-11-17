@@ -716,10 +716,33 @@ def pen() -> Recipe:
     return r
 
 
+def chest() -> Recipe:
+    """The chest of the home (spec 06, "Chests"): a box of oak with a rounded lid, bands of iron and a lock of brass."""
+    r = prop("chest", 34, 30, (17, 26), {"wood": "#A0663A", "band": "#5A5E6A", "brass": "#E8B848"})
+    r.shadow(17.5, 26, 15, 3.4, 0.4)
+    r.rect(3, 13, 28, 13, wood(661, "#A0663A", 4), stroke=INK, width=0.5)  # the box
+    for y in (17.5, 21.8):
+        r.line(3.4, y, 30.6, y, "#3E2410", 0.35, alpha=0.6)
+    r.path("M 3 13 Q 3 4.5 17 4.5 Q 31 4.5 31 13 Z", wood(662, "#B87A48", 4), stroke=INK, width=0.5)  # the lid
+    r.shade("M 20 4.6 Q 31 5 31 13 L 31 26 L 24 26 L 24 13 Q 24 6 20 4.6 Z", 0.4, blur=0.8, clip=True)
+    r.lit("M 6 11.5 Q 7 6.5 15 5.8 L 15 7.4 Q 9 8 8 11.5 Z", 0.45, "#FFE8B8", blur=0.4)
+    for x in (6.5, 25):  # iron bands over the lid and down the box
+        r.path(f"M {x} 26 L {x} 13 Q {x} 6.2 {x + (2.5 if x < 17 else -0.5)} 5.4 L {x + (5 if x < 17 else 2.5)} 5.0 "
+               f"Q {x + 2.6} 6.4 {x + 2.6} 13 L {x + 2.6} 26 Z",
+               linear(x, 0, x + 2.6, 0, (0, "#B8BCC8"), (0.45, "$p.band"), (1, "#2A2C38")), stroke=INK, width=0.3)
+    r.rect(3, 12.4, 28, 1.6, linear(0, 12, 0, 14, (0, "#B8BCC8"), (1, "#3A3C48")), stroke=INK, width=0.3)  # the rim
+    r.rect(14.5, 12, 5, 6, linear(14, 12, 19, 18, (0, "#FFF0A8"), (0.5, "$p.brass"), (1, "#8A5A18")), stroke=INK, width=0.35)  # the lock
+    r.ellipse(17, 14.6, 0.8, 0.8, "#2A1608")
+    r.rect(16.6, 14.8, 0.8, 1.8, "#2A1608")
+    for x, y in ((4.4, 24.6), (29.6, 24.6), (4.4, 14.6), (29.6, 14.6)):
+        r.ellipse(x, y, 0.5, 0.5, "#2A1608")
+    return r
+
+
 def build_props() -> list[Recipe]:
     props = [tree_oak(), pine(), dead_tree(), bush(), rock(), cactus(), campfire(), crate(), barrel(), bones(), lamp(), signpost(),
              statue(), tent(), banner(), well(), threshold_stone(), stall(), haybale(), anvil(), reeds(), mushrooms(),
-             stump(), flowers(), fern(), log(), driftwood(), ice_shard(), dry_shrub(), garden_plot(), coop(), pen()]
+             stump(), flowers(), fern(), log(), driftwood(), ice_shard(), dry_shrub(), garden_plot(), coop(), pen(), chest()]
     sway = {"tree_oak": 1.8, "pine": 1.1, "dead_tree": 0.5, "bush": 0.7, "reeds": 1.4, "banner": 0.5, "campfire": 0.6, "flowers": 0.9, "fern": 0.8, "dry_shrub": 0.6}  # what the wind moves
     for r in props:
         r.sway = sway.get(r.id.rsplit("/", 1)[1], 0.0)

@@ -73,6 +73,38 @@ def echo_pct(profile: dict) -> int:
     return min(len(profile["titles"]), ECHO_TITLES_MAX) + ECHO_PER_LIFE * min(profile.get("lives", 0), ECHO_LIVES_MAX)
 
 
+def deeds(profile: dict, defs: list[dict]) -> list[str]:
+    """The deeds the profile has done, in the order of the data (spec 11, "Deeds"): each is a fact about all the games, read from the profile.
+
+    - `kills`: the best counts of the bestiary add up to at least `count`;
+    - `kinds`: at least `count` kinds of creature are in the bestiary;
+    - `titles`: at least `count` titles were earned;
+    - `lives`: at least `count` games were reincarnated;
+    - `defeated`: every creature of `enemies` is in the bestiary;
+    - `earned`: every title of `titles` was earned.
+    A kind the rules do not know is never done."""
+    done = []
+    for deed in defs:
+        kind = deed.get("kind")
+        if kind == "kills":
+            ok = sum(profile["bestiary"].values()) >= deed["count"]
+        elif kind == "kinds":
+            ok = len(profile["bestiary"]) >= deed["count"]
+        elif kind == "titles":
+            ok = len(profile["titles"]) >= deed["count"]
+        elif kind == "lives":
+            ok = profile.get("lives", 0) >= deed["count"]
+        elif kind == "defeated":
+            ok = all(profile["bestiary"].get(enemy, 0) >= 1 for enemy in deed["enemies"])
+        elif kind == "earned":
+            ok = all(title in profile["titles"] for title in deed["titles"])
+        else:
+            ok = False
+        if ok:
+            done.append(deed["id"])
+    return done
+
+
 def profile_to_json(profile: dict) -> str:
     return json.dumps({"profile_version": FORMAT, "bestiary": profile["bestiary"], "titles": profile["titles"], "lives": profile.get("lives", 0), "heirloom": profile.get("heirloom", 0),
                        **({"heirloom_item": profile["heirloom_item"]} if profile.get("heirloom_item") else {})}, ensure_ascii=False, separators=(",", ":"))

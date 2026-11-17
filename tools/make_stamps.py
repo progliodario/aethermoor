@@ -93,6 +93,7 @@ LEGEND = {
     "-": {"prop": "base:art/prop/coop", "radius_x100": 40},  # hens: eggs (spec 06, "Animals")
     '"': {"prop": "base:art/prop/pen", "radius_x100": 45},  # a goat: milk
     "/": {"tile": 14, "prop": "base:art/prop/anvil", "radius_x100": 35},  # where fine gear is made
+    "\\": {"tile": 13, "prop": "base:art/prop/chest", "radius_x100": 30},  # a chest: every chest holds the same things (spec 06, "Chests")
     "V": {"tile": 13, "npc": "villager"},
     "G": {"tile": 13, "npc": "guild_clerk"},
     "S": {"tile": 13, "npc": "shopkeeper"},
@@ -206,7 +207,7 @@ def village() -> dict:
         c.put(x, 9, ",")
     c.put(2, 14, "-")  # a hen coop and a goat pen (spec 06, "Animals")
     c.put(6, 14, '"')
-    c.house(1, 1, 6, 4, {(1, 1): "b", (3, 1): "V"})
+    c.house(1, 1, 6, 4, {(1, 1): "b", (3, 1): "V", (4, 2): "\\"})  # a chest in every village and town (spec 06, "Chests")
     c.house(13, 1, 7, 5, {(1, 1): "b", (2, 1): "b", (5, 2): "S"}, door=3)
     c.house(1, 9, 6, 4, {(2, 1): "V"})
     c.house(14, 10, 6, 4, {(1, 1): "b", (3, 2): "V"})
@@ -234,7 +235,7 @@ def town() -> dict:
     # Guild hall (north-west), shop (north-east), inn (south-west) and houses.
     c.house(4, 4, 9, 5, {(1, 1): "b", (2, 1): "b", (6, 2): "G", (7, 1): "b"}, door=4)
     c.house(18, 4, 8, 5, {(1, 1): "b", (2, 1): "b", (5, 2): "S"}, door=4)
-    c.house(4, 16, 9, 5, {(1, 1): "b", (6, 2): "I"}, door=4)
+    c.house(4, 16, 9, 5, {(1, 1): "b", (2, 1): "\\", (6, 2): "I"}, door=4)
     c.house(19, 16, 6, 4, {(2, 1): "V"}, door=3)
     c.house(4, 10, 5, 4, {(2, 1): "V"}, door=2)
     c.house(22, 10, 5, 4, {(2, 1): "V"}, door=2)
@@ -283,7 +284,7 @@ def village_b() -> dict:
         c.put(x, y, "l")
     c.put(11, 9, "E")
     c.put(13, 9, "T")
-    c.house(1, 1, 7, 5, {(1, 1): "b", (4, 2): "V"}, door=3)
+    c.house(1, 1, 7, 5, {(1, 1): "b", (2, 1): "\\", (4, 2): "V"}, door=3)
     c.house(15, 1, 7, 5, {(1, 1): "b", (2, 1): "b", (4, 2): "S"}, door=3)
     c.house(1, 11, 7, 5, {(1, 1): "b", (4, 2): "V"}, door=3)
     c.house(15, 11, 7, 5, {(4, 2): "V"}, door=3)
@@ -300,7 +301,7 @@ def village_c() -> dict:
     c.put(12, 6, "w")
     c.put(12, 7, "E")
     c.put(13, 5, "T")
-    c.house(1, 1, 6, 4, {(1, 1): "b", (3, 1): "V"})
+    c.house(1, 1, 6, 4, {(1, 1): "b", (3, 1): "V", (4, 1): "\\"})
     c.house(15, 1, 8, 4, {(1, 1): "b", (2, 1): "b", (5, 2): "S"}, door=4)
     c.house(2, 8, 7, 4, {(2, 1): "V"}, door=3)
     c.house(16, 8, 7, 4, {(3, 2): "V"}, door=3)
@@ -323,7 +324,7 @@ def town_b() -> dict:
         c.put(x, y, ")")
     c.house(3, 3, 10, 6, {(1, 1): "b", (2, 1): "b", (7, 3): "G"}, door=5)
     c.house(22, 3, 9, 6, {(1, 1): "b", (2, 1): "b", (6, 3): "S"}, door=4)
-    c.house(3, 18, 10, 6, {(1, 1): "b", (7, 3): "I"}, door=5)
+    c.house(3, 18, 10, 6, {(1, 1): "b", (2, 1): "\\", (7, 3): "I"}, door=5)
     c.house(23, 18, 8, 5, {(3, 2): "V"}, door=3)
     c.house(2, 10, 6, 3, {(2, 1): "V"}, door=2)
     c.house(27, 10, 6, 3, {(2, 1): "V"}, door=2)
@@ -354,7 +355,7 @@ def village_d() -> dict:
     c.put(10, 9, "w")
     c.put(11, 10, "E")
     c.put(12, 8, "T")
-    c.house(1, 1, 7, 5, {(1, 1): "b", (3, 2): "V"}, door=3)
+    c.house(1, 1, 7, 5, {(1, 1): "b", (2, 1): "\\", (3, 2): "V"}, door=3)
     c.house(1, 12, 7, 5, {(1, 1): "b", (3, 2): "V"}, door=3)
     c.house(13, 1, 7, 5, {(1, 1): "b", (4, 2): "S"}, door=3)
     c.house(13, 12, 7, 5, {(3, 2): "V"}, door=3)
@@ -375,7 +376,7 @@ def town_c() -> dict:
     c.put(20, 14, "T")
     c.house(11, 2, 15, 6, {(2, 1): "b", (3, 1): "b", (11, 3): "G"}, door=7)
     c.house(2, 9, 9, 6, {(1, 1): "b", (2, 1): "b", (6, 3): "S"}, door=4)
-    c.house(26, 9, 9, 6, {(1, 1): "b", (6, 3): "I"}, door=4)
+    c.house(26, 9, 9, 6, {(1, 1): "b", (2, 1): "\\", (6, 3): "I"}, door=4)
     c.house(3, 19, 7, 4, {(3, 1): "V"}, door=3)
     c.house(27, 19, 7, 4, {(3, 1): "V"}, door=3)
     for x, y in ((16, 16), (20, 16)):

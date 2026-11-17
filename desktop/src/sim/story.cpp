@@ -68,6 +68,10 @@ Condition parse_condition(const Json& j) {
     } else if (key == "renown_at_least") {
         c.kind = Condition::Kind::RenownAtLeast;
         c.n = value.get<std::int64_t>();
+    } else if (key == "day_mod") {  // a day of a cycle (spec 07): (day - 1) % every == at
+        c.kind = Condition::Kind::DayMod;
+        c.n = value.at("every").get<std::int64_t>();
+        c.m = value.at("at").get<std::int64_t>();
     } else if (key == "faction_at_least") {
         c.kind = Condition::Kind::FactionAtLeast;
         c.a = value.at("faction").get<std::string>();
@@ -346,6 +350,8 @@ bool Story::holds(const Condition& c) const {
             const std::int64_t tod = m_host_.tod_pm();
             return c.n <= c.m ? (tod >= c.n && tod < c.m) : (tod >= c.n || tod < c.m);
         }
+        case Condition::Kind::DayMod:
+            return c.n > 0 && (m_host_.day() - 1) % c.n == c.m;
         case Condition::Kind::FactionAtLeast:
             return m_host_.counter("faction:" + c.a) >= c.n;
         case Condition::Kind::RenownAtLeast:

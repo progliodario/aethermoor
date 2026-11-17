@@ -153,7 +153,7 @@ class ShopDef(
 class FarmCrop(val seed: String, val crop: String, val qtyMin: Long, val qtyMax: Long, val growTicks: Long)
 
 /** The plot prop, its reach and the crops in the order of the data (a bare plot takes the first seed the bag holds). */
-class FarmingDef(val plot: String, val reachX100: Int, val crops: List<FarmCrop>)
+class FarmingDef(val plot: String, val reachX100: Int, val crops: List<FarmCrop>, val rainGrowCutPm: Int = 0)
 
 /** A companion that follows the player and fights (spec 10). [name] is an $i18n: key, [art] the creature art it is drawn with. */
 class CompanionDef(
@@ -251,6 +251,9 @@ class CombatSetup(
     val gatherNodes: Map<String, GatherNode> = emptyMap(),
     /** The plots and the crops (spec 06, "Farming"); null: no farming. */
     val farming: FarmingDef? = null,
+    /** The chest prop and its reach (spec 06, "Chests"); empty: no chests. */
+    val chestArt: String = "",
+    val chestReachX100: Int = 200,
     /** Crafting recipes, in the order of the data (spec 06, "Crafting"). */
     val recipes: List<RecipeDef> = emptyList(),
     /** The companion of the protagonist (spec 10), or null. */

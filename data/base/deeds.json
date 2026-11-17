@@ -1,0 +1,209 @@
+{
+  "$schema": "../../schemas/deeds.schema.json",
+  "id": "base:deeds/all",
+  "deeds": [
+    {
+      "id": "first_blow",
+      "kind": "kills",
+      "count": 1,
+      "name": "$i18n:deed.first_blow.name",
+      "text": "$i18n:deed.first_blow.text"
+    },
+    {
+      "id": "hundred_blows",
+      "kind": "kills",
+      "count": 100,
+      "name": "$i18n:deed.hundred_blows.name",
+      "text": "$i18n:deed.hundred_blows.text"
+    },
+    {
+      "id": "thousand_blows",
+      "kind": "kills",
+      "count": 1000,
+      "name": "$i18n:deed.thousand_blows.name",
+      "text": "$i18n:deed.thousand_blows.text"
+    },
+    {
+      "id": "ten_kinds",
+      "kind": "kinds",
+      "count": 10,
+      "name": "$i18n:deed.ten_kinds.name",
+      "text": "$i18n:deed.ten_kinds.text"
+    },
+    {
+      "id": "thirty_kinds",
+      "kind": "kinds",
+      "count": 30,
+      "name": "$i18n:deed.thirty_kinds.name",
+      "text": "$i18n:deed.thirty_kinds.text"
+    },
+    {
+      "id": "sixty_kinds",
+      "kind": "kinds",
+      "count": 60,
+      "name": "$i18n:deed.sixty_kinds.name",
+      "text": "$i18n:deed.sixty_kinds.text"
+    },
+    {
+      "id": "gel_king",
+      "kind": "defeated",
+      "enemies": [
+        "base:enemy/gel_king"
+      ],
+      "name": "$i18n:deed.gel_king.name",
+      "text": "$i18n:deed.gel_king.text"
+    },
+    {
+      "id": "wardens",
+      "kind": "defeated",
+      "enemies": [
+        "base:enemy/barrow_warden",
+        "base:enemy/ice_warden",
+        "base:enemy/vault_warden"
+      ],
+      "name": "$i18n:deed.wardens.name",
+      "text": "$i18n:deed.wardens.text"
+    },
+    {
+      "id": "sovereigns",
+      "kind": "defeated",
+      "enemies": [
+        "base:enemy/frost_sovereign",
+        "base:enemy/storm_sovereign"
+      ],
+      "name": "$i18n:deed.sovereigns.name",
+      "text": "$i18n:deed.sovereigns.text"
+    },
+    {
+      "id": "tyrants",
+      "kind": "defeated",
+      "enemies": [
+        "base:enemy/forge_tyrant",
+        "base:enemy/char_tyrant"
+      ],
+      "name": "$i18n:deed.tyrants.name",
+      "text": "$i18n:deed.tyrants.text"
+    },
+    {
+      "id": "deep_waters",
+      "kind": "defeated",
+      "enemies": [
+        "base:enemy/drowned_captain",
+        "base:enemy/cinder_colossus"
+      ],
+      "name": "$i18n:deed.deep_waters.name",
+      "text": "$i18n:deed.deep_waters.text"
+    },
+    {
+      "id": "every_echo",
+      "kind": "defeated",
+      "enemies": [
+        "base:enemy/echo_ren",
+        "base:enemy/echo_sakura",
+        "base:enemy/echo_daichi",
+        "base:enemy/echo_haruka",
+        "base:enemy/echo_marco",
+        "base:enemy/echo_yuki",
+        "base:enemy/echo_lena",
+        "base:enemy/echo_gideon"
+      ],
+      "name": "$i18n:deed.every_echo.name",
+      "text": "$i18n:deed.every_echo.text"
+    },
+    {
+      "id": "five_titles",
+      "kind": "titles",
+      "count": 5,
+      "name": "$i18n:deed.five_titles.name",
+      "text": "$i18n:deed.five_titles.text"
+    },
+    {
+      "id": "fifteen_titles",
+      "kind": "titles",
+      "count": 15,
+      "name": "$i18n:deed.fifteen_titles.name",
+      "text": "$i18n:deed.fifteen_titles.text"
+    },
+    {
+      "id": "thirty_titles",
+      "kind": "titles",
+      "count": 30,
+      "name": "$i18n:deed.thirty_titles.name",
+      "text": "$i18n:deed.thirty_titles.text"
+    },
+    {
+      "id": "hero_and_legend",
+      "kind": "earned",
+      "titles": [
+        "hero",
+        "legend"
+      ],
+      "name": "$i18n:deed.hero_and_legend.name",
+      "text": "$i18n:deed.hero_and_legend.text"
+    },
+    {
+      "id": "friend_of_the_world",
+      "kind": "earned",
+      "titles": [
+        "friend_verdalis",
+        "friend_whisperwood",
+        "friend_ironspine",
+        "friend_sunscar",
+        "friend_frostveil",
+        "friend_tidehaven",
+        "friend_ashen_wastes",
+        "friend_lumeria"
+      ],
+      "name": "$i18n:deed.friend_of_the_world.name",
+      "text": "$i18n:deed.friend_of_the_world.text"
+    },
+    {
+      "id": "four_factions",
+      "kind": "earned",
+      "titles": [
+        "guild_champion",
+        "ring_walker",
+        "keeper_of_legends",
+        "heart_of_the_folk"
+      ],
+      "name": "$i18n:deed.four_factions.name",
+      "text": "$i18n:deed.four_factions.text"
+    },
+    {
+      "id": "life_of_the_land",
+      "kind": "earned",
+      "titles": [
+        "green_thumb",
+        "seasoned_forager",
+        "master_artisan",
+        "great_hunter"
+      ],
+      "name": "$i18n:deed.life_of_the_land.name",
+      "text": "$i18n:deed.life_of_the_land.text"
+    },
+    {
+      "id": "beast_friend",
+      "kind": "earned",
+      "titles": [
+        "beast_friend",
+        "well_fed"
+      ],
+      "name": "$i18n:deed.beast_friend.name",
+      "text": "$i18n:deed.beast_friend.text"
+    },
+    {
+      "id": "second_life",
+      "kind": "lives",
+      "count": 1,
+      "name": "$i18n:deed.second_life.name",
+      "text": "$i18n:deed.second_life.text"
+    },
+    {
+      "id": "many_lives",
+      "kind": "lives",
+      "count": 5,
+      "name": "$i18n:deed.many_lives.name",
+      "text": "$i18n:deed.many_lives.text"
+    }
+  ]
+}

@@ -50,6 +50,9 @@ sealed interface Condition {
 
     /** The standing with [faction] is at least [count] (spec 07, "Factions"). */
     data class FactionAtLeast(val faction: String, val count: Long) : Condition
+
+    /** A day of a cycle (spec 07): (day - 1) % [every] == [at]. */
+    data class DayMod(val every: Long, val at: Long) : Condition
 }
 
 sealed interface Effect {
@@ -208,6 +211,9 @@ interface StoryHost {
 
     /** A counter of the player (spec 11, "Counters"): the standing with a faction is `faction:<id>`. */
     fun counter(name: String): Long = 0L
+
+    /** The day of the world (spec 08): 1 without a clock. */
+    fun day(): Long = 1L
 }
 
 // ------------------------------------------------------------------------------------ parsing
@@ -234,6 +240,7 @@ private fun parseCondition(element: JsonElement): Condition {
         "season" -> Condition.Season(value.jsonPrimitive.content)
         "tod_between" -> Condition.TodBetween(value.jsonArray[0].jsonPrimitive.int, value.jsonArray[1].jsonPrimitive.int)
         "renown_at_least" -> Condition.RenownAtLeast(value.jsonPrimitive.long)
+        "day_mod" -> Condition.DayMod(value.jsonObject.getValue("every").jsonPrimitive.long, value.jsonObject.getValue("at").jsonPrimitive.long)
         "faction_at_least" -> Condition.FactionAtLeast(value.jsonObject.str("faction"), value.jsonObject.getValue("count").jsonPrimitive.long)
         else -> throw IllegalArgumentException("unknown condition $key")
     }
@@ -373,6 +380,7 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
             }
             is Condition.RenownAtLeast -> host.renownHere() >= c.count
             is Condition.FactionAtLeast -> host.counter("faction:${c.faction}") >= c.count
+            is Condition.DayMod -> c.every > 0 && (host.day() - 1) % c.every == c.at
         }
 
     fun apply(effect: Effect) {
@@ -449,6 +457,9 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
         }
         refreshAll()
     }
+
+    /** Updates the quests that collect items after the bag changed outside the story (spec 06, "Chests"). */
+    fun refreshQuests() = refreshAll()
 
     fun onTalk(npcKey: String) {
         for ((questId, q) in quests) {

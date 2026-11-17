@@ -191,6 +191,8 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
                 requiresFlag = o["requires_flag"]?.jsonPrimitive?.content ?: "",
             )
         } ?: emptyList(),
+        chestArt = input["storage"]?.jsonObject?.get("chest")?.jsonPrimitive?.content ?: "",
+        chestReachX100 = input["storage"]?.jsonObject?.get("reach_x100")?.jsonPrimitive?.int ?: 200,
         farming = input["farming"]?.jsonObject?.let { f ->
             FarmingDef(
                 f.getValue("plot").jsonPrimitive.content, f.getValue("reach_x100").jsonPrimitive.int,
@@ -198,6 +200,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
                     val o = c.jsonObject
                     FarmCrop(o.getValue("seed").jsonPrimitive.content, o.getValue("crop").jsonPrimitive.content, o.long("qty_min"), o.long("qty_max"), o.long("grow_ticks"))
                 },
+                f["rain_grow_cut_pm"]?.jsonPrimitive?.int ?: 0,
             )
         },
         gatherNodes = input["gather_nodes"]?.jsonArray?.associate { n ->
@@ -275,6 +278,10 @@ internal fun runSegment(sim: WorldSim, segment: JsonObject) {
             }
             "tame" -> sim.tame()
             "tend" -> sim.tend()
+            "open_chest" -> sim.openChest()
+            "close_chest" -> sim.closeChest()
+            "chest_put" -> sim.chestPut(cmd.getValue("item").jsonPrimitive.content)
+            "chest_take" -> sim.chestTake(cmd.getValue("item").jsonPrimitive.content)
             "close_shop" -> sim.closeShop()
             "interact" -> sim.story.interact()
             "advance" -> sim.story.advance()
@@ -314,6 +321,10 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
         assertEquals(want.long("matk"), sim.derived.matk, "$at matk")
         assertEquals(want.long("crit_chance_pm"), sim.derived.critChancePm, "$at crit")
         assertEquals(want.long("move_speed_x100"), sim.derived.moveSpeedX100, "$at speed")
+    }
+    want["chest"]?.jsonObject?.let { wc -> // what the chests hold (spec 06, "Chests")
+        assertEquals(wc.mapValues { it.value.jsonPrimitive.long }, sim.chest.toMap(), "$at chest")
+        assertEquals(want.getValue("chest_open").jsonPrimitive.boolean, sim.chestOpen, "$at chest open")
     }
     want["plots"]?.jsonArray?.let { wp -> // the sown plots (spec 06, "Farming")
         val got = sim.plots.map { (key, plot) -> listOf(key.first.toString(), key.second.toString(), plot.first, plot.second.toString()) }

@@ -605,6 +605,11 @@ TEST_CASE("conformance: profile", "[conformance]") {
         REQUIRE(got.heirloom == expect.at("heirloom").get<std::int64_t>());
         REQUIRE(got.heirloom_item == expect.at("heirloom_item").get<std::string>());
         REQUIRE(aether::profile_echo_pct(got) == expect.at("echo_pct").get<int>());
+        if (in.contains("deeds")) {  // the deeds of the profile (spec 11, "Deeds")
+            const std::vector<std::string> deeds =
+                aether::profile_deeds(got, aether::parse_deeds(in.at("deeds").dump()));
+            REQUIRE(deeds == expect.at("deeds").get<std::vector<std::string>>());
+        }
         const aether::Profile again =
             aether::parse_profile(aether::profile_to_json(got));  // writing and reading it back changes nothing
         REQUIRE(again.bestiary == got.bestiary);
@@ -866,11 +871,16 @@ Scenario scenario_from_json(const Json& in) {
             setup.titles.push_back(std::move(title));
         }
     }
+    if (in.contains("storage")) {  // the chests (spec 06, "Chests")
+        setup.chest_art = in.at("storage").at("chest").get<std::string>();
+        setup.chest_reach_x100 = in.at("storage").at("reach_x100").get<int>();
+    }
     if (in.contains("farming")) {  // the plots and the crops (spec 06, "Farming")
         const Json& f = in.at("farming");
         aether::FarmingDef farming;
         farming.plot = f.at("plot").get<std::string>();
         farming.reach_x100 = f.at("reach_x100").get<int>();
+        farming.rain_grow_cut_pm = f.value("rain_grow_cut_pm", 0);
         for (const Json& c : f.at("crops")) {
             farming.crops.push_back({c.at("seed").get<std::string>(), c.at("crop").get<std::string>(),
                                      integer(c, "qty_min"), integer(c, "qty_max"), integer(c, "grow_ticks")});
@@ -1008,6 +1018,14 @@ void run_segment(aether::WorldSim& sim, const Json& segment) {
             } else if (cmd == "open_shop") {
                 sim.open_shop_for_test(command.value("region", ""),
                                        command.value("markup_pct", static_cast<std::int64_t>(100)));
+            } else if (cmd == "open_chest") {
+                sim.open_chest();
+            } else if (cmd == "close_chest") {
+                sim.close_chest();
+            } else if (cmd == "chest_put") {
+                sim.chest_put(command.at("item").get<std::string>());
+            } else if (cmd == "chest_take") {
+                sim.chest_take(command.at("item").get<std::string>());
             } else if (cmd == "tend") {
                 sim.tend();
             } else if (cmd == "tame") {
@@ -1058,6 +1076,14 @@ void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) 
         REQUIRE(sim.derived().matk == integer(want, "matk"));
         REQUIRE(sim.derived().crit_chance_pm == integer(want, "crit_chance_pm"));
         REQUIRE(sim.derived().move_speed_x100 == integer(want, "move_speed_x100"));
+    }
+    if (want.contains("chest")) {  // what the chests hold (spec 06, "Chests")
+        const Json& wc = want.at("chest");
+        REQUIRE(sim.chest().size() == wc.size());
+        for (const auto& [item, qty] : wc.items()) {
+            REQUIRE(sim.chest().at(item) == qty.get<std::int64_t>());
+        }
+        REQUIRE(sim.chest_is_open() == want.at("chest_open").get<bool>());
     }
     if (want.contains("plots")) {  // the sown plots (spec 06, "Farming")
         const Json& wp = want.at("plots");

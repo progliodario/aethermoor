@@ -373,12 +373,20 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
             }
         }
     }
+    if (const auto chests = pack.read_document("base:storage/chests")) {  // the chests (spec 06, "Chests")
+        const Json parsed = Json::parse(*chests, nullptr, /*allow_exceptions=*/false);
+        if (!parsed.is_discarded()) {
+            setup.chest_art = parsed.value("chest", "");
+            setup.chest_reach_x100 = parsed.value("reach_x100", 200);
+        }
+    }
     if (const auto farm = pack.read_document("base:farming/all")) {  // the plots and the crops (spec 06, "Farming")
         const Json parsed = Json::parse(*farm, nullptr, /*allow_exceptions=*/false);
         if (!parsed.is_discarded() && parsed.contains("crops")) {
             FarmingDef farming;
             farming.plot = parsed.value("plot", "");
             farming.reach_x100 = parsed.value("reach_x100", 150);
+            farming.rain_grow_cut_pm = parsed.value("rain_grow_cut_pm", 0);
             for (const Json& c : parsed.at("crops")) {
                 farming.crops.push_back({c.at("seed").get<std::string>(), c.at("crop").get<std::string>(),
                                          c.at("qty_min").get<std::int64_t>(), c.at("qty_max").get<std::int64_t>(),

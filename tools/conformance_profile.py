@@ -28,6 +28,28 @@ def _rebirth(name: str, text, level: int, gold: int = 0, weapon: str = "") -> di
             "expect": {**result, "echo_pct": profile.echo_pct(result), "reborn": after is not None}}
 
 
+# The deeds of the conformance cases (spec 11, "Deeds"): one of every kind, and one the rules do not know.
+DEEDS = [
+    {"id": "first", "kind": "kills", "count": 1},
+    {"id": "fifty", "kind": "kills", "count": 50},
+    {"id": "three_kinds", "kind": "kinds", "count": 3},
+    {"id": "two_titles", "kind": "titles", "count": 2},
+    {"id": "reborn", "kind": "lives", "count": 1},
+    {"id": "wolves", "kind": "defeated", "enemies": ["base:enemy/wolf_grey", "base:enemy/wolf_tawny"]},
+    {"id": "friends", "kind": "earned", "titles": ["hero", "legend"]},
+    {"id": "unknown", "kind": "dances", "count": 0},
+]
+
+
+def _deeds(name: str, text, bestiary: dict, titles: list) -> dict:
+    """The deeds of the profile after a game reports (spec 11, "Deeds")."""
+    case = _case(name, text, bestiary, titles)
+    merged = {k: case["expect"][k] for k in ("bestiary", "titles", "lives", "heirloom", "heirloom_item")}
+    case["input"]["deeds"] = DEEDS
+    case["expect"]["deeds"] = profile.deeds(merged, DEEDS)
+    return case
+
+
 def suite_profile() -> list[dict]:
     def doc(bestiary=None, titles=None, version=1):
         return json.dumps({"profile_version": version, "bestiary": bestiary or {}, "titles": titles or []})
@@ -62,5 +84,10 @@ def suite_profile() -> list[dict]:
         _rebirth("heirloom_weapon_not_when_too_early", None, 3, 0, "base:item/steel_sword"),
         _claim("claim_the_weapon", json.dumps({"profile_version": 1, "bestiary": {}, "titles": [], "heirloom": 40, "heirloom_item": "base:item/steel_sword"})),
         _case("bad_heirloom_item_is_none", json.dumps({"profile_version": 1, "bestiary": {}, "titles": [], "heirloom_item": 7}), {}, []),
+        _deeds("deeds_none", None, {}, []),
+        _deeds("deeds_first_kill", None, {"base:enemy/slime_green": 1}, ["newcomer"]),
+        _deeds("deeds_counts", json.dumps({"profile_version": 1, "bestiary": {"base:enemy/slime_green": 30, "base:enemy/wolf_grey": 12}, "titles": ["hero"], "lives": 1}),
+               {"base:enemy/wolf_tawny": 8, "base:enemy/wolf_grey": 3}, ["legend"]),
+        _deeds("deeds_one_wolf_is_not_enough", None, {"base:enemy/wolf_grey": 60}, ["hero", "newcomer"]),
         _case("bad_heirloom_is_zero", json.dumps({"profile_version": 1, "bestiary": {}, "titles": [], "heirloom": -50}), {}, []),
     ]

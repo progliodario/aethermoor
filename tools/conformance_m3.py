@@ -645,6 +645,13 @@ def build_scenarios() -> list[dict]:
                      {"seed": "base:item/healing_herb", "crop": "base:item/wild_berries", "qty_min": 2, "qty_max": 4, "grow_ticks": 240},
                      {"seed": "base:item/mint_leaf", "crop": "base:item/spore_cap", "qty_min": 3, "qty_max": 3, "grow_ticks": 300}]},
                  titles=[{"id": "farmer", "name": "t", "kind": "harvested", "count": 2}]),
+        # Rain on the plots (spec 06): sown in a rain of 600 permille with a cut of 500, a seed of 240 ticks is ripe after 168.
+        scenario("farming_in_the_rain", [enemy(12.0, 7.5, **passive)],
+                 [segment(1, do=[{"cmd": "tend"}]), segment(160), segment(1, do=[{"cmd": "tend"}]), segment(10), segment(1, do=[{"cmd": "tend"}])],
+                 inventory={"base:item/healing_herb": 1}, story=EMPTY_STORY, weather={"rain_pm": 600, "rain_aggro_cut_pm": 300},
+                 gather_props=[{"art": "base:art/prop/garden_plot", "x": 2.8, "y": 5.4, "radius": 0.2}],
+                 farming={"plot": "base:art/prop/garden_plot", "reach_x100": 150, "rain_grow_cut_pm": 500, "crops": [
+                     {"seed": "base:item/healing_herb", "crop": "base:item/wild_berries", "qty_min": 2, "qty_max": 4, "grow_ticks": 240}]}),
         # The glut (spec 06): every chain mail sold the same day is paid 150 permille less, down to half; another item has its own glut; on the
         # next day (30 ticks here) the shop pays full price again.
         scenario("shop_glut", [enemy(12.0, 7.5, **passive)],
@@ -653,6 +660,37 @@ def build_scenarios() -> list[dict]:
                  inventory={"base:item/chain_mail": 7, "base:item/iron_sword": 1}, start_gold=0, day_ticks=30, story=EMPTY_STORY,
                  items={**ITEMS, "base:item/chain_mail": {**ITEMS["base:item/chain_mail"], "stack_max": 9}},
                  shop={"price_pm": 1000, "stock": [], "glut_step_pm": 150, "glut_floor_pm": 500}),
+        # Chests (spec 06): refused far from a chest; near one, the whole stack goes in (the worn sword keeps one copy in the bag), a second put
+        # of an item already out is refused, a take brings the whole stack back and finishes the quest that collects it; closed, it refuses.
+        # Every chest of the world holds the same things: the second chest, far to the east, shows them.
+        {**scenario("chest_storage", [enemy(20.0, 7.5, **passive)],
+                    [segment(1, do=[{"cmd": "chest_put", "item": "base:item/bread"}, {"cmd": "open_chest"}, {"cmd": "chest_put", "item": "base:item/bread"},
+                                    {"cmd": "chest_put", "item": "base:item/slime_gel"}]),
+                     segment(40, move=(-1, 0)),
+                     segment(1, do=[{"cmd": "open_chest"}, {"cmd": "chest_put", "item": "base:item/slime_gel"}, {"cmd": "chest_put", "item": "base:item/iron_sword"},
+                                    {"cmd": "chest_put", "item": "base:item/iron_sword"}, {"cmd": "chest_put", "item": "base:item/bread"}]),
+                     segment(1, do=[{"cmd": "start_quest", "quest": "test:quest/gel"}, {"cmd": "close_chest"},
+                                    {"cmd": "chest_take", "item": "base:item/bread"}]),
+                     segment(240, move=(1, 0)), segment(1, do=[{"cmd": "open_chest"}, {"cmd": "chest_take", "item": "base:item/slime_gel"}]),
+                     segment(10)],
+                    inventory={"base:item/bread": 3, "base:item/slime_gel": 2, "base:item/iron_sword": 2},
+                    equipped={"weapon": "base:item/iron_sword"}, player={"start": [7.0, 5.4]},
+                    gather_props=[{"art": "base:art/prop/chest", "x": 2.2, "y": 5.4, "radius": 0.3}, {"art": "base:art/prop/chest", "x": 17.0, "y": 5.4, "radius": 0.3}],
+                    storage={"chest": "base:art/prop/chest", "reach_x100": 200},
+                    story={"quests": {"test:quest/gel": {"id": "test:quest/gel", "stages": [
+                        {"id": "have", "journal": "q", "objectives": [{"type": "collect", "item": "base:item/slime_gel", "count": 2}], "next": "end"}],
+                        "rewards": [{"effect": "add_gold", "amount": 50}]}}, "dialogues": {}, "npcs": []}), "grid": arena(24, 9)},
+        # The `day_mod` condition (spec 07): a merchant whose goods change with the day of a cycle of three; a day is 60 ticks here.
+        scenario("day_cycle", [enemy(12.0, 7.5, **passive)],
+                 [s for _ in range(4) for s in (segment(1, do=[{"cmd": "interact"}]), segment(1, do=[{"cmd": "advance"}]), segment(58))],
+                 player={"start": [3.4, 4.5]}, day_ticks=60,
+                 story={"quests": {}, "dialogues": {"test:dialogue/merchant": {"id": "test:dialogue/merchant", "start": "d0", "nodes": {
+                     "d0": {"type": "condition", "when": {"day_mod": {"every": 3, "at": 0}}, "then": "s0", "else": "d1"},
+                     "d1": {"type": "condition", "when": {"day_mod": {"every": 3, "at": 1}}, "then": "s1", "else": "s2"},
+                     "s0": {"type": "say", "speaker": "merchant", "text": "t.first", "next": "end"},
+                     "s1": {"type": "say", "speaker": "merchant", "text": "t.second", "next": "end"},
+                     "s2": {"type": "say", "speaker": "merchant", "text": "t.third", "next": "end"}}}},
+                     "npcs": [{"key": "merchant", "pos": [4.0, 4.5], "dialogue": "test:dialogue/merchant"}]}),
         scenario("leash_and_return", [enemy(4.0, 4.5, behavior_overrides={"leash_x100": 300})],
                  [segment(20, attack=True), segment(150, move=(1, 0)), segment(250)]),
     ]

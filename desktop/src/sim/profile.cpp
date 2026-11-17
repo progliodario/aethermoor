@@ -100,4 +100,71 @@ int profile_echo_pct(const Profile& profile) {
     return std::min(static_cast<int>(profile.titles.size()), 15) + 3 * std::min(profile.lives, 10);
 }
 
+std::vector<DeedDef> parse_deeds(std::string_view text) {
+    std::vector<DeedDef> out;
+    const Json doc = Json::parse(text, nullptr, /*allow_exceptions=*/false);
+    if (doc.is_discarded()) {
+        return out;
+    }
+    const Json* list = doc.is_array() ? &doc : (doc.is_object() && doc.contains("deeds") ? &doc.at("deeds") : nullptr);
+    if (list == nullptr || !list->is_array()) {
+        return out;
+    }
+    for (const Json& d : *list) {
+        if (!d.is_object() || !d.contains("id") || !d.at("id").is_string()) {
+            continue;
+        }
+        DeedDef deed;
+        deed.id = d.at("id").get<std::string>();
+        deed.kind = d.contains("kind") && d.at("kind").is_string() ? d.at("kind").get<std::string>() : "";
+        deed.count = d.contains("count") && d.at("count").is_number_integer() ? d.at("count").get<std::int64_t>() : 0;
+        for (const char* key : {"enemies", "titles"}) {
+            if (d.contains(key) && d.at(key).is_array()) {
+                for (const Json& e : d.at(key)) {
+                    if (e.is_string()) {
+                        deed.list.push_back(e.get<std::string>());
+                    }
+                }
+            }
+        }
+        deed.name = d.contains("name") && d.at("name").is_string() ? d.at("name").get<std::string>() : "";
+        deed.text = d.contains("text") && d.at("text").is_string() ? d.at("text").get<std::string>() : "";
+        out.push_back(std::move(deed));
+    }
+    return out;
+}
+
+std::vector<std::string> profile_deeds(const Profile& profile, const std::vector<DeedDef>& defs) {
+    std::vector<std::string> done;
+    for (const DeedDef& deed : defs) {
+        bool ok = false;
+        if (deed.kind == "kills") {
+            std::int64_t kills = 0;
+            for (const auto& entry : profile.bestiary) {
+                kills += entry.second;
+            }
+            ok = kills >= deed.count;
+        } else if (deed.kind == "kinds") {
+            ok = static_cast<std::int64_t>(profile.bestiary.size()) >= deed.count;
+        } else if (deed.kind == "titles") {
+            ok = static_cast<std::int64_t>(profile.titles.size()) >= deed.count;
+        } else if (deed.kind == "lives") {
+            ok = profile.lives >= deed.count;
+        } else if (deed.kind == "defeated") {
+            ok = std::all_of(deed.list.begin(), deed.list.end(), [&](const std::string& enemy) {
+                const auto found = profile.bestiary.find(enemy);
+                return found != profile.bestiary.end() && found->second >= 1;
+            });
+        } else if (deed.kind == "earned") {
+            ok = std::all_of(deed.list.begin(), deed.list.end(), [&](const std::string& title) {
+                return std::find(profile.titles.begin(), profile.titles.end(), title) != profile.titles.end();
+            });
+        }
+        if (ok) {
+            done.push_back(deed.id);
+        }
+    }
+    return done;
+}
+
 }  // namespace aether

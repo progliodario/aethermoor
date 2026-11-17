@@ -3,6 +3,7 @@
   "id": "base:farming/all",
   "plot": "base:art/prop/garden_plot",
   "reach_x100": 150,
+  "rain_grow_cut_pm": 500,
   "crops": [
     {
       "seed": "base:item/herb_seeds",

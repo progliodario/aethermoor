@@ -41,4 +41,21 @@ std::int64_t claim_heirloom(Profile& profile);
 // past life (up to 10). Spec 11, "Echoes".
 int profile_echo_pct(const Profile& profile);
 
+// A deed (spec 11, "Deeds"): a fact about all the games, read from the profile. `kind` is `kills`, `kinds`, `titles` or
+// `lives` (with `count`), `defeated` (every creature of `list`) or `earned` (every title of `list`).
+struct DeedDef {
+    std::string id;
+    std::string kind;
+    std::int64_t count = 0;
+    std::vector<std::string> list;  // the creatures of `defeated`, the titles of `earned`
+    std::string name;               // texts, for the clients
+    std::string text;
+};
+
+// The deeds of a text: the array, or the object of `data/base/deeds.json` with its `deeds`; a broken text has none.
+std::vector<DeedDef> parse_deeds(std::string_view text);
+
+// The deeds the profile has done, in the order of `defs`; a kind the rules do not know is never done.
+std::vector<std::string> profile_deeds(const Profile& profile, const std::vector<DeedDef>& defs);
+
 }  // namespace aether

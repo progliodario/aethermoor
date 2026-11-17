@@ -121,6 +121,7 @@ private fun loadFarming(pack: Pack): FarmingDef? {
             FarmCrop(o.getValue("seed").jsonPrimitive.content, o.getValue("crop").jsonPrimitive.content, o.getValue("qty_min").jsonPrimitive.long,
                 o.getValue("qty_max").jsonPrimitive.long, o.getValue("grow_ticks").jsonPrimitive.long)
         },
+        rainGrowCutPm = doc["rain_grow_cut_pm"]?.jsonPrimitive?.int ?: 0,
     )
 }
 
@@ -330,6 +331,8 @@ fun loadCombatSetup(
             items = items,
             gatherNodes = loadGatherNodes(pack),
             farming = loadFarming(pack),
+            chestArt = pack.readDocument("base:storage/chests")?.let { Json.parseToJsonElement(it).jsonObject["chest"]?.jsonPrimitive?.content } ?: "",
+            chestReachX100 = pack.readDocument("base:storage/chests")?.let { Json.parseToJsonElement(it).jsonObject["reach_x100"]?.jsonPrimitive?.int } ?: 200,
             recipes = loadRecipes(pack),
             titles = loadTitles(pack),
             talents = loadTalents(pack).first,

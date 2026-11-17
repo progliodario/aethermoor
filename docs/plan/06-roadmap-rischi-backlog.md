@@ -271,11 +271,11 @@ Versione `0.0.1`, **nessuna release pubblica** (la decisione di pubblicare è de
 | Che cosa | Quanto | Dove si guarda |
 |---|---|---|
 | Mondo | 16384 x 16384 caselle in streaming, 8 regioni, circa 130 insediamenti generati, 44 luoghi fatti a mano | spec 09, `data/base/worlds/overworld.json` |
-| Persone con nome | 26 nel mondo (Fenwick, Aldermere, gli 8 avamposti, i viandanti, Mira, Pip, Suor Maren) | `tools/make_towns.py`, `tools/towns_outposts.py` |
-| Missioni | 292 (storie dei protagonisti, gilda, città, avamposti, leggende, taglie, lettere, compiti da amico, storie dei paesani) | `docs/design/catalog.md` |
+| Persone con nome | 28 nel mondo (Fenwick con Nonna Brin, Aldermere con Corvin, gli 8 avamposti, i viandanti, Mira, Pip, Suor Maren) | `tools/make_towns.py`, `tools/towns_outposts.py` |
+| Missioni | 295 (storie dei protagonisti, gilda, città, avamposti, leggende, taglie, lettere, compiti da amico, storie dei paesani) | `docs/design/catalog.md` |
 | Creature | 75 (tra cui 27 guardiani, 8 Echi, la selvaggina) | `data/base/enemies/` |
 | Oggetti e ricette | 209 oggetti, 63 ricette (8 segrete), 2 stazioni (falò e incudine) | spec 06, `tools/make_recipes.py` |
-| Progressione | 37 titoli, 16 talenti (4 abilità, 2 a comando), bestiario, profilo condiviso, reincarnazione | spec 11, spec 12 |
+| Progressione | 37 titoli, 16 talenti (4 abilità, 2 a comando), bestiario, profilo condiviso, reincarnazione, 22 imprese | spec 11, spec 12 |
 | Testi | 3014 chiavi, in italiano **e** inglese | spec 17 |
 | Regole uguali sui due client | 30 file di vettori di conformità, 523 casi, eseguiti da C++ e Kotlin a ogni modifica | `tests/conformance/` |
 | Specifiche e decisioni | 18 specifiche, 13 ADR | `docs/spec/`, `docs/adr/` |
@@ -293,9 +293,9 @@ Legenda: **fatto** = le consegne del piano ci sono e funzionano su tutti e due i
 | M3 Combattimento | fatto | attacco, colpo potente, schivata, parata, sei elementi, stati alterati su creature e giocatore, stagger, barra del guardiano, Analizza di Ren, 75 creature con comportamenti, XP e livelli | nulla di aperto: nessuno scontro del modello dura più di tre secondi al proprio livello (`docs/design/balance.md`); si ricontrolla a ogni creatura nuova |
 | M4 Dialoghi, missioni, inventario, salvataggi | quasi | dialoghi con condizioni ed effetti, missioni con meta sulla mappa, zaino, negozi, equipaggiamento a tre posti, diario e finestra di stato, gilda con ranghi F-S e bacheca, locande, tre partite, export e import, `profile.json`, volumi, tasti configurabili (desktop), Fenwick e Aldermere scritti a mano, otto prologhi | la **release Alpha 0.1** (tag e pacchetti: decisione del proprietario) |
 | M5 Mondo aperto | quasi | streaming dei chunk, regioni, insediamenti, siti, fiumi e strade, stagioni, meteo con pioggia, neve e notte che nascondono il giocatore, routine dei PNG, Pietre della Soglia, mappa del mondo e mini mappa, luci di notte | prestazioni misurate su un telefono reale; altri effetti del meteo sul gioco |
-| M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, 63 ricette al falò e all'incudine (otto segrete, insegnate dai bottegai), cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane, orti, pollai e recinti nei villaggi, negozi che pagano meno se vendi troppo | base e residenti |
+| M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, 63 ricette al falò e all'incudine (otto segrete, insegnate dai bottegai), cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane, orti (che crescono prima con la pioggia), pollai e recinti nei villaggi, negozi che pagano meno se vendi troppo, bauli condivisi in ogni villaggio e città, Nonna Brin, il venditore ambulante Corvin | una casa tutta del giocatore |
 | M7 Compagni | avviato | un compagno per protagonista che segue, combatte, resta, segue o torna a comando, cresce di legame e cura il giocatore; i doni di Haruka (legame più rapido) e di Gideon (compagno più forte) ; Haruka doma le creature ferite e l'ultima resta con lei come secondo compagno ; momenti del legame; il compagno domato obbedisce a resta e torna | più compagni scelti dal giocatore |
-| M8 Progressione profonda | avviato | bestiario con debolezze, 37 titoli con effetti e progressi visibili, albero di 16 talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma | tag, achievements, rune e affissi, sblocchi del profilo |
+| M8 Progressione profonda | avviato | bestiario con debolezze, 37 titoli con effetti e progressi visibili, albero di 16 talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma, 22 imprese di tutte le partite lette dal profilo | tag, rune e affissi, premi per le imprese |
 | M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | altre storie per protagonista; la modalità Dungeon di Gideon |
 | M10 Rifinitura | avviato | effetti sonori, pannelli e barre ridisegnati, testi che vanno a capo per larghezza, niente scatti quando appare roba nuova, consigli per i primi minuti, opzioni di accessibilità (consigli, numeri, lampi), crediti, traduzioni controllate da uno strumento | testo più grande, un sintetizzatore migliore per riaccendere musica e ambiente |
 | M11 Release 1.0 | da fare | — | pacchetti firmati, pagina di download, documentazione per chi fa mod (decisioni del proprietario) |
@@ -334,6 +334,7 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 - Cibi e infusi con effetti a tempo: fortifica (attacco), protegge (difesa), rigenera (vita a ogni secondo), rapidità (velocità a piedi); la pozione purificante toglie gli stati alterati.
 - Tre posti di equipaggiamento: arma, armatura, accessorio (nove accessori, tra cui uno che restituisce vita a ogni colpo); i guardiani li lasciano.
 - Negozi per regione, locande, gilda con ranghi F-S.
+- **Bauli** (dal 17 novembre): uno in ogni villaggio e città, tutti con le stesse cose; Nonna Brin a Fenwick (riposo gratis, tre favori) e Corvin, il venditore ambulante di Aldermere, con le merci di una regione diversa ogni giorno; la pioggia fa crescere prima gli orti.
 
 **Compagni** (spec 10)
 
@@ -342,7 +343,7 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 **Progressione** (spec 11, 12)
 
 - Livelli, albero di quattordici talenti, di cui quattro abilità (dal 14 novembre: Turbine, Fame di battaglia, Flusso, Risposta) e due a comando con il loro tasto (Onda d'urto, Rimarginare), 29 titoli con effetti (attacco, raccolta, creazione, opere pregiate, parata, esperienza) e il progresso verso quelli mancanti, bestiario con debolezze e bottino.
-- Profilo comune a tutte le partite: echi (vita in più per ogni titolo e vita passata), reincarnazione dal livello 10 con eredità di metà dell'oro e dell'arma impugnata.
+- Profilo comune a tutte le partite: echi (vita in più per ogni titolo e vita passata), reincarnazione dal livello 10 con eredità di metà dell'oro e dell'arma impugnata, 22 imprese (dal 17 novembre) lette dal profilo e elencate dalla schermata del titolo.
 
 **Grafica** (spec 13, ADR 0012 e 0013)
 
@@ -385,21 +386,23 @@ Il 17 novembre, quarta PR: i doni delle fazioni (sigillo della Gilda, amuleto de
 
 Il 17 novembre, quinta PR: gli orti dei villaggi (semi, crescita, raccolto, salvati nella partita), i doni dell'Anello (Mira) e dei Cronisti (Selwyn).
 
+Il 17 novembre, settima PR: un baule in ogni villaggio e città, che tiene le stesse cose dappertutto (salvato nella partita); Nonna Brin a Fenwick (riposo gratis e tre favori); Corvin, il venditore ambulante di Aldermere, che porta le merci di una regione al giorno (condizione `day_mod`); 22 imprese di tutte le partite lette dal profilo; la pioggia fa crescere prima gli orti; Odile non sta più su un orto.
+
 Il 17 novembre, sesta PR: pollai e recinti delle capre nei villaggi (uova, latte, tre piatti), sedici storie dei paesani (due per regione), i negozi che pagano meno se vendi troppo, un consiglio per gli orti, il titolo Pollice verde; il rapporto di bilanciamento segnala solo gli scontri troppo duri o lenti (nessuno).
 
 **A breve (le prossime PR)**
 
 1. **Testo più grande** (M10), un'opzione che ingrandisce l'interfaccia.
-2. **Base e residenti** (M6): una casa del giocatore a Fenwick, con un baule e qualcuno che ci vive.
-3. **Tag e achievements** (M8): traguardi di tutte le partite, nel profilo.
+2. **Una casa tutta del giocatore** (M6; bauli, Nonna Brin e il riposo ci sono): una casa da arredare a Fenwick.
+3. **Tag** (M8; le imprese ci sono): tratti guadagnati da come si gioca, e premi per le imprese.
 4. **Controlli automatici della grafica**: confronto dei fotogrammi del test di fumo con immagini di riferimento, ktlint e detekt in CI.
 
 **A medio termine (verso Alpha 0.2 e Beta 0.5)**
 
-8. **Tag e achievements** (M8).
-9. **Base e residenti** (M6; orti e animali ci sono).
-10. **Mercanti ambulanti** (M6; giorni di mercato, merci da lontano e saturazione ci sono).
-11. **Tag, achievements, rune e affissi** (M8).
+8. **Rune e affissi** (M8; tag e imprese prima).
+9. **Altri residenti** (M6; Nonna Brin e Corvin ci sono): persone che si trasferiscono nei villaggi aiutati.
+10. **Altri mercanti ambulanti** (M6; Corvin c'è): uno per regione, sulle strade.
+11. **Altri effetti del meteo** (M5; la pioggia nasconde e fa crescere gli orti): il vento, la neve.
 12. **La modalità Dungeon** di Gideon (M9; le storie dei paesani ci sono).
 13. **Prestazioni su Android** misurate su un telefono, e la prova della perdita del contesto grafico (R4, R6).
 14. **Un sintetizzatore con rumore filtrato**, per poter riaccendere musica e ambiente (solo se il proprietario lo vuole).

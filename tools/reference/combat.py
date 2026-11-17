@@ -92,6 +92,10 @@ class CombatSim:
         # Farming (spec 06, "Farming"): the plot prop, its reach and the crops; the plots that are sown: (x100, y100) -> (seed, tick it is ripe)
         self.farming = scenario.get("farming")
         self.plots: dict[tuple[int, int], tuple[str, int]] = {}
+        # The chests (spec 06, "Chests"): the chest prop and its reach; what every chest of the world holds, shared; whether one is open
+        self.storage = scenario.get("storage")
+        self.chest: dict[str, int] = {}
+        self.chest_open = False
         self.world_ticks = 0
         self.companion = scenario.get("companion")  # the definition of the companion (spec 10), or None
         self.comp_x, self.comp_y = scenario["player"]["start"]
@@ -878,6 +882,48 @@ class CombatSim:
                 best = candidate
         return best
 
+    def chest_near(self) -> bool:
+        """Whether a chest is within reach of the player (spec 06, "Chests")."""
+        if self.storage is None:
+            return False
+        reach = self.storage["reach_x100"] / 100
+        return any(art == self.storage["chest"] and math.sqrt((x - self.x) ** 2 + (y - self.y) ** 2) <= reach + radius
+                   for art, x, y, radius in self.gather_props)
+
+    def open_chest(self) -> bool:
+        """Opens the chests (spec 06, "Chests"): refused while a dialogue is open or with no chest in reach."""
+        if (self.story is not None and self.story.dialogue_active) or not self.chest_near():
+            return False
+        self.chest_open = True
+        return True
+
+    def close_chest(self) -> None:
+        self.chest_open = False
+
+    def chest_put(self, item_id: str) -> bool:
+        """Puts the whole stack of an item into the chest; the last copy of a worn item stays in the bag. False, changing nothing, when refused."""
+        owned = self.inventory.get(item_id, 0)
+        keep = 1 if item_id in self.equipped.values() else 0
+        if not self.chest_open or owned - keep < 1:
+            return False
+        self.chest[item_id] = self.chest.get(item_id, 0) + owned - keep
+        if keep:
+            self.inventory[item_id] = keep
+        else:
+            del self.inventory[item_id]
+        return True
+
+    def chest_take(self, item_id: str) -> bool:
+        """Takes the whole stack of an item from the chest into the bag. False, changing nothing, when refused."""
+        held = self.chest.get(item_id, 0)
+        if not self.chest_open or held < 1:
+            return False
+        self.inventory[item_id] = self.inventory.get(item_id, 0) + held
+        del self.chest[item_id]
+        if self.story is not None:  # an item in the bag may finish a quest that collects it
+            self.story._refresh_all()
+        return True
+
     def tend(self) -> tuple[str, str, int] | None:
         """Tends the nearest plot (spec 06, "Farming"): harvests it when it is ripe, sows it when it is bare and the bag has a seed.
         Returns ("harvested", crop, qty) or ("sown", seed, 1), or None when nothing could be done."""
@@ -904,7 +950,9 @@ class CombatSim:
                 self.inventory[crop["seed"]] -= 1
                 if self.inventory[crop["seed"]] == 0:
                     del self.inventory[crop["seed"]]
-                self.plots[key] = (crop["seed"], self.world_ticks + crop["grow_ticks"])
+                # the rain of the moment waters the seed: it grows sooner (spec 06, "Rain on the plots")
+                rain_cut = self.weather.get("rain_pm", 0) * self.farming.get("rain_grow_cut_pm", 0) // 1000
+                self.plots[key] = (crop["seed"], self.world_ticks + crop["grow_ticks"] * (1000 - rain_cut) // 1000)
                 self.counters["sown"] = self.counters.get("sown", 0) + 1
                 return ("sown", crop["seed"], 1)
         return None
@@ -1078,6 +1126,7 @@ class CombatSim:
             **({"bestiary": dict(sorted(self.bestiary.items()))} if self.bestiary else {}),
             **({"counters": dict(sorted(self.counters.items()))} if self.counters else {}),
             **({"talents": dict(sorted(self.talents.items()))} if self.talents else {}),
+            **({"chest": dict(sorted(self.chest.items()))} if self.chest else {}),
             "story": self.story.save_state() if self.story is not None else None,
         }
 
@@ -1106,6 +1155,8 @@ class CombatSim:
         self.bestiary = dict(save.get("bestiary", {}))
         self.counters = dict(save.get("counters", {}))
         self.talents = dict(save.get("talents", {}))
+        self.chest = dict(save.get("chest", {}))
+        self.chest_open = False
         self.derived = self._derive()
         if self.story is not None and save["story"] is not None:
             self.story.load_state(save["story"])
@@ -1124,6 +1175,7 @@ class CombatSim:
                 "max_mp": self.derived["max_mp"], "matk": self.derived["matk"], "crit_chance_pm": self.derived["crit_chance_pm"],
                 "move_speed_x100": self.derived["move_speed_x100"]} if self.talent_defs else {}),
             **({"companion": {"x": self.comp_x, "y": self.comp_y, "stay": self.comp_stay, "bond": self.comp_bond}} if self.companion is not None else {}),
+            **({"chest": dict(sorted(self.chest.items())), "chest_open": self.chest_open} if self.storage is not None else {}),
             **({"plots": [[k[0], k[1], seed, ripe] for k, (seed, ripe) in sorted(self.plots.items())]} if self.farming is not None else {}),
             **({"friend": {"enemy": self.friend["d"].get("id", ""), "x": self.friend["x"], "y": self.friend["y"], "stay": self.friend["stay"]}}
                if self.friend is not None else {}),
@@ -1172,6 +1224,15 @@ def run_segment(sim: CombatSim, segment: dict) -> None:
             continue
         if command["cmd"] == "tend":
             sim.tend()
+            continue
+        if command["cmd"] == "open_chest":
+            sim.open_chest()
+            continue
+        if command["cmd"] == "close_chest":
+            sim.close_chest()
+            continue
+        if command["cmd"] in ("chest_put", "chest_take"):
+            getattr(sim, command["cmd"])(command["item"])
             continue
         if command["cmd"] == "close_shop":
             sim.close_shop()

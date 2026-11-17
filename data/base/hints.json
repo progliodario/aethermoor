@@ -67,6 +67,12 @@
       "when": "renown",
       "text": "$i18n:hint.renown",
       "text_touch": "$i18n:hint.renown.touch"
+    },
+    {
+      "id": "chest",
+      "when": "chest",
+      "text": "$i18n:hint.chest",
+      "text_touch": "$i18n:hint.chest.touch"
     }
   ]
 }

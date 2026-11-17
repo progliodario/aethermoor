@@ -164,6 +164,7 @@ struct SaveState {
     std::map<std::string, int> talents;   // talent ID -> rank (spec 11, "Talents")
     // the sown plots (spec 06, "Farming"): (x100, y100) -> (seed, tick it is ripe)
     std::map<std::pair<int, int>, std::pair<std::string, std::int64_t>> plots;
+    std::map<std::string, std::int64_t> chest;  // what the chests hold, shared by all of them (spec 06, "Chests")
     std::map<std::string, std::int64_t> inventory;
     std::string equipped_weapon;  // spec 06
     std::string equipped_armor;
@@ -301,6 +302,7 @@ public:
     // Renown (spec 07, "Renown"): the quests finished in the region where the player stands, the counter that holds
     // them, and what they take off the prices of the open shop, in permille.
     std::int64_t renown_here() const override;
+    std::int64_t day() const override { return day_now(); }
     std::int64_t counter(const std::string& name) const override {
         const auto found = m_counters_.find(name);
         return found == m_counters_.end() ? 0 : found->second;
@@ -335,6 +337,16 @@ public:
         std::int64_t qty = 0;
     };
     TendResult tend();
+    // Chests (spec 06, "Chests"): every chest of the world holds the same things. `open_chest` needs one in reach;
+    // `chest_put` moves a whole stack into it (the last copy of a worn item stays) and `chest_take` a whole stack back;
+    // each returns false, changing nothing, when refused.
+    bool chest_near() const;
+    bool open_chest();
+    void close_chest() { m_chest_open_ = false; }
+    bool chest_is_open() const { return m_chest_open_; }
+    bool chest_put(const std::string& item_id);
+    bool chest_take(const std::string& item_id);
+    const std::map<std::string, std::int64_t>& chest() const { return m_chest_; }
     // The nearest plot in reach and its state: 0 bare, 1 growing, 2 ripe; nullopt: none.
     struct PlotNear {
         float x = 0.0F;
@@ -459,6 +471,8 @@ private:
     std::map<std::pair<int, int>, std::pair<std::int64_t, int>>
         m_gathered_;  // (x100, y100) -> (tick it grows back, times); not saved
     std::map<std::pair<int, int>, std::pair<std::string, std::int64_t>> m_plots_;  // sown plots (spec 06, "Farming")
+    std::map<std::string, std::int64_t> m_chest_;  // what the chests hold (spec 06, "Chests")
+    bool m_chest_open_ = false;
     Story m_story_;
     bool m_window_valid_ = false;
     int m_window_x_ = 0;  // chunk of the player the enemies were synchronized for

@@ -35,9 +35,23 @@ the dead tree, the rock (stone, a little iron ore), the cactus (pulp), the **mus
 
 The sown plots are saved (`plots` in the save document, spec 12): `[x100, y100, seed, ripe]`, where `x100` and `y100` are the position of the plot in hundredths of a tile. The base pack has a **garden plot** (art `base:art/prop/garden_plot`): three of them by the campfire of every village of the `village` stamp, Fenwick among them, and four seeds sold by every shop: herb seeds (healing herbs in a minute), berry seeds, mint seeds (a minute and a half) and mushroom spores (spore caps in two minutes). The clients tend a plot with the action of talking (`E`, or the `Tend` button), and draw sprouts on a growing plot and flowers on a ripe one. Conformance: the scenario `farming_plots` (its checkpoints carry `plots`).
 
+### Rain on the plots
+
+`rain_grow_cut_pm` of the farming data (default 0) says how much **full rain** shortens the growing of a seed: a seed sown while it rains is ripe at `world_ticks + grow_ticks * (1000 - rain_pm * rain_grow_cut_pm / 1000) / 1000` (integer divisions, in this order), with the `rain_pm` of that tick (spec 08; 0 on a map without weather). The rain that falls later does not change a plot already sown. In the base pack the cut is 500: a seed sown in a downpour grows in half the time. Conformance: the scenario `farming_in_the_rain`.
+
 ## Animals
 
 Every village of the `village` stamp keeps animals by its houses: a **hen coop** (art `base:art/prop/coop`) and a **goat pen** (`base:art/prop/pen`). They are props to gather from (see "Gathering"; `tools/make_gathering.py`): the coop gives two to four eggs and now and then a hen feather every minute and a half, the pen one to three bowls of fresh milk every two minutes. Eggs and milk restore a little health, and at a campfire they become an omelette (two eggs and an herb), a goat cheese (three bowls of milk) and berry pancakes (an egg, a bowl of milk and berries); six hen feathers and some silk make an owl charm at an anvil. No rule is new: the animals are gathering nodes.
+
+## Chests
+
+`data/base/storage.json` (ID `base:storage/chests`, schema `storage`) names the **chest** prop and the reach of the player (`reach_x100`). Every chest of the world holds the same things: one store of items, saved as `chest` (spec 12), shared by all the chests, so what is put in one is taken from any other.
+
+- `open_chest()` is refused, changing nothing, while a dialogue is open and when no chest is within `reach_x100 / 100 + its radius` tiles of the player; otherwise the chests are open. `close_chest()` closes them. A loaded game has them closed.
+- `chest_put(item)` moves the **whole stack** of the item from the bag into the chest; when the item is worn, the last copy stays in the bag. It is refused, changing nothing, when the chests are closed or nothing would move.
+- `chest_take(item)` moves the whole stack of the item from the chest into the bag, and the quests are checked again at once (an item in the bag may finish a quest that collects it). It is refused when the chests are closed or the chest has none.
+
+The base pack has a **chest** (art `base:art/prop/chest`) in a house of every village and in the inn of every town (the stamps `village`, `village_b` to `village_d`, `town`, `town_b`, `town_c`; Fenwick has one in the house of Nana Brin, spec 07). The clients open the chests with the action of talking (`E`, or the `Chest` button) and show them in the panel of the shop: a tab "Take" with what the chest holds and a tab "Store" with the bag, each entry with its quantity; `E` (or a second tap) moves the stack, `Esc` closes. The world is paused while they are open. Conformance: the scenario `chest_storage` (its checkpoints carry `chest` and `chest_open`), and a save split of it.
 
 ## Hunting
 
