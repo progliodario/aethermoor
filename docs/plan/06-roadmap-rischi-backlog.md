@@ -274,10 +274,10 @@ Versione `0.0.1`, **nessuna release pubblica** (la decisione di pubblicare è de
 | Persone con nome | 26 nel mondo (Fenwick, Aldermere, gli 8 avamposti, i viandanti, Mira, Pip, Suor Maren) | `tools/make_towns.py`, `tools/towns_outposts.py` |
 | Missioni | 276 (storie dei protagonisti, gilda, città, avamposti, leggende, taglie, lettere, compiti da amico) | `docs/design/catalog.md` |
 | Creature | 75 (tra cui 27 guardiani, 8 Echi, la selvaggina) | `data/base/enemies/` |
-| Oggetti e ricette | 187 oggetti, 51 ricette, 2 stazioni (falò e incudine) | spec 06, `tools/make_recipes.py` |
+| Oggetti e ricette | 195 oggetti, 59 ricette (8 segrete), 2 stazioni (falò e incudine) | spec 06, `tools/make_recipes.py` |
 | Progressione | 29 titoli, 16 talenti (4 abilità, 2 a comando), bestiario, profilo condiviso, reincarnazione | spec 11, spec 12 |
-| Testi | 2754 chiavi, in italiano **e** inglese | spec 17 |
-| Regole uguali sui due client | 30 file di vettori di conformità, 514 casi, eseguiti da C++ e Kotlin a ogni modifica | `tests/conformance/` |
+| Testi | 2817 chiavi, in italiano **e** inglese | spec 17 |
+| Regole uguali sui due client | 30 file di vettori di conformità, 517 casi, eseguiti da C++ e Kotlin a ogni modifica | `tests/conformance/` |
 | Specifiche e decisioni | 18 specifiche, 13 ADR | `docs/spec/`, `docs/adr/` |
 | Suoni | 174 effetti sintetizzati; musica e ambiente **spenti** su richiesta del proprietario | spec 14 |
 
@@ -293,11 +293,11 @@ Legenda: **fatto** = le consegne del piano ci sono e funzionano su tutti e due i
 | M3 Combattimento | fatto | attacco, colpo potente, schivata, parata, sei elementi, stati alterati su creature e giocatore, stagger, barra del guardiano, Analizza di Ren, 75 creature con comportamenti, XP e livelli | nulla di aperto: nessuno scontro del modello dura più di tre secondi al proprio livello (`docs/design/balance.md`); si ricontrolla a ogni creatura nuova |
 | M4 Dialoghi, missioni, inventario, salvataggi | quasi | dialoghi con condizioni ed effetti, missioni con meta sulla mappa, zaino, negozi, equipaggiamento a tre posti, diario e finestra di stato, gilda con ranghi F-S e bacheca, locande, tre partite, export e import, `profile.json`, volumi, tasti configurabili (desktop), Fenwick e Aldermere scritti a mano, otto prologhi | la **release Alpha 0.1** (tag e pacchetti: decisione del proprietario); la fama per fazioni (quella per regione c'è) |
 | M5 Mondo aperto | quasi | streaming dei chunk, regioni, insediamenti, siti, fiumi e strade, stagioni, meteo con pioggia, neve e notte che nascondono il giocatore, routine dei PNG, Pietre della Soglia, mappa del mondo e mini mappa, luci di notte | prestazioni misurate su un telefono reale; altri effetti del meteo sul gioco |
-| M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, 51 ricette al falò e all'incudine, cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane | agricoltura e allevamento, base e residenti, ricettario |
-| M7 Compagni | avviato | un compagno per protagonista che segue, combatte, resta, segue o torna a comando, cresce di legame e cura il giocatore; i doni di Haruka (legame più rapido) e di Gideon (compagno più forte) ; Haruka doma le creature ferite | più compagni insieme (una creatura domata che resta), i doni che ne dipendono (domare per Haruka, comandare per Gideon), eventi di legame |
+| M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, 59 ricette al falò e all'incudine (otto segrete, insegnate dai bottegai), cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane | agricoltura e allevamento, base e residenti |
+| M7 Compagni | avviato | un compagno per protagonista che segue, combatte, resta, segue o torna a comando, cresce di legame e cura il giocatore; i doni di Haruka (legame più rapido) e di Gideon (compagno più forte) ; Haruka doma le creature ferite | più compagni insieme (una creatura domata che resta), eventi di legame |
 | M8 Progressione profonda | avviato | bestiario con debolezze, 29 titoli con effetti e progressi visibili, albero di 16 talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma | tag, achievements, rune e affissi, sblocchi del profilo |
-| M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | altre storie per regione; i doni non ancora attivi (la tasca di Yuki, domare, una seconda vita per dungeon); la modalità Dungeon di Gideon |
-| M10 Rifinitura | avviato | effetti sonori, pannelli e barre ridisegnati, testi che vanno a capo per larghezza, niente scatti quando appare roba nuova | tutorial, accessibilità, un sintetizzatore migliore per riaccendere musica e ambiente, crediti, controllo delle traduzioni |
+| M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | altre storie per regione; l'ultimo dono che manca (una seconda vita per sotterraneo); la modalità Dungeon di Gideon |
+| M10 Rifinitura | avviato | effetti sonori, pannelli e barre ridisegnati, testi che vanno a capo per larghezza, niente scatti quando appare roba nuova, consigli per i primi minuti | accessibilità, un sintetizzatore migliore per riaccendere musica e ambiente, crediti, controllo delle traduzioni |
 | M11 Release 1.0 | da fare | — | pacchetti firmati, pagina di download, documentazione per chi fa mod (decisioni del proprietario) |
 
 ### 8.3 Che cosa è stato fatto, per area
@@ -329,7 +329,7 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 **Vita** (spec 06)
 
 - Raccolta da 15 tipi di oggetti di scena, pesca nei canneti, caccia a cinghiali, alci e volpi delle dune.
-- 51 ricette, al falò (piatti) e all'incudine (equipaggiamento pregiato e accessori).
+- 59 ricette, al falò (piatti) e all'incudine (equipaggiamento pregiato e accessori); otto sono i piatti segreti delle regioni, che il bottegaio insegna a pagamento (dal 17 novembre).
 - **Opere pregiate** (dal 14 novembre): una creazione può riuscire pregiata (15%, fino al 55% con i titoli da artigiano): una porzione in più, o il pezzo pregiato al posto di quello semplice.
 - Cibi e infusi con effetti a tempo: fortifica (attacco), protegge (difesa), rigenera (vita a ogni secondo), rapidità (velocità a piedi); la pozione purificante toglie gli stati alterati.
 - Tre posti di equipaggiamento: arma, armatura, accessorio (nove accessori, tra cui uno che restituisce vita a ogni colpo); i guardiani li lasciano.
@@ -375,12 +375,14 @@ Nella seconda PR dello stesso giorno: abilità con un tasto proprio (Onda d'urto
 
 Nella terza PR dello stesso giorno: Haruka doma le creature ferite, un compito da amico dall'anziano di ogni regione (otto missioni), le merci di un'altra regione in ogni bottega, la probabilità di opera pregiata nel pannello di creazione.
 
+Il 17 novembre: consigli per i primi minuti, il ricettario con un piatto segreto per regione, la tasca di Yuki.
+
 **A breve (le prossime PR)**
 
 1. **Secondo compagno** (M7): una creatura domata che resta al fianco, più compagni insieme.
-2. **Ricettario** (M6): le ricette si scoprono (serve un campo nuovo nel salvataggio).
-3. **Fama per fazioni** (M4), oltre a quella per regione.
-4. **I doni che mancano** (M9): la tasca di Yuki, una seconda vita per sotterraneo.
+2. **Fama per fazioni** (M4), oltre a quella per regione.
+3. **Una seconda vita per sotterraneo** (M9), l'ultimo dono descritto nel piano.
+4. **Accessibilità** (M10): testo più grande, colori leggibili, scuotimenti dello schermo spegnibili.
 5. **Controlli automatici della grafica**: confronto dei fotogrammi del test di fumo con immagini di riferimento, ktlint e detekt in CI.
 
 **A medio termine (verso Alpha 0.2 e Beta 0.5)**
@@ -395,7 +397,7 @@ Nella terza PR dello stesso giorno: Haruka doma le creature ferite, un compito d
 
 **Verso la 1.0**
 
-15. Tutorial e accompagnamento dei primi minuti, accessibilità, crediti, controllo delle traduzioni (M10).
+15. Crediti e controllo delle traduzioni (M10; i consigli dei primi minuti ci sono).
 16. Pacchetti firmati, pagina di download, documentazione per chi fa mod (M11).
 17. Dopo l'1.0: nuovi protagonisti, nuove regioni, nuove lingue, strumenti per i mod (M12+).
 
@@ -414,6 +416,6 @@ Nella terza PR dello stesso giorno: Haruka doma le creature ferite, un compito d
 
 ### 8.7 Che cosa è verificato e che cosa no
 
-- **Verificato a ogni modifica:** i dati contro gli schemi, i testi nelle due lingue, i 514 casi di conformità sui due client, la compilazione di Windows, Linux e Android, un test di fumo del desktop con fotogrammi reali.
+- **Verificato a ogni modifica:** i dati contro gli schemi, i testi nelle due lingue, i 517 casi di conformità sui due client, la compilazione di Windows, Linux e Android, un test di fumo del desktop con fotogrammi reali.
 - **Verificato dal proprietario:** come appare e come si gioca, sulle tre piattaforme.
 - **Non verificabile da qui:** il suono (non si ascolta), le prestazioni su un telefono reale, ciò che si vede solo giocando a lungo. Ogni PR lo dice esplicitamente.

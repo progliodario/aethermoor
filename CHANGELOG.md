@@ -26,6 +26,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Hints for the first minutes** (spec 16, "Hints"): ten short hints, each shown once a game when its moment comes (the first steps, the first quest, the first creature that sees you, something to gather, low health, a Threshold Stone, talent points, the companion, the night, the first renown), with words for a keyboard and for a touch screen.
+- **The recipe book** (spec 06, "Recipe book"): a recipe can be taught first (`requires_flag`). The shopkeeper of every region teaches its secret dish for gold: eight new dishes with two or three effects at once (a grandmother's pie, a moonlit tea, a forge stew, sunfire skewers, a hearth broth, a captain's chowder, an ember chili, a starlight soufflé), cooked at a campfire. The crafting panel lists only what you know.
+- **Yuki's pocket has no bottom** (spec 18): a quarter of what she eats or drinks is still in the bag afterwards (`pocket_keep_pm`).
+- Three more conformance scenarios.
 - **Haruka tames** (spec 18): the Universal Tamer can calm a creature hurt to half of its health (`B`, or the `Tame` button on Android): it leaves in peace, which counts as a victory in every way (experience, what it would have left, the quests), and her companion grows closer.
 - **A task for a friend** (spec 07, "Renown"): the elder of every settlement has one more quest for somebody with eight quests in the region, a hunt that pays well. Eight new quests, in the eight voices (`tools/make_friend_quests.py`).
 - **Goods from afar** (spec 06): every shopkeeper also sells what the caravan brought, the goods of the next region along the road of the wayfarers, a quarter dearer. The dialogue effect `open_shop` takes a `region` and a `markup_pct`.

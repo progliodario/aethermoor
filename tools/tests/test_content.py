@@ -188,3 +188,28 @@ def test_market_wares_actives_and_gifts_of_the_companions():
     assert set(active) == {"burst", "mend"} and "radius_x100" in active["burst"]
     gifts = {p.stem: json.loads(p.read_text(encoding="utf-8")).get("gift_rules", {}) for p in (DATA / "protagonists").glob("*.json")}
     assert gifts["haruka"]["bond_gain"] > 1 and gifts["gideon"]["companion_atk_pct"] > 100
+
+
+def test_secret_dishes_hints_and_the_pocket():
+    """Spec 06 "Recipe book", spec 16 "Hints", spec 18: every taught recipe is taught by a shopkeeper, every hint has its texts."""
+    recipes = json.loads((DATA / "recipes.json").read_text(encoding="utf-8"))["recipes"]
+    taught = {r["requires_flag"] for r in recipes if "requires_flag" in r}
+    assert len(taught) == 8
+    teaching = set()
+    for path in (DATA / "dialogues" / "role").glob("shopkeeper_*.json"):
+        for node in json.loads(path.read_text(encoding="utf-8"))["nodes"].values():
+            for effect in node.get("effects", []):
+                if effect["effect"] == "set_flag":
+                    teaching.add(effect["flag"])
+    assert taught <= teaching
+    texts = {lang: {} for lang in ("en", "it")}
+    for lang in texts:
+        for path in (DATA / "i18n" / lang).glob("*.json"):
+            texts[lang].update(json.loads(path.read_text(encoding="utf-8")))
+    hints = json.loads((DATA / "hints.json").read_text(encoding="utf-8"))["hints"]
+    assert hints[0]["when"] == "start"
+    for hint in hints:
+        for key in (hint["text"], hint["text_touch"]):
+            assert all(key[6:] in texts[lang] for lang in texts), key
+    yuki = json.loads((DATA / "protagonists" / "yuki.json").read_text(encoding="utf-8"))
+    assert 0 < yuki["gift_rules"]["pocket_keep_pm"] < 1000

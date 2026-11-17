@@ -109,6 +109,7 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
     setup.gift.tame_hp_pct = protagonist->tame_hp_pct;
     setup.gift.tame_range_x100 = protagonist->tame_range_x100;
     setup.gift.tame_bond = protagonist->tame_bond;
+    setup.gift.pocket_keep_pm = protagonist->pocket_keep_pm;
     if (!protagonist->companion.empty()) {  // the companion of the protagonist (spec 10)
         if (const auto companion_text = pack.read_document(protagonist->companion)) {
             const Json c = Json::parse(*companion_text, nullptr, /*allow_exceptions=*/false);
@@ -313,6 +314,7 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
                 recipe.station = r.value("station", "");
                 recipe.fine_pm = r.value("fine_pm", static_cast<std::int64_t>(0));
                 recipe.fine_item = r.value("fine_item", "");
+                recipe.requires_flag = r.value("requires_flag", "");
                 for (const Json& i : r.at("inputs")) {
                     recipe.inputs.emplace_back(i.at("item").get<std::string>(), i.at("qty").get<std::int64_t>());
                 }

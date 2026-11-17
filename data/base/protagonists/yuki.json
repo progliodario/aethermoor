@@ -26,7 +26,8 @@
   "cheat": "pocket_dimension",
   "art_variant": "yuki",
   "gift_rules": {
-    "dodge_cooldown_pct": 50
+    "dodge_cooldown_pct": 50,
+    "pocket_keep_pm": 250
   },
   "starting_items": [
     {

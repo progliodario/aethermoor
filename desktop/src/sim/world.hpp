@@ -318,6 +318,9 @@ public:
     std::optional<std::pair<float, float>> gather_near() const;
     // Makes a recipe from the bag (spec 06, "Crafting"). Returns false, changing nothing, when it is refused.
     bool craft(const std::string& recipe_id);
+    // Whether a recipe can be made: one without `requires_flag` always, the others once the story has that flag
+    // (spec 06, "Recipe book").
+    bool recipe_known(const RecipeDef& recipe) const;
     // Whether the last recipe made came out fine (spec 06, "Quality"); presentation only.
     bool last_craft_fine() const { return m_last_craft_fine_; }
     // The chance in permille that a recipe comes out fine now; 0 without quality (presentation only).

@@ -364,6 +364,9 @@ class WorldSim(
         shop = ShopDef((far.pricePm * markupPct / 100).toInt(), far.stock, far.renownStepPm, far.renownMaxPm, far.marketSwingPm)
     }
 
+    /** Whether a recipe can be made: one without `requires_flag` always, the others once the story has that flag (spec 06, "Recipe book"). */
+    fun recipeKnown(recipe: RecipeDef): Boolean = recipe.requiresFlag.isEmpty() || story.flags[recipe.requiresFlag] == true
+
     /** Calls the companion back (spec 10, "Commands"): it is next to the player at once and follows again; false when there is none. */
     fun companionRecall(): Boolean {
         if (combat.companion == null) return false
@@ -843,6 +846,11 @@ class WorldSim(
             player.hastePct = haste.amount
             player.haste = haste.ticks
         }
+        // The pocket of Yuki (spec 18): a roll from the seed and the number of items used so far.
+        val used = counters["used"] ?: 0
+        counters["used"] = used + 1
+        val keep = combat.gift.pocketKeepPm > 0 && (mix64(hash64(fnv1a64("pocket") xor combat.seed, used.toLong())) % 1000uL).toInt() < combat.gift.pocketKeepPm
+        if (keep) count("pocket_kept")
         if (cleanse) {
             player.burn = 0
             player.burnClock = 0
@@ -852,8 +860,10 @@ class WorldSim(
         }
         if (heal > 0L) player.hp = minOf(derived.maxHp, player.hp + heal)
         if (mana > 0L) player.mpU = minOf(fullMp, player.mpU + mana * 6000L)
-        val left = (inventory[itemId] ?: 0L) - 1L
-        if (left == 0L) inventory.remove(itemId) else inventory[itemId] = left
+        if (!keep) {
+            val left = (inventory[itemId] ?: 0L) - 1L
+            if (left == 0L) inventory.remove(itemId) else inventory[itemId] = left
+        }
         return true
     }
 
@@ -947,6 +957,7 @@ class WorldSim(
         val recipe = combat.recipes.firstOrNull { it.id == recipeId } ?: return false
         if (recipe.inputs.any { (item, qty) -> (inventory[item] ?: 0L) < qty }) return false
         if (!nearStation(recipe.station)) return false // cooking needs a fire (spec 06, "Stations")
+        if (!recipeKnown(recipe)) return false // a recipe that must be taught first (spec 06, "Recipe book")
         for ((item, qty) in recipe.inputs) {
             val left = (inventory[item] ?: 0L) - qty
             if (left == 0L) inventory.remove(item) else inventory[item] = left

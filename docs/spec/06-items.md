@@ -35,7 +35,7 @@ at an anvil (see "Crafting").
 ## Crafting
 
 Materials can be made into things from the bag, anywhere, without a workshop. The recipes are `data/base/recipes.json` (schema `recipes`): each has an `id` (a short name),
-an `output` (`item`, `qty`) and `inputs` (a list of `item`, `qty`). The base pack has fifty-one (`tools/make_recipes.py`): tonics, small, medium and large health potions, small and medium mana potions, a travel ration, a honey cake, cooked dishes (a hearty stew, a fish stew, a royal feast, a miners' broth, grilled fish and a fisherman's stew from the fish of the reeds, roast meat and a hunter's stew from the game), a hunter's jerkin, an antler spear and a fox-fur cloak at an anvil, the brews of the regions, a hand axe, an iron sword, a pike, a leather vest, a studded one, and five pieces of fine gear.
+an `output` (`item`, `qty`) and `inputs` (a list of `item`, `qty`). The base pack has fifty-nine (`tools/make_recipes.py`; eight of them are the secret dishes below): tonics, small, medium and large health potions, small and medium mana potions, a travel ration, a honey cake, cooked dishes (a hearty stew, a fish stew, a royal feast, a miners' broth, grilled fish and a fisherman's stew from the fish of the reeds, roast meat and a hunter's stew from the game), a hunter's jerkin, an antler spear and a fox-fur cloak at an anvil, the brews of the regions, a hand axe, an iron sword, a pike, a leather vest, a studded one, and five pieces of fine gear.
 
 `craft(id)` is refused, changing nothing, while a dialogue is open, when the recipe does not exist, and when the bag has less than the `qty` of any input. Otherwise it removes every input
 (an item that reaches 0 leaves the bag) and adds `qty` of the output (an item the bag did not have enters it). There is no random number, no time and no gold in it. A craft is a creature
@@ -43,6 +43,10 @@ cue `craft` for the sound director (spec 14, event `craft`). The conformance sce
 
 Desktop: `C` opens a panel with the recipes (green when the bag has everything), `W`/`S` choose, `E` makes, `Esc` or `C` closes; the game pauses meanwhile. Android: a button next to the sound
 button opens it; a tap on a recipe chooses it and a tap on the chosen one makes it. On both clients a list longer than the panel scrolls with the chosen recipe. The unique pieces that a shopkeeper makes from monster parts (spec 07, "Workshops") are a different thing and stay.
+
+### Recipe book
+
+A recipe may have `requires_flag`: it is **taught**, and `craft` is also refused until the story has that flag (spec 07). The crafting panels list only the recipes the player knows. In the base pack (`tools/make_secret_recipes.py`) every region has a **secret dish**, a rare food with two or three effects at once, cooked at a campfire (the flag `recipe_<dish>`): the shopkeeper of the region teaches it ("Do you know a recipe of these parts?") for 300 to 700 gold, with the existing effects `spend_gold` and `set_flag`. Verdalis teaches the grandmother's pie, Whisperwood a moonlit tea, Ironspine a forge stew, Sunscar sunfire skewers, Frostveil a hearth broth, Tidehaven a captain's chowder, the Ashen Wastes an ember chili and Lumeria a starlight soufflé. Conformance: the scenario `recipe_taught`.
 
 ### Quality
 
@@ -81,6 +85,8 @@ Otherwise the effects are applied in order and the quantity of the item drops by
 | `fortify` | `amount` (percent), `ticks` | **Fortify**: `fortify_pct = amount`, `fortify = ticks` (a later meal replaces both). While `fortify > 0` the player's hits use `atk * (100 + title_attack_pct + fortify_pct) / 100` (spec 05, spec 11). `fortify` goes down by one every tick, where `weaken` does, and goes to 0 on death and on loading (not saved). An item with `fortify` is always useful, even at full health. Conformance: the scenario `fortify_meal`. |
 
 Using an item is instant: it takes no time, has no cooldown and does not interrupt an attack. An unknown effect counts as an effect that changes nothing.
+
+Every item used counts in the counter `used` (spec 11); with the gift `pocket_keep_pm` (spec 18) an item used may stay in the bag.
 
 ## Equipment
 

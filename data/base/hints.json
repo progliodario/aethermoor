@@ -1,0 +1,66 @@
+{
+  "$schema": "../../schemas/hints.schema.json",
+  "id": "base:hints/all",
+  "hints": [
+    {
+      "id": "move",
+      "when": "start",
+      "text": "$i18n:hint.move",
+      "text_touch": "$i18n:hint.move.touch"
+    },
+    {
+      "id": "quest",
+      "when": "quest",
+      "text": "$i18n:hint.quest",
+      "text_touch": "$i18n:hint.quest.touch"
+    },
+    {
+      "id": "fight",
+      "when": "enemy_near",
+      "text": "$i18n:hint.fight",
+      "text_touch": "$i18n:hint.fight.touch"
+    },
+    {
+      "id": "gather",
+      "when": "gather",
+      "text": "$i18n:hint.gather",
+      "text_touch": "$i18n:hint.gather.touch"
+    },
+    {
+      "id": "hurt",
+      "when": "hurt",
+      "text": "$i18n:hint.hurt",
+      "text_touch": "$i18n:hint.hurt.touch"
+    },
+    {
+      "id": "stone",
+      "when": "stone",
+      "text": "$i18n:hint.stone",
+      "text_touch": "$i18n:hint.stone.touch"
+    },
+    {
+      "id": "talents",
+      "when": "talent_points",
+      "text": "$i18n:hint.talents",
+      "text_touch": "$i18n:hint.talents.touch"
+    },
+    {
+      "id": "companion",
+      "when": "companion",
+      "text": "$i18n:hint.companion",
+      "text_touch": "$i18n:hint.companion.touch"
+    },
+    {
+      "id": "night",
+      "when": "night",
+      "text": "$i18n:hint.night",
+      "text_touch": "$i18n:hint.night.touch"
+    },
+    {
+      "id": "renown",
+      "when": "renown",
+      "text": "$i18n:hint.renown",
+      "text_touch": "$i18n:hint.renown.touch"
+    }
+  ]
+}

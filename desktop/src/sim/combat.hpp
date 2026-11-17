@@ -56,6 +56,7 @@ struct GiftDef {
     int tame_hp_pct = 0;
     int tame_range_x100 = 0;
     int tame_bond = 0;
+    int pocket_keep_pm = 0;  // the pocket of Yuki: the chance in permille that an item used stays in the bag
 };
 
 struct DropDef {
@@ -183,9 +184,10 @@ struct RecipeDef {
     std::string output;
     std::int64_t output_qty = 1;
     std::vector<std::pair<std::string, std::int64_t>> inputs;
-    std::string station;       // the art of the prop it must be made next to (spec 06, "Stations"); empty: anywhere
-    std::int64_t fine_pm = 0;  // the chance in permille that it comes out fine (spec 06, "Quality"); 0: never
-    std::string fine_item;     // what a fine one gives instead of the output; empty: one more of the output
+    std::string station;        // the art of the prop it must be made next to (spec 06, "Stations"); empty: anywhere
+    std::int64_t fine_pm = 0;   // the chance in permille that it comes out fine (spec 06, "Quality"); 0: never
+    std::string fine_item;      // what a fine one gives instead of the output; empty: one more of the output
+    std::string requires_flag;  // the story flag that teaches it (spec 06, "Recipe book"); empty: always known
 };
 
 // A title (spec 11): earned when its condition holds. kind: kills, kills_of, level, species or quests.

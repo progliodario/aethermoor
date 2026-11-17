@@ -1,0 +1,22 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/ember_chili",
+  "name": "$i18n:item.ember_chili.name",
+  "description": "$i18n:item.ember_chili.desc",
+  "kind": "food",
+  "rarity": "rare",
+  "price": 200,
+  "stack_max": 99,
+  "use": {
+    "effects": [
+      {
+        "effect": "fortify",
+        "amount": 80,
+        "ticks": 1200
+      },
+      {
+        "effect": "cleanse"
+      }
+    ]
+  }
+}

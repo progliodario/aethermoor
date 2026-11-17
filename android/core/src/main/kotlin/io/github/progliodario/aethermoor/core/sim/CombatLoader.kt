@@ -102,6 +102,7 @@ private fun loadRecipes(pack: Pack): List<RecipeDef> {
             station = r["station"]?.jsonPrimitive?.content ?: "",
             finePm = r["fine_pm"]?.jsonPrimitive?.long ?: 0L,
             fineItem = r["fine_item"]?.jsonPrimitive?.content ?: "",
+            requiresFlag = r["requires_flag"]?.jsonPrimitive?.content ?: "",
         )
     }
 }

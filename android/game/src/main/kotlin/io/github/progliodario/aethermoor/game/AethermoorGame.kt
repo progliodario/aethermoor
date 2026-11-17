@@ -30,10 +30,13 @@ import io.github.progliodario.aethermoor.core.audio.ambienceGains
 import io.github.progliodario.aethermoor.core.settlementMarker
 import io.github.progliodario.aethermoor.core.worldEnemyIds
 import io.github.progliodario.aethermoor.core.loadPack
+import io.github.progliodario.aethermoor.core.HintDef
+import io.github.progliodario.aethermoor.core.loadHints
 import io.github.progliodario.aethermoor.core.parseProtagonist
 import io.github.progliodario.aethermoor.core.loadWorldParams
 import io.github.progliodario.aethermoor.core.sim.AttackPhase
 import io.github.progliodario.aethermoor.core.sim.Enemy
+import io.github.progliodario.aethermoor.core.sim.Effect
 import io.github.progliodario.aethermoor.core.sim.EnemyState
 import io.github.progliodario.aethermoor.core.sim.NpcDef
 import io.github.progliodario.aethermoor.core.sim.Prop
@@ -90,6 +93,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val map: TileMap,
         val tileset: Tileset,
         val worldParams: WorldParams,
+        /** The hints of the first minutes (spec 16, "Hints"). */
+        val hints: List<HintDef> = emptyList(),
     )
 
     private class SlotSummary(val used: Boolean, val level: Int, val gold: Long, val weapon: String = "")
@@ -194,6 +199,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private val mapMarkers = HashMap<Pair<Int, Int>, io.github.progliodario.aethermoor.core.Settlement?>()
     private var message = ""
     private var messageFrames = 0
+
+    /** The hint shown now (spec 16, "Hints"), for how many more frames, and the frames since the hints were last looked at. */
+    private var hint = ""
+    private var hintFrames = 0
+    private var hintClock = 0
     private var sinceAutosave = 0f
     private val guided = HashSet<String>() // the quest stages that already set the goal once (spec 07, "Places")
     private var seed = 0uL
@@ -338,6 +348,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 map = makeStreamMap(worldParams),
                 tileset = parseTileset(doc("base:tileset/overworld")).getOrThrow(),
                 worldParams = worldParams,
+                hints = loadHints(pack),
             )
         } catch (e: IllegalArgumentException) {
             error = e.message
@@ -713,6 +724,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             if (ticks == MAX_TICKS_PER_FRAME) accumulator = 0f
         }
         if (messageFrames > 0) messageFrames--
+        val free = !(showInventory || showMap || showJournal || showCraft || world.shop != null || world.board != null || world.travel != null || world.story.dialogueActive)
+        updateHints(world, data, free)
         sinceAutosave += Gdx.graphics.deltaTime
         if (!hasGoal && world.chunks != null) { // every quest stage sets the goal of the map once, when the player has none (spec 07, "Places")
             for ((questId, progress) in world.story.quests) {
@@ -933,6 +946,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         drawCraft(world, data)
         drawCompanionButton(world, data)
         drawAbilityButtons(world, data)
+        drawHint()
         drawAnalyze(world, data)
         drawGuardianBar(world, data)
         drawStick()
@@ -1720,7 +1734,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             return
         }
         if (showCraft) {
-            val rowCount = if (craftTab == 1) world.combat.talents.size else world.combat.recipes.size
+            val rowCount = if (craftTab == 1) world.combat.talents.size else world.combat.recipes.count { world.recipeKnown(it) }
             if (input.isKeyJustPressed(Input.Keys.C) || input.isKeyJustPressed(Input.Keys.ESCAPE)) {
                 showCraft = false
             } else if (input.isKeyJustPressed(Input.Keys.TAB) && world.combat.talents.isNotEmpty()) {
@@ -2784,7 +2798,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             }
             return
         }
-        val recipe = world.combat.recipes.getOrNull(craftCursor) ?: return
+        val recipe = world.combat.recipes.filter { world.recipeKnown(it) }.getOrNull(craftCursor) ?: return // only those taught (spec 06, "Recipe book")
         if (world.craft(recipe.id)) {
             if (world.lastCraftFine) { // it came out fine (spec 06, "Quality"): the fine piece, or one more
                 val piece = recipe.fineItem.isNotEmpty()
@@ -2795,6 +2809,57 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         } else {
             showNotice(pack.text(language, "\$i18n:ui.cannot_craft"))
         }
+    }
+
+    /** Whether what a hint waits for is true now (spec 16, "Hints"). */
+    private fun hintHolds(world: WorldSim, kind: String): Boolean = when (kind) {
+        "start" -> true
+        "quest" -> world.story.quests.values.any { !it.done }
+        "enemy_near" -> world.enemies.any { it.state == EnemyState.CHASE || it.state == EnemyState.ATTACK }
+        "gather" -> world.gatherNear()
+        "hurt" -> world.player.hp * 2 < world.derived.maxHp
+        "stone" -> world.stoneNear() != null
+        "talent_points" -> world.talentPoints() > 0 && world.combat.talents.isNotEmpty()
+        "night" -> (world.time()?.lightPm ?: 1000) < 400
+        "companion" -> world.combat.companion != null
+        "renown" -> world.renownHere() > 0
+        else -> false
+    }
+
+    /** Once a second, the first hint not shown yet whose moment has come; its flag remembers it. */
+    private fun updateHints(world: WorldSim, data: Assets, free: Boolean) {
+        if (hintFrames > 0) {
+            hintFrames--
+            return
+        }
+        if (++hintClock < 60 || !free) return
+        hintClock = 0
+        val next = data.hints.firstOrNull { world.story.flags["hint_${it.id}"] != true && hintHolds(world, it.whenKind) } ?: return
+        world.story.apply(Effect.SetFlag("hint_${next.id}", true))
+        hint = data.pack.text(language, next.textTouch)
+        hintFrames = 480
+    }
+
+    /** The hint shown now, in a panel at the top of the screen. */
+    private fun drawHint() {
+        if (hintFrames <= 0 || hint.isEmpty()) return
+        val density = Gdx.graphics.density
+        val w = min(Gdx.graphics.width - 40f * density, 560f * density)
+        val x = (Gdx.graphics.width - w) / 2f
+        layout.setText(font, hint, Color.WHITE, w - 32f * density, com.badlogic.gdx.utils.Align.left, true)
+        val h = layout.height + 28f * density
+        val y = 64f * density
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        drawPanel(x, y, w, h, Color(0.55f, 0.86f, 1f, 1f), 0.9f)
+        shapes.end()
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        font.color = Color(0.92f, 0.96f, 1f, 1f)
+        font.draw(batch, hint, x + 16f * density, y + 14f * density, w - 32f * density, com.badlogic.gdx.utils.Align.left, true)
+        font.color = Color.WHITE
+        batch.end()
     }
 
     /** The buttons of the active abilities that were learned (spec 11, "Active abilities"), in a third row; dim while one waits. */
@@ -2909,7 +2974,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val height = Gdx.graphics.height.toFloat()
         val button = floatArrayOf(12f * density + 296f * density, 114f * density, 96f * density, 34f * density)
         craftRect = if (showCraft || world.story.dialogueActive || showMap || showInventory || showJournal) null else button
-        val recipes = world.combat.recipes
+        val recipes = world.combat.recipes.filter { world.recipeKnown(it) } // only those taught (spec 06, "Recipe book")
         if (!showCraft) {
             craftPanel = null
             craftRowRects = emptyList()

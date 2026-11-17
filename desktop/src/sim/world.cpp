@@ -793,6 +793,14 @@ bool WorldSim::use_item(const std::string& item_id) {
         m_player_.haste_pct = haste->amount;
         m_player_.haste = haste->ticks;
     }
+    // The pocket of Yuki (spec 18): a roll from the seed and the number of items used so far.
+    const int used = m_counters_["used"]++;
+    const bool keep =
+        m_setup_.gift.pocket_keep_pm > 0 &&
+        static_cast<int>(mix64(hash64(fnv1a64("pocket") ^ m_setup_.seed, used)) % 1000U) < m_setup_.gift.pocket_keep_pm;
+    if (keep) {
+        ++m_counters_["pocket_kept"];
+    }
     if (cleanse) {
         m_player_.burn = m_player_.burn_clock = m_player_.chill = m_player_.stun = m_player_.weaken = 0;
     }
@@ -802,7 +810,7 @@ bool WorldSim::use_item(const std::string& item_id) {
     if (mana > 0) {
         m_player_.mp_u = std::min(full_mp, m_player_.mp_u + mana * 6000);
     }
-    if (--owned->second == 0) {
+    if (!keep && --owned->second == 0) {
         m_inventory_.erase(owned);
     }
     return true;
@@ -938,6 +946,14 @@ std::int64_t WorldSim::fine_chance_pm(const RecipeDef& recipe) const {
     return recipe.fine_pm > 0 ? std::min<std::int64_t>(1000, recipe.fine_pm + title_bonus("fine")) : 0;
 }
 
+bool WorldSim::recipe_known(const RecipeDef& recipe) const {
+    if (recipe.requires_flag.empty()) {
+        return true;
+    }
+    const auto flag = m_story_.flags().find(recipe.requires_flag);
+    return flag != m_story_.flags().end() && flag->second;
+}
+
 bool WorldSim::companion_recall() {
     if (!m_setup_.companion) {
         return false;
@@ -972,6 +988,9 @@ bool WorldSim::craft(const std::string& recipe_id) {
         return false;
     }
     if (!near_station(recipe->station)) {  // cooking needs a fire (spec 06, "Stations")
+        return false;
+    }
+    if (!recipe_known(*recipe)) {  // a recipe that must be taught first (spec 06, "Recipe book")
         return false;
     }
     for (const auto& [item, qty] : recipe->inputs) {

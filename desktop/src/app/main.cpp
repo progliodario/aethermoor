@@ -32,6 +32,7 @@
 #include "app/sound_board.hpp"
 #include "audio/director.hpp"
 #include "data/font.hpp"
+#include "data/hints.hpp"
 #include "data/lights.hpp"
 #include "data/world_data.hpp"
 #include "sim/profile.hpp"
@@ -67,6 +68,7 @@ constexpr double kAutosaveSeconds = 30.0;
 constexpr const char* kWorldId = "base:world/overworld";
 
 std::vector<aether::LightDef> g_lights;  // the props that shine at night (spec 08, "Lights")
+std::vector<aether::HintDef> g_hints;    // the hints of the first minutes (spec 16, "Hints")
 
 // The font of the interface (spec 13, "Font"): the glyphs of the pack, baked with the rasterizer of the art at the
 // sizes the screens ask for. The textures belong to a renderer: they are forgotten when it changes.
@@ -135,8 +137,11 @@ struct Ui {
         mini_codes;           // biome codes of the sampled tiles around the player, 255 where unexplored
     mutable int mini_ox = 0;  // the tile of the top left sample
     mutable int mini_oy = 0;
-    mutable int map_pick = -1;   // the place the view last jumped to (Tab), in order of distance
-    int quest_pick = -1;         // the quest whose place the goal was last moved to (Q), in the order of the quests
+    mutable int map_pick = -1;  // the place the view last jumped to (Tab), in order of distance
+    int quest_pick = -1;        // the quest whose place the goal was last moved to (Q), in the order of the quests
+    std::string hint;           // the hint shown now (spec 16, "Hints"), and for how many more frames
+    int hint_frames = 0;
+    int hint_clock = 0;          // frames since the hints were last looked at
     int last_region = -1;        // the region the player was in, to say the name when it changes
     mutable int map_level = -1;  // -1: frame what was explored when the map is drawn next
     mutable float map_cx = 0.0F;
@@ -213,6 +218,7 @@ bool load_assets(const fs::path& dir, Assets& out) {
     }
     out.pack = std::move(*pack);
     g_lights = aether::load_lights(out.pack);
+    g_hints = aether::load_hints(out.pack);
     g_font.def = aether::load_font(out.pack);
     g_grading = aether::load_grading(out.pack);
 
@@ -3266,6 +3272,113 @@ void draw_settings(SDL_Renderer* renderer, const Assets& assets, const Ui& ui, i
 
 // The crafting panel (C): the recipes with what the bag has of each ingredient; W/S choose, E crafts, Esc closes (spec
 // 06, "Crafting").
+// The recipes the player knows, in the order of the data: the others are taught first (spec 06, "Recipe book").
+std::vector<aether::RecipeDef> known_recipes(const aether::WorldSim& sim) {
+    std::vector<aether::RecipeDef> out;
+    for (const aether::RecipeDef& recipe : sim.combat().recipes) {
+        if (sim.recipe_known(recipe)) {
+            out.push_back(recipe);
+        }
+    }
+    return out;
+}
+
+// Whether what a hint waits for is true now (spec 16, "Hints").
+bool hint_holds(const aether::WorldSim& sim, const std::string& when) {
+    if (when == "start") {
+        return true;
+    }
+    if (when == "quest") {
+        for (const auto& [id, progress] : sim.story().quests()) {
+            if (!progress.done) {
+                return true;
+            }
+        }
+        return false;
+    }
+    if (when == "enemy_near") {
+        for (const aether::Enemy& enemy : sim.enemies()) {
+            if (enemy.state == aether::EnemyState::Chase || enemy.state == aether::EnemyState::Attack) {
+                return true;
+            }
+        }
+        return false;
+    }
+    if (when == "gather") {
+        return sim.gather_near().has_value();
+    }
+    if (when == "hurt") {
+        return sim.player().hp * 2 < sim.derived().max_hp;
+    }
+    if (when == "stone") {
+        return sim.stone_near().has_value();
+    }
+    if (when == "talent_points") {
+        return sim.talent_points() > 0 && !sim.combat().talents.empty();
+    }
+    if (when == "night") {
+        const auto time = sim.time();
+        return time && time->light_pm < 400;
+    }
+    if (when == "companion") {
+        return sim.combat().companion.has_value();
+    }
+    if (when == "renown") {
+        return sim.renown_here() > 0;
+    }
+    return false;
+}
+
+// Once a second, the first hint not shown yet whose moment has come (spec 16, "Hints"); its flag remembers it.
+void update_hints(aether::WorldSim& sim, const Assets& assets, Ui& ui, bool free) {
+    if (ui.hint_frames > 0) {
+        --ui.hint_frames;
+        return;
+    }
+    if (++ui.hint_clock < 60 || !free) {
+        return;
+    }
+    ui.hint_clock = 0;
+    for (const aether::HintDef& hint : g_hints) {
+        const std::string flag = "hint_" + hint.id;
+        const auto seen = sim.story().flags().find(flag);
+        if ((seen != sim.story().flags().end() && seen->second) || !hint_holds(sim, hint.when)) {
+            continue;
+        }
+        aether::Effect remember;
+        remember.kind = aether::Effect::Kind::SetFlag;
+        remember.a = flag;
+        remember.value = true;
+        sim.story().apply(remember);
+        ui.hint = assets.pack.text(ui.lang, hint.text);
+        ui.hint_frames = 480;
+        return;
+    }
+}
+
+// The hint shown now, in a panel at the bottom of the screen.
+void draw_hint(SDL_Renderer* renderer, const Ui& ui, int out_w, int out_h, float density) {
+    if (ui.hint_frames <= 0 || ui.hint.empty()) {
+        return;
+    }
+    constexpr float kScale = 2.0F;
+    const float w = std::min(static_cast<float>(out_w) - 40.0F, 760.0F * density);
+    const std::vector<std::string> lines =
+        wrap_text(ui.hint, static_cast<std::size_t>(std::max((w - 32.0F) / (8.0F * kScale), 10.0F)));
+    const float line_h = 8.0F * kScale + 6.0F;
+    const float h = 24.0F + line_h * static_cast<float>(lines.size());
+    const float x = (static_cast<float>(out_w) - w) / 2.0F;
+    const float y = static_cast<float>(out_h) - h - 70.0F * density;
+    draw_panel(renderer, x, y, w, h, 140, 220, 255, 230);
+    SDL_SetRenderScale(renderer, kScale, kScale);
+    SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
+    for (std::size_t i = 0; i < lines.size(); ++i) {
+        debug_text(renderer, (x + 16.0F) / kScale, (y + 12.0F + line_h * static_cast<float>(i)) / kScale,
+                   lines[i].c_str());
+    }
+    SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+}
+
 std::string item_name(const Assets& assets, const Ui& ui, const std::string& item, std::int64_t count) {
     return assets.pack.text(ui.lang, "$i18n:item." + item.substr(item.rfind('/') + 1) + ".name", {{"count", count}});
 }
@@ -3326,7 +3439,7 @@ void handle_craft_key(aether::WorldSim& sim, const Assets& assets, Ui& ui, SDL_K
         }
         return;
     }
-    const auto& recipes = sim.combat().recipes;
+    const std::vector<aether::RecipeDef> recipes = known_recipes(sim);
     if (recipes.empty()) {
         return;
     }
@@ -3398,7 +3511,7 @@ void draw_craft(SDL_Renderer* renderer, const Assets& assets, const aether::Worl
         SDL_SetRenderScale(renderer, 1.0F, 1.0F);
         return;
     }
-    const auto& recipes = sim.combat().recipes;
+    const std::vector<aether::RecipeDef> recipes = known_recipes(sim);
     const float row = 8.0F * kScale * 2.0F + 14.0F;
     const float w = std::min(static_cast<float>(out_w) - 40.0F, 760.0F * density);
     const float h = std::min(static_cast<float>(out_h) - 40.0F,
@@ -3905,6 +4018,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     }
     draw_dialogue(renderer, assets, sim, ui, out_w, out_h, density);
     draw_inventory_and_notice(renderer, assets, sim, ui, out_w, out_h, density);
+    draw_hint(renderer, ui, out_w, out_h, density);
     draw_world_map(renderer, assets, sim, ui, out_w, out_h, density);
     draw_shop(renderer, assets, sim, ui, out_w, out_h, density);
     draw_board(renderer, assets, sim, ui, out_w, out_h, density);
@@ -5020,6 +5134,12 @@ int main(int argc, char** argv) {
 
                 if (ui.message_frames > 0) {
                     --ui.message_frames;
+                }
+                if (!smoke_test) {  // the hints of the first minutes, when nothing else is open (spec 16, "Hints")
+                    update_hints(sim, assets, ui,
+                                 !(ui.show_inventory || ui.show_map || ui.show_journal || ui.show_settings ||
+                                   ui.show_craft || ui.show_keys || sim.shop() != nullptr || sim.board() != nullptr ||
+                                   sim.travel() != nullptr || sim.story().dialogue_active()));
                 }
                 since_autosave += frame_seconds;
                 // Every quest stage sets the goal of the map once, when the player has none (spec 07, "Places").

@@ -47,6 +47,8 @@ data class GiftDef(
     val tameHpPct: Int = 0,
     val tameRangeX100: Int = 0,
     val tameBond: Int = 0,
+    /** The pocket of Yuki: the chance in permille that an item used stays in the bag. */
+    val pocketKeepPm: Int = 0,
 )
 
 data class DropDef(val item: String, val qtyMin: Long, val qtyMax: Long, val weightPm: Long)
@@ -171,6 +173,8 @@ class RecipeDef(
     val station: String = "",
     val finePm: Long = 0,
     val fineItem: String = "",
+    /** The story flag that teaches it (spec 06, "Recipe book"); empty: always known. */
+    val requiresFlag: String = "",
 )
 
 /** A title (spec 11): earned when its condition holds. [kind]: kills, kills_of, level, species or quests; [enemy] for kills_of only. */
