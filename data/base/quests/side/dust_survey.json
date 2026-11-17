@@ -3,6 +3,7 @@
   "id": "base:quest/side/dust_survey",
   "name": "$i18n:quest.dust_survey.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "hunt",

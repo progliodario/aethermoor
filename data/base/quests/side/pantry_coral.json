@@ -3,6 +3,7 @@
   "id": "base:quest/side/pantry_coral",
   "name": "$i18n:quest.pantry_coral.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "bring",

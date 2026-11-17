@@ -3,6 +3,7 @@
   "id": "base:quest/side/parcel_bran",
   "name": "$i18n:quest.parcel_bran.name",
   "kind": "side",
+  "faction": "wayfarers",
   "stages": [
     {
       "id": "task",

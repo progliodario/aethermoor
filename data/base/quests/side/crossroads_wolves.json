@@ -3,6 +3,7 @@
   "id": "base:quest/side/crossroads_wolves",
   "name": "$i18n:quest.crossroads_wolves.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

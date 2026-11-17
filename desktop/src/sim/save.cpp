@@ -159,6 +159,9 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
     if (s.has_friend) {  // the tamed friend (spec 10)
         j["friend"] = {
             {"enemy", s.friend_enemy}, {"x", s.friend_x}, {"y", s.friend_y}, {"cooldown", s.friend_cooldown}};
+        if (s.friend_stay) {
+            j["friend"]["stay"] = true;
+        }
     }
     if (meta.map == "world") {
         Json cleared = Json::array();
@@ -270,6 +273,7 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
             s.friend_x = f.at("x").get<float>();
             s.friend_y = f.at("y").get<float>();
             s.friend_cooldown = f.at("cooldown").get<int>();
+            s.friend_stay = f.value("stay", false);
         }
         if (j.contains("talents")) {
             for (const auto& [id, rank] : j.at("talents").items()) {

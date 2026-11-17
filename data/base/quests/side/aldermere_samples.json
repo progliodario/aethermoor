@@ -3,6 +3,7 @@
   "id": "base:quest/side/aldermere_samples",
   "name": "$i18n:quest.aldermere_samples.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

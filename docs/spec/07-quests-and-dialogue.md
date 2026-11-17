@@ -206,6 +206,12 @@ The **renown** of a region is the number of quests the player finished while sta
 
 Conformance: the scenarios `renown_prices`, `renown_dialogue` and `renown_wares`.
 
+## Factions
+
+A quest may have a `faction`. When it becomes done, besides the renown of the region, the counter `faction:<faction>` goes up by one (spec 11, "Counters"; saved with the others). The quests of the board count for `guild` (spec 07, "Guild": `quest_from_offer` gives it). A title can ask for a faction (`kind` `faction:<id>`), and the status window lists the standing with every faction met ("Standing: the Guild 3   the Folk 7"; the names are `faction.<id>.name`).
+
+The base pack has four (`tools/set_factions.py`, which gives every quest its faction from its file name and is run by the tools that write quests): **the Guild** (the board, the clerks, Hestia's bounties, the great dungeons), **the Ring of Wayfarers** (the wayfarers, the letters and the parcels of the courier), **the Chroniclers** (Selwyn's legends) and **the Folk** (everything else: the towns, the outposts, the errands, the pantries, the seasons, the tasks for a friend). The stories of the protagonists count for none. Four titles: Champion of the Guild (15 quests, +10% experience), Ring-walker (12, one more of every drop gathered), Keeper of Legends (5) and Heart of the Folk (30, one more of every recipe made). Conformance: the scenario `faction_standing` (and `board_quest_rewards`, whose quest counts for the guild).
+
 ## Journal
 
 The journal lists every quest of the story state: first those in progress (name, the journal text of the current stage with the quest arguments, and the

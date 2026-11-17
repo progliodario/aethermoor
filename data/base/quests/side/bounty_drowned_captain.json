@@ -3,6 +3,7 @@
   "id": "base:quest/side/bounty_drowned_captain",
   "name": "$i18n:quest.bounty_drowned_captain.name",
   "kind": "side",
+  "faction": "guild",
   "stages": [
     {
       "id": "task",

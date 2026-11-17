@@ -26,6 +26,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Factions** (spec 07, "Factions"): every quest counts for the Guild, the Ring of Wayfarers, the Chroniclers or the Folk (the stories of the protagonists for none). The status window shows the standing with each, and four titles reward it: Champion of the Guild, Ring-walker, Keeper of Legends and Heart of the Folk (36 titles in all).
+- **The tamed friend obeys** (spec 10): "stay" and "come back" work on Haruka's tamed friend too, and the save remembers it.
+- **Accessibility** (spec 16): the hints, the damage numbers and the red flash of a creature that is hit can be turned off, in the settings panel on desktop and at the bottom of the journal on Android.
+- Two more conformance scenarios.
 - **Haruka's tamed friend** (spec 10, "The tamed friend"): the last creature Haruka tames stays with her as a second companion. It follows her, hits the creatures near it with one and a half times its own attack, and is kept in the save (`friend`). A new tame takes its place. The journal names it.
 - **Moments of the bond** (spec 10): every companion shows what it feels when the bond reaches 5, 15 and 30, a small scene of its own, once a game (24 new lines in Italian and English).
 - **Three new titles** (32 in all): Friend of Beasts (ten creatures tamed), Bottomless Pocket (25 things kept by Yuki's pocket) and Well Fed (a hundred things eaten or drunk).

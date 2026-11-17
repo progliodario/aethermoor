@@ -1044,5 +1044,15 @@
   "hint.renown": "Ora qui ti conoscono: ogni missione finita in una regione abbassa i prezzi dei suoi negozi, e apre altro.",
   "hint.renown.touch": "Ora qui ti conoscono: ogni missione finita in una regione abbassa i prezzi dei suoi negozi, e apre altro.",
   "ui.journal_friend": "Amico domato: {name}",
+  "faction.guild.name": "la Gilda",
+  "faction.wayfarers.name": "l'Anello dei Viandanti",
+  "faction.chroniclers.name": "i Cronisti",
+  "faction.folk.name": "la Gente",
+  "ui.status_factions": "Stima: {list}",
+  "ui.option_hints": "Consigli",
+  "ui.option_numbers": "Numeri dei danni",
+  "ui.option_flashes": "Lampi",
+  "ui.option_on": "sì",
+  "ui.option_off": "no",
   "dlg.pip.story.gideon.done": "Tutto il villaggio è d'accordo: sei un buon re. Prendi la lama, non è per niente come la vecchia, ma ti sta bene."
 }

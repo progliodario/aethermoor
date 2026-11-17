@@ -3,6 +3,7 @@
   "id": "base:quest/side/season_harvest_cart",
   "name": "$i18n:quest.season_harvest_cart.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "bring",

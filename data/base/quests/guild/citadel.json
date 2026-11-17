@@ -3,6 +3,7 @@
   "id": "base:quest/guild/citadel",
   "name": "$i18n:quest.citadel.name",
   "kind": "guild",
+  "faction": "guild",
   "stages": [
     {
       "id": "kill",

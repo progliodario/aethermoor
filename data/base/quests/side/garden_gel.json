@@ -3,6 +3,7 @@
   "id": "base:quest/side/garden_gel",
   "name": "$i18n:quest.garden_gel.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "hunt",

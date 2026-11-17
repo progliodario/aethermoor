@@ -3,6 +3,7 @@
   "id": "base:quest/side/fenwick_letter",
   "name": "$i18n:quest.fenwick_letter.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

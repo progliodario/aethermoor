@@ -3,6 +3,7 @@
   "id": "base:quest/side/way_ottavio_1",
   "name": "$i18n:quest.way_ottavio_1.name",
   "kind": "side",
+  "faction": "wayfarers",
   "stages": [
     {
       "id": "task",

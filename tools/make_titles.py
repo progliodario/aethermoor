@@ -34,6 +34,11 @@ TITLES = {
     "beast_friend": ("tamed", 10, None, "Friend of Beasts", "Amica delle bestie"),
     "bottomless": ("pocket_kept", 25, None, "Bottomless Pocket", "Tasca senza fondo"),
     "well_fed": ("used", 100, None, "Well Fed", "Ben pasciuto"),
+    # the standing with the factions (spec 07, "Factions")
+    "guild_champion": ("faction:guild", 15, None, "Champion of the Guild", "Campione della Gilda"),
+    "ring_walker": ("faction:wayfarers", 12, None, "Ring-walker", "Viandante dell'Anello"),
+    "keeper_of_legends": ("faction:chroniclers", 5, None, "Keeper of Legends", "Custode delle Leggende"),
+    "heart_of_the_folk": ("faction:folk", 30, None, "Heart of the Folk", "Cuore della Gente"),
     # renown (spec 07, "Renown"): ten quests finished in a region
     "friend_verdalis": ("renown:verdalis", 10, None, "Friend of Verdalis", "Amico di Verdalis"),
     "friend_whisperwood": ("renown:whisperwood", 10, None, "Friend of Whisperwood", "Amico del Bosco dei Sussurri"),
@@ -49,10 +54,11 @@ TITLES = {
 # What a title adds to the attack of the player's hits, in percent, while it is earned (spec 11, "Titles with effects"); 3 when not listed.
 # What a title of a way of playing adds besides attack (spec 11): one more of every drop gathered, more of every recipe made.
 # `fine_pm`: permille added to the chance that a recipe comes out fine (spec 06, "Quality").
-PERKS = {"forager": {"gather_bonus": 1}, "artisan": {"craft_bonus": 1, "fine_pm": 100}, "unbreakable": {"parry_bonus": 8}, "fine_hand": {"fine_pm": 150},
+PERKS = {"forager": {"gather_bonus": 1}, "artisan": {"craft_bonus": 1, "fine_pm": 100}, "unbreakable": {"parry_bonus": 8}, "fine_hand": {"fine_pm": 150}, "guild_champion": {"xp_pct": 10}, "ring_walker": {"gather_bonus": 1},
+         "heart_of_the_folk": {"craft_bonus": 1},
          "pest_control": {"xp_pct": 10}, "boar_hunter": {"gather_bonus": 1}, "elk_stalker": {"xp_pct": 10},
          "seasoned_forager": {"gather_bonus": 1}, "master_artisan": {"craft_bonus": 1, "fine_pm": 150}, "great_hunter": {"xp_pct": 15}, "veteran": {"xp_pct": 15}, "legend": {"xp_pct": 25}}
-ATTACK_PCT = {"newcomer": 2, "veteran": 5, "great_hunter": 6, "gel_slayer": 5, "hero": 8, "chronicler": 8, "legend": 10}
+ATTACK_PCT = {"keeper_of_legends": 6, "newcomer": 2, "veteran": 5, "great_hunter": 6, "gel_slayer": 5, "hero": 8, "chronicler": 8, "legend": 10}
 
 
 def add_texts(lang: str, entries: dict[str, str]) -> None:

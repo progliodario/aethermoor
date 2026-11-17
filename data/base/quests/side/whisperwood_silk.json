@@ -3,6 +3,7 @@
   "id": "base:quest/side/whisperwood_silk",
   "name": "$i18n:quest.whisperwood_silk.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

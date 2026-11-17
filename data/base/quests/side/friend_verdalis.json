@@ -3,6 +3,7 @@
   "id": "base:quest/side/friend_verdalis",
   "name": "$i18n:quest.friend_verdalis.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "hunt",

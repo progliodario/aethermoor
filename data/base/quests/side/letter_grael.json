@@ -3,6 +3,7 @@
   "id": "base:quest/side/letter_grael",
   "name": "$i18n:quest.letter_grael.name",
   "kind": "side",
+  "faction": "wayfarers",
   "stages": [
     {
       "id": "task",

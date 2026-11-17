@@ -3,6 +3,7 @@
   "id": "base:quest/side/fenwick_golden_carp",
   "name": "$i18n:quest.fenwick_golden_carp.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

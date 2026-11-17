@@ -94,6 +94,10 @@ folder). Without it the language of the system is used (`it` if it is Italian, e
 
 The first minutes are explained by **hints** (`data/base/hints.json`, ID `base:hints/all`, schema `hints`): a list of `{id, when, text, text_touch}`, in order. Presentation only, not in the contract. Once a second, when no panel and no dialogue is open and no hint is shown, a client takes the first hint whose story flag `hint_<id>` is not set and whose `when` holds now, sets the flag (so it is saved and never shown again in that game) and shows its text for eight seconds in a panel (`text` on a keyboard, `text_touch` on a touch screen). `when` is one of: `start` (always), `quest` (a quest is active), `enemy_near` (a creature chases or attacks), `gather` (something to gather is in reach), `hurt` (less than half of the health), `stone` (a Threshold Stone is in reach), `talent_points` (points to spend), `night` (the light is below 400 permille), `companion` (the protagonist has one), `renown` (some renown in the region). The base pack has ten.
 
+### Accessibility
+
+Three options, all on by default, are kept in the settings file as booleans: `hints` (the hints of the first minutes), `damage_numbers` (the numbers that rise from a hit) and `flashes` (the red flash of a creature that is hit). Desktop: three more rows in the settings panel, `A`/`D` or `E` switch them. Android: three buttons at the bottom of the open journal. They change nothing of the game.
+
 ## Orientation (Android)
 
 The app allows portrait and landscape (`fullUser`) and handles configuration changes itself (no activity restart).

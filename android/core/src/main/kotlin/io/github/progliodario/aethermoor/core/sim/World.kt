@@ -323,6 +323,7 @@ class WorldSim(
     fun companionStay(): Boolean {
         if (combat.companion == null) return false
         companionStaying = !companionStaying
+        tamedFriend?.stay = companionStaying // the tamed friend obeys too (spec 10)
         return true
     }
 
@@ -354,7 +355,7 @@ class WorldSim(
     }
 
     /** The tamed friend (spec 10, "The tamed friend"): the creature that stayed, where it is and when it hits again. */
-    class Friend(val def: EnemyDef, var position: Vec2, var cooldown: Int)
+    class Friend(val def: EnemyDef, var position: Vec2, var cooldown: Int, var stay: Boolean = false)
 
     var tamedFriend: Friend? = null
         private set
@@ -368,7 +369,8 @@ class WorldSim(
         val dist = sqrt(dx * dx + dy * dy)
         if (dist > COMPANION_LEASH) {
             f.position = p.position
-        } else if (dist > FRIEND_FOLLOW) {
+            f.stay = false
+        } else if (!f.stay && dist > FRIEND_FOLLOW) {
             val speed = maxOf(f.def.speedX100, FRIEND_SPEED_MIN_X100).toFloat() / 100f
             val step = min(speed * TICK_DT, dist - FRIEND_FOLLOW)
             f.position = collision.resolve(Vec2(f.position.x + dx / dist * step, f.position.y + dy / dist * step), f.def.radiusX100 / 100f)
@@ -438,6 +440,10 @@ class WorldSim(
         if (combat.companion == null) return false
         companionPosition = player.position
         companionStaying = false
+        tamedFriend?.let { // the tamed friend comes back too
+            it.position = player.position
+            it.stay = false
+        }
         return true
     }
 
@@ -518,7 +524,10 @@ class WorldSim(
 
     override fun renownHere(): Long = (counters[renownKey()] ?: 0).toLong()
 
-    override fun questDone() = count(renownKey())
+    override fun questDone(faction: String) {
+        count(renownKey())
+        if (faction.isNotEmpty()) count("faction:$faction") // the standing with the faction of the quest (spec 07, "Factions")
+    }
 
     /** What the renown takes off the prices of the open shop, in permille. */
     fun renownDiscountPm(): Long {
@@ -1623,7 +1632,7 @@ class WorldSim(
             bestiary = bestiary.toMap(),
             companionStay = companionStaying,
             companionBond = companionBond,
-            tamedFriend = tamedFriend?.let { FriendSave(it.def.id, it.position.x, it.position.y, it.cooldown) },
+            tamedFriend = tamedFriend?.let { FriendSave(it.def.id, it.position.x, it.position.y, it.cooldown, it.stay) },
             counters = counters.toMap(),
             talents = talents.toMap(),
             companion = if (combat.companion != null) Triple((companionPosition ?: player.position).x, (companionPosition ?: player.position).y, companionCooldown) else null,
@@ -1747,7 +1756,7 @@ class WorldSim(
         // the tamed friend: its creature from the fauna of the world, or from the creatures of the map
         tamedFriend = s.tamedFriend?.let { saved ->
             val def = combat.streamEnemies[saved.enemy] ?: combat.spawns.firstOrNull { it.def.id == saved.enemy }?.def
-            def?.let { Friend(it, Vec2(saved.x, saved.y), saved.cooldown) }
+            def?.let { Friend(it, Vec2(saved.x, saved.y), saved.cooldown, saved.stay) }
         }
         recomputeDerived()
         player.hp = minOf(s.hp, derived.maxHp)

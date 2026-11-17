@@ -3,6 +3,7 @@
   "id": "base:quest/guild/slime_extermination",
   "name": "$i18n:quest.slime_extermination.name",
   "kind": "guild",
+  "faction": "guild",
   "stages": [
     {
       "id": "kill",

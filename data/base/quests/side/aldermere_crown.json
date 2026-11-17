@@ -3,6 +3,7 @@
   "id": "base:quest/side/aldermere_crown",
   "name": "$i18n:quest.aldermere_crown.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

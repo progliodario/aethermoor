@@ -3,6 +3,7 @@
   "id": "base:quest/guild/galleon",
   "name": "$i18n:quest.galleon.name",
   "kind": "guild",
+  "faction": "guild",
   "stages": [
     {
       "id": "kill",

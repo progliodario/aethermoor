@@ -3,6 +3,7 @@
   "id": "base:quest/side/furnace_cores",
   "name": "$i18n:quest.furnace_cores.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "hunt",

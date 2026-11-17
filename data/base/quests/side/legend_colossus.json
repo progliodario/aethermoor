@@ -3,6 +3,7 @@
   "id": "base:quest/side/legend_colossus",
   "name": "$i18n:quest.legend_colossus.name",
   "kind": "side",
+  "faction": "chroniclers",
   "stages": [
     {
       "id": "task",

@@ -3,6 +3,7 @@
   "id": "base:quest/side/sunscar_scorpions",
   "name": "$i18n:quest.sunscar_scorpions.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

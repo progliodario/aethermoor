@@ -395,6 +395,8 @@ class CombatSim:
         if self.companion is None:
             return False
         self.comp_stay = not self.comp_stay
+        if self.friend is not None:  # the tamed friend obeys too (spec 10, "The tamed friend")
+            self.friend["stay"] = self.comp_stay
         return True
 
     def use_ability(self, kind: str) -> bool:
@@ -450,7 +452,7 @@ class CombatSim:
             self.comp_bond += self.gift.get("tame_bond", 0)
         self._on_kill(best)
         if self.gift.get("friend_atk_pct", 0) > 0:  # it stays as the tamed friend, in place of the one before (spec 10)
-            self.friend = {"d": best.d, "x": best.x, "y": best.y, "cd": FRIEND_COOLDOWN}
+            self.friend = {"d": best.d, "x": best.x, "y": best.y, "cd": FRIEND_COOLDOWN, "stay": False}
         return True
 
     def _update_friend(self) -> None:
@@ -460,8 +462,8 @@ class CombatSim:
         dx, dy = self.x - f["x"], self.y - f["y"]
         dist = math.sqrt(dx * dx + dy * dy)
         if dist > COMPANION_LEASH:
-            f["x"], f["y"] = self.x, self.y
-        elif dist > FRIEND_FOLLOW:
+            f["x"], f["y"], f["stay"] = self.x, self.y, False
+        elif not f["stay"] and dist > FRIEND_FOLLOW:
             step = min(max(f["d"]["speed_x100"], FRIEND_SPEED_MIN_X100) / 100 * mv.TICK_DT, dist - FRIEND_FOLLOW)
             f["x"], f["y"] = mv.resolve(f["x"] + dx / dist * step, f["y"] + dy / dist * step, self.grid, self.props, radius)
         if f["cd"] > 0:
@@ -500,6 +502,8 @@ class CombatSim:
             return False
         self.comp_x, self.comp_y = self.x, self.y
         self.comp_stay = False
+        if self.friend is not None:  # the tamed friend comes back too
+            self.friend["x"], self.friend["y"], self.friend["stay"] = self.x, self.y, False
         return True
 
     def _hit_element(self) -> str:
@@ -627,9 +631,13 @@ class CombatSim:
             self.mp_u = min(self.derived["max_mp"] * 6000, self.mp_u + self.derived["max_mp"] * 60 * mana)
 
     def quest_done(self, quest_id: str) -> None:
-        """A quest was finished (spec 07, "Renown"): the renown of the region where the player stands grows by one."""
+        """A quest was finished (spec 07, "Renown", "Factions"): the renown of the region where the player stands grows by one, and so does the
+        standing with the faction of the quest, when it has one."""
         key = "renown:" + self.region
         self.counters[key] = self.counters.get(key, 0) + 1
+        faction = self.story.quest_defs.get(quest_id, {}).get("faction", "") if self.story is not None else ""
+        if faction:
+            self.counters["faction:" + faction] = self.counters.get("faction:" + faction, 0) + 1
 
     def renown_here(self) -> int:
         """The renown in the region where the player stands (spec 07, "Renown"): the quests finished there."""
@@ -1050,7 +1058,8 @@ class CombatSim:
                 "max_mp": self.derived["max_mp"], "matk": self.derived["matk"], "crit_chance_pm": self.derived["crit_chance_pm"],
                 "move_speed_x100": self.derived["move_speed_x100"]} if self.talent_defs else {}),
             **({"companion": {"x": self.comp_x, "y": self.comp_y, "stay": self.comp_stay, "bond": self.comp_bond}} if self.companion is not None else {}),
-            **({"friend": {"enemy": self.friend["d"].get("id", ""), "x": self.friend["x"], "y": self.friend["y"]}} if self.friend is not None else {}),
+            **({"friend": {"enemy": self.friend["d"].get("id", ""), "x": self.friend["x"], "y": self.friend["y"], "stay": self.friend["stay"]}}
+               if self.friend is not None else {}),
             **({"bestiary": dict(sorted(self.bestiary.items())), "titles": self.earned_titles(),
                 "counters": dict(sorted(self.counters.items()))} if self.titles else {}),
             **({"story": self.story.snapshot()} if self.story is not None else {}),

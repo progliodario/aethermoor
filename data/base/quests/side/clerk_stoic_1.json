@@ -3,6 +3,7 @@
   "id": "base:quest/side/clerk_stoic_1",
   "name": "$i18n:quest.clerk_stoic_1.name",
   "kind": "side",
+  "faction": "guild",
   "stages": [
     {
       "id": "hunt",

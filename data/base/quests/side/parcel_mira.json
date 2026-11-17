@@ -3,6 +3,7 @@
   "id": "base:quest/side/parcel_mira",
   "name": "$i18n:quest.parcel_mira.name",
   "kind": "side",
+  "faction": "wayfarers",
   "stages": [
     {
       "id": "task",

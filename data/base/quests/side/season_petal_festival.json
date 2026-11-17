@@ -3,6 +3,7 @@
   "id": "base:quest/side/season_petal_festival",
   "name": "$i18n:quest.season_petal_festival.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "bring",

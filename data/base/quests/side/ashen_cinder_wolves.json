@@ -3,6 +3,7 @@
   "id": "base:quest/side/ashen_cinder_wolves",
   "name": "$i18n:quest.ashen_cinder_wolves.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

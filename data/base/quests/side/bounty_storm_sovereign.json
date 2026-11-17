@@ -3,6 +3,7 @@
   "id": "base:quest/side/bounty_storm_sovereign",
   "name": "$i18n:quest.bounty_storm_sovereign.name",
   "kind": "side",
+  "faction": "guild",
   "stages": [
     {
       "id": "task",

@@ -3,6 +3,7 @@
   "id": "base:quest/side/letter_wren",
   "name": "$i18n:quest.letter_wren.name",
   "kind": "side",
+  "faction": "wayfarers",
   "stages": [
     {
       "id": "task",

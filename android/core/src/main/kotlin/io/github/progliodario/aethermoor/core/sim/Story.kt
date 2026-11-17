@@ -93,6 +93,8 @@ data class QuestDef(
     val stages: List<QuestStage>,
     val rewards: List<Effect>,
     val args: Map<String, String> = emptyMap(),
+    /** The faction it counts for (spec 07, "Factions"); empty: none. */
+    val faction: String = "",
 )
 
 /** The quest of a board offer (spec 07, "Guild"). */
@@ -110,6 +112,7 @@ fun questFromOffer(offer: Offer): QuestDef {
         ),
         rewards = listOf(Effect.AddXp(offer.xp), Effect.AddGold(offer.gold), Effect.AddGuildPoints(offer.points)),
         args = mapOf("count" to offer.count.toString(), "target" to "\$i18n:$targetKey.name", "place" to offer.place),
+        faction = "guild", // the board counts for the guild (spec 07, "Factions")
     )
 }
 
@@ -196,7 +199,7 @@ interface StoryHost {
     fun todPm(): Int
 
     /** Renown (spec 07, "Renown"): a quest was finished, and the quests finished in the region where the player stands. */
-    fun questDone() {}
+    fun questDone(faction: String) {}
 
     fun renownHere(): Long = 0L
 }
@@ -270,7 +273,7 @@ private fun parseQuestObject(j: JsonObject): QuestDef {
     }
     require(stages.isNotEmpty()) { "a quest needs at least one stage" }
     val args = (j["args"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.content } ?: emptyMap()
-    return QuestDef(optStr(j, "id"), optStr(j, "name"), stages, parseEffects(j, "rewards"), args)
+    return QuestDef(optStr(j, "id"), optStr(j, "name"), stages, parseEffects(j, "rewards"), args, optStr(j, "faction"))
 }
 
 private fun parseDialogueObject(j: JsonObject): DialogueDef {
@@ -419,7 +422,7 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
             }
             if (stage.next == "end") {
                 q.done = true
-                host.questDone() // the renown of the region grows (spec 07, "Renown")
+                host.questDone(questDef(questId)!!.faction) // renown and faction (spec 07)
                 for (reward in ArrayList(questDef(questId)!!.rewards)) apply(reward)
                 return
             }

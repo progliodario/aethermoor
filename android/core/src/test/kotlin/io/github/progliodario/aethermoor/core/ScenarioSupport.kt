@@ -307,6 +307,7 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
         assertEquals(wf.getValue("enemy").jsonPrimitive.content, f.def.id, "$at friend enemy")
         assertNear(wf.getValue("x").num(), f.position.x, tol, "$at friend x")
         assertNear(wf.getValue("y").num(), f.position.y, tol, "$at friend y")
+        assertEquals(wf.getValue("stay").jsonPrimitive.boolean, f.stay, "$at friend stay")
     } else {
         assertTrue(sim.tamedFriend == null, "$at no friend expected")
     }

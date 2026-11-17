@@ -3,6 +3,7 @@
   "id": "base:quest/guild/vault",
   "name": "$i18n:quest.vault.name",
   "kind": "guild",
+  "faction": "guild",
   "stages": [
     {
       "id": "kill",

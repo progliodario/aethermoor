@@ -3,6 +3,7 @@
   "id": "base:quest/side/clerk_flowery_3",
   "name": "$i18n:quest.clerk_flowery_3.name",
   "kind": "side",
+  "faction": "guild",
   "stages": [
     {
       "id": "hunt",

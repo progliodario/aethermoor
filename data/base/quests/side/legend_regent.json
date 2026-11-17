@@ -3,6 +3,7 @@
   "id": "base:quest/side/legend_regent",
   "name": "$i18n:quest.legend_regent.name",
   "kind": "side",
+  "faction": "chroniclers",
   "stages": [
     {
       "id": "task",

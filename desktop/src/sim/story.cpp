@@ -129,6 +129,7 @@ QuestDef parse_quest_json(const Json& j) {
     QuestDef quest;
     quest.id = j.value("id", "");
     quest.name = j.value("name", "");
+    quest.faction = j.value("faction", "");
     for (const Json& s : j.at("stages")) {
         QuestStage stage;
         stage.id = s.at("id").get<std::string>();
@@ -226,6 +227,7 @@ QuestDef quest_from_offer(const Offer& offer) {
     quest.name = "$i18n:quest.board." + offer.template_id + "." + offer.tone + ".name";
     std::string target_key = offer.target.substr(offer.target.find(':') + 1);
     std::replace(target_key.begin(), target_key.end(), '/', '.');
+    quest.faction = "guild";  // the board counts for the guild (spec 07, "Factions")
     quest.args = {
         {"count", std::to_string(offer.count)}, {"target", "$i18n:" + target_key + ".name"}, {"place", offer.place}};
     QuestStage stage;
@@ -458,7 +460,7 @@ void Story::refresh(const std::string& quest_id) {
         }
         if (stage.next == "end") {
             q.done = true;
-            m_host_.quest_done();  // the renown of the region grows (spec 07, "Renown")
+            m_host_.quest_done(m_setup_.quests.at(quest_id).faction);  // renown and faction (spec 07)
             // Copy: applying a reward can change the quest table through other effects.
             const std::vector<Effect> rewards = m_setup_.quests.at(quest_id).rewards;
             for (const Effect& reward : rewards) {

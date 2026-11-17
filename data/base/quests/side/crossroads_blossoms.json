@@ -3,6 +3,7 @@
   "id": "base:quest/side/crossroads_blossoms",
   "name": "$i18n:quest.crossroads_blossoms.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

@@ -601,6 +601,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             null
         }
 
+    /** The options of accessibility (spec 16, "Settings"): hints, damage numbers, the flash of a creature that is hit. */
+    private val optionKeys = arrayOf("hints", "damage_numbers", "flashes")
+    private val options = booleanArrayOf(true, true, true)
+    private var optionRects: List<FloatArray> = emptyList()
+
     private val volumeKeys = arrayOf("volume_master_pm", "volume_effects_pm", "volume_ambience_pm", "volume_music_pm")
 
     /** Reads the volumes of the settings file (the defaults stay for what is missing) and gives them to the sound board. */
@@ -608,6 +613,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         try {
             val file = settingsFile()
             val text = if (file.exists()) file.readString("UTF-8") else ""
+            for ((i, key) in optionKeys.withIndex()) {
+                Regex("\"$key\"\\s*:\\s*(true|false)").find(text)?.groupValues?.get(1)?.let { options[i] = it == "true" }
+            }
             for ((i, key) in volumeKeys.withIndex()) {
                 Regex("\"$key\"\\s*:\\s*(\\d+)").find(text)?.groupValues?.get(1)?.toIntOrNull()?.let { volumes[i] = it.coerceIn(0, 1000) }
             }
@@ -621,7 +629,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private fun writeSettings() {
         try {
             val volumeText = volumeKeys.indices.joinToString(",\n") { "  \"${volumeKeys[it]}\": ${volumes[it]}" }
-            settingsFile().writeString("{\n  \"language\": \"$language\",\n$volumeText\n}\n", false, "UTF-8")
+            val optionText = optionKeys.indices.joinToString("") { "  \"${optionKeys[it]}\": ${options[it]},\n" }
+            settingsFile().writeString("{\n  \"language\": \"$language\",\n$optionText$volumeText\n}\n", false, "UTF-8")
         } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
             Gdx.app.error(TAG, "Cannot write the settings: ${e.message}")
         }
@@ -725,7 +734,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
         if (messageFrames > 0) messageFrames--
         val free = !(showInventory || showMap || showJournal || showCraft || world.shop != null || world.board != null || world.travel != null || world.story.dialogueActive)
-        updateHints(world, data, free)
+        if (options[0]) updateHints(world, data, free) // unless the hints are turned off (spec 16, "Settings")
         world.combat.companion?.let { c -> // moments of the bond, once a game (spec 10)
             val moment = c.moments.firstOrNull { (bond, _) -> world.companionBond >= bond && world.story.flags["moment_${c.id}_$bond"] != true }
             if (moment != null) {
@@ -750,7 +759,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
 
         for (e in world.takeEvents()) {
-            floating.add(FloatingText(e.position.x, e.position.y, e.amount.toString() + if (e.weak) "!" else "", e.onPlayer, e.crit))
+            if (options[1]) floating.add(FloatingText(e.position.x, e.position.y, e.amount.toString() + if (e.weak) "!" else "", e.onPlayer, e.crit))
         }
         playChangeSounds(world)
         floating.forEach { it.age++ }
@@ -1132,7 +1141,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val phase = ((System.currentTimeMillis() / 16 + (enemy.home.x * 37f).toLong()) % 60).toFloat()
         val wave = if (phase < 30f) phase / 30f else (60f - phase) / 30f
         val squash = 0.95f + 0.1f * wave
-        if (enemy.hitFlash > 0) batch.setColor(1f, 0.47f, 0.47f, 1f)
+        if (enemy.hitFlash > 0 && options[2]) batch.setColor(1f, 0.47f, 0.47f, 1f) // unless the flashes are turned off
         val wide = k * (2f - squash)
         if (sprite.facesLeft && playerX > enemy.position.x) { // it turns to face the player (spec 13, "Facing")
             batch.draw(sprite.region, fx + sprite.originX * wide, fy - sprite.originY * k * squash, -sprite.width * wide, sprite.height * k * squash)
@@ -1806,7 +1815,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 val x = input.x.toFloat()
                 val y = input.y.toFloat()
                 val panel = journalPanel
-                if (panel == null || x < panel[0] || x > panel[0] + panel[2] || y < panel[1] || y > panel[1] + panel[3]) {
+                val option = optionRects.indexOfFirst { r -> x >= r[0] && x <= r[0] + r[2] && y >= r[1] && y <= r[1] + r[3] }
+                if (option >= 0) { // an option of accessibility, at the bottom of the journal (spec 16, "Settings")
+                    options[option] = !options[option]
+                    writeSettings()
+                } else if (panel == null || x < panel[0] || x > panel[0] + panel[2] || y < panel[1] || y > panel[1] + panel[3]) {
                     showJournal = false
                     showCraft = false
                 } else if (y < panel[1] + panel[3] / 2f) {
@@ -2296,6 +2309,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_power", mapOf("atk" to d.atk, "matk" to d.matk, "def" to d.def, "mdef" to d.mdef)), 2))
         entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_more", mapOf("crit" to d.critChancePm / 10, "speed" to d.moveSpeedX100, "titles" to world.titleAttackPct())), 2))
         entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_purse", mapOf("gold" to story.gold, "kills" to p.kills)), 2))
+        val standing = world.counters.filterKeys { it.startsWith("faction:") } // the standing with the factions (spec 07, "Factions")
+            .map { (name, count) -> data.pack.text(language, "\$i18n:faction.${name.removePrefix("faction:")}.name") + " " + count }.joinToString("   ")
+        if (standing.isNotEmpty()) entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_factions", mapOf("list" to standing)), 2))
         if (world.renownHere() > 0) entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_renown", mapOf("count" to world.renownHere())), 2)) // spec 07, "Renown"
         // what the player wears (spec 06, "Equipment"): weapon, armor and accessory
         val worn = listOf(world.equippedWeapon, world.equippedArmor, world.equippedAccessory).filter { it.isNotEmpty() }.joinToString(", ") { itemName(data, it, 1L) }
@@ -2428,7 +2444,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             val entries = journalEntries(world, data)
             journalScroll = journalScroll.coerceIn(0, max(entries.size - 1, 0))
             var ty = panelY + 12f * density + font.lineHeight * 1.8f
-            val limit = panelY + panelH - font.lineHeight * 2.2f
+            val limit = panelY + panelH - font.lineHeight * 2.2f - 44f * density // the options take the bottom row
             for (i in journalScroll until entries.size) {
                 val (text, kind) = entries[i]
                 font.color = when (kind) {
@@ -2445,6 +2461,27 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             font.color = Color(0.67f, 0.78f, 0.9f, 1f)
             font.draw(batch, data.pack.text(language, "\$i18n:ui.journal_hint"), panelX + 16f * density, panelY + panelH - font.lineHeight * 1.5f)
             font.color = Color.WHITE
+        }
+        batch.end()
+        // The options of accessibility, a row of buttons at the bottom of the open journal: hints, damage numbers, flashes.
+        if (!showJournal) {
+            optionRects = emptyList()
+            return
+        }
+        val optionW = (panelW - 32f * density - 16f * density) / 3f
+        val optionY = panelY + panelH - font.lineHeight * 2.2f - 40f * density
+        optionRects = List(3) { i -> floatArrayOf(panelX + 16f * density + i * (optionW + 8f * density), optionY, optionW, 34f * density) }
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        for ((i, r) in optionRects.withIndex()) {
+            shapes.color = if (options[i]) Color(0.16f, 0.35f, 0.55f, 1f) else Color(0.2f, 0.2f, 0.24f, 1f)
+            shapes.rect(r[0], r[1], r[2], r[3])
+        }
+        shapes.end()
+        batch.begin()
+        val labels = arrayOf("\$i18n:ui.option_hints", "\$i18n:ui.option_numbers", "\$i18n:ui.option_flashes")
+        for ((i, r) in optionRects.withIndex()) {
+            val label = data.pack.text(language, labels[i]) + ": " + data.pack.text(language, if (options[i]) "\$i18n:ui.option_on" else "\$i18n:ui.option_off")
+            font.draw(batch, label, r[0] + 6f * density, r[1] + (r[3] - font.lineHeight) / 2f, r[2] - 12f * density, com.badlogic.gdx.utils.Align.left, false)
         }
         batch.end()
     }

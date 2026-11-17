@@ -3,6 +3,7 @@
   "id": "base:quest/side/den_alpha",
   "name": "$i18n:quest.den_alpha.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "hunt",

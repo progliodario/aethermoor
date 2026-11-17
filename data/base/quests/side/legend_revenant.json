@@ -3,6 +3,7 @@
   "id": "base:quest/side/legend_revenant",
   "name": "$i18n:quest.legend_revenant.name",
   "kind": "side",
+  "faction": "chroniclers",
   "stages": [
     {
       "id": "task",

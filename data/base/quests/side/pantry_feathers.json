@@ -3,6 +3,7 @@
   "id": "base:quest/side/pantry_feathers",
   "name": "$i18n:quest.pantry_feathers.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "bring",

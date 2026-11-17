@@ -3,6 +3,7 @@
   "id": "base:quest/guild/forge",
   "name": "$i18n:quest.forge.name",
   "kind": "guild",
+  "faction": "guild",
   "stages": [
     {
       "id": "kill",

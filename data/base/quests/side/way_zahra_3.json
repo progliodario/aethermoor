@@ -3,6 +3,7 @@
   "id": "base:quest/side/way_zahra_3",
   "name": "$i18n:quest.way_zahra_3.name",
   "kind": "side",
+  "faction": "wayfarers",
   "stages": [
     {
       "id": "hunt",

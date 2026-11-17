@@ -103,7 +103,7 @@ class SaveMeta(
 class SavePeek(val seed: ULong, val map: String, val level: Int = 1, val gold: Long = 0, val weapon: String = "")
 
 /** What a save keeps of the tamed friend (spec 10, "The tamed friend"). */
-class FriendSave(val enemy: String, val x: Float, val y: Float, val cooldown: Int)
+class FriendSave(val enemy: String, val x: Float, val y: Float, val cooldown: Int, val stay: Boolean = false)
 
 fun savePeek(text: String): Result<SavePeek> =
     runCatching {
@@ -198,7 +198,7 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
         if (s.talents.isNotEmpty()) put("talents", buildJsonObject { for ((id, rank) in s.talents) put(id, rank) })
         if (s.counters.isNotEmpty()) put("counters", buildJsonObject { for ((name, count) in s.counters) put(name, count) })
         if (s.bestiary.isNotEmpty()) put("bestiary", buildJsonObject { for ((id, count) in s.bestiary) put(id, count) })
-        s.tamedFriend?.let { f -> put("friend", buildJsonObject { put("enemy", f.enemy); put("x", f.x); put("y", f.y); put("cooldown", f.cooldown) }) }
+        s.tamedFriend?.let { f -> put("friend", buildJsonObject { put("enemy", f.enemy); put("x", f.x); put("y", f.y); put("cooldown", f.cooldown); if (f.stay) put("stay", true) }) }
         s.companion?.let { c -> put("companion", buildJsonObject { put("x", c.first); put("y", c.second); put("cooldown", c.third); if (s.companionStay) put("stay", true); if (s.companionBond > 0) put("bond", s.companionBond) }) }
         if (meta.map == "world") {
             put("explored", JsonArray(s.explored.map { JsonArray(listOf(JsonPrimitive(it.first), JsonPrimitive(it.second))) }))
@@ -324,7 +324,7 @@ fun saveFromJson(text: String): Result<SaveState> =
             companionStay = ((j["companion"] as? JsonObject)?.get("stay") as? JsonPrimitive)?.content == "true",
             companionBond = ((j["companion"] as? JsonObject)?.get("bond") as? JsonPrimitive)?.content?.toIntOrNull() ?: 0,
             tamedFriend = (j["friend"] as? JsonObject)?.let { f ->
-                FriendSave(f.getValue("enemy").jsonPrimitive.content, f.getValue("x").jsonPrimitive.float, f.getValue("y").jsonPrimitive.float, f.getValue("cooldown").jsonPrimitive.int)
+                FriendSave(f.getValue("enemy").jsonPrimitive.content, f.getValue("x").jsonPrimitive.float, f.getValue("y").jsonPrimitive.float, f.getValue("cooldown").jsonPrimitive.int, (f["stay"] as? JsonPrimitive)?.content == "true")
             },
             bestiary = (j["bestiary"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
             stones = (j["stones"] as? JsonArray)?.map { c -> Pair(c.jsonArray[0].jsonPrimitive.int, c.jsonArray[1].jsonPrimitive.int) }

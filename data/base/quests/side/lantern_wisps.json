@@ -3,6 +3,7 @@
   "id": "base:quest/side/lantern_wisps",
   "name": "$i18n:quest.lantern_wisps.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "hunt",

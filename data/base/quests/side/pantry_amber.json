@@ -3,6 +3,7 @@
   "id": "base:quest/side/pantry_amber",
   "name": "$i18n:quest.pantry_amber.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "bring",

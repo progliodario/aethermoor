@@ -213,3 +213,16 @@ def test_secret_dishes_hints_and_the_pocket():
             assert all(key[6:] in texts[lang] for lang in texts), key
     yuki = json.loads((DATA / "protagonists" / "yuki.json").read_text(encoding="utf-8"))
     assert 0 < yuki["gift_rules"]["pocket_keep_pm"] < 1000
+
+
+def test_every_quest_but_the_stories_counts_for_a_faction():
+    """Spec 07 "Factions": the quests of the stories count for none, all the others for one of the four factions, which have names."""
+    texts = json.loads((DATA / "i18n" / "it" / "core.json").read_text(encoding="utf-8"))
+    for quest_id, quest in load_all("quests").items():
+        name = quest_id.rsplit("/", 1)[1]
+        faction = quest.get("faction", "")
+        if name.startswith(("act", "personal_", "epilogue", "prologue")):
+            assert not faction, quest_id
+        else:
+            assert faction in ("guild", "wayfarers", "chroniclers", "folk"), quest_id
+            assert f"faction.{faction}.name" in texts

@@ -3,6 +3,7 @@
   "id": "base:quest/side/aldermere_hides",
   "name": "$i18n:quest.aldermere_hides.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

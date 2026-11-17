@@ -3,6 +3,7 @@
   "id": "base:quest/side/fenwick_wolves",
   "name": "$i18n:quest.fenwick_wolves.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

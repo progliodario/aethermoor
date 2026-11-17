@@ -3,6 +3,7 @@
   "id": "base:quest/side/aldermere_curator",
   "name": "$i18n:quest.aldermere_curator.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

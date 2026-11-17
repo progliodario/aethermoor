@@ -3,6 +3,7 @@
   "id": "base:quest/side/meadow_gel",
   "name": "$i18n:quest.meadow_gel.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "hunt",

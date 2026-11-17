@@ -3,6 +3,7 @@
   "id": "base:quest/side/letter_henrik",
   "name": "$i18n:quest.letter_henrik.name",
   "kind": "side",
+  "faction": "wayfarers",
   "stages": [
     {
       "id": "task",

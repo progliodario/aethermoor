@@ -3,6 +3,7 @@
   "id": "base:quest/side/friend_ashen_wastes",
   "name": "$i18n:quest.friend_ashen_wastes.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "hunt",

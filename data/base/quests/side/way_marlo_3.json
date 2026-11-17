@@ -3,6 +3,7 @@
   "id": "base:quest/side/way_marlo_3",
   "name": "$i18n:quest.way_marlo_3.name",
   "kind": "side",
+  "faction": "wayfarers",
   "stages": [
     {
       "id": "hunt",

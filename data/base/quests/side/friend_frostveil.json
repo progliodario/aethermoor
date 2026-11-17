@@ -3,6 +3,7 @@
   "id": "base:quest/side/friend_frostveil",
   "name": "$i18n:quest.friend_frostveil.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "hunt",

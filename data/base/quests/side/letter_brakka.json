@@ -3,6 +3,7 @@
   "id": "base:quest/side/letter_brakka",
   "name": "$i18n:quest.letter_brakka.name",
   "kind": "side",
+  "faction": "wayfarers",
   "stages": [
     {
       "id": "task",

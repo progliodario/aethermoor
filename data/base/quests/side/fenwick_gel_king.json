@@ -3,6 +3,7 @@
   "id": "base:quest/side/fenwick_gel_king",
   "name": "$i18n:quest.fenwick_gel_king.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

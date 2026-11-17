@@ -3,6 +3,7 @@
   "id": "base:quest/side/bounty_amber_queen",
   "name": "$i18n:quest.bounty_amber_queen.name",
   "kind": "side",
+  "faction": "guild",
   "stages": [
     {
       "id": "task",

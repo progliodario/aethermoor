@@ -3,6 +3,7 @@
   "id": "base:quest/guild/cavern",
   "name": "$i18n:quest.cavern.name",
   "kind": "guild",
+  "faction": "guild",
   "stages": [
     {
       "id": "kill",

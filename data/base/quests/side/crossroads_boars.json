@@ -3,6 +3,7 @@
   "id": "base:quest/side/crossroads_boars",
   "name": "$i18n:quest.crossroads_boars.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

@@ -3,6 +3,7 @@
   "id": "base:quest/side/season_short_summer",
   "name": "$i18n:quest.season_short_summer.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "bring",

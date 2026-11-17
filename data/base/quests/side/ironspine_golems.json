@@ -3,6 +3,7 @@
   "id": "base:quest/side/ironspine_golems",
   "name": "$i18n:quest.ironspine_golems.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

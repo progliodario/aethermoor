@@ -3,6 +3,7 @@
   "id": "base:quest/side/ironspine_baron",
   "name": "$i18n:quest.ironspine_baron.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

@@ -3,6 +3,7 @@
   "id": "base:quest/side/lumeria_glow",
   "name": "$i18n:quest.lumeria_glow.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

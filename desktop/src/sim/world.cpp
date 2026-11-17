@@ -488,7 +488,12 @@ std::int64_t WorldSim::renown_here() const {
     return found == m_counters_.end() ? 0 : found->second;
 }
 
-void WorldSim::quest_done() { ++m_counters_[renown_key()]; }
+void WorldSim::quest_done(const std::string& faction) {
+    ++m_counters_[renown_key()];
+    if (!faction.empty()) {  // the standing with the faction of the quest (spec 07, "Factions")
+        ++m_counters_["faction:" + faction];
+    }
+}
 
 std::int64_t WorldSim::renown_discount_pm() const {
     if (!m_shop_) {
@@ -909,6 +914,9 @@ bool WorldSim::companion_stay() {
         return false;
     }
     m_companion_stay_ = !m_companion_stay_;
+    if (m_friend_) {  // the tamed friend obeys too (spec 10)
+        m_friend_->stay = m_companion_stay_;
+    }
     return true;
 }
 
@@ -945,7 +953,7 @@ bool WorldSim::tame() {
     m_cues_.push_back({"die", best->def.sound, best->position});
     on_kill(*best);
     if (gift.friend_atk_pct > 0) {  // it stays as the tamed friend, in place of the one before (spec 10)
-        m_friend_ = Friend{best->def, best->position, kFriendCooldown};
+        m_friend_ = Friend{best->def, best->position, kFriendCooldown, false};
     }
     return true;
 }
@@ -959,7 +967,8 @@ void WorldSim::update_friend() {
     const float dist = std::sqrt(dx * dx + dy * dy);
     if (dist > kCompanionLeash) {
         f.position = p.position;
-    } else if (dist > kFriendFollow) {
+        f.stay = false;
+    } else if (!f.stay && dist > kFriendFollow) {
         const float speed = static_cast<float>(std::max(f.def.speed_x100, kFriendSpeedMinX100)) / 100.0F;
         const float step = std::min(speed * kTickDt, dist - kFriendFollow);
         f.position.x += dx / dist * step;
@@ -1031,6 +1040,10 @@ bool WorldSim::companion_recall() {
     }
     m_companion_pos_ = m_player_.position;
     m_companion_stay_ = false;
+    if (m_friend_) {  // the tamed friend comes back too
+        m_friend_->position = m_player_.position;
+        m_friend_->stay = false;
+    }
     return true;
 }
 
@@ -1926,6 +1939,7 @@ SaveState WorldSim::capture() const {
         s.friend_x = m_friend_->position.x;
         s.friend_y = m_friend_->position.y;
         s.friend_cooldown = m_friend_->cooldown;
+        s.friend_stay = m_friend_->stay;
     }
     s.explored.assign(m_explored_.begin(), m_explored_.end());
     std::sort(s.explored.begin(), s.explored.end(), [](const auto& a, const auto& b) {  // rows first (spec 12)
@@ -2077,7 +2091,7 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
             }
         }
         if (def) {
-            m_friend_ = Friend{*def, Vec2{s.friend_x, s.friend_y}, s.friend_cooldown};
+            m_friend_ = Friend{*def, Vec2{s.friend_x, s.friend_y}, s.friend_cooldown, s.friend_stay};
         }
     }
     recompute_derived();

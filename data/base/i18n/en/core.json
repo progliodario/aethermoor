@@ -1044,5 +1044,15 @@
   "hint.renown": "People here know you now: every quest finished in a region lowers the prices of its shops, and opens more.",
   "hint.renown.touch": "People here know you now: every quest finished in a region lowers the prices of its shops, and opens more.",
   "ui.journal_friend": "Tamed friend: {name}",
+  "faction.guild.name": "the Guild",
+  "faction.wayfarers.name": "the Ring of Wayfarers",
+  "faction.chroniclers.name": "the Chroniclers",
+  "faction.folk.name": "the Folk",
+  "ui.status_factions": "Standing: {list}",
+  "ui.option_hints": "Hints",
+  "ui.option_numbers": "Damage numbers",
+  "ui.option_flashes": "Flashes",
+  "ui.option_on": "on",
+  "ui.option_off": "off",
   "dlg.pip.story.gideon.done": "The whole village agrees: you are a good king. Take the blade, it is nothing like the old one, but it suits you."
 }

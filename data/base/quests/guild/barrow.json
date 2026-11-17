@@ -3,6 +3,7 @@
   "id": "base:quest/guild/barrow",
   "name": "$i18n:quest.barrow.name",
   "kind": "guild",
+  "faction": "guild",
   "stages": [
     {
       "id": "kill",

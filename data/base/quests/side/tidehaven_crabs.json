@@ -3,6 +3,7 @@
   "id": "base:quest/side/tidehaven_crabs",
   "name": "$i18n:quest.tidehaven_crabs.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

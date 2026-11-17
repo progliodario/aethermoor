@@ -3,6 +3,7 @@
   "id": "base:quest/side/vent_heart",
   "name": "$i18n:quest.vent_heart.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "hunt",

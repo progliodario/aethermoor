@@ -3,6 +3,7 @@
   "id": "base:quest/guild/observatory",
   "name": "$i18n:quest.observatory.name",
   "kind": "guild",
+  "faction": "guild",
   "stages": [
     {
       "id": "kill",

@@ -3,6 +3,7 @@
   "id": "base:quest/side/clerk_grim_1",
   "name": "$i18n:quest.clerk_grim_1.name",
   "kind": "side",
+  "faction": "guild",
   "stages": [
     {
       "id": "hunt",

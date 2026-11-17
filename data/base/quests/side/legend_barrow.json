@@ -3,6 +3,7 @@
   "id": "base:quest/side/legend_barrow",
   "name": "$i18n:quest.legend_barrow.name",
   "kind": "side",
+  "faction": "chroniclers",
   "stages": [
     {
       "id": "task",

@@ -3,6 +3,7 @@
   "id": "base:quest/side/aldermere_golem_cores",
   "name": "$i18n:quest.aldermere_golem_cores.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

@@ -3,6 +3,7 @@
   "id": "base:quest/side/ironspine_rust",
   "name": "$i18n:quest.ironspine_rust.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

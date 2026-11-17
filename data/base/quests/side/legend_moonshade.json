@@ -3,6 +3,7 @@
   "id": "base:quest/side/legend_moonshade",
   "name": "$i18n:quest.legend_moonshade.name",
   "kind": "side",
+  "faction": "chroniclers",
   "stages": [
     {
       "id": "task",
