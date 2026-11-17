@@ -214,7 +214,7 @@ def write_items() -> tuple[dict, dict]:
     for name, (atk, matk, price, name_en, name_it, desc_en, desc_it) in NEW_ITEMS.items():
         doc = {"$schema": "../../../schemas/item.schema.json", "id": f"base:item/{name}", "name": f"$i18n:item.{name}.name", "description": f"$i18n:item.{name}.desc",
                "kind": "weapon", "rarity": "epic", "price": price, "weapon": {"atk": atk, "matk": matk}}
-        (DATA / "items" / f"{name}.json").write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        (DATA / "items" / f"{name}.json").write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
         en[f"item.{name}.name"], en[f"item.{name}.desc"] = name_en, desc_en
         it[f"item.{name}.name"], it[f"item.{name}.desc"] = name_it, desc_it
     return en, it
@@ -281,7 +281,7 @@ def main() -> None:
             # the objectives go before `next` in the files of the pack: keep that order
             stage = quest["stages"][0]
             quest["stages"][0] = {"id": stage["id"], "journal": stage["journal"], "objectives": stage["objectives"], "next": stage["next"]}
-            (DATA / "quests" / "side" / f"{short_id(name, n)}.json").write_text(json.dumps(quest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+            (DATA / "quests" / "side" / f"{short_id(name, n)}.json").write_text(json.dumps(quest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
             for i, lang in enumerate(("en", "it")):
                 core[lang][f"dlg.maren.{name}.q{n + 1}.offer"] = offer[i]
                 core[lang][f"dlg.maren.{name}.q{n + 1}.busy"] = busy[i]
@@ -292,7 +292,7 @@ def main() -> None:
     choices.append({"text": "$i18n:dlg.maren.bye", "next": "end"})
     nodes["menu"] = {"type": "choice", "choices": choices}
     doc = {"$schema": "../../../../schemas/dialogue.schema.json", "id": MAREN["dialogue"], "start": "start", "nodes": nodes}
-    (DATA / "dialogues" / "npc" / "maren.json").write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    (DATA / "dialogues" / "npc" / "maren.json").write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
     for lang in ("en", "it"):
         set_texts("core.json", lang, core[lang])
         set_texts("content.json", lang, content[lang])

@@ -72,9 +72,13 @@ def patch(faction: str, role: str, at: int, item: str, tone: str) -> None:
     doc = json.loads(raw)
     nodes = doc["nodes"]
     flag = f"faction_gift_{faction}"
-    choices = [c for c in nodes["menu"]["choices"] if c.get("next") != "faction_gift"]
-    nodes["menu"]["choices"] = [{"text": f"$i18n:dlg.role.faction_gift.{faction}", "next": "faction_gift",
-                                 "when": {"all": [{"faction_at_least": {"faction": faction, "count": at}}, {"not": {"flag": flag}}]}}, *choices]
+    old = nodes["menu"]["choices"]
+    # the choice of this tool keeps its place in the menu (first, the first time), so that running it again changes nothing
+    where = next((i for i, c in enumerate(old) if c.get("next") == "faction_gift"), 0)
+    choices = [c for c in old if c.get("next") != "faction_gift"]
+    gift = {"text": f"$i18n:dlg.role.faction_gift.{faction}", "next": "faction_gift",
+            "when": {"all": [{"faction_at_least": {"faction": faction, "count": at}}, {"not": {"flag": flag}}]}}
+    nodes["menu"]["choices"] = [*choices[:where], gift, *choices[where:]]
     nodes["faction_gift"] = {"type": "effects", "next": "faction_gift_said",
                              "effects": [{"effect": "set_flag", "flag": flag, "value": True}, {"effect": "add_item", "item": f"base:item/{item}", "qty": 1}]}
     nodes["faction_gift_said"] = {"type": "say", "speaker": "npc", "text": f"$i18n:dlg.faction_gift.{faction}.{tone}", "next": "end"}

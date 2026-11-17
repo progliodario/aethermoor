@@ -6,10 +6,14 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Documentation
 
+- **The repository is ready for anyone, people or AI, to read, use and change**: the READMEs are rewritten and current; `AGENTS.md` points every AI assistant to `CLAUDE.md`, which now maps each kind of change to its files in the spec, the reference and both clients, lists the generated files never to edit by hand and notes the quirks of the Windows machine; `docs/index.md` answers "where do I find...". The numbers of the game (quests, creatures, items, texts, conformance cases...) are counted from the data by the new `tools/make_facts.py` into marked blocks of the READMEs, `CLAUDE.md` and the roadmap, instead of being written by hand. `desktop/PLAY.txt` lists every control of today. The stray `body.md` is gone.
+- **Docs that cannot go stale**: `tools/tests/test_docs.py` checks that every link and anchor of the Markdown files resolves, that every script of `tools/` is described in `tools/README.md`, that the facts blocks match the data and that every generator writes LF line endings.
+
 - **Where the project stands, made plain** (`docs/plan/06-roadmap-rischi-backlog.md`, section 8, rewritten): the numbers of the game in one table, the state of every milestone with what is there and what is missing, everything done grouped by area, what is left to do in order (soon, medium term, toward 1.0), who decides what, and what is checked and what is not. The old lines that said parry, stagger, sound, gathering and the rivers were missing are gone. The READMEs have a "done and to do" table with the same facts.
 
 ### Changed
 
+- Every generator writes LF line endings (on Windows they wrote CRLF, and every run showed hundreds of files as changed). Every generator was run again on a clean tree and changes nothing; the tools that change the role dialogues in place keep their choices where they are in the menus (they moved each other's before), and `make_towns.py` runs `make_faction_gifts.py` itself. `tools/README.md` has a table "I changed... run" and says which scripts must not run again (`make_role_dialogues.py`, and `compose.py` without the owner's yes).
 - Odile, the baker of Fenwick, stood on a garden plot since the plots were added: she now stands beside them, and a test checks the people of Fenwick too.
 - **The balance report** (`tools/balance_report.py`) only flags fights that are too hard or too slow: a creature much easier than its level is the design, not an outlier. It finds none.
 - **Guardians fall sooner** (the balance report, `docs/design/balance.md`): the fifteen fights that lasted more than three seconds at their own level in the model have less health (the eight Echoes, the Vault Warden, the Cinder Colossus, the Drowned Captain, the Forge Tyrant, the Frost Sovereign, the Moonshade Alpha and the Rime Revenant). Fights stay easy on purpose.

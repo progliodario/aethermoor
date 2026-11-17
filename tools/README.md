@@ -1,6 +1,18 @@
 # Tools
 
-Python scripts (3.12 or newer; the virtual environment of [`docs/dev/setup.md`](../docs/dev/setup.md)). Run them from the root of the repository. The generators write files that are committed: run them after changing what they read and commit the result.
+Python scripts (3.12 or newer; the virtual environment of [`docs/dev/setup.md`](../docs/dev/setup.md)). Run them from the root of the repository. The generators write files that are committed: run them after changing what they read and commit the result. Every script that writes a file writes it with LF line endings.
+
+## In short
+
+| I changed... | Run |
+|---|---|
+| any data or schema | `python tools/validate_data.py` |
+| a rule (spec, `reference/`) or the data a scenario reads | `python tools/gen_conformance.py` (then the vectors are committed with the change) |
+| the table of a generator (recipes, titles, people, quests...) | that generator (see "Generators of content"), then `make_catalog.py` |
+| anything that changes a number of the game (quests, creatures, items...) | `python tools/make_facts.py` (the numbers in the READMEs, `CLAUDE.md` and the roadmap) |
+| anything, before shipping | `python -m pytest -q tools/tests` (the reference, the content, the documents) |
+
+`tools/ship.py` runs the checks (validation, ruff, pytest, the vectors) before it commits.
 
 ## Checks
 
@@ -9,7 +21,8 @@ Python scripts (3.12 or newer; the virtual environment of [`docs/dev/setup.md`](
 | `validate_data.py` | validates the project metadata, every pack against the schemas, the references between files and the texts of both languages |
 | `gen_conformance.py` (`--check`, `--serial`) | writes (or checks) `tests/conformance/*.json` from the reference, in parallel; never edit those files by hand |
 | `gen_tables.py` (`--check`) | writes `data/base/tables/xp_table.json` from the formulas of spec 04 |
-| `tests/` | `pytest`: the reference against known answers (`test_reference.py`), the data and the protagonists (`test_content.py`), the validator (`test_validate_data.py`) |
+| `make_facts.py` (`--check`) | writes the numbers of the game, counted from the data, into the blocks between `<!-- facts:begin -->` and `<!-- facts:end -->` of the READMEs, `CLAUDE.md` and the roadmap |
+| `tests/` | `pytest`: the reference against known answers (`test_reference.py`), the data and the protagonists (`test_content.py`), the validator (`test_validate_data.py`), the documents (`test_docs.py`: links, every tool listed here, the facts blocks) |
 
 ## The reference of the rules
 
@@ -29,7 +42,7 @@ Python scripts (3.12 or newer; the virtual environment of [`docs/dev/setup.md`](
 | `balance_report.py` | `docs/design/balance.md`: a rough model of every fight, with the difficulty of the world data |
 | `make_font.py` (`--show`) | writes the font of the interface, `data/base/fonts/aether.json` (spec 13, "Font"): every glyph is drawn there as strokes; `--show out.png "text"` draws a text with it |
 | `make_art.py` (`tiles`, `props`) | writes the recipes of the terrain tiles (`art_tiles.py`: painted macro tiles of 4 x 4 tiles, walls and floors) and of the props (`art_props.py`), with `artkit.py` (style: [`docs/design/art-style.md`](../docs/design/art-style.md)) |
-| `art_chars.py` (`art_looks.py`) | writes the people: the parts of the humanoid rig seen from the front and from behind, the palettes of the protagonists and the villagers, what each one wears (`only`/`except` layers), the rig and its two clips |
+| `art_chars.py` (`art_looks.py`, `art_looks_side.py`) | writes the people: the parts of the humanoid rig seen from the front and from behind, the palettes of the protagonists and the villagers, what each one wears (`only`/`except` layers), the rig and its two clips |
 | `art_creatures.py` | writes every creature from the body of its family (slimes, beasts, guardians in armor, the single ones) and its own feature, keeping the palette of its file; run `make_echoes.py` after it |
 | `compose.py` | composes the music of `data/base/audio/music/` and `music_rules.json` (spec 14) from moods, modes and progressions |
 | `audio_wav.py` | writes a sound (`sfx <name>`) or a piece of music (`music <name> --layers base,combat`) to a WAV file, to listen to it |
@@ -38,7 +51,7 @@ Python scripts (3.12 or newer; the virtual environment of [`docs/dev/setup.md`](
 | `make_home.py` | writes Nana Brin of Fenwick (free rest, three favours), Corvin the pedlar of Aldermere, the eight pedlars of the outposts and Old Tam of the Guest's cottage (the goods of a region a day, `day_mod`): dialogues, quests, texts and their lines in `npcs` (spec 07, "People of the towns"); then run `make_catalog.py` |
 | `make_deeds.py` | writes the deeds of all the games (`data/base/deeds.json`) and their texts, with the names of creatures and titles as the game shows them (spec 11, "Deeds") |
 | `make_towns.py` (`towns_outposts.py`) | writes the two hand-written towns and the named person of every outpost: the named people of Fenwick and Aldermere, their dialogues and quests, their texts, and their lines in the world data (`npcs`, the landmark of Aldermere) |
-| `make_stories.py` (`stories_act2.py` to `stories_act5.py`) | writes the story in three acts, the epilogue and the fifth act ("A Life Here") of each protagonist: Sister Maren's dialogue in Aldermere, ten quests for each protagonist, their texts, two staves for the magic users and her line in the world data |
+| `make_stories.py` (`stories_act2.py`, `stories_act3.py`, `stories_act4.py`, `stories_act5.py`) | writes the story in three acts, the epilogue and the fifth act ("A Life Here") of each protagonist: Sister Maren's dialogue in Aldermere, ten quests for each protagonist, their texts, two staves for the magic users and her line in the world data |
 | `make_talents.py` | writes the talents `data/base/talents.json` and their names (spec 11, "Talents") |
 | `make_echoes.py` | writes the Echoes, the personal bosses of the protagonists: their art (a guardian's, recoloured), the enemies, their names and the sanctums in `landmarks`; then run `make_stamps.py`, `make_stories.py`, `gen_conformance.py` |
 | `make_region_tales.py` | writes the tales of the villagers (three quests for each region) and changes the villagers' role dialogues in place (spec 07, "Tales of the villagers"); it runs `set_factions.py`; then run `make_catalog.py` |
@@ -61,3 +74,18 @@ Python scripts (3.12 or newer; the virtual environment of [`docs/dev/setup.md`](
 |---|---|
 | `ship.py` | checks, signed-off commit, push, pull request, waits for CI, squash merge and refresh of a play folder (see its header for the flags) |
 | `sync_labels.py` | creates or updates the labels of `.github/labels.json` |
+
+## Running a generator again
+
+Every generator of this folder was run on a clean tree and checked to change nothing (17 November 2026), with these exceptions:
+
+| Script | Why | What to do |
+|---|---|---|
+| `make_role_dialogues.py` | the first version of the role dialogues; they have grown since | **never run it**: change the role dialogues in place, as the other tools do |
+| `compose.py` | it writes `music_rules.json`, which turns the music back on; the owner switched it off | do not run it without the owner's yes |
+| `make_hunting.py`, `make_wildlife.py` | they write a first art file of their creatures | run `art_creatures.py` after them (it draws the creatures again) |
+| `make_echoes.py` | it writes the Echoes and their sanctums | run `make_stamps.py`, `make_stories.py`, `gen_conformance.py` after it |
+
+`make_towns.py` runs `set_quest_places.py`, `set_factions.py` and `make_faction_gifts.py` itself. The tools that change the role dialogues in place (`make_region_tales.py`, `make_friend_quests.py`, `make_faction_gifts.py`, `make_secret_recipes.py`, `make_renown_talk.py`) keep their choices where they are in the menus, so they can run in any order and any number of times.
+
+On Windows, a script may stop now and then with `OSError: [Errno 22] Invalid argument` on a file it has just written: something of the system (an antivirus or the indexer) holds the file for a moment. Run it again.

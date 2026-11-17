@@ -230,7 +230,7 @@ def main() -> int:
     page = ('<!doctype html><meta charset="utf-8"><title>Art sheet</title>'
             '<style>body{background:#3d5a3a;color:#eee;font:12px sans-serif;display:flex;flex-wrap:wrap;gap:16px;padding:16px}'
             'figure{margin:0;text-align:center}figcaption{margin-top:4px}</style>' + "".join(cards))
-    out.write_text(page, encoding="utf-8")
+    out.write_text(page, encoding="utf-8", newline="\n")
     print(f"{len(cards)} pictures in {out}")
     return 0
 

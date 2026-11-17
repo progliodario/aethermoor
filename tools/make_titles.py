@@ -97,7 +97,7 @@ def main() -> None:
         titles.append(entry)
         en[f"title.{name}"], it[f"title.{name}"] = name_en, name_it
     doc = {"$schema": "../../schemas/titles.schema.json", "id": "base:titles/all", "titles": titles}
-    (DATA / "titles.json").write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    (DATA / "titles.json").write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
     add_texts("en", en)
     add_texts("it", it)
     print(f"wrote {len(titles)} titles")

@@ -215,7 +215,10 @@ def patch_villager(region: str, tone: str, danger: int, count: int) -> None:
     doc = json.loads(raw)
     nodes = doc["nodes"]
     mine = {f"tale_{kind}_{n}" for kind in ("offer", "busy", "paid") for n in range(1, count + 1)}
-    choices = [c for c in nodes["menu"]["choices"] if c.get("next") not in mine]
+    old = nodes["menu"]["choices"]
+    # the choices of this tool keep their place in the menu (first, the first time), so that running it again changes nothing
+    where = next((i for i, c in enumerate(old) if c.get("next") in mine), 0)
+    choices = [c for c in old if c.get("next") not in mine]
     added = []
     for n in range(1, count + 1):
         q = quest_id(region, n)
@@ -234,7 +237,7 @@ def patch_villager(region: str, tone: str, danger: int, count: int) -> None:
             {"effect": "set_flag", "flag": paid, "value": True}, {"effect": "add_xp", "amount": (60 + 30 * n) * danger},
             {"effect": "add_gold", "amount": 100 + 60 * n * danger}, {"effect": "add_item", "item": "base:item/potion_medium", "qty": n}]}
         nodes[f"tale_thanks_{n}"] = {"type": "say", "speaker": "npc", "text": f"$i18n:dlg.tale.{tone}.thanks_{n}", "next": "end"}
-    nodes["menu"]["choices"] = added + choices
+    nodes["menu"]["choices"] = choices[:where] + added + choices[where:]
     write_json(path, doc, raw)
 
 

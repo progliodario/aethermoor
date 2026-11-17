@@ -356,9 +356,9 @@ def main(quest_pieces: list[tuple[str, str]] | None = None, write_rules: bool = 
         old.unlink()
     for piece_id, kwargs in PIECES.items():
         doc = compose(piece_id, **kwargs)
-        (music / f"{piece_id}.json").write_text(json.dumps(doc, indent=1) + "\n", encoding="utf-8")
+        (music / f"{piece_id}.json").write_text(json.dumps(doc, indent=1) + "\n", encoding="utf-8", newline="\n")
     if write_rules:  # without the rules the game plays no music (the pieces stay in the pack)
-        (OUT / "music_rules.json").write_text(json.dumps(rules(quest_pieces if quest_pieces is not None else QUEST_PIECES), indent=2) + "\n", encoding="utf-8")
+        (OUT / "music_rules.json").write_text(json.dumps(rules(quest_pieces if quest_pieces is not None else QUEST_PIECES), indent=2) + "\n", encoding="utf-8", newline="\n")
     print(f"composed {len(PIECES)} pieces" + (" and the rules" if write_rules else ""))
 
 

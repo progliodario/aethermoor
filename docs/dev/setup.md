@@ -80,6 +80,7 @@ All of them are Python scripts in `tools/`; use the virtual environment of the "
 | `python tools/make_stamps.py` (`--show`) | writes `data/base/stamps/` from the templates in the script, and draws them with `--show` |
 | `python tools/art_preview.py <pattern> --out sheet.html` | draws art recipes as an HTML sheet, to look at them without the game |
 | `python tools/make_catalog.py` | writes `docs/design/catalog.md` (regions, creatures, items, quests, sites) |
+| `python tools/make_facts.py` (`--check`) | writes the numbers of the game, counted from the data, into the facts blocks of the READMEs, `CLAUDE.md` and the roadmap |
 | `python tools/balance_report.py` | writes `docs/design/balance.md`, a rough model of every fight |
 | `python tools/ship.py "<title>" --body-file <file> [--play <folder>]` | checks, commits, pushes, opens the pull request, waits for CI, merges, and refreshes a play folder |
 | `clang-format -i <file>` (from the virtual environment) | formats C++ with `desktop/.clang-format` (120 columns); `ship.py` does it for the C++ files it commits |

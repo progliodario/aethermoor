@@ -12,7 +12,8 @@
 - [ ] **Android** implemented and tested, or N/A
 - [ ] If one client lags: `parity-debt` issue linked and feature gated: #
 - [ ] `CHANGELOG.md` updated for user-visible changes
-- [ ] Docs updated
+- [ ] Generated documents refreshed (`make_catalog.py`, `make_facts.py`); `python -m pytest -q tools/tests` passes
+- [ ] Docs updated (spec, `tools/README.md` for a new script, `CLAUDE.md` for a new rule of work)
 - [ ] Commits are Conventional Commits and signed off (DCO)
 
 ## How I tested

@@ -185,7 +185,7 @@ class Recipe:
         # the schema reference is relative to the folder of the file
         depth = len(path.relative_to(ROOT).parts) - 1
         data["$schema"] = "../" * depth + "schemas/art_recipe.schema.json"
-        path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
 
 
 def _n(v):
