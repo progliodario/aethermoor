@@ -199,12 +199,12 @@ TEST_CASE("the overworld is streamed from the content pack and is playable", "[w
     REQUIRE(params.has_value());
     REQUIRE(params->width == 16384);
     REQUIRE(params->regions.size() == 8);
-    REQUIRE(params->stamps.size() == 54);  // with the eight sanctums of the Echoes
+    REQUIRE(params->stamps.size() == 55);  // with the eight sanctums of the Echoes and the Guest's cottage
     REQUIRE(params->home_radius == 72);
 
     const aether::TileMap map = aether::make_stream_map(*params);
     REQUIRE(map.ground.empty());
-    REQUIRE(map.npcs.size() == 36);  // Mira, Pip, 8 wayfarers, 8 outpost people, 8 pedlars, Fenwick, Aldermere
+    REQUIRE(map.npcs.size() == 37);  // Mira, Pip, 8 wayfarers, 8 outpost people, 8 pedlars, Fenwick, Aldermere, Tam
     REQUIRE(map.npcs[0].key == "guild_clerk_mira");
 
     auto setup = aether::load_combat_setup(demo.pack, map, "base:protagonist/ren", 42, error);

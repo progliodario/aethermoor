@@ -28,6 +28,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **The Guest's cottage**, on the road east of Fenwick: a house with a chest, a campfire, an anvil, garden plots, hens, a goat and a Threshold Stone, kept by Old Tam, who lets anyone sleep by the fire. Finish Nana Brin's three favours and she gives it to you.
+- **A fifth act for every protagonist**, "A Life Here": after the Echo, Sister Maren gives two more quests to each Guest, the first steps of the life they choose (Ren's shop, Sakura's school, Daichi's fire watch, Haruka's post road, Marco's tavern, Yuki's gallery, Lena's infirmary, Gideon's workshop). Sixteen quests; 319 in all.
+- **Five titles** for the long road: Sower, Lord of the Harvest, Gourmet, Duelist, Slayer of Hundreds (42 in all), and **three deeds**: Out of the Dark, King of Kings, Every Name There Is (25 in all).
 - **Large text** (spec 16, "Settings"): a new option of accessibility makes the text of the interface larger, a quarter on desktop (settings panel, `F10`) and three tenths on Android (a fourth button at the bottom of the journal). Off by default.
 - **Rain slows the creatures** (spec 08, "Rain slows"): in full rain or snow the ground is heavy and creatures walk a quarter slower; you are not slowed.
 - **Eight pedlars on the roads**: one at the outpost of every region, each selling the goods of a different region every day, at 115%.

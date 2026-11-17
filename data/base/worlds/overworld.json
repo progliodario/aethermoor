@@ -68,6 +68,7 @@
     { "id": "lumeria_pool", "name": "Nebula Pool", "stamp": "base:stamp/pool", "kind": "dungeon", "dx": -640, "dy": 6528 },
     { "id": "ashen_wastes_charpit", "name": "Char Pit", "stamp": "base:stamp/charpit", "kind": "dungeon", "dx": 6528, "dy": -640 },
     { "id": "aldermere", "name": "Aldermere", "stamp": "base:stamp/town", "kind": "town", "dx": 384, "dy": -128 },
+    { "id": "guest_cottage", "name": "The Guest's Cottage", "stamp": "base:stamp/hamlet_home", "kind": "hamlet", "dx": 72, "dy": 44 },
     { "id": "sanctum_ren", "name": "Sanctum of Numbers", "stamp": "base:stamp/sanctum_ren", "kind": "dungeon", "dx": -640, "dy": -384 },
     { "id": "sanctum_sakura", "name": "Sanctum of Light", "stamp": "base:stamp/sanctum_sakura", "kind": "dungeon", "dx": -640, "dy": 384 },
     { "id": "sanctum_daichi", "name": "Sanctum of Embers", "stamp": "base:stamp/sanctum_daichi", "kind": "dungeon", "dx": -384, "dy": -640 },
@@ -227,6 +228,7 @@
     { "key": "pedlar_ylva", "dialogue": "base:dialogue/npc/ylva", "variant": "cream", "dx": -1154, "dy": -6528 },
     { "key": "pedlar_rashid", "dialogue": "base:dialogue/npc/rashid", "variant": "ochre", "dx": 5503, "dy": 3967 },
     { "key": "pedlar_celeste", "dialogue": "base:dialogue/npc/celeste", "variant": "purple", "dx": -642, "dy": 6272 },
-    { "key": "pedlar_tarn", "dialogue": "base:dialogue/npc/tarn", "variant": "", "dx": 6782, "dy": -384 }
+    { "key": "pedlar_tarn", "dialogue": "base:dialogue/npc/tarn", "variant": "", "dx": 6782, "dy": -384 },
+    { "key": "cottage_keeper_tam", "dialogue": "base:dialogue/npc/tam", "variant": "brown", "dx": 74, "dy": 45 }
   ]
 }

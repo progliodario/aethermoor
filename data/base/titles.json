@@ -283,6 +283,45 @@
       "kind": "renown:lumeria",
       "count": 10,
       "atk_pct": 3
+    },
+    {
+      "id": "sower",
+      "name": "$i18n:title.sower",
+      "kind": "sown",
+      "count": 40,
+      "atk_pct": 3
+    },
+    {
+      "id": "harvest_lord",
+      "name": "$i18n:title.harvest_lord",
+      "kind": "harvested",
+      "count": 80,
+      "atk_pct": 3,
+      "gather_bonus": 1
+    },
+    {
+      "id": "gourmet",
+      "name": "$i18n:title.gourmet",
+      "kind": "used",
+      "count": 300,
+      "atk_pct": 3,
+      "xp_pct": 5
+    },
+    {
+      "id": "duelist",
+      "name": "$i18n:title.duelist",
+      "kind": "parried",
+      "count": 150,
+      "atk_pct": 4,
+      "parry_bonus": 8
+    },
+    {
+      "id": "slayer_of_hundreds",
+      "name": "$i18n:title.slayer_of_hundreds",
+      "kind": "kills",
+      "count": 500,
+      "atk_pct": 6,
+      "xp_pct": 10
     }
   ]
 }

@@ -122,6 +122,8 @@ The random props of the biomes include the new ones: bushes in the plains (20 pe
 
 Settlements have more than one look: `settlements.kinds[].stamps` lists the stamps of a kind and the site picks one of them (step 3 above). Hamlets have four (`hamlet`, `hamlet_b` with two houses, `hamlet_c` with a barn and `hamlet_d` a crossroads), villages four (`village`, `village_b` four houses around a square, `village_c` a main street and `village_d` a long street) and towns three (`town` walled, `town_b` open around a big plaza and `town_c` with the guild hall on the square). All of a kind keep the same roles.
 
+The Guest's cottage (`guest_cottage`, stamp `hamlet_home`, kind `hamlet`) lies on the road east of Fenwick: a house with a chest, a campfire, an anvil, garden plots, a coop, a pen and a Threshold Stone, kept by Old Tam (spec 07, "People of the towns").
+
 ## Settlement people
 
 The stamp characters whose legend entry has an `npc` role are **NPC slots**. Slots are numbered `0, 1, ...` in scan order of the stamp (rows from the top, columns left to right).

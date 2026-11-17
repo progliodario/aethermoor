@@ -21,10 +21,33 @@ WORLD = DATA / "worlds" / "overworld.json"
 PEOPLE = [
     ("fenwick_nana_brin", "brin", "cream", 28, 36),
     ("aldermere_pedlar_corvin", "corvin", "teal", 387, -127),
+    ("cottage_keeper_tam", "tam", "brown", 74, 45),
 ]
 SPEAKERS = {
-    "en": {"speaker.fenwick_nana_brin": "Nana Brin, of Fenwick", "speaker.aldermere_pedlar_corvin": "Corvin, the pedlar"},
-    "it": {"speaker.fenwick_nana_brin": "Nonna Brin, di Fenwick", "speaker.aldermere_pedlar_corvin": "Corvin, il venditore ambulante"},
+    "en": {"speaker.fenwick_nana_brin": "Nana Brin, of Fenwick", "speaker.aldermere_pedlar_corvin": "Corvin, the pedlar",
+           "speaker.cottage_keeper_tam": "Old Tam, keeper of the cottage"},
+    "it": {"speaker.fenwick_nana_brin": "Nonna Brin, di Fenwick", "speaker.aldermere_pedlar_corvin": "Corvin, il venditore ambulante",
+           "speaker.cottage_keeper_tam": "Il vecchio Tam, custode del cottage"},
+}
+# The Guest's cottage, east of Fenwick (the landmark `guest_cottage`): Nana Brin gives it after her three favours (the flag `cottage_given`),
+# and Old Tam keeps it: a free rest by the fire for anyone, a welcome home for its owner.
+TAM = {
+    "en": {"stranger": "This is the cottage of Brin's sister, rest her soul. Nobody lives here now, but the fire is lit every evening. Sit, if you are tired.",
+           "owner": "Welcome home, Guest. The fire is lit, the chest is where you left it, and the hens have opinions about you.",
+           "rest": "Sleep by the fire", "about": "Tell me about the cottage", "bye": "Goodbye, Tam.",
+           "slept": "There. The fire did the work, I only watched.",
+           "story": "Brin's sister built it with her own hands: the plots, the anvil, the coop. She said a house should feed you, mend you and keep your things. It does all three.",
+           },
+    "it": {"stranger": "Questo è il cottage della sorella di Brin, pace all'anima sua. Ora non ci abita nessuno, ma il fuoco si accende ogni sera. Siediti, se sei stanco.",
+           "owner": "Bentornato a casa, Ospite. Il fuoco è acceso, il baule è dove l'hai lasciato e le galline hanno delle opinioni su di te.",
+           "rest": "Dormi accanto al fuoco", "about": "Raccontami del cottage", "bye": "Arrivederci, Tam.",
+           "slept": "Ecco. Il lavoro l'ha fatto il fuoco, io ho solo guardato.",
+           "story": "La sorella di Brin l'ha costruito con le sue mani: gli orti, l'incudine, il pollaio. Diceva che una casa deve nutrirti, rimetterti in sesto e tenerti le cose. Fa tutte e tre.",
+           },
+}
+BRIN_GIFT = {
+    "en": "You have done more for me than my grandchildren in a year. My sister's cottage, east of here on the road: it is empty, and it should not be. It is yours. Old Tam keeps it; tell him I sent you.",
+    "it": "Hai fatto per me più dei miei nipoti in un anno. Il cottage di mia sorella, a est di qui sulla strada: è vuoto, e non dovrebbe esserlo. È tuo. Lo custodisce il vecchio Tam; digli che ti mando io.",
 }
 
 # Nana Brin's favours: id, item, count, rewards, (name, journal, offer, busy, thanks) in en and it
@@ -177,7 +200,11 @@ def brin_dialogue() -> dict:
             {"text": "$i18n:dlg.home.brin.bye", "next": "end"}]},
         "rest": {"type": "effects", "effects": [{"effect": "heal_full"}], "next": "slept"},
         "slept": say(sp, "dlg.home.brin.slept", "end"),
-        "nothing": say(sp, "dlg.home.brin.nothing", "end"),
+        # after the three favours, the cottage of her sister once, then the old line
+        "nothing": {"type": "condition", "when": {"flag": "cottage_given"}, "then": "nothing_left", "else": "gift"},
+        "gift": say(sp, "dlg.home.brin.gift", "given"),
+        "given": {"type": "effects", "effects": [{"effect": "set_flag", "flag": "cottage_given", "value": True}], "next": "end"},
+        "nothing_left": say(sp, "dlg.home.brin.nothing", "end"),
     }
     for n, (qid, _item, _count, _rewards, _texts) in enumerate(FAVOURS):
         quest = f"base:quest/side/{qid}"
@@ -193,6 +220,22 @@ def brin_dialogue() -> dict:
             {"text": "$i18n:dlg.wayfarer.accept", "effects": [{"effect": "start_quest", "quest": quest}], "next": "end"},
             {"text": "$i18n:dlg.wayfarer.later", "next": "end"}]}
     return {"$schema": "../../../../schemas/dialogue.schema.json", "id": "base:dialogue/npc/brin", "start": "c_known", "nodes": nodes}
+
+
+def tam_dialogue() -> dict:
+    sp = "cottage_keeper_tam"
+    return {"$schema": "../../../../schemas/dialogue.schema.json", "id": "base:dialogue/npc/tam", "start": "c_owner", "nodes": {
+        "c_owner": {"type": "condition", "when": {"flag": "cottage_given"}, "then": "owner", "else": "stranger"},
+        "owner": say(sp, "dlg.home.tam.owner", "menu"),
+        "stranger": say(sp, "dlg.home.tam.stranger", "menu"),
+        "menu": {"type": "choice", "choices": [
+            {"text": "$i18n:dlg.home.tam.rest", "next": "rest"},
+            {"text": "$i18n:dlg.home.tam.about", "next": "story"},
+            {"text": "$i18n:dlg.home.tam.bye", "next": "end"}]},
+        "rest": {"type": "effects", "effects": [{"effect": "heal_full"}], "next": "slept"},
+        "slept": say(sp, "dlg.home.tam.slept", "end"),
+        "story": say(sp, "dlg.home.tam.story", "menu"),
+    }}
 
 
 def corvin_dialogue() -> dict:
@@ -249,6 +292,7 @@ def patch_world() -> None:
 def main() -> None:
     write_json(DATA / "dialogues" / "npc" / "brin.json", brin_dialogue())
     write_json(DATA / "dialogues" / "npc" / "corvin.json", corvin_dialogue())
+    write_json(DATA / "dialogues" / "npc" / "tam.json", tam_dialogue())
     for key, file, _variant, _dx, _dy, offset, _words in PEDLARS:
         write_json(DATA / "dialogues" / "npc" / f"{file}.json", pedlar_dialogue(key, file, offset))
     for qid, item, count, rewards, _texts in FAVOURS:
@@ -261,6 +305,8 @@ def main() -> None:
         core = dict(SPEAKERS[lang])
         core.update({f"dlg.home.brin.{k}": v for k, v in BRIN[lang].items()})
         core.update({f"dlg.home.corvin.{k}": v for k, v in CORVIN[lang].items()})
+        core.update({f"dlg.home.tam.{k}": v for k, v in TAM[lang].items()})
+        core["dlg.home.brin.gift"] = BRIN_GIFT[lang]
         core.update({f"dlg.pedlar.goods.{k}": v for k, v in PEDLAR_GOODS[lang].items()})
         for key, file, _variant, _dx, _dy, _offset, words in PEDLARS:
             core[f"speaker.{key}"] = words[lang][0]

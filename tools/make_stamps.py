@@ -333,6 +333,27 @@ def town_b() -> dict:
     return stamp("base:stamp/town_b", c, (17, 13), [(15, 11), (16, 11), (18, 11), (15, 15), (19, 15), (17, 15)])
 
 
+def hamlet_home() -> dict:
+    """The Guest's cottage, east of Fenwick (spec 09, "Landmarks"): a house with a chest, a campfire and an anvil, plots, hens and a goat, a
+    Threshold Stone, and Old Tam who keeps it (spec 07, "People of the towns")."""
+    c = Canvas(15, 11)
+    c.house(1, 1, 8, 5, {(1, 1): "~", (2, 1): "\\", (5, 1): "b", (6, 3): "b"}, door=4)
+    c.vline(5, 6, 10, "=")
+    c.hline(0, 14, 7, "=")
+    c.put(7, 6, "l")
+    c.put(7, 8, "c")  # where Old Tam stands
+    c.put(10, 2, "?")  # a campfire to cook at (spec 06, "Stations")
+    c.put(12, 2, "/")  # an anvil to make fine gear at
+    for x in (10, 12, 14):  # plots to sow (spec 06, "Farming")
+        c.put(x, 5, ",")
+    c.put(1, 9, "-")  # a hen coop and a goat pen (spec 06, "Animals")
+    c.put(3, 9, '"')
+    c.put(12, 9, "T")
+    for x, y in ((0, 0), (14, 0), (9, 10), (14, 10)):
+        c.put(x, y, "t")
+    return stamp("base:stamp/hamlet_home", c, (5, 7), [(4, 7), (6, 7)])
+
+
 def hamlet_d() -> dict:
     """A crossroads with a well at the crossing and a single house."""
     c = Canvas(13, 11)
@@ -985,7 +1006,7 @@ def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     for build in (hamlet, village, town, barrow, cellar, mine, cavern, temple, hollow, ziggurat, observatory, citadel, den, vent, grotto, amber, icepit, roost, hamlet_b, hamlet_c, village_b, village_c, town_b,
                   outpost_ironspine, outpost_tidehaven, outpost_frostveil, outpost_whisperwood, outpost_sunscar, outpost_lumeria,
-                  outpost_ashen, outpost_verdalis, forge, galleon, keep, vault, hamlet_d, village_d, town_c,
+                  outpost_ashen, outpost_verdalis, forge, galleon, keep, vault, hamlet_d, village_d, town_c, hamlet_home,
                   nest_mint, nest_moss, nest_rust, nest_dune, nest_rookery, nest_shoal, nest_pool, nest_charpit,
                   *[(lambda who=who: sanctum(who)) for who in ("ren", "sakura", "daichi", "haruka", "marco", "yuki", "lena", "gideon")]):
         data = build()

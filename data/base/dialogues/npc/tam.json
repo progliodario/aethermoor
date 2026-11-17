@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/npc/tam",
+  "start": "c_owner",
+  "nodes": {
+    "c_owner": {
+      "type": "condition",
+      "when": {
+        "flag": "cottage_given"
+      },
+      "then": "owner",
+      "else": "stranger"
+    },
+    "owner": {
+      "type": "say",
+      "speaker": "cottage_keeper_tam",
+      "text": "$i18n:dlg.home.tam.owner",
+      "next": "menu"
+    },
+    "stranger": {
+      "type": "say",
+      "speaker": "cottage_keeper_tam",
+      "text": "$i18n:dlg.home.tam.stranger",
+      "next": "menu"
+    },
+    "menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.home.tam.rest",
+          "next": "rest"
+        },
+        {
+          "text": "$i18n:dlg.home.tam.about",
+          "next": "story"
+        },
+        {
+          "text": "$i18n:dlg.home.tam.bye",
+          "next": "end"
+        }
+      ]
+    },
+    "rest": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "heal_full"
+        }
+      ],
+      "next": "slept"
+    },
+    "slept": {
+      "type": "say",
+      "speaker": "cottage_keeper_tam",
+      "text": "$i18n:dlg.home.tam.slept",
+      "next": "end"
+    },
+    "story": {
+      "type": "say",
+      "speaker": "cottage_keeper_tam",
+      "text": "$i18n:dlg.home.tam.story",
+      "next": "menu"
+    }
+  }
+}

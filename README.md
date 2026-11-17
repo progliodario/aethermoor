@@ -46,7 +46,7 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 | Missioni e storie | 263 missioni, otto storie complete con epilogo | altre storie per regione, i doni ancora spenti |
 | Vita | raccolta, pesca, caccia, orti e animali, bauli condivisi in ogni villaggio, un venditore ambulante, 63 ricette (otto segrete, da imparare), cibi con effetti, accessori | una casa tutta del giocatore |
 | Compagni | uno per protagonista, comandi, legame, cura | altri comandi, più compagni insieme, domare e comandare |
-| Progressione | talenti (anche abilità, due con un tasto proprio), 37 titoli, bestiario, reincarnazione con eredità, 22 imprese di tutte le partite | tag, rune |
+| Progressione | talenti (anche abilità, due con un tasto proprio), 42 titoli, bestiario, reincarnazione con eredità, 25 imprese di tutte le partite | tag, rune |
 | Uscita | versioni di prova dalla CI | release Alpha 0.1 e poi 1.0 (decide il proprietario) |
 
 ## Che cosa c'è nel gioco
@@ -90,14 +90,14 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 - Giorni di mercato: i prezzi di ogni regione cambiano con il giorno, per comprare e per vendere; e ogni regione tiene da parte due pezzi rari per chi vi è conosciuto.
 - Opere pregiate: ciò che crei può riuscire pregiato (una porzione in più, o il pezzo pregiato al posto di quello semplice), più spesso con i titoli da artigiano.
 - Tre posti per l'equipaggiamento: arma, armatura e **accessorio** (nove: collane, pendenti, anelli e amuleti fatti all'incudine o lasciati dai guardiani, con bonus a attacco, vita, critico, difesa, magia, o che ti restituiscono vita a ogni colpo); e una pozione che **purifica** da bruciature, gelo, stordimento e indebolimento.
-- Un bestiario che dice a cosa è debole ogni creatura sconfitta, a cosa resiste e cosa lascia, 37 titoli che aumentano l'attacco (anche per i cacciatori), e un profilo comune a tutte le partite: ogni titolo mai ottenuto dà un po' di vita in più a ogni partita (gli "echi"), e una partita arrivata al livello 10 può **reincarnarsi**: finisce, ogni vita passata dà +3% di vita a tutte le successive, e metà del suo oro, con l'arma che impugnava, passa in eredità alla prossima partita nuova.
+- Un bestiario che dice a cosa è debole ogni creatura sconfitta, a cosa resiste e cosa lascia, 42 titoli che aumentano l'attacco (anche per i cacciatori), e un profilo comune a tutte le partite: ogni titolo mai ottenuto dà un po' di vita in più a ogni partita (gli "echi"), e una partita arrivata al livello 10 può **reincarnarsi**: finisce, ogni vita passata dà +3% di vita a tutte le successive, e metà del suo oro, con l'arma che impugnava, passa in eredità alla prossima partita nuova.
 - Tre partite separate, salvataggio automatico, esportazione e importazione di una partita in un file.
 
 Il catalogo completo dei contenuti, generato dai dati, è in [`docs/design/catalog.md`](docs/design/catalog.md).
 
 ## I protagonisti
 
-Ognuno ha un prologo con Lyra, un dono, due abilità d'attacco, due missioni personali e una storia completa in tre atti, data da Suor Maren ad Aldermere: "Il primo eco" a Verdalis, "Il secondo eco" e "L'ultimo eco" in altre regioni (Ren nelle miniere di Ironspine e nella Cripta di Ossidiana, Sakura all'osservatorio di Lumeria, Gideon nel suo vecchio regno...), tre missioni per atto, ognuno chiuso da un guardiano, e un epilogo contro il proprio **Eco**: il momento che lo ha portato su Aethermoor, diventato una creatura, in uno degli otto santuari intorno alla partenza.
+Ognuno ha un prologo con Lyra, un dono, due abilità d'attacco, due missioni personali e una storia completa in tre atti, un epilogo e un quinto atto, "Una vita qui", data da Suor Maren ad Aldermere: "Il primo eco" a Verdalis, "Il secondo eco" e "L'ultimo eco" in altre regioni (Ren nelle miniere di Ironspine e nella Cripta di Ossidiana, Sakura all'osservatorio di Lumeria, Gideon nel suo vecchio regno...), tre missioni per atto, ognuno chiuso da un guardiano, e un epilogo contro il proprio **Eco**: il momento che lo ha portato su Aethermoor, diventato una creatura, in uno degli otto santuari intorno alla partenza.
 
 | Protagonista | Chi era | Dono | Tono | Compagno |
 |---|---|---|---|---|

@@ -46,7 +46,7 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 | Quests and stories | 263 quests, eight complete stories with an epilogue | more stories per region, the gifts still off |
 | Life | gathering, fishing, hunting, gardens and animals, shared chests in every village, a travelling pedlar, 63 recipes (eight secret, to be learned), dishes with effects, accessories | a house all of the player's own |
 | Companions | one per protagonist, commands, bond, care | more commands, several companions at once, taming and commanding |
-| Progression | talents (abilities too, two with a key of their own), 37 titles, bestiary, reincarnation with an heirloom, 22 deeds across all games | tags, runes |
+| Progression | talents (abilities too, two with a key of their own), 42 titles, bestiary, reincarnation with an heirloom, 25 deeds across all games | tags, runes |
 | Release | test builds from CI | Alpha 0.1 release and then 1.0 (the owner decides) |
 
 ## What is in the game
@@ -90,14 +90,14 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 - Market days: the prices of every region change with the day, for buying and for selling; and every region keeps two rare pieces for somebody who is known there.
 - Fine work: what you make can come out fine (one more of it, or the fine piece instead of the plain one), more often with the titles of an artisan.
 - Three equipment slots: weapon, armor and **accessory** (nine: necklaces, pendants, rings and amulets made at an anvil or left by the guardians, with bonuses to attack, health, critical chance, defense, magic, or that give back health with every hit); and a draught that **cleanses** burning, chill, stun and weakness.
-- A bestiary that tells what every creature you defeated is weak to, what it resists and what it leaves, 37 titles that raise your attack (hunters' ones too), and a profile shared by all your games: every title you ever earned gives a little more health to every game (the "echoes"), and a game that reached level 10 can be **reincarnated**: it ends, every past life gives +3% health to all the ones after it, and half of its gold, with the weapon in its hand, is an heirloom for your next new game.
+- A bestiary that tells what every creature you defeated is weak to, what it resists and what it leaves, 42 titles that raise your attack (hunters' ones too), and a profile shared by all your games: every title you ever earned gives a little more health to every game (the "echoes"), and a game that reached level 10 can be **reincarnated**: it ends, every past life gives +3% health to all the ones after it, and half of its gold, with the weapon in its hand, is an heirloom for your next new game.
 - Three separate games, automatic saving, export and import of a game as one file.
 
 The full catalog of the content, generated from the data, is in [`docs/design/catalog.md`](docs/design/catalog.md).
 
 ## The protagonists
 
-Each one has a prologue with Lyra, a gift, two attack skills, two personal quests and a whole story in three acts, given by Sister Maren in Aldermere: "The First Echo" in Verdalis, "The Second Echo" and "The Last Echo" in other regions (Ren in the mines of Ironspine and the Obsidian Vault, Sakura at the observatory of Lumeria, Gideon in his old kingdom...), three quests an act, each closed by a guardian, and an epilogue against their own **Echo**: the moment that brought them to Aethermoor, grown into a creature, in one of the eight sanctums around the start.
+Each one has a prologue with Lyra, a gift, two attack skills, two personal quests and a whole story in three acts, an epilogue and a fifth act, "A Life Here", given by Sister Maren in Aldermere: "The First Echo" in Verdalis, "The Second Echo" and "The Last Echo" in other regions (Ren in the mines of Ironspine and the Obsidian Vault, Sakura at the observatory of Lumeria, Gideon in his old kingdom...), three quests an act, each closed by a guardian, and an epilogue against their own **Echo**: the moment that brought them to Aethermoor, grown into a creature, in one of the eight sanctums around the start.
 
 | Protagonist | Who they were | Gift | Tone | Companion |
 |---|---|---|---|---|
