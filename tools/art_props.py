@@ -667,10 +667,59 @@ def garden_plot() -> Recipe:
     return r
 
 
+def coop() -> Recipe:
+    """A small hen house on stilts with a ramp, and a white hen pecking in front of it: eggs (spec 06, "Animals")."""
+    r = prop("coop", 40, 40, (20, 35), {"wood": "#A0703E", "roof": "#B04A3A", "hen": "#F4F0E6", "comb": "#E0403A"})
+    r.shadow(20, 35, 17, 3.4, 0.34)
+    for x in (9, 29):  # the stilts
+        r.rect(x - 1, 22, 2, 12, wood(441, "#7A5232", 2), stroke=INK, width=0.3)
+    r.path("M 6 12 L 34 12 L 34 24 L 6 24 Z", wood(442, "#A0703E", 3), stroke=INK, width=0.45)  # the house
+    for y in (15, 18, 21):
+        r.line(6.4, y, 33.6, y, "#5E3E22", 0.3, alpha=0.6)
+    r.path("M 3 13 L 20 3 L 37 13 Z", noise(3, 443, (0.3, "#7A2E26"), (0.55, "$p.roof"), (0.8, "#D8705A"), octaves=2), stroke=INK, width=0.45)
+    r.ellipse(20, 18.4, 3.4, 3.4, "#2A1A12", stroke=INK, width=0.3)  # the little door
+    r.path("M 22 24 L 31 34 L 33.4 34 L 24.6 24 Z", wood(444, "#8A5C34", 2), stroke=INK, width=0.3)  # the ramp
+    r.shade("M 20 3 L 37 13 L 34 13 L 34 24 L 22 24 Z", 0.32, blur=1.0, clip=True)
+    # the hen
+    r.ellipse(10.6, 31, 4.2, 3.2, "$p.hen", stroke=INK, width=0.35)
+    r.ellipse(7, 28.4, 2.0, 2.0, "$p.hen", stroke=INK, width=0.35)
+    r.path("M 6.2 26.6 Q 7 25 7.8 26.6 Z", "$p.comb", stroke=INK, width=0.2)
+    r.path("M 5 28.4 L 3.6 29 L 5 29.4 Z", "#E8A030", stroke=INK, width=0.2)
+    r.ellipse(6.6, 28, 0.35, 0.35, INK)
+    r.path("M 13.6 29 Q 16 27 15.4 31 Z", "#E6E0D0", stroke=INK, width=0.25)  # the tail
+    r.lit(box(6, 12, 28, 1.2), 0.35, "#FFE8C0")
+    return r
+
+
+def pen() -> Recipe:
+    """A goat pen: a fence of planks, a pail, and a goat that looks at you: milk (spec 06, "Animals")."""
+    r = prop("pen", 46, 34, (23, 29), {"wood": "#9A6A3E", "goat": "#E8E0D2", "dark": "#6A5A4A"})
+    r.shadow(23, 29, 21, 3.6, 0.3)
+    for x in (4, 15, 26, 37, 42):  # the posts
+        r.rect(x - 1, 14, 2.2, 15, wood(451, "#7A5232", 2), stroke=INK, width=0.3)
+    # the goat, behind the fence
+    r.ellipse(22, 19, 7.4, 4.6, "$p.goat", stroke=INK, width=0.4)
+    r.ellipse(14.6, 15, 3.0, 2.6, "$p.goat", stroke=INK, width=0.4)
+    r.path("M 13.4 13 Q 12 9 14.4 8.4 Q 13.6 10.6 14.6 12.6 Z", "#B8A890", stroke=INK, width=0.25)  # a horn
+    r.path("M 15.8 12.6 Q 16.4 9 18.6 9 Q 17 10.8 17 13 Z", "#B8A890", stroke=INK, width=0.25)
+    r.path("M 13 17 L 13.6 19.6 L 14.6 17.4 Z", "$p.dark", stroke=INK, width=0.2)  # the beard
+    r.ellipse(13.8, 14.6, 0.4, 0.45, INK)
+    for x in (18, 20, 25, 27):
+        r.rect(x - 0.6, 22, 1.2, 6, "$p.dark", stroke=INK, width=0.2)
+    r.shade(ell(25, 20, 5, 3.6), 0.3, blur=0.8)
+    for y in (17, 23):  # the rails, in front of the goat
+        r.rect(3, y, 40, 2, wood(452, "#9A6A3E", 3), stroke=INK, width=0.3)
+    # the pail
+    r.path("M 33 24 L 39 24 L 38 30 L 34 30 Z", stone(453, "#9AA4B0", 2), stroke=INK, width=0.35)
+    r.ellipse(36, 24, 3, 0.9, "#F8F6F0", stroke=INK, width=0.25)
+    r.lit(box(3, 17, 40, 0.8), 0.35, "#FFE8C0")
+    return r
+
+
 def build_props() -> list[Recipe]:
     props = [tree_oak(), pine(), dead_tree(), bush(), rock(), cactus(), campfire(), crate(), barrel(), bones(), lamp(), signpost(),
              statue(), tent(), banner(), well(), threshold_stone(), stall(), haybale(), anvil(), reeds(), mushrooms(),
-             stump(), flowers(), fern(), log(), driftwood(), ice_shard(), dry_shrub(), garden_plot()]
+             stump(), flowers(), fern(), log(), driftwood(), ice_shard(), dry_shrub(), garden_plot(), coop(), pen()]
     sway = {"tree_oak": 1.8, "pine": 1.1, "dead_tree": 0.5, "bush": 0.7, "reeds": 1.4, "banner": 0.5, "campfire": 0.6, "flowers": 0.9, "fern": 0.8, "dry_shrub": 0.6}  # what the wind moves
     for r in props:
         r.sway = sway.get(r.id.rsplit("/", 1)[1], 0.0)

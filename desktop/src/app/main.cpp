@@ -3397,6 +3397,9 @@ bool hint_holds(const aether::WorldSim& sim, const std::string& when) {
     if (when == "renown") {
         return sim.renown_here() > 0;
     }
+    if (when == "plot") {
+        return sim.plot_near().has_value();
+    }
     return false;
 }
 

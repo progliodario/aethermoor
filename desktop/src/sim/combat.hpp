@@ -146,6 +146,8 @@ struct ShopDef {
     int renown_max_pm = 0;    // and the most the renown takes off
     int market_swing_pm = 0;  // how far the prices swing with the day, either way (spec 06, "Market days")
     std::vector<std::pair<std::string, int>> renown_stock;  // item, renown: sold only to somebody that well known
+    int glut_step_pm = 0;      // what every one of an item sold the same day takes off its price (spec 06, "Glut")
+    int glut_floor_pm = 1000;  // and the least it pays, in permille
 };
 
 // A prop that can be gathered from (spec 06, "Gathering").

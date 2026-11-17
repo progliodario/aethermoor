@@ -314,6 +314,8 @@ public:
     // Price of buying / selling an item in the open shop.
     std::int64_t buy_price(const std::string& item_id) const;
     std::int64_t sell_price(const std::string& item_id) const;
+    // The day of the world (spec 08): world ticks / day ticks + 1, and 1 without a clock.
+    std::int64_t day_now() const;
     // Uses one item of the inventory (spec 06). Returns false, changing nothing, when it is refused.
     bool use_item(const std::string& item_id);
     // Gathering (spec 06, "Gathering"): the items found at the nearest prop in reach that can be gathered from, which
@@ -449,6 +451,8 @@ private:
     int m_companion_bond_ = 0;
     int m_companion_care_ = 0;  // ticks since it last tended the player (spec 10, "Care"); not saved
     bool m_last_craft_fine_ = false;
+    std::map<std::string, std::int64_t> m_sold_today_;  // the glut (spec 06): items sold on `m_sold_day_`; not saved
+    std::int64_t m_sold_day_ = 0;
     void update_companion();
     void update_friend();
     std::optional<Friend> m_friend_;

@@ -42,7 +42,8 @@
               "talent_points",
               "night",
               "companion",
-              "renown"
+              "renown",
+              "plot"
             ]
           },
           "text": {

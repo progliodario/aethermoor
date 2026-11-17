@@ -44,9 +44,9 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 | Combat | complete (elements, statuses, parry, stagger, guardians) | balance touches, always toward easy fights |
 | World | huge, eight regions, towns and dungeons, weather that matters | performance measured on a phone |
 | Quests and stories | 263 quests, eight complete stories with an epilogue | more stories per region, the gifts still off |
-| Life | gathering, fishing, hunting, 59 recipes (eight secret, to be learned), dishes with effects, accessories | animals, a base and residents, an economy that reacts |
+| Life | gathering, fishing, hunting, gardens and animals, 63 recipes (eight secret, to be learned), dishes with effects, accessories | a base and residents |
 | Companions | one per protagonist, commands, bond, care | more commands, several companions at once, taming and commanding |
-| Progression | talents (abilities too, two with a key of their own), 36 titles, bestiary, reincarnation with an heirloom | tags, achievements, runes |
+| Progression | talents (abilities too, two with a key of their own), 37 titles, bestiary, reincarnation with an heirloom | tags, achievements, runes |
 | Release | test builds from CI | Alpha 0.1 release and then 1.0 (the owner decides) |
 
 ## What is in the game
@@ -70,11 +70,14 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 **Life and progression**
 
 - An adventurers' guild with a board and commissions, 263 quests (the archivist's Book of Legends among them, one guardian in every region, and the guildmaster's bounties on every other guardian), shops, inns, jobs from the elders.
-- 203 items; gathering from bushes, trees, rocks, cacti, flowers, ferns, stumps, logs, driftwood and ice, mushrooms in the forests, **fishing** in the reeds of the beaches and **hunting**; 51 recipes (the best dishes **fortify** you, more attack for a while, the brews of the regions **ward** you, more defense, cakes and rations **regenerate** your health little by little, and the windleaf brew makes you **faster** on foot) (potions, brews and elixirs of the regions, dishes cooked at a fire, gear, and fine gear at the anvil of a town).
+- 209 items; gathering from bushes, trees, rocks, cacti, flowers, ferns, stumps, logs, driftwood and ice, mushrooms in the forests, **fishing** in the reeds of the beaches and **hunting**; 51 recipes (the best dishes **fortify** you, more attack for a while, the brews of the regions **ward** you, more defense, cakes and rations **regenerate** your health little by little, and the windleaf brew makes you **faster** on foot) (potions, brews and elixirs of the regions, dishes cooked at a fire, gear, and fine gear at the anvil of a town).
 - A companion for each protagonist: it follows you, fights, stays where you tell it, and its bond grows with its victories: after ten, it heals you a little every ten seconds.
 - Titles of a way of playing that change the game: the Forager finds more, the Artisan makes more, the Unbreakable Guard parries longer, the Veteran earns more experience.
 - A tree of sixteen talents, with two abilities used on command (Shockwave and Mend): a point a level, four roots (attack, health, mana, defense), a second ring that opens at rank 5 (critical, second wind, magic, speed), a crown (Legend, Bulwark) and four abilities that open at rank 3 of each root: Whirlwind (the power strike hits all around), Battle Hunger (health for every kill), Flow (mana for every kill), Riposte (a parry hits back).
 - Renown in the regions: every quest finished in a region lowers the prices of its shops (up to a quarter), changes how elders and shopkeepers greet you and, after five, is worth a free bed at the inn.
+- A hen coop and a goat pen in every village: eggs, milk, omelettes, cheese and pancakes.
+- The villagers of every region tell a trouble of theirs in two quests (sixteen new stories).
+- Shops pay less when you sell too much of the same thing on the same day.
 - A garden in every village: seeds to sow, a harvest in a minute or two.
 - The guild clerks and the elders reward whoever their faction esteems; the credits open from the title screen.
 - Four factions (the Guild, the Ring of Wayfarers, the Chroniclers, the Folk): every quest counts for one of them, with its titles.
@@ -87,7 +90,7 @@ As in any good isekai, **the protagonist is far stronger than what they meet**: 
 - Market days: the prices of every region change with the day, for buying and for selling; and every region keeps two rare pieces for somebody who is known there.
 - Fine work: what you make can come out fine (one more of it, or the fine piece instead of the plain one), more often with the titles of an artisan.
 - Three equipment slots: weapon, armor and **accessory** (nine: necklaces, pendants, rings and amulets made at an anvil or left by the guardians, with bonuses to attack, health, critical chance, defense, magic, or that give back health with every hit); and a draught that **cleanses** burning, chill, stun and weakness.
-- A bestiary that tells what every creature you defeated is weak to, what it resists and what it leaves, 36 titles that raise your attack (hunters' ones too), and a profile shared by all your games: every title you ever earned gives a little more health to every game (the "echoes"), and a game that reached level 10 can be **reincarnated**: it ends, every past life gives +3% health to all the ones after it, and half of its gold, with the weapon in its hand, is an heirloom for your next new game.
+- A bestiary that tells what every creature you defeated is weak to, what it resists and what it leaves, 37 titles that raise your attack (hunters' ones too), and a profile shared by all your games: every title you ever earned gives a little more health to every game (the "echoes"), and a game that reached level 10 can be **reincarnated**: it ends, every past life gives +3% health to all the ones after it, and half of its gold, with the weapon in its hand, is an heirloom for your next new game.
 - Three separate games, automatic saving, export and import of a game as one file.
 
 The full catalog of the content, generated from the data, is in [`docs/design/catalog.md`](docs/design/catalog.md).
@@ -237,8 +240,8 @@ The project is developed by its owner together with Claude, an AI assistant that
 
 What comes next, in order (details in the [roadmap](docs/plan/06-roadmap-rischi-backlog.md), in Italian):
 
-- **Soon:** a larger text; animals next to the gardens; more stories per region; automatic checks of the frames.
-- **Medium term:** a base and residents; an economy that reacts to what you buy and sell; tags, achievements, runes; Gideon's Dungeon mode; performance measured on a phone; a better synthesizer for music and ambience (only if the owner wants it).
+- **Soon:** a larger text; a base and residents; automatic checks of the frames.
+- **Medium term:** tags, achievements, runes; Gideon's Dungeon mode; performance measured on a phone; a better synthesizer for music and ambience (only if the owner wants it).
 - **Toward 1.0:** signed packages, documentation for modders, more languages.
 - **The owner decides:** when to publish the first release (Alpha 0.1).
 

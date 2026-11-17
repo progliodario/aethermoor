@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/egg",
+  "name": "$i18n:item.egg.name",
+  "description": "$i18n:item.egg.desc",
+  "kind": "food",
+  "rarity": "common",
+  "price": 4,
+  "stack_max": 99,
+  "use": {
+    "effects": [
+      {
+        "effect": "heal",
+        "amount": 12
+      }
+    ]
+  }
+}

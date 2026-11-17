@@ -147,6 +147,8 @@
                 "price_pm": 1000,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "glut_step_pm": 80,
+                "glut_floor_pm": 400,
                 "market_swing_pm": 80,
                 "renown_stock": [
                   {
@@ -252,6 +254,8 @@
                 "price_pm": 1100,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "glut_step_pm": 80,
+                "glut_floor_pm": 400,
                 "market_swing_pm": 100,
                 "renown_stock": [
                   {
@@ -380,6 +384,8 @@
                 "price_pm": 900,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "glut_step_pm": 80,
+                "glut_floor_pm": 400,
                 "market_swing_pm": 60,
                 "renown_stock": [
                   {
@@ -496,6 +502,8 @@
                 "price_pm": 1300,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "glut_step_pm": 80,
+                "glut_floor_pm": 400,
                 "market_swing_pm": 200,
                 "renown_stock": [
                   {
@@ -626,6 +634,8 @@
                 "price_pm": 1200,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "glut_step_pm": 80,
+                "glut_floor_pm": 400,
                 "market_swing_pm": 80,
                 "renown_stock": [
                   {
@@ -730,6 +740,8 @@
                 "price_pm": 1000,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "glut_step_pm": 80,
+                "glut_floor_pm": 400,
                 "market_swing_pm": 150,
                 "renown_stock": [
                   {
@@ -860,6 +872,8 @@
                 "price_pm": 1500,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "glut_step_pm": 80,
+                "glut_floor_pm": 400,
                 "market_swing_pm": 120,
                 "renown_stock": [
                   {
@@ -1025,6 +1039,8 @@
                 "price_pm": 1100,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "glut_step_pm": 80,
+                "glut_floor_pm": 400,
                 "market_swing_pm": 100,
                 "renown_stock": [
                   {
@@ -2614,15 +2630,23 @@
                 ".'____:...=...:b___:.",
                 ".:::;::...=...'__V_:.",
                 "t........t=...:::;::.",
-                "..........=.........."
+                "..-...\"...=.........."
               ],
               "legend": {
+                "\"": {
+                  "prop": "base:art/prop/pen",
+                  "radius_x100": 45
+                },
                 "'": {
                   "tile": 36
                 },
                 ",": {
                   "prop": "base:art/prop/garden_plot",
                   "radius_x100": 20
+                },
+                "-": {
+                  "prop": "base:art/prop/coop",
+                  "radius_x100": 40
                 },
                 ":": {
                   "tile": 35
@@ -7968,6 +7992,8 @@
                 "price_pm": 1000,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "glut_step_pm": 80,
+                "glut_floor_pm": 400,
                 "market_swing_pm": 80,
                 "renown_stock": [
                   {
@@ -8073,6 +8099,8 @@
                 "price_pm": 1100,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "glut_step_pm": 80,
+                "glut_floor_pm": 400,
                 "market_swing_pm": 100,
                 "renown_stock": [
                   {
@@ -8201,6 +8229,8 @@
                 "price_pm": 900,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "glut_step_pm": 80,
+                "glut_floor_pm": 400,
                 "market_swing_pm": 60,
                 "renown_stock": [
                   {
@@ -8317,6 +8347,8 @@
                 "price_pm": 1300,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "glut_step_pm": 80,
+                "glut_floor_pm": 400,
                 "market_swing_pm": 200,
                 "renown_stock": [
                   {
@@ -8447,6 +8479,8 @@
                 "price_pm": 1200,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "glut_step_pm": 80,
+                "glut_floor_pm": 400,
                 "market_swing_pm": 80,
                 "renown_stock": [
                   {
@@ -8551,6 +8585,8 @@
                 "price_pm": 1000,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "glut_step_pm": 80,
+                "glut_floor_pm": 400,
                 "market_swing_pm": 150,
                 "renown_stock": [
                   {
@@ -8681,6 +8717,8 @@
                 "price_pm": 1500,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "glut_step_pm": 80,
+                "glut_floor_pm": 400,
                 "market_swing_pm": 120,
                 "renown_stock": [
                   {
@@ -8846,6 +8884,8 @@
                 "price_pm": 1100,
                 "renown_step_pm": 15,
                 "renown_max_pm": 250,
+                "glut_step_pm": 80,
+                "glut_floor_pm": 400,
                 "market_swing_pm": 100,
                 "renown_stock": [
                   {
@@ -10435,15 +10475,23 @@
                 ".'____:...=...:b___:.",
                 ".:::;::...=...'__V_:.",
                 "t........t=...:::;::.",
-                "..........=.........."
+                "..-...\"...=.........."
               ],
               "legend": {
+                "\"": {
+                  "prop": "base:art/prop/pen",
+                  "radius_x100": 45
+                },
                 "'": {
                   "tile": 36
                 },
                 ",": {
                   "prop": "base:art/prop/garden_plot",
                   "radius_x100": 20
+                },
+                "-": {
+                  "prop": "base:art/prop/coop",
+                  "radius_x100": 40
                 },
                 ":": {
                   "tile": 35

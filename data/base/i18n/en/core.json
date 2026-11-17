@@ -1073,5 +1073,7 @@
   "ui.sown": "Sown: {item}",
   "ui.plot_growing": "It is still growing",
   "ui.plot_no_seed": "You have no seeds to sow",
+  "hint.farm": "A garden plot: with seeds in the bag (every shop sells them), press E to sow; come back when it flowers and press E again to harvest.",
+  "hint.farm.touch": "A garden plot: with seeds in the bag (every shop sells them), touch Tend to sow; come back when it flowers and touch it again to harvest.",
   "dlg.pip.story.gideon.done": "The whole village agrees: you are a good king. Take the blade, it is nothing like the old one, but it suits you."
 }

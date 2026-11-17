@@ -84,44 +84,8 @@ Gear by level: L1: weapon 3, armor 2/1, L4: weapon 7, armor 4/2, L8: weapon 12, 
 | The Unfinished Equation | 24 | 16 | 2.9 s / 9% |
 | The Last Frame | 24 | 16 | 2.9 s / 9% |
 
-## Outliers (37)
+## Outliers (0)
 
-Creatures whose comfortable level differs from their level by more than 5 above or 6 below.
+Creatures that need more than two levels above their own to be comfortable, or more than 3.0 seconds at their own level. A creature far easier than its level is not an outlier: the protagonist is meant to be overpowered.
 
-- Night owl: level 8, comfortable at 1
-- Ember slime: level 8, comfortable at 1
-- Ice slime: level 8, comfortable at 1
-- Dune wolf: level 8, comfortable at 1
-- Dune scorpion: level 9, comfortable at 1
-- Hollow armor: level 9, comfortable at 1
-- Pearl slime: level 9, comfortable at 1
-- Will-o'-the-wisp: level 9, comfortable at 1
-- Dire wolf: level 9, comfortable at 2
-- Frost wisp: level 10, comfortable at 1
-- Magma slime: level 10, comfortable at 2
-- Polar wolf: level 10, comfortable at 2
-- Storm wolf: level 10, comfortable at 2
-- Dune Pack-Mother: level 11, comfortable at 4
-- Nebula slime: level 11, comfortable at 2
-- Dire Alpha: level 12, comfortable at 5
-- Pearl Empress: level 12, comfortable at 5
-- Char slime: level 12, comfortable at 3
-- Stone golem: level 12, comfortable at 4
-- Polar King: level 13, comfortable at 6
-- Storm Sovereign: level 13, comfortable at 6
-- Cinder wolf: level 13, comfortable at 4
-- Nebula Heart: level 14, comfortable at 7
-- Moonshade Alpha: level 15, comfortable at 8
-- Char Tyrant: level 16, comfortable at 8
-- Astral Curator: level 17, comfortable at 10
-- Cinder Colossus: level 20, comfortable at 13
-- Frost Sovereign: level 20, comfortable at 13
-- Vault Warden: level 22, comfortable at 15
-- The Third Floor: level 24, comfortable at 16
-- The Throne That Was: level 24, comfortable at 16
-- The Rain on the Road: level 24, comfortable at 16
-- The Final Report: level 24, comfortable at 16
-- The Sealed Pot: level 24, comfortable at 16
-- The Overtime: level 24, comfortable at 16
-- The Unfinished Equation: level 24, comfortable at 16
-- The Last Frame: level 24, comfortable at 16
+- none

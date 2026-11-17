@@ -232,6 +232,8 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
                 shop["renown_step_pm"]?.jsonPrimitive?.int ?: 0, shop["renown_max_pm"]?.jsonPrimitive?.int ?: 0,
                 shop["market_swing_pm"]?.jsonPrimitive?.int ?: 0,
                 shop["renown_stock"]?.jsonArray?.map { w -> Pair(w.jsonObject.getValue("item").jsonPrimitive.content, w.jsonObject.getValue("renown").jsonPrimitive.int) } ?: emptyList(),
+                glutStepPm = shop["glut_step_pm"]?.jsonPrimitive?.int ?: 0,
+                glutFloorPm = shop["glut_floor_pm"]?.jsonPrimitive?.int ?: 1000,
             )
         },
         region = input["region"]?.jsonPrimitive?.content ?: "",

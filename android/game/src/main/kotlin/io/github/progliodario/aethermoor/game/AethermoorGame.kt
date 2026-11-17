@@ -2918,6 +2918,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         "night" -> (world.time()?.lightPm ?: 1000) < 400
         "companion" -> world.combat.companion != null
         "renown" -> world.renownHere() > 0
+        "plot" -> world.plotNear() != null
         else -> false
     }
 

@@ -1,0 +1,27 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/tale_tidehaven_2",
+  "name": "$i18n:quest.tale_tidehaven_2.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "hunt",
+      "journal": "$i18n:quest.tale_tidehaven_2.hunt",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_coral",
+          "count": 5
+        },
+        {
+          "type": "collect",
+          "item": "base:item/coral_fragment",
+          "count": 3
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}

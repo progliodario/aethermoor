@@ -55,8 +55,10 @@ struct Region {
     int shop_renown_max_pm = 0;    // and the most the renown takes off
     int shop_market_swing_pm = 0;  // how far the prices swing with the day (spec 06, "Market days")
     std::vector<std::pair<std::string, int>> shop_renown_stock;  // item, renown: wares for friends of the region
-    std::vector<FaunaEntry> fauna;                               // the enemies of the spawners of the region, by weight
-    int bias_elevation = 0;  // pull on the fields of the terrain near its center (spec 09, "Regions")
+    int shop_glut_step_pm = 0;                                   // the glut (spec 06, "Glut")
+    int shop_glut_floor_pm = 1000;
+    std::vector<FaunaEntry> fauna;  // the enemies of the spawners of the region, by weight
+    int bias_elevation = 0;         // pull on the fields of the terrain near its center (spec 09, "Regions")
     int bias_temperature = 0;
     int bias_moisture = 0;
     std::map<std::string, std::vector<int>> ground;  // ground tiles by biome name, instead of the ones of the world

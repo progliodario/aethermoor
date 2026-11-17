@@ -106,6 +106,8 @@ class CombatSim:
         self.recipes = {r["id"]: r for r in scenario.get("recipes", [])}  # crafting (spec 06, "Crafting")
         self.last_craft_fine = False  # the last recipe made came out fine (spec 06, "Quality"); presentation only
         self.ability_cd: dict[str, int] = {}  # ticks until an active ability is ready again, by kind (spec 11, "Active abilities"); not saved
+        self.sold_today: dict[str, int] = {}  # the glut (spec 06, "Glut"): how many of each item were sold on `sold_day`; not saved
+        self.sold_day = 0
         self.day_ticks = scenario.get("day_ticks", 0)  # the length of a day for the market (spec 06, "Market days"); 0: always day 1
         self.region = scenario.get("region", "")  # the region of the scenario: the renown is counted by region (spec 07, "Renown")
         self.combat = nm.derive_stream(seed, "combat")
@@ -1025,6 +1027,19 @@ class CombatSim:
         price = max(1, price * self.market_pm() // 1000)
         return max(1, price * (1000 - self.renown_discount_pm()) // 1000)
 
+    def day(self) -> int:
+        """The day of the world (spec 08): `world_ticks / day_ticks + 1`, and 1 without a clock."""
+        return self.world_ticks // self.day_ticks + 1 if self.day_ticks > 0 else 1
+
+    def sell_price(self, item_id: str) -> int:
+        """What the open shop pays for one item (spec 06, "Shops", "Market days", "Glut"): half the price, moved by the market of the day,
+        and less for every one of the same item sold the same day; at least 1."""
+        if self.sold_day != self.day():  # a new day: the glut is forgotten
+            self.sold_day, self.sold_today = self.day(), {}
+        price = max(1, self.items[item_id]["price"] // 2 * self.market_pm() // 1000)
+        step, floor = (self.shop or {}).get("glut_step_pm", 0), (self.shop or {}).get("glut_floor_pm", 1000)
+        return max(1, price * max(floor, 1000 - step * self.sold_today.get(item_id, 0)) // 1000)
+
     def sell(self, item_id: str) -> bool:
         """Sells one item of the inventory to the open shop (spec 06). Returns False, changing nothing, when refused."""
         if self.shop is None or self.story is None:
@@ -1035,7 +1050,8 @@ class CombatSim:
             return False
         if owned == 1 and item_id in self.equipped.values():
             return False
-        self.story.gold += max(1, item["price"] // 2 * self.market_pm() // 1000)  # the market of the day pays more or less
+        self.story.gold += self.sell_price(item_id)
+        self.sold_today[item_id] = self.sold_today.get(item_id, 0) + 1  # the glut grows (spec 06, "Glut")
         self.inventory[item_id] = owned - 1
         if self.inventory[item_id] == 0:
             del self.inventory[item_id]

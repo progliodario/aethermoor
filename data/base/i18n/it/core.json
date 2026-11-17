@@ -1073,5 +1073,7 @@
   "ui.sown": "Seminato: {item}",
   "ui.plot_growing": "Sta ancora crescendo",
   "ui.plot_no_seed": "Non hai semi da piantare",
+  "hint.farm": "Un orto: con dei semi nello zaino (li vende ogni negozio), premi E per seminare; torna quando fiorisce e premi di nuovo E per raccogliere.",
+  "hint.farm.touch": "Un orto: con dei semi nello zaino (li vende ogni negozio), tocca Coltiva per seminare; torna quando fiorisce e toccalo di nuovo per raccogliere.",
   "dlg.pip.story.gideon.done": "Tutto il villaggio è d'accordo: sei un buon re. Prendi la lama, non è per niente come la vecchia, ma ti sta bene."
 }

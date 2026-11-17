@@ -584,7 +584,8 @@ void WorldSim::open_shop() {
             region_at(m_store_->params(), static_cast<int>(std::floor(m_player_.position.x)),
                       static_cast<int>(std::floor(m_player_.position.y))))];
         shop = ShopDef{region.shop_price_pm,      region.shop_stock,           region.shop_renown_step_pm,
-                       region.shop_renown_max_pm, region.shop_market_swing_pm, region.shop_renown_stock};
+                       region.shop_renown_max_pm, region.shop_market_swing_pm, region.shop_renown_stock,
+                       region.shop_glut_step_pm,  region.shop_glut_floor_pm};
     } else if (m_setup_.shop) {
         shop = m_setup_.shop;
     }
@@ -605,7 +606,8 @@ void WorldSim::open_shop_of(const std::string& region_name, std::int64_t markup_
         for (const Region& region : m_store_->params().regions) {
             if (region.id == region_name) {
                 far = ShopDef{region.shop_price_pm,      region.shop_stock,           region.shop_renown_step_pm,
-                              region.shop_renown_max_pm, region.shop_market_swing_pm, {}};
+                              region.shop_renown_max_pm, region.shop_market_swing_pm, {},
+                              region.shop_glut_step_pm,  region.shop_glut_floor_pm};
             }
         }
     } else if (const auto found = m_setup_.far_shops.find(region_name); found != m_setup_.far_shops.end()) {
@@ -701,7 +703,21 @@ std::int64_t WorldSim::sell_price(const std::string& item_id) const {
     if (item == m_setup_.items.end() || item->second.price <= 0) {
         return 0;
     }
-    return std::max<std::int64_t>(1, item->second.price / 2 * market_pm() / 1000);  // the market of the day (spec 06)
+    const std::int64_t price =
+        std::max<std::int64_t>(1, item->second.price / 2 * market_pm() / 1000);  // the market of the day (spec 06)
+    if (!m_shop_ || m_shop_->glut_step_pm <= 0) {
+        return price;
+    }
+    // the glut (spec 06, "Glut"): less for every one of the same item sold today
+    const auto sold = m_sold_today_.find(item_id);
+    const std::int64_t count = m_sold_day_ != day_now() || sold == m_sold_today_.end() ? 0 : sold->second;
+    return std::max<std::int64_t>(
+        1, price * std::max<std::int64_t>(m_shop_->glut_floor_pm, 1000 - m_shop_->glut_step_pm * count) / 1000);
+}
+
+std::int64_t WorldSim::day_now() const {
+    const std::int64_t day_ticks = m_store_ ? m_store_->params().time.day_ticks : m_setup_.day_ticks;
+    return day_ticks > 0 ? m_world_ticks_ / day_ticks + 1 : 1;
 }
 
 bool WorldSim::buy(const std::string& item_id) {
@@ -735,6 +751,11 @@ bool WorldSim::sell(const std::string& item_id) {
         return false;
     }
     m_story_.set_gold(m_story_.gold() + sell_price(item_id));
+    if (m_sold_day_ != day_now()) {  // a new day: the glut is forgotten (spec 06, "Glut")
+        m_sold_day_ = day_now();
+        m_sold_today_.clear();
+    }
+    ++m_sold_today_[item_id];
     if (--owned->second == 0) {
         m_inventory_.erase(owned);
     }

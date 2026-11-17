@@ -28,6 +28,13 @@ ITEMS = {
     "driftwood": ("material", 4, [], "Driftwood", "Legno di mare", "Wood the sea has polished white. Light and hard.", "Legno che il mare ha levigato fino a sbiancarlo. Leggero e duro."),
     "sea_shell": ("material", 8, [], "Sea shell", "Conchiglia", "Pink inside. Hold it to your ear and it is still the sea.", "Rosa all'interno. Accostata all'orecchio, c'è ancora il mare."),
     "flower_tea": ("food", 14, [("heal", 25)], "Flower tea", "Tè di fiori", "Warm, golden and sweet without sugar. Restores some health.", "Caldo, dorato e dolce senza zucchero. Ripristina un po' di salute."),
+    # the animals of the villages (spec 06, "Animals"): a hen coop and a goat pen
+    "egg": ("food", 4, [("heal", 12)], "Egg", "Uovo", "Still warm. A hen thinks it is hers.", "Ancora tiepido. Una gallina pensa che sia suo."),
+    "fresh_milk": ("food", 6, [("heal", 15)], "Fresh milk", "Latte fresco", "Goat's milk, a little grassy. Restores a little health.", "Latte di capra, che sa un po' d'erba. Ripristina un po' di salute."),
+    "hen_feather": ("material", 2, [], "Hen feather", "Piuma di gallina", "White and soft. Good for stuffing, or for writing.", "Bianca e morbida. Buona per imbottire, o per scrivere."),
+    "omelette": ("food", 20, [("heal", 60)], "Omelette", "Frittata", "Eggs and herbs over a fire. Restores a good share of health.", "Uova ed erbe sul fuoco. Ripristina una buona parte di salute."),
+    "goat_cheese": ("food", 28, [("heal", 80)], "Goat cheese", "Formaggio di capra", "A small round cheese, salted and pressed. Restores a lot of health.", "Una piccola forma, salata e pressata. Ripristina molta salute."),
+    "berry_pancakes": ("food", 30, [("heal", 90)], "Berry pancakes", "Frittelle di bacche", "Eggs, milk and berries, golden on both sides. Restores a lot of health.", "Uova, latte e bacche, dorate da entrambi i lati. Ripristinano molta salute."),
     "fern_salad": ("food", 9, [("heal", 18)], "Fern salad", "Insalata di felci", "Crisp fronds and berries. Restores some health.", "Fronde croccanti e bacche. Ripristina un po' di salute."),
 }
 
@@ -52,6 +59,11 @@ NODES = [
     # the small scenery of the wild (flowers, ferns, stumps, logs, driftwood, dry shrubs, shards of ice)
     {"prop": "base:art/prop/flowers", "sound": "plant", "cooldown_ticks": 6000, "reach_x100": 130,
      "drops": [("wildflowers", 1, 3, 1000), ("healing_herb", 1, 1, 200)]},
+    # the animals of the villages (spec 06, "Animals"): eggs every minute and a half, milk every two
+    {"prop": "base:art/prop/coop", "sound": "plant", "cooldown_ticks": 5400, "reach_x100": 170,
+     "drops": [("egg", 2, 4, 1000), ("hen_feather", 1, 2, 500)]},
+    {"prop": "base:art/prop/pen", "sound": "plant", "cooldown_ticks": 7200, "reach_x100": 180,
+     "drops": [("fresh_milk", 1, 3, 1000)]},
     {"prop": "base:art/prop/fern", "sound": "plant", "cooldown_ticks": 6000, "reach_x100": 130,
      "drops": [("fern_frond", 1, 3, 1000)]},
     {"prop": "base:art/prop/stump", "sound": "wood", "cooldown_ticks": 12000, "reach_x100": 150,

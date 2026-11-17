@@ -1,0 +1,27 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/tale_frostveil_1",
+  "name": "$i18n:quest.tale_frostveil_1.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "hunt",
+      "journal": "$i18n:quest.tale_frostveil_1.hunt",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_ice",
+          "count": 5
+        },
+        {
+          "type": "collect",
+          "item": "base:item/ice_crystal",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": []
+}
