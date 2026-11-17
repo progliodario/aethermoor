@@ -4402,7 +4402,7 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
             cy += 34.0F * density;
             const float left = std::max(20.0F * density, (static_cast<float>(out_w) - 900.0F * density) / 2.0F);
             const float step = std::min(24.0F * density, (static_cast<float>(out_h) - cy - 50.0F * density) /
-                                                             std::max<float>(1.0F, g_deeds.size()));
+                                                             std::max(1.0F, static_cast<float>(g_deeds.size())));
             for (const aether::DeedDef& deed : g_deeds) {
                 const bool is_done = std::find(done.begin(), done.end(), deed.id) != done.end();
                 const std::string line = std::string(is_done ? "+ " : "- ") + assets.pack.text(lang, deed.name) + ": " +
