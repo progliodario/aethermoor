@@ -171,6 +171,7 @@ def main() -> None:
             content.update({f"quest.friend_{region}.name": name, f"quest.friend_{region}.hunt": journal})
         set_texts("roles.json", lang, roles)
         set_texts("content.json", lang, content)
+    __import__("set_factions").main()  # the faction of the new quests (spec 07, "Factions")
     print(f"wrote {len(REGIONS)} quests for friends and the goods from afar of {len(REGIONS)} shopkeepers")
 
 

@@ -3,6 +3,7 @@
   "id": "base:quest/side/friend_ironspine",
   "name": "$i18n:quest.friend_ironspine.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "hunt",

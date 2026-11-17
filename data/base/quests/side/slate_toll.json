@@ -3,6 +3,7 @@
   "id": "base:quest/side/slate_toll",
   "name": "$i18n:quest.slate_toll.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "hunt",

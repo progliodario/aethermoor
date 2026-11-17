@@ -3,6 +3,7 @@
   "id": "base:quest/side/aldermere_dire_alpha",
   "name": "$i18n:quest.aldermere_dire_alpha.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

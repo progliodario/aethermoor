@@ -3,6 +3,7 @@
   "id": "base:quest/side/sunscar_mother",
   "name": "$i18n:quest.sunscar_mother.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

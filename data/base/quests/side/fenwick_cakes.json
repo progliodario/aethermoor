@@ -3,6 +3,7 @@
   "id": "base:quest/side/fenwick_cakes",
   "name": "$i18n:quest.fenwick_cakes.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

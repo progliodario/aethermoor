@@ -3,6 +3,7 @@
   "id": "base:quest/side/letter_nella",
   "name": "$i18n:quest.letter_nella.name",
   "kind": "side",
+  "faction": "wayfarers",
   "stages": [
     {
       "id": "task",

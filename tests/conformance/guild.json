@@ -7774,6 +7774,7 @@
             "id": "board:32:32:1:0",
             "name": "$i18n:quest.board.purge.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "11",
               "target": "$i18n:enemy.slime_green.name",
@@ -7812,6 +7813,7 @@
             "id": "board:32:32:1:1",
             "name": "$i18n:quest.board.stockpile.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "15",
               "target": "$i18n:item.boar_hide.name",
@@ -7850,6 +7852,7 @@
             "id": "board:32:32:1:2",
             "name": "$i18n:quest.board.stockpile.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:item.slime_gel.name",
@@ -7888,6 +7891,7 @@
             "id": "board:32:32:1:3",
             "name": "$i18n:quest.board.stockpile.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "15",
               "target": "$i18n:item.slime_gel.name",
@@ -7926,6 +7930,7 @@
             "id": "board:32:32:2:0",
             "name": "$i18n:quest.board.stockpile.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "11",
               "target": "$i18n:item.slime_gel.name",
@@ -7964,6 +7969,7 @@
             "id": "board:32:32:2:1",
             "name": "$i18n:quest.board.stockpile.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "13",
               "target": "$i18n:item.wildflowers.name",
@@ -8002,6 +8008,7 @@
             "id": "board:32:32:2:2",
             "name": "$i18n:quest.board.stockpile.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "15",
               "target": "$i18n:item.tawny_fur.name",
@@ -8040,6 +8047,7 @@
             "id": "board:32:32:2:3",
             "name": "$i18n:quest.board.purge.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:enemy.myconid.name",
@@ -8078,6 +8086,7 @@
             "id": "board:32:32:9:0",
             "name": "$i18n:quest.board.purge.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:enemy.slime_mint.name",
@@ -8116,6 +8125,7 @@
             "id": "board:32:32:9:1",
             "name": "$i18n:quest.board.gather.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:item.slime_gel.name",
@@ -8154,6 +8164,7 @@
             "id": "board:32:32:9:2",
             "name": "$i18n:quest.board.stockpile.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "13",
               "target": "$i18n:item.tawny_fur.name",
@@ -8192,6 +8203,7 @@
             "id": "board:32:32:9:3",
             "name": "$i18n:quest.board.gather.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:item.spore_cap.name",
@@ -8230,6 +8242,7 @@
             "id": "board:32:32:400:0",
             "name": "$i18n:quest.board.cull.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:enemy.slime_mint.name",
@@ -8268,6 +8281,7 @@
             "id": "board:32:32:400:1",
             "name": "$i18n:quest.board.cull.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:enemy.slime_green.name",
@@ -8306,6 +8320,7 @@
             "id": "board:32:32:400:2",
             "name": "$i18n:quest.board.gather.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "7",
               "target": "$i18n:item.slime_gel.name",
@@ -8344,6 +8359,7 @@
             "id": "board:32:32:400:3",
             "name": "$i18n:quest.board.gather.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:item.mint_leaf.name",
@@ -8382,6 +8398,7 @@
             "id": "board:49:0:1:0",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:enemy.slime_blue.name",
@@ -8420,6 +8437,7 @@
             "id": "board:49:0:1:1",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "10",
               "target": "$i18n:enemy.slime_blue.name",
@@ -8458,6 +8476,7 @@
             "id": "board:49:0:1:2",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:item.elk_antler.name",
@@ -8496,6 +8515,7 @@
             "id": "board:49:0:1:3",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:enemy.slime_green.name",
@@ -8534,6 +8554,7 @@
             "id": "board:49:0:2:0",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:enemy.slime_rust.name",
@@ -8572,6 +8593,7 @@
             "id": "board:49:0:2:1",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "8",
               "target": "$i18n:item.dire_fang.name",
@@ -8610,6 +8632,7 @@
             "id": "board:49:0:2:2",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "8",
               "target": "$i18n:enemy.stone_golem.name",
@@ -8648,6 +8671,7 @@
             "id": "board:49:0:2:3",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:enemy.cave_bat.name",
@@ -8686,6 +8710,7 @@
             "id": "board:49:0:9:0",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:enemy.wolf_dire.name",
@@ -8724,6 +8749,7 @@
             "id": "board:49:0:9:1",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:item.wolf_fang.name",
@@ -8762,6 +8788,7 @@
             "id": "board:49:0:9:2",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "10",
               "target": "$i18n:enemy.cave_bat.name",
@@ -8800,6 +8827,7 @@
             "id": "board:49:0:9:3",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "3",
               "target": "$i18n:enemy.slime_rust.name",
@@ -8838,6 +8866,7 @@
             "id": "board:49:0:400:0",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "10",
               "target": "$i18n:enemy.wolf_grey.name",
@@ -8876,6 +8905,7 @@
             "id": "board:49:0:400:1",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "11",
               "target": "$i18n:enemy.slime_slate.name",
@@ -8914,6 +8944,7 @@
             "id": "board:49:0:400:2",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "8",
               "target": "$i18n:item.rust_flake.name",
@@ -8952,6 +8983,7 @@
             "id": "board:49:0:400:3",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "8",
               "target": "$i18n:item.bat_wing.name",
@@ -8990,6 +9022,7 @@
             "id": "board:9:1:1:0",
             "name": "$i18n:quest.board.purge.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:enemy.frost_wisp.name",
@@ -9028,6 +9061,7 @@
             "id": "board:9:1:1:1",
             "name": "$i18n:quest.board.stockpile.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "15",
               "target": "$i18n:item.slime_gel.name",
@@ -9066,6 +9100,7 @@
             "id": "board:9:1:1:2",
             "name": "$i18n:quest.board.gather.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:item.elk_antler.name",
@@ -9104,6 +9139,7 @@
             "id": "board:9:1:1:3",
             "name": "$i18n:quest.board.purge.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "8",
               "target": "$i18n:enemy.wolf_polar.name",
@@ -9142,6 +9178,7 @@
             "id": "board:9:1:2:0",
             "name": "$i18n:quest.board.gather.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:item.bat_wing.name",
@@ -9180,6 +9217,7 @@
             "id": "board:9:1:2:1",
             "name": "$i18n:quest.board.stockpile.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:item.bat_wing.name",
@@ -9218,6 +9256,7 @@
             "id": "board:9:1:2:2",
             "name": "$i18n:quest.board.purge.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:enemy.slime_ice.name",
@@ -9256,6 +9295,7 @@
             "id": "board:9:1:2:3",
             "name": "$i18n:quest.board.stockpile.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:item.ice_crystal.name",
@@ -9294,6 +9334,7 @@
             "id": "board:9:1:9:0",
             "name": "$i18n:quest.board.gather.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:item.polar_fur.name",
@@ -9332,6 +9373,7 @@
             "id": "board:9:1:9:1",
             "name": "$i18n:quest.board.gather.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:item.frost_pelt.name",
@@ -9370,6 +9412,7 @@
             "id": "board:9:1:9:2",
             "name": "$i18n:quest.board.gather.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "8",
               "target": "$i18n:item.polar_fur.name",
@@ -9408,6 +9451,7 @@
             "id": "board:9:1:9:3",
             "name": "$i18n:quest.board.gather.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:item.frost_pelt.name",
@@ -9446,6 +9490,7 @@
             "id": "board:9:1:400:0",
             "name": "$i18n:quest.board.purge.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "11",
               "target": "$i18n:enemy.cave_bat.name",
@@ -9484,6 +9529,7 @@
             "id": "board:9:1:400:1",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:enemy.frost_wisp.name",
@@ -9522,6 +9568,7 @@
             "id": "board:9:1:400:2",
             "name": "$i18n:quest.board.gather.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:item.ice_crystal.name",
@@ -9560,6 +9607,7 @@
             "id": "board:9:1:400:3",
             "name": "$i18n:quest.board.purge.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:enemy.slime_blue.name",
@@ -9598,6 +9646,7 @@
             "id": "board:51:1:1:0",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:item.rust_flake.name",
@@ -9636,6 +9685,7 @@
             "id": "board:51:1:1:1",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:item.wolf_fang.name",
@@ -9674,6 +9724,7 @@
             "id": "board:51:1:1:2",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "15",
               "target": "$i18n:item.dire_fang.name",
@@ -9712,6 +9763,7 @@
             "id": "board:51:1:1:3",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "10",
               "target": "$i18n:enemy.slime_slate.name",
@@ -9750,6 +9802,7 @@
             "id": "board:51:1:2:0",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "3",
               "target": "$i18n:enemy.wolf_dire.name",
@@ -9788,6 +9841,7 @@
             "id": "board:51:1:2:1",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:item.rust_flake.name",
@@ -9826,6 +9880,7 @@
             "id": "board:51:1:2:2",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:enemy.slime_slate.name",
@@ -9864,6 +9919,7 @@
             "id": "board:51:1:2:3",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "15",
               "target": "$i18n:item.bat_wing.name",
@@ -9902,6 +9958,7 @@
             "id": "board:51:1:9:0",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "15",
               "target": "$i18n:item.slate_shard.name",
@@ -9940,6 +9997,7 @@
             "id": "board:51:1:9:1",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "3",
               "target": "$i18n:enemy.slime_rust.name",
@@ -9978,6 +10036,7 @@
             "id": "board:51:1:9:2",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:item.elk_antler.name",
@@ -10016,6 +10075,7 @@
             "id": "board:51:1:9:3",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:enemy.wolf_dire.name",
@@ -10054,6 +10114,7 @@
             "id": "board:51:1:400:0",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "8",
               "target": "$i18n:enemy.hollow_armor.name",
@@ -10092,6 +10153,7 @@
             "id": "board:51:1:400:1",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:enemy.slime_blue.name",
@@ -10130,6 +10192,7 @@
             "id": "board:51:1:400:2",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "8",
               "target": "$i18n:enemy.hollow_armor.name",
@@ -10168,6 +10231,7 @@
             "id": "board:51:1:400:3",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:item.dire_fang.name",
@@ -10206,6 +10270,7 @@
             "id": "board:57:1:1:0",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:item.rust_flake.name",
@@ -10244,6 +10309,7 @@
             "id": "board:57:1:1:1",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:item.slate_shard.name",
@@ -10282,6 +10348,7 @@
             "id": "board:57:1:1:2",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "11",
               "target": "$i18n:item.slime_gel.name",
@@ -10320,6 +10387,7 @@
             "id": "board:57:1:1:3",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "8",
               "target": "$i18n:enemy.cave_spider.name",
@@ -10358,6 +10426,7 @@
             "id": "board:57:1:2:0",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "7",
               "target": "$i18n:item.rust_flake.name",
@@ -10396,6 +10465,7 @@
             "id": "board:57:1:2:1",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:enemy.wolf_dire.name",
@@ -10434,6 +10504,7 @@
             "id": "board:57:1:2:2",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "10",
               "target": "$i18n:enemy.cave_spider.name",
@@ -10472,6 +10543,7 @@
             "id": "board:57:1:2:3",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:enemy.stone_golem.name",
@@ -10510,6 +10582,7 @@
             "id": "board:57:1:9:0",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:item.slime_gel.name",
@@ -10548,6 +10621,7 @@
             "id": "board:57:1:9:1",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "3",
               "target": "$i18n:enemy.wolf_grey.name",
@@ -10586,6 +10660,7 @@
             "id": "board:57:1:9:2",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:item.elk_antler.name",
@@ -10624,6 +10699,7 @@
             "id": "board:57:1:9:3",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:item.rust_flake.name",
@@ -10662,6 +10738,7 @@
             "id": "board:57:1:400:0",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:item.spider_silk.name",
@@ -10700,6 +10777,7 @@
             "id": "board:57:1:400:1",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "7",
               "target": "$i18n:item.bat_wing.name",
@@ -10738,6 +10816,7 @@
             "id": "board:57:1:400:2",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "8",
               "target": "$i18n:enemy.slime_blue.name",
@@ -10776,6 +10855,7 @@
             "id": "board:57:1:400:3",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:enemy.wolf_dire.name",
@@ -10814,6 +10894,7 @@
             "id": "board:9:3:1:0",
             "name": "$i18n:quest.board.cull.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "3",
               "target": "$i18n:enemy.cave_bat.name",
@@ -10852,6 +10933,7 @@
             "id": "board:9:3:1:1",
             "name": "$i18n:quest.board.cull.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "3",
               "target": "$i18n:enemy.wolf_grey.name",
@@ -10890,6 +10972,7 @@
             "id": "board:9:3:1:2",
             "name": "$i18n:quest.board.stockpile.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "13",
               "target": "$i18n:item.wolf_fang.name",
@@ -10928,6 +11011,7 @@
             "id": "board:9:3:1:3",
             "name": "$i18n:quest.board.gather.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:item.slime_gel.name",
@@ -10966,6 +11050,7 @@
             "id": "board:9:3:2:0",
             "name": "$i18n:quest.board.purge.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:enemy.myconid.name",
@@ -11004,6 +11089,7 @@
             "id": "board:9:3:2:1",
             "name": "$i18n:quest.board.purge.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "10",
               "target": "$i18n:enemy.slime_green.name",
@@ -11042,6 +11128,7 @@
             "id": "board:9:3:2:2",
             "name": "$i18n:quest.board.cull.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:enemy.slime_green.name",
@@ -11080,6 +11167,7 @@
             "id": "board:9:3:2:3",
             "name": "$i18n:quest.board.cull.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:enemy.wolf_shade.name",
@@ -11118,6 +11206,7 @@
             "id": "board:9:3:9:0",
             "name": "$i18n:quest.board.cull.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "3",
               "target": "$i18n:enemy.wolf_shade.name",
@@ -11156,6 +11245,7 @@
             "id": "board:9:3:9:1",
             "name": "$i18n:quest.board.purge.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:enemy.myconid.name",
@@ -11194,6 +11284,7 @@
             "id": "board:9:3:9:2",
             "name": "$i18n:quest.board.stockpile.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "13",
               "target": "$i18n:item.slime_gel.name",
@@ -11232,6 +11323,7 @@
             "id": "board:9:3:9:3",
             "name": "$i18n:quest.board.cull.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:enemy.slime_green.name",
@@ -11270,6 +11362,7 @@
             "id": "board:9:3:400:0",
             "name": "$i18n:quest.board.stockpile.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "14",
               "target": "$i18n:item.rust_flake.name",
@@ -11308,6 +11401,7 @@
             "id": "board:9:3:400:1",
             "name": "$i18n:quest.board.purge.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "10",
               "target": "$i18n:enemy.wisp.name",
@@ -11346,6 +11440,7 @@
             "id": "board:9:3:400:2",
             "name": "$i18n:quest.board.cull.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "3",
               "target": "$i18n:enemy.myconid.name",
@@ -11384,6 +11479,7 @@
             "id": "board:9:3:400:3",
             "name": "$i18n:quest.board.cull.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:enemy.myconid.name",
@@ -19254,6 +19350,7 @@
             "id": "board:32:32:1:0",
             "name": "$i18n:quest.board.gather.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:item.slime_gel.name",
@@ -19292,6 +19389,7 @@
             "id": "board:32:32:1:1",
             "name": "$i18n:quest.board.cull.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:enemy.wild_boar.name",
@@ -19330,6 +19428,7 @@
             "id": "board:32:32:1:2",
             "name": "$i18n:quest.board.purge.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "10",
               "target": "$i18n:enemy.myconid.name",
@@ -19368,6 +19467,7 @@
             "id": "board:32:32:1:3",
             "name": "$i18n:quest.board.cull.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:enemy.slime_green.name",
@@ -19406,6 +19506,7 @@
             "id": "board:32:32:2:0",
             "name": "$i18n:quest.board.purge.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "11",
               "target": "$i18n:enemy.wild_boar.name",
@@ -19444,6 +19545,7 @@
             "id": "board:32:32:2:1",
             "name": "$i18n:quest.board.stockpile.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "10",
               "target": "$i18n:item.slime_gel.name",
@@ -19482,6 +19584,7 @@
             "id": "board:32:32:2:2",
             "name": "$i18n:quest.board.cull.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:enemy.myconid.name",
@@ -19520,6 +19623,7 @@
             "id": "board:32:32:2:3",
             "name": "$i18n:quest.board.purge.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "8",
               "target": "$i18n:enemy.slime_green.name",
@@ -19558,6 +19662,7 @@
             "id": "board:32:32:9:0",
             "name": "$i18n:quest.board.gather.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "7",
               "target": "$i18n:item.boar_hide.name",
@@ -19596,6 +19701,7 @@
             "id": "board:32:32:9:1",
             "name": "$i18n:quest.board.stockpile.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "10",
               "target": "$i18n:item.wildflowers.name",
@@ -19634,6 +19740,7 @@
             "id": "board:32:32:9:2",
             "name": "$i18n:quest.board.purge.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:enemy.slime_mint.name",
@@ -19672,6 +19779,7 @@
             "id": "board:32:32:9:3",
             "name": "$i18n:quest.board.gather.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "7",
               "target": "$i18n:item.boar_hide.name",
@@ -19710,6 +19818,7 @@
             "id": "board:32:32:400:0",
             "name": "$i18n:quest.board.gather.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:item.boar_hide.name",
@@ -19748,6 +19857,7 @@
             "id": "board:32:32:400:1",
             "name": "$i18n:quest.board.cull.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:enemy.slime_green.name",
@@ -19786,6 +19896,7 @@
             "id": "board:32:32:400:2",
             "name": "$i18n:quest.board.stockpile.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:item.slime_gel.name",
@@ -19824,6 +19935,7 @@
             "id": "board:32:32:400:3",
             "name": "$i18n:quest.board.stockpile.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "14",
               "target": "$i18n:item.boar_hide.name",
@@ -19862,6 +19974,7 @@
             "id": "board:49:0:1:0",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:item.slime_gel.name",
@@ -19900,6 +20013,7 @@
             "id": "board:49:0:1:1",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:enemy.slime_green.name",
@@ -19938,6 +20052,7 @@
             "id": "board:49:0:1:2",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "3",
               "target": "$i18n:enemy.cave_spider.name",
@@ -19976,6 +20091,7 @@
             "id": "board:49:0:1:3",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "8",
               "target": "$i18n:enemy.wolf_grey.name",
@@ -20014,6 +20130,7 @@
             "id": "board:49:0:2:0",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "14",
               "target": "$i18n:item.slime_gel.name",
@@ -20052,6 +20169,7 @@
             "id": "board:49:0:2:1",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:enemy.wolf_grey.name",
@@ -20090,6 +20208,7 @@
             "id": "board:49:0:2:2",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "13",
               "target": "$i18n:item.slate_shard.name",
@@ -20128,6 +20247,7 @@
             "id": "board:49:0:2:3",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "8",
               "target": "$i18n:item.elk_antler.name",
@@ -20166,6 +20286,7 @@
             "id": "board:49:0:9:0",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "15",
               "target": "$i18n:item.slime_gel.name",
@@ -20204,6 +20325,7 @@
             "id": "board:49:0:9:1",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:item.wolf_fang.name",
@@ -20242,6 +20364,7 @@
             "id": "board:49:0:9:2",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "3",
               "target": "$i18n:enemy.hollow_armor.name",
@@ -20280,6 +20403,7 @@
             "id": "board:49:0:9:3",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "14",
               "target": "$i18n:item.bat_wing.name",
@@ -20318,6 +20442,7 @@
             "id": "board:49:0:400:0",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "8",
               "target": "$i18n:enemy.slime_green.name",
@@ -20356,6 +20481,7 @@
             "id": "board:49:0:400:1",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "11",
               "target": "$i18n:item.wolf_fang.name",
@@ -20394,6 +20520,7 @@
             "id": "board:49:0:400:2",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:enemy.slime_rust.name",
@@ -20432,6 +20559,7 @@
             "id": "board:49:0:400:3",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "15",
               "target": "$i18n:item.slate_shard.name",
@@ -20470,6 +20598,7 @@
             "id": "board:54:0:1:0",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:item.rust_flake.name",
@@ -20508,6 +20637,7 @@
             "id": "board:54:0:1:1",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:item.dire_fang.name",
@@ -20546,6 +20676,7 @@
             "id": "board:54:0:1:2",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:enemy.slime_green.name",
@@ -20584,6 +20715,7 @@
             "id": "board:54:0:1:3",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:item.rust_flake.name",
@@ -20622,6 +20754,7 @@
             "id": "board:54:0:2:0",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:item.wolf_fang.name",
@@ -20660,6 +20793,7 @@
             "id": "board:54:0:2:1",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:item.slime_gel.name",
@@ -20698,6 +20832,7 @@
             "id": "board:54:0:2:2",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "15",
               "target": "$i18n:item.wolf_fang.name",
@@ -20736,6 +20871,7 @@
             "id": "board:54:0:2:3",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:enemy.slime_rust.name",
@@ -20774,6 +20910,7 @@
             "id": "board:54:0:9:0",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "7",
               "target": "$i18n:item.rust_flake.name",
@@ -20812,6 +20949,7 @@
             "id": "board:54:0:9:1",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "8",
               "target": "$i18n:enemy.ridge_elk.name",
@@ -20850,6 +20988,7 @@
             "id": "board:54:0:9:2",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "7",
               "target": "$i18n:item.wolf_fang.name",
@@ -20888,6 +21027,7 @@
             "id": "board:54:0:9:3",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:enemy.ridge_elk.name",
@@ -20926,6 +21066,7 @@
             "id": "board:54:0:400:0",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "10",
               "target": "$i18n:item.slate_shard.name",
@@ -20964,6 +21105,7 @@
             "id": "board:54:0:400:1",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "15",
               "target": "$i18n:item.slate_shard.name",
@@ -21002,6 +21144,7 @@
             "id": "board:54:0:400:2",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "8",
               "target": "$i18n:item.elk_antler.name",
@@ -21040,6 +21183,7 @@
             "id": "board:54:0:400:3",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:enemy.slime_green.name",
@@ -21078,6 +21222,7 @@
             "id": "board:58:0:1:0",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "3",
               "target": "$i18n:enemy.stone_golem.name",
@@ -21116,6 +21261,7 @@
             "id": "board:58:0:1:1",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:enemy.slime_green.name",
@@ -21154,6 +21300,7 @@
             "id": "board:58:0:1:2",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "11",
               "target": "$i18n:enemy.slime_green.name",
@@ -21192,6 +21339,7 @@
             "id": "board:58:0:1:3",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "7",
               "target": "$i18n:item.slate_shard.name",
@@ -21230,6 +21378,7 @@
             "id": "board:58:0:2:0",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "14",
               "target": "$i18n:item.rust_flake.name",
@@ -21268,6 +21417,7 @@
             "id": "board:58:0:2:1",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "11",
               "target": "$i18n:enemy.wolf_dire.name",
@@ -21306,6 +21456,7 @@
             "id": "board:58:0:2:2",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:enemy.slime_slate.name",
@@ -21344,6 +21495,7 @@
             "id": "board:58:0:2:3",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "11",
               "target": "$i18n:item.rust_flake.name",
@@ -21382,6 +21534,7 @@
             "id": "board:58:0:9:0",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:item.dire_fang.name",
@@ -21420,6 +21573,7 @@
             "id": "board:58:0:9:1",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "10",
               "target": "$i18n:item.bat_wing.name",
@@ -21458,6 +21612,7 @@
             "id": "board:58:0:9:2",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:enemy.cave_spider.name",
@@ -21496,6 +21651,7 @@
             "id": "board:58:0:9:3",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:item.dire_fang.name",
@@ -21534,6 +21690,7 @@
             "id": "board:58:0:400:0",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:enemy.slime_rust.name",
@@ -21572,6 +21729,7 @@
             "id": "board:58:0:400:1",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:item.dire_fang.name",
@@ -21610,6 +21768,7 @@
             "id": "board:58:0:400:2",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:enemy.ridge_elk.name",
@@ -21648,6 +21807,7 @@
             "id": "board:58:0:400:3",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "10",
               "target": "$i18n:enemy.ridge_elk.name",
@@ -21686,6 +21846,7 @@
             "id": "board:40:2:1:0",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:enemy.wolf_polar.name",
@@ -21724,6 +21885,7 @@
             "id": "board:40:2:1:1",
             "name": "$i18n:quest.board.stockpile.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:item.ice_crystal.name",
@@ -21762,6 +21924,7 @@
             "id": "board:40:2:1:2",
             "name": "$i18n:quest.board.purge.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "11",
               "target": "$i18n:enemy.slime_blue.name",
@@ -21800,6 +21963,7 @@
             "id": "board:40:2:1:3",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:enemy.frost_wisp.name",
@@ -21838,6 +22002,7 @@
             "id": "board:40:2:2:0",
             "name": "$i18n:quest.board.stockpile.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:item.ice_crystal.name",
@@ -21876,6 +22041,7 @@
             "id": "board:40:2:2:1",
             "name": "$i18n:quest.board.stockpile.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "11",
               "target": "$i18n:item.slime_gel.name",
@@ -21914,6 +22080,7 @@
             "id": "board:40:2:2:2",
             "name": "$i18n:quest.board.stockpile.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:item.polar_fur.name",
@@ -21952,6 +22119,7 @@
             "id": "board:40:2:2:3",
             "name": "$i18n:quest.board.stockpile.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "14",
               "target": "$i18n:item.ice_crystal.name",
@@ -21990,6 +22158,7 @@
             "id": "board:40:2:9:0",
             "name": "$i18n:quest.board.stockpile.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "13",
               "target": "$i18n:item.polar_fur.name",
@@ -22028,6 +22197,7 @@
             "id": "board:40:2:9:1",
             "name": "$i18n:quest.board.purge.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:enemy.wolf_polar.name",
@@ -22066,6 +22236,7 @@
             "id": "board:40:2:9:2",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:enemy.slime_blue.name",
@@ -22104,6 +22275,7 @@
             "id": "board:40:2:9:3",
             "name": "$i18n:quest.board.stockpile.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "13",
               "target": "$i18n:item.frost_pelt.name",
@@ -22142,6 +22314,7 @@
             "id": "board:40:2:400:0",
             "name": "$i18n:quest.board.purge.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:enemy.ridge_elk.name",
@@ -22180,6 +22353,7 @@
             "id": "board:40:2:400:1",
             "name": "$i18n:quest.board.purge.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:enemy.wolf_polar.name",
@@ -22218,6 +22392,7 @@
             "id": "board:40:2:400:2",
             "name": "$i18n:quest.board.stockpile.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "14",
               "target": "$i18n:item.frost_pelt.name",
@@ -22256,6 +22431,7 @@
             "id": "board:40:2:400:3",
             "name": "$i18n:quest.board.gather.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:item.bat_wing.name",
@@ -22294,6 +22470,7 @@
             "id": "board:59:2:1:0",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "14",
               "target": "$i18n:item.slate_shard.name",
@@ -22332,6 +22509,7 @@
             "id": "board:59:2:1:1",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "10",
               "target": "$i18n:item.elk_antler.name",
@@ -22370,6 +22548,7 @@
             "id": "board:59:2:1:2",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "3",
               "target": "$i18n:enemy.cave_spider.name",
@@ -22408,6 +22587,7 @@
             "id": "board:59:2:1:3",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "14",
               "target": "$i18n:item.slime_gel.name",
@@ -22446,6 +22626,7 @@
             "id": "board:59:2:2:0",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:enemy.cave_spider.name",
@@ -22484,6 +22665,7 @@
             "id": "board:59:2:2:1",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:item.slate_shard.name",
@@ -22522,6 +22704,7 @@
             "id": "board:59:2:2:2",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:item.rust_flake.name",
@@ -22560,6 +22743,7 @@
             "id": "board:59:2:2:3",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:enemy.wolf_grey.name",
@@ -22598,6 +22782,7 @@
             "id": "board:59:2:9:0",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:enemy.ridge_elk.name",
@@ -22636,6 +22821,7 @@
             "id": "board:59:2:9:1",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:enemy.wolf_grey.name",
@@ -22674,6 +22860,7 @@
             "id": "board:59:2:9:2",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:enemy.slime_green.name",
@@ -22712,6 +22899,7 @@
             "id": "board:59:2:9:3",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:enemy.slime_slate.name",
@@ -22750,6 +22938,7 @@
             "id": "board:59:2:400:0",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "15",
               "target": "$i18n:item.elk_antler.name",
@@ -22788,6 +22977,7 @@
             "id": "board:59:2:400:1",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:item.slate_shard.name",
@@ -22826,6 +23016,7 @@
             "id": "board:59:2:400:2",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "14",
               "target": "$i18n:item.wolf_fang.name",
@@ -22864,6 +23055,7 @@
             "id": "board:59:2:400:3",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:enemy.slime_slate.name",
@@ -30734,6 +30926,7 @@
             "id": "board:32:32:1:0",
             "name": "$i18n:quest.board.purge.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:enemy.slime_green.name",
@@ -30772,6 +30965,7 @@
             "id": "board:32:32:1:1",
             "name": "$i18n:quest.board.stockpile.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:item.mint_leaf.name",
@@ -30810,6 +31004,7 @@
             "id": "board:32:32:1:2",
             "name": "$i18n:quest.board.gather.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "8",
               "target": "$i18n:item.boar_hide.name",
@@ -30848,6 +31043,7 @@
             "id": "board:32:32:1:3",
             "name": "$i18n:quest.board.purge.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:enemy.slime_green.name",
@@ -30886,6 +31082,7 @@
             "id": "board:32:32:2:0",
             "name": "$i18n:quest.board.stockpile.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "10",
               "target": "$i18n:item.mint_leaf.name",
@@ -30924,6 +31121,7 @@
             "id": "board:32:32:2:1",
             "name": "$i18n:quest.board.stockpile.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "11",
               "target": "$i18n:item.slime_gel.name",
@@ -30962,6 +31160,7 @@
             "id": "board:32:32:2:2",
             "name": "$i18n:quest.board.purge.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "11",
               "target": "$i18n:enemy.slime_bloom.name",
@@ -31000,6 +31199,7 @@
             "id": "board:32:32:2:3",
             "name": "$i18n:quest.board.gather.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:item.mint_leaf.name",
@@ -31038,6 +31238,7 @@
             "id": "board:32:32:9:0",
             "name": "$i18n:quest.board.gather.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:item.slime_gel.name",
@@ -31076,6 +31277,7 @@
             "id": "board:32:32:9:1",
             "name": "$i18n:quest.board.cull.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:enemy.slime_bloom.name",
@@ -31114,6 +31316,7 @@
             "id": "board:32:32:9:2",
             "name": "$i18n:quest.board.gather.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "7",
               "target": "$i18n:item.mint_leaf.name",
@@ -31152,6 +31355,7 @@
             "id": "board:32:32:9:3",
             "name": "$i18n:quest.board.stockpile.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "15",
               "target": "$i18n:item.mint_leaf.name",
@@ -31190,6 +31394,7 @@
             "id": "board:32:32:400:0",
             "name": "$i18n:quest.board.gather.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "7",
               "target": "$i18n:item.tawny_fur.name",
@@ -31228,6 +31433,7 @@
             "id": "board:32:32:400:1",
             "name": "$i18n:quest.board.purge.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:enemy.slime_green.name",
@@ -31266,6 +31472,7 @@
             "id": "board:32:32:400:2",
             "name": "$i18n:quest.board.purge.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:enemy.slime_mint.name",
@@ -31304,6 +31511,7 @@
             "id": "board:32:32:400:3",
             "name": "$i18n:quest.board.cull.warm.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:enemy.slime_bloom.name",
@@ -31342,6 +31550,7 @@
             "id": "board:9:0:1:0",
             "name": "$i18n:quest.board.purge.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "11",
               "target": "$i18n:enemy.night_owl.name",
@@ -31380,6 +31589,7 @@
             "id": "board:9:0:1:1",
             "name": "$i18n:quest.board.gather.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:item.ice_crystal.name",
@@ -31418,6 +31628,7 @@
             "id": "board:9:0:1:2",
             "name": "$i18n:quest.board.purge.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:enemy.wolf_polar.name",
@@ -31456,6 +31667,7 @@
             "id": "board:9:0:1:3",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:enemy.slime_ice.name",
@@ -31494,6 +31706,7 @@
             "id": "board:9:0:2:0",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "3",
               "target": "$i18n:enemy.frost_wisp.name",
@@ -31532,6 +31745,7 @@
             "id": "board:9:0:2:1",
             "name": "$i18n:quest.board.gather.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "7",
               "target": "$i18n:item.ice_crystal.name",
@@ -31570,6 +31784,7 @@
             "id": "board:9:0:2:2",
             "name": "$i18n:quest.board.purge.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "10",
               "target": "$i18n:enemy.wolf_polar.name",
@@ -31608,6 +31823,7 @@
             "id": "board:9:0:2:3",
             "name": "$i18n:quest.board.gather.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:item.slime_gel.name",
@@ -31646,6 +31862,7 @@
             "id": "board:9:0:9:0",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "3",
               "target": "$i18n:enemy.ridge_elk.name",
@@ -31684,6 +31901,7 @@
             "id": "board:9:0:9:1",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "3",
               "target": "$i18n:enemy.slime_blue.name",
@@ -31722,6 +31940,7 @@
             "id": "board:9:0:9:2",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:enemy.wolf_frost.name",
@@ -31760,6 +31979,7 @@
             "id": "board:9:0:9:3",
             "name": "$i18n:quest.board.stockpile.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "14",
               "target": "$i18n:item.frost_pelt.name",
@@ -31798,6 +32018,7 @@
             "id": "board:9:0:400:0",
             "name": "$i18n:quest.board.gather.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:item.ice_crystal.name",
@@ -31836,6 +32057,7 @@
             "id": "board:9:0:400:1",
             "name": "$i18n:quest.board.purge.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "8",
               "target": "$i18n:enemy.wolf_frost.name",
@@ -31874,6 +32096,7 @@
             "id": "board:9:0:400:2",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "3",
               "target": "$i18n:enemy.wolf_frost.name",
@@ -31912,6 +32135,7 @@
             "id": "board:9:0:400:3",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "3",
               "target": "$i18n:enemy.wolf_polar.name",
@@ -31950,6 +32174,7 @@
             "id": "board:40:0:1:0",
             "name": "$i18n:quest.board.purge.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "10",
               "target": "$i18n:enemy.frost_wisp.name",
@@ -31988,6 +32213,7 @@
             "id": "board:40:0:1:1",
             "name": "$i18n:quest.board.purge.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "11",
               "target": "$i18n:enemy.slime_green.name",
@@ -32026,6 +32252,7 @@
             "id": "board:40:0:1:2",
             "name": "$i18n:quest.board.stockpile.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "13",
               "target": "$i18n:item.ice_crystal.name",
@@ -32064,6 +32291,7 @@
             "id": "board:40:0:1:3",
             "name": "$i18n:quest.board.purge.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:enemy.cave_bat.name",
@@ -32102,6 +32330,7 @@
             "id": "board:40:0:2:0",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:enemy.frost_wisp.name",
@@ -32140,6 +32369,7 @@
             "id": "board:40:0:2:1",
             "name": "$i18n:quest.board.purge.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:enemy.wolf_frost.name",
@@ -32178,6 +32408,7 @@
             "id": "board:40:0:2:2",
             "name": "$i18n:quest.board.stockpile.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "14",
               "target": "$i18n:item.elk_antler.name",
@@ -32216,6 +32447,7 @@
             "id": "board:40:0:2:3",
             "name": "$i18n:quest.board.gather.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "7",
               "target": "$i18n:item.frost_pelt.name",
@@ -32254,6 +32486,7 @@
             "id": "board:40:0:9:0",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:enemy.cave_bat.name",
@@ -32292,6 +32525,7 @@
             "id": "board:40:0:9:1",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:enemy.cave_bat.name",
@@ -32330,6 +32564,7 @@
             "id": "board:40:0:9:2",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:enemy.frost_wisp.name",
@@ -32368,6 +32603,7 @@
             "id": "board:40:0:9:3",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:enemy.wolf_frost.name",
@@ -32406,6 +32642,7 @@
             "id": "board:40:0:400:0",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:enemy.slime_green.name",
@@ -32444,6 +32681,7 @@
             "id": "board:40:0:400:1",
             "name": "$i18n:quest.board.stockpile.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "11",
               "target": "$i18n:item.bat_wing.name",
@@ -32482,6 +32720,7 @@
             "id": "board:40:0:400:2",
             "name": "$i18n:quest.board.purge.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "8",
               "target": "$i18n:enemy.slime_ice.name",
@@ -32520,6 +32759,7 @@
             "id": "board:40:0:400:3",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:enemy.ridge_elk.name",
@@ -32558,6 +32798,7 @@
             "id": "board:49:0:1:0",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "10",
               "target": "$i18n:enemy.cave_bat.name",
@@ -32596,6 +32837,7 @@
             "id": "board:49:0:1:1",
             "name": "$i18n:quest.board.purge.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:enemy.slime_slate.name",
@@ -32634,6 +32876,7 @@
             "id": "board:49:0:1:2",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:item.elk_antler.name",
@@ -32672,6 +32915,7 @@
             "id": "board:49:0:1:3",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:item.slime_gel.name",
@@ -32710,6 +32954,7 @@
             "id": "board:49:0:2:0",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:item.bat_wing.name",
@@ -32748,6 +32993,7 @@
             "id": "board:49:0:2:1",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "3",
               "target": "$i18n:enemy.wolf_grey.name",
@@ -32786,6 +33032,7 @@
             "id": "board:49:0:2:2",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:item.wolf_fang.name",
@@ -32824,6 +33071,7 @@
             "id": "board:49:0:2:3",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:enemy.cave_spider.name",
@@ -32862,6 +33110,7 @@
             "id": "board:49:0:9:0",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:item.slate_shard.name",
@@ -32900,6 +33149,7 @@
             "id": "board:49:0:9:1",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:enemy.wolf_grey.name",
@@ -32938,6 +33188,7 @@
             "id": "board:49:0:9:2",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:enemy.ridge_elk.name",
@@ -32976,6 +33227,7 @@
             "id": "board:49:0:9:3",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:item.wolf_fang.name",
@@ -33014,6 +33266,7 @@
             "id": "board:49:0:400:0",
             "name": "$i18n:quest.board.stockpile.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "14",
               "target": "$i18n:item.wolf_fang.name",
@@ -33052,6 +33305,7 @@
             "id": "board:49:0:400:1",
             "name": "$i18n:quest.board.gather.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "6",
               "target": "$i18n:item.wolf_fang.name",
@@ -33090,6 +33344,7 @@
             "id": "board:49:0:400:2",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:enemy.slime_blue.name",
@@ -33128,6 +33383,7 @@
             "id": "board:49:0:400:3",
             "name": "$i18n:quest.board.cull.gruff.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:enemy.slime_rust.name",
@@ -33166,6 +33422,7 @@
             "id": "board:32:1:1:0",
             "name": "$i18n:quest.board.gather.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "7",
               "target": "$i18n:item.frost_pelt.name",
@@ -33204,6 +33461,7 @@
             "id": "board:32:1:1:1",
             "name": "$i18n:quest.board.gather.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "7",
               "target": "$i18n:item.bat_wing.name",
@@ -33242,6 +33500,7 @@
             "id": "board:32:1:1:2",
             "name": "$i18n:quest.board.gather.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "4",
               "target": "$i18n:item.slime_gel.name",
@@ -33280,6 +33539,7 @@
             "id": "board:32:1:1:3",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "3",
               "target": "$i18n:enemy.wolf_polar.name",
@@ -33318,6 +33578,7 @@
             "id": "board:32:1:2:0",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:enemy.slime_blue.name",
@@ -33356,6 +33617,7 @@
             "id": "board:32:1:2:1",
             "name": "$i18n:quest.board.gather.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "8",
               "target": "$i18n:item.ice_crystal.name",
@@ -33394,6 +33656,7 @@
             "id": "board:32:1:2:2",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "5",
               "target": "$i18n:enemy.wolf_polar.name",
@@ -33432,6 +33695,7 @@
             "id": "board:32:1:2:3",
             "name": "$i18n:quest.board.stockpile.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:item.bat_wing.name",
@@ -33470,6 +33734,7 @@
             "id": "board:32:1:9:0",
             "name": "$i18n:quest.board.purge.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:enemy.wolf_frost.name",
@@ -33508,6 +33773,7 @@
             "id": "board:32:1:9:1",
             "name": "$i18n:quest.board.purge.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:enemy.wolf_frost.name",
@@ -33546,6 +33812,7 @@
             "id": "board:32:1:9:2",
             "name": "$i18n:quest.board.gather.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "7",
               "target": "$i18n:item.owl_feather.name",
@@ -33584,6 +33851,7 @@
             "id": "board:32:1:9:3",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "3",
               "target": "$i18n:enemy.ridge_elk.name",
@@ -33622,6 +33890,7 @@
             "id": "board:32:1:400:0",
             "name": "$i18n:quest.board.purge.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:enemy.slime_ice.name",
@@ -33660,6 +33929,7 @@
             "id": "board:32:1:400:1",
             "name": "$i18n:quest.board.stockpile.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "14",
               "target": "$i18n:item.frost_pelt.name",
@@ -33698,6 +33968,7 @@
             "id": "board:32:1:400:2",
             "name": "$i18n:quest.board.gather.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "7",
               "target": "$i18n:item.bat_wing.name",
@@ -33736,6 +34007,7 @@
             "id": "board:32:1:400:3",
             "name": "$i18n:quest.board.cull.stoic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "3",
               "target": "$i18n:enemy.slime_green.name",
@@ -33774,6 +34046,7 @@
             "id": "board:8:2:1:0",
             "name": "$i18n:quest.board.stockpile.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "14",
               "target": "$i18n:item.spider_silk.name",
@@ -33812,6 +34085,7 @@
             "id": "board:8:2:1:1",
             "name": "$i18n:quest.board.stockpile.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:item.boar_hide.name",
@@ -33850,6 +34124,7 @@
             "id": "board:8:2:1:2",
             "name": "$i18n:quest.board.purge.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "8",
               "target": "$i18n:enemy.slime_moss.name",
@@ -33888,6 +34163,7 @@
             "id": "board:8:2:1:3",
             "name": "$i18n:quest.board.stockpile.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:item.rust_flake.name",
@@ -33926,6 +34202,7 @@
             "id": "board:8:2:2:0",
             "name": "$i18n:quest.board.cull.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "3",
               "target": "$i18n:enemy.cave_bat.name",
@@ -33964,6 +34241,7 @@
             "id": "board:8:2:2:1",
             "name": "$i18n:quest.board.purge.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "10",
               "target": "$i18n:enemy.wild_boar.name",
@@ -34002,6 +34280,7 @@
             "id": "board:8:2:2:2",
             "name": "$i18n:quest.board.cull.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "3",
               "target": "$i18n:enemy.slime_moss.name",
@@ -34040,6 +34319,7 @@
             "id": "board:8:2:2:3",
             "name": "$i18n:quest.board.gather.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "7",
               "target": "$i18n:item.slime_gel.name",
@@ -34078,6 +34358,7 @@
             "id": "board:8:2:9:0",
             "name": "$i18n:quest.board.purge.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "10",
               "target": "$i18n:enemy.cave_bat.name",
@@ -34116,6 +34397,7 @@
             "id": "board:8:2:9:1",
             "name": "$i18n:quest.board.stockpile.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "10",
               "target": "$i18n:item.shade_wisp.name",
@@ -34154,6 +34436,7 @@
             "id": "board:8:2:9:2",
             "name": "$i18n:quest.board.purge.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "11",
               "target": "$i18n:enemy.slime_moss.name",
@@ -34192,6 +34475,7 @@
             "id": "board:8:2:9:3",
             "name": "$i18n:quest.board.gather.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "8",
               "target": "$i18n:item.owl_feather.name",
@@ -34230,6 +34514,7 @@
             "id": "board:8:2:400:0",
             "name": "$i18n:quest.board.stockpile.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "10",
               "target": "$i18n:item.wolf_fang.name",
@@ -34268,6 +34553,7 @@
             "id": "board:8:2:400:1",
             "name": "$i18n:quest.board.purge.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:enemy.cave_bat.name",
@@ -34306,6 +34592,7 @@
             "id": "board:8:2:400:2",
             "name": "$i18n:quest.board.purge.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "9",
               "target": "$i18n:enemy.night_owl.name",
@@ -34344,6 +34631,7 @@
             "id": "board:8:2:400:3",
             "name": "$i18n:quest.board.purge.mystic.name",
             "kind": "guild",
+            "faction": "guild",
             "args": {
               "count": "12",
               "target": "$i18n:enemy.slime_green.name",

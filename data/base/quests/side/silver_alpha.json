@@ -3,6 +3,7 @@
   "id": "base:quest/side/silver_alpha",
   "name": "$i18n:quest.silver_alpha.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "hunt",

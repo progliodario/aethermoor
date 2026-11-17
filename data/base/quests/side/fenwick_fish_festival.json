@@ -3,6 +3,7 @@
   "id": "base:quest/side/fenwick_fish_festival",
   "name": "$i18n:quest.fenwick_fish_festival.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

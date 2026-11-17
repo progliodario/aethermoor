@@ -3,6 +3,7 @@
   "id": "base:quest/guild/cellar",
   "name": "$i18n:quest.cellar.name",
   "kind": "guild",
+  "faction": "guild",
   "stages": [
     {
       "id": "kill",

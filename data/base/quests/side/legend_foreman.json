@@ -3,6 +3,7 @@
   "id": "base:quest/side/legend_foreman",
   "name": "$i18n:quest.legend_foreman.name",
   "kind": "side",
+  "faction": "chroniclers",
   "stages": [
     {
       "id": "task",

@@ -3,6 +3,7 @@
   "id": "base:quest/side/parcel_maren",
   "name": "$i18n:quest.parcel_maren.name",
   "kind": "side",
+  "faction": "wayfarers",
   "stages": [
     {
       "id": "task",

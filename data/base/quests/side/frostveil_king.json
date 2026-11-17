@@ -3,6 +3,7 @@
   "id": "base:quest/side/frostveil_king",
   "name": "$i18n:quest.frostveil_king.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

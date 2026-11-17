@@ -3,6 +3,7 @@
   "id": "base:quest/side/crowned_one",
   "name": "$i18n:quest.crowned_one.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "hunt",

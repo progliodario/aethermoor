@@ -3,6 +3,7 @@
   "id": "base:quest/side/season_solstice_survey",
   "name": "$i18n:quest.season_solstice_survey.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "bring",

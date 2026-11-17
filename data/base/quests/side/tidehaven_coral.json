@@ -3,6 +3,7 @@
   "id": "base:quest/side/tidehaven_coral",
   "name": "$i18n:quest.tidehaven_coral.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

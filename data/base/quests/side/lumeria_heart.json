@@ -3,6 +3,7 @@
   "id": "base:quest/side/lumeria_heart",
   "name": "$i18n:quest.lumeria_heart.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

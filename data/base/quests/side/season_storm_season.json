@@ -3,6 +3,7 @@
   "id": "base:quest/side/season_storm_season",
   "name": "$i18n:quest.season_storm_season.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "bring",

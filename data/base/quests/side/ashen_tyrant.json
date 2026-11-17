@@ -3,6 +3,7 @@
   "id": "base:quest/side/ashen_tyrant",
   "name": "$i18n:quest.ashen_tyrant.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

@@ -3,6 +3,7 @@
   "id": "base:quest/guild/temple",
   "name": "$i18n:quest.temple.name",
   "kind": "guild",
+  "faction": "guild",
   "stages": [
     {
       "id": "kill",

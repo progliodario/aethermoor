@@ -3,6 +3,7 @@
   "id": "base:quest/side/amber_queen_hunt",
   "name": "$i18n:quest.amber_queen_hunt.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "hunt",

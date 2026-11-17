@@ -3,6 +3,7 @@
   "id": "base:quest/side/season_winter_stores",
   "name": "$i18n:quest.season_winter_stores.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "bring",

@@ -3,6 +3,7 @@
   "id": "base:quest/side/frostveil_antlers",
   "name": "$i18n:quest.frostveil_antlers.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

@@ -70,6 +70,7 @@ def quest_def(offer: dict) -> dict:
         "id": offer["id"],
         "name": f"$i18n:quest.board.{offer['template']}.{tone}.name",
         "kind": "guild",
+        "faction": "guild",
         "args": {"count": str(offer["count"]), "target": f"$i18n:{target_key}", "place": offer["place"]},
         "stages": [{"id": "work", "journal": f"$i18n:quest.board.{offer['template']}.{tone}.journal",
                     "objectives": [objective], "next": "end"}],

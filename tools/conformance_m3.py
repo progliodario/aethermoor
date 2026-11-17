@@ -602,6 +602,21 @@ def build_scenarios() -> list[dict]:
                     [segment(60, attack=True), segment(60, attack=True), segment(1, do=[{"cmd": "tame"}]), segment(150, move=(1, 0)), segment(200),
                      segment(200), segment(60, move=(1, 0.5)), segment(330), segment(1, do=[{"cmd": "tame"}]), segment(60)],
                     gift={"tame_hp_pct": 50, "tame_range_x100": 250, "friend_atk_pct": 200}), "grid": arena(24, 9)},
+        # The friend obeys (spec 10): told to stay with the companion it waits while the player walks away; called back, both are next to the player.
+        {**scenario("friend_commands", [enemy(3.5, 4.5, hp=120, id="base:enemy/slime_green", atk=8, **passive)],
+                    [segment(60, attack=True), segment(60, attack=True), segment(1, do=[{"cmd": "tame"}, {"cmd": "companion_stay"}]),
+                     segment(90, move=(1, 0)), segment(1, do=[{"cmd": "companion_recall"}]), segment(60, move=(1, 0)), segment(30)],
+                    companion={**COMPANION, "atk_base": 0, "atk_per_level": 0, "range_x100": 10},
+                    gift={"tame_hp_pct": 50, "tame_range_x100": 250, "friend_atk_pct": 200}), "grid": arena(24, 9)},
+        # Factions (spec 07): a quest with a `faction` adds one to `faction:<id>` when it is done, besides the renown; a quest without one does not.
+        scenario("faction_standing", [enemy(12.0, 7.5, **passive)],
+                 [segment(1, do=[{"cmd": "start_quest", "quest": "test:quest/a"}]), segment(1, do=[{"cmd": "start_quest", "quest": "test:quest/b"}]),
+                  segment(1, do=[{"cmd": "start_quest", "quest": "test:quest/c"}])],
+                 inventory={"base:item/slime_gel": 1}, region="vale",
+                 story={"quests": {f"test:quest/{q}": {"id": f"test:quest/{q}", **({"faction": f} if f else {}), "stages": [
+                     {"id": "have", "journal": "q", "objectives": [{"type": "collect", "item": "base:item/slime_gel", "count": 1}], "next": "end"}],
+                     "rewards": []} for q, f in (("a", "guild"), ("b", "guild"), ("c", ""))}, "dialogues": {}, "npcs": []},
+                 titles=[{"id": "champion", "name": "t", "kind": "faction:guild", "count": 2}]),
         scenario("leash_and_return", [enemy(4.0, 4.5, behavior_overrides={"leash_x100": 300})],
                  [segment(20, attack=True), segment(150, move=(1, 0)), segment(250)]),
     ]

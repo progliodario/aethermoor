@@ -3,6 +3,7 @@
   "id": "base:quest/side/friend_sunscar",
   "name": "$i18n:quest.friend_sunscar.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "hunt",

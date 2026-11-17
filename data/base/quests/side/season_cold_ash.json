@@ -3,6 +3,7 @@
   "id": "base:quest/side/season_cold_ash",
   "name": "$i18n:quest.season_cold_ash.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "bring",

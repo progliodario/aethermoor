@@ -3,6 +3,7 @@
   "id": "base:quest/side/tide_pearls",
   "name": "$i18n:quest.tide_pearls.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "hunt",

@@ -3,6 +3,7 @@
   "id": "base:quest/side/lumeria_storm",
   "name": "$i18n:quest.lumeria_storm.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

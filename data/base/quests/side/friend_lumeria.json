@@ -3,6 +3,7 @@
   "id": "base:quest/side/friend_lumeria",
   "name": "$i18n:quest.friend_lumeria.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "hunt",

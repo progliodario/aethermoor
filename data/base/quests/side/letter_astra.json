@@ -3,6 +3,7 @@
   "id": "base:quest/side/letter_astra",
   "name": "$i18n:quest.letter_astra.name",
   "kind": "side",
+  "faction": "wayfarers",
   "stages": [
     {
       "id": "task",

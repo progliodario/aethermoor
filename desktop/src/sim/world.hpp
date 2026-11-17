@@ -158,6 +158,7 @@ struct SaveState {
     float friend_x = 0.0F;
     float friend_y = 0.0F;
     int friend_cooldown = 0;
+    bool friend_stay = false;
     std::map<std::string, int> bestiary;  // creature ID -> how many were killed (spec 11)
     std::map<std::string, int> counters;  // gathered, crafted, parried (spec 11)
     std::map<std::string, int> talents;   // talent ID -> rank (spec 11, "Talents")
@@ -339,6 +340,7 @@ public:
         EnemyDef def;
         Vec2 position;
         int cooldown = 0;
+        bool stay = false;  // told to stay with the companion
     };
     const Friend* tamed_friend() const { return m_friend_ ? &*m_friend_ : nullptr; }
     // Calls the companion back: it is next to the player at once and follows again; false when there is none.
@@ -398,7 +400,7 @@ private:
     void heal_full() override { m_player_.hp = m_derived_.max_hp; }
     std::string season_id() const override;
     int tod_pm() const override { return m_store_ ? time_of_day_pm() : 0; }
-    void quest_done() override;
+    void quest_done(const std::string& faction) override;
     // The enemy the spawner on a tile makes (spec 09, "Fauna").
     const EnemyDef& stream_enemy_at(int x, int y) const;
 

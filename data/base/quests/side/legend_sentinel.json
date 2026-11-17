@@ -3,6 +3,7 @@
   "id": "base:quest/side/legend_sentinel",
   "name": "$i18n:quest.legend_sentinel.name",
   "kind": "side",
+  "faction": "chroniclers",
   "stages": [
     {
       "id": "task",

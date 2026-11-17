@@ -313,3 +313,4 @@ def main() -> None:
 if __name__ == "__main__":
     main()
     __import__("set_quest_places").main()  # the guardians' places (spec 07, "Places")
+    __import__("set_factions").main()  # the faction of every quest (spec 07, "Factions")

@@ -3,6 +3,7 @@
   "id": "base:quest/side/winter_pelts",
   "name": "$i18n:quest.winter_pelts.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "hunt",

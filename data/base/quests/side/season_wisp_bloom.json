@@ -3,6 +3,7 @@
   "id": "base:quest/side/season_wisp_bloom",
   "name": "$i18n:quest.season_wisp_bloom.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "bring",

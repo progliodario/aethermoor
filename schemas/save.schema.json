@@ -358,7 +358,7 @@
       "type": "object",
       "required": ["enemy", "x", "y", "cooldown"],
       "additionalProperties": false,
-      "properties": { "enemy": { "type": "string" }, "x": { "type": "number" }, "y": { "type": "number" }, "cooldown": { "type": "integer", "minimum": 0 } }
+      "properties": { "enemy": { "type": "string" }, "x": { "type": "number" }, "y": { "type": "number" }, "cooldown": { "type": "integer", "minimum": 0 }, "stay": { "type": "boolean" } }
     },
     "stones": {
       "type": "array",

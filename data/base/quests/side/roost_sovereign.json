@@ -3,6 +3,7 @@
   "id": "base:quest/side/roost_sovereign",
   "name": "$i18n:quest.roost_sovereign.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "hunt",

@@ -3,6 +3,7 @@
   "id": "base:quest/side/sunscar_dunes",
   "name": "$i18n:quest.sunscar_dunes.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

@@ -46,7 +46,7 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 | Missioni e storie | 263 missioni, otto storie complete con epilogo | altre storie per regione, i doni ancora spenti |
 | Vita | raccolta, pesca, caccia, 59 ricette (otto segrete, da imparare), cibi con effetti, accessori | qualità degli oggetti, agricoltura, base e residenti, economia viva |
 | Compagni | uno per protagonista, comandi, legame, cura | altri comandi, più compagni insieme, domare e comandare |
-| Progressione | talenti (anche abilità, due con un tasto proprio), 32 titoli, bestiario, reincarnazione con eredità | tag, achievements, rune |
+| Progressione | talenti (anche abilità, due con un tasto proprio), 36 titoli, bestiario, reincarnazione con eredità | tag, achievements, rune |
 | Uscita | versioni di prova dalla CI | release Alpha 0.1 e poi 1.0 (decide il proprietario) |
 
 ## Che cosa c'è nel gioco
@@ -75,6 +75,8 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 - Titoli del modo di giocare che cambiano il gioco: il Raccoglitore trova di più, l'Artigiano crea di più, la Guardia incrollabile para più a lungo, il Veterano guadagna più esperienza.
 - Un albero di sedici talenti, con due abilità da usare a comando (Onda d'urto e Rimarginare): un punto per livello, quattro radici (attacco, vita, mana, difesa), un secondo anello che si apre al rango 5 (critico, secondo fiato, magia, velocità), una corona (Leggenda, Baluardo) e quattro abilità che si aprono al rango 3 di ogni radice: Turbine (il colpo potente colpisce tutto intorno), Fame di battaglia (vita a ogni uccisione), Flusso (mana a ogni uccisione), Risposta (la parata restituisce il colpo).
 - Fama nelle regioni: ogni missione finita in una regione abbassa i prezzi dei suoi negozi (fino a un quarto), cambia il saluto di anziani e bottegai e, dopo cinque, vale un letto gratis alla locanda.
+- Quattro fazioni (la Gilda, l'Anello dei Viandanti, i Cronisti, la Gente): ogni missione conta per una di loro, con i suoi titoli.
+- Consigli, numeri dei danni e lampi si possono spegnere.
 - Consigli per i primi minuti, uno alla volta, quando servono.
 - Un piatto segreto per regione, che il bottegaio insegna a pagamento; la tasca di Yuki non ha fondo.
 - Haruka doma, e l'ultima creatura domata resta con lei come secondo compagno.
@@ -83,7 +85,7 @@ Come in ogni buon isekai, **il protagonista è molto più forte di ciò che inco
 - Giorni di mercato: i prezzi di ogni regione cambiano con il giorno, per comprare e per vendere; e ogni regione tiene da parte due pezzi rari per chi vi è conosciuto.
 - Opere pregiate: ciò che crei può riuscire pregiato (una porzione in più, o il pezzo pregiato al posto di quello semplice), più spesso con i titoli da artigiano.
 - Tre posti per l'equipaggiamento: arma, armatura e **accessorio** (nove: collane, pendenti, anelli e amuleti fatti all'incudine o lasciati dai guardiani, con bonus a attacco, vita, critico, difesa, magia, o che ti restituiscono vita a ogni colpo); e una pozione che **purifica** da bruciature, gelo, stordimento e indebolimento.
-- Un bestiario che dice a cosa è debole ogni creatura sconfitta, a cosa resiste e cosa lascia, 32 titoli che aumentano l'attacco (anche per i cacciatori), e un profilo comune a tutte le partite: ogni titolo mai ottenuto dà un po' di vita in più a ogni partita (gli "echi"), e una partita arrivata al livello 10 può **reincarnarsi**: finisce, ogni vita passata dà +3% di vita a tutte le successive, e metà del suo oro, con l'arma che impugnava, passa in eredità alla prossima partita nuova.
+- Un bestiario che dice a cosa è debole ogni creatura sconfitta, a cosa resiste e cosa lascia, 36 titoli che aumentano l'attacco (anche per i cacciatori), e un profilo comune a tutte le partite: ogni titolo mai ottenuto dà un po' di vita in più a ogni partita (gli "echi"), e una partita arrivata al livello 10 può **reincarnarsi**: finisce, ogni vita passata dà +3% di vita a tutte le successive, e metà del suo oro, con l'arma che impugnava, passa in eredità alla prossima partita nuova.
 - Tre partite separate, salvataggio automatico, esportazione e importazione di una partita in un file.
 
 Il catalogo completo dei contenuti, generato dai dati, è in [`docs/design/catalog.md`](docs/design/catalog.md).

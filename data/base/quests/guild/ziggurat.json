@@ -3,6 +3,7 @@
   "id": "base:quest/guild/ziggurat",
   "name": "$i18n:quest.ziggurat.name",
   "kind": "guild",
+  "faction": "guild",
   "stages": [
     {
       "id": "kill",

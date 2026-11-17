@@ -3,6 +3,7 @@
   "id": "base:quest/side/pantry_magma",
   "name": "$i18n:quest.pantry_magma.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "bring",

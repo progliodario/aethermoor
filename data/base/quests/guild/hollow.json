@@ -3,6 +3,7 @@
   "id": "base:quest/guild/hollow",
   "name": "$i18n:quest.hollow.name",
   "kind": "guild",
+  "faction": "guild",
   "stages": [
     {
       "id": "kill",

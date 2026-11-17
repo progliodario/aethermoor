@@ -3,6 +3,7 @@
   "id": "base:quest/guild/keep",
   "name": "$i18n:quest.keep.name",
   "kind": "guild",
+  "faction": "guild",
   "stages": [
     {
       "id": "kill",

@@ -3,6 +3,7 @@
   "id": "base:quest/side/whisperwood_spores",
   "name": "$i18n:quest.whisperwood_spores.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

@@ -3,6 +3,7 @@
   "id": "base:quest/side/tidehaven_empress",
   "name": "$i18n:quest.tidehaven_empress.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

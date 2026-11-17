@@ -3,6 +3,7 @@
   "id": "base:quest/side/crossroads_mint",
   "name": "$i18n:quest.crossroads_mint.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",

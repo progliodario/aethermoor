@@ -3,6 +3,7 @@
   "id": "base:quest/side/letter_pell",
   "name": "$i18n:quest.letter_pell.name",
   "kind": "side",
+  "faction": "wayfarers",
   "stages": [
     {
       "id": "task",

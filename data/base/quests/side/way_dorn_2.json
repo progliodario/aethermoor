@@ -3,6 +3,7 @@
   "id": "base:quest/side/way_dorn_2",
   "name": "$i18n:quest.way_dorn_2.name",
   "kind": "side",
+  "faction": "wayfarers",
   "stages": [
     {
       "id": "deliver",

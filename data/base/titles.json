@@ -190,6 +190,37 @@
       "atk_pct": 3
     },
     {
+      "id": "guild_champion",
+      "name": "$i18n:title.guild_champion",
+      "kind": "faction:guild",
+      "count": 15,
+      "atk_pct": 3,
+      "xp_pct": 10
+    },
+    {
+      "id": "ring_walker",
+      "name": "$i18n:title.ring_walker",
+      "kind": "faction:wayfarers",
+      "count": 12,
+      "atk_pct": 3,
+      "gather_bonus": 1
+    },
+    {
+      "id": "keeper_of_legends",
+      "name": "$i18n:title.keeper_of_legends",
+      "kind": "faction:chroniclers",
+      "count": 5,
+      "atk_pct": 6
+    },
+    {
+      "id": "heart_of_the_folk",
+      "name": "$i18n:title.heart_of_the_folk",
+      "kind": "faction:folk",
+      "count": 30,
+      "atk_pct": 3,
+      "craft_bonus": 1
+    },
+    {
       "id": "friend_verdalis",
       "name": "$i18n:title.friend_verdalis",
       "kind": "renown:verdalis",

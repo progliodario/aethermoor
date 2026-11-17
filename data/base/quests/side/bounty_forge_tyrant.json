@@ -3,6 +3,7 @@
   "id": "base:quest/side/bounty_forge_tyrant",
   "name": "$i18n:quest.bounty_forge_tyrant.name",
   "kind": "side",
+  "faction": "guild",
   "stages": [
     {
       "id": "task",

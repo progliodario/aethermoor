@@ -3,6 +3,7 @@
   "id": "base:quest/side/pit_warden",
   "name": "$i18n:quest.pit_warden.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "hunt",

@@ -79,6 +79,7 @@ struct QuestDef {
     std::vector<QuestStage> stages;
     std::vector<Effect> rewards;
     std::map<std::string, std::string> args;  // arguments of the name and journal texts (spec 07)
+    std::string faction;                      // the faction it counts for (spec 07, "Factions"); empty: none
 };
 
 struct Offer;
@@ -180,7 +181,7 @@ public:
     virtual std::string season_id() const = 0;  // the season of the day, empty without seasons
     virtual int tod_pm() const = 0;             // the time of day in permille, 0 without world time
     // Renown (spec 07, "Renown"): a quest was finished, and the quests finished in the region where the player stands.
-    virtual void quest_done() {}
+    virtual void quest_done(const std::string& /*faction*/) {}
     virtual std::int64_t renown_here() const { return 0; }
 };
 

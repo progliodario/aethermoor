@@ -3,6 +3,7 @@
   "id": "base:quest/side/pantry_fangs",
   "name": "$i18n:quest.pantry_fangs.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "bring",

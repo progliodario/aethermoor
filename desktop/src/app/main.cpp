@@ -69,6 +69,10 @@ constexpr const char* kWorldId = "base:world/overworld";
 
 std::vector<aether::LightDef> g_lights;  // the props that shine at night (spec 08, "Lights")
 std::vector<aether::HintDef> g_hints;    // the hints of the first minutes (spec 16, "Hints")
+// The options of accessibility (spec 16, "Settings"): hints, damage numbers, the flash of a creature that is hit.
+constexpr int kOptions = 3;
+bool g_option[kOptions] = {true, true, true};
+const char* const kOptionKeys[kOptions] = {"hints", "damage_numbers", "flashes"};
 
 // The font of the interface (spec 13, "Font"): the glyphs of the pack, baked with the rasterizer of the art at the
 // sizes the screens ask for. The textures belong to a renderer: they are forgotten when it changes.
@@ -788,7 +792,7 @@ void draw_enemy(SDL_Renderer* renderer, aether::TextureCache& cache, const aethe
     const float phase = static_cast<float>((now_ms / 16 + static_cast<Uint64>(enemy.home.x * 37.0F)) % 60);
     const float wave = phase < 30.0F ? phase / 30.0F : (60.0F - phase) / 30.0F;
     const float squash = 0.95F + 0.1F * wave;
-    if (enemy.hit_flash > 0) {
+    if (enemy.hit_flash > 0 && g_option[2]) {  // the flash of a creature that is hit, unless it is turned off
         SDL_SetTextureColorMod(sprite->texture, 255, 120, 120);
     }
     draw_sprite(renderer, *sprite, feet_x, feet_y, k, squash, sprite->faces_left && player_x > enemy.position.x);
@@ -2096,6 +2100,9 @@ void write_settings(const std::optional<std::string>& lang) {
     if (lang) {
         out += "  \"language\": \"" + *lang + "\",\n";
     }
+    for (int i = 0; i < kOptions; ++i) {  // the options of accessibility (spec 16, "Settings")
+        out += std::string("  \"") + kOptionKeys[i] + "\": " + (g_option[i] ? "true" : "false") + ",\n";
+    }
     for (int i = 0; i < kVolumeKinds; ++i) {
         out += std::string("  \"") + kVolumeKeys[i] + "\": " + std::to_string(g_volume[i]);
         out += i + 1 < kVolumeKinds ? ",\n" : "\n";
@@ -2171,6 +2178,16 @@ void load_keys() {
 // Reads the volumes of the settings file (the defaults stay for what is missing) and gives them to the sound board.
 void load_volumes() {
     if (const auto text = read_text_file(settings_file())) {
+        for (int i = 0; i < kOptions; ++i) {
+            const std::string key = std::string("\"") + kOptionKeys[i] + "\"";
+            const std::size_t at = text->find(key);
+            if (at != std::string::npos) {
+                const std::size_t colon = text->find(':', at);
+                const std::size_t value =
+                    colon == std::string::npos ? colon : text->find_first_not_of(" \t", colon + 1);
+                g_option[i] = !(value != std::string::npos && text->compare(value, 5, "false") == 0);
+            }
+        }
         for (int i = 0; i < kVolumeKinds; ++i) {
             const std::string key = std::string("\"") + kVolumeKeys[i] + "\"";
             const std::size_t at = text->find(key);
@@ -2962,6 +2979,20 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
             {"  " + assets.pack.text(ui.lang, "$i18n:ui.status_purse",
                                      {{"gold", sim.story().gold()}, {"kills", static_cast<std::int64_t>(p.kills)}}),
              2});
+        {  // the standing with the factions (spec 07, "Factions")
+            std::string standing;
+            for (const auto& [name, count] : sim.counters()) {
+                if (name.rfind("faction:", 0) == 0) {
+                    standing += (standing.empty() ? "" : "   ") +
+                                assets.pack.text(ui.lang, "$i18n:faction." + name.substr(8) + ".name") + " " +
+                                std::to_string(count);
+                }
+            }
+            if (!standing.empty()) {
+                lines.push_back(
+                    {"  " + assets.pack.text(ui.lang, "$i18n:ui.status_factions", {{"list", standing}}), 2});
+            }
+        }
         if (sim.renown_here() > 0) {  // the quests finished in this region (spec 07, "Renown")
             lines.push_back(
                 {"  " + assets.pack.text(ui.lang, "$i18n:ui.status_renown", {{"count", sim.renown_here()}}), 2});
@@ -3153,10 +3184,16 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
 
 // The volume panel (F10): four rows, W/S choose, A/D change by a tenth, Esc closes.
 void handle_settings_key(Ui& ui, SDL_Keycode key) {
+    constexpr int kRows = kVolumeKinds + kOptions;
     if (key == SDLK_UP || key == SDLK_W) {
-        ui.settings_cursor = (ui.settings_cursor + kVolumeKinds - 1) % kVolumeKinds;
+        ui.settings_cursor = (ui.settings_cursor + kRows - 1) % kRows;
     } else if (key == SDLK_DOWN || key == SDLK_S) {
-        ui.settings_cursor = (ui.settings_cursor + 1) % kVolumeKinds;
+        ui.settings_cursor = (ui.settings_cursor + 1) % kRows;
+    } else if (ui.settings_cursor >= kVolumeKinds &&
+               (key == SDLK_LEFT || key == SDLK_A || key == SDLK_RIGHT || key == SDLK_D || key == SDLK_E ||
+                key == SDLK_RETURN || key == SDLK_SPACE)) {  // an option of accessibility: on or off
+        g_option[ui.settings_cursor - kVolumeKinds] = !g_option[ui.settings_cursor - kVolumeKinds];
+        write_settings();
     } else if (key == SDLK_LEFT || key == SDLK_A || key == SDLK_RIGHT || key == SDLK_D) {
         const int step = (key == SDLK_LEFT || key == SDLK_A) ? -100 : 100;
         g_volume[ui.settings_cursor] = std::clamp(g_volume[ui.settings_cursor] + step, 0, 1000);
@@ -3249,7 +3286,7 @@ void draw_settings(SDL_Renderer* renderer, const Assets& assets, const Ui& ui, i
     constexpr float kScale = 1.5F;
     const float row = 8.0F * kScale + 22.0F;
     const float w = std::min(static_cast<float>(out_w) - 40.0F, 520.0F * density);
-    const float h = 60.0F + row * static_cast<float>(kVolumeKinds) + 36.0F;
+    const float h = 60.0F + row * static_cast<float>(kVolumeKinds + kOptions) + 36.0F;
     const float x = (static_cast<float>(out_w) - w) / 2.0F;
     const float y = (static_cast<float>(out_h) - h) / 2.0F;
     draw_panel(renderer, x, y, w, h, 255, 215, 120, 245);
@@ -3265,6 +3302,17 @@ void draw_settings(SDL_Renderer* renderer, const Assets& assets, const Ui& ui, i
                                i == ui.settings_cursor ? 255 : 215, 255);
         debug_text(renderer, (x + 16.0F) / kScale, ty / kScale, assets.pack.text(ui.lang, kLabels[i]).c_str());
         debug_text(renderer, (x + w - 70.0F) / kScale, ty / kScale, (std::to_string(g_volume[i] / 10) + "%").c_str());
+    }
+    static const char* const kOptionLabels[kOptions] = {"$i18n:ui.option_hints", "$i18n:ui.option_numbers",
+                                                        "$i18n:ui.option_flashes"};
+    for (int i = 0; i < kOptions; ++i) {  // the options of accessibility (spec 16, "Settings")
+        const int index = kVolumeKinds + i;
+        const float ty = y + 48.0F + row * static_cast<float>(index);
+        SDL_SetRenderDrawColor(renderer, index == ui.settings_cursor ? 255 : 170,
+                               index == ui.settings_cursor ? 255 : 190, index == ui.settings_cursor ? 255 : 215, 255);
+        debug_text(renderer, (x + 16.0F) / kScale, ty / kScale, assets.pack.text(ui.lang, kOptionLabels[i]).c_str());
+        const std::string state = assets.pack.text(ui.lang, g_option[i] ? "$i18n:ui.option_on" : "$i18n:ui.option_off");
+        debug_text(renderer, (x + w - 70.0F) / kScale, ty / kScale, state.c_str());
     }
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
     for (int i = 0; i < kVolumeKinds; ++i) {
@@ -5043,6 +5091,9 @@ int main(int argc, char** argv) {
                     }
                 }
                 for (const aether::DamageEvent& e : sim.take_events()) {
+                    if (!g_option[1]) {
+                        continue;  // the damage numbers are turned off (spec 16, "Settings")
+                    }
                     floating.push_back({e.position.x, e.position.y, 0, std::to_string(e.amount) + (e.weak ? "!" : ""),
                                         e.on_player, e.crit});
                 }
@@ -5171,7 +5222,7 @@ int main(int argc, char** argv) {
                         }
                     }
                 }
-                if (!smoke_test) {  // the hints of the first minutes, when nothing else is open (spec 16, "Hints")
+                if (!smoke_test && g_option[0]) {  // the hints of the first minutes, when nothing else is open
                     update_hints(sim, assets, ui,
                                  !(ui.show_inventory || ui.show_map || ui.show_journal || ui.show_settings ||
                                    ui.show_craft || ui.show_keys || sim.shop() != nullptr || sim.board() != nullptr ||

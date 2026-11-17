@@ -3,6 +3,7 @@
   "id": "base:quest/side/tidehaven_catch",
   "name": "$i18n:quest.tidehaven_catch.name",
   "kind": "side",
+  "faction": "folk",
   "stages": [
     {
       "id": "task",
