@@ -103,6 +103,7 @@
   "settlements": {
     "per_mille": 130,
     "dialogue": "base:dialogue/role/{role}_{tone}",
+    "role_when": { "settler": { "renown_at_least": 8 } },
     "variants": ["", "red", "green", "ochre", "purple", "teal", "cream", "brown"],
     "quirks": ["quirk.cheese", "quirk.bells", "quirk.bad_luck", "quirk.bakers", "quirk.singing", "quirk.lanterns", "quirk.mushrooms", "quirk.kites", "quirk.honey", "quirk.riddles", "quirk.cats", "quirk.bridges"],
     "people": {"start": ["An", "Bri", "Cor", "Dar", "El", "Fia", "Gor", "Hel", "Ing", "Jor", "Kai", "Lis", "Mar", "Nia", "Ori", "Pip", "Quin", "Rod", "Sal", "Tam", "Ulf", "Vera", "Wil", "Yan", "Zed"], "end": ["a", "bert", "dric", "ela", "gar", "ina", "ik", "la", "mund", "na", "o", "rin", "sa", "thor", "us", "wen", "ya", "zo"]},
@@ -162,7 +163,8 @@
       "shopkeeper": [[0, "away"], [280, "work"], [760, "away"]],
       "guild_clerk": [[0, "away"], [300, "work"], [800, "away"]],
       "innkeeper": [[0, "work"]],
-      "villager": [[0, "away"], [250, "work"], [700, "plaza"], [900, "away"]]
+      "villager": [[0, "away"], [250, "work"], [700, "plaza"], [900, "away"]],
+      "settler": [[0, "away"], [220, "work"], [680, "plaza"], [920, "away"]]
     }
   },
   "stones": { "art": "base:art/prop/threshold_stone", "range_x100": 160 },

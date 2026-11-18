@@ -155,7 +155,9 @@ void WorldSim::for_each_prop(float x0, float y0, float x1, float y1, const std::
 void WorldSim::rebuild_npc_circles() {
     m_npc_circles_.clear();
     for (const NpcDef& npc : m_npcs_) {
-        m_npc_circles_.push_back({npc.x, npc.y, kNpcRadius});
+        if (!npc.when) {  // a resident is never solid (spec 07, "Residents")
+            m_npc_circles_.push_back({npc.x, npc.y, kNpcRadius});
+        }
     }
 }
 
@@ -206,6 +208,12 @@ void WorldSim::add_chunk_people(int cx, int cy) {
                     {"place", person.place},
                     {"region", person.region},
                     {"quirk", "$i18n:" + person.quirk}};
+        // a role of residents (spec 07, "Residents"): there only while its condition holds, never solid
+        const auto when = m_store_->params().role_when.find(person.role);
+        if (when != m_store_->params().role_when.end()) {
+            std::string error;
+            npc.when = parse_condition_text(when->second, error);
+        }
         m_npcs_.push_back(std::move(npc));
     }
 }
@@ -2379,7 +2387,8 @@ SaveState WorldSim::capture() const {
     return s;
 }
 
-bool WorldSim::restore(const SaveState& s, std::string& error) {
+bool WorldSim::restore(const SaveState& saved, std::string& error) {
+    SaveState s = saved;  // a streamed save of older data is repaired below (spec 12, "Rules")
     if (m_store_) {
         // The saved enemies must be exactly those of the window around the saved position (spec 12).
         const int cx = chunk_of(static_cast<int>(std::floor(s.position.x)));
@@ -2397,21 +2406,43 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
                 }
             }
         }
-        std::set<std::pair<int, int>> found;
-        bool valid = s.hit_set.size() == s.enemies.size();
-        for (const SaveEnemy& e : s.enemies) {
-            const std::pair<int, int> spawner{e.spawner_x, e.spawner_y};
-            // Every enemy belongs to a spawner of the window; the enemy of a cleared spawner is dead.
-            valid = valid && e.has_spawner && in_window.count(spawner) != 0 && found.insert(spawner).second &&
-                    (cleared.count(spawner) == 0 || e.state == EnemyState::Dead);
-        }
-        for (const auto& spawner : in_window) {
-            valid = valid && (cleared.count(spawner) != 0 || found.count(spawner) != 0);
-        }
-        if (!valid) {
+        if (s.hit_set.size() != s.enemies.size()) {
             error = "the save has different enemies than the generated world";
             return false;
         }
+        // When the data of the world changed since the save (a spawner moved, a stamp changed), the save is repaired
+        // instead of refused: an enemy whose spawner is no longer in the window is dropped, the enemy of a cleared
+        // spawner is dead, and a spawner of the window without its enemy gets a fresh one (spec 12, "Rules").
+        std::set<std::pair<int, int>> found;
+        std::vector<SaveEnemy> enemies;
+        std::vector<bool> hits;
+        for (std::size_t i = 0; i < s.enemies.size(); ++i) {
+            SaveEnemy e = s.enemies[i];
+            const std::pair<int, int> spawner{e.spawner_x, e.spawner_y};
+            if (!e.has_spawner || in_window.count(spawner) == 0 || !found.insert(spawner).second) {
+                continue;
+            }
+            if (cleared.count(spawner) != 0 && e.state != EnemyState::Dead) {
+                e.state = EnemyState::Dead;
+                e.hp = 0;
+            }
+            enemies.push_back(e);
+            hits.push_back(s.hit_set[i]);
+        }
+        for (const auto& spawner : in_window) {
+            if (cleared.count(spawner) == 0 && found.count(spawner) == 0 && !m_setup_.stream_enemies.empty()) {
+                SaveEnemy fresh;
+                fresh.position = {static_cast<float>(spawner.first) + 0.5F, static_cast<float>(spawner.second) + 0.5F};
+                fresh.hp = stream_enemy_at(spawner.first, spawner.second).hp;
+                fresh.has_spawner = true;
+                fresh.spawner_x = spawner.first;
+                fresh.spawner_y = spawner.second;
+                enemies.push_back(fresh);
+                hits.push_back(false);
+            }
+        }
+        s.enemies = std::move(enemies);
+        s.hit_set = std::move(hits);
     } else if (s.enemies.size() != m_enemies_.size() || s.hit_set.size() != m_hit_set_.size()) {
         error = "the save has a different number of enemies than the loaded map";
         return false;

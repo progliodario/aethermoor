@@ -10,14 +10,14 @@
   "rows": [
     "t.............t",
     ".:':':'::......",
-    ".:~\\_[b[:.?./..",
-    ".'[____[:......",
-    ".:[____[:......",
+    ".:~\\_1b1:.?./..",
+    ".'1____1:......",
+    ".:1____1:......",
     ".::::;:::.,.,.,",
-    ".....=.l.]..]..",
+    ".....=.l.2..2..",
     "===============",
-    ".....=.c......]",
-    ".-.\".=...]..T..",
+    ".....=.c......2",
+    ".-.\".=...2..T..",
     ".....=...t....t"
   ],
   "legend": {
@@ -41,6 +41,15 @@
       "prop": "base:art/prop/anvil",
       "radius_x100": 35
     },
+    "1": {
+      "tile": 13,
+      "prop": "base:art/prop/furniture_spot",
+      "radius_x100": 20
+    },
+    "2": {
+      "prop": "base:art/prop/furniture_spot",
+      "radius_x100": 20
+    },
     ":": {
       "tile": 35
     },
@@ -59,18 +68,10 @@
       "prop": "base:art/prop/threshold_stone",
       "radius_x100": 35
     },
-    "[": {
-      "tile": 14,
-      "spawner": "base:enemy/echo_daichi"
-    },
     "\\": {
       "tile": 13,
       "prop": "base:art/prop/chest",
       "radius_x100": 30
-    },
-    "]": {
-      "tile": 14,
-      "spawner": "base:enemy/echo_haruka"
     },
     "_": {
       "tile": 13

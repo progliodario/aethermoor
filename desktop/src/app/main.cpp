@@ -4090,7 +4090,9 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
         }
     }
     for (const aether::NpcDef& npc : sim.story().dynamic_npcs()) {
-        items.push_back({npc.y, 3, nullptr, nullptr, &npc});
+        if (sim.story().npc_present(npc)) {  // a settler once it has come (spec 07, "Residents")
+            items.push_back({npc.y, 3, nullptr, nullptr, &npc});
+        }
     }
     items.push_back({sim.player().position.y, 2, nullptr, nullptr, nullptr});
     if (const aether::Vec2* companion = sim.companion_position()) {

@@ -228,6 +228,8 @@ class WorldParams(
     val namesEnd: List<String>,
     /** Dialogue id of a settlement NPC with {role} and {tone}. */
     val settlementDialogue: String,
+    /** A role of residents -> the JSON of its condition (spec 07, "Residents"). */
+    val roleWhen: Map<String, String> = emptyMap(),
     val variants: List<String>,
     val quirks: List<String>,
     val peopleStart: List<String>,
@@ -989,6 +991,7 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
             namesMid = names("mid", j),
             namesEnd = names("end", j),
             settlementDialogue = j.getValue("settlements").jsonObject.getValue("dialogue").jsonPrimitive.content,
+            roleWhen = j.getValue("settlements").jsonObject["role_when"]?.jsonObject?.mapValues { it.value.toString() } ?: emptyMap(),
             variants = j.getValue("settlements").jsonObject.getValue("variants").jsonArray.map { it.jsonPrimitive.content },
             quirks = j.getValue("settlements").jsonObject.getValue("quirks").jsonArray.map { it.jsonPrimitive.content },
             peopleStart = j.getValue("settlements").jsonObject.getValue("people").jsonObject.getValue("start").jsonArray.map { it.jsonPrimitive.content },

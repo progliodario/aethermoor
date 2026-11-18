@@ -731,7 +731,7 @@ class WorldSim(
 
     private fun rebuildNpcCircles() {
         npcCircles.clear()
-        for (npc in npcList) npcCircles.add(Circle(npc.x, npc.y, NPC_RADIUS))
+        for (npc in npcList) if (npc.whenCond == null) npcCircles.add(Circle(npc.x, npc.y, NPC_RADIUS)) // a resident is never solid
     }
 
     /** The time of day in permille (spec 08). */
@@ -758,6 +758,7 @@ class WorldSim(
                 NpcDef(
                     person.key, person.dialogue, person.variant, placement.x256 / 256f, placement.y256 / 256f, person.name,
                     mapOf("npc" to person.name, "place" to person.place, "region" to person.region, "quirk" to "\$i18n:${person.quirk}"),
+                    whenCond = store.params.roleWhen[person.role]?.let { parseConditionText(it) }, // a role of residents (spec 07)
                 ),
             )
         }
@@ -1944,7 +1945,8 @@ class WorldSim(
     }
 
     /** Overwrites the mutable state. On a mismatch with the loaded data it fails and changes nothing. */
-    fun restore(s: SaveState): Result<Unit> {
+    fun restore(saved: SaveState): Result<Unit> {
+        var s = saved // a streamed save of older data is repaired below (spec 12, "Rules")
         if (chunks != null) {
             // The saved enemies must be exactly those of the window around the saved position (spec 12).
             val cx = chunkOf(floor(s.x).toInt())
@@ -1955,16 +1957,24 @@ class WorldSim(
             for (j in cy - ACTIVE_RADIUS..cy + ACTIVE_RADIUS) {
                 for (i in cx - ACTIVE_RADIUS..cx + ACTIVE_RADIUS) inWindow.addAll(chunks.find(i, j)!!.spawners)
             }
+            if (s.hitSet.size != s.enemies.size) return Result.failure(IllegalArgumentException("the save has different enemies than the generated world"))
+            // When the data of the world changed since the save, the save is repaired instead of refused: an enemy whose spawner is no
+            // longer in the window is dropped, the enemy of a cleared spawner is dead, a spawner without its enemy gets a fresh one.
             val found = HashSet<Pair<Int, Int>>()
-            var valid = s.hitSet.size == s.enemies.size
-            for (e in s.enemies) {
-                val spawner = e.spawner
-                // Every enemy belongs to a spawner of the window; the enemy of a cleared spawner is dead.
-                valid = valid && spawner != null && spawner in inWindow && found.add(spawner) &&
-                    (spawner !in clearedSet || e.state == EnemyState.DEAD)
+            val enemiesOut = ArrayList<SaveEnemy>()
+            val hitsOut = ArrayList<Boolean>()
+            for ((i, e) in s.enemies.withIndex()) {
+                val spawner = e.spawner ?: continue
+                if (spawner !in inWindow || !found.add(spawner)) continue
+                enemiesOut.add(if (spawner in clearedSet && e.state != EnemyState.DEAD) SaveEnemy(e.x, e.y, 0L, EnemyState.DEAD, e.stateTick, e.spawner) else e)
+                hitsOut.add(s.hitSet[i])
             }
-            for (spawner in inWindow) valid = valid && (spawner in clearedSet || spawner in found)
-            if (!valid) return Result.failure(IllegalArgumentException("the save has different enemies than the generated world"))
+            for (spawner in inWindow) {
+                if (spawner in clearedSet || spawner in found || combat.streamEnemies.isEmpty()) continue
+                enemiesOut.add(SaveEnemy(spawner.first + 0.5f, spawner.second + 0.5f, streamEnemyAt(spawner.first, spawner.second).hp, EnemyState.IDLE, 0, spawner))
+                hitsOut.add(false)
+            }
+            s = s.copy(enemies = enemiesOut, hitSet = hitsOut)
         } else if (s.enemies.size != enemies.size || s.hitSet.size != hitSet.size) {
             return Result.failure(IllegalArgumentException("the save has a different number of enemies than the loaded map"))
         }

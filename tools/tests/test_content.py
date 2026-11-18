@@ -257,3 +257,19 @@ def test_the_deeds_name_real_titles_and_creatures():
                 assert (DATA / "enemies" / f"{enemy.rsplit('/', 1)[1]}.json").exists(), (deed["id"], enemy)
         else:
             assert deed.get("count", 0) >= 1, deed["id"]
+
+
+def test_the_echoes_wait_only_in_their_sanctums_and_the_cottage_has_its_spots():
+    """A character of the legend means one thing in a stamp: an Echo spawns only in its sanctum, the cottage has its ten places for
+    furniture (spec 06, "Furniture") and every village its settler (spec 07, "Residents")."""
+    for path in sorted((DATA / "stamps").glob("*.json")):
+        stamp = json.loads(path.read_text(encoding="utf-8"))
+        used = {ch for row in stamp["rows"] for ch in row}
+        echoes = [e["spawner"] for ch, e in stamp["legend"].items() if ch in used and "echo_" in e.get("spawner", "")]
+        assert not echoes or path.stem.startswith("sanctum_"), (path.stem, echoes)
+        npcs = [e["npc"] for ch, e in stamp["legend"].items() for row in stamp["rows"] for c in row if c == ch and "npc" in e]
+        if path.stem in ("village", "village_b", "village_c", "village_d"):
+            assert npcs.count("settler") == 1, path.stem
+    home = json.loads((DATA / "stamps" / "hamlet_home.json").read_text(encoding="utf-8"))
+    spots = sum(1 for row in home["rows"] for ch in row if home["legend"].get(ch, {}).get("prop") == "base:art/prop/furniture_spot")
+    assert spots == 10

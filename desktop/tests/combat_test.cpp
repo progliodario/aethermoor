@@ -474,9 +474,14 @@ TEST_CASE("the overworld is streamed from the content pack and is playable", "[w
     REQUIRE(fresh.derived().atk == sim.derived().atk);
     REQUIRE(fresh.explored() == sim.explored());
 
-    // A save with an enemy that does not exist in this world is refused and changes nothing.
+    // A save with an enemy that does not exist in this world (older data) is repaired: the stray enemy is dropped (spec
+    // 12).
     aether::SaveState bad = *reread;
     bad.enemies.push_back({{0.0F, 0.0F}, 1, aether::EnemyState::Idle, 0, true, 1, 1});
+    bad.hit_set.push_back(false);
+    REQUIRE(fresh.restore(bad, error));
+    REQUIRE(fresh.enemies().size() == sim.enemies().size());
+    // and one whose enemies and hits do not match is refused
     bad.hit_set.push_back(false);
     REQUIRE_FALSE(fresh.restore(bad, error));
 }

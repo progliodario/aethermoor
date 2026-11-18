@@ -178,6 +178,8 @@ def person_at(seed: int, params: dict, site: dict, x: int, y: int) -> dict:
         "quirk": cfg["quirks"][hash64(seed, site["sx"], site["sy"], 44) % len(cfg["quirks"])],
         "plaza_x256": plaza[0] * 256 + 128 if plaza else -1,
         "plaza_y256": plaza[1] * 256 + 160 if plaza else -1,
+        # a role of residents (spec 07, "Residents"): the condition that brings them
+        **({"when": cfg["role_when"][role]} if role in cfg.get("role_when", {}) else {}),
     }
 
 
