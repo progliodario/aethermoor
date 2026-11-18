@@ -200,6 +200,7 @@ struct FarmingDef {
     int reach_x100 = 150;
     std::vector<FarmCrop> crops;  // in the order of the data: a bare plot takes the first seed the bag holds
     int rain_grow_cut_pm = 0;     // how much full rain shortens the growing of a seed sown in it
+    std::map<std::string, int> season_grow_pm;  // the growing of a seed sown in each season, in permille (spec 06)
 };
 
 // A companion that follows the player and fights (spec 10).
@@ -315,6 +316,7 @@ struct CombatSetup {
     std::vector<TitleDef> tags;  // the tags (spec 11, "Tags"): earned like titles, one worn at a time; in data order
     int day_ticks = 0;   // the length of a day of a world without a clock, for the market (spec 06); 0: always day 1
     std::string region;  // the region of a world without regions: the renown is counted by region (spec 07, "Renown")
+    std::string season;  // the season of a world without a clock (spec 06, "Seasons on the plots"); empty: none
 };
 
 enum class AttackPhase { None, Startup, Active, Recovery };

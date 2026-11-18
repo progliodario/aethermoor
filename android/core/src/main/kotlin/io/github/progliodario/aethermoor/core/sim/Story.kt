@@ -5,6 +5,7 @@ import io.github.progliodario.aethermoor.core.vector.f
 import kotlin.math.min
 import kotlin.math.sqrt
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -144,12 +145,14 @@ data class NpcDef(
     val key: String,
     val dialogue: String,
     val variant: String,
-    val x: Float,
-    val y: Float,
+    var x: Float,
+    var y: Float,
     val name: String = "",
     val args: Map<String, String> = emptyMap(),
     /** A resident (spec 07, "Residents"): it is there only while this condition holds, and it is never solid. */
     val whenCond: Condition? = null,
+    /** A traveller (spec 07, "Travellers"): where it stands on each day of its cycle, in tiles; empty: it stays. Never solid. */
+    val route: List<Pair<Float, Float>> = emptyList(),
 )
 
 class StorySetup(
@@ -330,7 +333,10 @@ fun parseStorySetup(element: JsonElement): StorySetup {
         npcs = j.getValue("npcs").jsonArray.map {
             val n = it.jsonObject
             val pos = n.getValue("pos").jsonArray
-            NpcDef(n.str("key"), n.str("dialogue"), optStr(n, "variant"), pos[0].f(), pos[1].f(), whenCond = n["when"]?.let { w -> parseCondition(w) })
+            NpcDef(
+                n.str("key"), n.str("dialogue"), optStr(n, "variant"), pos[0].f(), pos[1].f(), whenCond = n["when"]?.let { w -> parseCondition(w) },
+                route = (n["route"] as? JsonArray)?.map { stop -> Pair(stop.jsonArray[0].f(), stop.jsonArray[1].f()) } ?: emptyList(),
+            )
         },
     )
 }
@@ -553,6 +559,16 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
 
     /** Whether an NPC is there now: always, or while the condition of a resident holds (spec 07, "Residents"). */
     fun npcPresent(npc: NpcDef): Boolean = npc.whenCond?.let { holds(it) } ?: true
+
+    /** Puts every traveller where its route says for that day: stop (day - 1) % its length (spec 07, "Travellers"). */
+    fun moveTravellers(day: Long) {
+        for (npc in setup.npcs) {
+            if (npc.route.isEmpty()) continue
+            val stop = npc.route[Math.floorMod(day - 1, npc.route.size.toLong()).toInt()]
+            npc.x = stop.first
+            npc.y = stop.second
+        }
+    }
 
     fun npcInRange(): NpcDef? {
         var best: NpcDef? = null

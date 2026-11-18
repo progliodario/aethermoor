@@ -42,6 +42,7 @@ struct NpcPoint {
     float x = 0.0F;
     float y = 0.0F;
     std::string when;  // a resident (spec 07, "Residents"): the JSON of its condition; empty: always there
+    std::vector<std::pair<float, float>> route;  // a traveller (spec 07, "Travellers"): its stops in tiles
 };
 
 struct TileMap {

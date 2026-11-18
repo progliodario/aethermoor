@@ -187,7 +187,8 @@ class ShopDef(
 class FarmCrop(val seed: String, val crop: String, val qtyMin: Long, val qtyMax: Long, val growTicks: Long)
 
 /** The plot prop, its reach and the crops in the order of the data (a bare plot takes the first seed the bag holds). */
-class FarmingDef(val plot: String, val reachX100: Int, val crops: List<FarmCrop>, val rainGrowCutPm: Int = 0)
+/** [seasonGrowPm]: the growing of a seed sown in each season, in permille (spec 06, "Seasons on the plots"). */
+class FarmingDef(val plot: String, val reachX100: Int, val crops: List<FarmCrop>, val rainGrowCutPm: Int = 0, val seasonGrowPm: Map<String, Int> = emptyMap())
 
 /** A companion that follows the player and fights (spec 10). [name] is an $i18n: key, [art] the creature art it is drawn with. */
 class CompanionDef(
@@ -337,6 +338,8 @@ class CombatSetup(
     val talentPointsPerLevel: Int = 1,
     /** The region of a world without regions: the renown is counted by region (spec 07, "Renown"). */
     val region: String = "",
+    /** The season of a world without a clock (spec 06, "Seasons on the plots"); empty: none. */
+    val season: String = "",
     /** The length of a day of a world without a clock, for the market (spec 06, "Market days"); 0: always day 1. */
     val dayTicks: Int = 0,
     /** The shops of other regions of a world without regions, by region (spec 06, "Goods from afar"). */

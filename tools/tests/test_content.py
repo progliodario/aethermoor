@@ -106,8 +106,9 @@ def test_the_people_of_the_overworld_stand_on_open_floor():
     params = worldgen.load_params()
     world = json.loads((DATA / "worlds" / "overworld.json").read_text(encoding="utf-8"))
     cx, cy = params["width"] // 2, params["height"] // 2
-    for npc in world["npcs"]:
-        x, y = cx + npc["dx"], cy + npc["dy"]
+    # every place a person stands: its tile, and every stop of the route of a traveller (spec 07, "Travellers")
+    places = [(npc, cx + dx, cy + dy) for npc in world["npcs"] for dx, dy in [(npc["dx"], npc["dy"])] + [tuple(s) for s in npc.get("route", [])]]
+    for npc, x, y in places:
         for landmark in params["landmarks"]:
             stamp = params["stamp_defs"][landmark["stamp"]]
             x0 = cx + landmark["dx"] - stamp["anchor"][0]

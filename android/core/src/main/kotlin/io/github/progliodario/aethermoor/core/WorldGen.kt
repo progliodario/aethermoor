@@ -18,7 +18,16 @@ data class NoiseSpec(val salt: Int, val scale: Int, val octaves: Int)
 data class PropOption(val art: String, val radiusX100: Int, val perMille: Int)
 
 /** [whenJson]: a resident (spec 07, "Residents"), the JSON of the condition that brings it; empty: always there. */
-data class WorldNpc(val key: String, val dialogue: String, val variant: String, val dx: Int, val dy: Int, val whenJson: String = "")
+data class WorldNpc(
+    val key: String,
+    val dialogue: String,
+    val variant: String,
+    val dx: Int,
+    val dy: Int,
+    val whenJson: String = "",
+    /** A traveller (spec 07, "Travellers"): its stops, as dx, dy. */
+    val route: List<Pair<Int, Int>> = emptyList(),
+)
 
 /** An enemy of the fauna of a region (spec 09, "Fauna"): what a spawner makes and what it drops. */
 class FaunaEntry(val enemy: String, val drop: String, val weight: Int)
@@ -991,6 +1000,7 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
                     n.getValue("key").jsonPrimitive.content, n.getValue("dialogue").jsonPrimitive.content,
                     n.getValue("variant").jsonPrimitive.content, n.getValue("dx").jsonPrimitive.int, n.getValue("dy").jsonPrimitive.int,
                     n["when"]?.toString() ?: "",
+                    (n["route"] as? JsonArray)?.map { stop -> Pair(stop.jsonArray[0].jsonPrimitive.int, stop.jsonArray[1].jsonPrimitive.int) } ?: emptyList(),
                 )
             },
         )

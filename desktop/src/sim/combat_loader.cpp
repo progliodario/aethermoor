@@ -256,6 +256,7 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
         def.variant = npc.variant;
         def.x = npc.x;
         def.y = npc.y;
+        def.route = npc.route;    // a traveller (spec 07, "Travellers")
         if (!npc.when.empty()) {  // a resident (spec 07, "Residents")
             def.when = parse_condition_text(npc.when, error);
             if (!def.when) {
@@ -438,6 +439,11 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
             farming.plot = parsed.value("plot", "");
             farming.reach_x100 = parsed.value("reach_x100", 150);
             farming.rain_grow_cut_pm = parsed.value("rain_grow_cut_pm", 0);
+            if (parsed.contains("season_grow_pm")) {  // spec 06, "Seasons on the plots"
+                for (const auto& [season, pm] : parsed.at("season_grow_pm").items()) {
+                    farming.season_grow_pm[season] = pm.get<int>();
+                }
+            }
             for (const Json& c : parsed.at("crops")) {
                 farming.crops.push_back({c.at("seed").get<std::string>(), c.at("crop").get<std::string>(),
                                          c.at("qty_min").get<std::int64_t>(), c.at("qty_max").get<std::int64_t>(),

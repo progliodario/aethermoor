@@ -1,0 +1,270 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/stone_lantern",
+  "canvas": {
+    "w": 28,
+    "h": 42,
+    "origin": [
+      14,
+      38
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          14.5,
+          38,
+          10,
+          2.8
+        ]
+      },
+      "fill": {
+        "color": "#141030"
+      },
+      "alpha": 0.4,
+      "blur": 0.98
+    },
+    {
+      "shape": {
+        "ellipse": [
+          14.5,
+          38,
+          6,
+          1.54
+        ]
+      },
+      "fill": {
+        "color": "#141030"
+      },
+      "alpha": 0.32,
+      "blur": 0.7
+    },
+    {
+      "shape": {
+        "ellipse": [
+          14,
+          17,
+          6,
+          6
+        ]
+      },
+      "fill": {
+        "color": "#FFC060"
+      },
+      "alpha": 0.35,
+      "blur": 4,
+      "blend": "add"
+    },
+    {
+      "shape": {
+        "path": "M 7 38 L 9 32 L 19 32 L 21 38 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 801,
+          "octaves": 3,
+          "stops": [
+            [
+              0.28,
+              "#6E737A"
+            ],
+            [
+              0.5,
+              "#8A9098"
+            ],
+            [
+              0.74,
+              "#9FA4AB"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          11,
+          22,
+          6,
+          10
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 2,
+          "seed": 802,
+          "octaves": 3,
+          "stops": [
+            [
+              0.28,
+              "#7B8086"
+            ],
+            [
+              0.5,
+              "#9AA0A8"
+            ],
+            [
+              0.74,
+              "#ACB1B8"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.35
+      }
+    },
+    {
+      "shape": {
+        "path": "M 6 13 L 22 13 L 21 22 L 7 22 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 803,
+          "octaves": 3,
+          "stops": [
+            [
+              0.28,
+              "#868B92"
+            ],
+            [
+              0.5,
+              "#A8AEB6"
+            ],
+            [
+              0.74,
+              "#B8BDC3"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          10,
+          15,
+          8,
+          5
+        ]
+      },
+      "fill": {
+        "linear": {
+          "x0": 10,
+          "y0": 15,
+          "x1": 10,
+          "y1": 20,
+          "stops": [
+            [
+              0,
+              "#FFF0B0"
+            ],
+            [
+              0.6,
+              "#FFB040"
+            ],
+            [
+              1,
+              "#C06020"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.3
+      }
+    },
+    {
+      "shape": {
+        "path": "M 3 13 L 14 5 L 25 13 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 804,
+          "octaves": 3,
+          "stops": [
+            [
+              0.28,
+              "#6E737A"
+            ],
+            [
+              0.5,
+              "#8A9098"
+            ],
+            [
+              0.74,
+              "#9FA4AB"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.45
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          14,
+          4.6,
+          1.6,
+          1.6
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 2,
+          "seed": 805,
+          "octaves": 3,
+          "stops": [
+            [
+              0.28,
+              "#868B92"
+            ],
+            [
+              0.5,
+              "#A8AEB6"
+            ],
+            [
+              0.74,
+              "#B8BDC3"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.3
+      }
+    },
+    {
+      "shape": {
+        "path": "M 16 13 L 22 13 L 21 22 L 16 22 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.3,
+      "blur": 0.6,
+      "blend": "multiply"
+    }
+  ],
+  "palette": {
+    "stone": "#9AA0A8"
+  }
+}

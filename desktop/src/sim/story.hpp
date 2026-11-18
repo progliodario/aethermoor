@@ -127,6 +127,9 @@ struct NpcDef {
     std::map<std::string, std::string> args;  // arguments of the dialogue texts (spec 07)
     // A resident (spec 07, "Residents"): it is there only while this condition holds, and it is never solid.
     std::optional<Condition> when;
+    // A traveller (spec 07, "Travellers"): where it stands on each day of its cycle, in tiles; empty: it stays. Never
+    // solid.
+    std::vector<std::pair<float, float>> route;
 };
 
 struct StorySetup {
@@ -202,6 +205,19 @@ public:
     bool holds(const Condition& condition) const;
     // Whether an NPC is there now: always, or while the condition of a resident holds (spec 07, "Residents").
     bool npc_present(const NpcDef& npc) const { return !npc.when || holds(*npc.when); }
+    // Puts every traveller where its route says for that day: stop (day - 1) % its length (spec 07, "Travellers").
+    void move_travellers(std::int64_t day) {
+        for (NpcDef& npc : m_setup_.npcs) {
+            if (!npc.route.empty()) {
+                const auto& stop =
+                    npc.route[static_cast<std::size_t>(((day - 1) % static_cast<std::int64_t>(npc.route.size()) +
+                                                        static_cast<std::int64_t>(npc.route.size())) %
+                                                       static_cast<std::int64_t>(npc.route.size()))];
+                npc.x = stop.first;
+                npc.y = stop.second;
+            }
+        }
+    }
     void apply(const Effect& effect);
 
     void start_quest(const std::string& quest_id);

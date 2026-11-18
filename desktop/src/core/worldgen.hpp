@@ -35,6 +35,7 @@ struct WorldNpc {
     int dy = 0;
     std::string
         when;  // a resident (spec 07, "Residents"): the JSON of the condition that brings it; empty: always there
+    std::vector<std::pair<int, int>> route;  // a traveller (spec 07, "Travellers"): its stops, as dx, dy; empty: none
 };
 
 // An enemy of the fauna of a region (spec 09, "Fauna"): what a spawner makes and what it drops.

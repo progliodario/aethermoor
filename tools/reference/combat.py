@@ -81,8 +81,8 @@ class CombatSim:
         self.props = [tuple(p) for p in scenario["props"]]
         story_setup = scenario.get("story")
         if story_setup:
-            # a resident (an NPC with `when`) is never solid (spec 07, "Residents")
-            self.props += [(n["pos"][0], n["pos"][1], NPC_RADIUS) for n in story_setup["npcs"] if "when" not in n]
+            # a resident (an NPC with `when`) and a traveller (with `route`) are never solid (spec 07, "Residents", "Travellers")
+            self.props += [(n["pos"][0], n["pos"][1], NPC_RADIUS) for n in story_setup["npcs"] if "when" not in n and "route" not in n]
         seed = int(scenario["seed"], 16)
         self.seed = seed
         # Gathering (spec 06, "Gathering"): the nodes by prop art, the props that can be gathered from, and what is gathered: (x100, y100) -> (tick it grows back, times)
@@ -120,7 +120,8 @@ class CombatSim:
         self.sold_today: dict[str, int] = {}  # the glut (spec 06, "Glut"): how many of each item were sold on `sold_day`; not saved
         self.sold_day = 0
         self.day_ticks = scenario.get("day_ticks", 0)  # the length of a day for the market (spec 06, "Market days"); 0: always day 1
-        self.region = scenario.get("region", "")  # the region of the scenario: the renown is counted by region (spec 07, "Renown")
+        self.region = scenario.get("region", "")
+        self.season = scenario.get("season", "")  # the season of a scenario (spec 06, "Seasons on the plots")  # the region of the scenario: the renown is counted by region (spec 07, "Renown")
         self.combat = nm.derive_stream(seed, "combat")
         self.loot = nm.derive_stream(seed, "loot")
         pl = scenario["player"]
@@ -254,6 +255,8 @@ class CombatSim:
 
     def tick(self, raw_x: float, raw_y: float, attack: bool, dodge: bool = False, strike: bool = False, parry: bool = False) -> None:
         self.world_ticks += 1
+        if self.story is not None:  # the travellers stand where their route puts them today (spec 07, "Travellers")
+            self.story.move_travellers(self.day())
         if self.story is not None and self.story.dialogue_active:
             raw_x, raw_y, attack, dodge, strike, parry = 0.0, 0.0, False, False, False, False
         if self.iframes > 0:
@@ -719,7 +722,7 @@ class CombatSim:
         return self.counters.get("renown:" + self.region, 0)
 
     def season_id(self) -> str:
-        return ""  # a combat scenario has no world time
+        return self.season  # a combat scenario has no world time: its season, if it says one
 
     def tod_pm(self) -> int:
         return 0
@@ -1022,7 +1025,9 @@ class CombatSim:
                     del self.inventory[crop["seed"]]
                 # the rain of the moment waters the seed: it grows sooner (spec 06, "Rain on the plots")
                 rain_cut = self.weather.get("rain_pm", 0) * self.farming.get("rain_grow_cut_pm", 0) // 1000
-                self.plots[key] = (crop["seed"], self.world_ticks + crop["grow_ticks"] * (1000 - rain_cut) // 1000)
+                # and the season makes it grow sooner or later (spec 06, "Seasons on the plots")
+                season_pm = self.farming.get("season_grow_pm", {}).get(self.season_id(), 1000)
+                self.plots[key] = (crop["seed"], self.world_ticks + crop["grow_ticks"] * (1000 - rain_cut) // 1000 * season_pm // 1000)
                 self.counters["sown"] = self.counters.get("sown", 0) + 1
                 return ("sown", crop["seed"], 1)
         return None

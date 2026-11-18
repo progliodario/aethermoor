@@ -95,6 +95,7 @@ LEGEND = {
     "/": {"tile": 14, "prop": "base:art/prop/anvil", "radius_x100": 35},  # where fine gear is made
     "\\": {"tile": 13, "prop": "base:art/prop/chest", "radius_x100": 30},  # a chest: every chest holds the same things (spec 06, "Chests")
     "[": {"tile": 13, "prop": "base:art/prop/furniture_spot", "radius_x100": 20},  # a place for a piece of furniture (spec 06, "Furniture")
+    "]": {"prop": "base:art/prop/furniture_spot", "radius_x100": 20},  # the same in the garden, on the grass
     "V": {"tile": 13, "npc": "villager"},
     "G": {"tile": 13, "npc": "guild_clerk"},
     "S": {"tile": 13, "npc": "shopkeeper"},
@@ -352,6 +353,8 @@ def hamlet_home() -> dict:
     c.put(1, 9, "-")  # a hen coop and a goat pen (spec 06, "Animals")
     c.put(3, 9, '"')
     c.put(12, 9, "T")
+    for x, y in ((9, 6), (12, 6), (9, 9), (14, 8)):  # four places for the pieces of the garden (spec 06, "Furniture")
+        c.put(x, y, "]")
     for x, y in ((0, 0), (14, 0), (9, 10), (14, 10)):
         c.put(x, y, "t")
     return stamp("base:stamp/hamlet_home", c, (5, 7), [(4, 7), (6, 7)])

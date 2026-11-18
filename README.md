@@ -36,12 +36,12 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 | Protagonisti | 8, ognuno con un compagno (8 compagni) e una storia in cinque atti (96 missioni di storia) |
 | Creature | 75, di cui 27 guardiani e 8 Echi |
 | Missioni | 319 (24 storie dei paesani) |
-| Oggetti e ricette | 238 oggetti, 76 ricette (8 segrete) |
+| Oggetti e ricette | 242 oggetti, 80 ricette (8 segrete) |
 | Progressione | 44 titoli, 8 tag, 16 talenti, 26 imprese |
-| Persone con nome | 45 nei dati del mondo, oltre ai paesani generati |
+| Persone con nome | 46 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 3417 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 30 file di vettori di conformità, 555 casi, eseguiti dai test C++ e Kotlin |
+| Testi | 3435 chiavi, in italiano e inglese |
+| Regole uguali sui due client | 30 file di vettori di conformità, 559 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 18 specifiche, 13 ADR |
 <!-- facts:end -->
 
@@ -54,7 +54,7 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 | Combattimento | completo: elementi, stati, parata, stagger, guardiani, abilità a comando | ritocchi, sempre verso scontri facili |
 | Mondo | enorme, otto regioni, città, sotterranei, meteo che nasconde e rallenta, vento che spinge, nebbia e temporali | prestazioni misurate su un telefono |
 | Missioni e storie | storie in cinque atti per ogni protagonista, storie dei paesani, gilda, leggende, taglie | la modalità Dungeon di Gideon |
-| Vita | raccolta, pesca, caccia, orti, animali, bauli condivisi, il cottage dell'Ospite con i suoi mobili, venditori ambulanti, ricette segrete, cibi con effetti | residenti anche nei villaggi generati, mercanti che viaggiano davvero |
+| Vita | raccolta, pesca, caccia, orti, animali, bauli condivisi, il cottage dell'Ospite con i suoi mobili, venditori ambulanti, ricette segrete, cibi con effetti | residenti anche nei villaggi generati, carri che si vedono viaggiare |
 | Compagni | uno per protagonista con comandi, legame e cura; Haruka doma un secondo compagno | più compagni scelti dal giocatore |
 | Progressione | talenti con abilità, titoli con effetti, bestiario, reincarnazione con eredità, imprese che danno echi, rune sulle armi, tag da indossare, armi e armature con affissi, doni delle imprese | affissi a caso |
 | Accessibilità | consigli, numeri dei danni e lampi disattivabili, testo grande, tasti configurabili | — |
@@ -90,9 +90,9 @@ Il catalogo completo, generato dai dati, è in [`docs/design/catalog.md`](docs/d
 - Orti in ogni villaggio, pollai e recinti delle capre; ricette al falò e all'incudine, opere pregiate, un piatto segreto per regione insegnato dal bottegaio.
 - Cibi e infusi che fortificano, proteggono, rigenerano o fanno correre; una pozione che purifica.
 - Un **baule** in ogni villaggio e città: tutti tengono le stesse cose.
-- Il **cottage dell'Ospite**: baule, falò, incudine, orti, galline, una capra e una Pietra della Soglia; Nonna Brin te lo regala dopo i suoi tre favori. Sei tappeti aspettano i **mobili** che costruisci all'incudine: letto, rastrelliera, libreria, essiccatoio, manichino e banco, e ognuno ti aiuta ovunque come un titolo.
+- Il **cottage dell'Ospite**: baule, falò, incudine, orti, galline, una capra e una Pietra della Soglia; Nonna Brin te lo regala dopo i suoi tre favori. Dieci tappeti, in casa e in giardino, aspettano i **mobili** che costruisci all'incudine (letto, rastrelliera, libreria, essiccatoio, manichino, banco, panchina, spaventapasseri, bersaglio, lanterna di pietra), e ognuno ti aiuta ovunque come un titolo.
 - **Residenti**: quando una regione ti conosce (sei missioni finite lì), qualcuno si trasferisce nel suo avamposto, ti saluta e ti regala una runa.
-- Negozi con giorni di mercato, merci di altre regioni, pezzi rari per gli amici; pagano meno se vendi troppo della stessa cosa. Corvin ad Aldermere e un venditore in ogni avamposto portano ogni giorno le merci di una regione diversa.
+- Negozi con giorni di mercato, merci di altre regioni, pezzi rari per gli amici; pagano meno se vendi troppo della stessa cosa. Corvin ad Aldermere e un venditore in ogni avamposto portano ogni giorno le merci di una regione diversa; Odo, il capo carovana, ogni giorno è in un avamposto diverso. Gli orti crescono più svelti in primavera e più lenti d'inverno.
 
 **Progressione**
 
@@ -239,7 +239,7 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 Le prossime cose, in ordine (dettagli nella [roadmap](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine)):
 
 - **A breve:** controlli automatici della grafica; affissi a caso; residenti nei villaggi generati.
-- **A medio termine:** residenti anche nei villaggi generati e mercanti che viaggiano; la modalità Dungeon di Gideon; prestazioni misurate su un telefono; un sintetizzatore migliore per musica e ambiente (solo se il proprietario lo vuole).
+- **A medio termine:** residenti anche nei villaggi generati e carri che si vedono viaggiare; la modalità Dungeon di Gideon; prestazioni misurate su un telefono; un sintetizzatore migliore per musica e ambiente (solo se il proprietario lo vuole).
 - **Verso la 1.0:** pacchetti firmati, documentazione per chi fa mod, altre lingue.
 - **Decide il proprietario:** quando pubblicare la prima release (Alpha 0.1).
 

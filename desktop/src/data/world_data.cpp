@@ -349,9 +349,18 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
         }
 
         for (const Json& n : j.at("npcs")) {
-            p.npcs.push_back({n.at("key").get<std::string>(), n.at("dialogue").get<std::string>(),
-                              n.at("variant").get<std::string>(), n.at("dx").get<int>(), n.at("dy").get<int>(),
-                              n.contains("when") ? n.at("when").dump() : std::string()});
+            p.npcs.push_back({n.at("key").get<std::string>(),
+                              n.at("dialogue").get<std::string>(),
+                              n.at("variant").get<std::string>(),
+                              n.at("dx").get<int>(),
+                              n.at("dy").get<int>(),
+                              n.contains("when") ? n.at("when").dump() : std::string(),
+                              {}});
+            if (n.contains("route")) {  // a traveller (spec 07, "Travellers")
+                for (const Json& stop : n.at("route")) {
+                    p.npcs.back().route.emplace_back(stop.at(0).get<int>(), stop.at(1).get<int>());
+                }
+            }
         }
         return p;
     } catch (const std::exception& e) {

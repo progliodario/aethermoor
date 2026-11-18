@@ -668,7 +668,8 @@ class WorldSim(
             val store = chunks // the rain of the moment waters the seed (spec 06, "Rain on the plots")
             val rain = if (store != null) sampleTime(store.seed, store.params.time, worldTicks).rainPm else combat.rainPm
             val rainCut = rain.toLong() * farming.rainGrowCutPm / 1000
-            plots[key] = Pair(crop.seed, worldTicks + crop.growTicks * (1000 - rainCut) / 1000)
+            val seasonPm = (farming.seasonGrowPm[seasonId()] ?: 1000).toLong() // the season makes it grow sooner or later (spec 06)
+            plots[key] = Pair(crop.seed, worldTicks + crop.growTicks * (1000 - rainCut) / 1000 * seasonPm / 1000)
             count("sown")
             cues.add(SimCue("gather", "plant", player.position))
             return TendResult("sown", crop.seed, 1)
@@ -690,7 +691,7 @@ class WorldSim(
             story.questResolver = { id -> resolveOffer(store.seed, store.params, id)?.let { questFromOffer(it) } }
         }
         collision.dynamicProps = npcCircles
-        for (npc in combat.story.npcs) if (npc.whenCond == null) collision.addProp(Circle(npc.x, npc.y, NPC_RADIUS)) // a resident is never solid (spec 07)
+        for (npc in combat.story.npcs) if (npc.whenCond == null && npc.route.isEmpty()) collision.addProp(Circle(npc.x, npc.y, NPC_RADIUS)) // a resident is never solid (spec 07)
         if (combat.enabled) {
             player.level = combat.startLevel.toLong()
             recomputeDerived()
@@ -925,7 +926,7 @@ class WorldSim(
     }
 
     override fun seasonId(): String {
-        val store = chunks ?: return ""
+        val store = chunks ?: return combat.season // a world without a clock: the season of the setup, if any
         val index = seasonIndexOf(store.params.time, worldTicks / store.params.time.dayTicks + 1)
         return if (index >= 0) store.params.time.seasons[index].id else ""
     }
@@ -1358,6 +1359,7 @@ class WorldSim(
 
     fun tick(rawXIn: Float, rawYIn: Float, attackIn: Boolean = false, dodgeIn: Boolean = false, strikeIn: Boolean = false, parryIn: Boolean = false) {
         worldTicks++
+        story.moveTravellers(dayNow()) // the travellers stand where their route puts them today (spec 07)
         syncWindow()
         // the rain hides the player (spec 08): creatures notice from a shorter distance
         val store = chunks

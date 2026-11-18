@@ -77,6 +77,23 @@ FURNITURE = {
                    "Work table", "Banco da lavoro",
                    "Place it in the cottage. Room for every tool, at last: every recipe gives one more.",
                    "Posalo nel cottage. Finalmente posto per ogni attrezzo: ogni ricetta ne dà uno in più."),
+    # the garden of the cottage: four places on the grass
+    "garden_bench": ("garden_bench", {"xp_pct": 5}, 180, {"wood_log": 5, "iron_ore": 1},
+                     "Garden bench", "Panchina del giardino",
+                     "Place it in the garden of the cottage. Evenings spent thinking back: 5% more experience from every victory.",
+                     "Posala nel giardino del cottage. Sere passate a ripensare: il 5% di esperienza in più da ogni vittoria."),
+    "scarecrow": ("scarecrow", {"gather_bonus": 1}, 160, {"wood_log": 3, "dry_branch": 4, "tawny_fur": 1},
+                  "Scarecrow", "Spaventapasseri",
+                  "Place it in the garden of the cottage. The birds leave more for you: one more of everything you gather.",
+                  "Posalo nel giardino del cottage. Gli uccelli ti lasciano di più: uno in più di tutto ciò che raccogli."),
+    "archery_target": ("archery_target", {"atk_pct": 5}, 200, {"wood_log": 3, "dry_branch": 3, "wildflowers": 2},
+                       "Archery target", "Bersaglio",
+                       "Place it in the garden of the cottage. Practice every morning: your hits are 5% stronger.",
+                       "Posalo nel giardino del cottage. Esercizio ogni mattina: i tuoi colpi sono più forti del 5%."),
+    "stone_lantern": ("stone_lantern", {"fine_pm": 50, "parry_bonus": 2}, 220, {"stone_chunk": 6, "pine_resin": 1},
+                      "Stone lantern", "Lanterna di pietra",
+                      "Place it in the garden of the cottage. Calm light for careful work: 5% more fine work, and a steadier parry.",
+                      "Posala nel giardino del cottage. Luce calma per un lavoro attento: il 5% in più di opere pregiate, e una parata più salda."),
 }
 
 # What make_recipes.py writes: recipe id -> (output item, quantity, inputs); all of them at an anvil.

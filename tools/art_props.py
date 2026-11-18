@@ -890,11 +890,80 @@ def work_table() -> Recipe:
     return r
 
 
+def garden_bench() -> Recipe:
+    """A bench of planks under the sky of the cottage: a rest that teaches (spec 06, "Furniture")."""
+    r = prop("garden_bench", 44, 30, (22, 26), {"wood": "#A87444"})
+    r.shadow(22.5, 26, 20, 3.4, 0.38)
+    for x in (6, 34):  # the legs
+        r.rect(x, 15, 3.4, 11, wood(771, "#7A5232", 2), stroke=INK, width=0.4)
+    r.path("M 2 12 L 42 12 L 42 17 L 2 17 Z", wood(772, "#A87444", 4), stroke=INK, width=0.5)  # the seat
+    for y in (13.6, 15.4):
+        r.line(2.4, y, 41.6, y, "#5A3A20", 0.3, alpha=0.6)
+    r.path("M 4 3 L 40 3 L 40 9 L 4 9 Z", wood(773, "#B88450", 4), stroke=INK, width=0.45)  # the back
+    for x in (7, 37):
+        r.rect(x - 1, 3, 2, 10, wood(774, "#7A5232", 2), stroke=INK, width=0.3)
+    r.shade("M 30 3 L 40 3 L 40 17 L 30 17 Z", 0.28, blur=0.8)
+    r.lit(box(4, 3, 36, 1.0), 0.45, "#FFE8C0")
+    return r
+
+
+def scarecrow() -> Recipe:
+    """A scarecrow in a straw hat and a patched coat: it watches the plots (spec 06, "Furniture")."""
+    r = prop("scarecrow", 36, 52, (18, 47), {"coat": "#5A7AB0", "straw": "#E0C070", "hat": "#C8A050"})
+    r.shadow(18.5, 47, 11, 3.0, 0.4)
+    r.rect(16.6, 18, 2.8, 29, wood(781, "#7A5232", 2), stroke=INK, width=0.4)  # the post
+    r.rect(3, 19, 30, 2.6, wood(782, "#8A5A30", 2), stroke=INK, width=0.35)  # the cross bar
+    r.path("M 8 18 L 28 18 L 26 34 L 10 34 Z", "$p.coat", stroke=INK, width=0.45)  # the coat
+    r.rect(12, 22, 5, 5, "#C04A4A", stroke="#5A2A2A", width=0.25, alpha=0.9)  # a patch
+    r.rect(20, 27, 4, 4, "#E8B848", stroke="#7A5A18", width=0.25, alpha=0.9)
+    for x in (3.4, 32.6):
+        for j in range(3):
+            r.line(x, 19.6 + j * 1.0, x + (-1.8 if x < 10 else 1.8), 18.6 + j * 1.4, "$p.straw", 0.4)
+    r.ellipse(18, 12, 5, 5.2, noise(3, 783, (0.3, "#B09858"), (0.55, "#D8C090"), (0.8, "#F0E0B0"), octaves=2), stroke=INK, width=0.45)  # the head
+    r.ellipse(16, 11.4, 0.7, 0.7, INK)
+    r.ellipse(20, 11.4, 0.7, 0.7, INK)
+    r.path("M 15.6 14.2 Q 18 15.8 20.4 14.2", None, stroke=INK, width=0.4)  # a smile, stitched
+    r.path("M 9 8 L 27 8 L 24 6 Q 18 1 12 6 Z", "$p.hat", stroke=INK, width=0.45)  # the hat
+    r.shade("M 18 18 L 28 18 L 26 34 L 18 34 Z", 0.3, blur=0.8, clip=True)
+    return r
+
+
+def archery_target() -> Recipe:
+    """A straw target on a stand, with an arrow in the gold: the hits are stronger (spec 06, "Furniture")."""
+    r = prop("archery_target", 38, 46, (19, 41), {"straw": "#E0C070"})
+    r.shadow(19.5, 41, 14, 3.2, 0.4)
+    r.path("M 8 41 L 15 14 L 17 14 L 11 41 Z", wood(791, "#7A5232", 2), stroke=INK, width=0.35)  # the stand
+    r.path("M 30 41 L 23 14 L 21 14 L 27 41 Z", wood(792, "#7A5232", 2), stroke=INK, width=0.35)
+    r.ellipse(19, 18, 14, 14, noise(3, 793, (0.3, "#B09040"), (0.55, "$p.straw"), (0.8, "#F4DC90"), octaves=2), stroke=INK, width=0.5)
+    for rr, tone in ((11, "#F4F0E6"), (8.4, "#C04A4A"), (5.8, "#3E6AA0"), (3.2, "#E8B848")):
+        r.ellipse(19, 18, rr, rr, tone, stroke=INK, width=0.3)
+    r.line(19.6, 17.6, 29, 9, "#6A4428", 0.8)  # the arrow
+    r.path("M 29 9 L 32 6 L 31 9.6 Z", "#F4F0E6", stroke=INK, width=0.2)
+    r.shade(ell(24, 21, 9, 9), 0.25, blur=1.2)
+    return r
+
+
+def stone_lantern() -> Recipe:
+    """A small lantern of stone with a candle inside: the work of the evening comes out finer (spec 06, "Furniture")."""
+    r = prop("stone_lantern", 28, 42, (14, 38), {"stone": "#9AA0A8"})
+    r.shadow(14.5, 38, 10, 2.8, 0.4)
+    r.glow(14, 17, 10, "#FFC060", 0.35)
+    r.path("M 7 38 L 9 32 L 19 32 L 21 38 Z", stone(801, "#8A9098", 3), stroke=INK, width=0.4)  # the foot
+    r.rect(11, 22, 6, 10, stone(802, "#9AA0A8", 2), stroke=INK, width=0.35)  # the post
+    r.path("M 6 13 L 22 13 L 21 22 L 7 22 Z", stone(803, "#A8AEB6", 3), stroke=INK, width=0.4)  # the light box
+    r.rect(10, 15, 8, 5, linear(10, 15, 10, 20, (0, "#FFF0B0"), (0.6, "#FFB040"), (1, "#C06020")), stroke=INK, width=0.3)  # the flame window
+    r.path("M 3 13 L 14 5 L 25 13 Z", stone(804, "#8A9098", 3), stroke=INK, width=0.45)  # the roof
+    r.ellipse(14, 4.6, 1.6, 1.6, stone(805, "#A8AEB6", 2), stroke=INK, width=0.3)
+    r.shade("M 16 13 L 22 13 L 21 22 L 16 22 Z", 0.3, blur=0.6)
+    return r
+
+
 def build_props() -> list[Recipe]:
     props = [tree_oak(), pine(), dead_tree(), bush(), rock(), cactus(), campfire(), crate(), barrel(), bones(), lamp(), signpost(),
              statue(), tent(), banner(), well(), threshold_stone(), stall(), haybale(), anvil(), reeds(), mushrooms(),
              stump(), flowers(), fern(), log(), driftwood(), ice_shard(), dry_shrub(), garden_plot(), coop(), pen(), chest(),
-             furniture_spot(), bed(), weapon_rack(), bookshelf(), herb_rack(), training_dummy(), work_table()]
+             furniture_spot(), bed(), weapon_rack(), bookshelf(), herb_rack(), training_dummy(), work_table(),
+             garden_bench(), scarecrow(), archery_target(), stone_lantern()]
     sway = {"tree_oak": 1.8, "pine": 1.1, "dead_tree": 0.5, "bush": 0.7, "reeds": 1.4, "banner": 0.5, "campfire": 0.6, "flowers": 0.9, "fern": 0.8, "dry_shrub": 0.6}  # what the wind moves
     for r in props:
         r.sway = sway.get(r.id.rsplit("/", 1)[1], 0.0)

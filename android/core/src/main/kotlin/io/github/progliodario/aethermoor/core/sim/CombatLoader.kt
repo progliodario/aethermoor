@@ -123,6 +123,7 @@ private fun loadFarming(pack: Pack): FarmingDef? {
                 o.getValue("qty_max").jsonPrimitive.long, o.getValue("grow_ticks").jsonPrimitive.long)
         },
         rainGrowCutPm = doc["rain_grow_cut_pm"]?.jsonPrimitive?.int ?: 0,
+        seasonGrowPm = doc["season_grow_pm"]?.jsonObject?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
     )
 }
 
@@ -290,7 +291,7 @@ fun loadCombatSetup(
                 dialogues[id] = parseDialogue(text).getOrThrow()
             }
         }
-        val npcs = map.npcs.map { NpcDef(it.key, it.dialogue, it.variant, it.x, it.y, whenCond = it.whenJson.takeIf { w -> w.isNotEmpty() }?.let { w -> parseConditionText(w) }) }
+        val npcs = map.npcs.map { NpcDef(it.key, it.dialogue, it.variant, it.x, it.y, whenCond = it.whenJson.takeIf { w -> w.isNotEmpty() }?.let { w -> parseConditionText(w) }, route = it.route) }
 
         // Items that can be used (spec 06).
         val items = HashMap<String, ItemDef>()

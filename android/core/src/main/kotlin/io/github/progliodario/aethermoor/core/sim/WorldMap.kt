@@ -17,7 +17,10 @@ fun makeStreamMap(params: WorldParams): TileMap {
         spawnY = (cy * 256 + 128) / 256f,
         props = emptyList(),
         npcs = params.npcs.map {
-            NpcPoint(it.key, it.dialogue, it.variant, ((cx + it.dx) * 256 + 128) / 256f, ((cy + it.dy) * 256 + 128) / 256f, it.whenJson)
+            NpcPoint(
+                it.key, it.dialogue, it.variant, ((cx + it.dx) * 256 + 128) / 256f, ((cy + it.dy) * 256 + 128) / 256f, it.whenJson,
+                it.route.map { (dx, dy) -> Pair(((cx + dx) * 256 + 128) / 256f, ((cy + dy) * 256 + 128) / 256f) },
+            )
         },
     )
 }

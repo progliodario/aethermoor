@@ -1,0 +1,289 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/garden_bench",
+  "canvas": {
+    "w": 44,
+    "h": 30,
+    "origin": [
+      22,
+      26
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          22.5,
+          26,
+          20,
+          3.4
+        ]
+      },
+      "fill": {
+        "color": "#141030"
+      },
+      "alpha": 0.38,
+      "blur": 1.19
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22.5,
+          26,
+          12,
+          1.87
+        ]
+      },
+      "fill": {
+        "color": "#141030"
+      },
+      "alpha": 0.304,
+      "blur": 0.85
+    },
+    {
+      "shape": {
+        "rect": [
+          6,
+          15,
+          3.4,
+          11
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 2,
+          "seed": 771,
+          "octaves": 3,
+          "stops": [
+            [
+              0.3,
+              "#66452A"
+            ],
+            [
+              0.5,
+              "#7A5232"
+            ],
+            [
+              0.72,
+              "#8D6A4F"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          34,
+          15,
+          3.4,
+          11
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 2,
+          "seed": 771,
+          "octaves": 3,
+          "stops": [
+            [
+              0.3,
+              "#66452A"
+            ],
+            [
+              0.5,
+              "#7A5232"
+            ],
+            [
+              0.72,
+              "#8D6A4F"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 2 12 L 42 12 L 42 17 L 2 17 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 4,
+          "seed": 772,
+          "octaves": 3,
+          "stops": [
+            [
+              0.3,
+              "#8D6139"
+            ],
+            [
+              0.5,
+              "#A87444"
+            ],
+            [
+              0.72,
+              "#B4875E"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.5
+      }
+    },
+    {
+      "shape": {
+        "path": "M 2.4 13.6 L 41.6 13.6"
+      },
+      "stroke": {
+        "color": "#5A3A20",
+        "width": 0.3
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 2.4 15.4 L 41.6 15.4"
+      },
+      "stroke": {
+        "color": "#5A3A20",
+        "width": 0.3
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 4 3 L 40 3 L 40 9 L 4 9 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 4,
+          "seed": 773,
+          "octaves": 3,
+          "stops": [
+            [
+              0.3,
+              "#9B6F43"
+            ],
+            [
+              0.5,
+              "#B88450"
+            ],
+            [
+              0.72,
+              "#C29568"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.45
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          6,
+          3,
+          2,
+          10
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 2,
+          "seed": 774,
+          "octaves": 3,
+          "stops": [
+            [
+              0.3,
+              "#66452A"
+            ],
+            [
+              0.5,
+              "#7A5232"
+            ],
+            [
+              0.72,
+              "#8D6A4F"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.3
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          36,
+          3,
+          2,
+          10
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 2,
+          "seed": 774,
+          "octaves": 3,
+          "stops": [
+            [
+              0.3,
+              "#66452A"
+            ],
+            [
+              0.5,
+              "#7A5232"
+            ],
+            [
+              0.72,
+              "#8D6A4F"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.3
+      }
+    },
+    {
+      "shape": {
+        "path": "M 30 3 L 40 3 L 40 17 L 30 17 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.28,
+      "blur": 0.8,
+      "blend": "multiply"
+    },
+    {
+      "shape": {
+        "path": "M 4.00 3.00 L 40.00 3.00 L 40.00 4.00 L 4.00 4.00 Z"
+      },
+      "fill": {
+        "color": "#FFE8C0"
+      },
+      "alpha": 0.45,
+      "clip": true,
+      "blend": "add"
+    }
+  ],
+  "palette": {
+    "wood": "#A87444"
+  }
+}

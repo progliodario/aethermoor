@@ -37,6 +37,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Odo, the master of the caravan** (spec 07, "Travellers"): a merchant who really travels. Every day his wagons stand at another outpost, all eight in turn, and he sells at the plain price the goods of the region where he goes next. People of the world data can now have a `route`: where they stand on each day of their cycle (never solid).
+- **Seasons on the plots** (spec 06): a seed sown in spring grows a fifth sooner, in summer a tenth sooner, in winter a quarter later.
+- **The garden of the cottage**: four more places for furniture on the grass, and four pieces for them, made at an anvil: a bench (+5% experience), a scarecrow (one more of everything gathered), an archery target (+5% attack) and a stone lantern (+5% fine work, a steadier parry). Ten pieces in all.
+- Three conformance scenarios (`traveller_moves`, `farming_in_winter`, `farming_in_spring`) and a save split.
 - **Lightning** (spec 08, "Lightning"): in a storm, about every seven seconds, the lightning strikes the nearest creature that chases you for 40% of its health, with a flash of the sky and the thunder; it can win a fight for you. A hint explains it.
 - **Gifts of the deeds** (spec 11, "Gifts of the deeds"): every deed done leaves a gift in the bag of every new game (potions, rations, runes, accessories, an affixed piece, seeds); the text of each deed says which, and a notice counts them when the game starts.
 - The shop of every region keeps its two affixed pieces for its friends (renown 15 and 20).

@@ -279,12 +279,12 @@ I numeri, contati dai dati da `tools/make_facts.py` (dove si guarda: il [catalog
 | Protagonisti | 8, ognuno con un compagno (8 compagni) e una storia in cinque atti (96 missioni di storia) |
 | Creature | 75, di cui 27 guardiani e 8 Echi |
 | Missioni | 319 (24 storie dei paesani) |
-| Oggetti e ricette | 238 oggetti, 76 ricette (8 segrete) |
+| Oggetti e ricette | 242 oggetti, 80 ricette (8 segrete) |
 | Progressione | 44 titoli, 8 tag, 16 talenti, 26 imprese |
-| Persone con nome | 45 nei dati del mondo, oltre ai paesani generati |
+| Persone con nome | 46 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 3417 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 30 file di vettori di conformità, 555 casi, eseguiti dai test C++ e Kotlin |
+| Testi | 3435 chiavi, in italiano e inglese |
+| Regole uguali sui due client | 30 file di vettori di conformità, 559 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 18 specifiche, 13 ADR |
 <!-- facts:end -->
 
@@ -300,7 +300,7 @@ Legenda: **fatto** = le consegne del piano ci sono e funzionano su tutti e due i
 | M3 Combattimento | fatto | attacco, colpo potente, schivata, parata, sei elementi, stati alterati su creature e giocatore, stagger, barra del guardiano, Analizza di Ren, 75 creature con comportamenti, XP e livelli | nulla di aperto: nessuno scontro del modello dura più di tre secondi al proprio livello (`docs/design/balance.md`); si ricontrolla a ogni creatura nuova |
 | M4 Dialoghi, missioni, inventario, salvataggi | quasi | dialoghi con condizioni ed effetti, missioni con meta sulla mappa, zaino, negozi, equipaggiamento a tre posti, diario e finestra di stato, gilda con ranghi F-S e bacheca, locande, tre partite, export e import, `profile.json`, volumi, tasti configurabili (desktop), Fenwick e Aldermere scritti a mano, otto prologhi | la **release Alpha 0.1** (tag e pacchetti: decisione del proprietario) |
 | M5 Mondo aperto | quasi | streaming dei chunk, regioni, insediamenti, siti, fiumi e strade, stagioni, meteo con pioggia, neve, nebbia e notte che nascondono il giocatore, vento che lo spinge, temporali, routine dei PNG, Pietre della Soglia, mappa del mondo e mini mappa, luci di notte | prestazioni misurate su un telefono reale |
-| M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, 63 ricette al falò e all'incudine (otto segrete, insegnate dai bottegai), cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane, orti (che crescono prima con la pioggia), pollai e recinti nei villaggi, negozi che pagano meno se vendi troppo, bauli condivisi in ogni villaggio e città, Nonna Brin, il venditore ambulante Corvin, il cottage dell'Ospite con sei posti per i mobili, otto residenti che arrivano agli avamposti | mercanti che viaggiano davvero |
+| M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, 63 ricette al falò e all'incudine (otto segrete, insegnate dai bottegai), cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane, orti (che crescono prima con la pioggia), pollai e recinti nei villaggi, negozi che pagano meno se vendi troppo, bauli condivisi in ogni villaggio e città, Nonna Brin, il venditore ambulante Corvin, il cottage dell'Ospite con sei posti per i mobili, otto residenti che arrivano agli avamposti, Odo il capo carovana che ogni giorno è in un altro avamposto, stagioni che cambiano i raccolti, il giardino del cottage | residenti nei villaggi generati |
 | M7 Compagni | avviato | un compagno per protagonista che segue, combatte, resta, segue o torna a comando, cresce di legame e cura il giocatore; i doni di Haruka (legame più rapido) e di Gideon (compagno più forte) ; Haruka doma le creature ferite e l'ultima resta con lei come secondo compagno ; momenti del legame; il compagno domato obbedisce a resta e torna | più compagni scelti dal giocatore |
 | M8 Progressione profonda | avviato | bestiario con debolezze, titoli con effetti e progressi visibili, albero di talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma, imprese di tutte le partite lette dal profilo, rune incise sulle armi, tag da indossare, armi e armature con affissi, doni delle imprese a ogni partita nuova | affissi a caso sui pezzi trovati |
 | M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo e quinto atto, epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | altre storie per protagonista; la modalità Dungeon di Gideon |
@@ -409,6 +409,8 @@ Il 17 novembre, ottava PR: testo grande (un'opzione di accessibilità, sui due c
 
 Il 17 novembre, settima PR: un baule in ogni villaggio e città, che tiene le stesse cose dappertutto (salvato nella partita); Nonna Brin a Fenwick (riposo gratis e tre favori); Corvin, il venditore ambulante di Aldermere, che porta le merci di una regione al giorno (condizione `day_mod`); 25 imprese di tutte le partite lette dal profilo; la pioggia fa crescere prima gli orti; Odile non sta più su un orto.
 
+Il 18 novembre, quinta PR: **Odo, il capo carovana**, il primo mercante che viaggia davvero (ogni giorno in un altro avamposto, con le merci della tappa dopo; le persone con un percorso, `route`), le **stagioni** che cambiano la crescita degli orti (più svelti in primavera, più lenti d'inverno), il **giardino del cottage** con quattro posti e quattro pezzi nuovi (panchina, spaventapasseri, bersaglio, lanterna di pietra).
+
 Il 18 novembre, quarta PR: i **fulmini** dei temporali colpiscono le creature che ti inseguono (con il tuono), i **doni delle imprese** (ogni impresa fatta lascia un dono nello zaino di ogni partita nuova), i pezzi con affissi anche nei negozi per gli amici della regione, un consiglio per il temporale.
 
 Il 18 novembre, terza PR: gli **affissi** su armi e armature (un blocco `affix`, sedici pezzi regionali lasciati dai guardiani).
@@ -428,9 +430,9 @@ Il 17 novembre, sesta PR: pollai e recinti delle capre nei villaggi (uova, latte
 **A medio termine (verso Alpha 0.2 e Beta 0.5)**
 
 4. **Altri residenti** (M6; gli otto residenti degli avamposti ci sono): anche nei villaggi generati, con mestieri e missioni.
-5. **Mercanti che viaggiano davvero** (M6; Corvin e gli otto venditori degli avamposti ci sono): carri che si spostano lungo le strade.
-6. **Altri effetti del meteo** (M5; pioggia, neve, nebbia, notte, vento, temporali e fulmini ci sono): stagioni che cambiano i raccolti.
-7. **Più mobili e una casa più grande** (M6; i sei mobili del cottage ci sono).
+5. **Altri viaggiatori** (M6; Odo e la sua carovana ci sono): carri che si vedono camminare lungo le strade, altri mercanti con il loro giro.
+6. **Altri effetti del meteo** (M5; pioggia, neve, nebbia, notte, vento, temporali, fulmini e stagioni degli orti ci sono): le stagioni anche per la raccolta e la pesca.
+7. **Una casa più grande** (M6; i dieci mobili del cottage, in casa e in giardino, ci sono): stanze in più da comprare.
 8. **Più compagni scelti dal giocatore** (M7; il compagno di ognuno e la creatura domata di Haruka ci sono).
 9. **La modalità Dungeon** di Gideon (M9): una variante semplificata, ondate di eroi invasori contro la sua base.
 10. **Prestazioni su Android** misurate su un telefono, e la prova della perdita del contesto grafico (R4, R6).
