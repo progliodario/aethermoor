@@ -43,6 +43,8 @@ class Director:
                 emit(f"gather.{cue['family']}")
             elif kind == "craft":
                 emit("craft")
+            elif kind == "lightning":  # the lightning of a storm strikes a creature (spec 08, "Lightning"), heard anywhere
+                emit("thunder")
             elif volume >= MIN_AUDIBLE_PM:
                 emit(f"enemy.{cue['family']}.{kind}", volume)
             if kind == "hit":

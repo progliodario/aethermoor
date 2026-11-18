@@ -18,6 +18,7 @@ import io.github.progliodario.aethermoor.core.sim.exportBundle
 import io.github.progliodario.aethermoor.core.sim.mergeProfile
 import io.github.progliodario.aethermoor.core.sim.parseProfile
 import io.github.progliodario.aethermoor.core.sim.parseDeeds
+import io.github.progliodario.aethermoor.core.sim.profileDeedGifts
 import io.github.progliodario.aethermoor.core.sim.profileEchoPct
 import io.github.progliodario.aethermoor.core.sim.profileDeeds
 import io.github.progliodario.aethermoor.core.sim.profileToJson
@@ -239,6 +240,10 @@ class ConformanceAudioDirectorTest {
                 val deeds = profileDeeds(got, parseDeeds(defs.toString()))
                 assertEquals(expect.getValue("deeds").jsonArray.map { it.jsonPrimitive.content }, deeds, "$label deeds")
                 assertEquals(expect.getValue("echo_pct_deeds").jsonPrimitive.int, profileEchoPct(got, deeds.size), "$label echoes with deeds")
+                assertEquals( // the gifts of the deeds (spec 11)
+                    expect.getValue("gifts").jsonObject.mapValues { it.value.jsonPrimitive.long },
+                    profileDeedGifts(got, parseDeeds(defs.toString())).toMap(), "$label gifts",
+                )
             }
             assertEquals(expect.getValue("bestiary").jsonObject.mapValues { it.value.jsonPrimitive.int }, got.bestiary.toMap(), "$label bestiary")
             assertEquals(expect.getValue("titles").jsonArray.map { it.jsonPrimitive.content }, got.titles, "$label titles")

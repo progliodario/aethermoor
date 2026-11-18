@@ -66,6 +66,38 @@ DEEDS = [
 ]
 
 
+# The gifts of the deeds (spec 11, "Gifts of the deeds"): what every new game finds in its bag once the deed is done (item, quantity).
+GIFTS = {
+    "first_blow": ("potion_small", 3),
+    "hundred_blows": ("potion_medium", 3),
+    "thousand_blows": ("potion_large", 3),
+    "ten_kinds": ("travel_ration", 5),
+    "thirty_kinds": ("rune_might", 1),
+    "sixty_kinds": ("rune_dawn", 1),
+    "gel_king": ("honey_cake", 5),
+    "wardens": ("fang_necklace", 1),
+    "sovereigns": ("frost_locket", 1),
+    "tyrants": ("ember_ring", 1),
+    "deep_waters": ("pearl_pendant", 1),
+    "night_hunters": ("owl_charm", 1),
+    "kings_of_beasts": ("golem_amulet", 1),
+    "every_echo": ("star_brooch", 1),
+    "five_titles": ("potion_mana_small", 3),
+    "fifteen_titles": ("windleaf_brew", 2),
+    "thirty_titles": ("rune_gale", 1),
+    "forty_titles": ("rune_ember", 1),
+    "hero_and_legend": ("meadow_coat", 1),
+    "friend_of_the_world": ("shepherds_blade", 1),
+    "four_factions": ("cleansing_draught", 3),
+    "life_of_the_land": ("herb_seeds", 5),
+    "beast_friend": ("roast_meat", 5),
+    "hearth_and_blade": ("rune_stone", 1),
+    "second_life": ("potion_medium", 2),
+    "many_lives": ("rune_tide", 1),
+}
+GIFT_WORDS = {"en": "Every new game: {item} x{qty}.", "it": "In ogni partita nuova: {item} x{qty}."}
+
+
 def names(lang: str, keys: list[str]) -> str:
     """The names of the texts, joined as a list in that language ("A, B and C")."""
     texts = {}
@@ -89,6 +121,8 @@ def main() -> None:
             entry["count"] = what
         entry["name"] = f"$i18n:deed.{deed_id}.name"
         entry["text"] = f"$i18n:deed.{deed_id}.text"
+        if deed_id in GIFTS:
+            entry["reward"] = {"item": f"base:item/{GIFTS[deed_id][0]}", "qty": GIFTS[deed_id][1]}
         deeds.append(entry)
         for lang in ("en", "it"):
             texts[lang][f"deed.{deed_id}.name"] = words[lang][0]
@@ -96,6 +130,9 @@ def main() -> None:
             if kind in ("defeated", "earned") and "{}" in text:  # the names as the game shows them
                 keys = [f"enemy.{e}.name" for e in what] if kind == "defeated" else [f"title.{t}" for t in what]
                 text = text.replace("{}", names(lang, keys))
+            if deed_id in GIFTS:  # and the gift, as the game names the item
+                item, qty = GIFTS[deed_id]
+                text += " " + GIFT_WORDS[lang].format(item=names(lang, [f"item.{item}.name"]), qty=qty)
             texts[lang][f"deed.{deed_id}.text"] = text
     doc = {"$schema": "../../schemas/deeds.schema.json", "id": "base:deeds/all", "deeds": deeds}
     (DATA / "deeds.json").write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")

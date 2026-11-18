@@ -7,42 +7,66 @@
       "kind": "kills",
       "count": 1,
       "name": "$i18n:deed.first_blow.name",
-      "text": "$i18n:deed.first_blow.text"
+      "text": "$i18n:deed.first_blow.text",
+      "reward": {
+        "item": "base:item/potion_small",
+        "qty": 3
+      }
     },
     {
       "id": "hundred_blows",
       "kind": "kills",
       "count": 100,
       "name": "$i18n:deed.hundred_blows.name",
-      "text": "$i18n:deed.hundred_blows.text"
+      "text": "$i18n:deed.hundred_blows.text",
+      "reward": {
+        "item": "base:item/potion_medium",
+        "qty": 3
+      }
     },
     {
       "id": "thousand_blows",
       "kind": "kills",
       "count": 1000,
       "name": "$i18n:deed.thousand_blows.name",
-      "text": "$i18n:deed.thousand_blows.text"
+      "text": "$i18n:deed.thousand_blows.text",
+      "reward": {
+        "item": "base:item/potion_large",
+        "qty": 3
+      }
     },
     {
       "id": "ten_kinds",
       "kind": "kinds",
       "count": 10,
       "name": "$i18n:deed.ten_kinds.name",
-      "text": "$i18n:deed.ten_kinds.text"
+      "text": "$i18n:deed.ten_kinds.text",
+      "reward": {
+        "item": "base:item/travel_ration",
+        "qty": 5
+      }
     },
     {
       "id": "thirty_kinds",
       "kind": "kinds",
       "count": 30,
       "name": "$i18n:deed.thirty_kinds.name",
-      "text": "$i18n:deed.thirty_kinds.text"
+      "text": "$i18n:deed.thirty_kinds.text",
+      "reward": {
+        "item": "base:item/rune_might",
+        "qty": 1
+      }
     },
     {
       "id": "sixty_kinds",
       "kind": "kinds",
       "count": 60,
       "name": "$i18n:deed.sixty_kinds.name",
-      "text": "$i18n:deed.sixty_kinds.text"
+      "text": "$i18n:deed.sixty_kinds.text",
+      "reward": {
+        "item": "base:item/rune_dawn",
+        "qty": 1
+      }
     },
     {
       "id": "gel_king",
@@ -51,7 +75,11 @@
         "base:enemy/gel_king"
       ],
       "name": "$i18n:deed.gel_king.name",
-      "text": "$i18n:deed.gel_king.text"
+      "text": "$i18n:deed.gel_king.text",
+      "reward": {
+        "item": "base:item/honey_cake",
+        "qty": 5
+      }
     },
     {
       "id": "wardens",
@@ -62,7 +90,11 @@
         "base:enemy/vault_warden"
       ],
       "name": "$i18n:deed.wardens.name",
-      "text": "$i18n:deed.wardens.text"
+      "text": "$i18n:deed.wardens.text",
+      "reward": {
+        "item": "base:item/fang_necklace",
+        "qty": 1
+      }
     },
     {
       "id": "sovereigns",
@@ -72,7 +104,11 @@
         "base:enemy/storm_sovereign"
       ],
       "name": "$i18n:deed.sovereigns.name",
-      "text": "$i18n:deed.sovereigns.text"
+      "text": "$i18n:deed.sovereigns.text",
+      "reward": {
+        "item": "base:item/frost_locket",
+        "qty": 1
+      }
     },
     {
       "id": "tyrants",
@@ -82,7 +118,11 @@
         "base:enemy/char_tyrant"
       ],
       "name": "$i18n:deed.tyrants.name",
-      "text": "$i18n:deed.tyrants.text"
+      "text": "$i18n:deed.tyrants.text",
+      "reward": {
+        "item": "base:item/ember_ring",
+        "qty": 1
+      }
     },
     {
       "id": "deep_waters",
@@ -92,7 +132,11 @@
         "base:enemy/cinder_colossus"
       ],
       "name": "$i18n:deed.deep_waters.name",
-      "text": "$i18n:deed.deep_waters.text"
+      "text": "$i18n:deed.deep_waters.text",
+      "reward": {
+        "item": "base:item/pearl_pendant",
+        "qty": 1
+      }
     },
     {
       "id": "night_hunters",
@@ -102,7 +146,11 @@
         "base:enemy/rime_revenant"
       ],
       "name": "$i18n:deed.night_hunters.name",
-      "text": "$i18n:deed.night_hunters.text"
+      "text": "$i18n:deed.night_hunters.text",
+      "reward": {
+        "item": "base:item/owl_charm",
+        "qty": 1
+      }
     },
     {
       "id": "kings_of_beasts",
@@ -112,7 +160,11 @@
         "base:enemy/dire_alpha"
       ],
       "name": "$i18n:deed.kings_of_beasts.name",
-      "text": "$i18n:deed.kings_of_beasts.text"
+      "text": "$i18n:deed.kings_of_beasts.text",
+      "reward": {
+        "item": "base:item/golem_amulet",
+        "qty": 1
+      }
     },
     {
       "id": "every_echo",
@@ -128,35 +180,55 @@
         "base:enemy/echo_gideon"
       ],
       "name": "$i18n:deed.every_echo.name",
-      "text": "$i18n:deed.every_echo.text"
+      "text": "$i18n:deed.every_echo.text",
+      "reward": {
+        "item": "base:item/star_brooch",
+        "qty": 1
+      }
     },
     {
       "id": "five_titles",
       "kind": "titles",
       "count": 5,
       "name": "$i18n:deed.five_titles.name",
-      "text": "$i18n:deed.five_titles.text"
+      "text": "$i18n:deed.five_titles.text",
+      "reward": {
+        "item": "base:item/potion_mana_small",
+        "qty": 3
+      }
     },
     {
       "id": "fifteen_titles",
       "kind": "titles",
       "count": 15,
       "name": "$i18n:deed.fifteen_titles.name",
-      "text": "$i18n:deed.fifteen_titles.text"
+      "text": "$i18n:deed.fifteen_titles.text",
+      "reward": {
+        "item": "base:item/windleaf_brew",
+        "qty": 2
+      }
     },
     {
       "id": "thirty_titles",
       "kind": "titles",
       "count": 30,
       "name": "$i18n:deed.thirty_titles.name",
-      "text": "$i18n:deed.thirty_titles.text"
+      "text": "$i18n:deed.thirty_titles.text",
+      "reward": {
+        "item": "base:item/rune_gale",
+        "qty": 1
+      }
     },
     {
       "id": "forty_titles",
       "kind": "titles",
       "count": 40,
       "name": "$i18n:deed.forty_titles.name",
-      "text": "$i18n:deed.forty_titles.text"
+      "text": "$i18n:deed.forty_titles.text",
+      "reward": {
+        "item": "base:item/rune_ember",
+        "qty": 1
+      }
     },
     {
       "id": "hero_and_legend",
@@ -166,7 +238,11 @@
         "legend"
       ],
       "name": "$i18n:deed.hero_and_legend.name",
-      "text": "$i18n:deed.hero_and_legend.text"
+      "text": "$i18n:deed.hero_and_legend.text",
+      "reward": {
+        "item": "base:item/meadow_coat",
+        "qty": 1
+      }
     },
     {
       "id": "friend_of_the_world",
@@ -182,7 +258,11 @@
         "friend_lumeria"
       ],
       "name": "$i18n:deed.friend_of_the_world.name",
-      "text": "$i18n:deed.friend_of_the_world.text"
+      "text": "$i18n:deed.friend_of_the_world.text",
+      "reward": {
+        "item": "base:item/shepherds_blade",
+        "qty": 1
+      }
     },
     {
       "id": "four_factions",
@@ -194,7 +274,11 @@
         "heart_of_the_folk"
       ],
       "name": "$i18n:deed.four_factions.name",
-      "text": "$i18n:deed.four_factions.text"
+      "text": "$i18n:deed.four_factions.text",
+      "reward": {
+        "item": "base:item/cleansing_draught",
+        "qty": 3
+      }
     },
     {
       "id": "life_of_the_land",
@@ -206,7 +290,11 @@
         "great_hunter"
       ],
       "name": "$i18n:deed.life_of_the_land.name",
-      "text": "$i18n:deed.life_of_the_land.text"
+      "text": "$i18n:deed.life_of_the_land.text",
+      "reward": {
+        "item": "base:item/herb_seeds",
+        "qty": 5
+      }
     },
     {
       "id": "beast_friend",
@@ -216,7 +304,11 @@
         "well_fed"
       ],
       "name": "$i18n:deed.beast_friend.name",
-      "text": "$i18n:deed.beast_friend.text"
+      "text": "$i18n:deed.beast_friend.text",
+      "reward": {
+        "item": "base:item/roast_meat",
+        "qty": 5
+      }
     },
     {
       "id": "hearth_and_blade",
@@ -226,21 +318,33 @@
         "runesmith"
       ],
       "name": "$i18n:deed.hearth_and_blade.name",
-      "text": "$i18n:deed.hearth_and_blade.text"
+      "text": "$i18n:deed.hearth_and_blade.text",
+      "reward": {
+        "item": "base:item/rune_stone",
+        "qty": 1
+      }
     },
     {
       "id": "second_life",
       "kind": "lives",
       "count": 1,
       "name": "$i18n:deed.second_life.name",
-      "text": "$i18n:deed.second_life.text"
+      "text": "$i18n:deed.second_life.text",
+      "reward": {
+        "item": "base:item/potion_medium",
+        "qty": 2
+      }
     },
     {
       "id": "many_lives",
       "kind": "lives",
       "count": 5,
       "name": "$i18n:deed.many_lives.name",
-      "text": "$i18n:deed.many_lives.text"
+      "text": "$i18n:deed.many_lives.text",
+      "reward": {
+        "item": "base:item/rune_tide",
+        "qty": 1
+      }
     }
   ]
 }

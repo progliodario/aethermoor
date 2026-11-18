@@ -119,6 +119,9 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         windHastePm = input["weather"]?.jsonObject?.get("wind_haste_pm")?.jsonPrimitive?.int ?: 0,
         fogPm = input["weather"]?.jsonObject?.get("fog_pm")?.jsonPrimitive?.int ?: 0,
         fogAggroCutPm = input["weather"]?.jsonObject?.get("fog_aggro_cut_pm")?.jsonPrimitive?.int ?: 0,
+        lightningTicks = input["weather"]?.jsonObject?.get("lightning_ticks")?.jsonPrimitive?.int ?: 0,
+        lightningPct = input["weather"]?.jsonObject?.get("lightning_pct")?.jsonPrimitive?.int ?: 0,
+        lightningRangeX100 = input["weather"]?.jsonObject?.get("lightning_range_x100")?.jsonPrimitive?.int ?: 0,
         tags = input["tags"]?.jsonArray?.map { t ->
             val o = t.jsonObject
             TitleDef(

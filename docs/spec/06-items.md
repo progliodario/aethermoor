@@ -166,7 +166,8 @@ the meadow coat of Verdalis, the owl-eye dagger and the moss cloak of Whisperwoo
 scimitar and the sand-silk robe of Sunscar, the glacier spear and the snowbear coat of Frostveil, the tidecaller cutlass and the
 sailcloth vest of Tidehaven, the cinder brand and the ashwalker mail of the Ashen Wastes, the starglass staff and the comet robe of
 Lumeria). Every guardian of a region (the creatures that drop the accessory of the region) leaves each of the two one time in five
-(200 per mille). Conformance: the scenario `affixes_worn` (its checkpoints carry the `derived` stats) and a save split of it.
+(200 per mille), and the shop of the region keeps them for its friends (`renown_stock`, spec 07 "Renown": the weapon from renown 15,
+the armor from 20). Conformance: the scenario `affixes_worn` (its checkpoints carry the `derived` stats) and a save split of it.
 
 ## Shops
 

@@ -1533,6 +1533,7 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
             night_cut = m_store_->params().time.night_aggro_cut_pm;
         }
         m_rain_aggro_pm_ = 1000 - rain * cut / 1000;
+        m_rain_pm_ = rain;
         m_rain_slow_pm_ =
             1000 - rain * slow / 1000;  // and the heavy ground slows the creatures (spec 08, "Rain slows")
         m_night_aggro_pm_ = 1000 - (1000 - light) * night_cut / 1000;  // the night hides the player too
@@ -1702,6 +1703,7 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
             --enemy.hit_flash;
         }
     }
+    lightning();
     if (p.parry_ticks > 0) {
         --p.parry_ticks;
     }
@@ -1870,6 +1872,48 @@ std::int64_t WorldSim::element_multiplier(const EnemyDef& target) const {
         return weakness->second;
     }
     return target.element == element ? 500 : 1000;
+}
+
+void WorldSim::lightning() {
+    // spec 08, "Lightning": every `lightning_ticks` ticks of a storm (rain and wind both 900 or more), the nearest
+    // creature within range that chases or attacks the player is struck for `lightning_pct` percent of its health
+    int period = m_setup_.lightning_ticks;
+    int pct = m_setup_.lightning_pct;
+    int range = m_setup_.lightning_range_x100;
+    if (m_store_) {
+        period = m_store_->params().time.lightning_ticks;
+        pct = m_store_->params().time.lightning_pct;
+        range = m_store_->params().time.lightning_range_x100;
+    }
+    if (period <= 0 || m_world_ticks_ % period != 0 || m_rain_pm_ < 900 || m_wind_pm_ < 900) {
+        return;
+    }
+    Enemy* best = nullptr;
+    float best_d = 0.0F;
+    for (Enemy& enemy : m_enemies_) {
+        if (enemy.state != EnemyState::Chase && enemy.state != EnemyState::Attack) {
+            continue;
+        }
+        const float d = distance(enemy.position.x, enemy.position.y, m_player_.position.x, m_player_.position.y);
+        if (d <= static_cast<float>(range) / 100.0F && (best == nullptr || d < best_d)) {
+            best = &enemy;
+            best_d = d;
+        }
+    }
+    if (best == nullptr) {
+        return;
+    }
+    const std::int64_t amount = std::max<std::int64_t>(1, best->def.hp * pct / 100);
+    best->hp -= amount;
+    best->hit_flash = kHitFlashTicks;
+    m_lightning_tick_ = m_world_ticks_;
+    m_events_.push_back({best->position, amount, false, false, false});
+    m_cues_.push_back({"lightning", "", best->position});
+    if (best->hp <= 0) {
+        best->hp = 0;
+        best->state = EnemyState::Dead;
+        on_kill(*best);
+    }
 }
 
 void WorldSim::on_kill(Enemy& enemy) {

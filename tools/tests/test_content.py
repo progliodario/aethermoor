@@ -188,7 +188,7 @@ def test_market_wares_actives_and_gifts_of_the_companions():
     for region in world["regions"]:
         shop = region["shop"]
         assert shop["market_swing_pm"] > 0, region["id"]
-        assert [w["renown"] for w in shop["renown_stock"]] == [5, 10], region["id"]
+        assert [w["renown"] for w in shop["renown_stock"]] == [5, 10, 15, 20], region["id"]  # two rare pieces, then the two affixed ones
         assert all(w["item"] in items and w["item"] not in shop["stock"] for w in shop["renown_stock"]), region["id"]
     talents = json.loads((DATA / "talents.json").read_text(encoding="utf-8"))["talents"]
     active = {t["stat"]: t["active"] for t in talents if "active" in t}

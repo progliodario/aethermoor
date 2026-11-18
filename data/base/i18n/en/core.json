@@ -1264,5 +1264,8 @@
   "hint.fog.touch": "Fog: the creatures see you only when you are close. Walk past them, or surprise them.",
   "hint.tag": "You earned a tag, a trait of how you play: press Y to wear it (one at a time). The status window (V) shows it.",
   "hint.tag.touch": "You earned a tag, a trait of how you play: wear it with the Tag button at the bottom of the journal (one at a time).",
+  "ui.deed_gifts": "Your deeds left {count} gifts in the bag.",
+  "hint.storm": "A storm: the lightning strikes the creatures that chase you. Let them come.",
+  "hint.storm.touch": "A storm: the lightning strikes the creatures that chase you. Let them come.",
   "dlg.pip.story.gideon.done": "The whole village agrees: you are a good king. Take the blade, it is nothing like the old one, but it suits you."
 }

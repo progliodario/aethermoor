@@ -40,8 +40,8 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 | Progressione | 44 titoli, 8 tag, 16 talenti, 26 imprese |
 | Persone con nome | 45 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 3414 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 30 file di vettori di conformità, 553 casi, eseguiti dai test C++ e Kotlin |
+| Testi | 3417 chiavi, in italiano e inglese |
+| Regole uguali sui due client | 30 file di vettori di conformità, 555 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 18 specifiche, 13 ADR |
 <!-- facts:end -->
 
@@ -56,7 +56,7 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 | Missioni e storie | storie in cinque atti per ogni protagonista, storie dei paesani, gilda, leggende, taglie | la modalità Dungeon di Gideon |
 | Vita | raccolta, pesca, caccia, orti, animali, bauli condivisi, il cottage dell'Ospite con i suoi mobili, venditori ambulanti, ricette segrete, cibi con effetti | residenti anche nei villaggi generati, mercanti che viaggiano davvero |
 | Compagni | uno per protagonista con comandi, legame e cura; Haruka doma un secondo compagno | più compagni scelti dal giocatore |
-| Progressione | talenti con abilità, titoli con effetti, bestiario, reincarnazione con eredità, imprese che danno echi, rune sulle armi, tag da indossare, armi e armature con affissi | premi per le imprese |
+| Progressione | talenti con abilità, titoli con effetti, bestiario, reincarnazione con eredità, imprese che danno echi, rune sulle armi, tag da indossare, armi e armature con affissi, doni delle imprese | affissi a caso |
 | Accessibilità | consigli, numeri dei danni e lampi disattivabili, testo grande, tasti configurabili | — |
 | Uscita | versioni di prova dalla CI | release Alpha 0.1 e poi 1.0 (decide il proprietario) |
 
@@ -67,7 +67,7 @@ Il catalogo completo, generato dai dati, è in [`docs/design/catalog.md`](docs/d
 **Mondo**
 
 - Un mondo aperto di 16384 x 16384 caselle generato da un seme (sempre uguale a parità di seme), caricato a pezzi mentre cammini; otto regioni con terreno, creature, negozi e modo di parlare propri.
-- Giorno e notte, quattro stagioni, meteo: la pioggia e la notte ti nascondono alle creature, pioggia e neve le rallentano, la pioggia fa crescere prima gli orti, il vento alle spalle ti fa camminare più veloce, la nebbia ti nasconde, i temporali lampeggiano.
+- Giorno e notte, quattro stagioni, meteo: la pioggia e la notte ti nascondono alle creature, pioggia e neve le rallentano, la pioggia fa crescere prima gli orti, il vento alle spalle ti fa camminare più veloce, la nebbia ti nasconde, nei temporali i fulmini colpiscono le creature che ti inseguono.
 - Insediamenti generati e luoghi fatti a mano: sotterranei e tane con guardiano, nidi, otto avamposti (con un viandante, un abitante del posto e un venditore ambulante), otto santuari degli Echi, **Fenwick** (dove cominci), **il cottage dell'Ospite** a est di Fenwick e **Aldermere**, la città della gilda madre.
 - Pietre della Soglia per curarsi e viaggiare; mappa del mondo con zoom, meta da segnare e mini mappa; ogni missione segna dove andare.
 
@@ -97,7 +97,7 @@ Il catalogo completo, generato dai dati, è in [`docs/design/catalog.md`](docs/d
 **Progressione**
 
 - Livelli, un albero di talenti con abilità (due da usare con un tasto), titoli che cambiano il gioco, un bestiario con le debolezze; **rune** fatte all'incudine da incidere sull'arma, che allora colpisce più forte e con l'elemento della runa; **tag**, tratti guadagnati da come giochi, da indossare uno alla volta; **affissi**: ogni regione ha un'arma e un'armatura con un bonus in più, lasciate dai suoi guardiani.
-- Un profilo comune a tutte le partite: titoli, vite passate e **imprese** danno "echi" (salute in più a ogni partita); dal livello 10 una partita può **reincarnarsi** e lasciare in eredità metà dell'oro e l'arma.
+- Un profilo comune a tutte le partite: titoli, vite passate e **imprese** danno "echi" (salute in più a ogni partita); ogni impresa fatta lascia un dono nello zaino di ogni partita nuova; dal livello 10 una partita può **reincarnarsi** e lasciare in eredità metà dell'oro e l'arma.
 - Un compagno per protagonista che segue, combatte, resta, torna e cura; Haruka doma le creature e l'ultima resta con lei.
 
 ## I protagonisti
@@ -238,7 +238,7 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 
 Le prossime cose, in ordine (dettagli nella [roadmap](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine)):
 
-- **A breve:** controlli automatici della grafica; premi per le imprese; altri pezzi con affissi.
+- **A breve:** controlli automatici della grafica; affissi a caso; residenti nei villaggi generati.
 - **A medio termine:** residenti anche nei villaggi generati e mercanti che viaggiano; la modalità Dungeon di Gideon; prestazioni misurate su un telefono; un sintetizzatore migliore per musica e ambiente (solo se il proprietario lo vuole).
 - **Verso la 1.0:** pacchetti firmati, documentazione per chi fa mod, altre lingue.
 - **Decide il proprietario:** quando pubblicare la prima release (Alpha 0.1).

@@ -129,6 +129,12 @@ std::vector<DeedDef> parse_deeds(std::string_view text) {
         }
         deed.name = d.contains("name") && d.at("name").is_string() ? d.at("name").get<std::string>() : "";
         deed.text = d.contains("text") && d.at("text").is_string() ? d.at("text").get<std::string>() : "";
+        if (d.contains("reward") && d.at("reward").is_object()) {  // the gift to every new game (spec 11)
+            const Json& r = d.at("reward");
+            deed.reward_item = r.contains("item") && r.at("item").is_string() ? r.at("item").get<std::string>() : "";
+            deed.reward_qty =
+                r.contains("qty") && r.at("qty").is_number_integer() ? r.at("qty").get<std::int64_t>() : 0;
+        }
         out.push_back(std::move(deed));
     }
     return out;
@@ -165,6 +171,18 @@ std::vector<std::string> profile_deeds(const Profile& profile, const std::vector
         }
     }
     return done;
+}
+
+std::map<std::string, std::int64_t> profile_deed_gifts(const Profile& profile, const std::vector<DeedDef>& defs) {
+    const std::vector<std::string> done = profile_deeds(profile, defs);
+    std::map<std::string, std::int64_t> gifts;
+    for (const DeedDef& deed : defs) {
+        if (!deed.reward_item.empty() && deed.reward_qty > 0 &&
+            std::find(done.begin(), done.end(), deed.id) != done.end()) {
+            gifts[deed.reward_item] += deed.reward_qty;
+        }
+    }
+    return gifts;
 }
 
 }  // namespace aether

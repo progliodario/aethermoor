@@ -337,6 +337,7 @@ class CombatSim:
 
         for index, enemy in enumerate(self.enemies):
             self._update_enemy(index, enemy)
+        self._lightning()
         if self.parry_ticks > 0:
             self.parry_ticks -= 1
         if self.p_chill > 0:
@@ -353,6 +354,28 @@ class CombatSim:
             self.p_regen -= 1
             if self.p_regen % 60 == 0 and 0 < self.hp < self.derived["max_hp"]:
                 self.hp = min(self.derived["max_hp"], self.hp + self.p_regen_amount)
+
+    def _lightning(self) -> None:
+        """The lightning of a storm (spec 08, "Lightning"): every `lightning_ticks` ticks of a storm (rain and wind both 900 or more), the
+        nearest creature within range that chases or attacks the player is struck for `lightning_pct` percent of its health."""
+        w = self.weather
+        period = w.get("lightning_ticks", 0)
+        if period <= 0 or self.world_ticks % period != 0 or w.get("rain_pm", 0) < 900 or w.get("wind_pm", 0) < 900:
+            return
+        best, best_d = None, 0.0
+        for enemy in self.enemies:
+            if enemy.state not in (CHASE, ATTACK):
+                continue
+            d = math.sqrt((enemy.x - self.x) ** 2 + (enemy.y - self.y) ** 2)
+            if d <= w.get("lightning_range_x100", 0) / 100 and (best is None or d < best_d):
+                best, best_d = enemy, d
+        if best is None:
+            return
+        best.hp -= max(1, best.d["hp"] * w.get("lightning_pct", 0) // 100)
+        if best.hp <= 0:
+            best.hp = 0
+            best.state = DEAD
+            self._on_kill(best)
 
     def _advance_attack(self) -> None:
         s = self.cur_skill

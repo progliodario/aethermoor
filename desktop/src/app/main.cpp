@@ -1935,9 +1935,10 @@ void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether:
         }
     }
     // a storm (spec 08, "Fog" and "Wind": full rain and full wind) flashes now and then, unless the flashes are off
-    if (time->rain_pm >= 900 && time->wind_pm >= 900 && g_option[2]) {
+    // and when the lightning strikes a creature (spec 08, "Lightning")
+    if (g_option[2] && ((time->rain_pm >= 900 && time->wind_pm >= 900) || sim.ticks_since_lightning() < 8)) {
         const Uint64 beat = now_ms % 7300ULL;
-        if (beat < 90ULL || (beat > 180ULL && beat < 240ULL)) {
+        if (beat < 90ULL || (beat > 180ULL && beat < 240ULL) || sim.ticks_since_lightning() < 8) {
             SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
             SDL_SetRenderDrawColor(renderer, 236, 240, 255, 110);
             const SDL_FRect all{0.0F, 0.0F, static_cast<float>(out_w), static_cast<float>(out_h)};
@@ -3556,6 +3557,10 @@ bool hint_holds(const aether::WorldSim& sim, const std::string& when) {
         const auto time = sim.time();
         return time && time->fog_pm >= 600;
     }
+    if (when == "storm") {  // a storm: its lightning strikes the creatures (spec 08, "Lightning")
+        const auto time = sim.time();
+        return time && time->rain_pm >= 900 && time->wind_pm >= 900;
+    }
     if (when == "tag") {  // a tag earned and none worn (spec 11, "Tags")
         return !sim.earned_tags().empty() && sim.worn_tag().empty();
     }
@@ -5038,6 +5043,18 @@ int main(int argc, char** argv) {
                         } else {
                             notify(ui, assets.pack.text(ui.lang, "$i18n:ui.heirloom", {{"gold", heirloom}}));
                         }
+                    }
+                    // the gifts of the deeds done (spec 11, "Gifts of the deeds"), in the bag of every new game
+                    std::int64_t gifts = 0;
+                    for (const auto& [item, qty] : aether::profile_deed_gifts(profile, g_deeds)) {
+                        if (assets.pack.read_document(item)) {
+                            sim.give_item(item, qty);
+                            gifts += qty;
+                        }
+                    }
+                    if (gifts > 0) {
+                        const std::string said = ui.message_frames > 0 ? ui.message + "  " : std::string();
+                        notify(ui, said + assets.pack.text(ui.lang, "$i18n:ui.deed_gifts", {{"count", gifts}}));
                     }
                 }
             }

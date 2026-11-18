@@ -139,6 +139,14 @@ The **deeds** are facts about all the games, read from the profile (spec 12, "Pr
 A kind the rules do not know is never done. The deeds are listed in the order of the data. The base pack has 25: blows (1, 100, 1000), kinds of creature (10, 30, 60), the great guardians (the Gel King, the three Wardens, the two Sovereigns, the two Tyrants, the Drowned Captain with the Cinder Colossus, the Moonshade Alpha with the Rime Revenant, the Polar King with the Dire Alpha, the Echo of every protagonist), titles (5, 15, 30, 40, Hero and Legend, a friend of every region, the four factions, the titles of the quiet life, Beast Friend with Well Fed) and lives (1, 5). Every deed done is also an **echo**: one percent more maximum health in every game, from the next one that is built or loaded (see "Echoes"). When a save makes the profile do a deed it did not do before, the clients say so ("Deed done: ..."); the title screen shows how many are done and lists them all (`A` on a keyboard, the `Deeds` button on a touch screen), the ones done in gold.
 Reference: `deeds` in `tools/reference/profile.py`; conformance: the cases `deeds_*` of the suite `profile` (their input carries `deeds`, their expectation the ids done).
 
+## Gifts of the deeds
+
+A deed may have a `reward`, `{"item", "qty"}`: once the deed is done, **every new game** (a slot without a save) starts with it in the bag,
+besides the heirloom. The gifts of all the deeds done are summed by item; an item the pack does not have is left out. A notice says
+how many gifts there are (`ui.deed_gifts`), and the text of every deed says its gift. The base pack gives a gift for each of its deeds
+(potions, rations, runes, accessories, an affixed piece, seeds; `tools/make_deeds.py`). Reference: `deed_gifts` in
+`tools/reference/profile.py`; conformance: the expectation `gifts` of the cases `deeds_*` of the suite `profile`.
+
 ## Display
 
 The journal (spec 07) shows, after the quests, the companion (name, whether it stays or follows, its bond and the attack the bond adds, spec 10), the counters and the echoes, then the titles (the ones not earned yet as `???`) and the bestiary (name and kills, by ID). The name of a creature is the text key `enemy.<name>.name`.

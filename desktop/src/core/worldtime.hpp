@@ -40,6 +40,9 @@ struct TimeParams {
     int rain_slow_pm = 0;        // how much full rain slows the creatures (spec 08, "Rain slows")
     int wind_haste_pm = 0;       // how much a full wind speeds the player (spec 08, "Wind")
     int fog_aggro_cut_pm = 0;    // how much a full fog shortens the aggro distance (spec 08, "Fog")
+    int lightning_ticks = 0;     // the lightning of a storm (spec 08, "Lightning"): how often, 0: never;
+    int lightning_pct = 0;       // the share of the health of the creature it strikes;
+    int lightning_range_x100 = 0;  // and how far from the player
     std::vector<WeatherKind> kinds;
     std::vector<Season> seasons;  // empty: no seasons
 };

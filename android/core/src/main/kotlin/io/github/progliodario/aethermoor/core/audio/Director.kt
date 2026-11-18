@@ -95,6 +95,8 @@ class SoundDirector {
                 emit("gather.${cue.family}")
             } else if (cue.kind == "craft") {
                 emit("craft")
+            } else if (cue.kind == "lightning") { // the lightning of a storm (spec 08), heard anywhere
+                emit("thunder")
             } else if (volume >= MIN_AUDIBLE_PM) {
                 emit("enemy.${cue.family}.${cue.kind}", volume)
             }

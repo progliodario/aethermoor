@@ -620,17 +620,29 @@
           {
             "id": "first",
             "kind": "kills",
-            "count": 1
+            "count": 1,
+            "reward": {
+              "item": "base:item/potion_small",
+              "qty": 2
+            }
           },
           {
             "id": "fifty",
             "kind": "kills",
-            "count": 50
+            "count": 50,
+            "reward": {
+              "item": "base:item/potion_small",
+              "qty": 3
+            }
           },
           {
             "id": "three_kinds",
             "kind": "kinds",
-            "count": 3
+            "count": 3,
+            "reward": {
+              "item": "base:item/rune_might",
+              "qty": 1
+            }
           },
           {
             "id": "two_titles",
@@ -673,7 +685,8 @@
         "heirloom_item": "",
         "echo_pct": 0,
         "deeds": [],
-        "echo_pct_deeds": 0
+        "echo_pct_deeds": 0,
+        "gifts": {}
       }
     },
     {
@@ -690,17 +703,29 @@
           {
             "id": "first",
             "kind": "kills",
-            "count": 1
+            "count": 1,
+            "reward": {
+              "item": "base:item/potion_small",
+              "qty": 2
+            }
           },
           {
             "id": "fifty",
             "kind": "kills",
-            "count": 50
+            "count": 50,
+            "reward": {
+              "item": "base:item/potion_small",
+              "qty": 3
+            }
           },
           {
             "id": "three_kinds",
             "kind": "kinds",
-            "count": 3
+            "count": 3,
+            "reward": {
+              "item": "base:item/rune_might",
+              "qty": 1
+            }
           },
           {
             "id": "two_titles",
@@ -749,7 +774,10 @@
         "deeds": [
           "first"
         ],
-        "echo_pct_deeds": 2
+        "echo_pct_deeds": 2,
+        "gifts": {
+          "base:item/potion_small": 2
+        }
       }
     },
     {
@@ -767,17 +795,29 @@
           {
             "id": "first",
             "kind": "kills",
-            "count": 1
+            "count": 1,
+            "reward": {
+              "item": "base:item/potion_small",
+              "qty": 2
+            }
           },
           {
             "id": "fifty",
             "kind": "kills",
-            "count": 50
+            "count": 50,
+            "reward": {
+              "item": "base:item/potion_small",
+              "qty": 3
+            }
           },
           {
             "id": "three_kinds",
             "kind": "kinds",
-            "count": 3
+            "count": 3,
+            "reward": {
+              "item": "base:item/rune_might",
+              "qty": 1
+            }
           },
           {
             "id": "two_titles",
@@ -835,7 +875,11 @@
           "wolves",
           "friends"
         ],
-        "echo_pct_deeds": 12
+        "echo_pct_deeds": 12,
+        "gifts": {
+          "base:item/potion_small": 5,
+          "base:item/rune_might": 1
+        }
       }
     },
     {
@@ -853,17 +897,29 @@
           {
             "id": "first",
             "kind": "kills",
-            "count": 1
+            "count": 1,
+            "reward": {
+              "item": "base:item/potion_small",
+              "qty": 2
+            }
           },
           {
             "id": "fifty",
             "kind": "kills",
-            "count": 50
+            "count": 50,
+            "reward": {
+              "item": "base:item/potion_small",
+              "qty": 3
+            }
           },
           {
             "id": "three_kinds",
             "kind": "kinds",
-            "count": 3
+            "count": 3,
+            "reward": {
+              "item": "base:item/rune_might",
+              "qty": 1
+            }
           },
           {
             "id": "two_titles",
@@ -915,7 +971,10 @@
           "fifty",
           "two_titles"
         ],
-        "echo_pct_deeds": 5
+        "echo_pct_deeds": 5,
+        "gifts": {
+          "base:item/potion_small": 5
+        }
       }
     },
     {

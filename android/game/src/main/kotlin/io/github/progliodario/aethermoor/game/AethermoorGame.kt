@@ -50,6 +50,7 @@ import io.github.progliodario.aethermoor.core.sim.DeedDef
 import io.github.progliodario.aethermoor.core.sim.mergeProfile
 import io.github.progliodario.aethermoor.core.sim.parseDeeds
 import io.github.progliodario.aethermoor.core.sim.profileDeeds
+import io.github.progliodario.aethermoor.core.sim.profileDeedGifts
 import io.github.progliodario.aethermoor.core.sim.parseProfile
 import io.github.progliodario.aethermoor.core.sim.profileEchoPct
 import io.github.progliodario.aethermoor.core.sim.profileToJson
@@ -583,6 +584,17 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                         pack.text(language, "\$i18n:ui.heirloom", mapOf("gold" to heirloom))
                     },
                 )
+            }
+            // the gifts of the deeds done (spec 11, "Gifts of the deeds"), in the bag of every new game
+            var gifts = 0L
+            for ((item, qty) in profileDeedGifts(before, assets?.deeds ?: emptyList())) {
+                if (pack.readDocument(item) == null) continue
+                world.inventory[item] = (world.inventory[item] ?: 0L) + qty
+                gifts += qty
+            }
+            if (gifts > 0) {
+                val said = if (heirloom > 0 || weapon.isNotEmpty()) message + "  " else ""
+                showNotice(said + pack.text(language, "\$i18n:ui.deed_gifts", mapOf("count" to gifts)))
             }
             return
         }
@@ -1500,9 +1512,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             shapes.end()
         }
         // a storm (full rain and full wind) flashes now and then, unless the flashes are off (spec 08, spec 16)
-        if (time.rainPm >= 900 && time.windPm >= 900 && options[2]) {
+        if (options[2] && (time.rainPm >= 900 && time.windPm >= 900 || world.ticksSinceLightning() < 8)) { // and when the lightning strikes
             val beat = System.currentTimeMillis() % 7300L
-            if (beat < 90L || (beat in 181L..239L)) {
+            if (beat < 90L || (beat in 181L..239L) || world.ticksSinceLightning() < 8) {
                 shapes.begin(ShapeRenderer.ShapeType.Filled)
                 shapes.color = Color(0.925f, 0.94f, 1f, 0.43f)
                 shapes.rect(0f, 0f, w, h)
@@ -3069,6 +3081,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         "home" -> world.spotNear() != null // an empty place of the home (spec 06, "Furniture")
         "wind" -> world.windPm >= 600 // a strong wind at the back (spec 08, "Wind")
         "fog" -> (world.time()?.fogPm ?: 0) >= 600 // a thick fog (spec 08, "Fog")
+        "storm" -> world.time()?.let { it.rainPm >= 900 && it.windPm >= 900 } ?: false // its lightning strikes (spec 08, "Lightning")
         "tag" -> world.earnedTags().isNotEmpty() && world.wornTag.isEmpty() // a tag earned and none worn (spec 11, "Tags")
         else -> false
     }

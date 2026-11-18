@@ -747,6 +747,14 @@ def build_scenarios() -> list[dict]:
          "items": {**ITEMS,
                    "test:item/keen_sword": {"kind": "weapon", "price": 900, "weapon": {"atk": 12, "matk": 0}, "affix": {"atk": 5, "crit_pm": 80, "drain_pm": 100}},
                    "test:item/warm_coat": {"kind": "armor", "price": 900, "armor": {"def": 6, "mdef": 4}, "affix": {"max_hp": 60, "mdef": 3}}}},
+        # Lightning (spec 08, "Lightning"): in a storm every 30 ticks the nearest creature that chases the player, within nine tiles, is
+        # struck for 40 percent of its health; the one that stays idle is never struck; a strike can kill (a victory like any other). In a
+        # rain without wind there is no lightning.
+        scenario("lightning_strikes", [enemy(5.5, 4.5, hp=100), enemy(12.0, 7.5, **passive), enemy(6.5, 6.5, hp=20)],
+                 [segment(20), segment(40), segment(120)],
+                 weather={"rain_pm": 1000, "wind_pm": 1000, "lightning_ticks": 30, "lightning_pct": 40, "lightning_range_x100": 900}),
+        scenario("lightning_needs_wind", [enemy(5.5, 4.5, hp=100)], [segment(100)],
+                 weather={"rain_pm": 1000, "wind_pm": 500, "lightning_ticks": 30, "lightning_pct": 40, "lightning_range_x100": 900}),
         # The fog hides you (spec 08, "Fog"): a full fog with a cut of 400, a light one, and the fog with the rain and the night.
         scenario("fog_hides", [enemy(7.5, 4.5)], [segment(120)], weather={"fog_pm": 1000, "fog_aggro_cut_pm": 400}),
         scenario("fog_light", [enemy(6.3, 4.5)], [segment(120)], weather={"fog_pm": 300, "fog_aggro_cut_pm": 400}),

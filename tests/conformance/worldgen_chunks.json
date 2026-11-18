@@ -101,6 +101,14 @@
                   {
                     "item": "base:item/fang_dagger",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/shepherds_blade",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/meadow_coat",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -208,6 +216,14 @@
                   {
                     "item": "base:item/lamplighters_hook",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/owl_eye_dagger",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/moss_cloak",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -338,6 +354,14 @@
                   {
                     "item": "base:item/foreman_maul",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/forgeborn_axe",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/forgeborn_plate",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -456,6 +480,14 @@
                   {
                     "item": "base:item/queens_stinger",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/dune_scimitar",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/sandsilk_robe",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -588,6 +620,14 @@
                   {
                     "item": "base:item/icefishers_spear",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/glacier_spear",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/snowbear_coat",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -694,6 +734,14 @@
                   {
                     "item": "base:item/pearl_rapier",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/tidecaller_cutlass",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/sailcloth_vest",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -826,6 +874,14 @@
                   {
                     "item": "base:item/ember_greatsword",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/cinder_brand",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/ashwalker_mail",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -993,6 +1049,14 @@
                   {
                     "item": "base:item/nebula_staff",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/starglass_staff",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/comet_robe",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -2055,6 +2119,9 @@
               "rain_slow_pm": 250,
               "wind_haste_pm": 150,
               "fog_aggro_cut_pm": 400,
+              "lightning_ticks": 438,
+              "lightning_pct": 40,
+              "lightning_range_x100": 900,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -7531,6 +7598,14 @@
                   {
                     "item": "base:item/fang_dagger",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/shepherds_blade",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/meadow_coat",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -7638,6 +7713,14 @@
                   {
                     "item": "base:item/lamplighters_hook",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/owl_eye_dagger",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/moss_cloak",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -7768,6 +7851,14 @@
                   {
                     "item": "base:item/foreman_maul",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/forgeborn_axe",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/forgeborn_plate",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -7886,6 +7977,14 @@
                   {
                     "item": "base:item/queens_stinger",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/dune_scimitar",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/sandsilk_robe",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -8018,6 +8117,14 @@
                   {
                     "item": "base:item/icefishers_spear",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/glacier_spear",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/snowbear_coat",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -8124,6 +8231,14 @@
                   {
                     "item": "base:item/pearl_rapier",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/tidecaller_cutlass",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/sailcloth_vest",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -8256,6 +8371,14 @@
                   {
                     "item": "base:item/ember_greatsword",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/cinder_brand",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/ashwalker_mail",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -8423,6 +8546,14 @@
                   {
                     "item": "base:item/nebula_staff",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/starglass_staff",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/comet_robe",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -9485,6 +9616,9 @@
               "rain_slow_pm": 250,
               "wind_haste_pm": 150,
               "fog_aggro_cut_pm": 400,
+              "lightning_ticks": 438,
+              "lightning_pct": 40,
+              "lightning_range_x100": 900,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -14721,6 +14855,14 @@
                   {
                     "item": "base:item/fang_dagger",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/shepherds_blade",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/meadow_coat",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -14828,6 +14970,14 @@
                   {
                     "item": "base:item/lamplighters_hook",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/owl_eye_dagger",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/moss_cloak",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -14958,6 +15108,14 @@
                   {
                     "item": "base:item/foreman_maul",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/forgeborn_axe",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/forgeborn_plate",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -15076,6 +15234,14 @@
                   {
                     "item": "base:item/queens_stinger",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/dune_scimitar",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/sandsilk_robe",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -15208,6 +15374,14 @@
                   {
                     "item": "base:item/icefishers_spear",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/glacier_spear",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/snowbear_coat",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -15314,6 +15488,14 @@
                   {
                     "item": "base:item/pearl_rapier",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/tidecaller_cutlass",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/sailcloth_vest",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -15446,6 +15628,14 @@
                   {
                     "item": "base:item/ember_greatsword",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/cinder_brand",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/ashwalker_mail",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -15613,6 +15803,14 @@
                   {
                     "item": "base:item/nebula_staff",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/starglass_staff",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/comet_robe",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -16675,6 +16873,9 @@
               "rain_slow_pm": 250,
               "wind_haste_pm": 150,
               "fog_aggro_cut_pm": 400,
+              "lightning_ticks": 438,
+              "lightning_pct": 40,
+              "lightning_range_x100": 900,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -22553,6 +22754,14 @@
                   {
                     "item": "base:item/fang_dagger",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/shepherds_blade",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/meadow_coat",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -22660,6 +22869,14 @@
                   {
                     "item": "base:item/lamplighters_hook",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/owl_eye_dagger",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/moss_cloak",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -22790,6 +23007,14 @@
                   {
                     "item": "base:item/foreman_maul",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/forgeborn_axe",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/forgeborn_plate",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -22908,6 +23133,14 @@
                   {
                     "item": "base:item/queens_stinger",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/dune_scimitar",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/sandsilk_robe",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -23040,6 +23273,14 @@
                   {
                     "item": "base:item/icefishers_spear",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/glacier_spear",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/snowbear_coat",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -23146,6 +23387,14 @@
                   {
                     "item": "base:item/pearl_rapier",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/tidecaller_cutlass",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/sailcloth_vest",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -23278,6 +23527,14 @@
                   {
                     "item": "base:item/ember_greatsword",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/cinder_brand",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/ashwalker_mail",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -23445,6 +23702,14 @@
                   {
                     "item": "base:item/nebula_staff",
                     "renown": 10
+                  },
+                  {
+                    "item": "base:item/starglass_staff",
+                    "renown": 15
+                  },
+                  {
+                    "item": "base:item/comet_robe",
+                    "renown": 20
                   }
                 ],
                 "stock": [
@@ -24507,6 +24772,9 @@
               "rain_slow_pm": 250,
               "wind_haste_pm": 150,
               "fog_aggro_cut_pm": 400,
+              "lightning_ticks": 438,
+              "lightning_pct": 40,
+              "lightning_range_x100": 900,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [

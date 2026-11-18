@@ -369,6 +369,8 @@ public:
     std::int64_t home_bonus(const std::string& what) const;
     // The wind of this tick (spec 08, "Wind"), in permille (presentation reads it for the plants).
     int wind_pm() const { return m_wind_pm_; }
+    // How many ticks ago the lightning last struck (presentation: the flash of the sky); a large number when never.
+    std::int64_t ticks_since_lightning() const { return m_world_ticks_ - m_lightning_tick_; }
     // The nearest plot in reach and its state: 0 bare, 1 growing, 2 ripe; nullopt: none.
     struct PlotNear {
         float x = 0.0F;
@@ -501,8 +503,11 @@ private:
     void take_one(const std::string& item_id);
     std::string m_tag_;          // the tag worn (spec 11, "Tags")
     int m_fog_aggro_pm_ = 1000;  // what the fog leaves of the aggro distance, this tick (spec 08, "Fog")
+    int m_rain_pm_ = 0;          // the rain of this tick (a storm is rain and wind: spec 08, "Lightning")
+    void lightning();            // the lightning of a storm strikes a creature that chases the player
     int m_wind_pm_ = 0;          // the wind of this tick (spec 08, "Wind")
-    int m_wind_boost_ = 0;       // and what it adds to the speed of walking, in permille
+    std::int64_t m_lightning_tick_ = -1000000;  // when the lightning last struck; presentation, not saved
+    int m_wind_boost_ = 0;                      // and what it adds to the speed of walking, in permille
     bool m_chest_open_ = false;
     Story m_story_;
     bool m_window_valid_ = false;

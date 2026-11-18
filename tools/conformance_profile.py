@@ -30,9 +30,9 @@ def _rebirth(name: str, text, level: int, gold: int = 0, weapon: str = "") -> di
 
 # The deeds of the conformance cases (spec 11, "Deeds"): one of every kind, and one the rules do not know.
 DEEDS = [
-    {"id": "first", "kind": "kills", "count": 1},
-    {"id": "fifty", "kind": "kills", "count": 50},
-    {"id": "three_kinds", "kind": "kinds", "count": 3},
+    {"id": "first", "kind": "kills", "count": 1, "reward": {"item": "base:item/potion_small", "qty": 2}},
+    {"id": "fifty", "kind": "kills", "count": 50, "reward": {"item": "base:item/potion_small", "qty": 3}},
+    {"id": "three_kinds", "kind": "kinds", "count": 3, "reward": {"item": "base:item/rune_might", "qty": 1}},
     {"id": "two_titles", "kind": "titles", "count": 2},
     {"id": "reborn", "kind": "lives", "count": 1},
     {"id": "wolves", "kind": "defeated", "enemies": ["base:enemy/wolf_grey", "base:enemy/wolf_tawny"]},
@@ -48,6 +48,7 @@ def _deeds(name: str, text, bestiary: dict, titles: list) -> dict:
     case["input"]["deeds"] = DEEDS
     case["expect"]["deeds"] = profile.deeds(merged, DEEDS)
     case["expect"]["echo_pct_deeds"] = profile.echo_pct(merged, len(case["expect"]["deeds"]))  # every deed done is an echo too
+    case["expect"]["gifts"] = profile.deed_gifts(merged, DEEDS)  # and leaves a gift to every new game
     return case
 
 

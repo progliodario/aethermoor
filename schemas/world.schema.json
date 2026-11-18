@@ -450,6 +450,22 @@
               "maximum": 1000,
               "description": "How much a full fog shortens the distance at which creatures notice the player, in permille (spec 08, \"Fog\")."
             },
+            "lightning_ticks": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "How often the lightning of a storm strikes, in ticks; 0: never (spec 08, \"Lightning\")."
+            },
+            "lightning_pct": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "The share of the health of the creature it strikes, in percent (spec 08, \"Lightning\")."
+            },
+            "lightning_range_x100": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "How far from the player the creature it strikes may be, in hundredths of a tile (spec 08, \"Lightning\")."
+            },
             "wind_haste_pm": {
               "type": "integer",
               "minimum": 0,

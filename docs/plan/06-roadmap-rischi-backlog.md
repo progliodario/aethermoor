@@ -283,8 +283,8 @@ I numeri, contati dai dati da `tools/make_facts.py` (dove si guarda: il [catalog
 | Progressione | 44 titoli, 8 tag, 16 talenti, 26 imprese |
 | Persone con nome | 45 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 3414 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 30 file di vettori di conformità, 553 casi, eseguiti dai test C++ e Kotlin |
+| Testi | 3417 chiavi, in italiano e inglese |
+| Regole uguali sui due client | 30 file di vettori di conformità, 555 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 18 specifiche, 13 ADR |
 <!-- facts:end -->
 
@@ -302,7 +302,7 @@ Legenda: **fatto** = le consegne del piano ci sono e funzionano su tutti e due i
 | M5 Mondo aperto | quasi | streaming dei chunk, regioni, insediamenti, siti, fiumi e strade, stagioni, meteo con pioggia, neve, nebbia e notte che nascondono il giocatore, vento che lo spinge, temporali, routine dei PNG, Pietre della Soglia, mappa del mondo e mini mappa, luci di notte | prestazioni misurate su un telefono reale |
 | M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, 63 ricette al falò e all'incudine (otto segrete, insegnate dai bottegai), cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane, orti (che crescono prima con la pioggia), pollai e recinti nei villaggi, negozi che pagano meno se vendi troppo, bauli condivisi in ogni villaggio e città, Nonna Brin, il venditore ambulante Corvin, il cottage dell'Ospite con sei posti per i mobili, otto residenti che arrivano agli avamposti | mercanti che viaggiano davvero |
 | M7 Compagni | avviato | un compagno per protagonista che segue, combatte, resta, segue o torna a comando, cresce di legame e cura il giocatore; i doni di Haruka (legame più rapido) e di Gideon (compagno più forte) ; Haruka doma le creature ferite e l'ultima resta con lei come secondo compagno ; momenti del legame; il compagno domato obbedisce a resta e torna | più compagni scelti dal giocatore |
-| M8 Progressione profonda | avviato | bestiario con debolezze, titoli con effetti e progressi visibili, albero di talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma, imprese di tutte le partite lette dal profilo, rune incise sulle armi, tag da indossare, armi e armature con affissi | premi per le imprese |
+| M8 Progressione profonda | avviato | bestiario con debolezze, titoli con effetti e progressi visibili, albero di talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma, imprese di tutte le partite lette dal profilo, rune incise sulle armi, tag da indossare, armi e armature con affissi, doni delle imprese a ogni partita nuova | affissi a caso sui pezzi trovati |
 | M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo e quinto atto, epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | altre storie per protagonista; la modalità Dungeon di Gideon |
 | M10 Rifinitura | avviato | effetti sonori, pannelli e barre ridisegnati, testi che vanno a capo per larghezza, niente scatti quando appare roba nuova, consigli per i primi minuti, opzioni di accessibilità (consigli, numeri, lampi, testo grande), crediti, traduzioni controllate da uno strumento | un sintetizzatore migliore per riaccendere musica e ambiente |
 | M11 Release 1.0 | da fare | — | pacchetti firmati, pagina di download, documentazione per chi fa mod (decisioni del proprietario) |
@@ -355,6 +355,7 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 **Progressione** (spec 11, 12)
 
 - Livelli, albero dei talenti, di cui quattro abilità (dal 14 novembre: Turbine, Fame di battaglia, Flusso, Risposta) e due a comando con il loro tasto (Onda d'urto, Rimarginare), titoli con effetti (attacco, raccolta, creazione, opere pregiate, parata, esperienza; dal 18 novembre l'Incisore di rune e il Padrone di casa) e il progresso verso quelli mancanti, bestiario con debolezze e bottino.
+- **Fulmini e doni delle imprese** (dal 18 novembre, quarta PR): nei temporali, ogni sette secondi circa, un fulmine colpisce la creatura più vicina che ti insegue (il 40% della sua salute); ogni impresa fatta lascia un dono (pozioni, rune, accessori) nello zaino di ogni partita nuova.
 - **Affissi** (dal 18 novembre, terza PR): armi e armature con un affisso, bonus fissi come quelli di un accessorio (salute, attacco, difesa, critico, risucchio); sedici pezzi, un'arma e un'armatura per regione, che i guardiani della regione lasciano una volta su cinque.
 - **Tag** (dal 18 novembre, seconda PR): otto tratti guadagnati da come giochi (Berserker, Sentinella, Cercatore, Artefice, Epicureo, Coltivatore, Naturalista, Campione del popolo); se ne indossa uno alla volta (`Y`, o il pulsante Tag del diario) e solo quello dà il suo effetto, più forte di quello di un titolo.
 - Profilo comune a tutte le partite: echi (vita in più per ogni titolo e vita passata), reincarnazione dal livello 10 con eredità di metà dell'oro e dell'arma impugnata, imprese (dal 17 novembre) lette dal profilo e elencate dalla schermata del titolo.
@@ -408,6 +409,8 @@ Il 17 novembre, ottava PR: testo grande (un'opzione di accessibilità, sui due c
 
 Il 17 novembre, settima PR: un baule in ogni villaggio e città, che tiene le stesse cose dappertutto (salvato nella partita); Nonna Brin a Fenwick (riposo gratis e tre favori); Corvin, il venditore ambulante di Aldermere, che porta le merci di una regione al giorno (condizione `day_mod`); 25 imprese di tutte le partite lette dal profilo; la pioggia fa crescere prima gli orti; Odile non sta più su un orto.
 
+Il 18 novembre, quarta PR: i **fulmini** dei temporali colpiscono le creature che ti inseguono (con il tuono), i **doni delle imprese** (ogni impresa fatta lascia un dono nello zaino di ogni partita nuova), i pezzi con affissi anche nei negozi per gli amici della regione, un consiglio per il temporale.
+
 Il 18 novembre, terza PR: gli **affissi** su armi e armature (un blocco `affix`, sedici pezzi regionali lasciati dai guardiani).
 
 Il 18 novembre, seconda PR: la **nebbia** e i **temporali** (due tempi nuovi; la nebbia nasconde il giocatore, il temporale lampeggia), il nome del tempo sull'orologio, i **tag** da indossare (otto), due consigli nuovi.
@@ -419,14 +422,14 @@ Il 17 novembre, sesta PR: pollai e recinti delle capre nei villaggi (uova, latte
 **A breve (le prossime PR)**
 
 1. **Controlli automatici della grafica** (M2, M10): confronto dei fotogrammi del test di fumo con immagini di riferimento; ktlint e detekt in CI.
-2. **Altri pezzi con affissi** (M8; i sedici regionali ci sono): anche nei negozi e nelle taglie, e affissi a caso sui pezzi trovati.
-3. **Premi per le imprese** (M8; le imprese danno già echi): un ricordo di ogni impresa nella partita nuova.
+2. **Affissi a caso** (M8; i sedici pezzi regionali ci sono, nei bottini e nei negozi): proprietà tirate a sorte sui pezzi trovati.
+3. **Residenti nei villaggi generati** (M6; gli otto degli avamposti ci sono).
 
 **A medio termine (verso Alpha 0.2 e Beta 0.5)**
 
 4. **Altri residenti** (M6; gli otto residenti degli avamposti ci sono): anche nei villaggi generati, con mestieri e missioni.
 5. **Mercanti che viaggiano davvero** (M6; Corvin e gli otto venditori degli avamposti ci sono): carri che si spostano lungo le strade.
-6. **Altri effetti del meteo** (M5; pioggia, neve, nebbia, notte, vento e temporali ci sono): fulmini che colpiscono, stagioni che cambiano i raccolti.
+6. **Altri effetti del meteo** (M5; pioggia, neve, nebbia, notte, vento, temporali e fulmini ci sono): stagioni che cambiano i raccolti.
 7. **Più mobili e una casa più grande** (M6; i sei mobili del cottage ci sono).
 8. **Più compagni scelti dal giocatore** (M7; il compagno di ognuno e la creatura domata di Haruka ci sono).
 9. **La modalità Dungeon** di Gideon (M9): una variante semplificata, ondate di eroi invasori contro la sua base.

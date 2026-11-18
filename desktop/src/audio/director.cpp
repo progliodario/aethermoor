@@ -31,6 +31,8 @@ std::vector<SoundEvent> SoundDirector::update(const SoundSnapshot& s) {
             emit("gather." + cue.family);
         } else if (cue.kind == "craft") {
             emit("craft");
+        } else if (cue.kind == "lightning") {  // the lightning of a storm (spec 08), heard anywhere
+            emit("thunder");
         } else if (volume >= kMinAudiblePm) {
             emit("enemy." + cue.family + "." + cue.kind, volume);
         }

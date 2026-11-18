@@ -106,6 +106,18 @@ def deeds(profile: dict, defs: list[dict]) -> list[str]:
     return done
 
 
+def deed_gifts(profile: dict, defs: list[dict]) -> dict[str, int]:
+    """The gifts of the deeds done, which every new game finds in its bag (spec 11, "Gifts of the deeds"): the `reward` of each deed done
+    (`{"item", "qty"}`), summed by item, in the order of the item ids."""
+    done = set(deeds(profile, defs))
+    gifts: dict[str, int] = {}
+    for deed in defs:
+        reward = deed.get("reward")
+        if deed["id"] in done and isinstance(reward, dict) and reward.get("qty", 0) > 0:
+            gifts[reward["item"]] = gifts.get(reward["item"], 0) + reward["qty"]
+    return dict(sorted(gifts.items()))
+
+
 def profile_to_json(profile: dict) -> str:
     return json.dumps({"profile_version": FORMAT, "bestiary": profile["bestiary"], "titles": profile["titles"], "lives": profile.get("lives", 0), "heirloom": profile.get("heirloom", 0),
                        **({"heirloom_item": profile["heirloom_item"]} if profile.get("heirloom_item") else {})}, ensure_ascii=False, separators=(",", ":"))

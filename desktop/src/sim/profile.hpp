@@ -50,6 +50,8 @@ struct DeedDef {
     std::vector<std::string> list;  // the creatures of `defeated`, the titles of `earned`
     std::string name;               // texts, for the clients
     std::string text;
+    std::string reward_item;  // the gift every new game finds once the deed is done (spec 11); empty: none
+    std::int64_t reward_qty = 0;
 };
 
 // The deeds of a text: the array, or the object of `data/base/deeds.json` with its `deeds`; a broken text has none.
@@ -57,5 +59,9 @@ std::vector<DeedDef> parse_deeds(std::string_view text);
 
 // The deeds the profile has done, in the order of `defs`; a kind the rules do not know is never done.
 std::vector<std::string> profile_deeds(const Profile& profile, const std::vector<DeedDef>& defs);
+
+// The gifts of the deeds done, which every new game finds in its bag (spec 11, "Gifts of the deeds"): item -> quantity,
+// summed, in the order of the item ids.
+std::map<std::string, std::int64_t> profile_deed_gifts(const Profile& profile, const std::vector<DeedDef>& defs);
 
 }  // namespace aether
