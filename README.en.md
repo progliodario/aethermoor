@@ -36,12 +36,12 @@ The numbers of the game, counted from the data (never written by hand: `python t
 | Protagonists | 8, each with a companion (8 companions) and a story of five acts (96 story quests) |
 | Creatures | 75, of which 27 guardians and 8 Echoes |
 | Quests | 319 (24 tales of the villagers) |
-| Items and recipes | 209 items, 63 recipes (8 secret) |
-| Progression | 42 titles, 16 talents, 25 deeds |
+| Items and recipes | 222 items, 76 recipes (8 secret) |
+| Progression | 44 titles, 16 talents, 26 deeds |
 | Named people | 37 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 3278 keys, in Italian and English |
-| Same rules on both clients | 30 files of conformance vectors, 534 cases, run by the C++ and the Kotlin tests |
+| Texts | 3318 keys, in Italian and English |
+| Same rules on both clients | 30 files of conformance vectors, 542 cases, run by the C++ and the Kotlin tests |
 | Documents | 18 specs, 13 ADRs |
 <!-- facts:end -->
 
@@ -52,11 +52,11 @@ The numbers of the game, counted from the data (never written by hand: `python t
 | Foundations, rules, CI | all | automatic checks of the frames, ktlint and detekt in CI |
 | Graphics | anime art for everything, people seen from the front, the side and behind, the light of the hour, wind, water, shadows, the pack's font | — |
 | Combat | complete: elements, statuses, parry, stagger, guardians, abilities on command | touches, always toward easy fights |
-| World | huge, eight regions, towns, dungeons, weather that hides and slows | performance measured on a phone, the wind |
+| World | huge, eight regions, towns, dungeons, weather that hides and slows, wind that pushes | performance measured on a phone, fog and storms |
 | Quests and stories | a story in five acts for every protagonist, tales of the villagers, guild, legends, bounties | Gideon's Dungeon mode |
-| Life | gathering, fishing, hunting, gardens, animals, shared chests, the Guest's cottage, pedlars, secret recipes, food with effects | furnishing the cottage, merchants who really travel |
+| Life | gathering, fishing, hunting, gardens, animals, shared chests, the Guest's cottage and its furniture, pedlars, secret recipes, food with effects | more residents, merchants who really travel |
 | Companions | one per protagonist with commands, bond and care; Haruka tames a second one | more companions chosen by the player |
-| Progression | talents with abilities, titles with effects, bestiary, reincarnation with an heirloom, deeds that give echoes | tags, runes and affixes |
+| Progression | talents with abilities, titles with effects, bestiary, reincarnation with an heirloom, deeds that give echoes, runes on the weapons | tags and affixes |
 | Accessibility | hints, damage numbers and flashes can be turned off, large text, configurable keys | — |
 | Release | test builds from CI | Alpha 0.1 and then 1.0 (the owner decides) |
 
@@ -67,7 +67,7 @@ The full catalog, generated from the data, is [`docs/design/catalog.md`](docs/de
 **World**
 
 - An open world of 16384 x 16384 tiles generated from a seed (always the same for the same seed), streamed as you walk; eight regions with their own terrain, creatures, shops and way of speaking.
-- Day and night, four seasons, weather: rain and night hide you from creatures, rain and snow slow them, rain makes the gardens grow sooner.
+- Day and night, four seasons, weather: rain and night hide you from creatures, rain and snow slow them, rain makes the gardens grow sooner, the wind at your back makes you walk faster.
 - Generated settlements and hand-made sites: dungeons and lairs with a guardian, nests, eight outposts (each with a wayfarer, a local and a pedlar), eight sanctums of the Echoes, **Fenwick** (where you start), **the Guest's cottage** east of Fenwick and **Aldermere**, the town of the mother guild.
 - Threshold Stones to heal and travel; a world map with zoom, a goal to mark and a minimap; every quest marks where to go.
 
@@ -90,12 +90,12 @@ The full catalog, generated from the data, is [`docs/design/catalog.md`](docs/de
 - Gardens in every village, hen coops and goat pens; recipes at the campfire and the anvil, fine work, a secret dish per region taught by the shopkeeper.
 - Food and brews that fortify, ward, regenerate or speed you up; a draught that cleanses.
 - A **chest** in every village and town: they all hold the same things.
-- **The Guest's cottage**: a chest, a campfire, an anvil, gardens, hens, a goat and a Threshold Stone; Nana Brin gives it to you after her three favours.
+- **The Guest's cottage**: a chest, a campfire, an anvil, gardens, hens, a goat and a Threshold Stone; Nana Brin gives it to you after her three favours. Six rugs wait for the **furniture** you make at an anvil: a bed, a weapon rack, a bookshelf, a drying rack, a training dummy and a work table, and each one helps you everywhere like a title.
 - Shops with market days, goods from other regions, rare wares for friends; they pay less when you sell too much of one thing. Corvin in Aldermere and a pedlar at every outpost bring the goods of a different region every day.
 
 **Progression**
 
-- Levels, a talent tree with abilities (two used with a key of their own), titles that change the game, a bestiary with weaknesses.
+- Levels, a talent tree with abilities (two used with a key of their own), titles that change the game, a bestiary with weaknesses; **runes** made at an anvil to engrave on your weapon, which then hits harder and with the element of the rune.
 - A profile shared by all games: titles, past lives and **deeds** give "echoes" (more health in every game); from level 10 a game can **reincarnate** and leave half its gold and its weapon to the next.
 - A companion per protagonist that follows, fights, stays, comes back and heals; Haruka tames creatures, and the last one stays with her.
 
@@ -237,8 +237,8 @@ The project is developed by the owner together with Claude, an AI assistant that
 
 The next things, in order (details in the [roadmap](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine), in Italian):
 
-- **Soon:** automatic checks of the graphics; furnishing the cottage; tags.
-- **Medium term:** runes and affixes; more residents and merchants who travel; Gideon's Dungeon mode; performance measured on a phone; a better synthesizer for music and ambience (only if the owner wants it).
+- **Soon:** automatic checks of the graphics; tags; affixes.
+- **Medium term:** more residents and merchants who travel; fog and storms; Gideon's Dungeon mode; performance measured on a phone; a better synthesizer for music and ambience (only if the owner wants it).
 - **Toward 1.0:** signed packages, documentation for modders, more languages.
 - **The owner decides:** when to publish the first release (Alpha 0.1).
 

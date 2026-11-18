@@ -53,6 +53,30 @@ Every village of the `village` stamp keeps animals by its houses: a **hen coop**
 
 The base pack has a **chest** (art `base:art/prop/chest`) in a house of every village and in the inn of every town (the stamps `village`, `village_b` to `village_d`, `town`, `town_b`, `town_c`; Fenwick has one in the house of Nana Brin, spec 07). The clients open the chests with the action of talking (`E`, or the `Chest` button) and show them in the panel of the shop: a tab "Take" with what the chest holds and a tab "Store" with the bag, each entry with its quantity; `E` (or a second tap) moves the stack, `Esc` closes. The world is paused while they are open. Conformance: the scenario `chest_storage` (its checkpoints carry `chest` and `chest_open`), and a save split of it.
 
+## Runes
+
+An item of kind `rune` has `rune {element, atk, matk, station}` (each optional: `none`, 0, 0 and anywhere when absent). **Using** a rune from the bag (`use_item`) engraves it on the **worn weapon**:
+
+- it is refused, changing nothing, while a dialogue is open, when no weapon item is worn (the base weapon of the protagonist bears no rune), when the worn weapon already bears that same rune, and when the `station` of the rune is not within 2 tiles of the player (plus its radius, as in "Stations");
+- otherwise one rune leaves the bag and `runes[weapon] = rune`: a rune the weapon bore before is **lost**. The counter `engraved` grows by one (spec 11) and the derived statistics are recomputed at once (the current health is capped to the new maximum).
+
+The rune of the worn weapon adds its `atk` and `matk` to `weapon_atk` and `weapon_matk` (spec 04), and when its `element` is not `none` the weapon hits with that element instead of its own (spec 05, "Elements" and "Status effects": the weakness, the resistance and the status of the hit follow the rune). A skill with its own element keeps it. Every weapon keeps its own rune: changing weapon changes which rune counts. The runes are saved (`runes`, spec 12).
+
+The base pack has seven, made at an anvil (`tools/make_furnishings.py`): the ember (fire), tide (water), gale (wind), stone (earth), dawn (light) and dusk (dark) runes, each +6 attack (the stone +8), and the rune of might (+12 attack, no element). The status window names the rune after the weapon. Conformance: the scenario `runes_engrave` (its checkpoints carry `runes` and the derived `atk`) and two save splits of it.
+
+## Furniture
+
+`data/base/home.json` (ID `base:home/cottage`, schema `home`) names the **spot** prop, an empty place of the home, and the reach of the player (`reach_x100`). An item of kind `furniture` has `furniture {art, atk_pct, gather_bonus, craft_bonus, parry_bonus, xp_pct, fine_pm}`: the prop it is drawn as and what it adds (each optional, 0 when absent).
+
+**Using** a piece from the bag (`use_item`) places it on the **nearest spot** within `reach_x100 / 100 + its radius` tiles of the player (the nearest by distance, then by `x`, then by `y`, as the plots):
+
+- it is refused, changing nothing, while a dialogue is open, when no spot is in reach, and when that spot already holds the same piece;
+- otherwise one piece leaves the bag and stands on the spot; the piece that stood there goes **back to the bag**. The counter `furnished` grows by one (spec 11).
+
+What the pieces add counts **like the effects of a title** (spec 11, "Titles with effects"), wherever the player is: `atk_pct` adds to the percent of the titles on the attack of the hits, `gather_bonus`, `craft_bonus`, `parry_bonus`, `xp_pct` and `fine_pm` to the bonuses of the same name. Every **kind** of piece counts once, however many of it stand in the home. The placed pieces are saved (`furniture`, spec 12).
+
+The base pack has six pieces, made at an anvil (`tools/make_furnishings.py`): the quilted bed (+10% experience), the weapon rack (+5% attack), the bookshelf (+5% fine work), the drying rack (one more of everything gathered), the training dummy (the parry four ticks longer) and the work table (one more of every recipe). The Guest's cottage (spec 07) has six spots, the round braided rugs along its walls (art `base:art/prop/furniture_spot`); a piece is drawn on its rug. Old Tam tells the owner about them. Conformance: the scenario `furniture_home` (its checkpoints carry `furniture`) and a save split of it.
+
 ## Hunting
 
 Hunting is fighting creatures that are game: they are ordinary creatures (spec 05) of the fauna of the regions (spec 09), shy (the behavior `skittish`), weak and slow to anger, and what they leave is
@@ -99,6 +123,8 @@ Conformance: the scenario `craft_at_fire`.
 - a dialogue is open;
 - the inventory does not hold the item, or the item has no `use` effects;
 - none of its effects would change anything right now: no `heal` (or one at full health), no `restore_mp` (or one at full mana), no `fortify`, `ward`, `regen` or `haste`. An item with both effects is used when either one would change something.
+
+A rune and a piece of furniture are used in their own way: see "Runes" and "Furniture".
 
 Otherwise the effects are applied in order and the quantity of the item drops by one. Supported effects:
 

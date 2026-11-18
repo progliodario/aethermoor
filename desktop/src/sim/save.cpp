@@ -135,6 +135,20 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
         }
         j["plots"] = plots;
     }
+    if (!s.runes.empty()) {  // the runes engraved on the weapons (spec 06, "Runes")
+        Json runes = Json::object();
+        for (const auto& [weapon, rune] : s.runes) {
+            runes[weapon] = rune;
+        }
+        j["runes"] = runes;
+    }
+    if (!s.furniture.empty()) {  // the furniture of the home (spec 06, "Furniture"): [x100, y100, item], in order
+        Json furniture = Json::array();
+        for (const auto& [key, item] : s.furniture) {
+            furniture.push_back(Json::array({key.first, key.second, item}));
+        }
+        j["furniture"] = furniture;
+    }
     if (!s.talents.empty()) {
         Json talents = Json::object();
         for (const auto& [id, rank] : s.talents) {
@@ -298,6 +312,16 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
             for (const Json& plot : j.at("plots")) {
                 s.plots[{plot.at(0).get<int>(), plot.at(1).get<int>()}] = {plot.at(2).get<std::string>(),
                                                                            plot.at(3).get<std::int64_t>()};
+            }
+        }
+        if (j.contains("runes")) {
+            for (const auto& [weapon, rune] : j.at("runes").items()) {
+                s.runes[weapon] = rune.get<std::string>();
+            }
+        }
+        if (j.contains("furniture")) {
+            for (const Json& piece : j.at("furniture")) {
+                s.furniture[{piece.at(0).get<int>(), piece.at(1).get<int>()}] = piece.at(2).get<std::string>();
             }
         }
         if (j.contains("talents")) {

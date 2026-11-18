@@ -2360,6 +2360,26 @@ void bag_use(aether::WorldSim& sim, const Assets& assets, Ui& ui) {
     const bool wearable =
         def != sim.combat().items.end() &&
         (def->second.kind == "weapon" || def->second.kind == "armor" || def->second.kind == "accessory");
+    if (def != sim.combat().items.end() && def->second.is_rune) {  // a rune is engraved on the worn weapon (spec 06)
+        if (sim.use_item(item_id)) {
+            const std::string weapon = assets.pack.text(ui.lang, "$i18n:" + item_key(sim.equipped_weapon()) + ".name",
+                                                        {{"count", std::int64_t{1}}});
+            notify(ui, assets.pack.text(ui.lang, "$i18n:ui.rune_engraved", {{"item", name}, {"weapon", weapon}}));
+            bag_move(sim, ui, 0);
+        } else {
+            notify(ui, assets.pack.text(ui.lang, "$i18n:ui.rune_refused"));
+        }
+        return;
+    }
+    if (def != sim.combat().items.end() && def->second.is_furniture) {  // a piece stands on a place of the home
+        if (sim.use_item(item_id)) {
+            notify(ui, assets.pack.text(ui.lang, "$i18n:ui.furniture_placed", {{"item", name}}));
+            bag_move(sim, ui, 0);
+        } else {
+            notify(ui, assets.pack.text(ui.lang, "$i18n:ui.furniture_refused"));
+        }
+        return;
+    }
     if (wearable && sim.equip(item_id)) {
         notify(ui, assets.pack.text(ui.lang, "$i18n:ui.item_equipped", {{"item", name}}));
     } else if (!wearable && sim.use_item(item_id)) {
@@ -3065,10 +3085,22 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
             if (!id->empty()) {
                 worn += (worn.empty() ? "" : ", ") +
                         assets.pack.text(ui.lang, "$i18n:" + item_key(*id) + ".name", {{"count", std::int64_t{1}}});
+                const auto rune = sim.runes().find(*id);  // and the rune engraved on the weapon (spec 06, "Runes")
+                if (id == &sim.equipped_weapon() && rune != sim.runes().end()) {
+                    worn += " (" +
+                            assets.pack.text(ui.lang, "$i18n:" + item_key(rune->second) + ".name",
+                                             {{"count", std::int64_t{1}}}) +
+                            ")";
+                }
             }
         }
         if (!worn.empty()) {
             lines.push_back({"  " + assets.pack.text(ui.lang, "$i18n:ui.status_worn", {{"list", worn}}), 2});
+        }
+        if (!sim.furniture().empty()) {  // the furniture of the home (spec 06, "Furniture")
+            lines.push_back({"  " + assets.pack.text(ui.lang, "$i18n:ui.status_home",
+                                                     {{"count", static_cast<std::int64_t>(sim.furniture().size())}}),
+                             2});
         }
         // what the player ate and drank is still working (spec 06, "Fortify", "Ward", "Regen"): each with its seconds
         // left
@@ -3450,6 +3482,12 @@ bool hint_holds(const aether::WorldSim& sim, const std::string& when) {
     }
     if (when == "chest") {
         return sim.chest_near();
+    }
+    if (when == "home") {  // an empty place of the home, and a piece of furniture in the bag (spec 06, "Furniture")
+        return sim.spot_near().has_value();
+    }
+    if (when == "wind") {  // a strong wind at the back (spec 08, "Wind")
+        return sim.wind_pm() >= 600;
     }
     return false;
 }
@@ -4065,9 +4103,24 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
             if (sprite->sway > 0.0F) {
                 const float wave = std::sin(static_cast<float>(now_ms % 3895574ULL) / 620.0F + item.prop->x * 0.9F +
                                             item.prop->y * 0.6F);
-                draw_swaying(renderer, *sprite, fx, fy, k, sprite->sway * k * wave);
+                // the wind of the weather moves the plants more (spec 08, "Wind")
+                const float wind = 0.5F + static_cast<float>(sim.wind_pm()) / 1000.0F;
+                draw_swaying(renderer, *sprite, fx, fy, k, sprite->sway * k * wave * wind);
             } else {
                 draw_sprite(renderer, *sprite, fx, fy, k);
+            }
+            // a place of the home with a piece of furniture on it (spec 06, "Furniture")
+            if (!sim.combat().home_spot.empty() && item.prop->art == sim.combat().home_spot) {
+                const auto placed = sim.furniture().find({static_cast<int>(std::floor(item.prop->x * 100.0F + 0.5F)),
+                                                          static_cast<int>(std::floor(item.prop->y * 100.0F + 0.5F))});
+                if (placed != sim.furniture().end()) {
+                    const auto piece = sim.combat().items.find(placed->second);
+                    if (piece != sim.combat().items.end()) {
+                        if (const aether::Sprite* art = cache.get(piece->second.furniture_art, tile_px)) {
+                            draw_sprite(renderer, *art, fx, fy, k * 0.8F);
+                        }
+                    }
+                }
             }
             // a sown plot (spec 06, "Farming"): sprouts while it grows, flowers when it is ripe
             if (sim.combat().farming && item.prop->art == sim.combat().farming->plot) {

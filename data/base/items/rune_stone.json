@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/rune_stone",
+  "name": "$i18n:item.rune_stone.name",
+  "description": "$i18n:item.rune_stone.desc",
+  "kind": "rune",
+  "rarity": "uncommon",
+  "price": 240,
+  "stack_max": 9,
+  "rune": {
+    "element": "earth",
+    "atk": 8,
+    "station": "base:art/prop/anvil"
+  }
+}

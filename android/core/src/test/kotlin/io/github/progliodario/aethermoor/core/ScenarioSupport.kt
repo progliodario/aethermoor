@@ -30,7 +30,9 @@ import io.github.progliodario.aethermoor.core.sim.TitleDef
 import io.github.progliodario.aethermoor.core.sim.WeaponStats
 import io.github.progliodario.aethermoor.core.sim.WorldSim
 import io.github.progliodario.aethermoor.core.sim.accessoryOf
+import io.github.progliodario.aethermoor.core.sim.furnitureOf
 import io.github.progliodario.aethermoor.core.sim.parseStorySetup
+import io.github.progliodario.aethermoor.core.sim.runeOf
 import kotlin.math.abs
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
@@ -113,6 +115,8 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         rainSlowPm = input["weather"]?.jsonObject?.get("rain_slow_pm")?.jsonPrimitive?.int ?: 0,
         lightPm = input["weather"]?.jsonObject?.get("light_pm")?.jsonPrimitive?.int ?: 1000,
         nightAggroCutPm = input["weather"]?.jsonObject?.get("night_aggro_cut_pm")?.jsonPrimitive?.int ?: 0,
+        windPm = input["weather"]?.jsonObject?.get("wind_pm")?.jsonPrimitive?.int ?: 0,
+        windHastePm = input["weather"]?.jsonObject?.get("wind_haste_pm")?.jsonPrimitive?.int ?: 0,
         gift = input["gift"]?.jsonObject?.let { g ->
             fun pct(key: String, neutral: Int) = g[key]?.jsonPrimitive?.int ?: neutral
             GiftDef(pct("mp_regen_pct", 100), pct("aggro_pct", 100), pct("heal_pct", 100), pct("dodge_cooldown_pct", 100), pct("death_save_ticks", 0), pct("companion_atk_pct", 100), pct("bond_gain", 1), pct("tame_hp_pct", 0), pct("tame_range_x100", 0), pct("tame_bond", 0), pct("pocket_keep_pm", 0), pct("friend_atk_pct", 0))
@@ -194,6 +198,8 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         } ?: emptyList(),
         chestArt = input["storage"]?.jsonObject?.get("chest")?.jsonPrimitive?.content ?: "",
         chestReachX100 = input["storage"]?.jsonObject?.get("reach_x100")?.jsonPrimitive?.int ?: 200,
+        homeSpot = input["home"]?.jsonObject?.get("spot")?.jsonPrimitive?.content ?: "",
+        homeReachX100 = input["home"]?.jsonObject?.get("reach_x100")?.jsonPrimitive?.int ?: 200,
         farming = input["farming"]?.jsonObject?.let { f ->
             FarmingDef(
                 f.getValue("plot").jsonPrimitive.content, f.getValue("reach_x100").jsonPrimitive.int,
@@ -226,6 +232,8 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
                 weapon = d["weapon"]?.jsonObject?.let { WeaponStats(it.long("atk"), it.long("matk"), it["element"]?.jsonPrimitive?.content ?: "none") },
                 armor = d["armor"]?.jsonObject?.let { ArmorStats(it.long("def"), it.long("mdef")) },
                 accessory = d["accessory"]?.jsonObject?.let { accessoryOf(it) },
+                rune = d["rune"]?.jsonObject?.let { runeOf(it) },
+                furniture = d["furniture"]?.jsonObject?.let { furnitureOf(it) },
             )
         } ?: emptyMap(),
         startWeapon = input["equipped"]?.jsonObject?.get("weapon")?.jsonPrimitive?.content ?: "",
@@ -330,6 +338,14 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
     want["plots"]?.jsonArray?.let { wp -> // the sown plots (spec 06, "Farming")
         val got = sim.plots.map { (key, plot) -> listOf(key.first.toString(), key.second.toString(), plot.first, plot.second.toString()) }
         assertEquals(wp.map { p -> p.jsonArray.map { it.jsonPrimitive.content } }, got, "$at plots")
+    }
+    want["furniture"]?.jsonArray?.let { wp -> // the furniture of the home (spec 06, "Furniture")
+        val got = sim.furniture.map { (key, item) -> listOf(key.first.toString(), key.second.toString(), item) }
+        assertEquals(wp.map { p -> p.jsonArray.map { it.jsonPrimitive.content } }, got, "$at furniture")
+    }
+    want["runes"]?.jsonObject?.let { wr -> // the runes engraved on the weapons (spec 06, "Runes")
+        assertEquals(wr.mapValues { it.value.jsonPrimitive.content }, sim.runes.toMap(), "$at runes")
+        assertEquals(want.long("atk"), sim.derived.atk, "$at atk")
     }
     val wf = want["friend"]?.jsonObject // the tamed friend (spec 10)
     if (wf != null) {

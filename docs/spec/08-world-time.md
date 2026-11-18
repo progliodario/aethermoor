@@ -55,7 +55,7 @@ The effective light is `light_pm * (1000 - dim_pm) / 1000`. Clients darken the s
 the client's art direction, not from data yet) and draw rain with density `rain_pm`.
 
 Conformance suite `worldtime`: for a list of `world_ticks` (also huge ones and the edges of the seasons) and seeds, `day`, `tod_pm`, `light_pm`, the kind id of the period, `rain_pm`, `dim_pm`,
-the effective light and the season id.
+`wind_pm` (section "Wind"), the effective light and the season id.
 
 ## Routines
 
@@ -123,6 +123,28 @@ speed = speed_x100 * rain_slow_pm / 1000 / 100                                  
 
 and a chilled creature walks at half of that. The player, the companion and the tamed friend are not slowed. In the
 scenarios the cut is `weather.rain_slow_pm`: `rain_slows`, `rain_slows_light`.
+
+## Wind
+
+Every weather kind may have `wind_pm` (0..1000, 0 when absent): how hard the wind blows. It fades from one period to the next like
+the rain (section "Weather"), and the sample of the world time has it (`wind_pm`). In the base world a clear sky has a breeze
+(150), the clouds bring the strongest wind (700) and the rain a gusty one (500).
+
+`time.weather.wind_haste_pm` (default 0; 150 in the base world) says how much a **full wind** speeds the player on foot: the wind is
+at the back of the Guest. With the `wind_pm` of the moment, taken at the start of a tick like the rain:
+
+```
+wind_boost = wind_pm * wind_haste_pm / 1000
+walking speed = speed_x100 (after a brew of haste, spec 06) * (1000 + wind_boost) / 1000 / 100          (integer divisions)
+```
+
+so the clouds of the base world make the player walk about a tenth faster. The dodge roll, the companion, the tamed friend and the
+creatures are not changed. The wind also moves the plants more (presentation): the sway of a prop (spec 13, "Sway") is multiplied by
+`0.5 + wind_pm / 1000`. A hint tells it the first time the wind is strong (spec 16, "Hints").
+
+In the conformance scenarios of `combat` (no clock) the wind is `weather.wind_pm` and `weather.wind_haste_pm`: `wind_full`,
+`wind_light`, `wind_and_haste` (with a brew of haste and a full rain, which slows only the creatures). The suite `worldtime` has
+`wind_pm` in every sample.
 
 ## The colour of the hour
 

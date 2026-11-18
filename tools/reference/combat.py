@@ -96,6 +96,10 @@ class CombatSim:
         self.storage = scenario.get("storage")
         self.chest: dict[str, int] = {}
         self.chest_open = False
+        # The home (spec 06, "Furniture"): the spot prop and its reach; the furniture placed on the spots: (x100, y100) -> item
+        self.home = scenario.get("home")
+        self.furniture: dict[tuple[int, int], str] = {}
+        self.runes: dict[str, str] = {}  # the runes engraved on the weapons (spec 06, "Runes"): weapon item -> rune item
         self.world_ticks = 0
         self.companion = scenario.get("companion")  # the definition of the companion (spec 10), or None
         self.comp_x, self.comp_y = scenario["player"]["start"]
@@ -174,9 +178,10 @@ class CombatSim:
         primary = primary_at_level(self.base, self.growth, self.level)
         weapon = self.items.get(self.equipped["weapon"], {}).get("weapon")
         armor = self.items.get(self.equipped["armor"], {}).get("armor")
+        rune = self._rune() if weapon else {}  # a rune adds to the weapon it is engraved on (spec 06, "Runes")
         derived = rules.derived_stats(self.level, primary, rules.Equipment(
-            weapon_atk=weapon["atk"] if weapon else self.weapon_atk,
-            weapon_matk=weapon["matk"] if weapon else self.weapon_matk,
+            weapon_atk=weapon["atk"] + rune.get("atk", 0) if weapon else self.weapon_atk,
+            weapon_matk=weapon["matk"] + rune.get("matk", 0) if weapon else self.weapon_matk,
             armor_def=armor["def"] if armor else 0,
             armor_mdef=armor["mdef"] if armor else 0))
         derived["max_hp"] = derived["max_hp"] * (100 + self.echo_pct) // 100  # the echoes of past games (spec 11)
@@ -190,6 +195,10 @@ class CombatSim:
             for key, stat in (("atk", "atk"), ("matk", "matk"), ("def", "def"), ("mdef", "mdef"), ("max_hp", "max_hp"), ("crit_pm", "crit_chance_pm")):
                 derived[stat] += accessory.get(key, 0)
         return derived
+
+    def _rune(self) -> dict:
+        """The `rune` block of the rune engraved on the worn weapon (spec 06, "Runes"), or {}."""
+        return self.items.get(self.runes.get(self.equipped["weapon"], ""), {}).get("rune", {})
 
     def _equipped_out(self) -> dict:
         """The equipment as the saves and the checkpoints write it: the accessory only when one is worn (spec 12)."""
@@ -227,6 +236,9 @@ class CombatSim:
         x100 = self.derived["move_speed_x100"]
         if self.p_haste > 0:
             x100 = x100 * (100 + self.p_haste_pct) // 100
+        wind = self.weather.get("wind_pm", 0) * self.weather.get("wind_haste_pm", 0) // 1000  # the wind at your back (spec 08, "Wind")
+        if wind > 0:
+            x100 = x100 * (1000 + wind) // 1000
         return x100 / 100
 
     # --------------------------------------------------------------------------------- tick
@@ -521,6 +533,9 @@ class CombatSim:
         if element != "none":
             return element
         weapon = self.items.get(self.equipped["weapon"], {}).get("weapon") or {}
+        rune = self._rune() if weapon else {}  # the element of an engraved rune takes the place of the weapon's (spec 06, "Runes")
+        if rune.get("element", "none") != "none":
+            return rune["element"]
         return weapon.get("element", "none")
 
     def _apply_status(self, enemy: _Enemy) -> None:
@@ -613,12 +628,16 @@ class CombatSim:
         """What the earned titles add (spec 11, "Titles with effects"): `gather_bonus` (more of every drop gathered), `craft_bonus` (more of every
         recipe made), `parry_bonus` (ticks added to the parry window), `xp_pct` (percent more experience from a kill)."""
         earned = set(self.earned_titles())
-        return sum(t.get(key, 0) for t in self.titles if t["id"] in earned)
+        return sum(t.get(key, 0) for t in self.titles if t["id"] in earned) + self.home_bonus(key)
+
+    def home_bonus(self, key: str) -> int:
+        """What the furniture of the home adds, like a title (spec 06, "Furniture"): every kind of piece placed counts once."""
+        return sum(self.items.get(item, {}).get("furniture", {}).get(key, 0) for item in sorted(set(self.furniture.values())))
 
     def title_attack_pct(self) -> int:
         """The percent that the earned titles add to the attack of the player's hits (spec 11, "Titles with effects")."""
         earned = set(self.earned_titles())
-        return sum(t.get("atk_pct", 0) for t in self.titles if t["id"] in earned)
+        return sum(t.get("atk_pct", 0) for t in self.titles if t["id"] in earned) + self.home_bonus("atk_pct")
 
     def _on_kill(self, enemy: _Enemy) -> None:
         self.kills += 1
@@ -967,6 +986,10 @@ class CombatSim:
         item = self.items.get(item_id)
         if item is None or self.inventory.get(item_id, 0) < 1:
             return False
+        if "rune" in item:
+            return self._engrave(item_id, item["rune"])
+        if "furniture" in item:
+            return self._place(item_id)
         heal = sum(e["amount"] for e in item["effects"] if e["effect"] == "heal") * self.gift.get("heal_pct", 100) // 100
         mana = sum(e["amount"] for e in item["effects"] if e["effect"] == "restore_mp")
         fortify = [e for e in item["effects"] if e["effect"] == "fortify"]  # spec 06, "Fortify": attack up for a while
@@ -1005,6 +1028,55 @@ class CombatSim:
             self.inventory[item_id] -= 1
             if self.inventory[item_id] == 0:
                 del self.inventory[item_id]
+        return True
+
+    def _take_one(self, item_id: str) -> None:
+        self.inventory[item_id] -= 1
+        if self.inventory[item_id] == 0:
+            del self.inventory[item_id]
+
+    def _engrave(self, item_id: str, rune: dict) -> bool:
+        """Engraves a rune on the worn weapon (spec 06, "Runes"): it needs a weapon worn and the station of the rune in reach, and a weapon
+        that does not bear that rune already. A rune it bore before is lost."""
+        weapon = self.equipped["weapon"]
+        if not weapon or "weapon" not in self.items.get(weapon, {}) or self.runes.get(weapon) == item_id:
+            return False
+        if not self.near_station(rune.get("station", "")):
+            return False
+        self._take_one(item_id)
+        self.runes[weapon] = item_id
+        self.counters["engraved"] = self.counters.get("engraved", 0) + 1
+        self.derived = self._derive()
+        self.hp = min(self.hp, self.derived["max_hp"])
+        return True
+
+    def _spot_near(self):
+        """The nearest furniture spot in reach (spec 06, "Furniture"): (distance, x, y, key), or None."""
+        if self.home is None:
+            return None
+        best = None
+        for art, x, y, radius in self.gather_props:
+            if art != self.home["spot"]:
+                continue
+            dist = math.sqrt((x - self.x) ** 2 + (y - self.y) ** 2)
+            if dist > self.home["reach_x100"] / 100 + radius:
+                continue
+            candidate = (dist, x, y, (math.floor(x * 100 + 0.5), math.floor(y * 100 + 0.5)))
+            if best is None or candidate[:3] < best[:3]:
+                best = candidate
+        return best
+
+    def _place(self, item_id: str) -> bool:
+        """Places a piece of furniture on the nearest spot in reach (spec 06, "Furniture"); the piece that stood there goes back to the bag."""
+        near = self._spot_near()
+        if near is None or self.furniture.get(near[3]) == item_id:
+            return False
+        old = self.furniture.get(near[3])
+        self._take_one(item_id)
+        if old:
+            self.inventory[old] = self.inventory.get(old, 0) + 1
+        self.furniture[near[3]] = item_id
+        self.counters["furnished"] = self.counters.get("furnished", 0) + 1
         return True
 
     def equip(self, item_id: str) -> bool:
@@ -1130,6 +1202,8 @@ class CombatSim:
             **({"counters": dict(sorted(self.counters.items()))} if self.counters else {}),
             **({"talents": dict(sorted(self.talents.items()))} if self.talents else {}),
             **({"chest": dict(sorted(self.chest.items()))} if self.chest else {}),
+            **({"runes": dict(sorted(self.runes.items()))} if self.runes else {}),
+            **({"furniture": [[k[0], k[1], item] for k, item in sorted(self.furniture.items())]} if self.furniture else {}),
             "story": self.story.save_state() if self.story is not None else None,
         }
 
@@ -1160,6 +1234,8 @@ class CombatSim:
         self.talents = dict(save.get("talents", {}))
         self.chest = dict(save.get("chest", {}))
         self.chest_open = False
+        self.runes = dict(save.get("runes", {}))
+        self.furniture = {(f[0], f[1]): f[2] for f in save.get("furniture", [])}
         self.derived = self._derive()
         if self.story is not None and save["story"] is not None:
             self.story.load_state(save["story"])
@@ -1180,6 +1256,8 @@ class CombatSim:
             **({"companion": {"x": self.comp_x, "y": self.comp_y, "stay": self.comp_stay, "bond": self.comp_bond}} if self.companion is not None else {}),
             **({"chest": dict(sorted(self.chest.items())), "chest_open": self.chest_open} if self.storage is not None else {}),
             **({"plots": [[k[0], k[1], seed, ripe] for k, (seed, ripe) in sorted(self.plots.items())]} if self.farming is not None else {}),
+            **({"furniture": [[k[0], k[1], item] for k, item in sorted(self.furniture.items())]} if self.home is not None else {}),
+            **({"runes": dict(sorted(self.runes.items())), "atk": self.derived["atk"]} if any("rune" in i for i in self.items.values()) else {}),
             **({"friend": {"enemy": self.friend["d"].get("id", ""), "x": self.friend["x"], "y": self.friend["y"], "stay": self.friend["stay"]}}
                if self.friend is not None else {}),
             **({"bestiary": dict(sorted(self.bestiary.items())), "titles": self.earned_titles(),

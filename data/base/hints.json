@@ -73,6 +73,18 @@
       "when": "chest",
       "text": "$i18n:hint.chest",
       "text_touch": "$i18n:hint.chest.touch"
+    },
+    {
+      "id": "home",
+      "when": "home",
+      "text": "$i18n:hint.home",
+      "text_touch": "$i18n:hint.home.touch"
+    },
+    {
+      "id": "wind",
+      "when": "wind",
+      "text": "$i18n:hint.wind",
+      "text_touch": "$i18n:hint.wind"
     }
   ]
 }

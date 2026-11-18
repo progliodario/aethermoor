@@ -298,6 +298,10 @@ void WorldSim::recompute_derived() {
     if (weapon != m_setup_.items.end() && weapon->second.is_weapon) {
         equipment.weapon_atk = weapon->second.weapon_atk;
         equipment.weapon_matk = weapon->second.weapon_matk;
+        if (const ItemDef* rune = worn_rune()) {  // a rune adds to the weapon it is engraved on (spec 06, "Runes")
+            equipment.weapon_atk += rune->rune_atk;
+            equipment.weapon_matk += rune->rune_matk;
+        }
     }
     const auto armor = m_setup_.items.find(m_equipped_armor_);
     if (armor != m_setup_.items.end() && armor->second.is_armor) {
@@ -771,6 +775,12 @@ bool WorldSim::use_item(const std::string& item_id) {
     if (item == m_setup_.items.end() || owned == m_inventory_.end() || owned->second < 1) {
         return false;
     }
+    if (item->second.is_rune) {
+        return engrave(item_id, item->second);
+    }
+    if (item->second.is_furniture) {
+        return place_furniture(item_id);
+    }
     std::int64_t heal = 0;
     for (const ItemEffect& effect : item->second.effects) {
         if (effect.effect == "heal") {
@@ -845,6 +855,116 @@ bool WorldSim::use_item(const std::string& item_id) {
         m_inventory_.erase(owned);
     }
     return true;
+}
+
+void WorldSim::take_one(const std::string& item_id) {
+    const auto owned = m_inventory_.find(item_id);
+    if (owned != m_inventory_.end() && --owned->second <= 0) {
+        m_inventory_.erase(owned);
+    }
+}
+
+const ItemDef* WorldSim::worn_rune() const {
+    const auto rune = m_runes_.find(m_equipped_weapon_);
+    if (rune == m_runes_.end()) {
+        return nullptr;
+    }
+    const auto def = m_setup_.items.find(rune->second);
+    return def != m_setup_.items.end() && def->second.is_rune ? &def->second : nullptr;
+}
+
+bool WorldSim::engrave(const std::string& item_id, const ItemDef& rune) {
+    // spec 06, "Runes": a weapon worn, the station of the rune in reach, and a weapon that does not bear it already
+    const auto weapon = m_setup_.items.find(m_equipped_weapon_);
+    if (m_equipped_weapon_.empty() || weapon == m_setup_.items.end() || !weapon->second.is_weapon) {
+        return false;
+    }
+    const auto engraved = m_runes_.find(m_equipped_weapon_);
+    if (engraved != m_runes_.end() && engraved->second == item_id) {
+        return false;
+    }
+    if (!near_station(rune.rune_station)) {
+        return false;
+    }
+    take_one(item_id);
+    m_runes_[m_equipped_weapon_] = item_id;  // a rune it bore before is lost
+    ++m_counters_["engraved"];
+    recompute_derived();
+    m_player_.hp = std::min(m_player_.hp, m_derived_.max_hp);
+    return true;
+}
+
+std::optional<std::pair<float, float>> WorldSim::spot_near() const {
+    if (m_setup_.home_spot.empty()) {
+        return std::nullopt;
+    }
+    const Vec2 at = m_player_.position;
+    const float reach = static_cast<float>(m_setup_.home_reach_x100) / 100.0F;
+    const float far = reach + 1.0F;
+    std::optional<std::pair<float, float>> best;
+    float best_d = 0.0F;
+    for_each_prop(at.x - far, at.y - far, at.x + far, at.y + far, [&](const Prop& prop) {
+        if (prop.art != m_setup_.home_spot) {
+            return;
+        }
+        const float d = distance(prop.x, prop.y, at.x, at.y);
+        if (d > reach + prop.radius) {
+            return;
+        }
+        if (!best || d < best_d ||
+            (d == best_d && (prop.x < best->first || (prop.x == best->first && prop.y < best->second)))) {
+            best = std::make_pair(prop.x, prop.y);
+            best_d = d;
+        }
+    });
+    return best;
+}
+
+bool WorldSim::place_furniture(const std::string& item_id) {
+    // spec 06, "Furniture": on the nearest spot in reach; the piece that stood there goes back to the bag
+    const auto spot = spot_near();
+    if (!spot) {
+        return false;
+    }
+    const std::pair<int, int> key{static_cast<int>(std::floor(spot->first * 100.0F + 0.5F)),
+                                  static_cast<int>(std::floor(spot->second * 100.0F + 0.5F))};
+    const auto placed = m_furniture_.find(key);
+    if (placed != m_furniture_.end() && placed->second == item_id) {
+        return false;
+    }
+    std::string old;
+    if (placed != m_furniture_.end()) {
+        old = placed->second;
+    }
+    take_one(item_id);
+    if (!old.empty()) {
+        ++m_inventory_[old];
+    }
+    m_furniture_[key] = item_id;
+    ++m_counters_["furnished"];
+    return true;
+}
+
+std::int64_t WorldSim::home_bonus(const std::string& what) const {
+    std::set<std::string> kinds;  // every kind of piece placed counts once
+    for (const auto& placed : m_furniture_) {
+        kinds.insert(placed.second);
+    }
+    std::int64_t bonus = 0;
+    for (const std::string& id : kinds) {
+        const auto def = m_setup_.items.find(id);
+        if (def == m_setup_.items.end() || !def->second.is_furniture) {
+            continue;
+        }
+        const ItemDef& f = def->second;
+        bonus += what == "atk"      ? f.fur_atk_pct
+                 : what == "gather" ? f.fur_gather_bonus
+                 : what == "craft"  ? f.fur_craft_bonus
+                 : what == "parry"  ? f.fur_parry_bonus
+                 : what == "fine"   ? f.fur_fine_pm
+                                    : f.fur_xp_pct;
+    }
+    return bonus;
 }
 
 std::vector<DamageEvent> WorldSim::take_events() { return std::exchange(m_events_, {}); }
@@ -1402,6 +1522,14 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
         m_rain_slow_pm_ =
             1000 - rain * slow / 1000;  // and the heavy ground slows the creatures (spec 08, "Rain slows")
         m_night_aggro_pm_ = 1000 - (1000 - light) * night_cut / 1000;  // the night hides the player too
+        int wind = m_setup_.wind_pm;  // the wind at the back of the player (spec 08, "Wind")
+        int wind_haste = m_setup_.wind_haste_pm;
+        if (m_store_) {
+            wind = sample_time(m_store_->seed(), m_store_->params().time, m_world_ticks_).wind_pm;
+            wind_haste = m_store_->params().time.wind_haste_pm;
+        }
+        m_wind_pm_ = wind;
+        m_wind_boost_ = wind * wind_haste / 1000;
     }
     if (m_store_ && m_window_valid_ && time_of_day_pm() != m_routine_tod_) {
         refresh_people(m_window_x_, m_window_y_);  // somebody goes home or comes out (spec 08)
@@ -1496,8 +1624,11 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
             const float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
             p.facing = {direction.x / length, direction.y / length};
         }
-        const std::int64_t walk_x100 = p.haste > 0 ? m_derived_.move_speed_x100 * (100 + p.haste_pct) / 100
-                                                   : m_derived_.move_speed_x100;  // a brew of haste (spec 06)
+        std::int64_t walk_x100 = p.haste > 0 ? m_derived_.move_speed_x100 * (100 + p.haste_pct) / 100
+                                             : m_derived_.move_speed_x100;  // a brew of haste (spec 06)
+        if (m_wind_boost_ > 0) {  // and the wind at your back (spec 08, "Wind")
+            walk_x100 = walk_x100 * (1000 + m_wind_boost_) / 1000;
+        }
         float speed = combat ? static_cast<float>(walk_x100) / 100.0F : m_speed_;
         if (combat && p.phase != AttackPhase::None) {
             speed *= kAttackMoveMult;
@@ -1692,6 +1823,10 @@ std::string WorldSim::hit_element() const {
     if (weapon == m_setup_.items.end() || !weapon->second.is_weapon) {
         return "none";
     }
+    const ItemDef* rune = worn_rune();  // the element of an engraved rune takes the place of the weapon's (spec 06)
+    if (rune != nullptr && rune->rune_element != "none" && !rune->rune_element.empty()) {
+        return rune->rune_element;
+    }
     return weapon->second.weapon_element;
 }
 
@@ -1787,7 +1922,7 @@ std::int64_t WorldSim::title_bonus(const std::string& what) const {
                                        : t.xp_pct;
         }
     }
-    return bonus;
+    return bonus + home_bonus(what);  // and the furniture of the home (spec 06, "Furniture")
 }
 
 std::int64_t WorldSim::title_attack_pct() const {
@@ -1798,7 +1933,7 @@ std::int64_t WorldSim::title_attack_pct() const {
             pct += t.atk_pct;
         }
     }
-    return pct;
+    return pct + home_bonus("atk");
 }
 
 void WorldSim::grant_xp(std::int64_t amount) {
@@ -2091,6 +2226,8 @@ SaveState WorldSim::capture() const {
     s.talents = m_talents_;
     s.plots = m_plots_;
     s.chest = m_chest_;
+    s.runes = m_runes_;
+    s.furniture = m_furniture_;
     if (m_setup_.companion) {
         s.has_companion = true;
         s.companion_x = m_companion_pos_.x;
@@ -2241,6 +2378,8 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
     m_plots_ = s.plots;
     m_chest_ = s.chest;
     m_chest_open_ = false;
+    m_runes_ = s.runes;
+    m_furniture_ = s.furniture;
     recompute_derived();       // the talents change the derived stats
     if (m_setup_.companion) {  // a save without a companion (an older one) puts it next to the player
         m_companion_pos_ = s.has_companion ? Vec2{s.companion_x, s.companion_y} : s.position;

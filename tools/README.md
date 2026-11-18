@@ -46,7 +46,8 @@ Python scripts (3.12 or newer; the virtual environment of [`docs/dev/setup.md`](
 | `art_creatures.py` | writes every creature from the body of its family (slimes, beasts, guardians in armor, the single ones) and its own feature, keeping the palette of its file; run `make_echoes.py` after it |
 | `compose.py` | composes the music of `data/base/audio/music/` and `music_rules.json` (spec 14) from moods, modes and progressions |
 | `audio_wav.py` | writes a sound (`sfx <name>`) or a piece of music (`music <name> --layers base,combat`) to a WAV file, to listen to it |
-| `make_recipes.py` | writes the crafting recipes `data/base/recipes.json` (spec 06, "Crafting") |
+| `make_recipes.py` | writes the crafting recipes `data/base/recipes.json` (spec 06, "Crafting"); it takes the secret dishes from `make_secret_recipes.py` and the runes and furniture from `make_furnishings.py` |
+| `make_furnishings.py` | writes the runes (engraved on the worn weapon at an anvil, spec 06 "Runes"), the furniture of the Guest's cottage (spec 06, "Furniture"), `data/base/home.json` and their texts, and gives `make_recipes.py` their recipes; it can be run any number of times; then run `make_recipes.py`, `make_catalog.py` and `make_facts.py` |
 | `make_companions.py` | writes the companions `data/base/companions/` with their names, and gives each protagonist theirs (spec 10) |
 | `make_home.py` | writes Nana Brin of Fenwick (free rest, three favours), Corvin the pedlar of Aldermere, the eight pedlars of the outposts and Old Tam of the Guest's cottage (the goods of a region a day, `day_mod`): dialogues, quests, texts and their lines in `npcs` (spec 07, "People of the towns"); then run `make_catalog.py` |
 | `make_deeds.py` | writes the deeds of all the games (`data/base/deeds.json`) and their texts, with the names of creatures and titles as the game shows them (spec 11, "Deeds") |

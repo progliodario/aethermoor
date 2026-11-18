@@ -1,0 +1,14 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/rune_might",
+  "name": "$i18n:item.rune_might.name",
+  "description": "$i18n:item.rune_might.desc",
+  "kind": "rune",
+  "rarity": "rare",
+  "price": 320,
+  "stack_max": 9,
+  "rune": {
+    "atk": 12,
+    "station": "base:art/prop/anvil"
+  }
+}

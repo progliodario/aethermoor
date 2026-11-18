@@ -1,0 +1,14 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/bookshelf",
+  "name": "$i18n:item.bookshelf.name",
+  "description": "$i18n:item.bookshelf.desc",
+  "kind": "furniture",
+  "rarity": "uncommon",
+  "price": 240,
+  "stack_max": 3,
+  "furniture": {
+    "art": "base:art/prop/bookshelf",
+    "fine_pm": 50
+  }
+}

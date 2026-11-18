@@ -111,7 +111,39 @@ class ItemDef(
     val armor: ArmorStats? = null,
     /** An accessory (spec 06, "Equipment"): flat bonuses while it is worn. */
     val accessory: AccessoryStats? = null,
+    /** A rune (spec 06, "Runes"): engraved on the worn weapon at its station. */
+    val rune: RuneStats? = null,
+    /** A piece of furniture (spec 06, "Furniture"): placed on a spot of the home. */
+    val furniture: FurnitureStats? = null,
 )
+
+/** [element]: the element the weapon hits with, "none" to keep its own; [station]: the art of the prop it is engraved next to, empty: anywhere. */
+class RuneStats(val element: String = "none", val atk: Long = 0, val matk: Long = 0, val station: String = "")
+
+/** What a piece of furniture adds while it stands in the home, like a title (spec 11, "Titles with effects"); [art] is how it is drawn. */
+class FurnitureStats(
+    val art: String = "",
+    val atkPct: Long = 0,
+    val gatherBonus: Long = 0,
+    val craftBonus: Long = 0,
+    val parryBonus: Long = 0,
+    val xpPct: Long = 0,
+    val finePm: Long = 0,
+)
+
+/** The `rune` block of an item. */
+fun runeOf(o: kotlinx.serialization.json.JsonObject): RuneStats {
+    fun n(k: String) = (o[k] as? kotlinx.serialization.json.JsonPrimitive)?.content?.toLongOrNull() ?: 0L
+    fun s(k: String, d: String) = (o[k] as? kotlinx.serialization.json.JsonPrimitive)?.content ?: d
+    return RuneStats(s("element", "none"), n("atk"), n("matk"), s("station", ""))
+}
+
+/** The `furniture` block of an item. */
+fun furnitureOf(o: kotlinx.serialization.json.JsonObject): FurnitureStats {
+    fun n(k: String) = (o[k] as? kotlinx.serialization.json.JsonPrimitive)?.content?.toLongOrNull() ?: 0L
+    val art = (o["art"] as? kotlinx.serialization.json.JsonPrimitive)?.content ?: ""
+    return FurnitureStats(art, n("atk_pct"), n("gather_bonus"), n("craft_bonus"), n("parry_bonus"), n("xp_pct"), n("fine_pm"))
+}
 
 class WeaponStats(val atk: Long, val matk: Long, val element: String = "none")
 
@@ -254,6 +286,9 @@ class CombatSetup(
     /** The chest prop and its reach (spec 06, "Chests"); empty: no chests. */
     val chestArt: String = "",
     val chestReachX100: Int = 200,
+    /** The furniture spot prop and its reach (spec 06, "Furniture"); empty: no furniture. */
+    val homeSpot: String = "",
+    val homeReachX100: Int = 200,
     /** Crafting recipes, in the order of the data (spec 06, "Crafting"). */
     val recipes: List<RecipeDef> = emptyList(),
     /** The companion of the protagonist (spec 10), or null. */
@@ -281,6 +316,9 @@ class CombatSetup(
     /** The same for the night (spec 08, "The night hides you"). */
     val lightPm: Int = 1000,
     val nightAggroCutPm: Int = 0,
+    /** The wind of a world without a clock, and how much a full wind speeds the player (spec 08, "Wind"). */
+    val windPm: Int = 0,
+    val windHastePm: Int = 0,
     /** Percent added to the maximum health, from the profile of past games (spec 11, "Echoes"). */
     var echoPct: Int = 0,
     /** The talents that can be learned, in the order of the data (spec 11, "Talents"), and the points a level gives. */

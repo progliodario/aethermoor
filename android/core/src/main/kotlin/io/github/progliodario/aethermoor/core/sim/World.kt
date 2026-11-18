@@ -808,8 +808,9 @@ class WorldSim(
             player.level,
             primaryAtLevel(combat.player, player.level),
             Equipment(
-                weaponAtk = combat.items[equippedWeapon]?.weapon?.atk ?: combat.player.weaponAtk,
-                weaponMatk = combat.items[equippedWeapon]?.weapon?.matk ?: combat.player.weaponMatk,
+                // a rune adds to the weapon it is engraved on (spec 06, "Runes")
+                weaponAtk = combat.items[equippedWeapon]?.weapon?.atk?.let { it + (wornRune()?.atk ?: 0L) } ?: combat.player.weaponAtk,
+                weaponMatk = combat.items[equippedWeapon]?.weapon?.matk?.let { it + (wornRune()?.matk ?: 0L) } ?: combat.player.weaponMatk,
                 armorDef = combat.items[equippedArmor]?.armor?.def ?: 0L,
                 armorMdef = combat.items[equippedArmor]?.armor?.mdef ?: 0L,
             ),
@@ -1035,6 +1036,8 @@ class WorldSim(
         if (story.dialogueActive) return false
         val item = combat.items[itemId] ?: return false
         if ((inventory[itemId] ?: 0L) < 1L) return false
+        item.rune?.let { return engrave(itemId, it) }
+        if (item.furniture != null) return placeFurniture(itemId)
         val heal = item.effects.filter { it.effect == "heal" }.sumOf { it.amount } * combat.gift.healPct / 100
         val mana = item.effects.filter { it.effect == "restore_mp" }.sumOf { it.amount }
         val fortify = item.effects.lastOrNull { it.effect == "fortify" } // spec 06, "Fortify": attack up for a while
@@ -1157,6 +1160,75 @@ class WorldSim(
 
     /** Makes a recipe from the bag (spec 06, "Crafting"). Returns false, changing nothing, when it is refused. */
     /** Whether a prop of [art] is within 2 tiles (plus its radius); an empty art is everywhere (spec 06, "Stations"). */
+    /** The runes engraved on the weapons (spec 06, "Runes"): weapon item -> rune item. */
+    val runes = java.util.TreeMap<String, String>()
+
+    /** The rune of the worn weapon, or null. */
+    fun wornRune(): RuneStats? = runes[equippedWeapon]?.let { combat.items[it]?.rune }
+
+    private fun takeOne(itemId: String) {
+        val left = (inventory[itemId] ?: 0L) - 1L
+        if (left <= 0L) inventory.remove(itemId) else inventory[itemId] = left
+    }
+
+    /** Engraves a rune on the worn weapon: a weapon worn, the station of the rune in reach, and a weapon that does not bear it already. */
+    private fun engrave(itemId: String, rune: RuneStats): Boolean {
+        if (equippedWeapon.isEmpty() || combat.items[equippedWeapon]?.weapon == null || runes[equippedWeapon] == itemId) return false
+        if (!nearStation(rune.station)) return false
+        takeOne(itemId)
+        runes[equippedWeapon] = itemId // a rune it bore before is lost
+        count("engraved")
+        recomputeDerived()
+        player.hp = minOf(player.hp, derived.maxHp)
+        return true
+    }
+
+    /** The furniture placed on the spots of the home (spec 06, "Furniture"): (x100, y100) -> item. */
+    val furniture = java.util.TreeMap<Pair<Int, Int>, String>(compareBy({ it.first }, { it.second }))
+
+    /** The nearest furniture spot in reach, where a piece would be placed; null: none. */
+    fun spotNear(): Vec2? {
+        if (combat.homeSpot.isEmpty()) return null
+        val at = player.position
+        val reach = combat.homeReachX100 / 100f
+        val far = reach + 1f
+        var best: Vec2? = null
+        var bestD = 0f
+        forEachProp(at.x - far, at.y - far, at.x + far, at.y + far) { prop ->
+            if (prop.art != combat.homeSpot) return@forEachProp
+            val d = distance(prop.x, prop.y, at.x, at.y)
+            if (d > reach + prop.radius) return@forEachProp
+            val b = best
+            if (b == null || d < bestD || (d == bestD && (prop.x < b.x || (prop.x == b.x && prop.y < b.y)))) {
+                best = Vec2(prop.x, prop.y)
+                bestD = d
+            }
+        }
+        return best
+    }
+
+    /** Places a piece on the nearest spot in reach; the piece that stood there goes back to the bag. */
+    private fun placeFurniture(itemId: String): Boolean {
+        val spot = spotNear() ?: return false
+        val key = plotKey(spot.x, spot.y)
+        val old = furniture[key]
+        if (old == itemId) return false
+        takeOne(itemId)
+        if (old != null) inventory[old] = (inventory[old] ?: 0L) + 1L
+        furniture[key] = itemId
+        count("furnished")
+        return true
+    }
+
+    /** What the furniture of the home adds, like a title; every kind of piece placed counts once. */
+    fun homeBonus(pick: (FurnitureStats) -> Long): Long =
+        furniture.values.toSortedSet().sumOf { id -> combat.items[id]?.furniture?.let(pick) ?: 0L }
+
+    /** The wind of this tick (spec 08, "Wind"), and what it adds to the speed of walking, in permille. */
+    var windPm = 0
+        private set
+    private var windBoost = 0
+
     fun nearStation(art: String): Boolean {
         if (art.isEmpty()) return true
         val at = player.position
@@ -1276,10 +1348,14 @@ class WorldSim(
             rainAggroPm = 1000 - sample.rainPm * store.params.time.rainAggroCutPm / 1000
             rainSlowPm = 1000 - sample.rainPm * store.params.time.rainSlowPm / 1000
             nightAggroPm = 1000 - (1000 - sample.lightPm) * store.params.time.nightAggroCutPm / 1000 // the night hides the player too
+            windPm = sample.windPm // the wind at the back of the player (spec 08, "Wind")
+            windBoost = sample.windPm * store.params.time.windHastePm / 1000
         } else {
             rainAggroPm = 1000 - combat.rainPm * combat.rainAggroCutPm / 1000
             rainSlowPm = 1000 - combat.rainPm * combat.rainSlowPm / 1000
             nightAggroPm = 1000 - (1000 - combat.lightPm) * combat.nightAggroCutPm / 1000
+            windPm = combat.windPm
+            windBoost = combat.windPm * combat.windHastePm / 1000
         }
         if (chunks != null && windowValid && timeOfDayPm() != routineTod) refreshPeople(windowX, windowY) // somebody goes home or comes out (spec 08)
         markExplored()
@@ -1340,7 +1416,8 @@ class WorldSim(
                 val length = sqrt(direction.x * direction.x + direction.y * direction.y)
                 p.facing = Vec2(direction.x / length, direction.y / length)
             }
-            val walkX100 = if (p.haste > 0) derived.moveSpeedX100 * (100 + p.hastePct) / 100 else derived.moveSpeedX100.toLong() // a brew of haste (spec 06)
+            var walkX100 = if (p.haste > 0) derived.moveSpeedX100 * (100 + p.hastePct) / 100 else derived.moveSpeedX100.toLong() // a brew of haste (spec 06)
+            if (windBoost > 0) walkX100 = walkX100 * (1000 + windBoost) / 1000 // and the wind at your back (spec 08, "Wind")
             var speed = if (enabled) walkX100.toFloat() / 100f else speedTilesPerS
             if (enabled && p.phase != AttackPhase.NONE) speed *= ATTACK_MOVE_MULT
             if (p.chill > 0) speed *= 0.5f
@@ -1475,7 +1552,10 @@ class WorldSim(
     /** The element multiplier of a hit of the equipped weapon against [target] (spec 05, "Elements"). */
     private fun hitElement(): String {
         val s = if (player.usingStrike) combat.strike.skill else combat.skill
-        return if (s.element != "none") s.element else combat.items[equippedWeapon]?.weapon?.element ?: "none"
+        if (s.element != "none") return s.element
+        val weapon = combat.items[equippedWeapon]?.weapon ?: return "none"
+        val rune = wornRune() // the element of an engraved rune takes the place of the weapon's (spec 06, "Runes")
+        return if (rune != null && rune.element.isNotEmpty() && rune.element != "none") rune.element else weapon.element
     }
 
     private fun elementMultiplier(target: EnemyDef): Long {
@@ -1522,20 +1602,21 @@ class WorldSim(
     /** What the earned titles add to gathering ([gather] true) or to crafting (spec 11, "Titles with effects"). */
     fun titleBonus(gather: Boolean): Long {
         val earned = earnedTitles().toSet()
-        return combat.titles.filter { it.id in earned }.sumOf { if (gather) it.gatherBonus else it.craftBonus }
+        return combat.titles.filter { it.id in earned }.sumOf { if (gather) it.gatherBonus else it.craftBonus } +
+            homeBonus { if (gather) it.gatherBonus else it.craftBonus } // and the furniture of the home (spec 06)
     }
 
     /** What the earned titles add to the parry window (ticks) and to the experience of a kill (percent). */
-    private fun titleParryBonus(): Int = earnedTitles().toSet().let { earned -> combat.titles.filter { it.id in earned }.sumOf { it.parryBonus } }.toInt()
+    private fun titleParryBonus(): Int = (earnedTitles().toSet().let { earned -> combat.titles.filter { it.id in earned }.sumOf { it.parryBonus } } + homeBonus { it.parryBonus }).toInt()
 
-    private fun titleFinePm(): Long = earnedTitles().toSet().let { earned -> combat.titles.filter { it.id in earned }.sumOf { it.finePm } }
+    private fun titleFinePm(): Long = earnedTitles().toSet().let { earned -> combat.titles.filter { it.id in earned }.sumOf { it.finePm } } + homeBonus { it.finePm }
 
-    private fun titleXpPct(): Long = earnedTitles().toSet().let { earned -> combat.titles.filter { it.id in earned }.sumOf { it.xpPct } }
+    private fun titleXpPct(): Long = earnedTitles().toSet().let { earned -> combat.titles.filter { it.id in earned }.sumOf { it.xpPct } } + homeBonus { it.xpPct }
 
     /** The percent that the earned titles add to the attack of the player's hits (spec 11, "Titles with effects"). */
     fun titleAttackPct(): Long {
         val earned = earnedTitles().toSet()
-        return combat.titles.filter { it.id in earned }.sumOf { it.atkPct }
+        return combat.titles.filter { it.id in earned }.sumOf { it.atkPct } + homeBonus { it.atkPct }
     }
 
     override fun grantXp(amount: Long) {
@@ -1779,6 +1860,8 @@ class WorldSim(
             talents = talents.toMap(),
             plots = plots.map { (key, plot) -> PlotSave(key.first, key.second, plot.first, plot.second) },
             chest = chest.toMap(),
+            runes = runes.toMap(),
+            furniture = furniture.map { (key, item) -> FurnitureSave(key.first, key.second, item) },
             companion = if (combat.companion != null) Triple((companionPosition ?: player.position).x, (companionPosition ?: player.position).y, companionCooldown) else null,
             equippedWeapon = equippedWeapon,
             equippedArmor = equippedArmor,
@@ -1894,6 +1977,10 @@ class WorldSim(
         chestOpen = false
         plots.clear()
         for (p in s.plots) plots[Pair(p.x, p.y)] = Pair(p.seed, p.ripe)
+        runes.clear()
+        runes.putAll(s.runes)
+        furniture.clear()
+        for (f in s.furniture) furniture[Pair(f.x, f.y)] = f.item
         recomputeDerived() // the talents change the derived stats
         combat.companion?.let { c -> // a save without a companion (an older one) puts it next to the player
             val saved = s.companion

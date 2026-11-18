@@ -145,6 +145,8 @@ SAVE_SPLITS = {
     "leash_and_return": (2,),         # the slime is walking home
     "trader_conditions_and_effects": (2, 5),  # inventory, flags and an open dialogue
     "chest_storage": (3, 5),          # things in the chest (spec 06, "Chests"); a loaded game has it closed
+    "runes_engrave": (2, 4),          # runes on two weapons (spec 06, "Runes"); the worn one still adds to the attack
+    "furniture_home": (3,),           # furniture on two spots (spec 06, "Furniture"); what it adds counts after a load
 }
 
 

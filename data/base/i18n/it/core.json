@@ -1206,5 +1206,15 @@
   "dlg.home.tam.slept": "Ecco. Il lavoro l'ha fatto il fuoco, io ho solo guardato.",
   "dlg.home.tam.story": "La sorella di Brin l'ha costruito con le sue mani: gli orti, l'incudine, il pollaio. Diceva che una casa deve nutrirti, rimetterti in sesto e tenerti le cose. Fa tutte e tre.",
   "dlg.home.brin.gift": "Hai fatto per me più dei miei nipoti in un anno. Il cottage di mia sorella, a est di qui sulla strada: è vuoto, e non dovrebbe esserlo. È tuo. Lo custodisce il vecchio Tam; digli che ti mando io.",
+  "ui.rune_engraved": "{item} incisa su {weapon}.",
+  "ui.rune_refused": "Una runa si incide a un'incudine, sull'arma che impugni (non la stessa runa due volte).",
+  "ui.furniture_placed": "{item} ora è nel tuo cottage.",
+  "ui.furniture_refused": "Un mobile va in un posto libero del tuo cottage: mettiti accanto a uno.",
+  "ui.status_home": "Il tuo cottage: {count} mobili",
+  "hint.home": "Un posto per un mobile. Costruisci i mobili a un'incudine, poi vieni qui, apri lo zaino (I) e usalo: ogni tipo di mobile ti aiuta ovunque, come un titolo.",
+  "hint.home.touch": "Un posto per un mobile. Costruisci i mobili a un'incudine, poi vieni qui, apri lo zaino e usalo: ogni tipo di mobile ti aiuta ovunque, come un titolo.",
+  "hint.wind": "Hai il vento alle spalle: finché soffia cammini più veloce. Soffia più forte sotto le nuvole.",
+  "dlg.home.tam.furnish": "E quei tappeti vuoti, dentro?",
+  "dlg.home.tam.furniture": "Quei tappeti aspettano dei mobili. Costruisci un letto, una rastrelliera, una libreria o un banco all'incudine e posalo su uno di essi: una casa abitata si prende cura di te, ovunque tu vada. E l'incudine incide anche le rune, per la tua lama.",
   "dlg.pip.story.gideon.done": "Tutto il villaggio è d'accordo: sei un buon re. Prendi la lama, non è per niente come la vecchia, ma ti sta bene."
 }

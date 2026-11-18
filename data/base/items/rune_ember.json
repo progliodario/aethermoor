@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/rune_ember",
+  "name": "$i18n:item.rune_ember.name",
+  "description": "$i18n:item.rune_ember.desc",
+  "kind": "rune",
+  "rarity": "uncommon",
+  "price": 220,
+  "stack_max": 9,
+  "rune": {
+    "element": "fire",
+    "atk": 6,
+    "matk": 4,
+    "station": "base:art/prop/anvil"
+  }
+}

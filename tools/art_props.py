@@ -739,10 +739,162 @@ def chest() -> Recipe:
     return r
 
 
+# ------------------------------------------------------------------------------------------------ the furniture of the home
+def furniture_spot() -> Recipe:
+    """An empty place of the home (spec 06, "Furniture"): a round braided rug where a piece can stand."""
+    r = prop("furniture_spot", 40, 24, (20, 14), {"rug": "#B0805A", "ring": "#7A4E34", "light": "#E8C8A0"})
+    r.ellipse(20, 14, 18, 8, noise(3, 701, (0.3, "#8A5E40"), (0.55, "$p.rug"), (0.8, "#C89C74"), octaves=2), stroke=INK, width=0.4, alpha=0.85)
+    for k, rr in enumerate((14.5, 11, 7.5, 4)):  # the braids, ring inside ring
+        r.ellipse(20, 14, rr, rr * 0.44, None, stroke="$p.ring" if k % 2 == 0 else "#D8A878", width=0.7, alpha=0.75)
+    for k in range(18):  # the stitches of the outer braid
+        a = 2 * math.pi * k / 18
+        x, y = 20 + math.cos(a) * 16.2, 14 + math.sin(a) * 7.2
+        r.ellipse(x, y, 0.7, 0.4, "$p.light", alpha=0.6)
+    r.shade(ell(25, 15.5, 10, 5), 0.18, blur=1.4)
+    return r
+
+
+def bed() -> Recipe:
+    """A bed of pine with a patchwork quilt and a fat pillow: the experience of every victory grows (spec 06, "Furniture")."""
+    r = prop("bed", 46, 40, (23, 35), {"wood": "#A06A3C", "quilt": "#C04A4A", "pillow": "#F4EEE2"})
+    r.shadow(23.5, 35, 21, 3.8, 0.4)
+    r.path("M 4 12 L 42 12 L 42 31 L 4 31 Z", wood(711, "#8A5A30", 4), stroke=INK, width=0.5)  # the frame
+    r.rect(4, 4, 6, 30, wood(712, "#A06A3C", 3), stroke=INK, width=0.45)  # the head posts
+    r.rect(36, 4, 6, 30, wood(713, "#A06A3C", 3), stroke=INK, width=0.45)
+    r.path("M 10 6 Q 23 2 36 6 L 36 12 L 10 12 Z", wood(714, "#B87A48", 3), stroke=INK, width=0.4)  # the headboard
+    r.ellipse(23, 13.4, 9.5, 3.4, "$p.pillow", stroke=INK, width=0.4)  # the pillow
+    r.ellipse(20, 12.6, 4, 1.2, "#FFFFFF", alpha=0.6, blur=0.3)
+    quilt = "M 8 15 Q 23 13.4 38 15 L 39 29 Q 23 31 7 29 Z"
+    r.path(quilt, "$p.quilt", stroke=INK, width=0.45)
+    colors = ["#C04A4A", "#E8B848", "#4A7AB0", "#6AA05A", "#E8E0D0", "#B0607A"]
+    for row in range(3):  # the patches
+        for col in range(6):
+            x, y = 8.4 + col * 5.1, 16 + row * 4.4
+            r.rect(x, y, 4.8, 4.1, colors[(row * 2 + col) % len(colors)], stroke="#5A2A2A", width=0.2, alpha=0.9, clip=True)
+    for col in range(1, 6):
+        r.line(8 + col * 5.1, 15.6, 8 + col * 5.1, 29.4, "#FFF0D8", 0.25, alpha=0.5)  # the seams
+    r.shade("M 27 14.4 Q 33 14.6 38 15 L 39 29 Q 33 30 27 30 Z", 0.35, blur=1.0, clip=True)
+    r.lit(box(4, 4, 6, 1.2), 0.5, "#FFE8C0")
+    r.lit(box(36, 4, 6, 1.2), 0.5, "#FFE8C0")
+    return r
+
+
+def weapon_rack() -> Recipe:
+    """A rack of oak with a sword, a spear and a shield: the hits of the player are stronger (spec 06, "Furniture")."""
+    r = prop("weapon_rack", 40, 46, (20, 41), {"wood": "#8A5A30", "steel": "#B8C0CC", "shield": "#3E6AA0"})
+    r.shadow(20.5, 41, 17, 3.4, 0.4)
+    for x in (5, 33):  # the uprights
+        r.rect(x, 8, 3, 33, wood(721, "#8A5A30", 3), stroke=INK, width=0.45)
+    for y in (14, 30):  # the bars
+        r.rect(4, y, 32, 2.4, wood(722, "#A06A3C", 3), stroke=INK, width=0.4)
+    r.path("M 13 6 L 15 4 L 17 6 L 16.4 30 L 13.6 30 Z", linear(13, 0, 17, 0, (0, "#FFFFFF"), (0.4, "$p.steel"), (1, "#4A505C")),
+           stroke=INK, width=0.4)  # the sword
+    r.rect(11, 30, 8, 1.6, "#E8B848", stroke=INK, width=0.3)
+    r.rect(14, 31.6, 2, 6, "#5A3A20", stroke=INK, width=0.3)
+    r.line(24, 3, 24, 40, "#7A5232", 1.4)  # the spear
+    r.path("M 24 1 L 26 6 L 24 8 L 22 6 Z", linear(22, 0, 26, 0, (0, "#FFFFFF"), (0.4, "$p.steel"), (1, "#4A505C")), stroke=INK, width=0.35)
+    r.ellipse(29, 26, 6, 7, linear(23, 20, 35, 33, (0, "#7AA6E0"), (0.5, "$p.shield"), (1, "#1E3460")), stroke=INK, width=0.5)  # the shield
+    r.ellipse(29, 26, 2, 2.2, "#E8B848", stroke=INK, width=0.3)
+    r.path("M 29 19.5 L 29 32.5", None, stroke="#E8E0D0", width=0.6, alpha=0.7)
+    r.shade("M 30 8 L 36 8 L 36 41 L 30 41 Z", 0.3, blur=0.8)
+    r.lit(box(4, 14, 32, 0.8), 0.45, "#FFE8C0")
+    return r
+
+
+def bookshelf() -> Recipe:
+    """A tall shelf of books and scrolls: more of what is made comes out fine (spec 06, "Furniture")."""
+    r = prop("bookshelf", 38, 52, (19, 47), {"wood": "#7A4A2A", "back": "#3E2416"})
+    r.shadow(19.5, 47, 17, 3.4, 0.4)
+    r.rect(3, 4, 32, 43, wood(731, "#7A4A2A", 4), stroke=INK, width=0.5)
+    r.rect(5, 6, 28, 39, "$p.back", stroke=INK, width=0.3)
+    spines = ["#B03A3A", "#3A6AA0", "#5A9A4A", "#E0B040", "#7A4A9A", "#C07040", "#2E5A5A", "#D8D0C0"]
+    for shelf, y in enumerate((6.4, 19.4, 32.4)):
+        x = 5.6
+        k = shelf * 3
+        while x < 31:
+            w = 1.6 + (k * 7 % 5) * 0.45
+            h = 10.4 - (k * 3 % 4) * 0.9
+            if x + w > 32.4:
+                break
+            r.rect(x, y + 11.4 - h, w, h, spines[k % len(spines)], stroke=INK, width=0.2)
+            r.line(x + 0.3, y + 11.4 - h + 1.6, x + w - 0.3, y + 11.4 - h + 1.6, "#F8E8C0", 0.25, alpha=0.6)
+            x += w + 0.25
+            k += 1
+        r.rect(4, y + 11.4, 30, 1.6, wood(732 + shelf, "#9A6438", 2), stroke=INK, width=0.3)  # the board under the row
+    r.ellipse(29, 44, 2.6, 1.2, "#F0E6CE", stroke=INK, width=0.25)  # a scroll on the floor of the shelf
+    r.shade("M 24 4 L 35 4 L 35 47 L 24 47 Z", 0.3, blur=1.0, clip=True)
+    r.lit(box(3, 4, 32, 1.2), 0.45, "#FFE8C0")
+    return r
+
+
+def herb_rack() -> Recipe:
+    """A drying rack hung with bundles of herbs and flowers: one more of everything gathered (spec 06, "Furniture")."""
+    r = prop("herb_rack", 42, 42, (21, 37), {"wood": "#9A6A3E", "herb": "#6AA04A", "flower": "#E07AA0"})
+    r.shadow(21.5, 37, 18, 3.4, 0.36)
+    r.path("M 5 37 L 11 7 L 13 7 L 7.4 37 Z", wood(741, "#9A6A3E", 2), stroke=INK, width=0.4)  # the legs
+    r.path("M 37 37 L 31 7 L 29 7 L 34.6 37 Z", wood(742, "#9A6A3E", 2), stroke=INK, width=0.4)
+    r.rect(8, 7, 26, 2.4, wood(743, "#B07C48", 2), stroke=INK, width=0.4)  # the bar
+    tones = [("$p.herb", "#3E7A2E"), ("$p.flower", "#A04A6A"), ("#D8C060", "#8A7A2A"), ("$p.herb", "#3E7A2E"), ("#9A7AC8", "#5A4A8A")]
+    for k, (tone, dark) in enumerate(tones):
+        x = 11.6 + k * 4.7
+        r.line(x, 9.4, x, 12.4, "#5A3A20", 0.4)
+        r.path(f"M {x - 0.6:.2f} 12 L {x - 2.6:.2f} 22 Q {x:.2f} 24.4 {x + 2.6:.2f} 22 L {x + 0.6:.2f} 12 Z", tone, stroke=dark, width=0.35)
+        for j in range(3):
+            r.ellipse(x - 1.4 + j * 1.4, 22.4 - (j % 2) * 1.2, 0.8, 0.8, dark, alpha=0.8)
+        r.rect(x - 1, 12, 2, 1.2, "#C8A060", stroke=INK, width=0.2)  # the string
+    r.path("M 9 33 L 33 33 L 32 37 L 10 37 Z", wood(744, "#8A5A30", 2), stroke=INK, width=0.35)  # a tray
+    r.lit(box(8, 7, 26, 0.8), 0.45, "#FFE8C0")
+    return r
+
+
+def training_dummy() -> Recipe:
+    """A dummy of straw and sacking on a post, with a wooden sword stuck in it: the parry is wider (spec 06, "Furniture")."""
+    r = prop("training_dummy", 34, 50, (17, 45), {"straw": "#E0C070", "sack": "#C8A878", "wood": "#7A5232"})
+    r.shadow(17.5, 45, 12, 3.2, 0.4)
+    r.rect(15.6, 22, 2.8, 23, wood(751, "#7A5232", 2), stroke=INK, width=0.4)  # the post
+    r.path("M 11 44 L 17 40 L 23 44 Z", wood(752, "#6A4428", 2), stroke=INK, width=0.35)
+    body = "M 9 14 Q 8 26 11 32 L 23 32 Q 26 26 25 14 Q 17 11 9 14 Z"
+    r.path(body, noise(3, 753, (0.3, "#A88858"), (0.55, "$p.sack"), (0.8, "#E0C8A0"), octaves=2), stroke=INK, width=0.45)
+    r.rect(4, 15, 26, 4, noise(3, 754, (0.3, "#B09040"), (0.55, "$p.straw"), (0.8, "#F4DC90"), octaves=2), stroke=INK, width=0.35)  # the arms
+    r.ellipse(17, 9, 5, 5, noise(3, 755, (0.3, "#A88858"), (0.55, "$p.sack"), (0.8, "#E0C8A0"), octaves=2), stroke=INK, width=0.45)  # the head
+    r.path("M 14.6 8 L 16 9.4 M 16 8 L 14.6 9.4 M 18.2 8 L 19.6 9.4 M 19.6 8 L 18.2 9.4", None, stroke=INK, width=0.4)  # the cross eyes
+    for y in (22, 27):
+        r.path(f"M 10 {y} Q 17 {y + 1.4} 24 {y}", None, stroke="#6A4A2A", width=0.45, alpha=0.8)  # the ropes
+    for x in (4.4, 29.6):
+        for j in range(3):
+            r.line(x, 15.6 + j * 1.2, x + (-1.6 if x < 10 else 1.6), 15 + j * 1.4, "#F4DC90", 0.35)  # straw sticking out
+    r.path("M 21 20 L 31 11 L 32 12 L 22 21.4 Z", wood(756, "#C09060", 2), stroke=INK, width=0.3)  # the wooden sword
+    r.shade("M 18 12 Q 25 14 25 14 Q 26 26 23 32 L 18 32 Z", 0.3, blur=0.8, clip=True)
+    return r
+
+
+def work_table() -> Recipe:
+    """A sturdy table with a vice, tools and shavings: every recipe gives one more (spec 06, "Furniture")."""
+    r = prop("work_table", 48, 36, (24, 31), {"wood": "#A87444", "iron": "#5C6470"})
+    r.shadow(24.5, 31, 22, 3.6, 0.4)
+    for x in (6, 39):  # the legs
+        r.rect(x, 16, 3.4, 15, wood(761, "#7A5232", 2), stroke=INK, width=0.4)
+    r.rect(8, 24, 32, 2, wood(762, "#8A5A30", 2), stroke=INK, width=0.3)  # the stretcher
+    r.path("M 3 12 L 45 12 L 45 17 L 3 17 Z", wood(763, "#A87444", 4), stroke=INK, width=0.5)  # the top
+    r.path("M 3 12 L 6 8 L 42 8 L 45 12 Z", wood(764, "#C89460", 4), stroke=INK, width=0.45)
+    r.rect(36, 4, 6, 5, linear(36, 0, 42, 0, (0, "#C8D0DC"), (0.4, "$p.iron"), (1, "#22262E")), stroke=INK, width=0.35)  # the vice
+    r.line(39, 4, 39, 1.6, "#3A3E48", 0.8)
+    r.path("M 10 9.6 L 18 9.6 L 18.6 10.6 L 9.4 10.6 Z", "#8A8E98", stroke=INK, width=0.25)  # a saw
+    r.path("M 22 10 L 29 8.6", None, stroke="#6A4428", width=1.0)  # a hammer
+    r.rect(28.4, 7.4, 2.6, 2.4, "#4A505C", stroke=INK, width=0.25)
+    for _ in range(7):  # shavings
+        x, y = r.rng.uniform(8, 40), r.rng.uniform(27, 30)
+        r.path(f"M {x:.2f} {y:.2f} Q {x + 1.2:.2f} {y - 1.4:.2f} {x + 2.2:.2f} {y:.2f}", None, stroke="#E8C080", width=0.45, alpha=0.9)
+    r.shade("M 32 8 L 42 8 L 45 12 L 45 17 L 32 17 Z", 0.3, blur=0.8, clip=True)
+    r.lit(box(6, 8, 36, 0.8), 0.45, "#FFF0D0")
+    return r
+
+
 def build_props() -> list[Recipe]:
     props = [tree_oak(), pine(), dead_tree(), bush(), rock(), cactus(), campfire(), crate(), barrel(), bones(), lamp(), signpost(),
              statue(), tent(), banner(), well(), threshold_stone(), stall(), haybale(), anvil(), reeds(), mushrooms(),
-             stump(), flowers(), fern(), log(), driftwood(), ice_shard(), dry_shrub(), garden_plot(), coop(), pen(), chest()]
+             stump(), flowers(), fern(), log(), driftwood(), ice_shard(), dry_shrub(), garden_plot(), coop(), pen(), chest(),
+             furniture_spot(), bed(), weapon_rack(), bookshelf(), herb_rack(), training_dummy(), work_table()]
     sway = {"tree_oak": 1.8, "pine": 1.1, "dead_tree": 0.5, "bush": 0.7, "reeds": 1.4, "banner": 0.5, "campfire": 0.6, "flowers": 0.9, "fern": 0.8, "dry_shrub": 0.6}  # what the wind moves
     for r in props:
         r.sway = sway.get(r.id.rsplit("/", 1)[1], 0.0)

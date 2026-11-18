@@ -1206,5 +1206,15 @@
   "dlg.home.tam.slept": "There. The fire did the work, I only watched.",
   "dlg.home.tam.story": "Brin's sister built it with her own hands: the plots, the anvil, the coop. She said a house should feed you, mend you and keep your things. It does all three.",
   "dlg.home.brin.gift": "You have done more for me than my grandchildren in a year. My sister's cottage, east of here on the road: it is empty, and it should not be. It is yours. Old Tam keeps it; tell him I sent you.",
+  "ui.rune_engraved": "{item} engraved on {weapon}.",
+  "ui.rune_refused": "A rune is engraved at an anvil, on the weapon you hold (not the same rune twice).",
+  "ui.furniture_placed": "{item} now stands in your cottage.",
+  "ui.furniture_refused": "A piece of furniture goes on an empty place of your cottage: stand next to one.",
+  "ui.status_home": "Your cottage: {count} pieces of furniture",
+  "hint.home": "A place for furniture. Make furniture at an anvil, then stand here, open the bag (I) and use it: each kind of piece helps you everywhere, like a title.",
+  "hint.home.touch": "A place for furniture. Make furniture at an anvil, then stand here, open the bag and use it: each kind of piece helps you everywhere, like a title.",
+  "hint.wind": "The wind is at your back: while it blows you walk faster. It blows hardest under clouds.",
+  "dlg.home.tam.furnish": "What about the empty rugs inside?",
+  "dlg.home.tam.furniture": "Those rugs are waiting for furniture. Make a bed, a rack, a shelf or a table at the anvil and set it on one: a house that is lived in looks after you, wherever you go. And the anvil carves runes too, for your blade.",
   "dlg.pip.story.gideon.done": "The whole village agrees: you are a good king. Take the blade, it is nothing like the old one, but it suits you."
 }

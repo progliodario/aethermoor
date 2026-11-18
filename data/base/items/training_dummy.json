@@ -1,0 +1,14 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/training_dummy",
+  "name": "$i18n:item.training_dummy.name",
+  "description": "$i18n:item.training_dummy.desc",
+  "kind": "furniture",
+  "rarity": "uncommon",
+  "price": 180,
+  "stack_max": 3,
+  "furniture": {
+    "art": "base:art/prop/training_dummy",
+    "parry_bonus": 4
+  }
+}

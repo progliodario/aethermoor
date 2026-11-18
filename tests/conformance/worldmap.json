@@ -2075,6 +2075,7 @@
             "weather": {
               "rain_aggro_cut_pm": 300,
               "rain_slow_pm": 250,
+              "wind_haste_pm": 150,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -2082,19 +2083,22 @@
                   "id": "clear",
                   "weight": 600,
                   "rain_pm": 0,
-                  "dim_pm": 0
+                  "dim_pm": 0,
+                  "wind_pm": 150
                 },
                 {
                   "id": "cloudy",
                   "weight": 250,
                   "rain_pm": 0,
-                  "dim_pm": 250
+                  "dim_pm": 250,
+                  "wind_pm": 700
                 },
                 {
                   "id": "rain",
                   "weight": 150,
                   "rain_pm": 1000,
-                  "dim_pm": 400
+                  "dim_pm": 400,
+                  "wind_pm": 500
                 }
               ]
             }
@@ -6258,9 +6262,9 @@
               "rows": [
                 "t.............t",
                 ".:':':'::......",
-                ".:~\\__b_:.?./..",
-                ".'______:......",
-                ".:_____b:......",
+                ".:~\\_[b[:.?./..",
+                ".'[____[:......",
+                ".:[____[:......",
                 ".::::;:::.,.,.,",
                 ".....=.l.......",
                 "===============",
@@ -6306,6 +6310,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/threshold_stone",
                   "radius_x100": 35
+                },
+                "[": {
+                  "tile": 14,
+                  "spawner": "base:enemy/echo_daichi"
                 },
                 "\\": {
                   "tile": 13,
@@ -10086,6 +10094,7 @@
             "weather": {
               "rain_aggro_cut_pm": 300,
               "rain_slow_pm": 250,
+              "wind_haste_pm": 150,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -10093,19 +10102,22 @@
                   "id": "clear",
                   "weight": 600,
                   "rain_pm": 0,
-                  "dim_pm": 0
+                  "dim_pm": 0,
+                  "wind_pm": 150
                 },
                 {
                   "id": "cloudy",
                   "weight": 250,
                   "rain_pm": 0,
-                  "dim_pm": 250
+                  "dim_pm": 250,
+                  "wind_pm": 700
                 },
                 {
                   "id": "rain",
                   "weight": 150,
                   "rain_pm": 1000,
-                  "dim_pm": 400
+                  "dim_pm": 400,
+                  "wind_pm": 500
                 }
               ]
             }
@@ -14269,9 +14281,9 @@
               "rows": [
                 "t.............t",
                 ".:':':'::......",
-                ".:~\\__b_:.?./..",
-                ".'______:......",
-                ".:_____b:......",
+                ".:~\\_[b[:.?./..",
+                ".'[____[:......",
+                ".:[____[:......",
                 ".::::;:::.,.,.,",
                 ".....=.l.......",
                 "===============",
@@ -14317,6 +14329,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/threshold_stone",
                   "radius_x100": 35
+                },
+                "[": {
+                  "tile": 14,
+                  "spawner": "base:enemy/echo_daichi"
                 },
                 "\\": {
                   "tile": 13,

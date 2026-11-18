@@ -693,6 +693,25 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val name = pack.text(language, "\$i18n:${itemId.substringAfter(':').replace('/', '.')}.name", mapOf("count" to 1L))
         val kind = world.combat.items[itemId]?.kind
         val wearable = kind == "weapon" || kind == "armor" || kind == "accessory"
+        if (world.combat.items[itemId]?.rune != null) { // a rune is engraved on the worn weapon (spec 06, "Runes")
+            if (world.useItem(itemId)) {
+                val weapon = pack.text(language, "\$i18n:${world.equippedWeapon.substringAfter(':').replace('/', '.')}.name", mapOf("count" to 1L))
+                showNotice(pack.text(language, "\$i18n:ui.rune_engraved", mapOf("item" to name, "weapon" to weapon)))
+                bagCursor = bagCursor.coerceIn(0, max(world.inventory.size - 1, 0))
+            } else {
+                showNotice(pack.text(language, "\$i18n:ui.rune_refused"))
+            }
+            return
+        }
+        if (world.combat.items[itemId]?.furniture != null) { // a piece stands on a place of the home (spec 06, "Furniture")
+            if (world.useItem(itemId)) {
+                showNotice(pack.text(language, "\$i18n:ui.furniture_placed", mapOf("item" to name)))
+                bagCursor = bagCursor.coerceIn(0, max(world.inventory.size - 1, 0))
+            } else {
+                showNotice(pack.text(language, "\$i18n:ui.furniture_refused"))
+            }
+            return
+        }
         if (wearable && world.equip(itemId)) {
             showNotice(pack.text(language, "\$i18n:ui.item_equipped", mapOf("item" to name)))
         } else if (!wearable && world.useItem(itemId)) {
@@ -1113,10 +1132,12 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (sprite.sway <= 0f) {
             batch.draw(sprite.region, fx - sprite.originX * k, fy - sprite.originY * k, sprite.width * k, sprite.height * k)
             drawCrop(prop, fx, fy, tilePx, k)
+            drawFurniture(prop, fx, fy, tilePx, k)
             return
         }
-        // the wind moves it (spec 13, "Sway"): the foot stays, the top goes sideways (a shear)
-        val shift = sprite.sway * k * sin((System.currentTimeMillis() % 3895574L) / 620f + prop.x * 0.9f + prop.y * 0.6f)
+        // the wind moves it (spec 13, "Sway"), more when the weather blows (spec 08, "Wind"): the foot stays, the top goes sideways (a shear)
+        val wind = 0.5f + (sim?.windPm ?: 0) / 1000f
+        val shift = sprite.sway * k * wind * sin((System.currentTimeMillis() % 3895574L) / 620f + prop.x * 0.9f + prop.y * 0.6f)
         val x0 = fx - sprite.originX * k
         val y0 = fy - sprite.originY * k
         val x1 = x0 + sprite.width * k
@@ -1163,6 +1184,17 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val crop = cache.get(if (ripe) "base:art/prop/flowers" else "base:art/prop/fern", tilePx) ?: return
         val s = k * if (ripe) 0.7f else 0.5f
         batch.draw(crop.region, fx - crop.originX * s, fy - 2f * k - crop.originY * s, crop.width * s, crop.height * s)
+    }
+
+    /** A place of the home with a piece of furniture on it (spec 06, "Furniture"). */
+    private fun drawFurniture(prop: Prop, fx: Float, fy: Float, tilePx: Int, k: Float) {
+        val world = sim ?: return
+        if (world.combat.homeSpot.isEmpty() || prop.art != world.combat.homeSpot) return
+        val item = world.furniture[Pair(kotlin.math.floor(prop.x * 100f + 0.5f).toInt(), kotlin.math.floor(prop.y * 100f + 0.5f).toInt())] ?: return
+        val art = world.combat.items[item]?.furniture?.art ?: return
+        val piece = cache.get(art, tilePx) ?: return
+        val s = k * 0.8f
+        batch.draw(piece.region, fx - piece.originX * s, fy - piece.originY * s, piece.width * s, piece.height * s)
     }
 
     /** The tamed friend (spec 10), its creature a little smaller, bobbing. */
@@ -2392,8 +2424,12 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (standing.isNotEmpty()) entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_factions", mapOf("list" to standing)), 2))
         if (world.renownHere() > 0) entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_renown", mapOf("count" to world.renownHere())), 2)) // spec 07, "Renown"
         // what the player wears (spec 06, "Equipment"): weapon, armor and accessory
-        val worn = listOf(world.equippedWeapon, world.equippedArmor, world.equippedAccessory).filter { it.isNotEmpty() }.joinToString(", ") { itemName(data, it, 1L) }
+        val worn = listOf(world.equippedWeapon, world.equippedArmor, world.equippedAccessory).filter { it.isNotEmpty() }.joinToString(", ") { id ->
+            val rune = world.runes[id]?.takeIf { id == world.equippedWeapon } // and the rune engraved on the weapon (spec 06, "Runes")
+            itemName(data, id, 1L) + (if (rune != null) " (" + itemName(data, rune, 1L) + ")" else "")
+        }
         if (worn.isNotEmpty()) entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_worn", mapOf("list" to worn)), 2))
+        if (world.furniture.isNotEmpty()) entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_home", mapOf("count" to world.furniture.size.toLong())), 2)) // spec 06, "Furniture"
         // what the player ate and drank is still working (spec 06, "Fortify", "Ward", "Regen"): each with its seconds left
         val effects = listOf(p.fortify to "fortify", p.ward to "ward", p.regen to "regen", p.haste to "haste").filter { it.first > 0 }
             .joinToString(", ") { "${data.pack.text(language, "\$i18n:ui.status_${it.second}")} ${(it.first + 59) / 60} s" }
@@ -2968,6 +3004,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         "renown" -> world.renownHere() > 0
         "plot" -> world.plotNear() != null
         "chest" -> world.chestNear()
+        "home" -> world.spotNear() != null // an empty place of the home (spec 06, "Furniture")
+        "wind" -> world.windPm >= 600 // a strong wind at the back (spec 08, "Wind")
         else -> false
     }
 

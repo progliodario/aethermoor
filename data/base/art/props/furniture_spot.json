@@ -1,0 +1,378 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/furniture_spot",
+  "canvas": {
+    "w": 40,
+    "h": 24,
+    "origin": [
+      20,
+      14
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          20,
+          14,
+          18,
+          8
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 701,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "#8A5E40"
+            ],
+            [
+              0.55,
+              "$p.rug"
+            ],
+            [
+              0.8,
+              "#C89C74"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.4
+      },
+      "alpha": 0.85
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20,
+          14,
+          14.5,
+          6.38
+        ]
+      },
+      "stroke": {
+        "color": "$p.ring",
+        "width": 0.7
+      },
+      "alpha": 0.75
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20,
+          14,
+          11,
+          4.84
+        ]
+      },
+      "stroke": {
+        "color": "#D8A878",
+        "width": 0.7
+      },
+      "alpha": 0.75
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20,
+          14,
+          7.5,
+          3.3
+        ]
+      },
+      "stroke": {
+        "color": "$p.ring",
+        "width": 0.7
+      },
+      "alpha": 0.75
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20,
+          14,
+          4,
+          1.76
+        ]
+      },
+      "stroke": {
+        "color": "#D8A878",
+        "width": 0.7
+      },
+      "alpha": 0.75
+    },
+    {
+      "shape": {
+        "ellipse": [
+          36.2,
+          14,
+          0.7,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "ellipse": [
+          35.22,
+          16.46,
+          0.7,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "ellipse": [
+          32.41,
+          18.63,
+          0.7,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "ellipse": [
+          28.1,
+          20.24,
+          0.7,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22.81,
+          21.09,
+          0.7,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "ellipse": [
+          17.19,
+          21.09,
+          0.7,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "ellipse": [
+          11.9,
+          20.24,
+          0.7,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "ellipse": [
+          7.59,
+          18.63,
+          0.7,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "ellipse": [
+          4.78,
+          16.46,
+          0.7,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "ellipse": [
+          3.8,
+          14,
+          0.7,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "ellipse": [
+          4.78,
+          11.54,
+          0.7,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "ellipse": [
+          7.59,
+          9.37,
+          0.7,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "ellipse": [
+          11.9,
+          7.76,
+          0.7,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "ellipse": [
+          17.19,
+          6.91,
+          0.7,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22.81,
+          6.91,
+          0.7,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "ellipse": [
+          28.1,
+          7.76,
+          0.7,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "ellipse": [
+          32.41,
+          9.37,
+          0.7,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "ellipse": [
+          35.22,
+          11.54,
+          0.7,
+          0.4
+        ]
+      },
+      "fill": {
+        "color": "$p.light"
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 15.00 15.50 C 15.00 12.74 19.48 10.50 25.00 10.50 C 30.52 10.50 35.00 12.74 35.00 15.50 C 35.00 18.26 30.52 20.50 25.00 20.50 C 19.48 20.50 15.00 18.26 15.00 15.50 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.18,
+      "blur": 1.4,
+      "blend": "multiply"
+    }
+  ],
+  "palette": {
+    "rug": "#B0805A",
+    "ring": "#7A4E34",
+    "light": "#E8C8A0"
+  }
+}
