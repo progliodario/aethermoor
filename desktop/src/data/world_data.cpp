@@ -271,6 +271,11 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
             p.names_end.push_back(syllable.get<std::string>());
         }
         p.settlement_dialogue = settlements.at("dialogue").get<std::string>();
+        if (settlements.contains("role_when")) {  // the roles of residents (spec 07, "Residents")
+            for (const auto& [role, condition] : settlements.at("role_when").items()) {
+                p.role_when[role] = condition.dump();
+            }
+        }
         for (const Json& variant : settlements.at("variants")) {
             p.variants.push_back(variant.get<std::string>());
         }

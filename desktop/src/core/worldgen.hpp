@@ -202,7 +202,8 @@ struct WorldParams {
     std::vector<std::string> names_start;
     std::vector<std::string> names_mid;
     std::vector<std::string> names_end;
-    std::string settlement_dialogue;  // dialogue id of a settlement NPC with {role} and {tone}
+    std::string settlement_dialogue;               // dialogue id of a settlement NPC with {role} and {tone}
+    std::map<std::string, std::string> role_when;  // a role of residents -> the JSON of its condition (spec 07)
     std::vector<std::string> variants;
     std::vector<std::string> quirks;
     std::vector<std::string> people_start;

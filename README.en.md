@@ -40,7 +40,7 @@ The numbers of the game, counted from the data (never written by hand: `python t
 | Progression | 44 titles, 8 tags, 16 talents, 26 deeds |
 | Named people | 46 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 3450 keys, in Italian and English |
+| Texts | 3477 keys, in Italian and English |
 | Same rules on both clients | 30 files of conformance vectors, 561 cases, run by the C++ and the Kotlin tests |
 | Documents | 18 specs, 13 ADRs |
 <!-- facts:end -->
@@ -54,7 +54,7 @@ The numbers of the game, counted from the data (never written by hand: `python t
 | Combat | complete: elements, statuses, parry, stagger, guardians, abilities on command | touches, always toward easy fights |
 | World | huge, eight regions, towns, dungeons, weather that hides and slows, wind that pushes, fog and storms | performance measured on a phone |
 | Quests and stories | a story in five acts for every protagonist, tales of the villagers, guild, legends, bounties | Gideon's Dungeon mode |
-| Life | gathering, fishing, hunting, gardens, animals, shared chests, the Guest's cottage and its furniture, pedlars, secret recipes, food with effects | residents in the generated villages too, wagons seen travelling |
+| Life | gathering, fishing, hunting, gardens, animals, shared chests, the Guest's cottage and its furniture, pedlars, secret recipes, food with effects | wagons seen travelling, a bigger house |
 | Companions | one per protagonist with commands, bond and care; Haruka tames a second one | more companions chosen by the player |
 | Progression | talents with abilities, titles with effects, bestiary, reincarnation with an heirloom, deeds that give echoes, runes on the weapons, tags to wear, weapons and armors with affixes, gifts of the deeds | random affixes |
 | Accessibility | hints, damage numbers and flashes can be turned off, large text, configurable keys | — |
@@ -91,7 +91,7 @@ The full catalog, generated from the data, is [`docs/design/catalog.md`](docs/de
 - Food and brews that fortify, ward, regenerate or speed you up; a draught that cleanses.
 - A **chest** in every village and town: they all hold the same things.
 - **The Guest's cottage**: a chest, a campfire, an anvil, gardens, hens, a goat and a Threshold Stone; Nana Brin gives it to you after her three favours. Ten rugs, in the house and in the garden, wait for the **furniture** you make at an anvil (a bed, a weapon rack, a bookshelf, a drying rack, a training dummy, a work table, a bench, a scarecrow, an archery target, a stone lantern), and each one helps you everywhere like a title.
-- **Residents**: once a region knows you (six quests finished there), somebody moves to its outpost, greets you and gives you a rune.
+- **Residents**: once a region knows you (six quests finished there), somebody moves to its outpost, greets you and gives you a rune; with eight, a settler comes to every village of the region.
 - Shops with market days, goods from other regions, rare wares for friends; they pay less when you sell too much of one thing. Corvin in Aldermere and a pedlar at every outpost bring the goods of a different region every day.
 
 **Progression**
@@ -238,8 +238,8 @@ The project is developed by the owner together with Claude, an AI assistant that
 
 The next things, in order (details in the [roadmap](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine), in Italian):
 
-- **Soon:** ktlint and detekt in CI; random affixes; residents in the generated villages.
-- **Medium term:** residents in the generated villages too and wagons seen travelling; Gideon's Dungeon mode; performance measured on a phone; a better synthesizer for music and ambience (only if the owner wants it).
+- **Soon:** ktlint and detekt in CI; random affixes; more life in the villages.
+- **Medium term:** wagons seen travelling; Gideon's Dungeon mode; performance measured on a phone; a better synthesizer for music and ambience (only if the owner wants it).
 - **Toward 1.0:** signed packages, documentation for modders, more languages.
 - **The owner decides:** when to publish the first release (Alpha 0.1).
 

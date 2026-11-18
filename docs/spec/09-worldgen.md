@@ -209,7 +209,7 @@ Conformance suite `fauna`: the region and the enemy of spawners near the center 
 
 ## Spawn and NPCs
 
-The player starts at the center of tile `(cx, cy)`. Each `npcs[i]` stands at the center of tile `(cx + dx, cy + dy)`. An entry with `when` is a resident (spec 07, "Residents"): it is there only while its condition holds, and is never solid. An entry with `route` is a traveller (spec 07, "Travellers"): on day `d` it stands at the centre of tile `(cx + dx, cy + dy)` of stop `(d - 1) % len(route)`.
+The player starts at the center of tile `(cx, cy)`. Each `npcs[i]` stands at the center of tile `(cx + dx, cy + dy)`. An entry with `when` is a resident (spec 07, "Residents"): it is there only while its condition holds, and is never solid. `settlements.role_when` (an object from role to a dialogue condition) makes the people of a role residents (spec 07, "Residents"): a settlement person of such a role has that `when`, so it is there only while the condition holds and is never solid; nothing else of the person changes (its key, name and place come from its slot as for any role). An entry with `route` is a traveller (spec 07, "Travellers"): on day `d` it stands at the centre of tile `(cx + dx, cy + dy)` of stop `(d - 1) % len(route)`.
 
 ## Order and digests
 

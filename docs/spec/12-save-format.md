@@ -68,7 +68,7 @@ can reach (`Android/data/<package>/files/exports`; the private folder when the d
 - **Streamed world** (`map` is `world`): `enemies` lists only the enemies of the active window, in the order of the live game, and each one has
   `"spawner": [x, y]` (its spawner tile, which also gives its home); `cleared_spawners` lists the spawners whose enemy was killed as `[x, y, died_tick]` (spec 08, the world tick of the death). On load the
   window is rebuilt around the saved player position; every enemy must belong to a spawner of the window (the enemy of a cleared spawner is dead), and every
-  uncleared spawner of the window must have its enemy, otherwise the save is invalid for this build. `cleared_spawners` and `spawner` are absent on fixed maps.
+  uncleared spawner of the window must have its enemy; a save that does not is repaired (see "Rules"). `cleared_spawners` and `spawner` are absent on fixed maps.
 - `explored` (streamed world) is the list of explored world map cells `[x, y]`, ordered by row then column (spec 09); absent in old saves.
 - `talents` (spec 11, "Talents") is an object from talent ID to the rank learned; absent when empty and in older saves.
 - `counters` (spec 11) is an object from counter name (`gathered`, `crafted`, `parried`) to a count; absent when empty and in older saves.
@@ -93,8 +93,11 @@ can reach (`Android/data/<package>/files/exports`; the private folder when the d
 
 - **Loading** builds the world from data (the same map and seed-independent setup), then overwrites the mutable state. A save whose
   `save_version` is higher than the client supports is refused with a clear message; the world is left unchanged.
-- **Entities that no longer exist** in data (enemy count mismatch) make the save invalid for this build; the client reports it and keeps
-  the current world.
+- **Entities that no longer exist** in data (enemy count mismatch) make the save of a fixed map invalid for this build; the client reports it and keeps
+  the current world. A save of the **streamed world** whose enemies do not match the window (the data of the world changed: a stamp, a
+  spawner) is **repaired** instead: an enemy whose spawner is not in the window is dropped (a second one of the same spawner too), the
+  enemy of a cleared spawner is dead, and a spawner of the window without an enemy gets a fresh one at its tile (full health, idle),
+  after the saved ones. Only a save whose `hit_set` and `enemies` differ in length is refused.
 - **Writing is atomic**: write `<slot>.json.tmp`, then rename over `<slot>.json`.
 - **Resume equivalence** (tested): running part of a scenario, saving, loading into a fresh world and finishing gives the same
   checkpoints as running it without interruption, on both clients, also when loading a save written by the Python reference.

@@ -996,6 +996,13 @@
               }
             }
           }
+        },
+        "role_when": {
+          "description": "A role whose people are residents (spec 07, \"Residents\"): the dialogue condition that brings them; they are never solid.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
         }
       }
     },

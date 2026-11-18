@@ -6,6 +6,8 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Fixed
 
+- **Old saves load after the world data changes**: a save of the world whose creatures no longer match it (a place was redrawn, as the cottage now) was refused; it is now repaired: the creatures of spawners that are gone are dropped and new spawners get their creature (spec 12).
+- **The cottage had Echoes instead of rugs**: the characters chosen for the places of the furniture were already the characters of the Echoes of Daichi and Haruka, so the cottage spawned those Echoes and had no place for furniture. The stamps can now give a character a meaning of their own, the cottage has its ten rugs again, and a test checks that an Echo spawns only in its sanctum.
 - After loading a game, Odo the caravan master stood at his first stop until the next moment of the clock instead of where the day of the save puts him; the Python reference now also keeps the clock in its saves (`world_ticks`), as the clients always did. Found by the conformance tests of both clients on `main`.
 - `tools/ship.py` merged a pull request whose builds GitHub had not started yet (only the labeler had reported): it now waits until every check of the three workflows (`validate`, `build`, `windows-msvc`, `linux-gcc`) has reported.
 - The schema of the save document did not allow the accessory slot (`equipped.accessory`) nor document the runes, the furniture and the worn tag; a save split of the new scenario found it.
@@ -39,6 +41,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Settlers in the villages** (spec 07, "Residents"): once you have finished eight quests in a region, a settler moves to every generated village there. Each one tells, in the voice of its region, why it came now that the roads are safe, and shares something warm (a full rest). The other villagers keep their names and places. A settlement role can now be made of residents (`role_when` in the world data).
 - **Automatic checks of the graphics** (spec 16, "Checks of the frames"): the desktop CI now checks the frames of its three smoke tests with `tools/check_frames.py`: every frame must be there, not blank, not black, and near the fingerprint of its reference in `tests/frames/`.
 - **Seasons of the gathering** (spec 06): every plant gives one more in its season: berries in summer and autumn, flowers and ferns in spring, mushrooms in autumn, fish in summer, wood and ice in winter.
 - **Odo's errands**: three quests for the caravan, one after the other (logs for the axles, iron for the horses, rations for the long road), paid with gold, a gale rune, potions and the shepherd's blade. They count for the Ring of Wayfarers.

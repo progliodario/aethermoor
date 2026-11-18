@@ -94,8 +94,6 @@ LEGEND = {
     '"': {"prop": "base:art/prop/pen", "radius_x100": 45},  # a goat: milk
     "/": {"tile": 14, "prop": "base:art/prop/anvil", "radius_x100": 35},  # where fine gear is made
     "\\": {"tile": 13, "prop": "base:art/prop/chest", "radius_x100": 30},  # a chest: every chest holds the same things (spec 06, "Chests")
-    "[": {"tile": 13, "prop": "base:art/prop/furniture_spot", "radius_x100": 20},  # a place for a piece of furniture (spec 06, "Furniture")
-    "]": {"prop": "base:art/prop/furniture_spot", "radius_x100": 20},  # the same in the garden, on the grass
     "V": {"tile": 13, "npc": "villager"},
     "G": {"tile": 13, "npc": "guild_clerk"},
     "S": {"tile": 13, "npc": "shopkeeper"},
@@ -104,7 +102,12 @@ LEGEND = {
 }
 # the Echoes, the personal bosses of the protagonists (tools/make_echoes.py): one legend character each
 for _who, _entry in __import__("make_echoes").ECHOES.items():
+    assert _entry[0] not in LEGEND, f"the character {_entry[0]!r} of the Echo of {_who} is already in the legend"
     LEGEND[_entry[0]] = {"tile": 14, "spawner": f"base:enemy/echo_{_who}"}
+# Every printable character is taken, so a few stamps give a character a meaning of their own (`local` of `stamp()`): it holds only there.
+FURNITURE_SPOT = {"tile": 13, "prop": "base:art/prop/furniture_spot", "radius_x100": 20}  # a place for a piece of furniture (spec 06)
+HOME_LEGEND = {"1": FURNITURE_SPOT, "2": {"prop": "base:art/prop/furniture_spot", "radius_x100": 20}}  # in the house, and on the grass
+VILLAGE_LEGEND = {"1": {"tile": 14, "npc": "settler"}}  # a settler, who comes once the region knows the Guest (spec 07, "Residents")
 
 
 class Canvas:
@@ -152,13 +155,15 @@ class Canvas:
         return ["".join(row) for row in self.cells]
 
 
-def stamp(stamp_id: str, canvas: Canvas, anchor: tuple[int, int], spots: list[tuple[int, int]], open_air: bool = False) -> dict:
-    """The stamp document. In an `open_air` stamp (a glade, a ring of trees) the creatures, lamps and props keep the ground of the terrain instead of a cobblestone."""
+def stamp(stamp_id: str, canvas: Canvas, anchor: tuple[int, int], spots: list[tuple[int, int]], open_air: bool = False,
+          local: dict | None = None) -> dict:
+    """The stamp document. In an `open_air` stamp (a glade, a ring of trees) the creatures, lamps and props keep the ground of the terrain instead of a cobblestone.
+    `local` gives characters a meaning of their own in this stamp, over the common legend."""
     if not stamp_id.startswith(("base:stamp/hamlet", "base:stamp/village", "base:stamp/town", "base:stamp/outpost")):
         # the houses of a settlement are timber and plaster; elsewhere the same rooms are built of stone
         canvas.cells = [["#" if ch in ":'" else "_" if ch == ";" else ch for ch in row] for row in canvas.cells]
     used = {ch for row in canvas.rows() for ch in row if ch != "."}
-    legend = {ch: LEGEND[ch] for ch in sorted(used)}
+    legend = {ch: (local or {}).get(ch, LEGEND.get(ch)) for ch in sorted(used)}
     if open_air:
         for ch, entry in legend.items():
             if ch != "T" and "tile" in entry and ("spawner" in entry or "prop" in entry):
@@ -215,7 +220,8 @@ def village() -> dict:
     c.house(14, 10, 6, 4, {(1, 1): "b", (3, 2): "V"})
     for x, y in ((8, 1), (0, 13), (9, 13), (20, 8)):
         c.put(x, y, "t")
-    return stamp("base:stamp/village", c, (10, 7), [(9, 6), (11, 6), (9, 8), (11, 8)])
+    c.put(16, 14, "1")
+    return stamp("base:stamp/village", c, (10, 7), [(9, 6), (11, 6), (9, 8), (11, 8)], local=VILLAGE_LEGEND)
 
 
 def town() -> dict:
@@ -292,7 +298,8 @@ def village_b() -> dict:
     c.house(15, 11, 7, 5, {(4, 2): "V"}, door=3)
     for x, y in ((9, 2), (13, 14), (9, 14), (13, 2)):
         c.put(x, y, "t")
-    return stamp("base:stamp/village_b", c, (11, 8), [(10, 7), (12, 7), (10, 9), (12, 9)])
+    c.put(17, 16, "1")
+    return stamp("base:stamp/village_b", c, (11, 8), [(10, 7), (12, 7), (10, 9), (12, 9)], local=VILLAGE_LEGEND)
 
 
 def village_c() -> dict:
@@ -309,7 +316,8 @@ def village_c() -> dict:
     c.house(16, 8, 7, 4, {(3, 2): "V"}, door=3)
     for x, y in ((0, 12), (24, 0), (10, 10), (14, 10)):
         c.put(x, y, "t")
-    return stamp("base:stamp/village_c", c, (12, 6), [(11, 6), (13, 6), (11, 7), (13, 7)])
+    c.put(20, 12, "1")
+    return stamp("base:stamp/village_c", c, (12, 6), [(11, 6), (13, 6), (11, 7), (13, 7)], local=VILLAGE_LEGEND)
 
 
 def town_b() -> dict:
@@ -340,7 +348,7 @@ def hamlet_home() -> dict:
     anvil, plots, hens and a goat, a Threshold Stone, and Old Tam who keeps it (spec 07, "People of the towns")."""
     c = Canvas(15, 11)
     # the places for the furniture (spec 06, "Furniture") along the walls, and a free way from the door
-    c.house(1, 1, 8, 5, {(1, 1): "~", (2, 1): "\\", (4, 1): "[", (5, 1): "b", (6, 1): "[", (1, 2): "[", (6, 2): "[", (1, 3): "[", (6, 3): "["},
+    c.house(1, 1, 8, 5, {(1, 1): "~", (2, 1): "\\", (4, 1): "1", (5, 1): "b", (6, 1): "1", (1, 2): "1", (6, 2): "1", (1, 3): "1", (6, 3): "1"},
             door=4)
     c.vline(5, 6, 10, "=")
     c.hline(0, 14, 7, "=")
@@ -354,10 +362,10 @@ def hamlet_home() -> dict:
     c.put(3, 9, '"')
     c.put(12, 9, "T")
     for x, y in ((9, 6), (12, 6), (9, 9), (14, 8)):  # four places for the pieces of the garden (spec 06, "Furniture")
-        c.put(x, y, "]")
+        c.put(x, y, "2")
     for x, y in ((0, 0), (14, 0), (9, 10), (14, 10)):
         c.put(x, y, "t")
-    return stamp("base:stamp/hamlet_home", c, (5, 7), [(4, 7), (6, 7)])
+    return stamp("base:stamp/hamlet_home", c, (5, 7), [(4, 7), (6, 7)], local=HOME_LEGEND)
 
 
 def hamlet_d() -> dict:
@@ -388,7 +396,8 @@ def village_d() -> dict:
     c.house(13, 12, 7, 5, {(3, 2): "V"}, door=3)
     for x, y in ((9, 1), (11, 17), (0, 8), (20, 9)):
         c.put(x, y, "t")
-    return stamp("base:stamp/village_d", c, (10, 9), [(9, 9), (11, 9), (9, 10), (12, 10)])
+    c.put(16, 18, "1")
+    return stamp("base:stamp/village_d", c, (10, 9), [(9, 9), (11, 9), (9, 10), (12, 10)], local=VILLAGE_LEGEND)
 
 
 def town_c() -> dict:
