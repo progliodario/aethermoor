@@ -17,6 +17,7 @@ struct WeatherKind {
     int rain_pm = 0;
     int dim_pm = 0;
     int wind_pm = 0;  // how hard the wind blows (spec 08, "Wind")
+    int fog_pm = 0;   // how thick the fog is (spec 08, "Fog")
 };
 
 // A season of the year (spec 08, "Seasons").
@@ -38,6 +39,7 @@ struct TimeParams {
     int rain_aggro_cut_pm = 0;   // how much full rain shortens the aggro distance (spec 08, "Rain hides you")
     int rain_slow_pm = 0;        // how much full rain slows the creatures (spec 08, "Rain slows")
     int wind_haste_pm = 0;       // how much a full wind speeds the player (spec 08, "Wind")
+    int fog_aggro_cut_pm = 0;    // how much a full fog shortens the aggro distance (spec 08, "Fog")
     std::vector<WeatherKind> kinds;
     std::vector<Season> seasons;  // empty: no seasons
 };
@@ -50,6 +52,7 @@ struct TimeSample {
     int rain_pm = 0;
     int dim_pm = 0;
     int wind_pm = 0;
+    int fog_pm = 0;
     int effective_light_pm = 1000;
     int season_index = -1;  // index in TimeParams::seasons, -1 without seasons
 };

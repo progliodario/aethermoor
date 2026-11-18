@@ -319,6 +319,11 @@ class CombatSetup(
     /** The wind of a world without a clock, and how much a full wind speeds the player (spec 08, "Wind"). */
     val windPm: Int = 0,
     val windHastePm: Int = 0,
+    /** The fog of a world without a clock, and how much a full fog shortens the aggro distance (spec 08, "Fog"). */
+    val fogPm: Int = 0,
+    val fogAggroCutPm: Int = 0,
+    /** The tags (spec 11, "Tags"): earned like titles, one worn at a time; in the order of the data. */
+    val tags: List<TitleDef> = emptyList(),
     /** Percent added to the maximum health, from the profile of past games (spec 11, "Echoes"). */
     var echoPct: Int = 0,
     /** The talents that can be learned, in the order of the data (spec 11, "Talents"), and the points a level gives. */

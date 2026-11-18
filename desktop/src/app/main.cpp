@@ -290,6 +290,7 @@ constexpr Rebindable kRebindable[] = {
     {"strike", SDLK_K},  {"dodge", SDLK_L},  {"parry", SDLK_U},   {"interact", SDLK_E}, {"bag", SDLK_I},
     {"journal", SDLK_Q}, {"map", SDLK_M},    {"minimap", SDLK_N}, {"crafting", SDLK_C}, {"companion", SDLK_H},
     {"analyze", SDLK_Z}, {"recall", SDLK_G}, {"burst", SDLK_R},   {"mend", SDLK_T},     {"tame", SDLK_B},
+    {"tag", SDLK_Y},
 };
 std::map<SDL_Keycode, SDL_Keycode> g_key_remap;   // a key the player chose -> the default key it stands for
 std::map<std::string, SDL_Keycode> g_key_choice;  // action -> the key the player chose for it
@@ -1911,6 +1912,38 @@ void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether:
             SDL_RenderLine(renderer, x, y, x - 3.0F * density, y + 12.0F * density);
         }
     }
+    if (time->fog_pm > 0) {  // the fog (spec 08, "Fog"): a pale veil, and banks of mist drifting with the hour
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+        SDL_SetRenderDrawColor(renderer, 214, 220, 228, static_cast<Uint8>(110 * time->fog_pm / 1000));
+        const SDL_FRect veil{0.0F, 0.0F, static_cast<float>(out_w), static_cast<float>(out_h)};
+        SDL_RenderFillRect(renderer, &veil);
+        const float t = static_cast<float>(now_ms % 6000000ULL);
+        for (int i = 0; i < 7; ++i) {
+            const float fi = static_cast<float>(i);
+            const float drift = fi * 0.31F + t * 0.000012F * (1.0F + 0.3F * fi);
+            const float x =
+                (drift - std::floor(drift)) * static_cast<float>(out_w) * 1.4F - static_cast<float>(out_w) * 0.2F;
+            const float y = (fi + 0.5F) / 7.0F * static_cast<float>(out_h);
+            const float band_w = static_cast<float>(out_w) * 0.45F;
+            const float band_h = 46.0F * density;
+            for (int k = 0; k < 4; ++k) {  // a soft bank: four layers, wider and fainter
+                const float grow = static_cast<float>(k) * 14.0F * density;
+                SDL_SetRenderDrawColor(renderer, 236, 240, 244, static_cast<Uint8>(22 * time->fog_pm / 1000));
+                const SDL_FRect bank{x - grow, y - band_h / 2.0F - grow / 2.0F, band_w + 2.0F * grow, band_h + grow};
+                SDL_RenderFillRect(renderer, &bank);
+            }
+        }
+    }
+    // a storm (spec 08, "Fog" and "Wind": full rain and full wind) flashes now and then, unless the flashes are off
+    if (time->rain_pm >= 900 && time->wind_pm >= 900 && g_option[2]) {
+        const Uint64 beat = now_ms % 7300ULL;
+        if (beat < 90ULL || (beat > 180ULL && beat < 240ULL)) {
+            SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+            SDL_SetRenderDrawColor(renderer, 236, 240, 255, 110);
+            const SDL_FRect all{0.0F, 0.0F, static_cast<float>(out_w), static_cast<float>(out_h)};
+            SDL_RenderFillRect(renderer, &all);
+        }
+    }
     const int hour = time->tod_pm * 24 / 1000;
     const int minute = (time->tod_pm * 1440 / 1000) % 60;
     char clock[16];
@@ -1921,9 +1954,11 @@ void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether:
             ui.lang,
             "$i18n:season." + sim.chunks()->params().time.seasons[static_cast<std::size_t>(time->season_index)].id);
     }
-    const std::string line = assets.pack.text(
-        ui.lang, "$i18n:ui.clock",
-        {{"day", static_cast<std::int64_t>(time->day)}, {"time", std::string(clock)}, {"season", season_name}});
+    const std::string line = assets.pack.text(ui.lang, "$i18n:ui.clock",
+                                              {{"day", static_cast<std::int64_t>(time->day)},
+                                               {"time", std::string(clock)},
+                                               {"season", season_name},
+                                               {"weather", assets.pack.text(ui.lang, "$i18n:weather." + time->kind)}});
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_SetRenderScale(renderer, 2.0F, 2.0F);
     outlined_text(renderer, (static_cast<float>(out_w) - 12.0F * density) / 2.0F - text_columns(line) * 8.0F,
@@ -2388,6 +2423,27 @@ void bag_use(aether::WorldSim& sim, const Assets& assets, Ui& ui) {
     } else {
         notify(ui, assets.pack.text(ui.lang, "$i18n:ui.item_unchanged"));
     }
+}
+
+// Tags (spec 11, "Tags"): wears the next tag earned, in the order of the data, then none, and says which.
+void cycle_tag(aether::WorldSim& sim, const Assets& assets, Ui& ui) {
+    const std::vector<std::string> earned = sim.earned_tags();
+    if (earned.empty()) {
+        notify(ui, assets.pack.text(ui.lang, "$i18n:ui.tag_none"));
+        return;
+    }
+    std::string next = earned.front();
+    const auto at = std::find(earned.begin(), earned.end(), sim.worn_tag());
+    if (at != earned.end()) {
+        next = std::next(at) == earned.end() ? std::string() : *std::next(at);
+    }
+    if (!sim.wear_tag(next)) {
+        return;
+    }
+    notify(ui, next.empty() ? assets.pack.text(ui.lang, "$i18n:ui.tag_off")
+                            : assets.pack.text(ui.lang, "$i18n:ui.tag_worn",
+                                               {{"tag", assets.pack.text(ui.lang, "$i18n:tag." + next)},
+                                                {"what", assets.pack.text(ui.lang, "$i18n:tag." + next + ".desc")}}));
 }
 
 // The shop (spec 06): what is listed now, with the price of each entry.
@@ -3097,6 +3153,13 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
         if (!worn.empty()) {
             lines.push_back({"  " + assets.pack.text(ui.lang, "$i18n:ui.status_worn", {{"list", worn}}), 2});
         }
+        if (!sim.worn_tag().empty()) {  // the tag worn (spec 11, "Tags")
+            lines.push_back({"  " + assets.pack.text(
+                                        ui.lang, "$i18n:ui.status_tag",
+                                        {{"tag", assets.pack.text(ui.lang, "$i18n:tag." + sim.worn_tag())},
+                                         {"what", assets.pack.text(ui.lang, "$i18n:tag." + sim.worn_tag() + ".desc")}}),
+                             2});
+        }
         if (!sim.furniture().empty()) {  // the furniture of the home (spec 06, "Furniture")
             lines.push_back({"  " + assets.pack.text(ui.lang, "$i18n:ui.status_home",
                                                      {{"count", static_cast<std::int64_t>(sim.furniture().size())}}),
@@ -3488,6 +3551,13 @@ bool hint_holds(const aether::WorldSim& sim, const std::string& when) {
     }
     if (when == "wind") {  // a strong wind at the back (spec 08, "Wind")
         return sim.wind_pm() >= 600;
+    }
+    if (when == "fog") {  // a thick fog (spec 08, "Fog")
+        const auto time = sim.time();
+        return time && time->fog_pm >= 600;
+    }
+    if (when == "tag") {  // a tag earned and none worn (spec 11, "Tags")
+        return !sim.earned_tags().empty() && sim.worn_tag().empty();
     }
     return false;
 }
@@ -5060,6 +5130,9 @@ int main(int argc, char** argv) {
                         // taming, the gift of the Universal Tamer (spec 18)
                         notify(ui, assets.pack.text(ui.lang,
                                                     sim.tame() ? "$i18n:ui.ability_tame" : "$i18n:ui.tame_refused"));
+                    } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_Y && !smoke_test &&
+                               !ui.show_map && !sim.story().dialogue_active() && !sim.combat().tags.empty()) {
+                        cycle_tag(sim, assets, ui);  // the next tag earned (spec 11, "Tags")
                     } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_N && !smoke_test &&
                                !ui.show_map) {
                         ui.show_minimap = !ui.show_minimap;

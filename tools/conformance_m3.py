@@ -736,6 +736,20 @@ def build_scenarios() -> list[dict]:
                     home={"spot": "base:art/prop/furniture_spot", "reach_x100": 150},
                     titles=[{"id": "homemaker", "name": "t", "kind": "furnished", "count": 3}]),
          "items": {**ITEMS, **FURNITURE_ITEMS}},
+        # The fog hides you (spec 08, "Fog"): a full fog with a cut of 400, a light one, and the fog with the rain and the night.
+        scenario("fog_hides", [enemy(7.5, 4.5)], [segment(120)], weather={"fog_pm": 1000, "fog_aggro_cut_pm": 400}),
+        scenario("fog_light", [enemy(6.3, 4.5)], [segment(120)], weather={"fog_pm": 300, "fog_aggro_cut_pm": 400}),
+        scenario("fog_rain_and_night", [enemy(5.2, 4.5)], [segment(120)],
+                 weather={"fog_pm": 1000, "fog_aggro_cut_pm": 400, "rain_pm": 1000, "rain_aggro_cut_pm": 300, "light_pm": 180,
+                          "night_aggro_cut_pm": 250}),
+        # Tags (spec 11, "Tags"): a tag not earned is refused; after the first kill the brawler tag is worn and its attack counts on the
+        # second slime; taken off, the attack is the plain one again; the same tag twice is refused.
+        scenario("tags_worn", [enemy(3.6, 4.5, hp=6, **passive), enemy(3.6, 4.9, hp=400, **passive)],
+                 [segment(1, do=[{"cmd": "wear_tag", "tag": "brawler"}]), segment(40, attack=True),
+                  segment(1, do=[{"cmd": "wear_tag", "tag": "brawler"}, {"cmd": "wear_tag", "tag": "brawler"}, {"cmd": "wear_tag", "tag": "keeper"}]),
+                  segment(60, attack=True), segment(1, do=[{"cmd": "wear_tag", "tag": ""}]), segment(60, attack=True)],
+                 tags=[{"id": "brawler", "name": "t", "kind": "kills", "count": 1, "atk_pct": 50},
+                       {"id": "keeper", "name": "t", "kind": "gathered", "count": 1, "gather_bonus": 2}]),
         # The wind at your back (spec 08, "Wind"): a full wind with a haste of 150 permille, a light one, and the brew of haste with the wind.
         scenario("wind_full", [enemy(12.0, 7.5, **passive)], [segment(60, move=(1, 0))], weather={"wind_pm": 1000, "wind_haste_pm": 150}),
         scenario("wind_light", [enemy(12.0, 7.5, **passive)], [segment(60, move=(1, 0))], weather={"wind_pm": 350, "wind_haste_pm": 150}),

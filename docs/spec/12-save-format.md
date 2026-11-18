@@ -76,6 +76,7 @@ can reach (`Android/data/<package>/files/exports`; the private folder when the d
 - `chest` (spec 06, "Chests") is an object from item ID to the quantity the chests hold; absent when they are empty and in older saves.
 - `plots` (spec 06, "Farming") is a list of `[x100, y100, seed, ripe]`, the sown plots in order of `x100` then `y100`; absent when none is sown.
 - `runes` (spec 06, "Runes") is an object from weapon item ID to the rune engraved on it; absent when no weapon bears one.
+- `tag` (spec 11, "Tags") is the ID of the tag worn; absent when none is.
 - `furniture` (spec 06, "Furniture") is a list of `[x100, y100, item]`, the pieces on the spots of the home in order of `x100` then `y100`; absent when none is placed.
 - `friend` (spec 10, "The tamed friend") is `{"enemy", "x", "y", "cooldown"}`: the ID of the creature, where it is and how many ticks until it hits again, with `stay` when it was told to stay; absent when there is none.
 - `companion` (a protagonist with a companion, spec 10) is `{"x", "y", "cooldown"}`: where the companion is and how many ticks until it hits again, with `stay` (true when it was told to stay) and `bond` (its kills) when they are not false and 0; absent in older saves (it is put next to the player).

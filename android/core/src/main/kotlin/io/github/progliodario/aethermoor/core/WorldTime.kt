@@ -11,7 +11,7 @@ import kotlinx.serialization.json.long
 // World time, light and weather. Spec: docs/spec/08-world-time.md. Reference: tools/reference/worldtime.py.
 // Integer arithmetic only: no floating point in this file. Keep it in step with desktop/src/core/worldtime.cpp.
 
-class WeatherKind(val id: String, val weight: Int, val rainPm: Int, val dimPm: Int, val windPm: Int = 0)
+class WeatherKind(val id: String, val weight: Int, val rainPm: Int, val dimPm: Int, val windPm: Int = 0, val fogPm: Int = 0)
 
 /** A season of the year (spec 08, "Seasons"): [tint] is r, g, b, a laid over the screen; [weights] replace the weather weights of the kinds. */
 class Season(val id: String, val days: Int, val tint: List<Int>, val weights: Map<String, Int>, val light: List<Pair<Int, Int>>)
@@ -32,6 +32,8 @@ class TimeParams(
     val rainSlowPm: Int = 0,
     /** How much a full wind speeds the player (spec 08, "Wind"). */
     val windHastePm: Int = 0,
+    /** How much a full fog shortens the aggro distance, in permille (spec 08, "Fog"). */
+    val fogAggroCutPm: Int = 0,
     /** How much full darkness shortens the aggro distance, in permille (spec 08, "The night hides you"). */
     val nightAggroCutPm: Int = 0,
 )
@@ -49,6 +51,8 @@ class TimeSample(
     val seasonIndex: Int = -1,
     /** How hard the wind blows (spec 08, "Wind"). */
     val windPm: Int = 0,
+    /** How thick the fog is (spec 08, "Fog"). */
+    val fogPm: Int = 0,
 )
 
 /** Index of the season of a day, -1 when the world has no seasons. */
@@ -100,16 +104,19 @@ fun sampleTime(seed: ULong, p: TimeParams, worldTicks: Long): TimeSample {
     val rain: Int
     val dim: Int
     val wind: Int
+    val fog: Int
     if (since >= p.fadeTicks) {
         rain = cur.rainPm
         dim = cur.dimPm
         wind = cur.windPm
+        fog = cur.fogPm
     } else {
         rain = (prev.rainPm * (p.fadeTicks - since) + cur.rainPm * since) / p.fadeTicks
         dim = (prev.dimPm * (p.fadeTicks - since) + cur.dimPm * since) / p.fadeTicks
         wind = (prev.windPm * (p.fadeTicks - since) + cur.windPm * since) / p.fadeTicks
+        fog = (prev.fogPm * (p.fadeTicks - since) + cur.fogPm * since) / p.fadeTicks
     }
-    return TimeSample(day, tod, light, cur.id, rain, dim, light * (1000 - dim) / 1000, seasonIndex, wind)
+    return TimeSample(day, tod, light, cur.id, rain, dim, light * (1000 - dim) / 1000, seasonIndex, wind, fog)
 }
 
 /** Reads the `time` object of the world parameters. */
@@ -124,6 +131,7 @@ fun parseTimeParams(time: JsonObject): TimeParams {
         rainAggroCutPm = weather["rain_aggro_cut_pm"]?.jsonPrimitive?.int ?: 0,
         rainSlowPm = weather["rain_slow_pm"]?.jsonPrimitive?.int ?: 0,
         windHastePm = weather["wind_haste_pm"]?.jsonPrimitive?.int ?: 0,
+        fogAggroCutPm = weather["fog_aggro_cut_pm"]?.jsonPrimitive?.int ?: 0,
         nightAggroCutPm = time["night_aggro_cut_pm"]?.jsonPrimitive?.int ?: 0,
         kinds = weather.getValue("kinds").jsonArray.map {
             val k = it.jsonObject
@@ -131,6 +139,7 @@ fun parseTimeParams(time: JsonObject): TimeParams {
                 k.getValue("id").jsonPrimitive.content, k.getValue("weight").jsonPrimitive.int,
                 k.getValue("rain_pm").jsonPrimitive.int, k.getValue("dim_pm").jsonPrimitive.int,
                 k["wind_pm"]?.jsonPrimitive?.int ?: 0,
+                k["fog_pm"]?.jsonPrimitive?.int ?: 0,
             )
         },
         seasons = (time["seasons"] as? JsonArray)?.map {

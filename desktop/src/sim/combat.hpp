@@ -278,6 +278,8 @@ struct CombatSetup {
     int night_aggro_cut_pm = 0;
     int wind_pm = 0;  // the wind (spec 08, "Wind"): how hard it blows, and how much a full wind speeds the player
     int wind_haste_pm = 0;
+    int fog_pm = 0;  // the fog (spec 08, "Fog"): how thick it is, and how much a full fog shortens the aggro distance
+    int fog_aggro_cut_pm = 0;
     std::vector<EnemySpawn> spawns;
     std::vector<std::int64_t> xp_table;  // table[level - 1] = XP to go from `level` to `level + 1`
     std::uint64_t seed = 0;
@@ -299,6 +301,7 @@ struct CombatSetup {
     std::vector<RecipeDef> recipes;                  // crafting recipes, in the order of the data
     std::optional<CompanionDef> companion;           // the companion of the protagonist (spec 10)
     std::vector<TitleDef> titles;                    // the titles that can be earned (spec 11), in order of rank
+    std::vector<TitleDef> tags;  // the tags (spec 11, "Tags"): earned like titles, one worn at a time; in data order
     int day_ticks = 0;   // the length of a day of a world without a clock, for the market (spec 06); 0: always day 1
     std::string region;  // the region of a world without regions: the renown is counted by region (spec 07, "Renown")
 };

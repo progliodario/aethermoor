@@ -1,0 +1,66 @@
+{
+  "$schema": "../../schemas/tags.schema.json",
+  "id": "base:tags/all",
+  "tags": [
+    {
+      "id": "berserker",
+      "name": "$i18n:tag.berserker",
+      "kind": "kills",
+      "count": 60,
+      "atk_pct": 15
+    },
+    {
+      "id": "sentinel",
+      "name": "$i18n:tag.sentinel",
+      "kind": "parried",
+      "count": 20,
+      "parry_bonus": 10,
+      "atk_pct": 5
+    },
+    {
+      "id": "pathfinder",
+      "name": "$i18n:tag.pathfinder",
+      "kind": "gathered",
+      "count": 50,
+      "gather_bonus": 2
+    },
+    {
+      "id": "artificer",
+      "name": "$i18n:tag.artificer",
+      "kind": "crafted",
+      "count": 15,
+      "craft_bonus": 1,
+      "fine_pm": 150
+    },
+    {
+      "id": "epicure",
+      "name": "$i18n:tag.epicure",
+      "kind": "used",
+      "count": 30,
+      "xp_pct": 15
+    },
+    {
+      "id": "grower",
+      "name": "$i18n:tag.grower",
+      "kind": "harvested",
+      "count": 10,
+      "gather_bonus": 2,
+      "xp_pct": 5
+    },
+    {
+      "id": "naturalist",
+      "name": "$i18n:tag.naturalist",
+      "kind": "species",
+      "count": 15,
+      "xp_pct": 20
+    },
+    {
+      "id": "champion",
+      "name": "$i18n:tag.champion",
+      "kind": "quests",
+      "count": 25,
+      "atk_pct": 8,
+      "xp_pct": 10
+    }
+  ]
+}

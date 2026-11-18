@@ -139,11 +139,12 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
         p.time.rain_aggro_cut_pm = weather.value("rain_aggro_cut_pm", 0);
         p.time.rain_slow_pm = weather.value("rain_slow_pm", 0);
         p.time.wind_haste_pm = weather.value("wind_haste_pm", 0);
+        p.time.fog_aggro_cut_pm = weather.value("fog_aggro_cut_pm", 0);
         p.time.night_aggro_cut_pm = time.value("night_aggro_cut_pm", 0);
         for (const Json& kind : weather.at("kinds")) {
             p.time.kinds.push_back({kind.at("id").get<std::string>(), kind.at("weight").get<int>(),
                                     kind.at("rain_pm").get<int>(), kind.at("dim_pm").get<int>(),
-                                    kind.value("wind_pm", 0)});
+                                    kind.value("wind_pm", 0), kind.value("fog_pm", 0)});
         }
         if (p.time.light.size() < 2 || p.time.kinds.empty() || p.time.day_ticks < 1 || p.time.period_ticks < 1 ||
             p.time.fade_ticks < 1) {

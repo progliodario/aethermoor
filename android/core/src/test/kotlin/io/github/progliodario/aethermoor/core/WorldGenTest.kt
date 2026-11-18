@@ -422,6 +422,7 @@ class WorldGenTest {
                 assertEquals(want.getValue("rain_pm").jsonPrimitive.int, got.rainPm, "$name rain")
                 assertEquals(want.getValue("dim_pm").jsonPrimitive.int, got.dimPm, "$name dim")
                 assertEquals(want["wind_pm"]?.jsonPrimitive?.int ?: 0, got.windPm, "$name wind")
+                assertEquals(want["fog_pm"]?.jsonPrimitive?.int ?: 0, got.fogPm, "$name fog")
                 assertEquals(want.getValue("effective_light_pm").jsonPrimitive.int, got.effectiveLightPm, "$name effective light")
                 assertEquals(want.getValue("season").jsonPrimitive.content, if (got.seasonIndex >= 0) params.seasons[got.seasonIndex].id else "", "$name season")
             }

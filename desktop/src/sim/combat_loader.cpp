@@ -379,10 +379,16 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
             }
         }
     }
-    if (const auto title_table = pack.read_document("base:titles/all")) {  // titles (spec 11)
+    // titles (spec 11) and tags (spec 11, "Tags"), which have the same fields
+    for (const auto& [doc_id, list_key] : {std::pair<const char*, const char*>{"base:titles/all", "titles"},
+                                           std::pair<const char*, const char*>{"base:tags/all", "tags"}}) {
+        const auto title_table = pack.read_document(doc_id);
+        if (!title_table) {
+            continue;
+        }
         const Json parsed = Json::parse(*title_table, nullptr, /*allow_exceptions=*/false);
-        if (!parsed.is_discarded() && parsed.contains("titles")) {
-            for (const Json& t : parsed.at("titles")) {
+        if (!parsed.is_discarded() && parsed.contains(list_key)) {
+            for (const Json& t : parsed.at(list_key)) {
                 TitleDef title;
                 title.id = t.at("id").get<std::string>();
                 title.name = t.at("name").get<std::string>();
@@ -395,7 +401,7 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
                 title.parry_bonus = t.value("parry_bonus", static_cast<std::int64_t>(0));
                 title.xp_pct = t.value("xp_pct", static_cast<std::int64_t>(0));
                 title.fine_pm = t.value("fine_pm", static_cast<std::int64_t>(0));
-                setup.titles.push_back(std::move(title));
+                (std::string(list_key) == "tags" ? setup.tags : setup.titles).push_back(std::move(title));
             }
         }
     }

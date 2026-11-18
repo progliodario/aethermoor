@@ -231,6 +231,11 @@ class WorldSim(
     var windPm = 0
         private set
     private var windBoost = 0
+    private var fogAggroPm = 1000 // what the fog leaves of the aggro distance, this tick (spec 08, "Fog")
+
+    /** The tag worn (spec 11, "Tags"); empty: none. */
+    var wornTag = ""
+        private set
 
     private val hitSet = ArrayList<Boolean>(List(combat.spawns.size) { false })
     /** Spawner tile -> world tick of the death. */
@@ -1354,12 +1359,14 @@ class WorldSim(
             nightAggroPm = 1000 - (1000 - sample.lightPm) * store.params.time.nightAggroCutPm / 1000 // the night hides the player too
             windPm = sample.windPm // the wind at the back of the player (spec 08, "Wind")
             windBoost = sample.windPm * store.params.time.windHastePm / 1000
+            fogAggroPm = 1000 - sample.fogPm * store.params.time.fogAggroCutPm / 1000 // the fog hides the player (spec 08, "Fog")
         } else {
             rainAggroPm = 1000 - combat.rainPm * combat.rainAggroCutPm / 1000
             rainSlowPm = 1000 - combat.rainPm * combat.rainSlowPm / 1000
             nightAggroPm = 1000 - (1000 - combat.lightPm) * combat.nightAggroCutPm / 1000
             windPm = combat.windPm
             windBoost = combat.windPm * combat.windHastePm / 1000
+            fogAggroPm = 1000 - combat.fogPm * combat.fogAggroCutPm / 1000
         }
         if (chunks != null && windowValid && timeOfDayPm() != routineTod) refreshPeople(windowX, windowY) // somebody goes home or comes out (spec 08)
         markExplored()
@@ -1593,6 +1600,20 @@ class WorldSim(
     /** The ids of the titles whose condition holds, in the order of the data (spec 11). */
     fun earnedTitles(): List<String> = combat.titles.filter { titleProgress(it) >= it.count }.map { it.id }
 
+    /** The ids of the tags earned, in the order of the data (spec 11, "Tags"). */
+    fun earnedTags(): List<String> = combat.tags.filter { titleProgress(it) >= it.count }.map { it.id }
+
+    /** Wears an earned tag, or with "" takes the worn one off; false, changing nothing, when refused (spec 11, "Tags"). */
+    fun wearTag(tagId: String): Boolean {
+        if (story.dialogueActive || tagId == wornTag) return false
+        if (tagId.isNotEmpty() && tagId !in earnedTags()) return false
+        wornTag = tagId
+        return true
+    }
+
+    /** What the worn tag adds, like a title. */
+    fun tagBonus(pick: (TitleDef) -> Long): Long = if (wornTag.isEmpty()) 0L else combat.tags.firstOrNull { it.id == wornTag }?.let(pick) ?: 0L
+
     /** How far the player is toward a title: the number its kind counts (spec 11, "Titles"). */
     fun titleProgress(t: TitleDef): Long = when (t.kind) {
         "kills" -> player.kills.toLong()
@@ -1607,20 +1628,21 @@ class WorldSim(
     fun titleBonus(gather: Boolean): Long {
         val earned = earnedTitles().toSet()
         return combat.titles.filter { it.id in earned }.sumOf { if (gather) it.gatherBonus else it.craftBonus } +
-            homeBonus { if (gather) it.gatherBonus else it.craftBonus } // and the furniture of the home (spec 06)
+            homeBonus { if (gather) it.gatherBonus else it.craftBonus } + // and the furniture of the home (spec 06)
+            tagBonus { if (gather) it.gatherBonus else it.craftBonus } // and the worn tag (spec 11)
     }
 
     /** What the earned titles add to the parry window (ticks) and to the experience of a kill (percent). */
-    private fun titleParryBonus(): Int = (earnedTitles().toSet().let { earned -> combat.titles.filter { it.id in earned }.sumOf { it.parryBonus } } + homeBonus { it.parryBonus }).toInt()
+    private fun titleParryBonus(): Int = (earnedTitles().toSet().let { earned -> combat.titles.filter { it.id in earned }.sumOf { it.parryBonus } } + homeBonus { it.parryBonus } + tagBonus { it.parryBonus }).toInt()
 
-    private fun titleFinePm(): Long = earnedTitles().toSet().let { earned -> combat.titles.filter { it.id in earned }.sumOf { it.finePm } } + homeBonus { it.finePm }
+    private fun titleFinePm(): Long = earnedTitles().toSet().let { earned -> combat.titles.filter { it.id in earned }.sumOf { it.finePm } } + homeBonus { it.finePm } + tagBonus { it.finePm }
 
-    private fun titleXpPct(): Long = earnedTitles().toSet().let { earned -> combat.titles.filter { it.id in earned }.sumOf { it.xpPct } } + homeBonus { it.xpPct }
+    private fun titleXpPct(): Long = earnedTitles().toSet().let { earned -> combat.titles.filter { it.id in earned }.sumOf { it.xpPct } } + homeBonus { it.xpPct } + tagBonus { it.xpPct }
 
     /** The percent that the earned titles add to the attack of the player's hits (spec 11, "Titles with effects"). */
     fun titleAttackPct(): Long {
         val earned = earnedTitles().toSet()
-        return combat.titles.filter { it.id in earned }.sumOf { it.atkPct } + homeBonus { it.atkPct }
+        return combat.titles.filter { it.id in earned }.sumOf { it.atkPct } + homeBonus { it.atkPct } + tagBonus { it.atkPct }
     }
 
     override fun grantXp(amount: Long) {
@@ -1691,7 +1713,7 @@ class WorldSim(
         val p = player
         val dist = distance(enemy.position.x, enemy.position.y, p.position.x, p.position.y)
         when (enemy.state) {
-            EnemyState.IDLE -> if (dist <= (b.aggroX100 * combat.gift.aggroPct / 100 * rainAggroPm / 1000 * nightAggroPm / 1000).toFloat() / 100f) {
+            EnemyState.IDLE -> if (dist <= (b.aggroX100 * combat.gift.aggroPct / 100 * rainAggroPm / 1000 * nightAggroPm / 1000 * fogAggroPm / 1000).toFloat() / 100f) {
                 enemy.state = EnemyState.CHASE
                 enemy.stateTick = 0
                 cues.add(SimCue("aggro", enemy.def.sound, enemy.position))
@@ -1866,6 +1888,7 @@ class WorldSim(
             chest = chest.toMap(),
             runes = runes.toMap(),
             furniture = furniture.map { (key, item) -> FurnitureSave(key.first, key.second, item) },
+            tag = wornTag,
             companion = if (combat.companion != null) Triple((companionPosition ?: player.position).x, (companionPosition ?: player.position).y, companionCooldown) else null,
             equippedWeapon = equippedWeapon,
             equippedArmor = equippedArmor,
@@ -1985,6 +2008,7 @@ class WorldSim(
         runes.putAll(s.runes)
         furniture.clear()
         for (f in s.furniture) furniture[Pair(f.x, f.y)] = f.item
+        wornTag = s.tag
         recomputeDerived() // the talents change the derived stats
         combat.companion?.let { c -> // a save without a companion (an older one) puts it next to the player
             val saved = s.companion

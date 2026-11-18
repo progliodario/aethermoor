@@ -149,6 +149,9 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
         }
         j["furniture"] = furniture;
     }
+    if (!s.tag.empty()) {  // the tag worn (spec 11, "Tags")
+        j["tag"] = s.tag;
+    }
     if (!s.talents.empty()) {
         Json talents = Json::object();
         for (const auto& [id, rank] : s.talents) {
@@ -319,6 +322,7 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
                 s.runes[weapon] = rune.get<std::string>();
             }
         }
+        s.tag = j.value("tag", "");
         if (j.contains("furniture")) {
             for (const Json& piece : j.at("furniture")) {
                 s.furniture[{piece.at(0).get<int>(), piece.at(1).get<int>()}] = piece.at(2).get<std::string>();

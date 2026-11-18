@@ -684,6 +684,23 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         showNotice(data.pack.text(language, "\$i18n:ui.language_set"))
     }
 
+    /** Wears the next tag earned, in the order of the data, then none, and says which (spec 11, "Tags"). */
+    private fun cycleTag(world: WorldSim) {
+        val pack = assets?.pack ?: return
+        val earned = world.earnedTags()
+        if (earned.isEmpty()) {
+            showNotice(pack.text(language, "\$i18n:ui.tag_none"))
+            return
+        }
+        val at = earned.indexOf(world.wornTag)
+        val next = if (at < 0) earned.first() else earned.getOrElse(at + 1) { "" }
+        if (!world.wearTag(next)) return
+        showNotice(
+            if (next.isEmpty()) pack.text(language, "\$i18n:ui.tag_off")
+            else pack.text(language, "\$i18n:ui.tag_worn", mapOf("tag" to pack.text(language, "\$i18n:tag.$next"), "what" to pack.text(language, "\$i18n:tag.$next.desc"))),
+        )
+    }
+
     /** Uses the item under the bag cursor (spec 06) and tells what happened. */
     private fun useSelectedItem(world: WorldSim) {
         val pack = assets?.pack ?: return
@@ -1462,6 +1479,36 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             }
             shapes.end()
         }
+        if (time.fogPm > 0) { // the fog (spec 08, "Fog"): a pale veil, and banks of mist drifting with the hour
+            val density = Gdx.graphics.density
+            val t = (System.currentTimeMillis() % 6000000L).toFloat()
+            shapes.begin(ShapeRenderer.ShapeType.Filled)
+            shapes.color = Color(0.84f, 0.86f, 0.89f, 0.43f * time.fogPm / 1000f)
+            shapes.rect(0f, 0f, w, h)
+            for (i in 0 until 7) {
+                val drift = i * 0.31f + t * 0.000012f * (1f + 0.3f * i)
+                val x = (drift - floor(drift)) * w * 1.4f - w * 0.2f
+                val y = (i + 0.5f) / 7f * h
+                val bandW = w * 0.45f
+                val bandH = 46f * density
+                for (k in 0 until 4) { // a soft bank: four layers, wider and fainter
+                    val grow = k * 14f * density
+                    shapes.color = Color(0.925f, 0.94f, 0.957f, 0.086f * time.fogPm / 1000f)
+                    shapes.rect(x - grow, y - bandH / 2f - grow / 2f, bandW + 2f * grow, bandH + grow)
+                }
+            }
+            shapes.end()
+        }
+        // a storm (full rain and full wind) flashes now and then, unless the flashes are off (spec 08, spec 16)
+        if (time.rainPm >= 900 && time.windPm >= 900 && options[2]) {
+            val beat = System.currentTimeMillis() % 7300L
+            if (beat < 90L || (beat in 181L..239L)) {
+                shapes.begin(ShapeRenderer.ShapeType.Filled)
+                shapes.color = Color(0.925f, 0.94f, 1f, 0.43f)
+                shapes.rect(0f, 0f, w, h)
+                shapes.end()
+            }
+        }
     }
 
 
@@ -1633,7 +1680,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             val minute = time.todPm * 1440 / 1000 % 60
             val clock = data.pack.text(
                 language, "\$i18n:ui.clock",
-                mapOf("day" to time.day, "time" to "%02d:%02d".format(hour, minute), "season" to seasonName(world, time)),
+                mapOf(
+                    "day" to time.day, "time" to "%02d:%02d".format(hour, minute), "season" to seasonName(world, time),
+                    "weather" to data.pack.text(language, "\$i18n:weather.${time.kind}"),
+                ),
             )
             layout.setText(font, clock)
             hudText(clock, Gdx.graphics.width - layout.width - 12f * density, 12f * density + 2f)
@@ -1922,7 +1972,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 val y = input.y.toFloat()
                 val panel = journalPanel
                 val option = optionRects.indexOfFirst { r -> x >= r[0] && x <= r[0] + r[2] && y >= r[1] && y <= r[1] + r[3] }
-                if (option >= 0) { // an option of accessibility, at the bottom of the journal (spec 16, "Settings")
+                if (option == 4) { // the tag worn (spec 11, "Tags")
+                    sim?.let { cycleTag(it) }
+                } else if (option >= 0) { // an option of accessibility, at the bottom of the journal (spec 16, "Settings")
                     options[option] = !options[option]
                     writeSettings()
                     if (option == 3) assets?.let { buildFont(it.pack) } // larger text: the font is built again
@@ -2429,6 +2481,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             itemName(data, id, 1L) + (if (rune != null) " (" + itemName(data, rune, 1L) + ")" else "")
         }
         if (worn.isNotEmpty()) entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_worn", mapOf("list" to worn)), 2))
+        if (world.wornTag.isNotEmpty()) { // the tag worn (spec 11, "Tags")
+            entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_tag", mapOf("tag" to data.pack.text(language, "\$i18n:tag.${world.wornTag}"), "what" to data.pack.text(language, "\$i18n:tag.${world.wornTag}.desc"))), 2))
+        }
         if (world.furniture.isNotEmpty()) entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_home", mapOf("count" to world.furniture.size.toLong())), 2)) // spec 06, "Furniture"
         // what the player ate and drank is still working (spec 06, "Fortify", "Ward", "Regen"): each with its seconds left
         val effects = listOf(p.fortify to "fortify", p.ward to "ward", p.regen to "regen", p.haste to "haste").filter { it.first > 0 }
@@ -2582,19 +2637,26 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             optionRects = emptyList()
             return
         }
-        val optionW = (panelW - 32f * density - 24f * density) / 4f
+        // and a fifth button, the tag worn (spec 11, "Tags"): a touch wears the next one earned
+        val buttons = if (world.combat.tags.isNotEmpty()) 5 else 4
+        val optionW = (panelW - 32f * density - 8f * density * (buttons - 1)) / buttons
         val optionY = panelY + panelH - font.lineHeight * 2.2f - 40f * density
-        optionRects = List(4) { i -> floatArrayOf(panelX + 16f * density + i * (optionW + 8f * density), optionY, optionW, 34f * density) }
+        optionRects = List(buttons) { i -> floatArrayOf(panelX + 16f * density + i * (optionW + 8f * density), optionY, optionW, 34f * density) }
         shapes.begin(ShapeRenderer.ShapeType.Filled)
         for ((i, r) in optionRects.withIndex()) {
-            shapes.color = if (options[i]) Color(0.16f, 0.35f, 0.55f, 1f) else Color(0.2f, 0.2f, 0.24f, 1f)
+            shapes.color = if (i < 4 && options[i] || i == 4 && world.wornTag.isNotEmpty()) Color(0.16f, 0.35f, 0.55f, 1f) else Color(0.2f, 0.2f, 0.24f, 1f)
             shapes.rect(r[0], r[1], r[2], r[3])
         }
         shapes.end()
         batch.begin()
         val labels = arrayOf("\$i18n:ui.option_hints", "\$i18n:ui.option_numbers", "\$i18n:ui.option_flashes", "\$i18n:ui.option_large_text")
         for ((i, r) in optionRects.withIndex()) {
-            val label = data.pack.text(language, labels[i]) + ": " + data.pack.text(language, if (options[i]) "\$i18n:ui.option_on" else "\$i18n:ui.option_off")
+            val label = if (i == 4) {
+                data.pack.text(language, "\$i18n:ui.option_tag") + ": " +
+                    (if (world.wornTag.isEmpty()) data.pack.text(language, "\$i18n:ui.option_off") else data.pack.text(language, "\$i18n:tag.${world.wornTag}"))
+            } else {
+                data.pack.text(language, labels[i]) + ": " + data.pack.text(language, if (options[i]) "\$i18n:ui.option_on" else "\$i18n:ui.option_off")
+            }
             font.draw(batch, label, r[0] + 6f * density, r[1] + (r[3] - font.lineHeight) / 2f, r[2] - 12f * density, com.badlogic.gdx.utils.Align.left, false)
         }
         batch.end()
@@ -3006,6 +3068,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         "chest" -> world.chestNear()
         "home" -> world.spotNear() != null // an empty place of the home (spec 06, "Furniture")
         "wind" -> world.windPm >= 600 // a strong wind at the back (spec 08, "Wind")
+        "fog" -> (world.time()?.fogPm ?: 0) >= 600 // a thick fog (spec 08, "Fog")
+        "tag" -> world.earnedTags().isNotEmpty() && world.wornTag.isEmpty() // a tag earned and none worn (spec 11, "Tags")
         else -> false
     }
 

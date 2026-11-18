@@ -85,6 +85,18 @@
       "when": "wind",
       "text": "$i18n:hint.wind",
       "text_touch": "$i18n:hint.wind"
+    },
+    {
+      "id": "fog",
+      "when": "fog",
+      "text": "$i18n:hint.fog",
+      "text_touch": "$i18n:hint.fog.touch"
+    },
+    {
+      "id": "tag",
+      "when": "tag",
+      "text": "$i18n:hint.tag",
+      "text_touch": "$i18n:hint.tag.touch"
     }
   ]
 }

@@ -17,6 +17,7 @@ The game picks Italian or English from your system language (F2 switches).
   Abilities ....... R Shockwave, T Mend (once learned in the talent tree)
   Companion ....... H stay here / follow me, G come back to me
   Tame ............ B (Haruka): calm a creature hurt to half of its health
+  Tag ............. Y: wear the next tag earned (a trait of how you play), then none
   Bag ............. I (W/S to choose, E to use or wear)
   Journal ......... Q or V: quests, your status, companion, titles, bestiary (W/S to scroll)
   Crafting ........ C (Tab: the talents, one point each level)

@@ -168,6 +168,7 @@ struct SaveState {
     std::map<std::string, std::string> runes;   // weapon item -> the rune engraved on it (spec 06, "Runes")
     // the furniture placed on the spots of the home (spec 06, "Furniture"): (x100, y100) -> item
     std::map<std::pair<int, int>, std::string> furniture;
+    std::string tag;  // the tag worn (spec 11, "Tags"); empty: none
     std::map<std::string, std::int64_t> inventory;
     std::string equipped_weapon;  // spec 06
     std::string equipped_armor;
@@ -216,6 +217,13 @@ public:
     // What the earned titles add (spec 11): "gather", "craft", "parry" (window ticks), "fine" (permille) or "xp"
     // (percent).
     std::int64_t title_bonus(const std::string& what) const;
+    // Tags (spec 11, "Tags"): the ids of the tags earned, in the order of the data; the one worn (empty: none); wearing
+    // an earned tag, or "" to take it off (false, changing nothing, when refused); what the worn tag adds ("atk",
+    // "gather", "craft", "parry", "fine" or "xp").
+    std::vector<std::string> earned_tags() const;
+    const std::string& worn_tag() const { return m_tag_; }
+    bool wear_tag(const std::string& tag_id);
+    std::int64_t tag_bonus(const std::string& what) const;
     const std::map<std::string, int>& counters() const { return m_counters_; }
     // Talents (spec 11): the ranks learned, the points left, and spending one point on a rank (false when refused).
     const std::map<std::string, int>& talents() const { return m_talents_; }
@@ -491,8 +499,10 @@ private:
     bool engrave(const std::string& item_id, const ItemDef& rune);
     bool place_furniture(const std::string& item_id);
     void take_one(const std::string& item_id);
-    int m_wind_pm_ = 0;     // the wind of this tick (spec 08, "Wind")
-    int m_wind_boost_ = 0;  // and what it adds to the speed of walking, in permille
+    std::string m_tag_;          // the tag worn (spec 11, "Tags")
+    int m_fog_aggro_pm_ = 1000;  // what the fog leaves of the aggro distance, this tick (spec 08, "Fog")
+    int m_wind_pm_ = 0;          // the wind of this tick (spec 08, "Wind")
+    int m_wind_boost_ = 0;       // and what it adds to the speed of walking, in permille
     bool m_chest_open_ = false;
     Story m_story_;
     bool m_window_valid_ = false;
