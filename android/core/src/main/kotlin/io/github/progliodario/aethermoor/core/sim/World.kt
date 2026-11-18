@@ -232,6 +232,11 @@ class WorldSim(
         private set
     private var windBoost = 0
     private var fogAggroPm = 1000 // what the fog leaves of the aggro distance, this tick (spec 08, "Fog")
+    private var rainPmNow = 0 // the rain of this tick (a storm is rain and wind: spec 08, "Lightning")
+    private var lightningTick = -1000000L // when the lightning last struck; presentation, not saved
+
+    /** How many ticks ago the lightning last struck (presentation: the flash of the sky). */
+    fun ticksSinceLightning(): Long = worldTicks - lightningTick
 
     /** The tag worn (spec 11, "Tags"); empty: none. */
     var wornTag = ""
@@ -1359,6 +1364,7 @@ class WorldSim(
         if (store != null) {
             val sample = sampleTime(store.seed, store.params.time, worldTicks)
             rainAggroPm = 1000 - sample.rainPm * store.params.time.rainAggroCutPm / 1000
+            rainPmNow = sample.rainPm
             rainSlowPm = 1000 - sample.rainPm * store.params.time.rainSlowPm / 1000
             nightAggroPm = 1000 - (1000 - sample.lightPm) * store.params.time.nightAggroCutPm / 1000 // the night hides the player too
             windPm = sample.windPm // the wind at the back of the player (spec 08, "Wind")
@@ -1366,6 +1372,7 @@ class WorldSim(
             fogAggroPm = 1000 - sample.fogPm * store.params.time.fogAggroCutPm / 1000 // the fog hides the player (spec 08, "Fog")
         } else {
             rainAggroPm = 1000 - combat.rainPm * combat.rainAggroCutPm / 1000
+            rainPmNow = combat.rainPm
             rainSlowPm = 1000 - combat.rainPm * combat.rainSlowPm / 1000
             nightAggroPm = 1000 - (1000 - combat.lightPm) * combat.nightAggroCutPm / 1000
             windPm = combat.windPm
@@ -1471,6 +1478,7 @@ class WorldSim(
             updateEnemy(enemy)
             if (enemy.hitFlash > 0) enemy.hitFlash--
         }
+        lightning()
         if (p.parryTicks > 0) p.parryTicks--
         if (p.chill > 0) p.chill--
         if (p.weaken > 0) p.weaken--
@@ -1578,6 +1586,38 @@ class WorldSim(
         if (element == "none") return 1000L
         target.weaknessesPm[element]?.let { return it }
         return if (target.element == element) 500L else 1000L
+    }
+
+    /** The lightning of a storm (spec 08, "Lightning"): every `lightning_ticks` ticks of a storm (rain and wind both 900 or more), the
+     *  nearest creature within range that chases or attacks the player is struck for `lightning_pct` percent of its health. */
+    private fun lightning() {
+        val time = chunks?.params?.time
+        val period = time?.lightningTicks ?: combat.lightningTicks
+        val pct = time?.lightningPct ?: combat.lightningPct
+        val range = time?.lightningRangeX100 ?: combat.lightningRangeX100
+        if (period <= 0 || worldTicks % period != 0L || rainPmNow < 900 || windPm < 900) return
+        var best: Enemy? = null
+        var bestD = 0f
+        for (enemy in enemies) {
+            if (enemy.state != EnemyState.CHASE && enemy.state != EnemyState.ATTACK) continue
+            val d = distance(enemy.position.x, enemy.position.y, player.position.x, player.position.y)
+            if (d <= range / 100f && (best == null || d < bestD)) {
+                best = enemy
+                bestD = d
+            }
+        }
+        val hit = best ?: return
+        val amount = maxOf(1L, hit.def.hp * pct / 100)
+        hit.hp -= amount
+        hit.hitFlash = HIT_FLASH_TICKS
+        lightningTick = worldTicks
+        events.add(DamageEvent(hit.position, amount, false, false))
+        cues.add(SimCue("lightning", "", hit.position))
+        if (hit.hp <= 0) {
+            hit.hp = 0
+            hit.state = EnemyState.DEAD
+            onKill(hit)
+        }
     }
 
     private fun onKill(enemy: Enemy) {

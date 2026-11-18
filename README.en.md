@@ -40,8 +40,8 @@ The numbers of the game, counted from the data (never written by hand: `python t
 | Progression | 44 titles, 8 tags, 16 talents, 26 deeds |
 | Named people | 45 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 3414 keys, in Italian and English |
-| Same rules on both clients | 30 files of conformance vectors, 553 cases, run by the C++ and the Kotlin tests |
+| Texts | 3417 keys, in Italian and English |
+| Same rules on both clients | 30 files of conformance vectors, 555 cases, run by the C++ and the Kotlin tests |
 | Documents | 18 specs, 13 ADRs |
 <!-- facts:end -->
 
@@ -56,7 +56,7 @@ The numbers of the game, counted from the data (never written by hand: `python t
 | Quests and stories | a story in five acts for every protagonist, tales of the villagers, guild, legends, bounties | Gideon's Dungeon mode |
 | Life | gathering, fishing, hunting, gardens, animals, shared chests, the Guest's cottage and its furniture, pedlars, secret recipes, food with effects | residents in the generated villages too, merchants who really travel |
 | Companions | one per protagonist with commands, bond and care; Haruka tames a second one | more companions chosen by the player |
-| Progression | talents with abilities, titles with effects, bestiary, reincarnation with an heirloom, deeds that give echoes, runes on the weapons, tags to wear, weapons and armors with affixes | rewards for the deeds |
+| Progression | talents with abilities, titles with effects, bestiary, reincarnation with an heirloom, deeds that give echoes, runes on the weapons, tags to wear, weapons and armors with affixes, gifts of the deeds | random affixes |
 | Accessibility | hints, damage numbers and flashes can be turned off, large text, configurable keys | — |
 | Release | test builds from CI | Alpha 0.1 and then 1.0 (the owner decides) |
 
@@ -67,7 +67,7 @@ The full catalog, generated from the data, is [`docs/design/catalog.md`](docs/de
 **World**
 
 - An open world of 16384 x 16384 tiles generated from a seed (always the same for the same seed), streamed as you walk; eight regions with their own terrain, creatures, shops and way of speaking.
-- Day and night, four seasons, weather: rain and night hide you from creatures, rain and snow slow them, rain makes the gardens grow sooner, the wind at your back makes you walk faster, fog hides you, storms flash.
+- Day and night, four seasons, weather: rain and night hide you from creatures, rain and snow slow them, rain makes the gardens grow sooner, the wind at your back makes you walk faster, fog hides you, in storms the lightning strikes the creatures that chase you.
 - Generated settlements and hand-made sites: dungeons and lairs with a guardian, nests, eight outposts (each with a wayfarer, a local and a pedlar), eight sanctums of the Echoes, **Fenwick** (where you start), **the Guest's cottage** east of Fenwick and **Aldermere**, the town of the mother guild.
 - Threshold Stones to heal and travel; a world map with zoom, a goal to mark and a minimap; every quest marks where to go.
 
@@ -97,7 +97,7 @@ The full catalog, generated from the data, is [`docs/design/catalog.md`](docs/de
 **Progression**
 
 - Levels, a talent tree with abilities (two used with a key of their own), titles that change the game, a bestiary with weaknesses; **runes** made at an anvil to engrave on your weapon, which then hits harder and with the element of the rune; **tags**, traits earned by how you play, worn one at a time; **affixes**: every region has a weapon and an armor with a bonus more, left by its guardians.
-- A profile shared by all games: titles, past lives and **deeds** give "echoes" (more health in every game); from level 10 a game can **reincarnate** and leave half its gold and its weapon to the next.
+- A profile shared by all games: titles, past lives and **deeds** give "echoes" (more health in every game); every deed done leaves a gift in the bag of every new game; from level 10 a game can **reincarnate** and leave half its gold and its weapon to the next.
 - A companion per protagonist that follows, fights, stays, comes back and heals; Haruka tames creatures, and the last one stays with her.
 
 ## The protagonists
@@ -238,7 +238,7 @@ The project is developed by the owner together with Claude, an AI assistant that
 
 The next things, in order (details in the [roadmap](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine), in Italian):
 
-- **Soon:** automatic checks of the graphics; rewards for the deeds; more affixed pieces.
+- **Soon:** automatic checks of the graphics; random affixes; residents in the generated villages.
 - **Medium term:** residents in the generated villages too and merchants who travel; Gideon's Dungeon mode; performance measured on a phone; a better synthesizer for music and ambience (only if the owner wants it).
 - **Toward 1.0:** signed packages, documentation for modders, more languages.
 - **The owner decides:** when to publish the first release (Alpha 0.1).

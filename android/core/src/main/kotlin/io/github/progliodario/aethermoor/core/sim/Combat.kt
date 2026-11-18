@@ -324,6 +324,10 @@ class CombatSetup(
     /** The fog of a world without a clock, and how much a full fog shortens the aggro distance (spec 08, "Fog"). */
     val fogPm: Int = 0,
     val fogAggroCutPm: Int = 0,
+    /** The lightning of a storm of a world without a clock (spec 08, "Lightning"). */
+    val lightningTicks: Int = 0,
+    val lightningPct: Int = 0,
+    val lightningRangeX100: Int = 0,
     /** The tags (spec 11, "Tags"): earned like titles, one worn at a time; in the order of the data. */
     val tags: List<TitleDef> = emptyList(),
     /** Percent added to the maximum health, from the profile of past games (spec 11, "Echoes"). */

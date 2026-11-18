@@ -65,6 +65,25 @@
           },
           "text": {
             "type": "string"
+          },
+          "reward": {
+            "description": "The gift every new game finds in its bag once the deed is done (spec 11, \"Gifts of the deeds\")",
+            "type": "object",
+            "required": [
+              "item",
+              "qty"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "item": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*:item/[a-z0-9_]+$"
+              },
+              "qty": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
           }
         }
       }

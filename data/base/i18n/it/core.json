@@ -1264,5 +1264,8 @@
   "hint.fog.touch": "Nebbia: le creature ti vedono solo quando sei vicino. Passa oltre, o coglile di sorpresa.",
   "hint.tag": "Hai guadagnato un tag, un tratto del tuo modo di giocare: premi Y per indossarlo (uno alla volta). La finestra di stato (V) lo mostra.",
   "hint.tag.touch": "Hai guadagnato un tag, un tratto del tuo modo di giocare: indossalo con il pulsante Tag in fondo al diario (uno alla volta).",
+  "ui.deed_gifts": "Le tue imprese ti hanno lasciato {count} doni nello zaino.",
+  "hint.storm": "Un temporale: il fulmine colpisce le creature che ti inseguono. Lasciale venire.",
+  "hint.storm.touch": "Un temporale: il fulmine colpisce le creature che ti inseguono. Lasciale venire.",
   "dlg.pip.story.gideon.done": "Tutto il villaggio è d'accordo: sei un buon re. Prendi la lama, non è per niente come la vecchia, ma ti sta bene."
 }

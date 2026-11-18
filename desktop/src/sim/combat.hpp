@@ -288,6 +288,9 @@ struct CombatSetup {
     int wind_haste_pm = 0;
     int fog_pm = 0;  // the fog (spec 08, "Fog"): how thick it is, and how much a full fog shortens the aggro distance
     int fog_aggro_cut_pm = 0;
+    int lightning_ticks = 0;  // the lightning of a storm (spec 08, "Lightning"): how often, how hard, how far
+    int lightning_pct = 0;
+    int lightning_range_x100 = 0;
     std::vector<EnemySpawn> spawns;
     std::vector<std::int64_t> xp_table;  // table[level - 1] = XP to go from `level` to `level + 1`
     std::uint64_t seed = 0;

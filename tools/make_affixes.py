@@ -109,7 +109,31 @@ def main() -> None:
             doc["drops"] = drops
             write_json(path, doc)
         guardians += 1
-    print(f"wrote {sum(len(p) for p in PIECES.values())} affixed pieces, dropped by {guardians} guardians")
+    patch_shops()
+    print(f"wrote {sum(len(p) for p in PIECES.values())} affixed pieces, dropped by {guardians} guardians and sold to the friends of each region")
+
+
+# The shop of every region also keeps its two pieces for its friends (spec 07, "Renown"): the weapon from this renown, the armor from that.
+SHOP_RENOWN = (15, 20)
+
+
+def patch_shops() -> None:
+    """Adds the affixed pieces of every region to the `renown_stock` of its shop, in the world data, in place; a second run changes nothing."""
+    path = DATA / "worlds" / "overworld.json"
+    raw = path.read_text(encoding="utf-8", newline="")
+    lines = raw.split("\n")
+    for k, line in enumerate(lines):
+        for region, pieces in PIECES.items():
+            if not line.lstrip().startswith(f'{{ "id": "{region}", "name": "$i18n:region.'):
+                continue
+            start = line.index('"renown_stock": [') + len('"renown_stock": [')
+            end = line.index("]", start)
+            entries = line[start:end]
+            for (piece, *_rest), renown in zip(pieces, SHOP_RENOWN):
+                if f'"base:item/{piece}"' not in entries:
+                    entries += f', {{ "item": "base:item/{piece}", "renown": {renown} }}'
+            lines[k] = line[:start] + entries + line[end:]
+    path.write_text("\n".join(lines), encoding="utf-8", newline="")
 
 
 if __name__ == "__main__":

@@ -143,6 +143,12 @@
                 "family": "",
                 "x": 10.0,
                 "y": 10.0
+              },
+              {
+                "kind": "lightning",
+                "family": "",
+                "x": 40.0,
+                "y": 10.0
               }
             ]
           },
@@ -241,6 +247,10 @@
             },
             {
               "event": "craft",
+              "volume_pm": 1000
+            },
+            {
+              "event": "thunder",
               "volume_pm": 1000
             }
           ],

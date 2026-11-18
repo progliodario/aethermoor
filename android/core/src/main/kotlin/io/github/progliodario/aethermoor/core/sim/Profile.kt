@@ -79,7 +79,17 @@ fun profileToJson(profile: Profile): String =
 
 /** A deed (spec 11, "Deeds"): a fact about all the games, read from the profile. [kind] is `kills`, `kinds`, `titles` or `lives` (with [count]),
  *  `defeated` (every creature of [list]) or `earned` (every title of [list]); [name] and [text] are for the clients. */
-class DeedDef(val id: String, val kind: String, val count: Long = 0, val list: List<String> = emptyList(), val name: String = "", val text: String = "")
+class DeedDef(
+    val id: String,
+    val kind: String,
+    val count: Long = 0,
+    val list: List<String> = emptyList(),
+    val name: String = "",
+    val text: String = "",
+    /** The gift every new game finds once the deed is done (spec 11, "Gifts of the deeds"); empty: none. */
+    val rewardItem: String = "",
+    val rewardQty: Long = 0,
+)
 
 /** The deeds of a text: the array, or the object of `data/base/deeds.json` with its `deeds`; a broken text has none. */
 fun parseDeeds(text: String?): List<DeedDef> {
@@ -94,7 +104,10 @@ fun parseDeeds(text: String?): List<DeedDef> {
         val names = listOf("enemies", "titles").flatMap { key ->
             (d[key] as? JsonArray)?.mapNotNull { (it as? JsonPrimitive)?.takeIf { p -> p.isString }?.content } ?: emptyList()
         }
-        DeedDef(id, str("kind"), count, names, str("name"), str("text"))
+        val reward = d["reward"] as? JsonObject
+        val rewardItem = (reward?.get("item") as? JsonPrimitive)?.takeIf { it.isString }?.content ?: ""
+        val rewardQty = (reward?.get("qty") as? JsonPrimitive)?.takeIf { !it.isString }?.content?.toLongOrNull() ?: 0L
+        DeedDef(id, str("kind"), count, names, str("name"), str("text"), rewardItem, rewardQty)
     }
 }
 
@@ -111,3 +124,13 @@ fun profileDeeds(profile: Profile, defs: List<DeedDef>): List<String> =
             else -> false
         }
     }.map { it.id }
+
+/** The gifts of the deeds done, which every new game finds in its bag (spec 11, "Gifts of the deeds"): item -> quantity, in item order. */
+fun profileDeedGifts(profile: Profile, defs: List<DeedDef>): Map<String, Long> {
+    val done = profileDeeds(profile, defs).toSet()
+    val gifts = java.util.TreeMap<String, Long>()
+    for (deed in defs) {
+        if (deed.id in done && deed.rewardItem.isNotEmpty() && deed.rewardQty > 0) gifts[deed.rewardItem] = (gifts[deed.rewardItem] ?: 0L) + deed.rewardQty
+    }
+    return gifts
+}

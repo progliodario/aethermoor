@@ -171,6 +171,20 @@ across it (`110 * fog_pm / 1000` of alpha); in a storm (rain and wind both 900 o
 In the conformance scenarios the fog is `weather.fog_pm` and `weather.fog_aggro_cut_pm`: `fog_hides`, `fog_light`,
 `fog_rain_and_night`. The suite `worldtime` has `fog_pm` in every sample.
 
+## Lightning
+
+A **storm** is a moment when `rain_pm` and `wind_pm` are both 900 or more (taken at the start of the tick). `time.weather.lightning_ticks`
+(0: never; 438 in the base world, about seven seconds), `lightning_pct` (40) and `lightning_range_x100` (900) say how the lightning of a
+storm helps the Guest: at the end of every tick whose `world_ticks % lightning_ticks == 0`, after the creatures have moved, the
+**nearest creature** within `lightning_range_x100 / 100` tiles of the player that **chases or attacks** the player (the first of the list
+on a tie) is struck for `max(1, hp * lightning_pct / 100)`, where `hp` is the health of its definition. A strike that leaves it at 0 or
+less kills it, a victory like any other (experience, drops, bestiary, quests). Idle creatures are never struck. Presentation: the
+creature flashes, the number of the damage rises, the sky flashes white (unless the flashes are off) and the thunder sounds (the cue
+`lightning`, spec 14). A hint tells it the first time (spec 16, "Hints").
+
+In the conformance scenarios it is `weather.lightning_ticks`, `lightning_pct` and `lightning_range_x100` with the rain and the wind of
+the scenario: `lightning_strikes`, `lightning_needs_wind`.
+
 ## The colour of the hour
 
 Presentation only, the same on both clients, with the colours of `grading` in `data/base/lights.json` (art direction; a pack

@@ -75,7 +75,7 @@ both clients and is tested with the conformance suite `audio_director`. Its inpu
 |---|---|
 | `frame` | frame counter |
 | `player` | `hp`, `max_hp`, `level`, `phase` (0 when no attack is going on), `strike` (the attack is the power strike), `dodge` (a roll is going on), `moving`, `x`, `y` (tiles), `surface` (the sound of the tile under the feet: `grass`, `dirt`, `sand`, `snow`, `stone`, `wood`, `water`, `moss`, `ash`), `save_cd` (ticks until the death save is ready again) |
-| `cues` | what the creatures did this frame, from the simulation: `kind` (`hit` the player hurt it, `hurt` it hurt the player, `die`, `aggro` it noticed the player, `attack` it began an attack), `family` (its `sound` in the enemy data), `x`, `y`, and for `hit` the flags `crit` and `weak` |
+| `cues` | what the creatures did this frame, from the simulation: `kind` (`hit` the player hurt it, `hurt` it hurt the player, `die`, `aggro` it noticed the player, `attack` it began an attack, `lightning` the lightning struck it), `family` (its `sound` in the enemy data), `x`, `y`, and for `hit` the flags `crit` and `weak` |
 | `items`, `gold`, `mp`, `weapon`, `armor` | how many things are in the bag, the gold, the mana, the equipped items |
 | `panels` | `bag`, `map`, `journal`, `shop`, `board`, `travel`: which are open |
 | `dialogue`, `line`, `cursor` | a dialogue is open; a counter that grows with every line spoken; the sum of the cursors of the menus |
@@ -85,7 +85,9 @@ both clients and is tested with the conformance suite `audio_director`. Its inpu
 The output is a list of events with a volume in permille. For each frame, in this order:
 
 1. **Cues**: for each, with `d` the distance to the player in tiles, the volume is `clamp(1000 - floor(d * 70 + 0.5), 0, 1000)`.
-   `hurt` gives `player.hurt` (always full). Any other kind gives `enemy.<family>.<kind>` at that volume, unless it is below 60.
+   `hurt` gives `player.hurt`, `parry` gives `player.parry`, `gather` gives `gather.<family>`, `craft` gives `craft` and `lightning`
+   (the lightning of a storm struck a creature, spec 08) gives `thunder`, all at full volume. Any other kind gives `enemy.<family>.<kind>`
+   at that volume, unless it is below 60.
    A `hit` also gives `crit` and `weak` when flagged.
 2. From the second frame on, comparing with the previous snapshot: `power` or `swing` when `phase` leaves 0; `dodge` when the roll
    starts; `level_up`; `player.death` when `hp` falls to 0; `death_save` when `save_cd` grows; `step.<surface>` (volume 700) for each

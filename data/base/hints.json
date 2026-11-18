@@ -93,6 +93,12 @@
       "text_touch": "$i18n:hint.fog.touch"
     },
     {
+      "id": "storm",
+      "when": "storm",
+      "text": "$i18n:hint.storm",
+      "text_touch": "$i18n:hint.storm.touch"
+    },
+    {
       "id": "tag",
       "when": "tag",
       "text": "$i18n:hint.tag",

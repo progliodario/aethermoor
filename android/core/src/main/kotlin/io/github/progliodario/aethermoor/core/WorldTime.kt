@@ -34,6 +34,10 @@ class TimeParams(
     val windHastePm: Int = 0,
     /** How much a full fog shortens the aggro distance, in permille (spec 08, "Fog"). */
     val fogAggroCutPm: Int = 0,
+    /** The lightning of a storm (spec 08, "Lightning"): how often (0: never), the share of the health it strikes, and how far. */
+    val lightningTicks: Int = 0,
+    val lightningPct: Int = 0,
+    val lightningRangeX100: Int = 0,
     /** How much full darkness shortens the aggro distance, in permille (spec 08, "The night hides you"). */
     val nightAggroCutPm: Int = 0,
 )
@@ -132,6 +136,9 @@ fun parseTimeParams(time: JsonObject): TimeParams {
         rainSlowPm = weather["rain_slow_pm"]?.jsonPrimitive?.int ?: 0,
         windHastePm = weather["wind_haste_pm"]?.jsonPrimitive?.int ?: 0,
         fogAggroCutPm = weather["fog_aggro_cut_pm"]?.jsonPrimitive?.int ?: 0,
+        lightningTicks = weather["lightning_ticks"]?.jsonPrimitive?.int ?: 0,
+        lightningPct = weather["lightning_pct"]?.jsonPrimitive?.int ?: 0,
+        lightningRangeX100 = weather["lightning_range_x100"]?.jsonPrimitive?.int ?: 0,
         nightAggroCutPm = time["night_aggro_cut_pm"]?.jsonPrimitive?.int ?: 0,
         kinds = weather.getValue("kinds").jsonArray.map {
             val k = it.jsonObject

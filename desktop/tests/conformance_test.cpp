@@ -611,6 +611,11 @@ TEST_CASE("conformance: profile", "[conformance]") {
             REQUIRE(deeds == expect.at("deeds").get<std::vector<std::string>>());
             REQUIRE(aether::profile_echo_pct(got, static_cast<int>(deeds.size())) ==
                     expect.at("echo_pct_deeds").get<int>());
+            const auto gifts = aether::profile_deed_gifts(got, aether::parse_deeds(in.at("deeds").dump()));
+            REQUIRE(gifts.size() == expect.at("gifts").size());  // the gifts of the deeds (spec 11)
+            for (const auto& [item, qty] : expect.at("gifts").items()) {
+                REQUIRE(gifts.at(item) == qty.get<std::int64_t>());
+            }
         }
         const aether::Profile again =
             aether::parse_profile(aether::profile_to_json(got));  // writing and reading it back changes nothing
@@ -759,6 +764,9 @@ Scenario scenario_from_json(const Json& in) {
         setup.wind_haste_pm = in.at("weather").value("wind_haste_pm", 0);
         setup.fog_pm = in.at("weather").value("fog_pm", 0);
         setup.fog_aggro_cut_pm = in.at("weather").value("fog_aggro_cut_pm", 0);
+        setup.lightning_ticks = in.at("weather").value("lightning_ticks", 0);
+        setup.lightning_pct = in.at("weather").value("lightning_pct", 0);
+        setup.lightning_range_x100 = in.at("weather").value("lightning_range_x100", 0);
     }
     if (in.contains("gift")) {
         const Json& gift = in.at("gift");
