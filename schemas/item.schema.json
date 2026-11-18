@@ -116,7 +116,15 @@
       "properties": {
         "element": {
           "description": "the element the weapon hits with; none keeps its own",
-          "enum": ["none", "fire", "water", "wind", "earth", "light", "dark"]
+          "enum": [
+            "none",
+            "fire",
+            "water",
+            "wind",
+            "earth",
+            "light",
+            "dark"
+          ]
         },
         "atk": {
           "description": "added to the attack of the weapon",
@@ -137,7 +145,9 @@
     },
     "furniture": {
       "type": "object",
-      "required": ["art"],
+      "required": [
+        "art"
+      ],
       "additionalProperties": false,
       "description": "a piece of furniture (spec 06, \"Furniture\"): used from the bag next to a spot of the home, it stands there and adds like a title",
       "properties": {
@@ -146,12 +156,36 @@
           "type": "string",
           "pattern": "^[a-z][a-z0-9_]*:art/prop/[a-z0-9_]+$"
         },
-        "atk_pct": { "type": "integer", "minimum": 0, "description": "percent added to the attack of the hits" },
-        "gather_bonus": { "type": "integer", "minimum": 0, "description": "more of every drop gathered" },
-        "craft_bonus": { "type": "integer", "minimum": 0, "description": "more of the output of every recipe" },
-        "parry_bonus": { "type": "integer", "minimum": 0, "description": "ticks added to the parry window" },
-        "xp_pct": { "type": "integer", "minimum": 0, "description": "percent more experience from a kill" },
-        "fine_pm": { "type": "integer", "minimum": 0, "description": "permille added to the chance of a fine piece" }
+        "atk_pct": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "percent added to the attack of the hits"
+        },
+        "gather_bonus": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "more of every drop gathered"
+        },
+        "craft_bonus": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "more of the output of every recipe"
+        },
+        "parry_bonus": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "ticks added to the parry window"
+        },
+        "xp_pct": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "percent more experience from a kill"
+        },
+        "fine_pm": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "permille added to the chance of a fine piece"
+        }
       }
     },
     "armor": {
@@ -176,6 +210,42 @@
       "type": "object",
       "additionalProperties": false,
       "description": "an accessory (spec 06, \"Equipment\"): flat bonuses added to the derived stats while it is worn",
+      "properties": {
+        "atk": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "matk": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "def": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "mdef": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_hp": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "crit_pm": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "drain_pm": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        }
+      }
+    },
+    "affix": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "an affix (spec 06, \"Affixes\"): flat bonuses of a weapon or an armor, added to the derived stats while it is worn, like an accessory's",
       "properties": {
         "atk": {
           "type": "integer",

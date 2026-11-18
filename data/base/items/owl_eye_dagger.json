@@ -1,0 +1,17 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/owl_eye_dagger",
+  "name": "$i18n:item.owl_eye_dagger.name",
+  "description": "$i18n:item.owl_eye_dagger.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 1200,
+  "weapon": {
+    "atk": 15,
+    "matk": 2,
+    "element": "dark"
+  },
+  "affix": {
+    "crit_pm": 60
+  }
+}

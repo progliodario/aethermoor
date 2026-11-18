@@ -342,9 +342,19 @@
         },
         "armor": {
           "type": "string"
+        },
+        "accessory": {
+          "type": "string"
         }
       }
     },
+    "runes": { "description": "The runes engraved on the weapons, weapon item -> rune item (spec 06, \"Runes\")", "type": "object", "additionalProperties": { "type": "string" } },
+    "furniture": {
+      "description": "The furniture of the home, [x100, y100, item] in order (spec 06, \"Furniture\")",
+      "type": "array",
+      "items": { "type": "array", "prefixItems": [{ "type": "integer" }, { "type": "integer" }, { "type": "string" }], "minItems": 3, "maxItems": 3 }
+    },
+    "tag": { "description": "The tag worn (spec 11, \"Tags\")", "type": "string" },
     "talents": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 1 } },
     "chest": { "description": "What the chests hold, shared by all of them (spec 06, \"Chests\")", "type": "object", "additionalProperties": { "type": "integer", "minimum": 1 } },
     "counters": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 1 } },

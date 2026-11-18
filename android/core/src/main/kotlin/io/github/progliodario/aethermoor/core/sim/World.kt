@@ -847,13 +847,17 @@ class WorldSim(
                 else -> derived
             }
         }
-        combat.items[equippedAccessory]?.accessory?.let { a -> // its flat bonuses come last (spec 06)
+        for (a in flatBonuses()) { // its flat bonuses come last (spec 06), and the affixes of the weapon and the armor ("Affixes")
             derived = derived.copy(
                 atk = derived.atk + a.atk, matk = derived.matk + a.matk, def = derived.def + a.def, mdef = derived.mdef + a.mdef,
                 maxHp = derived.maxHp + a.maxHp, critChancePm = derived.critChancePm + a.critPm,
             )
         }
     }
+
+    /** The blocks of flat bonuses worn (spec 06, "Equipment", "Affixes"): the accessory, then the affix of the weapon, then the armor's. */
+    private fun flatBonuses(): List<AccessoryStats> =
+        listOfNotNull(combat.items[equippedAccessory]?.accessory, combat.items[equippedWeapon]?.affix, combat.items[equippedArmor]?.affix)
 
     /** Puts the player at (x, y) in tiles, loading the chunks around (developer option, later the Threshold Stones). */
     fun teleport(x: Float, y: Float) {
@@ -1534,7 +1538,7 @@ class WorldSim(
             )
             val amount = if (enemy.broken > 0) rawAmount * STAGGER_DAMAGE_PCT / 100 else rawAmount
             enemy.hp -= amount
-            val drain = combat.items[equippedAccessory]?.accessory?.drainPm ?: 0L // an accessory that drains (spec 06)
+            val drain = flatBonuses().sumOf { it.drainPm } // an accessory or an affix that drains (spec 06)
             if (drain > 0 && p.hp > 0 && p.hp < derived.maxHp) p.hp = minOf(derived.maxHp, p.hp + maxOf(1L, amount * drain / 1000))
             enemy.hitFlash = HIT_FLASH_TICKS
             events.add(DamageEvent(enemy.position, amount, crit, false, weak = elementMultiplier(enemy.def) > 1000))

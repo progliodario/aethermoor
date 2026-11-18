@@ -1,0 +1,17 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/dune_scimitar",
+  "name": "$i18n:item.dune_scimitar.name",
+  "description": "$i18n:item.dune_scimitar.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 1400,
+  "weapon": {
+    "atk": 18,
+    "matk": 0,
+    "element": "fire"
+  },
+  "affix": {
+    "atk": 6
+  }
+}

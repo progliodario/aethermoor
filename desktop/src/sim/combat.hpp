@@ -136,7 +136,15 @@ struct ItemDef {
     std::int64_t acc_max_hp = 0;
     std::int64_t acc_crit_pm = 0;
     std::int64_t acc_drain_pm = 0;  // share of the damage of every hit given back to the player
-    bool is_rune = false;           // a rune (spec 06, "Runes"): engraved on the worn weapon at its station
+    bool has_affix = false;  // an affix (spec 06, "Affixes"): flat bonuses of a weapon or an armor while it is worn
+    std::int64_t aff_atk = 0;
+    std::int64_t aff_matk = 0;
+    std::int64_t aff_def = 0;
+    std::int64_t aff_mdef = 0;
+    std::int64_t aff_max_hp = 0;
+    std::int64_t aff_crit_pm = 0;
+    std::int64_t aff_drain_pm = 0;
+    bool is_rune = false;  // a rune (spec 06, "Runes"): engraved on the worn weapon at its station
     std::string rune_element = "none";
     std::int64_t rune_atk = 0;
     std::int64_t rune_matk = 0;

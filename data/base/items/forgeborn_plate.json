@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/forgeborn_plate",
+  "name": "$i18n:item.forgeborn_plate.name",
+  "description": "$i18n:item.forgeborn_plate.desc",
+  "kind": "armor",
+  "rarity": "rare",
+  "price": 1300,
+  "armor": {
+    "def": 11,
+    "mdef": 4
+  },
+  "affix": {
+    "def": 4
+  }
+}

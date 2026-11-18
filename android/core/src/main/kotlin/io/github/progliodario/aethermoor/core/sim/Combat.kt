@@ -113,6 +113,8 @@ class ItemDef(
     val accessory: AccessoryStats? = null,
     /** A rune (spec 06, "Runes"): engraved on the worn weapon at its station. */
     val rune: RuneStats? = null,
+    /** An affix (spec 06, "Affixes"): the flat bonuses of a weapon or an armor while it is worn, like an accessory's. */
+    val affix: AccessoryStats? = null,
     /** A piece of furniture (spec 06, "Furniture"): placed on a spot of the home. */
     val furniture: FurnitureStats? = null,
 )

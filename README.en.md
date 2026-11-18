@@ -36,12 +36,12 @@ The numbers of the game, counted from the data (never written by hand: `python t
 | Protagonists | 8, each with a companion (8 companions) and a story of five acts (96 story quests) |
 | Creatures | 75, of which 27 guardians and 8 Echoes |
 | Quests | 319 (24 tales of the villagers) |
-| Items and recipes | 222 items, 76 recipes (8 secret) |
+| Items and recipes | 238 items, 76 recipes (8 secret) |
 | Progression | 44 titles, 8 tags, 16 talents, 26 deeds |
 | Named people | 45 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 3382 keys, in Italian and English |
-| Same rules on both clients | 30 files of conformance vectors, 551 cases, run by the C++ and the Kotlin tests |
+| Texts | 3414 keys, in Italian and English |
+| Same rules on both clients | 30 files of conformance vectors, 553 cases, run by the C++ and the Kotlin tests |
 | Documents | 18 specs, 13 ADRs |
 <!-- facts:end -->
 
@@ -56,7 +56,7 @@ The numbers of the game, counted from the data (never written by hand: `python t
 | Quests and stories | a story in five acts for every protagonist, tales of the villagers, guild, legends, bounties | Gideon's Dungeon mode |
 | Life | gathering, fishing, hunting, gardens, animals, shared chests, the Guest's cottage and its furniture, pedlars, secret recipes, food with effects | residents in the generated villages too, merchants who really travel |
 | Companions | one per protagonist with commands, bond and care; Haruka tames a second one | more companions chosen by the player |
-| Progression | talents with abilities, titles with effects, bestiary, reincarnation with an heirloom, deeds that give echoes, runes on the weapons, tags to wear | affixes |
+| Progression | talents with abilities, titles with effects, bestiary, reincarnation with an heirloom, deeds that give echoes, runes on the weapons, tags to wear, weapons and armors with affixes | rewards for the deeds |
 | Accessibility | hints, damage numbers and flashes can be turned off, large text, configurable keys | — |
 | Release | test builds from CI | Alpha 0.1 and then 1.0 (the owner decides) |
 
@@ -96,7 +96,7 @@ The full catalog, generated from the data, is [`docs/design/catalog.md`](docs/de
 
 **Progression**
 
-- Levels, a talent tree with abilities (two used with a key of their own), titles that change the game, a bestiary with weaknesses; **runes** made at an anvil to engrave on your weapon, which then hits harder and with the element of the rune; **tags**, traits earned by how you play, worn one at a time.
+- Levels, a talent tree with abilities (two used with a key of their own), titles that change the game, a bestiary with weaknesses; **runes** made at an anvil to engrave on your weapon, which then hits harder and with the element of the rune; **tags**, traits earned by how you play, worn one at a time; **affixes**: every region has a weapon and an armor with a bonus more, left by its guardians.
 - A profile shared by all games: titles, past lives and **deeds** give "echoes" (more health in every game); from level 10 a game can **reincarnate** and leave half its gold and its weapon to the next.
 - A companion per protagonist that follows, fights, stays, comes back and heals; Haruka tames creatures, and the last one stays with her.
 
@@ -238,7 +238,7 @@ The project is developed by the owner together with Claude, an AI assistant that
 
 The next things, in order (details in the [roadmap](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine), in Italian):
 
-- **Soon:** automatic checks of the graphics; affixes; rewards for the deeds.
+- **Soon:** automatic checks of the graphics; rewards for the deeds; more affixed pieces.
 - **Medium term:** residents in the generated villages too and merchants who travel; Gideon's Dungeon mode; performance measured on a phone; a better synthesizer for music and ambience (only if the owner wants it).
 - **Toward 1.0:** signed packages, documentation for modders, more languages.
 - **The owner decides:** when to publish the first release (Alpha 0.1).

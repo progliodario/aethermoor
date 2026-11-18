@@ -1,0 +1,17 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/starglass_staff",
+  "name": "$i18n:item.starglass_staff.name",
+  "description": "$i18n:item.starglass_staff.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 1800,
+  "weapon": {
+    "atk": 4,
+    "matk": 22,
+    "element": "light"
+  },
+  "affix": {
+    "matk": 8
+  }
+}

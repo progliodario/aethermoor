@@ -963,6 +963,18 @@ Scenario scenario_from_json(const Json& in) {
                 parsed.acc_crit_pm = a.value("crit_pm", static_cast<std::int64_t>(0));
                 parsed.acc_drain_pm = a.value("drain_pm", static_cast<std::int64_t>(0));
             }
+            if (def.contains(
+                    "affix")) {  // spec 06, "Affixes": flat bonuses of a weapon or an armor, like an accessory's
+                const Json& f = def.at("affix");
+                parsed.has_affix = true;
+                parsed.aff_atk = f.value("atk", static_cast<std::int64_t>(0));
+                parsed.aff_matk = f.value("matk", static_cast<std::int64_t>(0));
+                parsed.aff_def = f.value("def", static_cast<std::int64_t>(0));
+                parsed.aff_mdef = f.value("mdef", static_cast<std::int64_t>(0));
+                parsed.aff_max_hp = f.value("max_hp", static_cast<std::int64_t>(0));
+                parsed.aff_crit_pm = f.value("crit_pm", static_cast<std::int64_t>(0));
+                parsed.aff_drain_pm = f.value("drain_pm", static_cast<std::int64_t>(0));
+            }
             if (def.contains("rune")) {  // spec 06, "Runes"
                 const Json& r = def.at("rune");
                 parsed.is_rune = true;
@@ -1145,6 +1157,15 @@ void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) 
             REQUIRE(plot.second == wp[i].at(3).get<std::int64_t>());
             ++i;
         }
+    }
+    if (want.contains("derived")) {  // the derived stats with the affixes (spec 06, "Affixes")
+        const Json& wd = want.at("derived");
+        REQUIRE(sim.derived().atk == integer(wd, "atk"));
+        REQUIRE(sim.derived().matk == integer(wd, "matk"));
+        REQUIRE(sim.derived().def == integer(wd, "def"));
+        REQUIRE(sim.derived().mdef == integer(wd, "mdef"));
+        REQUIRE(sim.derived().max_hp == integer(wd, "max_hp"));
+        REQUIRE(sim.derived().crit_chance_pm == integer(wd, "crit_chance_pm"));
     }
     if (want.contains("tags")) {  // the tags earned and the one worn (spec 11, "Tags")
         const std::vector<std::string> tags = sim.earned_tags();

@@ -6,6 +6,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Fixed
 
+- The schema of the save document did not allow the accessory slot (`equipped.accessory`) nor document the runes, the furniture and the worn tag; a save split of the new scenario found it.
 - The roadmap (section 8) still had numbers written by hand that the game had outgrown (the places, the recipes, the titles, the talents, the conformance cases) and listed large text as missing: they are gone or right now.
 
 ### Documentation
@@ -36,6 +37,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Affixes** (spec 06, "Affixes"): a weapon or an armor can carry an affix, flat bonuses like an accessory's (health, attack, magic, defense, critical chance, drain) that work while it is worn. Every region has an affixed weapon and an affixed armor, sixteen pieces in all (the shepherd's blade, the owl-eye dagger, the forgeborn axe, the dune scimitar, the glacier spear, the tidecaller cutlass, the cinder brand, the starglass staff, and their armors), left by the guardians of the region one time in five. One more conformance scenario and a save split.
 - **Fog and storms** (spec 08, "Fog"): two new kinds of weather. In the fog creatures notice you from up to 40% nearer, and a pale veil with banks of mist drifts over the world; a storm is full rain and full wind together, and the sky flashes now and then (not when the flashes are turned off). The clock of the interface now says the weather. A hint explains the fog.
 - **Tags** (spec 11, "Tags"): eight traits earned by how you play: Berserker (60 victories), Sentinel (20 parries), Pathfinder (50 gatherings), Artificer (15 things made), Epicure (30 things eaten or drunk), Grower (10 harvests), Naturalist (15 kinds of creature) and Champion of the People (25 quests). Wear one at a time (`Y` on desktop, the `Tag` button at the bottom of the journal on Android): only the worn one works, and more than a title. The status window names it; saved (`tag`). A hint tells you when you earn the first.
 - Four conformance scenarios (`fog_hides`, `fog_light`, `fog_rain_and_night`, `tags_worn`), two save splits, and the fog in every sample of the suite `worldtime`.

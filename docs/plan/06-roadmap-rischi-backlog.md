@@ -279,12 +279,12 @@ I numeri, contati dai dati da `tools/make_facts.py` (dove si guarda: il [catalog
 | Protagonisti | 8, ognuno con un compagno (8 compagni) e una storia in cinque atti (96 missioni di storia) |
 | Creature | 75, di cui 27 guardiani e 8 Echi |
 | Missioni | 319 (24 storie dei paesani) |
-| Oggetti e ricette | 222 oggetti, 76 ricette (8 segrete) |
+| Oggetti e ricette | 238 oggetti, 76 ricette (8 segrete) |
 | Progressione | 44 titoli, 8 tag, 16 talenti, 26 imprese |
 | Persone con nome | 45 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 3382 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 30 file di vettori di conformità, 551 casi, eseguiti dai test C++ e Kotlin |
+| Testi | 3414 chiavi, in italiano e inglese |
+| Regole uguali sui due client | 30 file di vettori di conformità, 553 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 18 specifiche, 13 ADR |
 <!-- facts:end -->
 
@@ -302,7 +302,7 @@ Legenda: **fatto** = le consegne del piano ci sono e funzionano su tutti e due i
 | M5 Mondo aperto | quasi | streaming dei chunk, regioni, insediamenti, siti, fiumi e strade, stagioni, meteo con pioggia, neve, nebbia e notte che nascondono il giocatore, vento che lo spinge, temporali, routine dei PNG, Pietre della Soglia, mappa del mondo e mini mappa, luci di notte | prestazioni misurate su un telefono reale |
 | M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, 63 ricette al falò e all'incudine (otto segrete, insegnate dai bottegai), cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane, orti (che crescono prima con la pioggia), pollai e recinti nei villaggi, negozi che pagano meno se vendi troppo, bauli condivisi in ogni villaggio e città, Nonna Brin, il venditore ambulante Corvin, il cottage dell'Ospite con sei posti per i mobili, otto residenti che arrivano agli avamposti | mercanti che viaggiano davvero |
 | M7 Compagni | avviato | un compagno per protagonista che segue, combatte, resta, segue o torna a comando, cresce di legame e cura il giocatore; i doni di Haruka (legame più rapido) e di Gideon (compagno più forte) ; Haruka doma le creature ferite e l'ultima resta con lei come secondo compagno ; momenti del legame; il compagno domato obbedisce a resta e torna | più compagni scelti dal giocatore |
-| M8 Progressione profonda | avviato | bestiario con debolezze, titoli con effetti e progressi visibili, albero di talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma, imprese di tutte le partite lette dal profilo, rune incise sulle armi, tag da indossare | affissi, premi per le imprese |
+| M8 Progressione profonda | avviato | bestiario con debolezze, titoli con effetti e progressi visibili, albero di talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma, imprese di tutte le partite lette dal profilo, rune incise sulle armi, tag da indossare, armi e armature con affissi | premi per le imprese |
 | M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo e quinto atto, epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | altre storie per protagonista; la modalità Dungeon di Gideon |
 | M10 Rifinitura | avviato | effetti sonori, pannelli e barre ridisegnati, testi che vanno a capo per larghezza, niente scatti quando appare roba nuova, consigli per i primi minuti, opzioni di accessibilità (consigli, numeri, lampi, testo grande), crediti, traduzioni controllate da uno strumento | un sintetizzatore migliore per riaccendere musica e ambiente |
 | M11 Release 1.0 | da fare | — | pacchetti firmati, pagina di download, documentazione per chi fa mod (decisioni del proprietario) |
@@ -355,6 +355,7 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 **Progressione** (spec 11, 12)
 
 - Livelli, albero dei talenti, di cui quattro abilità (dal 14 novembre: Turbine, Fame di battaglia, Flusso, Risposta) e due a comando con il loro tasto (Onda d'urto, Rimarginare), titoli con effetti (attacco, raccolta, creazione, opere pregiate, parata, esperienza; dal 18 novembre l'Incisore di rune e il Padrone di casa) e il progresso verso quelli mancanti, bestiario con debolezze e bottino.
+- **Affissi** (dal 18 novembre, terza PR): armi e armature con un affisso, bonus fissi come quelli di un accessorio (salute, attacco, difesa, critico, risucchio); sedici pezzi, un'arma e un'armatura per regione, che i guardiani della regione lasciano una volta su cinque.
 - **Tag** (dal 18 novembre, seconda PR): otto tratti guadagnati da come giochi (Berserker, Sentinella, Cercatore, Artefice, Epicureo, Coltivatore, Naturalista, Campione del popolo); se ne indossa uno alla volta (`Y`, o il pulsante Tag del diario) e solo quello dà il suo effetto, più forte di quello di un titolo.
 - Profilo comune a tutte le partite: echi (vita in più per ogni titolo e vita passata), reincarnazione dal livello 10 con eredità di metà dell'oro e dell'arma impugnata, imprese (dal 17 novembre) lette dal profilo e elencate dalla schermata del titolo.
 
@@ -407,6 +408,8 @@ Il 17 novembre, ottava PR: testo grande (un'opzione di accessibilità, sui due c
 
 Il 17 novembre, settima PR: un baule in ogni villaggio e città, che tiene le stesse cose dappertutto (salvato nella partita); Nonna Brin a Fenwick (riposo gratis e tre favori); Corvin, il venditore ambulante di Aldermere, che porta le merci di una regione al giorno (condizione `day_mod`); 25 imprese di tutte le partite lette dal profilo; la pioggia fa crescere prima gli orti; Odile non sta più su un orto.
 
+Il 18 novembre, terza PR: gli **affissi** su armi e armature (un blocco `affix`, sedici pezzi regionali lasciati dai guardiani).
+
 Il 18 novembre, seconda PR: la **nebbia** e i **temporali** (due tempi nuovi; la nebbia nasconde il giocatore, il temporale lampeggia), il nome del tempo sull'orologio, i **tag** da indossare (otto), due consigli nuovi.
 
 Il 18 novembre: le **rune** incise sulle armi all'incudine (sette, una per elemento e una di forza), i **mobili del cottage** (sei, da posare sui tappeti del cottage, che aiutano come titoli; Tam li spiega), il **vento** del meteo che spinge il giocatore e muove le piante, due titoli (Incisore di rune, Padrone di casa), un'impresa (Focolare e lama), due consigli nuovi; otto **residenti** che si trasferiscono negli avamposti quando la regione ti conosce (sei missioni) e ti regalano una runa (la condizione `when` delle persone); i numeri scritti a mano che erano rimasti indietro in questa sezione sono tolti o corretti.
@@ -416,7 +419,7 @@ Il 17 novembre, sesta PR: pollai e recinti delle capre nei villaggi (uova, latte
 **A breve (le prossime PR)**
 
 1. **Controlli automatici della grafica** (M2, M10): confronto dei fotogrammi del test di fumo con immagini di riferimento; ktlint e detekt in CI.
-2. **Affissi** (M8; rune e tag ci sono): proprietà in più sulle armi e armature trovate.
+2. **Altri pezzi con affissi** (M8; i sedici regionali ci sono): anche nei negozi e nelle taglie, e affissi a caso sui pezzi trovati.
 3. **Premi per le imprese** (M8; le imprese danno già echi): un ricordo di ogni impresa nella partita nuova.
 
 **A medio termine (verso Alpha 0.2 e Beta 0.5)**
