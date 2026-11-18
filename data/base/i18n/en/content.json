@@ -1546,5 +1546,11 @@
   "item.archery_target.desc": "Place it in the garden of the cottage. Practice every morning: your hits are 5% stronger.",
   "item.stone_lantern.name": "Stone lantern",
   "item.stone_lantern.desc": "Place it in the garden of the cottage. Calm light for careful work: 5% more fine work, and a steadier parry.",
+  "quest.way_odo_axles.name": "Axles for the Wagons",
+  "quest.way_odo_axles.task": "Odo's wagons need new axles before the next mountain road. Bring him twelve logs; he is at a different outpost every day.",
+  "quest.way_odo_horseshoes.name": "Shoes for the Horses",
+  "quest.way_odo_horseshoes.task": "The horses of the caravan have worn their shoes thin. Odo needs eight lumps of iron ore for the smith of the next outpost.",
+  "quest.way_odo_provisions.name": "Provisions for the Long Road",
+  "quest.way_odo_provisions.task": "The cooks of the caravan are out of travel rations. Bring Odo five; a campfire and some berries make them.",
   "quest.personal_gideon_2.task": "Four tawny wolves and two furs: the village, politely, asks for a tribute."
 }

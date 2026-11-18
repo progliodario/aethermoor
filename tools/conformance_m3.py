@@ -666,6 +666,13 @@ def build_scenarios() -> list[dict]:
                  gather_props=[{"art": "base:art/prop/garden_plot", "x": 2.8, "y": 5.4, "radius": 0.2}],
                  farming={"plot": "base:art/prop/garden_plot", "reach_x100": 150, "rain_grow_cut_pm": 500, "crops": [
                      {"seed": "base:item/healing_herb", "crop": "base:item/wild_berries", "qty_min": 2, "qty_max": 4, "grow_ticks": 240}]}),
+        # Seasons of the gathering (spec 06): in autumn a bush gives one more of every drop, in spring nothing more.
+        scenario("gather_in_autumn", [enemy(12.0, 7.5, **passive)], [segment(1, do=[{"cmd": "gather"}])], season="autumn",
+                 inventory={}, gather_props=GATHER_PROPS[:1],
+                 gather_nodes=[{**GATHER_NODES[0], "season_bonus": {"autumn": 1, "summer": 2}}]),
+        scenario("gather_in_spring", [enemy(12.0, 7.5, **passive)], [segment(1, do=[{"cmd": "gather"}])], season="spring",
+                 inventory={}, gather_props=GATHER_PROPS[:1],
+                 gather_nodes=[{**GATHER_NODES[0], "season_bonus": {"autumn": 1, "summer": 2}}]),
         # Seasons on the plots (spec 06): in winter (1500 permille here) a seed of 240 ticks is ripe after 360, in a winter rain sooner.
         scenario("farming_in_winter", [enemy(12.0, 7.5, **passive)],
                  [segment(1, do=[{"cmd": "tend"}]), segment(300), segment(1, do=[{"cmd": "tend"}]), segment(70), segment(1, do=[{"cmd": "tend"}])],

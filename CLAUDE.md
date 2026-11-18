@@ -61,18 +61,19 @@ The conformance harnesses that run the vectors are `desktop/tests/conformance_te
 | World | 8 regions, 45 hand-made sites (dungeons, lairs, outposts, sanctums, Fenwick, the Guest's cottage, Aldermere) and about 130 generated settlements |
 | Protagonists | 8, each with a companion (8 companions) and a story of five acts (96 story quests) |
 | Creatures | 75, of which 27 guardians and 8 Echoes |
-| Quests | 319 (24 tales of the villagers) |
+| Quests | 322 (24 tales of the villagers) |
 | Items and recipes | 242 items, 80 recipes (8 secret) |
 | Progression | 44 titles, 8 tags, 16 talents, 26 deeds |
 | Named people | 46 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 3435 keys, in Italian and English |
-| Same rules on both clients | 30 files of conformance vectors, 559 cases, run by the C++ and the Kotlin tests |
+| Texts | 3450 keys, in Italian and English |
+| Same rules on both clients | 30 files of conformance vectors, 561 cases, run by the C++ and the Kotlin tests |
 | Documents | 18 specs, 13 ADRs |
 <!-- facts:end -->` (READMEs, this file, the roadmap) | `tools/make_facts.py` |
 | `data/base/art/**`, `fonts/aether.json`, `audio/sfx/`, `stamps/` | the art tools, `make_font.py`, `make_sfx.py`, `make_stamps.py` |
 | `recipes.json`, `titles.json`, `tags.json`, `talents.json`, `deeds.json`, `gathering.json`, `companions/`, prologues, stories, towns, tales, pedlars | the `make_*.py` of `tools/README.md` |
 | `data/base/tables/xp_table.json`, `maps/demo.tmj` | `gen_tables.py`, `make_demo_map.py` |
+| `tests/frames/*.json` (the references of the smoke-test frames) | `tools/check_frames.py --write` from the frames of a CI run |
 
 Many generators also change the role dialogues (`data/base/dialogues/role/`) in place; `tools/make_role_dialogues.py` wrote their first version and must **never** run again (it would write over everything added since). Every other generator was checked to change nothing when run again (see `tools/README.md`, "Running a generator again").
 
@@ -112,6 +113,7 @@ cd android && gradle :core:test :app:assembleDebug
 - A generator may stop with `OSError: [Errno 22] Invalid argument` on a file it has just written (the system holds it for a moment): run it again.
 - The C++ is formatted by `ship.py` (clang-format) before it commits; long comments may be wrapped onto a second line.
 - If vcpkg fails to download in CI (a flake), rerun the failed job (`gh run rerun <id> --failed`) and `ship.py --skip-checks`.
+- The desktop CI checks the smoke-test frames (`tools/check_frames.py`). A change that moves them on purpose (a new HUD, new art at the start) fails that step: download the frames of its run (`gh run download <id> -n screenshots-windows-msvc`), look at them, then write the references again with `--write` and push.
 
 ## Definition of Done
 

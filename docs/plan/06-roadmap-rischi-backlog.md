@@ -278,13 +278,13 @@ I numeri, contati dai dati da `tools/make_facts.py` (dove si guarda: il [catalog
 | Mondo | 8 regioni, 45 luoghi fatti a mano (sotterranei, tane, avamposti, santuari, Fenwick, il cottage dell'Ospite, Aldermere) e circa 130 insediamenti generati |
 | Protagonisti | 8, ognuno con un compagno (8 compagni) e una storia in cinque atti (96 missioni di storia) |
 | Creature | 75, di cui 27 guardiani e 8 Echi |
-| Missioni | 319 (24 storie dei paesani) |
+| Missioni | 322 (24 storie dei paesani) |
 | Oggetti e ricette | 242 oggetti, 80 ricette (8 segrete) |
 | Progressione | 44 titoli, 8 tag, 16 talenti, 26 imprese |
 | Persone con nome | 46 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 3435 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 30 file di vettori di conformità, 559 casi, eseguiti dai test C++ e Kotlin |
+| Testi | 3450 chiavi, in italiano e inglese |
+| Regole uguali sui due client | 30 file di vettori di conformità, 561 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 18 specifiche, 13 ADR |
 <!-- facts:end -->
 
@@ -296,7 +296,7 @@ Legenda: **fatto** = le consegne del piano ci sono e funzionano su tutti e due i
 |---|---|---|---|
 | M0 Fondazioni | fatto | repository, licenze, CI su Windows, Linux e Android, ADR, schemi, `CLAUDE.md`, `tools/ship.py` | nulla |
 | M1 Specifiche core e conformità | fatto | numerica intera, RNG, hash, rumore, formule, i18n, loader dei pack, riferimento Python, vettori in CI (`gen_conformance.py --check`) | nulla |
-| M2 Motore e arte | quasi | rasterizzatore proprio nei due client (ADR 0012) con sfumature, ritagli, fusioni e rumore (ADR 0013, spec 13 v2); arte da anime per persone, terreni, oggetti e creature; persone viste di fronte, di lato e di spalle; luce dell'ora, vento, acqua che si muove, ombre lunghe, font del pack sui due client, texture cotte a rate | golden visivi automatici; prova della perdita del contesto GL su Android |
+| M2 Motore e arte | quasi | rasterizzatore proprio nei due client (ADR 0012) con sfumature, ritagli, fusioni e rumore (ADR 0013, spec 13 v2); arte da anime per persone, terreni, oggetti e creature; persone viste di fronte, di lato e di spalle; luce dell'ora, vento, acqua che si muove, ombre lunghe, font del pack sui due client, texture cotte a rate, fotogrammi controllati in CI | prova della perdita del contesto GL su Android |
 | M3 Combattimento | fatto | attacco, colpo potente, schivata, parata, sei elementi, stati alterati su creature e giocatore, stagger, barra del guardiano, Analizza di Ren, 75 creature con comportamenti, XP e livelli | nulla di aperto: nessuno scontro del modello dura più di tre secondi al proprio livello (`docs/design/balance.md`); si ricontrolla a ogni creatura nuova |
 | M4 Dialoghi, missioni, inventario, salvataggi | quasi | dialoghi con condizioni ed effetti, missioni con meta sulla mappa, zaino, negozi, equipaggiamento a tre posti, diario e finestra di stato, gilda con ranghi F-S e bacheca, locande, tre partite, export e import, `profile.json`, volumi, tasti configurabili (desktop), Fenwick e Aldermere scritti a mano, otto prologhi | la **release Alpha 0.1** (tag e pacchetti: decisione del proprietario) |
 | M5 Mondo aperto | quasi | streaming dei chunk, regioni, insediamenti, siti, fiumi e strade, stagioni, meteo con pioggia, neve, nebbia e notte che nascondono il giocatore, vento che lo spinge, temporali, routine dei PNG, Pietre della Soglia, mappa del mondo e mini mappa, luci di notte | prestazioni misurate su un telefono reale |
@@ -409,6 +409,8 @@ Il 17 novembre, ottava PR: testo grande (un'opzione di accessibilità, sui due c
 
 Il 17 novembre, settima PR: un baule in ogni villaggio e città, che tiene le stesse cose dappertutto (salvato nella partita); Nonna Brin a Fenwick (riposo gratis e tre favori); Corvin, il venditore ambulante di Aldermere, che porta le merci di una regione al giorno (condizione `day_mod`); 25 imprese di tutte le partite lette dal profilo; la pioggia fa crescere prima gli orti; Odile non sta più su un orto.
 
+Il 18 novembre, sesta PR: i **controlli automatici della grafica** (`tools/check_frames.py`: i fotogrammi del test di fumo confrontati in CI con le loro impronte in `tests/frames/`), le **stagioni della raccolta** (ogni pianta dà di più nella sua stagione), le tre **commissioni di Odo** per la carovana.
+
 Il 18 novembre, quinta PR: **Odo, il capo carovana**, il primo mercante che viaggia davvero (ogni giorno in un altro avamposto, con le merci della tappa dopo; le persone con un percorso, `route`), le **stagioni** che cambiano la crescita degli orti (più svelti in primavera, più lenti d'inverno), il **giardino del cottage** con quattro posti e quattro pezzi nuovi (panchina, spaventapasseri, bersaglio, lanterna di pietra).
 
 Il 18 novembre, quarta PR: i **fulmini** dei temporali colpiscono le creature che ti inseguono (con il tuono), i **doni delle imprese** (ogni impresa fatta lascia un dono nello zaino di ogni partita nuova), i pezzi con affissi anche nei negozi per gli amici della regione, un consiglio per il temporale.
@@ -423,7 +425,7 @@ Il 17 novembre, sesta PR: pollai e recinti delle capre nei villaggi (uova, latte
 
 **A breve (le prossime PR)**
 
-1. **Controlli automatici della grafica** (M2, M10): confronto dei fotogrammi del test di fumo con immagini di riferimento; ktlint e detekt in CI.
+1. **ktlint e detekt in CI** (M10; i controlli dei fotogrammi ci sono): lo stile del Kotlin controllato come quello del C++.
 2. **Affissi a caso** (M8; i sedici pezzi regionali ci sono, nei bottini e nei negozi): proprietà tirate a sorte sui pezzi trovati.
 3. **Residenti nei villaggi generati** (M6; gli otto degli avamposti ci sono).
 
@@ -431,7 +433,7 @@ Il 17 novembre, sesta PR: pollai e recinti delle capre nei villaggi (uova, latte
 
 4. **Altri residenti** (M6; gli otto residenti degli avamposti ci sono): anche nei villaggi generati, con mestieri e missioni.
 5. **Altri viaggiatori** (M6; Odo e la sua carovana ci sono): carri che si vedono camminare lungo le strade, altri mercanti con il loro giro.
-6. **Altri effetti del meteo** (M5; pioggia, neve, nebbia, notte, vento, temporali, fulmini e stagioni degli orti ci sono): le stagioni anche per la raccolta e la pesca.
+6. **Altri effetti del meteo** (M5; pioggia, neve, nebbia, notte, vento, temporali, fulmini, stagioni degli orti e della raccolta ci sono): le stagioni anche per le creature.
 7. **Una casa più grande** (M6; i dieci mobili del cottage, in casa e in giardino, ci sono): stanze in più da comprare.
 8. **Più compagni scelti dal giocatore** (M7; il compagno di ognuno e la creatura domata di Haruka ci sono).
 9. **La modalità Dungeon** di Gideon (M9): una variante semplificata, ondate di eroi invasori contro la sua base.

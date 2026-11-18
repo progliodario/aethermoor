@@ -35,13 +35,13 @@ The numbers of the game, counted from the data (never written by hand: `python t
 | World | 8 regions, 45 hand-made sites (dungeons, lairs, outposts, sanctums, Fenwick, the Guest's cottage, Aldermere) and about 130 generated settlements |
 | Protagonists | 8, each with a companion (8 companions) and a story of five acts (96 story quests) |
 | Creatures | 75, of which 27 guardians and 8 Echoes |
-| Quests | 319 (24 tales of the villagers) |
+| Quests | 322 (24 tales of the villagers) |
 | Items and recipes | 242 items, 80 recipes (8 secret) |
 | Progression | 44 titles, 8 tags, 16 talents, 26 deeds |
 | Named people | 46 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 3435 keys, in Italian and English |
-| Same rules on both clients | 30 files of conformance vectors, 559 cases, run by the C++ and the Kotlin tests |
+| Texts | 3450 keys, in Italian and English |
+| Same rules on both clients | 30 files of conformance vectors, 561 cases, run by the C++ and the Kotlin tests |
 | Documents | 18 specs, 13 ADRs |
 <!-- facts:end -->
 
@@ -49,7 +49,7 @@ The numbers of the game, counted from the data (never written by hand: `python t
 
 | Part | Done | To do |
 |---|---|---|
-| Foundations, rules, CI | all | automatic checks of the frames, ktlint and detekt in CI |
+| Foundations, rules, CI | all, the smoke-test frames checked in CI too | ktlint and detekt in CI |
 | Graphics | anime art for everything, people seen from the front, the side and behind, the light of the hour, wind, water, shadows, the pack's font | — |
 | Combat | complete: elements, statuses, parry, stagger, guardians, abilities on command | touches, always toward easy fights |
 | World | huge, eight regions, towns, dungeons, weather that hides and slows, wind that pushes, fog and storms | performance measured on a phone |
@@ -238,7 +238,7 @@ The project is developed by the owner together with Claude, an AI assistant that
 
 The next things, in order (details in the [roadmap](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine), in Italian):
 
-- **Soon:** automatic checks of the graphics; random affixes; residents in the generated villages.
+- **Soon:** ktlint and detekt in CI; random affixes; residents in the generated villages.
 - **Medium term:** residents in the generated villages too and wagons seen travelling; Gideon's Dungeon mode; performance measured on a phone; a better synthesizer for music and ambience (only if the owner wants it).
 - **Toward 1.0:** signed packages, documentation for modders, more languages.
 - **The owner decides:** when to publish the first release (Alpha 0.1).

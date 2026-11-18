@@ -8,7 +8,7 @@
       "when": {
         "flag": "odo_met"
       },
-      "then": "d0",
+      "then": "e0",
       "else": "hello"
     },
     "hello": {
@@ -26,7 +26,223 @@
           "value": true
         }
       ],
+      "next": "e0"
+    },
+    "e0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/way_odo_axles"
+      },
+      "then": "t0",
+      "else": "a0"
+    },
+    "t0": {
+      "type": "condition",
+      "when": {
+        "flag": "way_odo_axles_thanked"
+      },
+      "then": "e1",
+      "else": "thanks0"
+    },
+    "thanks0": {
+      "type": "say",
+      "speaker": "caravan_master_odo",
+      "text": "$i18n:dlg.caravan.way_odo_axles.thanks",
+      "next": "flag0"
+    },
+    "flag0": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "way_odo_axles_thanked",
+          "value": true
+        }
+      ],
       "next": "d0"
+    },
+    "a0": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/way_odo_axles"
+      },
+      "then": "busy0",
+      "else": "offer0"
+    },
+    "busy0": {
+      "type": "say",
+      "speaker": "caravan_master_odo",
+      "text": "$i18n:dlg.caravan.way_odo_axles.busy",
+      "next": "d0"
+    },
+    "offer0": {
+      "type": "say",
+      "speaker": "caravan_master_odo",
+      "text": "$i18n:dlg.caravan.way_odo_axles.offer",
+      "next": "choice0"
+    },
+    "choice0": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/way_odo_axles"
+            }
+          ],
+          "next": "d0"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "d0"
+        }
+      ]
+    },
+    "e1": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/way_odo_horseshoes"
+      },
+      "then": "t1",
+      "else": "a1"
+    },
+    "t1": {
+      "type": "condition",
+      "when": {
+        "flag": "way_odo_horseshoes_thanked"
+      },
+      "then": "e2",
+      "else": "thanks1"
+    },
+    "thanks1": {
+      "type": "say",
+      "speaker": "caravan_master_odo",
+      "text": "$i18n:dlg.caravan.way_odo_horseshoes.thanks",
+      "next": "flag1"
+    },
+    "flag1": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "way_odo_horseshoes_thanked",
+          "value": true
+        }
+      ],
+      "next": "d0"
+    },
+    "a1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/way_odo_horseshoes"
+      },
+      "then": "busy1",
+      "else": "offer1"
+    },
+    "busy1": {
+      "type": "say",
+      "speaker": "caravan_master_odo",
+      "text": "$i18n:dlg.caravan.way_odo_horseshoes.busy",
+      "next": "d0"
+    },
+    "offer1": {
+      "type": "say",
+      "speaker": "caravan_master_odo",
+      "text": "$i18n:dlg.caravan.way_odo_horseshoes.offer",
+      "next": "choice1"
+    },
+    "choice1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/way_odo_horseshoes"
+            }
+          ],
+          "next": "d0"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "d0"
+        }
+      ]
+    },
+    "e2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/way_odo_provisions"
+      },
+      "then": "t2",
+      "else": "a2"
+    },
+    "t2": {
+      "type": "condition",
+      "when": {
+        "flag": "way_odo_provisions_thanked"
+      },
+      "then": "d0",
+      "else": "thanks2"
+    },
+    "thanks2": {
+      "type": "say",
+      "speaker": "caravan_master_odo",
+      "text": "$i18n:dlg.caravan.way_odo_provisions.thanks",
+      "next": "flag2"
+    },
+    "flag2": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "way_odo_provisions_thanked",
+          "value": true
+        }
+      ],
+      "next": "d0"
+    },
+    "a2": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/way_odo_provisions"
+      },
+      "then": "busy2",
+      "else": "offer2"
+    },
+    "busy2": {
+      "type": "say",
+      "speaker": "caravan_master_odo",
+      "text": "$i18n:dlg.caravan.way_odo_provisions.busy",
+      "next": "d0"
+    },
+    "offer2": {
+      "type": "say",
+      "speaker": "caravan_master_odo",
+      "text": "$i18n:dlg.caravan.way_odo_provisions.offer",
+      "next": "choice2"
+    },
+    "choice2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/way_odo_provisions"
+            }
+          ],
+          "next": "d0"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "d0"
+        }
+      ]
     },
     "d0": {
       "type": "condition",

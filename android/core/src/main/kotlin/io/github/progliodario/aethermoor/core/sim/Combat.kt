@@ -266,7 +266,8 @@ class TitleDef(
 class GatherDrop(val item: String, val qtyMin: Long, val qtyMax: Long, val weightPm: Long)
 
 /** [sound]: plant, wood, stone or water, the sound of gathering. */
-class GatherNode(val sound: String, val cooldownTicks: Int, val reachX100: Int, val drops: List<GatherDrop>)
+/** [seasonBonus]: more of every drop found in a season (spec 06, "Seasons of the gathering"). */
+class GatherNode(val sound: String, val cooldownTicks: Int, val reachX100: Int, val drops: List<GatherDrop>, val seasonBonus: Map<String, Int> = emptyMap())
 
 class CombatSetup(
     val enabled: Boolean = false,

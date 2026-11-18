@@ -232,6 +232,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
             o.getValue("prop").jsonPrimitive.content to GatherNode(
                 o.getValue("sound").jsonPrimitive.content, o.getValue("cooldown_ticks").jsonPrimitive.int, o.getValue("reach_x100").jsonPrimitive.int,
                 o.getValue("drops").jsonArray.map { d -> val x = d.jsonObject; GatherDrop(x.getValue("item").jsonPrimitive.content, x.long("qty_min"), x.long("qty_max"), x.long("weight_pm")) },
+                o["season_bonus"]?.jsonObject?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
             )
         } ?: emptyMap(),
         items = input["items"]?.jsonObject?.mapValues { (_, def) ->

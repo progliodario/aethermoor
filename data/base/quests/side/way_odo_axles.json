@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/way_odo_axles",
+  "name": "$i18n:quest.way_odo_axles.name",
+  "kind": "side",
+  "faction": "wayfarers",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.way_odo_axles.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/wood_log",
+          "count": 12
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 80
+    },
+    {
+      "effect": "add_gold",
+      "amount": 120
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/rune_gale",
+      "qty": 1
+    }
+  ]
+}

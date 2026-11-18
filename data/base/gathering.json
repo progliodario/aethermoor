@@ -20,7 +20,11 @@
           "qty_max": 2,
           "weight_pm": 300
         }
-      ]
+      ],
+      "season_bonus": {
+        "summer": 1,
+        "autumn": 1
+      }
     },
     {
       "prop": "base:art/prop/tree_oak",
@@ -40,7 +44,10 @@
           "qty_max": 1,
           "weight_pm": 400
         }
-      ]
+      ],
+      "season_bonus": {
+        "winter": 1
+      }
     },
     {
       "prop": "base:art/prop/pine",
@@ -60,7 +67,10 @@
           "qty_max": 1,
           "weight_pm": 500
         }
-      ]
+      ],
+      "season_bonus": {
+        "winter": 1
+      }
     },
     {
       "prop": "base:art/prop/dead_tree",
@@ -134,7 +144,10 @@
           "qty_max": 1,
           "weight_pm": 150
         }
-      ]
+      ],
+      "season_bonus": {
+        "autumn": 1
+      }
     },
     {
       "prop": "base:art/prop/flowers",
@@ -154,7 +167,10 @@
           "qty_max": 1,
           "weight_pm": 200
         }
-      ]
+      ],
+      "season_bonus": {
+        "spring": 1
+      }
     },
     {
       "prop": "base:art/prop/coop",
@@ -202,7 +218,10 @@
           "qty_max": 3,
           "weight_pm": 1000
         }
-      ]
+      ],
+      "season_bonus": {
+        "spring": 1
+      }
     },
     {
       "prop": "base:art/prop/stump",
@@ -296,7 +315,10 @@
           "qty_max": 2,
           "weight_pm": 900
         }
-      ]
+      ],
+      "season_bonus": {
+        "winter": 1
+      }
     },
     {
       "prop": "base:art/prop/reeds",
@@ -316,7 +338,10 @@
           "qty_max": 1,
           "weight_pm": 60
         }
-      ]
+      ],
+      "season_bonus": {
+        "summer": 1
+      }
     }
   ]
 }

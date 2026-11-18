@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/way_odo_provisions",
+  "name": "$i18n:quest.way_odo_provisions.name",
+  "kind": "side",
+  "faction": "wayfarers",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.way_odo_provisions.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/travel_ration",
+          "count": 5
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 120
+    },
+    {
+      "effect": "add_gold",
+      "amount": 200
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/shepherds_blade",
+      "qty": 1
+    }
+  ]
+}

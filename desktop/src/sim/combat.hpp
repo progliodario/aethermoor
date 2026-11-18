@@ -184,6 +184,8 @@ struct GatherNode {
     int cooldown_ticks = 0;
     int reach_x100 = 150;
     std::vector<GatherDrop> drops;
+    std::map<std::string, int>
+        season_bonus;  // more of every drop found in a season (spec 06, "Seasons of the gathering")
 };
 
 // Farming (spec 06, "Farming"): what a seed grows into, how much and in how many ticks; the plot prop and its reach.

@@ -39,6 +39,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Automatic checks of the graphics** (spec 16, "Checks of the frames"): the desktop CI now checks the frames of its three smoke tests with `tools/check_frames.py`: every frame must be there, not blank, not black, and near the fingerprint of its reference in `tests/frames/`.
+- **Seasons of the gathering** (spec 06): every plant gives one more in its season: berries in summer and autumn, flowers and ferns in spring, mushrooms in autumn, fish in summer, wood and ice in winter.
+- **Odo's errands**: three quests for the caravan, one after the other (logs for the axles, iron for the horses, rations for the long road), paid with gold, a gale rune, potions and the shepherd's blade. They count for the Ring of Wayfarers.
+- Two conformance scenarios (`gather_in_autumn`, `gather_in_spring`).
 - **Odo, the master of the caravan** (spec 07, "Travellers"): a merchant who really travels. Every day his wagons stand at another outpost, all eight in turn, and he sells at the plain price the goods of the region where he goes next. People of the world data can now have a `route`: where they stand on each day of their cycle (never solid).
 - **Seasons on the plots** (spec 06): a seed sown in spring grows a fifth sooner, in summer a tenth sooner, in winter a quarter later.
 - **The garden of the cottage**: four more places for furniture on the grass, and four pieces for them, made at an anvil: a bench (+5% experience), a scarecrow (one more of everything gathered), an archery target (+5% attack) and a stone lantern (+5% fine work, a steadier parry). Ten pieces in all.
