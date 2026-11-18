@@ -279,6 +279,15 @@ std::optional<DialogueDef> parse_dialogue(std::string_view json_text, std::strin
     }
 }
 
+std::optional<Condition> parse_condition_text(std::string_view json_text, std::string& error) {
+    try {
+        return parse_condition(Json::parse(json_text));
+    } catch (const std::exception& e) {
+        error = e.what();
+        return std::nullopt;
+    }
+}
+
 std::optional<StorySetup> parse_story_setup(std::string_view json_text, std::string& error) {
     try {
         const Json j = Json::parse(json_text);
@@ -296,6 +305,9 @@ std::optional<StorySetup> parse_story_setup(std::string_view json_text, std::str
             npc.variant = n.value("variant", "");
             npc.x = n.at("pos").at(0).get<float>();
             npc.y = n.at("pos").at(1).get<float>();
+            if (n.contains("when")) {  // a resident (spec 07, "Residents")
+                npc.when = parse_condition(n.at("when"));
+            }
             setup.npcs.push_back(std::move(npc));
         }
         return setup;
@@ -626,6 +638,9 @@ const NpcDef* Story::npc_in_range() const {
     const NpcDef* best = nullptr;
     float best_dist = kInteractRange;
     const auto consider = [&](const NpcDef& npc) {
+        if (!npc_present(npc)) {  // a resident that has not come yet (spec 07, "Residents")
+            return;
+        }
         const float dx = npc.x - m_host_.player_x();
         const float dy = npc.y - m_host_.player_y();
         const float d = std::sqrt(dx * dx + dy * dy);

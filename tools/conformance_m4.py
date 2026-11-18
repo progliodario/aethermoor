@@ -125,7 +125,21 @@ def build_scenarios() -> list[dict]:
         player={"start": [3.4, 5.6]})
     for sc in (flow, decline, frozen, trader, barter, rest):
         with_story(sc)
-    return [flow, decline, frozen, trader, barter, rest]
+    # Residents (spec 07, "Residents"): the settler is not there until the herald sets the flag: the player walks through its place and
+    # cannot talk to it; after the herald, it can be talked to (and it is still not solid).
+    resident = scenario(
+        "resident_arrives",
+        [], [segment(40, move=(1, 0)), do(interact), segment(40, move=(-1, 0)), do(interact), do(advance), segment(35, move=(1, 0)),
+             do(interact), do(advance)])
+    resident["story"] = {"quests": {}, "dialogues": {
+        "test:dialogue/herald": {"id": "test:dialogue/herald", "start": "s", "nodes": {
+            "s": {"type": "set_flag", "flag": "settled", "value": True, "next": "t"},
+            "t": {"type": "say", "speaker": "herald", "text": "t.herald", "next": "end"}}},
+        "test:dialogue/settler": {"id": "test:dialogue/settler", "start": "s", "nodes": {
+            "s": {"type": "say", "speaker": "settler", "text": "t.settler", "next": "end"}}}},
+        "npcs": [{"key": "herald", "pos": [2.6, 5.8], "dialogue": "test:dialogue/herald"},
+                 {"key": "settler", "pos": [4.5, 4.5], "dialogue": "test:dialogue/settler", "when": {"flag": "settled"}}]}
+    return [flow, decline, frozen, trader, barter, rest, resident]
 
 
 def suite_story() -> list[dict]:
@@ -144,7 +158,10 @@ SAVE_SPLITS = {
     "player_death": (1,),             # after a death and respawn
     "leash_and_return": (2,),         # the slime is walking home
     "trader_conditions_and_effects": (2, 5),  # inventory, flags and an open dialogue
+    "resident_arrives": (3, 5),       # the flag that brings the resident is saved, so it is there after a load
     "chest_storage": (3, 5),          # things in the chest (spec 06, "Chests"); a loaded game has it closed
+    "runes_engrave": (2, 4),          # runes on two weapons (spec 06, "Runes"); the worn one still adds to the attack
+    "furniture_home": (3,),           # furniture on two spots (spec 06, "Furniture"); what it adds counts after a load
 }
 
 

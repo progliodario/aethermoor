@@ -136,6 +136,19 @@ struct ItemDef {
     std::int64_t acc_max_hp = 0;
     std::int64_t acc_crit_pm = 0;
     std::int64_t acc_drain_pm = 0;  // share of the damage of every hit given back to the player
+    bool is_rune = false;           // a rune (spec 06, "Runes"): engraved on the worn weapon at its station
+    std::string rune_element = "none";
+    std::int64_t rune_atk = 0;
+    std::int64_t rune_matk = 0;
+    std::string rune_station;      // the art of the prop it is engraved next to; empty: anywhere
+    bool is_furniture = false;     // a piece of furniture (spec 06, "Furniture"): placed on a spot of the home
+    std::string furniture_art;     // the prop it is drawn as (presentation)
+    std::int64_t fur_atk_pct = 0;  // what it adds while placed, like a title (spec 11, "Titles with effects")
+    std::int64_t fur_gather_bonus = 0;
+    std::int64_t fur_craft_bonus = 0;
+    std::int64_t fur_parry_bonus = 0;
+    std::int64_t fur_xp_pct = 0;
+    std::int64_t fur_fine_pm = 0;
 };
 
 // What a shop sells: prices in permille of the base price (spec 06).
@@ -263,6 +276,8 @@ struct CombatSetup {
     int rain_slow_pm = 0;  // how much full rain slows the creatures (spec 08, "Rain slows")
     int light_pm = 1000;   // the same for the night (spec 08, "The night hides you")
     int night_aggro_cut_pm = 0;
+    int wind_pm = 0;  // the wind (spec 08, "Wind"): how hard it blows, and how much a full wind speeds the player
+    int wind_haste_pm = 0;
     std::vector<EnemySpawn> spawns;
     std::vector<std::int64_t> xp_table;  // table[level - 1] = XP to go from `level` to `level + 1`
     std::uint64_t seed = 0;
@@ -277,6 +292,8 @@ struct CombatSetup {
     std::optional<FarmingDef> farming;         // the plots and the crops (spec 06, "Farming"); none: no farming
     std::string chest_art;                     // the chest prop (spec 06, "Chests"); empty: no chests
     int chest_reach_x100 = 200;
+    std::string home_spot;  // the furniture spot prop (spec 06, "Furniture"); empty: no furniture
+    int home_reach_x100 = 200;
     std::map<std::string, EnemyDef> stream_enemies;  // the enemies of the fauna of a streamed world, by ID
     std::map<std::string, GatherNode> gather_nodes;  // the props that can be gathered from, by art ID
     std::vector<RecipeDef> recipes;                  // crafting recipes, in the order of the data

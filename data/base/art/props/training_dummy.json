@@ -1,0 +1,339 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/training_dummy",
+  "canvas": {
+    "w": 34,
+    "h": 50,
+    "origin": [
+      17,
+      45
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          17.5,
+          45,
+          12,
+          3.2
+        ]
+      },
+      "fill": {
+        "color": "#141030"
+      },
+      "alpha": 0.4,
+      "blur": 1.12
+    },
+    {
+      "shape": {
+        "ellipse": [
+          17.5,
+          45,
+          7.2,
+          1.76
+        ]
+      },
+      "fill": {
+        "color": "#141030"
+      },
+      "alpha": 0.32,
+      "blur": 0.8
+    },
+    {
+      "shape": {
+        "rect": [
+          15.6,
+          22,
+          2.8,
+          23
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 2,
+          "seed": 751,
+          "octaves": 3,
+          "stops": [
+            [
+              0.3,
+              "#66452A"
+            ],
+            [
+              0.5,
+              "#7A5232"
+            ],
+            [
+              0.72,
+              "#8D6A4F"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 11 44 L 17 40 L 23 44 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 2,
+          "seed": 752,
+          "octaves": 3,
+          "stops": [
+            [
+              0.3,
+              "#593922"
+            ],
+            [
+              0.5,
+              "#6A4428"
+            ],
+            [
+              0.72,
+              "#7F5E46"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.35
+      }
+    },
+    {
+      "shape": {
+        "path": "M 9 14 Q 8 26 11 32 L 23 32 Q 26 26 25 14 Q 17 11 9 14 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 753,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "#A88858"
+            ],
+            [
+              0.55,
+              "$p.sack"
+            ],
+            [
+              0.8,
+              "#E0C8A0"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.45
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          4,
+          15,
+          26,
+          4
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 754,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "#B09040"
+            ],
+            [
+              0.55,
+              "$p.straw"
+            ],
+            [
+              0.8,
+              "#F4DC90"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.35
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          17,
+          9,
+          5,
+          5
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 755,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "#A88858"
+            ],
+            [
+              0.55,
+              "$p.sack"
+            ],
+            [
+              0.8,
+              "#E0C8A0"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.45
+      }
+    },
+    {
+      "shape": {
+        "path": "M 14.6 8 L 16 9.4 M 16 8 L 14.6 9.4 M 18.2 8 L 19.6 9.4 M 19.6 8 L 18.2 9.4"
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 10 22 Q 17 23.4 24 22"
+      },
+      "stroke": {
+        "color": "#6A4A2A",
+        "width": 0.45
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "path": "M 10 27 Q 17 28.4 24 27"
+      },
+      "stroke": {
+        "color": "#6A4A2A",
+        "width": 0.45
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "path": "M 4.4 15.6 L 2.8 15"
+      },
+      "stroke": {
+        "color": "#F4DC90",
+        "width": 0.35
+      }
+    },
+    {
+      "shape": {
+        "path": "M 4.4 16.8 L 2.8 16.4"
+      },
+      "stroke": {
+        "color": "#F4DC90",
+        "width": 0.35
+      }
+    },
+    {
+      "shape": {
+        "path": "M 4.4 18 L 2.8 17.8"
+      },
+      "stroke": {
+        "color": "#F4DC90",
+        "width": 0.35
+      }
+    },
+    {
+      "shape": {
+        "path": "M 29.6 15.6 L 31.2 15"
+      },
+      "stroke": {
+        "color": "#F4DC90",
+        "width": 0.35
+      }
+    },
+    {
+      "shape": {
+        "path": "M 29.6 16.8 L 31.2 16.4"
+      },
+      "stroke": {
+        "color": "#F4DC90",
+        "width": 0.35
+      }
+    },
+    {
+      "shape": {
+        "path": "M 29.6 18 L 31.2 17.8"
+      },
+      "stroke": {
+        "color": "#F4DC90",
+        "width": 0.35
+      }
+    },
+    {
+      "shape": {
+        "path": "M 21 20 L 31 11 L 32 12 L 22 21.4 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 2,
+          "seed": 756,
+          "octaves": 3,
+          "stops": [
+            [
+              0.3,
+              "#A17951"
+            ],
+            [
+              0.5,
+              "#C09060"
+            ],
+            [
+              0.72,
+              "#C9A076"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.3
+      }
+    },
+    {
+      "shape": {
+        "path": "M 18 12 Q 25 14 25 14 Q 26 26 23 32 L 18 32 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.3,
+      "blur": 0.8,
+      "clip": true,
+      "blend": "multiply"
+    }
+  ],
+  "palette": {
+    "straw": "#E0C070",
+    "sack": "#C8A878",
+    "wood": "#7A5232"
+  }
+}

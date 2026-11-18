@@ -3651,6 +3651,766 @@
       }
     },
     {
+      "name": "save_resident_arrives_at_3",
+      "input": {
+        "op": "save_resume",
+        "split": 3,
+        "save": {
+          "player": {
+            "x": 2.2,
+            "y": 4.5,
+            "facing": [
+              -1.0,
+              0.0
+            ],
+            "facing_left": true,
+            "moving": true,
+            "clip_tick": 79,
+            "hp": 142,
+            "level": 1,
+            "xp": 0,
+            "deaths": 0,
+            "kills": 0,
+            "iframes": 0,
+            "cooldown": 0,
+            "phase": "none",
+            "phase_tick": 0,
+            "hit_set": []
+          },
+          "rng": {
+            "combat": {
+              "state": "0xe7c42fc2c24cb470",
+              "inc": "0x9417f2f99ce2f643"
+            },
+            "loot": {
+              "state": "0xceb2d59802171b7d",
+              "inc": "0x9bd9d15ae1ab096f"
+            }
+          },
+          "enemies": [],
+          "inventory": {},
+          "equipped": {
+            "weapon": "",
+            "armor": ""
+          },
+          "story": {
+            "flags": {},
+            "gold": 0,
+            "guild_points": 0,
+            "quests": {},
+            "dialogue": null
+          }
+        },
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            2.2,
+            4.5
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [],
+        "script": [
+          {
+            "ticks": 40,
+            "move": [
+              1,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 40,
+            "move": [
+              -1,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "advance"
+              }
+            ]
+          },
+          {
+            "ticks": 35,
+            "move": [
+              1,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "advance"
+              }
+            ]
+          }
+        ],
+        "story": {
+          "quests": {},
+          "dialogues": {
+            "test:dialogue/herald": {
+              "id": "test:dialogue/herald",
+              "start": "s",
+              "nodes": {
+                "s": {
+                  "type": "set_flag",
+                  "flag": "settled",
+                  "value": true,
+                  "next": "t"
+                },
+                "t": {
+                  "type": "say",
+                  "speaker": "herald",
+                  "text": "t.herald",
+                  "next": "end"
+                }
+              }
+            },
+            "test:dialogue/settler": {
+              "id": "test:dialogue/settler",
+              "start": "s",
+              "nodes": {
+                "s": {
+                  "type": "say",
+                  "speaker": "settler",
+                  "text": "t.settler",
+                  "next": "end"
+                }
+              }
+            }
+          },
+          "npcs": [
+            {
+              "key": "herald",
+              "pos": [
+                2.6,
+                5.8
+              ],
+              "dialogue": "test:dialogue/herald"
+            },
+            {
+              "key": "settler",
+              "pos": [
+                4.5,
+                4.5
+              ],
+              "dialogue": "test:dialogue/settler",
+              "when": {
+                "flag": "settled"
+              }
+            }
+          ]
+        }
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {
+                "settled": true
+              },
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": {
+                "type": "say",
+                "speaker": "herald",
+                "text": "t.herald"
+              }
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {
+                "settled": true
+              },
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 4.568333333333337,
+              "y": 4.5
+            },
+            "enemies": [],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {
+                "settled": true
+              },
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 4.568333333333337,
+              "y": 4.5
+            },
+            "enemies": [],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {
+                "settled": true
+              },
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": {
+                "type": "say",
+                "speaker": "settler",
+                "text": "t.settler"
+              }
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 4.568333333333337,
+              "y": 4.5
+            },
+            "enemies": [],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {
+                "settled": true
+              },
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
+      "name": "save_resident_arrives_at_5",
+      "input": {
+        "op": "save_resume",
+        "split": 5,
+        "save": {
+          "player": {
+            "x": 2.2,
+            "y": 4.5,
+            "facing": [
+              -1.0,
+              0.0
+            ],
+            "facing_left": true,
+            "moving": true,
+            "clip_tick": 79,
+            "hp": 142,
+            "level": 1,
+            "xp": 0,
+            "deaths": 0,
+            "kills": 0,
+            "iframes": 0,
+            "cooldown": 0,
+            "phase": "none",
+            "phase_tick": 0,
+            "hit_set": []
+          },
+          "rng": {
+            "combat": {
+              "state": "0xe7c42fc2c24cb470",
+              "inc": "0x9417f2f99ce2f643"
+            },
+            "loot": {
+              "state": "0xceb2d59802171b7d",
+              "inc": "0x9bd9d15ae1ab096f"
+            }
+          },
+          "enemies": [],
+          "inventory": {},
+          "equipped": {
+            "weapon": "",
+            "armor": ""
+          },
+          "story": {
+            "flags": {
+              "settled": true
+            },
+            "gold": 0,
+            "guild_points": 0,
+            "quests": {},
+            "dialogue": null
+          }
+        },
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            2.2,
+            4.5
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [],
+        "script": [
+          {
+            "ticks": 40,
+            "move": [
+              1,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 40,
+            "move": [
+              -1,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "advance"
+              }
+            ]
+          },
+          {
+            "ticks": 35,
+            "move": [
+              1,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "advance"
+              }
+            ]
+          }
+        ],
+        "story": {
+          "quests": {},
+          "dialogues": {
+            "test:dialogue/herald": {
+              "id": "test:dialogue/herald",
+              "start": "s",
+              "nodes": {
+                "s": {
+                  "type": "set_flag",
+                  "flag": "settled",
+                  "value": true,
+                  "next": "t"
+                },
+                "t": {
+                  "type": "say",
+                  "speaker": "herald",
+                  "text": "t.herald",
+                  "next": "end"
+                }
+              }
+            },
+            "test:dialogue/settler": {
+              "id": "test:dialogue/settler",
+              "start": "s",
+              "nodes": {
+                "s": {
+                  "type": "say",
+                  "speaker": "settler",
+                  "text": "t.settler",
+                  "next": "end"
+                }
+              }
+            }
+          },
+          "npcs": [
+            {
+              "key": "herald",
+              "pos": [
+                2.6,
+                5.8
+              ],
+              "dialogue": "test:dialogue/herald"
+            },
+            {
+              "key": "settler",
+              "pos": [
+                4.5,
+                4.5
+              ],
+              "dialogue": "test:dialogue/settler",
+              "when": {
+                "flag": "settled"
+              }
+            }
+          ]
+        }
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 4.568333333333337,
+              "y": 4.5
+            },
+            "enemies": [],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {
+                "settled": true
+              },
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 4.568333333333337,
+              "y": 4.5
+            },
+            "enemies": [],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {
+                "settled": true
+              },
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": {
+                "type": "say",
+                "speaker": "settler",
+                "text": "t.settler"
+              }
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 4.568333333333337,
+              "y": 4.5
+            },
+            "enemies": [],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {
+                "settled": true
+              },
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
       "name": "save_chest_storage_at_3",
       "input": {
         "op": "save_resume",
@@ -4974,6 +5734,1843 @@
                 }
               },
               "dialogue": null
+            }
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
+      "name": "save_runes_engrave_at_2",
+      "input": {
+        "op": "save_resume",
+        "split": 2,
+        "save": {
+          "player": {
+            "x": 4.6,
+            "y": 5.4,
+            "facing": [
+              1.0,
+              0.0
+            ],
+            "facing_left": false,
+            "moving": false,
+            "clip_tick": 2,
+            "hp": 142,
+            "level": 1,
+            "xp": 0,
+            "deaths": 0,
+            "kills": 0,
+            "iframes": 0,
+            "cooldown": 0,
+            "phase": "none",
+            "phase_tick": 0,
+            "hit_set": [
+              false
+            ]
+          },
+          "rng": {
+            "combat": {
+              "state": "0xe7c42fc2c24cb470",
+              "inc": "0x9417f2f99ce2f643"
+            },
+            "loot": {
+              "state": "0xceb2d59802171b7d",
+              "inc": "0x9bd9d15ae1ab096f"
+            }
+          },
+          "enemies": [
+            {
+              "x": 6.0,
+              "y": 5.4,
+              "hp": 400,
+              "state": "idle",
+              "state_tick": 0
+            }
+          ],
+          "inventory": {
+            "base:item/iron_sword": 1,
+            "base:item/practice_sword": 1,
+            "test:item/rune_fire": 1,
+            "test:item/rune_stone": 1,
+            "test:item/rune_wind": 1
+          },
+          "equipped": {
+            "weapon": "base:item/iron_sword",
+            "armor": ""
+          },
+          "counters": {
+            "engraved": 2
+          },
+          "runes": {
+            "base:item/iron_sword": "test:item/rune_fire"
+          },
+          "story": null
+        },
+        "equipped": {
+          "weapon": "base:item/iron_sword"
+        },
+        "gather_props": [
+          {
+            "art": "base:art/prop/anvil",
+            "x": 2.8,
+            "y": 5.4,
+            "radius": 0.3
+          }
+        ],
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            4.6,
+            5.4
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              6.0,
+              5.4
+            ],
+            "def": {
+              "hp": 400,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              },
+              "weaknesses_pm": {
+                "fire": 2000
+              }
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "use",
+                "item": "test:item/rune_stone"
+              },
+              {
+                "cmd": "use",
+                "item": "test:item/rune_wind"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "use",
+                "item": "test:item/rune_fire"
+              },
+              {
+                "cmd": "use",
+                "item": "test:item/rune_fire"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "equip",
+                "item": "base:item/practice_sword"
+              },
+              {
+                "cmd": "use",
+                "item": "test:item/rune_wind"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "equip",
+                "item": "base:item/iron_sword"
+              }
+            ]
+          },
+          {
+            "ticks": 60,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 30,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          }
+        ],
+        "inventory": {
+          "test:item/rune_stone": 1,
+          "test:item/rune_wind": 2,
+          "test:item/rune_fire": 2,
+          "base:item/iron_sword": 1,
+          "base:item/practice_sword": 1
+        },
+        "items": {
+          "base:item/bread": {
+            "kind": "food",
+            "price": 5,
+            "effects": [
+              {
+                "effect": "heal",
+                "amount": 30
+              }
+            ]
+          },
+          "base:item/potion_mana_small": {
+            "kind": "consumable",
+            "price": 40,
+            "effects": [
+              {
+                "effect": "restore_mp",
+                "amount": 30
+              }
+            ]
+          },
+          "base:item/slime_gel": {
+            "kind": "material",
+            "price": 3,
+            "effects": []
+          },
+          "base:item/cleansing_draught": {
+            "kind": "food",
+            "price": 60,
+            "effects": [
+              {
+                "effect": "cleanse"
+              }
+            ]
+          },
+          "base:item/windleaf_brew": {
+            "kind": "food",
+            "price": 90,
+            "effects": [
+              {
+                "effect": "haste",
+                "amount": 50,
+                "ticks": 90
+              }
+            ]
+          },
+          "base:item/honey_cake": {
+            "kind": "food",
+            "price": 20,
+            "effects": [
+              {
+                "effect": "regen",
+                "amount": 6,
+                "ticks": 600
+              }
+            ]
+          },
+          "base:item/frost_tonic": {
+            "kind": "food",
+            "price": 160,
+            "effects": [
+              {
+                "effect": "ward",
+                "amount": 400,
+                "ticks": 300
+              }
+            ]
+          },
+          "base:item/roast_meat": {
+            "kind": "food",
+            "price": 30,
+            "effects": [
+              {
+                "effect": "heal",
+                "amount": 20
+              },
+              {
+                "effect": "fortify",
+                "amount": 50,
+                "ticks": 200
+              }
+            ]
+          },
+          "base:item/practice_sword": {
+            "kind": "weapon",
+            "price": 20,
+            "weapon": {
+              "atk": 3,
+              "matk": 0
+            }
+          },
+          "base:item/iron_sword": {
+            "kind": "weapon",
+            "price": 150,
+            "weapon": {
+              "atk": 7,
+              "matk": 0
+            }
+          },
+          "base:item/ember_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "fire"
+            }
+          },
+          "base:item/frost_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "water"
+            }
+          },
+          "base:item/storm_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "wind"
+            }
+          },
+          "base:item/quake_hammer": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "earth"
+            }
+          },
+          "base:item/sun_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "light"
+            }
+          },
+          "base:item/leather_vest": {
+            "kind": "armor",
+            "price": 80,
+            "armor": {
+              "def": 2,
+              "mdef": 1
+            }
+          },
+          "base:item/chain_mail": {
+            "kind": "armor",
+            "price": 300,
+            "armor": {
+              "def": 5,
+              "mdef": 2
+            }
+          },
+          "base:item/fang_necklace": {
+            "kind": "accessory",
+            "price": 200,
+            "accessory": {
+              "atk": 12,
+              "max_hp": 40
+            }
+          },
+          "base:item/bat_charm": {
+            "kind": "accessory",
+            "price": 200,
+            "accessory": {
+              "drain_pm": 300
+            }
+          },
+          "test:item/rune_fire": {
+            "kind": "rune",
+            "price": 120,
+            "rune": {
+              "element": "fire",
+              "atk": 4,
+              "station": "base:art/prop/anvil"
+            }
+          },
+          "test:item/rune_wind": {
+            "kind": "rune",
+            "price": 120,
+            "rune": {
+              "element": "wind",
+              "atk": 2
+            }
+          },
+          "test:item/rune_stone": {
+            "kind": "rune",
+            "price": 120,
+            "rune": {
+              "atk": 9,
+              "station": "base:art/prop/forge"
+            }
+          }
+        }
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 4.6,
+              "y": 5.4
+            },
+            "enemies": [
+              {
+                "hp": 400,
+                "state": "idle",
+                "x": 6.0,
+                "y": 5.4
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/iron_sword": 1,
+              "base:item/practice_sword": 1,
+              "test:item/rune_fire": 1,
+              "test:item/rune_stone": 1
+            },
+            "equipped": {
+              "weapon": "base:item/practice_sword",
+              "armor": ""
+            },
+            "runes": {
+              "base:item/iron_sword": "test:item/rune_fire",
+              "base:item/practice_sword": "test:item/rune_wind"
+            },
+            "atk": 21
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 4.6,
+              "y": 5.4
+            },
+            "enemies": [
+              {
+                "hp": 400,
+                "state": "idle",
+                "x": 6.0,
+                "y": 5.4
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/iron_sword": 1,
+              "base:item/practice_sword": 1,
+              "test:item/rune_fire": 1,
+              "test:item/rune_stone": 1
+            },
+            "equipped": {
+              "weapon": "base:item/iron_sword",
+              "armor": ""
+            },
+            "runes": {
+              "base:item/iron_sword": "test:item/rune_fire",
+              "base:item/practice_sword": "test:item/rune_wind"
+            },
+            "atk": 27
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 4.6,
+              "y": 5.4
+            },
+            "enemies": [
+              {
+                "hp": 218,
+                "state": "idle",
+                "x": 6.0,
+                "y": 5.4
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/iron_sword": 1,
+              "base:item/practice_sword": 1,
+              "test:item/rune_fire": 1,
+              "test:item/rune_stone": 1
+            },
+            "equipped": {
+              "weapon": "base:item/iron_sword",
+              "armor": ""
+            },
+            "runes": {
+              "base:item/iron_sword": "test:item/rune_fire",
+              "base:item/practice_sword": "test:item/rune_wind"
+            },
+            "atk": 27
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 4.6,
+              "y": 5.4
+            },
+            "enemies": [
+              {
+                "hp": 218,
+                "state": "idle",
+                "x": 6.0,
+                "y": 5.4
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/iron_sword": 1,
+              "base:item/practice_sword": 1,
+              "test:item/rune_fire": 1,
+              "test:item/rune_stone": 1
+            },
+            "equipped": {
+              "weapon": "base:item/iron_sword",
+              "armor": ""
+            },
+            "runes": {
+              "base:item/iron_sword": "test:item/rune_fire",
+              "base:item/practice_sword": "test:item/rune_wind"
+            },
+            "atk": 27
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
+      "name": "save_runes_engrave_at_4",
+      "input": {
+        "op": "save_resume",
+        "split": 4,
+        "save": {
+          "player": {
+            "x": 4.6,
+            "y": 5.4,
+            "facing": [
+              1.0,
+              0.0
+            ],
+            "facing_left": false,
+            "moving": false,
+            "clip_tick": 4,
+            "hp": 142,
+            "level": 1,
+            "xp": 0,
+            "deaths": 0,
+            "kills": 0,
+            "iframes": 0,
+            "cooldown": 0,
+            "phase": "none",
+            "phase_tick": 0,
+            "hit_set": [
+              false
+            ]
+          },
+          "rng": {
+            "combat": {
+              "state": "0xe7c42fc2c24cb470",
+              "inc": "0x9417f2f99ce2f643"
+            },
+            "loot": {
+              "state": "0xceb2d59802171b7d",
+              "inc": "0x9bd9d15ae1ab096f"
+            }
+          },
+          "enemies": [
+            {
+              "x": 6.0,
+              "y": 5.4,
+              "hp": 400,
+              "state": "idle",
+              "state_tick": 0
+            }
+          ],
+          "inventory": {
+            "base:item/iron_sword": 1,
+            "base:item/practice_sword": 1,
+            "test:item/rune_fire": 1,
+            "test:item/rune_stone": 1
+          },
+          "equipped": {
+            "weapon": "base:item/iron_sword",
+            "armor": ""
+          },
+          "counters": {
+            "engraved": 3
+          },
+          "runes": {
+            "base:item/iron_sword": "test:item/rune_fire",
+            "base:item/practice_sword": "test:item/rune_wind"
+          },
+          "story": null
+        },
+        "equipped": {
+          "weapon": "base:item/iron_sword"
+        },
+        "gather_props": [
+          {
+            "art": "base:art/prop/anvil",
+            "x": 2.8,
+            "y": 5.4,
+            "radius": 0.3
+          }
+        ],
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            4.6,
+            5.4
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              6.0,
+              5.4
+            ],
+            "def": {
+              "hp": 400,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              },
+              "weaknesses_pm": {
+                "fire": 2000
+              }
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "use",
+                "item": "test:item/rune_stone"
+              },
+              {
+                "cmd": "use",
+                "item": "test:item/rune_wind"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "use",
+                "item": "test:item/rune_fire"
+              },
+              {
+                "cmd": "use",
+                "item": "test:item/rune_fire"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "equip",
+                "item": "base:item/practice_sword"
+              },
+              {
+                "cmd": "use",
+                "item": "test:item/rune_wind"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "equip",
+                "item": "base:item/iron_sword"
+              }
+            ]
+          },
+          {
+            "ticks": 60,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 30,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          }
+        ],
+        "inventory": {
+          "test:item/rune_stone": 1,
+          "test:item/rune_wind": 2,
+          "test:item/rune_fire": 2,
+          "base:item/iron_sword": 1,
+          "base:item/practice_sword": 1
+        },
+        "items": {
+          "base:item/bread": {
+            "kind": "food",
+            "price": 5,
+            "effects": [
+              {
+                "effect": "heal",
+                "amount": 30
+              }
+            ]
+          },
+          "base:item/potion_mana_small": {
+            "kind": "consumable",
+            "price": 40,
+            "effects": [
+              {
+                "effect": "restore_mp",
+                "amount": 30
+              }
+            ]
+          },
+          "base:item/slime_gel": {
+            "kind": "material",
+            "price": 3,
+            "effects": []
+          },
+          "base:item/cleansing_draught": {
+            "kind": "food",
+            "price": 60,
+            "effects": [
+              {
+                "effect": "cleanse"
+              }
+            ]
+          },
+          "base:item/windleaf_brew": {
+            "kind": "food",
+            "price": 90,
+            "effects": [
+              {
+                "effect": "haste",
+                "amount": 50,
+                "ticks": 90
+              }
+            ]
+          },
+          "base:item/honey_cake": {
+            "kind": "food",
+            "price": 20,
+            "effects": [
+              {
+                "effect": "regen",
+                "amount": 6,
+                "ticks": 600
+              }
+            ]
+          },
+          "base:item/frost_tonic": {
+            "kind": "food",
+            "price": 160,
+            "effects": [
+              {
+                "effect": "ward",
+                "amount": 400,
+                "ticks": 300
+              }
+            ]
+          },
+          "base:item/roast_meat": {
+            "kind": "food",
+            "price": 30,
+            "effects": [
+              {
+                "effect": "heal",
+                "amount": 20
+              },
+              {
+                "effect": "fortify",
+                "amount": 50,
+                "ticks": 200
+              }
+            ]
+          },
+          "base:item/practice_sword": {
+            "kind": "weapon",
+            "price": 20,
+            "weapon": {
+              "atk": 3,
+              "matk": 0
+            }
+          },
+          "base:item/iron_sword": {
+            "kind": "weapon",
+            "price": 150,
+            "weapon": {
+              "atk": 7,
+              "matk": 0
+            }
+          },
+          "base:item/ember_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "fire"
+            }
+          },
+          "base:item/frost_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "water"
+            }
+          },
+          "base:item/storm_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "wind"
+            }
+          },
+          "base:item/quake_hammer": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "earth"
+            }
+          },
+          "base:item/sun_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "light"
+            }
+          },
+          "base:item/leather_vest": {
+            "kind": "armor",
+            "price": 80,
+            "armor": {
+              "def": 2,
+              "mdef": 1
+            }
+          },
+          "base:item/chain_mail": {
+            "kind": "armor",
+            "price": 300,
+            "armor": {
+              "def": 5,
+              "mdef": 2
+            }
+          },
+          "base:item/fang_necklace": {
+            "kind": "accessory",
+            "price": 200,
+            "accessory": {
+              "atk": 12,
+              "max_hp": 40
+            }
+          },
+          "base:item/bat_charm": {
+            "kind": "accessory",
+            "price": 200,
+            "accessory": {
+              "drain_pm": 300
+            }
+          },
+          "test:item/rune_fire": {
+            "kind": "rune",
+            "price": 120,
+            "rune": {
+              "element": "fire",
+              "atk": 4,
+              "station": "base:art/prop/anvil"
+            }
+          },
+          "test:item/rune_wind": {
+            "kind": "rune",
+            "price": 120,
+            "rune": {
+              "element": "wind",
+              "atk": 2
+            }
+          },
+          "test:item/rune_stone": {
+            "kind": "rune",
+            "price": 120,
+            "rune": {
+              "atk": 9,
+              "station": "base:art/prop/forge"
+            }
+          }
+        }
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 4.6,
+              "y": 5.4
+            },
+            "enemies": [
+              {
+                "hp": 218,
+                "state": "idle",
+                "x": 6.0,
+                "y": 5.4
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/iron_sword": 1,
+              "base:item/practice_sword": 1,
+              "test:item/rune_fire": 1,
+              "test:item/rune_stone": 1
+            },
+            "equipped": {
+              "weapon": "base:item/iron_sword",
+              "armor": ""
+            },
+            "runes": {
+              "base:item/iron_sword": "test:item/rune_fire",
+              "base:item/practice_sword": "test:item/rune_wind"
+            },
+            "atk": 27
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 4.6,
+              "y": 5.4
+            },
+            "enemies": [
+              {
+                "hp": 218,
+                "state": "idle",
+                "x": 6.0,
+                "y": 5.4
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/iron_sword": 1,
+              "base:item/practice_sword": 1,
+              "test:item/rune_fire": 1,
+              "test:item/rune_stone": 1
+            },
+            "equipped": {
+              "weapon": "base:item/iron_sword",
+              "armor": ""
+            },
+            "runes": {
+              "base:item/iron_sword": "test:item/rune_fire",
+              "base:item/practice_sword": "test:item/rune_wind"
+            },
+            "atk": 27
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
+      "name": "save_furniture_home_at_3",
+      "input": {
+        "op": "save_resume",
+        "split": 3,
+        "save": {
+          "player": {
+            "x": 5.624000000000002,
+            "y": 5.0,
+            "facing": [
+              1.0,
+              0.0
+            ],
+            "facing_left": false,
+            "moving": false,
+            "clip_tick": 0,
+            "hp": 142,
+            "level": 1,
+            "xp": 0,
+            "deaths": 0,
+            "kills": 0,
+            "iframes": 0,
+            "cooldown": 0,
+            "phase": "none",
+            "phase_tick": 0,
+            "hit_set": [
+              false
+            ]
+          },
+          "rng": {
+            "combat": {
+              "state": "0xe7c42fc2c24cb470",
+              "inc": "0x9417f2f99ce2f643"
+            },
+            "loot": {
+              "state": "0xceb2d59802171b7d",
+              "inc": "0x9bd9d15ae1ab096f"
+            }
+          },
+          "enemies": [
+            {
+              "x": 9.8,
+              "y": 5.0,
+              "hp": 30,
+              "state": "idle",
+              "state_tick": 0
+            }
+          ],
+          "inventory": {
+            "test:item/rack": 1,
+            "test:item/shelf": 1
+          },
+          "equipped": {
+            "weapon": "",
+            "armor": ""
+          },
+          "counters": {
+            "furnished": 3
+          },
+          "furniture": [
+            [
+              300,
+              400,
+              "test:item/rack"
+            ],
+            [
+              560,
+              400,
+              "test:item/bed"
+            ]
+          ],
+          "story": null
+        },
+        "gather_props": [
+          {
+            "art": "base:art/prop/furniture_spot",
+            "x": 3.0,
+            "y": 4.0,
+            "radius": 0.2
+          },
+          {
+            "art": "base:art/prop/furniture_spot",
+            "x": 5.6,
+            "y": 4.0,
+            "radius": 0.2
+          }
+        ],
+        "home": {
+          "spot": "base:art/prop/furniture_spot",
+          "reach_x100": 150
+        },
+        "titles": [
+          {
+            "id": "homemaker",
+            "name": "t",
+            "kind": "furnished",
+            "count": 3
+          }
+        ],
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            4.0,
+            5.0
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              9.8,
+              5.0
+            ],
+            "def": {
+              "hp": 30,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "use",
+                "item": "test:item/bed"
+              },
+              {
+                "cmd": "use",
+                "item": "test:item/rack"
+              },
+              {
+                "cmd": "use",
+                "item": "test:item/rack"
+              }
+            ]
+          },
+          {
+            "ticks": 24,
+            "move": [
+              1,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "use",
+                "item": "test:item/bed"
+              }
+            ]
+          },
+          {
+            "ticks": 40,
+            "move": [
+              1,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "use",
+                "item": "test:item/shelf"
+              }
+            ]
+          },
+          {
+            "ticks": 60,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 10,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          }
+        ],
+        "inventory": {
+          "test:item/bed": 1,
+          "test:item/rack": 2,
+          "test:item/shelf": 1
+        },
+        "items": {
+          "base:item/bread": {
+            "kind": "food",
+            "price": 5,
+            "effects": [
+              {
+                "effect": "heal",
+                "amount": 30
+              }
+            ]
+          },
+          "base:item/potion_mana_small": {
+            "kind": "consumable",
+            "price": 40,
+            "effects": [
+              {
+                "effect": "restore_mp",
+                "amount": 30
+              }
+            ]
+          },
+          "base:item/slime_gel": {
+            "kind": "material",
+            "price": 3,
+            "effects": []
+          },
+          "base:item/cleansing_draught": {
+            "kind": "food",
+            "price": 60,
+            "effects": [
+              {
+                "effect": "cleanse"
+              }
+            ]
+          },
+          "base:item/windleaf_brew": {
+            "kind": "food",
+            "price": 90,
+            "effects": [
+              {
+                "effect": "haste",
+                "amount": 50,
+                "ticks": 90
+              }
+            ]
+          },
+          "base:item/honey_cake": {
+            "kind": "food",
+            "price": 20,
+            "effects": [
+              {
+                "effect": "regen",
+                "amount": 6,
+                "ticks": 600
+              }
+            ]
+          },
+          "base:item/frost_tonic": {
+            "kind": "food",
+            "price": 160,
+            "effects": [
+              {
+                "effect": "ward",
+                "amount": 400,
+                "ticks": 300
+              }
+            ]
+          },
+          "base:item/roast_meat": {
+            "kind": "food",
+            "price": 30,
+            "effects": [
+              {
+                "effect": "heal",
+                "amount": 20
+              },
+              {
+                "effect": "fortify",
+                "amount": 50,
+                "ticks": 200
+              }
+            ]
+          },
+          "base:item/practice_sword": {
+            "kind": "weapon",
+            "price": 20,
+            "weapon": {
+              "atk": 3,
+              "matk": 0
+            }
+          },
+          "base:item/iron_sword": {
+            "kind": "weapon",
+            "price": 150,
+            "weapon": {
+              "atk": 7,
+              "matk": 0
+            }
+          },
+          "base:item/ember_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "fire"
+            }
+          },
+          "base:item/frost_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "water"
+            }
+          },
+          "base:item/storm_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "wind"
+            }
+          },
+          "base:item/quake_hammer": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "earth"
+            }
+          },
+          "base:item/sun_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "light"
+            }
+          },
+          "base:item/leather_vest": {
+            "kind": "armor",
+            "price": 80,
+            "armor": {
+              "def": 2,
+              "mdef": 1
+            }
+          },
+          "base:item/chain_mail": {
+            "kind": "armor",
+            "price": 300,
+            "armor": {
+              "def": 5,
+              "mdef": 2
+            }
+          },
+          "base:item/fang_necklace": {
+            "kind": "accessory",
+            "price": 200,
+            "accessory": {
+              "atk": 12,
+              "max_hp": 40
+            }
+          },
+          "base:item/bat_charm": {
+            "kind": "accessory",
+            "price": 200,
+            "accessory": {
+              "drain_pm": 300
+            }
+          },
+          "test:item/bed": {
+            "kind": "furniture",
+            "price": 200,
+            "furniture": {
+              "art": "base:art/prop/bed",
+              "xp_pct": 50
+            }
+          },
+          "test:item/rack": {
+            "kind": "furniture",
+            "price": 200,
+            "furniture": {
+              "art": "base:art/prop/weapon_rack",
+              "atk_pct": 40
+            }
+          },
+          "test:item/shelf": {
+            "kind": "furniture",
+            "price": 200,
+            "furniture": {
+              "art": "base:art/prop/bookshelf",
+              "gather_bonus": 1
+            }
+          }
+        }
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 8.33066666666667,
+              "y": 5.0
+            },
+            "enemies": [
+              {
+                "hp": 30,
+                "state": "idle",
+                "x": 9.8,
+                "y": 5.0
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "test:item/rack": 1,
+              "test:item/shelf": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "furniture": [
+              [
+                300,
+                400,
+                "test:item/rack"
+              ],
+              [
+                560,
+                400,
+                "test:item/bed"
+              ]
+            ],
+            "bestiary": {},
+            "titles": [
+              "homemaker"
+            ],
+            "counters": {
+              "furnished": 3
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 8.33066666666667,
+              "y": 5.0
+            },
+            "enemies": [
+              {
+                "hp": 30,
+                "state": "idle",
+                "x": 9.8,
+                "y": 5.0
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "test:item/rack": 1,
+              "test:item/shelf": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "furniture": [
+              [
+                300,
+                400,
+                "test:item/rack"
+              ],
+              [
+                560,
+                400,
+                "test:item/bed"
+              ]
+            ],
+            "bestiary": {},
+            "titles": [
+              "homemaker"
+            ],
+            "counters": {
+              "furnished": 3
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 9,
+              "deaths": 0,
+              "x": 8.33066666666667,
+              "y": 5.0
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 9.8,
+                "y": 5.0
+              }
+            ],
+            "kills": 1,
+            "inventory": {
+              "base:item/slime_gel": 1,
+              "test:item/rack": 1,
+              "test:item/shelf": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "furniture": [
+              [
+                300,
+                400,
+                "test:item/rack"
+              ],
+              [
+                560,
+                400,
+                "test:item/bed"
+              ]
+            ],
+            "bestiary": {},
+            "titles": [
+              "homemaker"
+            ],
+            "counters": {
+              "furnished": 3
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 9,
+              "deaths": 0,
+              "x": 8.33066666666667,
+              "y": 5.0
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 9.8,
+                "y": 5.0
+              }
+            ],
+            "kills": 1,
+            "inventory": {
+              "base:item/slime_gel": 1,
+              "test:item/rack": 1,
+              "test:item/shelf": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "furniture": [
+              [
+                300,
+                400,
+                "test:item/rack"
+              ],
+              [
+                560,
+                400,
+                "test:item/bed"
+              ]
+            ],
+            "bestiary": {},
+            "titles": [
+              "homemaker"
+            ],
+            "counters": {
+              "furnished": 3
             }
           }
         ],

@@ -29,7 +29,7 @@ data class Prop(val art: String, val x: Float, val y: Float, val radius: Float)
 data class SpawnPoint(val enemy: String, val x: Float, val y: Float)
 
 /** An NPC placed on the map: [x], [y] is the feet position in tiles. */
-data class NpcPoint(val key: String, val dialogue: String, val variant: String, val x: Float, val y: Float)
+data class NpcPoint(val key: String, val dialogue: String, val variant: String, val x: Float, val y: Float, val whenJson: String = "")
 
 class TileMap(
     val width: Int,

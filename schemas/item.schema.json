@@ -34,7 +34,9 @@
         "material",
         "key",
         "food",
-        "seed"
+        "seed",
+        "rune",
+        "furniture"
       ]
     },
     "rarity": {
@@ -105,6 +107,51 @@
             }
           }
         }
+      }
+    },
+    "rune": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "a rune (spec 06, \"Runes\"): used from the bag, it is engraved on the worn weapon",
+      "properties": {
+        "element": {
+          "description": "the element the weapon hits with; none keeps its own",
+          "enum": ["none", "fire", "water", "wind", "earth", "light", "dark"]
+        },
+        "atk": {
+          "description": "added to the attack of the weapon",
+          "type": "integer",
+          "minimum": 0
+        },
+        "matk": {
+          "description": "added to the magic attack of the weapon",
+          "type": "integer",
+          "minimum": 0
+        },
+        "station": {
+          "description": "the prop it is engraved next to; absent: anywhere",
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*:art/prop/[a-z0-9_]+$"
+        }
+      }
+    },
+    "furniture": {
+      "type": "object",
+      "required": ["art"],
+      "additionalProperties": false,
+      "description": "a piece of furniture (spec 06, \"Furniture\"): used from the bag next to a spot of the home, it stands there and adds like a title",
+      "properties": {
+        "art": {
+          "description": "the prop it is drawn as",
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*:art/prop/[a-z0-9_]+$"
+        },
+        "atk_pct": { "type": "integer", "minimum": 0, "description": "percent added to the attack of the hits" },
+        "gather_bonus": { "type": "integer", "minimum": 0, "description": "more of every drop gathered" },
+        "craft_bonus": { "type": "integer", "minimum": 0, "description": "more of the output of every recipe" },
+        "parry_bonus": { "type": "integer", "minimum": 0, "description": "ticks added to the parry window" },
+        "xp_pct": { "type": "integer", "minimum": 0, "description": "percent more experience from a kill" },
+        "fine_pm": { "type": "integer", "minimum": 0, "description": "permille added to the chance of a fine piece" }
       }
     },
     "armor": {

@@ -1,0 +1,62 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/npc/resident_hald",
+  "start": "c_gift",
+  "nodes": {
+    "c_gift": {
+      "type": "condition",
+      "when": {
+        "flag": "resident_hald_gift"
+      },
+      "then": "talk",
+      "else": "hello"
+    },
+    "hello": {
+      "type": "say",
+      "speaker": "resident_hald",
+      "text": "$i18n:dlg.resident.hald.hello",
+      "next": "gift"
+    },
+    "gift": {
+      "type": "say",
+      "speaker": "resident_hald",
+      "text": "$i18n:dlg.resident.hald.gift",
+      "next": "give"
+    },
+    "give": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "add_item",
+          "item": "base:item/rune_tide",
+          "qty": 1
+        },
+        {
+          "effect": "set_flag",
+          "flag": "resident_hald_gift",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "talk": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.resident.ask",
+          "next": "life"
+        },
+        {
+          "text": "$i18n:dlg.resident.bye",
+          "next": "end"
+        }
+      ]
+    },
+    "life": {
+      "type": "say",
+      "speaker": "resident_hald",
+      "text": "$i18n:dlg.resident.hald.talk",
+      "next": "end"
+    }
+  }
+}

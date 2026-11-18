@@ -60,7 +60,7 @@ def weather_kind(seed: int, t: dict, period: int) -> dict:
 
 
 def weather_at(seed: int, t: dict, ticks: int) -> dict:
-    """Kind id of the period, and the rain and dimming in permille (with the cross-fade at the start of a period)."""
+    """Kind id of the period, and the rain, dimming and wind in permille (with the cross-fade at the start of a period)."""
     w = t["weather"]
     period = ticks // w["period_ticks"]
     cur = weather_kind(seed, t, period)
@@ -68,11 +68,12 @@ def weather_at(seed: int, t: dict, ticks: int) -> dict:
     since = ticks % w["period_ticks"]
     fade = w["fade_ticks"]
     if since >= fade:
-        rain, dim = cur["rain_pm"], cur["dim_pm"]
+        rain, dim, wind = cur["rain_pm"], cur["dim_pm"], cur.get("wind_pm", 0)
     else:
         rain = (prev["rain_pm"] * (fade - since) + cur["rain_pm"] * since) // fade
         dim = (prev["dim_pm"] * (fade - since) + cur["dim_pm"] * since) // fade
-    return {"kind": cur["id"], "rain_pm": rain, "dim_pm": dim}
+        wind = (prev.get("wind_pm", 0) * (fade - since) + cur.get("wind_pm", 0) * since) // fade  # the wind (spec 08, "Wind")
+    return {"kind": cur["id"], "rain_pm": rain, "dim_pm": dim, "wind_pm": wind}
 
 
 def sample(seed: int, t: dict, ticks: int) -> dict:

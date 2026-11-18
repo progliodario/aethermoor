@@ -55,6 +55,9 @@ TITLES = {
     "gourmet": ("used", 300, None, "Gourmet", "Buongustaio"),
     "duelist": ("parried", 150, None, "Duelist", "Duellante"),
     "slayer_of_hundreds": ("kills", 500, None, "Slayer of Hundreds", "Flagello delle centinaia"),
+    # the runes and the home (spec 06, "Runes", "Furniture")
+    "runesmith": ("engraved", 3, None, "Runesmith", "Incisore di rune"),
+    "homemaker": ("furnished", 6, None, "Homemaker", "Padrone di casa"),
 }
 
 
@@ -63,10 +66,10 @@ TITLES = {
 # `fine_pm`: permille added to the chance that a recipe comes out fine (spec 06, "Quality").
 PERKS = {"forager": {"gather_bonus": 1}, "artisan": {"craft_bonus": 1, "fine_pm": 100}, "unbreakable": {"parry_bonus": 8}, "fine_hand": {"fine_pm": 150}, "guild_champion": {"xp_pct": 10}, "ring_walker": {"gather_bonus": 1},
          "heart_of_the_folk": {"craft_bonus": 1}, "green_thumb": {"gather_bonus": 1},
-         "harvest_lord": {"gather_bonus": 1}, "gourmet": {"xp_pct": 5}, "duelist": {"parry_bonus": 8}, "slayer_of_hundreds": {"xp_pct": 10},
+         "harvest_lord": {"gather_bonus": 1}, "gourmet": {"xp_pct": 5}, "duelist": {"parry_bonus": 8}, "slayer_of_hundreds": {"xp_pct": 10}, "homemaker": {"xp_pct": 5}, "runesmith": {"fine_pm": 50},
          "pest_control": {"xp_pct": 10}, "boar_hunter": {"gather_bonus": 1}, "elk_stalker": {"xp_pct": 10},
          "seasoned_forager": {"gather_bonus": 1}, "master_artisan": {"craft_bonus": 1, "fine_pm": 150}, "great_hunter": {"xp_pct": 15}, "veteran": {"xp_pct": 15}, "legend": {"xp_pct": 25}}
-ATTACK_PCT = {"keeper_of_legends": 6, "newcomer": 2, "veteran": 5, "great_hunter": 6, "gel_slayer": 5, "hero": 8, "chronicler": 8, "legend": 10, "duelist": 4, "slayer_of_hundreds": 6}
+ATTACK_PCT = {"keeper_of_legends": 6, "newcomer": 2, "veteran": 5, "great_hunter": 6, "gel_slayer": 5, "hero": 8, "chronicler": 8, "legend": 10, "duelist": 4, "slayer_of_hundreds": 6, "runesmith": 5}
 
 
 def add_texts(lang: str, entries: dict[str, str]) -> None:

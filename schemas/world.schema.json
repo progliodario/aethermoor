@@ -416,6 +416,12 @@
                     "type": "integer",
                     "minimum": 0,
                     "maximum": 1000
+                  },
+                  "wind_pm": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000,
+                    "description": "How hard the wind blows in this weather, in permille; 0 when absent (spec 08, \"Wind\")."
                   }
                 }
               }
@@ -431,6 +437,12 @@
               "minimum": 0,
               "maximum": 1000,
               "description": "How much full rain (and snow) slows the creatures, in permille (spec 08, \"Rain slows\")."
+            },
+            "wind_haste_pm": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000,
+              "description": "How much a full wind speeds the player on foot, in permille (spec 08, \"Wind\")."
             }
           }
         },
@@ -525,6 +537,10 @@
           },
           "dy": {
             "type": "integer"
+          },
+          "when": {
+            "type": "object",
+            "description": "A resident (spec 07, \"Residents\"): a dialogue condition; the person is there only while it holds, and is never solid."
           }
         }
       }

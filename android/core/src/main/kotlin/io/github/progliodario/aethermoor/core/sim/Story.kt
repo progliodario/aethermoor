@@ -148,6 +148,8 @@ data class NpcDef(
     val y: Float,
     val name: String = "",
     val args: Map<String, String> = emptyMap(),
+    /** A resident (spec 07, "Residents"): it is there only while this condition holds, and it is never solid. */
+    val whenCond: Condition? = null,
 )
 
 class StorySetup(
@@ -221,6 +223,9 @@ interface StoryHost {
 private fun JsonObject.str(key: String) = getValue(key).jsonPrimitive.content
 
 private fun optStr(o: JsonObject, key: String) = (o[key] as? JsonPrimitive)?.contentOrNull ?: ""
+
+/** Parses the JSON text of a dialogue condition (the `when` of a resident, spec 07 "Residents"). */
+fun parseConditionText(text: String): Condition = parseCondition(kotlinx.serialization.json.Json.parseToJsonElement(text))
 
 private fun parseCondition(element: JsonElement): Condition {
     val o = element.jsonObject
@@ -325,7 +330,7 @@ fun parseStorySetup(element: JsonElement): StorySetup {
         npcs = j.getValue("npcs").jsonArray.map {
             val n = it.jsonObject
             val pos = n.getValue("pos").jsonArray
-            NpcDef(n.str("key"), n.str("dialogue"), optStr(n, "variant"), pos[0].f(), pos[1].f())
+            NpcDef(n.str("key"), n.str("dialogue"), optStr(n, "variant"), pos[0].f(), pos[1].f(), whenCond = n["when"]?.let { w -> parseCondition(w) })
         },
     )
 }
@@ -546,10 +551,14 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
     var dynamicNpcs: List<NpcDef> = emptyList()
     private var dialogueArgs: Map<String, String> = emptyMap()
 
+    /** Whether an NPC is there now: always, or while the condition of a resident holds (spec 07, "Residents"). */
+    fun npcPresent(npc: NpcDef): Boolean = npc.whenCond?.let { holds(it) } ?: true
+
     fun npcInRange(): NpcDef? {
         var best: NpcDef? = null
         var bestDist = INTERACT_RANGE
         for (npc in setup.npcs + dynamicNpcs) {
+            if (!npcPresent(npc)) continue // a resident that has not come yet (spec 07, "Residents")
             val dx = npc.x - host.playerX
             val dy = npc.y - host.playerY
             val d = sqrt(dx * dx + dy * dy)

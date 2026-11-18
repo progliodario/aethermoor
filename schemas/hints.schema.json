@@ -44,7 +44,9 @@
               "companion",
               "renown",
               "plot",
-              "chest"
+              "chest",
+              "home",
+              "wind"
             ]
           },
           "text": {

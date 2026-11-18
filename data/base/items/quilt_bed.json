@@ -1,0 +1,14 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/quilt_bed",
+  "name": "$i18n:item.quilt_bed.name",
+  "description": "$i18n:item.quilt_bed.desc",
+  "kind": "furniture",
+  "rarity": "uncommon",
+  "price": 260,
+  "stack_max": 3,
+  "furniture": {
+    "art": "base:art/prop/bed",
+    "xp_pct": 10
+  }
+}

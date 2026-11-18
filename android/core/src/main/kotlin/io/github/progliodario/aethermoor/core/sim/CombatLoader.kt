@@ -289,7 +289,7 @@ fun loadCombatSetup(
                 dialogues[id] = parseDialogue(text).getOrThrow()
             }
         }
-        val npcs = map.npcs.map { NpcDef(it.key, it.dialogue, it.variant, it.x, it.y) }
+        val npcs = map.npcs.map { NpcDef(it.key, it.dialogue, it.variant, it.x, it.y, whenCond = it.whenJson.takeIf { w -> w.isNotEmpty() }?.let { w -> parseConditionText(w) }) }
 
         // Items that can be used (spec 06).
         val items = HashMap<String, ItemDef>()
@@ -309,6 +309,8 @@ fun loadCombatSetup(
                 },
                 armor = doc["armor"]?.jsonObject?.let { ArmorStats(it.getValue("def").jsonPrimitive.long, it.getValue("mdef").jsonPrimitive.long) },
                 accessory = doc["accessory"]?.jsonObject?.let { accessoryOf(it) },
+                rune = doc["rune"]?.jsonObject?.let { runeOf(it) },
+                furniture = doc["furniture"]?.jsonObject?.let { furnitureOf(it) },
             )
         }
 
@@ -333,6 +335,8 @@ fun loadCombatSetup(
             farming = loadFarming(pack),
             chestArt = pack.readDocument("base:storage/chests")?.let { Json.parseToJsonElement(it).jsonObject["chest"]?.jsonPrimitive?.content } ?: "",
             chestReachX100 = pack.readDocument("base:storage/chests")?.let { Json.parseToJsonElement(it).jsonObject["reach_x100"]?.jsonPrimitive?.int } ?: 200,
+            homeSpot = pack.readDocument("base:home/cottage")?.let { Json.parseToJsonElement(it).jsonObject["spot"]?.jsonPrimitive?.content } ?: "",
+            homeReachX100 = pack.readDocument("base:home/cottage")?.let { Json.parseToJsonElement(it).jsonObject["reach_x100"]?.jsonPrimitive?.int } ?: 200,
             recipes = loadRecipes(pack),
             titles = loadTitles(pack),
             talents = loadTalents(pack).first,

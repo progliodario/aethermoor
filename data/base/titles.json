@@ -322,6 +322,22 @@
       "count": 500,
       "atk_pct": 6,
       "xp_pct": 10
+    },
+    {
+      "id": "runesmith",
+      "name": "$i18n:title.runesmith",
+      "kind": "engraved",
+      "count": 3,
+      "atk_pct": 5,
+      "fine_pm": 50
+    },
+    {
+      "id": "homemaker",
+      "name": "$i18n:title.homemaker",
+      "kind": "furnished",
+      "count": 6,
+      "atk_pct": 3,
+      "xp_pct": 5
     }
   ]
 }

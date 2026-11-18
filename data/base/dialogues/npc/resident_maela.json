@@ -1,0 +1,62 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/npc/resident_maela",
+  "start": "c_gift",
+  "nodes": {
+    "c_gift": {
+      "type": "condition",
+      "when": {
+        "flag": "resident_maela_gift"
+      },
+      "then": "talk",
+      "else": "hello"
+    },
+    "hello": {
+      "type": "say",
+      "speaker": "resident_maela",
+      "text": "$i18n:dlg.resident.maela.hello",
+      "next": "gift"
+    },
+    "gift": {
+      "type": "say",
+      "speaker": "resident_maela",
+      "text": "$i18n:dlg.resident.maela.gift",
+      "next": "give"
+    },
+    "give": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "add_item",
+          "item": "base:item/rune_might",
+          "qty": 1
+        },
+        {
+          "effect": "set_flag",
+          "flag": "resident_maela_gift",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "talk": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.resident.ask",
+          "next": "life"
+        },
+        {
+          "text": "$i18n:dlg.resident.bye",
+          "next": "end"
+        }
+      ]
+    },
+    "life": {
+      "type": "say",
+      "speaker": "resident_maela",
+      "text": "$i18n:dlg.resident.maela.talk",
+      "next": "end"
+    }
+  }
+}

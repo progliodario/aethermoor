@@ -60,6 +60,17 @@ ITEMS = {
     "base:item/bat_charm": {"kind": "accessory", "price": 200, "accessory": {"drain_pm": 300}},
 }
 BREAD = ITEMS
+# Runes (spec 06, "Runes") and furniture (spec 06, "Furniture") of the scenarios.
+RUNE_ITEMS = {
+    "test:item/rune_fire": {"kind": "rune", "price": 120, "rune": {"element": "fire", "atk": 4, "station": "base:art/prop/anvil"}},
+    "test:item/rune_wind": {"kind": "rune", "price": 120, "rune": {"element": "wind", "atk": 2}},
+    "test:item/rune_stone": {"kind": "rune", "price": 120, "rune": {"atk": 9, "station": "base:art/prop/forge"}},
+}
+FURNITURE_ITEMS = {
+    "test:item/bed": {"kind": "furniture", "price": 200, "furniture": {"art": "base:art/prop/bed", "xp_pct": 50}},
+    "test:item/rack": {"kind": "furniture", "price": 200, "furniture": {"art": "base:art/prop/weapon_rack", "atk_pct": 40}},
+    "test:item/shelf": {"kind": "furniture", "price": 200, "furniture": {"art": "base:art/prop/bookshelf", "gather_bonus": 1}},
+}
 COMPANION = {"atk_base": 12, "atk_per_level": 1, "range_x100": 300, "cooldown_ticks": 60, "speed_x100": 320, "follow_x100": 220}
 RECIPES = [
     {"id": "tonic", "output": {"item": "base:item/tonic", "qty": 2},
@@ -694,6 +705,43 @@ def build_scenarios() -> list[dict]:
                      "s1": {"type": "say", "speaker": "merchant", "text": "t.second", "next": "end"},
                      "s2": {"type": "say", "speaker": "merchant", "text": "t.third", "next": "end"}}}},
                      "npcs": [{"key": "merchant", "pos": [4.0, 4.5], "dialogue": "test:dialogue/merchant"}]}),
+        # Runes (spec 06): one whose station is not in reach is refused; the wind rune needs none and goes on the iron sword; at the anvil the
+        # fire rune takes its place (the wind rune is lost) and the same rune twice is refused; with no weapon worn a rune is refused; the
+        # practice sword gets its own; worn again, the iron sword hits with fire and its rune adds to the attack.
+        {**scenario("runes_engrave", [enemy(6.0, 5.4, **passive, weaknesses_pm={"fire": 2000}, hp=400)],
+                    [segment(1, do=[{"cmd": "use", "item": "test:item/rune_stone"}, {"cmd": "use", "item": "test:item/rune_wind"}]),
+                     segment(1, do=[{"cmd": "use", "item": "test:item/rune_fire"}, {"cmd": "use", "item": "test:item/rune_fire"}]),
+                     segment(1, do=[{"cmd": "equip", "item": "base:item/practice_sword"}, {"cmd": "use", "item": "test:item/rune_wind"}]),
+                     segment(1, do=[{"cmd": "equip", "item": "base:item/iron_sword"}]),
+                     segment(60, attack=True), segment(30)],
+                    inventory={"test:item/rune_stone": 1, "test:item/rune_wind": 2, "test:item/rune_fire": 2, "base:item/iron_sword": 1,
+                               "base:item/practice_sword": 1},
+                    equipped={"weapon": "base:item/iron_sword"}, player={"start": [4.6, 5.4]},
+                    gather_props=[{"art": "base:art/prop/anvil", "x": 2.8, "y": 5.4, "radius": 0.3}]),
+         "items": {**ITEMS, **RUNE_ITEMS}},
+        # Furniture (spec 06): a piece goes on the nearest spot in reach, and the piece that stood there goes back to the bag; the same piece on
+        # its own spot is refused; far from every spot a piece is refused. What the pieces add counts like a title, every kind once: the
+        # bed's experience and the rack's attack on a kill.
+        {**scenario("furniture_home", [enemy(9.8, 5.0, **passive, hp=30)],
+                    [segment(1, do=[{"cmd": "use", "item": "test:item/bed"}, {"cmd": "use", "item": "test:item/rack"},
+                                    {"cmd": "use", "item": "test:item/rack"}]),
+                     segment(24, move=(1, 0)),
+                     segment(1, do=[{"cmd": "use", "item": "test:item/bed"}]),
+                     segment(40, move=(1, 0)),
+                     segment(1, do=[{"cmd": "use", "item": "test:item/shelf"}]),
+                     segment(60, attack=True), segment(10)],
+                    inventory={"test:item/bed": 1, "test:item/rack": 2, "test:item/shelf": 1}, player={"start": [4.0, 5.0]},
+                    gather_props=[{"art": "base:art/prop/furniture_spot", "x": 3.0, "y": 4.0, "radius": 0.2},
+                                  {"art": "base:art/prop/furniture_spot", "x": 5.6, "y": 4.0, "radius": 0.2}],
+                    home={"spot": "base:art/prop/furniture_spot", "reach_x100": 150},
+                    titles=[{"id": "homemaker", "name": "t", "kind": "furnished", "count": 3}]),
+         "items": {**ITEMS, **FURNITURE_ITEMS}},
+        # The wind at your back (spec 08, "Wind"): a full wind with a haste of 150 permille, a light one, and the brew of haste with the wind.
+        scenario("wind_full", [enemy(12.0, 7.5, **passive)], [segment(60, move=(1, 0))], weather={"wind_pm": 1000, "wind_haste_pm": 150}),
+        scenario("wind_light", [enemy(12.0, 7.5, **passive)], [segment(60, move=(1, 0))], weather={"wind_pm": 350, "wind_haste_pm": 150}),
+        scenario("wind_and_haste", [enemy(12.0, 7.5, **passive)],
+                 [segment(1, do=[{"cmd": "use", "item": "base:item/windleaf_brew"}]), segment(60, move=(1, 0))],
+                 inventory={"base:item/windleaf_brew": 1}, weather={"wind_pm": 1000, "wind_haste_pm": 150, "rain_pm": 1000, "rain_slow_pm": 400}),
         scenario("leash_and_return", [enemy(4.0, 4.5, behavior_overrides={"leash_x100": 300})],
                  [segment(20, attack=True), segment(150, move=(1, 0)), segment(250)]),
     ]

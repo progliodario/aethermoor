@@ -35,6 +35,13 @@
           "next": "story"
         },
         {
+          "text": "$i18n:dlg.home.tam.furnish",
+          "when": {
+            "flag": "cottage_given"
+          },
+          "next": "furniture"
+        },
+        {
           "text": "$i18n:dlg.home.tam.bye",
           "next": "end"
         }
@@ -59,6 +66,12 @@
       "type": "say",
       "speaker": "cottage_keeper_tam",
       "text": "$i18n:dlg.home.tam.story",
+      "next": "menu"
+    },
+    "furniture": {
+      "type": "say",
+      "speaker": "cottage_keeper_tam",
+      "text": "$i18n:dlg.home.tam.furniture",
       "next": "menu"
     }
   }

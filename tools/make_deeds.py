@@ -59,6 +59,8 @@ DEEDS = [
       "it": ("Anche una vita tranquilla", "Ottieni i titoli {}.")}),
     ("beast_friend", "earned", ["beast_friend", "well_fed"],
      {"en": ("Fed and Followed", "Earn the titles {}."), "it": ("Sazio e seguito", "Ottieni i titoli {}.")}),
+    ("hearth_and_blade", "earned", ["homemaker", "runesmith"],
+     {"en": ("Hearth and Blade", "Earn the titles {}."), "it": ("Focolare e lama", "Ottieni i titoli {}.")}),
     ("second_life", "lives", 1, {"en": ("Again, From the Threshold", "Reincarnate a game."), "it": ("Di nuovo, dalla Soglia", "Reincarna una partita.")}),
     ("many_lives", "lives", 5, {"en": ("Many Lives", "Reincarnate five games."), "it": ("Molte vite", "Reincarna cinque partite.")}),
 ]

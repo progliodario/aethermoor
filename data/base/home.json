@@ -1,0 +1,6 @@
+{
+  "$schema": "../../schemas/home.schema.json",
+  "id": "base:home/cottage",
+  "spot": "base:art/prop/furniture_spot",
+  "reach_x100": 150
+}

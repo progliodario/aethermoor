@@ -94,6 +94,7 @@ LEGEND = {
     '"': {"prop": "base:art/prop/pen", "radius_x100": 45},  # a goat: milk
     "/": {"tile": 14, "prop": "base:art/prop/anvil", "radius_x100": 35},  # where fine gear is made
     "\\": {"tile": 13, "prop": "base:art/prop/chest", "radius_x100": 30},  # a chest: every chest holds the same things (spec 06, "Chests")
+    "[": {"tile": 13, "prop": "base:art/prop/furniture_spot", "radius_x100": 20},  # a place for a piece of furniture (spec 06, "Furniture")
     "V": {"tile": 13, "npc": "villager"},
     "G": {"tile": 13, "npc": "guild_clerk"},
     "S": {"tile": 13, "npc": "shopkeeper"},
@@ -334,10 +335,12 @@ def town_b() -> dict:
 
 
 def hamlet_home() -> dict:
-    """The Guest's cottage, east of Fenwick (spec 09, "Landmarks"): a house with a chest, a campfire and an anvil, plots, hens and a goat, a
-    Threshold Stone, and Old Tam who keeps it (spec 07, "People of the towns")."""
+    """The Guest's cottage, east of Fenwick (spec 09, "Landmarks"): a house with a chest and six places for furniture, a campfire and an
+    anvil, plots, hens and a goat, a Threshold Stone, and Old Tam who keeps it (spec 07, "People of the towns")."""
     c = Canvas(15, 11)
-    c.house(1, 1, 8, 5, {(1, 1): "~", (2, 1): "\\", (5, 1): "b", (6, 3): "b"}, door=4)
+    # the places for the furniture (spec 06, "Furniture") along the walls, and a free way from the door
+    c.house(1, 1, 8, 5, {(1, 1): "~", (2, 1): "\\", (4, 1): "[", (5, 1): "b", (6, 1): "[", (1, 2): "[", (6, 2): "[", (1, 3): "[", (6, 3): "["},
+            door=4)
     c.vline(5, 6, 10, "=")
     c.hline(0, 14, 7, "=")
     c.put(7, 6, "l")

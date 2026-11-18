@@ -2093,6 +2093,7 @@
             "weather": {
               "rain_aggro_cut_pm": 300,
               "rain_slow_pm": 250,
+              "wind_haste_pm": 150,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -2100,19 +2101,22 @@
                   "id": "clear",
                   "weight": 600,
                   "rain_pm": 0,
-                  "dim_pm": 0
+                  "dim_pm": 0,
+                  "wind_pm": 150
                 },
                 {
                   "id": "cloudy",
                   "weight": 250,
                   "rain_pm": 0,
-                  "dim_pm": 250
+                  "dim_pm": 250,
+                  "wind_pm": 700
                 },
                 {
                   "id": "rain",
                   "weight": 150,
                   "rain_pm": 1000,
-                  "dim_pm": 400
+                  "dim_pm": 400,
+                  "wind_pm": 500
                 }
               ]
             }
@@ -2376,6 +2380,86 @@
               "variant": "brown",
               "dx": 74,
               "dy": 45
+            },
+            {
+              "key": "resident_maela",
+              "dialogue": "base:dialogue/npc/resident_maela",
+              "variant": "green",
+              "dx": 382,
+              "dy": 129,
+              "when": {
+                "renown_at_least": 6
+              }
+            },
+            {
+              "key": "resident_sorrel",
+              "dialogue": "base:dialogue/npc/resident_sorrel",
+              "variant": "purple",
+              "dx": -4224,
+              "dy": -2689,
+              "when": {
+                "renown_at_least": 6
+              }
+            },
+            {
+              "key": "resident_bram",
+              "dialogue": "base:dialogue/npc/resident_bram",
+              "variant": "red",
+              "dx": 4224,
+              "dy": -4737,
+              "when": {
+                "renown_at_least": 6
+              }
+            },
+            {
+              "key": "resident_yasmin",
+              "dialogue": "base:dialogue/npc/resident_yasmin",
+              "variant": "ochre",
+              "dx": 5505,
+              "dy": 3967,
+              "when": {
+                "renown_at_least": 6
+              }
+            },
+            {
+              "key": "resident_hald",
+              "dialogue": "base:dialogue/npc/resident_hald",
+              "variant": "cream",
+              "dx": -1154,
+              "dy": -6527,
+              "when": {
+                "renown_at_least": 6
+              }
+            },
+            {
+              "key": "resident_cormac",
+              "dialogue": "base:dialogue/npc/resident_cormac",
+              "variant": "teal",
+              "dx": -6271,
+              "dy": 4223,
+              "when": {
+                "renown_at_least": 6
+              }
+            },
+            {
+              "key": "resident_ash",
+              "dialogue": "base:dialogue/npc/resident_ash",
+              "variant": "",
+              "dx": 6784,
+              "dy": -385,
+              "when": {
+                "renown_at_least": 6
+              }
+            },
+            {
+              "key": "resident_ines",
+              "dialogue": "base:dialogue/npc/resident_ines",
+              "variant": "purple",
+              "dx": -642,
+              "dy": 6273,
+              "when": {
+                "renown_at_least": 6
+              }
             }
           ],
           "stamp_defs": {
@@ -6276,9 +6360,9 @@
               "rows": [
                 "t.............t",
                 ".:':':'::......",
-                ".:~\\__b_:.?./..",
-                ".'______:......",
-                ".:_____b:......",
+                ".:~\\_[b[:.?./..",
+                ".'[____[:......",
+                ".:[____[:......",
                 ".::::;:::.,.,.,",
                 ".....=.l.......",
                 "===============",
@@ -6324,6 +6408,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/threshold_stone",
                   "radius_x100": 35
+                },
+                "[": {
+                  "tile": 14,
+                  "spawner": "base:enemy/echo_daichi"
                 },
                 "\\": {
                   "tile": 13,
@@ -13952,6 +14040,7 @@
             "weather": {
               "rain_aggro_cut_pm": 300,
               "rain_slow_pm": 250,
+              "wind_haste_pm": 150,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -13959,19 +14048,22 @@
                   "id": "clear",
                   "weight": 600,
                   "rain_pm": 0,
-                  "dim_pm": 0
+                  "dim_pm": 0,
+                  "wind_pm": 150
                 },
                 {
                   "id": "cloudy",
                   "weight": 250,
                   "rain_pm": 0,
-                  "dim_pm": 250
+                  "dim_pm": 250,
+                  "wind_pm": 700
                 },
                 {
                   "id": "rain",
                   "weight": 150,
                   "rain_pm": 1000,
-                  "dim_pm": 400
+                  "dim_pm": 400,
+                  "wind_pm": 500
                 }
               ]
             }
@@ -14235,6 +14327,86 @@
               "variant": "brown",
               "dx": 74,
               "dy": 45
+            },
+            {
+              "key": "resident_maela",
+              "dialogue": "base:dialogue/npc/resident_maela",
+              "variant": "green",
+              "dx": 382,
+              "dy": 129,
+              "when": {
+                "renown_at_least": 6
+              }
+            },
+            {
+              "key": "resident_sorrel",
+              "dialogue": "base:dialogue/npc/resident_sorrel",
+              "variant": "purple",
+              "dx": -4224,
+              "dy": -2689,
+              "when": {
+                "renown_at_least": 6
+              }
+            },
+            {
+              "key": "resident_bram",
+              "dialogue": "base:dialogue/npc/resident_bram",
+              "variant": "red",
+              "dx": 4224,
+              "dy": -4737,
+              "when": {
+                "renown_at_least": 6
+              }
+            },
+            {
+              "key": "resident_yasmin",
+              "dialogue": "base:dialogue/npc/resident_yasmin",
+              "variant": "ochre",
+              "dx": 5505,
+              "dy": 3967,
+              "when": {
+                "renown_at_least": 6
+              }
+            },
+            {
+              "key": "resident_hald",
+              "dialogue": "base:dialogue/npc/resident_hald",
+              "variant": "cream",
+              "dx": -1154,
+              "dy": -6527,
+              "when": {
+                "renown_at_least": 6
+              }
+            },
+            {
+              "key": "resident_cormac",
+              "dialogue": "base:dialogue/npc/resident_cormac",
+              "variant": "teal",
+              "dx": -6271,
+              "dy": 4223,
+              "when": {
+                "renown_at_least": 6
+              }
+            },
+            {
+              "key": "resident_ash",
+              "dialogue": "base:dialogue/npc/resident_ash",
+              "variant": "",
+              "dx": 6784,
+              "dy": -385,
+              "when": {
+                "renown_at_least": 6
+              }
+            },
+            {
+              "key": "resident_ines",
+              "dialogue": "base:dialogue/npc/resident_ines",
+              "variant": "purple",
+              "dx": -642,
+              "dy": 6273,
+              "when": {
+                "renown_at_least": 6
+              }
             }
           ],
           "stamp_defs": {
@@ -18135,9 +18307,9 @@
               "rows": [
                 "t.............t",
                 ".:':':'::......",
-                ".:~\\__b_:.?./..",
-                ".'______:......",
-                ".:_____b:......",
+                ".:~\\_[b[:.?./..",
+                ".'[____[:......",
+                ".:[____[:......",
                 ".::::;:::.,.,.,",
                 ".....=.l.......",
                 "===============",
@@ -18183,6 +18355,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/threshold_stone",
                   "radius_x100": 35
+                },
+                "[": {
+                  "tile": 14,
+                  "spawner": "base:enemy/echo_daichi"
                 },
                 "\\": {
                   "tile": 13,
@@ -25811,6 +25987,7 @@
             "weather": {
               "rain_aggro_cut_pm": 300,
               "rain_slow_pm": 250,
+              "wind_haste_pm": 150,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -25818,19 +25995,22 @@
                   "id": "clear",
                   "weight": 600,
                   "rain_pm": 0,
-                  "dim_pm": 0
+                  "dim_pm": 0,
+                  "wind_pm": 150
                 },
                 {
                   "id": "cloudy",
                   "weight": 250,
                   "rain_pm": 0,
-                  "dim_pm": 250
+                  "dim_pm": 250,
+                  "wind_pm": 700
                 },
                 {
                   "id": "rain",
                   "weight": 150,
                   "rain_pm": 1000,
-                  "dim_pm": 400
+                  "dim_pm": 400,
+                  "wind_pm": 500
                 }
               ]
             }
@@ -26094,6 +26274,86 @@
               "variant": "brown",
               "dx": 74,
               "dy": 45
+            },
+            {
+              "key": "resident_maela",
+              "dialogue": "base:dialogue/npc/resident_maela",
+              "variant": "green",
+              "dx": 382,
+              "dy": 129,
+              "when": {
+                "renown_at_least": 6
+              }
+            },
+            {
+              "key": "resident_sorrel",
+              "dialogue": "base:dialogue/npc/resident_sorrel",
+              "variant": "purple",
+              "dx": -4224,
+              "dy": -2689,
+              "when": {
+                "renown_at_least": 6
+              }
+            },
+            {
+              "key": "resident_bram",
+              "dialogue": "base:dialogue/npc/resident_bram",
+              "variant": "red",
+              "dx": 4224,
+              "dy": -4737,
+              "when": {
+                "renown_at_least": 6
+              }
+            },
+            {
+              "key": "resident_yasmin",
+              "dialogue": "base:dialogue/npc/resident_yasmin",
+              "variant": "ochre",
+              "dx": 5505,
+              "dy": 3967,
+              "when": {
+                "renown_at_least": 6
+              }
+            },
+            {
+              "key": "resident_hald",
+              "dialogue": "base:dialogue/npc/resident_hald",
+              "variant": "cream",
+              "dx": -1154,
+              "dy": -6527,
+              "when": {
+                "renown_at_least": 6
+              }
+            },
+            {
+              "key": "resident_cormac",
+              "dialogue": "base:dialogue/npc/resident_cormac",
+              "variant": "teal",
+              "dx": -6271,
+              "dy": 4223,
+              "when": {
+                "renown_at_least": 6
+              }
+            },
+            {
+              "key": "resident_ash",
+              "dialogue": "base:dialogue/npc/resident_ash",
+              "variant": "",
+              "dx": 6784,
+              "dy": -385,
+              "when": {
+                "renown_at_least": 6
+              }
+            },
+            {
+              "key": "resident_ines",
+              "dialogue": "base:dialogue/npc/resident_ines",
+              "variant": "purple",
+              "dx": -642,
+              "dy": 6273,
+              "when": {
+                "renown_at_least": 6
+              }
             }
           ],
           "stamp_defs": {
@@ -29994,9 +30254,9 @@
               "rows": [
                 "t.............t",
                 ".:':':'::......",
-                ".:~\\__b_:.?./..",
-                ".'______:......",
-                ".:_____b:......",
+                ".:~\\_[b[:.?./..",
+                ".'[____[:......",
+                ".:[____[:......",
                 ".::::;:::.,.,.,",
                 ".....=.l.......",
                 "===============",
@@ -30042,6 +30302,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/threshold_stone",
                   "radius_x100": 35
+                },
+                "[": {
+                  "tile": 14,
+                  "spawner": "base:enemy/echo_daichi"
                 },
                 "\\": {
                   "tile": 13,

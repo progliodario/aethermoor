@@ -77,6 +77,10 @@ data class SaveState(
     val plots: List<PlotSave> = emptyList(),
     /** What the chests hold (spec 06, "Chests"). */
     val chest: Map<String, Long> = emptyMap(),
+    /** The runes engraved on the weapons (spec 06, "Runes"): weapon item -> rune item. */
+    val runes: Map<String, String> = emptyMap(),
+    /** The furniture of the home (spec 06, "Furniture"), in order of the spots. */
+    val furniture: List<FurnitureSave> = emptyList(),
     /** The companion (spec 10): x, y and cooldown; null: no companion in the save. */
     val companion: Triple<Float, Float, Int>? = null,
     /** The companion was told to stay, and the creatures it has killed (spec 10). */
@@ -108,6 +112,9 @@ class SavePeek(val seed: ULong, val map: String, val level: Int = 1, val gold: L
 
 /** A sown plot (spec 06, "Farming"): where (hundredths of a tile), the seed and the tick it is ripe. */
 class PlotSave(val x: Int, val y: Int, val seed: String, val ripe: Long)
+
+/** A piece of furniture on the spot at (x100, y100). */
+class FurnitureSave(val x: Int, val y: Int, val item: String)
 
 /** What a save keeps of the tamed friend (spec 10, "The tamed friend"). */
 class FriendSave(val enemy: String, val x: Float, val y: Float, val cooldown: Int, val stay: Boolean = false)
@@ -205,6 +212,10 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
         if (s.chest.isNotEmpty()) put("chest", buildJsonObject { for ((item, qty) in s.chest.toSortedMap()) put(item, qty) })
         if (s.plots.isNotEmpty()) {
             put("plots", JsonArray(s.plots.map { p -> JsonArray(listOf(JsonPrimitive(p.x), JsonPrimitive(p.y), JsonPrimitive(p.seed), JsonPrimitive(p.ripe))) }))
+        }
+        if (s.runes.isNotEmpty()) put("runes", buildJsonObject { for ((weapon, rune) in s.runes.toSortedMap()) put(weapon, rune) })
+        if (s.furniture.isNotEmpty()) {
+            put("furniture", JsonArray(s.furniture.map { f -> JsonArray(listOf(JsonPrimitive(f.x), JsonPrimitive(f.y), JsonPrimitive(f.item))) }))
         }
         if (s.talents.isNotEmpty()) put("talents", buildJsonObject { for ((id, rank) in s.talents) put(id, rank) })
         if (s.counters.isNotEmpty()) put("counters", buildJsonObject { for ((name, count) in s.counters) put(name, count) })
@@ -335,6 +346,11 @@ fun saveFromJson(text: String): Result<SaveState> =
             plots = (j["plots"] as? JsonArray)?.map { p ->
                 val a = p.jsonArray
                 PlotSave(a[0].jsonPrimitive.int, a[1].jsonPrimitive.int, a[2].jsonPrimitive.content, a[3].jsonPrimitive.long)
+            } ?: emptyList(),
+            runes = (j["runes"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.content } ?: emptyMap(),
+            furniture = (j["furniture"] as? JsonArray)?.map { f ->
+                val a = f.jsonArray
+                FurnitureSave(a[0].jsonPrimitive.int, a[1].jsonPrimitive.int, a[2].jsonPrimitive.content)
             } ?: emptyList(),
             counters = (j["counters"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
             companionStay = ((j["companion"] as? JsonObject)?.get("stay") as? JsonPrimitive)?.content == "true",

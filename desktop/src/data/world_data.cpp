@@ -138,10 +138,12 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
         p.time.fade_ticks = weather.at("fade_ticks").get<int>();
         p.time.rain_aggro_cut_pm = weather.value("rain_aggro_cut_pm", 0);
         p.time.rain_slow_pm = weather.value("rain_slow_pm", 0);
+        p.time.wind_haste_pm = weather.value("wind_haste_pm", 0);
         p.time.night_aggro_cut_pm = time.value("night_aggro_cut_pm", 0);
         for (const Json& kind : weather.at("kinds")) {
             p.time.kinds.push_back({kind.at("id").get<std::string>(), kind.at("weight").get<int>(),
-                                    kind.at("rain_pm").get<int>(), kind.at("dim_pm").get<int>()});
+                                    kind.at("rain_pm").get<int>(), kind.at("dim_pm").get<int>(),
+                                    kind.value("wind_pm", 0)});
         }
         if (p.time.light.size() < 2 || p.time.kinds.empty() || p.time.day_ticks < 1 || p.time.period_ticks < 1 ||
             p.time.fade_ticks < 1) {
@@ -344,7 +346,8 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
 
         for (const Json& n : j.at("npcs")) {
             p.npcs.push_back({n.at("key").get<std::string>(), n.at("dialogue").get<std::string>(),
-                              n.at("variant").get<std::string>(), n.at("dx").get<int>(), n.at("dy").get<int>()});
+                              n.at("variant").get<std::string>(), n.at("dx").get<int>(), n.at("dy").get<int>(),
+                              n.contains("when") ? n.at("when").dump() : std::string()});
         }
         return p;
     } catch (const std::exception& e) {

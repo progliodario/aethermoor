@@ -165,6 +165,9 @@ struct SaveState {
     // the sown plots (spec 06, "Farming"): (x100, y100) -> (seed, tick it is ripe)
     std::map<std::pair<int, int>, std::pair<std::string, std::int64_t>> plots;
     std::map<std::string, std::int64_t> chest;  // what the chests hold, shared by all of them (spec 06, "Chests")
+    std::map<std::string, std::string> runes;   // weapon item -> the rune engraved on it (spec 06, "Runes")
+    // the furniture placed on the spots of the home (spec 06, "Furniture"): (x100, y100) -> item
+    std::map<std::pair<int, int>, std::string> furniture;
     std::map<std::string, std::int64_t> inventory;
     std::string equipped_weapon;  // spec 06
     std::string equipped_armor;
@@ -347,6 +350,17 @@ public:
     bool chest_put(const std::string& item_id);
     bool chest_take(const std::string& item_id);
     const std::map<std::string, std::int64_t>& chest() const { return m_chest_; }
+    // Runes (spec 06, "Runes"): weapon item -> the rune engraved on it; the rune of the worn weapon, or nullptr.
+    const std::map<std::string, std::string>& runes() const { return m_runes_; }
+    const ItemDef* worn_rune() const;
+    // Furniture (spec 06, "Furniture"): what stands on the spots of the home, (x100, y100) -> item; the nearest spot
+    // in reach (where a piece would be placed), and what the pieces add, like a title ("atk", "gather", "craft",
+    // "parry", "fine" or "xp").
+    const std::map<std::pair<int, int>, std::string>& furniture() const { return m_furniture_; }
+    std::optional<std::pair<float, float>> spot_near() const;
+    std::int64_t home_bonus(const std::string& what) const;
+    // The wind of this tick (spec 08, "Wind"), in permille (presentation reads it for the plants).
+    int wind_pm() const { return m_wind_pm_; }
     // The nearest plot in reach and its state: 0 bare, 1 growing, 2 ripe; nullopt: none.
     struct PlotNear {
         float x = 0.0F;
@@ -471,7 +485,14 @@ private:
     std::map<std::pair<int, int>, std::pair<std::int64_t, int>>
         m_gathered_;  // (x100, y100) -> (tick it grows back, times); not saved
     std::map<std::pair<int, int>, std::pair<std::string, std::int64_t>> m_plots_;  // sown plots (spec 06, "Farming")
-    std::map<std::string, std::int64_t> m_chest_;  // what the chests hold (spec 06, "Chests")
+    std::map<std::string, std::int64_t> m_chest_;             // what the chests hold (spec 06, "Chests")
+    std::map<std::string, std::string> m_runes_;              // weapon -> rune (spec 06, "Runes")
+    std::map<std::pair<int, int>, std::string> m_furniture_;  // spot (x100, y100) -> item (spec 06, "Furniture")
+    bool engrave(const std::string& item_id, const ItemDef& rune);
+    bool place_furniture(const std::string& item_id);
+    void take_one(const std::string& item_id);
+    int m_wind_pm_ = 0;     // the wind of this tick (spec 08, "Wind")
+    int m_wind_boost_ = 0;  // and what it adds to the speed of walking, in permille
     bool m_chest_open_ = false;
     Story m_story_;
     bool m_window_valid_ = false;

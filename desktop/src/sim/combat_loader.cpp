@@ -256,6 +256,13 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
         def.variant = npc.variant;
         def.x = npc.x;
         def.y = npc.y;
+        if (!npc.when.empty()) {  // a resident (spec 07, "Residents")
+            def.when = parse_condition_text(npc.when, error);
+            if (!def.when) {
+                error = npc.key + ": " + error;
+                return std::nullopt;
+            }
+        }
         setup.story.npcs.push_back(std::move(def));
     }
 
@@ -301,6 +308,25 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
                 def.acc_max_hp = a.value("max_hp", static_cast<std::int64_t>(0));
                 def.acc_crit_pm = a.value("crit_pm", static_cast<std::int64_t>(0));
                 def.acc_drain_pm = a.value("drain_pm", static_cast<std::int64_t>(0));
+            }
+            if (item->contains("rune")) {  // spec 06, "Runes"
+                const Json& r = item->at("rune");
+                def.is_rune = true;
+                def.rune_element = r.value("element", "none");
+                def.rune_atk = r.value("atk", static_cast<std::int64_t>(0));
+                def.rune_matk = r.value("matk", static_cast<std::int64_t>(0));
+                def.rune_station = r.value("station", "");
+            }
+            if (item->contains("furniture")) {  // spec 06, "Furniture"
+                const Json& f = item->at("furniture");
+                def.is_furniture = true;
+                def.furniture_art = f.value("art", "");
+                def.fur_atk_pct = f.value("atk_pct", static_cast<std::int64_t>(0));
+                def.fur_gather_bonus = f.value("gather_bonus", static_cast<std::int64_t>(0));
+                def.fur_craft_bonus = f.value("craft_bonus", static_cast<std::int64_t>(0));
+                def.fur_parry_bonus = f.value("parry_bonus", static_cast<std::int64_t>(0));
+                def.fur_xp_pct = f.value("xp_pct", static_cast<std::int64_t>(0));
+                def.fur_fine_pm = f.value("fine_pm", static_cast<std::int64_t>(0));
             }
             setup.items.emplace(id, std::move(def));
         } catch (const Json::exception& e) {
@@ -378,6 +404,13 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
         if (!parsed.is_discarded()) {
             setup.chest_art = parsed.value("chest", "");
             setup.chest_reach_x100 = parsed.value("reach_x100", 200);
+        }
+    }
+    if (const auto home = pack.read_document("base:home/cottage")) {  // the furniture spots (spec 06, "Furniture")
+        const Json parsed = Json::parse(*home, nullptr, /*allow_exceptions=*/false);
+        if (!parsed.is_discarded()) {
+            setup.home_spot = parsed.value("spot", "");
+            setup.home_reach_x100 = parsed.value("reach_x100", 200);
         }
     }
     if (const auto farm = pack.read_document("base:farming/all")) {  // the plots and the crops (spec 06, "Farming")

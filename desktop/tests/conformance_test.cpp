@@ -755,6 +755,8 @@ Scenario scenario_from_json(const Json& in) {
         setup.rain_slow_pm = in.at("weather").value("rain_slow_pm", 0);
         setup.light_pm = in.at("weather").value("light_pm", 1000);
         setup.night_aggro_cut_pm = in.at("weather").value("night_aggro_cut_pm", 0);
+        setup.wind_pm = in.at("weather").value("wind_pm", 0);
+        setup.wind_haste_pm = in.at("weather").value("wind_haste_pm", 0);
     }
     if (in.contains("gift")) {
         const Json& gift = in.at("gift");
@@ -878,6 +880,10 @@ Scenario scenario_from_json(const Json& in) {
         setup.chest_art = in.at("storage").at("chest").get<std::string>();
         setup.chest_reach_x100 = in.at("storage").at("reach_x100").get<int>();
     }
+    if (in.contains("home")) {  // the furniture spots (spec 06, "Furniture")
+        setup.home_spot = in.at("home").at("spot").get<std::string>();
+        setup.home_reach_x100 = in.at("home").at("reach_x100").get<int>();
+    }
     if (in.contains("farming")) {  // the plots and the crops (spec 06, "Farming")
         const Json& f = in.at("farming");
         aether::FarmingDef farming;
@@ -937,6 +943,25 @@ Scenario scenario_from_json(const Json& in) {
                 parsed.acc_max_hp = a.value("max_hp", static_cast<std::int64_t>(0));
                 parsed.acc_crit_pm = a.value("crit_pm", static_cast<std::int64_t>(0));
                 parsed.acc_drain_pm = a.value("drain_pm", static_cast<std::int64_t>(0));
+            }
+            if (def.contains("rune")) {  // spec 06, "Runes"
+                const Json& r = def.at("rune");
+                parsed.is_rune = true;
+                parsed.rune_element = r.value("element", "none");
+                parsed.rune_atk = r.value("atk", static_cast<std::int64_t>(0));
+                parsed.rune_matk = r.value("matk", static_cast<std::int64_t>(0));
+                parsed.rune_station = r.value("station", "");
+            }
+            if (def.contains("furniture")) {  // spec 06, "Furniture"
+                const Json& f = def.at("furniture");
+                parsed.is_furniture = true;
+                parsed.furniture_art = f.value("art", "");
+                parsed.fur_atk_pct = f.value("atk_pct", static_cast<std::int64_t>(0));
+                parsed.fur_gather_bonus = f.value("gather_bonus", static_cast<std::int64_t>(0));
+                parsed.fur_craft_bonus = f.value("craft_bonus", static_cast<std::int64_t>(0));
+                parsed.fur_parry_bonus = f.value("parry_bonus", static_cast<std::int64_t>(0));
+                parsed.fur_xp_pct = f.value("xp_pct", static_cast<std::int64_t>(0));
+                parsed.fur_fine_pm = f.value("fine_pm", static_cast<std::int64_t>(0));
             }
             setup.items.emplace(item, std::move(parsed));
         }
@@ -1099,6 +1124,25 @@ void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) 
             REQUIRE(plot.second == wp[i].at(3).get<std::int64_t>());
             ++i;
         }
+    }
+    if (want.contains("furniture")) {  // the furniture of the home (spec 06, "Furniture")
+        const Json& wf = want.at("furniture");
+        REQUIRE(sim.furniture().size() == wf.size());
+        std::size_t i = 0;
+        for (const auto& [key, item] : sim.furniture()) {
+            REQUIRE(key.first == wf[i].at(0).get<int>());
+            REQUIRE(key.second == wf[i].at(1).get<int>());
+            REQUIRE(item == wf[i].at(2).get<std::string>());
+            ++i;
+        }
+    }
+    if (want.contains("runes")) {  // the runes engraved on the weapons (spec 06, "Runes")
+        const Json& wr = want.at("runes");
+        REQUIRE(sim.runes().size() == wr.size());
+        for (const auto& [weapon, rune] : wr.items()) {
+            REQUIRE(sim.runes().at(weapon) == rune.get<std::string>());
+        }
+        REQUIRE(sim.derived().atk == integer(want, "atk"));
     }
     if (want.contains("friend")) {  // the tamed friend (spec 10)
         const Json& wf = want.at("friend");
@@ -1488,6 +1532,7 @@ TEST_CASE("conformance: worldtime", "[conformance]") {
             REQUIRE(s.kind == want.at("kind").get<std::string>());
             REQUIRE(s.rain_pm == want.at("rain_pm").get<int>());
             REQUIRE(s.dim_pm == want.at("dim_pm").get<int>());
+            REQUIRE(s.wind_pm == want.value("wind_pm", 0));
             REQUIRE(s.effective_light_pm == want.at("effective_light_pm").get<int>());
             const std::string got_season =
                 s.season_index >= 0 ? params->time.seasons[static_cast<std::size_t>(s.season_index)].id : "";

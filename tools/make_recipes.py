@@ -82,6 +82,7 @@ AT_FIRE = ("omelette", "goat_cheese", "berry_pancakes", "hearty_stew", "fish_ste
 # the fine gear is made at an anvil
 AT_ANVIL = ("feather_pillow_charm", "ember_cloak", "fine_iron_sword", "fine_hand_axe", "fine_pike", "fine_leather_vest", "fine_studded_leather", "hunters_jerkin", "antler_spear", "fox_cloak", "fang_necklace", "pearl_pendant", "owl_charm", "golem_amulet", "star_brooch", "bat_charm", "ember_ring", "frost_locket", "sand_charm")
 
+AT_ANVIL_MORE: set[str] = set()  # filled by main() from make_furnishings.RECIPES: made at an anvil, without quality
 AT_FIRE_SECRET: set[str] = set()  # filled by main() from make_secret_recipes.SECRET: cooked at a fire, and taught first
 
 # Quality (spec 06, "Quality"): the chance in permille that a recipe comes out fine, before the titles of an artisan add theirs.
@@ -102,14 +103,18 @@ def quality(name: str) -> dict:
 
 
 def main() -> None:
+    from make_furnishings import RECIPES as FURNISHINGS  # the runes and the furniture (spec 06, "Runes", "Furniture"), at an anvil
     from make_secret_recipes import SECRET  # the secret dishes of the regions, taught by the shopkeepers (spec 06, "Recipe book")
+    for name, recipe in FURNISHINGS.items():
+        RECIPES[name] = recipe
+        AT_ANVIL_MORE.add(name)
     for dish, (_region, _tone, _lesson, _price, inputs, *_rest) in SECRET.items():
         RECIPES[dish] = (dish, 1, inputs)
         AT_FIRE_SECRET.add(dish)
     recipes = [{"id": name, "output": {"item": f"base:item/{out}", "qty": qty},
                 "inputs": [{"item": f"base:item/{item}", "qty": n} for item, n in inputs.items()],
-                **({"station": "base:art/prop/campfire"} if name in AT_FIRE or name in AT_FIRE_SECRET else {"station": "base:art/prop/anvil"} if name in AT_ANVIL else {}),
-                **quality(name),
+                **({"station": "base:art/prop/campfire"} if name in AT_FIRE or name in AT_FIRE_SECRET else {"station": "base:art/prop/anvil"} if name in AT_ANVIL or name in AT_ANVIL_MORE else {}),
+                **({} if name in AT_ANVIL_MORE else quality(name)),
                 **({"requires_flag": f"recipe_{name}"} if name in AT_FIRE_SECRET else {})}
                for name, (out, qty, inputs) in RECIPES.items()]
     OUT.write_text(json.dumps({"$schema": "../../schemas/recipes.schema.json", "id": "base:recipes/all", "recipes": recipes}, indent=2) + "\n", encoding="utf-8", newline="\n")

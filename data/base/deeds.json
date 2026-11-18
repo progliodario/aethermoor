@@ -219,6 +219,16 @@
       "text": "$i18n:deed.beast_friend.text"
     },
     {
+      "id": "hearth_and_blade",
+      "kind": "earned",
+      "titles": [
+        "homemaker",
+        "runesmith"
+      ],
+      "name": "$i18n:deed.hearth_and_blade.name",
+      "text": "$i18n:deed.hearth_and_blade.text"
+    },
+    {
       "id": "second_life",
       "kind": "lives",
       "count": 1,

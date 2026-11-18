@@ -4,6 +4,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ## [Unreleased]
 
+### Fixed
+
+- The roadmap (section 8) still had numbers written by hand that the game had outgrown (the places, the recipes, the titles, the talents, the conformance cases) and listed large text as missing: they are gone or right now.
+
 ### Documentation
 
 - **The repository is ready for anyone, people or AI, to read, use and change**: the READMEs are rewritten and current; `AGENTS.md` points every AI assistant to `CLAUDE.md`, which now maps each kind of change to its files in the spec, the reference and both clients, lists the generated files never to edit by hand and notes the quirks of the Windows machine; `docs/index.md` answers "where do I find...". The numbers of the game (quests, creatures, items, texts, conformance cases...) are counted from the data by the new `tools/make_facts.py` into marked blocks of the READMEs, `CLAUDE.md` and the roadmap, instead of being written by hand. `desktop/PLAY.txt` lists every control of today. The stray `body.md` is gone.
@@ -31,6 +35,13 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 - Tools: `tools/reference/raster.py` is a reference rasterizer in Python (it builds the new conformance probes); `tools/art_preview.py` draws real PNG pictures with it (`--figures`, `--scene`); `art_tiles.py`, `art_props.py`, `art_chars.py`, `art_looks.py` and `art_creatures.py` were rewritten (`art_creature_looks.py` and `art_single_looks.py` are gone).
 
 ### Added
+
+- **Residents** (spec 07, "Residents"): once you have finished six quests in a region, somebody moves to its outpost: Maela the farmer, Sorrel the herb-witch, Bram the stonecutter, Yasmin the caravan cook, Hald the ice fisher, Cormac the retired sailor, Ash the cinder-gardener and Ines the apprentice astronomer. Each greets you, gives you a rune of the region and tells you about the new life there. A person of the world data can now have `when`, a condition of the dialogues: it is there only while the condition holds, and it is never solid.
+- **Runes** (spec 06, "Runes"): seven runes made at an anvil, the ember (fire), tide (water), gale (wind), stone (earth), dawn (light) and dusk (dark) runes and the rune of might. Use one from the bag next to an anvil and it is engraved on the weapon you hold: the weapon hits harder (+6, the stone +8, the might +12) and with the element of the rune, with its weaknesses and its status. Every weapon keeps its own rune; a new one takes the place of the old. The status window names it. Saved (`runes`).
+- **Furniture for the Guest's cottage** (spec 06, "Furniture"): six round rugs along the walls of the cottage wait for furniture, and six pieces are made at an anvil: a quilted bed (+10% experience), a weapon rack (+5% attack), a bookshelf (+5% fine work), a drying rack (one more of everything gathered), a training dummy (a longer parry) and a work table (one more of every recipe). Use a piece from the bag next to a rug and it stands there, drawn in the cottage; the piece that stood there goes back to the bag. Every kind of piece helps you everywhere, like a title. Old Tam explains it to the owner. Saved (`furniture`).
+- **The wind** (spec 08, "Wind"): every weather has its wind, a breeze under a clear sky, the strongest wind under the clouds, gusts in the rain. The wind at your back makes you walk up to 15% faster, and it bends the trees and the grass more.
+- Two titles, the Runesmith (three runes engraved) and the Homemaker (six pieces placed), a deed, Hearth and Blade, and two hints (an empty place of the cottage, a strong wind). 44 titles, 26 deeds, 222 items, 76 recipes.
+- Six conformance scenarios (`resident_arrives`, `runes_engrave`, `furniture_home`, `wind_full`, `wind_light`, `wind_and_haste`), four save splits, and the wind in every sample of the suite `worldtime`.
 
 - **The Guest's cottage**, on the road east of Fenwick: a house with a chest, a campfire, an anvil, garden plots, hens, a goat and a Threshold Stone, kept by Old Tam, who lets anyone sleep by the fire. Finish Nana Brin's three favours and she gives it to you.
 - **A fifth act for every protagonist**, "A Life Here": after the Echo, Sister Maren gives two more quests to each Guest, the first steps of the life they choose (Ren's shop, Sakura's school, Daichi's fire watch, Haruka's post road, Marco's tavern, Yuki's gallery, Lena's infirmary, Gideon's workshop). Sixteen quests; 319 in all.

@@ -1117,6 +1117,256 @@
       "station": "base:art/prop/anvil"
     },
     {
+      "id": "rune_ember",
+      "output": {
+        "item": "base:item/rune_ember",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/ember_core",
+          "qty": 1
+        },
+        {
+          "item": "base:item/iron_ore",
+          "qty": 2
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "rune_tide",
+      "output": {
+        "item": "base:item/rune_tide",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/tide_pearl",
+          "qty": 1
+        },
+        {
+          "item": "base:item/iron_ore",
+          "qty": 2
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "rune_gale",
+      "output": {
+        "item": "base:item/rune_gale",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/storm_feather",
+          "qty": 2
+        },
+        {
+          "item": "base:item/iron_ore",
+          "qty": 2
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "rune_stone",
+      "output": {
+        "item": "base:item/rune_stone",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/golem_core",
+          "qty": 1
+        },
+        {
+          "item": "base:item/slate_shard",
+          "qty": 2
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "rune_dawn",
+      "output": {
+        "item": "base:item/rune_dawn",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/star_dust",
+          "qty": 2
+        },
+        {
+          "item": "base:item/iron_ore",
+          "qty": 2
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "rune_dusk",
+      "output": {
+        "item": "base:item/rune_dusk",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/shade_wisp",
+          "qty": 2
+        },
+        {
+          "item": "base:item/iron_ore",
+          "qty": 2
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "rune_might",
+      "output": {
+        "item": "base:item/rune_might",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/iron_ore",
+          "qty": 6
+        },
+        {
+          "item": "base:item/magma_shard",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "quilt_bed",
+      "output": {
+        "item": "base:item/quilt_bed",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/wood_log",
+          "qty": 6
+        },
+        {
+          "item": "base:item/boar_hide",
+          "qty": 2
+        },
+        {
+          "item": "base:item/hen_feather",
+          "qty": 4
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "weapon_rack",
+      "output": {
+        "item": "base:item/weapon_rack",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/wood_log",
+          "qty": 4
+        },
+        {
+          "item": "base:item/iron_ore",
+          "qty": 3
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "bookshelf",
+      "output": {
+        "item": "base:item/bookshelf",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/wood_log",
+          "qty": 5
+        },
+        {
+          "item": "base:item/owl_feather",
+          "qty": 2
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "herb_rack",
+      "output": {
+        "item": "base:item/herb_rack",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/wood_log",
+          "qty": 3
+        },
+        {
+          "item": "base:item/healing_herb",
+          "qty": 4
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 2
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "training_dummy",
+      "output": {
+        "item": "base:item/training_dummy",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/wood_log",
+          "qty": 3
+        },
+        {
+          "item": "base:item/tawny_fur",
+          "qty": 2
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 3
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "work_table",
+      "output": {
+        "item": "base:item/work_table",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/wood_log",
+          "qty": 6
+        },
+        {
+          "item": "base:item/stone_chunk",
+          "qty": 4
+        },
+        {
+          "item": "base:item/iron_ore",
+          "qty": 2
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
       "id": "grandmothers_pie",
       "output": {
         "item": "base:item/grandmothers_pie",

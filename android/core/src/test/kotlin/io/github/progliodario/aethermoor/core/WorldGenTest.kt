@@ -421,6 +421,7 @@ class WorldGenTest {
                 assertEquals(want.getValue("kind").jsonPrimitive.content, got.kind, "$name kind")
                 assertEquals(want.getValue("rain_pm").jsonPrimitive.int, got.rainPm, "$name rain")
                 assertEquals(want.getValue("dim_pm").jsonPrimitive.int, got.dimPm, "$name dim")
+                assertEquals(want["wind_pm"]?.jsonPrimitive?.int ?: 0, got.windPm, "$name wind")
                 assertEquals(want.getValue("effective_light_pm").jsonPrimitive.int, got.effectiveLightPm, "$name effective light")
                 assertEquals(want.getValue("season").jsonPrimitive.content, if (got.seasonIndex >= 0) params.seasons[got.seasonIndex].id else "", "$name season")
             }
@@ -437,7 +438,7 @@ class WorldGenTest {
         assertEquals(16384, params.width)
         val map = makeStreamMap(params)
         assertEquals(0, map.ground.size)
-        assertEquals(37, map.npcs.size) // Mira, Pip, eight wayfarers, eight outpost people, eight pedlars, Fenwick (with Nana Brin), Aldermere (with Wendel and Corvin), Old Tam
+        assertEquals(45, map.npcs.size) // Mira, Pip, eight wayfarers, eight outpost people, eight pedlars, Fenwick (with Nana Brin), Aldermere (with Wendel and Corvin), Old Tam, eight residents
         assertEquals("guild_clerk_mira", map.npcs[0].key)
         val setup = loadCombatSetup(pack, map, "base:protagonist/ren", 42uL, worldEnemyIds(params)).getOrThrow()
         val tileset = parseTileset(requireNotNull(pack.readDocument("base:tileset/overworld"))).getOrThrow()

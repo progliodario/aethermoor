@@ -37,12 +37,16 @@ TAM = {
            "rest": "Sleep by the fire", "about": "Tell me about the cottage", "bye": "Goodbye, Tam.",
            "slept": "There. The fire did the work, I only watched.",
            "story": "Brin's sister built it with her own hands: the plots, the anvil, the coop. She said a house should feed you, mend you and keep your things. It does all three.",
+           "furnish": "What about the empty rugs inside?",
+           "furniture": "Those rugs are waiting for furniture. Make a bed, a rack, a shelf or a table at the anvil and set it on one: a house that is lived in looks after you, wherever you go. And the anvil carves runes too, for your blade.",
            },
     "it": {"stranger": "Questo è il cottage della sorella di Brin, pace all'anima sua. Ora non ci abita nessuno, ma il fuoco si accende ogni sera. Siediti, se sei stanco.",
            "owner": "Bentornato a casa, Ospite. Il fuoco è acceso, il baule è dove l'hai lasciato e le galline hanno delle opinioni su di te.",
            "rest": "Dormi accanto al fuoco", "about": "Raccontami del cottage", "bye": "Arrivederci, Tam.",
            "slept": "Ecco. Il lavoro l'ha fatto il fuoco, io ho solo guardato.",
            "story": "La sorella di Brin l'ha costruito con le sue mani: gli orti, l'incudine, il pollaio. Diceva che una casa deve nutrirti, rimetterti in sesto e tenerti le cose. Fa tutte e tre.",
+           "furnish": "E quei tappeti vuoti, dentro?",
+           "furniture": "Quei tappeti aspettano dei mobili. Costruisci un letto, una rastrelliera, una libreria o un banco all'incudine e posalo su uno di essi: una casa abitata si prende cura di te, ovunque tu vada. E l'incudine incide anche le rune, per la tua lama.",
            },
 }
 BRIN_GIFT = {
@@ -231,10 +235,12 @@ def tam_dialogue() -> dict:
         "menu": {"type": "choice", "choices": [
             {"text": "$i18n:dlg.home.tam.rest", "next": "rest"},
             {"text": "$i18n:dlg.home.tam.about", "next": "story"},
+            {"text": "$i18n:dlg.home.tam.furnish", "when": {"flag": "cottage_given"}, "next": "furniture"},
             {"text": "$i18n:dlg.home.tam.bye", "next": "end"}]},
         "rest": {"type": "effects", "effects": [{"effect": "heal_full"}], "next": "slept"},
         "slept": say(sp, "dlg.home.tam.slept", "end"),
         "story": say(sp, "dlg.home.tam.story", "menu"),
+        "furniture": say(sp, "dlg.home.tam.furniture", "menu"),  # spec 06, "Furniture"
     }}
 
 

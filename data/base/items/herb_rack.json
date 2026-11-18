@@ -1,0 +1,14 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/herb_rack",
+  "name": "$i18n:item.herb_rack.name",
+  "description": "$i18n:item.herb_rack.desc",
+  "kind": "furniture",
+  "rarity": "uncommon",
+  "price": 200,
+  "stack_max": 3,
+  "furniture": {
+    "art": "base:art/prop/herb_rack",
+    "gather_bonus": 1
+  }
+}

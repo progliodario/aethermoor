@@ -125,6 +125,8 @@ struct NpcDef {
     float y = 0.0F;
     std::string name;                         // settlement people: a proper noun, empty for the others
     std::map<std::string, std::string> args;  // arguments of the dialogue texts (spec 07)
+    // A resident (spec 07, "Residents"): it is there only while this condition holds, and it is never solid.
+    std::optional<Condition> when;
 };
 
 struct StorySetup {
@@ -137,6 +139,8 @@ std::optional<QuestDef> parse_quest(std::string_view json_text, std::string& err
 std::optional<DialogueDef> parse_dialogue(std::string_view json_text, std::string& error);
 // Parses the scenario "story" section used by the conformance tests (quests and dialogues keyed by ID, plus NPCs).
 std::optional<StorySetup> parse_story_setup(std::string_view json_text, std::string& error);
+// Parses the JSON text of a dialogue condition (the `when` of a resident); nullopt and `error` when it is not one.
+std::optional<Condition> parse_condition_text(std::string_view json_text, std::string& error);
 
 // What the player currently sees.
 struct DialogueView {
@@ -196,6 +200,8 @@ public:
     Story(StorySetup setup, StoryHost& host);
 
     bool holds(const Condition& condition) const;
+    // Whether an NPC is there now: always, or while the condition of a resident holds (spec 07, "Residents").
+    bool npc_present(const NpcDef& npc) const { return !npc.when || holds(*npc.when); }
     void apply(const Effect& effect);
 
     void start_quest(const std::string& quest_id);
