@@ -1259,6 +1259,7 @@ class CombatSim:
             **({"furniture": [[k[0], k[1], item] for k, item in sorted(self.furniture.items())]} if self.furniture else {}),
             **({"tag": self.tag} if self.tag else {}),
             "story": self.story.save_state() if self.story is not None else None,
+            "world_ticks": self.world_ticks,  # the clock (spec 08, spec 12): the day of the market, of the travellers, of the plots
         }
 
     def load_state(self, save: dict) -> None:
@@ -1292,8 +1293,11 @@ class CombatSim:
         self.furniture = {(f[0], f[1]): f[2] for f in save.get("furniture", [])}
         self.tag = save.get("tag", "")
         self.derived = self._derive()
+        self.world_ticks = save.get("world_ticks", 0)
         if self.story is not None and save["story"] is not None:
             self.story.load_state(save["story"])
+        if self.story is not None:  # the travellers are where the loaded day puts them, at once (spec 07, "Travellers")
+            self.story.move_travellers(self.day())
 
     # ------------------------------------------------------------------------------ checkpoint
 

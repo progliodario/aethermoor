@@ -78,7 +78,7 @@ A dialogue is a graph of named nodes with a `start` node and the special target 
   first the `talk` event is processed, then its dialogue starts.
 - **Travellers**: an NPC may have `route`, a list of positions (tiles; `[dx, dy]` from the centre of the world in the world data). On day `d`
   (spec 08; 1 without a clock) it stands at stop `(d - 1) % len(route)`: at the start of every tick, after the clock advances, the
-  travellers are put where the day says (before a tick, where their data puts them). A traveller is **never solid**. Conformance: the
+  travellers are put where the day says (before a tick, where their data puts them; after a game is loaded, at once where the loaded day says). A traveller is **never solid**. Conformance: the
   scenario `traveller_moves` of the suite `story` (a day of 60 ticks) and a save split of it.
 - **Residents**: an NPC may have `when`, a condition of the closed catalog above. It is there only while the condition holds: otherwise it is not drawn and cannot be talked to (`interact` and the `talk` event skip it). A resident is **never solid**, there or not, so that its coming and going never moves the player or a creature. In the scenarios the NPCs of `story.npcs` may have `when`; in the world data, the entries of `npcs` (spec 09). Conformance: the scenario `resident_arrives` of the suite `story` and a save split of it.
 

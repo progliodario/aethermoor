@@ -73,7 +73,8 @@
               "id": "test:dialogue/clerk",
               "node": "offer_choice"
             }
-          }
+          },
+          "world_ticks": 20
         },
         "grid": [
           "##############",
@@ -902,7 +903,8 @@
               }
             },
             "dialogue": null
-          }
+          },
+          "world_ticks": 20
         },
         "grid": [
           "##############",
@@ -1615,7 +1617,8 @@
             "weapon": "",
             "armor": ""
           },
-          "story": null
+          "story": null,
+          "world_ticks": 150
         },
         "grid": [
           "##############",
@@ -1817,7 +1820,8 @@
             "weapon": "",
             "armor": ""
           },
-          "story": null
+          "story": null,
+          "world_ticks": 100
         },
         "grid": [
           "##############",
@@ -2049,7 +2053,8 @@
             "weapon": "",
             "armor": ""
           },
-          "story": null
+          "story": null,
+          "world_ticks": 170
         },
         "grid": [
           "##############",
@@ -2256,7 +2261,8 @@
               "id": "test:dialogue/trader",
               "node": "menu"
             }
-          }
+          },
+          "world_ticks": 0
         },
         "grid": [
           "##############",
@@ -3026,7 +3032,8 @@
               "id": "test:dialogue/trader",
               "node": "greet"
             }
-          }
+          },
+          "world_ticks": 0
         },
         "grid": [
           "##############",
@@ -3709,7 +3716,8 @@
             "armor": "test:item/warm_coat",
             "accessory": "base:item/bat_charm"
           },
-          "story": null
+          "story": null,
+          "world_ticks": 61
         },
         "grid": [
           "##############",
@@ -4215,7 +4223,8 @@
             "armor": ""
           },
           "tag": "brawler",
-          "story": null
+          "story": null,
+          "world_ticks": 42
         },
         "tags": [
           {
@@ -4614,7 +4623,8 @@
             "weapon": "",
             "armor": ""
           },
-          "story": null
+          "story": null,
+          "world_ticks": 103
         },
         "tags": [
           {
@@ -4927,7 +4937,8 @@
             "guild_points": 0,
             "quests": {},
             "dialogue": null
-          }
+          },
+          "world_ticks": 60
         },
         "day_ticks": 60,
         "grid": [
@@ -5380,7 +5391,8 @@
             "guild_points": 0,
             "quests": {},
             "dialogue": null
-          }
+          },
+          "world_ticks": 80
         },
         "grid": [
           "##############",
@@ -5789,7 +5801,8 @@
             "guild_points": 0,
             "quests": {},
             "dialogue": null
-          }
+          },
+          "world_ticks": 80
         },
         "grid": [
           "##############",
@@ -6157,7 +6170,8 @@
             "guild_points": 0,
             "quests": {},
             "dialogue": null
-          }
+          },
+          "world_ticks": 42
         },
         "equipped": {
           "weapon": "base:item/iron_sword"
@@ -6873,7 +6887,8 @@
               }
             },
             "dialogue": null
-          }
+          },
+          "world_ticks": 283
         },
         "equipped": {
           "weapon": "base:item/iron_sword"
@@ -7486,7 +7501,8 @@
           "runes": {
             "base:item/iron_sword": "test:item/rune_fire"
           },
-          "story": null
+          "story": null,
+          "world_ticks": 2
         },
         "equipped": {
           "weapon": "base:item/iron_sword"
@@ -8100,7 +8116,8 @@
             "base:item/iron_sword": "test:item/rune_fire",
             "base:item/practice_sword": "test:item/rune_wind"
           },
-          "story": null
+          "story": null,
+          "world_ticks": 4
         },
         "equipped": {
           "weapon": "base:item/iron_sword"
@@ -8652,7 +8669,8 @@
               "test:item/bed"
             ]
           ],
-          "story": null
+          "story": null,
+          "world_ticks": 26
         },
         "gather_props": [
           {
